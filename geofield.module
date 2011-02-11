@@ -198,6 +198,16 @@ function geofield_feeds_processor_targets_alter(&$targets, $entity_type,
       $name => $instance) {
     $info = field_info_field($name);
     if ($info['type'] == 'geofield') {
+      $targets[$info['field_name'] . ':wkt'] = array(
+        'name' => t($instance['label'] . ' WKT'),
+        'callback' => 'geofield_set_target',
+        'real_target' => $info['field_name'],
+      );
+      $targets[$info['field_name'] . ':type'] = array(
+        'name' => t($instance['label'] . ' Type'),
+        'callback' => 'geofield_set_target',
+        'real_target' => $info['field_name'],
+      );
       $targets[$info['field_name'] . ':lat'] = array(
         'name' => t($instance['label'] . ' Latitude'),
         'callback' => 'geofield_set_target',
