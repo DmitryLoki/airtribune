@@ -68,6 +68,25 @@ function geofield_field_formatter_info() {
 }
 
 /**
+ * Implements hook_field_instance_settings_form().
+ */
+function geofield_field_instance_settings_form($field, $instance) {
+  $settings = $instance['settings'];
+  
+  //TODO: Allow more fine-grained control
+  if (module_exists('openlayers_ui')) {
+    $form['only_openlayers_map'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Only Display Map'),
+      '#default_value' => $settings['only_openlayers_map'],
+      '#description' => t('Hide all textfields, leaving only the openlayers map'),
+    );
+  }
+
+  return $form;
+}
+
+/**
  * Implements hook_field_widget_form().
  */
 function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
@@ -144,6 +163,16 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['helpmap_desc'] = array(
       '#markup' => t('Click the map to set a point for this location. Control-click to add lines. Alt-click to add polygons. Shift-click and drag to set bounds. Pan and zoom with arrows and the zoom bar.')
     );
+  }
+  if ($instance['settings']['only_openlayers_map']) {
+    $element['wkt']['#type'] = 'hidden';
+    $element['type']['#type'] = 'hidden';
+    $element['lat']['#type'] = 'hidden';
+    $element['lon']['#type'] = 'hidden';
+    $element['left']['#type'] = 'hidden';
+    $element['right']['#type'] = 'hidden';
+    $element['bottom']['#type'] = 'hidden';
+    $element['top']['#type'] = 'hidden';
   }
   return $element;
 }
