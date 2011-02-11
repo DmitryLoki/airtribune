@@ -12,7 +12,7 @@ class geofield_handler_field_point extends views_handler_field_field {
       $field_name = $this->definition['field_info']['field_name'];
       if (isset($values->_field_data[$this->field_alias]['entity']->{$field_name})) {
         $coord = $values->_field_data[$this->field_alias]['entity']->{$field_name}['und'][0];
-        return check_plain('POINT( ' . $coord['lon'] . ' ' . $coord['lat'] . ')');
+        return check_plain($coord['wkt']);
       }
     }
     return '';
