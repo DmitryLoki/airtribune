@@ -39,7 +39,7 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
  * TODO: lat lon are optional, so this is broken.
  */
 function geofield_field_is_empty($item, $field) {
-  return (empty($item['lat']) || empty($item['lon']));
+  return (empty($item['wkt']));
 }
 
 /**
@@ -73,6 +73,22 @@ function geofield_field_formatter_info() {
 function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $langcode, $items, $delta, $base) {
   $element = $base;
+  $element['wkt'] = array(
+    '#title' => 'Well Known Text',
+    '#required' => FALSE,
+    '#type' => 'textarea',
+    '#attributes' => array('id' => 'wkt'),
+    '#default_value' => isset($items[$delta]['wkt']) ?
+      $items[$delta]['wkt'] : NULL,
+  );
+  $element['type'] = array(
+    '#title' => 'Geometry Type',
+    '#required' => FALSE,
+    '#type' => 'textfield',
+    '#attributes' => array('id' => 'type'),
+    '#default_value' => isset($items[$delta]['type']) ?
+      $items[$delta]['type'] : NULL,
+  );
   $element['lat'] = array(
     '#title' => 'Latitude',
     '#required' => FALSE,

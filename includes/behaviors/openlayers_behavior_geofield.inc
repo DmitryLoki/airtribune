@@ -13,17 +13,16 @@ class openlayers_behavior_geofield extends openlayers_behavior {
    * Provide initial values for options.
    */
   function options_init() {
+    //TODO: use the field name and the delta in naming these items so we don't get conflicts
     return array(
-      'centerpoint' => array(
+        'wkt' => '#wkt',
+        'type' => '#type',
         'lat' => '#lat',
         'lon' => '#lon',
-      ),
-      'bounds' => array(
-        '#left',
-        '#bottom',
-        '#right',
-        '#top'
-      )
+        'left' => '#left',
+        'bottom' => '#bottom',
+        'right' => '#right',
+        'top' => '#top',
     );
   }
 

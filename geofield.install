@@ -6,6 +6,16 @@
 function geofield_field_schema($field) {
   return array(
     'columns' => array(
+      'wkt' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ),
+      'type' => array(
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+      ),
       'lat' => array(
         'type' => 'float',
         'length' => 255,
