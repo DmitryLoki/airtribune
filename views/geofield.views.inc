@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * Implementation of hook_field_views_data
+ * Implementation of hook_field_views_data_alter
  */
 function geofield_field_views_data_alter(&$result, $field, $module) {
   if ($module == 'geofield') {
