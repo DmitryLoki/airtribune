@@ -4,7 +4,7 @@
 /**
  * A field that displays fields.
  */
-class geofield_handler_field_point extends views_handler_field_field {
+class geofield_handler_field_wkt extends views_handler_field_field {
   function render($values) {
     if (isset($values->_field_data[$this->field_alias])) {
       // Prepare arguments for rendering based on the objects cached in the

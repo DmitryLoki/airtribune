@@ -5,4 +5,4 @@ dependencies[] = views
 files[] = geofield.module
 files[] = geofield.install
 files[] = "views/geofield.views.inc"
-files[] = "views/geofield_handler_field_point.inc"
+files[] = "views/geofield_handler_field_wkt.inc"
