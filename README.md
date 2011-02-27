@@ -11,6 +11,10 @@
      geofield is a simple module for storing
      geodata in drupal 7
 
+     related modules
+     openlayers   provides mapping for geofield             http://drupal.org/project/openlayers
+     geocode      provides geocode widget for geofield   https://github.com/phayes/geocode
+
      authors:
 
      Tristan O'Neil <https://github.com/tristanoneil>
