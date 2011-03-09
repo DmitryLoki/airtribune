@@ -11,7 +11,7 @@ function geofield_field_schema($field) {
         'size' => 'big',
         'not null' => FALSE,
       ),
-      'type' => array(
+      'geo_type' => array(
         'type' => 'text',
         'size' => 'normal',
         'not null' => FALSE,
@@ -44,6 +44,20 @@ function geofield_field_schema($field) {
       'bottom' => array(
         'type' => 'float',
         'length' => 255,
+        'not null' => FALSE,
+      ),
+      'srid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => 4326,
+      ),
+      'accuracy' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      'source' => array(
+        'type' => 'text',
         'not null' => FALSE,
       ),
     ),
