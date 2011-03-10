@@ -46,43 +46,6 @@ function geofield_field_is_empty($item, $field) {
 }
 
 /**
- * Implements hook_field_instance_settings_form().
- */
-function geofield_field_instance_settings_form($field, $instance) {
-  $settings = $instance['settings'];
-  
-  //TODO: Allow more fine-grained control
-  if (module_exists('openlayers_ui')) {
-    
-    // Get preset options, filtered to those which have the GeoField behavior
-    $presets = openlayers_presets();
-    $preset_options = array();
-    foreach ($presets as $preset) {
-      if (array_key_exists('openlayers_behavior_geofield',$preset->data['behaviors'])) {
-        $preset_options[$preset->name] = $preset->title;
-      }
-    }
-    
-    $form['only_openlayers_map'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Only Display Map'),
-      '#default_value' => isset($settings['only_openlayers_map']) ? $settings['only_openlayers_map'] : FALSE,
-      '#description' => t('Hide all textfields, leaving only the openlayers map'),
-    );
-    $form['openlayers_preset'] = array(
-      '#type' => 'select',
-      '#title' => t('Only Display Map'),
-      '#default_value' => isset($settings['openlayers_preset']) ? $settings['openlayers_preset'] : 'geofield_map',
-      '#options' => $preset_options,
-      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first.'),
-    );
-    
-  }
-
-  return $form;
-}
-
-/**
  * Implementation of hook_feeds_node_processor_targets_alter().
  */
 function geofield_feeds_processor_targets_alter(&$targets, $entity_type,

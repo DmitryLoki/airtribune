@@ -13,6 +13,45 @@ function geofield_field_widget_info() {
 }
 
 /**
+ * Implements hook_field_widget_settings_form().
+ */
+function geofield_field_widget_settings_form($field, $instance) {
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+  
+  //TODO: Allow more fine-grained control
+  if (module_exists('openlayers_ui')) {
+    
+    // Get preset options, filtered to those which have the GeoField behavior
+    $presets = openlayers_presets();
+    $preset_options = array();
+    foreach ($presets as $preset) {
+      if (array_key_exists('openlayers_behavior_geofield',$preset->data['behaviors'])) {
+        $preset_options[$preset->name] = $preset->title;
+      }
+    }
+    
+    $form['only_openlayers_map'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Only Display Map'),
+      '#default_value' => isset($settings['only_openlayers_map']) ? $settings['only_openlayers_map'] : FALSE,
+      '#description' => t('Hide all textfields, leaving only the openlayers map'),
+    );
+    $form['openlayers_preset'] = array(
+      '#type' => 'select',
+      '#title' => t('Only Display Map'),
+      '#default_value' => isset($settings['openlayers_preset']) ? $settings['openlayers_preset'] : 'geofield_map',
+      '#options' => $preset_options,
+      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first.'),
+    );
+    
+  }
+
+  return $form;
+}
+
+
+/**
  * Implements hook_field_widget_form().
  */
 function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
@@ -85,14 +124,15 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   if (module_exists('openlayers_ui')) {
     $element['helpmap'] = array(
       '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
-                      . geofield_form_latlon_map(array(), isset($instance['settings']['openlayers_preset']) ? $instance['settings']['openlayers_preset'] : 'geofield_map')
+                      . geofield_form_latlon_map(array(), isset($instance['widget']['settings']['openlayers_preset']) ? $instance['widget']['settings']['openlayers_preset'] : 'geofield_map')
                       .'</div>'
     );
     $element['helpmap_desc'] = array(
       '#markup' => t('Click the map to set a point for this location. Control-click to add lines. Alt-click to add polygons. Shift-click and drag to set bounds. Pan and zoom with arrows and the zoom bar.')
     );
   }
-  if (isset($instance['settings']['only_openlayers_map']) && $instance['settings']['only_openlayers_map']) {
+  // TODO Make this a different widget instead
+  if (isset($instance['widget']['settings']['only_openlayers_map']) && $instance['widget']['settings']['only_openlayers_map']) {
     $element['wkt']['#type'] = 'hidden';
     $element['type']['#type'] = 'hidden';
     $element['lat']['#type'] = 'hidden';
