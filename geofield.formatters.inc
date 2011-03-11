@@ -7,12 +7,8 @@
  */
 function geofield_field_formatter_info() {
   return array(
-    'default' => array(
-      'label' => t('Display Nothing'),
-      'field types' => array('geofield'),
-    ),
     'wkt' => array(
-      'label' => t('Display WKT'),
+      'label' => t('Well Known Text (WKT)'),
       'field types' => array('geofield'),
     ),
     'lat' => array(

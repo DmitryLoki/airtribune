@@ -3,6 +3,8 @@
 require_once('geofield.widgets.inc');
 require_once('geofield.formatters.inc');
 
+define('GEOPHP_PATH', 'sites/all/libraries/geoPHP/geoPHP.inc');
+
 /**
  * Implements hook_field_info().
  */
@@ -59,7 +61,7 @@ function geofield_feeds_processor_targets_alter(&$targets, $entity_type,
         'callback' => 'geofield_set_target',
         'real_target' => $info['field_name'],
       );
-      $targets[$info['field_name'] . ':type'] = array(
+      $targets[$info['field_name'] . ':geo_type'] = array(
         'name' => t($instance['label'] . ' Type'),
         'callback' => 'geofield_set_target',
         'real_target' => $info['field_name'],
@@ -122,8 +124,8 @@ function geofield_set_target($source, $entity, $target, $value) {
 function geofield_views_api() {
   return array(
     'api' => '3.0-alpha1',
-    'path' => drupal_get_path('module', 'geofield')
-    . '/views');
+    'path' => drupal_get_path('module', 'geofield') . '/views', 
+  );
 }
 
 /**
@@ -151,7 +153,7 @@ function geofield_openlayers_behaviors() {
   return array(
     'openlayers_behavior_geofield' => array(
       'title' => t('Geofield'),
-      'description' => t('Fuels the geotaxonomy map-input form.'),
+      'description' => t('Fuels the geofield map-input form.'),
       'type' => 'layer',
       'path' => drupal_get_path('module', 'geofield') .'/includes/behaviors',
       'file' => 'openlayers_behavior_geofield.inc',
@@ -198,4 +200,42 @@ function geofield_openlayers_presets() {
     )
   );
   return array('geofield_map' => $default);
+}
+
+/**
+* Implementation of hook_requirements().
+*/
+function geofield_requirements($phase) {
+  $requirements = array();
+  
+  $geophp = geofield_load_geophp();
+  
+  // Report postGIS status
+  if ($geophp) {
+    $requirements['geofield_geophp'] = array(
+      'title' => t('GeoPHP Library Installed'),
+      'severity' => REQUIREMENT_OK,
+      'value' => t('GeoPHP library installed at %path', array('%path' => $geophp)),
+    );
+  }
+  else {
+    $requirements['geofield_geophp'] = array(
+      'title' => t('GeoPHP Library Not Found'),
+      'severity' => REQUIREMENT_ERROR,
+      'value' => t('GeoPHP library was not found. This could lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => l('https://github.com/phayes/geophp','https://github.com/phayes/geophp'))),
+    );
+  }
+  return $requirements;
+}
+
+/**
+* Load the geoPHP library
+*/
+function geofield_load_geophp() {
+  if (file_exists(GEOPHP_PATH)) {
+    if (include_once(GEOPHP_PATH)) {
+      return GEOPHP_PATH;
+    }
+  }
+  return FALSE;
 }
