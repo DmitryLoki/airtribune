@@ -42,7 +42,7 @@ function geofield_field_widget_settings_form($field, $instance) {
     
     $form['openlayers_preset'] = array(
       '#type' => 'select',
-      '#title' => t('Only Display Map'),
+      '#title' => t('OpenLayers Map'),
       '#default_value' => isset($settings['openlayers_preset']) ? $settings['openlayers_preset'] : 'geofield_map',
       '#options' => $preset_options,
       '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first.'),
