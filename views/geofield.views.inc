@@ -5,6 +5,7 @@
  * Implementation of hook_field_views_data_alter
  */
 function geofield_field_views_data_alter(&$result, $field, $module) {
+  return;
   if ($module == 'geofield') {
     foreach ($result as &$r) {
       foreach ($r as &$f) {
