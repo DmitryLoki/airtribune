@@ -31,6 +31,7 @@ class openlayers_behavior_geofield extends openlayers_behavior {
    */
   function render(&$map) {
     drupal_add_js(drupal_get_path('module', 'geofield') .'/includes/behaviors/js/openlayers_behavior_geofield.js');
+    drupal_add_css(drupal_get_path('module', 'geofield') .'/includes/behaviors/css/openlayers_behavior_geofield.css');
     return $this->options;
   }
 }
