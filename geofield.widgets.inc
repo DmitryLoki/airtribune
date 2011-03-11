@@ -211,7 +211,7 @@ function geofield_get_base_element($base, $items, $delta) {
   // By default, wkt is the master-column, all we compute all other values from it. For other widget (such as lat/lon) this will be different
   $element['master_column'] = array(
     '#type' => 'hidden',
-    '#value' => array('wkt'),
+    '#value' => 'wkt',
   );
   
   // This validate function computes all other columns from the master field
