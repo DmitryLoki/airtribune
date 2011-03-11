@@ -5,8 +5,20 @@
  */
 function geofield_field_widget_info() {
   $widgets = array();
+  $widgets['geofield_wkt'] = array(
+    'label' => t('Well Known Text (WKT)'),
+    'field types' => array('geofield'),
+  );
+  $widgets['geofield_latlon'] = array(
+    'label' => t('Latitude / Longitude'),
+    'field types' => array('geofield'),
+  );
+  $widgets['geofield_bounds'] = array(
+    'label' => t('Bounds'),
+    'field types' => array('geofield'),
+  );
   $widgets['geofield_textfields'] = array(
-    'label' => t('Textfields'),
+    'label' => t('All Textfields'),
     'field types' => array('geofield'),
   );
   
@@ -27,6 +39,8 @@ function geofield_field_widget_info() {
 function geofield_field_widget_settings_form($field, $instance) {
   $widget = $instance['widget'];
   $settings = $widget['settings'];
+  
+  $form = array();
   
   //TODO: Allow more fine-grained control
   if ($widget['type'] == 'geofield_openlayers') {
@@ -63,10 +77,43 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $widget = $instance['widget'];
   $settings = $widget['settings'];
   $element = geofield_get_base_element($base, $items, $delta);
+
+  if ($widget['type'] == 'geofield_wkt') {
+    $element['wkt']['#title'] = 'Well Known Text';
+    $element['wkt']['#type'] = 'textarea';
+    
+    $element['master_column']['#value'] = 'wkt';
+  }
+
+  if ($widget['type'] == 'geofield_latlon') {
+    $element['lat']['#title'] = 'Latitude';
+    $element['lat']['#type'] = 'textfield';
+    
+    $element['lon']['#title'] = 'Longitude';
+    $element['lon']['#type'] = 'textfield';
+    
+    $element['master_column']['#value'] = 'latlon';
+  }
+
+  if ($widget['type'] == 'geofield_bounds') {
+    $element['left']['#title'] = 'Left Longitude';
+    $element['left']['#type'] = 'textfield';
+    
+    $element['top']['#title'] = 'Top Latitude';
+    $element['top']['#type'] = 'textfield';
+    
+    $element['right']['#title'] = 'Right Longitude';
+    $element['right']['#type'] = 'textfield';
+    
+    $element['bottom']['#title'] = 'Bottom Latitude';
+    $element['bottom']['#type'] = 'textfield';
+    
+    $element['master_column']['#value'] = 'bounds';
+  }
   
   if ($widget['type'] == 'geofield_textfields') {
     $element['wkt']['#title'] = 'Well Known Text';
-    $element['wkt']['#type'] = 'textfield';
+    $element['wkt']['#type'] = 'textarea';
 
     $element['geo_type']['#title'] = 'Geometry Type';
     $element['geo_type']['#type'] = 'textfield';
@@ -188,24 +235,7 @@ function geofield_get_base_element($base, $items, $delta) {
  */
 function geofield_element_validate($element, &$form_state) {
   
-  // Set the master-column
-  // ---------------------
-  
-  $master_column_array = $element['master_column']['#value'];
-    
-  if (in_array('wkt',$master_column_array)) {
-    $master_column = 'wkt';
-  }
-  else if (in_array(array('lat','lon'), $master_column_array)) { 
-    $master_column = 'latlon';
-  }
-  else if (in_array(array('top','bottom','left','right'), $master_column_array)) {
-    $master_column = 'bounds';
-  }
-  else {
-    drupal_set_message("Code error, unknown geofield master column",'error');
-  }
-  
+  $master_column = $element['master_column']['#value'];
   
   // Load up geoPHP to do the conversions
   // ------------------------------------
@@ -240,7 +270,6 @@ function geofield_element_validate($element, &$form_state) {
     $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
     $geometry = GeometryLoader::load($wkt,'wkt');
   }
-  
   
   // Get values from geometry
   // ------------------------
