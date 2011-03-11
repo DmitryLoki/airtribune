@@ -15,7 +15,7 @@ function geofield_field_info() {
       'label' => 'Geofield',
       'description' => t('This field stores geo information.'),
       'default_widget' => 'text_textfield',
-      'default_formatter' => 'default',
+      'default_formatter' => 'geofield_wkt',
     ),
   );
 }
