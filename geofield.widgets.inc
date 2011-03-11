@@ -160,5 +160,114 @@ function geofield_get_base_element($base, $items, $delta) {
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
   
+  // Master column is used by element-validate to decide which set of columns it should use to compute all other values.
+  // By default, wkt is the master-column, all we compute all other values from it. For other widget (such as lat/lon) this will be different
+  $element['master_column'] = array(
+    '#type' => 'hidden',
+    '#value' => array('wkt'),
+  );
+  
+  // This validate function computes all other columns from the master field
+  $element['#element_validate'] = array('geofield_element_validate');
+  
   return $element;
+}
+
+/**
+ * Geofield Element Validate
+ *
+ * Compute all dependant values. We compute all other values from whichever
+ * column is specified in the master_column value
+ *
+ * Steps:
+ * 1. Determine which set of columns comprise the master-column set
+ * 2. Load the geoPHP library
+ * 3. Load the Geometry object from the master-column
+ * 4. Get out all the computer values from the Geometry object
+ * 5. Set all the values 
+ */
+function geofield_element_validate($element, &$form_state) {
+  
+  // Set the master-column
+  // ---------------------
+  
+  $master_column_array = $element['master_column']['#value'];
+    
+  if (in_array('wkt',$master_column_array)) {
+    $master_column = 'wkt';
+  }
+  else if (in_array(array('lat','lon'), $master_column_array)) { 
+    $master_column = 'latlon';
+  }
+  else if (in_array(array('top','bottom','left','right'), $master_column_array)) {
+    $master_column = 'bounds';
+  }
+  else {
+    drupal_set_message("Code error, unknown geofield master column",'error');
+  }
+  
+  
+  // Load up geoPHP to do the conversions
+  // ------------------------------------
+  
+  $geophp = geofield_load_geophp();
+  if (!$geophp) {
+    drupal_set_message("Unable to load geoPHP library. Not all values will be computer correctly",'error');
+    return;
+  }
+  
+  // Load up the geometry object from the master-column data
+  // -------------------------------------------------------
+  
+  if ($master_column == 'wkt') {
+    $wkt = $element['wkt']['#value']; 
+    $geometry = GeometryLoader::load($wkt,'wkt');
+  }
+
+  if ($master_column == 'latlon') {
+    $lat = $element['lat']['#value']; 
+    $lon = $element['lon']['#value']; 
+    $geometry = new Point($lon, $lat);
+  }
+
+  if ($master_column == 'bounds') {
+    $top = $element['top']['#value'];
+    $bottom = $element['bottom']['#value'];
+    $right = $element['right']['#value'];
+    $left = $element['left']['#value'];
+    
+    $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
+    $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
+    $geometry = GeometryLoader::load($wkt,'wkt');
+  }
+  
+  
+  // Get values from geometry
+  // ------------------------
+  
+  $centroid = $geometry->getCentroid();
+  $bounding = $geometry->getBBox();
+  
+  $wkt = $geometry->out('wkt');
+  $geo_type = strtolower($geometry->getGeomType());
+  
+  $lat = $centroid->getY();
+  $lon = $centroid->getX();
+  
+  $top = $bounding['maxy'];
+  $bottom = $bounding['miny'];
+  $right = $bounding['maxx'];
+  $left = $bounding['minx'];
+  
+  
+  // Set form values
+  // ---------------
+  form_set_value($element['wkt'], $wkt, $form_state);
+  form_set_value($element['geo_type'], $geo_type, $form_state);
+  form_set_value($element['lat'], $lat, $form_state);
+  form_set_value($element['lon'], $lon, $form_state);
+  form_set_value($element['top'], $top, $form_state);
+  form_set_value($element['bottom'], $bottom, $form_state);
+  form_set_value($element['right'], $right, $form_state);
+  form_set_value($element['left'], $left, $form_state);
 }
