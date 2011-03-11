@@ -4,12 +4,21 @@
  * Implements hook_field_widget_info().
  */
 function geofield_field_widget_info() {
-  return array(
-    'geofield_textfield' => array(
-      'label' => t('Geofield'),
-      'field types' => array('geofield'),
-    ),
+  $widgets = array();
+  $widgets['geofield_textfields'] = array(
+    'label' => t('Textfields'),
+    'field types' => array('geofield'),
   );
+  
+  // OpenLayers dependant widget
+  if (module_exists('openlayers_ui')) {
+    $widgets['geofield_openlayers'] = array(
+      'label' => t('Openlayers Map'),
+      'field types' => array('geofield'),
+    );
+  }
+  
+  return $widgets;
 }
 
 /**
@@ -20,7 +29,7 @@ function geofield_field_widget_settings_form($field, $instance) {
   $settings = $widget['settings'];
   
   //TODO: Allow more fine-grained control
-  if (module_exists('openlayers_ui')) {
+  if ($widget['type'] == 'geofield_openlayers') {
     
     // Get preset options, filtered to those which have the GeoField behavior
     $presets = openlayers_presets();
@@ -31,12 +40,6 @@ function geofield_field_widget_settings_form($field, $instance) {
       }
     }
     
-    $form['only_openlayers_map'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Only Display Map'),
-      '#default_value' => isset($settings['only_openlayers_map']) ? $settings['only_openlayers_map'] : FALSE,
-      '#description' => t('Hide all textfields, leaving only the openlayers map'),
-    );
     $form['openlayers_preset'] = array(
       '#type' => 'select',
       '#title' => t('Only Display Map'),
@@ -56,72 +59,38 @@ function geofield_field_widget_settings_form($field, $instance) {
  */
 function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $langcode, $items, $delta, $base) {
-  $element = $base;
-  $element['wkt'] = array(
-    '#title' => 'Well Known Text',
-    '#required' => FALSE,
-    '#type' => 'textarea',
-    '#attributes' => array('id' => 'wkt'),
-    '#default_value' => isset($items[$delta]['wkt']) ?
-      $items[$delta]['wkt'] : NULL,
-  );
-  $element['type'] = array(
-    '#title' => 'Geometry Type',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'type'),
-    '#default_value' => isset($items[$delta]['type']) ?
-      $items[$delta]['type'] : NULL,
-  );
-  $element['lat'] = array(
-    '#title' => 'Latitude',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'lat'),
-    '#default_value' => isset($items[$delta]['lat']) ?
-      $items[$delta]['lat'] : NULL,
-  );
-  $element['lon'] = array(
-    '#title' => 'Longitude',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'lon'),
-    '#default_value' => isset($items[$delta]['lon']) ?
-      $items[$delta]['lon'] : NULL,
-  );
-  $element['left'] = array(
-    '#title' => 'Left Latitude',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'left'),
-    '#default_value' => isset($items[$delta]['left']) ?
-      $items[$delta]['left'] : NULL,
-  );
-  $element['top'] = array(
-    '#title' => 'Top Longitude',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'top'),
-    '#default_value' => isset($items[$delta]['top']) ?
-      $items[$delta]['top'] : NULL,
-  );
-  $element['right'] = array(
-    '#title' => 'Right Latitude',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'right'),
-    '#default_value' => isset($items[$delta]['right']) ?
-      $items[$delta]['right'] : NULL,
-  );
-  $element['bottom'] = array(
-    '#title' => 'Bottom Longitude',
-    '#required' => FALSE,
-    '#type' => 'textfield',
-    '#attributes' => array('id' => 'bottom'),
-    '#default_value' => isset($items[$delta]['bottom']) ?
-      $items[$delta]['bottom'] : NULL,
-  );
-  if (module_exists('openlayers_ui')) {
+  
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+  $element = geofield_get_base_element($base, $items, $delta);
+  
+  if ($widget['type'] == 'geofield_textfields') {
+    $element['wkt']['#title'] = 'Well Known Text';
+    $element['wkt']['#type'] = 'textfield';
+
+    $element['geo_type']['#title'] = 'Geometry Type';
+    $element['geo_type']['#type'] = 'textfield';
+ 
+    $element['lat']['#title'] = 'Latitude';
+    $element['lat']['#type'] = 'textfield';
+    
+    $element['lon']['#title'] = 'Longitude';
+    $element['lon']['#type'] = 'textfield';
+
+    $element['left']['#title'] = 'Left Longitude';
+    $element['left']['#type'] = 'textfield';
+    
+    $element['top']['#title'] = 'Top Latitude';
+    $element['top']['#type'] = 'textfield';
+    
+    $element['right']['#title'] = 'Right Longitude';
+    $element['right']['#type'] = 'textfield';
+    
+    $element['bottom']['#title'] = 'Bottom Latitude';
+    $element['bottom']['#type'] = 'textfield';
+  }
+  
+  if ($widget['type'] == 'geofield_openlayers') {
     $element['helpmap'] = array(
       '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
                       . geofield_form_latlon_map(array(), isset($instance['widget']['settings']['openlayers_preset']) ? $instance['widget']['settings']['openlayers_preset'] : 'geofield_map')
@@ -131,17 +100,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       '#markup' => t('Click the map to set a point for this location. Control-click to add lines. Alt-click to add polygons. Shift-click and drag to set bounds. Pan and zoom with arrows and the zoom bar.')
     );
   }
-  // TODO Make this a different widget instead
-  if (isset($instance['widget']['settings']['only_openlayers_map']) && $instance['widget']['settings']['only_openlayers_map']) {
-    $element['wkt']['#type'] = 'hidden';
-    $element['type']['#type'] = 'hidden';
-    $element['lat']['#type'] = 'hidden';
-    $element['lon']['#type'] = 'hidden';
-    $element['left']['#type'] = 'hidden';
-    $element['right']['#type'] = 'hidden';
-    $element['bottom']['#type'] = 'hidden';
-    $element['top']['#type'] = 'hidden';
-  }
+  
   return $element;
 }
 
@@ -155,4 +114,51 @@ function geofield_form_latlon_map($defaults = array(), $preset_name) {
   $preset = openlayers_preset_load($preset_name);
   $map = $preset->data;
   return openlayers_render_map($map);
+}
+
+function geofield_get_base_element($base, $items, $delta) {
+  $element = $base;
+  
+  $element['wkt'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_wkt'),
+    '#default_value' => isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL,
+  );
+  $element['geo_type'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_geo_type'),
+    '#default_value' => isset($items[$delta]['geo_type']) ? $items[$delta]['geo_type'] : NULL,
+  );
+  $element['lat'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_lat'),
+    '#default_value' => isset($items[$delta]['lat']) ? $items[$delta]['lat'] : NULL,
+  );
+  $element['lon'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_lon'),
+    '#default_value' => isset($items[$delta]['lon']) ? $items[$delta]['lon'] : NULL,
+  );
+  $element['left'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_left'),
+    '#default_value' => isset($items[$delta]['left']) ? $items[$delta]['left'] : NULL,
+  );
+  $element['right'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_right'),
+    '#default_value' => isset($items[$delta]['right']) ? $items[$delta]['right'] : NULL,
+  );
+  $element['bottom'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_bottom'),
+    '#default_value' => isset($items[$delta]['bottom']) ? $items[$delta]['bottom'] : NULL,
+  );
+  $element['top'] = array(
+    '#type' => 'hidden',
+    '#attributes' => array('id' => 'geofield_top'),
+    '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
+  );
+  
+  return $element;
 }
