@@ -4,8 +4,6 @@ require_once('geofield.widgets.inc');
 require_once('geofield.formatters.inc');
 require_once('geofield.feeds.inc');
 
-define('GEOPHP_PATH', 'sites/all/libraries/geoPHP/geoPHP.inc');
-
 /**
  * Implements hook_field_info().
  */
@@ -15,7 +13,7 @@ function geofield_field_info() {
       'label' => 'Geofield',
       'description' => t('This field stores geo information.'),
       'default_widget' => 'text_textfield',
-      'default_formatter' => 'geofield_wkt',
+      'default_formatter' => 'default',
     ),
   );
 }
@@ -152,7 +150,7 @@ function geofield_requirements($phase) {
     $requirements['geofield_geophp'] = array(
       'title' => t('GeoPHP Library Not Found'),
       'severity' => REQUIREMENT_ERROR,
-      'value' => t('GeoPHP library was not found. This could lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => l('https://github.com/phayes/geophp','https://github.com/phayes/geophp'))),
+      'value' => t('GeoPHP library was not found. This could lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
     );
   }
   return $requirements;
@@ -162,9 +160,11 @@ function geofield_requirements($phase) {
 * Load the geoPHP library
 */
 function geofield_load_geophp() {
-  if (file_exists(GEOPHP_PATH)) {
-    if (include_once(GEOPHP_PATH)) {
-      return GEOPHP_PATH;
+  $path = libraries_get_path('geoPHP');
+  $file = $path.'/geoPHP.inc';
+  if (file_exists($file)) {
+    if (include_once($file)) {
+      return $file;
     }
   }
   return FALSE;
