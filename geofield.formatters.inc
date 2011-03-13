@@ -1,12 +1,17 @@
 <?php
+
 /**
  * Implements hook_field_formatter_info().
- *
  */
 function geofield_field_formatter_info() {
   $formatters = array(
     'geofield_wkt' => array(
       'label' => t('Well Known Text (WKT)'),
+      'field types' => array('geofield'),
+      'settings' => array('data' => ''),
+    ),
+    'geofield_geojson' => array(
+      'label' => t('GeoJSON'),
       'field types' => array('geofield'),
       'settings' => array('data' => ''),
     ),
@@ -24,14 +29,13 @@ function geofield_field_formatter_info() {
     'geofield_lon' => array(
       'label' => t('Longitude Only'),
       'field types' => array('geofield'),
-
       'settings' => array('data' => '', 'format' => ''),
     ),
-    'geofield_geojson' => array(
-      'label' => t('GeoJSON'),
+    'geofield_geo_type' => array(
+      'label' => t('Geometry Type'),
       'field types' => array('geofield'),
-      'settings' => array('data' => ''),
-    )
+      'settings' => array('data' => '', 'format' => ''),
+    ),
   );
 
   if (module_exists('openlayers')) {  
@@ -44,7 +48,9 @@ function geofield_field_formatter_info() {
   return $formatters;
 }
 
-
+/**
+ * Implements hook_field_formatter_view().
+ */
 function geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   
@@ -68,6 +74,14 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
         $element[$delta] = array('#markup' => $item['wkt']);
       }
       return $element;
+    case 'geofield_geojson':
+      geofield_load_geophp();
+      foreach ($items as $delta => $item) {
+        $geometry = GeometryLoader::load($item['wkt'],'wkt');
+        $json = $geometry->out('json');
+        $element[$delta] = array('#markup' => $json);
+      }
+      return $element;
     case 'geofield_latlon':
       foreach ($items as $delta => $item) {
       	$output = t('Latitude: @latitude <br/>Longitude: @longitude', array('@latitude' => $item['lat'], '@longitude' => $item['lon']));
@@ -84,12 +98,9 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
         $element[$delta] = array('#markup' => $item['lon']);
       }
       return $element;
-    case 'geofield_geojson':
-      geofield_load_geophp();
+    case 'geofield_geo_type':
       foreach ($items as $delta => $item) {
-        $geometry = GeometryLoader::load($item['wkt'],'wkt');
-        $json = $geometry->out('json');
-        $element[$delta] = array('#markup' => $json);
+        $element[$delta] = array('#markup' => $item['geo_type']);
       }
       return $element;
     case 'geofield_openlayers':
@@ -102,6 +113,9 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
   return $element;
 }
 
+/**
+ * Helper function for getting data options
+ */
 function _geofield_formatter_settings_data_options($formatter) {
   return array(
     'full' => t('Use full geometry'),
@@ -110,6 +124,9 @@ function _geofield_formatter_settings_data_options($formatter) {
   );
 }
 
+/**
+ * Helper function for getting format options
+*/
 function _geofield_formatter_settings_format_options($formatter) {
   return array(
     'decimal_degrees' => t('Decimal degress'),
