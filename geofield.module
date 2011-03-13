@@ -138,7 +138,7 @@ function geofield_requirements($phase) {
   
   $geophp = geofield_load_geophp();
   
-  // Report postGIS status
+  // Report geoPHP library status
   if ($geophp) {
     $requirements['geofield_geophp'] = array(
       'title' => t('GeoPHP Library Installed'),
@@ -160,10 +160,14 @@ function geofield_requirements($phase) {
 * Load the geoPHP library
 */
 function geofield_load_geophp() {
+  static $staic_cache = FALSE;
+  if ($staic_cache) return $static_cache;
+
   $path = libraries_get_path('geoPHP');
   $file = $path.'/geoPHP.inc';
   if (file_exists($file)) {
     if (include_once($file)) {
+      $static_cache = $file;
       return $file;
     }
   }
@@ -188,7 +192,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   
   // If only a wkt string has been passed in, then format it correctly by wrapping it in an array
   if ($master_column == 'wkt' && !is_array($values)) {
-  	 $values = array($values);
+    $values = array($values);
   }
 	
   // Load up geoPHP to do the conversions
@@ -222,6 +226,15 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   }
   
   // Get values from geometry
+  $values = get_values_from_geometry($geometry);
+    
+  return $values;
+}
+
+/**
+* Given a geometry object from geoPHP, return a values array
+*/
+function get_values_from_geometry($geometry) {
   $centroid = $geometry->getCentroid();
   $bounding = $geometry->getBBox();
   
