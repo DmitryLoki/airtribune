@@ -169,3 +169,72 @@ function geofield_load_geophp() {
   }
   return FALSE;
 }
+
+/**
+* Geofield Compute Values
+*
+*  Compute all dependant values. We compute all other values from whichever
+ * column is specified in the master_column value
+ *
+ * Steps:
+ * 1. Load the geoPHP library
+ * 2. Load the Geometry object from the master-column
+ * 3. Get out all the computer values from the Geometry object
+ * 4. Set all the values 
+ *
+ * Allowed values for master_column are wkt, latlon, bounds
+*/
+function geofield_compute_values(&$values, $master_column = 'wkt') {
+  
+  // If only a wkt string has been passed in, then format it correctly by wrapping it in an array
+  if ($master_column == 'wkt' && !is_array($values)) {
+  	 $values = array($values);
+  }
+	
+  // Load up geoPHP to do the conversions
+  $geophp = geofield_load_geophp();
+  if (!$geophp) {
+    drupal_set_message("Unable to load geoPHP library. Not all values will be computer correctly",'error');
+    return;
+  }
+  
+  // Load up the geometry object from the master-column data
+  if ($master_column == 'wkt') {
+    $wkt = $values['wkt']; 
+    $geometry = GeometryLoader::load($wkt,'wkt');
+  }
+
+  if ($master_column == 'latlon') {
+    $lat = $values['lat']; 
+    $lon = $values['lon']; 
+    $geometry = new Point(floatval($lon), floatval($lat));
+  }
+
+  if ($master_column == 'bounds') {
+    $top = $values['top'];
+    $bottom = $values['bottom'];
+    $right = $values['right'];
+    $left = $values['left'];
+    
+    $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
+    $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
+    $geometry = GeometryLoader::load($wkt,'wkt');
+  }
+  
+  // Get values from geometry
+  $centroid = $geometry->getCentroid();
+  $bounding = $geometry->getBBox();
+  
+  $values['wkt'] = $geometry->out('wkt');
+  $values['geo_type'] = strtolower($geometry->getGeomType());
+  
+  $values['lat'] = $centroid->getY();
+  $values['lon'] = $centroid->getX();
+  
+  $values['top'] = $bounding['maxy'];
+  $values['bottom'] = $bounding['miny'];
+  $values['right'] = $bounding['maxx'];
+  $values['left'] = $bounding['minx'];	
+  
+  return $values;
+}

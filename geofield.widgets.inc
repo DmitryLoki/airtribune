@@ -223,80 +223,30 @@ function geofield_get_base_element($base, $items, $delta) {
 /**
  * Geofield Element Validate
  *
- * Compute all dependant values. We compute all other values from whichever
- * column is specified in the master_column value
- *
- * Steps:
- * 1. Determine which set of columns comprise the master-column set
- * 2. Load the geoPHP library
- * 3. Load the Geometry object from the master-column
- * 4. Get out all the computer values from the Geometry object
- * 5. Set all the values 
  */
 function geofield_element_validate($element, &$form_state) {
   
   $master_column = $element['master_column']['#value'];
   
-  // Load up geoPHP to do the conversions
-  // ------------------------------------
+  $values = array(
+    'wkt' => $element['wkt']['#value'],
+    'lat' => $element['lat']['#value'],
+    'lon' => $element['lon']['#value'],
+    'top' => $element['top']['#value'],
+    'bottom' => $element['bottom']['#value'],
+    'right' => $element['right']['#value'],
+    'left' => $element['left']['#value'],
+  );
   
-  $geophp = geofield_load_geophp();
-  if (!$geophp) {
-    drupal_set_message("Unable to load geoPHP library. Not all values will be computer correctly",'error');
-    return;
-  }
+  geofield_compute_values($values, $master_column);    
   
-  // Load up the geometry object from the master-column data
-  // -------------------------------------------------------
-  
-  if ($master_column == 'wkt') {
-    $wkt = $element['wkt']['#value']; 
-    $geometry = GeometryLoader::load($wkt,'wkt');
-  }
-
-  if ($master_column == 'latlon') {
-    $lat = $element['lat']['#value']; 
-    $lon = $element['lon']['#value']; 
-    $geometry = new Point($lon, $lat);
-  }
-
-  if ($master_column == 'bounds') {
-    $top = $element['top']['#value'];
-    $bottom = $element['bottom']['#value'];
-    $right = $element['right']['#value'];
-    $left = $element['left']['#value'];
-    
-    $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
-    $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
-    $geometry = GeometryLoader::load($wkt,'wkt');
-  }
-  
-  // Get values from geometry
-  // ------------------------
-  
-  $centroid = $geometry->getCentroid();
-  $bounding = $geometry->getBBox();
-  
-  $wkt = $geometry->out('wkt');
-  $geo_type = strtolower($geometry->getGeomType());
-  
-  $lat = $centroid->getY();
-  $lon = $centroid->getX();
-  
-  $top = $bounding['maxy'];
-  $bottom = $bounding['miny'];
-  $right = $bounding['maxx'];
-  $left = $bounding['minx'];
-  
-  
-  // Set form values
-  // ---------------
-  form_set_value($element['wkt'], $wkt, $form_state);
-  form_set_value($element['geo_type'], $geo_type, $form_state);
-  form_set_value($element['lat'], $lat, $form_state);
-  form_set_value($element['lon'], $lon, $form_state);
-  form_set_value($element['top'], $top, $form_state);
-  form_set_value($element['bottom'], $bottom, $form_state);
-  form_set_value($element['right'], $right, $form_state);
-  form_set_value($element['left'], $left, $form_state);
+  // Set form values from the $values array
+  form_set_value($element['wkt'], $values['wkt'], $form_state);
+  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
+  form_set_value($element['lat'], $values['lat'], $form_state);
+  form_set_value($element['lon'], $values['lon'], $form_state);
+  form_set_value($element['top'], $values['top'], $form_state);
+  form_set_value($element['bottom'], $values['bottom'], $form_state);
+  form_set_value($element['right'], $values['right'], $form_state);
+  form_set_value($element['left'], $values['left'], $form_state);
 }
