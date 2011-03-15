@@ -6,12 +6,6 @@
 
 (function($) {
   
-// Set some constants to use with control buttons.
-BUTTON_BOUNDS_TOGGLE = 1;
-BUTTON_LINE_TOGGLE = 2;
-BUTTON_POLYGON_TOGGLE = 3;
-BUTTON_POINT_TOGGLE = 4;
-
 /**
  * Geofield Behavior
  */
@@ -31,7 +25,6 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       bounds = geom.getBounds();
       type = typeLookup(feature);
         
-      // Sets the values of text fields on form based on what user clicked
       feature.layer.map.data_form.wkt.val(geom.toString());
       feature.layer.map.data_form.type.val(type);
       feature.layer.map.data_form.lat.val(centroid.x);
@@ -41,7 +34,6 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       feature.layer.map.data_form.bottom.val(bounds.bottom);
       feature.layer.map.data_form.right.val(bounds.right);
         
-      // Removes any previous points added to the map
       for (var i = 0; i < selection_layer.features.length; i++) {
         if (selection_layer.features[i] != feature) {
           selection_layer.features[i].destroy();
@@ -61,7 +53,6 @@ Drupal.behaviors.openlayers_behavior_geofield = {
     
     if (data && data.map.behaviors['openlayers_behavior_geofield']) {
       
-      // Creates jQuery objects of the geo text fields
       data.openlayers.data_form = {
         'wkt':$(data.map.behaviors['openlayers_behavior_geofield']['wkt']),
         'type':$(data.map.behaviors['openlayers_behavior_geofield']['type']),
@@ -73,79 +64,95 @@ Drupal.behaviors.openlayers_behavior_geofield = {
         'bottom':$(data.map.behaviors['openlayers_behavior_geofield']['bottom'])
       };
 
-      // Create a layer on the map for selections
       selection_layer = new OpenLayers.Layer.Vector('Selection Layer');      
       
-      // Create a panel to hold control buttons
-      button_panel = new OpenLayers.Control.Panel({
-        displayClass: 'openlayers_behavior_geofield_button_panel'
-      });
-
-      // Define controls for buttons' functionality
-      bounds_control = new OpenLayers.Control.DrawFeature(
-        selection_layer,
-        OpenLayers.Handler.RegularPolygon,
-        {
-          featureAdded: setItem
-        });
-
-      bounds_control.handler.setOptions({
-          'sides': 4,
-            'irregular': true});
-
-      data.openlayers.addControl(bounds_control);
-
-      line_control = new OpenLayers.Control.DrawFeature(
-        selection_layer,
-        OpenLayers.Handler.Path,
-        {
-          featureAdded: setItem
-        });
-      data.openlayers.addControl(line_control);
-
-      polygon_control = new OpenLayers.Control.DrawFeature(
-        selection_layer,
-        OpenLayers.Handler.Polygon,
-        {
-          featureAdded: setItem
-        });
-      data.openlayers.addControl(polygon_control);
-
+      /*
+       * Point Drawing
+       */
+      
       point_control = new OpenLayers.Control.DrawFeature(
         selection_layer,
         OpenLayers.Handler.Point,
         {
           featureAdded: setItem
-        });
+        }
+      );
+      data.openlayers.addLayer(selection_layer);
       data.openlayers.addControl(point_control);
+      point_control.activate();
       
+      /*
+       * Line Drawing
+       */
+      
+      line_control = new OpenLayers.Control.DrawFeature(
+        selection_layer,
+        OpenLayers.Handler.Path,
+        {
+          featureAdded: setItem
+        }
+      );
+      data.openlayers.addLayer(selection_layer);
+      data.openlayers.addControl(line_control);
+      
+      /*
+       * Polygon Drawing
+       */
+       
+      polygon_control = new OpenLayers.Control.DrawFeature(
+        selection_layer,
+        OpenLayers.Handler.Polygon,
+        {
+          featureAdded: setItem
+        }
+      );
+      data.openlayers.addLayer(selection_layer);
+      data.openlayers.addControl(polygon_control);
+      
+      /*
+       * Bounds drawing
+       */
 
+      bounds_control = new OpenLayers.Control.DrawFeature(
+        selection_layer,
+        OpenLayers.Handler.RegularPolygon,
+        {
+          featureAdded: setItem
+        }
+      );
+
+      bounds_control.handler.setOptions({
+          'sides': 4,
+          'irregular': true});
+
+      data.openlayers.addControl(bounds_control);
+
+/* --------------  Pretty Button Control Pane, does not yet work ---------------------------------
       // Function when buttons are clicked
       buttonToggle = function(which) {
-        alert('which: ' + which + ';');
 
-        if (which == BUTTON_BOUNDS_TOGGLE) {
+        if (which == 'bounds') {
           point_control.deactivate();
           line_control.deactivate();
           polygon_control.deactivate();
           
           bounds_control.activate();
         }
-        else if (which == BUTTON_LINE_TOGGLE) {
+        else if (which == 'line') {
           point_control.deactivate();
           polygon_control.deactivate();
           bounds_control.deactivate();
           
           line_control.activate();
         }
-        else if (which == BUTTON_POLYGON_TOGGLE) {
+        else if (which == 'polygon') {
           point_control.deactivate();
           bounds_control.deactivate();
           line_control.deactivate();
           
           polygon_control.activate();
         }
-        else if (which == BUTTON_POINT_TOGGLE) {
+        else if (which == 'point') {
           bounds_control.deactivate();
           line_control.deactivate();
           polygon_control.deactivate();
@@ -164,31 +171,39 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       point_button = new OpenLayers.Control.Button({
         displayClass: "openlayers_behavior_geofield_button", 
         title: Drupal.t('Set a point'),
-        trigger: buttonToggle(BUTTON_POINT_TOGGLE)
+        trigger: buttonToggle('point')
       });
 
       line_button = new OpenLayers.Control.Button({
         displayClass: "openlayers_behavior_geofield_button", 
         title: Drupal.t('Add a line'),
-        trigger: buttonToggle(BUTTON_LINE_TOGGLE)
+        trigger: buttonToggle('line')
       });
 
       polygon_button = new OpenLayers.Control.Button({
         displayClass: "openlayers_behavior_geofield_button", 
         title: Drupal.t('Add a polygon'),
-        trigger: buttonToggle(BUTTON_POLYGON_TOGGLE)
+        trigger: buttonToggle('polygon')
       });
 
       bounds_button = new OpenLayers.Control.Button({
         displayClass: "openlayers_behavior_geofield_button", 
         title: Drupal.t('Set bounds'),
-        trigger: buttonToggle(BUTTON_BOUNDS_TOGGLE)
+        trigger: buttonToggle('bounds')
       });
+      
+      
+      // Create a panel to hold control buttons
+      button_panel = new OpenLayers.Control.Panel({
+        displayClass: 'openlayers_behavior_geofield_button_panel'
+      });
+      
       button_panel.addControls([point_button, line_button, polygon_button, bounds_button]);
 
       data.openlayers.addControl(button_panel);
-
-      buttonToggle(99);
+      
+      buttonToggle('none');
+----------------------------------------------------------------------- */
 
       // Hold down control key for polygons
       // Hold down alt key for lines
