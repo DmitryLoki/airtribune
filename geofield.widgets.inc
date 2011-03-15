@@ -230,8 +230,8 @@ function geofield_element_validate($element, &$form_state) {
   
   $values = array(
     'wkt' => $element['wkt']['#value'],
-    'lat' => $element['lat']['#value'],
-    'lon' => $element['lon']['#value'],
+    'lat' => geofield_latlon_DMStoDEC($element['lat']['#value']),
+    'lon' => geofield_latlon_DMStoDEC($element['lon']['#value']),
     'top' => $element['top']['#value'],
     'bottom' => $element['bottom']['#value'],
     'right' => $element['right']['#value'],

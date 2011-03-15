@@ -302,7 +302,7 @@ function get_values_from_geometry($geometry) {
     }
     
     $vars = explode(".",$dec);
-    $deg = $vars[0];
+    $deg = abs($vars[0]);
     $tempma = "0.".$vars[1];
   
     $tempma = $tempma * 3600;
