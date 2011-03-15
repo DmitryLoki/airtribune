@@ -6,11 +6,13 @@
      \__, |\___|\___/|_| |_|\___|_|\__,_|
       __/ |                              
      |___/                               
-
-
+     
      Geofield is a module for storing geographic data in drupal 7.
      It supports all geo-types (points, lines, polygons, multitypes etc.)
 
+     http://drupal.org/project/geofield
+
+     
      Dependancies:
 
      libraries    provides API for handling libraries     http://drupal.org/project/libraries
@@ -25,9 +27,10 @@
 
      Credit:
      
-       Original author: Tristan O'Neil
+       Original author:	Tristan O'Neil
        Contributors: Alex Barth, Jeff Miccolis, Young Hahn, Tom MacWright, Patrick Hayes, Dave Tarc and more... 
 
+     
      API Notes:
      
      Geofield fields contain 9 columns of information about the geographic data that is stores.
