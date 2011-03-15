@@ -251,3 +251,63 @@ function get_values_from_geometry($geometry) {
   
   return $values;
 }
+
+  /**
+  * Decimal-Degrees-Seconds to Decimal Degrees
+  *
+  * Converts string to decimal degrees. Has some error correction for messy strings
+  */
+  function geofield_latlon_DMStoDEC($dms) {
+    if (is_numeric($dms)) {
+      // It's already decimal degrees, just return it
+      return $dms;
+    }
+    
+    // If it contains an S or a W, then it's a negative
+    if (stripos($dms, 'S') !== FALSE || stripos($dms, 'W') !== FALSE) {
+      $direction = -1;
+    }
+    else {
+      $direction = 1;
+    }
+    
+    // Strip all characters and replace them with empty space
+    $dms = strtr($dms, "°'\"NORTHSEAWnorthseaw'", " ");
+    $dms = preg_replace('/\s\s+/', ' ', $dms);
+    
+    $dms = explode(" ",$dms);
+    $deg = $dms[0];
+    $min = $dms[1];
+    $sec = $dms[2];
+    
+    $dec = floatval($direction * ($deg+((($min*60)+($sec))/3600)));
+    
+    return $dec;
+  }
+
+
+  /**
+  * Decimal Degrees to Decimal-Degrees-Seconds
+  *
+  * Converts decimal longitude / latitude to DMS ( Degrees / minutes / seconds )
+  */
+  function geofield_latlon_DECtoDMS($dec, $axis) {
+    if ($axis == 'lat') {
+      if ($dec > 0) $direction = 'N';
+      else $direction = 'S';
+    }
+    if ($axis == 'lon') {
+      if ($dec > 0) $direction = 'E';
+      else $direction = 'W';
+    }
+    
+    $vars = explode(".",$dec);
+    $deg = $vars[0];
+    $tempma = "0.".$vars[1];
+  
+    $tempma = $tempma * 3600;
+    $min = floor($tempma / 60);
+    $sec = $tempma - ($min*60);
+  
+    return $deg."&deg; ".$min."' ".round($sec,3)."\" ".$direction;
+  }
