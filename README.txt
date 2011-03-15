@@ -23,14 +23,10 @@
      geocode      provides geocode widget for geofield    https://github.com/phayes/geocode
 
 
-     Contributors:
-
-     Patrick Hayes
-     Tom McWright
-     Dave Tarc     
-     Tristan O'Neil
-     More...
-
+     Credit:
+     
+       Original author: Tristan O'Neil
+       Contributors: Alex Barth, Jeff Miccolis, Young Hahn, Tom MacWright, Patrick Hayes, Dave Tarc and more... 
 
      API Notes:
      
