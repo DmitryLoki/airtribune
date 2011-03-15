@@ -25,7 +25,7 @@ function geofield_field_widget_info() {
   // OpenLayers dependant widget
   if (module_exists('openlayers_ui')) {
     $widgets['geofield_openlayers'] = array(
-      'label' => t('Openlayers Map -- does not yet work'),
+      'label' => t('Openlayers Map'),
       'field types' => array('geofield'),
     );
   }
