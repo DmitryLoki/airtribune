@@ -157,21 +157,26 @@ function geofield_requirements($phase) {
 }
 
 /**
-* Load the geoPHP library
+* Loads the geoPHP library.
+*
+* @return
+*   Returns the filename of the included geoPHP library when successful, FALSE
+*   otherwise.
 */
 function geofield_load_geophp() {
-  static $staic_cache = FALSE;
-  if ($staic_cache) return $static_cache;
-
-  $path = libraries_get_path('geoPHP');
-  $file = $path.'/geoPHP.inc';
-  if (file_exists($file)) {
-    if (include_once($file)) {
-      $static_cache = $file;
-      return $file;
+  static $static_cache = FALSE;
+  
+  if (!$static_cache) {
+    $path = libraries_get_path('geoPHP');
+    $file = $path.'/geoPHP.inc';
+    if (file_exists($file)) {
+      if (include_once($file)) {
+        $static_cache = $file;
+      }
     }
   }
-  return FALSE;
+  
+  return $static_cache;
 }
 
 /**
