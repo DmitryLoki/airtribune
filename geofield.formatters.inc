@@ -68,7 +68,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
   }
   
   // If we are a lat, lon, or latlon, and we are using degrees-minutes-seconds (instead of decimal degrees), then do a transformation
-  if (isset($dispay['settings']['format']) {
+  if (isset($dispay['settings']['format'])) {
     if ($display['settings']['format'] == 'degrees_minutes_seconds') {
       foreach ($items as $delta => $item) {
         $items[$delta]['lat'] = geofield_latlon_DECtoDMS($item['lat'],'lat');
