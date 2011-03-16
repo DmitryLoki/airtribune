@@ -27,8 +27,9 @@
 
      Credit:
      
-     Original author: Tristan O'Neil
-     Contributors: Alex Barth, Jeff Miccolis, Young Hahn, Tom MacWright, Patrick Hayes, Dave Tarc, Nikhil Trivedi, Marek Sotak, Khalid Jebbari
+     Original author:  Tristan O'Neil
+     Contributors:     Alex Barth, Jeff Miccolis, Young Hahn, Tom MacWright, Patrick Hayes,
+                       Dave Tarc, Nikhil Trivedi, Marek Sotak, Khalid Jebbari
 
      
      API Notes:
