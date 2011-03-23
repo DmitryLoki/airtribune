@@ -54,6 +54,10 @@ function geofield_field_widget_settings_form($field, $instance) {
       }
     }
     
+    if (empty($preset_options)) {
+      form_set_error('openlayers_preset', "Error: You have no compatible openlayers preset maps. Make sure that at least one preset has the 'GeoField' behavior enabled and that it does not have the 'Draw Features' behavior enabled (which is incompatable).");
+    }
+    
     $form['openlayers_preset'] = array(
       '#type' => 'select',
       '#title' => t('OpenLayers Map'),
