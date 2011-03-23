@@ -45,11 +45,11 @@ function geofield_field_widget_settings_form($field, $instance) {
   //TODO: Allow more fine-grained control
   if ($widget['type'] == 'geofield_openlayers') {
     
-    // Get preset options, filtered to those which have the GeoField behavior
+    // Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatable
     $presets = openlayers_presets();
     $preset_options = array();
     foreach ($presets as $preset) {
-      if (array_key_exists('openlayers_behavior_geofield',$preset->data['behaviors'])) {
+      if (array_key_exists('openlayers_behavior_geofield',$preset->data['behaviors']) && !array_key_exists('openlayers_behavior_drawfeatures',$preset->data['behaviors'])) {
         $preset_options[$preset->name] = $preset->title;
       }
     }
@@ -59,7 +59,7 @@ function geofield_field_widget_settings_form($field, $instance) {
       '#title' => t('OpenLayers Map'),
       '#default_value' => isset($settings['openlayers_preset']) ? $settings['openlayers_preset'] : 'geofield_map',
       '#options' => $preset_options,
-      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first.'),
+      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first. The "Draw Features" bahavior is incompatable - presets with this behavior are not shown.'),
     );
     
   }
