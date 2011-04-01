@@ -15,6 +15,11 @@ function geofield_field_formatter_info() {
       'field types' => array('geofield'),
       'settings' => array('data' => ''),
     ),
+    'geofield_kml' => array(
+      'label' => t('KML'),
+      'field types' => array('geofield'),
+      'settings' => array('data' => ''),
+    ),
     'geofield_latlon' => array(
       'label' => t('Latitude/Longitude'),
       'field types' => array('geofield'),
@@ -89,6 +94,14 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
         $geometry = GeometryLoader::load($item['wkt'],'wkt');
         $json = $geometry->out('json');
         $element[$delta] = array('#markup' => $json);
+      }
+      return $element;
+    case 'geofield_kml':
+      geofield_load_geophp();
+      foreach ($items as $delta => $item) {
+        $geometry = GeometryLoader::load($item['wkt'],'wkt');
+        $kml = $geometry->out('kml');
+        $element[$delta] = array('#markup' => $kml);
       }
       return $element;
     case 'geofield_latlon':
