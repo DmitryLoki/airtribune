@@ -240,7 +240,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   }
   
   // Get values from geometry
-  $values = get_values_from_geometry($geometry);
+  $values = geofield_get_values_from_geometry($geometry);
     
   return $values;
 }
@@ -248,7 +248,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
 /**
 * Given a geometry object from geoPHP, return a values array
 */
-function get_values_from_geometry($geometry) {
+function geofield_get_values_from_geometry($geometry) {
   $centroid = $geometry->getCentroid();
   $bounding = $geometry->getBBox();
   

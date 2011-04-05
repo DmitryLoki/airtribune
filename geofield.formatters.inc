@@ -64,7 +64,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     if ($display['settings']['data'] == 'centroid') {
       foreach ($items as $delta => $item) {
         $centroid = GeometryLoader::load($item['wkt'],'wkt')->getCentroid();
-        $items[$delta] = get_values_from_geometry($centroid);
+        $items[$delta] = geofield_get_values_from_geometry($centroid);
       }
     }
     if ($display['settings']['data'] == 'bounding') {
