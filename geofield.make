@@ -5,7 +5,7 @@ api = 2
 
 projects[] = drupal
 projects[] = libraries
-libraries[geofield][download][type] = "get"
-libraries[geofield][download][url] = "https://github.com/downloads/phayes/geoPHP/geophp.tar.gz"
-libraries[geofield][directory_name] = "geoPHP"
-libraries[geofield][destination] = "libraries"
+libraries[geophp][download][type] = "get"
+libraries[geophp][download][url] = "https://github.com/downloads/phayes/geoPHP/geophp.tar.gz"
+libraries[geophp][directory_name] = "geoPHP"
+libraries[geophp][destination] = "libraries"
