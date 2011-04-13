@@ -20,6 +20,11 @@ function geofield_field_formatter_info() {
       'field types' => array('geofield'),
       'settings' => array('data' => ''),
     ),
+    'geofield_gpx' => array(
+      'label' => t('GPX'),
+      'field types' => array('geofield'),
+      'settings' => array('data' => ''),
+    ),
     'geofield_latlon' => array(
       'label' => t('Latitude/Longitude'),
       'field types' => array('geofield'),
@@ -63,7 +68,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     geofield_load_geophp();
     if ($display['settings']['data'] == 'centroid') {
       foreach ($items as $delta => $item) {
-        $centroid = GeometryLoader::load($item['wkt'],'wkt')->getCentroid();
+        $centroid = geoPHP::load($item['wkt'],'wkt')->getCentroid();
         $items[$delta] = geofield_get_values_from_geometry($centroid);
       }
     }
@@ -91,7 +96,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_geojson':
       geofield_load_geophp();
       foreach ($items as $delta => $item) {
-        $geometry = GeometryLoader::load($item['wkt'],'wkt');
+        $geometry = geoPHP::load($item['wkt'],'wkt');
         $json = $geometry->out('json');
         $element[$delta] = array('#markup' => $json);
       }
@@ -99,8 +104,16 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_kml':
       geofield_load_geophp();
       foreach ($items as $delta => $item) {
-        $geometry = GeometryLoader::load($item['wkt'],'wkt');
+        $geometry = geoPHP::load($item['wkt'],'wkt');
         $kml = $geometry->out('kml');
+        $element[$delta] = array('#markup' => $kml);
+      }
+      return $element;
+    case 'geofield_gpx':
+      geofield_load_geophp();
+      foreach ($items as $delta => $item) {
+        $geometry = geoPHP::load($item['wkt'],'wkt');
+        $kml = $geometry->out('gpx');
         $element[$delta] = array('#markup' => $kml);
       }
       return $element;
