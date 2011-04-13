@@ -219,7 +219,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   // Load up the geometry object from the master-column data
   if ($master_column == 'wkt') {
     $wkt = $values['wkt']; 
-    $geometry = GeometryLoader::load($wkt,'wkt');
+    $geometry = geoPHP::load($wkt,'wkt');
   }
 
   if ($master_column == 'latlon') {
@@ -236,7 +236,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
     
     $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
     $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
-    $geometry = GeometryLoader::load($wkt,'wkt');
+    $geometry = geoPHP::load($wkt,'wkt');
   }
   
   // Get values from geometry
