@@ -1,9 +1,11 @@
 ; $Id$
 
-core = 7.x
 api = 2
 
-projects[] = drupal
+core = 7.x
+projects[drupal][type] = "core"
+
+
 projects[] = libraries
 libraries[geophp][download][type] = "get"
 libraries[geophp][download][url] = "https://github.com/downloads/phayes/geoPHP/geophp.tar.gz"
