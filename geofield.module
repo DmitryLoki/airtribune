@@ -140,7 +140,7 @@ function geofield_requirements($phase) {
   
   // Report geoPHP library status
   if ($geophp) {
-  	if (geoPHP::version() >= 0.2) {
+  	if (geoPHP::version() >= 0.3) {
       $requirements['geofield_geophp'] = array(
         'title' => t('GeoPHP Library Installed'),
         'severity' => REQUIREMENT_OK,
