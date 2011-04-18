@@ -360,12 +360,12 @@ function geofield_get_values_from_geometry($geometry) {
   */
   function geofield_latlon_DECtoDMS($dec, $axis) {
     if ($axis == 'lat') {
-      if ($dec > 0) $direction = 'N';
-      else $direction = 'S';
+      if ($dec > 0) $direction = 'S';
+      else $direction = 'N';
     }
     if ($axis == 'lon') {
-      if ($dec > 0) $direction = 'E';
-      else $direction = 'W';
+      if ($dec > 0) $direction = 'W';
+      else $direction = 'E';
     }
     
     $vars = explode(".",$dec);
