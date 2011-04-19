@@ -245,12 +245,12 @@ function geofield_element_validate($element, &$form_state) {
   geofield_compute_values($values, $master_column);    
   
   // Set form values from the $values array
-  form_set_value($element['wkt'], $values['wkt'], $form_state);
-  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
-  form_set_value($element['lat'], $values['lat'], $form_state);
-  form_set_value($element['lon'], $values['lon'], $form_state);
-  form_set_value($element['top'], $values['top'], $form_state);
-  form_set_value($element['bottom'], $values['bottom'], $form_state);
-  form_set_value($element['right'], $values['right'], $form_state);
-  form_set_value($element['left'], $values['left'], $form_state);
+  if (isset($values['wkt']))       form_set_value($element['wkt'], $values['wkt'], $form_state);
+  if (isset($values['geo_type']))  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
+  if (isset($values['lat']))       form_set_value($element['lat'], $values['lat'], $form_state);
+  if (isset($values['lon']))       form_set_value($element['lon'], $values['lon'], $form_state);
+  if (isset($values['top']))       form_set_value($element['top'], $values['top'], $form_state);
+  if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
+  if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
+  if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);
 }

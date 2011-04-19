@@ -218,14 +218,18 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   
   // Load up the geometry object from the master-column data
   if ($master_column == 'wkt') {
-    $wkt = $values['wkt']; 
-    $geometry = geoPHP::load($wkt,'wkt');
+    $wkt = $values['wkt'];
+    if ($wkt) {
+      $geometry = geoPHP::load($wkt,'wkt');
+    }
   }
 
   if ($master_column == 'latlon') {
     $lat = $values['lat']; 
     $lon = $values['lon']; 
-    $geometry = new Point(floatval($lon), floatval($lat));
+    if (is_numeric($lat) && is_numeric($lon)) {
+      $geometry = new Point(floatval($lon), floatval($lat));
+    }
   }
 
   if ($master_column == 'bounds') {
@@ -234,13 +238,21 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
     $right = $values['right'];
     $left = $values['left'];
     
-    $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
-    $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
-    $geometry = geoPHP::load($wkt,'wkt');
+    
+    if (is_numeric($top) && is_numeric($bottom) && is_numeric($right) && is_numeric($left)) {
+      $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
+      $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
+      $geometry = geoPHP::load($wkt,'wkt');
+    }
   }
   
   // Get values from geometry
-  $values = geofield_get_values_from_geometry($geometry);
+  if (isset($geometry)) {
+    $values = geofield_get_values_from_geometry($geometry);
+  }
+  else {
+    $values = array();
+  }
     
   return $values;
 }
