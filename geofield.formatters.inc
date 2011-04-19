@@ -68,21 +68,34 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     geofield_load_geophp();
     if ($display['settings']['data'] == 'centroid') {
       foreach ($items as $delta => $item) {
-        $centroid = geoPHP::load($item['wkt'],'wkt')->getCentroid();
+        $centroid = geoPHP::load($item['wkt'],'wkt')->centroid();
         $items[$delta] = geofield_get_values_from_geometry($centroid);
       }
     }
     if ($display['settings']['data'] == 'bounding') {
-      //TODO: Bouding -- needs envelope function in geoPHP
+      foreach ($items as $delta => $item) {
+        $envelope = geoPHP::load($item['wkt'],'wkt')->envelope();
+        $items[$delta] = geofield_get_values_from_geometry($envelope);
+      }
     }
   }
   
   // If we are a lat, lon, or latlon, and we are using degrees-minutes-seconds (instead of decimal degrees), then do a transformation
-  if (isset($dispay['settings']['format'])) {
+  if (isset($display['settings']['format'])) {
     if ($display['settings']['format'] == 'degrees_minutes_seconds') {
       foreach ($items as $delta => $item) {
         $items[$delta]['lat'] = geofield_latlon_DECtoDMS($item['lat'],'lat');
         $items[$delta]['lon'] = geofield_latlon_DECtoDMS($item['lon'],'lon');
+      }
+    }
+  }
+
+  // If we are a lat, lon, or latlon, and we are using celestial coordinate system (instead of decimal degrees), then do a transformation
+  if (isset($display['settings']['format'])) {
+    if ($display['settings']['format'] == 'ccs') {
+      foreach ($items as $delta => $item) {
+        $items[$delta]['lat'] = geofield_latlon_DECtoCCS($item['lat'],'lat');
+        $items[$delta]['lon'] = geofield_latlon_DECtoCCS($item['lon'],'lon');
       }
     }
   }
@@ -139,9 +152,8 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       }
       return $element;
     case 'geofield_openlayers':
-      foreach ($items as $delta => $item) {
-        $element[$delta] = array('#markup' => t('Cant output openlayers yet.'));
-      }
+      $preset_name = $display['settings']['map_preset'] ? $display['settings']['map_preset'] : 'geofield_formatter_map';
+      $element[0] = array('#markup' => _geofield_openlayers_formatter($preset_name, $items)); 
       return $element;
   }
 
@@ -166,6 +178,7 @@ function _geofield_formatter_settings_format_options($formatter) {
   return array(
     'decimal_degrees' => t('Decimal degrees'),
     'degrees_minutes_seconds' => t('Degrees minutes seconds'),
+    'ccs' => t('Astronomical Celestial Coordinates System (CCS)'), 
   );
 }
 
@@ -176,21 +189,27 @@ function geofield_field_formatter_settings_form($field, $instance, $view_mode, $
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
-  // TODO: Pull in all map presets for option list
-  /*
-  if ('geofield_openlayers' == $display['type']) {
+  // Map preset formatter
+  if ($display['type'] == 'geofield_openlayers' && module_exists('openlayers')) {
+    
+    // Get preset options, filtered to those which have the GeoField placeholder layer
+    $presets = openlayers_presets();
+    $preset_options = array();
+    foreach ($presets as $preset) {
+      if (in_array('geofield_formatter',$preset->data['layers'])) {
+        $preset_options[$preset->name] = $preset->title;
+      }
+    }
+    
     $element['map_preset'] = array(
-      '#title' => t('Map preset'),
+      '#title' => t('OpenLayers Preset'),
       '#type' => 'select',
-//      '#default_value' => 'decimal_degrees',
-      '#empty_option' => t('None'),
-      '#options' => array(
-        'decimal_degrees' => t('Decimal degress'),
-        'degrees_minutes_seconds' => t('Degrees minutes seconds'),
-      ),
-    );	
+      '#default_value' => $settings['map_preset'] ? $settings['map_preset'] : 'geofield_formatter_map',
+      '#required' => TRUE,
+      '#options' => $preset_options,
+      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the geofield placeholder layer may be selected. If your preferred map is not here, add the geofield placeholder layer to it first.'),
+    );
   }
-  */
   
   $data_options = _geofield_formatter_settings_data_options($display['type']);
   $element['data'] = array(
@@ -238,8 +257,13 @@ function geofield_field_formatter_settings_summary($field, $instance, $view_mode
   else {
     $summary[] = t('No data options set');
   }
+  
+  if ($display['type'] == 'geofield_openlayers' && isset($settings['map_preset'])) {
+    $openlayers_presets = openlayers_preset_options();
+    $summary[] = t('Openlayers Map: @data', array('@data' => $openlayers_presets[$settings['map_preset']]));
+  }
 
-  if ('geofield_latlon' == $display['type']) {
+  if ($display['type'] == 'geofield_latlon') {
     $format_options = _geofield_formatter_settings_format_options($display['type']);
     // Display this setting only if image is linked.
     if (isset($format_options[$settings['format']])) {
@@ -250,3 +274,38 @@ function geofield_field_formatter_settings_summary($field, $instance, $view_mode
   return implode('<br />', $summary);
 }
 
+function _geofield_openlayers_formatter($preset_name, $items) {
+  $features = array();
+
+  // Create array of $features
+  foreach ($items as $delta) {
+    $features[] = array(
+      'wkt' => $delta['wkt'],
+      'projection' => '4326',
+    );
+  }
+
+  // Get map preset
+  $preset = openlayers_preset_load($preset_name);
+  $map = openlayers_build_map($preset->data);
+  
+  if (!$map['layers']['geofield_formatter']) {
+    drupal_set_error('Trying to render a geofield formatter on a map without the placeholder layer');
+  }
+  
+  // Add the features to the placeholder layer
+  $map['layers']['geofield_formatter']['features'] = $features;
+  
+  // Return themed map if no errors found
+  if (empty($map['errors'])) {
+    $js = array('openlayers' => array('maps' => array($map['id'] => $map)));
+    drupal_add_js($js, 'setting');
+
+    // Push map through theme function and return
+    $output = theme('openlayers_map', array(
+      'map' => $map,
+      'preset_name' => $preset_name
+    ));
+  }
+  return $output;
+}

@@ -75,35 +75,16 @@ function geofield_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Implements hook_openlayers_behaviors().
- */
-function geofield_openlayers_behaviors() {
-  return array(
-    'openlayers_behavior_geofield' => array(
-      'title' => t('Geofield'),
-      'description' => t('Fuels the geofield map-input form.'),
-      'type' => 'layer',
-      'path' => drupal_get_path('module', 'geofield') .'/includes/behaviors',
-      'file' => 'openlayers_behavior_geofield.inc',
-      'behavior' => array(
-        'class' => 'openlayers_behavior_geofield',
-        'parent' => 'openlayers_behavior',
-      ),
-    ),
-  );
-}
-
-/**
  * Implementation of hook_openlayers_presets().
  */
 function geofield_openlayers_presets() {
   // Create full preset array
-  $default = new stdClass();
-  $default->api_version = 1;
-  $default->name = 'geofield_map';
-  $default->title = t('Geofield Map');
-  $default->description = t('A Map Used for Geofield Input');
-  $default->data = array(
+  $widget = new stdClass();
+  $widget->api_version = 1;
+  $widget->name = 'geofield_widget_map';
+  $widget->title = t('Geofield Widget Map');
+  $widget->description = t('A Map Used for Geofield Input');
+  $widget->data = array(
     'projection' => '900913',
     'width' => '600px',
     'default_layer' => 'osm_mapnik',
@@ -127,7 +108,79 @@ function geofield_openlayers_presets() {
       'osm_mapnik',
     )
   );
-  return array('geofield_map' => $default);
+  
+  $formatter = new stdClass();
+  $formatter->api_version = 1;
+  $formatter->name = 'geofield_formatter_map';
+  $formatter->title = t('Geofield Formatter Map');
+  $formatter->description = t('A Map Used for Geofield Output');
+  $formatter->data = array(
+    'projection' => '900913',
+    'width' => '600px',
+    'default_layer' => 'osm_mapnik',
+    'height' => '400px',
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '0,0',
+        'zoom' => '2'
+      )
+    ),
+    'options' => array(
+      'maxExtent' => openlayers_get_extent('900913'),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_panzoombar' => array(),
+      'openlayers_behavior_attribution' => array(),
+      'openlayers_behavior_keyboarddefaults' => array()
+    ),
+    'layers' => array(
+      'geofield_formatter',
+      'osm_mapnik',
+    )
+  );
+  
+  return array(
+    'geofield_widget_map' => $widget, 
+    'geofield_formatter_map' => $formatter, 
+  );
+}
+
+/**
+ * Implements hook_openlayers_behaviors().
+ */
+function geofield_openlayers_behaviors() {
+  return array(
+    'openlayers_behavior_geofield' => array(
+      'title' => t('Geofield'),
+      'description' => t('Fuels the geofield map-input form.'),
+      'type' => 'layer',
+      'path' => drupal_get_path('module', 'geofield') .'/includes/behaviors',
+      'file' => 'openlayers_behavior_geofield.inc',
+      'behavior' => array(
+        'class' => 'openlayers_behavior_geofield',
+        'parent' => 'openlayers_behavior',
+      ),
+    ),
+  );
+}
+
+/**
+ * Formatter layers
+ */
+function geofield_openlayers_layers() {
+  $layers = array();
+  $layer = new stdClass();
+  $layer->api_version = 1;
+  $layer->name = 'geofield_formatter';
+  $layer->title = 'Placeholder for Geofield Formatter';
+  $layer->description = '';
+  $layer->data = array(
+    'layer_type' => 'openlayers_layer_type_raw',
+    'projection' => array('900913'),
+    'features' => array()
+  );
+  $layers[$layer->name] = $layer;
+  return $layers;
 }
 
 /**
@@ -263,7 +316,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
 function geofield_get_values_from_geometry($geometry) {
   $centroid = $geometry->getCentroid();
   $bounding = $geometry->getBBox();
-  
+ 
   $values['wkt'] = $geometry->out('wkt');
   $values['geo_type'] = strtolower($geometry->getGeomType());
   
@@ -278,62 +331,126 @@ function geofield_get_values_from_geometry($geometry) {
   return $values;
 }
 
-  /**
-  * Decimal-Degrees-Seconds to Decimal Degrees
-  *
-  * Converts string to decimal degrees. Has some error correction for messy strings
-  */
-  function geofield_latlon_DMStoDEC($dms) {
-    if (is_numeric($dms)) {
-      // It's already decimal degrees, just return it
-      return $dms;
-    }
-    
-    // If it contains an S or a W, then it's a negative
-    if (stripos($dms, 'S') !== FALSE || stripos($dms, 'W') !== FALSE) {
-      $direction = -1;
-    }
-    else {
-      $direction = 1;
-    }
-    
-    // Strip all characters and replace them with empty space
-    $dms = strtr($dms, "°'\"NORTHSEAWnorthseaw'", " ");
-    $dms = preg_replace('/\s\s+/', ' ', $dms);
-    
-    $dms = explode(" ",$dms);
-    $deg = $dms[0];
-    $min = $dms[1];
-    $sec = $dms[2];
-    
-    $dec = floatval($direction * ($deg+((($min*60)+($sec))/3600)));
-    
-    return $dec;
+
+// Latitude and Longitude string conversion
+// ----------------------------------------
+
+/**
+* Decimal-Degrees-Seconds to Decimal Degrees
+*
+* Converts string to decimal degrees. Has some error correction for messy strings
+*/
+function geofield_latlon_DMStoDEC($dms) {
+  if (is_numeric($dms)) {
+    // It's already decimal degrees, just return it
+    return $dms;
   }
 
-
-  /**
-  * Decimal Degrees to Decimal-Degrees-Seconds
-  *
-  * Converts decimal longitude / latitude to DMS ( Degrees / minutes / seconds )
-  */
-  function geofield_latlon_DECtoDMS($dec, $axis) {
-    if ($axis == 'lat') {
-      if ($dec > 0) $direction = 'N';
-      else $direction = 'S';
-    }
-    if ($axis == 'lon') {
-      if ($dec > 0) $direction = 'E';
-      else $direction = 'W';
-    }
-    
-    $vars = explode(".",$dec);
-    $deg = abs($vars[0]);
-    $tempma = "0.".$vars[1];
+   // If it contains both an H and M, then it's an angular hours
+   if (stripos($dms, 'H') !== FALSE && stripos($dms, 'M') !== FALSE) {
+     $dms = strtr($dms, "'\"HOURSMINTECNDAhoursmintecnda", "  ");
+     $dms = preg_replace('/\s\s+/', ' ', $dms);
   
+     $dms = explode(" ",$dms);
+     $deg = $dms[0];
+     $min = $dms[1];
+     $sec = $dms[2];
+  
+     $dec = floatval(($deg*15)+($min/4)+($sec/240));
+  
+     return $dec;
+   }
+
+  // If it contains an S or a W, then it's a negative
+  if (stripos($dms, 'S') !== FALSE || stripos($dms, 'W') !== FALSE) {
+    $direction = -1;
+  }
+  else {
+    $direction = 1;
+  }
+  
+  // Strip all characters and replace them with empty space
+  $dms = strtr($dms, "°'\"NORTHSEAWnorthseaw'", " ");
+  $dms = preg_replace('/\s\s+/', ' ', $dms);
+  
+  $dms = explode(" ",$dms);
+  $deg = $dms[0];
+  $min = $dms[1];
+  $sec = $dms[2];
+  
+  // Direction should be checked only for nonnegative coordinates
+  $dec = floatval($deg+((($min*60)+($sec))/3600));
+  if ($dec > 0) {
+    $dec = $direction * $dec;
+  }
+  return $dec;
+}
+
+
+/**
+* Decimal Degrees to Decimal-Degrees-Seconds
+*
+* Converts decimal longitude / latitude to DMS ( Degrees / minutes / seconds )
+*/
+function geofield_latlon_DECtoDMS($dec, $axis) {
+  if ($axis == 'lat') {
+    if ($dec > 0) $direction = 'S';
+    else $direction = 'N';
+  }
+  if ($axis == 'lon') {
+    if ($dec > 0) $direction = 'W';
+    else $direction = 'E';
+  }
+  
+  $vars = explode(".",$dec);
+  $deg = abs($vars[0]);
+  if (isset($vars[1])) $tempma = "0.".$vars[1];
+  else $tempma = "0";
+  
+  $tempma = $tempma * 3600;
+  $min = floor($tempma / 60);
+  $sec = $tempma - ($min*60);
+
+  return $deg."&deg; ".$min."' ".round($sec,3)."\" ".$direction;
+}
+
+/**
+* Decimal Degrees to Celestial coordinate system (CCS) units
+*
+* Converts decimal latitude to DMS ( Degrees / minutes / seconds ) and decimal longitude to Angular Hours / Minutes / Seconds
+*/
+function geofield_latlon_DECtoCCS($dec, $axis) {
+
+  // Declination (celestial latitude) should be representeted in Degrees / minutes / seconds
+  if ($axis == 'lat') {
+    $vars = explode(".",$dec);
+    $deg = $vars[0];
+    if (isset($vars[1])) $tempma = "0.".$vars[1];
+    else $tempma = "0";
+
     $tempma = $tempma * 3600;
     $min = floor($tempma / 60);
     $sec = $tempma - ($min*60);
-  
-    return $deg."&deg; ".$min."' ".round($sec,3)."\" ".$direction;
+
+    return $deg."&deg; ".$min."' ".round($sec,3)."\"";
   }
+
+  // Right ascension (celestial longitude) should be representeted in Hours / Minutes / Seconds
+  if ($axis == 'lon') {
+    $tempma = $dec / 15;
+    $vars = explode(".",$tempma);
+    $hrs = $vars[0];
+    if (isset($vars[1])) $tempma = "0.".$vars[1];
+    else $tempma = "0";
+
+    $tempma = $tempma * 60;
+    $vars = explode(".",$tempma);
+    $min = $vars[0];
+    if (isset($vars[1])) $tempma = "0.".$vars[1];
+    else $tempma = "0";
+    $sec = $tempma * 60;
+
+    return $hrs."h ".$min."m ".round($sec,3)."s";
+  }
+
+}
