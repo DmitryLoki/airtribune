@@ -80,14 +80,22 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     }
   }
   
-  
-  
   // If we are a lat, lon, or latlon, and we are using degrees-minutes-seconds (instead of decimal degrees), then do a transformation
   if (isset($display['settings']['format'])) {
     if ($display['settings']['format'] == 'degrees_minutes_seconds') {
       foreach ($items as $delta => $item) {
         $items[$delta]['lat'] = geofield_latlon_DECtoDMS($item['lat'],'lat');
         $items[$delta]['lon'] = geofield_latlon_DECtoDMS($item['lon'],'lon');
+      }
+    }
+  }
+
+  // If we are a lat, lon, or latlon, and we are using celestial coordinate system (instead of decimal degrees), then do a transformation
+  if (isset($display['settings']['format'])) {
+    if ($display['settings']['format'] == 'ccs') {
+      foreach ($items as $delta => $item) {
+        $items[$delta]['lat'] = geofield_latlon_DECtoCCS($item['lat'],'lat');
+        $items[$delta]['lon'] = geofield_latlon_DECtoCCS($item['lon'],'lon');
       }
     }
   }
@@ -170,6 +178,7 @@ function _geofield_formatter_settings_format_options($formatter) {
   return array(
     'decimal_degrees' => t('Decimal degrees'),
     'degrees_minutes_seconds' => t('Degrees minutes seconds'),
+    'ccs' => t('Astronomical Celestial Coordinates System (CCS)'), 
   );
 }
 
