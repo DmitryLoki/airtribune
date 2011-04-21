@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Implements hook_field_formatter_info().
  */
@@ -54,7 +53,146 @@ function geofield_field_formatter_info() {
       'settings' => array('map_preset' => '', 'data' => ''),
     );
   }
+  
+  // Accessibility formatters for blind users with screen-readers
+  $formatters['geofield_def_list'] = array(
+    'label' => t('Definition List (Accessibility)'),
+    'field types' => array('geofield'),
+    'settings' => array('data' => '', 'address' => 0),
+  );
+  $formatters['geofield_description'] = array(
+    'label' => t('Decriptive Text (Accessibility)'),
+    'field types' => array('geofield'),
+    'settings' => array('data' => '', 'address' => 0),
+  );
+  
   return $formatters;
+}
+
+/**
+ * Helper function for getting data options
+ */
+function _geofield_formatter_settings_data_options($formatter) {
+  return array(
+    'full' => t('Use full geometry'),
+    'centroid' => t('Use centroid'),
+    'bounding' => t('Use bounding box -- does not work yet'),
+  );
+}
+
+/**
+ * Helper function for getting format options
+*/
+function _geofield_formatter_settings_format_options($formatter) {
+  return array(
+    'decimal_degrees' => t('Decimal degrees'),
+    'degrees_minutes_seconds' => t('Degrees minutes seconds'),
+    'ccs' => t('Astronomical Celestial Coordinates System (CCS)'), 
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function geofield_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  // Map preset formatter
+  if ($display['type'] == 'geofield_openlayers' && module_exists('openlayers')) {
+    
+    // Get preset options, filtered to those which have the GeoField placeholder layer
+    $presets = openlayers_presets();
+    $preset_options = array();
+    foreach ($presets as $preset) {
+      if (in_array('geofield_formatter',$preset->data['layers'])) {
+        $preset_options[$preset->name] = $preset->title;
+      }
+    }
+    
+    $element['map_preset'] = array(
+      '#title' => t('OpenLayers Preset'),
+      '#type' => 'select',
+      '#default_value' => $settings['map_preset'] ? $settings['map_preset'] : 'geofield_formatter_map',
+      '#required' => TRUE,
+      '#options' => $preset_options,
+      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the geofield placeholder layer may be selected. If your preferred map is not here, add the geofield placeholder layer to it first.'),
+    );
+  }
+  
+  $data_options = _geofield_formatter_settings_data_options($display['type']);
+  $element['data'] = array(
+    '#title' => t('Data options'),
+    '#type' => 'select',
+    '#default_value' => $settings['data'] ? $settings['data'] : 'full',
+    '#required' => TRUE,
+    '#options' => $data_options,
+  );
+
+  if ($display['type'] == 'geofield_latlon' || $display['type'] == 'geofield_lat' || $display['type'] == 'geofield_lon') {
+    $format_options = _geofield_formatter_settings_format_options($display['type']);
+  	$element['format'] = array(
+      '#title' => t('Format'),
+      '#type' => 'select',
+      '#default_value' => $settings['format'] ? $settings['format'] : 'decimal_degrees',
+      '#required' => TRUE,
+      '#options' => $format_options,
+    );
+  }
+  
+  if ($display['type'] == 'geofield_def_list' || $display['type'] == 'geofield_description') {
+  	$element['address'] = array(
+      '#title' => t('Include reverse-geocoded address'),
+      '#type' => 'checkbox',
+      '#default_value' => $settings['address'] ? $settings['address'] : 0,
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function geofield_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  $data_options = _geofield_formatter_settings_data_options($display['type']);
+  
+  // TODO: Not sure if this unset is needed
+  // Unset possible 'No defined styles' option.
+  unset($data_options['']);
+
+  // Styles could be lost because of enabled/disabled modules that defines
+  // their styles in code.
+  if (isset($data_options[$settings['data']])) {
+    $summary[] = t('Data options: @data', array('@data' => $data_options[$settings['data']]));
+  }
+  else {
+    $summary[] = t('No data options set');
+  }
+  
+  if ($display['type'] == 'geofield_openlayers' && isset($settings['map_preset'])) {
+    $openlayers_presets = openlayers_preset_options();
+    $summary[] = t('Openlayers Map: @data', array('@data' => $openlayers_presets[$settings['map_preset']]));
+  }
+
+  if ($display['type'] == 'geofield_latlon') {
+    $format_options = _geofield_formatter_settings_format_options($display['type']);
+    // Display this setting only if image is linked.
+    if (isset($format_options[$settings['format']])) {
+      $summary[] = $format_options[$settings['format']];
+    }
+  }
+
+  if (isset($settings['address']) && $settings['address']) {
+    $summary[] = t('Including reverse-geocoded address');
+  }
+
+  return implode('<br />', $summary);
 }
 
 /**
@@ -63,7 +201,7 @@ function geofield_field_formatter_info() {
 function geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   
-  // Transform into centroid or bouding if needed
+  // Transform into centroid or bounding if needed
   if ($display['settings']['data'] != 'full') {
     geofield_load_geophp();
     if ($display['settings']['data'] == 'centroid') {
@@ -155,123 +293,19 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       $preset_name = $display['settings']['map_preset'] ? $display['settings']['map_preset'] : 'geofield_formatter_map';
       $element[0] = array('#markup' => _geofield_openlayers_formatter($preset_name, $items)); 
       return $element;
-  }
-
-  return $element;
-}
-
-/**
- * Helper function for getting data options
- */
-function _geofield_formatter_settings_data_options($formatter) {
-  return array(
-    'full' => t('Use full geometry'),
-    'centroid' => t('Use centroid'),
-    'bounding' => t('Use bounding box -- does not work yet'),
-  );
-}
-
-/**
- * Helper function for getting format options
-*/
-function _geofield_formatter_settings_format_options($formatter) {
-  return array(
-    'decimal_degrees' => t('Decimal degrees'),
-    'degrees_minutes_seconds' => t('Degrees minutes seconds'),
-    'ccs' => t('Astronomical Celestial Coordinates System (CCS)'), 
-  );
-}
-
-/**
- * Implements hook_field_formatter_settings_form().
- */
-function geofield_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-
-  // Map preset formatter
-  if ($display['type'] == 'geofield_openlayers' && module_exists('openlayers')) {
-    
-    // Get preset options, filtered to those which have the GeoField placeholder layer
-    $presets = openlayers_presets();
-    $preset_options = array();
-    foreach ($presets as $preset) {
-      if (in_array('geofield_formatter',$preset->data['layers'])) {
-        $preset_options[$preset->name] = $preset->title;
+    case 'geofield_def_list':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array('#markup' => _geofield_def_list_formatter($item, $display['settings']));
       }
-    }
-    
-    $element['map_preset'] = array(
-      '#title' => t('OpenLayers Preset'),
-      '#type' => 'select',
-      '#default_value' => $settings['map_preset'] ? $settings['map_preset'] : 'geofield_formatter_map',
-      '#required' => TRUE,
-      '#options' => $preset_options,
-      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the geofield placeholder layer may be selected. If your preferred map is not here, add the geofield placeholder layer to it first.'),
-    );
-  }
-  
-  $data_options = _geofield_formatter_settings_data_options($display['type']);
-  $element['data'] = array(
-    '#title' => t('Data options'),
-    '#type' => 'select',
-    '#default_value' => $settings['data'] ? $settings['data'] : 'full',
-    '#required' => TRUE,
-    '#options' => $data_options,
-  );
-
-  if ($display['type'] == 'geofield_latlon' || $display['type'] == 'geofield_lat' || $display['type'] == 'geofield_lon') {
-    $format_options = _geofield_formatter_settings_format_options($display['type']);
-  	$element['format'] = array(
-      '#title' => t('Format'),
-      '#type' => 'select',
-      '#default_value' => $settings['format'] ? $settings['format'] : 'decimal_degrees',
-      '#required' => TRUE,
-      '#options' => $format_options,
-    );
+      return $element;
+    case 'geofield_description':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array('#markup' => _geofield_description_formatter($item, $display['settings']));
+      }
+      return $element;
   }
 
   return $element;
-}
-
-/**
- * Implements hook_field_formatter_settings_summary().
- */
-function geofield_field_formatter_settings_summary($field, $instance, $view_mode) {
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-
-  $summary = array();
-
-  $data_options = _geofield_formatter_settings_data_options($display['type']);
-  
-  // TODO: Not sure if this unset is needed
-  // Unset possible 'No defined styles' option.
-  unset($data_options['']);
-
-  // Styles could be lost because of enabled/disabled modules that defines
-  // their styles in code.
-  if (isset($data_options[$settings['data']])) {
-    $summary[] = t('Data options: @data', array('@data' => $data_options[$settings['data']]));
-  }
-  else {
-    $summary[] = t('No data options set');
-  }
-  
-  if ($display['type'] == 'geofield_openlayers' && isset($settings['map_preset'])) {
-    $openlayers_presets = openlayers_preset_options();
-    $summary[] = t('Openlayers Map: @data', array('@data' => $openlayers_presets[$settings['map_preset']]));
-  }
-
-  if ($display['type'] == 'geofield_latlon') {
-    $format_options = _geofield_formatter_settings_format_options($display['type']);
-    // Display this setting only if image is linked.
-    if (isset($format_options[$settings['format']])) {
-      $summary[] = $format_options[$settings['format']];
-    }
-  }
-
-  return implode('<br />', $summary);
 }
 
 function _geofield_openlayers_formatter($preset_name, $items) {
@@ -308,4 +342,114 @@ function _geofield_openlayers_formatter($preset_name, $items) {
     ));
   }
   return $output;
+}
+
+function _geofield_def_list_formatter($item, $settings) {
+  geofield_load_geophp();
+  $geometry = geoPHP::load($item['wkt'],'wkt');
+  
+  // Single types
+  $single_types = array('Point','LineStrnig','Polygon');
+    
+  if (in_array($geometry->geometryType(), $single_types)) {
+    $centroid = new Point($item['lon'], $item['lat']);
+    $info = _geofield_formatter_get_info($geometry, $centroid, $settings['address']);
+    return _geofield_def_list_formatter_dl($info);
+  }
+  else {
+    $output = '';
+    foreach ($geometry->getComponents() as $component) {
+      $centroid = $component->centroid();
+      $info = _geofield_formatter_get_info($component, $centroid, $settings['address']);
+      $output .= _geofield_def_list_formatter_dl($info);
+    }
+    return $output;
+  }
+  
+}
+
+function _geofield_def_list_formatter_dl($info) {
+  $output = '<dl>';
+  foreach ($info as $dt => $dd) {
+    $output .= '<dt>'.ucfirst($dt).'</dt><dd>'.$dd.'</dd>';
+  }
+  
+  $output .= '</dl>';
+  
+  return $output;
+}
+
+function _geofield_description_formatter($item, $settings) {
+  geofield_load_geophp();
+  $geometry = geoPHP::load($item['wkt'],'wkt');
+  
+  // Single types
+  $single_types = array('Point','LineStrnig','Polygon');
+  
+  if (in_array($geometry->geometryType(), $single_types)) {
+    $centroid = new Point($item['lon'], $item['lat']);
+    $info = _geofield_formatter_get_info($geometry, $centroid, $settings['address']);
+    return _geofield_description_formatter_text($info);
+  }
+  else {
+    $output = t('A collection of shapes');
+    $output .= '<ol>';
+    foreach ($geometry->getComponents() as $component) {
+      $centroid = $component->centroid();
+      $info = _geofield_formatter_get_info($component, $centroid, $settings['address']);
+      $output .= '<li>'._geofield_description_formatter_text($info).'</li>';
+    }
+    $output .= '</ol>';
+    return $output;
+  }
+  
+}
+
+function _geofield_description_formatter_text($info) {
+  $text = t('@shape with a center of latitude @lat and longitude @lon.',array('@shape' => $info['shape'], '@lat' => $info['latitude'], '@lon' => $info['longitude'])); 
+  if (isset($info['address'])) {
+    $text .= t(' It has an approximate address of @address.', array('@address' => $info['address']));
+  }
+    
+  if (isset($info['area'])) {
+    $text .= t(' It has an area of @area.', array('@area' => $info['area']));
+  }
+  if (isset($info['length'])) {
+    $text .= t(' It has a length of @length.',array('@length' => $info['length']));
+  }
+  return $text;
+}
+
+function _geofield_formatter_get_info($geometry, $centroid, $address = FALSE, $units = 'degrees') {
+
+  $info = array (
+    'latitude' => $centroid->y(),
+    'longitude' => $centroid->x(),
+  );
+  
+  // Get the shape
+  if ($geometry->geometryType() == 'Point') {
+    $info['shape'] = 'Point';
+  }
+  if ($geometry->geometryType() == 'LineString') {
+    $info['shape'] = 'Line';
+  }
+  if ($geometry->geometryType() == 'Polygon') {
+    //@@TODO: Get more useful information like 'Triangle', 'Square', 'Rectangle', 'Pentagon'
+    $info['shape'] = 'Polygon';
+  }
+  
+  if ($address) {
+    $info['address'] = $centroid->out('google_geocode');
+  }
+  
+  //@@TODO, convert length and area to proper units
+  #if ($geometry->geometryType() == 'LineString') {
+  #  $info['length'] = $geometry->length();
+  #}
+  #if ($geometry->geometryType() == 'Polygon') {
+  #  $info['area'] = $geometry->area();
+  #}
+  
+  return $info; 
 }
