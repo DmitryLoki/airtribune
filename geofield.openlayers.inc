@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Implementation of hook_openlayers_presets().
+ * Implementation of hook_openlayers_maps().
  */
-function geofield_openlayers_presets() {
+function geofield_openlayers_maps() {
   // Create full preset array
   $widget = new stdClass();
   $widget->api_version = 1;

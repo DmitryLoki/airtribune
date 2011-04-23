@@ -100,7 +100,6 @@ function geofield_field_formatter_settings_form($field, $instance, $view_mode, $
 
   // Map preset formatter
   if ($display['type'] == 'geofield_openlayers' && module_exists('openlayers')) {
-    
     // Get preset options, filtered to those which have the GeoField placeholder layer
     $presets = openlayers_presets();
     $preset_options = array();
@@ -326,7 +325,7 @@ function _geofield_openlayers_formatter($preset_name, $items) {
   $map = openlayers_build_map($preset->data);
   
   if (!$map['layers']['geofield_formatter']) {
-    drupal_set_error('Trying to render a geofield formatter on a map without the placeholder layer');
+    drupal_set_message('Trying to render a geofield formatter on a map without the placeholder layer','error');
   }
   
   // Add the features to the placeholder layer
