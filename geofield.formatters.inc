@@ -76,7 +76,7 @@ function _geofield_formatter_settings_data_options($formatter) {
   return array(
     'full' => t('Use full geometry'),
     'centroid' => t('Use centroid'),
-    'bounding' => t('Use bounding box -- does not work yet'),
+    'bounding' => t('Use bounding box'),
   );
 }
 
@@ -206,13 +206,15 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     geofield_load_geophp();
     if ($display['settings']['data'] == 'centroid') {
       foreach ($items as $delta => $item) {
-        $centroid = geoPHP::load($item['wkt'],'wkt')->centroid();
+        $centroid_wkt = 'POINT('.$item['lon'].' '.$item['lat'].')';
+        $centroid = geoPHP::load($centroid_wkt,'wkt');
         $items[$delta] = geofield_get_values_from_geometry($centroid);
       }
     }
     if ($display['settings']['data'] == 'bounding') {
       foreach ($items as $delta => $item) {
-        $envelope = geoPHP::load($item['wkt'],'wkt')->envelope();
+        $envelope_wkt = 'POLYGON (('.$item['left'].' '.$item['top'].', '.$item['right'].' '.$item['top'].', '.$item['right'].' '.$item['bottom'].', '.$item['left'].' '.$item['bottom'].', '.$item['left'].' '.$item['top'].')))';
+        $envelope = geoPHP::load($envelope_wkt,'wkt');
         $items[$delta] = geofield_get_values_from_geometry($envelope);
       }
     }

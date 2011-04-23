@@ -100,7 +100,6 @@ function geofield_openlayers_presets() {
     ),
     'behaviors' => array(
       'openlayers_behavior_panzoombar' => array(),
-      'openlayers_behavior_attribution' => array(),
       'openlayers_behavior_geofield' => array(),
       'openlayers_behavior_keyboarddefaults' => array()
     ),
@@ -130,8 +129,11 @@ function geofield_openlayers_presets() {
     ),
     'behaviors' => array(
       'openlayers_behavior_panzoombar' => array(),
-      'openlayers_behavior_attribution' => array(),
-      'openlayers_behavior_keyboarddefaults' => array()
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => 'geofield_formatter',
+        'point_zoom_level' => 5,
+      ),
     ),
     'layers' => array(
       'geofield_formatter',
