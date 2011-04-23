@@ -2,6 +2,7 @@
 
 require_once('geofield.widgets.inc');
 require_once('geofield.formatters.inc');
+require_once('geofield.openlayers.inc');
 require_once('geofield.feeds.inc');
 
 /**
@@ -38,9 +39,7 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
 }
 
 /**
- * Implements of hook_content_is_empty().
- * 
- * TODO: lat lon are optional, so this is broken.
+ * Implements of hook_content_is_empty(). 
  */
 function geofield_field_is_empty($item, $field) {
   return (empty($item['wkt']));
@@ -74,116 +73,6 @@ function geofield_ctools_plugin_api($module, $api) {
   return array('version' => 1);
 }
 
-/**
- * Implementation of hook_openlayers_presets().
- */
-function geofield_openlayers_presets() {
-  // Create full preset array
-  $widget = new stdClass();
-  $widget->api_version = 1;
-  $widget->name = 'geofield_widget_map';
-  $widget->title = t('Geofield Widget Map');
-  $widget->description = t('A Map Used for Geofield Input');
-  $widget->data = array(
-    'projection' => '900913',
-    'width' => '600px',
-    'default_layer' => 'osm_mapnik',
-    'height' => '400px',
-    'center' => array(
-      'initial' => array(
-        'centerpoint' => '0,0',
-        'zoom' => '2'
-      )
-    ),
-    'options' => array(
-      'maxExtent' => openlayers_get_extent('900913'),
-    ),
-    'behaviors' => array(
-      'openlayers_behavior_panzoombar' => array(),
-      'openlayers_behavior_geofield' => array(),
-      'openlayers_behavior_keyboarddefaults' => array()
-    ),
-    'layers' => array(
-      'osm_mapnik',
-    )
-  );
-  
-  $formatter = new stdClass();
-  $formatter->api_version = 1;
-  $formatter->name = 'geofield_formatter_map';
-  $formatter->title = t('Geofield Formatter Map');
-  $formatter->description = t('A Map Used for Geofield Output');
-  $formatter->data = array(
-    'projection' => '900913',
-    'width' => '600px',
-    'default_layer' => 'osm_mapnik',
-    'height' => '400px',
-    'center' => array(
-      'initial' => array(
-        'centerpoint' => '0,0',
-        'zoom' => '2'
-      )
-    ),
-    'options' => array(
-      'maxExtent' => openlayers_get_extent('900913'),
-    ),
-    'behaviors' => array(
-      'openlayers_behavior_panzoombar' => array(),
-      'openlayers_behavior_keyboarddefaults' => array(),
-      'openlayers_behavior_zoomtolayer' => array(
-        'zoomtolayer' => 'geofield_formatter',
-        'point_zoom_level' => 5,
-      ),
-    ),
-    'layers' => array(
-      'geofield_formatter',
-      'osm_mapnik',
-    )
-  );
-  
-  return array(
-    'geofield_widget_map' => $widget, 
-    'geofield_formatter_map' => $formatter, 
-  );
-}
-
-/**
- * Implements hook_openlayers_behaviors().
- */
-function geofield_openlayers_behaviors() {
-  return array(
-    'openlayers_behavior_geofield' => array(
-      'title' => t('Geofield'),
-      'description' => t('Fuels the geofield map-input form.'),
-      'type' => 'layer',
-      'path' => drupal_get_path('module', 'geofield') .'/includes/behaviors',
-      'file' => 'openlayers_behavior_geofield.inc',
-      'behavior' => array(
-        'class' => 'openlayers_behavior_geofield',
-        'parent' => 'openlayers_behavior',
-      ),
-    ),
-  );
-}
-
-/**
- * Formatter layers
- */
-function geofield_openlayers_layers() {
-  $layers = array();
-  $layer = new stdClass();
-  $layer->api_version = 1;
-  $layer->name = 'geofield_formatter';
-  $layer->title = 'Placeholder for Geofield Formatter';
-  $layer->description = '';
-  $layer->data = array(
-    'layer_type' => 'openlayers_layer_type_raw',
-    'projection' => array('900913'),
-    'features' => array()
-  );
-  $layers[$layer->name] = $layer;
-  return $layers;
-}
 
 /**
 * Implementation of hook_requirements().
@@ -193,20 +82,34 @@ function geofield_requirements($phase) {
   
   $geophp = geofield_load_geophp();
   
+  try {
+    $geophp_version = geoPHP::version();
+  }
+  catch (Exception $e) {
+    $geophp_version = 0;
+  }
+  
   // Report geoPHP library status
   if ($geophp) {
-  	if (geoPHP::version() >= 0.3) {
+  	if ($geophp_version >= 0.4) {
       $requirements['geofield_geophp'] = array(
         'title' => t('GeoPHP Library Installed'),
         'severity' => REQUIREMENT_OK,
         'value' => t('GeoPHP '.geoPHP::version().' library installed at %path', array('%path' => $geophp)),
       );
   	}
+  	else if ($geophp_version >= 0.3) {
+      $requirements['geofield_geophp'] = array(
+        'title' => t('Old GeoPHP Library'),
+        'severity' => REQUIREMENT_INFO,
+	      'value' => t('GeoPHP library was found, but you are running an old version. The version you are running is compatible, but it is not current, possibly leading to problems. You can download the newest version from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+      );
+  	}
   	else {
 	    $requirements['geofield_geophp'] = array(
 	      'title' => t('Old GeoPHP Library'),
 	      'severity' => REQUIREMENT_ERROR,
-	      'value' => t('GeoPHP library was found, but you are running an old version. This could lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+	      'value' => t('GeoPHP library was found, but you are running an old version. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
 	    );
   	}
   }
@@ -214,7 +117,7 @@ function geofield_requirements($phase) {
     $requirements['geofield_geophp'] = array(
       'title' => t('GeoPHP Library Not Found'),
       'severity' => REQUIREMENT_ERROR,
-      'value' => t('GeoPHP library was not found. This could lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+      'value' => t('GeoPHP library was not found. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
     );
   }
   return $requirements;
