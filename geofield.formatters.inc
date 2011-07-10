@@ -291,8 +291,8 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       }
       return $element;
     case 'geofield_openlayers':
-      $preset_name = $display['settings']['map_preset'] ? $display['settings']['map_preset'] : 'geofield_formatter_map';
-      $element[0] = array('#markup' => _geofield_openlayers_formatter($preset_name, $items)); 
+      $map_name = $display['settings']['map_preset'] ? $display['settings']['map_preset'] : 'geofield_formatter_map';
+      $element[0] = array('#markup' => _geofield_openlayers_formatter($map_name, $items)); 
       return $element;
     case 'geofield_def_list':
       foreach ($items as $delta => $item) {
@@ -309,7 +309,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
   return $element;
 }
 
-function _geofield_openlayers_formatter($preset_name, $items) {
+function _geofield_openlayers_formatter($map_name, $items) {
   $features = array();
 
   // Create array of $features
@@ -321,7 +321,7 @@ function _geofield_openlayers_formatter($preset_name, $items) {
   }
 
   // Get map preset
-  $preset = openlayers_preset_load($preset_name);
+  $preset = openlayers_preset_load($map_name);
   $map = openlayers_build_map($preset->data);
   
   if (!$map['layers']['geofield_formatter']) {
@@ -339,7 +339,7 @@ function _geofield_openlayers_formatter($preset_name, $items) {
     // Push map through theme function and return
     $output = theme('openlayers_map', array(
       'map' => $map,
-      'preset_name' => $preset_name
+      'map_name' => $map_name
     ));
   }
   return $output;

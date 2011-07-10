@@ -158,11 +158,11 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 /**
  * Create LatLon Helper Map.
  */
-function geofield_form_latlon_map($defaults = array(), $preset_name) {
+function geofield_form_latlon_map($defaults = array(), $map_name) {
   // Pass variables etc. to javascript
   // Set up our map to help set lat and lon
   // This map will always be projected as 4326 and use just the default map preset
-  $preset = openlayers_preset_load($preset_name);
+  $preset = openlayers_preset_load($map_name);
   $map = $preset->data;
   return openlayers_render_map($map);
 }
