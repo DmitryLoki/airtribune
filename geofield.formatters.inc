@@ -130,7 +130,7 @@ function geofield_field_formatter_settings_form($field, $instance, $view_mode, $
 
   if ($display['type'] == 'geofield_latlon' || $display['type'] == 'geofield_lat' || $display['type'] == 'geofield_lon') {
     $format_options = _geofield_formatter_settings_format_options($display['type']);
-  	$element['format'] = array(
+    $element['format'] = array(
       '#title' => t('Format'),
       '#type' => 'select',
       '#default_value' => $settings['format'] ? $settings['format'] : 'decimal_degrees',
@@ -140,7 +140,7 @@ function geofield_field_formatter_settings_form($field, $instance, $view_mode, $
   }
   
   if ($display['type'] == 'geofield_def_list' || $display['type'] == 'geofield_description') {
-  	$element['address'] = array(
+    $element['address'] = array(
       '#title' => t('Include reverse-geocoded address'),
       '#type' => 'checkbox',
       '#default_value' => $settings['address'] ? $settings['address'] : 0,
@@ -271,7 +271,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       return $element;
     case 'geofield_latlon':
       foreach ($items as $delta => $item) {
-      	$output = t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => $item['lat'], '!longitude' => $item['lon']));
+        $output = t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => $item['lat'], '!longitude' => $item['lon']));
         $element[$delta] = array('#markup' => $output);
       }
       return $element;
@@ -324,7 +324,7 @@ function _geofield_openlayers_formatter($map_name, $items) {
   $preset = openlayers_preset_load($map_name);
   $map = openlayers_build_map($preset->data);
   
-  if (!$map['layers']['geofield_formatter']) {
+  if (!isset($map['layers']['geofield_formatter'])) {
     drupal_set_message('Trying to render a geofield formatter on a map without the placeholder layer','error');
   }
   
