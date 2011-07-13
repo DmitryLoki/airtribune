@@ -91,27 +91,27 @@ function geofield_requirements($phase) {
   
   // Report geoPHP library status
   if ($geophp) {
-  	if ($geophp_version >= 0.4) {
+    if ($geophp_version >= 0.4) {
       $requirements['geofield_geophp'] = array(
         'title' => t('GeoPHP Library Installed'),
         'severity' => REQUIREMENT_OK,
         'value' => t('GeoPHP '.geoPHP::version().' library installed at %path', array('%path' => $geophp)),
       );
-  	}
-  	else if ($geophp_version >= 0.3) {
+    }
+    else if ($geophp_version >= 0.3) {
       $requirements['geofield_geophp'] = array(
         'title' => t('Old GeoPHP Library'),
         'severity' => REQUIREMENT_INFO,
-	      'value' => t('GeoPHP library was found, but you are running an old version. The version you are running is compatible, but it is not current, possibly leading to problems. You can download the newest version from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+        'value' => t('GeoPHP library was found, but you are running an old version. The version you are running is compatible, but it is not current, possibly leading to problems. You can download the newest version from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
       );
-  	}
-  	else {
-	    $requirements['geofield_geophp'] = array(
-	      'title' => t('Old GeoPHP Library'),
-	      'severity' => REQUIREMENT_ERROR,
-	      'value' => t('GeoPHP library was found, but you are running an old version. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
-	    );
-  	}
+    }
+    else {
+      $requirements['geofield_geophp'] = array(
+        'title' => t('Old GeoPHP Library'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => t('GeoPHP library was found, but you are running an old version. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+      );
+    }
   }
   else {
     $requirements['geofield_geophp'] = array(
@@ -124,12 +124,12 @@ function geofield_requirements($phase) {
 }
 
 /**
-* Loads the geoPHP library.
-*
-* @return
-*   Returns the filename of the included geoPHP library when successful, FALSE
-*   otherwise.
-*/
+ * Loads the geoPHP library.
+ *
+ * @return
+ *   Returns the filename of the included geoPHP library when successful, FALSE
+ *   otherwise.
+ */
 function geofield_load_geophp() {
   static $static_cache = FALSE;
   
@@ -147,9 +147,9 @@ function geofield_load_geophp() {
 }
 
 /**
-* Geofield Compute Values
-*
-*  Compute all dependant values. We compute all other values from whichever
+ * Geofield Compute Values
+ *
+ *  Compute all dependant values. We compute all other values from whichever
  * column is specified in the master_column value
  *
  * Steps:
@@ -159,14 +159,14 @@ function geofield_load_geophp() {
  * 4. Set all the values 
  *
  * Allowed values for master_column are wkt, latlon, bounds
-*/
+ */
 function geofield_compute_values(&$values, $master_column = 'wkt') {
   
   // If only a wkt string has been passed in, then format it correctly by wrapping it in an array
   if ($master_column == 'wkt' && !is_array($values)) {
     $values = array($values);
   }
-	
+  
   // Load up geoPHP to do the conversions
   $geophp = geofield_load_geophp();
   if (!$geophp) {
@@ -231,7 +231,7 @@ function geofield_get_values_from_geometry($geometry) {
   $values['top'] = $bounding['maxy'];
   $values['bottom'] = $bounding['miny'];
   $values['right'] = $bounding['maxx'];
-  $values['left'] = $bounding['minx'];	
+  $values['left'] = $bounding['minx'];  
   
   return $values;
 }
