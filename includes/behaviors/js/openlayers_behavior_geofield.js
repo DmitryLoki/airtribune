@@ -27,8 +27,8 @@ Drupal.behaviors.openlayers_behavior_geofield = {
         
       feature.layer.map.data_form.wkt.val(geom.toString());
       feature.layer.map.data_form.type.val(type);
-      feature.layer.map.data_form.lat.val(centroid.x);
-      feature.layer.map.data_form.lon.val(centroid.y);
+      feature.layer.map.data_form.lat.val(centroid.y);
+      feature.layer.map.data_form.lon.val(centroid.x);
       feature.layer.map.data_form.left.val(bounds.left);
       feature.layer.map.data_form.top.val(bounds.top);
       feature.layer.map.data_form.bottom.val(bounds.bottom);
