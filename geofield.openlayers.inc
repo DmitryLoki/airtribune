@@ -27,7 +27,11 @@ function geofield_openlayers_maps() {
     'behaviors' => array(
       'openlayers_behavior_panzoombar' => array(),
       'openlayers_behavior_geofield' => array(),
-      'openlayers_behavior_keyboarddefaults' => array()
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_navigation' => array(
+        'navigation' => '',
+        'zoomWheelEnabled' => FALSE,
+      ),
     ),
     'layers' => array(
       'osm_mapnik',
@@ -59,6 +63,10 @@ function geofield_openlayers_maps() {
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => 'geofield_formatter',
         'point_zoom_level' => 5,
+      ),
+      'openlayers_behavior_navigation' => array(
+        'navigation' => '',
+        'zoomWheelEnabled' => FALSE,
       ),
     ),
     'layers' => array(
