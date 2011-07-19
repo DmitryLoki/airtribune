@@ -102,21 +102,21 @@ function geofield_requirements($phase) {
       $requirements['geofield_geophp'] = array(
         'title' => t('GeoPHP Library Installed'),
         'severity' => REQUIREMENT_OK,
-        'value' => t('GeoPHP '.geoPHP::version().' library installed at %path', array('%path' => $geophp)),
+        'value' => t('GeoPHP %version library installed at %path', array('%path' => $geophp, '%version' => geoPHP::version())),
       );
     }
-    else if ($geophp_version >= 0.3) {
+    elseif ($geophp_version >= 0.3) {
       $requirements['geofield_geophp'] = array(
         'title' => t('Old GeoPHP Library'),
         'severity' => REQUIREMENT_INFO,
-        'value' => t('GeoPHP library was found, but you are running an old version. The version you are running is compatible, but it is not current, possibly leading to problems. You can download the newest version from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+        'value' => t('GeoPHP library was found, but you are running an old version. The version you are running is compatible, but it is not current, possibly leading to problems. You can download the newest version from %link and place in your libraries diectory as per the geofield installation instructions.', array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')), 
       );
     }
     else {
       $requirements['geofield_geophp'] = array(
         'title' => t('Old GeoPHP Library'),
         'severity' => REQUIREMENT_ERROR,
-        'value' => t('GeoPHP library was found, but you are running an old version. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+        'value' => t('GeoPHP library was found, but you are running an old version. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.', array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')), 
       );
     }
   }
@@ -124,7 +124,7 @@ function geofield_requirements($phase) {
     $requirements['geofield_geophp'] = array(
       'title' => t('GeoPHP Library Not Found'),
       'severity' => REQUIREMENT_ERROR,
-      'value' => t('GeoPHP library was not found. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.',array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
+      'value' => t('GeoPHP library was not found. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.', array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')), 
     );
   }
   return $requirements;
@@ -178,7 +178,7 @@ function geofield_load_geophp() {
   
   if (!$static_cache) {
     $path = libraries_get_path('geoPHP');
-    $file = $path.'/geoPHP.inc';
+    $file = $path . '/geoPHP.inc';
     if (file_exists($file)) {
       if (include_once($file)) {
         $static_cache = $file;
@@ -213,7 +213,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   // Load up geoPHP to do the conversions
   $geophp = geofield_load_geophp();
   if (!$geophp) {
-    drupal_set_message("Unable to load geoPHP library. Not all values will be computer correctly",'error');
+    drupal_set_message(t("Unable to load geoPHP library. Not all values will be computer correctly"), 'error');
     return;
   }
   
@@ -221,7 +221,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   if ($master_column == 'wkt') {
     $wkt = $values['wkt'];
     if ($wkt) {
-      $geometry = geoPHP::load($wkt,'wkt');
+      $geometry = geoPHP::load($wkt, 'wkt');
     }
   }
 
@@ -243,7 +243,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
     if (is_numeric($top) && is_numeric($bottom) && is_numeric($right) && is_numeric($left)) {
       $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
       $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
-      $geometry = geoPHP::load($wkt,'wkt');
+      $geometry = geoPHP::load($wkt, 'wkt');
     }
   }
   
