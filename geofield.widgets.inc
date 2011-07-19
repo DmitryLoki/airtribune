@@ -45,7 +45,7 @@ function geofield_field_widget_settings_form($field, $instance) {
   //TODO: Allow more fine-grained control
   if ($widget['type'] == 'geofield_openlayers') {
     
-    // Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatable
+    // Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatible
     $presets = openlayers_presets();
     $preset_options = array();
     foreach ($presets as $preset) {
@@ -55,7 +55,7 @@ function geofield_field_widget_settings_form($field, $instance) {
     }
     
     if (empty($preset_options)) {
-      form_set_error('openlayers_preset', "Error: You have no compatible openlayers preset maps. Make sure that at least one preset has the 'GeoField' behavior enabled and that it does not have the 'Draw Features' behavior enabled (which is incompatable).");
+      form_set_error('openlayers_preset', "Error: You have no compatible openlayers preset maps. Make sure that at least one preset has the 'GeoField' behavior enabled and that it does not have the 'Draw Features' behavior enabled (which is incompatible).");
     }
     
     $form['openlayers_preset'] = array(
@@ -63,7 +63,7 @@ function geofield_field_widget_settings_form($field, $instance) {
       '#title' => t('OpenLayers Map'),
       '#default_value' => isset($settings['openlayers_preset']) ? $settings['openlayers_preset'] : 'geofield_widget_map',
       '#options' => $preset_options,
-      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first. The "Draw Features" bahavior is incompatable - presets with this behavior are not shown.'),
+      '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first. The "Draw Features" bahavior is incompatible - presets with this behavior are not shown.'),
     );
     
   }
