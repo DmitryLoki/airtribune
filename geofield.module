@@ -49,7 +49,14 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
  * Implements of hook_content_is_empty(). 
  */
 function geofield_field_is_empty($item, $field) {
-  return (empty($item['wkt']));
+  switch ($item['master_column']){
+    case 'wkt';
+      return (empty($item['wkt']));
+    case 'latlon':
+      return (empty($item['lat']) && empty($item['lon']));
+    case 'bounds':
+      return (empty($item['left']) && empty($item['right']) && empty($item['top']) && empty($item['bottom']));
+  }
 }
 
 /**
