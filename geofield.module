@@ -13,8 +13,8 @@ function geofield_field_info() {
     'geofield' => array(
       'label' => 'Geofield',
       'description' => t('This field stores geo information.'),
-      'default_widget' => 'text_textfield',
-      'default_formatter' => 'default',
+      'default_widget' => 'geofield_wkt',
+      'default_formatter' => 'geofield_wkt',
       'instance_settings' => array(
         'local_solr' => array(
           'enabled' => FALSE,
@@ -446,3 +446,4 @@ function geofield_latlon_DECtoCCS($dec, $axis) {
   }
 
 }
+

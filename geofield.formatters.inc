@@ -160,10 +160,6 @@ function geofield_field_formatter_settings_summary($field, $instance, $view_mode
   $summary = array();
 
   $data_options = _geofield_formatter_settings_data_options($display['type']);
-  
-  // TODO: Not sure if this unset is needed
-  // Unset possible 'No defined styles' option.
-  unset($data_options['']);
 
   // Styles could be lost because of enabled/disabled modules that defines
   // their styles in code.
