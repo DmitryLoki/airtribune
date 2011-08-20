@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install, update and uninstall functions for the geofield module.
+ */
+
+/**
  * Implements hook_field_schema().
  */
 function geofield_field_schema($field) {

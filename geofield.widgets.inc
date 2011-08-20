@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Provides field widget hooks for geofield module.
+ */
+
+/**
  * Implements hook_field_widget_info().
  */
 function geofield_field_widget_info() {
@@ -49,7 +54,7 @@ function geofield_field_widget_settings_form($field, $instance) {
     $presets = openlayers_presets();
     $preset_options = array();
     foreach ($presets as $preset) {
-      if (array_key_exists('openlayers_behavior_geofield',$preset->data['behaviors']) && !array_key_exists('openlayers_behavior_drawfeatures',$preset->data['behaviors'])) {
+      if (array_key_exists('openlayers_behavior_geofield', $preset->data['behaviors']) && !array_key_exists('openlayers_behavior_drawfeatures', $preset->data['behaviors'])) {
         $preset_options[$preset->name] = $preset->title;
       }
     }
@@ -121,7 +126,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 
     $element['geo_type']['#title'] = 'Geometry Type';
     $element['geo_type']['#type'] = 'textfield';
- 
+
     $element['lat']['#title'] = 'Latitude';
     $element['lat']['#type'] = 'textfield';
     
@@ -145,7 +150,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['helpmap'] = array(
       '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
                       . geofield_form_latlon_map(array(), isset($instance['widget']['settings']['openlayers_preset']) ? $instance['widget']['settings']['openlayers_preset'] : 'geofield_widget_map')
-                      .'</div>'
+                      . '</div>'
     );
     $element['helpmap_desc'] = array(
       '#markup' => t('Click the map to set a point for this location. Control-click to add lines. Alt-click to add polygons. Shift-click and drag to set bounds. Pan and zoom with arrows and the zoom bar.')

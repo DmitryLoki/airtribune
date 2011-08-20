@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Implementation of hook_openlayers_maps().
+ * @file
+ * Provides hooks for integration with OpenLayers (http://drupal.org/project/openlayers)
+ */
+
+/**
+ * Implements hook_openlayers_maps().
  */
 function geofield_openlayers_maps() {
   // Create full preset array
@@ -90,7 +95,7 @@ function geofield_openlayers_behaviors() {
       'title' => t('Geofield'),
       'description' => t('Fuels the geofield map-input form.'),
       'type' => 'layer',
-      'path' => drupal_get_path('module', 'geofield') .'/includes/behaviors',
+      'path' => drupal_get_path('module', 'geofield') . '/includes/behaviors',
       'file' => 'openlayers_behavior_geofield.inc',
       'behavior' => array(
         'class' => 'openlayers_behavior_geofield',
