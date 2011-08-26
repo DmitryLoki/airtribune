@@ -7,3 +7,4 @@ files[] = geofield.install
 files[] = geofield.widgets.inc
 files[] = geofield.formatters.inc
 files[] = geofield.feeds.inc
+files[] = geofield.test
