@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+ */
+ 
+function geofield_map_views_api() {
+  return array(
+    'api' => '3.0-alpha1',
+    'path' => drupal_get_path('module', 'geofield_map') . '/includes',
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+ 
+function geofield_map_field_formatter_info() {
+  return array(
+    'geofield_map_map' => array(
+      'label' => t('Geofield Map'),
+      'field types' => array('geofield'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+
+function geofield_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'geofield_map_map':
+      $data = array();
+      foreach ($items as $delta => $item) {
+        $data[] = array(
+          'lat' => $item['lat'],
+          'lon' => $item['lon'],
+        );
+      }
+      
+      $js_settings = array(
+        'geofield_map' => array(
+          'map_id' => 'geofield_map_entity_' . $entity->nid,
+          'data' => $data,
+        ),
+      );
+      
+      drupal_add_js($js_settings, 'setting');
+      drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
+      drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
+      
+      $element[0]['#markup'] = '<div style="width: 100%; height: 300px" id="geofield_map_entity_' . $entity->nid . '">Test</div>';
+      
+      break;
+  }
+  
+  return $element;
+}
