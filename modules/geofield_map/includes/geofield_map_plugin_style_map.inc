@@ -96,7 +96,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
     }
     
     $js_settings = array(
-      'geofield_map' => array(
+      'geofieldMap' => array(
         'map_id' => $this->view->name . '_' . $this->view->current_display,
         'data' => $data,
       ),
