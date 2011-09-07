@@ -72,6 +72,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
    * Renders views (map)
    */
   function render() {
+    // @TODO: data_source and popup_source aren't always set. Add defaults.
     $geo_data = 'field_' . $this->view->style_options['data_source'];
     $popup_data = $this->view->style_options['popup_source'];
     
@@ -96,16 +97,16 @@ class geofield_map_plugin_style_map extends views_plugin_style {
     }
     
     $js_settings = array(
-      'geofieldMap' => array(
+      array(
         'map_id' => $this->view->name . '_' . $this->view->current_display,
         'data' => $data,
       ),
     );
 
-    drupal_add_js($js_settings, 'setting');
+    drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
     drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
     drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
 
-    return '<div style="width: 100%; height: 300px" id="' . $this->view->name . '_' . $this->view->current_display . '">Test</div>';
+    return '<div style="width: 100%; height: 300px" id="' . $this->view->name . '_' . $this->view->current_display . '" class="geofieldMap">Test</div>';
   }
 }
