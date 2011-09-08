@@ -2,7 +2,6 @@
   Drupal.behaviors.geofieldMap = {
     attach: function(context) {
       var settings = Drupal.settings.geofieldMap;
-      var pointCount = 0;
       
       var myOptions = {
         zoom: 8,
@@ -11,6 +10,7 @@
 
       $('.geofieldMap:not(.processed)').each(function(index, element) {
         var data = undefined;
+        var pointCount = 0;
         for (var i in settings) {
           if (settings[i].map_id == $(element).attr('id')) {
             data = settings[i].data;
@@ -69,10 +69,21 @@
 
                 linestringObject.setMap(map);
               break;
+              case 'polygon':
+                var polygon = [];
+                for (var j in data[i].points) {
+                  var point = new google.maps.LatLng(data[i].points[j]['lat'], data[i].points[j]['lon']);
+                  range.extend(point);
+                  pointCount++;
+                  polygon.push(point);
+                }
+                var polygonObject = new google.maps.Polygon({
+                  paths: polygon
+                });
+
+                polygonObject.setMap(map);
+              break;
             }
-            /*var point = new google.maps.LatLng(data[i].lat, data[i].lon);
-            range.extend(point);
-            */
           }
           
           if (pointCount == 0) {
