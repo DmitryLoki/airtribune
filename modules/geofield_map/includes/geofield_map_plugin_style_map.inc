@@ -96,9 +96,71 @@ class geofield_map_plugin_style_map extends views_plugin_style {
       }
     }
     
+    /**
+     * @TODO: Refactor to support multiple fields in one node.
+     */
+    
+    foreach ($this->view->result as $id => $result) {
+      $geofield = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
+      $item = $geofield[0]['raw'];
+      
+      if (!empty($item)) {
+        switch ($item['geo_type']) {
+          case 'point':
+            $data[] = array(
+              'type' => 'point',
+              'points' => array(
+                array(
+                  'lat' => $item['lat'],
+                  'lon' => $item['lon'],
+                ),
+              ),
+            );
+          break;
+          case 'linestring':
+            $geom = geoPHP::load($item['wkt'], 'wkt');
+            $components = $geom->getComponents();
+            
+            $datum = array(
+              'type' => $item['geo_type'],
+              'points' => array()
+            );
+            
+            foreach ($components as $component) {
+              $datum['points'][] = array(
+                'lat' => $component->getY(),
+                'lon' => $component->getX(),
+              );
+            }
+            
+            $data[] = $datum;
+          break;
+          case 'polygon':
+            $geom = geoPHP::load($item['wkt'], 'wkt');
+            $tmp = $geom->getComponents();
+            $components = $tmp[0]->getComponents();
+            
+            $datum = array(
+              'type' => $item['geo_type'],
+              'points' => array()
+            );
+            
+            foreach ($components as $component) {
+              $datum['points'][] = array(
+                'lat' => $component->getY(),
+                'lon' => $component->getX(),
+              );
+            }
+            
+            $data[] = $datum;
+          break;
+        }
+      }  
+    }
+
     $js_settings = array(
-      array(
-        'map_id' => $this->view->name . '_' . $this->view->current_display,
+      $this->view->name . '_' . $this->view->current_display => array(
+        'map_id' => 'geofield_map_' . $this->view->name . '_' . $this->view->current_display,
         'data' => $data,
       ),
     );
@@ -107,6 +169,6 @@ class geofield_map_plugin_style_map extends views_plugin_style {
     drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
     drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
 
-    return '<div style="width: 100%; height: 300px" id="' . $this->view->name . '_' . $this->view->current_display . '" class="geofieldMap">Test</div>';
+    return '<div style="width: 100%; height: 300px" id="geofield_map_' . $this->view->name . '_' . $this->view->current_display . '" class="geofieldMap">Test</div>';
   }
 }
