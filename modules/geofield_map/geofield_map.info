@@ -1,7 +1,6 @@
 name = Geofield Map
 description = Provides a basic mapping interface for Geofields.
 core = 7.x
-dependencies[] = views
 dependencies[] = geofield
 
 files[] = includes/geofield_map.views.inc

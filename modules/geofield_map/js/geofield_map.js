@@ -2,12 +2,13 @@
   Drupal.behaviors.geofieldMap = {
     attach: function(context) {
       var settings = Drupal.settings.geofieldMap;
+      var pointCount = 0;
       
       var myOptions = {
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
-      
+
       $('.geofieldMap:not(.processed)').each(function(index, element) {
         var data = undefined;
         for (var i in settings) {
@@ -16,12 +17,11 @@
             break;
           }
         }
-        
+
         if (data != undefined) {
           var markers = [];
-          
+
           var map = new google.maps.Map(document.getElementById($(element).attr('id')), myOptions);
-          
           
           var range = new google.maps.LatLngBounds();
       
@@ -30,28 +30,55 @@
           });
           
           for (var i in data) {
-            var point = new google.maps.LatLng(data[i].lat, data[i].lon);
-            range.extend(point);
-            var marker = new google.maps.Marker({
-              position: point,
-              map: map,
-              title: "test"
-            });
+            switch (data[i].type) {
+              case 'point':
+                var point = new google.maps.LatLng(data[i].points[0]['lat'], data[i].points[0]['lon']);
+                range.extend(point);
+                pointCount++;
+                
+                var marker = new google.maps.Marker({
+                  position: point,
+                  map: map,
+                  title: "test"
+                });
       
-            if (data[i].icon != undefined) {
-              marker.setIcon(data[i].icon);
-            }
-            marker.setValues({'data_id': i});
+                if (data[i].icon != undefined) {
+                  marker.setIcon(data[i].icon);
+                }
+                marker.setValues({'data_id': i});
             
-            google.maps.event.addListener(marker, 'click', function() {
-              if (data[this.data_id].text) {
-                infowindow.setContent(data[this.data_id].text);
-                infowindow.open(map, this);
-              }
-            });
+                google.maps.event.addListener(marker, 'click', function() {
+                  if (data[this.data_id].text) {
+                    infowindow.setContent(data[this.data_id].text);
+                    infowindow.open(map, this);
+                  }
+                });
+                
+              break;
+              case 'linestring':
+                var linestring = [];
+                for (var j in data[i].points) {
+                  var point = new google.maps.LatLng(data[i].points[j]['lat'], data[i].points[j]['lon']);
+                  range.extend(point);
+                  pointCount++;
+                  linestring.push(point);
+                }
+                var linestringObject = new google.maps.Polyline({
+                  path: linestring
+                });
+
+                linestringObject.setMap(map);
+              break;
+            }
+            /*var point = new google.maps.LatLng(data[i].lat, data[i].lon);
+            range.extend(point);
+            */
           }
           
-          if (i > 0) {
+          if (pointCount == 0) {
+            
+          }
+          else if (pointCount > 1) {
             map.fitBounds(range);
           } else {
             map.setCenter(range.getCenter());

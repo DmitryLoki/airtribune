@@ -31,24 +31,55 @@ function geofield_map_field_formatter_info() {
 function geofield_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $settings = $display['settings'];
+  geofield_load_geophp();
 
   switch ($display['type']) {
     case 'geofield_map_map':
       $data = array();
       foreach ($items as $delta => $item) {
-        $data[] = array(
-          'lat' => $item['lat'],
-          'lon' => $item['lon'],
-        );
+        switch ($item['geo_type']) {
+          case 'point':
+            $data[] = array(
+              'type' => 'point',
+              'points' => array(
+                array(
+                  'lat' => $item['lat'],
+                  'lon' => $item['lon'],
+                ),
+              ),
+            );
+          break;
+          case 'linestring':
+            $geom = geoPHP::load($item['wkt'], 'wkt');
+            $components = $geom->getComponents();
+            
+            $datum = array(
+              'type' => 'linestring',
+              'points' => array()
+            );
+            
+            foreach ($components as $component) {
+              $datum['points'][] = array(
+                'lat' => $component->getY(),
+                'lon' => $component->getX(),
+              );
+            }
+            
+            $data[] = $datum;
+          break;
+          //case '':
+            
+          //break;
+        }
       }
-      
+
       $js_settings = array(
         $entity->nid => array(
           'map_id' => 'geofield_map_entity_' . $entity->nid,
           'data' => $data,
         ),
       );
-      
+
       drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
       drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
       drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
