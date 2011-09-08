@@ -107,3 +107,74 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
   
   return $element;
 }
+
+/**
+ * Processes a series of points.
+ *
+ * $datum = array(
+    'wkt' => (geom_field),
+    'options' => array(
+      'title' => 'title text',
+      'description' => 'popup text',
+    ),
+  );
+ */
+ 
+function geofield_map_process_points($items = array()) {
+  $data = array();
+
+  foreach ($items as $delta => $item) {
+    switch ($item['wkt']['geo_type']) {
+      case 'point':
+        $data[] = array(
+          'type' => 'point',
+          'points' => array(
+            array(
+              'lat' => $item['wkt']['lat'],
+              'lon' => $item['wkt']['lon'],
+            ),
+          ),
+        );
+      break;
+      case 'linestring':
+        $geom = geoPHP::load($item['wkt'], 'wkt');
+        $components = $geom->getComponents();
+        
+        $datum = array(
+          'type' => $item['wkt']['geo_type'],
+          'points' => array()
+        );
+        
+        foreach ($components as $component) {
+          $datum['points'][] = array(
+            'lat' => $component->getY(),
+            'lon' => $component->getX(),
+          );
+        }
+        
+        $data[] = $datum;
+      break;
+      case 'polygon':
+        $geom = geoPHP::load($item['wkt']['wkt'], 'wkt');
+        $tmp = $geom->getComponents();
+        $components = $tmp[0]->getComponents();
+        
+        $datum = array(
+          'type' => $item['wkt']['geo_type'],
+          'points' => array()
+        );
+        
+        foreach ($components as $component) {
+          $datum['points'][] = array(
+            'lat' => $component->getY(),
+            'lon' => $component->getX(),
+          );
+        }
+        
+        $data[] = $datum;
+      break;
+    }
+  }
+  
+  return $data;
+}
