@@ -61,12 +61,12 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
  * Processes a series of points.
  *
  * $datum = array(
-    'geo' => (geom_field),
-    'options' => array(
-      'title' => 'title text',
-      'description' => 'popup text',
-    ),
-  );
+ *   'geo' => (geom_field),
+ *   'options' => array(
+ *     'title' => 'title text',
+ *     'description' => 'popup text',
+ *   ),
+ * );
  */
 
 function geofield_map_process_points($items = array()) {
