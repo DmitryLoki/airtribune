@@ -76,15 +76,17 @@ class geofield_map_plugin_style_map extends views_plugin_style {
     $geo_data = 'field_' . $this->view->style_options['data_source'];
     $popup_data = $this->view->style_options['popup_source'];
     
+   //kpr($geo_data);
+    //kpr($popup_data);
+    
     $this->render_fields($this->view->result);
+    //kpr($this->rendered_fields);
 
-    $data = array();
-    geofield_load_geophp();
-
-    foreach ($this->view->result as $id => $result) {
+    /*foreach ($this->view->result as $id => $result) {
       $geo_field = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
 
       if ($geo_field) {
+        
         $point = geoPHP::load($geo_field[0]['raw']['wkt'], 'wkt');
         $datum = array(
           'lat' => $point->getY(),
@@ -94,74 +96,31 @@ class geofield_map_plugin_style_map extends views_plugin_style {
         
         $data[] = $datum;
       }
-    }
+    }*/
     
-    /**
-     * @TODO: Refactor to support multiple fields in one node.
-     */
+    $raw_data = array();
     
     foreach ($this->view->result as $id => $result) {
       $geofield = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
-      $item = $geofield[0]['raw'];
       
-      if (!empty($item)) {
-        switch ($item['geo_type']) {
-          case 'point':
-            $data[] = array(
-              'type' => 'point',
-              'points' => array(
-                array(
-                  'lat' => $item['lat'],
-                  'lon' => $item['lon'],
-                ),
-              ),
-            );
-          break;
-          case 'linestring':
-            $geom = geoPHP::load($item['wkt'], 'wkt');
-            $components = $geom->getComponents();
-            
-            $datum = array(
-              'type' => $item['geo_type'],
-              'points' => array()
-            );
-            
-            foreach ($components as $component) {
-              $datum['points'][] = array(
-                'lat' => $component->getY(),
-                'lon' => $component->getX(),
-              );
-            }
-            
-            $data[] = $datum;
-          break;
-          case 'polygon':
-            $geom = geoPHP::load($item['wkt'], 'wkt');
-            $tmp = $geom->getComponents();
-            $components = $tmp[0]->getComponents();
-            
-            $datum = array(
-              'type' => $item['geo_type'],
-              'points' => array()
-            );
-            
-            foreach ($components as $component) {
-              $datum['points'][] = array(
-                'lat' => $component->getY(),
-                'lon' => $component->getX(),
-              );
-            }
-            
-            $data[] = $datum;
-          break;
+      if (!empty($geofield)) {
+        $description = $this->rendered_fields[$id][$popup_data];
+        
+        foreach ($geofield as $item) {
+          $raw_data[] = array(
+            'geo' => $item['raw'],
+            'options' => array(
+              'description' => $description,
+            ),
+          );
         }
-      }  
+      }
     }
 
     $js_settings = array(
       $this->view->name . '_' . $this->view->current_display => array(
         'map_id' => 'geofield_map_' . $this->view->name . '_' . $this->view->current_display,
-        'data' => $data,
+        'data' => geofield_map_process_points($raw_data),
       ),
     );
 

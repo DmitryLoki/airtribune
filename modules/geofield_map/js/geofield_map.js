@@ -48,8 +48,8 @@
                 marker.setValues({'data_id': i});
             
                 google.maps.event.addListener(marker, 'click', function() {
-                  if (data[this.data_id].text) {
-                    infowindow.setContent(data[this.data_id].text);
+                  if (data[this.data_id].points[0].text) {
+                    infowindow.setContent(data[this.data_id].points[0].text);
                     infowindow.open(map, this);
                   }
                 });
