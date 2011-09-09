@@ -72,59 +72,42 @@ class geofield_map_plugin_style_map extends views_plugin_style {
    * Renders views (map)
    */
   function render() {
-    // @TODO: data_source and popup_source aren't always set. Add defaults.
-    $geo_data = 'field_' . $this->view->style_options['data_source'];
-    $popup_data = $this->view->style_options['popup_source'];
+    $style_options = $this->view->style_options;
     
-   //kpr($geo_data);
-    //kpr($popup_data);
+    $geo_data = (!empty($style_options['data_source'])) ? 'field_' . $style_options['data_source']: NULL;
+    $popup_data = (!empty($style_options['popup_source'])) ? $style_options['popup_source'] : NULL;
     
-    $this->render_fields($this->view->result);
-    //kpr($this->rendered_fields);
-
-    /*foreach ($this->view->result as $id => $result) {
-      $geo_field = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
-
-      if ($geo_field) {
-        
-        $point = geoPHP::load($geo_field[0]['raw']['wkt'], 'wkt');
-        $datum = array(
-          'lat' => $point->getY(),
-          'lon' => $point->getX(),
-          'text' => $this->rendered_fields[$id][$popup_data],
-        );
-        
-        $data[] = $datum;
-      }
-    }*/
-    
-    $raw_data = array();
-    
-    foreach ($this->view->result as $id => $result) {
-      $geofield = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
+    if ($geo_data && $popup_data) {
+      $this->render_fields($this->view->result);    
+      $raw_data = array();
       
-      if (!empty($geofield)) {
-        $description = $this->rendered_fields[$id][$popup_data];
+      foreach ($this->view->result as $id => $result) {
+        $geofield = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
         
-        foreach ($geofield as $item) {
-          $raw_data[] = array(
-            'geo' => $item['raw'],
-            'options' => array(
-              'description' => $description,
-            ),
-          );
+        if (!empty($geofield)) {
+          $description = $this->rendered_fields[$id][$popup_data];
+          
+          foreach ($geofield as $item) {
+            $raw_data[] = array(
+              'geo' => $item['raw'],
+              'options' => array(
+                'description' => $description,
+              ),
+            );
+          }
         }
       }
+  
+      $js_settings = array(
+        $this->view->name . '_' . $this->view->current_display => array(
+          'map_id' => 'geofield_map_' . $this->view->name . '_' . $this->view->current_display,
+          'data' => geofield_map_process_points($raw_data),
+        ),
+      );
+  
+      drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
     }
-
-    $js_settings = array(
-      $this->view->name . '_' . $this->view->current_display => array(
-        'map_id' => 'geofield_map_' . $this->view->name . '_' . $this->view->current_display,
-        'data' => geofield_map_process_points($raw_data),
-      ),
-    );
-
-    drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
+    
     drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
     drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
 

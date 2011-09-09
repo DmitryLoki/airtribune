@@ -95,6 +95,8 @@
             map.setCenter(range.getCenter());
           }
         }
+        
+        $(element).addClass('processed');
       });
     }
   }
