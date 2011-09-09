@@ -236,7 +236,6 @@ function buttonTriggerBounds() {
 
 // Function when buttons are clicked
 function buttonToggle(which) {
-  alert(which);
   if (which == 'bounds') {
     point_control.deactivate();
     line_control.deactivate();
