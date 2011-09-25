@@ -30,6 +30,12 @@ function geofield_map_field_formatter_info() {
 
 function geofield_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+
+  // We need this info in order to handle fields on multiple entity types.
+  $entity_info = entity_get_info($entity_type);
+  $entity_vars = get_object_vars($entity);
+  $entity_id = $entity_vars[$entity_info['entity keys']['id']];
+
   $settings = $display['settings'];
 
   $raw_data = array();
@@ -42,8 +48,8 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
   }
 
   $js_settings = array(
-    $entity->nid => array(
-      'map_id' => 'geofield_map_entity_' . $entity->nid,
+    $entity_id => array(
+      'map_id' => 'geofield_map_entity_' . $entity_id,
       'data' => geofield_map_process_points($raw_data),
     ),
   );
