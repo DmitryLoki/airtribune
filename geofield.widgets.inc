@@ -51,23 +51,23 @@ function geofield_field_widget_settings_form($field, $instance) {
   if ($widget['type'] == 'geofield_openlayers') {
     
     // Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatible
-    $presets = openlayers_presets();
-    $preset_options = array();
-    foreach ($presets as $preset) {
-      if (array_key_exists('openlayers_behavior_geofield', $preset->data['behaviors']) && !array_key_exists('openlayers_behavior_drawfeatures', $preset->data['behaviors'])) {
-        $preset_options[$preset->name] = $preset->title;
+    $maps = openlayers_maps();
+    $map_options = array();
+    foreach ($maps as $map) {
+      if (array_key_exists('openlayers_behavior_geofield', $map->data['behaviors']) && !array_key_exists('openlayers_behavior_drawfeatures', $map->data['behaviors'])) {
+        $map_options[$map->name] = $map->title;
       }
     }
     
-    if (empty($preset_options)) {
-      form_set_error('openlayers_preset', "Error: You have no compatible openlayers preset maps. Make sure that at least one preset has the 'GeoField' behavior enabled and that it does not have the 'Draw Features' behavior enabled (which is incompatible).");
+    if (empty($map_options)) {
+      form_set_error('openlayers_map', "Error: You have no compatible openlayers maps. Make sure that at least one preset has the 'GeoField' behavior enabled and that it does not have the 'Draw Features' behavior enabled (which is incompatible).");
     }
     
-    $form['openlayers_preset'] = array(
+    $form['openlayers_map'] = array(
       '#type' => 'select',
       '#title' => t('OpenLayers Map'),
-      '#default_value' => isset($settings['openlayers_preset']) ? $settings['openlayers_preset'] : 'geofield_widget_map',
-      '#options' => $preset_options,
+      '#default_value' => isset($settings['openlayers_map']) ? $settings['openlayers_map'] : 'geofield_widget_map',
+      '#options' => $map_options,
       '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first. The "Draw Features" bahavior is incompatible - presets with this behavior are not shown.'),
     );
     
@@ -149,7 +149,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   if ($widget['type'] == 'geofield_openlayers') {
     $element['helpmap'] = array(
       '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
-                      . geofield_form_latlon_map(array(), isset($instance['widget']['settings']['openlayers_preset']) ? $instance['widget']['settings']['openlayers_preset'] : 'geofield_widget_map')
+                      . geofield_form_latlon_map(array(), isset($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map')
                       . '</div>'
     );
     $element['helpmap_desc'] = array(
@@ -167,8 +167,8 @@ function geofield_form_latlon_map($defaults = array(), $map_name) {
   // Pass variables etc. to javascript
   // Set up our map to help set lat and lon
   // This map will always be projected as 4326 and use just the default map preset
-  $preset = openlayers_preset_load($map_name);
-  $map = $preset->data;
+  $map_data = openlayers_map_load($map_name);
+  $map = $map_data->data;
   return openlayers_render_map($map);
 }
 
