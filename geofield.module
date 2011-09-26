@@ -102,15 +102,14 @@ function geofield_requirements($phase) {
 
   $geophp = geofield_load_geophp();
 
-  try {
-    $geophp_version = geoPHP::version();
-  }
-  catch (Exception $e) {
-    $geophp_version = 0;
-  }
-
   // Report geoPHP library status
   if ($geophp) {
+    try {
+      $geophp_version = geoPHP::version();
+    }
+    catch (Exception $e) {
+      $geophp_version = 0;
+    }
     if ($geophp_version >= 0.4) {
       $requirements['geofield_geophp'] = array(
         'title' => t('GeoPHP Library Installed'),
