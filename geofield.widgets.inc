@@ -27,6 +27,11 @@ function geofield_field_widget_info() {
     'field types' => array('geofield'),
   );
   
+  $widgets['geofield_geolocation'] = array(
+    'label' => 'HTML5 Geolocation',
+    'field types' => array('geofield'),
+  );
+  
   // OpenLayers dependant widget
   if (module_exists('openlayers_ui')) {
     $widgets['geofield_openlayers'] = array(
@@ -145,7 +150,20 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['bottom']['#title'] = 'Bottom Latitude';
     $element['bottom']['#type'] = 'textfield';
   }
-  
+
+  if ($widget['type'] == 'geofield_geolocation') {
+    drupal_add_js(drupal_get_path('module', 'geofield') . '/js/geo.js');
+    drupal_add_js(drupal_get_path('module', 'geofield') . '/js/geolocation.js');
+    
+    $element['lat']['#title'] = 'Latitude';
+    $element['lat']['#type'] = 'textfield';
+    
+    $element['lon']['#title'] = 'Longitude';
+    $element['lon']['#type'] = 'textfield';
+    
+    $element['master_column']['#value'] = 'latlon';
+  }
+
   if ($widget['type'] == 'geofield_openlayers') {
     $element['helpmap'] = array(
       '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
