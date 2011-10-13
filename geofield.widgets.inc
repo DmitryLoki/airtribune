@@ -165,9 +165,20 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   if ($widget['type'] == 'geofield_openlayers') {
+    $field_class = '.field-name-' . str_replace('_', '-', $field['field_name']);
+    $defaults = array(
+      'wkt' => $field_class . ' .geofield_wkt',
+      'geo_type' => $field_class . ' .geofield_geo_type',
+      'lat' => $field_class . ' .geofield_lat',
+      'lon' => $field_class . ' .geofield_lon',
+      'left' => $field_class . ' .geofield_left',
+      'bottom' => $field_class . ' .geofield_bottom',
+      'right' => $field_class . ' .geofield_right',
+      'top' => $field_class . ' .geofield_top',
+    );
     $element['helpmap'] = array(
       '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
-                      . geofield_form_latlon_map(array(), isset($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map')
+                      . geofield_form_latlon_map($defaults, isset($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map')
                       . '</div>'
     );
     $element['helpmap_desc'] = array(
@@ -187,6 +198,16 @@ function geofield_form_latlon_map($defaults = array(), $map_name) {
   // This map will always be projected as 4326 and use just the default map preset
   $map_data = openlayers_map_load($map_name);
   $map = $map_data->data;
+  $map['behaviors']['openlayers_behavior_geofield'] = array(
+    'wkt' => $defaults['wkt'],
+    'geo_type' => $defaults['geo_type'],
+    'lat' => $defaults['lat'],
+    'lon' => $defaults['lon'],
+    'left' => $defaults['left'],
+    'bottom' => $defaults['bottom'],
+    'right' => $defaults['right'],
+    'top' => $defaults['top'],
+  );
   return openlayers_render_map($map);
 }
 
@@ -195,42 +216,42 @@ function geofield_get_base_element($base, $items, $delta) {
   
   $element['wkt'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_wkt'),
+    '#attributes' => array('class' => 'geofield_wkt'),
     '#default_value' => isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL,
   );
   $element['geo_type'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_geo_type'),
+    '#attributes' => array('class' => 'geofield_geo_type'),
     '#default_value' => isset($items[$delta]['geo_type']) ? $items[$delta]['geo_type'] : NULL,
   );
   $element['lat'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_lat'),
+    '#attributes' => array('class' => 'geofield_lat'),
     '#default_value' => isset($items[$delta]['lat']) ? $items[$delta]['lat'] : NULL,
   );
   $element['lon'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_lon'),
+    '#attributes' => array('class' => 'geofield_lon'),
     '#default_value' => isset($items[$delta]['lon']) ? $items[$delta]['lon'] : NULL,
   );
   $element['left'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_left'),
+    '#attributes' => array('class' => 'geofield_left'),
     '#default_value' => isset($items[$delta]['left']) ? $items[$delta]['left'] : NULL,
   );
   $element['right'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_right'),
+    '#attributes' => array('class' => 'geofield_right'),
     '#default_value' => isset($items[$delta]['right']) ? $items[$delta]['right'] : NULL,
   );
   $element['bottom'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_bottom'),
+    '#attributes' => array('class' => 'geofield_bottom'),
     '#default_value' => isset($items[$delta]['bottom']) ? $items[$delta]['bottom'] : NULL,
   );
   $element['top'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('id' => 'geofield_top'),
+    '#attributes' => array('class' => 'geofield_top'),
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
   

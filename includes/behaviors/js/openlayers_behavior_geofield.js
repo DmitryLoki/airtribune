@@ -12,7 +12,6 @@
 Drupal.behaviors.openlayers_behavior_geofield = {
   'attach': function(context, settings) {
     var data = $(context).data('openlayers');
-
     /*
      * Helper method called on addFeature
      */
@@ -50,9 +49,7 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       
       return lookup[feature.geometry.__proto__.CLASS_NAME];
     }
-    
     if (data && data.map.behaviors['openlayers_behavior_geofield']) {
-      
       data.openlayers.data_form = {
         'wkt':$(data.map.behaviors['openlayers_behavior_geofield']['wkt']),
         'type':$(data.map.behaviors['openlayers_behavior_geofield']['type']),
