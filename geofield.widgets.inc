@@ -216,42 +216,42 @@ function geofield_get_base_element($base, $items, $delta) {
   
   $element['wkt'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_wkt'),
+    '#attributes' => array('class' => array('geofield_wkt')),
     '#default_value' => isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL,
   );
   $element['geo_type'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_geo_type'),
+    '#attributes' => array('class' => array('geofield_geo_type')),
     '#default_value' => isset($items[$delta]['geo_type']) ? $items[$delta]['geo_type'] : NULL,
   );
   $element['lat'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_lat'),
+    '#attributes' => array('class' => array('geofield_lat')),
     '#default_value' => isset($items[$delta]['lat']) ? $items[$delta]['lat'] : NULL,
   );
   $element['lon'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_lon'),
+    '#attributes' => array('class' => array('geofield_lon')),
     '#default_value' => isset($items[$delta]['lon']) ? $items[$delta]['lon'] : NULL,
   );
   $element['left'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_left'),
+    '#attributes' => array('class' => array('geofield_left')),
     '#default_value' => isset($items[$delta]['left']) ? $items[$delta]['left'] : NULL,
   );
   $element['right'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_right'),
+    '#attributes' => array('class' => array('geofield_right')),
     '#default_value' => isset($items[$delta]['right']) ? $items[$delta]['right'] : NULL,
   );
   $element['bottom'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_bottom'),
+    '#attributes' => array('class' => array('geofield_bottom')),
     '#default_value' => isset($items[$delta]['bottom']) ? $items[$delta]['bottom'] : NULL,
   );
   $element['top'] = array(
     '#type' => 'hidden',
-    '#attributes' => array('class' => 'geofield_top'),
+    '#attributes' => array('class' => array('geofield_top')),
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
   
