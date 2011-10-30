@@ -62,10 +62,9 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       };
 
       selection_layer = new OpenLayers.Layer.Vector('Selection Layer');      
-      
-      /*
-       * Point Drawing
-       */
+      data.openlayers.addLayer(selection_layer);
+
+      // Controls for Openlayers interaction for points, lines, polygons, and bounds
       
       point_control = new OpenLayers.Control.DrawFeature(
         selection_layer,
@@ -74,14 +73,8 @@ Drupal.behaviors.openlayers_behavior_geofield = {
           featureAdded: setItem
         }
       );
-      data.openlayers.addLayer(selection_layer);
       data.openlayers.addControl(point_control);
-      point_control.activate();
-      
-      /*
-       * Line Drawing
-       */
-      
+
       line_control = new OpenLayers.Control.DrawFeature(
         selection_layer,
         OpenLayers.Handler.Path,
@@ -89,13 +82,8 @@ Drupal.behaviors.openlayers_behavior_geofield = {
           featureAdded: setItem
         }
       );
-      data.openlayers.addLayer(selection_layer);
       data.openlayers.addControl(line_control);
-      
-      /*
-       * Polygon Drawing
-       */
-       
+
       polygon_control = new OpenLayers.Control.DrawFeature(
         selection_layer,
         OpenLayers.Handler.Polygon,
@@ -103,12 +91,7 @@ Drupal.behaviors.openlayers_behavior_geofield = {
           featureAdded: setItem
         }
       );
-      data.openlayers.addLayer(selection_layer);
       data.openlayers.addControl(polygon_control);
-      
-      /*
-       * Bounds drawing
-       */
 
       bounds_control = new OpenLayers.Control.DrawFeature(
         selection_layer,
@@ -117,36 +100,16 @@ Drupal.behaviors.openlayers_behavior_geofield = {
           featureAdded: setItem
         }
       );
-
       bounds_control.handler.setOptions({
           'sides': 4,
           'irregular': true});
-
       data.openlayers.addControl(bounds_control);
 
       // Add buttons to control_panel for each control type
-      point_button = new OpenLayers.Control.Button({
-        displayClass: "openlayers_behavior_geofield_button", 
-        title: Drupal.t('Set a point'),
-        trigger: buttonTriggerPoint
-      });
-
-      line_button = new OpenLayers.Control.Button({
-        displayClass: "openlayers_behavior_geofield_button", 
-        title: Drupal.t('Add a line'),
-        trigger: buttonTriggerLine
-      });
-
-      polygon_button = new OpenLayers.Control.Button({
-        displayClass: "openlayers_behavior_geofield_button", 
-        title: Drupal.t('Add a polygon'),
-        trigger: buttonTriggerPolygon
-      });
-
-      bounds_button = new OpenLayers.Control.Button({
-        displayClass: "openlayers_behavior_geofield_button", 
-        title: Drupal.t('Set bounds'),
-        trigger: buttonTriggerBounds
+      geofield_button = new OpenLayers.Control.Button({
+        displayClass: "openlayers_behavior_geofield_button status", 
+        title: Drupal.t('Geofield Controls'),
+        trigger: buttonTriggerGeofieldControl
       });
 
       // Create a panel to hold control buttons
@@ -154,11 +117,32 @@ Drupal.behaviors.openlayers_behavior_geofield = {
         displayClass: 'openlayers_behavior_geofield_button_panel'
       });
 
-      button_panel.addControls([point_button, line_button, polygon_button, bounds_button]);
+      button_panel.addControls([geofield_button]);
 
       data.openlayers.addControl(button_panel);
       
-      buttonToggle('none');
+      $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button', context).append('<ul><li class="point">Add a point</li><li class="line">Draw a line</li><li class="polygon">Draw a polygon</li><li class="bounds">Draw bounds</li></ul>');
+      // @TODO: Maybe split logic up from presentation logic.
+      $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button li', context).click(function() {
+        $(this).parent().find('li').css('background-color', '#FFF');
+        $(this).css('background-color', '#F00');
+        
+        if ($(this).hasClass('point')) {
+          buttonToggle('point');
+        } else if ($(this).hasClass('line')) {
+          buttonToggle('line');
+        } else if ($(this).hasClass('polygon')) {
+          buttonToggle('polygon');
+        } else if ($(this).hasClass('bounds')) {
+          buttonToggle('bounds');
+        }
+      });
+      
+      function buttonTriggerGeofieldControl() {
+        //buttonToggle('point');
+      }
+      
+      //buttonToggle('none');
 
       // Hold down control key for polygons
       // Hold down alt key for lines
@@ -208,28 +192,15 @@ Drupal.behaviors.openlayers_behavior_geofield = {
             data.openlayers.projection);
         
         feature = new OpenLayers.Feature.Vector(geometry);
-        selection_layer.addFeatures([feature]);
+
+        // @TODO: NOT SURE IF THIS WORKS YET. OLD IN COMMENT
+        //selection_layer.addFeatures([feature]);
+        data.openlayers.addFeatures(data.openlayers, selection_layer, [feature]);
       }
       
     }
   }
 };
-
-function buttonTriggerPoint() {
-  buttonToggle('point');
-}
-
-function buttonTriggerLine() {
-  buttonToggle('line');
-}
-
-function buttonTriggerPolygon() {
-  buttonToggle('polygon');
-}
-
-function buttonTriggerBounds() {
-  buttonToggle('bounds');
-}
 
 // Function when buttons are clicked
 function buttonToggle(which) {
