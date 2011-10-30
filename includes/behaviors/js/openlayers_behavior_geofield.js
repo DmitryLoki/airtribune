@@ -5,50 +5,23 @@
 
 
 (function($) {
+
+  // Constants
+  var MAP_STATE_PANNING = 'panning';
+  var MAP_STATE_DRAWING = 'drawing';
   
+  var DRAW_POINT = 'draw point';
+  var DRAW_LINE = 'draw line';
+  var DRAW_POLY = 'draw polygon';
+  var DRAW_BOUNDS = 'draw bounds';
+
 /**
  * Geofield Behavior
  */
 Drupal.behaviors.openlayers_behavior_geofield = {
   'attach': function(context, settings) {
     var data = $(context).data('openlayers');
-    /*
-     * Helper method called on addFeature
-     */
-    function setItem(feature) {
-      geom = feature.clone().geometry.transform(
-        feature.layer.map.projection,
-        new OpenLayers.Projection('EPSG:4326'));
-        
-      centroid = geom.getCentroid();
-      bounds = geom.getBounds();
-      type = typeLookup(feature);
-        
-      feature.layer.map.data_form.wkt.val(geom.toString());
-      feature.layer.map.data_form.type.val(type);
-      feature.layer.map.data_form.lat.val(centroid.y);
-      feature.layer.map.data_form.lon.val(centroid.x);
-      feature.layer.map.data_form.left.val(bounds.left);
-      feature.layer.map.data_form.top.val(bounds.top);
-      feature.layer.map.data_form.bottom.val(bounds.bottom);
-      feature.layer.map.data_form.right.val(bounds.right);
-        
-      for (var i = 0; i < selection_layer.features.length; i++) {
-        if (selection_layer.features[i] != feature) {
-          selection_layer.features[i].destroy();
-        }
-      }
-    }
-    
-    function typeLookup(feature) {
-      lookup = {
-        'OpenLayers.Geometry.Point':'point',
-        'OpenLayers.Geometry.LineString':'line',
-        'OpenLayers.Geometry.Polygon':'polygon',
-      };
-      
-      return lookup[feature.geometry.__proto__.CLASS_NAME];
-    }
+
     if (data && data.map.behaviors['openlayers_behavior_geofield']) {
       data.openlayers.data_form = {
         'wkt':$(data.map.behaviors['openlayers_behavior_geofield']['wkt']),
@@ -61,7 +34,8 @@ Drupal.behaviors.openlayers_behavior_geofield = {
         'bottom':$(data.map.behaviors['openlayers_behavior_geofield']['bottom'])
       };
 
-      selection_layer = new OpenLayers.Layer.Vector('Selection Layer');      
+      selection_layer = new OpenLayers.Layer.Vector('Selection Layer');
+      selection_layer.styleMap = Drupal.openlayers.getStyleMap(data.map, 'openlayers_drawfeatures_layer');
       data.openlayers.addLayer(selection_layer);
 
       // Controls for Openlayers interaction for points, lines, polygons, and bounds
@@ -108,8 +82,7 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       // Add buttons to control_panel for each control type
       geofield_button = new OpenLayers.Control.Button({
         displayClass: "openlayers_behavior_geofield_button status", 
-        title: Drupal.t('Geofield Controls'),
-        trigger: buttonTriggerGeofieldControl
+        title: Drupal.t('Geofield Controls')
       });
 
       // Create a panel to hold control buttons
@@ -120,29 +93,32 @@ Drupal.behaviors.openlayers_behavior_geofield = {
       button_panel.addControls([geofield_button]);
 
       data.openlayers.addControl(button_panel);
-      
-      $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button', context).append('<ul><li class="point">Add a point</li><li class="line">Draw a line</li><li class="polygon">Draw a polygon</li><li class="bounds">Draw bounds</li></ul>');
-      // @TODO: Maybe split logic up from presentation logic.
+
+      $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button', context).append('<div class=""><ul class="current"><li class="point">Add a point</li></ul><ul class="options"><li class="line">Draw a line</li><li class="polygon">Draw a polygon</li><li class="bounds">Draw bounds</li></ul></div><div class="expand">Expand</div>');
+      $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button .options', context).hide();
+      $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button .expand', context).click(function() {
+        $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button .options', context).slideToggle();
+      });
+
       $('.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button li', context).click(function() {
-        $(this).parent().find('li').css('background-color', '#FFF');
-        $(this).css('background-color', '#F00');
-        
-        if ($(this).hasClass('point')) {
-          buttonToggle('point');
-        } else if ($(this).hasClass('line')) {
-          buttonToggle('line');
-        } else if ($(this).hasClass('polygon')) {
-          buttonToggle('polygon');
-        } else if ($(this).hasClass('bounds')) {
-          buttonToggle('bounds');
+        if (!$(this).hasClass('selected')) {
+          $(this).parent().parent().find('li').removeClass('selected');
+          $(this).addClass('selected');
+
+          if ($(this).hasClass('point')) {
+            buttonToggle('point');
+          } else if ($(this).hasClass('line')) {
+            buttonToggle('line');
+          } else if ($(this).hasClass('polygon')) {
+            buttonToggle('polygon');
+          } else if ($(this).hasClass('bounds')) {
+            buttonToggle('bounds');
+          }
+        } else {
+          $(this).parent().parent().find('li').removeClass('selected');
+          buttonToggle('none');
         }
       });
-      
-      function buttonTriggerGeofieldControl() {
-        //buttonToggle('point');
-      }
-      
-      //buttonToggle('none');
 
       // Hold down control key for polygons
       // Hold down alt key for lines
@@ -187,15 +163,9 @@ Drupal.behaviors.openlayers_behavior_geofield = {
        */
       if (data.openlayers.data_form.wkt.val()) {
         geometry = new OpenLayers.Geometry.fromWKT(data.openlayers.data_form.wkt.val());
-        geometry.transform(
-            new OpenLayers.Projection('EPSG:4326'),
-            data.openlayers.projection);
-        
+        geometry.transform(new OpenLayers.Projection('EPSG:4326'), data.openlayers.projection);
         feature = new OpenLayers.Feature.Vector(geometry);
-
-        // @TODO: NOT SURE IF THIS WORKS YET. OLD IN COMMENT
-        //selection_layer.addFeatures([feature]);
-        data.openlayers.addFeatures(data.openlayers, selection_layer, [feature]);
+        selection_layer.addFeatures([feature]);
       }
       
     }
@@ -238,5 +208,43 @@ function buttonToggle(which) {
     line_control.deactivate();
     polygon_control.deactivate();
   }
+}
+
+/*
+ * Helper method called on addFeature
+ */
+function setItem(feature) {
+  geom = feature.clone().geometry.transform(
+    feature.layer.map.projection,
+    new OpenLayers.Projection('EPSG:4326'));
+    
+  centroid = geom.getCentroid();
+  bounds = geom.getBounds();
+  type = typeLookup(feature);
+
+  feature.layer.map.data_form.wkt.val(geom.toString());
+  feature.layer.map.data_form.type.val(type);
+  feature.layer.map.data_form.lat.val(centroid.y);
+  feature.layer.map.data_form.lon.val(centroid.x);
+  feature.layer.map.data_form.left.val(bounds.left);
+  feature.layer.map.data_form.top.val(bounds.top);
+  feature.layer.map.data_form.bottom.val(bounds.bottom);
+  feature.layer.map.data_form.right.val(bounds.right);
+    
+  for (var i = 0; i < selection_layer.features.length; i++) {
+    if (selection_layer.features[i] != feature) {
+      selection_layer.features[i].destroy();
+    }
+  }
+}
+
+function typeLookup(feature) {
+  lookup = {
+    'OpenLayers.Geometry.Point':'point',
+    'OpenLayers.Geometry.LineString':'line',
+    'OpenLayers.Geometry.Polygon':'polygon',
+  };
+  
+  return lookup[feature.geometry.__proto__.CLASS_NAME];
 }
 })(jQuery);
