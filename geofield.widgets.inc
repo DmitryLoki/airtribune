@@ -33,7 +33,7 @@ function geofield_field_widget_info() {
   );
   
   // OpenLayers dependant widget
-  if (module_exists('openlayers_ui')) {
+  if (module_exists('openlayers')) {
     $widgets['geofield_openlayers'] = array(
       'label' => t('Openlayers Map'),
       'field types' => array('geofield'),
