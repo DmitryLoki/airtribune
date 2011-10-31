@@ -37,9 +37,28 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
       if (!empty($item)) {
         foreach ($item as $k => $v) {
           if ($v === '') {
-            $items[$delta][$k] = NULL;
+            $item[$k] = NULL;
           }
         }
+        $widget = $instance['widget'];
+        if ($widget['type'] == 'geofield_wkt') {
+          $master_column = 'wkt';
+        }
+        else if ($widget['type'] == 'geofield_latlon') {
+          $master_column = 'latlon';
+        }
+        else if ($widget['type'] == 'geofield_bounds') {
+          $master_column = 'bounds';
+        }
+        else if ($widget['type'] == 'geofield_geolocation') {
+          $master_column = 'latlon';
+        }
+        else {
+          $master_column = 'wkt';
+        }
+        $item += array('master_column' => $master_column);
+        geofield_compute_values($item, $item['master_column']);
+        $items[$delta] = $item;
       }
     }
   }
