@@ -1,40 +1,12 @@
-.openlayers_behavior_geofield_button_panel {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+/**
+ * @file
+ * CSS for OpenLayers Draw Features Behavior
+ */
+
+.olControlEditingToolbar .olControlModifyFeatureItemActive {
+  background-position: -0px -23px;
 }
 
-.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button {
-/*  background:url(openlayers_behavior_fullscreen.png);*/
-  background: #FFF;
-  margin: 2px;
-  overflow: hidden;
-}
-
-.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button ul li {
-  padding: 2px;
-}
-
-.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button ul li.selected {
-  background: #7895d7;
-  color: #FFF;
-}
-
-.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button > div {
-  float: left;
-}
-
-.openlayers_behavior_geofield_button_panel .openlayers_behavior_geofield_button .expand {
-  background: url(../images/dropdown.png) center center no-repeat;
-  height: 10px;
-  float: left;
-  padding: 3px;
-  text-indent: -9999px;
-  width: 15px;
+.olControlEditingToolbar .olControlModifyFeatureItemInactive {
+  background-position: -0px -0px;
 }
