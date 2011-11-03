@@ -212,7 +212,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       '#markup' => t('Click the map to set a point for this location. Control-click to add lines. Alt-click to add polygons. Shift-click and drag to set bounds. Pan and zoom with arrows and the zoom bar.')
     );
   }
-  
+
   return $element;
 }
 
