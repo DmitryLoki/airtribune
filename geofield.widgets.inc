@@ -10,6 +10,15 @@
  */
 function geofield_field_widget_info() {
   $widgets = array();
+
+  // OpenLayers dependant widget
+  if (module_exists('openlayers')) {
+    $widgets['geofield_openlayers'] = array(
+      'label' => t('Openlayers Map'),
+      'field types' => array('geofield'),
+    );
+  }
+
   $widgets['geofield_wkt'] = array(
     'label' => t('Well Known Text (WKT)'),
     'field types' => array('geofield'),
@@ -31,15 +40,7 @@ function geofield_field_widget_info() {
     'label' => 'HTML5 Geolocation',
     'field types' => array('geofield'),
   );
-  
-  // OpenLayers dependant widget
-  if (module_exists('openlayers')) {
-    $widgets['geofield_openlayers'] = array(
-      'label' => t('Openlayers Map'),
-      'field types' => array('geofield'),
-    );
-  }
-  
+
   return $widgets;
 }
 
