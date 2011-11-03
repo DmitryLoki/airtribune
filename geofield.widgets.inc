@@ -152,9 +152,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   if ($widget['type'] == 'geofield_geolocation') {
-    drupal_add_js(drupal_get_path('module', 'geofield') . '/js/geo.js');
-    drupal_add_js(drupal_get_path('module', 'geofield') . '/js/geolocation.js');
-    
+    $element['#attached']['js'][] = drupal_get_path('module', 'geofield') . '/js/geolocation.js';
     $element['lat']['#title'] = 'Latitude';
     $element['lat']['#type'] = 'textfield';
     
