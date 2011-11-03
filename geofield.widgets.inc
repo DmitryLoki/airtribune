@@ -23,6 +23,10 @@ function geofield_field_widget_info() {
     'label' => t('Well Known Text (WKT)'),
     'field types' => array('geofield'),
   );
+  $widgets['geofield_geojson'] = array(
+    'label' => t('GeoJSON'),
+    'field types' => array('geofield'),
+  );
   $widgets['geofield_latlon'] = array(
     'label' => t('Latitude / Longitude'),
     'field types' => array('geofield'),
@@ -98,6 +102,30 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['wkt']['#type'] = 'textarea';
     
     $element['master_column']['#value'] = 'wkt';
+  }
+  
+  if ($widget['type'] == 'geofield_geojson') {
+    $element['wkt']['#title'] = 'GeoJSON';
+    $element['wkt']['#type'] = 'textarea';
+
+    // We're actually displaying as GeoJSON, not wkt. This is confusing.
+    geofield_load_geophp();
+    $default_value = '';
+
+    try {
+      $wkt = isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL;
+      $geometry = geoPHP::load($wkt, 'wkt');
+      if ($geometry) {
+        $default_value = $geometry->out('json');
+      }
+    } catch (Exception $e) {
+      // @TODO: Not sure if we should do validation here or not...
+    }
+
+    $element['wkt']['#default_value'] = $default_value;
+
+    $element['master_column']['#value'] = 'wkt';
+    $element['input_format']['#value'] = 'geojson';
   }
 
   if ($widget['type'] == 'geofield_latlon') {
@@ -212,11 +240,17 @@ function geofield_form_latlon_map($defaults = array(), $map_name) {
 
 function geofield_get_base_element($base, $items, $delta) {
   $element = $base;
-  
+
+  // @TODO: Change this to be generic, so that we don't have poor DX to input as WKT.
   $element['wkt'] = array(
     '#type' => 'hidden',
     '#attributes' => array('class' => array('geofield_wkt')),
     '#default_value' => isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL,
+  );
+  $element['input_format'] = array(
+    '#type' => 'value',
+    '#attributes' => array('class' => array('geofield_input_format')),
+    '#value' => 'wkt',
   );
   $element['geo_type'] = array(
     '#type' => 'hidden',
@@ -268,13 +302,21 @@ function geofield_get_base_element($base, $items, $delta) {
 }
 
 /**
+ * Geofield Element Validate for GeoJSON widget
+ */
+ 
+function geofield_element_geojson_validate($element, &$form_state) {
+  
+}
+
+/**
  * Geofield Element Validate
  *
- */
+ */ 
 function geofield_element_validate($element, &$form_state) {
-  
+
   $master_column = $element['master_column']['#value'];
-  
+
   $values = array(
     'wkt' => $element['wkt']['#value'],
     'lat' => $element['lat']['#value'] ? geofield_latlon_DMStoDEC($element['lat']['#value']) : '',
@@ -284,16 +326,34 @@ function geofield_element_validate($element, &$form_state) {
     'right' => $element['right']['#value'],
     'left' => $element['left']['#value'],
   );
-  
-  geofield_compute_values($values, $master_column);    
-  
-  // Set form values from the $values array
-  if (isset($values['wkt']))       form_set_value($element['wkt'], $values['wkt'], $form_state);
-  if (isset($values['geo_type']))  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
-  if (isset($values['lat']))       form_set_value($element['lat'], $values['lat'], $form_state);
-  if (isset($values['lon']))       form_set_value($element['lon'], $values['lon'], $form_state);
-  if (isset($values['top']))       form_set_value($element['top'], $values['top'], $form_state);
-  if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
-  if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
-  if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);
+
+  // Because we have an odd flow to filter potential GeoJSON, we need a flag to determine whether or not to process.
+  // @TODO: This could be expanded to cover WKT as well.
+  $geo_process = "PROCESS";
+
+  if ($element['input_format']['#value'] == 'geojson') {
+    // For geojson input, we've hijacked the wkt value.
+    geofield_load_geophp();
+    try {
+      $geometry = geoPHP::load($values['wkt'], 'json');
+      $values['wkt'] = $geometry->out('wkt');
+    } catch (Exception $e) {
+      form_set_error($element['wkt']['#name'], 'Please enter valid GeoJSON');
+      $geo_process = '';
+    }
+  }
+
+  if ($geo_process == "PROCESS") {
+    geofield_compute_values($values, $master_column);
+
+    // Set form values from the $values array
+    if (isset($values['wkt']))       form_set_value($element['wkt'], $values['wkt'], $form_state);
+    if (isset($values['geo_type']))  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
+    if (isset($values['lat']))       form_set_value($element['lat'], $values['lat'], $form_state);
+    if (isset($values['lon']))       form_set_value($element['lon'], $values['lon'], $form_state);
+    if (isset($values['top']))       form_set_value($element['top'], $values['top'], $form_state);
+    if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
+    if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
+    if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);
+  }
 }
