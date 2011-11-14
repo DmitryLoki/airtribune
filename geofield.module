@@ -331,13 +331,13 @@ function geofield_apachesolr_field_mappings() {
 /**
  * Name callback for field name
  */
-function geofield_apachesolr_index($entity, $field_name, $index_key, $field_info) {
+function geofield_apachesolr_index($node, $field_name, $index_key, $field_info) {
   $return = array();
-  if (isset($entity->$field_name)) {
+  if (isset($node->$field_name)) {
     // Load the instance settings for the field
-    $instance = field_info_instance($entity->entity_type, $field_name, $entity->type);
+    $instance = field_info_instance('node', $field_name, $node->type);
     if (!empty($instance['settings']['solrspatial'])) {
-      if ($values = field_get_items($entity->entity_type, $entity, $field_name)) {
+      if ($values = field_get_items('node', $node, $field_name)) {
         $values = reset($values);
         $return = array(
           array(
@@ -362,18 +362,6 @@ function geofield_apachesolr_index($entity, $field_name, $index_key, $field_info
   }
 
   return $return;
-}
-
-
-/**
- * Implements hook_entity_load().
- * We need an entity type for Solr.
- * See http://drupal.org/node/1042822.
- */
-function geofield_entity_load($entities, $type) {
-  foreach ($entities as $entity) {
-    $entity->entity_type = $type;
-  }
 }
 
 /**
