@@ -92,7 +92,7 @@ function geofield_field_widget_settings_form($field, $instance) {
  */
 function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $langcode, $items, $delta, $base) {
-  
+
   $widget = $instance['widget'];
   $settings = $widget['settings'];
   $element = geofield_get_base_element($base, $items, $delta);
@@ -287,7 +287,11 @@ function geofield_get_base_element($base, $items, $delta) {
     '#attributes' => array('class' => array('geofield_top')),
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
-  
+
+  $element['description'] = array(
+    '#markup' => (!empty($element['#description'])) ? '<div class="description">' . $element['#description'] . '</div>' : '',
+  );
+
   // Master column is used by element-validate to decide which set of columns it should use to compute all other values.
   // By default, wkt is the master-column, all we compute all other values from it. For other widget (such as lat/lon) this will be different
   $element['master_column'] = array(
