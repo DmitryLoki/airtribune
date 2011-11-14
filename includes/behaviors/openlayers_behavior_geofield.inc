@@ -20,13 +20,13 @@ class openlayers_behavior_geofield extends openlayers_behavior {
     );
   }
 
-  function options_form($defaults) {  
+  function options_form($defaults = array()) {
     $features = array(
       'point' => t('Point'),
       'path' => t('Path'),
       'polygon' => t('Polygon'),
     );
-      
+
     return array(
       'feature_types' => array(
         '#title' => t('Available Features'),

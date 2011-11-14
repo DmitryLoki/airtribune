@@ -42,7 +42,7 @@ function geofield_openlayers_maps() {
       'osm_mapnik',
     )
   );
-  
+
   $formatter = new stdClass();
   $formatter->api_version = 1;
   $formatter->name = 'geofield_formatter_map';
@@ -56,7 +56,7 @@ function geofield_openlayers_maps() {
     'center' => array(
       'initial' => array(
         'centerpoint' => '0,0',
-        'zoom' => '2'
+        'zoom' => '2',
       )
     ),
     'options' => array(
@@ -79,10 +79,10 @@ function geofield_openlayers_maps() {
       'osm_mapnik',
     )
   );
-  
+
   return array(
-    'geofield_widget_map' => $widget, 
-    'geofield_formatter_map' => $formatter, 
+    'geofield_widget_map' => $widget,
+    'geofield_formatter_map' => $formatter,
   );
 }
 
@@ -95,9 +95,9 @@ function geofield_openlayers_behaviors() {
       'title' => t('Geofield'),
       'description' => t('Fuels the geofield map-input form.'),
       'type' => 'layer',
-      'path' => drupal_get_path('module', 'geofield') . '/includes/behaviors',
-      'file' => 'openlayers_behavior_geofield.inc',
       'behavior' => array(
+        'path' => drupal_get_path('module', 'geofield') . '/includes/behaviors',
+        'file' => 'openlayers_behavior_geofield.inc',
         'class' => 'openlayers_behavior_geofield',
         'parent' => 'openlayers_behavior',
       ),
