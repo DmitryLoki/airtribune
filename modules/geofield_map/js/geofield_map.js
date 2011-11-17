@@ -23,7 +23,7 @@
           if (controltype == 'default') { controltype = google.maps.ZoomControlStyle.DEFAULT; }
           else if (controltype == 'small') { controltype = google.maps.ZoomControlStyle.SMALL; }
           else if (controltype == 'large') { controltype = google.maps.ZoomControlStyle.LARGE; }
-          else { controltype = false; }
+          else { controltype = false }
 
           // map type
           var maptype = map_settings.maptype;
@@ -46,7 +46,7 @@
             mapTypeId: maptype,
             mapTypeControl: (mtc ? true : false),
             mapTypeControlOptions: {style: mtc},
-            zoomControl: (controltype ? true : false),
+            zoomControl: ((controltype !== false) ? true : false),
             zoomControlOptions: {style: controltype},
             panControl: (map_settings.pancontrol ? true : false),
             scrollwheel: (map_settings.scrollwheel ? true : false),
