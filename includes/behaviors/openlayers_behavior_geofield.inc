@@ -16,7 +16,7 @@ class openlayers_behavior_geofield extends openlayers_behavior {
   function options_init() {
     return array(
       'feature_types' => array(),
-      'wkt' => '',
+      'allow_edit' => 1,
     );
   }
 
@@ -34,6 +34,12 @@ class openlayers_behavior_geofield extends openlayers_behavior {
         '#options' => $features,
         '#description' => t('Select what features are available to draw.'),
         '#default_value' => isset($defaults['feature_types']) ? $defaults['feature_types'] : array(),
+      ),
+      'allow_edit' => array(
+        '#title' => t('Allow shape modification'),
+        '#type' => 'checkbox',
+        '#description' => t('Can you edit and delete shapes.'),
+        '#default_value' => isset($defaults['allow_edit']) ? $defaults['allow_edit'] : 1,
       ),
     );
   }
