@@ -200,7 +200,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
                       . '</div>'
     );
     $element['helpmap_desc'] = array(
-      '#markup' => t('Click the map to set a point for this location. Control-click to add lines. Alt-click to add polygons. Shift-click and drag to set bounds. Pan and zoom with arrows and the zoom bar.')
+      '#markup' => t('Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.')
     );
   }
 
