@@ -200,7 +200,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
                       . '</div>'
     );
     $element['helpmap_desc'] = array(
-      '#markup' => t('Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.')
+      '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
     );
   }
 
