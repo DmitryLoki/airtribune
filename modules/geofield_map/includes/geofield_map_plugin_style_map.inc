@@ -92,6 +92,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
    * Renders views (map)
    */
   function render() {
+    geofield_load_geophp();
     $style_options = $this->view->style_options;
 
     $geo_data = (!empty($style_options['data_source'])) ? 'field_' . $style_options['data_source']: NULL;
@@ -99,23 +100,28 @@ class geofield_map_plugin_style_map extends views_plugin_style {
 
     if ($geo_data) {
       $this->render_fields($this->view->result);
-      $raw_data = array();
+      $data = array();
 
       foreach ($this->view->result as $id => $result) {
         $geofield = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
 
         if (!empty($geofield)) {
           $description = ($popup_data ? $this->rendered_fields[$id][$popup_data] : '');
-
-          foreach ($geofield as $item) {
-            $raw_data[] = array(
-              'geo' => $item['raw'],
-              'options' => array(
-                'description' => $description,
-              ),
-            );
-          }
+          $geometry = geoPHP::load($geofield[0]['rendered']['#markup'], 'wkt');
+          $datum = json_decode($geometry->out('json'));
+          $datum->properties = $description;
+          $data[] = $datum;
         }
+      }
+
+      if (count($data) == 1) {
+        $data = $data[0];
+      } else if (count($data) > 1) {
+        $tmp = $data;
+        $data = array(
+          'type' => 'GeometryCollection',
+          'geometries' => $tmp,
+        );
       }
 
       $map_settings = geofield_map_settings_do($style_options);
@@ -124,7 +130,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
         $this->view->name . '_' . $this->view->current_display => array(
           'map_id' => 'geofield_map_' . $this->view->name . '_' . $this->view->current_display,
           'map_settings' => $map_settings,
-          'data' => geofield_map_process_points($raw_data),
+          'data' => $data,
         ),
       );
 
@@ -132,6 +138,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
     }
 
     drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
+    drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/GeoJSON.js');
     drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
 
     // defaults

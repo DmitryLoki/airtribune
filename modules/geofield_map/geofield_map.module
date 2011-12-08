@@ -58,25 +58,34 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
   $settings = $display['settings'];
 
   $map_settings = geofield_map_settings_do($settings);
-
-  $raw_data = array();
+  geofield_load_geophp();
+  $data = array();
 
   foreach ($items as $item) {
-    $raw_data[] = array(
-      'geo' => $item,
-      'options' => array(),
+    $geometry = geoPHP::load($item['wkt'], 'wkt');
+    $data[] = json_decode($geometry->out('json'));
+  }
+  
+  if (count($data) == 1) {
+    $data = $data[0];
+  } else if (count($data) > 1) {
+    $tmp = $data;
+    $data = array(
+      'type' => 'GeometryCollection',
+      'geometries' => $tmp
     );
   }
 
   $js_settings = array(
     $entity_id => array(
-      'map_id' => 'geofield_map_entity_' . $entity_id,
+      'map_id' => 'geofield_map_entity_' . $field['field_name'] . '_' . $entity_id,
       'map_settings' => $map_settings,
-      'data' => geofield_map_process_points($raw_data),
+      'data' => $data,
     ),
   );
 
   drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
+  drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/GeoJSON.js');
   drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
   drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
 
@@ -90,7 +99,7 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
     $height = $settings['geofield_map_height'];
   }
 
-  $element[0]['#markup'] = '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_entity_' . $entity_id . '" class="geofieldMap">Test</div>';
+  $element[0]['#markup'] = '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_entity_' . $field['field_name'] . '_' . $entity_id . '" class="geofieldMap">Test</div>';
 
   return $element;
 }
@@ -331,81 +340,4 @@ function geofield_map_settings_do($settings) {
   );
   return $map_settings;
 
-}
-
-/**
- * Processes a series of points.
- *
- * $datum = array(
- *   'geo' => (geom_field),
- *   'options' => array(
- *     'title' => 'title text',
- *     'description' => 'popup text',
- *   ),
- * );
- */
-
-function geofield_map_process_points($items = array()) {
-  $data = array();
-
-  geofield_load_geophp();
-
-  foreach ($items as $delta => $item) {
-    switch ($item['geo']['geo_type']) {
-      case 'point':
-        $datum = array(
-          'type' => 'point',
-          'points' => array(
-            array(
-              'lat' => $item['geo']['lat'],
-              'lon' => $item['geo']['lon'],
-            ),
-          ),
-        );
-
-        $datum['points'][0]['text'] = (isset($item['options']['description']) ? $item['options']['description'] : '');
-
-        $data[] = $datum;
-      break;
-      case 'linestring':
-        $geom = geoPHP::load($item['geo']['wkt'], 'wkt');
-        $components = $geom->getComponents();
-
-        $datum = array(
-          'type' => $item['geo']['geo_type'],
-          'points' => array()
-        );
-
-        foreach ($components as $component) {
-          $datum['points'][] = array(
-            'lat' => $component->getY(),
-            'lon' => $component->getX(),
-          );
-        }
-
-        $data[] = $datum;
-      break;
-      case 'polygon':
-        $geom = geoPHP::load($item['geo']['wkt'], 'wkt');
-        $tmp = $geom->getComponents();
-        $components = $tmp[0]->getComponents();
-
-        $datum = array(
-          'type' => $item['geo']['geo_type'],
-          'points' => array()
-        );
-
-        foreach ($components as $component) {
-          $datum['points'][] = array(
-            'lat' => $component->getY(),
-            'lon' => $component->getX(),
-          );
-        }
-
-        $data[] = $datum;
-      break;
-    }
-  }
-
-  return $data;
 }
