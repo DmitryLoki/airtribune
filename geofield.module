@@ -251,7 +251,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   // Load up geoPHP to do the conversions
   $geophp = geofield_load_geophp();
   if (!$geophp) {
-    drupal_set_message(t("Unable to load geoPHP library. Not all values will be computer correctly"), 'error');
+    drupal_set_message(t("Unable to load geoPHP library. Not all values will be calculated correctly"), 'error');
     return;
   }
 
