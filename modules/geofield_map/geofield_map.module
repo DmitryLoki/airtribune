@@ -63,7 +63,9 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
 
   foreach ($items as $item) {
     $geometry = geoPHP::load($item['wkt'], 'wkt');
-    $data[] = json_decode($geometry->out('json'));
+    if (!empty($geometry)) {
+      $data[] = json_decode($geometry->out('json'));
+    }
   }
   
   if (count($data) == 1) {
