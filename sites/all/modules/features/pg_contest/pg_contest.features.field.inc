@@ -1897,20 +1897,23 @@ function pg_contest_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => 'None',
-          1 => 'Allow',
-          2 => 'Prohibided',
+          0 => 'Prohibited',
+          1 => 'Allowed',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'list_integer',
+      'type' => 'list_boolean',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => '0',
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -1930,7 +1933,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_open_class',
-      'label' => 'Open Class prohibited',
+      'label' => 'Open class',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -2659,7 +2662,7 @@ function pg_contest_field_default_fields() {
   t('Is registration for the event open.');
   t('List all awards here.');
   t('Local rules');
-  t('Open Class prohibited');
+  t('Open class');
   t('Organizer logo ');
   t('Organizer name');
   t('Organizers');
