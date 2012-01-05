@@ -60,41 +60,44 @@
           };
 
           var map = new google.maps.Map(document.getElementById($(element).attr('id')), myOptions);
-
           var range = new google.maps.LatLngBounds();
 
           var infowindow = new google.maps.InfoWindow({
             content: ''
           });
 
-          if (features.getPath || features.getPosition) {
-            features.setMap(map);
-            if (features.getPosition) {
-              map.setCenter(features.getPosition());
-            } else {
-              var path = features.getPath();
-              path.forEach(function(element) {
-                range.extend(element);
-              });
-              map.fitBounds(range);
-            }
+          if (features.setMap) {
+            placeFeature(features, map, range);
           } else {
             for (var i in features) {
-              features[i].setMap(map);
-              if (features[i].getPosition) {
-                range.extend(features[i].getPosition());
+              if (features[i].setMap) {
+                placeFeature(features[i], map, range);
               } else {
-                var path = features[i].getPath();
-                path.forEach(function(element) {
-                  range.extend(element);
-                });
+                for (var j in features[i]) {
+                  if (features[i][j].setMap) {
+                    placeFeature(features[i][j], map, range);
+                  }
+                }
               }
             }
-            map.fitBounds(range);
           }
+          map.fitBounds(range);
         }
 
         $(element).addClass('processed');
+      });
+    }
+  }
+  
+  function placeFeature(feature, map, range) {
+    // @TODO: Popup text?
+    feature.setMap(map);
+    if (feature.getPosition) {
+      range.extend(feature.getPosition());
+    } else {
+      var path = feature.getPath();
+      path.forEach(function(element) {
+        range.extend(element);
       });
     }
   }
