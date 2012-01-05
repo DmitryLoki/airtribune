@@ -8,6 +8,7 @@
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
+define('AIRTRIBUNE_OPENCLASS_FIELD', 'field_open_class');
 
 /**
  * Implements hook_ctools_plugin_directory().
