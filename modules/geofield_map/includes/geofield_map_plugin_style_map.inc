@@ -19,6 +19,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
     $options = parent::option_definition();
     $options['data_source'] = array('default' => '');
     $options['popup_source'] = array('default' => '');
+    $options['alt_text'] = array('default' => '');
     $options['geofield_map_width'] = array('default' => '100%');
     $options['geofield_map_height'] = array('default' => '300px');
     $options['geofield_map_zoom'] = array('default' => '8');
@@ -81,6 +82,13 @@ class geofield_map_plugin_style_map extends views_plugin_style {
         '#title' => t('Popup Text'),
         '#options' => $popup_source_options,
         '#default_value' => $this->options['popup_source'] ? $this->options['popup_source'] : '',
+      );
+      
+      $form['alt_text'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Alternate Text'),
+        '#description' => t('This text shows up when a user does not have javascript enabled'),
+        '#default_value' => $this->options['alt_text'] ? $this->options['alt_text'] : '',
       );
 
       $form = geofield_map_settings_form($this->options, $form);
@@ -151,6 +159,6 @@ class geofield_map_plugin_style_map extends views_plugin_style {
       $height = $style_options['geofield_map_height'];
     }
 
-    return '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_' . $this->view->name . '_' . $this->view->current_display . '" class="geofieldMap">Test</div>';
+    return '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_' . $this->view->name . '_' . $this->view->current_display . '" class="geofieldMap">' . $style_options['alt_text'] . '</div>';
   }
 }
