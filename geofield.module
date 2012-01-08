@@ -170,7 +170,10 @@ function geofield_field_instance_settings_form($field, $instance) {
   $form = array();
   // Add in local solr settings
   if (module_exists('apachesolr')) {
-    $setting = $instance['settings']['solrspatial'];
+
+    if (isset($instance['settings']['solrspatial'])) $setting = $instance['settings']['solrspatial'];
+    else $setting = array();
+
     $form['solrspatial'] = array(
       '#type' => 'fieldset',
       '#title' => t('Local Solr Settings'),
