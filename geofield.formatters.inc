@@ -13,42 +13,42 @@ function geofield_field_formatter_info() {
     'geofield_wkt' => array(
       'label' => t('Well Known Text (WKT)'),
       'field types' => array('geofield'),
-      'settings' => array('data' => ''),
+      'settings' => array('data' => 'full'),
     ),
     'geofield_geojson' => array(
       'label' => t('GeoJSON'),
       'field types' => array('geofield'),
-      'settings' => array('data' => ''),
+      'settings' => array('data' => 'full'),
     ),
     'geofield_kml' => array(
       'label' => t('KML'),
       'field types' => array('geofield'),
-      'settings' => array('data' => ''),
+      'settings' => array('data' => 'full'),
     ),
     'geofield_gpx' => array(
       'label' => t('GPX'),
       'field types' => array('geofield'),
-      'settings' => array('data' => ''),
+      'settings' => array('data' => 'full'),
     ),
     'geofield_latlon' => array(
       'label' => t('Latitude/Longitude'),
       'field types' => array('geofield'),
-      'settings' => array('data' => '', 'format' => ''),
+      'settings' => array('data' => 'full', 'format' => 'decimal_degrees'),
     ),
     'geofield_lat' => array(
       'label' => t('Latitude Only'),
       'field types' => array('geofield'),
-      'settings' => array('data' => '', 'format' => ''),
+      'settings' => array('data' => 'full', 'format' => 'decimal_degrees'),
     ),
     'geofield_lon' => array(
       'label' => t('Longitude Only'),
       'field types' => array('geofield'),
-      'settings' => array('data' => '', 'format' => ''),
+      'settings' => array('data' => 'full', 'format' => 'decimal_degrees'),
     ),
     'geofield_geo_type' => array(
       'label' => t('Geometry Type'),
       'field types' => array('geofield'),
-      'settings' => array('data' => '', 'format' => ''),
+      'settings' => array('data' => 'full'),
     ),
   );
 
@@ -56,7 +56,7 @@ function geofield_field_formatter_info() {
     $formatters['geofield_openlayers'] = array(
       'label' => t('OpenLayers'),
       'field types' => array('geofield'),
-      'settings' => array('map_preset' => '', 'data' => ''),
+      'settings' => array('data' => 'full', 'map_preset' => 'geofield_formatter_map'),
     );
   }
   
