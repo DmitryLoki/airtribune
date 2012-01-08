@@ -101,7 +101,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
    */
   function render() {
     geofield_load_geophp();
-    $style_options = $this->view->style_options;
+    $style_options = $this->view->style_plugin->options;
 
     $geo_data = (!empty($style_options['data_source'])) ? 'field_' . $style_options['data_source']: NULL;
     $popup_data = (!empty($style_options['popup_source'])) ? $style_options['popup_source'] : NULL;
