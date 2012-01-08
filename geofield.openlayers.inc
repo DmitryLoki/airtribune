@@ -10,7 +10,6 @@
  */
 function geofield_openlayers_maps() {
   // Create full preset array
-  $items = array();
   $widget = new stdClass;
   $widget->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
   $widget->api_version = 1;
@@ -87,9 +86,80 @@ function geofield_openlayers_maps() {
     ),
     'map_name' => 'geofield_widget_map',
   );
-  $items[$widget->name] = $widget;
 
-  return $items;
+  $formatter = new stdClass();
+  $formatter->api_version = 1;
+  $formatter->name = 'geofield_formatter_map';
+  $formatter->title = t('Geofield Formatter Map');
+  $formatter->description = t('A Map Used for Geofield Output');
+  $formatter->data = array(
+    'width' => '600px',
+    'height' => '400px',
+    'image_path' => 'sites/all/modules/openlayers/themes/default_dark/img/',
+    'css_path' => 'sites/all/modules/openlayers/themes/default_dark/style.css',
+    'proxy_host' => '',
+    'hide_empty_map' => 0,
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '0, 0',
+        'zoom' => '1',
+      ),
+      'restrict' => array(
+        'restrictextent' => 0,
+        'restrictedExtent' => '',
+      ),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_navigation' => array(
+        'zoomWheelEnabled' => 0,
+        'zoomBoxEnabled' => 1,
+        'documentDrag' => 0,
+      ),
+      'openlayers_behavior_panzoombar' => array(
+        'zoomWorldIcon' => 0,
+        'panIcons' => 1,
+      ),
+    ),
+    'default_layer' => 'mapquest_osm',
+    'layers' => array(
+      'mapquest_osm' => 'mapquest_osm',
+      'geofield_formatter' => 'geofield_formatter',
+    ),
+    'layer_weight' => array(
+      'geofield_formatter' => '0',
+      'openlayers_geojson_picture_this' => '0',
+    ),
+    'layer_styles' => array(
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_styles_select' => array(
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_activated' => array(
+      'geofield_formatter' => 'geofield_formatter',
+      'openlayers_geojson_picture_this' => 0,
+    ),
+    'layer_switcher' => array(
+      'geofield_formatter' => 0,
+      'openlayers_geojson_picture_this' => 0,
+    ),
+    'projection' => '900913',
+    'displayProjection' => '4326',
+    'styles' => array(
+      'default' => 'default',
+      'select' => 'default',
+      'temporary' => 'default',
+    ),
+    'map_name' => 'geofield_formatter_map',
+  );
+  
+  return array(
+    'geofield_widget_map' => $widget, 
+    'geofield_formatter_map' => $formatter, 
+  );
 }
 
 /**
