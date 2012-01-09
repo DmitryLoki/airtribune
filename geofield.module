@@ -131,7 +131,7 @@ function geofield_requirements($phase) {
     catch (Exception $e) {
       $geophp_version = 0;
     }
-    if ($geophp_version >= 0.4) {
+    if ($geophp_version >= 0.5) {
       $requirements['geofield_geophp'] = array(
         'title' => t('GeoPHP Library Installed'),
         'severity' => REQUIREMENT_OK,
