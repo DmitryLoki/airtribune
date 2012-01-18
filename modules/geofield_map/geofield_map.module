@@ -102,7 +102,7 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
       $height = $settings['geofield_map_height'];
     }
 
-    $element[0]['#markup'] = '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_entity_' . $field['field_name'] . '_' . $entity_id . '" class="geofieldMap">Test</div>';    
+    $element[0]['#markup'] = '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_entity_' . $field['field_name'] . '_' . $entity_id . '" class="geofieldMap"></div>';    
   }
 
   return $element;
