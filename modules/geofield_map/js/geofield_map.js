@@ -2,7 +2,7 @@
   Drupal.behaviors.geofieldMap = {
     attach: function(context) {
       var settings = Drupal.settings.geofieldMap;
-
+      
       $('.geofieldMap:not(.processed)').each(function(index, element) {
         var data = undefined;
         var map_settings = [];
@@ -17,7 +17,9 @@
           }
         }
 
-        if (data != undefined) {
+        // Checking to see if google variable exists. We need this b/c views breaks this sometimes. Probably
+        // an AJAX/external javascript bug in core or something.
+        if (typeof google != 'undefined' && data != undefined) {
           var features = GeoJSON(data);
 
           // controltype
@@ -96,11 +98,17 @@
 
         $(element).addClass('processed');
       });
+    
+    
     }
   }
   
   function placeFeature(feature, map, range) {
     // @TODO: Popup text?
+    var properties = feature.get('geojsonProperties');
+    if (feature.setTitle && properties && properties.title) {
+      feature.setTitle(properties.title);
+    }
     feature.setMap(map);
     if (feature.getPosition) {
       range.extend(feature.getPosition());
