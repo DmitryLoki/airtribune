@@ -7,6 +7,7 @@
         var data = undefined;
         var map_settings = [];
         var pointCount = 0;
+        var resetZoom = true;
 
         for (var i in settings) {
           if (settings[i].map_id == $(element).attr('id')) {
@@ -68,6 +69,10 @@
 
           if (features.setMap) {
             placeFeature(features, map, range);
+            // Don't move the default zoom if we're only displaying one point.
+            if (features.getPosition) {
+              resetZoom = false;
+            }
           } else {
             for (var i in features) {
               if (features[i].setMap) {
@@ -81,7 +86,12 @@
               }
             }
           }
-          map.fitBounds(range);
+
+          if (resetZoom) {
+            map.fitBounds(range);
+          } else {
+            map.setCenter(range.getCenter());
+          }
         }
 
         $(element).addClass('processed');
