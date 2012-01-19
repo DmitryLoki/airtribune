@@ -1,15 +1,16 @@
 // Source: https://github.com/JasonSanford/GeoJSON-to-Google-Maps
-
 var GeoJSON = function( geojson, options ){
-
   var _geometryToGoogleMaps = function( geojsonGeometry, opts, geojsonProperties ){
     
     var googleObj;
-    
+
     switch ( geojsonGeometry.type ){
       case "Point":
         opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(opts.position);
         googleObj = new google.maps.Marker(opts);
+        googleObj.set('bounds', bounds);
         if (geojsonProperties) {
           googleObj.set("geojsonProperties", geojsonProperties);
         }
@@ -17,8 +18,10 @@ var GeoJSON = function( geojson, options ){
         
       case "MultiPoint":
         googleObj = [];
+        var bounds = new google.maps.LatLngBounds();
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[i][1], geojsonGeometry.coordinates[i][0]);
+          bounds.extend(opts.position);
           googleObj.push(new google.maps.Marker(opts));
         }
         if (geojsonProperties) {
@@ -26,17 +29,23 @@ var GeoJSON = function( geojson, options ){
             googleObj[k].set("geojsonProperties", geojsonProperties);
           }
         }
+        for (var k = 0; k < googleObj.length; k++) {
+          googleObj[k].set('bounds', bounds);
+        }
         break;
         
       case "LineString":
         var path = [];
+        var bounds = new google.maps.LatLngBounds();
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           var coord = geojsonGeometry.coordinates[i];
           var ll = new google.maps.LatLng(coord[1], coord[0]);
+          bounds.extend(ll);
           path.push(ll);
         }
         opts.path = path;
         googleObj = new google.maps.Polyline(opts);
+        googleObj.set('bounds', bounds);
         if (geojsonProperties) {
           googleObj.set("geojsonProperties", geojsonProperties);
         }
@@ -44,11 +53,13 @@ var GeoJSON = function( geojson, options ){
         
       case "MultiLineString":
         googleObj = [];
+        var bounds = new google.maps.LatLngBounds();
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           var path = [];
           for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
             var coord = geojsonGeometry.coordinates[i][j];
             var ll = new google.maps.LatLng(coord[1], coord[0]);
+            bounds.extend(ll);
             path.push(ll);
           }
           opts.path = path;
@@ -59,20 +70,26 @@ var GeoJSON = function( geojson, options ){
             googleObj[k].set("geojsonProperties", geojsonProperties);
           }
         }
+        for (var k = 0; k < googleObj.length; k++) {
+          googleObj[k].set('bounds', bounds);
+        }
         break;
         
       case "Polygon":
         var paths = [];
+        var bounds = new google.maps.LatLngBounds();
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           var path = [];
           for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
             var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
+            bounds.extend(ll);
             path.push(ll)
           }
           paths.push(path);
         }
         opts.paths = paths;
         googleObj = new google.maps.Polygon(opts);
+        googleObj.set('bounds', bounds);
         if (geojsonProperties) {
           googleObj.set("geojsonProperties", geojsonProperties);
         }
@@ -80,12 +97,14 @@ var GeoJSON = function( geojson, options ){
         
       case "MultiPolygon":
         googleObj = [];
+        var bounds = new google.maps.LatLngBounds();
         for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
           var paths = [];
           for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
             var path = [];
             for (var k = 0; k < geojsonGeometry.coordinates[i][j].length; k++){
               var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][k][1], geojsonGeometry.coordinates[i][j][k][0]);
+              bounds.extend(ll);
               path.push(ll);
             }
             paths.push(path);
@@ -97,6 +116,9 @@ var GeoJSON = function( geojson, options ){
           for (var k = 0; k < googleObj.length; k++){
             googleObj[k].set("geojsonProperties", geojsonProperties);
           }
+        }
+        for (var k = 0; k < googleObj.length; k++) {
+          googleObj[k].set('bounds', bounds);
         }
         break;
         
@@ -176,5 +198,4 @@ var GeoJSON = function( geojson, options ){
   }
   
   return obj;
-  
 };

@@ -19,9 +19,8 @@
 
         // Checking to see if google variable exists. We need this b/c views breaks this sometimes. Probably
         // an AJAX/external javascript bug in core or something.
-        if (typeof google != 'undefined' && data != undefined) {
+        if (typeof google != 'undefined' && typeof google.maps.ZoomControlStyle != 'undefined' && data != undefined) {
           var features = GeoJSON(data);
-
           // controltype
           var controltype = map_settings.controltype;
           if (controltype == 'default') { controltype = google.maps.ZoomControlStyle.DEFAULT; }
@@ -97,25 +96,31 @@
         }
 
         $(element).addClass('processed');
-      });
-    
-    
-    }
-  }
-  
-  function placeFeature(feature, map, range) {
-    // @TODO: Popup text?
-    var properties = feature.get('geojsonProperties');
-    if (feature.setTitle && properties && properties.title) {
-      feature.setTitle(properties.title);
-    }
-    feature.setMap(map);
-    if (feature.getPosition) {
-      range.extend(feature.getPosition());
-    } else {
-      var path = feature.getPath();
-      path.forEach(function(element) {
-        range.extend(element);
+        
+        function placeFeature(feature, map, range) {
+          var properties = feature.get('geojsonProperties');
+          if (feature.setTitle && properties && properties.title) {
+            feature.setTitle(properties.title);
+          }
+          feature.setMap(map);
+          if (feature.getPosition) {
+            range.extend(feature.getPosition());
+          } else {
+            var path = feature.getPath();
+            path.forEach(function(element) {
+              range.extend(element);
+            });
+          }
+
+          if (properties && properties.description) {
+            var bounds = feature.get('bounds');
+            google.maps.event.addListener(feature, 'click', function() {
+              infowindow.setPosition(bounds.getCenter());
+              infowindow.setContent(properties.description);
+              infowindow.open(map);
+            });
+          }
+        }
       });
     }
   }

@@ -92,7 +92,6 @@ class geofield_map_plugin_style_map extends views_plugin_style {
       );
 
       $form = geofield_map_settings_form($this->options, $form);
-
     }
   }
 
@@ -117,7 +116,9 @@ class geofield_map_plugin_style_map extends views_plugin_style {
           $description = ($popup_data ? $this->rendered_fields[$id][$popup_data] : '');
           $geometry = geoPHP::load($geofield[0]['rendered']['#markup'], 'wkt');
           $datum = json_decode($geometry->out('json'));
-          $datum->properties = $description;
+          $datum->properties = array(
+            'description' => $description,
+          );
           $data[] = $datum;
         }
       }
