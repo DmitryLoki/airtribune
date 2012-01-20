@@ -80,9 +80,18 @@ function geofield_field_widget_settings_form($field, $instance) {
       '#options' => $map_options,
       '#description' => t('Select which OpenLayers map you would like to use. Only maps which have the GeoField behavior may be selected. If your preferred map is not here, add the GeoField behavior to it first. The "Draw Features" bahavior is incompatible - presets with this behavior are not shown.'),
     );
-    
-  }
 
+    $form['data_storage'] = array(
+      '#type' => 'radios',
+      '#title' => t('Storage Options'),
+      '#description' => t('Should the widget only allow simple features (points, lines, or polygons), or should the widget allow for complex features? Note that changing this setting from complex to simple after data has been entered can lead to data loss.'),
+      '#options' => array(
+        'collection' => 'Store as a single collection.',
+        'single' => 'Store each simple feature as a separate field.',
+      ),
+      '#default_value' => (isset($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
+    );
+  }
   return $form;
 }
 
@@ -192,6 +201,13 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   if ($widget['type'] == 'geofield_openlayers') {
+    drupal_add_js(
+      array('geofield' => array(
+        'data_storage' => $settings['data_storage'],
+        ),
+      ),
+    'setting');
+
     $field_class = '.field-name-' . str_replace('_', '-', $field['field_name']);
     $defaults = array();
     $element['helpmap'] = array(

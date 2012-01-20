@@ -121,7 +121,7 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
         // only keep the last one
         var lastFeature = copyFeatures.pop();
         // we remove a lot of features, don't trigger events
-        features.object.destroyFeatures(copyFeatures, {slient: true});
+        features.object.destroyFeatures(copyFeatures, {silient: true});
       }
 
       if (behavior && !$(context).hasClass('geofield-processed')) {
@@ -138,7 +138,9 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
           data.openlayers.addLayer(dataLayer);
 
           // only one feature on each map register before adding our data
-          dataLayer.events.register('featureadded', $wkt, limitFeatures);
+          if (Drupal.settings.geofield.data_storage == 'single') {
+            dataLayer.events.register('featureadded', $wkt, limitFeatures);
+          }
 
           if ($wkt.val() != '') {
             wktFormat = initWktFormat(data.openlayers.projection);
