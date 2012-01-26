@@ -248,7 +248,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
 
   // If only a wkt string has been passed in, then format it correctly by wrapping it in an array
   if ($master_column == 'wkt' && !is_array($values)) {
-    $values = array($values);
+    $values = array('wkt' => $values);
   }
 
   // Load up geoPHP to do the conversions
