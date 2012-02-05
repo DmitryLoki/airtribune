@@ -203,7 +203,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   if ($widget['type'] == 'geofield_openlayers') {
     drupal_add_js(
       array('geofield' => array(
-        'data_storage' => $settings['data_storage'],
+        'data_storage' => (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
         ),
       ),
     'setting');

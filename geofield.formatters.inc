@@ -169,14 +169,14 @@ function geofield_field_formatter_settings_summary($field, $instance, $view_mode
 
   // Styles could be lost because of enabled/disabled modules that defines
   // their styles in code.
-  if (isset($data_options[$settings['data']])) {
+  if (!empty($data_options[$settings['data']])) {
     $summary[] = t('Data options: @data', array('@data' => $data_options[$settings['data']]));
   }
   else {
     $summary[] = t('No data options set');
   }
   
-  if ($display['type'] == 'geofield_openlayers' && isset($settings['map_preset'])) {
+  if ($display['type'] == 'geofield_openlayers' && !empty($settings['map_preset'])) {
     $openlayers_presets = openlayers_preset_options();
     $summary[] = t('Openlayers Map: @data', array('@data' => $openlayers_presets[$settings['map_preset']]));
   }
@@ -189,7 +189,7 @@ function geofield_field_formatter_settings_summary($field, $instance, $view_mode
     }
   }
 
-  if (isset($settings['address']) && $settings['address']) {
+  if (!empty($settings['address']) && $settings['address']) {
     $summary[] = t('Including reverse-geocoded address');
   }
 
