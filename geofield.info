@@ -10,3 +10,4 @@ files[] = geofield.feeds.inc
 files[] = tests/geofield.test
 files[] = views/geofield.views.inc
 files[] = views/handlers/geofield_sort.inc
+files[] = views/handlers/geofield_handler_field.inc
