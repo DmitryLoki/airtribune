@@ -8,3 +8,5 @@ files[] = geofield.widgets.inc
 files[] = geofield.formatters.inc
 files[] = geofield.feeds.inc
 files[] = tests/geofield.test
+files[] = views/geofield.views.inc
+files[] = views/handlers/geofield_sort.inc
