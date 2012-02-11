@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+
+function geofield_test_menu() {
+  $items = array();
+
+  $items['geofield-formapi-element'] = array(
+    'title' => 'Geofield native element test',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('geofield_test_formapi_element_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Form API callback for geofield native formapi field.
+ */
+
+function geofield_test_formapi_element_form() {
+  $form = array();
+
+  $form['geofield_test_1'] = array(
+    '#type' => 'geofield_latlon',
+    '#title' => t('Full Lat/Lon test'),
+    '#description' => t('This is a description'),
+    '#default_value' => array(
+      'lat' => '',
+      'lon' => '',
+    ),
+    '#geolocation' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  return $form;
+}
