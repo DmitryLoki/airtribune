@@ -2,9 +2,7 @@
 
 class geofield_handler_field extends views_handler_field {
   function query() {
-    //kpr($this);
     $geofield = $this->view->field[$this->real_field];
-    //kpr($geofield);
     $this->query->add_field($geofield->table, $geofield->definition['field_name'] . '_lat');
     $this->query->add_field($geofield->table, $geofield->definition['field_name'] . '_lon');
 
@@ -34,17 +32,8 @@ class geofield_handler_field extends views_handler_field {
       '#default_value' => $this->options['dist_lon'],
     );
   }
-
-  function render($values) {
-    $value = $this->get_value($values);
-    //kpr($value);
-    //kpr($values);
-    return $this->sanitize_value($value);
-  }
   
   function get_value($values, $field = NULL) {
-    //kpr($values);
-    //kpr($this);
     if (isset($values->{$this->field})) {
       return $values->{$this->field};
     }

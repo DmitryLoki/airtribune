@@ -29,6 +29,13 @@ function geofield_field_views_data($field) {
         'field_name' => $field['field_name'],
         'real_field' => $table_name,
       ),
+      'filter' => array(
+        'field' => 'field_geofield_distance',
+        'table' => $table_name,
+        'handler' => 'geofield_handler_filter',
+        'field_name' => $field['field_name'],
+        'real_field' => $table_name,
+      ),
     );
     foreach ($table_data as $field => $field_data) {
       if (substr($field, strlen($field) - 4) == '_wkt') {
