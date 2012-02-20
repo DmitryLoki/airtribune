@@ -1,13 +1,13 @@
 <?php
 
-class geofield_handler_field extends views_handler_field_numeric {
+class geofield_handler_sort extends views_handler_sort {
   function query() {
-    $geofield = $this->view->field[$this->real_field];
+    $geofield = $this->view->sort['field_geofield_distance'];
     $this->query->add_field($geofield->table, $geofield->definition['field_name'] . '_lat');
     $this->query->add_field($geofield->table, $geofield->definition['field_name'] . '_lon');
 
     $this->ensure_my_table();
-    $this->field_alias = $this->query->add_field(NULL, geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $geofield->definition['field_name'] . '_lat', $geofield->definition['field_name'] . '_lon', $this->options['radius_of_earth']), $this->field);
+    $this->query->add_orderby(NULL, geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $geofield->definition['field_name'] . '_lat', $geofield->definition['field_name'] . '_lon', $this->options['radius_of_earth']), $this->options['order'], $this->field);
   }
 
   function option_definition() {
@@ -40,11 +40,5 @@ class geofield_handler_field extends views_handler_field_numeric {
       '#options' => geofield_radius_options(),
       '#default_value' => $this->options['radius_of_earth'],
     );
-  }
-  
-  function get_value($values, $field = NULL) {
-    if (isset($values->{$this->field})) {
-      return $values->{$this->field};
-    }
   }
 }
