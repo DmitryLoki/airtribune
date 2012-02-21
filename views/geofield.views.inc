@@ -70,8 +70,8 @@ function geofield_haversine($origin_lat, $origin_lon, $dest_field_lat, $dest_fie
 
 function geofield_radius_options() {
   return array(
-    '6731' => t('Kilometers'),
-    '6731000' => t('Meters'),
+    '6371' => t('Kilometers'),
+    '6371000' => t('Meters'),
     '3959' => t('Miles'),
     '6975175' => t('Yards'),
     '20925525' => t('Feet'),

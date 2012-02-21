@@ -14,7 +14,7 @@ class geofield_handler_sort extends views_handler_sort {
     $options = parent::option_definition();
     $options['dist_lat'] = array('default' => 0);
     $options['dist_lon'] = array('default' => 0);
-    $options['radius_of_earth'] = array('default' => '6731');
+    $options['radius_of_earth'] = array('default' => '6371');
     return $options;
   }
 
