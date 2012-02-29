@@ -33,7 +33,7 @@ function geofield_field_formatter_info() {
     'geofield_latlon' => array(
       'label' => t('Latitude/Longitude'),
       'field types' => array('geofield'),
-      'settings' => array('data' => 'full', 'format' => 'decimal_degrees'),
+      'settings' => array('data' => 'full', 'format' => 'decimal_degrees', 'labels' => 1),
     ),
     'geofield_lat' => array(
       'label' => t('Latitude Only'),
@@ -144,12 +144,20 @@ function geofield_field_formatter_settings_form($field, $instance, $view_mode, $
       '#options' => $format_options,
     );
   }
-  
+
+  if ($display['type'] == 'geofield_latlon') {
+    $element['labels'] = array(
+      '#title' => t('Display Labels'),
+      '#type' => 'checkbox',
+      '#default_value' => $settings['labels'],
+    );
+  }
+
   if ($display['type'] == 'geofield_def_list' || $display['type'] == 'geofield_description') {
     $element['address'] = array(
       '#title' => t('Include reverse-geocoded address'),
       '#type' => 'checkbox',
-      '#default_value' => $settings['address'] ? $settings['address'] : 0,
+      '#default_value' => $settings['address'],
     );
   }
 
@@ -273,8 +281,11 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       return $element;
     case 'geofield_latlon':
       foreach ($items as $delta => $item) {
-        $output = t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => $item['lat'], '!longitude' => $item['lon']));
-        $element[$delta] = array('#markup' => $output);
+        if ($display['settings']['labels']) {
+          $output = t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => $item['lat'], '!longitude' => $item['lon']));
+        } else {
+          $output = $item['lat'].', '.$item['lon'];
+        }
       }
       return $element;
     case 'geofield_lat':

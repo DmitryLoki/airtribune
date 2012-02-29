@@ -29,8 +29,6 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
         var tools = options.tools;
         var tool = null;
 
-        controls.push(new OpenLayers.Control.Navigation());
-
         if (tools && tools.length) {
           for (var i = 0, il = tools.length; i < il; i += 1) {
             // capitalize first letter

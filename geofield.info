@@ -6,6 +6,7 @@ files[] = geofield.module
 files[] = geofield.install
 files[] = geofield.widgets.inc
 files[] = geofield.formatters.inc
+files[] = geofield.openlayers.inc
 files[] = geofield.feeds.inc
 files[] = tests/geofield.test
 files[] = views/geofield.views.inc

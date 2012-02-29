@@ -57,7 +57,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
       $popup_source_options[$handle->options['id']] = (!empty($handle->options['label'])) ? $handle->options['label'] : $handle->options['id'];
 
       if (!empty($handle->field_info['type']) && $handle->field_info['type'] == 'geofield') {
-        $data_source_options[$handle->options['id']] = $handle->options['label'];
+        $data_source_options[$handle->options['id']] = (!empty($handle->options['label'])) ? $handle->options['label'] : $handle->options['id'];
       }
     }
 
