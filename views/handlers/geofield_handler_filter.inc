@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Distance filter implementation.
+ */
+
 class geofield_handler_filter extends views_handler_filter_numeric {
 
     function operators() {

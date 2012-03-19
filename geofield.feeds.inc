@@ -55,7 +55,7 @@ function geofield_feeds_combined_source($source, FeedsParserResult $result, $key
     // Presently Common Syndication Parser is just parsing points?
     // and is creating FeedsGeoTermElements, which is possibly not so useful.
     // Maybe better if we could read access the original item, or add in to the item parsing?
-    foreach($item['geolocations'] as $geolocation) {
+    foreach ($item['geolocations'] as $geolocation) {
       $point = array('lat' => $geolocation->lat, 'lon' => $geolocation->lon);
       $values[] = geofield_compute_values($point, 'latlon');
     }

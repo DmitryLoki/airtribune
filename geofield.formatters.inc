@@ -283,8 +283,9 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       foreach ($items as $delta => $item) {
         if ($display['settings']['labels']) {
           $output = t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => $item['lat'], '!longitude' => $item['lon']));
-        } else {
-          $output = $item['lat'].', '.$item['lon'];
+        }
+        else {
+          $output = $item['lat'] . ', ' . $item['lon'];
         }
       }
       return $element;
@@ -363,7 +364,7 @@ function _geofield_def_list_formatter($item, $settings) {
   $geometry = geoPHP::load($item['wkt'], 'wkt');
   
   // Single types
-  $single_types = array('Point', 'LineStrnig', 'Polygon');
+  $single_types = array('Point', 'LineString', 'Polygon');
     
   if (in_array($geometry->geometryType(), $single_types)) {
     $centroid = new Point($item['lon'], $item['lat']);

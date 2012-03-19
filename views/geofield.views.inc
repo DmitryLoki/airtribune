@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Hooks for Views integration.
+ */
+
+/**
  * Implements hook_field_views_data().
  *
  * Views integration for geofields.

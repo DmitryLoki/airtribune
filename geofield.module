@@ -46,13 +46,13 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
         if ($widget['type'] == 'geofield_wkt') {
           $master_column = 'wkt';
         }
-        else if ($widget['type'] == 'geofield_latlon') {
+        elseif ($widget['type'] == 'geofield_latlon') {
           $master_column = 'latlon';
         }
-        else if ($widget['type'] == 'geofield_bounds') {
+        elseif ($widget['type'] == 'geofield_bounds') {
           $master_column = 'bounds';
         }
-        else if ($widget['type'] == 'geofield_geolocation') {
+        elseif ($widget['type'] == 'geofield_geolocation') {
           $master_column = 'latlon';
         }
         else {
@@ -541,7 +541,7 @@ function geofield_data_property_info($name = NULL) {
       'label' => 'Well-known text',
       'type' => 'text',
     ),
-    'geo_type'=> array(
+    'geo_type' => array(
       'label' => 'Geo Type',
       'options list' => '_geofield_geo_types_options_callback',
       'required' => TRUE,
@@ -552,7 +552,7 @@ function geofield_data_property_info($name = NULL) {
       'required' => TRUE,
       'setter callback' => 'entity_property_verbatim_set',
     ),
-    'lon'=> array(
+    'lon' => array(
       'label' => 'Longitude',
       'type' => 'decimal',
       'required' => TRUE,
@@ -569,7 +569,7 @@ function geofield_data_property_info($name = NULL) {
       'setter callback' => 'entity_property_verbatim_set',
     ),
     'right' => array(
-      'label' =>'Right Latitude',
+      'label' => 'Right Latitude',
       'type' => 'decimal',
       'setter callback' => 'entity_property_verbatim_set',
     ),
@@ -588,7 +588,6 @@ function geofield_data_property_info($name = NULL) {
       'getter callback' => 'geofield_return_latlon',
     ),
   );
-
 
   // Add the default values for each of the geofield properties.
   foreach ($properties as $key => &$value) {

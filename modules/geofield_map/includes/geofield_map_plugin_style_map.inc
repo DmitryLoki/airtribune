@@ -125,7 +125,8 @@ class geofield_map_plugin_style_map extends views_plugin_style {
 
       if (count($data) == 1) {
         $data = $data[0];
-      } else if (count($data) > 1) {
+      } 
+      elseif (count($data) > 1) {
         $tmp = $data;
         $data = array(
           'type' => 'GeometryCollection',

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Distance sort implementation.
+ */
+
 class geofield_handler_sort extends views_handler_sort {
   function query() {
     $geofield = $this->view->sort['field_geofield_distance'];

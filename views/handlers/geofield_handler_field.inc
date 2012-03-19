@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Distance field implementation.
+ */
+
 class geofield_handler_field extends views_handler_field_numeric {
   function query() {
     $geofield = $this->view->field[$this->real_field];
