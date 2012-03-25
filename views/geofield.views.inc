@@ -66,7 +66,7 @@ function geofield_field_views_data($field) {
  */
 
 function geofield_haversine($origin_lat, $origin_lon, $dest_field_lat, $dest_field_lon, $earth_radius) {
-  return sprintf('( %f * acos( cos( radians(%f) ) * cos( radians(%s) ) * cos( radians(%s) - radians(%d) ) + sin( radians(%f) ) * sin( radians(%s) ) ) )', $earth_radius, $origin_lat, $dest_field_lat, $dest_field_lon, $origin_lon, $origin_lat, $dest_field_lat);
+  return sprintf('( %f * acos( cos( radians(%f) ) * cos( radians(%s) ) * cos( radians(%s) - radians(%f) ) + sin( radians(%f) ) * sin( radians(%s) ) ) )', $earth_radius, $origin_lat, $dest_field_lat, $dest_field_lon, $origin_lon, $origin_lat, $dest_field_lat);
 }
 
 /**

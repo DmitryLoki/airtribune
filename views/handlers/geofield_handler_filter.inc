@@ -63,9 +63,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function query() {
-    $geofield = $this->view->field['field_geofield_distance'];
-    $lat_alias = $this->query->add_field($geofield->table, $this->definition['field_name'] . '_lat');
-    $lon_alias = $this->query->add_field($geofield->table, $this->definition['field_name'] . '_lon');
+    $lat_alias = $this->query->add_field($this->table, $this->definition['field_name'] . '_lat');
+    $lon_alias = $this->query->add_field($this->table, $this->definition['field_name'] . '_lon');
     $this->ensure_my_table();
 
     $info = $this->operators();
