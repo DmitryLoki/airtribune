@@ -13,8 +13,7 @@ function geofield_element_info() {
   return array(
     'geofield_latlon' => array(
       '#input' => TRUE,
-      '#process' => array('geofield_latlon_process'),
-      '#validate' => array('geofield_latlon_validate'),
+      '#process' => array('geofield_latlon_element_process'),
       '#element_validate' => array('geofield_latlon_element_validate'),
       '#theme' => array('geofield_latlon'),
       '#theme_wrappers' => array('fieldset'),
@@ -26,7 +25,7 @@ function geofield_element_info() {
  * Process function for geofield_latlon.
  */
 
-function geofield_latlon_process($element, &$form_values) {
+function geofield_latlon_element_process($element, &$form_values) {
   $element['#tree'] = TRUE;
   $element['lat'] = array(
     '#type' => 'textfield',
@@ -56,24 +55,29 @@ function geofield_latlon_process($element, &$form_values) {
 }
 
 /**
- * Validate function for geofield_latlon.
- */
-
-function geofield_latlon_validate($element, &$form_values) {
-  if (abs($element['lat']) > 90) {
-    form_error($element['lat'], t('Latitude is out of bounds.'));
-  }
-  if (abs($element['lon']) > 180) {
-    form_error($element['lon'], t('Longitude is out of bounds.'));
-  }
-}
-
-/**
  * Element validation function for geofield_latlon.
  */
 
 function geofield_latlon_element_validate($element, &$form_values) {
-  
+  $components = array(
+    'lat' => array(
+      'title' => 'Latitude',
+      'range' => 90,
+    ),
+    'lon' => array(
+      'title' => 'Longitude',
+      'range' => 180,
+    ),
+  );
+
+  foreach ($components as $key => $component) {
+    if (!is_numeric($element[$key]['#value'])) {
+      form_error($element[$key], t('@title: @component_title is not numeric.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+    }
+    elseif (abs($element[$key]['#value']) > $component['range']) {
+      form_error($element[$key], t('@title: @component_title is out of bounds.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+    }
+  }
 }
 
 function geofield_theme($existing, $type, $theme, $path) {

@@ -33,7 +33,6 @@ function geofield_test_formapi_element_form() {
       'lat' => '',
       'lon' => '',
     ),
-    '#geolocation' => TRUE,
   );
 
   $form['submit'] = array(
