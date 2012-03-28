@@ -5,7 +5,7 @@
  * Tests for geofield.module.
  */
 
-class GeoFieldTestCase extends DrupalWebTestCase {
+class GeoFieldTestCase extends FieldTestCase {
 
   public static function getInfo() {
     return array(
@@ -29,7 +29,7 @@ class GeoFieldTestCase extends DrupalWebTestCase {
    * Test widgets.
    */
   function testGeofieldWidgets() {
-    $this->_testGeofieldWidgets('geofield_wkt');
+    $this->_testGeofieldWidgets('geofield_latlon');
   }
 
   /**
