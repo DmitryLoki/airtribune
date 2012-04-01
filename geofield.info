@@ -1,7 +1,7 @@
 name = Geofield
 description = Stores geographic and location data (points, lines, and polygons).
 core = 7.x
-dependencies[] = libraries
+dependencies[] = geophp
 package = Fields
 files[] = geofield.module
 files[] = geofield.install

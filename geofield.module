@@ -202,55 +202,6 @@ function geofield_ctools_plugin_api($module, $api) {
   return array('version' => 1);
 }
 
-
-/**
- * Implements hook_requirements().
- */
-function geofield_requirements($phase) {
-  $requirements = array();
-
-  $geophp = geofield_load_geophp();
-
-  // Report geoPHP library status
-  if ($geophp) {
-    try {
-      $geophp_version = geoPHP::version();
-    }
-    catch (Exception $e) {
-      $geophp_version = 0;
-    }
-    if ($geophp_version >= 0.6) {
-      $requirements['geofield_geophp'] = array(
-        'title' => t('GeoPHP Library Installed'),
-        'severity' => REQUIREMENT_OK,
-        'value' => t('GeoPHP %version library installed at %path', array('%path' => $geophp, '%version' => geoPHP::version())),
-      );
-    }
-    elseif ($geophp_version >= 0.3) {
-      $requirements['geofield_geophp'] = array(
-        'title' => t('Old GeoPHP Library'),
-        'severity' => REQUIREMENT_INFO,
-        'value' => t('GeoPHP library was found, but you are running an old version. The version you are running is compatible, but it is not current, possibly leading to problems. You can download the newest version from %link and place in your libraries diectory as per the geofield installation instructions.', array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
-      );
-    }
-    else {
-      $requirements['geofield_geophp'] = array(
-        'title' => t('Old GeoPHP Library'),
-        'severity' => REQUIREMENT_ERROR,
-        'value' => t('GeoPHP library was found, but you are running an old version. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.', array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
-      );
-    }
-  }
-  else {
-    $requirements['geofield_geophp'] = array(
-      'title' => t('GeoPHP Library Not Found'),
-      'severity' => REQUIREMENT_ERROR,
-      'value' => t('GeoPHP library was not found. This will lead to problems when working with geofield. Please download from %link and place in your libraries diectory as per the geofield installation instructions.', array('%link' => 'https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz')),
-    );
-  }
-  return $requirements;
-}
-
  /**
  * Implements hook_field_instance_settings_form().
  */
@@ -296,29 +247,6 @@ function geofield_field_instance_settings_form($field, $instance) {
 }
 
 /**
- * Loads the geoPHP library.
- *
- * @return
- *   Returns the filename of the included geoPHP library when successful, FALSE
- *   otherwise.
- */
-function geofield_load_geophp() {
-  static $static_cache = FALSE;
-
-  if (!$static_cache) {
-    $path = libraries_get_path('geoPHP');
-    $file = $path . '/geoPHP.inc';
-    if (file_exists($file)) {
-      if (include_once($file)) {
-        $static_cache = $file;
-      }
-    }
-  }
-
-  return $static_cache;
-}
-
-/**
  * Geofield Compute Values
  *
  *  Compute all dependant values. We compute all other values from whichever
@@ -340,7 +268,7 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
   }
 
   // Load up geoPHP to do the conversions
-  $geophp = geofield_load_geophp();
+  $geophp = geophp_load();
   if (!$geophp) {
     drupal_set_message(t("Unable to load geoPHP library. Not all values will be calculated correctly"), 'error');
     return;
@@ -691,7 +619,7 @@ function geofield_data_property_info($name = NULL) {
 
 function _geofield_geo_types_options_callback() {
 
-  $geophp = geofield_load_geophp();
+  $geophp = geophp_load();
   if (!$geophp) {
     return;
   }

@@ -16,30 +16,7 @@ http://drupal.org/project/geofield
 ---
 INSTALLATION
 
-Following are instructions for manual installation of Geofield and its
-required pieces. Want to do it the easy way? Install drush
-(http://drupal.org/project/drush) and drush-make
-(http://drupal.org/project/drush_make), then issue the command:
-
-  drush make geofield.make
-
-Otherwise:
-
-1. Install the Libraries module (http://drupal.org/project/libraries)
-
-2. If it's not already there, create the directory /sites/all/libraries 
-   (or /sites/SITENAME/libraries for a multisite installation)
-
-3. Download the geoPHP library from
-   https://github.com/downloads/phayes/geoPHP/geoPHP.tar.gz
-   (For more information, see the full project page at
-   https://github.com/phayes/geoPHP)
-
-4. Unarchive the library files and place in the "libraries" directory
-   mentioned in Step 2
-
-Your directory structure should now look something like:
-/sites/all/libraries/geoPHP/geoPHP.inc
+Download and enable.
 
 ---
 CONFIGURATION
@@ -49,13 +26,9 @@ To be written. Maybe by you?
 ---
 DEPENDENCIES
 
-libraries
-  provides API for handling libraries
-  http://drupal.org/project/libraries
-
 geoPHP
   provides geometry transformations
-  https://github.com/phayes/geoPHP
+  https://drupal.org/project/geophp
 
 
 ---

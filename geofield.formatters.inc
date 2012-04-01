@@ -212,7 +212,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
   
   // Transform into centroid or bounding if needed
   if ($display['settings']['data'] != 'full') {
-    geofield_load_geophp();
+    geophp_load();
     if ($display['settings']['data'] == 'centroid') {
       foreach ($items as $delta => $item) {
         $centroid_wkt = 'POINT(' . $item['lon'] . ' ' . $item['lat'] . ')';
@@ -256,7 +256,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       }
       return $element;
     case 'geofield_geojson':
-      geofield_load_geophp();
+      geophp_load();
       foreach ($items as $delta => $item) {
         $geometry = geoPHP::load($item['wkt'], 'wkt');
         $json = $geometry->out('json');
@@ -264,7 +264,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       }
       return $element;
     case 'geofield_kml':
-      geofield_load_geophp();
+      geophp_load();
       foreach ($items as $delta => $item) {
         $geometry = geoPHP::load($item['wkt'], 'wkt');
         $kml = $geometry->out('kml');
@@ -272,7 +272,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       }
       return $element;
     case 'geofield_gpx':
-      geofield_load_geophp();
+      geophp_load();
       foreach ($items as $delta => $item) {
         $geometry = geoPHP::load($item['wkt'], 'wkt');
         $kml = $geometry->out('gpx');
@@ -360,7 +360,7 @@ function _geofield_openlayers_formatter($map_name, $items) {
 }
 
 function _geofield_def_list_formatter($item, $settings) {
-  geofield_load_geophp();
+  geophp_load();
   $geometry = geoPHP::load($item['wkt'], 'wkt');
   
   // Single types
@@ -395,7 +395,7 @@ function _geofield_def_list_formatter_dl($info) {
 }
 
 function _geofield_description_formatter($item, $settings) {
-  geofield_load_geophp();
+  geophp_load();
   $geometry = geoPHP::load($item['wkt'], 'wkt');
   
   // Single types

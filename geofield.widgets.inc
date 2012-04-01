@@ -118,7 +118,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['wkt']['#type'] = 'textarea';
 
     // We're actually displaying as GeoJSON, not wkt. This is confusing.
-    geofield_load_geophp();
+    geophp_load();
     $default_value = '';
 
     try {
@@ -334,7 +334,7 @@ function geofield_element_validate($element, &$form_state) {
 
   if ($element['input_format']['#value'] == 'geojson') {
     // For geojson input, we've hijacked the wkt value.
-    geofield_load_geophp();
+    geophp_load();
     try {
       $geometry = geoPHP::load($values['wkt'], 'json');
       $values['wkt'] = $geometry->out('wkt');
