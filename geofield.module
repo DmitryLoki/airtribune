@@ -71,7 +71,7 @@ function geofield_latlon_element_validate($element, &$form_values) {
   );
 
   foreach ($components as $key => $component) {
-    if (!is_numeric($element[$key]['#value'])) {
+    if (!empty($element[$key]['#value']) && !is_numeric($element[$key]['#value'])) {
       form_error($element[$key], t('@title: @component_title is not numeric.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
     }
     elseif (abs($element[$key]['#value']) > $component['range']) {
@@ -170,7 +170,8 @@ function geofield_field_is_empty($item, $field) {
     }
   }
   else {
-    return (empty($item['wkt']));
+    // @BJM TODO: Temp fix for widget.
+    return (empty($item['lat']) && empty($item['lon']));
   }
 }
 

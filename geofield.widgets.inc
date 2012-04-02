@@ -104,10 +104,11 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $widget = $instance['widget'];
   $settings = $widget['settings'];
-  $element = geofield_get_base_element($base, $items, $delta);
-
+  $element = array();
+  //$element = geofield_get_base_element($base, $items, $delta);
+  /*
   if ($widget['type'] == 'geofield_wkt') {
-    $element['wkt']['#title'] = 'Well Known Text';
+    /*$element['wkt']['#title'] = 'Well Known Text';
     $element['wkt']['#type'] = 'textarea';
     
     $element['master_column']['#value'] = 'wkt';
@@ -135,19 +136,30 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 
     $element['master_column']['#value'] = 'wkt';
     $element['input_format']['#value'] = 'geojson';
-  }
+  }*/
 
   if ($widget['type'] == 'geofield_latlon') {
-    $element['lat']['#title'] = 'Latitude';
-    $element['lat']['#type'] = 'textfield';
-    
-    $element['lon']['#title'] = 'Longitude';
-    $element['lon']['#type'] = 'textfield';
-    
-    $element['master_column']['#value'] = 'latlon';
+    kpr($instance);
+    kpr($items);
+    $latlon_value = array(
+      'lat' => '',
+      'lon' => '',
+    );
+    if (isset($items[$delta]['lat'])) {
+      $latlon_value['lat'] = $items[$delta]['lat'];
+    }
+    if (isset($items[$delta]['lon'])) {
+      $latlon_value['lon'] = $items[$delta]['lon'];
+    }
+    $element = array(
+      '#type' => 'geofield_latlon',
+      '#title' => $instance['label'],
+      '#description' => $instance['description'],
+      '#default_value' => $latlon_value,
+    );
   }
 
-  if ($widget['type'] == 'geofield_bounds') {
+  /*if ($widget['type'] == 'geofield_bounds') {
     $element['left']['#title'] = 'Left Longitude';
     $element['left']['#type'] = 'textfield';
     
@@ -218,7 +230,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['helpmap_desc'] = array(
       '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
     );
-  }
+  }*/
 
   return $element;
 }
