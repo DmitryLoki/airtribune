@@ -151,11 +151,15 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     if (isset($items[$delta]['lon'])) {
       $latlon_value['lon'] = $items[$delta]['lon'];
     }
-    $element = array(
+    $element['widget'] = array(
       '#type' => 'geofield_latlon',
       '#title' => $instance['label'],
       '#description' => $instance['description'],
       '#default_value' => $latlon_value,
+    );
+    $element['inputformat'] = array(
+      '#type' => 'value',
+      '#value' => 'latlon',
     );
   }
 
