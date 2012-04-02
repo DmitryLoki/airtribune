@@ -58,7 +58,7 @@ function geofield_map_field_formatter_view($entity_type, $entity, $field, $insta
   $settings = $display['settings'];
 
   $map_settings = geofield_map_settings_do($settings);
-  geofield_load_geophp();
+  geophp_load();
   $data = array();
 
   foreach ($items as $item) {
