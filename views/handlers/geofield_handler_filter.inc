@@ -63,13 +63,13 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function query() {
-    $lat_alias = $this->query->add_field($this->table, $this->definition['field_name'] . '_lat');
-    $lon_alias = $this->query->add_field($this->table, $this->definition['field_name'] . '_lon');
+    $lat_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lat');
+    $lon_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lon');
     $this->ensure_my_table();
 
     $info = $this->operators();
     if (!empty($info[$this->operator]['method'])) {
-      $this->{$info[$this->operator]['method']}(geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $this->definition['field_name'] . '_lat', $this->definition['field_name'] . '_lon', $this->options['radius_of_earth']));
+      $this->{$info[$this->operator]['method']}(geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $this->table_alias . '.' . $lat_alias, $this->table_alias . '.' . $lon_alias, $this->options['radius_of_earth']));
     }
   }
   
