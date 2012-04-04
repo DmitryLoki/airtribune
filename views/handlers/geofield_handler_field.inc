@@ -7,12 +7,21 @@
 
 class geofield_handler_field extends views_handler_field_numeric {
   function query() {
-    $geofield = $this->view->field[$this->real_field];
-    $this->query->add_field($geofield->table, $geofield->definition['field_name'] . '_lat');
-    $this->query->add_field($geofield->table, $geofield->definition['field_name'] . '_lon');
+    /**
+     * @TODO: Not sure if this is the best way to handle this, but attempting to set this on the object
+     * seems to break things.
+     */
+
+    $table_alias = $this->table;
+    if (!empty($this->relationship)) {
+      $table_alias = $this->relationship . '__' . $this->table;
+    }
+
+    $this->query->add_field($table_alias, $this->definition['field_name'] . '_lat');
+    $this->query->add_field($table_alias, $this->definition['field_name'] . '_lon');
 
     $this->ensure_my_table();
-    $this->field_alias = $this->query->add_field(NULL, geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $geofield->definition['field_name'] . '_lat', $geofield->definition['field_name'] . '_lon', $this->options['radius_of_earth']), $this->field);
+    $this->field_alias = $this->query->add_field(NULL, geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $this->definition['field_name'] . '_lat', $this->definition['field_name'] . '_lon', $this->options['radius_of_earth']), $this->table_alias . '_' . $this->field);
   }
 
   function option_definition() {
@@ -48,8 +57,8 @@ class geofield_handler_field extends views_handler_field_numeric {
   }
   
   function get_value($values, $field = NULL) {
-    if (isset($values->{$this->field})) {
-      return $values->{$this->field};
+    if (isset($values->{$this->field_alias})) {
+      return $values->{$this->field_alias};
     }
   }
 }
