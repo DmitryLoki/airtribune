@@ -1,20 +1,17 @@
 (function ($) {
   Drupal.behaviors.geofieldMap = {
-    attach: function(context) {
-      var settings = Drupal.settings.geofieldMap;
+    attach: function(context, settings) {
       
-      $('.geofieldMap:not(.processed)').each(function(index, element) {
+      $('.geofieldMap', context).once('geofield-processed', function(index, element) {
         var data = undefined;
         var map_settings = [];
         var pointCount = 0;
         var resetZoom = true;
+        var elemID = $(element).attr('id');
 
-        for (var i in settings) {
-          if (settings[i].map_id == $(element).attr('id')) {
-            data = settings[i].data;
-            map_settings = settings[i].map_settings;
-            break;
-          }
+        if(settings.geofieldMap[elemID]) {
+            data = settings.geofieldMap[elemID].data;
+            map_settings = settings.geofieldMap[elemID].map_settings;
         }
 
         // Checking to see if google variable exists. We need this b/c views breaks this sometimes. Probably
@@ -61,7 +58,7 @@
             scaleControlOptions: {style: google.maps.ScaleControlStyle.DEFAULT}
           };
 
-          var map = new google.maps.Map(document.getElementById($(element).attr('id')), myOptions);
+          var map = new google.maps.Map($(element).get(0), myOptions);
           var range = new google.maps.LatLngBounds();
 
           var infowindow = new google.maps.InfoWindow({
@@ -94,8 +91,6 @@
             map.setCenter(range.getCenter());
           }
         }
-
-        $(element).addClass('processed');
         
         function placeFeature(feature, map, range) {
           var properties = feature.get('geojsonProperties');
