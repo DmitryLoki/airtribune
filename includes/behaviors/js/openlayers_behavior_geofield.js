@@ -15,7 +15,7 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
   OpenLayers.Control.Panel, {
 
     /**
-     * Constructor: OpenLayers.Control.EditingToolbar
+     * Constructor: OpenLayers.Control.GeofieldEditingToolbar
      * Create an editing toolbar for a given layer.
      *
      * Parameters:
@@ -25,7 +25,7 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
     initialize: function(layer, options) {
         OpenLayers.Control.Panel.prototype.initialize.apply(this, [options]);
 
-        var controls = [];
+        var controls = [new OpenLayers.Control.Navigation()];
         var tools = options.tools;
         var tool = null;
 
@@ -65,14 +65,15 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
      * {DOMElement}
      */
     draw: function() {
-        var div = OpenLayers.Control.Panel.prototype.draw.apply(this, arguments);
+        OpenLayers.Control.Panel.prototype.draw.apply(this, arguments);
+        this.div.className += " olControlEditingToolbar";
         if (this.defaultControl === null) {
             this.defaultControl = this.controls[0];
         }
-        return div;
+        return this.div;
     },
 
-    CLASS_NAME: "OpenLayers.Control.EditingToolbar"
+    CLASS_NAME: "OpenLayers.Control.GeofieldEditingToolbar"
 });
 
 
@@ -163,6 +164,10 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
           // create toolbar
           var control = new OpenLayers.Control.GeofieldEditingToolbar(dataLayer, behavior);
           data.openlayers.addControl(control);
+
+          // Tmp: editing toolbar for comparison
+          //var editingControl = new OpenLayers.Control.EditingToolbar(dataLayer, behavior);
+          //data.openlayers.addControl(editingControl);
 
           // on submit recalculate everything to be up to date
           var formData = {
