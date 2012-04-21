@@ -3,8 +3,8 @@
  * JS Implementation of OpenLayers behavior.
  */
 /**
- * Class: OpenLayers.Control.DrupalEditingToolbar
- * The DrupalEditingToolbar is a panel controls to modify or draw polygons, lines,
+ * Class: OpenLayers.Control.GeofieldEditingToolbar
+ * The GeofieldEditingToolbar is a panel controls to modify or draw polygons, lines,
  * points, or to navigate the map by panning. You can select which tool to enable
  * with options.tools.
  *
@@ -26,6 +26,7 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
         OpenLayers.Control.Panel.prototype.initialize.apply(this, [options]);
 
         var controls = [new OpenLayers.Control.Navigation()];
+        var controls = [];
         var tools = options.tools;
         var tool = null;
 
@@ -164,10 +165,7 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
           // create toolbar
           var control = new OpenLayers.Control.GeofieldEditingToolbar(dataLayer, behavior);
           data.openlayers.addControl(control);
-
-          // Tmp: editing toolbar for comparison
-          //var editingControl = new OpenLayers.Control.EditingToolbar(dataLayer, behavior);
-          //data.openlayers.addControl(editingControl);
+          control[0].activate();
 
           // on submit recalculate everything to be up to date
           var formData = {
