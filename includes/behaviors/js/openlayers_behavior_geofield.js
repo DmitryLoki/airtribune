@@ -25,20 +25,9 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
     initialize: function(layer, options) {
         OpenLayers.Control.Panel.prototype.initialize.apply(this, [options]);
 
-        var controls = [new OpenLayers.Control.Navigation()];
         var controls = [];
         var tools = options.tools;
         var tool = null;
-
-        if (tools && tools.length) {
-          for (var i = 0, il = tools.length; i < il; i += 1) {
-            // capitalize first letter
-            tool = tools[i][0].toUpperCase() + tools[i].slice(1);
-            controls.push(
-              new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler[tool], {'displayClass': 'olControlDrawFeature' + tool})
-            );
-          }
-        }
 
         if (options.allow_edit && options.allow_edit !== 0) {
           // add an Edit feature
@@ -53,6 +42,18 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
               }
             }
           }));
+        } else {
+          controls = [new OpenLayers.Control.Navigation()];
+        }
+
+        if (tools && tools.length) {
+          for (var i = 0, il = tools.length; i < il; i += 1) {
+            // capitalize first letter
+            tool = tools[i][0].toUpperCase() + tools[i].slice(1);
+            controls.push(
+              new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler[tool], {'displayClass': 'olControlDrawFeature' + tool})
+            );
+          }
         }
 
         this.addControls(controls);
@@ -163,13 +164,12 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
             }
           });
           // create toolbar
-          var control = new OpenLayers.Control.GeofieldEditingToolbar(dataLayer, behavior);
-          data.openlayers.addControl(control);
-          control[0].activate();
+          var geofieldControl = new OpenLayers.Control.GeofieldEditingToolbar(dataLayer, behavior);
+          data.openlayers.addControl(geofieldControl);
 
           // on submit recalculate everything to be up to date
           var formData = {
-            'control': control,
+            'control': geofieldControl,
             'dataLayer': dataLayer
           };
           function handleSubmit (e) {
