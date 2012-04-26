@@ -44,13 +44,13 @@ function geofield_latlon_element_process($element, &$form_values) {
       'class' => array('geofield-lon'),
     ),
   );
-  
+
   unset($element['#value']);
-  
+
   if (!empty($element['#geolocation']) && $element['#geolocation'] == TRUE) {
     $element['#attached']['js'][] = drupal_get_path('module', 'geofield') . '/js/geolocation.js';
   }
-  
+
   return $element;
 }
 
