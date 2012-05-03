@@ -1,0 +1,15 @@
+name = Geofield Proximity
+description = Provides views filters for Geofield based on proximity
+core = 7.x
+
+dependencies[] = geocoder
+dependencies[] = geofield
+package = Fields
+
+stylesheets[all][] = css/exposed_filters.css
+
+files[] = views/handlers/geofield_proximity_handler_filter.inc
+files[] = views/handlers/geofield_proximity_handler_argument.inc
+files[] = views/handlers/geofield_proximity_handler_field.inc
+files[] = views/handlers/geofield_proximity_handler_sort.inc
+
