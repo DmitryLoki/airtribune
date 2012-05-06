@@ -399,7 +399,7 @@ function _geofield_description_formatter($item, $settings) {
   $geometry = geoPHP::load($item['wkt'], 'wkt');
 
   // Single types
-  $single_types = array('Point', 'LineStrnig', 'Polygon');
+  $single_types = array('Point', 'LineString', 'Polygon');
 
   if (in_array($geometry->geometryType(), $single_types)) {
     $centroid = new Point($item['lon'], $item['lat']);
