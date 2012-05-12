@@ -108,7 +108,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
   //Create dropdown for units
   $element['unit'] = array(
     '#type'          => 'select',
-    '#options'       => geofield_proximity_radius_options(),
+    '#options'       => geofield_radius_options(),
     '#title'         => t('Unit'),
     '#default_value' => $element['#unit_default'],
     '#title_display' => 'invisible',

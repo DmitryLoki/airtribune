@@ -72,7 +72,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       $this->{$info[$this->operator]['method']}(geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $this->table_alias . '.' . $lat_alias, $this->table_alias . '.' . $lon_alias, $this->options['radius_of_earth']));
     }
   }
-  
+
   function op_between($field) {
     if ($this->operator == 'between') {
       $this->query->add_where_expression($this->options['group'], $field, array($this->value['min'], $this->value['max']), 'BETWEEN');
@@ -89,14 +89,46 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
   function option_definition() {
     $options = parent::option_definition();
-    $options['dist_lat'] = array('default' => 0);
-    $options['dist_lon'] = array('default' => 0);
+    // Data sources and info needed.
+    $options['source'] = array('default' => 'manual');
+    // Geocoder options
+    if (module_exists('geocoder')) {
+      $options['geocoder'] = array('default' => 'google'); // @TODO: load from geocoder list of available plugins, pull first.
+      $options['geocoder_location'] = array(
+        'contains' => array(
+          'origin' => array('default' => ''),
+          'distance' => array('default' => 100),
+          'unit' => array('default' => 6371),
+        ),
+        'default' => array(),
+      );
+    }
+    // Other geofield
+    $options['other_geofield'] = array('default' => '');
+    // Raw origin point values.
+    $options['source_lat'] = array('default' => 0);
+    $options['source_lon'] = array('default' => 0);
     $options['radius_of_earth'] = array('default' => '6371');
     return $options;
   }
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
+    $form['source'] = array(
+      '#type' => 'select',
+      '#title' => t('Source of Origin Point'),
+      '#description' => t('How do you want to enter your origin point?'),
+      '#options' => array(
+        'manual' => t('Manually Enter Point'),
+        'other_geofield' => t('Other Geofield'),
+      ),
+      '#default_value' => $this->options['source'],
+    );
+
+    if (module_exists('geocoder')) {
+      $form['source']['#options']['geocode'] = t('Geocode');
+    }
+
     $form['dist_lat'] = array(
       '#type' => 'textfield',
       '#title' => t('Latitude of origin point.'),
@@ -116,6 +148,16 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#description' => '',
       '#options' => geofield_radius_options(),
       '#default_value' => $this->options['radius_of_earth'],
+    );
+  }
+
+  function value_form(&$form, &$form_state) {
+    $form['value'] = array(
+      '#type'             => 'geofield_proximity_search',
+      '#title'            => t('Proximity search'),
+      '#default_value'    => $this->value['origin'],
+      '#unit_default'     => $this->value['unit'],
+      '#distance_default' => $this->value['distance'],
     );
   }
 }

@@ -39,6 +39,10 @@ function geofield_field_views_data($field) {
           'click sortable' => TRUE,
         ),
         'filter' => array(
+          /**
+           * @TODO: We should probably do 3 different handlers for input of distance. Attempting to swap out the widget for
+           *   exposed fields is going to be very problematic.
+           */
           'field' => 'field_geofield_distance',
           'table' => $table_name,
           'handler' => 'geofield_handler_filter',
