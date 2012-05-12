@@ -47,6 +47,8 @@ class geofield_map_plugin_style_map extends views_plugin_style {
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
+    $container_id = '';
+
     $handlers = $this->display->handler->get_handlers('field');
 
     $data_source_options = $popup_source_options = array(
@@ -83,7 +85,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
         '#options' => $popup_source_options,
         '#default_value' => $this->options['popup_source'] ? $this->options['popup_source'] : '',
       );
-      
+
       $form['alt_text'] = array(
         '#type' => 'textarea',
         '#title' => t('Alternate Text'),
@@ -125,7 +127,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
 
       if (count($data) == 1) {
         $data = $data[0];
-      } 
+      }
       elseif (count($data) > 1) {
         $tmp = $data;
         $data = array(
