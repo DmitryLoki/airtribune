@@ -19,8 +19,8 @@ function geofield_field_views_data($field) {
     if (isset($table_data[$field_name])) {
       $data[$table_name]['field_geofield_distance'] = array(
         'group' => 'Content',
-        'title' => $table_data[$field_name]['title'] . ' (' . $table_name . ': Distance from point.)',
-        'title short' => $table_data[$field_name]['title short'] . ' (' . $table_name . ':  Distance from point.)',
+        'title'       => $table_data[$field_name]['title'] . ' - proximity',
+        'title short' => $table_data[$field_name]['title'] . ' - proximity',
         'help' => $table_data[$field_name]['help'],
         'sort' => array(
           'field' => 'field_geofield_distance',
@@ -56,7 +56,7 @@ function geofield_field_views_data($field) {
  */
 
 function geofield_haversine($origin_lat, $origin_lon, $dest_field_lat, $dest_field_lon, $earth_radius) {
-  return sprintf('( %f * acos( cos( radians(%f) ) * cos( radians(%s) ) * cos( radians(%s) - radians(%f) ) + sin( radians(%f) ) * sin( radians(%s) ) ) )', $earth_radius, $origin_lat, $dest_field_lat, $dest_field_lon, $origin_lon, $origin_lat, $dest_field_lat);
+  return sprintf('( %f * acos( cos( radians(%f) ) * cos( radians(%s) ) * cos( radians(%s) - radians(%s) ) + sin( radians(%s) ) * sin( radians(%s) ) ) )', $earth_radius, $origin_lat, $dest_field_lat, $dest_field_lon, $origin_lon, $origin_lat, $dest_field_lat);
 }
 
 /**
