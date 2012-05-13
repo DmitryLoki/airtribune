@@ -15,6 +15,14 @@ function geofield_test_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['geofield-proximity-element'] = array(
+    'title' => 'Geofield proximity element test',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('geofield_test_formapi_proximity_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   return $items;
 }
 
@@ -33,6 +41,33 @@ function geofield_test_formapi_element_form() {
       'lat' => '',
       'lon' => '',
     ),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  return $form;
+}
+
+/**
+ * Form API callback for proximity formapi element.
+ */
+
+function geofield_test_formapi_proximity_form() {
+  $form = array();
+
+  $form['geofield_proximity'] = array(
+    '#type' => 'geofield_proximity',
+    '#title' => t('Proximity field'),
+    '#description' => t('Test description'),
+    '#default_value' => array(
+      'origin' => '',
+      'distance' => 0,
+      'unit' => 6371,
+    ),
+    '#origin_element' => 'textfield',
   );
 
   $form['submit'] = array(

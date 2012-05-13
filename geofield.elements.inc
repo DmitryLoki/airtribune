@@ -1,0 +1,200 @@
+<?php
+
+/**
+ * @file
+ * Provides FormAPI element callbacks for geofield_latlon and geofield_proximity.
+ */
+
+/**
+ * Diameter of the Earth in kilometers.
+ */
+define('GEOFIELD_KILOMETERS', 6371);
+
+/**
+ * Implements hook_element_info().
+ */
+
+function geofield_element_info() {
+  return array(
+    'geofield_latlon' => array(
+      '#input' => TRUE,
+      '#process' => array('geofield_latlon_element_process'),
+      '#element_validate' => array('geofield_latlon_element_validate'),
+      '#theme' => array('geofield_latlon'),
+      '#theme_wrappers' => array('fieldset'),
+    ),
+    'geofield_proximity' => array(
+      '#input' => FALSE,
+      '#tree' => TRUE,
+      '#theme_wrappers' => array('geofield_proximity'),
+      '#process' => array('geofield_proximity_element_process'),
+      '#origin_element' => 'textfield',
+    ),
+  );
+}
+
+/**
+ * Process function for geofield_latlon.
+ */
+
+function geofield_latlon_element_process($element, &$form_values) {
+  $element['#tree'] = TRUE;
+  $element['lat'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Latitude'),
+    '#default_value' => $element['#default_value']['lat'],
+    '#attributes' => array(
+      'class' => array('geofield-lat'),
+    ),
+  );
+
+  $element['lon'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Longitude'),
+    '#default_value' => $element['#default_value']['lon'],
+    '#attributes' => array(
+      'class' => array('geofield-lon'),
+    ),
+  );
+
+  unset($element['#value']);
+
+  if (!empty($element['#geolocation']) && $element['#geolocation'] == TRUE) {
+    $element['#attached']['js'][] = drupal_get_path('module', 'geofield') . '/js/geolocation.js';
+  }
+
+  return $element;
+}
+
+/**
+ * Element validation function for geofield_latlon.
+ */
+
+function geofield_latlon_element_validate($element, &$form_values) {
+  $components = array(
+    'lat' => array(
+      'title' => 'Latitude',
+      'range' => 90,
+    ),
+    'lon' => array(
+      'title' => 'Longitude',
+      'range' => 180,
+    ),
+  );
+
+  foreach ($components as $key => $component) {
+    if (!is_numeric($element[$key]['#value'])) {
+      form_error($element[$key], t('@title: @component_title is not numeric.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+    }
+    elseif (abs($element[$key]['#value']) > $component['range']) {
+      form_error($element[$key], t('@title: @component_title is out of bounds.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+    }
+  }
+}
+
+/**
+ * Process function for the form element
+ */
+function geofield_proximity_element_process($element, &$form_state, $form) {
+	kpr($element);
+  $element['#attributes'] = array('class' => array('clearfix'));
+  $element['#attached']['css'] = array(drupal_get_path('module', 'geofield') . '/css/proximity-element.css');
+
+  //Create the textfield for distance
+  $element['distance'] = array(
+    '#type'             => $element['#origin_element'],
+    '#title'            => t('Distance'),
+    '#default_value'    => $element['#default_value']['distance'],
+    '#title_display'    => 'invisible',
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  //Create dropdown for units
+  $element['unit'] = array(
+    '#type'          => 'select',
+    '#options'       => geofield_radius_options(),
+    '#title'         => t('Unit'),
+    '#default_value' => $element['#default_value']['unit'],
+    '#title_display' => 'invisible',
+  );
+
+  //Create textfield for geocoded input
+  $element['origin'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Origin'),
+    '#prefix'        => '<span class="geofield-proximity-origin-from">from</span>',
+    '#title_display' => 'invisible',
+    '#required'      => !empty($element['#required']) ? $element['#required'] : FALSE,
+    '#default_value' => !empty($element['#default_value']['origin']) ? $element['#default_value']['origin'] : FALSE,
+  );
+
+  if (isset($element['#element_validate'])) {
+    array_push($element['#element_validate'], 'goefield_proximity_search_validate');
+  }
+  else {
+    $element['#element_validate'] = array('geofield_proximity_search_validate');
+  }
+
+  return $element;
+}
+
+/**
+ * Validate the geofield proximity search form item
+ */
+function geofield_proximity_search_validate($element, &$form_state) {
+  //If the origin is set, ensure the distance is set as well
+  if ($element['origin']['#value'] != '' && empty($element['distance']['#value']))
+    form_set_error(implode('][', $element['#array_parents']) . '][distance', t('@title must be set when @origin is specified.', array('@title' => $element['distance']['#title'], '@origin' => $element['origin']['#title'])));
+}
+
+function geofield_theme($existing, $type, $theme, $path) {
+  return array(
+    'geofield_latlon' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+    ),
+    'geofield_proximity' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+
+/**
+ * Theme wrapper for form item
+ */
+function theme_geofield_proximity($vars) {
+  $element = $vars['element'];
+
+  $attributes = !empty($element['#wrapper_attributes']) ? $element['#wrapper_attributes'] : array('class' => array());
+  $attributes['class'][] = 'geofield-proximity-field-wrapper';
+  $attributes['class'][] = 'clearfix';
+
+  $wrapper_attributes = array();
+  $wrapper_attributes['class'][] = 'clearfix';
+
+  if (isset($element['#children']))
+    $element['#children'] = '<div id="' . $element['#id'] . '" ' . drupal_attributes($wrapper_attributes) . '>' . $element['#children'] . '</div>';
+
+  $output = '<div ' . drupal_attributes($attributes) . '>' . theme('form_element', $element) . '</div>';
+
+  return $output;
+}
+
+function theme_geofield_latlon($vars) {
+  return drupal_render($vars['element']['lat']) . drupal_render($vars['element']['lon']);
+}
+
+/**
+ * Returns options for radius of the Earth.
+ */
+
+function geofield_radius_options() {
+  return array(
+    GEOFIELD_KILOMETERS => t('Kilometers'),
+    '6371000' => t('Meters'),
+    '3959' => t('Miles'),
+    '6975175' => t('Yards'),
+    '20925525' => t('Feet'),
+    '3444' => t('Nautical Miles'),
+  );
+}

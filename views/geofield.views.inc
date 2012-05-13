@@ -54,26 +54,3 @@ function geofield_field_views_data($field) {
   }
   return $data;
 }
-
-/**
- * Haversine formula
- */
-
-function geofield_haversine($origin_lat, $origin_lon, $dest_field_lat, $dest_field_lon, $earth_radius) {
-  return sprintf('( %f * acos( cos( radians(%f) ) * cos( radians(%s) ) * cos( radians(%s) - radians(%s) ) + sin( radians(%s) ) * sin( radians(%s) ) ) )', $earth_radius, $origin_lat, $dest_field_lat, $dest_field_lon, $origin_lon, $origin_lat, $dest_field_lat);
-}
-
-/**
- * Returns options for radius of the Earth.
- */
-
-function geofield_radius_options() {
-  return array(
-    '6371' => t('Kilometers'),
-    '6371000' => t('Meters'),
-    '3959' => t('Miles'),
-    '6975175' => t('Yards'),
-    '20925525' => t('Feet'),
-    '3444' => t('Nautical Miles'),
-  );
-}

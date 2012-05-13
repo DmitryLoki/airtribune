@@ -5,6 +5,7 @@ dependencies[] = geophp
 package = Fields
 files[] = geofield.module
 files[] = geofield.install
+files[] = geofield.elements.inc
 files[] = geofield.widgets.inc
 files[] = geofield.formatters.inc
 files[] = geofield.openlayers.inc
