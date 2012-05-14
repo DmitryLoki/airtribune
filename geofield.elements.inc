@@ -11,6 +11,31 @@
 define('GEOFIELD_KILOMETERS', 6371);
 
 /**
+ * Diameter of the Earth in meters.
+ */
+define('GEOFIELD_METERS', 6371000);
+
+/**
+ * Diameter of the Earth in miles.
+ */
+define('GEOFIELD_MILES', 3959);
+
+/**
+ * Diameter of the Earth in yards.
+ */
+define('GEOFIELD_YARDS', 6975175);
+
+/**
+ * Diameter of the Earth in feet.
+ */
+define('GEOFIELD_FEET', 20925525);
+
+/**
+ * Diameter of the Earth in nautical miles.
+ */
+define('GEOFIELD_NAUTICAL_MILES', 3444);
+
+/**
  * Implements hook_element_info().
  */
 
@@ -96,7 +121,6 @@ function geofield_latlon_element_validate($element, &$form_values) {
  * Process function for the form element
  */
 function geofield_proximity_element_process($element, &$form_state, $form) {
-	kpr($element);
   $element['#attributes'] = array('class' => array('clearfix'));
   $element['#attached']['css'] = array(drupal_get_path('module', 'geofield') . '/css/proximity-element.css');
 
@@ -191,10 +215,10 @@ function theme_geofield_latlon($vars) {
 function geofield_radius_options() {
   return array(
     GEOFIELD_KILOMETERS => t('Kilometers'),
-    '6371000' => t('Meters'),
-    '3959' => t('Miles'),
-    '6975175' => t('Yards'),
-    '20925525' => t('Feet'),
-    '3444' => t('Nautical Miles'),
+    GEOFIELD_METERS => t('Meters'),
+    GEOFIELD_MILES => t('Miles'),
+    GEOFIELD_YARDS => t('Yards'),
+    GEOFIELD_FEET => t('Feet'),
+    GEOFIELD_NAUTICAL_MILES => t('Nautical Miles'),
   );
 }

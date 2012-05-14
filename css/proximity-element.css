@@ -17,6 +17,14 @@
   padding-top: 3px;
 }
 
+.geofield-proximity-field-wrapper .form-item-geofield-proximity-distance input {
+	width: 8em;
+}
+
+.geofield-proximity-field-wrapper .form-item-geofield-proximity-origin input {
+	width: 12em;
+}
+
 .geofield-proximity-field-wrapper .geofield-proximity-origin-from {
   padding-top : 7px;
 }

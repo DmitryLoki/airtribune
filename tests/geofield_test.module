@@ -65,7 +65,7 @@ function geofield_test_formapi_proximity_form() {
     '#default_value' => array(
       'origin' => '',
       'distance' => 0,
-      'unit' => 6371,
+      'unit' => GEOFIELD_KILOMETERS,
     ),
     '#origin_element' => 'textfield',
   );
