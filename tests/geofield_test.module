@@ -60,15 +60,27 @@ function geofield_test_formapi_proximity_form() {
 
   $form['geofield_proximity'] = array(
     '#type' => 'geofield_proximity',
-    '#title' => t('Proximity field'),
+    '#title' => t('Proximity field - Simple'),
     '#description' => t('Test description'),
     '#default_value' => array(
       'origin' => '',
       'distance' => 0,
       'unit' => GEOFIELD_KILOMETERS,
     ),
-    '#origin_element' => 'textfield',
   );
+
+  $form['geofield_proximity_range'] = array(
+    '#type' => 'geofield_proximity',
+    '#title' => t('Proximity field - Range'),
+    '#description' => t('Test description'),
+    '#default_value' => array(
+      'origin' => '',
+      'distance' => 0,
+      'unit' => GEOFIELD_KILOMETERS,
+    ),
+    '#geofield_range' => TRUE,
+  );
+
 
   $form['submit'] = array(
     '#type' => 'submit',

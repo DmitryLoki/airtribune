@@ -126,12 +126,23 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
 
   //Create the textfield for distance
   $element['distance'] = array(
-    '#type' => $element['#origin_element'],
+    '#type' => 'textfield',
     '#title' => t('Distance'),
     '#default_value' => !empty($element['#default_value']['distance']) ? $element['#default_value']['distance'] : 0,
     '#title_display' => 'invisible',
     '#element_validate' => array('element_validate_integer_positive'),
   );
+
+  // If #geofield_range is TRUE, create second option for range.
+  if (!empty($element['#geofield_range']) && $element['#geofield_range'] == TRUE) {
+    $element['distance2'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Distance End'),
+      '#default_value' => !empty($element['#default_value']['distance2']) ? $element['#default_value']['distance2'] : 0,
+      '#title_display' => 'invisible',
+      '#element_validate' => array('element_validate_integer_positive'),
+    );
+  }
 
   //Create dropdown for units
   $element['unit'] = array(
@@ -144,7 +155,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
 
   //Create textfield for geocoded input
   $element['origin'] = array(
-    '#type' => 'textfield',
+    '#type' => (!empty($element['#origin_element'])) ? $element['#origin_element'] : 'textfield',
     '#title' => t('Origin'),
     '#prefix' => '<span class="geofield-proximity-origin-from">from</span>',
     '#title_display' => 'invisible',
