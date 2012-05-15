@@ -63,13 +63,23 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function query() {
+    switch ($this->options['source']) {
+      case 'geocode':
+        if (!empty($this->value['origin'])) {
+          if ($origin_geo = geocoder('google', $this->value['origin'])) {
+            $lat_origin = $origin_geo->getY();
+            $lon_origin = $origin_geo->getX();
+          }
+        }
+        break;
+    }
     $lat_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lat');
     $lon_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lon');
     $this->ensure_my_table();
 
     $info = $this->operators();
     if (!empty($info[$this->operator]['method'])) {
-      $this->{$info[$this->operator]['method']}(geofield_haversine($this->options['dist_lat'], $this->options['dist_lon'], $this->table_alias . '.' . $lat_alias, $this->table_alias . '.' . $lon_alias, $this->options['radius_of_earth']));
+      $this->{$info[$this->operator]['method']}(geofield_haversine($lat_origin, $lon_origin, $this->table_alias . '.' . $lat_alias, $this->table_alias . '.' . $lon_alias, $this->value['unit']));
     }
   }
 
@@ -84,31 +94,20 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function op_simple($field) {
-    $this->query->add_where_expression($this->options['group'], $field . ' ' . $this->operator . ' ' . $this->value['value']);
+    $this->query->add_where_expression($this->options['group'], $field . ' ' . $this->operator . ' ' . $this->value['distance']);
   }
 
   function option_definition() {
     $options = parent::option_definition();
     // Data sources and info needed.
     $options['source'] = array('default' => 'manual');
-    // Geocoder options
-    if (module_exists('geocoder')) {
-      $options['geocoder'] = array('default' => 'google'); // @TODO: load from geocoder list of available plugins, pull first.
-      $options['geocoder_location'] = array(
-        'contains' => array(
-          'origin' => array('default' => ''),
-          'distance' => array('default' => 100),
-          'unit' => array('default' => 6371),
-        ),
-        'default' => array(),
-      );
-    }
-    // Other geofield
-    $options['other_geofield'] = array('default' => '');
-    // Raw origin point values.
-    $options['source_lat'] = array('default' => 0);
-    $options['source_lon'] = array('default' => 0);
-    $options['radius_of_earth'] = array('default' => '6371');
+    $options['value'] = array(
+      'default' => array(
+        'distance' => 100,
+        'unit' => GEOFIELD_KILOMETERS,
+        'origin' => array(),
+      ),
+    );
     return $options;
   }
 
@@ -128,36 +127,49 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     if (module_exists('geocoder')) {
       $form['source']['#options']['geocode'] = t('Geocode');
     }
-
-    $form['dist_lat'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Latitude of origin point.'),
-      '#description' => t(''),
-      '#default_value' => $this->options['dist_lat'],
-    );
-    $form['dist_lon'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Longitude of origin point.'),
-      '#description' => t(''),
-      '#default_value' => $this->options['dist_lon'],
-    );
-
-    $form['radius_of_earth'] = array(
-      '#type' => 'select',
-      '#title' => t('Unit of Measure'),
-      '#description' => '',
-      '#options' => geofield_radius_options(),
-      '#default_value' => $this->options['radius_of_earth'],
-    );
   }
 
   function value_form(&$form, &$form_state) {
     $form['value'] = array(
-      '#type'             => 'geofield_proximity_search',
-      '#title'            => t('Proximity search'),
-      '#default_value'    => $this->value['origin'],
-      '#unit_default'     => $this->value['unit'],
-      '#distance_default' => $this->value['distance'],
+      '#type' => 'geofield_proximity',
+      '#title' => t('Proximity Search'),
+      '#default_value' => array(
+        'distance' => $this->value['distance'],
+        'unit' => $this->value['unit'],
+        'origin' => $this->value['origin'],
+      ),
     );
+  }
+
+  function admin_summary() {
+    if (!empty($this->options['exposed'])) {
+      return t('exposed');
+    }
+
+    $options = $this->operator_options('short');
+    $output = check_plain($options[$this->operator]);
+    if (in_array($this->operator, $this->operator_values(2))) {
+      $output .= ' ' . t('@min and @max', array('@min' => $this->value['min'], '@max' => $this->value['max']));
+    }
+    elseif (in_array($this->operator, $this->operator_values(1))) {
+      $output .= ' ' . check_plain($this->value['distance']);
+    }
+    return $output;
+  }
+
+  /**
+   * Check to see if input from the exposed filters should change
+   * the behavior of this filter.
+   *   - @TODO: This could be more polished.
+   */
+  function accept_exposed_input($input) {
+    if ($input['field_geofield_distance']['distance'] === '' || $input['field_geofield_distance']['origin'] === '') {
+      return FALSE;
+    }
+
+    $this->value['distance'] = $input['field_geofield_distance']['distance'];
+    $this->value['unit'] = $input['field_geofield_distance']['unit'];
+    $this->value['origin'] = $input['field_geofield_distance']['origin'];
+    return TRUE;
   }
 }
