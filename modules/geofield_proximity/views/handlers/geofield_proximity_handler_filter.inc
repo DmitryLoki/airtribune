@@ -93,7 +93,7 @@ class geofield_proximity_handler_filter extends views_handler_filter {
     }
     return parent::accept_exposed_input($input);
   }
-  
+
   function filter_item_is_exposed($name) {
     return !empty($this->options['expose']['use_' . $name]) && !empty($this->options['expose'][$name]);
   }

@@ -66,7 +66,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     switch ($this->options['source']) {
       case 'geocode':
         if (!empty($this->value['origin'])) {
-          if ($origin_geo = geocoder('google', $this->value['origin'])) {
+          if ($origin_geo = geocoder($this->options['geocoder'], $this->value['origin'])) {
             $lat_origin = $origin_geo->getY();
             $lon_origin = $origin_geo->getX();
           }
@@ -108,6 +108,9 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'origin' => array(),
       ),
     );
+    if (module_exists('geocoder')) {
+      $options['geocoder'] = array('default' => 'google');
+    }
     return $options;
   }
 
@@ -126,6 +129,21 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
     if (module_exists('geocoder')) {
       $form['source']['#options']['geocode'] = t('Geocode');
+
+      $geocoders_raw = geocoder_handler_info('text');
+      $geocoder_options = array();
+      foreach ($geocoders_raw as $key => $geocoder) {
+        $geocoder_options[$key] = $geocoder['title'];
+      }
+      $form['geocoder'] = array(
+        '#type' => 'select',
+        '#title' => t('Geocoding Service'),
+        '#options' => $geocoder_options,
+        '#default_value' => $this->options['geocoder'],
+        '#dependency' => array(
+          'edit-options-source' => array('geocode'),
+        ),
+      );
     }
   }
 
