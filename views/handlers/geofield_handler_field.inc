@@ -50,7 +50,7 @@ class geofield_handler_field extends views_handler_field_numeric {
     // Raw origin point values.
     $options['source_lat'] = array('default' => 0);
     $options['source_lon'] = array('default' => 0);
-    $options['radius_of_earth'] = array('default' => '6371');
+    $options['radius_of_earth'] = array('default' => GEOFIELD_KILOMETERS);
     return $options;
   }
 

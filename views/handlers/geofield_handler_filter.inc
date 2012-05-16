@@ -84,13 +84,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function op_between($field) {
-    if ($this->operator == 'between') {
-      $this->query->add_where_expression($this->options['group'], $field, array($this->value['min'], $this->value['max']), 'BETWEEN');
-    }
-    else {
-      // @TODO: Figure out how to do this with add_where_expression.
-      //$this->query->add_where($this->options['group'], db_or()->condition($field, $this->value['min'], '<=')->condition($field, $this->value['max'], '>='));
-    }
+    $this->query->add_where_expression($this->options['group'], $field . ' ' . strtoupper($this->operator) . ' ' . $this->value['distance'] . ' AND ' . $this->value['distance2']);
   }
 
   function op_simple($field) {
@@ -104,6 +98,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     $options['value'] = array(
       'default' => array(
         'distance' => 100,
+        'distance2' => 200,
         'unit' => GEOFIELD_KILOMETERS,
         'origin' => array(),
       ),
@@ -157,6 +152,11 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'origin' => $this->value['origin'],
       ),
     );
+
+    if (in_array($this->operator, array('between', 'not between'))) {
+      $form['value']['#geofield_range'] = TRUE;
+      $form['value']['#default_value']['distance2'] = $this->value['distance2'];
+    }
   }
 
   function admin_summary() {
@@ -167,7 +167,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     $options = $this->operator_options('short');
     $output = check_plain($options[$this->operator]);
     if (in_array($this->operator, $this->operator_values(2))) {
-      $output .= ' ' . t('@min and @max', array('@min' => $this->value['min'], '@max' => $this->value['max']));
+      $output .= ' ' . t('@min and @max', array('@min' => $this->value['distance'], '@max' => $this->value['distance2']));
     }
     elseif (in_array($this->operator, $this->operator_values(1))) {
       $output .= ' ' . check_plain($this->value['distance']);
