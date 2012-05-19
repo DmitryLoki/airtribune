@@ -33,7 +33,15 @@ class geofield_handler_field extends views_handler_field_numeric {
     $lat_alias = $this->table_alias . '.' . $this->definition['field_name'] . '_lat';
     $lon_alias = $this->table_alias . '.' . $this->definition['field_name'] . '_lon';
 
-    $this->field_alias = $this->query->add_field(NULL, geofield_haversine($this->options['source_lat'], $this->options['source_lon'], $lat_alias, $lon_alias, $this->options['radius_of_earth']), $this->table_alias . '_' . $this->field);
+    $haversine_options = array(
+      'origin_latitude' => $lat_alias,
+      'origin_longitude' => $lon_alias,
+      'destination_latitude' => $this->options['source_lat'],
+      'destination_longitude' => $this->options['source_lon'],
+      'earth_radius' => $this->options['radius_of_earth'],
+    );
+
+    $this->field_alias = $this->query->add_field(NULL, geofield_haversine($haversine_options), $this->table_alias . '_' . $this->field);
   }
 
   function option_definition() {

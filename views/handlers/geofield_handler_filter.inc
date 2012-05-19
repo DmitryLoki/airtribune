@@ -79,16 +79,23 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
     $info = $this->operators();
     if (!empty($info[$this->operator]['method'])) {
-      $this->{$info[$this->operator]['method']}(geofield_haversine($lat_origin, $lon_origin, $this->table_alias . '.' . $lat_alias, $this->table_alias . '.' . $lon_alias, $this->value['unit']));
+      $haversine_options = array(
+        'origin_latitude' => $lat_origin,
+        'origin_longitude' => $lon_origin,
+        'destination_latitude' => $this->table_alias . '.' . $lat_alias,
+        'destination_longitude' => $this->table_alias . '.' . $lon_alias,
+        'earth_radius' => $this->value['unit'],
+      );
+      $this->{$info[$this->operator]['method']}($haversine_options);
     }
   }
 
-  function op_between($field) {
-    $this->query->add_where_expression($this->options['group'], $field . ' ' . strtoupper($this->operator) . ' ' . $this->value['distance'] . ' AND ' . $this->value['distance2']);
+  function op_between($options) {
+    $this->query->add_where_expression($this->options['group'], geofield_haversine($options) . ' ' . strtoupper($this->operator) . ' ' . $this->value['distance'] . ' AND ' . $this->value['distance2']);
   }
 
-  function op_simple($field) {
-    $this->query->add_where_expression($this->options['group'], $field . ' ' . $this->operator . ' ' . $this->value['distance']);
+  function op_simple($options) {
+    $this->query->add_where_expression($this->options['group'], geofield_haversine($options) . ' ' . $this->operator . ' ' . $this->value['distance']);
   }
 
   function option_definition() {
