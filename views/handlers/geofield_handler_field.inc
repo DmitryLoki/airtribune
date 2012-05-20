@@ -32,6 +32,12 @@ class geofield_handler_field extends views_handler_field_numeric {
         if ($geocoded_data_raw) {
           $this->options['source_lon'] = $geocoded_data_raw->getX();
           $this->options['source_lat'] = $geocoded_data_raw->getY();
+        } elseif ($exposed_filter->options['source'] == 'other_geofield') {
+          $other_geofield = $this->view->display_handler->get_handler('field', $exposed_filter->value['origin']);
+          $this->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lat');
+          $this->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lon');
+          $this->options['source_lat'] = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat';
+          $this->options['source_lon'] = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon';
         }
       default:
         break;

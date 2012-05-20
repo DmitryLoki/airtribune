@@ -247,6 +247,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       case 'geocode':
         return geocoder($this->options['geocoder'], $this->value['origin']);
         break;
+      default:
+        return FALSE;
     }
   }
 }
