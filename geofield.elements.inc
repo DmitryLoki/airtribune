@@ -53,7 +53,6 @@ function geofield_element_info() {
       '#tree' => TRUE,
       '#theme_wrappers' => array('geofield_proximity'),
       '#process' => array('geofield_proximity_element_process'),
-      '#origin_element' => 'textfield',
     ),
   );
 }
@@ -163,6 +162,10 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
     '#default_value' => !empty($element['#default_value']['origin']) ? $element['#default_value']['origin'] : FALSE,
   );
 
+  if (!empty($element['#origin_options'])) {
+    $element['origin'] = array_merge($element['origin'], $element['#origin_options']);
+  }
+
   if (isset($element['#element_validate'])) {
     array_push($element['#element_validate'], 'goefield_proximity_search_validate');
   }
@@ -178,7 +181,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
  */
 function geofield_proximity_search_validate($element, &$form_state) {
   //If the origin is set, ensure the distance is set as well
-  if ($element['origin']['#value'] != '' && empty($element['distance']['#value']))
+  if (!empty($element['origin']['#value']) != '' && empty($element['distance']['#value']))
     form_set_error(implode('][', $element['#array_parents']) . '][distance', t('@title must be set when @origin is specified.', array('@title' => $element['distance']['#title'], '@origin' => $element['origin']['#title'])));
 }
 

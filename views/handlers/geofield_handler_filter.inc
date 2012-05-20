@@ -64,12 +64,25 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
   function query() {
     switch ($this->options['source']) {
+      case 'manual':
+        $lat_origin = $this->value['origin']['lat'];
+        $lon_origin = $this->value['origin']['lon'];
+        break;
       case 'geocode':
         if (!empty($this->value['origin'])) {
           if ($origin_geo = geocoder($this->options['geocoder'], $this->value['origin'])) {
             $lat_origin = $origin_geo->getY();
             $lon_origin = $origin_geo->getX();
           }
+        }
+        break;
+      case 'other_geofield':
+        if (!empty($this->value['origin'])) {
+          $other_geofield = $this->view->display_handler->get_handler('field', $this->value['origin']);
+          $this->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lat');
+          $this->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lon');
+          $lat_origin = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat';
+          $lon_origin = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon';
         }
         break;
     }
@@ -150,6 +163,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function value_form(&$form, &$form_state) {
+    //kpr($this);
+
     $form['value'] = array(
       '#type' => 'geofield_proximity',
       '#title' => t('Proximity Search'),
@@ -159,6 +174,30 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'origin' => $this->value['origin'],
       ),
     );
+
+    switch ($this->options['source']) {
+      case 'manual':
+        $form['value']['#origin_element'] = 'geofield_latlon';
+        break;
+      case 'geocode':
+
+        break;
+      case 'other_geofield':
+        $handlers = $this->view->display_handler->get_handlers('field');
+        $other_geofield_options = array();
+
+        foreach ($handlers as $handle) {
+          if (!empty($handle->field_info['type']) && $handle->field_info['type'] == 'geofield') {
+            $other_geofield_options[$handle->options['id']] = (!empty($handle->options['label'])) ? $handle->options['label'] : $handle->options['id'];
+          }
+        }
+
+        $form['value']['#origin_element'] = 'select';
+        $form['value']['#origin_options'] = array(
+          '#options' => $other_geofield_options,
+        );
+        break;
+    }
 
     if (in_array($this->operator, array('between', 'not between'))) {
       $form['value']['#geofield_range'] = TRUE;
