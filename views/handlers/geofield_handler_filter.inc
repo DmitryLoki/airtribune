@@ -163,8 +163,6 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function value_form(&$form, &$form_state) {
-    //kpr($this);
-
     $form['value'] = array(
       '#type' => 'geofield_proximity',
       '#title' => t('Proximity Search'),
