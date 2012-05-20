@@ -234,4 +234,19 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     $this->value['origin'] = $input['field_geofield_distance']['origin'];
     return TRUE;
   }
+
+  /**
+   * Helper function to retreive lat/lon points for other handlers who want to interact with this handler.
+   */
+
+  function get_calculated_geospatial() {
+    switch ($this->options['source']) {
+      case 'manual':
+        return new Point($this->value['origin']['lat'], $this->value['origin']['lon']);
+        break;
+      case 'geocode':
+        return geocoder($this->options['geocoder'], $this->value['origin']);
+        break;
+    }
+  }
 }

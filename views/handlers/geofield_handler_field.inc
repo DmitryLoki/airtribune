@@ -26,6 +26,13 @@ class geofield_handler_field extends views_handler_field_numeric {
           $this->options['source_lon'] = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon';
         }
         break;
+      case 'exposed_filter':
+        $exposed_filter = $this->view->display_handler->get_handler('filter', 'field_geofield_distance');
+        $geocoded_data_raw = $exposed_filter->get_calculated_geospatial();
+        if ($geocoded_data_raw) {
+          $this->options['source_lon'] = $geocoded_data_raw->getX();
+          $this->options['source_lat'] = $geocoded_data_raw->getY();
+        }
       default:
         break;
     }
@@ -72,6 +79,7 @@ class geofield_handler_field extends views_handler_field_numeric {
       '#options' => array(
         'manual' => t('Manually Enter Point'),
         'other_geofield' => t('Other Geofield'),
+        'exposed_filter' => t('Exposed Filter'),
       ),
       '#default_value' => $this->options['source'],
     );
