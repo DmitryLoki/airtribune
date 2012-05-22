@@ -237,18 +237,43 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
   /**
    * Helper function to retreive lat/lon points for other handlers who want to interact with this handler.
+   *
+   * @return
+   *   An array with elements 'lat' and 'lon.' Either element can either be a float or a string (signifying a particular database field).
    */
 
   function get_calculated_geospatial() {
+    $return = array();
     switch ($this->options['source']) {
       case 'manual':
-        return new Point($this->value['origin']['lat'], $this->value['origin']['lon']);
+        $point = new Point($this->value['origin']['lat'], $this->value['origin']['lon']);
+        $return = array(
+          'lat' => $point->getY(),
+          'lon' => $point->getX(),
+        );
         break;
       case 'geocode':
-        return geocoder($this->options['geocoder'], $this->value['origin']);
+        $point = geocoder($this->options['geocoder'], $this->value['origin']);
+        if (!empty($point)) {
+          $return = array(
+            'lat' => $point->getY(),
+            'lon' => $point->getX(),
+          );
+        } else {
+          $return = FALSE;
+        }
+        break;
+      case 'other_geofield':
+        $other_geofield = $this->view->display_handler->get_handler('field', $this->value['origin']);
+        $return = array(
+          'lat' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat',
+          'lon' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon',
+        );
         break;
       default:
         return FALSE;
     }
+
+    return $return;
   }
 }
