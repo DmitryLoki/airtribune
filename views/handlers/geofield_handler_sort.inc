@@ -31,10 +31,12 @@ class geofield_handler_sort extends views_handler_sort {
         break;
       case 'exposed_filter':
         $exposed_filter = $this->view->display_handler->get_handler('filter', 'field_geofield_distance');
-        $geocoded_data_raw = $exposed_filter->get_calculated_geospatial();
-        if ($geocoded_data_raw) {
-          $this->options['source_lon'] = $geocoded_data_raw['lon'];
-          $this->options['source_lat'] = $geocoded_data_raw['lat'];
+        if (!empty($exposed_filter)) {
+          $geocoded_data_raw = $exposed_filter->get_calculated_geospatial();
+          if ($geocoded_data_raw) {
+            $this->options['source_lon'] = $geocoded_data_raw['lon'];
+            $this->options['source_lat'] = $geocoded_data_raw['lat'];
+          }
         }
         break;
       default:

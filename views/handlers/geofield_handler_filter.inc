@@ -225,7 +225,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
    *   - @TODO: This could be more polished.
    */
   function accept_exposed_input($input) {
-    if ($input['field_geofield_distance']['distance'] === '' || $input['field_geofield_distance']['origin'] === '') {
+    if (empty($input['field_geofield_distance']) || $input['field_geofield_distance']['distance'] === '' || $input['field_geofield_distance']['origin'] === '') {
       return FALSE;
     }
 
@@ -246,10 +246,9 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     $return = array();
     switch ($this->options['source']) {
       case 'manual':
-        $point = new Point($this->value['origin']['lat'], $this->value['origin']['lon']);
         $return = array(
-          'lat' => $point->getY(),
-          'lon' => $point->getX(),
+          'lat' => $this->value['origin']['lat'],
+          'lon' => $this->value['origin']['lon'],
         );
         break;
       case 'geocode':

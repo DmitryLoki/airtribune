@@ -121,6 +121,7 @@ function geofield_latlon_element_validate($element, &$form_values) {
  */
 function geofield_proximity_element_process($element, &$form_state, $form) {
   $element['#attributes'] = array('class' => array('clearfix'));
+  $element['#tree'] = TRUE;
   $element['#attached']['css'] = array(drupal_get_path('module', 'geofield') . '/css/proximity-element.css');
 
   //Create the textfield for distance
