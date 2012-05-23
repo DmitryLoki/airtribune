@@ -66,7 +66,7 @@ function geofield_latlon_element_process($element, &$form_values) {
   $element['lat'] = array(
     '#type' => 'textfield',
     '#title' => t('Latitude'),
-    '#default_value' => $element['#default_value']['lat'],
+    '#default_value' => (!empty($element['#default_value']['lat'])) ? $element['#default_value']['lat'] : '',
     '#attributes' => array(
       'class' => array('geofield-lat'),
     ),
@@ -75,7 +75,7 @@ function geofield_latlon_element_process($element, &$form_values) {
   $element['lon'] = array(
     '#type' => 'textfield',
     '#title' => t('Longitude'),
-    '#default_value' => $element['#default_value']['lon'],
+    '#default_value' => (!empty($element['#default_value']['lon'])) ? $element['#default_value']['lon'] : '',
     '#attributes' => array(
       'class' => array('geofield-lon'),
     ),
