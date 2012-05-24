@@ -70,8 +70,8 @@ class GeoFieldElementTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-      'name'  => 'Geofield FormAPI Elements',
-      'description'  => "Test Geofield FormAPI elements.",
+      'name' => 'Geofield FormAPI Elements',
+      'description' => "Test Geofield FormAPI elements.",
       'group' => 'Form API',
     );
   }
@@ -96,7 +96,10 @@ class GeoFieldElementTestCase extends DrupalWebTestCase {
     $edit = array();
     $edit['geofield_latlon_simple[lat]'] = 41;
     $edit['geofield_latlon_simple[lon]'] = -86;
+    $edit['geofield_latlon_verbose[lat]'] = 25;
+    $edit['geofield_latlon_verbose[lon]'] = 54;
     $this->drupalPost('geofield-formapi-element', $edit, t('Save'));
-    $this->assertText('Lat: 41 Lon: -86', "Simple Geofield saved data as expected");
+    $this->assertText('Simple - Lat: 41 Lon: -86', "Simple Geofield saved data as expected");
+    $this->assertText('Verbose - Lat: 25 Lon: 54', "Verbose Geofield saved data as expected");
   }
 }

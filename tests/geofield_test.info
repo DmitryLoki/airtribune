@@ -3,3 +3,5 @@ description = "Support module for the Geofield tests."
 core = 7.x
 package = Testing
 
+dependencies[] = geocoder
+dependencies[] = geofield
