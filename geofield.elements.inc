@@ -66,6 +66,7 @@ function geofield_latlon_element_process($element, &$form_values) {
   $element['lat'] = array(
     '#type' => 'textfield',
     '#title' => t('Latitude'),
+    '#required' => (!empty($element['#required'])) ? $element['#required'] : FALSE,
     '#default_value' => (!empty($element['#default_value']['lat'])) ? $element['#default_value']['lat'] : '',
     '#attributes' => array(
       'class' => array('geofield-lat'),
@@ -75,6 +76,7 @@ function geofield_latlon_element_process($element, &$form_values) {
   $element['lon'] = array(
     '#type' => 'textfield',
     '#title' => t('Longitude'),
+    '#required' => (!empty($element['#required'])) ? $element['#required'] : FALSE,
     '#default_value' => (!empty($element['#default_value']['lon'])) ? $element['#default_value']['lon'] : '',
     '#attributes' => array(
       'class' => array('geofield-lon'),
@@ -82,6 +84,8 @@ function geofield_latlon_element_process($element, &$form_values) {
   );
 
   unset($element['#value']);
+  // Set this to false always to prevent notices.
+  $element['#required'] = FALSE;
 
   if (!empty($element['#geolocation']) && $element['#geolocation'] == TRUE) {
     $element['#attached']['js'][] = drupal_get_path('module', 'geofield') . '/js/geolocation.js';
@@ -107,11 +111,13 @@ function geofield_latlon_element_validate($element, &$form_values) {
   );
 
   foreach ($components as $key => $component) {
-    if (!is_numeric($element[$key]['#value'])) {
-      form_error($element[$key], t('@title: @component_title is not numeric.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
-    }
-    elseif (abs($element[$key]['#value']) > $component['range']) {
-      form_error($element[$key], t('@title: @component_title is out of bounds.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+    if (!empty($element[$key]['#value'])) {
+      if (!is_numeric($element[$key]['#value'])) {
+        form_error($element[$key], t('@title: @component_title is not numeric.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+      }
+      elseif (abs($element[$key]['#value']) > $component['range']) {
+        form_error($element[$key], t('@title: @component_title is out of bounds.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+      }
     }
   }
 }
