@@ -97,7 +97,7 @@ function _random_point() {
 
 function _wkt_generate_point($point = FALSE) {
   $point = $point ? $point : _random_point();
-  return '(' . implode(' ', $point) . ')';
+  return implode(' ', $point);
 }
 
 function _wkt_generate_multipoint() {
