@@ -3,8 +3,8 @@
  * JS Implementation of OpenLayers behavior.
  */
 /**
- * Class: OpenLayers.Control.DrupalEditingToolbar
- * The DrupalEditingToolbar is a panel controls to modify or draw polygons, lines,
+ * Class: OpenLayers.Control.GeofieldEditingToolbar
+ * The GeofieldEditingToolbar is a panel controls to modify or draw polygons, lines,
  * points, or to navigate the map by panning. You can select which tool to enable
  * with options.tools.
  *
@@ -15,7 +15,7 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
   OpenLayers.Control.Panel, {
 
     /**
-     * Constructor: OpenLayers.Control.EditingToolbar
+     * Constructor: OpenLayers.Control.GeofieldEditingToolbar
      * Create an editing toolbar for a given layer.
      *
      * Parameters:
@@ -28,16 +28,6 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
         var controls = [];
         var tools = options.tools;
         var tool = null;
-
-        if (tools && tools.length) {
-          for (var i = 0, il = tools.length; i < il; i += 1) {
-            // capitalize first letter
-            tool = tools[i][0].toUpperCase() + tools[i].slice(1);
-            controls.push(
-              new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler[tool], {'displayClass': 'olControlDrawFeature' + tool})
-            );
-          }
-        }
 
         if (options.allow_edit && options.allow_edit !== 0) {
           // add an Edit feature
@@ -52,6 +42,18 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
               }
             }
           }));
+        } else {
+          controls = [new OpenLayers.Control.Navigation()];
+        }
+
+        if (tools && tools.length) {
+          for (var i = 0, il = tools.length; i < il; i += 1) {
+            // capitalize first letter
+            tool = tools[i][0].toUpperCase() + tools[i].slice(1);
+            controls.push(
+              new OpenLayers.Control.DrawFeature(layer, OpenLayers.Handler[tool], {'displayClass': 'olControlDrawFeature' + tool})
+            );
+          }
         }
 
         this.addControls(controls);
@@ -65,14 +67,15 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
      * {DOMElement}
      */
     draw: function() {
-        var div = OpenLayers.Control.Panel.prototype.draw.apply(this, arguments);
+        OpenLayers.Control.Panel.prototype.draw.apply(this, arguments);
+        this.div.className += " olControlEditingToolbar";
         if (this.defaultControl === null) {
             this.defaultControl = this.controls[0];
         }
-        return div;
+        return this.div;
     },
 
-    CLASS_NAME: "OpenLayers.Control.EditingToolbar"
+    CLASS_NAME: "OpenLayers.Control.GeofieldEditingToolbar"
 });
 
 
@@ -161,12 +164,12 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
             }
           });
           // create toolbar
-          var control = new OpenLayers.Control.GeofieldEditingToolbar(dataLayer, behavior);
-          data.openlayers.addControl(control);
+          var geofieldControl = new OpenLayers.Control.GeofieldEditingToolbar(dataLayer, behavior);
+          data.openlayers.addControl(geofieldControl);
 
           // on submit recalculate everything to be up to date
           var formData = {
-            'control': control,
+            'control': geofieldControl,
             'dataLayer': dataLayer
           };
           function handleSubmit (e) {

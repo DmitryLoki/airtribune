@@ -215,6 +215,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   if ($widget['type'] == 'geofield_openlayers') {
+<<<<<<< HEAD
     drupal_add_js(
       array('geofield' => array(
         'data_storage' => (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
@@ -233,6 +234,37 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
     );
   }*/
+=======
+    $openlayers_map_id = !empty($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map';
+    $element['#openlayers_mapname'] = $openlayers_map_id;
+    $element['#after_build']= array('geofield_widget_openlayers_afterbuild');
+  }
+>>>>>>> 7.x-2.x
+
+  return $element;
+}
+
+/**
+ * Callback for afterbuild for widget for js addition to
+ */
+
+function geofield_widget_openlayers_afterbuild($element, &$form_state) {
+  drupal_add_js(
+    array('geofield' => array(
+      'data_storage' => (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
+      ),
+    ),
+  'setting');
+
+  $defaults = array();
+  $element['helpmap'] = array(
+    '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
+                   . geofield_form_latlon_map(array(), $element['#openlayers_mapname'])
+                   . '</div>');
+
+  $element['helpmap_desc'] = array(
+    '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
+  );
 
   return $element;
 }
@@ -289,6 +321,20 @@ function geofield_get_base_element($base, $items, $delta) {
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
 
+<<<<<<< HEAD
+=======
+  $element['description'] = array(
+    '#markup' => (!empty($element['#description'])) ? '<div class="description">' . $element['#description'] . '</div>' : '',
+  );
+
+  // Master column is used by element-validate to decide which set of columns it should use to compute all other values.
+  // By default, wkt is the master-column, all we compute all other values from it. For other widget (such as lat/lon) this will be different
+  $element['master_column'] = array(
+    '#type' => 'hidden',
+    '#value' => 'wkt',
+  );
+
+>>>>>>> 7.x-2.x
   // This validate function computes all other columns from the master field
   $element['#element_validate'] = array('geofield_element_validate');
 
@@ -306,8 +352,11 @@ function geofield_element_geojson_validate($element, &$form_state) {
 /**
  * Geofield Element Validate
  *
+<<<<<<< HEAD
  * In this function, we set all the values from our various widgets to what the FieldAPI expects from us
  * based on our schema declaration.
+=======
+>>>>>>> 7.x-2.x
  */
 function geofield_element_validate($element, &$form_state) {
   // @TODO: convert this from a switch statement to various function calls (like a boss).

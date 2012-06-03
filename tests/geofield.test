@@ -24,7 +24,7 @@ class GeoFieldTestCase extends FieldTestCase {
   }
 
   // Test fields.
-  
+
   /**
    * Test widgets.
    */
@@ -63,5 +63,43 @@ class GeoFieldTestCase extends FieldTestCase {
     // Display creation form.
     $this->drupalGet('test-entity/add/test-bundle');
     $this->assertFieldByName("{$this->field_name}[$langcode][0][wkt]", '', t('Widget is displayed'));
+  }
+}
+
+class GeoFieldElementTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Geofield FormAPI Elements',
+      'description' => "Test Geofield FormAPI elements.",
+      'group' => 'Form API',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('geofield', 'geofield_test', 'geocoder'));
+
+    $this->web_user = $this->drupalCreateUser(array('access content'));
+    $this->drupalLogin($this->web_user);
+  }
+
+  function testGeofieldLatLonElement() {
+    // Test form element rendering
+    $this->drupalGet('geofield-formapi-element');
+    $this->assertFieldById('edit-geofield-latlon-simple-lat', '', 'Latitude element for simple geofield exists.');
+    $this->assertFieldById('edit-geofield-latlon-simple-lon', '', 'Longitude element for simple geofield exists.');
+
+    $this->assertFieldById('edit-geofield-latlon-verbose-lat', 41, 'Latitude element for verbose geofield exists.');
+    $this->assertFieldById('edit-geofield-latlon-verbose-lon', -86, 'Longitude element for verbose geofield exists.');
+
+    // Test form element submission.
+    $edit = array();
+    $edit['geofield_latlon_simple[lat]'] = 41;
+    $edit['geofield_latlon_simple[lon]'] = -86;
+    $edit['geofield_latlon_verbose[lat]'] = 25;
+    $edit['geofield_latlon_verbose[lon]'] = 54;
+    $this->drupalPost('geofield-formapi-element', $edit, t('Save'));
+    $this->assertText('Simple - Lat: 41 Lon: -86', "Simple Geofield saved data as expected");
+    $this->assertText('Verbose - Lat: 25 Lon: 54', "Verbose Geofield saved data as expected");
   }
 }

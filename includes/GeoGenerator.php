@@ -56,7 +56,7 @@ class GeoGenerator {
 
   function wkt_generate_point($point = FALSE) {
     $point = $point ? $point : $this->random_point();
-    return '(' . implode(' ', $point) . ')';
+    return implode(' ', $point);
   }
 
   function wkt_generate_multipoint() {

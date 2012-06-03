@@ -50,69 +50,56 @@ function geofield_map_field_formatter_info() {
 function geofield_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
 
-  // We need this info in order to handle fields on multiple entity types.
-  $entity_info = entity_get_info($entity_type);
-  $entity_vars = get_object_vars($entity);
-  $entity_id = $entity_vars[$entity_info['entity keys']['id']];
+  list($entity_id) = entity_extract_ids($entity_type, $entity);
 
   $settings = $display['settings'];
 
   $map_settings = geofield_map_settings_do($settings);
-  geofield_load_geophp();
+  geophp_load();
   $data = array();
 
   foreach ($items as $item) {
     $geometry = geoPHP::load($item['wkt'], 'wkt');
     if (!empty($geometry)) {
       $datum = json_decode($geometry->out('json'));
-      $title = '';
-      if (!empty($entity->title)) {
-        $title = $entity->title;
-      } elseif (!empty($entity->name)) {
-        $title = $entity->name;
-      }
       $datum->properties = array(
-        'title' => $title,
+        'description' => entity_label($entity_type, $entity),
       );
       $data[] = $datum;
     }
   }
 
-  if (count($data) > 0) {
-    if (count($data) == 1) {
-      $data = $data[0];
-    } else if (count($data) > 1) {
-      $tmp = $data;
-      $data = array(
-        'type' => 'GeometryCollection',
-        'geometries' => $tmp
-      );
-    }
-  
+  if (!empty($data)) {
+    $map_id = drupal_html_id("geofield_map_entity_{$entity_type}_{$entity_id}_{$field['field_name']}");
+
     $js_settings = array(
-      $entity_id => array(
-        'map_id' => 'geofield_map_entity_' . $field['field_name'] . '_' . $entity_id,
+      $map_id => array(
         'map_settings' => $map_settings,
-        'data' => $data,
+        'data' => count($data) == 1 ?
+          $data[0] :
+          array( 'type' => 'GeometryCollection', 'geometries' => $data),
+
       ),
     );
-  
-    drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
-    drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/GeoJSON.js');
-    drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
-    drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
 
-    // defaults
-    $width = '100%';
-    $height = '300px';
-    if ($settings['geofield_map_width']) {
-      $width = $settings['geofield_map_width'];
-    }
-    if ($settings['geofield_map_height']) {
-      $height = $settings['geofield_map_height'];
-    }
+    $container_attributes = array(
+      //No need for defaults here - these are populated from the field defaults.
+      'style' => "height:{$settings['geofield_map_height']}; width:{$settings['geofield_map_width']}",
+      'id' => $map_id,
+      'class' => 'geofieldMap',
+    );
 
-    $element[0]['#markup'] = '<div style="width: ' . $width . '; height: ' . $height . '" id="geofield_map_entity_' . $field['field_name'] . '_' . $entity_id . '" class="geofieldMap"></div>';    
+    $element[0] = array(
+      '#attached' => array(
+        'js' => array(
+          'http://maps.googleapis.com/maps/api/js?sensor=false' => array('type' => 'external'),
+          drupal_get_path('module', 'geofield_map') . '/js/GeoJSON.js',
+          drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js',
+          array('data' => array('geofieldMap' => $js_settings), 'type' => 'setting'),
+        )
+      ),
+      '#markup' => '<div' . drupal_attributes($container_attributes) . '></div>',
+    );
   }
 
   return $element;
@@ -179,7 +166,6 @@ function geofield_map_field_formatter_settings_summary($field, $instance, $view_
 }
 
 function geofield_map_settings_form($settings, $element = array()) {
-
   $element['geofield_map_width'] = array(
     '#type' => 'textfield',
     '#title' => t('Map width'),
