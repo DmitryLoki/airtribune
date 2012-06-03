@@ -71,21 +71,8 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
  * Implements hook_content_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
-  // TODO: This is ugly. Please fix.
-  if (!empty($item['master_column'])) {
-    switch ($item['master_column']) {
-      case 'wkt';
-        return (empty($item['wkt']));
-      case 'latlon':
-        return (empty($item['lat']) && empty($item['lon']));
-      case 'bounds':
-        return (empty($item['left']) && empty($item['right']) && empty($item['top']) && empty($item['bottom']));
-    }
-  }
-  else {
-    // @BJM TODO: Temp fix for widget.
-    return (empty($item['lat']) && empty($item['lon']));
-  }
+  // @TODO: This field won't be called wkt for long.
+  return empty($item['wkt']);
 }
 
 /**

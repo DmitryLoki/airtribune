@@ -1,6 +1,26 @@
 <?php
 
 /**
+ * Geofield Input format - auto-discover.
+ */
+define('GEOFIELD_INPUT_AUTO_DISCOVER', 'auto-discover');
+
+/**
+ * Geofield Input format - WKT.
+ */
+define('GEOFIELD_INPUT_WKT', 'wkt');
+
+/**
+ * Geofield Input format - GeoJSON.
+ */
+define('GEOFIELD_INPUT_GEOJSON', 'geojson');
+
+/**
+ * Geofield Input format - lat/lon.
+ */
+define('GEOFIELD_INPUT_LAT_LON', 'lat/lon');
+
+/**
  * @file
  * Provides field widget hooks for geofield module.
  */
@@ -33,15 +53,6 @@ function geofield_field_widget_info() {
   );
   $widgets['geofield_bounds'] = array(
     'label' => t('Bounds'),
-    'field types' => array('geofield'),
-  );
-  $widgets['geofield_textfields'] = array(
-    'label' => t('All Textfields'),
-    'field types' => array('geofield'),
-  );
-
-  $widgets['geofield_geolocation'] = array(
-    'label' => 'HTML5 Geolocation',
     'field types' => array('geofield'),
   );
 
@@ -105,138 +116,59 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $widget = $instance['widget'];
   $settings = $widget['settings'];
   $element = geofield_get_base_element($base, $items, $delta);
-  /*
-  if ($widget['type'] == 'geofield_wkt') {
-    /*$element['wkt']['#title'] = 'Well Known Text';
-    $element['wkt']['#type'] = 'textarea';
 
-    $element['master_column']['#value'] = 'wkt';
-  }
+  switch ($widget['type']) {
+    case 'geofield_wkt':
+      $element['widget'] = array(
+        '#type' => 'textarea',
+        '#title' => $instance['label'],
+        '#description' => $instance['description'],
+        '#default_value' => !empty($items[$delta]['wkt']) ? $items[$delta]['wkt'] : '',
+        '#required' => $instance['required'],
+      );
 
-  if ($widget['type'] == 'geofield_geojson') {
-    $element['wkt']['#title'] = 'GeoJSON';
-    $element['wkt']['#type'] = 'textarea';
-
-    // We're actually displaying as GeoJSON, not wkt. This is confusing.
-    geophp_load();
-    $default_value = '';
-
-    try {
-      $wkt = isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL;
-      $geometry = geoPHP::load($wkt, 'wkt');
-      if ($geometry) {
+      $element['input_format']['#value'] = GEOFIELD_INPUT_WKT;
+      break;
+    case 'geofield_geojson':
+      $default_value = '';
+      if (!empty($items[$delta]['wkt'])) {
+        geophp_load();
+        $geometry = geoPHP::load($items[$delta]['wkt'], 'wkt');
         $default_value = $geometry->out('json');
       }
-    } catch (Exception $e) {
-      // @TODO: Not sure if we should do validation here or not...
-    }
 
-    $element['wkt']['#default_value'] = $default_value;
+      $element['widget'] = array(
+        '#type' => 'textarea',
+        '#title' => $instance['label'],
+        '#description' => $instance['description'],
+        '#default_value' => $default_value,
+        '#required' => $instance['required'],
+      );
 
-    $element['master_column']['#value'] = 'wkt';
-    $element['input_format']['#value'] = 'geojson';
-  }*/
+      $element['input_format']['#value'] = GEOFIELD_INPUT_GEOJSON;
+      break;
+    case 'geofield_latlon':
+      $latlon_value = array(
+        'lat' => '',
+        'lon' => '',
+      );
+      if (isset($items[$delta]['lat'])) {
+        $latlon_value['lat'] = $items[$delta]['lat'];
+      }
+      if (isset($items[$delta]['lon'])) {
+        $latlon_value['lon'] = $items[$delta]['lon'];
+      }
+      $element['widget'] = array(
+        '#type' => 'geofield_latlon',
+        '#title' => $instance['label'],
+        '#description' => $instance['description'],
+        '#default_value' => $latlon_value,
+        '#required' => $instance['required'],
+      );
 
-  if ($widget['type'] == 'geofield_latlon') {
-    $latlon_value = array(
-      'lat' => '',
-      'lon' => '',
-    );
-    if (isset($items[$delta]['lat'])) {
-      $latlon_value['lat'] = $items[$delta]['lat'];
-    }
-    if (isset($items[$delta]['lon'])) {
-      $latlon_value['lon'] = $items[$delta]['lon'];
-    }
-    $element['widget'] = array(
-      '#type' => 'geofield_latlon',
-      '#title' => $instance['label'],
-      '#description' => $instance['description'],
-      '#default_value' => $latlon_value,
-      '#geolocation' => TRUE,
-    );
-    $element['inputformat'] = array(
-      '#type' => 'value',
-      '#value' => 'latlon',
-    );
+      $element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
+      break;
   }
-
-  /*if ($widget['type'] == 'geofield_bounds') {
-    $element['left']['#title'] = 'Left Longitude';
-    $element['left']['#type'] = 'textfield';
-
-    $element['top']['#title'] = 'Top Latitude';
-    $element['top']['#type'] = 'textfield';
-
-    $element['right']['#title'] = 'Right Longitude';
-    $element['right']['#type'] = 'textfield';
-
-    $element['bottom']['#title'] = 'Bottom Latitude';
-    $element['bottom']['#type'] = 'textfield';
-
-    $element['master_column']['#value'] = 'bounds';
-  }
-
-  if ($widget['type'] == 'geofield_textfields') {
-    $element['wkt']['#title'] = 'Well Known Text';
-    $element['wkt']['#type'] = 'textarea';
-
-    $element['geo_type']['#title'] = 'Geometry Type';
-    $element['geo_type']['#type'] = 'textfield';
-
-    $element['lat']['#title'] = 'Latitude';
-    $element['lat']['#type'] = 'textfield';
-
-    $element['lon']['#title'] = 'Longitude';
-    $element['lon']['#type'] = 'textfield';
-
-    $element['left']['#title'] = 'Left Longitude';
-    $element['left']['#type'] = 'textfield';
-
-    $element['top']['#title'] = 'Top Latitude';
-    $element['top']['#type'] = 'textfield';
-
-    $element['right']['#title'] = 'Right Longitude';
-    $element['right']['#type'] = 'textfield';
-
-    $element['bottom']['#title'] = 'Bottom Latitude';
-    $element['bottom']['#type'] = 'textfield';
-  }
-
-  if ($widget['type'] == 'geofield_geolocation') {
-    $element['#attached']['js'][] = drupal_get_path('module', 'geofield') . '/js/geolocation.js';
-    $element['lat']['#title'] = 'Latitude';
-    $element['lat']['#type'] = 'textfield';
-
-    $element['lon']['#title'] = 'Longitude';
-    $element['lon']['#type'] = 'textfield';
-
-    $element['master_column']['#value'] = 'latlon';
-  }
-
-  if ($widget['type'] == 'geofield_openlayers') {
-    drupal_add_js(
-      array('geofield' => array(
-        'data_storage' => (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
-        ),
-      ),
-    'setting');
-
-    $field_class = '.field-name-' . str_replace('_', '-', $field['field_name']);
-    $defaults = array();
-    $element['helpmap'] = array(
-      '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
-                      . geofield_form_latlon_map($defaults, isset($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map')
-                      . '</div>'
-    );
-    $element['helpmap_desc'] = array(
-      '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
-    );
-  }*
-    $openlayers_map_id = !empty($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map';
-    $element['#openlayers_mapname'] = $openlayers_map_id;
-    $element['#after_build']= array('geofield_widget_openlayers_afterbuild');
-  }*/
 
   return $element;
 }
@@ -280,14 +212,10 @@ function geofield_form_latlon_map($defaults = array(), $map_name) {
 
 function geofield_get_base_element($base, $items, $delta) {
   $element = $base;
+  // @TODO: This won't be called wkt for long.
   $element['wkt'] = array(
     '#type' => 'value',
     '#value' => isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL,
-  );
-  $element['input_format'] = array(
-    '#type' => 'value',
-    '#attributes' => array('class' => array('geofield_input_format')),
-    '#value' => 'wkt',
   );
   $element['geo_type'] = array(
     '#type' => 'value',
@@ -318,29 +246,17 @@ function geofield_get_base_element($base, $items, $delta) {
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
 
-  $element['description'] = array(
-    '#markup' => (!empty($element['#description'])) ? '<div class="description">' . $element['#description'] . '</div>' : '',
-  );
-
-  // Master column is used by element-validate to decide which set of columns it should use to compute all other values.
-  // By default, wkt is the master-column, all we compute all other values from it. For other widget (such as lat/lon) this will be different
-  $element['master_column'] = array(
-    '#type' => 'hidden',
-    '#value' => 'wkt',
+  // $element['input_format'] is not a db field, but how we determine how to parse/calculate values in our widget.
+  $element['input_format'] = array(
+    '#type' => 'value',
+    '#attributes' => array('class' => array('geofield_input_format')),
+    '#value' => GEOFIELD_INPUT_AUTO_DISCOVER,
   );
 
   // This validate function computes all other columns from the master field
   $element['#element_validate'] = array('geofield_element_validate');
 
   return $element;
-}
-
-/**
- * Geofield Element Validate for GeoJSON widget
- */
-
-function geofield_element_geojson_validate($element, &$form_state) {
-
 }
 
 /**
@@ -351,13 +267,25 @@ function geofield_element_geojson_validate($element, &$form_state) {
  */
 function geofield_element_validate($element, &$form_state) {
   // @TODO: convert this from a switch statement to various function calls (like a boss).
-  switch ($element['inputformat']['#value']) {
-    case 'latlon':
+  switch ($element['input_format']['#value']) {
+    case GEOFIELD_INPUT_WKT:
+      geophp_load();
+      if (!empty($element['widget']['#value'])) {
+        $geometry = geoPHP::load($element['widget']['#value'], 'wkt');
+      }
+      break;
+    case GEOFIELD_INPUT_GEOJSON:
+      geophp_load();
+      if (!empty($element['widget']['#value'])) {
+        $geometry = geoPHP::load($element['widget']['#value'], 'json');
+      }
+      break;
+    case GEOFIELD_INPUT_LAT_LON:
       geophp_load();
       if (!empty($element['widget']['lat']['#value']) && !empty($element['widget']['lon']['#value'])) {
         $geometry = new Point($element['widget']['lat']['#value'], $element['widget']['lon']['#value']);
       }
-    break;
+      break;
   }
 
   $values = array();
@@ -383,47 +311,4 @@ function geofield_element_validate($element, &$form_state) {
   if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
   if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
   if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);
-
-  /*$master_column = $element['master_column']['#value'];
-
-  $values = array(
-    'wkt' => $element['wkt']['#value'],
-    'lat' => $element['lat']['#value'] ? geofield_latlon_DMStoDEC($element['lat']['#value']) : '',
-    'lon' => $element['lon']['#value'] ? geofield_latlon_DMStoDEC($element['lon']['#value']) : '',
-    'top' => $element['top']['#value'],
-    'bottom' => $element['bottom']['#value'],
-    'right' => $element['right']['#value'],
-    'left' => $element['left']['#value'],
-  );
-
-  // Because we have an odd flow to filter potential GeoJSON, we need a flag to determine whether or not to process.
-  // @TODO: This could be expanded to cover WKT as well.
-  $geo_process = "PROCESS";
-
-  if ($element['input_format']['#value'] == 'geojson') {
-    // For geojson input, we've hijacked the wkt value.
-    geophp_load();
-    try {
-      $geometry = geoPHP::load($values['wkt'], 'json');
-      $values['wkt'] = $geometry->out('wkt');
-    } catch (Exception $e) {
-      form_set_error($element['wkt']['#name'], 'Please enter valid GeoJSON');
-      $geo_process = '';
-    }
-  }
-
-  if ($geo_process == "PROCESS") {
-    geofield_compute_values($values, $master_column);
-
-    // Set form values from the $values array
-    if (isset($values['wkt']))       form_set_value($element['wkt'], $values['wkt'], $form_state);
-    if (isset($values['geo_type']))  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
-    if (isset($values['lat']))       form_set_value($element['lat'], $values['lat'], $form_state);
-    if (isset($values['lon']))       form_set_value($element['lon'], $values['lon'], $form_state);
-    if (isset($values['top']))       form_set_value($element['top'], $values['top'], $form_state);
-    if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
-    if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
-    if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);
-  }
-  */
 }
