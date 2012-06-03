@@ -215,7 +215,6 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   if ($widget['type'] == 'geofield_openlayers') {
-<<<<<<< HEAD
     drupal_add_js(
       array('geofield' => array(
         'data_storage' => (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
@@ -233,13 +232,11 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     $element['helpmap_desc'] = array(
       '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
     );
-  }*/
-=======
+  }*
     $openlayers_map_id = !empty($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map';
     $element['#openlayers_mapname'] = $openlayers_map_id;
     $element['#after_build']= array('geofield_widget_openlayers_afterbuild');
-  }
->>>>>>> 7.x-2.x
+  }*/
 
   return $element;
 }
@@ -321,8 +318,6 @@ function geofield_get_base_element($base, $items, $delta) {
     '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
   );
 
-<<<<<<< HEAD
-=======
   $element['description'] = array(
     '#markup' => (!empty($element['#description'])) ? '<div class="description">' . $element['#description'] . '</div>' : '',
   );
@@ -334,7 +329,6 @@ function geofield_get_base_element($base, $items, $delta) {
     '#value' => 'wkt',
   );
 
->>>>>>> 7.x-2.x
   // This validate function computes all other columns from the master field
   $element['#element_validate'] = array('geofield_element_validate');
 
@@ -352,11 +346,8 @@ function geofield_element_geojson_validate($element, &$form_state) {
 /**
  * Geofield Element Validate
  *
-<<<<<<< HEAD
  * In this function, we set all the values from our various widgets to what the FieldAPI expects from us
  * based on our schema declaration.
-=======
->>>>>>> 7.x-2.x
  */
 function geofield_element_validate($element, &$form_state) {
   // @TODO: convert this from a switch statement to various function calls (like a boss).
