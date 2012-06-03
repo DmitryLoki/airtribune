@@ -201,7 +201,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   if ($widget['type'] == 'geofield_openlayers') {
-    $openlayers_map_id = isset($instance['widget']['settings']['openlayers_preset']) ? $instance['widget']['settings']['openlayers_preset'] : 'geofield_widget_map';
+    $openlayers_map_id = !empty($instance['widget']['settings']['openlayers_map']) ? $instance['widget']['settings']['openlayers_map'] : 'geofield_widget_map';
     $element['#openlayers_mapname'] = $openlayers_map_id;
     $element['#after_build']= array('geofield_widget_openlayers_afterbuild');
   }
