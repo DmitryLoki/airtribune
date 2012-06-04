@@ -28,14 +28,36 @@ class GeoFieldTestCase extends FieldTestCase {
   /**
    * Test widgets.
    */
-  function testGeofieldWidgets() {
-    $this->_testGeofieldWidgets('geofield_latlon');
+  function testGeofieldFieldAPI() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_latlon');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][widget][lat]", '', t('Widget [lat] is displayed'));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][widget][lon]", '', t('Widget [lon] is displayed'));
+    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget]", '', t("Widget [widget] isn't displayed with latlon widget"));
+
+    // Submit with some value.
+    /*$value = $this->randomName();
+    $edit = array(
+      "{$this->field_name}[$langcode][0][value]" => $value,
+    );*/
+    //$this->_testGeofieldWidgets('geofield_latlon');
+
+    $this->_testGeoFieldAPISetup('geofield_wkt');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget][lat]", '', t("Widget [lat] isn't displayed"));
+    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget][lon]", '', t("Widget [lon] isn't displayed"));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][widget]", '', t("Widget [widget] is displayed"));
   }
 
   /**
    * Helper function for testGeofieldWidgets().
    */
-  function _testGeofieldWidgets($widget_type) {
+  function _testGeoFieldAPISetup($widget_type) {
     // Setup a field and instance
     $entity_type = 'test_entity';
     $this->field_name = drupal_strtolower($this->randomName());
@@ -58,11 +80,6 @@ class GeoFieldTestCase extends FieldTestCase {
       ),
     );
     field_create_instance($this->instance);
-    $langcode = LANGUAGE_NONE;
-
-    // Display creation form.
-    $this->drupalGet('test-entity/add/test-bundle');
-    $this->assertFieldByName("{$this->field_name}[$langcode][0][wkt]", '', t('Widget is displayed'));
   }
 }
 

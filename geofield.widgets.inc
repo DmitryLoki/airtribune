@@ -69,6 +69,14 @@ function geofield_field_widget_settings_form($field, $instance) {
   $form = array();
 
   //TODO: Allow more fine-grained control
+  if ($widget['type'] == 'geofield_latlon') {
+    $form['html5_geolocation'] = array(
+      '#type' => 'checkbox',
+      '#title' => 'Use HTML5 Geolocation to set default values',
+      '#default_value' => (!empty($settings['html5_geolocation'])) ? $settings['html5_geolocation'] : FALSE,
+    );
+  }
+
   if ($widget['type'] == 'geofield_openlayers') {
 
     // Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatible
@@ -164,6 +172,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
         '#description' => $instance['description'],
         '#default_value' => $latlon_value,
         '#required' => $instance['required'],
+        '#geolocation' => (!empty($instance['widget']['settings']['html5_geolocation'])) ? $instance['widget']['settings']['html5_geolocation'] : FALSE,
       );
 
       $element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
