@@ -26,9 +26,9 @@ class GeoFieldTestCase extends FieldTestCase {
   // Test fields.
 
   /**
-   * Test widgets.
+   * Test lat/lon Input.
    */
-  function testGeofieldFieldAPI() {
+  function testGeofieldFieldLatLonWidget() {
     // Test lat/lon widget
     $this->_testGeoFieldAPISetup('geofield_latlon');
     // Display creation form.
@@ -39,19 +39,26 @@ class GeoFieldTestCase extends FieldTestCase {
     $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget]", '', t("Widget [widget] isn't displayed with latlon widget"));
 
     // Submit with some value.
-    /*$value = $this->randomName();
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    $point = $generator->random_point();
     $edit = array(
-      "{$this->field_name}[$langcode][0][value]" => $value,
-    );*/
-    //$this->_testGeofieldWidgets('geofield_latlon');
+      "{$this->field_name}[$langcode][0][widget][lat]" => $point[1],
+      "{$this->field_name}[$langcode][0][widget][lon]" => $point[0],
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Entity was created'));
 
-    $this->_testGeoFieldAPISetup('geofield_wkt');
-    // Display creation form.
-    $langcode = LANGUAGE_NONE;
-    $this->drupalGet('test-entity/add/test-bundle');
-    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget][lat]", '', t("Widget [lat] isn't displayed"));
-    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget][lon]", '', t("Widget [lon] isn't displayed"));
-    $this->assertFieldByName("{$this->field_name}[$langcode][0][widget]", '', t("Widget [widget] is displayed"));
+    // Display the entity.
+    $entity = field_test_entity_test_load($id);
+    $entity->content = field_attach_view('test_entity', $entity, 'full');
+    $this->content = drupal_render($entity->content);
+    geophp_load();
+    $geometry = new Point($point[1], $point[0]);
+    $value = $geometry->out('wkt');
+    $this->assertText($value, 'WKT output for lat/lon widget is correct.');
   }
 
   /**
