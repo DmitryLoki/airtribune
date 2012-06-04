@@ -21,6 +21,11 @@ define('GEOFIELD_INPUT_GEOJSON', 'geojson');
 define('GEOFIELD_INPUT_LAT_LON', 'lat/lon');
 
 /**
+ * Geofield Input format - bounds.
+ */
+define('GEOFIELD_INPUT_BOUNDS', 'bounds');
+
+/**
  * @file
  * Provides field widget hooks for geofield module.
  */
@@ -177,6 +182,35 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 
       $element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
       break;
+    case 'geofield_bounds':
+      $bounds_value = array(
+        'top' => '',
+        'right' => '',
+        'bottom' => '',
+        'left' => '',
+      );
+      if (isset($items[$delta]['top'])) {
+        $bounds_value['top'] = $items[$delta]['top'];
+      }
+      if (isset($items[$delta]['right'])) {
+        $bounds_value['right'] = $items[$delta]['right'];
+      }
+      if (isset($items[$delta]['bottom'])) {
+        $bounds_value['bottom'] = $items[$delta]['bottom'];
+      }
+      if (isset($items[$delta]['left'])) {
+        $bounds_value['left'] = $items[$delta]['left'];
+      }
+      $element['widget'] = array(
+        '#type' => 'geofield_bounds',
+        '#title' => $instance['label'],
+        '#description' => $instance['description'],
+        '#default_value' => $bounds_value,
+        '#required' => $instance['required'],
+      );
+
+      $element['input_format']['#value'] = GEOFIELD_INPUT_BOUNDS;
+      break;
   }
 
   return $element;
@@ -293,6 +327,17 @@ function geofield_element_validate($element, &$form_state) {
       geophp_load();
       if (!empty($element['widget']['lat']['#value']) && !empty($element['widget']['lon']['#value'])) {
         $geometry = new Point($element['widget']['lat']['#value'], $element['widget']['lon']['#value']);
+      }
+      break;
+    case GEOFIELD_INPUT_BOUNDS:
+      geophp_load();
+      if (!empty($element['widget']['top']['#value']) && !empty($element['widget']['right']['#value']) && !empty($element['widget']['bottom']['#value']) && !empty($element['widget']['left']['#value'])) {
+        $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
+        $wkt = strtr($wkt_bounds_format, array('top' => $element['widget']['top']['#value'],
+          'right' => $element['widget']['right']['#value'],
+          'bottom' => $element['widget']['bottom']['#value'],
+          'left' => $element['widget']['left']['#value']));
+        $geometry = geoPHP::load($wkt, 'wkt');
       }
       break;
   }

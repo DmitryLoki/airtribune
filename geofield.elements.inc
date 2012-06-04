@@ -48,6 +48,13 @@ function geofield_element_info() {
       '#theme' => array('geofield_latlon'),
       '#theme_wrappers' => array('fieldset'),
     ),
+    'geofield_bounds' => array(
+      '#input' => TRUE,
+      '#process' => array('geofield_bounds_element_process'),
+      '#element_validate' => array('geofield_bounds_element_validate'),
+      '#theme' => array('geofield_bounds'),
+      '#theme_wrappers' => array('fieldset'),
+    ),
     'geofield_proximity' => array(
       '#input' => FALSE,
       '#tree' => TRUE,
@@ -123,7 +130,96 @@ function geofield_latlon_element_validate($element, &$form_values) {
 }
 
 /**
- * Process function for the form element
+ * Process function for geofield_bounds.
+ */
+
+function geofield_bounds_element_process($element, &$form_values) {
+  $element['#tree'] = TRUE;
+  $element['top'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Top'),
+    '#required' => (!empty($element['#required'])) ? $element['#required'] : FALSE,
+    '#default_value' => (!empty($element['#default_value']['top'])) ? $element['#default_value']['top'] : '',
+    '#attributes' => array(
+      'class' => array('geofield-top'),
+    ),
+  );
+
+  $element['right'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Right'),
+    '#required' => (!empty($element['#required'])) ? $element['#required'] : FALSE,
+    '#default_value' => (!empty($element['#default_value']['right'])) ? $element['#default_value']['right'] : '',
+    '#attributes' => array(
+      'class' => array('geofield-right'),
+    ),
+  );
+
+  $element['bottom'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Bottom'),
+    '#required' => (!empty($element['#required'])) ? $element['#required'] : FALSE,
+    '#default_value' => (!empty($element['#default_value']['bottom'])) ? $element['#default_value']['bottom'] : '',
+    '#attributes' => array(
+      'class' => array('geofield-bottom'),
+    ),
+  );
+
+  $element['left'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Left'),
+    '#required' => (!empty($element['#required'])) ? $element['#required'] : FALSE,
+    '#default_value' => (!empty($element['#default_value']['left'])) ? $element['#default_value']['left'] : '',
+    '#attributes' => array(
+      'class' => array('geofield-left'),
+    ),
+  );
+
+  unset($element['#value']);
+  // Set this to false always to prevent notices.
+  $element['#required'] = FALSE;
+
+  return $element;
+}
+
+/**
+ * Element validation function for geofield_latlon.
+ */
+
+function geofield_bounds_element_validate($element, &$form_values) {
+  $components = array(
+    'top' => array(
+      'title' => 'Top',
+      'range' => 90,
+    ),
+    'right' => array(
+      'title' => 'Right',
+      'range' => 180,
+    ),
+    'bottom' => array(
+      'title' => 'Bottom',
+      'range' => 90,
+    ),
+    'left' => array(
+      'title' => 'Left',
+      'range' => 180,
+    ),
+  );
+
+  foreach ($components as $key => $component) {
+    if (!empty($element[$key]['#value'])) {
+      if (!is_numeric($element[$key]['#value'])) {
+        form_error($element[$key], t('@title: @component_title is not numeric.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+      }
+      elseif (abs($element[$key]['#value']) > $component['range']) {
+        form_error($element[$key], t('@title: @component_title is out of bounds.', array('@title' => $element['#title'], '@component_title' => $component['title'])));
+      }
+    }
+  }
+}
+
+/**
+ * Process function for the proximity form element
  */
 function geofield_proximity_element_process($element, &$form_state, $form) {
   $element['#attributes'] = array('class' => array('clearfix'));

@@ -109,7 +109,7 @@ class GeoFieldElementTestCase extends DrupalWebTestCase {
 
   function testGeofieldLatLonElement() {
     // Test form element rendering
-    $this->drupalGet('geofield-formapi-element');
+    $this->drupalGet('geofield-latlon-element');
     $this->assertFieldById('edit-geofield-latlon-simple-lat', '', 'Latitude element for simple geofield exists.');
     $this->assertFieldById('edit-geofield-latlon-simple-lon', '', 'Longitude element for simple geofield exists.');
 
@@ -122,7 +122,7 @@ class GeoFieldElementTestCase extends DrupalWebTestCase {
     $edit['geofield_latlon_simple[lon]'] = -86;
     $edit['geofield_latlon_verbose[lat]'] = 25;
     $edit['geofield_latlon_verbose[lon]'] = 54;
-    $this->drupalPost('geofield-formapi-element', $edit, t('Save'));
+    $this->drupalPost('geofield-latlon-element', $edit, t('Save'));
     $this->assertText('Simple - Lat: 41 Lon: -86', "Simple Geofield saved data as expected");
     $this->assertText('Verbose - Lat: 25 Lon: 54', "Verbose Geofield saved data as expected");
   }
