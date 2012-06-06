@@ -566,6 +566,5 @@ function geofield_haversine($options = array()) {
     }
   }
 
-  //kpr($formula);
   return $formula;
 }

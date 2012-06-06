@@ -76,6 +76,7 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance,
     '#type' => 'hidden',
     '#attributes' => array('class' => array('geofield_wkt')),
     '#default_value' => $geo_value,
+    '#required' => (isset($instance['required'])) ? $instance['required'] : FALSE,
   );
 
   $element['input_format']['#value'] = GEOFIELD_INPUT_WKT;
