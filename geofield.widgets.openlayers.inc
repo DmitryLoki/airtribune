@@ -23,12 +23,12 @@ function openlayers_field_widget_info() {
  * Implements hook_field_widget_settings_form().
  */
 function openlayers_field_widget_settings_form($field, $instance) {
-	$widget = $instance['widget'];
+  $widget = $instance['widget'];
   $settings = $widget['settings'];
 
   $form = array();
 
-	// Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatible
+  // Get preset options, filtered to those which have the GeoField behavior and *don't* have the draw features behavior, which is incompatible
   $maps = openlayers_maps();
   $map_options = array();
   foreach ($maps as $map) {

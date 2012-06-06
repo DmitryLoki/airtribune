@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_feeds_parser_sources_alter().
+ * Implements hook_feeds_parser_sources_alter().
  *
  * @see geofield_feeds_combined_source()
  */

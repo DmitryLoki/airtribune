@@ -258,7 +258,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
             'lat' => $point->getY(),
             'lon' => $point->getX(),
           );
-        } else {
+        }
+        else {
           $return = FALSE;
         }
         break;

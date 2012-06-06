@@ -155,10 +155,10 @@ function geofield_openlayers_maps() {
     ),
     'map_name' => 'geofield_formatter_map',
   );
-  
+
   return array(
-    'geofield_widget_map' => $widget, 
-    'geofield_formatter_map' => $formatter, 
+    'geofield_widget_map' => $widget,
+    'geofield_formatter_map' => $formatter,
   );
 }
 

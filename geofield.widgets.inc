@@ -105,8 +105,8 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     case 'geofield_wkt':
       $element['widget'] = array(
         '#type' => 'textarea',
-        '#title' => $instance['label'],
-        '#description' => $instance['description'],
+        '#title' => check_plain($instance['label']),
+        '#description' => check_plain($instance['description']),
         '#default_value' => !empty($items[$delta]['wkt']) ? $items[$delta]['wkt'] : '',
         '#required' => $instance['required'],
       );
@@ -123,8 +123,8 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 
       $element['widget'] = array(
         '#type' => 'textarea',
-        '#title' => $instance['label'],
-        '#description' => $instance['description'],
+        '#title' => check_plain($instance['label']),
+        '#description' => check_plain($instance['description']),
         '#default_value' => $default_value,
         '#required' => $instance['required'],
       );
@@ -144,8 +144,8 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       }
       $element['widget'] = array(
         '#type' => 'geofield_latlon',
-        '#title' => $instance['label'],
-        '#description' => $instance['description'],
+        '#title' => check_plain($instance['label']),
+        '#description' => check_plain($instance['description']),
         '#default_value' => $latlon_value,
         '#required' => $instance['required'],
         '#geolocation' => (!empty($instance['widget']['settings']['html5_geolocation'])) ? $instance['widget']['settings']['html5_geolocation'] : FALSE,
@@ -174,8 +174,8 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       }
       $element['widget'] = array(
         '#type' => 'geofield_bounds',
-        '#title' => $instance['label'],
-        '#description' => $instance['description'],
+        '#title' => check_plain($instance['label']),
+        '#description' => check_plain($instance['description']),
         '#default_value' => $bounds_value,
         '#required' => $instance['required'],
       );
@@ -280,7 +280,8 @@ function geofield_element_validate($element, &$form_state) {
 
   if (!empty($geometry)) {
     $values = geofield_get_values_from_geometry($geometry);
-  } else {
+  }
+  else {
     $values['wkt'] = '';
     $values['geo_type'] = '';
     $values['lat'] = '';

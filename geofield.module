@@ -285,7 +285,7 @@ function geofield_apachesolr_index($node, $field_name, $index_key, $field_info) 
 }
 
 /**
- * Implements hook_apachesolr_query_alter()
+ * Implements hook_apachesolr_query_alter().
  */
 function geofield_apachesolr_query_alter($query) {
   // Add the WKT field field
@@ -433,7 +433,7 @@ function geofield_latlon_DECtoCCS($dec, $axis) {
 /**
  * Callback to alter the property info of geofield fields.
  *
- * @see geofield_field_info().
+ * @see geofield_field_info()
  */
 function geofield_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
   $name = $field['field_name'];
@@ -561,7 +561,8 @@ function geofield_haversine($options = array()) {
   foreach ($options as $key => $option) {
     if (is_numeric($option)) {
       $formula = str_replace(':' . $key, $option, $formula);
-    } else {
+    }
+    else {
       $formula = str_replace(':' . $key, db_escape_field($option), $formula);
     }
   }
