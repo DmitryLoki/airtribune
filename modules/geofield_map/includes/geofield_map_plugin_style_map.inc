@@ -150,7 +150,7 @@ class geofield_map_plugin_style_map extends views_plugin_style {
       drupal_add_js(array('geofieldMap' => $js_settings), 'setting');
     }
 
-    drupal_add_js('http://maps.googleapis.com/maps/api/js?sensor=false', 'external');
+    drupal_add_js('//maps.googleapis.com/maps/api/js?sensor=false', 'external');
     drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/GeoJSON.js');
     drupal_add_js(drupal_get_path('module', 'geofield_map') . '/js/geofield_map.js');
 
