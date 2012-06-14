@@ -260,7 +260,7 @@ function geofield_element_validate($element, &$form_state) {
     case GEOFIELD_INPUT_LAT_LON:
       geophp_load();
       if (!empty($element['widget']['lat']['#value']) && !empty($element['widget']['lon']['#value'])) {
-        $geometry = new Point($element['widget']['lat']['#value'], $element['widget']['lon']['#value']);
+        $geometry = new Point($element['widget']['lon']['#value'], $element['widget']['lat']['#value']);
       }
       break;
     case GEOFIELD_INPUT_BOUNDS:
