@@ -147,6 +147,12 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#default_value' => $this->options['source'],
     );
 
+    $form['source_change'] = array(
+      '#type' => 'submit',
+      '#value' => 'Change Source Widget',
+      '#submit' => array('geofield_views_ui_change_proximity_widget'),
+    );
+
     if (module_exists('geocoder')) {
       $form['source']['#options']['geocode'] = t('Geocode');
 
@@ -165,27 +171,6 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         ),
       );
     }
-
-    // For us to hot-swap the proximity FormAPI element, we render components within the form, and use javascript to swap/populate
-    // the form whenever $form[source] changes.
-    $form['proximity_components'] = array(
-      '#type' => 'container',
-    );
-    $form['proximity_components']['manual'] = array(
-      '#title' => t('Proximity Search'),
-      '#type' => 'geofield_latlon',
-      '#attributes' => array(
-        'class' => array('geofield-proximity-origin'),
-      ),
-    );
-
-    $form['proximity_components']['other_geofield'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Proximity Search'),
-      '#attributes' => array(
-        'class' => array('geofield-proximity-origin'),
-      ),
-    );
   }
 
   function value_form(&$form, &$form_state) {
@@ -212,18 +197,9 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
         break;
       case 'other_geofield':
-        $handlers = $this->view->display_handler->get_handlers('field');
-        $other_geofield_options = array();
-
-        foreach ($handlers as $handle) {
-          if (!empty($handle->field_info['type']) && $handle->field_info['type'] == 'geofield') {
-            $other_geofield_options[$handle->options['id']] = (!empty($handle->options['label'])) ? $handle->options['label'] : $handle->options['id'];
-          }
-        }
-
         $form['value']['#origin_element'] = 'select';
         $form['value']['#origin_options'] += array(
-          '#options' => $other_geofield_options,
+          '#options' => $this->get_other_geofield_options(),
         );
         break;
     }
@@ -231,6 +207,12 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     if (in_array($this->operator, array('between', 'not between'))) {
       $form['value']['#geofield_range'] = TRUE;
       $form['value']['#default_value']['distance2'] = $this->value['distance2'];
+    }
+  }
+
+  function value_validate($form, &$form_state) {
+    if (isset($form_state['validate_handlers'][0])) {
+      $form_state['validate_handlers'] = array();
     }
   }
 
@@ -307,4 +289,43 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
     return $return;
   }
+
+  /**
+   * Helper function to retreive other geofield options for 'Other Geofield' source.
+   */
+
+  function get_other_geofield_options() {
+    $handlers = $this->view->display_handler->get_handlers('field');
+    $other_geofield_options = array();
+
+    foreach ($handlers as $handle) {
+      if (!empty($handle->field_info['type']) && $handle->field_info['type'] == 'geofield') {
+        $other_geofield_options[$handle->options['id']] = (!empty($handle->options['label'])) ? $handle->options['label'] : $handle->options['id'];
+      }
+    }
+
+    return $other_geofield_options;
+  }
+}
+
+function geofield_views_ui_change_proximity_widget($form, &$form_state) {
+  $item = &$form_state['handler']->options;
+  $changed = $item['source'] != $form_state['values']['options']['source'];
+  $item['source'] = $form_state['values']['options']['source'];
+
+  if ($changed) {
+    if ($item['source'] == 'manual') {
+      $item['value']['origin'] = array('lat' => '', 'lon' => '');
+    }
+    else {
+      $item['value']['origin'] = '';
+    }
+  }
+
+  $form_state['view']->set_item($form_state['display_id'], $form_state['type'], $form_state['id'], $item);
+
+  views_ui_cache_set($form_state['view']);
+  $form_state['rerender'] = TRUE;
+  $form_state['rebuild'] = TRUE;
+  $form_state['force_expose_options'] = TRUE;
 }
