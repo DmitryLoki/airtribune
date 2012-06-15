@@ -139,6 +139,11 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'manual' => t('Manually Enter Point'),
         'other_geofield' => t('Other Geofield'),
       ),
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'geofield') . '/js/viewsProximityValue.js',
+        ),
+      ),
       '#default_value' => $this->options['source'],
     );
 
@@ -160,6 +165,27 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         ),
       );
     }
+
+    // For us to hot-swap the proximity FormAPI element, we render components within the form, and use javascript to swap/populate
+    // the form whenever $form[source] changes.
+    $form['proximity_components'] = array(
+      '#type' => 'container',
+    );
+    $form['proximity_components']['manual'] = array(
+      '#title' => t('Proximity Search'),
+      '#type' => 'geofield_latlon',
+      '#attributes' => array(
+        'class' => array('geofield-proximity-origin'),
+      ),
+    );
+
+    $form['proximity_components']['other_geofield'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Proximity Search'),
+      '#attributes' => array(
+        'class' => array('geofield-proximity-origin'),
+      ),
+    );
   }
 
   function value_form(&$form, &$form_state) {
@@ -170,6 +196,11 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'distance' => $this->value['distance'],
         'unit' => $this->value['unit'],
         'origin' => $this->value['origin'],
+      ),
+      '#origin_options' => array(
+        '#attributes' => array(
+          'class' => array('geofield-proximity-origin'),
+        ),
       ),
     );
 
@@ -191,7 +222,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         }
 
         $form['value']['#origin_element'] = 'select';
-        $form['value']['#origin_options'] = array(
+        $form['value']['#origin_options'] += array(
           '#options' => $other_geofield_options,
         );
         break;
