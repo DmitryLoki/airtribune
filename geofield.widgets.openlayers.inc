@@ -59,6 +59,7 @@ function openlayers_field_widget_settings_form($field, $instance) {
     ),
     '#default_value' => (isset($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
   );
+  return $form;
 }
 
 /**
@@ -87,6 +88,7 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance,
 
   // This validate function computes all other columns from the master field
   $element['#element_validate'] = array('geofield_element_validate');
+  $element['#data_storage'] = (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection';
 
   return $element;
 }
@@ -96,13 +98,6 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance,
  */
 
 function openlayers_geofield_widget_afterbuild($element, &$form_state) {
-  drupal_add_js(
-    array('geofield' => array(
-      'data_storage' => (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection',
-      ),
-    ),
-  'setting');
-
   $defaults = array();
   $element['helpmap'] = array(
     '#markup' => '<div class="form-item geotaxonomy-latlon-helpmap" style="display:block">'
@@ -112,6 +107,13 @@ function openlayers_geofield_widget_afterbuild($element, &$form_state) {
   $element['helpmap_desc'] = array(
     '#markup' => t('<div class="description geofield-help">Use the icons to select what type of feature to draw. Each map can contain one simple feature. Pan and zoom with arrows and the zoom bar.</div>')
   );
+
+  drupal_add_js(
+    array('geofield' => array(
+      'data_storage' => (!empty($element['#data_storage'])) ? $element['#data_storage'] : 'collection',
+      ),
+    ),
+  'setting');
 
   return $element;
 }
