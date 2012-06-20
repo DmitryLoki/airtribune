@@ -56,7 +56,7 @@ class GeoFieldTestCase extends FieldTestCase {
     $entity->content = field_attach_view('test_entity', $entity, 'full');
     $this->content = drupal_render($entity->content);
     geophp_load();
-    $geometry = new Point($point[1], $point[0]);
+    $geometry = new Point($point[0], $point[1]);
     $value = $geometry->out('wkt');
     $this->assertText($value, 'WKT output for lat/lon widget is correct.');
   }
