@@ -137,10 +137,10 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
         'lon' => '',
       );
       if (isset($items[$delta]['lat'])) {
-        $latlon_value['lat'] = $items[$delta]['lat'];
+        $latlon_value['lat'] = floatval($items[$delta]['lat']);
       }
       if (isset($items[$delta]['lon'])) {
-        $latlon_value['lon'] = $items[$delta]['lon'];
+        $latlon_value['lon'] = floatval($items[$delta]['lon']);
       }
       $element['widget'] = array(
         '#type' => 'geofield_latlon',

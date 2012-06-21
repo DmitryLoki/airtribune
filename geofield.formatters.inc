@@ -282,10 +282,10 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_latlon':
       foreach ($items as $delta => $item) {
         if ($display['settings']['labels']) {
-          $element[$delta] = array('#markup' => t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => $item['lat'], '!longitude' => $item['lon'])));
+          $element[$delta] = array('#markup' => t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => floatval($item['lat']), '!longitude' => floatval($item['lon']))));
         }
         else {
-          $element[$delta] = array('#markup' => $item['lat'] . ', ' . $item['lon']);
+          $element[$delta] = array('#markup' => floatval($item['lat']) . ', ' . floatval($item['lon']));
         }
       }
       return $element;
