@@ -22,27 +22,39 @@ function geofield_field_schema($field) {
         'not null' => FALSE,
       ),
       'lat' => array(
-        'type' => 'float',
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
         'not null' => FALSE,
       ),
       'lon' => array(
-        'type' => 'float',
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
         'not null' => FALSE,
       ),
       'left' => array(
-        'type' => 'float',
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
         'not null' => FALSE,
       ),
       'top' => array(
-        'type' => 'float',
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
         'not null' => FALSE,
       ),
       'right' => array(
-        'type' => 'float',
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
         'not null' => FALSE,
       ),
       'bottom' => array(
-        'type' => 'float',
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
         'not null' => FALSE,
       ),
       'srid' => array(
@@ -61,4 +73,47 @@ function geofield_field_schema($field) {
       ),
     ),
   );
+}
+
+/**
+ * Change geofield lat, lon, left, top, right and bottom from floats to numeric
+ * fields with precision of 18 and scale of 12.
+ */
+function geofield_update_7200() {
+  if (!module_exists('field_sql_storage')) {
+    return;
+  }
+
+  $field_keys = array('lat', 'lon', 'left', 'top', 'right', 'bottom');
+
+  foreach (field_info_fields() as $field_name => $field) {
+    if ($field['type'] != 'geofield') {
+      // Not a geofield field.
+      continue;
+    }
+
+    if ($field['storage']['type'] !== 'field_sql_storage') {
+      // Field doesn't use SQL storage, we cannot modify the schema.
+      continue;
+    }
+
+    $table_name = _field_sql_storage_tablename($field);
+    $revision_table_name = _field_sql_storage_revision_tablename($field);
+
+    foreach ($field_keys as $field_key) {
+      db_change_field($table_name, $field_name . '_' . $field_key, $field_name . '_' . $field_key, array(
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
+        'not null' => FALSE,
+      ));
+
+      db_change_field($revision_table_name, $field_name . '_' . $field_key, $field_name . '_' . $field_key, array(
+        'type' => 'numeric',
+        'precision' => 18,
+        'scale' => 12,
+        'not null' => FALSE,
+      ));
+    }
+  }
 }
