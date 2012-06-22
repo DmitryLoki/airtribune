@@ -96,6 +96,11 @@ function geofield_latlon_element_process($element, &$form_values) {
 
   if (!empty($element['#geolocation']) && $element['#geolocation'] == TRUE) {
     $element['#attached']['js'][] = drupal_get_path('module', 'geofield') . '/js/geolocation.js';
+    $element['geocode'] = array(
+      '#type' => 'button',
+      '#value' => t('Find my location'),
+      '#name' => 'geofield-html5-geocode-button',
+    );
   }
 
   return $element;
@@ -322,7 +327,7 @@ function theme_geofield_proximity($vars) {
 }
 
 function theme_geofield_latlon($vars) {
-  return drupal_render($vars['element']['lat']) . drupal_render($vars['element']['lon']);
+  return drupal_render($vars['element']['lat']) . drupal_render($vars['element']['lon']) . drupal_render($vars['element']['geocode']);
 }
 
 /**

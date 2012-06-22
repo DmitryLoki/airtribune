@@ -6,28 +6,28 @@
 
 ;(function(geolocation, $){
   if (geolocation) return;
-  
+
   var cache;
-  
+
   geolocation = window.navigator.geolocation = {};
   geolocation.getCurrentPosition = function(callback){
-    
+
     if (cache) callback(cache);
-    
+
     $.getScript('//www.google.com/jsapi',function(){
-      
+
       cache = {
         coords : {
-          "latitude": google.loader.ClientLocation.latitude, 
+          "latitude": google.loader.ClientLocation.latitude,
           "longitude": google.loader.ClientLocation.longitude
         }
       };
-      
+
       callback(cache);
     });
-    
+
   };
-  
+
   geolocation.watchPosition = geolocation.getCurrentPosition;
 
 })(navigator.geolocation, jQuery);
@@ -47,12 +47,19 @@
         // on muti values check only that the first one is empty
         if ($fields.find('.geofield-lat').val() == '' && $fields.find('.geofield-lon').val() == '') {
           // Check to see if we have geolocation support, either natively or through Google.
-          if (navigator.geolocation) {        
+          if (navigator.geolocation) {
 	          navigator.geolocation.getCurrentPosition(updateLocation);
           }
         }
       }
-      
+      $(':input[name="geofield-html5-geocode-button"]').once('geofield_geolocation').click(function(e) {
+        e.preventDefault();
+        $fields = $(this).parent();
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(updateLocation);
+        }
+      })
+
     }
   };
 })(jQuery);
