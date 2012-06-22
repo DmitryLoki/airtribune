@@ -14,11 +14,15 @@
 function geofield_field_views_data($field) {
   $data = field_views_field_default_views_data($field);
   $field_name = $field['field_name'];
+  /*kpr($field);
+  kpr($field_name);
+  kpr($data);*/
 
   foreach ($data as $table_name => $table_data) {
     if (isset($table_data[$field_name])) {
+      $group_name = $table_data[$field_name]['group'];
       $data[$table_name]['field_geofield_distance'] = array(
-        'group' => 'Content',
+        'group' => $group_name,
         'title'       => $table_data[$field_name]['title'] . ' - proximity',
         'title short' => $table_data[$field_name]['title'] . ' - proximity',
         'help' => $table_data[$field_name]['help'],
@@ -39,10 +43,6 @@ function geofield_field_views_data($field) {
           'click sortable' => TRUE,
         ),
         'filter' => array(
-          /**
-           * @TODO: We should probably do 3 different handlers for input of distance. Attempting to swap out the widget for
-           *   exposed fields is going to be very problematic.
-           */
           'field' => 'field_geofield_distance',
           'table' => $table_name,
           'handler' => 'geofield_handler_filter',
