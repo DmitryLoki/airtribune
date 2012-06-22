@@ -16,7 +16,7 @@ class GeoGenerator {
       $func = 'mt_rand';
     }
     $number = $func($min, $max);
-    if ($int) {
+    if ($int || $number === $min || $number === $max) {
       return $number;
     }
     $decimals = $func(1, pow(10, 5)) / pow(10, 5);
