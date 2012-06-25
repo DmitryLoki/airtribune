@@ -29,41 +29,26 @@ function geofield_field_info() {
   );
 }
 
+function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  kpr($items);
+}
+
 /**
  * Implements hook_field_presave().
  * PDO throws an error when attempting to insert an empty string into a float
  * field. Go through all values and convert empty strings to NULL.
+ *
+ * - @TODO: Accept data as either a keyed array (input_format and value) or raw value.
+ *    - By declaring an input format, less guesswork/better performance.
  */
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   if ($field['type'] === 'geofield') {
+    kpr($items);
     foreach ($items as $delta => $item) {
-      if (!empty($item)) {
-        foreach ($item as $k => $v) {
-          if ($v === '') {
-            $item[$k] = NULL;
-          }
-        }
-        $widget = $instance['widget'];
-        if ($widget['type'] == 'geofield_wkt') {
-          $master_column = 'wkt';
-        }
-        elseif ($widget['type'] == 'geofield_latlon') {
-          $master_column = 'latlon';
-        }
-        elseif ($widget['type'] == 'geofield_bounds') {
-          $master_column = 'bounds';
-        }
-        elseif ($widget['type'] == 'geofield_geolocation') {
-          $master_column = 'latlon';
-        }
-        else {
-          $master_column = 'wkt';
-        }
-        $item += array('master_column' => $master_column);
-        geofield_compute_values($item, $item['master_column']);
-        $items[$delta] = $item;
-      }
+      $items[$delta] = geofield_compute_values($item);
     }
+    kpr($items);
+    exit();
   }
 }
 
@@ -158,16 +143,8 @@ function geofield_field_instance_settings_form($field, $instance) {
  * 2. Load the Geometry object from the master-column
  * 3. Get out all the computer values from the Geometry object
  * 4. Set all the values
- *
- * Allowed values for master_column are wkt, latlon, bounds
  */
-function geofield_compute_values(&$values, $master_column = 'wkt') {
-
-  // If only a wkt string has been passed in, then format it correctly by wrapping it in an array
-  if ($master_column == 'wkt' && !is_array($values)) {
-    $values = array('wkt' => $values);
-  }
-
+function geofield_compute_values($raw_data) {
   // Load up geoPHP to do the conversions
   $geophp = geophp_load();
   if (!$geophp) {
@@ -175,37 +152,24 @@ function geofield_compute_values(&$values, $master_column = 'wkt') {
     return;
   }
 
-  // Load up the geometry object from the master-column data
-  if ($master_column == 'wkt') {
-    $wkt = $values['wkt'];
-    if ($wkt) {
-      $geometry = geoPHP::load($wkt, 'wkt');
+  $geometry = NULL;
+
+  if (is_array($raw_data)) {
+    if (!empty($raw_data['input_format'])) {
+      if ($raw_data['input_format'] == GEOFIELD_INPUT_LAT_LON) {
+        $geometry = new Point($raw_data['value']['lat'], $raw_data['value']['lon']);
+      }
+      else {
+        $geometry = geoPHP::load($raw_data['value'], $raw_data['input_format']);
+      }
     }
   }
+  else {
 
-  if ($master_column == 'latlon') {
-    $lat = $values['lat'];
-    $lon = $values['lon'];
-    if (is_numeric($lat) && is_numeric($lon)) {
-      $geometry = new Point(floatval($lon), floatval($lat));
-    }
-  }
-
-  if ($master_column == 'bounds') {
-    $top = $values['top'];
-    $bottom = $values['bottom'];
-    $right = $values['right'];
-    $left = $values['left'];
-
-    if (is_numeric($top) && is_numeric($bottom) && is_numeric($right) && is_numeric($left)) {
-      $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
-      $wkt = strtr($wkt_bounds_format, array('top' => $top, 'bottom' => $bottom, 'right' => $right, 'left' => $left));
-      $geometry = geoPHP::load($wkt, 'wkt');
-    }
   }
 
   // Get values from geometry
-  if (isset($geometry)) {
+  if (!empty($geometry)) {
     $values = geofield_get_values_from_geometry($geometry);
   }
   else {

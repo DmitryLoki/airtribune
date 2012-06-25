@@ -96,10 +96,17 @@ function geofield_field_widget_settings_form($field, $instance) {
  */
 function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $langcode, $items, $delta, $base) {
+  $element = $base;
 
   $widget = $instance['widget'];
   $settings = $widget['settings'];
-  $element = geofield_get_base_element($base, $items, $delta);
+  //$element = geofield_get_base_element($base, $items, $delta);
+  // $element['input_format'] is not a db field, but how we determine how to parse/calculate values in our widget.
+  $element['input_format'] = array(
+    '#type' => 'value',
+    '#attributes' => array('class' => array('geofield_input_format')),
+    '#value' => GEOFIELD_INPUT_AUTO_DISCOVER,
+  );
 
   switch ($widget['type']) {
     case 'geofield_wkt':
@@ -142,7 +149,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       if (isset($items[$delta]['lon'])) {
         $latlon_value['lon'] = floatval($items[$delta]['lon']);
       }
-      $element['widget'] = array(
+      $element = $element + array(
         '#type' => 'geofield_latlon',
         '#title' => check_plain($instance['label']),
         '#description' => check_plain($instance['description']),
@@ -151,7 +158,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
         '#geolocation' => (!empty($instance['widget']['settings']['html5_geolocation'])) ? $instance['widget']['settings']['html5_geolocation'] : FALSE,
       );
 
-      $element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
+      //$element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
       break;
     case 'geofield_bounds':
       $bounds_value = array(
@@ -232,7 +239,6 @@ function geofield_get_base_element($base, $items, $delta) {
 
   // This validate function computes all other columns from the master field
   $element['#element_validate'] = array('geofield_element_validate');
-
   return $element;
 }
 
@@ -243,7 +249,7 @@ function geofield_get_base_element($base, $items, $delta) {
  * based on our schema declaration.
  */
 function geofield_element_validate($element, &$form_state) {
-  // @TODO: convert this from a switch statement to various function calls (like a boss).
+  /*// @TODO: convert this from a switch statement to various function calls (like a boss).
   switch ($element['input_format']['#value']) {
     case GEOFIELD_INPUT_WKT:
       geophp_load();
@@ -299,5 +305,5 @@ function geofield_element_validate($element, &$form_state) {
   if (isset($values['top']))       form_set_value($element['top'], $values['top'], $form_state);
   if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
   if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
-  if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);
+  if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);*/
 }
