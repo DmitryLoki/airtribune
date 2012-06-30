@@ -100,7 +100,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $widget = $instance['widget'];
   $settings = $widget['settings'];
-  //$element = geofield_get_base_element($base, $items, $delta);
+
   // $element['input_format'] is not a db field, but how we determine how to parse/calculate values in our widget.
   $element['input_format'] = array(
     '#type' => 'value',
@@ -108,13 +108,14 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     '#value' => GEOFIELD_INPUT_AUTO_DISCOVER,
   );
 
+  // All of our widgets are keyed to 'geom,' we calculate proper field values in geofield_field_presave().
   switch ($widget['type']) {
     case 'geofield_wkt':
-      $element['widget'] = array(
+      $element['geom'] = array(
         '#type' => 'textarea',
         '#title' => check_plain($instance['label']),
         '#description' => check_plain($instance['description']),
-        '#default_value' => !empty($items[$delta]['wkt']) ? $items[$delta]['wkt'] : '',
+        '#default_value' => !empty($items[$delta]['geom']) ? $items[$delta]['geom'] : '',
         '#required' => $instance['required'],
       );
 
@@ -190,120 +191,5 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       $element['input_format']['#value'] = GEOFIELD_INPUT_BOUNDS;
       break;
   }
-
   return $element;
-}
-
-function geofield_get_base_element($base, $items, $delta) {
-  $element = $base;
-  // @TODO: This won't be called wkt for long.
-  $element['wkt'] = array(
-    '#type' => 'value',
-    '#value' => isset($items[$delta]['wkt']) ? $items[$delta]['wkt'] : NULL,
-  );
-  $element['geo_type'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['geo_type']) ? $items[$delta]['geo_type'] : NULL,
-  );
-  $element['lat'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['lat']) ? $items[$delta]['lat'] : NULL,
-  );
-  $element['lon'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['lon']) ? $items[$delta]['lon'] : NULL,
-  );
-  $element['left'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['left']) ? $items[$delta]['left'] : NULL,
-  );
-  $element['right'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['right']) ? $items[$delta]['right'] : NULL,
-  );
-  $element['bottom'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['bottom']) ? $items[$delta]['bottom'] : NULL,
-  );
-  $element['top'] = array(
-    '#type' => 'value',
-    '#default_value' => isset($items[$delta]['top']) ? $items[$delta]['top'] : NULL,
-  );
-
-  // $element['input_format'] is not a db field, but how we determine how to parse/calculate values in our widget.
-  $element['input_format'] = array(
-    '#type' => 'value',
-    '#attributes' => array('class' => array('geofield_input_format')),
-    '#value' => GEOFIELD_INPUT_AUTO_DISCOVER,
-  );
-
-  // This validate function computes all other columns from the master field
-  $element['#element_validate'] = array('geofield_element_validate');
-  return $element;
-}
-
-/**
- * Geofield Element Validate
- *
- * In this function, we set all the values from our various widgets to what the FieldAPI expects from us
- * based on our schema declaration.
- */
-function geofield_element_validate($element, &$form_state) {
-  /*// @TODO: convert this from a switch statement to various function calls (like a boss).
-  switch ($element['input_format']['#value']) {
-    case GEOFIELD_INPUT_WKT:
-      geophp_load();
-      if (!empty($element['widget']['#value'])) {
-        $geometry = geoPHP::load($element['widget']['#value'], 'wkt');
-      }
-      break;
-    case GEOFIELD_INPUT_GEOJSON:
-      geophp_load();
-      if (!empty($element['widget']['#value'])) {
-        $geometry = geoPHP::load($element['widget']['#value'], 'json');
-      }
-      break;
-    case GEOFIELD_INPUT_LAT_LON:
-      geophp_load();
-      if (!empty($element['widget']['lat']['#value']) && !empty($element['widget']['lon']['#value'])) {
-        $geometry = new Point($element['widget']['lon']['#value'], $element['widget']['lat']['#value']);
-      }
-      break;
-    case GEOFIELD_INPUT_BOUNDS:
-      geophp_load();
-      if (!empty($element['widget']['top']['#value']) && !empty($element['widget']['right']['#value']) && !empty($element['widget']['bottom']['#value']) && !empty($element['widget']['left']['#value'])) {
-        $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
-        $wkt = strtr($wkt_bounds_format, array('top' => $element['widget']['top']['#value'],
-          'right' => $element['widget']['right']['#value'],
-          'bottom' => $element['widget']['bottom']['#value'],
-          'left' => $element['widget']['left']['#value']));
-        $geometry = geoPHP::load($wkt, 'wkt');
-      }
-      break;
-  }
-
-  $values = array();
-
-  if (!empty($geometry)) {
-    $values = geofield_get_values_from_geometry($geometry);
-  }
-  else {
-    $values['wkt'] = '';
-    $values['geo_type'] = '';
-    $values['lat'] = '';
-    $values['lon'] = '';
-    $values['top'] = '';
-    $values['bottom'] = '';
-    $values['right'] = '';
-    $values['left'] = '';
-  }
-
-  if (isset($values['wkt']))       form_set_value($element['wkt'], $values['wkt'], $form_state);
-  if (isset($values['geo_type']))  form_set_value($element['geo_type'], $values['geo_type'], $form_state);
-  if (isset($values['lat']))       form_set_value($element['lat'], $values['lat'], $form_state);
-  if (isset($values['lon']))       form_set_value($element['lon'], $values['lon'], $form_state);
-  if (isset($values['top']))       form_set_value($element['top'], $values['top'], $form_state);
-  if (isset($values['bottom']))    form_set_value($element['bottom'], $values['bottom'], $form_state);
-  if (isset($values['right']))     form_set_value($element['right'], $values['right'], $form_state);
-  if (isset($values['left']))      form_set_value($element['left'], $values['left'], $form_state);*/
 }

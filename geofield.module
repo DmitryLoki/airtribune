@@ -30,34 +30,39 @@ function geofield_field_info() {
 }
 
 function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-  kpr($items);
+
 }
 
 /**
  * Implements hook_field_presave().
- * PDO throws an error when attempting to insert an empty string into a float
- * field. Go through all values and convert empty strings to NULL.
- *
- * - @TODO: Accept data as either a keyed array (input_format and value) or raw value.
- *    - By declaring an input format, less guesswork/better performance.
  */
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   if ($field['type'] === 'geofield') {
-    kpr($items);
     foreach ($items as $delta => $item) {
       $items[$delta] = geofield_compute_values($item);
     }
-    kpr($items);
-    exit();
   }
+}
+
+/**
+ * Implements hook_field_load().
+ */
+
+function geofield_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  /*if ($field['type'] === 'geofield') {
+    geophp_load();
+    foreach ($items as $delta => $item) {
+      $geom = geoPHP::load($item['geom'], 'wkb');
+      $item['geom'] = $geom->out('wkt');
+    }
+  }*/
 }
 
 /**
  * Implements hook_content_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
-  // @TODO: This field won't be called wkt for long.
-  return empty($item['wkt']);
+  return empty($item['geom']);
 }
 
 /**
@@ -160,12 +165,12 @@ function geofield_compute_values($raw_data) {
         $geometry = new Point($raw_data['value']['lat'], $raw_data['value']['lon']);
       }
       else {
-        $geometry = geoPHP::load($raw_data['value'], $raw_data['input_format']);
+        $geometry = geoPHP::load($raw_data['geom'], $raw_data['input_format']);
       }
     }
   }
   else {
-
+    // @TODO: Autodiscover.
   }
 
   // Get values from geometry
@@ -186,7 +191,7 @@ function geofield_get_values_from_geometry($geometry) {
   $centroid = $geometry->getCentroid();
   $bounding = $geometry->getBBox();
 
-  $values['wkt'] = $geometry->out('wkt');
+  $values['geom'] = $geometry->out('wkt');
   $values['geo_type'] = drupal_strtolower($geometry->getGeomType());
 
   $values['lat'] = $centroid->getY();
@@ -418,7 +423,7 @@ function geofield_property_info_callback(&$info, $entity_type, $field, $instance
 function geofield_data_property_info($name = NULL) {
   // Build an array of basic property information for the geofield field.
   $properties = array(
-    'wkt' => array(
+    'geom' => array(
       'label' => 'Well-known text',
       'type' => 'text',
     ),

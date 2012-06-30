@@ -11,7 +11,7 @@
 function geofield_field_schema($field) {
   return array(
     'columns' => array(
-      'wkt' => array(
+      'geom' => array(
         'type' => 'text',
         'size' => 'big',
         'not null' => FALSE,
@@ -116,4 +116,8 @@ function geofield_update_7200() {
       ));
     }
   }
+}
+
+function geofield_update_7201() {
+  // @TODO: Using code from above, modify name of wkt field to geom.
 }
