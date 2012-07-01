@@ -519,6 +519,12 @@ function geofield_schemaorg_shape($item) {
       $output .= $top . ',' . $left . ' ';
       $output .= $bottom . ',' . $left;
       break;
+    case 'linestring':
+      $output  = $bottom . ',' . $left . ' ';
+      $output .= $bottom . ',' . $right . ' ';
+      $output .= $top . ',' . $right . ' ';
+      $output .= $top . ',' . $left;
+      break;
   }
 
   return $output;
