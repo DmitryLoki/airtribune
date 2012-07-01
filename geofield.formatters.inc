@@ -252,7 +252,8 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
   switch ($display['type']) {
     case 'geofield_wkt':
       foreach ($items as $delta => $item) {
-        $element[$delta] = array('#markup' => $item['geom']);
+        $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
+        $element[$delta] = array('#markup' => $item['wkt'] . $microdata);
       }
       return $element;
     case 'geofield_geojson':
@@ -281,22 +282,25 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
       return $element;
     case 'geofield_latlon':
       foreach ($items as $delta => $item) {
+        $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
         if ($display['settings']['labels']) {
-          $element[$delta] = array('#markup' => t('Latitude: !latitude <br/>Longitude: !longitude', array('!latitude' => floatval($item['lat']), '!longitude' => floatval($item['lon']))));
+          $element[$delta] = array('#markup' => t('Latitude: !latitude <br/>Longitude: !longitude' . $microdata, array('!latitude' => $item['lat'], '!longitude' => $item['lon'])));
         }
         else {
-          $element[$delta] = array('#markup' => floatval($item['lat']) . ', ' . floatval($item['lon']));
+          $element[$delta] = array('#markup' => $item['lat'] . ', ' . $item['lon'] . $microdata);
         }
       }
       return $element;
     case 'geofield_lat':
       foreach ($items as $delta => $item) {
-        $element[$delta] = array('#markup' => $item['lat']);
+        $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
+        $element[$delta] = array('#markup' => $item['lat'] . $microdata);
       }
       return $element;
     case 'geofield_lon':
       foreach ($items as $delta => $item) {
-        $element[$delta] = array('#markup' => $item['lon']);
+        $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
+        $element[$delta] = array('#markup' => $item['lon'] . $microdata);
       }
       return $element;
     case 'geofield_geo_type':
@@ -321,6 +325,39 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
   }
 
   return $element;
+}
+
+/**
+ * Function to return appropriate GeoCoordinates/GeoShape properties.
+ *
+ * This is developing code, as an example. Output can be made available to the
+ * theme, as specific site may want to display or not data based on other
+ * factors.
+ */
+function _geofield_item_microdata_propertyvalue($entity, $instance, $item) {
+  $output = '';
+
+  // If there is no microdata mapping for the field, return an empty string.
+  if (isset($entity->microdata[$instance['field_name']])) {
+    $microdata = $entity->microdata[$instance['field_name']];
+  }
+  else {
+    return '';
+  }
+
+  if ($item['geo_type'] == 'point') {
+    foreach (array('lat', 'lon') as $property) {
+      $microdata[$property]['#attributes']['content'] = $item[$property];
+      $output .= '<meta' . drupal_attributes($microdata[$property]['#attributes']) .' />';
+    }
+  }
+  else {
+    $schemaorg_shape = geofield_schemaorg_shape($item);
+    $microdata['schemaorg_shape']['#attributes']['content'] = $schemaorg_shape;
+    $output .= '<meta' . drupal_attributes($microdata['schemaorg_shape']['#attributes']) .' />';
+  }
+
+  return $output;
 }
 
 function _geofield_openlayers_formatter($map_name, $items) {
