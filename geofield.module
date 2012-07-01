@@ -165,7 +165,12 @@ function geofield_compute_values($raw_data) {
         $geometry = new Point($raw_data['geom']['lon'], $raw_data['geom']['lat']);
       }
       elseif ($raw_data['input_format'] == GEOFIELD_INPUT_BOUNDS) {
-        
+        $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
+        $wkt = strtr($wkt_bounds_format, array('top' => $raw_data['geom']['top'],
+          'right' => $raw_data['geom']['right'],
+          'bottom' => $raw_data['geom']['bottom'],
+          'left' => $raw_data['geom']['left']));
+        $geometry = geoPHP::load($wkt, 'wkt');
       }
       else {
         $geometry = geoPHP::load($raw_data['geom'], $raw_data['input_format']);
