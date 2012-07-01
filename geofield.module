@@ -162,7 +162,10 @@ function geofield_compute_values($raw_data) {
   if (is_array($raw_data)) {
     if (!empty($raw_data['input_format'])) {
       if ($raw_data['input_format'] == GEOFIELD_INPUT_LAT_LON) {
-        $geometry = new Point($raw_data['value']['lat'], $raw_data['value']['lon']);
+        $geometry = new Point($raw_data['geom']['lon'], $raw_data['geom']['lat']);
+      }
+      elseif ($raw_data['input_format'] == GEOFIELD_INPUT_BOUNDS) {
+        
       }
       else {
         $geometry = geoPHP::load($raw_data['geom'], $raw_data['input_format']);

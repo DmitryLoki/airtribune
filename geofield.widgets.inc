@@ -18,7 +18,7 @@ define('GEOFIELD_INPUT_WKT', 'wkt');
 /**
  * Geofield Input format - GeoJSON.
  */
-define('GEOFIELD_INPUT_GEOJSON', 'geojson');
+define('GEOFIELD_INPUT_GEOJSON', 'json');
 
 /**
  * Geofield Input format - lat/lon.
@@ -123,13 +123,13 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       break;
     case 'geofield_geojson':
       $default_value = '';
-      if (!empty($items[$delta]['wkt'])) {
+      if (!empty($items[$delta]['geom'])) {
         geophp_load();
-        $geometry = geoPHP::load($items[$delta]['wkt'], 'wkt');
+        $geometry = geoPHP::load($items[$delta]['geom'], 'wkt');
         $default_value = $geometry->out('json');
       }
 
-      $element['widget'] = array(
+      $element['geom'] = array(
         '#type' => 'textarea',
         '#title' => check_plain($instance['label']),
         '#description' => check_plain($instance['description']),
@@ -150,7 +150,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       if (isset($items[$delta]['lon'])) {
         $latlon_value['lon'] = floatval($items[$delta]['lon']);
       }
-      $element = $element + array(
+      $element['geom'] = array(
         '#type' => 'geofield_latlon',
         '#title' => check_plain($instance['label']),
         '#description' => check_plain($instance['description']),
@@ -159,7 +159,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
         '#geolocation' => (!empty($instance['widget']['settings']['html5_geolocation'])) ? $instance['widget']['settings']['html5_geolocation'] : FALSE,
       );
 
-      //$element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
+      $element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
       break;
     case 'geofield_bounds':
       $bounds_value = array(
@@ -180,7 +180,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       if (isset($items[$delta]['left'])) {
         $bounds_value['left'] = $items[$delta]['left'];
       }
-      $element['widget'] = array(
+      $element['geom'] = array(
         '#type' => 'geofield_bounds',
         '#title' => check_plain($instance['label']),
         '#description' => check_plain($instance['description']),

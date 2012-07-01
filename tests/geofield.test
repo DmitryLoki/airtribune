@@ -34,17 +34,17 @@ class GeoFieldTestCase extends FieldTestCase {
     // Display creation form.
     $langcode = LANGUAGE_NONE;
     $this->drupalGet('test-entity/add/test-bundle');
-    $this->assertFieldByName("{$this->field_name}[$langcode][0][widget][lat]", '', t('Widget [lat] is displayed'));
-    $this->assertFieldByName("{$this->field_name}[$langcode][0][widget][lon]", '', t('Widget [lon] is displayed'));
-    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][widget]", '', t("Widget [widget] isn't displayed with latlon widget"));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][lat]", '', t('Widget [lat] is displayed'));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][lon]", '', t('Widget [lon] is displayed'));
+    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][geom]", '', t("Widget [widget] isn't displayed with latlon widget"));
 
     // Submit with some value.
     include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
     $generator = new GeoGenerator();
     $point = $generator->random_point();
     $edit = array(
-      "{$this->field_name}[$langcode][0][widget][lat]" => $point[1],
-      "{$this->field_name}[$langcode][0][widget][lon]" => $point[0],
+      "{$this->field_name}[$langcode][0][geom][lat]" => $point[1],
+      "{$this->field_name}[$langcode][0][geom][lon]" => $point[0],
     );
     $this->drupalPost(NULL, $edit, t('Save'));
     preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);

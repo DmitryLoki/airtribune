@@ -266,7 +266,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_kml':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['wkt'], 'wkt');
+        $geometry = geoPHP::load($item['geom'], 'wkt');
         $kml = $geometry->out('kml');
         $element[$delta] = array('#markup' => $kml);
       }
@@ -274,7 +274,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_gpx':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['wkt'], 'wkt');
+        $geometry = geoPHP::load($item['geom'], 'wkt');
         $kml = $geometry->out('gpx');
         $element[$delta] = array('#markup' => $kml);
       }
@@ -329,7 +329,7 @@ function _geofield_openlayers_formatter($map_name, $items) {
   // Create array of $features
   foreach ($items as $delta) {
     $features[] = array(
-      'wkt' => $delta['wkt'],
+      'wkt' => $delta['geom'],
       'projection' => '4326',
     );
   }
@@ -361,7 +361,7 @@ function _geofield_openlayers_formatter($map_name, $items) {
 
 function _geofield_def_list_formatter($item, $settings) {
   geophp_load();
-  $geometry = geoPHP::load($item['wkt'], 'wkt');
+  $geometry = geoPHP::load($item['geom'], 'wkt');
 
   // Single types
   $single_types = array('Point', 'LineString', 'Polygon');
@@ -396,7 +396,7 @@ function _geofield_def_list_formatter_dl($info) {
 
 function _geofield_description_formatter($item, $settings) {
   geophp_load();
-  $geometry = geoPHP::load($item['wkt'], 'wkt');
+  $geometry = geoPHP::load($item['geom'], 'wkt');
 
   // Single types
   $single_types = array('Point', 'LineString', 'Polygon');

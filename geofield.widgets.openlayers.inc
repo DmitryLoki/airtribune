@@ -73,7 +73,7 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance,
   $element = geofield_get_base_element($base, $items, $delta);
 
   $geo_value = $element['wkt']['#value'];
-  $element['widget'] = array(
+  $element['geom'] = array(
     '#type' => 'hidden',
     '#attributes' => array('class' => array('geofield_wkt')),
     '#default_value' => $geo_value,
