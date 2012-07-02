@@ -5,7 +5,17 @@
  * Tests for geofield.module.
  */
 
-class GeoFieldTestCase extends FieldTestCase {
+class GeofieldBaseTestCase extends FieldTestCase {
+  function _testWKTFormatter($id, $geometry, $label) {
+    $entity = field_test_entity_test_load($id);
+    $entity->content = field_attach_view('test_entity', $entity, 'full');
+    $this->content = drupal_render($entity->content);
+    $value = $geometry->out('wkt');
+    $this->assertText($value, 'WKT output for ' . $label . ' widget is correct.');
+  }
+}
+
+class Geo extends GeofieldBaseTestCase {
 
   public static function getInfo() {
     return array(
@@ -30,41 +40,64 @@ class GeoFieldTestCase extends FieldTestCase {
    */
   function testGeofieldFieldLatLonWidget() {
     // Test lat/lon widget
-    $this->_testGeoFieldAPISetup('geofield_latlon');
+    $this->_testGeoFieldAPISetup('geofield_latlon', 'geofield_wkt');
     // Display creation form.
     $langcode = LANGUAGE_NONE;
     $this->drupalGet('test-entity/add/test-bundle');
-    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][lat]", '', t('Widget [lat] is displayed'));
-    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][lon]", '', t('Widget [lon] is displayed'));
-    $this->assertNoFieldByName("{$this->field_name}[$langcode][0][geom]", '', t("Widget [widget] isn't displayed with latlon widget"));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][lat]", '', t('Lat/lon widget [lat] is displayed'));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][lon]", '', t('Lat/lon widget [lon] is displayed'));
 
     // Submit with some value.
     include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
     $generator = new GeoGenerator();
     $point = $generator->random_point();
+    geophp_load();
+    $geometry = new Point($point[0], $point[1]);
+    
     $edit = array(
-      "{$this->field_name}[$langcode][0][geom][lat]" => $point[1],
-      "{$this->field_name}[$langcode][0][geom][lon]" => $point[0],
+      "{$this->field_name}[$langcode][0][geom][lat]" => $geometry->getY(),
+      "{$this->field_name}[$langcode][0][geom][lon]" => $geometry->getX(),
     );
     $this->drupalPost(NULL, $edit, t('Save'));
     preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
     $id = $match[1];
-    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Entity was created'));
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Lat/lon entity was created'));
 
-    // Display the entity.
-    $entity = field_test_entity_test_load($id);
-    $entity->content = field_attach_view('test_entity', $entity, 'full');
-    $this->content = drupal_render($entity->content);
-    geophp_load();
-    $geometry = new Point($point[0], $point[1]);
-    $value = $geometry->out('wkt');
-    $this->assertText($value, 'WKT output for lat/lon widget is correct.');
+    $this->_testWKTFormatter($id, $geometry, 'lat/lon');
+  }
+
+  /**
+   * Test WKT Input.
+   */
+  function testGeofieldFieldWKTWidget() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_wkt', 'geofield_wkt');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom]", '', t('WKT widget is displayed'));
+
+    // Submit with some value.
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    $wkt = $generator->wkt_generate();
+    $geometry = geoPHP::load($wkt, 'wkt');
+    
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom]" => $geometry->out('wkt'),
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('WKT entity was created'));
+
+    $this->_testWKTFormatter($id, $geometry, 'wkt');
   }
 
   /**
    * Helper function for testGeofieldWidgets().
    */
-  function _testGeoFieldAPISetup($widget_type) {
+  function _testGeoFieldAPISetup($widget_type, $display_type) {
     // Setup a field and instance
     $entity_type = 'test_entity';
     $this->field_name = drupal_strtolower($this->randomName());
@@ -82,7 +115,7 @@ class GeoFieldTestCase extends FieldTestCase {
       ),
       'display' => array(
         'full' => array(
-          'type' => 'geofield_wkt',
+          'type' => $display_type,
         ),
       ),
     );

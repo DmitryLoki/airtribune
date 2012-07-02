@@ -253,7 +253,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_wkt':
       foreach ($items as $delta => $item) {
         $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
-        $element[$delta] = array('#markup' => $item['wkt'] . $microdata);
+        $element[$delta] = array('#markup' => $item['geom'] . $microdata);
       }
       return $element;
     case 'geofield_geojson':
