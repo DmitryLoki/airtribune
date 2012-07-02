@@ -12,7 +12,7 @@ function geofield_field_schema($field) {
   return array(
     'columns' => array(
       'geom' => array(
-        'type' => 'text',
+        'type' => 'blob',
         'size' => 'big',
         'not null' => FALSE,
       ),

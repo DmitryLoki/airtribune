@@ -111,11 +111,17 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   // All of our widgets are keyed to 'geom,' we calculate proper field values in geofield_field_presave().
   switch ($widget['type']) {
     case 'geofield_wkt':
+      $default_value = '';
+      if (!empty($items[$delta]['geom'])) {
+        geophp_load();
+        $geometry = geoPHP::load($items[$delta]['geom'], 'wkb');
+        $default_value = $geometry->out('wkt');
+      }
       $element['geom'] = array(
         '#type' => 'textarea',
         '#title' => check_plain($instance['label']),
         '#description' => check_plain($instance['description']),
-        '#default_value' => !empty($items[$delta]['geom']) ? $items[$delta]['geom'] : '',
+        '#default_value' => $default_value,
         '#required' => $instance['required'],
       );
 
@@ -125,7 +131,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
       $default_value = '';
       if (!empty($items[$delta]['geom'])) {
         geophp_load();
-        $geometry = geoPHP::load($items[$delta]['geom'], 'wkt');
+        $geometry = geoPHP::load($items[$delta]['geom'], 'wkb');
         $default_value = $geometry->out('json');
       }
 

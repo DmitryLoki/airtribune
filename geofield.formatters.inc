@@ -251,15 +251,18 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
 
   switch ($display['type']) {
     case 'geofield_wkt':
+      geophp_load();
       foreach ($items as $delta => $item) {
+        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $wkt = $geometry->out('wkt');
         $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
-        $element[$delta] = array('#markup' => $item['geom'] . $microdata);
+        $element[$delta] = array('#markup' => $wkt . $microdata);
       }
       return $element;
     case 'geofield_geojson':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkt');
+        $geometry = geoPHP::load($item['geom'], 'wkb');
         $json = $geometry->out('json');
         $element[$delta] = array('#markup' => $json);
       }
@@ -267,7 +270,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_kml':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkt');
+        $geometry = geoPHP::load($item['geom'], 'wkb');
         $kml = $geometry->out('kml');
         $element[$delta] = array('#markup' => $kml);
       }
@@ -275,7 +278,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_gpx':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkt');
+        $geometry = geoPHP::load($item['geom'], 'wkb');
         $kml = $geometry->out('gpx');
         $element[$delta] = array('#markup' => $kml);
       }
