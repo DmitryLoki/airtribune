@@ -292,9 +292,11 @@ function geofield_get_values_from_geometry($geometry) {
   $values['wkt'] = $geometry->out('wkt');
   $values['geo_type'] = drupal_strtolower($geometry->getGeomType());
 
-  $values['lat'] = $centroid->getY();
-  $values['lon'] = $centroid->getX();
-
+  if ($centroid) {
+    $values['lat'] = $centroid->getY();
+    $values['lon'] = $centroid->getX();
+  }
+  
   $values['top'] = $bounding['maxy'];
   $values['bottom'] = $bounding['miny'];
   $values['right'] = $bounding['maxx'];
