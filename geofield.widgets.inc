@@ -116,7 +116,6 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
     case 'geofield_geojson':
       $default_value = '';
       if (!empty($items[$delta]['wkt'])) {
-        geophp_load();
         $geometry = geoPHP::load($items[$delta]['wkt'], 'wkt');
         $default_value = $geometry->out('json');
       }
@@ -244,27 +243,24 @@ function geofield_get_base_element($base, $items, $delta) {
  */
 function geofield_element_validate($element, &$form_state) {
   // @TODO: convert this from a switch statement to various function calls (like a boss).
+  geophp_load();
   switch ($element['input_format']['#value']) {
     case GEOFIELD_INPUT_WKT:
-      geophp_load();
       if (!empty($element['widget']['#value'])) {
         $geometry = geoPHP::load($element['widget']['#value'], 'wkt');
       }
       break;
     case GEOFIELD_INPUT_GEOJSON:
-      geophp_load();
       if (!empty($element['widget']['#value'])) {
         $geometry = geoPHP::load($element['widget']['#value'], 'json');
       }
       break;
     case GEOFIELD_INPUT_LAT_LON:
-      geophp_load();
       if (!empty($element['widget']['lat']['#value']) && !empty($element['widget']['lon']['#value'])) {
         $geometry = new Point($element['widget']['lon']['#value'], $element['widget']['lat']['#value']);
       }
       break;
     case GEOFIELD_INPUT_BOUNDS:
-      geophp_load();
       if (!empty($element['widget']['top']['#value']) && !empty($element['widget']['right']['#value']) && !empty($element['widget']['bottom']['#value']) && !empty($element['widget']['left']['#value'])) {
         $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
         $wkt = strtr($wkt_bounds_format, array('top' => $element['widget']['top']['#value'],
