@@ -267,7 +267,7 @@ function openlayers_geofield_override_element_delta(&$element, $source_delta, $d
   }
   foreach ($element as $key => &$item) {
     if (substr($key, 0,1) != '#') {
-      openlayers_geofield_override_element_delta(&$item, $source_delta, $delta);
+      openlayers_geofield_override_element_delta($item, $source_delta, $delta);
     }
   }
 }
