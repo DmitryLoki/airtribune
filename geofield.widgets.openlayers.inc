@@ -86,7 +86,17 @@ function openlayers_field_widget_settings_form($field, $instance) {
 function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $base) {
   geophp_load();
   $widget = $instance['widget'];
-  $settings = $widget['settings'];
+  $settings_defaults = array(
+    'openlayers_map' => 'geofield_widget_map',
+    'data_storage' => 'single',
+    'feature_types' => array(
+      'point' => 'point',
+      'path' => 'path',
+      'polygon' => 'polygon',
+    ),
+    'allow_edit' => 1,
+  );
+  $settings = array_merge($settings_defaults, $widget['settings']);
 
   // Compress all the WKT elements into a single WKT object to pass to the map.
   // Essentially we compress all the elements into delta 0, then deconstruct them on the other side when it comes time to validate them
@@ -103,6 +113,10 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
   }
 
   $combined_wkt = $combined_geom->out('wkt');
+  // A value of 'GEOMETRYCOLLECTION EMPTY' breaks OpenLayers JS later on down the line.
+  if ($combined_wkt == 'GEOMETRYCOLLECTION EMPTY') {
+    $combined_wkt = '';
+  }
   $items = array(array('wkt' => $combined_wkt));
 
   // Create the geofield element. See function geofield_get_base_element for reference
@@ -184,68 +198,70 @@ function openlayers_geofield_form_latlon_map($defaults = array(), $map_name) {
 }
 
 function openlayers_geofield_widget_element_validate($element, &$form_state) {
-  geophp_load();
   $container_delta = $element[0];
 
-  $combined_geom = geoPHP::load($container_delta['widget']['#value'], 'wkt');
-  $combined_geom = geoPHP::geometryReduce($combined_geom);
+  if (!empty($container_delta['widget']['#value'])) {
+    geophp_load();
+    $combined_geom = geoPHP::load($container_delta['widget']['#value'], 'wkt');
+    $combined_geom = geoPHP::geometryReduce($combined_geom);
 
-  // Check to make sure they only saved the allowed types
-  $geom_type = $combined_geom->geometryType();
-  if ($geom_type == 'GeometryCollection' || $geom_type == 'MultiPoint' || $geom_type == 'MultiLineString' || $geom_type == 'MultiPolygon') {
-    $geoms = $combined_geom->getComponents();
-  }
-  else {
-    $geoms = array($combined_geom);
-  }
-  foreach ($geoms as $item) {
-    $allowed = FALSE;
-    foreach ($container_delta['#widget_settings']['feature_types'] as $type) {
-      $geometry_type = strtolower($item->geometryType());
-      if ($geometry_type == 'linestring') {
-        $geometry_type = 'path';
+    // Check to make sure they only saved the allowed types
+    $geom_type = $combined_geom->geometryType();
+    if ($geom_type == 'GeometryCollection' || $geom_type == 'MultiPoint' || $geom_type == 'MultiLineString' || $geom_type == 'MultiPolygon') {
+      $geoms = $combined_geom->getComponents();
+    }
+    else {
+      $geoms = array($combined_geom);
+    }
+    foreach ($geoms as $item) {
+      $allowed = FALSE;
+      foreach ($container_delta['#widget_settings']['feature_types'] as $type) {
+        $geometry_type = strtolower($item->geometryType());
+        if ($geometry_type == 'linestring') {
+          $geometry_type = 'path';
+        }
+        if (strpos(strtolower($geometry_type), $type) !== FALSE) {
+          $allowed = TRUE;
+          break;
+        }
       }
-      if (strpos(strtolower($geometry_type), $type) !== FALSE) {
-        $allowed = TRUE;
-        break;
+      if (!$allowed) {
+        form_set_error($container_delta['#field_name'], 'Not allowed to submit a geometry of type ' . $item->geometryType());
+        return;
       }
     }
-    if (!$allowed) {
-      form_set_error($container_delta['#field_name'], 'Not allowed to submit a geometry of type ' . $item->geometryType());
-      return;
+
+    //Check the number deltas
+    $cardinality = $container_delta['#widget_settings']['cardinality'];
+    if ($cardinality > 0 && $container_delta['#widget_settings']['data_storage'] == 'single') {
+      if (count($geoms) > $cardinality) {
+        form_set_error($container_delta['#field_name'], 'Too many geometries submitted. Max allowed is ' .$cardinality);
+        return;
+      }
     }
-  }
 
-  //Check the number deltas
-  $cardinality = $container_delta['#widget_settings']['cardinality'];
-  if ($cardinality > 0 && $container_delta['#widget_settings']['data_storage'] == 'single') {
-    if (count($geoms) > $cardinality) {
-      form_set_error($container_delta['#field_name'], 'Too many geometries submitted. Max allowed is ' .$cardinality);
-      return;
+    // Checks pass, lets load this up into deltas
+    if ($container_delta['#widget_settings']['data_storage'] == 'collection') {
+      $element[0]['wkt']['#value'] = $combined_geom->out('wkt');
+      geofield_element_validate($element[0], $form_state);
     }
-  }
 
-  // Checks pass, lets load this up into deltas
-  if ($container_delta['#widget_settings']['data_storage'] == 'collection') {
-    $element[0]['wkt']['#value'] = $combined_geom->out('wkt');
-    geofield_element_validate($element[0], $form_state);
-  }
+    if ($container_delta['#widget_settings']['data_storage'] == 'single') {
+      foreach ($geoms as $delta => $geom) {
+        // Clone delta-0
+        $element = $container_delta;
 
-  if ($container_delta['#widget_settings']['data_storage'] == 'single') {
-    foreach ($geoms as $delta => $geom) {
-      // Clone delta-0
-      $element = $container_delta;
+        // Override the delta
+        openlayers_geofield_override_element_delta($element, 0, $delta);
 
-      // Override the delta
-      openlayers_geofield_override_element_delta($element, 0, $delta);
+        // Apply the WKT
+        $wkt = $geom->out('wkt');
+        $element['wkt']['#value'] = $wkt;
+        $element['widget']['#value'] = $wkt;
 
-      // Apply the WKT
-      $wkt = $geom->out('wkt');
-      $element['wkt']['#value'] = $wkt;
-      $element['widget']['#value'] = $wkt;
-
-      // Assign the value in the form_state
-      geofield_element_validate($element, $form_state);
+        // Assign the value in the form_state
+        geofield_element_validate($element, $form_state);
+      }
     }
   }
 }
