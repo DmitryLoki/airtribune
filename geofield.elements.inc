@@ -289,7 +289,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
  */
 function geofield_proximity_search_validate($element, &$form_state) {
   //If the origin is set, ensure the distance is set as well
-  if (!empty($element['origin']['#value']) != '' && empty($element['distance']['#value']))
+  if (!empty($element['origin']['#value']) && trim($element['origin']['#value']) != '' && empty($element['distance']['#value']))
     form_set_error(implode('][', $element['#array_parents']) . '][distance', t('@title must be set when @origin is specified.', array('@title' => $element['distance']['#title'], '@origin' => $element['origin']['#title'])));
 }
 
