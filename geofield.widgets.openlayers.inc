@@ -77,16 +77,74 @@ function openlayers_field_widget_settings_form($field, $instance) {
     '#description' => t('Can you edit and delete shapes.'),
     '#default_value' => isset($settings['allow_edit']) ? $settings['allow_edit'] : 1,
   );
+
+  // Add optional Geocoder support.
+  $use_geocoder = isset($settings['use_geocoder']) ? $settings['use_geocoder'] : 0;
+  $geocoder_form = array(
+    '#type' => 'fieldset',
+    '#title' => t('Geocoder settings'),
+  );
+  if (module_exists('geocoder')) {
+    $geocoder_form['use_geocoder'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable geocoding of location data'),
+      '#default_value' => $use_geocoder,
+      // Can't nest this in a fieldset element without affecting data storage so instead hardcode one.
+      '#prefix' => '<fieldset><legend><span="fieldset-legend">' . t('Geocoder settings') . '</span></legend><div class="fieldset-wrapper">',
+    );
+    
+    // Load the Geocoder widget settings.
+    module_load_include('inc', 'geocoder', 'geocoder.widget');
+    $new = geocoder_field_widget_settings_form($field, $instance);
+    
+    // Show the geocoder fields only if geocoder is selected.
+    openlayers_widget_add_states($new, ':input[name="instance[widget][settings][use_geocoder]"]');
+    // Close the fieldset we opened in the #prefix to use_geocoder.
+
+    $new[end(element_children($new))]['#suffix'] = '</div></fieldset>';
+    $geocoder_form += $new;
+  }
+  else {
+    $geocoder_form['add_geocoder'] = array(
+      '#markup' => t('Optionally, install the <a href="http//drupal.org/project/geocoder">Geocoder</a> module and add an <a href="http://drupal.org/project/addressfield">Address field</a> to enable mapping by address.')
+    );
+  }
+  $form += $geocoder_form;
+  
   return $form;
 }
+ /**
+ * Recurse through form elements adding a visibility #states selector
+ * and removing #required flags.
+ */
+function openlayers_widget_add_states(&$element, $selector) {
+  foreach (element_children($element) as $key) {
+    $element[$key]['#required'] = FALSE;
+    // Don't override any existing #states settings.
+    if (!isset($element[$key]['#states'])) {
+      $element[$key]['#states'] = array();
+    }
+    if (!isset($element[$key]['#states']['visible'])) {
+      $element[$key]['#states']['visible'] = array();
+    }
+    $element[$key]['#states']['visible'][$selector] = array('checked' => TRUE);
+    openlayers_widget_add_states($element[$key], $selector);
+  }
+}
+
 
 /**
  * Implements hook_field_widget_form().
  */
 function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $base) {
   geophp_load();
+  
   $widget = $instance['widget'];
   $settings = $widget['settings'];
+  $parents = $form['#parents'];
+  $field_name = $field['field_name'];
+  $id_prefix = implode('-', array_merge($parents, array($field_name, $delta)));
+  $wrapper_id = drupal_html_id($id_prefix . '-use-geocoder-wrapper');
 
   // Compress all the WKT elements into a single WKT object to pass to the map.
   // Essentially we compress all the elements into delta 0, then deconstruct them on the other side when it comes time to validate them
@@ -135,6 +193,44 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
   }
   $element['#widget_settings']['cardinality'] = $field['cardinality'];
 
+  // Time to deal with optional geocoder integration
+  // Conditionally add geocoder button.
+  if (!$is_settings_form && !empty($settings['use_geocoder']) && !empty($settings['geocoder_field'])) {
+    if ($field = field_info_instance($instance['entity_type'], $settings['geocoder_field'], $instance['bundle'])) {
+      $label = $field['label'];
+    }
+    else {
+      switch ($settings['geocoder_field']) {
+        case 'title':
+          $label = t('Title');
+          break;
+        case 'name':
+          $label = t('Name');
+          break;
+        default:
+          $label = $settings['geocoder_field'];
+      }
+    }
+
+    $element['#prefix'] = '<div id="' . $wrapper_id . '">';
+    $element['#suffix'] = '</div>';
+
+    $element['use_geocoder'] = array(
+      '#type' => 'submit',
+      '#name' => strtr($id_prefix, '-', '_') . '_use_geocoder',
+      '#value' => t('Find using @field field', array('@field' => $label)),
+      '#attributes' => array('class' => array('field-use-geocoder-submit')),
+      // Avoid validation errors for e.g. required fields but do pass the value of the geocoder field.
+      '#limit_validation_errors' => array(array_merge($parents, array($field_name, $langcode)), array($settings['geocoder_field'], $langcode)),
+      '#ajax' => array(
+        'callback' => 'openlayers_widget_geocode',
+        'wrapper' => $wrapper_id,
+        'effect' => 'fade',
+      ),
+      '#submit' => array('openlayers_use_geocoder_submit'),
+    );
+  }
+
   // Add the element to an array, because it's the format that FIELD_BEHAVIOR_CUSTOM expects
   $full_element = array($element);
 
@@ -181,6 +277,50 @@ function openlayers_geofield_form_latlon_map($defaults = array(), $map_name) {
   $map_data = openlayers_map_load($map_name);
   $map = $map_data->data;
   return openlayers_render_map($map);
+}
+
+ /**
+ * Submit callback for widget form.
+ */
+function openlayers_use_geocoder_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go one level up in the form, to the widgets container.
+  $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -1));
+  $field_name = $element['#field_name'];
+  $langcode = $element['#language'];
+  $delta = $element['#delta'];
+  $parents = $element['#field_parents'];
+
+  // Set the widget value based on geocoding results.
+  $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
+  $geocoder_field = $field_state['instance']['widget']['settings']['geocoder_field'];
+  if ($field_value = geocoder_widget_get_field_value($element['#entity_type'], $field_state['instance'], NULL, $form_state['values'][$geocoder_field][$langcode])) {
+    $field_value[$langcode][$delta]['widget'] = $field_value[$langcode][$delta]['wkt'];
+    // Override the field's value in the 'input' array to substitute the new
+    // field value for the one that was submitted.
+    drupal_array_set_nested_value($form_state, array_merge(array('input'), $parents, array($field_name)), $field_value);
+  }
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Return the altered form element from an AJAX request.
+ *
+ * @see openlayers_field_widget_form()
+ */
+function openlayers_widget_geocode($form, $form_state) {
+  $button = $form_state['triggering_element'];
+  // Return the element (the field's delta). It will replace itself via the
+  // wrapper div ID set in the element's #prefix.
+  $parents = $button['#parents'];
+  // Remove the button itself from the parents.
+  array_pop($parents);
+  $element = drupal_array_get_nested_value($form, $parents);
+  // Return the map, but remove the '_weight' element inserted
+  // by the field API.
+  unset($element['_weight']);
+  return $element;
 }
 
 function openlayers_geofield_widget_element_validate($element, &$form_state) {
