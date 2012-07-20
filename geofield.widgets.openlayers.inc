@@ -210,6 +210,7 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
 
   // Time to deal with optional geocoder integration
   // Conditionally add geocoder button.
+  $is_settings_form = isset($form['#title']) && $form['#title'] == t('Default value');
   if (!$is_settings_form && !empty($settings['use_geocoder']) && !empty($settings['geocoder_field'])) {
     if ($field = field_info_instance($instance['entity_type'], $settings['geocoder_field'], $instance['bundle'])) {
       $label = $field['label'];
