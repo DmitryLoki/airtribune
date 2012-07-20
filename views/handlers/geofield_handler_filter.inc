@@ -69,8 +69,9 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         $lon_origin = $this->value['origin']['lon'];
         break;
       case 'geocode':
-        if (!empty($this->value['origin'])) {
-          if ($origin_geo = geocoder($this->options['geocoder'], $this->value['origin'])) {
+        $origin_value = trim($this->value['origin']);
+        if (!empty($origin_value)) {
+          if ($origin_geo = geocoder($this->options['geocoder'], $origin_value)) {
             $lat_origin = $origin_geo->getY();
             $lon_origin = $origin_geo->getX();
           }
@@ -86,20 +87,22 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         }
         break;
     }
-    $lat_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lat');
-    $lon_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lon');
-    $this->ensure_my_table();
+    if (!empty($lat_origin) && !empty($lon_origin)) {
+      $lat_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lat');
+      $lon_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lon');
+      $this->ensure_my_table();
 
-    $info = $this->operators();
-    if (!empty($info[$this->operator]['method'])) {
-      $haversine_options = array(
-        'origin_latitude' => $lat_origin,
-        'origin_longitude' => $lon_origin,
-        'destination_latitude' => $this->table_alias . '.' . $lat_alias,
-        'destination_longitude' => $this->table_alias . '.' . $lon_alias,
-        'earth_radius' => $this->value['unit'],
-      );
-      $this->{$info[$this->operator]['method']}($haversine_options);
+      $info = $this->operators();
+      if (!empty($info[$this->operator]['method'])) {
+        $haversine_options = array(
+          'origin_latitude' => $lat_origin,
+          'origin_longitude' => $lon_origin,
+          'destination_latitude' => $this->table_alias . '.' . $lat_alias,
+          'destination_longitude' => $this->table_alias . '.' . $lon_alias,
+          'earth_radius' => $this->value['unit'],
+        );
+        $this->{$info[$this->operator]['method']}($haversine_options);
+      }
     }
   }
 
@@ -180,7 +183,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#default_value' => array(
         'distance' => $this->value['distance'],
         'unit' => $this->value['unit'],
-        'origin' => $this->value['origin'],
+        'origin' => (is_string($this->value['origin'])) ? trim($this->value['origin']) : $this->value['origin'],
       ),
       '#origin_options' => array(
         '#attributes' => array(
@@ -194,7 +197,6 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         $form['value']['#origin_element'] = 'geofield_latlon';
         break;
       case 'geocode':
-
         break;
       case 'other_geofield':
         $form['value']['#origin_element'] = 'select';
