@@ -45,8 +45,6 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
           controls = [new OpenLayers.Control.Navigation()];
         }
 
-        console.log(options);
-
         if (options.feature_types && options.feature_types.length) {
           for (var i = 0, il = options.feature_types.length; i < il; i += 1) {
             // capitalize first letter
@@ -86,6 +84,10 @@ OpenLayers.Control.GeofieldEditingToolbar = OpenLayers.Class(
    */
   Drupal.behaviors.openlayers_behavior_geofield = {
     'attach': function(context, settings) {
+      
+      // Only attach the behavior to a map
+      if (!$(context).hasClass('openlayers-map')) return;
+
       var data = $(context).data('openlayers'),
           dataProjection = new OpenLayers.Projection('EPSG:4326'),
           features, wktFormat;
