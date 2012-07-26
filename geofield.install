@@ -126,31 +126,33 @@ function geofield_update_7200() {
 
 function geofield_update_7201(&$sandbox) {
   // $sandbox contents:
-  // - total: The total number of geofield wkt fields to migrate.
-  // - count: The number of geofield wkt fields that have been
+  // - total: The total number of geofield wkt rows to migrate.
+  // - count: The number of geofield wkt rows that have been
   //   migrated so far.
+  // - batch_count: The number of rows processed in this batch.
   // - last: The db_query_range() offset to use when querying
-  //   term_node; this field is incremented in quantities of $batch
-  //   (1000) but at the end of each call to this function, last and
-  //   count are the same.
-  // @TODO: Finish documenting this.
-  if (!module_exists('field_sql_storage')) {
-    return;
-  }
+  //   an individual table.
+  // - geofield_tables: An array of tables with the following keys
+  //    - table_name: Name of the table
+  //    - field_name: Name of the field
+  //    - count: Number of rows in this particular table
+  // - current_table_index: The row in geofield_tables that we're
+  //   currently processing.
 
-  // Pseudo code.
-  // - Grab field info and count of data for each field.
-  // - Create new geom field on each on first pass.
-  // - If count < $max_batch_count, process in one sweep.
-  // - If count > $max_batch_count, process in multiple sweeps.
-  // - Once done, remove wkt field.
   $max_batch_count = 1000;
 
   if (!isset($sandbox['total'])) {
-    // 1st pass.
+    // First pass. Find all the geofields in the db, add _geom field. Create
+    // helper variables that we'll need to potentially process thousands
+    // of entries.
     $total = 0;
     $tables = array();
     foreach (field_info_fields() as $field_name => $field) {
+      if ($field['type'] != 'geofield') {
+        // Not a geofield field.
+        continue;
+      }
+      
       $table_name = _field_sql_storage_tablename($field);
       $revision_table_name = _field_sql_storage_revision_tablename($field);
 
@@ -166,18 +168,23 @@ function geofield_update_7201(&$sandbox) {
         'not null' => FALSE,
       ));
 
+      // Primary field table
+      $table_count = db_query('SELECT COUNT(*) FROM {' . $table_name . '};')->fetchField();
       $tables[] = array(
         'table_name' => $table_name,
         'field_name' => $field_name,
+        'count' => $table_count,
       );
+      $total += $table_count;
 
+      // Revision field table
+      $table_count = db_query('SELECT COUNT(*) FROM {' . $revision_table_name . '};')->fetchField();
       $tables[] = array(
         'table_name' => $revision_table_name,
         'field_name' => $field_name,
+        'count' => $table_count,
       );
-
-      $total += db_query('SELECT COUNT(*) FROM {' . $table_name . '};')->fetchField();
-      $total += db_query('SELECT COUNT(*) FROM {' . $revision_table_name . '};')->fetchField();
+      $total += $table_count;
     }
 
     $sandbox['total'] = $total;
@@ -191,13 +198,19 @@ function geofield_update_7201(&$sandbox) {
   }
 
   $sandbox['batch_count'] = 0;
+  $sandbox['#finished'] = TRUE; // sensible default
 
+  // Primary loop. Run through each table and transfer data from _wkt field
+  // to the _geom field. A conversion (via geoPHP) is required to go from
+  // wkt to wkb.
   while ($sandbox['count'] < $sandbox['total'] && $sandbox['batch_count'] < $max_batch_count) {
     $i = $sandbox['current_table_index'];
 
     if (!empty($sandbox['geofield_tables'][$i])) {
-      $query = 'SELECT ' . $sandbox['geofield_tables'][$i]['field_name'] . '_wkt AS wkt, entity_id, revision_id FROM {' . $sandbox['geofield_tables'][$i]['table_name'] . '}';
+      $query = 'SELECT ' . $sandbox['geofield_tables'][$i]['field_name'] . '_wkt AS wkt, entity_id, revision_id, delta FROM {' . $sandbox['geofield_tables'][$i]['table_name'] . '}';
       $result = db_query_range($query, $sandbox['last'], $max_batch_count - $sandbox['batch_count']);
+      $query_total = $result->rowCount();
+
       foreach ($result as $record) {
         $geom = geoPHP::load($record->wkt, 'wkt');
         db_update($sandbox['geofield_tables'][$i]['table_name'])
@@ -206,26 +219,31 @@ function geofield_update_7201(&$sandbox) {
           ))
           ->condition('entity_id', $record->entity_id)
           ->condition('revision_id', $record->revision_id)
+          ->condition('delta', $record->delta)
           ->execute();
 
         $sandbox['batch_count']++;
         $sandbox['count']++;
       }
-      $sandbox['last'] = $sandbox['count'];
-      $sandbox['current_table_index']++;
 
-      if (!empty($sandbox['geofield_tables'][$i])) {
-        $sandbox['#finished'] = FALSE;
+      // Check to see if we've updated all the rows associated with this field.
+      if ($sandbox['last'] + $query_total < $sandbox['geofield_tables'][$i]['count']) {
+        $sandbox['last'] += $query_total;
       }
       else {
-        $sandbox['#finished'] = TRUE;
+        $sandbox['current_table_index']++;
+        $sandbox['last'] = 0;
       }
+
+      // Let the queue system know if we're done or not with this migration.
+      $sandbox['#finished'] = ($sandbox['count'] < $sandbox['total']) ? FALSE : TRUE;
     }
   }
 
+  // Field cleanup. If we're done, get rid of _wkt field.
   if ($sandbox['#finished'] == TRUE) {
     foreach($sandbox['geofield_tables'] as $table) {
-      db_drop_field($table['table_name'], $table['field_name']);
+      db_drop_field($table['table_name'], $table['field_name'] . '_wkt');
     }
   }
 }
