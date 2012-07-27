@@ -242,10 +242,32 @@ function geofield_compute_values($raw_data) {
       else {
         $geometry = geoPHP::load($raw_data['geom'], $raw_data['input_format']);
       }
+    } else {
+      // No input format.
+      if (!empty($raw_data['geom'])) {
+        $geometry = geoPHP::load($raw_data['geom'], 'wkt');
+      }
+      // Special case, raw input (Services/Feeds) that only specifies lat/lon.
+      elseif (!empty($raw_data['lat']) && !empty($raw_data['lon'])) {
+        $geometry = new Point($raw_data['lon'], $raw_data['lat']);
+      }
     }
   }
   else {
-    // @TODO: Autodiscover.
+    // All we have at this point is a raw string. Attempt to load from known
+    // input formats provided by geoPHP.
+    $input_formats = array_keys(geoPHP::getAdapterMap());
+    foreach ($input_formats as $input_format) {
+      try {
+        $tmp_geometry = geoPHP::load($raw_data, $input_format);
+        if (!empty($tmp_geometry)) {
+          $geometry = $tmp_geometry;
+          break;
+        }
+      } catch (Exception $e) {
+        // No harm, no foul. We didn't want to use that data anyway.
+      }
+    }
   }
 
   // Get values from geometry
