@@ -66,13 +66,18 @@ function openlayers_field_widget_settings_form($field, $instance) {
  * Implements hook_field_widget_form().
  */
 function openlayers_field_widget_form(&$form, &$form_state, $field, $instance,
-  $langcode, $items, $delta, $base) {
+  $langcode, $items, $delta, $element) {
 
   $widget = $instance['widget'];
   $settings = $widget['settings'];
-  $element = geofield_get_base_element($base, $items, $delta);
 
-  $geo_value = $element['wkt']['#value'];
+  $geo_value = '';
+  if (!empty($items[$delta]['geom'])) {
+    geophp_load();
+    $geometry = geoPHP::load($items[$delta]['geom'], 'wkb');
+    $geo_value = $geometry->out('wkt');
+  }
+
   $element['geom'] = array(
     '#type' => 'hidden',
     '#attributes' => array('class' => array('geofield_wkt')),
@@ -87,7 +92,6 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance,
   $element['#after_build']= array('openlayers_geofield_widget_afterbuild');
 
   // This validate function computes all other columns from the master field
-  $element['#element_validate'] = array('geofield_element_validate');
   $element['#data_storage'] = (!empty($settings['data_storage'])) ? $settings['data_storage'] : 'collection';
 
   return $element;
