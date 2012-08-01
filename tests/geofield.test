@@ -21,7 +21,7 @@ class Geo extends GeofieldBaseTestCase {
     return array(
       'name'  => 'Geofield',
       'description'  => "Test the creation of geofields.",
-      'group' => 'Field types'
+      'group' => 'Geofield'
     );
   }
 
@@ -129,7 +129,7 @@ class GeoFieldElementTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Geofield FormAPI Elements',
       'description' => "Test Geofield FormAPI elements.",
-      'group' => 'Form API',
+      'group' => 'Geofield',
     );
   }
 
