@@ -28,7 +28,7 @@ class geofield_handler_field extends views_handler_field_numeric {
         break;
       case 'exposed_filter':
         $exposed_filter = $this->view->display_handler->get_handler('filter', 'field_geofield_distance');
-        if (!empty($expoded_filter)) {
+        if (!empty($exposed_filter)) {
           $geocoded_data_raw = $exposed_filter->get_calculated_geospatial();
           if ($geocoded_data_raw) {
             $this->options['source_lon'] = $geocoded_data_raw['lon'];

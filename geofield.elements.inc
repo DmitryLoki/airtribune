@@ -235,7 +235,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
   $element['distance'] = array(
     '#type' => 'textfield',
     '#title' => t('Distance'),
-    '#default_value' => !empty($element['#default_value']['distance']) ? $element['#default_value']['distance'] : 0,
+    '#default_value' => !empty($element['#default_value']['distance']) ? $element['#default_value']['distance'] : '',
     '#title_display' => 'invisible',
     '#element_validate' => array('element_validate_integer_positive'),
   );
@@ -245,7 +245,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
     $element['distance2'] = array(
       '#type' => 'textfield',
       '#title' => t('Distance End'),
-      '#default_value' => !empty($element['#default_value']['distance2']) ? $element['#default_value']['distance2'] : 0,
+      '#default_value' => !empty($element['#default_value']['distance2']) ? $element['#default_value']['distance2'] : '',
       '#title_display' => 'invisible',
       '#element_validate' => array('element_validate_integer_positive'),
     );
@@ -289,7 +289,7 @@ function geofield_proximity_element_process($element, &$form_state, $form) {
  */
 function geofield_proximity_search_validate($element, &$form_state) {
   //If the origin is set, ensure the distance is set as well
-  if (!empty($element['origin']['#value']) != '' && empty($element['distance']['#value']))
+  if (!empty($element['origin']['#value']) && trim($element['origin']['#value']) != '' && empty($element['distance']['#value']))
     form_set_error(implode('][', $element['#array_parents']) . '][distance', t('@title must be set when @origin is specified.', array('@title' => $element['distance']['#title'], '@origin' => $element['origin']['#title'])));
 }
 

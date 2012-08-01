@@ -112,11 +112,12 @@ class geofield_map_plugin_style_map extends views_plugin_style {
       $data = array();
 
       foreach ($this->view->result as $id => $result) {
-        $geofield = (!empty($result->$geo_data)) ? $result->$geo_data : NULL;
+        $geofield_handler = $this->view->field[$style_options['data_source']];
+        $geofield = $geofield_handler->get_value($result);
 
         if (!empty($geofield)) {
           $description = ($popup_data ? $this->rendered_fields[$id][$popup_data] : '');
-          $geometry = geoPHP::load($geofield[0]['raw']['wkt'], 'wkt');
+          $geometry = geoPHP::load($geofield[0]['wkt'], 'wkt');
           $datum = json_decode($geometry->out('json'));
           $datum->properties = array(
             'description' => $description,
