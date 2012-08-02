@@ -365,11 +365,13 @@ function _geofield_item_microdata_propertyvalue($entity, $instance, $item) {
 
 function _geofield_openlayers_formatter($map_name, $items) {
   $features = array();
-
+  geophp_load();
+  
   // Create array of $features
   foreach ($items as $delta) {
+    $geometry = geoPHP::load($delta['geom'], 'wkb');
     $features[] = array(
-      'wkt' => $delta['geom'],
+      'wkt' => $geometry->out('wkt'),
       'projection' => '4326',
     );
   }
