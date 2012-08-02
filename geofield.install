@@ -140,6 +140,7 @@ function geofield_update_7201(&$sandbox) {
   //   currently processing.
 
   $max_batch_count = 1000;
+  geophp_load();
 
   if (!isset($sandbox['total'])) {
     // First pass. Find all the geofields in the db, add _geom field. Create
