@@ -15,7 +15,7 @@ class GeofieldBaseTestCase extends FieldTestCase {
   }
 }
 
-class Geo extends GeofieldBaseTestCase {
+class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
 
   public static function getInfo() {
     return array(
@@ -91,6 +91,80 @@ class Geo extends GeofieldBaseTestCase {
     $id = $match[1];
     $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('WKT entity was created'));
 
+    $this->_testWKTFormatter($id, $geometry, 'wkt');
+  }
+
+  /**
+   * Test GeoJSON Input.
+   */
+  function testGeofieldFieldGeoJSONWidget() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_geojson', 'geofield_wkt');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom]", '', t('GeoJSON widget is displayed'));
+
+    // Submit with some value.
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    $wkt = $generator->wkt_generate();
+    $geometry = geoPHP::load($wkt, 'wkt');
+    
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom]" => $geometry->out('json'),
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('GeoJSON entity was created'));
+
+    $this->_testWKTFormatter($id, $geometry, 'json');
+  }
+
+  /**
+   * Test Bounds Input.
+   */
+  function testGeofieldFieldBoundsWidget() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_bounds', 'geofield_wkt');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][top]", '', t('Bounds widget field "top" is displayed.'));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][bottom]", '', t('Bounds widget field "bottom" is displayed.'));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][left]", '', t('Bounds widget field "left" is displayed.'));
+    $this->assertFieldByName("{$this->field_name}[$langcode][0][geom][right]", '', t('Bounds widget field "right" is displayed.'));
+
+    // Submit with some value.
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    // Instead of calculating 4 separate points, calculate a center point and
+    // distance from it.
+    list($lon, $lat) = $generator->random_point();
+    $lat_diff = $generator->dd_generate(2, 10) / 100;
+    $lon_diff = $generator->dd_generate(2, 10) / 100;
+
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom][top]" => $lat + $lat_diff,
+      "{$this->field_name}[$langcode][0][geom][bottom]" => $lat - $lat_diff,
+      "{$this->field_name}[$langcode][0][geom][right]" => $lon + $lon_diff,
+      "{$this->field_name}[$langcode][0][geom][left]" => $lon - $lon_diff,
+    );
+
+    $this->drupalPost(NULL, $edit, t('Save'));
+
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('WKT entity was created'));
+
+    $top = $lat + $lat_diff;
+    $bottom = $lat - $lat_diff;
+    $left = $lon + $lon_diff;
+    $right = $lon - $lon_diff;
+    // @TODO: Create
+    $wkt = 'POLYGON ((' . $right . ' ' . $bottom . ', ' . $left . ' ' . $bottom . ', ' . $left . ' ' . $top . ', ' . $right . ' ' . $top . ', ' . $right . ' ' . $bottom . '))';
+    $geometry = geoPHP::load($wkt, 'wkt');
     $this->_testWKTFormatter($id, $geometry, 'wkt');
   }
 
