@@ -63,6 +63,13 @@ function geofield_field_load($entity_type, $entities, $field, $instances, $langc
  * Implements hook_content_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
+  switch ($item['input_format']) {
+    case GEOFIELD_INPUT_LAT_LON:
+      return ((trim($item['geom']['lat']) == '') || (trim($item['geom']['lon']) == ''));
+    case GEOFIELD_INPUT_BOUNDS:
+      return ((trim($item['geom']['top']) == '') || (trim($item['geom']['right']) == '') ||
+        (trim($item['geom']['bottom']) == '') || (trim($item['geom']['left']) == ''));
+  }
   return empty($item['geom']);
 }
 
@@ -295,7 +302,7 @@ function geofield_get_values_from_geometry($geometry) {
     $values['lat'] = $centroid->getY();
     $values['lon'] = $centroid->getX();
   }
-  
+
   $values['top'] = $bounding['maxy'];
   $values['bottom'] = $bounding['miny'];
   $values['right'] = $bounding['maxx'];
@@ -511,7 +518,7 @@ function geofield_schemaorg_shape($item) {
   $left = $item['left'];
   $right = $item['right'];
   $top = $item['top'];
-  
+
   switch ($item['geo_type']) {
     case 'polygon':
       $output  = $bottom . ',' . $left . ' ';
