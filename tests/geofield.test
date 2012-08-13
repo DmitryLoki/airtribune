@@ -64,6 +64,31 @@ class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
     $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Lat/lon entity was created'));
 
     $this->_testWKTFormatter($id, $geometry, 'lat/lon');
+
+    // Edge case, submit with 0,0 value.
+    $this->drupalGet('test-entity/add/test-bundle');
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom][lat]" => '0',
+      "{$this->field_name}[$langcode][0][geom][lon]" => '0',
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Lat/lon entity was created with 0,0 value.'));
+    $geometry = new Point(0, 0);
+    $this->_testWKTFormatter($id, $geometry, 'lat/lon');
+
+    // Edge case, no geometry submitted.
+    $this->drupalGet('test-entity/add/test-bundle');
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom][lat]" => '',
+      "{$this->field_name}[$langcode][0][geom][lon]" => '',
+    );
+
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Lat/lon entity was created with null value.'));
   }
 
   /**
@@ -156,16 +181,31 @@ class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
 
     preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
     $id = $match[1];
-    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('WKT entity was created'));
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Bounds entity was created'));
 
     $top = $lat + $lat_diff;
     $bottom = $lat - $lat_diff;
     $left = $lon + $lon_diff;
     $right = $lon - $lon_diff;
-    // @TODO: Create
+
     $wkt = 'POLYGON ((' . $right . ' ' . $bottom . ', ' . $left . ' ' . $bottom . ', ' . $left . ' ' . $top . ', ' . $right . ' ' . $top . ', ' . $right . ' ' . $bottom . '))';
     $geometry = geoPHP::load($wkt, 'wkt');
     $this->_testWKTFormatter($id, $geometry, 'wkt');
+
+    // Edge case, create with 0, 0, 0, 0.
+    $this->drupalGet('test-entity/add/test-bundle');
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom][top]" => 0,
+      "{$this->field_name}[$langcode][0][geom][bottom]" => 0,
+      "{$this->field_name}[$langcode][0][geom][right]" => 0,
+      "{$this->field_name}[$langcode][0][geom][left]" => 0,
+    );
+    
+    $this->drupalPost(NULL, $edit, t('Save'));
+
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+    $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Bounds entity was created with values of 0, 0, 0, 0'));
   }
 
   /**
