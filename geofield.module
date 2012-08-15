@@ -72,6 +72,7 @@ function geofield_field_is_empty($item, $field) {
         (trim($item['geom']['bottom']) == '') || (trim($item['geom']['left']) == ''));
     }
   }
+  //@@TODO: Check if it's an empty geometry as per geoPHP $geometry->empty()
   return empty($item['geom']);
 }
 
@@ -225,7 +226,7 @@ function geofield_microdata_value_types_alter(&$types) {
  * 3. Get out all the computer values from the Geometry object
  * 4. Set all the values
  */
-function geofield_compute_values($raw_data) {
+function geofield_compute_values($raw_data, $input_format = NULL) {
   // Load up geoPHP to do the conversions
   $geophp = geophp_load();
   if (!$geophp) {
@@ -254,7 +255,7 @@ function geofield_compute_values($raw_data) {
     } else {
       // No input format.
       if (!empty($raw_data['geom'])) {
-        $geometry = geoPHP::load($raw_data['geom'], 'wkt');
+        $geometry = geoPHP::load($raw_data['geom'], 'wkb');
       }
       // Special case, raw input (Services/Feeds) that only specifies lat/lon.
       elseif (!empty($raw_data['lat']) && !empty($raw_data['lon'])) {
@@ -263,18 +264,24 @@ function geofield_compute_values($raw_data) {
     }
   }
   else {
-    // All we have at this point is a raw string. Attempt to load from known
-    // input formats provided by geoPHP.
-    $input_formats = array_keys(geoPHP::getAdapterMap());
-    foreach ($input_formats as $input_format) {
-      try {
-        $tmp_geometry = geoPHP::load($raw_data, $input_format);
-        if (!empty($tmp_geometry)) {
-          $geometry = $tmp_geometry;
-          break;
+    // All we have is raw data, if the caller has specified an input-format as per geoPHP::getAdapterMap, use that
+    if ($input_format) {
+      $geometry = geoPHP::load($raw_data, $input_format);
+    }
+    else {
+      // All we have at this point is a raw string. Attempt to load from known
+      // input formats provided by geoPHP.
+      $input_formats = array_keys(geoPHP::getAdapterMap());
+      foreach ($input_formats as $input_format) {
+        try {
+          $tmp_geometry = geoPHP::load($raw_data, $input_format);
+          if (!empty($tmp_geometry)) {
+            $geometry = $tmp_geometry;
+            break;
+          }
+        } catch (Exception $e) {
+          // No harm, no foul. We didn't want to use that data anyway.
         }
-      } catch (Exception $e) {
-        // No harm, no foul. We didn't want to use that data anyway.
       }
     }
   }
