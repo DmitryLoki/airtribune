@@ -317,6 +317,10 @@ function geofield_get_values_from_geometry($geometry) {
   $values['right'] = $bounding['maxx'];
   $values['left'] = $bounding['minx'];
 
+  if ($geometry->SRID()) {
+    $values['srid'] = $geometry->SRID();
+  }
+
   return $values;
 }
 
