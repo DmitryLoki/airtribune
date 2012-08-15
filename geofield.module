@@ -63,12 +63,14 @@ function geofield_field_load($entity_type, $entities, $field, $instances, $langc
  * Implements hook_content_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
-  switch ($item['input_format']) {
-    case GEOFIELD_INPUT_LAT_LON:
-      return ((trim($item['geom']['lat']) == '') || (trim($item['geom']['lon']) == ''));
-    case GEOFIELD_INPUT_BOUNDS:
-      return ((trim($item['geom']['top']) == '') || (trim($item['geom']['right']) == '') ||
+  if (isset($item['input_format'])) {
+    switch ($item['input_format']) {
+      case GEOFIELD_INPUT_LAT_LON:
+        return ((trim($item['geom']['lat']) == '') || (trim($item['geom']['lon']) == ''));
+      case GEOFIELD_INPUT_BOUNDS:
+        return ((trim($item['geom']['top']) == '') || (trim($item['geom']['right']) == '') ||
         (trim($item['geom']['bottom']) == '') || (trim($item['geom']['left']) == ''));
+    }
   }
   return empty($item['geom']);
 }
