@@ -7,6 +7,11 @@ require_once('geofield.openlayers.inc');
 require_once('geofield.feeds.inc');
 
 /**
+ * Contrib modules can check this global variable to see if geofield is running the new WKB geom schema
+ */
+global $geofield_geom_schema = TRUE;
+
+/**
  * Implements hook_field_info().
  */
 function geofield_field_info() {
