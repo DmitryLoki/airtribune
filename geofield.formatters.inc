@@ -210,6 +210,13 @@ function geofield_field_formatter_settings_summary($field, $instance, $view_mode
 function geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
 
+  // First check to see if we have any value and remove any unset deltas
+  foreach ($items as $delta => $item) {
+    if (empty($item['geom'])) {
+      unset($items[$delta]);
+    }
+  }
+
   // Transform into centroid or bounding if needed
   if ($display['settings']['data'] != 'full') {
     geophp_load();
@@ -366,7 +373,7 @@ function _geofield_item_microdata_propertyvalue($entity, $instance, $item) {
 function _geofield_openlayers_formatter($map_name, $items) {
   $features = array();
   geophp_load();
-  
+
   // Create array of $features
   foreach ($items as $delta) {
     $geometry = geoPHP::load($delta['geom'], 'wkb');
