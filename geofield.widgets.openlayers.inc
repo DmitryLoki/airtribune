@@ -92,11 +92,11 @@ function openlayers_field_widget_settings_form($field, $instance) {
       // Can't nest this in a fieldset element without affecting data storage so instead hardcode one.
       '#prefix' => '<fieldset><legend><span="fieldset-legend">' . t('Geocoder settings') . '</span></legend><div class="fieldset-wrapper">',
     );
-    
+
     // Load the Geocoder widget settings.
     module_load_include('inc', 'geocoder', 'geocoder.widget');
     $new = geocoder_field_widget_settings_form($field, $instance);
-    
+
     // Show the geocoder fields only if geocoder is selected.
     openlayers_widget_add_states($new, ':input[name="instance[widget][settings][use_geocoder]"]');
     // Close the fieldset we opened in the #prefix to use_geocoder.
@@ -111,7 +111,7 @@ function openlayers_field_widget_settings_form($field, $instance) {
     );
   }
   $form += $geocoder_form;
-  
+
   return $form;
 }
  /**
@@ -140,7 +140,7 @@ function openlayers_widget_add_states(&$element, $selector) {
 
 function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   geophp_load();
-  
+
   $widget = $instance['widget'];
   $parents = $form['#parents'];
   $field_name = $field['field_name'];
@@ -243,6 +243,12 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
       ),
       '#submit' => array('openlayers_use_geocoder_submit'),
     );
+
+    // Make sure we set the input-format to WKT so geofield knows how to process it
+    $element['input_format'] = array(
+      '#type' => 'value',
+      '#value' => GEOFIELD_INPUT_WKT,
+    );
   }
 
   // Add the element to an array, because it's the format that FIELD_BEHAVIOR_CUSTOM expects
@@ -310,10 +316,10 @@ function openlayers_use_geocoder_submit($form, &$form_state) {
   $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
   $geocoder_field = $field_state['instance']['widget']['settings']['geocoder_field'];
   if ($field_value = geocoder_widget_get_field_value($element['#entity_type'], $field_state['instance'], NULL, $form_state['values'][$geocoder_field][$langcode])) {
-    // need to convert wkb from geom to wkt.
     geophp_load();
     $geometry = geoPHP::load($field_value[$langcode][$delta]['geom'], 'wkb');
-    $field_value[$langcode][$delta]['geom'] = $geometry->out('wkt');
+    $field_value[$langcode][$delta]['geom'] = $geometry->out('wkt'); // OpenLayers can only use WKT, so translate
+    $field_value[$langcode][$delta]['input_format'] = 'wkt';
     // Override the field's value in the 'input' array to substitute the new
     // field value for the one that was submitted.
     drupal_array_set_nested_value($form_state, array_merge(array('input'), $parents, array($field_name)), $field_value);
