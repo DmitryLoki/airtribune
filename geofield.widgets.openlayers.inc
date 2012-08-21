@@ -349,9 +349,9 @@ function openlayers_widget_geocode($form, $form_state) {
 function openlayers_geofield_widget_element_validate($element, &$form_state) {
   $container_delta = $element[0];
 
-  if (!empty($container_delta['widget']['#value'])) {
+  if (!empty($container_delta['geom']['#value'])) {
     geophp_load();
-    $combined_geom = geoPHP::load($container_delta['widget']['#value'], 'wkt');
+    $combined_geom = geoPHP::load($container_delta['geom']['#value'], 'wkt');
     $combined_geom = geoPHP::geometryReduce($combined_geom);
 
     // Check to make sure they only saved the allowed types
@@ -391,8 +391,8 @@ function openlayers_geofield_widget_element_validate($element, &$form_state) {
 
     // Checks pass, lets load this up into deltas
     if ($container_delta['#widget_settings']['data_storage'] == 'collection') {
-      $element[0]['wkt']['#value'] = $combined_geom->out('wkt');
-      geofield_element_validate($element[0], $form_state);
+      //Assign values to the form state
+      form_set_value($element[0], $combined_geom->out('wkt'), $form_state);
     }
 
     if ($container_delta['#widget_settings']['data_storage'] == 'single') {
@@ -403,13 +403,8 @@ function openlayers_geofield_widget_element_validate($element, &$form_state) {
         // Override the delta
         openlayers_geofield_override_element_delta($element, 0, $delta);
 
-        // Apply the WKT
-        $wkt = $geom->out('wkt');
-        $element['wkt']['#value'] = $wkt;
-        $element['widget']['#value'] = $wkt;
-
         // Assign the value in the form_state
-        geofield_element_validate($element, $form_state);
+        form_set_value($element, $geom->out('wkt'), $form_state);
       }
     }
   }
