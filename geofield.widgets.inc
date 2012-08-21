@@ -101,7 +101,7 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
   $widget = $instance['widget'];
   $settings = $widget['settings'];
 
-  // $element['input_format'] is not a db field, but how we determine how to parse/calculate values in our widget.
+  // $element['input_format'] is not a db field, but we use it determine how to parse/calculate values in our widget.
   $element['input_format'] = array(
     '#type' => 'value',
     '#attributes' => array('class' => array('geofield_input_format')),
