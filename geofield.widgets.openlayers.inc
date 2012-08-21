@@ -206,6 +206,12 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
   }
   $element['#widget_settings']['cardinality'] = $field['cardinality'];
 
+  // Make sure we set the input-format to WKT so geofield knows how to process it
+  $element['input_format'] = array(
+    '#type' => 'value',
+    '#value' => GEOFIELD_INPUT_WKT,
+  );
+
   // Time to deal with optional geocoder integration
   // Conditionally add geocoder button.
   $is_settings_form = isset($form['#title']) && $form['#title'] == t('Default value');
@@ -242,12 +248,6 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
         'effect' => 'fade',
       ),
       '#submit' => array('openlayers_use_geocoder_submit'),
-    );
-
-    // Make sure we set the input-format to WKT so geofield knows how to process it
-    $element['input_format'] = array(
-      '#type' => 'value',
-      '#value' => GEOFIELD_INPUT_WKT,
     );
   }
 
