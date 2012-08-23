@@ -101,6 +101,7 @@ function geofield_latlon_element_process($element, &$form_values) {
       '#value' => t('Find my location'),
       '#name' => 'geofield-html5-geocode-button',
     );
+    $element['#attributes']['class'] = array('auto-geocode');
   }
 
   return $element;
