@@ -54,7 +54,7 @@
       }
       $(':input[name="geofield-html5-geocode-button"]').once('geofield_geolocation').click(function(e) {
         e.preventDefault();
-        $fields = $(this).parent();
+        $fields = $(this).parents('.auto-geocode').parent();
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(updateLocation);
         }
