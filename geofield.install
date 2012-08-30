@@ -153,7 +153,7 @@ function geofield_update_7201(&$sandbox) {
         // Not a geofield field.
         continue;
       }
-      
+
       $table_name = _field_sql_storage_tablename($field);
       $revision_table_name = _field_sql_storage_revision_tablename($field);
 
@@ -213,15 +213,17 @@ function geofield_update_7201(&$sandbox) {
       $query_total = $result->rowCount();
 
       foreach ($result as $record) {
-        $geom = geoPHP::load($record->wkt, 'wkt');
-        db_update($sandbox['geofield_tables'][$i]['table_name'])
-          ->fields(array(
-            $sandbox['geofield_tables'][$i]['field_name'] . '_geom' => $geom->out('wkb'),
-          ))
-          ->condition('entity_id', $record->entity_id)
-          ->condition('revision_id', $record->revision_id)
-          ->condition('delta', $record->delta)
-          ->execute();
+        if ($record->wkt) {
+          $geom = geoPHP::load($record->wkt, 'wkt');
+          db_update($sandbox['geofield_tables'][$i]['table_name'])
+            ->fields(array(
+              $sandbox['geofield_tables'][$i]['field_name'] . '_geom' => $geom->out('wkb'),
+            ))
+            ->condition('entity_id', $record->entity_id)
+            ->condition('revision_id', $record->revision_id)
+            ->condition('delta', $record->delta)
+            ->execute();
+        }
 
         $sandbox['batch_count']++;
         $sandbox['count']++;
