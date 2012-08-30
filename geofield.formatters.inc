@@ -30,6 +30,11 @@ function geofield_field_formatter_info() {
       'field types' => array('geofield'),
       'settings' => array('data' => 'full'),
     ),
+    'geofield_geohash' => array(
+      'label' => t('Geohash'),
+      'field types' => array('geofield'),
+      'settings' => array('data' => 'full'),
+    ),
     'geofield_latlon' => array(
       'label' => t('Latitude/Longitude'),
       'field types' => array('geofield'),
@@ -288,6 +293,14 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
         $geometry = geoPHP::load($item['geom'], 'wkb');
         $kml = $geometry->out('gpx');
         $element[$delta] = array('#markup' => $kml);
+      }
+      return $element;
+    case 'geofield_geohash':
+      geophp_load();
+      foreach ($items as $delta => $item) {
+        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $geohash = $geometry->out('geohash');
+        $element[$delta] = array('#markup' => $geohash);
       }
       return $element;
     case 'geofield_latlon':
