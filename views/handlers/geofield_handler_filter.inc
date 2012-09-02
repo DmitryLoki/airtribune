@@ -88,8 +88,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         break;
     }
     if (!empty($lat_origin) && !empty($lon_origin)) {
-      $lat_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lat');
-      $lon_alias = $this->query->add_field($this->table_alias, $this->definition['field_name'] . '_lon');
+      $lat_alias = $this->definition['field_name'] . '_lat';
+      $lon_alias = $this->definition['field_name'] . '_lon';
       $this->ensure_my_table();
 
       $info = $this->operators();
