@@ -1,6 +1,7 @@
 name = "Geofield test"
 description = "Support module for the Geofield tests."
 core = 7.x
+hidden = TRUE
 package = Testing
 
 dependencies[] = geocoder
