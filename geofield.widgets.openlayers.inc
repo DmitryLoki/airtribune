@@ -163,7 +163,7 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
   // Essentially we compress all the elements into delta 0, then deconstruct them on the other side when it comes time to validate them
   $geoms = array();
   foreach ($items as $delta => $item) {
-    $geoms[] = geoPHP::load($item['geom'], 'wkb');
+    $geoms[] = geoPHP::load($item['geom']);
   }
   $combined_geom = geoPHP::geometryReduce($geoms);
 
@@ -317,7 +317,7 @@ function openlayers_use_geocoder_submit($form, &$form_state) {
   $geocoder_field = $field_state['instance']['widget']['settings']['geocoder_field'];
   if ($field_value = geocoder_widget_get_field_value($element['#entity_type'], $field_state['instance'], NULL, $form_state['values'][$geocoder_field][$langcode])) {
     geophp_load();
-    $geometry = geoPHP::load($field_value[$langcode][$delta]['geom'], 'wkb');
+    $geometry = geoPHP::load($field_value[$langcode][$delta]['geom']);
     $field_value[$langcode][$delta]['geom'] = $geometry->out('wkt'); // OpenLayers can only use WKT, so translate
     $field_value[$langcode][$delta]['input_format'] = 'wkt';
     // Override the field's value in the 'input' array to substitute the new
@@ -351,7 +351,7 @@ function openlayers_geofield_widget_element_validate($element, &$form_state) {
 
   if (!empty($container_delta['geom']['#value'])) {
     geophp_load();
-    $combined_geom = geoPHP::load($container_delta['geom']['#value'], 'wkt');
+    $combined_geom = geoPHP::load($container_delta['geom']['#value']);
     $combined_geom = geoPHP::geometryReduce($combined_geom);
 
     // Check to make sure they only saved the allowed types

@@ -228,14 +228,14 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     if ($display['settings']['data'] == 'centroid') {
       foreach ($items as $delta => $item) {
         $centroid_wkt = 'POINT(' . $item['lon'] . ' ' . $item['lat'] . ')';
-        $centroid = geoPHP::load($centroid_wkt, 'wkt');
+        $centroid = geoPHP::load($centroid_wkt);
         $items[$delta] = geofield_get_values_from_geometry($centroid);
       }
     }
     if ($display['settings']['data'] == 'bounding') {
       foreach ($items as $delta => $item) {
         $envelope_wkt = 'POLYGON ((' . $item['left'] . ' ' . $item['top'] . ', ' . $item['right'] . ' ' . $item['top'] . ', ' . $item['right'] . ' ' . $item['bottom'] . ', ' . $item['left'] . ' ' . $item['bottom'] . ', ' . $item['left'] . ' ' . $item['top'] . '))';
-        $envelope = geoPHP::load($envelope_wkt, 'wkt');
+        $envelope = geoPHP::load($envelope_wkt);
         $items[$delta] = geofield_get_values_from_geometry($envelope);
       }
     }
@@ -265,7 +265,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_wkt':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $geometry = geoPHP::load($item['geom']);
         $wkt = $geometry->out('wkt');
         $microdata = _geofield_item_microdata_propertyvalue($entity, $instance, $item);
         $element[$delta] = array('#markup' => $wkt . $microdata);
@@ -274,7 +274,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_geojson':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $geometry = geoPHP::load($item['geom']);
         $json = $geometry->out('json');
         $element[$delta] = array('#markup' => $json);
       }
@@ -282,7 +282,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_kml':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $geometry = geoPHP::load($item['geom']);
         $kml = $geometry->out('kml');
         $element[$delta] = array('#markup' => $kml);
       }
@@ -290,7 +290,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_gpx':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $geometry = geoPHP::load($item['geom']);
         $kml = $geometry->out('gpx');
         $element[$delta] = array('#markup' => $kml);
       }
@@ -298,7 +298,7 @@ function geofield_field_formatter_view($entity_type, $entity, $field, $instance,
     case 'geofield_geohash':
       geophp_load();
       foreach ($items as $delta => $item) {
-        $geometry = geoPHP::load($item['geom'], 'wkb');
+        $geometry = geoPHP::load($item['geom']);
         $geohash = $geometry->out('geohash');
         $element[$delta] = array('#markup' => $geohash);
       }
@@ -389,7 +389,7 @@ function _geofield_openlayers_formatter($map_name, $items) {
 
   // Create array of $features
   foreach ($items as $delta) {
-    $geometry = geoPHP::load($delta['geom'], 'wkb');
+    $geometry = geoPHP::load($delta['geom']);
     $features[] = array(
       'wkt' => $geometry->out('wkt'),
       'projection' => '4326',
@@ -423,7 +423,7 @@ function _geofield_openlayers_formatter($map_name, $items) {
 
 function _geofield_def_list_formatter($item, $settings) {
   geophp_load();
-  $geometry = geoPHP::load($item['geom'], 'wkt');
+  $geometry = geoPHP::load($item['geom']);
 
   // Single types
   $single_types = array('Point', 'LineString', 'Polygon');
@@ -458,7 +458,7 @@ function _geofield_def_list_formatter_dl($info) {
 
 function _geofield_description_formatter($item, $settings) {
   geophp_load();
-  $geometry = geoPHP::load($item['geom'], 'wkt');
+  $geometry = geoPHP::load($item['geom']);
 
   // Single types
   $single_types = array('Point', 'LineString', 'Polygon');

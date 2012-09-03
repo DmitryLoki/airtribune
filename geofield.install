@@ -9,16 +9,22 @@
  * Implements hook_field_schema().
  */
 function geofield_field_schema($field) {
+
+  ctools_include('plugins');
+  if (isset($field['settings']['backend'])) {
+    $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
+  }
+  else {
+    $backend = ctools_get_plugins('geofield', 'geofield_backend', 'default');
+  }
+  $geom_schema = $backend['schema'];
+
   return array(
     'columns' => array(
-      'geom' => array(
-        'type' => 'blob',
-        'size' => 'big',
-        'not null' => FALSE,
-      ),
+      'geom' => $geom_schema, // Defined by the backend plugin
       'geo_type' => array(
         'type' => 'text',
-        'size' => 'normal',
+        'size' => 'tiny',
         'not null' => FALSE,
       ),
       'lat' => array(
@@ -57,20 +63,23 @@ function geofield_field_schema($field) {
         'scale' => 12,
         'not null' => FALSE,
       ),
-      'srid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => FALSE,
-        'default' => 4326,
-      ),
-      'accuracy' => array(
-        'type' => 'int',
+      'geohash' => array(
+        'type' => 'varchar',
+        'length' => 16,
         'not null' => FALSE,
       ),
-      'source' => array(
-        'type' => 'text',
-        'not null' => FALSE,
-      ),
+    ),
+    'indexes' => array(
+      'geo_type' => array('geo_type'),
+      'lat' => array('lat'),
+      'lon' => array('lon'),
+      'top' => array('top'),
+      'bottom' => array('bottom'),
+      'left' => array('left'),
+      'right' => array('right'),
+      'geohash' => array('geohash'),
+      'centroid' => array('lat','lon'),
+      'bbox' => array('top','bottom','left','right'),
     ),
   );
 }

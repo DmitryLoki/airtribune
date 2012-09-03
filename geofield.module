@@ -28,6 +28,10 @@ function geofield_field_info() {
           'lng_field' => 'lng',
         ),
       ),
+      'settings' => array(
+        'srid' => '4326',
+        'backend' => 'default',
+      ),
       'property_type' => 'geofield',
       'property_callbacks' => array('geofield_property_info_callback'),
       'microdata' => TRUE,
@@ -35,8 +39,37 @@ function geofield_field_info() {
   );
 }
 
-function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+/**
+ * Implements hook_field_settings_form().
+ */
+function geofield_field_settings_form($field, $instance, $has_data) {
+  ctools_include('plugins');
+  $settings = $field['settings'];
 
+  $backend_options = array();
+  foreach (ctools_get_plugins('geofield', 'geofield_backend') as $id => $backend) {
+    $backend_options[$id] = $backend['title'];
+  }
+
+  $form['backend'] = array(
+    '#type' => 'select',
+    '#title' => 'Storage Backend',
+    '#default_value' => $settings['backend'],
+    '#options' => $backend_options,
+    '#description' => "Select the Geospatial storage backend you would like to use to store geofield geometry data. If you don't know what this means, select 'Default'."
+  );
+  $form['srid'] = array(
+    '#type' => 'textfield',
+    '#title' => 'SRID',
+    '#default_value' => $settings['srid'],
+    '#size' => 10,
+    '#description' => "A Spatial Reference System Identifier (SRID) is a unique value used to unambiguously identify projected, unprojected, and local spatial coordinate systems. If you don't know what this means, leave it as '4326', which implies you will be using lattitude and longitude coordinates."
+  );
+  return $form;
+}
+
+function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  //@@TODO: If field is marked as required, then check to make sure the geometry is not Empty as per geoPHP
 }
 
 /**
@@ -44,24 +77,15 @@ function geofield_field_validate($entity_type, $entity, $field, $instance, $lang
  */
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   if ($field['type'] === 'geofield') {
+    ctools_include('plugins');
+    $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
+    // For each delta, we compute all the auxiliary columns and transform the geom column into a geometry object
+    // We then pass the geometry object (now stored in the geom column) to the backend to prepare it for insertion into the database
     foreach ($items as $delta => $item) {
       $items[$delta] = geofield_compute_values($item);
+      $items[$delta]['geom'] = $backend['save']($items[$delta]['geom']);
     }
   }
-}
-
-/**
- * Implements hook_field_load().
- */
-
-function geofield_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
-  /*if ($field['type'] === 'geofield') {
-    geophp_load();
-    foreach ($items as $delta => $item) {
-      $geom = geoPHP::load($item['geom'], 'wkb');
-      $item['geom'] = $geom->out('wkt');
-    }
-  }*/
 }
 
 /**
@@ -96,6 +120,7 @@ function geofield_views_api() {
  */
 function geofield_ctools_plugin_type() {
   return array(
+    'geofield_backend' => array(),
     'behaviors' => array(
       'use hooks' => TRUE,
     )
@@ -107,6 +132,15 @@ function geofield_ctools_plugin_type() {
  */
 function geofield_ctools_plugin_api($module, $api) {
   return array('version' => 1);
+}
+
+/**
+* Implementation of hook_ctools_plugin_directory().
+*/
+function geofield_ctools_plugin_directory($module, $plugin) {
+  if ($plugin == 'geofield_backend') {
+    return 'includes/' . $plugin;
+  }
 }
 
  /**
@@ -222,7 +256,7 @@ function geofield_microdata_value_types_alter(&$types) {
 /**
  * Geofield Compute Values
  *
- *  Compute all dependant values. We compute all other values from whichever
+ * Compute all dependant values. We compute all other values from whichever
  * column is specified in the master_column value
  *
  * Steps:
@@ -232,6 +266,11 @@ function geofield_microdata_value_types_alter(&$types) {
  * 4. Set all the values
  */
 function geofield_compute_values($raw_data, $input_format = NULL) {
+  // If raw_data is NULL, false, or otherwise empty, just return an empty array of values
+  if (empty($raw_data)) {
+    return array();
+  }
+
   // Load up geoPHP to do the conversions
   $geophp = geophp_load();
   if (!$geophp) {
@@ -239,57 +278,7 @@ function geofield_compute_values($raw_data, $input_format = NULL) {
     return;
   }
 
-  $geometry = NULL;
-
-  if (is_array($raw_data)) {
-    if (!empty($raw_data['input_format'])) {
-      if ($raw_data['input_format'] == GEOFIELD_INPUT_LAT_LON) {
-        $geometry = new Point($raw_data['geom']['lon'], $raw_data['geom']['lat']);
-      }
-      elseif ($raw_data['input_format'] == GEOFIELD_INPUT_BOUNDS) {
-        $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
-        $wkt = strtr($wkt_bounds_format, array('top' => $raw_data['geom']['top'],
-          'right' => $raw_data['geom']['right'],
-          'bottom' => $raw_data['geom']['bottom'],
-          'left' => $raw_data['geom']['left']));
-        $geometry = geoPHP::load($wkt, 'wkt');
-      }
-      else {
-        $geometry = geoPHP::load($raw_data['geom'], $raw_data['input_format']);
-      }
-    } else {
-      // No input format.
-      if (!empty($raw_data['geom'])) {
-        $geometry = geoPHP::load($raw_data['geom'], 'wkb');
-      }
-      // Special case, raw input (Services/Feeds) that only specifies lat/lon.
-      elseif (!empty($raw_data['lat']) && !empty($raw_data['lon'])) {
-        $geometry = new Point($raw_data['lon'], $raw_data['lat']);
-      }
-    }
-  }
-  else {
-    // All we have is raw data, if the caller has specified an input-format as per geoPHP::getAdapterMap, use that
-    if ($input_format) {
-      $geometry = geoPHP::load($raw_data, $input_format);
-    }
-    else {
-      // All we have at this point is a raw string. Attempt to load from known
-      // input formats provided by geoPHP.
-      $input_formats = array_keys(geoPHP::getAdapterMap());
-      foreach ($input_formats as $input_format) {
-        try {
-          $tmp_geometry = geoPHP::load($raw_data, $input_format);
-          if (!empty($tmp_geometry)) {
-            $geometry = $tmp_geometry;
-            break;
-          }
-        } catch (Exception $e) {
-          // No harm, no foul. We didn't want to use that data anyway.
-        }
-      }
-    }
-  }
+  $geometry = geofield_geometry_from_values($raw_data, $input_format);
 
   // Get values from geometry
   if (!empty($geometry)) {
@@ -302,19 +291,70 @@ function geofield_compute_values($raw_data, $input_format = NULL) {
   return $values;
 }
 
+function geofield_geometry_from_values($raw_data, $input_format = NULL) {
+  // Load up geoPHP to do the conversions
+  $geophp = geophp_load();
+  if (!$geophp) {
+    drupal_set_message(t("Unable to load geoPHP library. Not all values will be calculated correctly"), 'error');
+    return;
+  }
+
+  if (is_array($raw_data)) {
+    if (!empty($raw_data['input_format'])) {
+      if ($raw_data['input_format'] == GEOFIELD_INPUT_LAT_LON) {
+        $geometry = new Point($raw_data['geom']['lon'], $raw_data['geom']['lat']);
+      }
+      elseif ($raw_data['input_format'] == GEOFIELD_INPUT_BOUNDS) {
+        $wkt_bounds_format = 'POLYGON((left bottom,right bottom,right top,left top,left bottom))';
+        $wkt = strtr($wkt_bounds_format, array('top' => $raw_data['geom']['top'],
+          'right' => $raw_data['geom']['right'],
+          'bottom' => $raw_data['geom']['bottom'],
+          'left' => $raw_data['geom']['left']));
+        $geometry = geoPHP::load($wkt);
+      }
+      else {
+        $geometry = geoPHP::load($raw_data['geom'], $raw_data['input_format']);
+      }
+    } else {
+      // No input format - let geoPHP figure it out
+      if (!empty($raw_data['geom'])) {
+        $geometry = geoPHP::load($raw_data['geom']);
+      }
+      // Special case, raw input (Services/Feeds) that only specifies lat/lon.
+      elseif (!empty($raw_data['lat']) && !empty($raw_data['lon'])) {
+        $geometry = new Point($raw_data['lon'], $raw_data['lat']);
+      }
+    }
+  }
+  else {
+    if ($input_format) {
+      $geometry = geoPHP::load($raw_data, $input_format);
+    }
+    else {
+      // All we have at this point is a raw string. let GeoPHP figure it out
+      $geometry = geoPHP::load($raw_data);
+    }
+  }
+
+  return $geometry;
+}
+
 /**
  * Given a geometry object from geoPHP, return a values array
  */
 function geofield_get_values_from_geometry($geometry) {
+  $values = array();
+
   $centroid = $geometry->getCentroid();
   $bounding = $geometry->getBBox();
 
-  $values['geom'] = $geometry->out('wkb');
+  $values['geom'] = $geometry;
+
   $values['geo_type'] = drupal_strtolower($geometry->getGeomType());
 
   if ($centroid) {
-    $values['lat'] = $centroid->getY();
-    $values['lon'] = $centroid->getX();
+    $values['lat'] = $centroid->y();
+    $values['lon'] = $centroid->x();
   }
 
   $values['top'] = $bounding['maxy'];
@@ -322,9 +362,7 @@ function geofield_get_values_from_geometry($geometry) {
   $values['right'] = $bounding['maxx'];
   $values['left'] = $bounding['minx'];
 
-  if ($geometry->SRID()) {
-    $values['srid'] = $geometry->SRID();
-  }
+  $values['geohash'] = $geometry->out('geohash');
 
   return $values;
 }
