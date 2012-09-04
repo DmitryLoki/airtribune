@@ -163,7 +163,12 @@ function openlayers_field_widget_form(&$form, &$form_state, $field, $instance, $
   // Essentially we compress all the elements into delta 0, then deconstruct them on the other side when it comes time to validate them
   $geoms = array();
   foreach ($items as $delta => $item) {
-    $geoms[] = geoPHP::load($item['geom']);
+    if (array_key_exists('geom', $item)) {
+      $geoms[] = geoPHP::load($item['geom']);
+    }
+    else {
+      $geoms[] = geoPHP::load($item);
+    }
   }
   $combined_geom = geoPHP::geometryReduce($geoms);
 
