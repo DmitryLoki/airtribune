@@ -17,7 +17,7 @@ function geofield_field_schema($field) {
   else {
     $backend = ctools_get_plugins('geofield', 'geofield_backend', 'default');
   }
-  $geom_schema = $backend['schema'];
+  $geom_schema = $backend['schema']($field);
 
   return array(
     'columns' => array(
