@@ -389,7 +389,12 @@ function _geofield_openlayers_formatter($map_name, $items) {
 
   // Create array of $features
   foreach ($items as $delta) {
-    $geometry = geoPHP::load($delta['geom'], 'wkb');
+    if (array_key_exists('geom', $delta)) {
+      $geometry = geoPHP::load($delta['geom']);
+    }
+    else {
+      $geometry = geoPHP::load($delta);
+    }
     $features[] = array(
       'wkt' => $geometry->out('wkt'),
       'projection' => '4326',
