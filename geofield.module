@@ -47,7 +47,22 @@ function geofield_field_settings_form($field, $instance, $has_data) {
   $settings = $field['settings'];
 
   $backend_options = array();
-  foreach (ctools_get_plugins('geofield', 'geofield_backend') as $id => $backend) {
+  $backends = ctools_get_plugins('geofield', 'geofield_backend');
+  foreach ($backends as $id => $backend) {
+    if (isset($backend['requirements'])) {
+      if ($backend['requirements']) {
+        $callback = $backend['requirements'];
+        $error = '';
+        if (!$callback($error)) {
+          $form['backend_error'][] = array(
+            //@@TODO: Use t() func
+            //@@TODO: css to add some red and bold
+            '#markup' => '<div class="geofield-backend-error">' . $backend['title'] . ' not usable because ' . $error . '</div>',
+          );
+          continue;
+        }
+      }
+    }
     $backend_options[$id] = $backend['title'];
   }
 
@@ -65,6 +80,27 @@ function geofield_field_settings_form($field, $instance, $has_data) {
     '#size' => 10,
     '#description' => "A Spatial Reference System Identifier (SRID) is a unique value used to unambiguously identify projected, unprojected, and local spatial coordinate systems. If you don't know what this means, leave it as '4326', which implies you will be using lattitude and longitude coordinates."
   );
+  $form['settings'] = array(
+    '#tree' => TRUE,
+  );
+
+  // Exppose backend-settings, if they have them
+  foreach ($backends as $id => $backend) {
+    if (isset($backend['settings'])) {
+      if ($backend['settings']) {
+        $callback = $backend['settings'];
+        //@@TODO: Form-state
+        $form['settings'][$id] = array(
+          '#type' => 'fieldset',
+          '#tree' => TRUE,
+          '#title' => $backend['title'] . ' Settings',
+        );
+        $defaults = isset($settings['settings'][$id]) ? $settings['settings'][$id] : array();
+        $form['settings'][$id] = array_merge($form['settings'][$id], $callback($defaults));
+      }
+    }
+  }
+
   return $form;
 }
 
