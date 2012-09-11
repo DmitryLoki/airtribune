@@ -71,15 +71,10 @@ function geofield_field_settings_form($field, $instance, $has_data) {
     '#title' => 'Storage Backend',
     '#default_value' => $settings['backend'],
     '#options' => $backend_options,
-    '#description' => "Select the Geospatial storage backend you would like to use to store geofield geometry data. If you don't know what this means, select 'Default'."
+    '#description' => "Select the Geospatial storage backend you would like to use to store geofield geometry data. If you don't know what this means, select 'Default'.",
+    '#disabled' => $has_data,
   );
-  $form['srid'] = array(
-    '#type' => 'textfield',
-    '#title' => 'SRID',
-    '#default_value' => $settings['srid'],
-    '#size' => 10,
-    '#description' => "A Spatial Reference System Identifier (SRID) is a unique value used to unambiguously identify projected, unprojected, and local spatial coordinate systems. If you don't know what this means, leave it as '4326', which implies you will be using lattitude and longitude coordinates."
-  );
+  
   $form['settings'] = array(
     '#tree' => TRUE,
   );
@@ -146,7 +141,7 @@ function geofield_field_is_empty($item, $field) {
  */
 function geofield_views_api() {
   return array(
-    'api' => '3.0-alpha1',
+    'api' => '3.0',
     'path' => drupal_get_path('module', 'geofield') . '/views',
   );
 }

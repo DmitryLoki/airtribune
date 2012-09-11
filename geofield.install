@@ -23,9 +23,9 @@ function geofield_field_schema($field) {
     'columns' => array(
       'geom' => $geom_schema, // Defined by the backend plugin
       'geo_type' => array(
-        'type' => 'text',
-        'size' => 'tiny',
-        'not null' => FALSE,
+        'type' => 'varchar',
+        'default' => '',
+        'length' => 64,
       ),
       'lat' => array(
         'type' => 'numeric',
@@ -70,7 +70,7 @@ function geofield_field_schema($field) {
       ),
     ),
     'indexes' => array(
-      'geo_type' => array('geo_type'),
+      //'geo_type' => array('geo_type'),
       'lat' => array('lat'),
       'lon' => array('lon'),
       'top' => array('top'),
