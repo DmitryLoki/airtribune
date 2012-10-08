@@ -79,19 +79,22 @@ function geofield_field_settings_form($field, $instance, $has_data) {
     '#tree' => TRUE,
   );
 
-  // Exppose backend-settings, if they have them
+  // Expose backend-settings, if they have them
   foreach ($backends as $id => $backend) {
     if (isset($backend['settings'])) {
       if ($backend['settings']) {
         $callback = $backend['settings'];
-        //@@TODO: Form-state
-        $form['settings'][$id] = array(
+        $form[$id] = array(
           '#type' => 'fieldset',
           '#tree' => TRUE,
           '#title' => $backend['title'] . ' Settings',
+          '#states' => array(
+            'visible' => array(
+              ':input[name="field[settings][backend]"]' => array('value' => $id),
+            ),
+          ),
         );
-        $defaults = isset($settings['settings'][$id]) ? $settings['settings'][$id] : array();
-        $form['settings'][$id] = array_merge($form['settings'][$id], $callback($defaults));
+        $form[$id] = array_merge($form[$id], $callback($field, $instance, $has_data));
       }
     }
   }

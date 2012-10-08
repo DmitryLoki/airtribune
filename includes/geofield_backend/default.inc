@@ -10,6 +10,7 @@ $plugin = array(
   'postinstall' => NULL,  // Callback after installing a new field. Could be used for adding additional geospatial indexes
   'postdelete' => NULL,   // Callback after deleting field. Could be used for removing indexes and other cleanup.
   'requirements' => NULL, // Callback to check system requirements
+  'settings' => NULL,     // Callback for plugin-specific settings.
 );
 
 function geofield_backend_default_schema($fielddef) {

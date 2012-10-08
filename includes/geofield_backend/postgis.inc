@@ -15,7 +15,7 @@ $plugin = array(
 function geofield_backend_postgis_schema($field) {
   //@@TODO: Geometry vs. Geography
   //@@TODO: SRID
-  $settings = $field['settings']['settings']['postgis'];
+  $settings = $field['settings']['postgis'];
   return array(
     'type' => 'blob',
     'pgsql_type' => $settings['geomtype'],
@@ -53,7 +53,8 @@ function geofield_backend_postgis_requirements(&$error) {
   }
 }
 
-function geofield_backend_postgis_settings($defaults) {
+function geofield_backend_postgis_settings($field, $instance, $has_data) {
+  $defaults = (isset($field['settings']['postgis'])) ? $field['settings']['postgis'] : array();
   $form = array();
   $form['fieldtype'] = array(
     '#title' => 'PostGIS Type',
@@ -63,6 +64,7 @@ function geofield_backend_postgis_settings($defaults) {
       'geography' => 'Geography',
     ),
     '#default_value' => isset($defaults['fieldtype']) ? $defaults['fieldtype'] : 'geometry',
+    '#disabled' => $has_data,
   );
   $form['geomtype'] = array(
     '#title' => 'Geometry Type',
@@ -74,6 +76,7 @@ function geofield_backend_postgis_settings($defaults) {
       'polygon' => 'Polygons Only',
     ),
     '#default_value' => isset($defaults['geomtype']) ? $defaults['geomtype'] : 'geometry',
+    '#disabled' => $has_data,
   );
   return $form;
 }
