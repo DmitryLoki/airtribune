@@ -13,13 +13,41 @@ class GeofieldBaseTestCase extends FieldTestCase {
     $value = $geometry->out('wkt');
     $this->assertText($value, 'WKT output for ' . $label . ' widget is correct.');
   }
+
+  /**
+   * Helper function for testGeofieldWidgets().
+   */
+  function _testGeoFieldAPISetup($widget_type, $display_type) {
+    // Setup a field and instance
+    $entity_type = 'test_entity';
+    $this->field_name = drupal_strtolower($this->randomName());
+    $this->field = array('field_name' => $this->field_name, 'type' => 'geofield');
+    field_create_field($this->field);
+    $this->instance = array(
+      'field_name' => $this->field_name,
+      'entity_type' => 'test_entity',
+      'bundle' => 'test_bundle',
+      'label' => $this->randomName() . '_label',
+      'settings' => array(
+      ),
+      'widget' => array(
+        'type' => $widget_type,
+      ),
+      'display' => array(
+        'full' => array(
+          'type' => $display_type,
+        ),
+      ),
+    );
+    field_create_instance($this->instance);
+  }
 }
 
 class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
 
   public static function getInfo() {
     return array(
-      'name'  => 'Geofield',
+      'name'  => 'Geofield - Widgetsx',
       'description'  => "Test the creation of geofields.",
       'group' => 'Geofield'
     );
@@ -207,34 +235,6 @@ class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
     $id = $match[1];
     $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Bounds entity was created with values of 0, 0, 0, 0'));
   }
-
-  /**
-   * Helper function for testGeofieldWidgets().
-   */
-  function _testGeoFieldAPISetup($widget_type, $display_type) {
-    // Setup a field and instance
-    $entity_type = 'test_entity';
-    $this->field_name = drupal_strtolower($this->randomName());
-    $this->field = array('field_name' => $this->field_name, 'type' => 'geofield');
-    field_create_field($this->field);
-    $this->instance = array(
-      'field_name' => $this->field_name,
-      'entity_type' => 'test_entity',
-      'bundle' => 'test_bundle',
-      'label' => $this->randomName() . '_label',
-      'settings' => array(
-      ),
-      'widget' => array(
-        'type' => $widget_type,
-      ),
-      'display' => array(
-        'full' => array(
-          'type' => $display_type,
-        ),
-      ),
-    );
-    field_create_instance($this->instance);
-  }
 }
 
 class GeoFieldElementTestCase extends DrupalWebTestCase {
@@ -272,5 +272,105 @@ class GeoFieldElementTestCase extends DrupalWebTestCase {
     $this->drupalPost('geofield-latlon-element', $edit, t('Save'));
     $this->assertText('Simple - Lat: 41 Lon: -86', "Simple Geofield saved data as expected");
     $this->assertText('Verbose - Lat: 25 Lon: 54', "Verbose Geofield saved data as expected");
+  }
+}
+
+class GeofieldFormatterTestCase extends GeofieldBaseTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name'  => 'Geofield - Formatters',
+      'description'  => "Test the various display formatters of geofields.",
+      'group' => 'Geofield'
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('geofield', 'field_test'));
+
+    $this->admin_user = $this->drupalCreateUser(array('administer filters'));
+    $this->web_user = $this->drupalCreateUser(array('access field_test content', 'administer field_test content', 'administer modules'));
+    $this->drupalLogin($this->web_user);
+  }
+
+  function testGeofieldWKTFormatter() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_wkt', 'geofield_wkt');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+
+    // Submit with some value.
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    $wkt = $generator->wkt_generate();
+    geophp_load();
+    $geometry = geoPHP::load($wkt, 'wkt');
+    
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom]" => $geometry->out('wkt'),
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+
+    $this->_testWKTFormatter($id, $geometry, 'wkt');
+  }
+
+  function testGeofieldGeoJSONFormatter() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_wkt', 'geofield_geojson');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+
+    // Submit with some value.
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    $wkt = $generator->wkt_generate();
+    geophp_load();
+    $geometry = geoPHP::load($wkt, 'wkt');
+    
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom]" => $geometry->out('wkt'),
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+
+    // Test GeoJSON output
+    $entity = field_test_entity_test_load($id);
+    $entity->content = field_attach_view('test_entity', $entity, 'full');
+    $this->content = drupal_render($entity->content);
+    $value = $geometry->out('json');
+    $this->assertText($value, 'GeoJSON output is correct.');
+  }
+
+  function testGeofieldDefFormatter() {
+    // Test lat/lon widget
+    $this->_testGeoFieldAPISetup('geofield_wkt', 'geofield_def_list');
+    // Display creation form.
+    $langcode = LANGUAGE_NONE;
+    $this->drupalGet('test-entity/add/test-bundle');
+
+    // Submit with some value.
+    include_once(drupal_get_path('module', 'geofield') . '/includes/GeoGenerator.php');
+    $generator = new GeoGenerator();
+    $wkt = $generator->wkt_generate();
+    geophp_load();
+    $geometry = geoPHP::load($wkt, 'wkt');
+    
+    $edit = array(
+      "{$this->field_name}[$langcode][0][geom]" => $geometry->out('wkt'),
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
+    $id = $match[1];
+
+    // Test GeoJSON output
+    $entity = field_test_entity_test_load($id);
+    $entity->content = field_attach_view('test_entity', $entity, 'full');
+    $this->content = drupal_render($entity->content);
+    // @TODO: Actually test output... :-/
   }
 }
