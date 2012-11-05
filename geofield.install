@@ -287,6 +287,40 @@ function geofield_update_7202(&$sandbox) {
       'not null' => FALSE,
     ));
 
+    // Populate geohash column.
+    geophp_load();
+    $results = db_query('SELECT ' . $field_name . '_geom AS geom, entity_id, revision_id, delta FROM {' . $table_name . '}');
+
+    foreach ($results as $record) {
+      if (!empty($record->geom) {
+        $geom = geoPHP::load($record->geom);
+        db_update($table_name)
+          ->fields(array(
+            $field_name . '_geohash' => $geom->out('geohash'),
+          ))
+          ->condition('entity_id', $record->entity_id)
+          ->condition('revision_id', $record->revision_id)
+          ->condition('delta', $record->delta)
+          ->execute();
+      }
+    }
+
+    $results = db_query('SELECT ' . $field_name . '_geom AS geom, entity_id, revision_id, delta FROM {' . $revision_table_name . '}');
+
+    foreach ($results as $record) {
+      if (!empty($record->geom) {
+        $geom = geoPHP::load($record->geom);
+        db_update($revision_table_name)
+          ->fields(array(
+            $field_name . '_geohash' => $geom->out('geohash'),
+          ))
+          ->condition('entity_id', $record->entity_id)
+          ->condition('revision_id', $record->revision_id)
+          ->condition('delta', $record->delta)
+          ->execute();
+      }
+    }
+
     $deleted_columns = array('srid', 'accuracy', 'source');
     foreach ($deleted_columns as $column) {
       db_drop_field($table_name, $field_name . '_' . $column);
