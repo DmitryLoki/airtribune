@@ -50,7 +50,7 @@ function geofield_field_info() {
  */
 function geofield_field_update_field($field, $prior_field, $has_data) {
   if ($field['type'] == 'geofield') {
-    $backend = ctools_get_plugins('geofield', 'geofield_backend', $setting['backend']);
+    $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
     if (!empty($backend['update_field'])) {
       $postinstall_callback = $backend['update_field'];
       $postinstall_callback($field, $prior_field, $has_data);
