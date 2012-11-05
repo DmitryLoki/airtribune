@@ -259,3 +259,38 @@ function geofield_update_7201(&$sandbox) {
     }
   }
 }
+
+/**
+ * Drops unused table fields srid, accuracy and source, adds 
+ * geohash field, populates it.
+ */
+
+function geofield_update_7202(&$sandbox) {
+  foreach (field_info_fields() as $field_name => $field) {
+    if ($field['type'] != 'geofield') {
+      // Not a geofield field.
+      continue;
+    }
+
+    $table_name = _field_sql_storage_tablename($field);
+    $revision_table_name = _field_sql_storage_revision_tablename($field);
+
+    db_add_field($table_name, $field_name . '_geohash', array(
+      'type' => 'varchar',
+      'length' => 16,
+      'not null' => FALSE,
+    ));
+
+    db_add_field($revision_table_name, $field_name . '_geohash', array(
+      'type' => 'varchar',
+      'length' => 16,
+      'not null' => FALSE,
+    ));
+
+    $deleted_columns = array('srid', 'accuracy', 'source');
+    foreach ($deleted_columns as $column) {
+      db_drop_field($table_name, $field_name . '_' . $column);
+      db_drop_field($revision_table_name, $field_name . '_' . $column);
+    }
+  }
+}
