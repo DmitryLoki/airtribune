@@ -464,6 +464,8 @@ function _geofield_def_list_formatter_dl($info) {
 function _geofield_description_formatter($item, $settings) {
   geophp_load();
   $geometry = geoPHP::load($item['geom']);
+  
+  if (!$geometry) return '';
 
   // Single types
   $single_types = array('Point', 'LineString', 'Polygon');
