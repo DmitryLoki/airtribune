@@ -43,7 +43,7 @@ function geofield_field_info() {
 }
 
 /**
- * Implements hook_field_update_instance.
+ * Implements hook_field_update_field.
  * 
  * If a geofield has been created, check to see if the plugin controlling it
  * defines a 'postinstall' callback, if so, call it.
@@ -54,6 +54,22 @@ function geofield_field_update_field($field, $prior_field, $has_data) {
     if (!empty($backend['update_field'])) {
       $postinstall_callback = $backend['update_field'];
       $postinstall_callback($field, $prior_field, $has_data);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_delete_field.
+ * 
+ * If a geofield has been deleted, check to see if the plugin controlling it
+ * defines a 'postdelete' callback, if so, call it.
+ */
+function geofield_field_delete_field($field) {
+  if ($field['type'] == 'geofield') {
+    $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
+    if (!empty($backend['delete_field'])) {
+      $delete_field_callback = $backend['delete_field'];
+      $delete_field_callback($field);
     }
   }
 }
