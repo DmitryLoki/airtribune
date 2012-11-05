@@ -5,6 +5,9 @@ require_once('geofield.widgets.inc');
 require_once('geofield.formatters.inc');
 require_once('geofield.openlayers.inc');
 require_once('geofield.feeds.inc');
+require_once('geofield.apachesolr.inc');
+require_once('geofield.schemaorg.inc');
+require_once('geofield.microdata.inc');
 
 /**
  * Contrib modules can check this global variable to see if geofield is running the new WKB geom schema
@@ -333,62 +336,6 @@ function geofield_get_values_from_geometry($geometry) {
   $values['geohash'] = $geometry->out('geohash');
 
   return $values;
-}
-
-/**
- * Implements hook_apachesolr_field_mappings().
- */
-function geofield_apachesolr_field_mappings() {
-  return array(
-    'geofield' => array(
-      'indexing_callback' => 'geofield_apachesolr_index',
-      'facets' => TRUE,
-    )
-  );
-}
-
-/**
- * Name callback for field name
- */
-function geofield_apachesolr_index($node, $field_name, $index_key, $field_info) {
-  $return = array();
-  if (isset($node->$field_name)) {
-    // Load the instance settings for the field
-    $instance = field_info_instance('node', $field_name, $node->type);
-    if (!empty($instance['settings']['solrspatial'])) {
-      if ($values = field_get_items('node', $node, $field_name)) {
-        $values = reset($values);
-        $return = array(
-          array(
-            'key' => $instance['settings']['solrspatial']['lat_field'],
-            'value' => $values['lat']
-          ),
-          array(
-            'key' => $instance['settings']['solrspatial']['lng_field'],
-            'value' =>  $values['lon']
-          ),
-          array(
-            'key' => $instance['settings']['solrspatial']['latlng_field'],
-            'value' =>  $values['lat'] . ',' . $values['lon']
-          ),
-          array(
-            'key' => 'ss_geo_wkt',
-            'value' => $values['wkt'],
-          ),
-        );
-      }
-    }
-  }
-
-  return $return;
-}
-
-/**
- * Implements hook_apachesolr_query_alter().
- */
-function geofield_apachesolr_query_alter($query) {
-  // Add the WKT field field
-  $query->addParam('fl', 'ss_geo_wkt');
 }
 
 
