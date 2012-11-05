@@ -158,6 +158,39 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
 }
 
 /**
+ * Implements hook_field_load().
+ *
+ * Geofield stores it's data as WKB, but a binary format can cause 
+ * issues/confusion with working with other modules, notably Services.
+ * To improve DX/discoverability of what we're storing, we convert
+ * to WKT on load.
+ */
+function geofield_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  geophp_load();
+  if (geoPHP::geosInstalled()) {
+    // process geometry directly with GEOS to help with performance/memory issues.
+    $reader = new GEOSWKBReader();
+    $writer = new GEOSWKTWriter();
+    $writer->setTrim(TRUE);
+    foreach ($entities as $id => $entity) {
+      foreach ($items[$id] as $delta => $item) {
+        $raw_geom = unpack('H*', $item['geom']);
+        $geom = $reader->readHEX($raw_geom[1]);
+        $items[$id][$delta]['geom'] = $writer->write($geom);
+      }
+    }
+  }
+  else {
+    foreach ($entities as $id => $entity) {
+      foreach ($items[$id] as $delta => $item) {
+        $geom = geophp::load($item['geom']);
+        $items[$id][$delta]['geom'] = $geom->out('wkt');
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_content_is_empty().
  */
 function geofield_field_is_empty($item, $field) {
