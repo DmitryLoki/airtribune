@@ -293,7 +293,7 @@ function geofield_update_7202(&$sandbox) {
     $results = db_query('SELECT ' . $field_name . '_geom AS geom, entity_id, revision_id, delta FROM {' . $table_name . '}');
 
     foreach ($results as $record) {
-      if (!empty($record->geom) {
+      if (!empty($record->geom)) {
         $geom = geoPHP::load($record->geom);
         db_update($table_name)
           ->fields(array(
@@ -309,7 +309,7 @@ function geofield_update_7202(&$sandbox) {
     $results = db_query('SELECT ' . $field_name . '_geom AS geom, entity_id, revision_id, delta FROM {' . $revision_table_name . '}');
 
     foreach ($results as $record) {
-      if (!empty($record->geom) {
+      if (!empty($record->geom)) {
         $geom = geoPHP::load($record->geom);
         db_update($revision_table_name)
           ->fields(array(
