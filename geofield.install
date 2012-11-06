@@ -10,24 +10,29 @@
  */
 function geofield_field_schema($field) {
 
+  $schema_callback = '';
   ctools_include('plugins');
   if (isset($field['settings']['backend'])) {
     $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
+
   }
   else {
     $backend = ctools_get_plugins('geofield', 'geofield_backend', 'default');
+  }
+
+  if (!empty($backend['schema'])) {
+    $schema_callback = $backend['schema'];
+  } else {
     /**
      * Edge case, during an update between 7.x-1.x and 7.x-2.x, if ctools is enabled,
      * ctools will not see the geofield plugin without manually truncating the cache 
-     * tabels. To bypass, we manually seed the $backend array directly if 
+     * tables. To bypass, we manually seed the $backend array directly if 
      * $backend['schema'] still isn't declared.
-     */
-    if (empty($backend)) {
-      module_load_include('inc', 'geofield', 'include/geofield_backend/default');
-      $backend = $plugin; // $plugin is defined in our include.
-    }
+     **/
+    module_load_include('inc', 'geofield', 'includes/geofield_backend/default');
+    $schema_callback = 'geofield_backend_default_schema';
   }
-  $schema_callback = $backend['schema'];
+
   $geom_schema = $schema_callback($field);
 
   return array(
