@@ -16,6 +16,16 @@ function geofield_field_schema($field) {
   }
   else {
     $backend = ctools_get_plugins('geofield', 'geofield_backend', 'default');
+    /**
+     * Edge case, during an update between 7.x-1.x and 7.x-2.x, if ctools is enabled,
+     * ctools will not see the geofield plugin without manually truncating the cache 
+     * tabels. To bypass, we manually seed the $backend array directly if 
+     * $backend['schema'] still isn't declared.
+     */
+    if (empty($backend)) {
+      module_load_include('inc', 'geofield', 'include/geofield_backend/default');
+      $backend = $plugin; // $plugin is defined in our include.
+    }
   }
   $schema_callback = $backend['schema'];
   $geom_schema = $schema_callback($field);
