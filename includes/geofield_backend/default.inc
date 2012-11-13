@@ -22,9 +22,8 @@ function geofield_backend_default_schema($fielddef) {
 }
 
 function geofield_backend_default_save($geometry) {
-  if (is_object($geometry)) {
-    return $geometry->out('wkb');
-  }
+  $geom = geoPHP::load($geometry);
+  return $geom->out('wkb');
 }
 
 function geofield_backend_default_load($value) {

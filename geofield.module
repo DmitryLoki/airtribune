@@ -140,12 +140,14 @@ function geofield_field_validate($entity_type, $entity, $field, $instance, $lang
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   if ($field['type'] === 'geofield') {
     ctools_include('plugins');
+    
     $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
+    $save_callback = $backend['save'];
     // For each delta, we compute all the auxiliary columns and transform the geom column into a geometry object
     // We then pass the geometry object (now stored in the geom column) to the backend to prepare it for insertion into the database
     foreach ($items as $delta => $item) {
       $items[$delta] = geofield_compute_values($item);
-      $items[$delta]['geom'] = $backend['save']($items[$delta]['geom']);
+      $items[$delta]['geom'] = $save_callback($items[$delta]['geom']);
     }
   }
 }
@@ -167,9 +169,11 @@ function geofield_field_load($entity_type, $entities, $field, $instances, $langc
     $writer->setTrim(TRUE);
     foreach ($entities as $id => $entity) {
       foreach ($items[$id] as $delta => $item) {
-        $raw_geom = unpack('H*', $item['geom']);
-        $geom = $reader->readHEX($raw_geom[1]);
-        $items[$id][$delta]['geom'] = $writer->write($geom);
+        if (!empty($item['geom'])) {
+          $raw_geom = unpack('H*', $item['geom']);
+          $geom = $reader->readHEX($raw_geom[1]);
+          $items[$id][$delta]['geom'] = $writer->write($geom);
+        }
       }
     }
   }
