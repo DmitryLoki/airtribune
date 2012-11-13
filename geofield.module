@@ -333,7 +333,7 @@ function geofield_get_values_from_geometry($geometry) {
   $centroid = $geometry->getCentroid();
   $bounding = $geometry->getBBox();
 
-  $values['geom'] = $geometry;
+  $values['geom'] = $geometry->out('wkb');
 
   $values['geo_type'] = drupal_strtolower($geometry->getGeomType());
 
