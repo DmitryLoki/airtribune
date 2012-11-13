@@ -24,13 +24,6 @@ function geofield_field_info() {
       'description' => t('This field stores geo information.'),
       'default_widget' => 'geofield_wkt',
       'default_formatter' => 'geofield_wkt',
-      'instance_settings' => array(
-        'local_solr' => array(
-          'enabled' => FALSE,
-          'lat_field' => 'lat',
-          'lng_field' => 'lng',
-        ),
-      ),
       'settings' => array(
         'srid' => '4326',
         'backend' => 'default',
@@ -243,50 +236,6 @@ function geofield_ctools_plugin_directory($module, $plugin) {
   if ($plugin == 'geofield_backend') {
     return 'includes/' . $plugin;
   }
-}
-
- /**
- * Implements hook_field_instance_settings_form().
- */
-function geofield_field_instance_settings_form($field, $instance) {
-  $form = array();
-  // Add in local solr settings
-  if (module_exists('apachesolr')) {
-
-    if (isset($instance['settings']['solrspatial'])) $setting = $instance['settings']['solrspatial'];
-    else $setting = array();
-
-    $form['solrspatial'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Local Solr Settings'),
-      '#tree' => TRUE,
-    );
-
-    $form['solrspatial']['enabled'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Index field in Solr for spatial search'),
-      '#default_value' => isset($setting['enabled']) ? $setting['enabled'] : '',
-    );
-
-    $form['solrspatial']['lat_field'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Name of the Solr Latitude Field'),
-      '#default_value' => isset($setting['lat_field']) ? $setting['lat_field'] : '',
-    );
-
-    $form['solrspatial']['lng_field'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Name of the Solr Lonitude Field'),
-      '#default_value' => isset($setting['lng_field']) ? $setting['lng_field'] : '',
-    );
-    $form['solrspatial']['latlng_field'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Name of the Solr LatLon Field'),
-      '#default_value' => isset($setting['latlng_field']) ? $setting['latlng_field'] : '',
-    );
-  }
-
-  return $form;
 }
 
 /**
