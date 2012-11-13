@@ -4,56 +4,45 @@
  * Implements hook_apachesolr_field_mappings().
  */
 function geofield_apachesolr_field_mappings() {
-  return array(
-    'geofield' => array(
-      'indexing_callback' => 'geofield_apachesolr_index',
-      'facets' => TRUE,
-    )
+  $mappings['geofield'] = array(
+    'indexing_callback' => 'geofield_apachesolr_indexing_callback',
+    'map callback' => 'geofield_apachesolr_map_callback',
+    'index_type' => 'geohash',
+    'facets' => TRUE,
+    'query types' => array('term','geo'),
+    'query type' => 'term',
   );
+  
+  return $mappings;
 }
 
-/**
- * Name callback for field name
- */
-function geofield_apachesolr_index($node, $field_name, $index_key, $field_info) {
-  geophp_load();
-  $return = array();
-  if (isset($node->$field_name)) {
-    // Load the instance settings for the field
-    $instance = field_info_instance('node', $field_name, $node->type);
-    if (!empty($instance['settings']['solrspatial'])) {
-      if ($values = field_get_items('node', $node, $field_name)) {
-        $geom = geoPHP::load($values['geom']);
-        $return = array(
-          array(
-            'key' => $instance['settings']['solrspatial']['lat_field'],
-            'value' => $values['lat']
-          ),
-          array(
-            'key' => $instance['settings']['solrspatial']['lng_field'],
-            'value' =>  $values['lon']
-          ),
-          array(
-            'key' => $instance['settings']['solrspatial']['latlng_field'],
-            'value' =>  $values['lat'] . ',' . $values['lon']
-          ),
-          array(
-            'key' => 'ss_geo_wkt',
-            'value' => $geom->out('wkt'),
-          ),
-        );
-      }
+function geofield_apachesolr_indexing_callback($entity, $field_name, $index_key, $field_info) {
+  $fields = array();
+  if (!empty($entity->{$field_name})) {
+    $field = $entity->$field_name;
+    list($lang, $values) = each($field);
+    
+    foreach ($values as $value) {
+      $fields[] = array(
+        'key' => $index_key,
+        'value' => $value['lat'] . ',' . $value['lon'],
+      );
     }
   }
-
-  return $return;
+  return $fields;
 }
 
 /**
- * Implements hook_apachesolr_query_alter().
+ * Map of the facet labels.
+ *
+ * @param array $values
+ * @param array $options
+ * @return type
  */
-function geofield_apachesolr_query_alter($query) {
-  // Add the WKT field field
-  $query->addParam('fl', 'ss_geo_wkt');
+function geofield_apachesolr_map_callback(array $values, array $options) {
+  $map = array();
+  foreach ($values as $key) {
+    $map[$key] = substr($key, 1) . 'km';
+  }
+  return $map;
 }
-
