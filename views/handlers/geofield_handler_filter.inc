@@ -63,7 +63,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function query() {
-    switch ($this->options['source']) {
+    /*switch ($this->options['source']) {
       case 'manual':
         $lat_origin = $this->value['origin']['lat'];
         $lon_origin = $this->value['origin']['lon'];
@@ -86,8 +86,12 @@ class geofield_handler_filter extends views_handler_filter_numeric {
           $lon_origin = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon';
         }
         break;
-    }
-    if (!empty($lat_origin) && !empty($lon_origin)) {
+    }*/
+
+    $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
+    $options = $proximityPlugin->query($this);
+
+    //if (!empty($lat_origin) && !empty($lon_origin)) {
       $lat_alias = $this->definition['field_name'] . '_lat';
       $lon_alias = $this->definition['field_name'] . '_lon';
       $this->ensure_my_table();
@@ -95,14 +99,14 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       $info = $this->operators();
       if (!empty($info[$this->operator]['method'])) {
         $haversine_options = array(
-          'origin_latitude' => $lat_origin,
-          'origin_longitude' => $lon_origin,
+          'origin_latitude' => $options['destination_latitude'],
+          'origin_longitude' => $options['destination_longitude'],
           'destination_latitude' => $this->table_alias . '.' . $lat_alias,
           'destination_longitude' => $this->table_alias . '.' . $lon_alias,
           'earth_radius' => $this->value['unit'],
         );
         $this->{$info[$this->operator]['method']}($haversine_options);
-      }
+      //}
     }
   }
 
@@ -126,6 +130,11 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'origin' => array(),
       ),
     );
+    $proximityHandlers = geofield_proximity_views_handlers();
+    foreach ($proximityHandlers as $key => $handler) {
+      $proximityPlugin = new $handler['class']();
+      $proximityPlugin->option_definition($options, $this);
+    }
     if (module_exists('geocoder')) {
       $options['geocoder'] = array('default' => 'google');
     }
@@ -138,10 +147,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#type' => 'select',
       '#title' => t('Source of Origin Point'),
       '#description' => t('How do you want to enter your origin point?'),
-      '#options' => array(
-        'manual' => t('Manually Enter Point'),
-        'other_geofield' => t('Other Geofield'),
-      ),
+      '#options' => array(),
       '#attached' => array(
         'js' => array(
           drupal_get_path('module', 'geofield') . '/js/viewsProximityValue.js',
@@ -156,7 +162,23 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#submit' => array('geofield_views_ui_change_proximity_widget'),
     );
 
-    if (module_exists('geocoder')) {
+    $proximityHandlers = geofield_proximity_views_handlers();
+    foreach ($proximityHandlers as $key => $handler) {
+      $form['source']['#options'][$key] = $handler['name'];
+
+      $proximityPlugin = new $handler['class']();
+      $proximityPlugin->options_form($form, $form_state, $this);
+    }
+
+    // Look for any top-level item with a #proximity_plugin_value_element set. If found, it doesn't
+    // belong in this particular field.
+    foreach ($form as $key =>$form_item) {
+      if (isset($form_item['#proximity_plugin_value_element']) && $form_item['#proximity_plugin_value_element'] == TRUE) {
+        unset($form[$key]);
+      }
+    }
+
+    /*if (module_exists('geocoder')) {
       $form['source']['#options']['geocode'] = t('Geocode');
 
       $geocoders_raw = geocoder_handler_info('text');
@@ -173,7 +195,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
           'edit-options-source' => array('geocode'),
         ),
       );
-    }
+    }*/
   }
 
   function value_form(&$form, &$form_state) {
@@ -192,6 +214,9 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       ),
     );
 
+    $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
+    $proximityPlugin->value_form($form, $form_state, $this);
+    /*
     switch ($this->options['source']) {
       case 'manual':
         $form['value']['#origin_element'] = 'geofield_latlon';
@@ -204,7 +229,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
           '#options' => $this->get_other_geofield_options(),
         );
         break;
-    }
+    }*/
 
     if (in_array($this->operator, array('between', 'not between'))) {
       $form['value']['#geofield_range'] = TRUE;

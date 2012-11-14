@@ -9,7 +9,7 @@ class geofield_handler_field extends views_handler_field_numeric {
   function query() {
     $this->ensure_my_table();
 
-    switch ($this->options['source']) {
+    /*switch ($this->options['source']) {
       case 'geocode':
         $geocoded_data_raw = geocoder($this->options['geocoder'], $this->options['geocoder_location']);
         if ($geocoded_data_raw) {
@@ -38,16 +38,19 @@ class geofield_handler_field extends views_handler_field_numeric {
         break;
       default:
         break;
-    }
+    }*/
 
     $lat_alias = $this->table_alias . '.' . $this->definition['field_name'] . '_lat';
     $lon_alias = $this->table_alias . '.' . $this->definition['field_name'] . '_lon';
 
+    $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
+    $options = $proximityPlugin->query($this);
+
     $haversine_options = array(
       'origin_latitude' => $lat_alias,
       'origin_longitude' => $lon_alias,
-      'destination_latitude' => $this->options['source_lat'],
-      'destination_longitude' => $this->options['source_lon'],
+      'destination_latitude' => $options['destination_latitude'],
+      'destination_longitude' => $options['destination_longitude'],
       'earth_radius' => $this->options['radius_of_earth'],
     );
 
@@ -59,15 +62,18 @@ class geofield_handler_field extends views_handler_field_numeric {
     // Data sources and info needed.
     $options['source'] = array('default' => 'manual');
     // Geocoder options
-    if (module_exists('geocoder')) {
+    /*if (module_exists('geocoder')) {
       $options['geocoder'] = array('default' => 'google'); // @TODO: load from geocoder list of available plugins, pull first.
       $options['geocoder_location'] = array('default' => '');
     }
     // Other geofield
-    $options['other_geofield'] = array('default' => '');
-    // Raw origin point values.
-    $options['source_lat'] = array('default' => 0);
-    $options['source_lon'] = array('default' => 0);
+    $options['other_geofield'] = array('default' => '');*/
+    $proximityHandlers = geofield_proximity_views_handlers();
+    foreach ($proximityHandlers as $key => $handler) {
+      $proximityPlugin = new $handler['class']();
+      $proximityPlugin->option_definition($options, $this);
+    } 
+    
     $options['radius_of_earth'] = array('default' => GEOFIELD_KILOMETERS);
     return $options;
   }
@@ -79,15 +85,19 @@ class geofield_handler_field extends views_handler_field_numeric {
       '#type' => 'select',
       '#title' => t('Source of Origin Point'),
       '#description' => t('How do you want to enter your origin point?'),
-      '#options' => array(
-        'manual' => t('Manually Enter Point'),
-        'other_geofield' => t('Other Geofield'),
-        'exposed_filter' => t('Exposed Filter'),
-      ),
+      '#options' => array(),
       '#default_value' => $this->options['source'],
     );
 
-    if (module_exists('geocoder')) {
+    $proximityHandlers = geofield_proximity_views_handlers();
+    foreach ($proximityHandlers as $key => $handler) {
+      $form['source']['#options'][$key] = $handler['name'];
+
+      $proximityPlugin = new $handler['class']();
+      $proximityPlugin->options_form($form, $form_state, $this);
+    }    
+
+    /*if (module_exists('geocoder')) {
       $form['source']['#options']['geocode'] = t('Geocode');
     }
 
@@ -156,7 +166,7 @@ class geofield_handler_field extends views_handler_field_numeric {
       '#dependency' => array(
         'edit-options-source' => array('other_geofield'),
       ),
-    );
+    );*/
 
     $form['radius_of_earth'] = array(
       '#type' => 'select',
