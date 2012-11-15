@@ -39,7 +39,8 @@ function profile2_form($form, &$form_state, $profile) {
   // skip invoking the hooks.
   $form_state['profile2_skip_hook'] = TRUE;
   profile2_attach_form($form, $form_state);
-
+  //$form += $form['profile_' . $profile->type];
+  //unset($form['profile_' . $profile->type]);
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',

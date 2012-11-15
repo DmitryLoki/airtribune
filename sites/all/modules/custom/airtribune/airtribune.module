@@ -1,0 +1,13 @@
+<?php
+function airtribune_entity_info() {
+  $info['profile2'] = array(
+    'translation' => array(
+      'entity_translation' => array(
+        'base path' => 'profile-pilot/%profile2_by_uid',
+        'class' => 'AirtribuneTranslationDefaultHandler',
+        'path wildcard' => '%profile2_by_uid',
+      ),
+    ),
+  );
+  return $info;
+}
