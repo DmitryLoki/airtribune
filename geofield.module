@@ -57,6 +57,20 @@ function geofield_field_update_field($field, $prior_field, $has_data) {
 }
 
 /**
+ * Implements hook_field_update_instance().
+ *
+ * We implement this hook to prevent instance settings that may not apply to our different
+ * widgets from breaking when switching widgets. See http://drupal.org/node/1840920.
+ */
+
+function geofield_field_update_instance($instance, $prior_instance) {
+  if ($instance['widget']['type'] != $prior_instance['widget']['type']) {
+    $instance['default_value'] = array();
+    field_update_instance($instance);
+  }
+}
+
+/**
  * Implements hook_field_delete_field.
  * 
  * If a geofield has been deleted, check to see if the plugin controlling it
