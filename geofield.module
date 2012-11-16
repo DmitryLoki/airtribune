@@ -9,6 +9,11 @@ require_once('geofield.apachesolr.inc');
 require_once('geofield.schemaorg.inc');
 require_once('geofield.microdata.inc');
 
+/* *
+ * Max length of geohashes (imposed by database column length).
+ */
+define('GEOFIELD_GEOHASH_LENGTH', 16);
+
 /**
  * Contrib modules can check this global variable to see if geofield is running the new WKB geom schema
  */
@@ -351,7 +356,8 @@ function geofield_get_values_from_geometry($geometry) {
   $values['right'] = $bounding['maxx'];
   $values['left'] = $bounding['minx'];
 
-  $values['geohash'] = $geometry->out('geohash');
+  // Truncate geohash to max length.
+  $values['geohash'] = substr($geometry->out('geohash'), 0, GEOFIELD_GEOHASH_LENGTH);
 
   return $values;
 }
