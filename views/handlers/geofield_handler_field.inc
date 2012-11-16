@@ -46,15 +46,17 @@ class geofield_handler_field extends views_handler_field_numeric {
     $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
     $options = $proximityPlugin->query($this);
 
-    $haversine_options = array(
-      'origin_latitude' => $lat_alias,
-      'origin_longitude' => $lon_alias,
-      'destination_latitude' => $options['destination_latitude'],
-      'destination_longitude' => $options['destination_longitude'],
-      'earth_radius' => $this->options['radius_of_earth'],
-    );
+    if ($options != FALSE) {
+      $haversine_options = array(
+        'origin_latitude' => $lat_alias,
+        'origin_longitude' => $lon_alias,
+        'destination_latitude' => $options['destination_latitude'],
+        'destination_longitude' => $options['destination_longitude'],
+        'earth_radius' => $this->options['radius_of_earth'],
+      );
 
-    $this->field_alias = $this->query->add_field(NULL, geofield_haversine($haversine_options), $this->table_alias . '_' . $this->field);
+      $this->field_alias = $this->query->add_field(NULL, geofield_haversine($haversine_options), $this->table_alias . '_' . $this->field);
+    }
   }
 
   function option_definition() {

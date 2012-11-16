@@ -19,3 +19,4 @@ files[] = views/handlers/geofield_handler_filter.inc
 files[] = views/proximity_plugins/geofieldProximityBase.inc
 files[] = views/proximity_plugins/geofieldProximityManual.inc
 files[] = views/proximity_plugins/geofieldProximityGeocoder.inc
+files[] = views/proximity_plugins/geofieldProximityEntityURL.inc

@@ -525,3 +525,22 @@ function geofield_haversine($options = array()) {
 
   return $formula;
 }
+
+/**
+ * Helper function to get all geofield fields.
+ *
+ * @return
+ *   an array of field definitions for all geofields as defined by field_info_fields().
+ */
+function _geofield_get_geofield_fields() {
+  $geofield_fields = array();
+  $fields = field_info_fields();
+
+  foreach ($fields as $field => $info) {
+    if ($info['type'] == 'geofield') {
+      $geofield_fields[$field] = $info;
+    }
+  }
+
+  return $geofield_fields;
+}

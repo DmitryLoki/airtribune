@@ -91,7 +91,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
     $options = $proximityPlugin->query($this);
 
-    //if (!empty($lat_origin) && !empty($lon_origin)) {
+    if ($options) {
       $lat_alias = $this->definition['field_name'] . '_lat';
       $lon_alias = $this->definition['field_name'] . '_lon';
       $this->ensure_my_table();
@@ -99,14 +99,14 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       $info = $this->operators();
       if (!empty($info[$this->operator]['method'])) {
         $haversine_options = array(
-          'origin_latitude' => $options['destination_latitude'],
-          'origin_longitude' => $options['destination_longitude'],
-          'destination_latitude' => $this->table_alias . '.' . $lat_alias,
-          'destination_longitude' => $this->table_alias . '.' . $lon_alias,
+          'origin_latitude' => $this->table_alias . '.' . $lat_alias,
+          'origin_longitude' => $this->table_alias . '.' . $lon_alias,
+          'destination_latitude' => $options['destination_latitude'],
+          'destination_longitude' => $options['destination_longitude'],
           'earth_radius' => $this->value['unit'],
         );
         $this->{$info[$this->operator]['method']}($haversine_options);
-      //}
+      }
     }
   }
 
@@ -134,9 +134,6 @@ class geofield_handler_filter extends views_handler_filter_numeric {
     foreach ($proximityHandlers as $key => $handler) {
       $proximityPlugin = new $handler['class']();
       $proximityPlugin->option_definition($options, $this);
-    }
-    if (module_exists('geocoder')) {
-      $options['geocoder'] = array('default' => 'google');
     }
     return $options;
   }

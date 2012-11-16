@@ -3,6 +3,13 @@
 /**
  * @file
  * Hooks for Views integration.
+ *
+ * In addition to the usual views hooks, Geofield defines a set of classes that allows
+ * us to break out the code needed to handle the wide variety of proximity searches 
+ * the module supports. We define api functions here to allow for very basic autoloading.
+ * 
+ * Our mini-plugin system we're using here is not designed for external (non-geofield) use,
+ * but as a programming convenience for the maintainers.
  */
 
 /**
@@ -53,22 +60,38 @@ function geofield_field_views_data($field) {
 }
 
 /**
- * Mini-plugins for geofield proximity views plugins.
+ * Returns metainfo about each of the geofield proximity views classes.
  */
 
 function geofield_proximity_views_handlers() {
-  return array(
+  $handlers = array(
     'manual' => array(
       'name' => t('Manually Enter Point'),
       'class' => 'geofieldProximityManual',
     ),
-    // @TODO: Check for geocoder module first. :-/
-    'geocoder' => array(
-      'name' => t('Geocoded Location'),
-      'class' => 'geofieldProximityGeocoder',
+    'entity_from_url' => array(
+      'name' => t('Entity From URL'),
+      'class' => 'geofieldProximityEntityURL',
     ),
   );
+
+  if (module_exists('geocoder')) {
+    $handlers['geocoder'] = array(
+      'name' => t('Geocoded Location'),
+      'class' => 'geofieldProximityGeocoder',
+    );
+  }
+
+  return $handlers;
 }
+
+/**
+ * Loads an individual geofield proximity views class.
+ * 
+ * @return
+ *   An instance of a class defined by $plugin (see keys for geofield_proximity_views_handlers), or FALSE
+ *   if no such class exists.
+ */
 
 function geofield_proximity_load_plugin($plugin) {
   $handlers = geofield_proximity_views_handlers();

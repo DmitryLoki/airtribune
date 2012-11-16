@@ -45,15 +45,11 @@ class geofieldProximityGeocoder extends geofieldProximityBase implements geofiel
     $geocoded_data_raw = geocoder($geocoder_engine, $location);
     if ($geocoded_data_raw) {
       return array(
-        'destination_latitude' => $geocoded_data_raw->getX(),
-        'destination_longitude' => $geocoded_data_raw->getY(),
+        'destination_latitude' => $geocoded_data_raw->getY(),
+        'destination_longitude' => $geocoded_data_raw->getX(),
       );
     } else {
-      // @TODO: Tmp, should return false.
-      return array(
-        'destination_latitude' => 0,
-        'destination_longitude' => 0,
-      );
+      return FALSE;
     }
   }
 }
