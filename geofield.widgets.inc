@@ -174,17 +174,17 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
         'bottom' => '',
         'left' => '',
       );
-      if (isset($items[$delta]['top'])) {
-        $bounds_value['top'] = $items[$delta]['top'];
+      if (isset($items[$delta]['geom']['top'])) {
+        $bounds_value['top'] = $items[$delta]['geom']['top'];
       }
-      if (isset($items[$delta]['right'])) {
-        $bounds_value['right'] = $items[$delta]['right'];
+      if (isset($items[$delta]['geom']['right'])) {
+        $bounds_value['right'] = $items[$delta]['geom']['right'];
       }
-      if (isset($items[$delta]['bottom'])) {
-        $bounds_value['bottom'] = $items[$delta]['bottom'];
+      if (isset($items[$delta]['geom']['bottom'])) {
+        $bounds_value['bottom'] = $items[$delta]['geom']['bottom'];
       }
-      if (isset($items[$delta]['left'])) {
-        $bounds_value['left'] = $items[$delta]['left'];
+      if (isset($items[$delta]['geom']['left'])) {
+        $bounds_value['left'] = $items[$delta]['geom']['left'];
       }
       $element['geom'] = array(
         '#type' => 'geofield_bounds',
