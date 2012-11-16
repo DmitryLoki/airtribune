@@ -150,11 +150,11 @@ function geofield_field_widget_form(&$form, &$form_state, $field, $instance,
         'lat' => '',
         'lon' => '',
       );
-      if (isset($items[$delta]['lat'])) {
-        $latlon_value['lat'] = floatval($items[$delta]['lat']);
+      if (isset($items[$delta]['geom']['lat'])) {
+        $latlon_value['lat'] = floatval($items[$delta]['geom']['lat']);
       }
-      if (isset($items[$delta]['lon'])) {
-        $latlon_value['lon'] = floatval($items[$delta]['lon']);
+      if (isset($items[$delta]['geom']['lon'])) {
+        $latlon_value['lon'] = floatval($items[$delta]['geom']['lon']);
       }
       $element['geom'] = array(
         '#type' => 'geofield_latlon',
