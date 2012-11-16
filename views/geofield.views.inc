@@ -73,6 +73,10 @@ function geofield_proximity_views_handlers() {
       'name' => t('Entity From URL'),
       'class' => 'geofieldProximityEntityURL',
     ),
+    'other_geofield' => array(
+      'name' => t('Other Geofield'),
+      'class' => 'geofieldProximityOtherGeofield',
+    ),
   );
 
   if (module_exists('geocoder')) {

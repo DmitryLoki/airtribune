@@ -180,14 +180,14 @@ class geofield_handler_field extends views_handler_field_numeric {
   }
 
   function options_validate(&$form, &$form_state) {
-    if ($form_state['values']['options']['source'] == 'geocode') {
+    /*if ($form_state['values']['options']['source'] == 'geocode') {
       if (!geocoder($form_state['values']['options']['geocoder'], $form_state['values']['options']['geocoder_location'])) {
         form_set_error('options][geocoder_location', t('Geocoder cannot find this location. Check your connection or add a findable location.'));
       }
     }
     if ($form_state['values']['options']['source'] == 'other_geofield' && $form_state['values']['options']['other_geofield'] == '') {
       form_set_error('options][other_geofield', t('Please select a geofield.'));
-    }
+    }*/
   }
 
   function get_value($values, $field = NULL) {
