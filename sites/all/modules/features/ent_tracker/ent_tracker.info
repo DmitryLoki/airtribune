@@ -1,0 +1,8 @@
+name = Tracker
+description = Tracker entity
+core = 7.x
+package = Custom entities
+dependencies[] = eck
+dependencies[] = features
+features[eck_entity_type][] = ent_tracker
+features[features_api][] = api:1

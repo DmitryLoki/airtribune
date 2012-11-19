@@ -1,5 +1,5 @@
 <?php
-function airtribune_entity_info() {
+/*function airtribune_entity_info() {
   $info['profile2'] = array(
     'translation' => array(
       'entity_translation' => array(
@@ -8,6 +8,6 @@ function airtribune_entity_info() {
         'path wildcard' => '%profile2_by_uid',
       ),
     ),
-  );
+  ); 
   return $info;
-}
+}*/

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Track feature.
+ */
+
+include_once 'track.features.inc';

@@ -1,0 +1,9 @@
+name = Maps
+description = Openlayers related stuff
+core = 7.x
+package = Other
+dependencies[] = ctools
+dependencies[] = openlayers
+features[ctools][] = openlayers:openlayers_maps:1
+features[features_api][] = api:1
+features[openlayers_maps][] = geofield_formatter_map2
