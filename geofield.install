@@ -81,7 +81,7 @@ function geofield_field_schema($field) {
       ),
       'geohash' => array(
         'type' => 'varchar',
-        'length' => 16,
+        'length' => GEOFIELD_GEOHASH_LENGTH,
         'not null' => FALSE,
       ),
     ),

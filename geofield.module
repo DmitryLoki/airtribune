@@ -9,6 +9,11 @@ require_once('geofield.apachesolr.inc');
 require_once('geofield.schemaorg.inc');
 require_once('geofield.microdata.inc');
 
+/* *
+ * Max length of geohashes (imposed by database column length).
+ */
+define('GEOFIELD_GEOHASH_LENGTH', 16);
+
 /**
  * Contrib modules can check this global variable to see if geofield is running the new WKB geom schema
  */
@@ -48,6 +53,20 @@ function geofield_field_update_field($field, $prior_field, $has_data) {
       $postinstall_callback = $backend['update_field'];
       $postinstall_callback($field, $prior_field, $has_data);
     }
+  }
+}
+
+/**
+ * Implements hook_field_update_instance().
+ *
+ * We implement this hook to prevent instance settings that may not apply to our different
+ * widgets from breaking when switching widgets. See http://drupal.org/node/1840920.
+ */
+
+function geofield_field_update_instance($instance, $prior_instance) {
+  if ($instance['widget']['type'] != $prior_instance['widget']['type']) {
+    $instance['default_value'] = array();
+    field_update_instance($instance);
   }
 }
 
@@ -351,7 +370,8 @@ function geofield_get_values_from_geometry($geometry) {
   $values['right'] = $bounding['maxx'];
   $values['left'] = $bounding['minx'];
 
-  $values['geohash'] = $geometry->out('geohash');
+  // Truncate geohash to max length.
+  $values['geohash'] = substr($geometry->out('geohash'), 0, GEOFIELD_GEOHASH_LENGTH);
 
   return $values;
 }
