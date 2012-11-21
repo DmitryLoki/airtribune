@@ -36,15 +36,21 @@ class geofieldProximityOtherGeofield extends geofieldProximityBase implements ge
     );
   }
 
-  public function query($views_plugin) {
+  public function options_validate(&$form, &$form_state, $views_plugin) {
+    if ($form_state['values']['options']['geofield_proximity_other_geofield'] == '') {
+      form_set_error('options][geofield_proximity_other_geofield', t('Please select a geofield.'));
+    }
+  }
+
+  public function getSourceValue($views_plugin) {
     if (!empty($views_plugin->options['geofield_proximity_other_geofield'])) {
       $other_geofield = $views_plugin->view->display_handler->get_handler('field', $views_plugin->options['geofield_proximity_other_geofield']);
       $views_plugin->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lat');
       $views_plugin->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lon'); // @TODO: Not sure if we need 2nd add field.
 
       return array(
-        'destination_latitude' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat',
-        'destination_longitude' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon',
+        'latitude' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat',
+        'longitude' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon',
       );
     }
 

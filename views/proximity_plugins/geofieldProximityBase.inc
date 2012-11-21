@@ -10,7 +10,7 @@ interface geofieldProximityPluginInterface {
   public function options_validate(&$form, &$form_state, $views_plugin);
   public function value_form(&$form, &$form_state, $views_plugin);
   public function value_validate(&$form, &$form_state, $views_plugin);
-  public function query($views_plugin);
+  public function getSourceValue($views_plugin);
 }
 
 class geofieldProximityBase implements geofieldProximityPluginInterface {
@@ -33,10 +33,10 @@ class geofieldProximityBase implements geofieldProximityPluginInterface {
     
   }
 
-  public function query($views_plugin) {
+  public function getSourceValue($views_plugin) {
     return array(
-      'destination_latitude' => 0,
-      'destination_longitude' => 0,
+      'latitude' => 0,
+      'longitude' => 0,
     );
   }
 }

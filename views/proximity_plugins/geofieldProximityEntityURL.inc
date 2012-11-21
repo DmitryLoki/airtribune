@@ -55,7 +55,7 @@ class geofieldProximityEntityURL extends geofieldProximityBase implements geofie
     );
   }
 
-  public function query($views_plugin) {
+  public function getSourceValue($views_plugin) {
     $entity_type = $views_plugin->options['geofield_proximity_entity_url_entity_type'];
     $geofield_name = $views_plugin->options['geofield_proximity_entity_url_field'];
     $delta = $views_plugin->options['geofield_proximity_entity_url_delta'];
@@ -66,8 +66,8 @@ class geofieldProximityEntityURL extends geofieldProximityBase implements geofie
 
       if ($field_data != FALSE) {
         return array(
-          'destination_latitude' => $field_data[$delta]['lat'],
-          'destination_longitude' => $field_data[$delta]['lon'],
+          'latitude' => $field_data[$delta]['lat'],
+          'longitude' => $field_data[$delta]['lon'],
         );
       }
     }

@@ -12,14 +12,14 @@ class geofield_handler_sort extends views_handler_sort {
     $lon_alias = $this->table_alias . '.' . $this->definition['field_name'] . '_lon';
 
     $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
-    $options = $proximityPlugin->query($this);
+    $options = $proximityPlugin->getSourceValue($this);
 
     if ($options != FALSE) {
       $haversine_options = array(
-        'origin_latitude' => $lat_alias,
-        'origin_longitude' => $lon_alias,
-        'destination_latitude' => $options['destination_latitude'],
-        'destination_longitude' => $options['destination_longitude'],
+        'origin_latitude' => $options['latitude'],
+        'origin_longitude' => $options['longitude'],
+        'destination_latitude' => $lat_alias,
+        'destination_longitude' => $lon_alias,
         'earth_radius' => GEOFIELD_KILOMETERS,
       );
 
@@ -59,5 +59,10 @@ class geofield_handler_sort extends views_handler_sort {
       $proximityPlugin = new $handler['class']();
       $proximityPlugin->options_form($form, $form_state, $this);
     }
+  }
+
+  function options_validate(&$form, &$form_state) {
+    $proximityPlugin = geofield_proximity_load_plugin($form_state['values']['options']['source']);
+    $proximityPlugin->options_validate($form, $form_state, $this);
   }
 }

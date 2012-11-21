@@ -77,6 +77,10 @@ function geofield_proximity_views_handlers() {
       'name' => t('Other Geofield'),
       'class' => 'geofieldProximityOtherGeofield',
     ),
+    'exposed_geofield_filter' => array(
+      'name' => t('Exposed Geofield Proximity Filter'),
+      'class' => 'geofieldProximityExposedFilter',
+    ),
   );
 
   if (module_exists('geocoder')) {

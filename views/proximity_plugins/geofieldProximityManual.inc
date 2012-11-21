@@ -32,10 +32,10 @@ class geofieldProximityManual extends geofieldProximityBase implements geofieldP
     $form['value']['#origin_element'] = 'geofield_latlon';
   }
 
-  public function query($views_plugin) {
+  public function getSourceValue($views_plugin) {
     return array(
-      'destination_latitude' => (isset($views_plugin->value)) ? $views_plugin->value['origin']['lat'] : $views_plugin->options['geofield_proximity_manual']['lat'],
-      'destination_longitude' => (isset($views_plugin->value)) ? $views_plugin->value['origin']['lon'] : $views_plugin->options['geofield_proximity_manual']['lon'],
+      'latitude' => (isset($views_plugin->value)) ? $views_plugin->value['origin']['lat'] : $views_plugin->options['geofield_proximity_manual']['lat'],
+      'longitude' => (isset($views_plugin->value)) ? $views_plugin->value['origin']['lon'] : $views_plugin->options['geofield_proximity_manual']['lon'],
     );
   }
 }
