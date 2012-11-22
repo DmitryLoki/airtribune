@@ -199,8 +199,12 @@ function geofield_field_load($entity_type, $entities, $field, $instances, $langc
   else {
     foreach ($entities as $id => $entity) {
       foreach ($items[$id] as $delta => $item) {
-        $geom = geophp::load($item['geom']);
-        $items[$id][$delta]['geom'] = $geom->out('wkt');
+        if (!empty($item['geom'])) {
+          $geom = geophp::load($item['geom']);
+          if ($geom) {
+            $items[$id][$delta]['geom'] = $geom->out('wkt');
+          }
+        }
       }
     }
   }
