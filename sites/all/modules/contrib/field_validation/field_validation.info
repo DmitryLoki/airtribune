@@ -6,9 +6,9 @@ dependencies[] = field
 dependencies[] = ctools
 files[] = field_validation_validator.inc
 
-; Information added by drupal.org packaging script on 2012-08-05
-version = "7.x-2.1"
+; Information added by drupal.org packaging script on 2012-11-12
+version = "7.x-2.2"
 core = "7.x"
 project = "field_validation"
-datestamp = "1344142024"
+datestamp = "1352727710"
 

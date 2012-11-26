@@ -14,19 +14,4 @@ function accommodation_ctools_plugin_api() {
   }
 }
 
-/**
- * Implements hook_node_info().
- */
-function accommodation_node_info() {
-  $items = array(
-    'accommodation' => array(
-      'name' => t('Accommodation'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
+

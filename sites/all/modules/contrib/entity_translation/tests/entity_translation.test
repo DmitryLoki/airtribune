@@ -15,7 +15,8 @@ class EntityTranslationTestCase extends DrupalWebTestCase {
   protected $translator_user;
 
   function setUp() {
-    call_user_func_array(array('parent', 'setUp'), func_get_args());
+    $args = func_get_args();
+    call_user_func_array(array('parent', 'setUp'), $args);
 
     // Reset user fields to make test object reusable.
     unset($this->current_user);

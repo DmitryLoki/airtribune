@@ -387,13 +387,20 @@ function race_field_default_fields() {
             'og_behavior' => array(
               'status' => TRUE,
             ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
           ),
           'membership_type' => 'og_membership_type_default',
+          'sort' => array(
+            'type' => 'none',
+          ),
           'target_bundles' => array(
-            0 => 'contest',
+            'contest' => 'contest',
           ),
         ),
         'handler_submit' => 'Change handler',
+        'profile2_private' => FALSE,
         'target_type' => 'node',
       ),
       'target_type' => 'node',

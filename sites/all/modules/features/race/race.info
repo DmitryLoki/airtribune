@@ -2,6 +2,7 @@ name = Race
 description = Race content type
 core = 7.x
 package = Content types
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = entityreference

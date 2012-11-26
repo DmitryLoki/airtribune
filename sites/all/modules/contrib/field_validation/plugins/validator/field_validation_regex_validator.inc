@@ -5,8 +5,8 @@
  *
  */
 $plugin = array(
-  'label' => t('Regular expression'),
-  'description' => t('Validates user-entered text against a specified regular expression.'),
+  'label' => t('Regular expression (POSIX multibyte)'),
+  'description' => t('Validates user-entered text against a specified regular expression using <a href="http://php.net/manual/en/function.mb-ereg.php">mb_ereg*</a> function\'s family.'),
   'handler' => array(
     'class' => 'field_validation_regex_validator',
   ),

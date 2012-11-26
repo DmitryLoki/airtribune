@@ -1203,7 +1203,17 @@ class EntityTranslationDefaultHandler implements EntityTranslationHandlerInterfa
    * @see EntityTranslationHandlerInterface::entityFormValidate()
    */
   public function entityFormValidate($form, &$form_state) {
-    // By default do nothing: subclasses may want to add some logic here.
+    if (!empty($form_state['values']['translation'])) {
+      $values = $form_state['values']['translation'];
+      // Validate the "authored by" field.
+      if (!empty($values['name']) && !($account = user_load_by_name($values['name']))) {
+        form_set_error('translation][name', t('The translation authoring username %name does not exist.', array('%name' => $values['name'])));
+      }
+      // Validate the "authored on" field.
+      if (!empty($values['created']) && strtotime($values['created']) === FALSE) {
+        form_set_error('translation][created', t('You have to specify a valid translation authoring date.'));
+      }
+    }
   }
 
   /**

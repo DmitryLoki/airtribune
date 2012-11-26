@@ -931,6 +931,7 @@ function countries_views_api() {
 function countries_migrate_api() {
   $api = array(
     'api' => 2,
+    'field handlers' => array('MigrateCountryFieldHandler'),
   );
   return $api;
 }

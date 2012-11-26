@@ -122,4 +122,42 @@ function field_validation_update_7004(&$sandbox) {
     db_query("UPDATE {field_validation_rule} SET settings = :settings, validator = :validator WHERE ruleid = :ruleid", array(':settings' => serialize($settings_data), ':validator' => $validator, ':ruleid' => $record->ruleid));
   }
   db_drop_field('field_validation_rule', 'data');
+
+  module_enable(array('field_validation_ui'), FALSE);
+}
+
+/**
+ * Add missing field from upgrade.
+ */
+function field_validation_update_7005(&$sandbox) {
+  if (!db_field_exists('field_validation_rule', 'name')) {
+    // add missing column.
+    $settings = array(
+      'type' => 'varchar',
+      'description' => 'Machine name of the validation rule',
+      'not null' => TRUE,
+      'default' => '',
+      'length' => 32,
+    );
+    db_add_field('field_validation_rule', 'name', $settings);
+  }
+  if (!db_field_exists('field_validation_rule', 'col')) {
+    // add missing column.
+    $settings = array(
+      'type' => 'varchar',
+      'length' => 32,
+      'not null' => TRUE,
+      'default' => 'value',
+    );
+    db_add_field('field_validation_rule', 'col', $settings);
+  }
+  
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'field_validation'");
+}
+
+/**
+ * Implements hook_install().
+ */
+function field_validation_install() {
+  db_query("UPDATE {system} SET weight = 10 WHERE name = 'field_validation'");
 }

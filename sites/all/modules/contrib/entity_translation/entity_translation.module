@@ -503,14 +503,16 @@ function entity_translation_menu_alter(&$items) {
       if ($translate_ui_attached == FALSE) {
         drupal_set_message(t('The entities of type %entity_type do not define a valid path scheme: it will not be possible to translate them.', array('%entity_type' => $info['label'])), 'warning');
       }
+
+      // Node-specific menu alterations.
+      if ($entity_type == 'node') {
+        entity_translation_node_menu_alter($items, $backup);
+      }
     }
   }
 
   // Avoid bloating memory with unused data.
   drupal_static_reset('_entity_translation_validate_path_schemes');
-
-  // Node-specific menu alterations.
-  entity_translation_node_menu_alter($items, $backup);
 }
 
 /**
@@ -1076,9 +1078,14 @@ function entity_translation_sync($entity_type, $entity) {
  */
 function entity_translation_field_attach_insert($entity_type, $entity) {
   if (entity_translation_enabled($entity_type)) {
-    $handler = entity_translation_get_handler($entity_type, $entity);
-    $handler->initTranslations();
-    $handler->saveTranslations();
+    list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+    // Store entity translation metadata only if the entity bundle is
+    // translatable.
+    if (entity_translation_enabled_bundle($entity_type, $bundle)) {
+      $handler = entity_translation_get_handler($entity_type, $entity);
+      $handler->initTranslations();
+      $handler->saveTranslations();
+    }
   }
 }
 
@@ -1087,9 +1094,14 @@ function entity_translation_field_attach_insert($entity_type, $entity) {
  */
 function entity_translation_field_attach_update($entity_type, $entity) {
   if (entity_translation_enabled($entity_type)) {
-    $handler = entity_translation_get_handler($entity_type, $entity, TRUE);
-    $handler->updateTranslations();
-    $handler->saveTranslations();
+    list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+    // Store entity translation metadata only if the entity bundle is
+    // translatable.
+    if (entity_translation_enabled_bundle($entity_type, $bundle)) {
+      $handler = entity_translation_get_handler($entity_type, $entity, TRUE);
+      $handler->updateTranslations();
+      $handler->saveTranslations();
+    }
   }
 }
 
@@ -1370,7 +1382,12 @@ function entity_translation_entity_form_source_language_submit($form, &$form_sta
   $handler = entity_translation_entity_form_get_handler($form, $form_state);
   $langcode = $form_state['values']['source_language']['language'];
   $path = "{$handler->getEditPath()}/add/$langcode/{$handler->getFormLanguage()}";
-  $form_state['redirect'] = array('path' => $path);
+  $options = array();
+  if (isset($_GET['destination'])) {
+    $options['query'] = drupal_get_destination();
+    unset($_GET['destination']);
+  }
+  $form_state['redirect'] = array($path, $options);
   $languages = language_list();
   drupal_set_message(t('Source translation set to: %language', array('%language' => t($languages[$langcode]->name))));
 }
@@ -1380,7 +1397,13 @@ function entity_translation_entity_form_source_language_submit($form, &$form_sta
  */
 function entity_translation_entity_form_delete_translation_submit($form, &$form_state) {
   $handler = entity_translation_entity_form_get_handler($form, $form_state);
-  $form_state['redirect'] = "{$handler->getTranslatePath()}/delete/{$handler->getFormLanguage()}";
+  $path = "{$handler->getTranslatePath()}/delete/{$handler->getFormLanguage()}";
+  $options = array();
+  if (isset($_GET['destination'])) {
+    $options['query'] = drupal_get_destination();
+    unset($_GET['destination']);
+  }
+  $form_state['redirect'] = array($path, $options);
 }
 
 /**
@@ -1717,7 +1740,7 @@ function entity_translation_get_handler($entity_type = NULL, $entity = NULL, $up
  */
 function entity_translation_entity_form_get_handler($form, &$form_state) {
   $handler = FALSE;
-  $entity_type = isset($form['#entity_type']) ? $form['#entity_type'] : FALSE;
+  $entity_type = isset($form['#entity_type']) && is_string($form['#entity_type']) ? $form['#entity_type'] : FALSE;
 
   if ($entity_type) {
     if (empty($form_state['storage']['entity_translation']['handler'][$entity_type])) {

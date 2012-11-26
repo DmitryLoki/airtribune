@@ -5,3 +5,39 @@
  */
 
 include_once 'contest.features.inc';
+
+/**
+ * Implements hook_node_info().
+ */
+function contest_node_info() {
+  $items = array(
+    'contest' => array(
+      'name' => t('Contest'),
+      'base' => 'contest',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}
+
+/**
+ * Respond to creation of a new node.
+ *
+ * @param $node
+ *   The node that is being created.
+ */
+function contest_insert($node) {
+  $file = file_load($node->field_points_file['und'][0]['fid']);
+  $file_string = file_get_contents($file->uri);
+  $strings = preg_split('/\v/', $file_string);
+  //dpm(count($strings));
+  foreach ($strings as $string) {
+    $elements = preg_split('/\b/', $string);
+    if ($elements[0] != 'W') continue;
+    $values = array();
+    
+  }
+}

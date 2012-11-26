@@ -24,6 +24,9 @@ function race_strongarm() {
         'language' => array(
           'weight' => '5',
         ),
+        'title' => array(
+          'weight' => '-5',
+        ),
       ),
       'display' => array(),
     ),

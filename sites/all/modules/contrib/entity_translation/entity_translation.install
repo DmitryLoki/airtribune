@@ -93,17 +93,13 @@ function entity_translation_install() {
 
   // Make translation use the content language type.
   variable_set('translation_language_type', LANGUAGE_TYPE_CONTENT);
-
-  // Grant the 'edit original values' permission, so we don't break editing on
-  // existing sites.
-  $msg = _entity_translation_grant_edit_permissions();
-  drupal_set_message($msg);
 }
 
 /**
  * Grant 'edit $type original values' permission to existing roles.
  */
 function _entity_translation_grant_edit_permissions() {
+  variable_set('entity_translation_workflow_enabled', TRUE);
   $permissions = array();
 
   // Nodes.
@@ -237,6 +233,8 @@ function entity_translation_update_7001() {
  * Grant 'edit original values' and 'edit shared field' permissions to roles which have entity editing permissions.
  */
 function entity_translation_update_7002() {
+  // Grant the 'edit original values' permission, so we don't break editing on
+  // existing sites.
   return _entity_translation_grant_edit_permissions();
 }
 
@@ -251,8 +249,8 @@ function entity_translation_update_7003() {
 }
 
 /**
- * Enable translation workflow.
+ * Rebuild entity information to update the path scheme settings.
  */
 function entity_translation_update_7004() {
-  variable_set('entity_translation_workflow_enabled', TRUE);
+  entity_info_cache_clear();
 }

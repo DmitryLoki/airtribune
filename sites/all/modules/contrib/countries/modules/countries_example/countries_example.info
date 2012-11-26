@@ -7,9 +7,9 @@ package = Example modules
 
 dependencies[] = countries
 
-; Information added by drupal.org packaging script on 2012-10-04
-version = "7.x-2.0+11-dev"
+; Information added by drupal.org packaging script on 2012-11-14
+version = "7.x-2.1"
 core = "7.x"
 project = "countries"
-datestamp = "1349309562"
+datestamp = "1352904057"
 
