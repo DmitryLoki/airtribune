@@ -136,10 +136,13 @@ class geofield_handler_filter extends views_handler_filter_numeric {
 
     $proximityHandlers = geofield_proximity_views_handlers();
     foreach ($proximityHandlers as $key => $handler) {
-      $form['source']['#options'][$key] = $handler['name'];
+      // Manually skip 'Exposed Filter', since it wouldn't make any sense in this context.
+      if ($key != 'exposed_geofield_filter') {
+        $form['source']['#options'][$key] = $handler['name'];
 
-      $proximityPlugin = new $handler['class']();
-      $proximityPlugin->options_form($form, $form_state, $this);
+        $proximityPlugin = new $handler['class']();
+        $proximityPlugin->options_form($form, $form_state, $this);
+      }
     }
 
     // Look for any top-level item with a #proximity_plugin_value_element set. If found, it doesn't

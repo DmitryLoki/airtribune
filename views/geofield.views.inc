@@ -73,6 +73,10 @@ function geofield_proximity_views_handlers() {
       'name' => t('Entity From URL'),
       'class' => 'geofieldProximityEntityURL',
     ),
+    'current_user' => array(
+      'name' => t('Current User'),
+      'class' => 'geofieldProximityCurrentUser',
+    ),
     'other_geofield' => array(
       'name' => t('Other Geofield'),
       'class' => 'geofieldProximityOtherGeofield',
