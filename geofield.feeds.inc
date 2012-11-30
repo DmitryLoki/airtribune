@@ -11,7 +11,6 @@
  * @see geofield_feeds_combined_source()
  */
 function geofield_feeds_parser_sources_alter(&$sources, $content_type) {
-  dpm($sources);
   $sources['geofield'] = array(
     'name' => t('Geofield (combined)'),
     'description' => t('All geographic information from the item.'),
