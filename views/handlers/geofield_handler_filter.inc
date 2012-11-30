@@ -213,13 +213,18 @@ class geofield_handler_filter extends views_handler_filter_numeric {
    *   - @TODO: This could be more polished.
    */
   function accept_exposed_input($input) {
-    if (empty($input['field_geofield_distance']) || $input['field_geofield_distance']['distance'] === '' || $input['field_geofield_distance']['origin'] === '') {
+    if (!(isset($this->options['expose']) && isset($this->options['expose']['identifier']))) {
       return FALSE;
     }
 
-    $this->value['distance'] = $input['field_geofield_distance']['distance'];
-    $this->value['unit'] = $input['field_geofield_distance']['unit'];
-    $this->value['origin'] = $input['field_geofield_distance']['origin'];
+    $input_id = $this->options['expose']['identifier'];
+    if (empty($input[$input_id]) || $input[$input_id]['distance'] === '' || $input[$input_id]['origin'] === '') {
+      return FALSE;
+    }
+
+    $this->value['distance'] = $input[$input_id]['distance'];
+    $this->value['unit'] = $input[$input_id]['unit'];
+    $this->value['origin'] = $input[$input_id]['origin'];
     return TRUE;
   }
 }
