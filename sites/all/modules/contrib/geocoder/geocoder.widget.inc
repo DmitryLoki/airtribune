@@ -334,7 +334,6 @@ function geocoder_widget_get_field_concat($items) {
  */
 function geocoder_widget_resolve_deltas($geometries, $delta_handling = 'default', $field_type) {
   $values = array();
-  ddebug_backtrace();
   // Default delta handling: just pass one delta to the next
   if ($delta_handling == 'default') {
     foreach ($geometries as $geometry) {
