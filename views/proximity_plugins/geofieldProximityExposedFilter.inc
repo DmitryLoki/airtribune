@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains geofieldProximityExposedFilter.
  */
 
 class geofieldProximityExposedFilter extends geofieldProximityBase implements geofieldProximityPluginInterface {

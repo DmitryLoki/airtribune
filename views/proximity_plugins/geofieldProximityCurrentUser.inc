@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains geofieldProximityCurrentUser.
  */
 
 class geofieldProximityCurrentUser extends geofieldProximityBase implements geofieldProximityPluginInterface {
@@ -26,10 +27,8 @@ class geofieldProximityCurrentUser extends geofieldProximityBase implements geof
       '#title' => t('Source Field'),
       '#default_value' => $views_plugin->options['geofield_proximity_current_user_field'],
       '#options' => $field_options,
-      '#states' => array(
-        'visible' => array(
-          ':input[name="options[source]"]' => array('value' => 'current_user'),
-        ),
+      '#dependency' => array(
+        'edit-options-source' => array('current_user'),
       ),
     );
   }

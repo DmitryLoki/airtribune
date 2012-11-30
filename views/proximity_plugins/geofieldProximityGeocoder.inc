@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains geofieldProximityGeocoder.
  */
 
 class geofieldProximityGeocoder extends geofieldProximityBase implements geofieldProximityPluginInterface {

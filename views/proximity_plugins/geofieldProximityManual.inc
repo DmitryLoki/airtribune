@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains geofieldProximityManual.
  */
 
 class geofieldProximityManual extends geofieldProximityBase implements geofieldProximityPluginInterface {
@@ -19,12 +20,12 @@ class geofieldProximityManual extends geofieldProximityBase implements geofieldP
       '#type' => 'geofield_latlon',
       '#title' => t('Source'),
       '#default_value' => $views_plugin->options['geofield_proximity_manual'],
+      '#proximity_plugin_value_element' => TRUE,
       '#states' => array(
         'visible' => array(
           ':input[name="options[source]"]' => array('value' => 'manual'),
         ),
       ),
-      '#proximity_plugin_value_element' => TRUE,
     );
   }
 

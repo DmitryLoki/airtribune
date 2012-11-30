@@ -69,6 +69,7 @@ class geofield_handler_field extends views_handler_field_numeric {
       '#options' => geofield_radius_options(),
       '#default_value' => $this->options['radius_of_earth'],
     );
+    //dpm($form);
   }
 
   function options_validate(&$form, &$form_state) {

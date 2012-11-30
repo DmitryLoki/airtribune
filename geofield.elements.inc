@@ -70,6 +70,7 @@ function geofield_element_info() {
 
 function geofield_latlon_element_process($element, &$form_values) {
   $element['#tree'] = TRUE;
+  $element['#input'] = TRUE;
   $element['lat'] = array(
     '#type' => 'textfield',
     '#title' => t('Latitude'),

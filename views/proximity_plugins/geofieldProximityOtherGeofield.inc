@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains geofieldProximityOtherGeofield.
  */
 
 class geofieldProximityOtherGeofield extends geofieldProximityBase implements geofieldProximityPluginInterface {
@@ -28,10 +29,8 @@ class geofieldProximityOtherGeofield extends geofieldProximityBase implements ge
       '#description' => t('List of other geofields attached to this view.'),
       '#default_value' => $views_plugin->options['geofield_proximity_other_geofield'],
       '#options' => $other_geofield_options,
-      '#states' => array(
-        'visible' => array(
-          ':input[name="options[source]"]' => array('value' => 'other_geofield'),
-        ),
+      '#dependency' => array(
+        'edit-options-source' => array('other_geofield'),
       ),
     );
   }
