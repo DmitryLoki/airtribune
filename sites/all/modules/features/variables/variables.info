@@ -2,6 +2,7 @@ name = Variables
 description = Exported with strongarm
 core = 7.x
 package = Other
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1
