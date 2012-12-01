@@ -47,6 +47,10 @@ class CtoolsContextKeywordsSubstitutionTestCase extends DrupalWebTestCase {
         "%{$node->title}",
         t('Keyword after escaped and unescaped percent sign has been replaced.'),
       ),
+      '%node:changed:raw:' => array(
+        "{$node->changed}:",
+        t('Multi-level token has been replaced. Colon left untouched.'),
+      ),
     );
     foreach ($checks as $string => $expectations) {
       list($expected_result, $message) = $expectations;
