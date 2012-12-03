@@ -310,9 +310,11 @@ function geofield_update_7202(&$sandbox) {
     foreach ($results as $record) {
       if (!empty($record->geom)) {
         $geom = geoPHP::load($record->geom);
+				// Truncate geohash to max length.
+        $geohash_truncated = substr($geom->out('geohash'), 0, GEOFIELD_GEOHASH_LENGTH);
         db_update($table_name)
           ->fields(array(
-            $field_name . '_geohash' => $geom->out('geohash'),
+            $field_name . '_geohash' => $geohash_truncated,
           ))
           ->condition('entity_id', $record->entity_id)
           ->condition('revision_id', $record->revision_id)
@@ -326,9 +328,11 @@ function geofield_update_7202(&$sandbox) {
     foreach ($results as $record) {
       if (!empty($record->geom)) {
         $geom = geoPHP::load($record->geom);
+				// Truncate geohash to max length.
+        $geohash_truncated = substr($geom->out('geohash'), 0, GEOFIELD_GEOHASH_LENGTH);
         db_update($revision_table_name)
           ->fields(array(
-            $field_name . '_geohash' => $geom->out('geohash'),
+            $field_name . '_geohash' => $geohash_truncated),
           ))
           ->condition('entity_id', $record->entity_id)
           ->condition('revision_id', $record->revision_id)
