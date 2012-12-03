@@ -63,31 +63,10 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function query() {
-    switch ($this->options['source']) {
-      case 'manual':
-        $lat_origin = $this->value['origin']['lat'];
-        $lon_origin = $this->value['origin']['lon'];
-        break;
-      case 'geocode':
-        $origin_value = trim($this->value['origin']);
-        if (!empty($origin_value)) {
-          if ($origin_geo = geocoder($this->options['geocoder'], $origin_value)) {
-            $lat_origin = $origin_geo->getY();
-            $lon_origin = $origin_geo->getX();
-          }
-        }
-        break;
-      case 'other_geofield':
-        if (!empty($this->value['origin'])) {
-          $other_geofield = $this->view->display_handler->get_handler('field', $this->value['origin']);
-          $this->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lat');
-          $this->query->add_field($other_geofield->table, $other_geofield->definition['field_name'] . '_lon');
-          $lat_origin = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat';
-          $lon_origin = $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon';
-        }
-        break;
-    }
-    if (!empty($lat_origin) && !empty($lon_origin)) {
+    $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
+    $options = $proximityPlugin->getSourceValue($this);
+
+    if ($options) {
       $lat_alias = $this->definition['field_name'] . '_lat';
       $lon_alias = $this->definition['field_name'] . '_lon';
       $this->ensure_my_table();
@@ -95,8 +74,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       $info = $this->operators();
       if (!empty($info[$this->operator]['method'])) {
         $haversine_options = array(
-          'origin_latitude' => $lat_origin,
-          'origin_longitude' => $lon_origin,
+          'origin_latitude' => $options['latitude'],
+          'origin_longitude' => $options['longitude'],
           'destination_latitude' => $this->table_alias . '.' . $lat_alias,
           'destination_longitude' => $this->table_alias . '.' . $lon_alias,
           'earth_radius' => $this->value['unit'],
@@ -126,8 +105,10 @@ class geofield_handler_filter extends views_handler_filter_numeric {
         'origin' => array(),
       ),
     );
-    if (module_exists('geocoder')) {
-      $options['geocoder'] = array('default' => 'google');
+    $proximityHandlers = geofield_proximity_views_handlers();
+    foreach ($proximityHandlers as $key => $handler) {
+      $proximityPlugin = new $handler['class']();
+      $proximityPlugin->option_definition($options, $this);
     }
     return $options;
   }
@@ -138,10 +119,7 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#type' => 'select',
       '#title' => t('Source of Origin Point'),
       '#description' => t('How do you want to enter your origin point?'),
-      '#options' => array(
-        'manual' => t('Manually Enter Point'),
-        'other_geofield' => t('Other Geofield'),
-      ),
+      '#options' => array(),
       '#attached' => array(
         'js' => array(
           drupal_get_path('module', 'geofield') . '/js/viewsProximityValue.js',
@@ -156,24 +134,30 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       '#submit' => array('geofield_views_ui_change_proximity_widget'),
     );
 
-    if (module_exists('geocoder')) {
-      $form['source']['#options']['geocode'] = t('Geocode');
+    $proximityHandlers = geofield_proximity_views_handlers();
+    foreach ($proximityHandlers as $key => $handler) {
+      // Manually skip 'Exposed Filter', since it wouldn't make any sense in this context.
+      if ($key != 'exposed_geofield_filter') {
+        $form['source']['#options'][$key] = $handler['name'];
 
-      $geocoders_raw = geocoder_handler_info('text');
-      $geocoder_options = array();
-      foreach ($geocoders_raw as $key => $geocoder) {
-        $geocoder_options[$key] = $geocoder['title'];
+        $proximityPlugin = new $handler['class']();
+        $proximityPlugin->options_form($form, $form_state, $this);
       }
-      $form['geocoder'] = array(
-        '#type' => 'select',
-        '#title' => t('Geocoding Service'),
-        '#options' => $geocoder_options,
-        '#default_value' => $this->options['geocoder'],
-        '#dependency' => array(
-          'edit-options-source' => array('geocode'),
-        ),
-      );
     }
+
+    // Look for any top-level item with a #proximity_plugin_value_element set. If found, it doesn't
+    // belong in this particular field.
+    foreach ($form as $key =>$form_item) {
+      if (isset($form_item['#proximity_plugin_value_element']) && $form_item['#proximity_plugin_value_element'] == TRUE) {
+        unset($form[$key]);
+      }
+    }
+  }
+
+  function options_validate(&$form, &$form_state) {
+    parent::options_validate($form, $form_state);
+    $proximityPlugin = geofield_proximity_load_plugin($form_state['values']['options']['source']);
+    $proximityPlugin->options_validate($form, $form_state, $this);
   }
 
   function value_form(&$form, &$form_state) {
@@ -192,19 +176,8 @@ class geofield_handler_filter extends views_handler_filter_numeric {
       ),
     );
 
-    switch ($this->options['source']) {
-      case 'manual':
-        $form['value']['#origin_element'] = 'geofield_latlon';
-        break;
-      case 'geocode':
-        break;
-      case 'other_geofield':
-        $form['value']['#origin_element'] = 'select';
-        $form['value']['#origin_options'] += array(
-          '#options' => $this->get_other_geofield_options(),
-        );
-        break;
-    }
+    $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
+    $proximityPlugin->value_form($form, $form_state, $this);
 
     if (in_array($this->operator, array('between', 'not between'))) {
       $form['value']['#geofield_range'] = TRUE;
@@ -213,9 +186,9 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   }
 
   function value_validate($form, &$form_state) {
-    if (isset($form_state['validate_handlers'][0])) {
-      $form_state['validate_handlers'] = array();
-    }
+    parent::value_validate($form, $form_state);
+    $proximityPlugin = geofield_proximity_load_plugin($form_state['values']['options']['source']);
+    $proximityPlugin->value_validate($form, $form_state, $this);
   }
 
   function admin_summary() {
@@ -240,73 +213,19 @@ class geofield_handler_filter extends views_handler_filter_numeric {
    *   - @TODO: This could be more polished.
    */
   function accept_exposed_input($input) {
-    if (empty($input['field_geofield_distance']) || $input['field_geofield_distance']['distance'] === '' || $input['field_geofield_distance']['origin'] === '') {
+    if (!(isset($this->options['expose']) && isset($this->options['expose']['identifier']))) {
       return FALSE;
     }
 
-    $this->value['distance'] = $input['field_geofield_distance']['distance'];
-    $this->value['unit'] = $input['field_geofield_distance']['unit'];
-    $this->value['origin'] = $input['field_geofield_distance']['origin'];
+    $input_id = $this->options['expose']['identifier'];
+    if (empty($input[$input_id]) || $input[$input_id]['distance'] === '' || $input[$input_id]['origin'] === '') {
+      return FALSE;
+    }
+
+    $this->value['distance'] = $input[$input_id]['distance'];
+    $this->value['unit'] = $input[$input_id]['unit'];
+    $this->value['origin'] = $input[$input_id]['origin'];
     return TRUE;
-  }
-
-  /**
-   * Helper function to retreive lat/lon points for other handlers who want to interact with this handler.
-   *
-   * @return
-   *   An array with elements 'lat' and 'lon.' Either element can either be a float or a string (signifying a particular database field).
-   */
-
-  function get_calculated_geospatial() {
-    $return = array();
-    switch ($this->options['source']) {
-      case 'manual':
-        $return = array(
-          'lat' => $this->value['origin']['lat'],
-          'lon' => $this->value['origin']['lon'],
-        );
-        break;
-      case 'geocode':
-        $point = geocoder($this->options['geocoder'], $this->value['origin']);
-        if (!empty($point)) {
-          $return = array(
-            'lat' => $point->getY(),
-            'lon' => $point->getX(),
-          );
-        }
-        else {
-          $return = FALSE;
-        }
-        break;
-      case 'other_geofield':
-        $other_geofield = $this->view->display_handler->get_handler('field', $this->value['origin']);
-        $return = array(
-          'lat' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lat',
-          'lon' => $other_geofield->table . '.' . $other_geofield->definition['field_name'] . '_lon',
-        );
-        break;
-      default:
-        return FALSE;
-    }
-
-    return $return;
-  }
-
-  /**
-   * Helper function to retreive other geofield options for 'Other Geofield' source.
-   */
-
-  function get_other_geofield_options() {
-    $handlers = $this->view->display_handler->get_handlers('field');
-    $other_geofield_options = array();
-
-    foreach ($handlers as $handle) {
-      if (!empty($handle->field_info['type']) && $handle->field_info['type'] == 'geofield') {
-        $other_geofield_options[$handle->options['id']] = (!empty($handle->options['label'])) ? $handle->options['label'] : $handle->options['id'];
-      }
-    }
-
-    return $other_geofield_options;
   }
 }
 
