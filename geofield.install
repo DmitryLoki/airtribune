@@ -332,7 +332,7 @@ function geofield_update_7202(&$sandbox) {
         $geohash_truncated = substr($geom->out('geohash'), 0, GEOFIELD_GEOHASH_LENGTH);
         db_update($revision_table_name)
           ->fields(array(
-            $field_name . '_geohash' => $geohash_truncated),
+            $field_name . '_geohash' => $geohash_truncated
           ))
           ->condition('entity_id', $record->entity_id)
           ->condition('revision_id', $record->revision_id)
