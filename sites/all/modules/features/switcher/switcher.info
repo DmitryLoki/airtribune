@@ -82,7 +82,6 @@ dependencies[] = roles_and_permissions
 dependencies[] = robotstxt
 dependencies[] = schemaorg
 dependencies[] = seo
-dependencies[] = site_verify
 dependencies[] = strongarm
 dependencies[] = sync_postgis
 dependencies[] = title
