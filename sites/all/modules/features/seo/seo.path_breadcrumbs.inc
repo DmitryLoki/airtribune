@@ -17,11 +17,11 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => '%node:field-hotel-address:country',
+      0 => 'Hotels',
       1 => '%node:title-field',
     ),
     'paths' => array(
-      0 => '%node:field-hotel-address:country',
+      0 => 'hotels',
       1 => '%node:url',
     ),
     'home' => 1,

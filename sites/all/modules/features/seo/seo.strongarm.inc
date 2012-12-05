@@ -360,7 +360,7 @@ function seo_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_accommodation_pattern';
-  $strongarm->value = '[node:title-field]';
+  $strongarm->value = 'hotels/[node:title-field]';
   $export['pathauto_node_accommodation_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
