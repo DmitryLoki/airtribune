@@ -149,8 +149,93 @@ function geofield_field_settings_form($field, $instance, $has_data) {
   return $form;
 }
 
+/**
+ * Implements hook_field_validate().
+ * @param string $entity_type
+ * @param stdObject $entity
+ * @param array $field
+ * @param array $instance
+ * @param string $langcode
+ * @param array $items
+ * @param array $errors
+ * @return 
+ */
 function geofield_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-  //@@TODO: If field is marked as required, then check to make sure the geometry is not Empty as per geoPHP
+  foreach ($items as $delta => $item) {
+    $geom_empty = geofield_geom_is_empty($item);
+
+    // Required field empty.
+    if ($instance['required'] && $geom_empty) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'data_missing', 
+        'message' => t('%name is required and must not be empty.', array('%name' => $instance['label'])),
+      );
+    }
+    else {
+      // Geometry errors.
+      if ($geom_empty) {
+        return FALSE;
+      }
+      else {
+        $error = geofield_validate_geom($items[0]);
+        if ($error) {
+          $errors[$field['field_name']][$langcode][$delta][] = array(
+            'error' => 'data_faulty', 
+            'message' => t('%name: Specified location data is invalid.', array('%name' => $instance['label'])),
+          );
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Validates input data against the geometry processor
+ * @param array $item
+ * Geometry field submission
+ * @return \Exception|null
+ *  If validates, return NULL, else error text
+ */
+function geofield_validate_geom($item) {
+  try {  
+   $values = geofield_compute_values($item['geom'], $item['input_format']);
+  }  
+  catch (Exception $e) {  
+   return $e;  
+  }
+  return NULL;
+}
+
+/**
+ * Check whether geometry is empty
+ * @param array $item
+ *  Geometry field submission
+ * @return boolean
+ *  If empty, return TRUE
+ */
+function geofield_geom_is_empty($item) {
+  switch ($item['input_format']) {
+    case 'wkt':
+      if (!$item['geom']) {
+        return TRUE;
+      }
+      break;
+    case 'lat/lon':
+      if (empty($item['geom']['lat']) || empty($item['geom']['lon'])) {
+        return TRUE;
+      }
+      break;
+    case 'bounds':
+      if (empty($item['geom']['top']) || empty($item['geom']['right']) || empty($item['geom']['bottom']) || empty($item['geom']['left'])) {
+        return TRUE;
+      }
+      break;
+    case 'json':
+      if (empty($item['geom'])) {
+        return TRUE;
+      }
+      break;
+  }
 }
 
 /**
@@ -348,7 +433,9 @@ function geofield_geometry_from_values($raw_data, $input_format = NULL) {
     }
   }
 
-  return $geometry;
+  if (isset($geometry)) {
+    return $geometry;
+  }
 }
 
 /**
