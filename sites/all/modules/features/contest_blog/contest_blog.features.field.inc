@@ -279,7 +279,7 @@ function contest_blog_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'hide',
+            'fallback' => 'form_error',
             'skip_perm' => '0',
             'status' => 1,
           ),
