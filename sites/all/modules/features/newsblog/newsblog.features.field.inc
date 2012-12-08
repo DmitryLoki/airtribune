@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * contest_blog.features.field.inc
+ * newsblog.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function contest_blog_field_default_fields() {
+function newsblog_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-blog-body'.
-  $fields['node-blog-body'] = array(
+  // Exported field: 'node-newsblog-body'.
+  $fields['node-newsblog-body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -43,7 +43,7 @@ function contest_blog_field_default_fields() {
       'type' => 'text_with_summary',
     ),
     'field_instance' => array(
-      'bundle' => 'blog',
+      'bundle' => 'newsblog',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -87,8 +87,8 @@ function contest_blog_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-blog-field_image'.
-  $fields['node-blog-field_image'] = array(
+  // Exported field: 'node-newsblog-field_image'.
+  $fields['node-newsblog-field_image'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -122,7 +122,7 @@ function contest_blog_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'blog',
+      'bundle' => 'newsblog',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -190,8 +190,8 @@ function contest_blog_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-blog-og_group_ref'.
-  $fields['node-blog-og_group_ref'] = array(
+  // Exported field: 'node-newsblog-og_group_ref'.
+  $fields['node-newsblog-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -242,7 +242,7 @@ function contest_blog_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'blog',
+      'bundle' => 'newsblog',
       'default_value' => NULL,
       'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
@@ -265,7 +265,7 @@ function contest_blog_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -279,7 +279,7 @@ function contest_blog_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'form_error',
+            'fallback' => 'hide',
             'skip_perm' => '0',
             'status' => 1,
           ),
@@ -309,8 +309,8 @@ function contest_blog_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-blog-title_field'.
-  $fields['node-blog-title_field'] = array(
+  // Exported field: 'node-newsblog-title_field'.
+  $fields['node-newsblog-title_field'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -340,7 +340,7 @@ function contest_blog_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'blog',
+      'bundle' => 'newsblog',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'A field replacing node title.',
