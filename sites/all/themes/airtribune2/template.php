@@ -264,3 +264,16 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   $delimiter = '__';
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
 }
+
+/**
+ * Implements preprocess_node().
+ */
+function airtribune2_preprocess_node(&$vars) {
+
+  // Override "read more" link.
+  // See issue #2362.
+  if (isset($vars['content']['links']['node']['#links']['node-readmore'])) {
+    $vars['content']['links']['node']['#links']['node-readmore']['title'] = t('View more');
+  }
+
+}
