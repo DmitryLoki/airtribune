@@ -274,12 +274,12 @@ function advert_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'form_error',
+            'fallback' => 'hide',
             'skip_perm' => '0',
             'status' => 1,
           ),
