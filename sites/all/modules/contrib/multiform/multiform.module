@@ -16,6 +16,18 @@
  */
 function multiform_get_form() {
   $all_args = func_get_args();
+  
+  // Check for delayed submit
+  $delayed_submit = FALSE;
+  $count = count($all_args);
+  if($count > 0 && is_string($all_args[$count-1]) && $all_args[$count-1] == 'delayed_submit') {
+    array_pop($all_args);
+    $delayed_submit = TRUE;
+    foreach ($all_args as $key => $args) {
+      $all_args[$key]['delayed_submit'] = TRUE;
+    }
+  }
+  
   $redirect = NULL;
   $form = element_info('form');
   $form['#id'] = 'multiform';
@@ -61,6 +73,7 @@ function multiform_get_form() {
       }
     }
   }
+  
   foreach ($all_args as $key => $args) {
     $form_id = array_shift($args);
     // Reset $form_state and disable redirection.
@@ -87,8 +100,20 @@ function multiform_get_form() {
         }
       }
     }
+    /*
+    if ($delayed_submit) {
+      // Index is required to store unprocessed form for delayed submit. See multiform_form_alter().
+      $form_state['args']['multiform_index'] = $index;
+    }
+    */
     // Build and process this form.
     $current_form = drupal_build_form($form_id, $form_state);
+    
+    if ($delayed_submit) {
+      // Prepare data for delayed submit operations.
+      multiform_prepare_delayed_submit($key, $form_id, $current_form, $form_state);
+    }
+    
     // Do not render the <form> tags. Instead we render the <form> as a <div>.
     $current_form['#theme_wrappers'] = array('container');
     _multiform_get_form($current_form, $form['buttons'], $index);
@@ -104,12 +129,29 @@ function multiform_get_form() {
       $redirect = isset($form_state['redirect']) ? $form_state : array();
     }
   }
+  
+  if($delayed_submit) {
+    $redirect = FALSE;
+  }
+  
+  // TODO: Check $form_state['process_input'] for each form.
+  if ($delayed_submit && $form_state['process_input']) {
+    // Execute delayed submit operations.
+    multiform_execute_delayed_submit($redirect);
+  }
+  
   form_set_cache($build_id, $form['buttons'], $form_state_save);
   if (!empty($form_state_save['input'])) {
     // We forced $form_state['no_redirect'] to TRUE above, so unset it in order
     // to allow the redirection to proceed.
     unset($redirect['no_redirect']);
-    drupal_redirect_form($redirect);
+    
+    // Redirect form in case of successfull submission.
+    // TODO: Add check for successfull submission in case when delayed submit not used.
+    if($redirect !== FALSE) {
+      drupal_redirect_form($redirect);
+    }
+    
   }
   return $form;
 }
@@ -138,3 +180,311 @@ function _multiform_get_form(&$element, &$buttons, $form_id) {
     $element['#name'] = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $element['#name']);
   }
 }
+
+
+/**
+ * Add an after_build that would add an accessory validation.
+ */
+function multiform_form_alter(&$form, &$form_state, $form_id) {
+  // Check for 'delayed_submit' arg
+  // It should be passed as last argument into multiform_get_form().
+  if(isset($form_state['build_info']['args']['delayed_submit']) && $form_state['build_info']['args']['delayed_submit'] == TRUE) {
+    // We need after_build function to add accessory validation function, that should be last in the list.
+    $form['#after_build'][] = 'multiform_after_build';
+  }
+}
+
+
+/**
+ * Add validation function that would delay execution of submit handlers.
+ */
+function multiform_after_build($form, $form_state) {
+  $form['#validate'][] = 'multiform_delay_form_submitting_validate';
+  return $form;
+}
+
+/**
+ * Perform neeeded changes to $form_state
+ * in order to delay execution of submit handlers and other operations.
+ * See drupal_process_form().
+ */
+function multiform_delay_form_submitting_validate($form, &$form_state) {
+    // Set 'submitted' value to FALSE.
+    // And possibly perform other changes. See  multiform_process_form_state().
+    multiform_process_form_state('change', $form_state);
+}
+
+/**
+ * Store in static cache $form, $form_state, $form_id values for further execution.
+ * Restore $form_state values to it's initial state,
+ * i.e. as it was before multiform_delay_form_submitting_validate().
+ */
+function multiform_prepare_delayed_submit($form_key, $form_id, $current_form, $form_state) {
+  if(isset($form_state['build_info']['args']['delayed_submit']) && $form_state['build_info']['args']['delayed_submit'] == TRUE) {
+    // Remove accessory validation before static caching since we don't need it any more.
+    if(isset($form_state['#restore_values'])) {
+      foreach($current_form['#validate'] as $key => $value) {
+        if($value == 'multiform_delay_form_submitting_validate') {
+          unset($current_form['#validate'][$key]);
+        }
+      }
+    }
+    
+    // Restore $form_state['submitted'] (and possibly other values).
+    // See multiform_delay_form_submitting_validate().
+    multiform_process_form_state('restore', $form_state);
+    
+    // Perform static caching for further delayed submit execution.
+    $form_data = array(
+      'key' => $form_key,
+      'form_id' => $form_id,
+      'form' => $current_form,
+      'form_state' => $form_state,
+    );
+    multiform_ds_set($form_data);
+  }
+}
+
+/**
+ * Change and Restore $form_state values before and after delayed submit execution
+ * in order to avoid submit and other operations that follow validation in drupal_process_form().
+ * 
+ * $op = {'change', 'restore'}
+ */
+function multiform_process_form_state($op, &$form_state) {
+  switch($op) {
+    case 'change' :
+      $changed = array();
+      // Force caching after validation
+      // since we need $unprocessed_form for _multiform_execute_delayed_submit().
+      // But prevent other operations' execution.
+      $new_values = array(
+        'submitted' => FALSE,
+        'executed' => TRUE,
+        'rebuild' => FALSE,
+        'cache' => TRUE,
+        'no_cache' => 'unset',
+      );
+      foreach($new_values as $key => $value) {
+        $changed[$key] = isset($form_state[$key]) ? $form_state[$key] : 'unset';
+        if($value !== 'unset') {
+          $form_state[$key] = $value;
+        } else {
+          unset($form_state[$key]);
+        }
+        
+      }
+      $form_state['#restore_values'] = $changed;
+      break;
+    case 'restore' :
+      if(isset($form_state['#restore_values'])) {
+        foreach($form_state['#restore_values'] as $key => $value) {
+          if($value !== 'unset') {
+            $form_state[$key] = $value;
+          } else {
+            unset($form_state[$key]);
+          }
+        }
+        unset($form_state['#restore_values']);
+      }
+      break;
+  }
+}
+
+// TODO:
+function multiform_execute_delayed_submit(&$redirect) {
+  $data = multiform_ds_get();
+  // TODO: Only execute when form was submitted. Or apply hooks. ???
+  // TODO: invoke special hook for form interconnection.
+  // I.e. additional submits can be added here in order to change $form_state or $form of other forms.
+  // It can be convenient in case where $args of one form depend on submit results of another form.
+  // #after_execute functions can be added here.
+  // They are passed data obtained after _multiform_execute_delayed_submit().
+  
+  // Invoke hook_multiform_ds_alter.
+  // It can be used to change exectution order or to pass results of one form processing
+  // into another form via changing $data[$index][$form_state].
+  foreach (module_implements('multiform_ds_alter') as $module) {
+    $function = $module . '_multiform_ds_alter';
+    $function($data);
+  }
+  
+  // Sort by #weight to change forms' execution order.
+  uasort($data, 'element_sort');
+  
+  // TODO: pass $data by reference
+  $current_data = $data;
+  foreach($data as $index => $value) {
+    $submit_data = $current_data[$index];
+    $key = $submit_data['key'];
+    $form = $submit_data['form'];
+    $form_state = $submit_data['form_state'];
+    $form_id = $submit_data['form_id'];
+    
+    // Invoke #before_execute hooks functions for each form before it is submitted.
+    // TODO: Check that validation has already fired.
+    if(/*$form_state['executed'] == TRUE &&*/ !empty($submit_data['#before_execute'])) {
+      foreach($submit_data['#before_execute'] as $function) {
+        $function($form, $form_state);
+      }
+    }
+    
+    // TODO: Check for all validation errors if needed.
+    _multiform_execute_delayed_submit($form, $form_state, $form_id);
+    
+    // Invoke #after_execute hooks functions for each form after it was submitted.
+    if($form_state['executed'] == TRUE && !empty($submit_data['#after_execute'])) {
+      foreach($submit_data['#after_execute'] as $function) {
+        $function($form, $form_state);
+      }
+    }
+    // Update data used for further sabmits.
+    $current_data = multiform_ds_get();
+    
+    // Keep the redirect from the first form.
+    if (!$key) {
+      $redirect = isset($form_state['redirect']) ? $form_state : array();
+    }
+    
+    if (!($form_state['submitted'] && !form_get_errors() && !$form_state['rebuild'])) {
+      $redirect = FALSE;
+    }
+  }
+  
+  
+  
+}
+
+
+// TODO: remove cached form if it is not needed (see validation)
+
+
+/**
+ * Store data for further processing in delayed submit. 
+ */
+function multiform_ds_set($form_data = NULL) {
+  $data = &drupal_static(__FUNCTION__, array());
+  if($form_data) {
+    $index = $form_data['form_id'] . '_' . $form_data['key'];
+    $data[$index] = array(
+      'key' => $form_data['key'],
+      'form_id' => $form_data['form_id'],
+      'form' => $form_data['form'],
+      'form_state' => $form_data['form_state'],
+      '#weight' => isset($form_data['#weight']) ? $form_data['#weight'] : count($data)+1,
+    );
+  }
+
+  return $data;
+}
+
+/**
+ * Return data for delayed submit execution.
+ */
+function multiform_ds_get() {
+  return multiform_ds_set();
+}
+
+
+/**
+ * This is a copy of part of the code from drupal_process_form(),
+ * needed to execute delayed submit.
+ */
+function _multiform_execute_delayed_submit(&$form, &$form_state, $form_id) {
+    // Cache must exist since we forced it.
+    $unprocessed_form = cache_get('form_' . $form['#build_id'], 'cache_form');
+    $unprocessed_form = $unprocessed_form->data;
+    // TODO: maybe we need to remove cache then.
+    /*
+    cache_clear_all('form_' . $form['#build_id'], 'cache_form');
+    cache_clear_all('form_state_' . $form['#build_id'], 'cache_form');
+    */
+    
+    if ($form_state['submitted'] && !form_get_errors() && !$form_state['rebuild']) {
+      // Execute form submit handlers.
+      form_execute_handlers('submit', $form, $form_state);
+
+      // We'll clear out the cached copies of the form and its stored data
+      // here, as we've finished with them. The in-memory copies are still
+      // here, though.
+      if (!variable_get('cache', 0) && !empty($form_state['values']['form_build_id'])) {
+        cache_clear_all('form_' . $form_state['values']['form_build_id'], 'cache_form');
+        cache_clear_all('form_state_' . $form_state['values']['form_build_id'], 'cache_form');
+      }
+
+      // If batches were set in the submit handlers, we process them now,
+      // possibly ending execution. We make sure we do not react to the batch
+      // that is already being processed (if a batch operation performs a
+      // drupal_form_submit).
+      if ($batch = & batch_get() && !isset($batch['current_set'])) {
+        // Store $form_state information in the batch definition.
+        // We need the full $form_state when either:
+        // - Some submit handlers were saved to be called during batch
+//   processing. See form_execute_handlers().
+        // - The form is multistep.
+        // In other cases, we only need the information expected by
+        // drupal_redirect_form().
+        if ($batch['has_form_submits'] || !empty($form_state['rebuild'])) {
+          $batch['form_state'] = $form_state;
+        }
+        else {
+          $batch['form_state'] = array_intersect_key($form_state, array_flip(array('programmed', 'rebuild', 'storage', 'no_redirect', 'redirect')));
+        }
+
+        $batch['progressive'] = !$form_state['programmed'];
+        batch_process();
+
+        // Execution continues only for programmatic forms.
+        // For 'regular' forms, we get redirected to the batch processing
+        // page. Form redirection will be handled in _batch_finished(),
+        // after the batch is processed.
+      }
+
+      // Set a flag to indicate the the form has been processed and executed.
+      $form_state['executed'] = TRUE;
+
+      // Redirect the form based on values in $form_state.
+      drupal_redirect_form($form_state);
+    }
+
+    // Don't rebuild or cache form submissions invoked via drupal_form_submit().
+    if (!empty($form_state['programmed'])) {
+      return;
+    }
+
+    // If $form_state['rebuild'] has been set and input has been processed
+    // without validation errors, we are in a multi-step workflow that is not
+    // yet complete. A new $form needs to be constructed based on the changes
+    // made to $form_state during this request. Normally, a submit handler sets
+    // $form_state['rebuild'] if a fully executed form requires another step.
+    // However, for forms that have not been fully executed (e.g., Ajax
+    // submissions triggered by non-buttons), there is no submit handler to set
+    // $form_state['rebuild']. It would not make sense to redisplay the
+    // identical form without an error for the user to correct, so we also
+    // rebuild error-free non-executed forms, regardless of
+    // $form_state['rebuild'].
+    // @todo D8: Simplify this logic; considering Ajax and non-HTML front-ends,
+//   along with element-level #submit properties, it makes no sense to have
+//   divergent form execution based on whether the triggering element has
+//   #executes_submit_callback set to TRUE.
+    if (($form_state['rebuild'] || !$form_state['executed']) && !form_get_errors()) {
+      // Form building functions (e.g., _form_builder_handle_input_element())
+      // may use $form_state['rebuild'] to determine if they are running in the
+      // context of a rebuild, so ensure it is set.
+      $form_state['rebuild'] = TRUE;
+      $form = drupal_rebuild_form($form_id, $form_state, $form);
+    }
+  
+
+  // After processing the form, the form builder or a #process callback may
+  // have set $form_state['cache'] to indicate that the form and form state
+  // shall be cached. But the form may only be cached if the 'no_cache' property
+  // is not set to TRUE. Only cache $form as it was prior to form_builder(),
+  // because form_builder() must run for each request to accommodate new user
+  // input. Rebuilt forms are not cached here, because drupal_rebuild_form()
+  // already takes care of that.
+  if (!$form_state['rebuild'] && $form_state['cache'] && empty($form_state['no_cache'])) {
+    form_set_cache($form['#build_id'], $unprocessed_form, $form_state);
+  }
+}
+
