@@ -88,10 +88,11 @@
  * @see adaptivetheme_process_page()
  */
 ?>
+<div id="super">
   <!-- region: Leaderboard -->
   <?php print render($page['leaderboard']); ?>
 
-  <header<?php print $header_attributes; ?>><div class="region-inner">
+  <header<?php print $header_attributes; ?>><div id="header_inner"><div class="region-inner">
 
     <?php if ($site_logo || $site_name || $site_slogan): ?>
       <!-- start: Branding -->
@@ -124,8 +125,8 @@
     <!-- region: Header -->
     <?php print render($page['header']); ?>
 
-  </div></header>
-<div id="page" class="container <?php print $classes; ?>">
+  </div></div></header>
+ <div id="page" class="container <?php print $classes; ?>">
   <!-- Navigation elements -->
   <?php print render($page['menu_bar']); ?>
   <?php if ($primary_navigation): print $primary_navigation; endif; ?>
@@ -210,12 +211,12 @@
 
   <!-- region: Tertiary Content -->
   <?php print render($page['tertiary_content']); ?>
-
-  <!-- region: Footer -->
-  <?php if ($page['footer']): ?>
-    <footer<?php print $footer_attributes; ?>>
-      <?php print render($page['footer']); ?>
-    </footer>
-  <?php endif; ?>
-
+  <div class="spacer_foot"></div>
+ </div>
 </div>
+  <!-- region: Footer -->
+  
+    <footer<?php print $footer_attributes; ?>><div id="footer_inner"><div class="region-inner">
+     <?php if ($page['footer']): ?><?php print render($page['footer']); ?><?php endif; ?>
+    </div></div></footer>
+  

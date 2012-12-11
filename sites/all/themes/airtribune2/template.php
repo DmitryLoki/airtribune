@@ -92,3 +92,15 @@ function adaptivetheme_subtheme_preprocess_block(&$vars) {
 function adaptivetheme_subtheme_process_block(&$vars) {
 }
 // */
+
+function airtribune2_preprocess_html(&$variables) {
+ $variables['classes_array'][] = 'body_bgr';
+}
+
+function airtribune2_preprocess_block(&$variables){
+	//print_r($variables);
+	if($variables['block']->delta == 'main-menu' && $variables['block']->region == 'header'){
+		$variables['classes_array'][] = 'header_main_menu';
+	}
+}
+

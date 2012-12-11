@@ -1,3 +1,6 @@
+@charset "utf-8";
+/* CSS Document */
+
 /*
  * @file
  * global.base
@@ -399,6 +402,7 @@ input[type="submit"] {
  */
 button[disabled],
 input[disabled] {
+
   cursor: default;
 }
 
@@ -622,3 +626,4 @@ header[role=banner],
 .element-hidden {
   display: none;
 }
+
