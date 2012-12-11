@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function airtribune_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function airtribune_field_formatter_info() {
