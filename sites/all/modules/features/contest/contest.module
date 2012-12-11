@@ -16,7 +16,7 @@ function contest_node_info() {
       'name' => t('Contest'),
       'base' => 'contest',
       'description' => '',
-      'has_title' => '1',
+      'has_title' => TRUE,
       'title_label' => t('Name'),
       'help' => '',
     ),
@@ -25,12 +25,25 @@ function contest_node_info() {
 }
 
 /**
+ * Implementation of hook_form
+ * Default base is 'node_content'
+ * @param type $node
+ * @param type $form_state
+ */
+function contest_form($node, $form_state) {
+  //Default base is 'node_content'
+  //Title field is not attached otherwise
+  $form = node_content_form($node, $form_state);
+  return $form;
+}
+
+/**
  * Implementation of hook_insert
  * @param $node
  *   The node that is being created.
  */
 function contest_insert($node) {
-  if (isset($node->field_points_file[LANGUAGE_NONE][0])){
+  if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
     contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
 }
@@ -43,7 +56,7 @@ function contest_insert($node) {
  */
 function contest_update($node) {
   if ($node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
-    if (isset($node->original->field_points_file[LANGUAGE_NONE])){
+    if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
       //remove old points and og memberships
       $query = new EntityFieldQuery();
       $result = $query
@@ -64,7 +77,7 @@ function contest_update($node) {
         entity_delete_multiple('ent_point', array_keys($result1['ent_point']));
       }
     }
-    if (isset($node->field_points_file[LANGUAGE_NONE])){
+    if (isset($node->field_points_file[LANGUAGE_NONE])) {
       //create new points and subscribe them to group 
       contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
     }
@@ -76,13 +89,13 @@ function contest_update($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function contest_validate($node, $form, &$form_state) {
-  if (isset($node->field_points_file[LANGUAGE_NONE][0]) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']){
+  if (isset($node->field_points_file[LANGUAGE_NONE][0]) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
     $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
     $file_string = file_get_contents($file->uri);
     $strings = preg_split('/\v/', $file_string);
     foreach ($strings as $string) {
       $elements = preg_split('/\s+/', $string);
-      if ($elements[0] == 'G'){
+      if ($elements[0] == 'G') {
         array_shift($elements);
         $datum = strtoupper(implode($elements));
         if ($datum != 'WGS84') {

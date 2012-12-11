@@ -905,17 +905,17 @@ function contest_field_default_fields() {
           'active_updating' => 0,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+            'value' => '[node:title_field].[file:extension]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'points',
           ),
           'retroactive_update' => 0,
         ),
@@ -1253,7 +1253,7 @@ function contest_field_default_fields() {
       'bundle' => 'contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Specify here in free text regulations for pilots admission and entry fee along with payment guidelines. ',
+      'description' => 'Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1478,7 +1478,7 @@ function contest_field_default_fields() {
   t('Registration switch');
   t('Schedule');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
-  t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines. ');
+  t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Time zone');
 

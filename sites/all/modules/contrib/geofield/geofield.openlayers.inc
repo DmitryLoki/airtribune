@@ -95,8 +95,8 @@ function geofield_openlayers_maps() {
   $formatter->data = array(
     'width' => '600px',
     'height' => '400px',
-    'image_path' => 'sites/all/modules/openlayers/themes/default_dark/img/',
-    'css_path' => 'sites/all/modules/openlayers/themes/default_dark/style.css',
+    'image_path' => drupal_get_path('module','openlayers') . '/themes/default_dark/img/',
+    'css_path' => drupal_get_path('module','openlayers') . '/themes/default_dark/style.css',
     'proxy_host' => '',
     'hide_empty_map' => 0,
     'center' => array(
@@ -119,6 +119,13 @@ function geofield_openlayers_maps() {
       'openlayers_behavior_panzoombar' => array(
         'zoomWorldIcon' => 0,
         'panIcons' => 1,
+      ),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => array(
+          'geofield_formatter' => 'geofield_formatter',
+        ),
+        'point_zoom_level' => '5',
+        'zoomtolayer_scale' => '1',
       ),
     ),
     'default_layer' => 'mapquest_osm',
@@ -155,10 +162,10 @@ function geofield_openlayers_maps() {
     ),
     'map_name' => 'geofield_formatter_map',
   );
-  
+
   return array(
-    'geofield_widget_map' => $widget, 
-    'geofield_formatter_map' => $formatter, 
+    'geofield_widget_map' => $widget,
+    'geofield_formatter_map' => $formatter,
   );
 }
 

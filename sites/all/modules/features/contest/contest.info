@@ -39,7 +39,6 @@ features[field][] = node-contest-field_schedule
 features[field][] = node-contest-field_selection
 features[field][] = node-contest-field_time_zone
 features[field][] = node-contest-group_group
-features[node][] = contest
 features[variable][] = field_bundle_settings_node__contest
 features[variable][] = language_content_type_contest
 features[variable][] = node_options_contest

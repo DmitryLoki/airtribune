@@ -243,8 +243,10 @@ function accommodation_field_default_fields() {
       'locked' => '0',
       'module' => 'geofield',
       'settings' => array(
+        'backend' => 'default',
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
+        'srid' => '4326',
       ),
       'translatable' => '0',
       'type' => 'geofield',
