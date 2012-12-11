@@ -1,0 +1,43 @@
+From 55ee4d1ac1db8e1a2a18e8e9f7096caaaf20fa9a Mon Sep 17 00:00:00 2001
+Message-Id: <55ee4d1ac1db8e1a2a18e8e9f7096caaaf20fa9a.1345964477.git.dmitriy.trt@gmail.com>
+From: "Dmitriy.trt" <dmitriy.trt@gmail.com>
+Date: Sun, 26 Aug 2012 13:57:49 +0700
+Subject: [PATCH] Issue #1727804: Fix support of multi-level tokens in
+ substitutions
+
+---
+ includes/context.inc |    2 +-
+ tests/context.test   |    4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/includes/context.inc b/includes/context.inc
+index 5c7a4ce..64a4850 100644
+--- a/includes/context.inc
++++ b/includes/context.inc
+@@ -633,7 +633,7 @@ function ctools_context_keyword_substitute($string, $keywords, $contexts, $conve
+ 
+   // Look for context matches we we only have to convert known matches.
+   $matches = array();
+-  if (preg_match_all('/%(%|[a-zA-Z0-9_-]+(?:\:[a-zA-Z0-9_-]+)?)/us', $string, $matches)) {
++  if (preg_match_all('/%(%|[a-zA-Z0-9_-]+(?:\:[a-zA-Z0-9_-]+)*)/us', $string, $matches)) {
+     foreach ($matches[1] as $keyword) {
+       // Ignore anything it finds with %%.
+       if ($keyword[0] == '%') {
+diff --git a/tests/context.test b/tests/context.test
+index b5f6fb1..7f294d9 100644
+--- a/tests/context.test
++++ b/tests/context.test
+@@ -47,6 +47,10 @@ class CtoolsContextKeywordsSubstitutionTestCase extends DrupalWebTestCase {
+         "%{$node->title}",
+         t('Keyword after escaped and unescaped percent sign has been replaced.'),
+       ),
++      '%node:changed:raw:' => array(
++        "{$node->changed}:",
++        t('Multi-level token has been replaced. Colon left untouched.'),
++      ),
+     );
+     foreach ($checks as $string => $expectations) {
+       list($expected_result, $message) = $expectations;
+-- 
+1.7.10.4
+

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Newsblog feature.
+ */
+
+include_once 'newsblog.features.inc';
