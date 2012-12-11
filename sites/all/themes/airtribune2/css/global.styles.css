@@ -1835,7 +1835,7 @@ p { margin:0; padding:6px 0 10px}
 
 .region-sidebar-first, .region-sidebar-second { width:240px;}
 
-.node-teaser { position:relative; line-height:20px; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px; padding:0 10px 15px;}
+.node-teaser { position:relative; line-height:20px; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px 24px; padding:0 10px 15px;}
 .node-teaser .node-header, .node-teaser .node-content { margin-left:240px; }
 .node-teaser > .clearfix { margin-left:240px; clear:both;}
 .node-teaser .node-readmore { float:left; margin-top:-20px;}
