@@ -25,6 +25,7 @@ function menu_feature_menu_default_menu_custom() {
   $menus['footer-menu'] = array(
     'menu_name' => 'footer-menu',
     'title' => 'Footer menu',
+    'description' => '',
   );
   // Translatables
   // Included for use with string extractors like potx.
