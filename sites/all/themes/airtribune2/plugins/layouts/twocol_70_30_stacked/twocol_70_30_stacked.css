@@ -1,0 +1,24 @@
+/* CSS file for the 30 70 stacked layout */
+@import url('../../../css/base-grid.css');
+
+.panel-col-thirty {
+  width: 30%;
+}
+.panel-col-seventy {
+  width: 70%;
+}
+
+.panel-header, .panel-top, .panel-footer {
+  width: 100%;
+}
+
+/* Margins taken from the Panels module plugins */
+.lastUnit .inside {
+  margin: 0 0 1em .5em;
+}
+.firstUnit .inside {
+  margin: 0 .5em 1em 0;
+}
+.unit .inside {
+  margin: 0 .5em 1em .5em;
+}
