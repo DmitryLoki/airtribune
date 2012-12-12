@@ -230,7 +230,7 @@ function newsblog_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
-            'contest' => 'contest',
+            'pg_contest' => 'pg_contest',
           ),
         ),
         'handler_submit' => 'Change handler',

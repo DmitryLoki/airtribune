@@ -358,30 +358,30 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_en_pattern';
+  $strongarm->name = 'pathauto_node_pg_contest_en_pattern';
   $strongarm->value = '';
-  $export['pathauto_node_contest_en_pattern'] = $strongarm;
+  $export['pathauto_node_pg_contest_en_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_pattern';
+  $strongarm->name = 'pathauto_node_pg_contest_pattern';
   $strongarm->value = '[node:title_field]';
-  $export['pathauto_node_contest_pattern'] = $strongarm;
+  $export['pathauto_node_pg_contest_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_ru_pattern';
+  $strongarm->name = 'pathauto_node_pg_contest_ru_pattern';
   $strongarm->value = '';
-  $export['pathauto_node_contest_ru_pattern'] = $strongarm;
+  $export['pathauto_node_pg_contest_ru_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_und_pattern';
+  $strongarm->name = 'pathauto_node_pg_contest_und_pattern';
   $strongarm->value = '';
-  $export['pathauto_node_contest_und_pattern'] = $strongarm;
+  $export['pathauto_node_pg_contest_und_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -756,9 +756,9 @@ Disallow: /?q=user/logout/';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'schemaorg_ui_type_contest';
+  $strongarm->name = 'schemaorg_ui_type_pg_contest';
   $strongarm->value = 'SportsEvent';
-  $export['schemaorg_ui_type_contest'] = $strongarm;
+  $export['schemaorg_ui_type_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -867,12 +867,12 @@ Disallow: /?q=user/logout/';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'xmlsitemap_settings_node_contest';
+  $strongarm->name = 'xmlsitemap_settings_node_pg_contest';
   $strongarm->value = array(
     'status' => '1',
     'priority' => '0.7',
   );
-  $export['xmlsitemap_settings_node_contest'] = $strongarm;
+  $export['xmlsitemap_settings_node_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

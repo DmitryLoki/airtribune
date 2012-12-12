@@ -10,9 +10,9 @@
 function seo_metatag_export_default() {
   $config = array();
 
-  // Exported Metatag config instance: node:contest.
-  $config['node:contest'] = array(
-    'instance' => 'node:contest',
+  // Exported Metatag config instance: node:pg_contest.
+  $config['node:pg_contest'] = array(
+    'instance' => 'node:pg_contest',
     'config' => array(
       'og:type' => array(
         'value' => 'sport',

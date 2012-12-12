@@ -56,8 +56,8 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'contest';
-  $path_breadcrumb->name = 'Contest';
+  $path_breadcrumb->machine_name = 'pg_contest';
+  $path_breadcrumb->name = 'Paragliding Contest';
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -83,7 +83,7 @@ function seo_path_breadcrumbs_settings_info() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'contest' => 'contest',
+              'pg_contest' => 'pg_contest',
             ),
           ),
           'context' => 'node',
@@ -94,7 +94,7 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = 0;
-  $export['contest'] = $path_breadcrumb;
+  $export['pg_contest'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;

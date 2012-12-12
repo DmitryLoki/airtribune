@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * contest.features.field.inc
+ * pg_contest.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function contest_field_default_fields() {
+function pg_contest_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-contest-body'.
-  $fields['node-contest-body'] = array(
+  // Exported field: 'node-pg-contest-body'.
+  $fields['node-pg-contest-body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -43,7 +43,7 @@ function contest_field_default_fields() {
       'type' => 'text_with_summary',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -88,8 +88,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_city'.
-  $fields['node-contest-field_city'] = array(
+  // Exported field: 'node-pg-contest-field_city'.
+  $fields['node-pg-contest-field_city'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -120,7 +120,7 @@ function contest_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -164,8 +164,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_country'.
-  $fields['node-contest-field_country'] = array(
+  // Exported field: 'node-pg-contest-field_country'.
+  $fields['node-pg-contest-field_country'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -192,7 +192,7 @@ function contest_field_default_fields() {
       'type' => 'country',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -229,8 +229,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_dates'.
-  $fields['node-contest-field_dates'] = array(
+  // Exported field: 'node-pg-contest-field_dates'.
+  $fields['node-pg-contest-field_dates'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -262,7 +262,7 @@ function contest_field_default_fields() {
       'type' => 'datetime',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'deleted' => '0',
       'description' => 'Start and end dates for the event.',
       'display' => array(
@@ -316,8 +316,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_downloads'.
-  $fields['node-contest-field_downloads'] = array(
+  // Exported field: 'node-pg-contest-field_downloads'.
+  $fields['node-pg-contest-field_downloads'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '5',
@@ -352,7 +352,7 @@ function contest_field_default_fields() {
       'type' => 'file',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'deleted' => '0',
       'description' => 'Any file (e.g. terrain or topology) that should be attached to contest description.',
       'display' => array(
@@ -412,8 +412,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_fai_category'.
-  $fields['node-contest-field_fai_category'] = array(
+  // Exported field: 'node-pg-contest-field_fai_category'.
+  $fields['node-pg-contest-field_fai_category'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -442,7 +442,7 @@ function contest_field_default_fields() {
       'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -479,8 +479,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_flying_info'.
-  $fields['node-contest-field_flying_info'] = array(
+  // Exported field: 'node-pg-contest-field_flying_info'.
+  $fields['node-pg-contest-field_flying_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -510,7 +510,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.',
@@ -550,8 +550,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_getting_there'.
-  $fields['node-contest-field_getting_there'] = array(
+  // Exported field: 'node-pg-contest-field_getting_there'.
+  $fields['node-pg-contest-field_getting_there'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -581,7 +581,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Detailed instructions on how to get to the contest location.',
@@ -621,8 +621,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_headquarter_info'.
-  $fields['node-contest-field_headquarter_info'] = array(
+  // Exported field: 'node-pg-contest-field_headquarter_info'.
+  $fields['node-pg-contest-field_headquarter_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -652,7 +652,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Headquarter location description, address and other contact information.',
@@ -692,8 +692,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_info'.
-  $fields['node-contest-field_info'] = array(
+  // Exported field: 'node-pg-contest-field_info'.
+  $fields['node-pg-contest-field_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -723,7 +723,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Highlights of the event.
@@ -748,7 +748,7 @@ function contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_info',
-      'label' => 'Contest info',
+      'label' => 'Event info',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -767,8 +767,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_organizer'.
-  $fields['node-contest-field_organizer'] = array(
+  // Exported field: 'node-pg-contest-field_organizer'.
+  $fields['node-pg-contest-field_organizer'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -798,7 +798,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'All relevant info about contest organizers (full name of the organization, address, phone, e-mail), officials with their contacts.',
@@ -838,8 +838,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_points_file'.
-  $fields['node-contest-field_points_file'] = array(
+  // Exported field: 'node-pg-contest-field_points_file'.
+  $fields['node-pg-contest-field_points_file'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -874,7 +874,7 @@ function contest_field_default_fields() {
       'type' => 'file',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -934,8 +934,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_prizes'.
-  $fields['node-contest-field_prizes'] = array(
+  // Exported field: 'node-pg-contest-field_prizes'.
+  $fields['node-pg-contest-field_prizes'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -965,7 +965,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'List all awards here.',
@@ -1005,8 +1005,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_registration_sw'.
-  $fields['node-contest-field_registration_sw'] = array(
+  // Exported field: 'node-pg-contest-field_registration_sw'.
+  $fields['node-pg-contest-field_registration_sw'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1034,7 +1034,7 @@ function contest_field_default_fields() {
       'type' => 'list_boolean',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => array(
         0 => array(
           'value' => 1,
@@ -1077,8 +1077,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_rules'.
-  $fields['node-contest-field_rules'] = array(
+  // Exported field: 'node-pg-contest-field_rules'.
+  $fields['node-pg-contest-field_rules'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1108,7 +1108,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -1148,8 +1148,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_schedule'.
-  $fields['node-contest-field_schedule'] = array(
+  // Exported field: 'node-pg-contest-field_schedule'.
+  $fields['node-pg-contest-field_schedule'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1179,7 +1179,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'General day-by-day schedule of the event.',
@@ -1219,8 +1219,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_selection'.
-  $fields['node-contest-field_selection'] = array(
+  // Exported field: 'node-pg-contest-field_selection'.
+  $fields['node-pg-contest-field_selection'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1250,7 +1250,7 @@ function contest_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.',
@@ -1290,8 +1290,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-field_time_zone'.
-  $fields['node-contest-field_time_zone'] = array(
+  // Exported field: 'node-pg-contest-field_time_zone'.
+  $fields['node-pg-contest-field_time_zone'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1315,7 +1315,7 @@ function contest_field_default_fields() {
       'type' => 'tzfield',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => array(
         0 => array(
           'value' => 'UTC',
@@ -1356,8 +1356,8 @@ function contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-contest-group_group'.
-  $fields['node-contest-group_group'] = array(
+  // Exported field: 'node-pg-contest-group_group'.
+  $fields['node-pg-contest-group_group'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1385,7 +1385,7 @@ function contest_field_default_fields() {
       'type' => 'list_boolean',
     ),
     'field_instance' => array(
-      'bundle' => 'contest',
+      'bundle' => 'pg_contest',
       'default_value' => array(
         0 => array(
           'value' => 1,
@@ -1452,7 +1452,7 @@ function contest_field_default_fields() {
   t('Awards and prize money');
   t('Body');
   t('City');
-  t('Contest info');
+  t('Event info');
   t('Country');
   t('Dates');
   t('Detailed instructions on how to get to the contest location.');

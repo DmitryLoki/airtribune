@@ -356,9 +356,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: create contest content.
-  $permissions['create contest content'] = array(
-    'name' => 'create contest content',
+  // Exported permission: create pg_contest content.
+  $permissions['create pg_contest content'] = array(
+    'name' => 'create pg_contest content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -391,9 +391,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete any contest content.
-  $permissions['delete any contest content'] = array(
-    'name' => 'delete any contest content',
+  // Exported permission: delete any pg_contest content.
+  $permissions['delete any pg_contest content'] = array(
+    'name' => 'delete any pg_contest content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -412,9 +412,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own contest content.
-  $permissions['delete own contest content'] = array(
-    'name' => 'delete own contest content',
+  // Exported permission: delete own pg_contest content.
+  $permissions['delete own pg_contest content'] = array(
+    'name' => 'delete own pg_contest content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -874,9 +874,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit any contest content.
-  $permissions['edit any contest content'] = array(
-    'name' => 'edit any contest content',
+  // Exported permission: edit any pg_contest content.
+  $permissions['edit any pg_contest content'] = array(
+    'name' => 'edit any pg_contest content',
     'roles' => array(),
     'module' => 'node',
   );
@@ -937,9 +937,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own contest content.
-  $permissions['edit own contest content'] = array(
-    'name' => 'edit own contest content',
+  // Exported permission: edit own pg_contest content.
+  $permissions['edit own pg_contest content'] = array(
+    'name' => 'edit own pg_contest content',
     'roles' => array(),
     'module' => 'node',
   );

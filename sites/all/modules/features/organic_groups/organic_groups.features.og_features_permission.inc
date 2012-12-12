@@ -10,78 +10,78 @@
 function organic_groups_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:contest:add user'
-  $permissions['node:contest:add user'] = array(
+  // Exported og permission: 'node:pg_contest:add user'
+  $permissions['node:pg_contest:add user'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:administer group'
-  $permissions['node:contest:administer group'] = array(
+  // Exported og permission: 'node:pg_contest:administer group'
+  $permissions['node:pg_contest:administer group'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:approve and deny subscription'
-  $permissions['node:contest:approve and deny subscription'] = array(
+  // Exported og permission: 'node:pg_contest:approve and deny subscription'
+  $permissions['node:pg_contest:approve and deny subscription'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:create race content'
-  $permissions['node:contest:create race content'] = array(
+  // Exported og permission: 'node:pg_contest:create race content'
+  $permissions['node:pg_contest:create race content'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:delete any race content'
-  $permissions['node:contest:delete any race content'] = array(
+  // Exported og permission: 'node:pg_contest:delete any race content'
+  $permissions['node:pg_contest:delete any race content'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:delete own race content'
-  $permissions['node:contest:delete own race content'] = array(
+  // Exported og permission: 'node:pg_contest:delete own race content'
+  $permissions['node:pg_contest:delete own race content'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:manage members'
-  $permissions['node:contest:manage members'] = array(
+  // Exported og permission: 'node:pg_contest:manage members'
+  $permissions['node:pg_contest:manage members'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:manage permissions'
-  $permissions['node:contest:manage permissions'] = array(
+  // Exported og permission: 'node:pg_contest:manage permissions'
+  $permissions['node:pg_contest:manage permissions'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:manage roles'
-  $permissions['node:contest:manage roles'] = array(
+  // Exported og permission: 'node:pg_contest:manage roles'
+  $permissions['node:pg_contest:manage roles'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:subscribe'
-  $permissions['node:contest:subscribe'] = array(
+  // Exported og permission: 'node:pg_contest:subscribe'
+  $permissions['node:pg_contest:subscribe'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:subscribe without approval'
-  $permissions['node:contest:subscribe without approval'] = array(
+  // Exported og permission: 'node:pg_contest:subscribe without approval'
+  $permissions['node:pg_contest:subscribe without approval'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:unsubscribe'
-  $permissions['node:contest:unsubscribe'] = array(
+  // Exported og permission: 'node:pg_contest:unsubscribe'
+  $permissions['node:pg_contest:unsubscribe'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:update any race content'
-  $permissions['node:contest:update any race content'] = array(
+  // Exported og permission: 'node:pg_contest:update any race content'
+  $permissions['node:pg_contest:update any race content'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:update group'
-  $permissions['node:contest:update group'] = array(
+  // Exported og permission: 'node:pg_contest:update group'
+  $permissions['node:pg_contest:update group'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:contest:update own race content'
-  $permissions['node:contest:update own race content'] = array(
+  // Exported og permission: 'node:pg_contest:update own race content'
+  $permissions['node:pg_contest:update own race content'] = array(
     'roles' => array(),
   );
 

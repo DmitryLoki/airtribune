@@ -163,8 +163,8 @@ function seo_rdf_default_mappings() {
     ),
   );
 
-  // Exported RDF mapping: contest
-  $schemaorg['node']['contest'] = array(
+  // Exported RDF mapping: pg_contest
+  $schemaorg['node']['pg_contest'] = array(
     'rdftype' => array(
       0 => 'schema:SportsEvent',
       1 => 'sioc:Item',

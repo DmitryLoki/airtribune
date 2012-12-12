@@ -1,20 +1,20 @@
 <?php
 /**
  * @file
- * Code for the Contest feature.
- * Custom implementation of hooks for contest content type
+ * Code for the Paragliding Contest feature.
+ * Custom implementation of hooks for paragliding contest content type
  */
 
-include_once 'contest.features.inc';
+include_once 'pg_contest.features.inc';
 
 /**
  * Implements hook_node_info().
  */
-function contest_node_info() {
+function pg_contest_node_info() {
   $items = array(
-    'contest' => array(
-      'name' => t('Contest'),
-      'base' => 'contest',
+    'pg_contest' => array(
+      'name' => t('Paragliding Contest'),
+      'base' => 'pg_contest',
       'description' => '',
       'has_title' => TRUE,
       'title_label' => t('Name'),
@@ -30,7 +30,7 @@ function contest_node_info() {
  * @param type $node
  * @param type $form_state
  */
-function contest_form($node, $form_state) {
+function pg_contest_form($node, $form_state) {
   //Default base is 'node_content'
   //Title field is not attached otherwise
   $form = node_content_form($node, $form_state);
@@ -42,9 +42,9 @@ function contest_form($node, $form_state) {
  * @param $node
  *   The node that is being created.
  */
-function contest_insert($node) {
+function pg_contest_insert($node) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
-    contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
+    pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
 }
 
@@ -54,7 +54,7 @@ function contest_insert($node) {
  * @see og_membership_delete_by_group()
  * @author Vadim Valuev <gease@mail.ru>
  */
-function contest_update($node) {
+function pg_contest_update($node) {
   if ($node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
     if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
       //remove old points and og memberships
@@ -79,7 +79,7 @@ function contest_update($node) {
     }
     if (isset($node->field_points_file[LANGUAGE_NONE])) {
       //create new points and subscribe them to group 
-      contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
+      pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
     }
   }
 }
@@ -88,7 +88,7 @@ function contest_update($node) {
  * Implementation of hook_validate
  * @author Vadim Valuev <gease@mail.ru>
  */
-function contest_validate($node, $form, &$form_state) {
+function pg_contest_validate($node, $form, &$form_state) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0]) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
     $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
     $file_string = file_get_contents($file->uri);
@@ -124,7 +124,7 @@ function contest_validate($node, $form, &$form_state) {
  * Parse file and create point entities 
  * @author Vadim Valuev <gease@mail.ru>
  */
-function contest_create_points($fid, $nid) {
+function pg_contest_create_points($fid, $nid) {
   geophp_load();
   $file = file_load($fid);
   $file_string = file_get_contents($file->uri);
