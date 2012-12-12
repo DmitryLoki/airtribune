@@ -1,7 +1,7 @@
 name = Newsblog
 description = Newsblog content type
 core = 7.x
-package = Features
+package = Content types
 dependencies[] = ctools
 dependencies[] = entityreference
 dependencies[] = features

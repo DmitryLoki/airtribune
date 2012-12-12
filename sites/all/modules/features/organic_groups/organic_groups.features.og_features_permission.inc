@@ -12,52 +12,72 @@ function organic_groups_og_features_default_permissions() {
 
   // Exported og permission: 'node:pg_contest:add user'
   $permissions['node:pg_contest:add user'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:administer group'
   $permissions['node:pg_contest:administer group'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:approve and deny subscription'
   $permissions['node:pg_contest:approve and deny subscription'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:create race content'
   $permissions['node:pg_contest:create race content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:delete any race content'
   $permissions['node:pg_contest:delete any race content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:delete own race content'
   $permissions['node:pg_contest:delete own race content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:manage members'
   $permissions['node:pg_contest:manage members'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:manage permissions'
   $permissions['node:pg_contest:manage permissions'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:manage roles'
   $permissions['node:pg_contest:manage roles'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:subscribe'
   $permissions['node:pg_contest:subscribe'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'non-member' => 'non-member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:subscribe without approval'
@@ -67,22 +87,30 @@ function organic_groups_og_features_default_permissions() {
 
   // Exported og permission: 'node:pg_contest:unsubscribe'
   $permissions['node:pg_contest:unsubscribe'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:update any race content'
   $permissions['node:pg_contest:update any race content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:update group'
   $permissions['node:pg_contest:update group'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:update own race content'
   $permissions['node:pg_contest:update own race content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   return $permissions;

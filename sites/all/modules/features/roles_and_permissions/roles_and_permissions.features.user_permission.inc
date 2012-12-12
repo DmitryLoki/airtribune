@@ -874,13 +874,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit any pg_contest content.
-  $permissions['edit any pg_contest content'] = array(
-    'name' => 'edit any pg_contest content',
-    'roles' => array(),
-    'module' => 'node',
-  );
-
   // Exported permission: edit any organizer_profile profile.
   $permissions['edit any organizer_profile profile'] = array(
     'name' => 'edit any organizer_profile profile',
@@ -933,13 +926,6 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit own accommodation content.
   $permissions['edit own accommodation content'] = array(
     'name' => 'edit own accommodation content',
-    'roles' => array(),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit own pg_contest content.
-  $permissions['edit own pg_contest content'] = array(
-    'name' => 'edit own pg_contest content',
     'roles' => array(),
     'module' => 'node',
   );

@@ -10,8 +10,8 @@
 function pg_contest_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-pg-contest-body'.
-  $fields['node-pg-contest-body'] = array(
+  // Exported field: 'node-pg_contest-body'.
+  $fields['node-pg_contest-body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -88,8 +88,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_city'.
-  $fields['node-pg-contest-field_city'] = array(
+  // Exported field: 'node-pg_contest-field_city'.
+  $fields['node-pg_contest-field_city'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -164,8 +164,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_country'.
-  $fields['node-pg-contest-field_country'] = array(
+  // Exported field: 'node-pg_contest-field_country'.
+  $fields['node-pg_contest-field_country'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -229,8 +229,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_dates'.
-  $fields['node-pg-contest-field_dates'] = array(
+  // Exported field: 'node-pg_contest-field_dates'.
+  $fields['node-pg_contest-field_dates'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -316,8 +316,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_downloads'.
-  $fields['node-pg-contest-field_downloads'] = array(
+  // Exported field: 'node-pg_contest-field_downloads'.
+  $fields['node-pg_contest-field_downloads'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '5',
@@ -412,8 +412,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_fai_category'.
-  $fields['node-pg-contest-field_fai_category'] = array(
+  // Exported field: 'node-pg_contest-field_fai_category'.
+  $fields['node-pg_contest-field_fai_category'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -479,8 +479,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_flying_info'.
-  $fields['node-pg-contest-field_flying_info'] = array(
+  // Exported field: 'node-pg_contest-field_flying_info'.
+  $fields['node-pg_contest-field_flying_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -550,8 +550,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_getting_there'.
-  $fields['node-pg-contest-field_getting_there'] = array(
+  // Exported field: 'node-pg_contest-field_getting_there'.
+  $fields['node-pg_contest-field_getting_there'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -621,8 +621,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_headquarter_info'.
-  $fields['node-pg-contest-field_headquarter_info'] = array(
+  // Exported field: 'node-pg_contest-field_headquarter_info'.
+  $fields['node-pg_contest-field_headquarter_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -692,8 +692,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_info'.
-  $fields['node-pg-contest-field_info'] = array(
+  // Exported field: 'node-pg_contest-field_info'.
+  $fields['node-pg_contest-field_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -767,8 +767,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_organizer'.
-  $fields['node-pg-contest-field_organizer'] = array(
+  // Exported field: 'node-pg_contest-field_organizer'.
+  $fields['node-pg_contest-field_organizer'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -838,8 +838,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_points_file'.
-  $fields['node-pg-contest-field_points_file'] = array(
+  // Exported field: 'node-pg_contest-field_points_file'.
+  $fields['node-pg_contest-field_points_file'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -934,8 +934,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_prizes'.
-  $fields['node-pg-contest-field_prizes'] = array(
+  // Exported field: 'node-pg_contest-field_prizes'.
+  $fields['node-pg_contest-field_prizes'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1005,8 +1005,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_registration_sw'.
-  $fields['node-pg-contest-field_registration_sw'] = array(
+  // Exported field: 'node-pg_contest-field_registration_sw'.
+  $fields['node-pg_contest-field_registration_sw'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1077,8 +1077,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_rules'.
-  $fields['node-pg-contest-field_rules'] = array(
+  // Exported field: 'node-pg_contest-field_rules'.
+  $fields['node-pg_contest-field_rules'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1148,8 +1148,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_schedule'.
-  $fields['node-pg-contest-field_schedule'] = array(
+  // Exported field: 'node-pg_contest-field_schedule'.
+  $fields['node-pg_contest-field_schedule'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1219,8 +1219,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_selection'.
-  $fields['node-pg-contest-field_selection'] = array(
+  // Exported field: 'node-pg_contest-field_selection'.
+  $fields['node-pg_contest-field_selection'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1290,8 +1290,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-field_time_zone'.
-  $fields['node-pg-contest-field_time_zone'] = array(
+  // Exported field: 'node-pg_contest-field_time_zone'.
+  $fields['node-pg_contest-field_time_zone'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1356,8 +1356,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg-contest-group_group'.
-  $fields['node-pg-contest-group_group'] = array(
+  // Exported field: 'node-pg_contest-group_group'.
+  $fields['node-pg_contest-group_group'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -1452,12 +1452,12 @@ function pg_contest_field_default_fields() {
   t('Awards and prize money');
   t('Body');
   t('City');
-  t('Event info');
   t('Country');
   t('Dates');
   t('Detailed instructions on how to get to the contest location.');
   t('Determine if this is an OG group.');
   t('Downloads');
+  t('Event info');
   t('FAI category');
   t('Flying site info');
   t('General day-by-day schedule of the event.');

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * contest.features.inc
+ * pg_contest.features.inc
  */
 
 /**

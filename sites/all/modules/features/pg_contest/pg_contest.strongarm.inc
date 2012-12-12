@@ -13,7 +13,7 @@ function pg_contest_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_node__pg_contest';
+  $strongarm->name = 'field_bundle_settings_node__contest';
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
@@ -41,37 +41,37 @@ function pg_contest_strongarm() {
       'display' => array(),
     ),
   );
-  $export['field_bundle_settings_node__pg_contest'] = $strongarm;
+  $export['field_bundle_settings_node__contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'language_content_type_pg_contest';
+  $strongarm->name = 'language_content_type_contest';
   $strongarm->value = '4';
-  $export['language_content_type_pg_contest'] = $strongarm;
+  $export['language_content_type_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_pg_contest';
+  $strongarm->name = 'node_options_contest';
   $strongarm->value = array(
     0 => 'status',
   );
-  $export['node_options_pg_contest'] = $strongarm;
+  $export['node_options_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_preview_pg_contest';
+  $strongarm->name = 'node_preview_contest';
   $strongarm->value = '1';
-  $export['node_preview_pg_contest'] = $strongarm;
+  $export['node_preview_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_submitted_pg_contest';
+  $strongarm->name = 'node_submitted_contest';
   $strongarm->value = 0;
-  $export['node_submitted_pg_contest'] = $strongarm;
+  $export['node_submitted_contest'] = $strongarm;
 
   return $export;
 }

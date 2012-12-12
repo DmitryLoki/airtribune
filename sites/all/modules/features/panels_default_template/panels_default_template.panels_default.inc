@@ -113,7 +113,7 @@ e-mail: info@airtribune.com</p>',
     $pane->pid = 'new-3';
     $pane->panel = 'four_second';
     $pane->type = 'block';
-    $pane->subtype = 'system-main-menu';
+    $pane->subtype = 'menu-footer-menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -124,10 +124,7 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => 'footer-menu',
-      'css_class' => '',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -143,9 +140,10 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Solutions',
       'title' => 'Solutions',
-      'body' => '<p>The project is aimed at uniting paragliding community, viewers and sponsors.<br />
-We started with service for paragliding competitions and we are moving into services for free-flying pilots worldwide.<br />
-Basic idea is - all pilots may use personal livetrackers for safety reasons and for </p>',
+      'body' => 'Web-based service which allows organizers to publish their competitions in a unified multi-lingual format and manage it from any computer connected to the Internet.  
+No more high-skilled specialists to arrange competition live tracking - you will do it yourself in  two clicks.
+
+',
       'format' => 'full_html',
       'substitute' => TRUE,
     );

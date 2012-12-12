@@ -157,7 +157,7 @@ function seo_metatag_export_default() {
       ),
       'og:description' => array(
         'value' => '[node:summary]',
-      ),  
+      ),
     ),
   );
 
