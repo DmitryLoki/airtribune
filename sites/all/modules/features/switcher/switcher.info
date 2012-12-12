@@ -57,6 +57,7 @@ dependencies[] = list
 dependencies[] = locale
 dependencies[] = maps
 dependencies[] = media
+dependencies[] = menu_feature
 dependencies[] = number
 dependencies[] = og
 dependencies[] = og_access

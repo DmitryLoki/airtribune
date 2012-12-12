@@ -23,7 +23,7 @@ function menu_feature_menu_default_menu_custom() {
 
   // Exported menu: main-menu.
   $menus['footer-menu'] = array(
-    'footer_name' => 'footer-menu',
+    'menu_name' => 'footer-menu',
     'title' => 'Footer menu',
   );
   // Translatables
