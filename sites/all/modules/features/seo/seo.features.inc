@@ -110,7 +110,9 @@ function seo_rdf_default_mappings() {
     ),
     'body' => array(
       'predicates' => array(
-        0 => 'content:encoded',
+        0 => 'schema:summary',
+        1 => 'schema:description',
+        2 => 'content:encoded',
       ),
     ),
     'uid' => array(
@@ -147,6 +149,17 @@ function seo_rdf_default_mappings() {
         0 => 'schema:url',
       ),
       'type' => 'rel',
+    ),
+    'field_photos' => array(
+      'predicates' => array(
+        0 => 'schema:image',
+      ),
+      'type' => 'rel',
+    ),
+    'og_group_ref' => array(
+      'predicates' => array(
+        0 => 'schema:superEvent',
+      ),
     ),
   );
 
@@ -219,12 +232,28 @@ function seo_rdf_default_mappings() {
     ),
     'field_country' => array(
       'predicates' => array(
-        0 => 'schema:location',
+        0 => 'schema:addressCountry',
       ),
     ),
     'field_city' => array(
       'predicates' => array(
-        0 => 'schema:location',
+        0 => 'schema:addressLocality',
+      ),
+    ),
+    'field_organizer' => array(
+      'predicates' => array(
+        0 => 'schema:performers',
+      ),
+    ),
+    'field_info' => array(
+      'predicates' => array(
+        0 => 'schema:summary',
+        1 => 'schema:description',
+      ),
+    ),
+    'field_headquarter_info' => array(
+      'predicates' => array(
+        0 => 'schema:performers',
       ),
     ),
   );
