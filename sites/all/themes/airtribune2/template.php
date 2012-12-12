@@ -277,3 +277,19 @@ function airtribune2_preprocess_node(&$vars) {
   }
 
 }
+
+/**
+ * Implements theme_menu_link().
+ */
+function airtribune2_menu_link__footer_menu(&$vars) {
+  $element = $vars['element'];
+  $sub_menu = '';
+  if ($element['#below']) {
+  	$sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+	if (!empty($element['#localized_options']['attributes']['title'])) {
+		$output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
+	}
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
