@@ -65,7 +65,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'block-contacts',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -97,7 +100,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'follow-us',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -118,7 +124,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'footer-menu',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -144,7 +153,10 @@ Basic idea is - all pilots may use personal livetrackers for safety reasons and 
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'solutions',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
