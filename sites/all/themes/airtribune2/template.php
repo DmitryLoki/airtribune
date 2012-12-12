@@ -22,6 +22,11 @@ function airtribune2_preprocess_html(&$vars) {
       unset($vars['classes_array'][$key]);
     }
   }
+  $vars['classes_array'][] = 'body_bgr';
+  if($vars['is_front']) {
+	  //$vars['title'] = t('Activity feed');
+	  drupal_set_title(t('Activity feed'));
+  }
 }
 
 /**
