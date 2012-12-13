@@ -2550,7 +2550,7 @@ p { margin:0; padding:6px 0 10px}
 .node-teaser { position:relative; font:14px/20px Arial, Helvetica, sans-serif; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px 24px; padding:0 10px 15px;}
 .node-teaser .node-header, .node-teaser .node-content { margin-left:240px; }
 .node-teaser > .clearfix { margin-left:240px; clear:both;}
-.node-teaser .node-readmore { float:left; margin-top:-20px;}
+.node-teaser .node-readmore { float:left; /*margin-top:-20px;*/}
 .node-pg-contest.node-teaser .node-readmore { margin-top:0}
 .node-teaser .node-readmore a { font-size:12px; color:#667480; text-decoration:none; background:url(../images/more.png) no-repeat 0 2px; padding-left:10px}
 .node-teaser .node-readmore a:hover { text-decoration:underline;}
@@ -2561,7 +2561,8 @@ p { margin:0; padding:6px 0 10px}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
 .node-teaser h1.node-title a:hover { color:#00aeef}
 .node-teaser.node-sticky h1.node-title { background:url(../images/star.png) no-repeat 0 2px; padding-left:25px;}
-.node-teaser .field-name-field-race-date { text-align:right; font-size:12px; color:#f2aaac;}
+.node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
+.node-teaser .node-create { float:right; padding:0}
 
 .next_events { position:relative; background:#fafbfc;
 
