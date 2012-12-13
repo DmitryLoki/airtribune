@@ -163,8 +163,12 @@ function menu_feature_menu_default_menu_links() {
     'menu_name' => 'main-menu',
     'link_path' => 'node/5',
     'router_path' => 'node/%',
-    'link_title' => 'Spectators',
-    'options' => array(),
+    'link_title' => 'Viewers',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',
@@ -196,8 +200,8 @@ function menu_feature_menu_default_menu_links() {
   t('Organizers');
   t('Pilots');
   t('Project');
-  t('Spectators');
   t('Sponsors');
+  t('Viewers');
 
 
   return $menu_links;
