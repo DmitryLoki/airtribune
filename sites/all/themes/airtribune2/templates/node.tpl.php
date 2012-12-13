@@ -101,6 +101,8 @@
  * later using the render() function. Install the Devel module and use
  * <?php print dsm($content); ?> to find variable names to hide() or render().
  */
+
+$display_submitted = false;
 hide($content['comments']);
 hide($content['links']);
 $content['links']['created'] = array(
