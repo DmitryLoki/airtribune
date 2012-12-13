@@ -13,14 +13,18 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: access administration menu.
   $permissions['access administration menu'] = array(
     'name' => 'access administration menu',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'admin_menu',
   );
 
   // Exported permission: access administration pages.
   $permissions['access administration pages'] = array(
     'name' => 'access administration pages',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'system',
   );
 
@@ -44,7 +48,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: access content overview.
   $permissions['access content overview'] = array(
     'name' => 'access content overview',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -326,7 +332,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: bypass node access.
   $permissions['bypass node access'] = array(
     'name' => 'bypass node access',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
