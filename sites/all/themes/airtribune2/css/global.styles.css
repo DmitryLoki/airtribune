@@ -2402,8 +2402,8 @@ p { margin:0; padding:6px 0 10px}
 }
 
 #header .pane-page-primary-links .pane-content > ul > li { float:left; margin:0; padding:0 5px; list-style:none; list-style-image:none; font:14px/21px Arial, Helvetica, sans-serif;}
-#header .pane-page-primary-links .pane-content > ul > li a { color:#2e4b59; padding:3px 10px 6px; display:inline-block; text-decoration:none; position:relative}
-#header .pane-page-primary-links .pane-content > ul > li a:hover, #header .pane-page-primary-links .pane-content > ul > li a:active { padding:3px 9px 6px; border:1px solid #8dafbd; /*border-top-color:#bee3ec; border-bottom-color:#a3cde0;*/ border-bottom:none; border-top:none;
+#header .pane-page-primary-links .pane-content > ul > li a { color:#2e4b59; padding:4px 10px 5px; display:inline-block; text-decoration:none; position:relative}
+#header .pane-page-primary-links .pane-content > ul > li a:hover, #header .pane-page-primary-links .pane-content > ul > li a:active { padding:4px 9px 5px; border:1px solid #8dafbd; /*border-top-color:#bee3ec; border-bottom-color:#a3cde0;*/ border-bottom:none; border-top:none;
 
 	background:#bee3ec;
 	background: -moz-linear-gradient(top, #bee3ec 0%, #b0d3e0 10%, #9cc1d2 90%, #a3cde0 100%); 
@@ -2555,8 +2555,8 @@ p { margin:0; padding:6px 0 10px}
 .node-teaser .node-readmore a { font-size:12px; color:#667480; text-decoration:none; background:url(../images/more.png) no-repeat 0 2px; padding-left:10px}
 .node-teaser .node-readmore a:hover { text-decoration:underline;}
 .node-teaser .field { width:100%; float:right;}
-.node-teaser .field-name-field-photos { float:left; width:220px; margin:-24px 0 0 -240px;}
-.node-teaser .field-name-field-photos img { border:1px solid #c1cacf; vertical-align:middle;}
+.node-teaser .field-name-field-image { float:left; width:220px; margin:-24px 0 -20px -240px;}
+.node-teaser .field-name-field-image img { border:1px solid #c1cacf; vertical-align:middle;}
 .node-teaser h1.node-title { margin:0; padding:0 0 4px; font:18px/20px Arial, Helvetica, sans-serif;}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
 .node-teaser h1.node-title a:hover { color:#00aeef}
