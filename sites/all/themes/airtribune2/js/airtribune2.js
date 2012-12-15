@@ -1,19 +1,19 @@
 jQuery(function($){
 	$('#sign_in .signin a').click(function(){
 		//$('#user_login').toggle();
-		if($('#user_login').height() == 1){
+		if($('#user_login').height() == 1 || $('.pane-page-secondary-links').height() == 1 ){
 			var direct = 1
 		}
 		else {
 			var direct = 0
 		}
-		blockSlide($('#user_login'), direct);
+		blockSlide($('#user_login, .pane-page-secondary-links'), direct);
 		return false;
 	});
 	$('body').click(function (e) {
-		if (!($(e.target).parents('#user_login').length)) {
-			if($('#user_login').height() != 1){
-				blockSlide($('#user_login'), 0);
+		if (!($(e.target).parents('#user_login, .pane-page-secondary-links').length)) {
+			if($('#user_login, .pane-page-secondary-links').size() > 0 && $('#user_login, .pane-page-secondary-links').height() != 1){
+				blockSlide($('#user_login, .pane-page-secondary-links'), 0);
 			}
 			
 		}
