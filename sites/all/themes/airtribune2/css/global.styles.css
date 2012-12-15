@@ -2385,15 +2385,15 @@ p { margin:0; padding:6px 0 10px}
 	
 	box-shadow: 		inset 0px 1px 4px #ffffff,
 						/**/
-						0px 1px 2px rgba(46,77,91,0.35);
+						0px 1px 2px rgba(46,77,91,0.30);
 	
 	-moz-box-shadow: 	inset 0px 1px 4px #ffffff,
 						/**/
-						0px 1px 2px rgba(46,77,91,0.35);
+						0px 1px 2px rgba(46,77,91,0.30);
 						
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff,
 						/**/
-						0px 1px 2px rgba(46,77,91,0.35);
+						0px 1px 3px rgba(46,77,91,0.2);
 	
 	background:#dceaf0;
 	background: -moz-linear-gradient(top, #dceaf0 0%, #c3d4de 100%); 
@@ -2638,7 +2638,7 @@ p { margin:0; padding:6px 0 10px}
 
 }
 
-.pane-content > h1 { margin:0; padding:0; font:24px/26px Arial, Helvetica, sans-serif; color:#677581; padding-top:5px}
+.pane-content > h1 { margin:0; padding:6px 0 0; font:24px/26px Arial, Helvetica, sans-serif; color:#677581;}
 .pane-page-title { margin-bottom:17px}
 
 .node-teaser { position:relative; font:14px/20px Arial, Helvetica, sans-serif; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px 24px; padding:0 10px 15px;}
@@ -2649,7 +2649,7 @@ p { margin:0; padding:6px 0 10px}
 .node-teaser .node-readmore a { font-size:12px; color:#667480; text-decoration:none; background:url(../images/more.png) no-repeat 0 2px; padding-left:10px}
 .node-teaser .node-readmore a:hover { text-decoration:underline;}
 .node-teaser .field { width:100%; float:right;}
-.node-teaser .field-name-field-image { float:left; width:220px; margin:-24px 0 -20px -240px;}
+.node-teaser .field-name-field-image { float:left; width:220px; margin:-24px 0 -22px -240px;}
 .node-teaser .field-name-field-image img { border:1px solid #c1cacf; vertical-align:middle;}
 .node-teaser h1.node-title { margin:0; padding:0 0 4px; font:18px/20px Arial, Helvetica, sans-serif;}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
