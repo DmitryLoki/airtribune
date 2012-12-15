@@ -5,6 +5,7 @@ package = Content types
 php = 5.2.4
 version = 7.x-1.0
 project = pg_contest
+dependencies[] = airtribune
 dependencies[] = autocomplete_widgets
 dependencies[] = countries
 dependencies[] = ctools

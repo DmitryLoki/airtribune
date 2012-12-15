@@ -75,8 +75,12 @@ function menu_feature_menu_default_menu_links() {
     'menu_name' => 'footer-menu',
     'link_path' => 'node/5',
     'router_path' => 'node/%',
-    'link_title' => 'For Spectators',
-    'options' => array(),
+    'link_title' => 'For the Viewers',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',
@@ -159,8 +163,12 @@ function menu_feature_menu_default_menu_links() {
     'menu_name' => 'main-menu',
     'link_path' => 'node/5',
     'router_path' => 'node/%',
-    'link_title' => 'Spectators',
-    'options' => array(),
+    'link_title' => 'Viewers',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',
@@ -186,14 +194,14 @@ function menu_feature_menu_default_menu_links() {
   // Included for use with string extractors like potx.
   t('For Organizers');
   t('For Pilots');
-  t('For Spectators');
   t('For Sponsors');
+  t('For the Viewers');
   t('Home');
   t('Organizers');
   t('Pilots');
   t('Project');
-  t('Spectators');
   t('Sponsors');
+  t('Viewers');
 
 
   return $menu_links;

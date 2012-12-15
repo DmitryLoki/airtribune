@@ -264,3 +264,62 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   $delimiter = '__';
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
 }
+
+/**
+ * Implements preprocess_node().
+ */
+function airtribune2_preprocess_node(&$vars) {
+
+  // Override "read more" link.
+  // See issue #2362.
+  if (isset($vars['content']['links']['node']['#links']['node-readmore'])) {
+    $vars['content']['links']['node']['#links']['node-readmore']['title'] = t('View more');
+  }
+
+}
+
+/**
+ * Implements theme_menu_link().
+ */
+function airtribune2_menu_link__footer_menu(&$vars) {
+  $element = $vars['element'];
+  $sub_menu = '';
+  if ($element['#below']) {
+  	$sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+	if (!empty($element['#localized_options']['attributes']['title'])) {
+		$output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
+	}
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function airtribune2_form_alter(&$form, $form_state, $form_id) {
+	switch ($form_id) {
+    	case 'user_login_block':
+			//print_r($form);
+			$form['name']['#attributes']['rel'] = t('Enter your e-mail');
+			unset($form['name']['#title']);
+			$form['pass']['#attributes']['rel'] = t('Enter your password');
+			unset($form['pass']['#title']);
+			$form['actions']['submit']['#value'] = t('Go');
+			
+			$items = array();
+			$items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
+			if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
+				$items[] = l(t('Register new user'), 'user/register', array('attributes' => array(
+																									'title' => t('Create a new user account.'),
+																									'class' => 'user_register_button',
+																								 )));
+			}
+			$form['links'] = array(
+				'#markup' => theme('item_list', array('items' => $items)),
+				'#weight' => 100,
+			);
+		break;
+	}
+}
+

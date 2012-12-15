@@ -13,14 +13,18 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: access administration menu.
   $permissions['access administration menu'] = array(
     'name' => 'access administration menu',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'admin_menu',
   );
 
   // Exported permission: access administration pages.
   $permissions['access administration pages'] = array(
     'name' => 'access administration pages',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'system',
   );
 
@@ -44,7 +48,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: access content overview.
   $permissions['access content overview'] = array(
     'name' => 'access content overview',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -72,7 +78,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: access user profiles.
   $permissions['access user profiles'] = array(
     'name' => 'access user profiles',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'user',
   );
 
@@ -191,7 +199,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: administer nodes.
   $permissions['administer nodes'] = array(
     'name' => 'administer nodes',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -324,7 +334,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: bypass node access.
   $permissions['bypass node access'] = array(
     'name' => 'bypass node access',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -352,21 +364,27 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: create accommodation content.
   $permissions['create accommodation content'] = array(
     'name' => 'create accommodation content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: create pg_contest content.
   $permissions['create pg_contest content'] = array(
     'name' => 'create pg_contest content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: create race content.
   $permissions['create race content'] = array(
     'name' => 'create race content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -387,42 +405,54 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: delete any accommodation content.
   $permissions['delete any accommodation content'] = array(
     'name' => 'delete any accommodation content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: delete any pg_contest content.
   $permissions['delete any pg_contest content'] = array(
     'name' => 'delete any pg_contest content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: delete any race content.
   $permissions['delete any race content'] = array(
     'name' => 'delete any race content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: delete own accommodation content.
   $permissions['delete own accommodation content'] = array(
     'name' => 'delete own accommodation content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: delete own pg_contest content.
   $permissions['delete own pg_contest content'] = array(
     'name' => 'delete own pg_contest content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
   // Exported permission: delete own race content.
   $permissions['delete own race content'] = array(
     'name' => 'delete own race content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -436,7 +466,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: delete revisions.
   $permissions['delete revisions'] = array(
     'name' => 'delete revisions',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -870,7 +902,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit any accommodation content.
   $permissions['edit any accommodation content'] = array(
     'name' => 'edit any accommodation content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -891,7 +925,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit any race content.
   $permissions['edit any race content'] = array(
     'name' => 'edit any race content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -926,7 +962,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit own accommodation content.
   $permissions['edit own accommodation content'] = array(
     'name' => 'edit own accommodation content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -951,7 +989,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit own race content.
   $permissions['edit own race content'] = array(
     'name' => 'edit own race content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -1126,7 +1166,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: revert revisions.
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -1224,7 +1266,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: view any organizer_profile profile.
   $permissions['view any organizer_profile profile'] = array(
     'name' => 'view any organizer_profile profile',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'profile2',
   );
 
@@ -1255,7 +1299,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own organizer_profile profile'] = array(
     'name' => 'view own organizer_profile profile',
     'roles' => array(
-      0 => 'organizer',
+      0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'profile2',
   );
@@ -1272,7 +1317,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: view own unpublished content.
   $permissions['view own unpublished content'] = array(
     'name' => 'view own unpublished content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 
@@ -1286,7 +1333,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: view revisions.
   $permissions['view revisions'] = array(
     'name' => 'view revisions',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'node',
   );
 

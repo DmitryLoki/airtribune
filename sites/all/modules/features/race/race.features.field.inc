@@ -255,15 +255,8 @@ function race_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'date',
-          'settings' => array(
-            'format_type' => 'race_date',
-            'fromto' => 'both',
-            'multiple_from' => '',
-            'multiple_number' => '',
-            'multiple_to' => '',
-          ),
-          'type' => 'date_default',
+          'settings' => array(),
+          'type' => 'hidden',
           'weight' => '2',
         ),
       ),
@@ -441,7 +434,7 @@ function race_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -470,6 +463,7 @@ function race_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',

@@ -279,8 +279,8 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -380,33 +380,6 @@ function panels_default_template_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-12';
     $pane->panel = 'right';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Next events',
-      'title' => 'Next events',
-      'body' => '<div id="next_events_pic"></div>',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => 'next_events',
-      'css_class' => '',
-    );
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['right'][0] = 'new-12';
-    $pane = new stdClass();
-    $pane->pid = 'new-13';
-    $pane->panel = 'right';
     $pane->type = 'block';
     $pane->subtype = 'system-navigation';
     $pane->shown = TRUE;
@@ -421,8 +394,29 @@ function panels_default_template_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = '';
+    $display->content['new-12'] = $pane;
+    $display->panels['right'][0] = 'new-12';
+    $pane = new stdClass();
+    $pane->pid = 'new-13';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'next_events-sidebar_pane';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'next_events',
+    );
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
     $display->content['new-13'] = $pane;
     $display->panels['right'][1] = 'new-13';
     $pane = new stdClass();
@@ -453,7 +447,7 @@ function panels_default_template_default_page_manager_handlers() {
     $display->content['new-14'] = $pane;
     $display->panels['top'][0] = 'new-14';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-11';
+  $display->title_pane = 'new-7';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context'] = $handler;
 
