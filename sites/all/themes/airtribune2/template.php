@@ -293,3 +293,33 @@ function airtribune2_menu_link__footer_menu(&$vars) {
 	}
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function airtribune2_form_alter(&$form, $form_state, $form_id) {
+	switch ($form_id) {
+    	case 'user_login_block':
+			//print_r($form);
+			$form['name']['#attributes']['rel'] = t('Enter your e-mail');
+			unset($form['name']['#title']);
+			$form['pass']['#attributes']['rel'] = t('Enter your password');
+			unset($form['pass']['#title']);
+			$form['actions']['submit']['#value'] = t('Go');
+			
+			$items = array();
+			$items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
+			if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
+				$items[] = l(t('Register new user'), 'user/register', array('attributes' => array(
+																									'title' => t('Create a new user account.'),
+																									'class' => 'user_register_button',
+																								 )));
+			}
+			$form['links'] = array(
+				'#markup' => theme('item_list', array('items' => $items)),
+				'#weight' => 100,
+			);
+		break;
+	}
+}
+
