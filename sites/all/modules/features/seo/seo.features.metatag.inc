@@ -10,12 +10,21 @@
 function seo_metatag_export_default() {
   $config = array();
 
-  // Exported Metatag config instance: node:contest.
-  $config['node:contest'] = array(
-    'instance' => 'node:contest',
+  // Exported Metatag config instance: node:pg_contest.
+  $config['node:pg_contest'] = array(
+    'instance' => 'node:pg_contest',
     'config' => array(
       'og:type' => array(
         'value' => 'sport',
+      ),
+      'title' => array(
+        'value' => '[node:title-field] | [site:slogan]',
+      ),
+      'description' => array(
+        'value' => 'Watch [node:title-field] on-line in 2D and 3D, photo and video. [node:summary]',
+      ),
+      'keywords' => array(
+        'value' => '[node:title-field], paragliding, [node:field_location]',
       ),
     ),
   );
@@ -27,6 +36,15 @@ function seo_metatag_export_default() {
       'og:type' => array(
         'value' => 'sport',
       ),
+      'title' => array(
+        'value' => '[node:title-field] | [node:og-group-ref:0:title-field] | [site:slogan]',
+      ),
+      'description' => array(
+        'value' => 'Latest news from [node:og-group-ref:0:title-field] on [node:title-field]. Paragliding. [node:summary]',
+      ),
+      'keywords' => array(
+        'value' => '[node:og-group-ref:0:title-field], paragliding, [node:field_location], live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
+      ),
     ),
   );
 
@@ -37,6 +55,9 @@ function seo_metatag_export_default() {
       'og:type' => array(
         'value' => 'hotel',
       ),
+      'title' => array(
+        'value' => '[node:title-field] | [site:slogan]',
+      ),
     ),
   );
 
@@ -45,13 +66,13 @@ function seo_metatag_export_default() {
     'instance' => 'global',
     'config' => array(
       'title' => array(
-        'value' => '[current-page:title] | [site:name]',
+        'value' => '[current-page:title] | [site:slogan]',
       ),
       'description' => array(
-        'value' => 'Competition hosting and livetracking service for paragliding competitions organizers and fans.',
+        'value' => 'Sports event on-line presentation. Full support with registrations, live tracking, 2D and 3D live view and replay.',
       ),
       'keywords' => array(
-        'value' => 'Paragliding, live tracking, hang gliding, par ascending, gliding, paramotor, powered paragliding, powered hang gliding, extreme, extreme sports, flying, free flight, airsports, learn to fly, skywings',
+        'value' => 'live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
       ),
       'canonical' => array(
         'value' => '[current-page:url:absolute]',
@@ -79,7 +100,7 @@ function seo_metatag_export_default() {
     'instance' => 'user',
     'config' => array(
       'title' => array(
-        'value' => '[user:name] | [site:name]',
+        'value' => '[user:profile-pilot:field-address:first_name]-[user:profile-pilot:field-address:last_name] | [site:slogan]',
       ),
       'og:title' => array(
         'value' => '[user:profile-pilot:field-address:first_name] [user:profile-pilot:field-address:last_name]',
@@ -95,7 +116,13 @@ function seo_metatag_export_default() {
     'instance' => 'global:frontpage',
     'config' => array(
       'title' => array(
-        'value' => '[site:name]',
+        'value' => 'Paragliding competition GPS live tracking | [site:name]',
+      ),
+      'description' => array(
+        'value' => 'Create your competition site here! It\'s free! Full support with registrations, live tracking, 2D & 3D live view and replay.',
+      ),
+      'keywords' => array(
+        'value' => 'live tracking, live-tracking, sports events on-line, paragliding competitions, paragliding live tracking',
       ),
       'canonical' => array(
         'value' => '[site:url]',
@@ -107,7 +134,7 @@ function seo_metatag_export_default() {
         'value' => 'website',
       ),
       'og:title' => array(
-        'value' => '[site:name]',
+        'value' => 'On-line sports events presentation. | [site:slogan]',
       ),
       'og:url' => array(
         'value' => '[site:url]',
@@ -120,13 +147,13 @@ function seo_metatag_export_default() {
     'instance' => 'node',
     'config' => array(
       'title' => array(
-        'value' => '[node:title] | [site:name]',
+        'value' => '[node:title-field] | [site:slogan]',
       ),
       'description' => array(
         'value' => '[node:summary]',
       ),
       'og:title' => array(
-        'value' => '[node:title]',
+        'value' => '[node:title-field]',
       ),
       'og:description' => array(
         'value' => '[node:summary]',

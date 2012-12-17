@@ -20,9 +20,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'additional_settings__active_tab_contest';
+  $strongarm->name = 'additional_settings__active_tab_pg_contest';
   $strongarm->value = 'edit-schemaorg-ui';
-  $export['additional_settings__active_tab_contest'] = $strongarm;
+  $export['additional_settings__active_tab_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -240,9 +240,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_hide_translation_links_contest';
+  $strongarm->name = 'entity_translation_hide_translation_links_pg_contest';
   $strongarm->value = 0;
-  $export['entity_translation_hide_translation_links_contest'] = $strongarm;
+  $export['entity_translation_hide_translation_links_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -261,9 +261,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_node_metadata_contest';
+  $strongarm->name = 'entity_translation_node_metadata_pg_contest';
   $strongarm->value = '0';
-  $export['entity_translation_node_metadata_contest'] = $strongarm;
+  $export['entity_translation_node_metadata_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -275,7 +275,7 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_settings_node__contest';
+  $strongarm->name = 'entity_translation_settings_node__pg_contest';
   $strongarm->value = array(
     'default_language' => 'en',
     'hide_language_selector' => 0,
@@ -283,7 +283,7 @@ function variables_strongarm() {
     'lock_language' => 0,
     'shared_fields_original_only' => 1,
   );
-  $export['entity_translation_settings_node__contest'] = $strongarm;
+  $export['entity_translation_settings_node__pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

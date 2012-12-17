@@ -759,6 +759,8 @@ function og_ui_field_settings($form, &$form_state) {
   $group_fields_name = array_keys($group_fields);
 
   $entity_info = entity_get_info();
+  
+  dpm($entity_info);
 
   // Get the fields that exist in the bundle.
   foreach (field_info_fields() as $field_name => $field) {

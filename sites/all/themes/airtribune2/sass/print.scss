@@ -1,6 +1,5 @@
 
-// _base.scss imports _custom.scss and other partials.
-@import "base";
+@import "base.scss";
 
 /*
  * @file
@@ -8,9 +7,7 @@
  * This probably needs work, but it's a good starting point.
  */
 
-/*
- * Body
- */
+// Body
 body {
   width: 100% !important;
   margin: 0 !important;
@@ -25,9 +22,7 @@ body {
 }
 
 
-/*
- * Links
- */
+// Links
 a {
   background: transparent;
   font-weight: 700;
@@ -43,9 +38,7 @@ a {
   }
 }
 
-/*
- * Strip background from likely candidates
- */
+// Strip likely candidates
 div[id*="wrapper"],
 [class*="title"],
 [class*="inner"],
@@ -76,9 +69,7 @@ table * {
 }
 
 
-/*
- * Hide various bits of the page
- */
+// Hide various bits of the page
 .sidebar,
 #breadcrumb,
 .nav,
@@ -99,17 +90,12 @@ ul.links,
 }
 
 
-/*
- * Ensure the display the main content region
- */
+// Display the main content region
 #content {
   display: block !important;
 }
 
-
-/*
- * Layout
- */
+// Layout
 #header {
   margin-bottom: 20px;
 }
@@ -121,9 +107,7 @@ ul.links,
 }
 
 
-/*
- * HTML elements
- */
+// HTML elements
 h1,
 h2,
 h3,
@@ -209,9 +193,7 @@ hr {
 }
 
 
-/*
- * Header, Logo, Site name
- */
+// Header, Logo, Site name
 #header {
   padding-bottom: 20px;
 }
@@ -224,9 +206,7 @@ hr {
 }
 
 
-/*
- * Images
- */
+// Images
 img {
   float: left;
   margin: 4px 20px 10px 0;
@@ -239,9 +219,7 @@ a img {
  }
 
 
-/*
- * Tables
- */
+// Table
 table {
   margin: 1px;
   text-align: left;
@@ -286,16 +264,12 @@ tr {
 }
 
 
-/*
- * Forms
- */
+// Forms
 form {
   margin-bottom: 10px; }
 
 
-/*
- * Poll module
- */
+// Poll module
 .poll {
   .text,
   .percent,
@@ -308,9 +282,7 @@ form {
 }
 
 
-/*
- * Articles
- */
+// Articles
 .node,
 .comment {
   margin-bottom: 20px;
@@ -335,3 +307,4 @@ form {
     padding: 0;
   }
 }
+

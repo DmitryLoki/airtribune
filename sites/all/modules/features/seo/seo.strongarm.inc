@@ -239,6 +239,55 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_decode_entities';
+  $strongarm->value = 1;
+  $export['path_breadcrumbs_decode_entities'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_delimiter';
+  $strongarm->value = '»';
+  $export['path_breadcrumbs_delimiter'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_hide_single_breadcrumb';
+  $strongarm->value = 0;
+  $export['path_breadcrumbs_hide_single_breadcrumb'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_home_link_enabled';
+  $strongarm->value = 1;
+  $export['path_breadcrumbs_home_link_enabled'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_home_link_title';
+  $strongarm->value = 'Home';
+  $export['path_breadcrumbs_home_link_title'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_internal_render';
+  $strongarm->value = 1;
+  $export['path_breadcrumbs_internal_render'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_rich_snippets';
+  $strongarm->value = '2';
+  $export['path_breadcrumbs_rich_snippets'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_blog_pattern';
   $strongarm->value = 'blogs/[user:name]';
   $export['pathauto_blog_pattern'] = $strongarm;
@@ -309,37 +358,37 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_contest_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_pattern';
-  $strongarm->value = '[node:title_field]';
-  $export['pathauto_node_contest_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_ru_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_contest_ru_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_contest_und_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_contest_und_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_pattern';
-  $strongarm->value = '[node:title]/[node:title-field]';
+  $strongarm->value = '[node:title][node:title-field]';
   $export['pathauto_node_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_pg_contest_en_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_pg_contest_en_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_pg_contest_pattern';
+  $strongarm->value = '[node:title_field]';
+  $export['pathauto_node_pg_contest_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_pg_contest_ru_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_pg_contest_ru_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_pg_contest_und_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_pg_contest_und_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -645,55 +694,6 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_decode_entities';
-  $strongarm->value = 1;
-  $export['path_breadcrumbs_decode_entities'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_delimiter';
-  $strongarm->value = '»';
-  $export['path_breadcrumbs_delimiter'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_hide_single_breadcrumb';
-  $strongarm->value = 0;
-  $export['path_breadcrumbs_hide_single_breadcrumb'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_home_link_enabled';
-  $strongarm->value = 1;
-  $export['path_breadcrumbs_home_link_enabled'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_home_link_title';
-  $strongarm->value = 'Home';
-  $export['path_breadcrumbs_home_link_title'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_internal_render';
-  $strongarm->value = 1;
-  $export['path_breadcrumbs_internal_render'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'path_breadcrumbs_rich_snippets';
-  $strongarm->value = '2';
-  $export['path_breadcrumbs_rich_snippets'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'robotstxt';
   $strongarm->value = '#
 # robots.txt
@@ -756,9 +756,9 @@ Disallow: /?q=user/logout/';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'schemaorg_ui_type_contest';
+  $strongarm->name = 'schemaorg_ui_type_pg_contest';
   $strongarm->value = 'SportsEvent';
-  $export['schemaorg_ui_type_contest'] = $strongarm;
+  $export['schemaorg_ui_type_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -867,12 +867,12 @@ Disallow: /?q=user/logout/';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'xmlsitemap_settings_node_contest';
+  $strongarm->name = 'xmlsitemap_settings_node_pg_contest';
   $strongarm->value = array(
     'status' => '1',
     'priority' => '0.7',
   );
-  $export['xmlsitemap_settings_node_contest'] = $strongarm;
+  $export['xmlsitemap_settings_node_pg_contest'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -900,6 +900,27 @@ Disallow: /?q=user/logout/';
   $strongarm->name = 'xmlsitemap_xsl';
   $strongarm->value = 1;
   $export['xmlsitemap_xsl'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'site_mail';
+  $strongarm->value = 'robo@airtribune.com';
+  $export['site_mail'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'site_name';
+  $strongarm->value = 'Airtribune.com';
+  $export['site_name'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'site_slogan';
+  $strongarm->value = 'Paragliding competition GPS live tracking';
+  $export['site_slogan'] = $strongarm;
 
   return $export;
 }
