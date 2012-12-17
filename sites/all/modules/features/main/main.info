@@ -1,0 +1,17 @@
+name = Main profile
+core = 7.x
+package = Contributed entities
+php = 5.2.4
+dependencies[] = addressfield
+dependencies[] = date
+dependencies[] = entity
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = list
+dependencies[] = options
+dependencies[] = profile2
+features[features_api][] = api:1
+features[field][] = profile2-main-field_address
+features[field][] = profile2-main-field_birthdate
+features[field][] = profile2-main-field_gender
+features[profile2_type][] = main
