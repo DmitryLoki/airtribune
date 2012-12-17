@@ -164,7 +164,6 @@ function og_field_widget_form(&$form, &$form_state, $field, $instance, $langcode
   }
 
   $form['#after_build']['og'] = 'og_complex_widget_after_build';
-
   return $element;
 }
 

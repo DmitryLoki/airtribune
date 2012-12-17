@@ -1,11 +1,9 @@
-/*
- * @file
- * Print Styles
- * This probably needs work, but it's a good starting point.
+/**
+ * Basic styles for print.
+ * TODO: This probably needs work, but is a good starting point.
  */
-/*
- * Body
- */
+
+/* Body */
 body {
   width: 100% !important;
   margin: 0 !important;
@@ -14,31 +12,29 @@ body {
   word-spacing: 1.1pt;
   letter-spacing: 0.2pt;
   font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-  color: black;
+  color: rgb(0, 0, 0);
   background: none;
   font-size: 11pt;
 }
 
-/*
- * Links
- */
+
+/* Links */
 a {
   background: transparent;
   font-weight: 700;
   text-decoration: underline;
-  color: #0000ee;
+  color: rgb(0, 0, 238);
 }
-a[href^="http://"]:after, a[href^="http://"]:visited:after {
-  content: "(" attr(href) ")";
+
+
+a[href^="http://"]:after,
+a[href^="http://"]:visited:after {
+  content:" (" attr(href) ") ";
   font-size: 10pt;
 }
 
-/*
- * Strip background from likely candidates
- */
-div[id*="wrapper"],
-[class*="title"],
-[class*="inner"],
+
+/* Strip backgrounds of likely candidates */
 header,
 footer,
 #branding,
@@ -60,84 +56,83 @@ footer,
 .block-inner,
 .block-title,
 .block-content,
-table,
-table * {
-  background: none !important;
+table {
+  background:none !important;
 }
 
-/*
- * Hide various bits of the page
- */
+
+/* Hide various parts of the site. */
 .sidebar,
 #breadcrumb,
 .nav,
 .field-type-taxonomy-term-reference,
 ul.links,
+ul.links a,
 .feed-icon,
 .poll .bar,
-.poll .foreground,
+.poll .bar .foreground,
 .comment-form,
 #comment-form,
 .book-navigation,
 .tabs,
-.action-links,
 .pager,
 .messages,
 .help {
   display: none;
 }
 
-/*
- * Ensure the display the main content region
- */
-#content {
+
+/* Display the main content region */
+.region-content {
   display: block !important;
 }
 
-/*
- * Layout
- */
+
+/* Layout */
 #header {
   margin-bottom: 20px;
 }
+
 
 .content-inner {
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/*
- * HTML elements
- */
+
+/* HTML elements */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: #333333;
+  color: rgb(51, 51, 51);
   margin: 0;
   padding: 0;
   line-height: 1;
 }
 
+
 h1 {
   font-size: 14pt;
 }
 
-h2 {
+
+h2{
   font-size: 13pt;
 }
 
-h3 {
+
+h3{
   font-size: 12pt;
 }
 
-h4,
-h5,
-h6 {
+
+h4, h5, h6{
   font-size: 11pt;
 }
+
 
 h1 a,
 h2 a,
@@ -148,16 +143,20 @@ h6 a,
 #site-name a,
 #site-slogan {
   text-decoration: none !important;
-  color: #333333;
+  color: rgb(51, 51, 51);
 }
 
-hgroup a:link, hgroup a:visited {
+
+hgroup a:link,
+hgroup a:visited {
   text-decoration: none;
 }
+
 
 #page-title {
   margin-top: 20px;
 }
+
 
 pre,
 code,
@@ -166,27 +165,29 @@ samp,
 kbd,
 var {
   font-size: 10pt;
-  font-family: Consolas, "Lucida Console", Menlo, Monaco, "DejaVu Sans Mono", monospace, sans-serif;
+  font-family: Consolas, "Lucida Console", Menlo, Monaco, "DejaVu Sans Mono", monospace, sans-serif; /* Safari hack */
 }
+
 
 blockquote {
   margin: 20px;
   padding: 10px;
   font-size: 10pt;
   font-style: italic;
-  background: #eeeeee;
+  background: rgb(238, 238, 238);
 }
+
 
 hr {
-  background-color: #666666;
+  background-color: rgb(102, 102, 102);
 }
 
-/*
- * Header, Logo, Site name
- */
-#header {
+
+/* Header, Logo, Site name */
+header {
   padding-bottom: 20px;
 }
+
 
 #logo img {
   padding: 0 10px 0 0;
@@ -194,97 +195,93 @@ hr {
   float: none !important;
 }
 
-/*
- * Images
- */
+
+/* Images */
 img {
-  float: left;
+  float:left;
   margin: 4px 20px 10px 0;
   page-break-inside: avoid;
 }
 
+
 a img {
-  border: none;
+  border:none;
 }
 
-/*
- * Tables
- */
+
+/* Table */
 table {
   margin: 1px;
   text-align: left;
 }
 
+
 th {
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid rgb(51, 51, 51);
   font-weight: 700;
 }
 
+
 td {
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid rgb(51, 51, 51);
 }
 
-th,
-td {
+th,td {
   padding: 4px 10px 4px 0;
 }
+
 
 tfoot {
   font-style: italic;
 }
+
 
 caption {
   margin-bottom: 10px;
   text-align: left;
 }
 
+
 thead {
   display: table-header-group;
 }
+
 
 tr {
   page-break-inside: avoid;
 }
 
-/*
- * Forms
- */
+
+/* Forms */
 form {
   margin-bottom: 10px;
 }
 
-/*
- * Poll module
- */
+
+/* Poll module */
 .poll .text,
 .poll .percent,
 .poll .total {
   text-align: left;
 }
+
+
 .poll form {
   margin-bottom: 0;
 }
 
-/*
- * Articles
- */
-.node,
-.comment {
+
+/* Articles */
+.article {
   margin-bottom: 20px;
   overflow: hidden;
   page-break-inside: avoid;
 }
 
-.submitted {
-  color: #666666;
-  text-decoration: none;
-  font-size: 9pt;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-}
+
+.submitted,
 .submitted a {
-  color: #666666;
+  color: rgb(102, 102, 102);
   text-decoration: none;
   font-size: 9pt;
   font-weight: 400;

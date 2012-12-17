@@ -1,13 +1,38 @@
 <?php
-/*function airtribune_entity_info() {
-  $info['profile2'] = array(
-    'translation' => array(
-      'entity_translation' => array(
-        'base path' => 'profile-pilot/%profile2_by_uid',
-        'class' => 'AirtribuneTranslationDefaultHandler',
-        'path wildcard' => '%profile2_by_uid',
-      ),
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function airtribune_field_formatter_info() {
+  return array(
+    'adapitve_dates' => array(
+      'label' => t('Adaptive'),
+      'field types' => array('datetime'),
     ),
-  ); 
-  return $info;
-}*/
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  foreach ($items as $delta => $item) {
+    $date1 = getdate($ts1 = strtotime($item['value']));
+    $date2 = getdate($ts2 = strtotime($item['value2']));
+
+    // 23 Dec, 2012 — 5 Jan, 2013
+    if ($date1['year'] != $date2['year']) {
+      $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
+    }
+    // 28 Aug — 3 Sep, 2012
+    elseif ($date1['mon'] != $date2['mon']) {
+      $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
+    }
+    // 24 — 26 Aug, 2012
+    else {
+      $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
+    }
+    $element[$delta] = array('#markup' => $dates);
+  }
+  return $element;
+}

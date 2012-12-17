@@ -1,0 +1,15 @@
+name = "Geofield test"
+description = "Support module for the Geofield tests."
+core = 7.x
+hidden = TRUE
+package = Testing
+
+dependencies[] = geocoder
+dependencies[] = geofield
+
+; Information added by drupal.org packaging script on 2012-12-06
+version = "7.x-2.0-alpha2"
+core = "7.x"
+project = "geofield"
+datestamp = "1354769552"
+

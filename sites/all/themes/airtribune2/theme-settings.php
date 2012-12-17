@@ -1,17 +1,20 @@
 <?php
+function airtribune2_form_system_theme_settings_alter(&$form, &$form_state)  {
 
-/**
- * @file
- * Implimentation of hook_form_system_theme_settings_alter()
- *
- * To use replace "adaptivetheme_subtheme" with your themeName and uncomment by
- * deleting the comment line to enable.
- *
- * @param $form: Nested array of form elements that comprise the form.
- * @param $form_state: A keyed array containing the current state of the form.
- */
-/* -- Delete this line to enable.
-function adaptivetheme_subtheme_form_system_theme_settings_alter(&$form, &$form_state)  {
-  // Your knarly custom theme settings go here...
+  // Hide most of the responsive settings until I figure out what to do with them for this theme
+  /*
+  $form['at']['bigscreen']['bigscreen-layout-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+  $form['at']['bigscreen']['bigscreen-sidebar-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+
+  $form['at']['tablet']['landscape']['tablet-landscape-layout-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+  $form['at']['tablet']['landscape']['tablet-landscape-sidebar-width-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+  $form['at']['tablet']['portrait']['tablet-portrait-layout-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+  $form['at']['tablet']['portrait']['tablet-portrait-sidebar-width-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+
+  $form['at']['smartphone']['landscape']['smartphone-landscape-layout-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+  $form['at']['smartphone']['landscape']['smartphone-landscape-sidebar-width-wrapper']['#attributes'] = array('class' => array('element-invisible'));
+
+  $form['at']['smartphone']['#description'] = t('<h3>Smartphone Layout</h3><p>Smartphone devices such as iPhone, Android and Windows phones have two orientations - landscape and portrait.</p>');
+  $form['at']['smartphone']['portrait']['#description'] = t('<h4>Portrait smartphone</h4><p>The smartphone portrait layout always displays in one column with all regions/panes stacked vertically. All widths are always 100%.</p>');
+  */
 }
-// */

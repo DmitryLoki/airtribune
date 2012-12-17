@@ -260,14 +260,6 @@ function multiform_element_info_alter(&$type) {
         }
       }
     }
-    $input = array("red", "green", "blue", "yellow");
-    $needle = "green";
-    $replacement = "apple";
-    for($i=0;$i<count($input);$i++) {
-       if($input[$i] == $needle) {
-       $input[$i] = $replacement;
-       }
-    }
   }
 }
 
