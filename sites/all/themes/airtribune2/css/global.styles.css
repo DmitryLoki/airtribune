@@ -2418,7 +2418,7 @@ p { margin:0; padding:6px 0 10px}
 
 }
 
-#sign_in { position:absolute; z-index:10; top:14px; right:9px; width:220px; height:30px; border:1px solid #9faea0;
+#sign_in { position:absolute; z-index:10; top:14px; right:9px; width:220px; height:30px; border:1px solid #9faea0; 
 
 	-webkit-border-radius: 4px; 
 	-moz-border-radius: 4px;
