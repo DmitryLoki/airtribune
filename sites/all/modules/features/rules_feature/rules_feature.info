@@ -1,0 +1,9 @@
+name = Rules feature
+description = Rules settings
+core = 7.x
+package = Other
+dependencies[] = entity
+dependencies[] = og
+dependencies[] = rules
+features[features_api][] = api:1
+features[rules_config][] = rules_og_pilot_subscribe
