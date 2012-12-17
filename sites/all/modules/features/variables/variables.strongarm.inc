@@ -845,7 +845,7 @@ function variables_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'theme_default';
-  $strongarm->value = 'bartik';
+  $strongarm->value = 'airtribune2';
   $export['theme_default'] = $strongarm;
 
   $strongarm = new stdClass();
