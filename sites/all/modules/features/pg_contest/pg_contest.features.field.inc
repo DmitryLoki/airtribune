@@ -130,7 +130,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 8,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -202,7 +202,7 @@ function pg_contest_field_default_fields() {
           'module' => 'countries',
           'settings' => array(),
           'type' => 'country_default',
-          'weight' => 7,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -268,16 +268,10 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'date',
-          'settings' => array(
-            'format_type' => 'long',
-            'fromto' => 'both',
-            'multiple_from' => '',
-            'multiple_number' => '',
-            'multiple_to' => '',
-          ),
-          'type' => 'date_default',
-          'weight' => 6,
+          'module' => 'airtribune',
+          'settings' => array(),
+          'type' => 'adapitve_dates',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -361,7 +355,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 11,
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -452,7 +446,7 @@ function pg_contest_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 10,
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -520,7 +514,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 15,
+          'weight' => '15',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -591,7 +585,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 20,
+          'weight' => '20',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -662,7 +656,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 21,
+          'weight' => '21',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -737,7 +731,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 13,
+          'weight' => '13',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -808,7 +802,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 14,
+          'weight' => '14',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -883,7 +877,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 22,
+          'weight' => '22',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -975,7 +969,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 16,
+          'weight' => '16',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1048,7 +1042,7 @@ function pg_contest_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 19,
+          'weight' => '19',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1118,7 +1112,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 17,
+          'weight' => '17',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1189,7 +1183,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 18,
+          'weight' => '18',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1260,7 +1254,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 12,
+          'weight' => '12',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1329,7 +1323,7 @@ function pg_contest_field_default_fields() {
           'module' => 'tzfield',
           'settings' => array(),
           'type' => 'tzfield_default',
-          'weight' => 9,
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1401,7 +1395,7 @@ function pg_contest_field_default_fields() {
             'field_name' => FALSE,
           ),
           'type' => 'og_group_subscribe',
-          'weight' => 4,
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',

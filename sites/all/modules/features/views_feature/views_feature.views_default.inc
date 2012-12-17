@@ -118,17 +118,19 @@ function views_feature_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Path */
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  /* Field: Path (excluded) */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
   $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['ui_name'] = 'Path (excluded)';
   $handler->display->display_options['fields']['path']['label'] = '';
   $handler->display->display_options['fields']['path']['exclude'] = TRUE;
   $handler->display->display_options['fields']['path']['element_type'] = '0';
@@ -136,11 +138,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
-  /* Field: Title */
+  /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
@@ -150,34 +152,18 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Start date (excluded) */
+  /* Field: Dates (excluded) */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Start date (excluded)';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Dates (excluded)';
   $handler->display->display_options['fields']['field_dates']['label'] = '';
   $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
   $handler->display->display_options['fields']['field_dates']['settings'] = array(
-    'format_type' => 'race_date',
-    'fromto' => 'value',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Start date + End date */
-  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
-  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
-  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates_1']['ui_name'] = 'Start date + End date';
-  $handler->display->display_options['fields']['field_dates_1']['label'] = '';
-  $handler->display->display_options['fields']['field_dates_1']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_dates_1']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_dates_1']['alter']['text'] = '[field_dates] — [field_dates_1]';
-  $handler->display->display_options['fields']['field_dates_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
-    'format_type' => 'race_date',
-    'fromto' => 'value2',
+    'format_type' => 'short',
+    'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
@@ -190,16 +176,23 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_country']['label'] = '';
   $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Field: Country + City */
+  /* Field: City (excluded) */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
-  $handler->display->display_options['fields']['field_city']['ui_name'] = 'Country + City';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (excluded)';
   $handler->display->display_options['fields']['field_city']['label'] = '';
-  $handler->display->display_options['fields']['field_city']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_city']['alter']['text'] = '<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates_1]</span><span class="place">[field_country], [field_city]</span></a>';
+  $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_city']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
+  /* Field: All fields */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -232,15 +225,7 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('[field_dates] — [field_dates_1]'),
-    t('<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates_1]</span><span class="place">[field_country], [field_city]</span></a>'),
+    t('<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>'),
     t('Content pane'),
     t('View panes'),
   );

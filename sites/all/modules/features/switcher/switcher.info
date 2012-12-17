@@ -43,6 +43,7 @@ dependencies[] = filefield_paths
 dependencies[] = geocoder
 dependencies[] = geofield
 dependencies[] = geophp
+dependencies[] = globalredirect
 dependencies[] = googleanalytics
 dependencies[] = html5_tools
 dependencies[] = i18n
