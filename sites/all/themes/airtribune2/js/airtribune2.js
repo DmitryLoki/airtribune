@@ -19,7 +19,9 @@ jQuery(function($){
 		}
 	})
 	
-	$('.form-item input').each(function(){
+	setPlaceholder('.form-item input');
+	
+	/*$('.form-item input').each(function(){
 		if($(this).attr('rel')){
 			if($(this).val() == '') {
 				$(this).val($(this).attr('rel'))
@@ -38,7 +40,7 @@ jQuery(function($){
 				$(this).removeClass('focus').val($(this).attr('rel'));
 			}
 		});
-	});
+	});*/
 	
 });
 
@@ -130,4 +132,48 @@ function itemSizes (el) {
 		vert : height
 	}
 	return sizes
+}
+
+function setPlaceholder(id, setRequiredMark) {
+    var requiredSpan = '<span class="form-required">*</span>';
+    jQuery(id).each(function (index, input) {
+        if (typeof jQuery(this).attr('rel') !== 'undefined') {
+            /*if (jQuery.browser.webkit){
+             jQuery(this).attr({'autocomplete':'off'})
+             }*/
+            var span = jQuery('<span class="label">'
+                + jQuery(this).attr('rel')
+                + (setRequiredMark ? requiredSpan : '')
+                + '</span>');
+            jQuery(this).parent().append(span);
+            setTimeout(function () {
+                if (input.value.length > 0)
+                    span.hide();
+            }, 1000);
+            if (jQuery(this).attr('value') != '') {
+                jQuery(this).parent().children('span.label').hide();
+            }
+            jQuery(this).focus(function () {
+                jQuery(this).parent().children('span.label').hide();
+            });
+            jQuery(this).blur(function () {
+                if (jQuery(this).attr('value') == '') {
+                    jQuery(this).parent().children('span.label').show();
+                }
+            });
+            jQuery(this).bind('keyup', function () {
+                jQuery(this).parents('form').find('.form-item input').each(function () {
+                    //alert(1)
+                    if (jQuery(this).attr('value') != '') {
+                        jQuery(this).parent().children('span.label').hide();
+                    }
+                })
+            });
+            span.click(function () {
+                jQuery(this).parent().find('input').focus();
+                jQuery(this).hide();
+            });
+        }
+
+    });
 }
