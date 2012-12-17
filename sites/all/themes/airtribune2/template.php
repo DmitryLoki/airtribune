@@ -302,9 +302,9 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
     	case 'user_login_block':
 			//print_r($form);
 			$form['name']['#attributes']['rel'] = t('Enter your e-mail');
-			hide($form['name']['#title']);
+			unset($form['name']['#title']);
 			$form['pass']['#attributes']['rel'] = t('Enter your password');
-			hide($form['pass']['#title']);
+			unset($form['pass']['#title']);
 			$form['actions']['submit']['#value'] = t('Go');
 			
 			$items = array();
