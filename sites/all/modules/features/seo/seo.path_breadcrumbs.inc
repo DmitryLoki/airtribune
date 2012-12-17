@@ -24,7 +24,7 @@ function seo_path_breadcrumbs_settings_info() {
       0 => 'hotels',
       1 => '%node:url',
     ),
-    'home' => 1,
+    'home' => 0,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
@@ -56,17 +56,63 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_activity_newsblog';
+  $path_breadcrumb->name = 'BreadCrumb Activity NewsBlog';
+  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Activity',
+      1 => '%node:title-field',
+    ),
+    'paths' => array(
+      0 => '%site:url',
+      1 => '%node:url',
+    ),
+    'home' => 0,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['breadcrumb_activity_newsblog'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest';
   $path_breadcrumb->name = 'BreadCrumb Paragliding Contest';
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => '%node:title-field',
+      0 => 'Events',
+      1 => '%node:title-field',
     ),
     'paths' => array(
-      0 => '%node:url',
+      0 => 'events',
+      1 => '%node:url',
     ),
-    'home' => 1,
+    'home' => 0,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
@@ -110,7 +156,7 @@ function seo_path_breadcrumbs_settings_info() {
       0 => '%node:og-group-ref:0:url',
       1 => '%node:url',
     ),
-    'home' => 1,
+    'home' => 0,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(

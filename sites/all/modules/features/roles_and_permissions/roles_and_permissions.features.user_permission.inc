@@ -79,7 +79,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['access user profiles'] = array(
     'name' => 'access user profiles',
     'roles' => array(
-      0 => 'editor',
+      0 => 'anonymous user',
+      1 => 'editor',
     ),
     'module' => 'user',
   );
@@ -154,6 +155,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'filter',
   );
 
+  // Exported permission: administer google analytics.
+  $permissions['administer google analytics'] = array(
+    'name' => 'administer google analytics',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'googleanalytics',
+  );
+
   // Exported permission: administer group.
   $permissions['administer group'] = array(
     'name' => 'administer group',
@@ -187,6 +197,16 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'administer media',
     'roles' => array(),
     'module' => 'media',
+  );
+
+  // Exported permission: administer meta tags.
+  $permissions['administer meta tags'] = array(
+    'name' => 'administer meta tags',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'metatag',
   );
 
   // Exported permission: administer modules.
@@ -240,6 +260,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'panels',
   );
 
+  // Exported permission: administer path breadcrumbs.
+  $permissions['administer path breadcrumbs'] = array(
+    'name' => 'administer path breadcrumbs',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'path_breadcrumbs_ui',
+  );
+
   // Exported permission: administer pathauto.
   $permissions['administer pathauto'] = array(
     'name' => 'administer pathauto',
@@ -282,6 +311,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'relation',
   );
 
+  // Exported permission: administer robots.txt.
+  $permissions['administer robots.txt'] = array(
+    'name' => 'administer robots.txt',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'robotstxt',
+  );
+
   // Exported permission: administer site configuration.
   $permissions['administer site configuration'] = array(
     'name' => 'administer site configuration',
@@ -322,6 +360,15 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'administer views',
     'roles' => array(),
     'module' => 'views',
+  );
+
+  // Exported permission: administer xmlsitemap.
+  $permissions['administer xmlsitemap'] = array(
+    'name' => 'administer xmlsitemap',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'xmlsitemap',
   );
 
   // Exported permission: block IP addresses.
@@ -938,6 +985,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'media',
   );
 
+  // Exported permission: edit meta tags.
+  $permissions['edit meta tags'] = array(
+    'name' => 'edit meta tags',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'metatag',
+  );
+
   // Exported permission: edit node original values.
   $permissions['edit node original values'] = array(
     'name' => 'edit node original values',
@@ -1163,6 +1219,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'pathauto',
   );
 
+  // Exported permission: opt-in or out of tracking.
+  $permissions['opt-in or out of tracking'] = array(
+    'name' => 'opt-in or out of tracking',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'googleanalytics',
+  );
+
   // Exported permission: revert revisions.
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
@@ -1226,6 +1291,15 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'use PHP for title patterns',
     'roles' => array(),
     'module' => 'auto_nodetitle',
+  );
+
+  // Exported permission: use PHP for tracking visibility.
+  $permissions['use PHP for tracking visibility'] = array(
+    'name' => 'use PHP for tracking visibility',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'googleanalytics',
   );
 
   // Exported permission: use page manager.
