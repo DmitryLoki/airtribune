@@ -302,18 +302,19 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
     	case 'user_login_block':
 			//print_r($form);
 			$form['name']['#attributes']['rel'] = t('Enter your e-mail');
-			unset($form['name']['#title']);
+			hide($form['name']['#title']);
 			$form['pass']['#attributes']['rel'] = t('Enter your password');
-			unset($form['pass']['#title']);
+			hide($form['pass']['#title']);
 			$form['actions']['submit']['#value'] = t('Go');
 			
 			$items = array();
 			$items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
 			if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
-				$items[] = l(t('Register new user'), 'user/register', array('attributes' => array(
-																									'title' => t('Create a new user account.'),
-																									'class' => 'user_register_button',
-																								 )));
+				$reg_attrs = array('attributes' => array(
+					'class' => array('user_register_button'),
+					'title' => t('Create a new user account.'))
+				);
+				$items[] = l(t('Register new user'), 'user/register', $reg_attrs);
 			}
 			$form['links'] = array(
 				'#markup' => theme('item_list', array('items' => $items)),
