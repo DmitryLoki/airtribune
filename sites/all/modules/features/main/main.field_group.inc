@@ -25,7 +25,7 @@ function main_field_group_info() {
     'children' => array(
       0 => 'field_birthdate',
       1 => 'field_gender',
-      2 => 'field_address',
+      2 => 'field_full_name',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -51,9 +51,9 @@ function main_field_group_info() {
     'label' => 'All',
     'weight' => '0',
     'children' => array(
-      0 => 'field_birthdate',
-      1 => 'field_gender',
-      2 => 'field_address',
+      0 => 'field_gender',
+      1 => 'field_birthdate',
+      2 => 'field_full_name',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
