@@ -11,7 +11,31 @@ function multiform_ajax_form_callback() {
   
   module_load_include('inc', 'multiform');
   
-  dsm($_POST);
+  $multiform = array(
+    'multiform' => $_POST['multiform'],
+    'form_id' => $_POST['form_id'],
+    'form_build_id' => $_POST['form_build_id'],
+  );
+  foreach($multiform as $key => $value) {
+    unset($_POST[$key]);
+  }
+  $_POST += $multiform['multiform']['user_register_form_1'];
+  
+  
+  
+  // This part is based on ajax_form_callback().
+  list($form, $form_state) = ajax_get_form();
+  
+  drupal_process_form($form['#form_id'], $form, $form_state);
+  $multiform = array();  // custom
+  multiform_process_form_state('restore', $form_state);  // custom
+  _multiform_delayed_submit_execute($form, $form_state, $form['#form_id'], $multiform);  // custom
+  if (!empty($form_state['triggering_element'])) {
+    $callback = $form_state['triggering_element']['#ajax']['callback'];
+  }
+  if (!empty($callback) && function_exists($callback)) {
+    return $callback($form, $form_state);
+  }
 }
 
 // TODO:
@@ -32,25 +56,15 @@ function multiform_ajax_process_form($element, &$form_state) {
         $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url'] = '/multiform/ajax';
       }
     }
-    dsm($element);
+    //dsm($element);
   }
   
   return $element;
 }
 
 /*
-// Remove
-function multiform_ajax_preprocess(&$form) {
-  // TODO: must be executed before pre_render called (see ajax_pre_render_element).
-  // Possibly could be done in #after_build.
-  
-  $form['multiform']['user_register_form_1']['profile_pilot']['field_address']['und'][0]['country']['#ajax']['path'] = 'multiform/ajax';
-  unset($form['multiform']['user_register_form_1']['profile_pilot']['field_address']['und'][0]['country']['#ajax']);
-  dsm($form);
-}
-*/
-
 // TODO:
 function multiform_ajax_pre_render_element($element) {
   
 }
+*/

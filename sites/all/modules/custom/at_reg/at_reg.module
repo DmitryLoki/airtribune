@@ -1,7 +1,7 @@
 <?php
 
 
-define('PILOT_PROFILE_NAME', 'pilot');
+define('PILOT_PROFILE_NAME', 'test');
 define('CONTEST_MEMBERSHIP_NAME', 'competitor');
 
 
@@ -182,32 +182,6 @@ function at_reg_field_formatter_settings_summary($field, $instance, $view_mode) 
 // TODO: develop more flexible way to attach profile form.
 // See profile2_form_user_register_form_alter().
 
-// Add Pilot profile to registration form
-// on contest subscribtion page.
-function at_reg_entity_load($entities, $type) {
-  
-  $type_name = PILOT_PROFILE_NAME;
-  if($type == 'profile2_type') {
-    if(at_reg_show_pilot_profile()){
-      foreach($entities as $entity) {
-        if($entity->type == $type_name) {
-          $entity->data['registration'] = TRUE;
-        }
-      }
-    }
-  }
-}
-
-
-function at_reg_show_pilot_profile($flag = NULL) {
-  static $stored_flag = FALSE;
-  
-  if(isset($flag)) {
-    $stored_flag = $flag;
-  }
-  return $stored_flag;
-}
-
 
 
 /**
@@ -222,7 +196,13 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
   // 'Field required' condition for both double fields should be the same
   
   // $multiform = in_array('multiform_usage', $form_state['build_info']['args']) ? TRUE : FALSE;
+  
+  /*
   $multiform = isset($form_state['#multiform_id']) && $form_state['#multiform_id'] == 'contest_registration_multiform'
+              ? TRUE
+              : FALSE;
+  */
+  $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
               ? TRUE
               : FALSE;
   switch($form_id){
@@ -282,12 +262,27 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         // Get values from $_POST for intersecting fields
         $profile_type = $profile_type_bundle = PILOT_PROFILE_NAME;
         $membership_bundle = CONTEST_MEMBERSHIP_NAME;
+//        dsm($form_state);
+        
+        if (empty($form_state['profiles'][$profile_type])) {
+          $form_state['profiles'][$profile_type] = profile2_create(array('type' => $profile_type));
+        }
+        $profile_type_entity = profile2_type_load($profile_type);
+        profile2_attach_form($form, $form_state);
+        // Wrap each profile form in a fieldset.
+        $form['profile_' . $profile_type] += array(
+          '#type' => 'fieldset', 
+          '#title' => check_plain($profile_type_entity->getTranslation('label')),
+        );
+        
+        
         // Get intersection of field sets in MT and Profile.
         $fields_intersect = at_reg_fields_intersect($membership_bundle, $profile_type_bundle);
         
         // TODO: Maybe add process function via hook_element_info_alter().
         foreach($fields_intersect as $field) {
-          $form['profile_' . $profile_type]['field_paraglider_manufacturer']['#process'][] = 'at_reg_field_element_process';
+          // TODO: Add #process to intersecting fields.
+          //$form['profile_' . $profile_type]['field_paraglider_manufacturer']['#process'][] = 'at_reg_field_element_process';
         }
       }
       break;
@@ -298,6 +293,7 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
     // $form['#after_build'][] = 'at_reg_multiform_after_build';
     // Enable cache since some forms like og_ui_confirm_subscribe() are not cached.
     // We need this to enable simultaneous validation of subforms.
+    // TODO: maybe we don't need this. Check multiform auxilary validation and multiform_process_form_state
     $form_state['cache'] = TRUE;
   }
 }

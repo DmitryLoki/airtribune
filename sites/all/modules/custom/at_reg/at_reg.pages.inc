@@ -11,9 +11,9 @@
  */
 function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
   
+  // This is done in hook_form_alter().
   // Set flag to show pilot profile at registration.
   // see at_reg_entity_load().
-  at_reg_show_pilot_profile(TRUE);
   
   module_load_include('inc', 'og_ui', 'og_ui.pages');
   global $user;

@@ -9,9 +9,7 @@ function multiform_menu() {
     'delivery callback' => 'ajax_deliver', 
     'access callback' => TRUE, 
     'theme callback' => 'ajax_base_page_theme', 
-    'type' => MENU_CALLBACK, 
-    //'file path' => 'includes', 
-    //'file' => 'form.inc',
+    'type' => MENU_CALLBACK,
     'file' => 'multiform.ajax.inc',
   );
   return $items;
@@ -33,6 +31,10 @@ function multiform_menu() {
  */
 function multiform_get_form() {
   module_load_include('inc', 'multiform');
+  // Trigger multiform_element_info_alter().
+  // Replace ajax_process_form() with multiform specific one.
+  is_multiform_page(TRUE);
+  
   $all_args = func_get_args();
   // Prepare $multiform array
   $multiform = multiform_init_multiform_settings($all_args);
@@ -195,10 +197,6 @@ function multiform_form_alter(&$form, &$form_state, $form_id) {
     // We need after_build function to add auxilary validation function, that should be last in the list.
     // For the same purpose hook_module_implements_alter() is implemented.
     $form['#after_build'][] = 'multiform_after_build';
-    
-    // Trigger multiform_element_info_alter().
-    // Replace ajax_process_form() with multiform specific one.
-    is_multiform_page(TRUE);
   }
 }
 
