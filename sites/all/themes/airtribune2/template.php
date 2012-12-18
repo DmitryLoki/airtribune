@@ -1,106 +1,325 @@
 <?php
 
 /**
- * @file
- * Process theme data.
- *
- * Use this file to run your theme specific implimentations of theme functions,
- * such preprocess, process, alters, and theme function overrides.
- *
- * Preprocess and process functions are used to modify or create variables for
- * templates and theme functions. They are a common theming tool in Drupal, often
- * used as an alternative to directly editing or adding code to templates. Its
- * worth spending some time to learn more about these functions - they are a
- * powerful way to easily modify the output of any template variable.
- * 
- * Preprocess and Process Functions SEE: http://drupal.org/node/254940#variables-processor
- * 1. Rename each function and instance of "adaptivetheme_subtheme" to match
- *    your subthemes name, e.g. if your theme name is "footheme" then the function
- *    name will be "footheme_preprocess_hook". Tip - you can search/replace
- *    on "adaptivetheme_subtheme".
- * 2. Uncomment the required function to use.
+ * Preprocess html.tpl.php
  */
-
-
-/**
- * Preprocess variables for the html template.
- */
-/* -- Delete this line to enable.
-function adaptivetheme_subtheme_preprocess_html(&$vars) {
+function airtribune2_preprocess_html(&$vars) {
   global $theme_key;
+  $theme_name = $theme_key;
 
-  // Two examples of adding custom classes to the body.
-  
-  // Add a body class for the active theme name.
-  // $vars['classes_array'][] = drupal_html_class($theme_key);
+  // Add class for the active theme name
+  $vars['classes_array'][] = drupal_html_class($theme_name);
 
   // Browser/platform sniff - adds body classes such as ipad, webkit, chrome etc.
-  // $vars['classes_array'][] = css_browser_selector();
+  /* -- Delete this line to add a classes for the browser and platform.
+  $vars['classes_array'][] = css_browser_selector();
+  // */
 
+  // Remove body classes added by Drupal core
+  $classes_to_remove = array('two-sidebars', 'one-sidebar sidebar-first', 'one-sidebar sidebar-second', 'no-sidebars');
+  foreach ($vars['classes_array'] as $key => $css_class) {
+    if (in_array($css_class, $classes_to_remove)) {
+      unset($vars['classes_array'][$key]);
+    }
+  }
+  $vars['classes_array'][] = 'body_bgr';
+  if($vars['is_front']) {
+	  //$vars['title'] = t('Activity feed');
+	  drupal_set_title(t('Activity feed'));
+  }
 }
-// */
-
 
 /**
- * Process variables for the html template.
+ * Preprocess Site Template
  */
-/* -- Delete this line if you want to use this function
-function adaptivetheme_subtheme_process_html(&$vars) {
-}
-// */
+function airtribune2_preprocess_airtribune2_site_template(&$vars) {
+  global $theme_key;
+  $theme_name = $theme_key;
 
+  // Add information about the number of sidebars.
+  $content = $vars['content'];
+  
+  $sidebars = array();
+  if (!empty($content['sidebar_first']) && !empty($content['sidebar_second'])) {
+    $sidebars[] = 'two-sidebars';
+  }
+  elseif (!empty($content['sidebar_first'])) {
+    $sidebars[] = 'one-sidebar sidebar-first';
+  }
+  elseif (!empty($content['sidebar_second'])) {
+    $sidebars[] = 'one-sidebar sidebar-second';
+  }
+  else {
+    $sidebars[] = 'no-sidebars';
+  }
+  $vars['classes_array'][] = implode(' ', $sidebars);
+
+  // Add the container class, but only when the standard layout is selected,
+  // if you add more layout plugsins you will need to add the "container" class
+  // either using the logic below or directly to the template in the layout
+  // plugin template (on the main wrapper or elsewhere, where you need it).
+  if (at_get_setting('enable_extensions', $theme_name) === 0) {
+    if (at_get_setting('enable_markup_overides', $theme_name) === 0) {
+      if (at_get_setting('page_full_width_wrappers', $theme_name) === 0) {
+        if ($vars['layout']['theme'] = 'airtribune2_site_template') {
+          $vars['classes_array'][] = 'container';
+        }
+      }
+    }
+  }
+
+  // Strip stupid contextual links region class, wtf?
+  $vars['classes_array'] = array_values(array_diff($vars['classes_array'], array('contextual-links-region')));
+
+  // Generate page classes, in AT Core these are all Extensions
+  if (at_get_setting('enable_extensions', $theme_name) === 1) {
+    if ($page_classes = generate_page_classes($vars, $theme_name)) {
+      foreach ($page_classes as $class_name) {
+        $vars['classes_array'][] = $class_name;
+      }
+    }
+  }
+}
 
 /**
- * Override or insert variables for the page templates.
+ * Preprocess Site Template
  */
-/* -- Delete this line if you want to use these functions
-function adaptivetheme_subtheme_preprocess_page(&$vars) {
-}
-function adaptivetheme_subtheme_process_page(&$vars) {
-}
-// */
+function airtribune2_preprocess_airtribune2_site_template_fww(&$vars) {
+  global $theme_key;
+  $theme_name = $theme_key;
 
+  // Add information about the number of sidebars.
+  $content = $vars['content'];
+  
+  $sidebars = array();
+  if (!empty($content['sidebar_first']) && !empty($content['sidebar_second'])) {
+    $sidebars[] = 'two-sidebars';
+  }
+  elseif (!empty($content['sidebar_first'])) {
+    $sidebars[] = 'one-sidebar sidebar-first';
+  }
+  elseif (!empty($content['sidebar_second'])) {
+    $sidebars[] = 'one-sidebar sidebar-second';
+  }
+  else {
+    $sidebars[] = 'no-sidebars';
+  }
+  $vars['classes_array'][] = implode(' ', $sidebars);
+
+  // Add the container class, but only when the standard layout is selected,
+  // if you add more layout plugsins you will need to add the "container" class
+  // either using the logic below or directly to the template in the layout
+  // plugin template (on the main wrapper or elsewhere, where you need it).
+  if (at_get_setting('enable_extensions', $theme_name) === 0) {
+    if (at_get_setting('enable_markup_overides', $theme_name) === 0) {
+      if (at_get_setting('page_full_width_wrappers', $theme_name) === 0) {
+        if ($vars['layout']['theme'] = 'airtribune2_site_template') {
+          $vars['classes_array'][] = 'container';
+        }
+      }
+    }
+  }
+
+  // Strip stupid contextual links region class, wtf?
+  $vars['classes_array'] = array_values(array_diff($vars['classes_array'], array('contextual-links-region')));
+
+  // Generate page classes, in AT Core these are all Extensions
+  if (at_get_setting('enable_extensions', $theme_name) === 1) {
+    if ($page_classes = generate_page_classes($vars, $theme_name)) {
+      foreach ($page_classes as $class_name) {
+        $vars['classes_array'][] = $class_name;
+      }
+    }
+  }
+}
 
 /**
- * Override or insert variables into the node templates.
+ * Preprocess Pane Header
  */
-/* -- Delete this line if you want to use these functions
-function adaptivetheme_subtheme_preprocess_node(&$vars) {
-}
-function adaptivetheme_subtheme_process_node(&$vars) {
-}
-// */
+function airtribune2_preprocess_pane_header(&$vars) {
+  global $theme_key;
+  $theme_name = $theme_key;
 
+  // Set up logo element
+  if (at_get_setting('toggle_logo', $theme_name) === 1) {
+    $vars['site_logo'] = drupal_static('adaptivetheme_preprocess_page_site_logo');
+    if (empty($vars['site_logo'])) {
+      $logo_path = check_url($vars['logo']);
+      $logo_alt = check_plain(variable_get('site_name', t('Site logo')));
+      $logo_vars = array('path' => $logo_path, 'alt' => $logo_alt, 'attributes' => array('class' => 'site-logo'));
+      $logo_img = theme('image', $logo_vars);
+      $vars['site_logo'] = $logo_img ? l($logo_img, '<front>', array('attributes' => array('title' => t('Home page')), 'html' => TRUE)) : '';
+    }
+    // Maintain backwards compatibility with 7.x-2.x sub-themes
+    $vars['logo_img'] = isset($logo_img) ? $logo_img : '';
+    $vars['linked_site_logo'] = $vars['site_logo'];
+  }
+  else {
+    $vars['site_logo'] = '';
+    $vars['logo_img'] = '';
+    $vars['linked_site_logo'] = '';
+  }
+
+  // Site name
+  $vars['site_name'] = &drupal_static('adaptivetheme_preprocess_page_site_name');
+  if (empty($vars['site_name'])) {
+    $sitename = variable_get('site_name', 'Drupal');
+    $vars['site_name'] = l($sitename, '<front>', array('attributes' => array('title' => t('Home page'))));
+    $vars['site_name_unlinked'] = $sitename;
+  }
+
+  // Site name visibility and other classes
+  $vars['site_name_attributes_array'] = array();
+
+  $vars['visibility'] = '';
+  $vars['hide_site_name'] = FALSE;
+  if (at_get_setting('toggle_name', $theme_name) === 0) {
+    // Keep the visibility variable to maintain backwards compatibility
+    $vars['visibility'] = 'element-invisible';
+    $vars['site_name_attributes_array']['class'][] = $vars['visibility'];
+    $vars['hide_site_name'] = TRUE;
+  }
+
+  // hgroup attributes
+  $vars['hgroup_attributes_array'] = array();
+  if (!$vars['site_slogan'] && $vars['hide_site_name']) {
+    $vars['hgroup_attributes_array']['class'][] = $vars['visibility'];
+  }
+}
 
 /**
- * Override or insert variables into the comment templates.
+ * Process pane header
  */
-/* -- Delete this line if you want to use these functions
-function adaptivetheme_subtheme_preprocess_comment(&$vars) {
-}
-function adaptivetheme_subtheme_process_comment(&$vars) {
-}
-// */
+function airtribune2_process_pane_header(&$vars) {
 
+  global $theme_key;
+  $theme_name = $theme_key;
+
+  // Site name, Slogan and hgroup attributes
+  $vars['site_name_attributes'] = empty($vars['site_name_attributes_array']) ? '' : drupal_attributes($vars['site_name_attributes_array']);
+  $vars['site_slogan_attributes'] = empty($vars['site_slogan_attributes_array']) ? '' : drupal_attributes($vars['site_slogan_attributes_array']);
+  $vars['hgroup_attributes'] = empty($vars['hgroup_attributes_array']) ? '' : drupal_attributes($vars['hgroup_attributes_array']);
+}
 
 /**
- * Override or insert variables into the block templates.
+ * Preprocess pane navigation vars
  */
-/* -- Delete this line if you want to use these functions
-function adaptivetheme_subtheme_preprocess_block(&$vars) {
+function airtribune2_preprocess_pane_navigation(&$vars) {
+  // Build a variable for the main menu
+  if (isset($vars['main_menu'])) {
+    $vars['primary_navigation'] = theme('links', array(
+      'links' => $vars['main_menu'],
+      'attributes' => array(
+        'class' => array('menu', 'primary-menu', 'clearfix'),
+       ),
+      'heading' => array(
+        'text' => t('Main menu'),
+        'level' => 'h2',
+        'class' => array('element-invisible'),
+      )
+    ));
+  }
+  // Build a variable for the secondary menu
+  if (isset($vars['secondary_menu'])) {
+    $vars['secondary_navigation'] = theme('links', array(
+      'links' => $vars['secondary_menu'],
+      'attributes' => array(
+        'class' => array('menu', 'secondary-menu', 'clearfix'),
+      ),
+      'heading' => array(
+        'text' => t('Secondary navigation'),
+        'level' => 'h2',
+        'class' => array('element-invisible'),
+      )
+    ));
+  }
 }
-function adaptivetheme_subtheme_process_block(&$vars) {
-}
-// */
 
-function airtribune2_preprocess_html(&$variables) {
- $variables['classes_array'][] = 'body_bgr';
+/**
+ * Preprocess pane navigation vars
+ */
+function airtribune2_process_pane_navigation(&$vars) {
+  // theme the menu bars
+  if (!empty($vars['primary_navigation'])) {
+    $vars['primary_navigation'] = theme('menubar', array('menu' => $vars['primary_navigation'], 'type' => 'primary'));
+  }
+  if (!empty($vars['secondary_navigation'])) {
+    $vars['secondary_navigation'] = theme('menubar', array('menu' => $vars['secondary_navigation'], 'type' => 'secondary'));
+  }
 }
 
-function airtribune2_preprocess_block(&$variables){
-	//print_r($variables);
-	if($variables['block']->delta == 'main-menu' && $variables['block']->region == 'header'){
-		$variables['classes_array'][] = 'header_main_menu';
+// Preprocess pane messages vars
+function airtribune2_preprocess_pane_messages(&$vars) {
+  $vars['primary_local_tasks'] = menu_primary_local_tasks();
+  $vars['secondary_local_tasks'] = menu_secondary_local_tasks();
+}
+
+/**
+ * Add templates for panes
+ * @param array $variables
+ * @autor Vyacheslav "ValiDoll" Malchik <info@vkey.biz>
+ */
+function airtribune2_preprocess_panels_pane(&$variables) {
+  $base = 'panels_pane';
+  $delimiter = '__';
+  $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
+}
+
+/**
+ * Implements preprocess_node().
+ */
+function airtribune2_preprocess_node(&$vars) {
+
+  // Override "read more" link.
+  // See issue #2362.
+  if (isset($vars['content']['links']['node']['#links']['node-readmore'])) {
+    $vars['content']['links']['node']['#links']['node-readmore']['title'] = t('View more');
+  }
+
+}
+
+/**
+ * Implements theme_menu_link().
+ */
+function airtribune2_menu_link__footer_menu(&$vars) {
+  $element = $vars['element'];
+  $sub_menu = '';
+  if ($element['#below']) {
+  	$sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+	if (!empty($element['#localized_options']['attributes']['title'])) {
+		$output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
+	}
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function airtribune2_form_alter(&$form, $form_state, $form_id) {
+	switch ($form_id) {
+    	case 'user_login_block':
+			//print_r($form);
+			$form['name']['#attributes']['rel'] = t('Enter your e-mail');
+			unset($form['name']['#title']);
+			$form['pass']['#attributes']['rel'] = t('Enter your password');
+			unset($form['pass']['#title']);
+			$form['actions']['submit']['#value'] = t('Go');
+			
+			$items = array();
+			$items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
+			if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
+				$items[] = l(t('Register new user'), 'user/register', array('attributes' => array(
+																									'title' => t('Create a new user account.'),
+																									'class' => 'user_register_button',
+																								 )));
+			}
+			$form['links'] = array(
+				'#markup' => theme('item_list', array('items' => $items)),
+				'#weight' => 100,
+			);
+		break;
 	}
 }
 

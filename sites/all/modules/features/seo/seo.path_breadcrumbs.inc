@@ -12,8 +12,8 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'accommodation';
-  $path_breadcrumb->name = 'Accommodation';
+  $path_breadcrumb->machine_name = 'breadcrumb_accommodation';
+  $path_breadcrumb->name = 'BreadCrumb Accommodation';
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -52,12 +52,12 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = 0;
-  $export['accommodation'] = $path_breadcrumb;
+  $export['breadcrumb_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'contest';
-  $path_breadcrumb->name = 'Contest';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest';
+  $path_breadcrumb->name = 'BreadCrumb Paragliding Contest';
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -83,7 +83,7 @@ function seo_path_breadcrumbs_settings_info() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'contest' => 'contest',
+              'pg_contest' => 'pg_contest',
             ),
           ),
           'context' => 'node',
@@ -94,12 +94,12 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = 0;
-  $export['contest'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'race';
-  $path_breadcrumb->name = 'Race';
+  $path_breadcrumb->machine_name = 'breadcrumb_race';
+  $path_breadcrumb->name = 'BreadCrumb Race';
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -138,7 +138,7 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = 0;
-  $export['race'] = $path_breadcrumb;
+  $export['breadcrumb_race'] = $path_breadcrumb;
 
   return $export;
 }
