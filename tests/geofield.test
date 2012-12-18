@@ -47,7 +47,7 @@ class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
 
   public static function getInfo() {
     return array(
-      'name'  => 'Geofield - Widgetsx',
+      'name'  => 'Geofield - Widgets',
       'description'  => "Test the creation of geofields.",
       'group' => 'Geofield'
     );
@@ -90,8 +90,10 @@ class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
     preg_match('|test-entity/manage/(\d+)/edit|', $this->url, $match);
     $id = $match[1];
     $this->assertRaw(t('test_entity @id has been created.', array('@id' => $id)), t('Lat/lon entity was created'));
+    $this->assertFieldByName($this->field_name . '[und][0][geom][lat]', $geometry->getY(), 'Lat field widget set correctly');
+    $this->assertFieldByName($this->field_name . '[und][0][geom][lon]', $geometry->getX(), 'Lon field widget set correctly');
 
-    $this->_testWKTFormatter($id, $geometry, 'lat/lon');
+    $this->_testWKTFormatter($id, $geometry, 'lat/lon');    
 
     // Edge case, submit with 0,0 value.
     $this->drupalGet('test-entity/add/test-bundle');
@@ -213,8 +215,13 @@ class GeofieldWidgetTestCase extends GeofieldBaseTestCase {
 
     $top = $lat + $lat_diff;
     $bottom = $lat - $lat_diff;
-    $left = $lon + $lon_diff;
-    $right = $lon - $lon_diff;
+    $left = $lon - $lon_diff;
+    $right = $lon + $lon_diff;
+
+    $this->assertFieldByName($this->field_name . '[und][0][geom][top]', $top, 'Top field widget set correctly');
+    $this->assertFieldByName($this->field_name . '[und][0][geom][bottom]', $bottom, 'Bottom field widget set correctly');
+    $this->assertFieldByName($this->field_name . '[und][0][geom][left]', $left, 'Left field widget set correctly');
+    $this->assertFieldByName($this->field_name . '[und][0][geom][right]', $right, 'Right field widget set correctly');
 
     $wkt = 'POLYGON ((' . $right . ' ' . $bottom . ', ' . $left . ' ' . $bottom . ', ' . $left . ' ' . $top . ', ' . $right . ' ' . $top . ', ' . $right . ' ' . $bottom . '))';
     $geometry = geoPHP::load($wkt, 'wkt');
