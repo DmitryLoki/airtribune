@@ -130,7 +130,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '8',
+          'weight' => 8,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -202,7 +202,7 @@ function pg_contest_field_default_fields() {
           'module' => 'countries',
           'settings' => array(),
           'type' => 'country_default',
-          'weight' => '7',
+          'weight' => 7,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -355,7 +355,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => '11',
+          'weight' => 11,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -446,7 +446,7 @@ function pg_contest_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '10',
+          'weight' => 10,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -514,7 +514,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '15',
+          'weight' => 15,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -585,7 +585,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '20',
+          'weight' => 20,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -656,7 +656,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '21',
+          'weight' => 21,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -731,7 +731,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '13',
+          'weight' => 13,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -802,7 +802,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '14',
+          'weight' => 14,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -877,7 +877,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => '22',
+          'weight' => 22,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -969,7 +969,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '16',
+          'weight' => 16,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1042,7 +1042,7 @@ function pg_contest_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '19',
+          'weight' => 19,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1112,7 +1112,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '17',
+          'weight' => 17,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1183,7 +1183,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '18',
+          'weight' => 18,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1254,7 +1254,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '12',
+          'weight' => 12,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1323,7 +1323,7 @@ function pg_contest_field_default_fields() {
           'module' => 'tzfield',
           'settings' => array(),
           'type' => 'tzfield_default',
-          'weight' => '9',
+          'weight' => 9,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1395,7 +1395,7 @@ function pg_contest_field_default_fields() {
             'field_name' => FALSE,
           ),
           'type' => 'og_group_subscribe',
-          'weight' => '4',
+          'weight' => 4,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1438,8 +1438,78 @@ function pg_contest_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-pg_contest-title_field'.
+  $fields['node-pg_contest-title_field'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'title_field',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => 255,
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'A field replacing node title.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 23,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'title_field',
+      'label' => 'Title',
+      'required' => TRUE,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'text_processing' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'size' => 60,
+        ),
+        'type' => 'text_textfield',
+        'weight' => -5,
+      ),
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
+  t('A field replacing node title.');
   t('Admission rules and entry fee');
   t('All relevant info about contest organizers (full name of the organization, address, phone, e-mail), officials with their contacts.');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
@@ -1475,6 +1545,7 @@ function pg_contest_field_default_fields() {
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Time zone');
+  t('Title');
 
   return $fields;
 }
