@@ -32,6 +32,7 @@ dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entity_translation
 dependencies[] = entityreference
+dependencies[] = entityreference_prepopulate
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = field_ui
