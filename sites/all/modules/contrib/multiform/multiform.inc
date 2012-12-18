@@ -133,9 +133,10 @@ function multiform_delayed_submit_prepare(&$multiform, $current_form, &$form_sta
   }
 }
 
-// TODO:
-// redirect management
+// TODO: Add capability to alter redirect behavior via hook_multiform_alter().
+
 /**
+ * Invoke hook_multiform_alter() implementations and execute forms' handlers.
  * 
  */
 function multiform_delayed_submit_execute(&$multiform) {
@@ -193,7 +194,7 @@ function multiform_delayed_submit_execute(&$multiform) {
   }
 }
 
-// TODO: remove cached form if it is not needed (see validation)
+// TODO: Remove cached form if needed (see validation).
 
 /**
  * This is a copy of part of the code from drupal_process_form(),
@@ -203,7 +204,7 @@ function _multiform_delayed_submit_execute(&$form, &$form_state, $form_id, &$mul
     // Cache must exist since we forced it.
     $unprocessed_form = cache_get('form_' . $form['#build_id'], 'cache_form');
     $unprocessed_form = $unprocessed_form->data;
-    // TODO: maybe we need to remove cache then.
+    // TODO: Maybe cache should be removed.
     /*
     cache_clear_all('form_' . $form['#build_id'], 'cache_form');
     cache_clear_all('form_state_' . $form['#build_id'], 'cache_form');

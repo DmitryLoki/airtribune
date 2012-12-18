@@ -31,8 +31,10 @@ function multiform_menu() {
  */
 function multiform_get_form() {
   module_load_include('inc', 'multiform');
+  
   // Trigger multiform_element_info_alter().
-  // Replace ajax_process_form() with multiform specific one.
+  // Replace ajax_process_form() with multiform specific multiform_ajax_process_form().
+  // We need it here for the case when subform is retrieved from cache and multiform_form_alter() isn't fired.
   is_multiform_page(TRUE);
   
   $all_args = func_get_args();
@@ -184,7 +186,6 @@ function _multiform_get_form(&$element, &$buttons, $form_id) {
   }
 }
 
-
 /**
  * Implements hook_form_alter().
  * 
@@ -197,6 +198,10 @@ function multiform_form_alter(&$form, &$form_state, $form_id) {
     // We need after_build function to add auxilary validation function, that should be last in the list.
     // For the same purpose hook_module_implements_alter() is implemented.
     $form['#after_build'][] = 'multiform_after_build';
+    // Trigger multiform_element_info_alter().
+    // Replace ajax_process_form() with multiform specific multiform_ajax_process_form().
+    // We need it here for subform rebuild when ajax submit is done.
+    is_multiform_page(TRUE);
   }
 }
 
@@ -219,9 +224,15 @@ function multiform_delay_auxilary_validate($form, &$form_state) {
   multiform_process_form_state('modify', $form_state);
 }
 
-// TODO:
-// multiform_form_alter() should be executed last
-// amongst other modules' hook_form_alter() implementations.
+// TODO: Also we should change module's weight in order this implementation to be called last,
+// since other modules could implement hook_module_implements_alter() too.
+
+/**
+ * Implements hook_module_implements_alter().
+ * 
+ * Hooks multiform_module_implements_alter() and multiform_form_alter() should be executed last
+ * amongst other modules' implementations.
+ */
 function multiform_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'form_alter') {
     $group = $implementations['multiform'];
@@ -236,10 +247,11 @@ function multiform_module_implements_alter(&$implementations, $hook) {
   }
 }
 
-// TODO: also we need to change module's weight
-// because other module can implement hook_module_implements_alter().
-
-
+/**
+ * Implements hook_element_info_alter().
+ * 
+ * Replace ajax_process_form() #process for elements.
+ */
 function multiform_element_info_alter(&$type) {
   // Alter element info only for multiform pages.
   if (is_multiform_page()) {
@@ -275,5 +287,3 @@ function is_multiform_page($status = NULL) {
   }
   return $stored_status;
 }
-
-
