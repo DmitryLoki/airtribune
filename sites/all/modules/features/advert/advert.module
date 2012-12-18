@@ -5,3 +5,20 @@
  */
 
 include_once 'advert.features.inc';
+
+/**
+ * Implements hook_node_info().
+ */
+function advert_node_info() {
+  $items = array(
+    'advert' => array(
+      'name' => t('Advertisement'),
+      'base' => 'advert',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}
