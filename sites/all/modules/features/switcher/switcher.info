@@ -61,6 +61,7 @@ dependencies[] = main
 dependencies[] = maps
 dependencies[] = media
 dependencies[] = menu_feature
+dependencies[] = name
 dependencies[] = newsblog
 dependencies[] = number
 dependencies[] = og
