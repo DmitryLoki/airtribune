@@ -42,7 +42,7 @@ function panels_default_template_default_page_manager_handlers() {
     'pipeline' => 'standard',
   );
   $display = new panels_display();
-  $display->layout = 'twocol_70_30_stacked';
+  $display->layout = 'twocolfourrow';
   $display->layout_settings = array(
     'items' => array(
       'canvas' => array(
