@@ -140,11 +140,12 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Solutions',
       'title' => 'Solutions',
-      'body' => '<strong>Competition hosting</strong>
-Create your competition page, open pilots registration, manage it from any computer connected to Internet. Upload tracks to make task replays.
-&nbsp;
-<strong>Competition live tracking</strong>
-Bind trackers in a few clicks, set up a task, be aware of the race, increase safety and optimize retrieve.',
+      'body' => '<h3>Competition hosting</h3>
+<p>Create your competition page, open pilots regis- tration, manage it from any computer connected to Internet. Upload tracks to make task replays.</p>
+<h3>Competition live tracking</h3>
+<p>Bind trackers in a few clicks, set up a task, be aware of the race, increase safety and optimize retrieve.</p>
+
+',
       'format' => 'full_html',
       'substitute' => TRUE,
     );

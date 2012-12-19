@@ -2528,8 +2528,8 @@ p { margin:0; padding:6px 0 10px}
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	
-	box-shadow: 0 1px 3px rgba(46,75,89,0.6), 0 0 1px rgba(0,0,0,1), inset 0 0 2px #e2efa2;	
-	-moz-box-shadow: 0 1px 3px rgba(46,75,89,0.6), 0 0 1px rgba(0,0,0,1), inset 0 0 2px #e2efa2;						
+	box-shadow: 0 1px 3px rgba(46,75,89,0.6), 0 0 1px rgba(0,0,0,1), inset 0 0 2px #e2efa2;
+	-moz-box-shadow: 0 1px 3px rgba(46,75,89,0.6), 0 0 1px rgba(0,0,0,1), inset 0 0 2px #e2efa2;
 	-webkit-box-shadow: 0 1px 3px rgba(46,75,89,0.6), 0 0 1px rgba(0,0,0,1), inset 0 0 2px #e2efa2;
 	
 	background:#e7eeb9;
@@ -2707,6 +2707,8 @@ p { margin:0; padding:6px 0 10px}
 #solutions, #follow-us { float:left; width:270px; padding:28px 0 0;}
 #follow-us { width:140px; float:right}
 #solutions { padding-right:20px; margin-left:31px}
+#solutions .pane-inner { margin-right:-15px;}
+#solutions h3 { margin:0; font:bold 12px/20px Arial, Helvetica, sans-serif}
 #solutions p { padding:0 0 0 10px;}
 
 .pane-menu-footer-menu { padding:28px 30px 0 41px; float:left; width:240px; margin-left:-16px;}
