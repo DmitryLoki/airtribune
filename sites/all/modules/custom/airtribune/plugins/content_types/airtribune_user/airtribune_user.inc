@@ -22,44 +22,49 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
     '#type' => 'container',
     '#attributes' => array('id' => 'airtribune-user'),
   );
+  $build['#prefix'] = '<div id="sign_in">';
+  $build['#suffix'] = '</div>';
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
   $links = language_negotiation_get_switch_links('language', $path);
   if (isset($links->links)) {
     $build['lang-icons'] = array(
-      //'#prefix' => '<div class="lang-icons">',
+      '#prefix' => '<div class="drop_item flags"><div class="pane-inner">',
       '#theme' => 'links',
       '#links' => $links->links,
-      //'#suffix' => '</div>',
+      '#suffix' => '</div></div>',
     );
     $build['airtribune-user']['lang-icon'] = array(
-      //'#prefix' => '<div class="lang-icon">',
+      '#prefix' => '<div class="lang-icon"><span>',
       '#theme' => 'image',
       '#path' => file_create_url($plugin_path . '/flags/' . $language->language . '.png'),
       '#alt' => $language->language,
-      '#attributes' => array('class' => 'lang-icon'),
-      //'#suffix' => '</div>',
+      '#suffix' => '</span></div>',
     );
   }
-  $build['airtribune-user']['user_picture'] = array(
-    '#markup' => theme('user_picture', array('account' => $user)),
-  );
 
   if ($user->uid) {
     $build['airtribune-user']['user-name'] = array(
-      //'#prefix' => '<div class="user-name">',
-      '#markup' => l(airtrubune_format_username($user->name), 'user/' . $user->uid),
-      //'#suffix' => '</div>',
+      '#prefix' => '<div class="user_button">',
+      '#markup' => l('<span>'.airtrubune_format_username($user->name).'</span>', 'user/' . $user->uid, array('html' => true)),
+      '#suffix' => '</div>',
     );
-    $build['airtribune-user']['user-menu'] = menu_tree($conf['menu']);
+    $build['user-menu'] = menu_tree($conf['menu']);
+    $build['user-menu']['#prefix'] = '<div class="drop_item user-menu"><div class="pane-inner">';
+    $build['user-menu']['#suffix'] = '</div></div>';
+    $build['airtribune-user']['user_picture'] = array(
+      '#markup' => theme('user_picture', array('account' => $user)),
+    );
   }
   else {
     $build['airtribune-user']['signin'] = array(
-     //'#prefix' => '<div class="signin">',
-      '#markup' => l('Sign in', 'user'),
-     //'#suffix' => '</div>',
+     '#prefix' => '<div class="user_button">',
+     '#markup' => l('Sign in', 'user'),
+     '#suffix' => '</div>',
     );
     $build['login-form'] = drupal_get_form('user_login_block');
+    $build['login-form']['#prefix'] = '<div class="drop_item user-login"><div class="pane-inner">';
+    $build['login-form']['#suffix'] = '</div></div>';
   }
 
   $build['#attached'] = array(
