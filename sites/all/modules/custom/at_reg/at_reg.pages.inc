@@ -11,9 +11,9 @@
  */
 function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
   
+  // This is done in hook_form_alter().
   // Set flag to show pilot profile at registration.
   // see at_reg_entity_load().
-  at_reg_show_pilot_profile(TRUE);
   
   module_load_include('inc', 'og_ui', 'og_ui.pages');
   global $user;
@@ -104,14 +104,23 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
       // Prepare registration form.
       // og_ui_confirm_subscribe() $user value will be replaced by a new one after user registration.
       
-      $subforms = array(
-        array('og_ui_confirm_subscribe', $entity_type, $id, $user, $field_name, 'multiform_usage'),
-        array('user_register_form', 'multiform_usage'),
+      // Set multiform settings.
+      $multiform = array(
+        '#multiform_id' => 'contest_registration_multiform',
+        '#subforms' => array(
+          array(
+            'form_id' => 'og_ui_confirm_subscribe',
+            'args' => array($entity_type, $id, $user, $field_name),
+            '#tag' => 'og_ui_confirm_subscribe',
+          ),
+          array(
+            'form_id' => 'user_register_form',
+            '#tag' => 'user_register_form',
+          ),
+        ),
       );
-      // Add delayed submit.
-      $subforms[] = 'delayed_submit';
-      $form = call_user_func_array('multiform_get_form', $subforms);
       
+      $form = multiform_get_form($multiform);
       
       $button_keys = array_keys($form['buttons']);
       $form['buttons'][array_pop($button_keys)]['#printed'] = TRUE;
