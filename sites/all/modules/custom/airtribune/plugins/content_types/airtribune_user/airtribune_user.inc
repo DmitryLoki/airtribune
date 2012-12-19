@@ -22,14 +22,14 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
     '#type' => 'container',
     '#attributes' => array('id' => 'airtribune-user'),
   );
-  $build['#prefix'] = '<div id="sign_in">';
+  $build['#prefix'] = '<div id="sign-in">';
   $build['#suffix'] = '</div>';
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
   $links = language_negotiation_get_switch_links('language', $path);
   if (isset($links->links)) {
     $build['lang-icons'] = array(
-      '#prefix' => '<div class="drop_item flags"><div class="pane-inner">',
+      '#prefix' => '<div class="drop-item flags"><div class="pane-inner">',
       '#theme' => 'links',
       '#links' => $links->links,
       '#suffix' => '</div></div>',
@@ -45,12 +45,12 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
 
   if ($user->uid) {
     $build['airtribune-user']['user-name'] = array(
-      '#prefix' => '<div class="user_button">',
+      '#prefix' => '<div class="user-button">',
       '#markup' => l('<span>'.airtrubune_format_username($user->name).'</span>', 'user/' . $user->uid, array('html' => true)),
       '#suffix' => '</div>',
     );
     $build['user-menu'] = menu_tree($conf['menu']);
-    $build['user-menu']['#prefix'] = '<div class="drop_item user-menu"><div class="pane-inner">';
+    $build['user-menu']['#prefix'] = '<div class="drop-item user-menu"><div class="pane-inner">';
     $build['user-menu']['#suffix'] = '</div></div>';
     $build['airtribune-user']['user_picture'] = array(
       '#markup' => theme('user_picture', array('account' => $user)),
@@ -58,12 +58,12 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   }
   else {
     $build['airtribune-user']['signin'] = array(
-     '#prefix' => '<div class="user_button">',
+     '#prefix' => '<div class="user-button">',
      '#markup' => l('Sign in', 'user'),
      '#suffix' => '</div>',
     );
     $build['login-form'] = drupal_get_form('user_login_block');
-    $build['login-form']['#prefix'] = '<div class="drop_item user-login"><div class="pane-inner">';
+    $build['login-form']['#prefix'] = '<div class="drop-item user-login"><div class="pane-inner">';
     $build['login-form']['#suffix'] = '</div></div>';
   }
 
@@ -108,7 +108,7 @@ function airtribune_airtribune_user_content_type_edit_form_submit($form, &$form_
 function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user';
   $block = new stdClass();
-  $block->title = theme('image', array('path' => $plugin_path . '/admin-title.png'));
+  $block->title = theme('image', array('path' => $plugin_path . '/images/admin-title.png'));
   $items[] = t('User login form');
   $items[] = t('User picture');
   $items[] = t('User menu');

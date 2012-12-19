@@ -1,8 +1,8 @@
 jQuery(function($){
 	
-	$('#sign_in .drop_item').hide();
+	$('#sign-in .drop-item').hide();
 	
-	$('#sign_in .user_button a, #sign_in .user-picture a').click(function(){
+	$('#sign-in .user-button a, #sign-in .user-picture a').click(function(){
 		if($('.user-login').height() == 1 || $('.user-menu').height() == 1 ){
 			var direct = 1
 			if($('.flags:visible').size() > 0){
@@ -22,7 +22,7 @@ jQuery(function($){
 		return false;
 	});
 	
-	$('#sign_in .lang-icon span').click(function(){
+	$('#sign-in .lang-icon span').click(function(){
 		if($('.flags').height() == 1){
 			var direct = 1;
 			if($('.user-login:visible, .user-menu:visible').size() > 0){
@@ -43,7 +43,7 @@ jQuery(function($){
 	});
 	
 	$('body').click(function (e) {
-		if (!($(e.target).parents('#sign_in').length)) {
+		if (!($(e.target).parents('#sign-in').length)) {
 			if($('.user-login:visible, .user-menu:visible, .flags:visible').size() > 0){
 				blockSlide($('.user-login:visible, .user-menu:visible, .flags:visible'), 0, false);
 			}
