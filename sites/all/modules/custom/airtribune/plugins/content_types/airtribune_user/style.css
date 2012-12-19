@@ -12,7 +12,7 @@
 }
 #sign_in .pane-inner { margin:0;}
 #sign_in div.lang-icon { height:30px; width:49px; border-right: 1px solid #dae0b2; float:left; overflow:hidden;}
-#sign_in div.lang-icon span { width:100%; padding-right:10px; position:relative; height:28px; display:block; border:1px solid #e2efa2; text-align:center;
+#sign_in div.lang-icon span { width:100%; padding-right:10px; position:relative; height:28px; display:block; border:1px solid #e2efa2; text-align:center; cursor:pointer;
 
 	-webkit-border-radius: 4px 0 0 4px;
 	-moz-border-radius: 4px 0 0 4px;
@@ -27,7 +27,8 @@
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7eeb9), color-stop(100%,#cbd396));
 
 }
-#sign_in div.lang-icon span img { margin-top:6px; display:inline-block;}
+#sign_in div.lang-icon span img, #sign_in div.lang-icon span span { margin-top:7px; display:inline-block; border:1px solid #ccd2a8; position:relative; outline:1px solid #dee3b8}
+#sign_in div.lang-icon span span { width:15px; height:10px; padding:0}
 #sign_in .user_button { height:30px; width:168px; border-left: 1px solid #b2ba7d; float:left; overflow:hidden;}
 #sign_in .user_button a { width:100%; padding-left:10px; position:relative; height:28px; display:block; border:1px solid #e2efa2; float:right; text-align:center; font:14px/28px Arial, Helvetica, sans-serif; color:#4f743b; text-shadow:0 1px 1px rgba(255,255,255,0.8); text-decoration:none;
 
@@ -46,13 +47,13 @@
 }
 #sign_in .user_button a span { display:block; margin-right:37px}
 
-#sign_in div.lang-icon a:hover, #sign_in .user_button a:hover { border-color:#cfdd7f;
+#sign_in div.lang-icon span:hover, #sign_in .user_button a:hover { border-color:#cfdd7f;
 	background:#dbe698;
 	background: -moz-linear-gradient(top, #dbe698 0%, #c4cf7a 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dbe698), color-stop(100%,#c4cf7a));
 }
 
-#sign_in div.lang-icon a:active, #sign_in .user_button a:active { border-color:#c8d76a;
+#sign_in div.lang-icon span:active, #sign_in div.lang-icon span.active, #sign_in .user_button a:active, #sign_in .user_button a.active { border-color:#c8d76a;
 	background:#d6df94;
 	background: -moz-linear-gradient(top, #d6df94 0%, #b7c35c 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d6df94), color-stop(100%,#b7c35c));
@@ -72,7 +73,7 @@
 
 }
 #sign_in .drop_item.active { top:30px}
-.user-login .pane-inner { margin:0; border:1px solid #edf7f8; background:url(img/login_bgr.png) repeat 0 0; position:absolute; padding:21px 9px 14px; text-align:right; width:180px; bottom:0; left:0;
+.user-login .pane-inner, .flags .pane-inner { margin:0; border:1px solid #edf7f8; background:url(img/login_bgr.png) repeat 0 0; position:absolute; padding:21px 9px 14px; text-align:right; width:180px; bottom:0; left:0; 
 
 	-webkit-border-radius: 0 0 3px 3px;
 	-moz-border-radius: 0 0 3px 3px;
@@ -193,7 +194,7 @@
 .user-menu ul.menu { margin:0; padding:0}
 .user-menu ul li { margin:0; padding:2px 0 3px; display:block;}
 .user-menu ul li.menu-item-730, .user-menu ul li.menu-item-731 { background:url(img/menu_extra_bgr.png) repeat 0 0;}
-.user-menu ul li.menu-item-30 { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}
+.user-menu ul li.menu-item-730 { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}
 .user-menu ul li.menu-item-731 { margin-bottom:5px; padding-bottom:7px; border-bottom:1px solid #cfba77}
 .user-menu ul li a { color:#4a7990; font:14px/16px Arial, Helvetica, sans-serif; display:block; padding:4px 0 5px 39px; background:url(img/user_menu_icon.png) no-repeat 6px 0; text-shadow:0 1px 1px rgba(255,255,255,1); text-decoration:none;}
 .user-menu ul li a:hover { color:#00aeef;}
@@ -203,3 +204,11 @@
 .user-menu ul li.menu-item-730 a { background-position:6px -156px}
 .user-menu ul li.menu-item-731 a { background-position:6px -208px}
 .user-menu ul li.menu-item-15 a { background-position:6px -260px}
+
+.flags .pane-inner { padding:12px 6px; width:186px}
+.flags ul.links { margin:0; padding:0; text-align:left}
+.flags ul.links li { display:block; margin:0; padding:0; float:left; width:50px;}
+.flags ul.links li a {  color:#4a7990; font:12px/20px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.8); text-decoration:none;}
+.flags ul.links li a:hover { text-decoration:underline}
+.flags ul.links li img, .flags ul li span { display:inline-block; border:1px solid #ccd2a8; position:relative; outline:1px solid #dee3b8; vertical-align:middle;}
+.flags ul.links li span { width:15px; height:10px; padding:0}
