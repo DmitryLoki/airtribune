@@ -22,6 +22,8 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
     '#type' => 'container',
     '#attributes' => array('id' => 'airtribune-user'),
   );
+  $build['#prefix'] = '<div id="sign_in">';
+  $build['#suffix'] = '</div>';
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
   $links = language_negotiation_get_switch_links('language', $path);
@@ -44,7 +46,7 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   if ($user->uid) {
     $build['airtribune-user']['user-name'] = array(
       '#prefix' => '<div class="user_button">',
-      '#markup' => l(airtrubune_format_username($user->name), 'user/' . $user->uid),
+      '#markup' => l('<span>'.airtrubune_format_username($user->name).'</span>', 'user/' . $user->uid, array('html' => true)),
       '#suffix' => '</div>',
     );
     $build['user-menu'] = menu_tree($conf['menu']);

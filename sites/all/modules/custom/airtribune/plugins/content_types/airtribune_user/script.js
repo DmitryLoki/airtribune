@@ -1,5 +1,5 @@
 jQuery(function($){
-	$('#sign_in .user_button a').click(function(){
+	$('#sign_in .user_button a, #sign_in .user-picture a').click(function(){
 		//$('.user-login').toggle();
 		if($('.user-login').height() == 1 || $('.user-menu').height() == 1 ){
 			var direct = 1
