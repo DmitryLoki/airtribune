@@ -190,6 +190,107 @@ function menu_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-45',
   );
+  // Exported menu link: user-menu:profile-main
+  $menu_links['user-menu:profile-main'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'profile-main',
+    'router_path' => 'profile-main',
+    'link_title' => 'My main profile',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-main-profile-link',
+        ),
+      ),
+    ),
+    'module' => 'system',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '0',
+  );
+  // Exported menu link: user-menu:profile-organizer_profile
+  $menu_links['user-menu:profile-organizer_profile'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'profile-organizer_profile',
+    'router_path' => 'profile-organizer_profile',
+    'link_title' => 'My organizer profile',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-organizer-profile-link',
+        ),
+      ),
+    ),
+    'module' => 'system',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '0',
+  );
+  // Exported menu link: user-menu:profile-pilot
+  $menu_links['user-menu:profile-pilot'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'profile-pilot',
+    'router_path' => 'profile-pilot',
+    'link_title' => 'My pilot profile',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-pilot-profile-link',
+        ),
+      ),
+    ),
+    'module' => 'system',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '0',
+  );
+  // Exported menu link: user-menu:user
+  $menu_links['user-menu:user'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'user',
+    'router_path' => 'user',
+    'link_title' => 'User account',
+    'options' => array(
+      'alter' => TRUE,
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-account-link',
+        ),
+      ),
+    ),
+    'module' => 'system',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-10',
+  );
+  // Exported menu link: user-menu:user/logout
+  $menu_links['user-menu:user/logout'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'user/logout',
+    'router_path' => 'user/logout',
+    'link_title' => 'Log out',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-logout-link',
+        ),
+      ),
+    ),
+    'module' => 'system',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '10',
+  );
   // Translatables
   // Included for use with string extractors like potx.
   t('For Organizers');
@@ -197,10 +298,15 @@ function menu_feature_menu_default_menu_links() {
   t('For Sponsors');
   t('For the Viewers');
   t('Home');
+  t('Log out');
+  t('My main profile');
+  t('My organizer profile');
+  t('My pilot profile');
   t('Organizers');
   t('Pilots');
   t('Project');
   t('Sponsors');
+  t('User account');
   t('Viewers');
 
 
