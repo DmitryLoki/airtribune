@@ -193,17 +193,24 @@
 
 .user-menu ul.menu { margin:0; padding:0}
 .user-menu ul li { margin:0; padding:2px 0 3px; display:block;}
-.user-menu ul li.menu-item-730, .user-menu ul li.menu-item-731 { background:url(images/menu_extra_bgr.png) repeat 0 0;}
+
+/*
+.user-menu ul li.menu-item-730,
+.user-menu ul li.menu-item-731 { background:url(images/menu_extra_bgr.png) repeat 0 0;}
 .user-menu ul li.menu-item-730 { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}
 .user-menu ul li.menu-item-731 { margin-bottom:5px; padding-bottom:7px; border-bottom:1px solid #cfba77}
+*/
+
 .user-menu ul li a { color:#4a7990; font:14px/16px Arial, Helvetica, sans-serif; display:block; padding:4px 0 5px 39px; background:url(images/user_menu_icon.png) no-repeat 6px 0; text-shadow:0 1px 1px rgba(255,255,255,1); text-decoration:none;}
 .user-menu ul li a:hover { color:#00aeef;}
-.user-menu ul li.menu-item-730 a, .user-menu ul li.menu-item-731 a {text-shadow:0 1px 1px rgba(255,255,255,0.55)}
-.user-menu ul li.menu-item-2 a { background-position:6px -52px}
-.user-menu ul li.menu-item-2028 a { background-position:6px -104px}
-.user-menu ul li.menu-item-730 a { background-position:6px -156px}
-.user-menu ul li.menu-item-731 a { background-position:6px -208px}
-.user-menu ul li.menu-item-15 a { background-position:6px -260px}
+.user-menu ul li a.user-organizer-profile-link,
+.user-menu ul li a.user-pilot-profile-link {text-shadow:0 1px 1px rgba(255,255,255,0.55)}
+
+.user-menu ul li a.user-account-link { background-position:6px -52px}
+.user-menu ul li a.user-main-profile-link{ background-position:6px -104px}
+.user-menu ul li a.user-organizer-profile-link { background-position:6px -156px}
+.user-menu ul li a.user-pilot-profile-link { background-position:6px -208px}
+.user-menu ul li a.user-logout-link { background-position:6px -260px}
 
 .flags .pane-inner { padding:12px 6px; width:186px}
 .flags ul.links { margin:0; padding:0; text-align:left}
