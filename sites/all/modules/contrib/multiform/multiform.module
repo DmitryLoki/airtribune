@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @file
+ * This is an API module which lets you put several forms into one <form>.
+ *
+ */
+
 define('DEFAULT_MULTIFORM_ID', 'multiform');
 
 function multiform_menu() {
@@ -32,9 +38,10 @@ function multiform_menu() {
 function multiform_get_form() {
   module_load_include('inc', 'multiform');
   
-  // Trigger multiform_element_info_alter().
-  // Replace ajax_process_form() with multiform specific multiform_ajax_process_form().
-  // We need it here for the case when subform is retrieved from cache and multiform_form_alter() isn't fired.
+  // Trigger multiform_element_info_alter() to replace ajax_process_form()
+  // with multiform specific multiform_ajax_process_form().
+  // We need it here for the case when subform is retrieved from cache
+  // and multiform_form_alter() isn't fired.
   is_multiform_page(TRUE);
   
   $all_args = func_get_args();
@@ -195,11 +202,12 @@ function multiform_form_alter(&$form, &$form_state, $form_id) {
   
   // Check whether current form is a subform.
   if (isset($form_state['multiform_id'])) {
-    // We need after_build function to add auxilary validation function, that should be last in the list.
+    // We need after_build function to add auxilary validation function, that
+    // should be last in the list.
     // For the same purpose hook_module_implements_alter() is implemented.
     $form['#after_build'][] = 'multiform_after_build';
-    // Trigger multiform_element_info_alter().
-    // Replace ajax_process_form() with multiform specific multiform_ajax_process_form().
+    // Trigger multiform_element_info_alter()to replace ajax_process_form() with
+    // multiform specific multiform_ajax_process_form().
     // We need it here for subform rebuild when ajax submit is done.
     is_multiform_page(TRUE);
   }
@@ -224,14 +232,15 @@ function multiform_delay_auxilary_validate($form, &$form_state) {
   multiform_process_form_state('modify', $form_state);
 }
 
-// TODO: Also we should change module's weight in order this implementation to be called last,
-// since other modules could implement hook_module_implements_alter() too.
+// TODO: Also we should change module's weight in order this implementation
+// to be called last, since other modules could
+// implement hook_module_implements_alter() too.
 
 /**
  * Implements hook_module_implements_alter().
  * 
- * Hooks multiform_module_implements_alter() and multiform_form_alter() should be executed last
- * amongst other modules' implementations.
+ * Hooks multiform_module_implements_alter() and multiform_form_alter() should be
+ * executed last amongst other modules' implementations.
  */
 function multiform_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'form_alter') {

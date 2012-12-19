@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * @file
+ * Ajax helper, which provides multiform module specific process functions
+ * for ajax-enabled elements.
+ *
+ */
+
+/**
  * Menu callback; handles Ajax requests for the #ajax Form API property.
  */
 function multiform_ajax_form_callback() {
@@ -12,7 +19,7 @@ function multiform_ajax_form_callback() {
     'form_id' => $_POST['form_id'],
     'form_build_id' => $_POST['form_build_id'],
   );
-  foreach($multiform as $key => $value) {
+  foreach ($multiform as $key => $value) {
     unset($_POST[$key]);
   }
   // Define triggering element's subform index.
@@ -48,16 +55,27 @@ function multiform_ajax_process_form($element, &$form_state) {
   if (isset($element['#attached']['js'])) {
     // Replace ajax url with multiform specific.
     foreach ($element['#attached']['js'] as $key => $setting) {
-      if (isset($setting['data']['ajax'][$element['#id']]['url']) && $setting['data']['ajax'][$element['#id']]['url'] == '/system/ajax') {
-        $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url'] = '/multiform/ajax';
-        // Add multiform_index in order to define triggering element's subform when triggered.
-        if(isset($setting['data']['ajax'][$element['#id']]['submit']) && is_array($setting['data']['ajax'][$element['#id']]['submit'])) {
-          $multiform_index = $form_state['multiform_index'];
-          $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['submit']['_multiform_index'] = $multiform_index;
-        }
+      // Invoke hook_multiform_ajax_alter() implementations.
+      foreach (module_implements('multiform_ajax_alter') as $module) {
+        $function = $module . '_multiform_ajax_alter';
+        $function($element, $key, $form_state);
       }
     }
   }
   return $element;
 }
 
+/**
+ * Implements hook_multiform_ajax_alter().
+ */
+function multiform_multiform_ajax_alter(&$element, $key, $form_state) {
+      $setting = $element['#attached']['js'][$key];
+      if (isset($setting['data']['ajax'][$element['#id']]['url']) && $setting['data']['ajax'][$element['#id']]['url'] == '/system/ajax') {
+        $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url'] = '/multiform/ajax';
+        // Add multiform_index in order to define triggering element's subform when triggered.
+        if (isset($setting['data']['ajax'][$element['#id']]['submit']) && is_array($setting['data']['ajax'][$element['#id']]['submit'])) {
+          $multiform_index = $form_state['multiform_index'];
+          $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['submit']['_multiform_index'] = $multiform_index;
+        }
+      }  
+}

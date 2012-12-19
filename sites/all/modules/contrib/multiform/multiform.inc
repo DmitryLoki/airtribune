@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ * Common multiform function.
+ *
+ */
+
+/**
  * Initialize $multiform array.
  */
 function multiform_init_multiform_settings($all_args) {
@@ -64,15 +70,16 @@ function multiform_init_multiform_settings($all_args) {
 }
 
 /**
- * Change and Restore some $form_state values in order to avoid submit and other operations
- * that follow validation in drupal_process_form(). This allows to perform all subforms validation
- * before any submit is fired. Afterwards, restore form_state to pass into further workflow.
+ * Change and Restore some $form_state values in order to avoid submit and other
+ * operations that follow validation in drupal_process_form(). This allows to
+ * perform all subforms validation before any submit is fired. Afterwards,
+ * restore form_state to pass into further workflow.
  * 
  * $op = {'modify', 'restore'}
  */
 // TODO: Check over $new_values array().
 function multiform_process_form_state($op, &$form_state) {
-  switch($op) {
+  switch ($op) {
     // Used in auxilary validation to prevent submit handlers execution.
     case 'modify' :
       $changed = array();
@@ -86,11 +93,12 @@ function multiform_process_form_state($op, &$form_state) {
         'cache' => TRUE,
         'no_cache' => 'unset',
       );
-      foreach($new_values as $key => $value) {
+      foreach ($new_values as $key => $value) {
         $changed[$key] = isset($form_state[$key]) ? $form_state[$key] : 'unset';
-        if($value !== 'unset') {
+        if ($value !== 'unset') {
           $form_state[$key] = $value;
-        } else {
+        }
+        else {
           unset($form_state[$key]);
         }
       }
@@ -98,11 +106,12 @@ function multiform_process_form_state($op, &$form_state) {
       $form_state['#restore_values'] = $changed;
       break;
     case 'restore' :
-      if(isset($form_state['#restore_values'])) {
-        foreach($form_state['#restore_values'] as $key => $value) {
-          if($value !== 'unset') {
+      if (isset($form_state['#restore_values'])) {
+        foreach ($form_state['#restore_values'] as $key => $value) {
+          if ($value !== 'unset') {
             $form_state[$key] = $value;
-          } else {
+          }
+          else {
             unset($form_state[$key]);
           }
         }
@@ -123,9 +132,11 @@ function multiform_delayed_submit_prepare(&$multiform, $current_form, &$form_sta
   // IF #restore_values isn't set, it means that there is no delayed validation
   // or validation hasn't worked out, i.e. form is built for rendering.
   if (isset($form_state['#restore_values'])) {
-    // form_state values of any of the forms could only be modified if form was submitted.
+    // form_state values of any of the forms could only be modified
+    // if form was submitted.
     $multiform['#submitted'] = TRUE;
-    // Restore $form_state['submitted'] (and possibly other values) from form_state['#restore_values'].
+    // Restore $form_state['submitted'] (and possibly other values) from
+    // form_state['#restore_values'].
     // See multiform_delay_form_submitting_validate().
     multiform_process_form_state('restore', $form_state);
     $multiform['#subforms'][$index]['form'] = $current_form;
@@ -143,8 +154,9 @@ function multiform_delayed_submit_execute(&$multiform) {
   // Only execute when form was submitted.
   if ($multiform['#submitted']) {
     // Invoke hook_multiform_alter(&$multiform).
-    // It can be used to change exectution order or to pass results of one form processing
-    // into another form via changing $multiform['#subforms'][$index]['form_state'].
+    // It can be used to change exectution order or to pass results
+    // of one form processing into another form via
+    // changing $multiform['#subforms'][$index]['form_state'].
     foreach (module_implements('multiform_alter') as $module) {
       $function = $module . '_multiform_alter';
       $function($multiform);
@@ -165,7 +177,8 @@ function multiform_delayed_submit_execute(&$multiform) {
                               : array(),
       );
       // Invoke #before_execute functions for each form before it is submitted.
-      // We apply hooks to initial multiform_settings array, so changes could be used further.
+      // We apply hooks to initial multiform_settings array,
+      // so changes could be used further.
       foreach ($hooks['#before_execute'] as $function) {
         $function($multiform, $index);
       }
@@ -185,7 +198,7 @@ function multiform_delayed_submit_execute(&$multiform) {
       $multiform['#subforms'][$index]['form_state'] = $form_state;
       
       // Invoke #after_execute functions for each form before it is submitted.
-      if($form_state['executed'] == TRUE) {
+      if ($form_state['executed'] == TRUE) {
         foreach ($hooks['#after_execute'] as $function) {
           $function($multiform, $index);
         }
