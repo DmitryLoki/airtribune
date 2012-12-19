@@ -5,3 +5,20 @@
  */
 
 include_once 'newsblog.features.inc';
+
+/**
+ * Implements hook_node_info().
+ */
+function newsblog_node_info() {
+  $items = array(
+    'newsblog' => array(
+      'name' => t('Blog'),
+      'base' => 'newsblog',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}

@@ -140,8 +140,10 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Solutions',
       'title' => 'Solutions',
-      'body' => 'Web-based service which allows organizers to publish their competitions in a unified multi-lingual format and manage it from any computer connected to the Internet.  
-No more high-skilled specialists to arrange competition live tracking - you will do it yourself in  two clicks.
+      'body' => '<h3>Competition hosting</h3>
+<p>Create your competition page, open pilots regis- tration, manage it from any computer connected to Internet. Upload tracks to make task replays.</p>
+<h3>Competition live tracking</h3>
+<p>Bind trackers in a few clicks, set up a task, be aware of the race, increase safety and optimize retrieve.</p>
 
 ',
       'format' => 'full_html',
