@@ -27,9 +27,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'additional_settings__active_tab_race';
+  $strongarm->name = 'additional_settings__active_tab_pg_race';
   $strongarm->value = 'edit-schemaorg-ui';
-  $export['additional_settings__active_tab_race'] = $strongarm;
+  $export['additional_settings__active_tab_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -62,9 +62,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'ant_pattern_race';
-  $strongarm->value = '[node:field-race-date:short]';
-  $export['ant_pattern_race'] = $strongarm;
+  $strongarm->name = 'ant_pattern_pg_race';
+  $strongarm->value = '[node:field-pg_race-date:short]';
+  $export['ant_pattern_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -76,16 +76,16 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'ant_php_race';
+  $strongarm->name = 'ant_php_pg_race';
   $strongarm->value = 0;
-  $export['ant_php_race'] = $strongarm;
+  $export['ant_php_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'ant_race';
+  $strongarm->name = 'ant_pg_race';
   $strongarm->value = '1';
-  $export['ant_race'] = $strongarm;
+  $export['ant_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -247,9 +247,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_hide_translation_links_race';
+  $strongarm->name = 'entity_translation_hide_translation_links_pg_race';
   $strongarm->value = 0;
-  $export['entity_translation_hide_translation_links_race'] = $strongarm;
+  $export['entity_translation_hide_translation_links_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -268,9 +268,9 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_node_metadata_race';
+  $strongarm->name = 'entity_translation_node_metadata_pg_race';
   $strongarm->value = '0';
-  $export['entity_translation_node_metadata_race'] = $strongarm;
+  $export['entity_translation_node_metadata_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

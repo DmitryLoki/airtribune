@@ -31,22 +31,22 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:create race content'
-  $permissions['node:pg_contest:create race content'] = array(
+  // Exported og permission: 'node:pg_contest:create pg_race content'
+  $permissions['node:pg_contest:create pg_race content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:delete any race content'
-  $permissions['node:pg_contest:delete any race content'] = array(
+  // Exported og permission: 'node:pg_contest:delete any pg_race content'
+  $permissions['node:pg_contest:delete any pg_race content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:delete own race content'
-  $permissions['node:pg_contest:delete own race content'] = array(
+  // Exported og permission: 'node:pg_contest:delete own pg_race content'
+  $permissions['node:pg_contest:delete own pg_race content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
@@ -92,8 +92,8 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:update any race content'
-  $permissions['node:pg_contest:update any race content'] = array(
+  // Exported og permission: 'node:pg_contest:update any pg_race content'
+  $permissions['node:pg_contest:update any pg_race content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
@@ -106,8 +106,8 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:update own race content'
-  $permissions['node:pg_contest:update own race content'] = array(
+  // Exported og permission: 'node:pg_contest:update own pg_race content'
+  $permissions['node:pg_contest:update own pg_race content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
