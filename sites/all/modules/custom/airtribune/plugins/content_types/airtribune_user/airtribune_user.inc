@@ -33,43 +33,36 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
       '#suffix' => '</div></div>',
     );
     $build['airtribune-user']['lang-icon'] = array(
-      '#prefix' => '<div class="lang-icon"><a href="">',
+      '#prefix' => '<div class="lang-icon"><span>',
       '#theme' => 'image',
       '#path' => file_create_url($plugin_path . '/flags/' . $language->language . '.png'),
       '#alt' => $language->language,
-      '#attributes' => array('class' => 'lang-icon'),
-      '#suffix' => '</a></div>',
+      '#suffix' => '</span></div>',
     );
   }
-  /*$build['airtribune-user']['user_picture'] = array(
-    '#markup' => theme('user_picture', array('account' => $user)),
-  );*/
 
   if ($user->uid) {
-	$user_data = '<span class="user_name">'.airtrubune_format_username($user->name).'</span>';
-	$user_data .= '<span class="user_pic">'.theme('user_picture', array('account' => $user)).'</span>';
     $build['airtribune-user']['user-name'] = array(
-      '#prefix' => '<div class="user_button user-name">',
-      '#markup' => l($user_data, 'user/' . $user->uid, array('html' => true)),
+      '#prefix' => '<div class="user_button">',
+      '#markup' => l(airtrubune_format_username($user->name), 'user/' . $user->uid),
       '#suffix' => '</div>',
     );
-    $build['user-menu'] = array(
-      '#prefix' => '<div class="drop_item user-menu"><div class="pane-inner">',
-      '#markup' => render(menu_tree($conf['menu'])),
-      '#suffix' => '</div></div>',
+    $build['user-menu'] = menu_tree($conf['menu']);
+    $build['user-menu']['#prefix'] = '<div class="drop_item user-menu"><div class="pane-inner">';
+    $build['user-menu']['#suffix'] = '</div></div>';
+    $build['airtribune-user']['user_picture'] = array(
+      '#markup' => theme('user_picture', array('account' => $user)),
     );
   }
   else {
     $build['airtribune-user']['signin'] = array(
-     '#prefix' => '<div class="user_button signin">',
-      '#markup' => l('Sign in', 'user'),
+     '#prefix' => '<div class="user_button">',
+     '#markup' => l('Sign in', 'user'),
      '#suffix' => '</div>',
     );
-    $build['login-form'] = array(
-      '#prefix' => '<div class="drop_item user-login"><div class="pane-inner">',
-      '#markup' => render(drupal_get_form('user_login_block')),
-      '#suffix' => '</div></div>',
-    );
+    $build['login-form'] = drupal_get_form('user_login_block');
+    $build['login-form']['#prefix'] = '<div class="drop_item user-login"><div class="pane-inner">';
+    $build['login-form']['#suffix'] = '</div></div>';
   }
 
   $build['#attached'] = array(
