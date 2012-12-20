@@ -13,20 +13,33 @@ $plugin = array(
 
 /**
  * Render the custom content type.
+ *
+ * TODO Move markup to tempalte file.
  */
 function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user, $language;
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user';
 
+  $build['#prefix'] = '<div id="sign-in">';
+  $build['#suffix'] = '</div>';
+  $build['#attached'] = array(
+    'js' => array($plugin_path . '/script.js'),
+    'css' => array($plugin_path . '/style.css'),
+  );
+
   $build['airtribune-user'] = array(
     '#type' => 'container',
     '#attributes' => array('id' => 'airtribune-user'),
   );
-  $build['#prefix'] = '<div id="sign-in">';
-  $build['#suffix'] = '</div>';
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
   $links = language_negotiation_get_switch_links('language', $path);
+
+  foreach ($links->links as $lang_code => $link) {
+    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => $lang_code, 'iconset' => 'shiny')) . $lang_code;
+    $links->links[$lang_code]['html'] = TRUE;
+  }
+
   if (isset($links->links)) {
     $build['lang-icons'] = array(
       '#prefix' => '<div class="drop-item flags"><div class="pane-inner">',
@@ -66,11 +79,6 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
     $build['login-form']['#prefix'] = '<div class="drop-item user-login"><div class="pane-inner">';
     $build['login-form']['#suffix'] = '</div></div>';
   }
-
-  $build['#attached'] = array(
-    'js' => array($plugin_path . '/script.js'),
-    'css' => array($plugin_path . '/style.css'),
-  );
 
   return (object) array(
     'module' => 'airtribune',
