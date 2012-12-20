@@ -1,5 +1,7 @@
 <?php
 
+define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -44,4 +46,16 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
     $element[$delta] = array('#markup' => $dates);
   }
   return $element;
+}
+
+
+
+/**
+ * @param $name
+ * @return string
+ *
+ * See issue #2370.
+ */
+function airtrubune_format_username($name) {
+  return $name;
 }

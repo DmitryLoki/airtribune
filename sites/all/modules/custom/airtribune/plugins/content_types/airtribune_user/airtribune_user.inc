@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Airtribune user plugin.
  *
@@ -36,7 +38,7 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   $links = language_negotiation_get_switch_links('language', $path);
 
   foreach ($links->links as $lang_code => $link) {
-    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => airtribune_airtribune_user_get_lang_code($lang_code), 'iconset' => 'shiny')) . $lang_code;
+    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => airtribune_airtribune_user_get_lang_code($lang_code), 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)) . $lang_code;
     $links->links[$lang_code]['html'] = TRUE;
   }
 
@@ -51,14 +53,14 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
       '#theme' => 'countryicons_icon',
       '#prefix' => '<div class="lang-icon"><span>',
       '#code' => airtribune_airtribune_user_get_lang_code($language->language),
-      '#iconset' => 'shiny',
+      '#iconset' => AIRTRIBUNE_LANGUAGES_ICONSET,
       '#suffix' => '</span></div>',
     );
   }
   if ($user->uid) {
     $build['airtribune-user']['user-name'] = array(
       '#prefix' => '<div class="user-button">',
-      '#markup' => l('<span>' . airtrubune_format_username($user->name).'</span>', 'user/' . $user->uid, array('html' => TRUE)),
+      '#markup' => l('<span>' . airtrubune_format_username($user->name) . '</span>', 'user/' . $user->uid, array('html' => TRUE)),
       '#suffix' => '</div>',
     );
     $build['user-menu'] = menu_tree($conf['menu']);
@@ -123,16 +125,6 @@ function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
   $items[] = t('Language selector');
   $block->content = theme('item_list', array('items' => $items));
   return $block;
-}
-
-/**
- * @param $name
- * @return string
- *
- * See issue #2370.
- */
-function airtrubune_format_username($name) {
-  return $name;
 }
 
 /**
