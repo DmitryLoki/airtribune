@@ -116,6 +116,20 @@ function menu_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-50',
   );
+  // Exported menu link: main-menu:events
+  $menu_links['main-menu:events'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'events',
+    'router_path' => 'events',
+    'link_title' => 'Next events',
+    'options' => array(),
+    'module' => 'system',
+    'hidden' => '1',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '0',
+  );
   // Exported menu link: main-menu:node/2
   $menu_links['main-menu:node/2'] = array(
     'menu_name' => 'main-menu',
@@ -197,6 +211,7 @@ function menu_feature_menu_default_menu_links() {
   t('For Sponsors');
   t('For the Viewers');
   t('Home');
+  t('Next events');
   t('Organizers');
   t('Pilots');
   t('Project');
