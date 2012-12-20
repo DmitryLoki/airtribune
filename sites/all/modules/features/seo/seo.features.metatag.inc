@@ -29,9 +29,9 @@ function seo_metatag_export_default() {
     ),
   );
 
-  // Exported Metatag config instance: node:race.
-  $config['node:race'] = array(
-    'instance' => 'node:race',
+  // Exported Metatag config instance: node:pg_race.
+  $config['node:pg_race'] = array(
+    'instance' => 'node:pg_race',
     'config' => array(
       'og:type' => array(
         'value' => 'sport',

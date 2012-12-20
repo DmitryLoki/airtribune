@@ -414,30 +414,30 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_race_en_pattern';
+  $strongarm->name = 'pathauto_node_pg_race_en_pattern';
   $strongarm->value = '';
-  $export['pathauto_node_race_en_pattern'] = $strongarm;
+  $export['pathauto_node_pg_race_en_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_race_pattern';
+  $strongarm->name = 'pathauto_node_pg_race_pattern';
   $strongarm->value = '[node:og-group-ref:0:title-field]/[node:title-field]';
-  $export['pathauto_node_race_pattern'] = $strongarm;
+  $export['pathauto_node_pg_race_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_race_ru_pattern';
+  $strongarm->name = 'pathauto_node_pg_race_ru_pattern';
   $strongarm->value = '';
-  $export['pathauto_node_race_ru_pattern'] = $strongarm;
+  $export['pathauto_node_pg_race_ru_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_race_und_pattern';
+  $strongarm->name = 'pathauto_node_pg_race_und_pattern';
   $strongarm->value = '';
-  $export['pathauto_node_race_und_pattern'] = $strongarm;
+  $export['pathauto_node_pg_race_und_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -791,9 +791,9 @@ Disallow: /?q=user/logout/';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'schemaorg_ui_type_race';
+  $strongarm->name = 'schemaorg_ui_type_pg_race';
   $strongarm->value = 'SportsEvent';
-  $export['schemaorg_ui_type_race'] = $strongarm;
+  $export['schemaorg_ui_type_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -956,12 +956,12 @@ Disallow: /?q=user/logout/';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'xmlsitemap_settings_node_race';
+  $strongarm->name = 'xmlsitemap_settings_node_pg_race';
   $strongarm->value = array(
     'status' => '1',
     'priority' => '0.6',
   );
-  $export['xmlsitemap_settings_node_race'] = $strongarm;
+  $export['xmlsitemap_settings_node_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

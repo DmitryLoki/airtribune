@@ -426,9 +426,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: create race content.
-  $permissions['create race content'] = array(
-    'name' => 'create race content',
+  // Exported permission: create pg_race content.
+  $permissions['create pg_race content'] = array(
+    'name' => 'create pg_race content',
     'roles' => array(
       0 => 'editor',
     ),
@@ -467,9 +467,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete any race content.
-  $permissions['delete any race content'] = array(
-    'name' => 'delete any race content',
+  // Exported permission: delete any pg_race content.
+  $permissions['delete any pg_race content'] = array(
+    'name' => 'delete any pg_race content',
     'roles' => array(
       0 => 'editor',
     ),
@@ -494,9 +494,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own race content.
-  $permissions['delete own race content'] = array(
-    'name' => 'delete own race content',
+  // Exported permission: delete own pg_race content.
+  $permissions['delete own pg_race content'] = array(
+    'name' => 'delete own pg_race content',
     'roles' => array(
       0 => 'editor',
     ),
@@ -969,9 +969,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
-  // Exported permission: edit any race content.
-  $permissions['edit any race content'] = array(
-    'name' => 'edit any race content',
+  // Exported permission: edit any pg_race content.
+  $permissions['edit any pg_race content'] = array(
+    'name' => 'edit any pg_race content',
     'roles' => array(
       0 => 'editor',
     ),
@@ -1042,9 +1042,9 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
-  // Exported permission: edit own race content.
-  $permissions['edit own race content'] = array(
-    'name' => 'edit own race content',
+  // Exported permission: edit own pg_race content.
+  $permissions['edit own pg_race content'] = array(
+    'name' => 'edit own pg_race content',
     'roles' => array(
       0 => 'editor',
     ),
