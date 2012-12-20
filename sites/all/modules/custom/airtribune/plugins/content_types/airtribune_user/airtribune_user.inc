@@ -36,7 +36,7 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   $links = language_negotiation_get_switch_links('language', $path);
 
   foreach ($links->links as $lang_code => $link) {
-    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => $lang_code, 'iconset' => 'shiny')) . $lang_code;
+    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => airtribune_airtribune_user_get_lang_code($lang_code), 'iconset' => 'shiny')) . $lang_code;
     $links->links[$lang_code]['html'] = TRUE;
   }
 
@@ -140,7 +140,7 @@ function airtrubune_format_username($name) {
  */
 function airtribune_airtribune_user_get_lang_code($lang_code) {
   if ($lang_code == 'en') {
-    $lang_code  = 'gb';
+    $lang_code  = 'us';
   }
   return $lang_code ;
 }
