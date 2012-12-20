@@ -178,7 +178,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
 
   /* Display: Next */
-  $handler = $view->new_display('page', 'Next', 'page_1');
+  $handler = $view->new_display('page', 'Next', 'page_events_next');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -213,7 +213,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['tab_options']['name'] = 'main-menu';
 
   /* Display: Current */
-  $handler = $view->new_display('page', 'Current', 'page_2');
+  $handler = $view->new_display('page', 'Current', 'page_events_current');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -251,7 +251,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Past */
-  $handler = $view->new_display('page', 'Past', 'page_3');
+  $handler = $view->new_display('page', 'Past', 'page_events_past');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
