@@ -11,11 +11,11 @@
 
 // Plugin definition.
 $plugin = array(
-  'title' => t('Two column 70/30 stacked'),
+  'title' => t('Two column four row'),
   'category' => t('Columns: 2'),
-  'icon' => 'twocol_70_30_stacked.png',
-  'theme' => 'twocol_70_30_stacked',
-  'css' => 'twocol_70_30_stacked.css',
+  'icon' => 'twocolfourrow.png',
+  'theme' => 'twocolfourrow',
+  'css' => 'twocolfourrow.css',
   'regions' => array(
     'header' => t('Header'),
     'top' => t('Top'),

@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * race.features.field.inc
+ * pg_race.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function race_field_default_fields() {
+function pg_race_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-race-body'.
-  $fields['node-race-body'] = array(
+  // Exported field: 'node-pg_race-body'.
+  $fields['node-pg_race-body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -43,7 +43,7 @@ function race_field_default_fields() {
       'type' => 'text_with_summary',
     ),
     'field_instance' => array(
-      'bundle' => 'race',
+      'bundle' => 'pg_race',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -87,8 +87,8 @@ function race_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-race-field_photos'.
-  $fields['node-race-field_photos'] = array(
+  // Exported field: 'node-pg_race-field_photos'.
+  $fields['node-pg_race-field_photos'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '10',
@@ -122,7 +122,7 @@ function race_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'race',
+      'bundle' => 'pg_race',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -171,7 +171,7 @@ function race_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[node:og-group-ref:1:title-field]\\races\\[node:field-race-date:short]',
+            'value' => '[node:og-group-ref:1:title-field]\\pg_races\\[node:field-pg_race-date:short]',
           ),
           'retroactive_update' => 0,
         ),
@@ -203,14 +203,14 @@ function race_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-race-field_race_date'.
-  $fields['node-race-field_race_date'] = array(
+  // Exported field: 'node-pg_race-field_pg_race_date'.
+  $fields['node-pg_race-field_pg_race_date'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_race_date',
+      'field_name' => 'field_pg_race_date',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -236,7 +236,7 @@ function race_field_default_fields() {
       'type' => 'datetime',
     ),
     'field_instance' => array(
-      'bundle' => 'race',
+      'bundle' => 'pg_race',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -261,7 +261,7 @@ function race_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_race_date',
+      'field_name' => 'field_pg_race_date',
       'label' => 'Date',
       'required' => 1,
       'settings' => array(
@@ -290,14 +290,14 @@ function race_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-race-field_race_status'.
-  $fields['node-race-field_race_status'] = array(
+  // Exported field: 'node-pg_race-field_pg_race_status'.
+  $fields['node-pg_race-field_pg_race_status'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_race_status',
+      'field_name' => 'field_pg_race_status',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -323,7 +323,7 @@ function race_field_default_fields() {
       'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'race',
+      'bundle' => 'pg_race',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -343,7 +343,7 @@ function race_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_race_status',
+      'field_name' => 'field_pg_race_status',
       'label' => 'Status',
       'required' => 1,
       'settings' => array(
@@ -360,8 +360,8 @@ function race_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-race-og_group_ref'.
-  $fields['node-race-og_group_ref'] = array(
+  // Exported field: 'node-pg_race-og_group_ref'.
+  $fields['node-pg_race-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -412,7 +412,7 @@ function race_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'race',
+      'bundle' => 'pg_race',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -472,8 +472,8 @@ function race_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-race-title_field'.
-  $fields['node-race-title_field'] = array(
+  // Exported field: 'node-pg_race-title_field'.
+  $fields['node-pg_race-title_field'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -503,7 +503,7 @@ function race_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'race',
+      'bundle' => 'pg_race',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => 'A field replacing node title.',

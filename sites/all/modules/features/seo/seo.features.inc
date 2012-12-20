@@ -81,8 +81,8 @@ function seo_rdf_default_mappings() {
     ),
   );
 
-  // Exported RDF mapping: race
-  $schemaorg['node']['race'] = array(
+  // Exported RDF mapping: pg_race
+  $schemaorg['node']['pg_race'] = array(
     'rdftype' => array(
       0 => 'schema:SportsEvent',
       1 => 'sioc:Item',
@@ -139,7 +139,7 @@ function seo_rdf_default_mappings() {
       'datatype' => 'xsd:dateTime',
       'callback' => 'date_iso8601',
     ),
-    'field_race_date' => array(
+    'field_pg_race_date' => array(
       'predicates' => array(
         0 => 'schema:startDate',
       ),
