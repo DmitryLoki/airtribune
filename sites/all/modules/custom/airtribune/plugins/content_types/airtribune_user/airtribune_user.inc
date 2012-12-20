@@ -14,7 +14,7 @@ $plugin = array(
 /**
  * Render the custom content type.
  *
- * TODO Move markup to tempalte file.
+ * TODO Move markup to template file.
  */
 function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user, $language;
@@ -48,18 +48,17 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
       '#suffix' => '</div></div>',
     );
     $build['airtribune-user']['lang-icon'] = array(
+      '#theme' => 'countryicons_icon',
       '#prefix' => '<div class="lang-icon"><span>',
-      '#theme' => 'image',
-      '#path' => file_create_url($plugin_path . '/flags/' . $language->language . '.png'),
-      '#alt' => $language->language,
+      '#code' => airtribune_airtribune_user_get_lang_code($language->language),
+      '#iconset' => 'shiny',
       '#suffix' => '</span></div>',
     );
   }
-
   if ($user->uid) {
     $build['airtribune-user']['user-name'] = array(
       '#prefix' => '<div class="user-button">',
-      '#markup' => l('<span>'.airtrubune_format_username($user->name).'</span>', 'user/' . $user->uid, array('html' => true)),
+      '#markup' => l('<span>' . airtrubune_format_username($user->name).'</span>', 'user/' . $user->uid, array('html' => TRUE)),
       '#suffix' => '</div>',
     );
     $build['user-menu'] = menu_tree($conf['menu']);
@@ -134,4 +133,14 @@ function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
  */
 function airtrubune_format_username($name) {
   return $name;
+}
+
+/**
+ *
+ */
+function airtribune_airtribune_user_get_lang_code($lang_code) {
+  if ($lang_code == 'en') {
+    $lang_code  = 'gb';
+  }
+  return $lang_code ;
 }
