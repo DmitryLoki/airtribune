@@ -12,6 +12,20 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function airtribune_theme() {
+  return array(
+    'airtribune_user_pane' => array(
+      'template' => 'airtribune-user-pane',
+      'path' => drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user',
+      'file' => 'airtribune_user.inc',
+      'render element' => 'elements',
+    ),
+  );
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function airtribune_field_formatter_info() {
@@ -51,11 +65,8 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
 
 
 /**
- * @param $name
- * @return string
- *
  * See issue #2370.
  */
-function airtrubune_format_username($name) {
-  return $name;
+function airtrubune_format_username($account) {
+  return $account->name;
 }

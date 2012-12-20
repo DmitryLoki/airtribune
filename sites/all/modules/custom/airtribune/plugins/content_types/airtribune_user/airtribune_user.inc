@@ -1,9 +1,7 @@
 <?php
 
-
-
 /**
- * Airtribune user plugin.
+ * @file Airtribune user plugin.
  *
  * See issue #2386.
  */
@@ -22,69 +20,42 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   global $user, $language;
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user';
 
-  $build['#prefix'] = '<div id="sign-in">';
-  $build['#suffix'] = '</div>';
-  $build['#attached'] = array(
-    'js' => array($plugin_path . '/script.js'),
-    'css' => array($plugin_path . '/style.css'),
-  );
-
-  $build['airtribune-user'] = array(
-    '#type' => 'container',
-    '#attributes' => array('id' => 'airtribune-user'),
+  $content = array(
+    '#theme' => 'airtribune_user_pane',
+    '#attached' => array(
+      'js' => array($plugin_path . '/script.js'),
+      'css' => array($plugin_path . '/style.css'),
+    ),
   );
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
   $links = language_negotiation_get_switch_links('language', $path);
-
   foreach ($links->links as $lang_code => $link) {
-    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => airtribune_airtribune_user_get_lang_code($lang_code), 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)) . $lang_code;
+    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => $lang_code, 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)) . $lang_code;
     $links->links[$lang_code]['html'] = TRUE;
   }
+  $content['lang_links'] = array(
+    '#theme' => 'links',
+    '#links' => $links->links,
+  );
 
-  if (isset($links->links)) {
-    $build['lang-icons'] = array(
-      '#prefix' => '<div class="drop-item flags"><div class="pane-inner">',
-      '#theme' => 'links',
-      '#links' => $links->links,
-      '#suffix' => '</div></div>',
-    );
-    $build['airtribune-user']['lang-icon'] = array(
-      '#theme' => 'countryicons_icon',
-      '#prefix' => '<div class="lang-icon"><span>',
-      '#code' => airtribune_airtribune_user_get_lang_code($language->language),
-      '#iconset' => AIRTRIBUNE_LANGUAGES_ICONSET,
-      '#suffix' => '</span></div>',
-    );
-  }
+  $content['lang_icon'] = array(
+    '#theme' => 'countryicons_icon',
+    '#code' => $language->language,
+    '#iconset' => AIRTRIBUNE_LANGUAGES_ICONSET,
+  );
+
   if ($user->uid) {
-    $build['airtribune-user']['user-name'] = array(
-      '#prefix' => '<div class="user-button">',
-      '#markup' => l('<span>' . airtrubune_format_username($user->name) . '</span>', 'user/' . $user->uid, array('html' => TRUE)),
-      '#suffix' => '</div>',
-    );
-    $build['user-menu'] = menu_tree($conf['menu']);
-    $build['user-menu']['#prefix'] = '<div class="drop-item user-menu"><div class="pane-inner">';
-    $build['user-menu']['#suffix'] = '</div></div>';
-    $build['airtribune-user']['user_picture'] = array(
-      '#markup' => theme('user_picture', array('account' => $user)),
-    );
+    $content['user_menu'] = menu_tree($conf['menu']);
   }
   else {
-    $build['airtribune-user']['signin'] = array(
-     '#prefix' => '<div class="user-button">',
-     '#markup' => l('Sign in', 'user'),
-     '#suffix' => '</div>',
-    );
-    $build['login-form'] = drupal_get_form('user_login_block');
-    $build['login-form']['#prefix'] = '<div class="drop-item user-login"><div class="pane-inner">';
-    $build['login-form']['#suffix'] = '</div></div>';
+    $content['login_form'] = drupal_get_form('user_login_block');
   }
 
   return (object) array(
     'module' => 'airtribune',
     'title' => t('Airtribune user'),
-    'content' => $build,
+    'content' => $content,
     'delta' => 1,
   );
 }
@@ -128,11 +99,23 @@ function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
 }
 
 /**
+ * Process variables for airtribune-user-pane.tpl.php.
  *
+ * The $vars array contains the following arguments:
+ * - $element
+ *
+ * @see airtribune-user-pane.tpl.php
  */
-function airtribune_airtribune_user_get_lang_code($lang_code) {
-  if ($lang_code == 'en') {
-    $lang_code  = 'us';
+function template_preprocess_airtribune_user_pane(&$vars) {
+
+  foreach (element_children($vars['elements']) as $key) {
+    $vars[$key] = render($vars['elements'][$key]);
   }
-  return $lang_code ;
+
+  if ($vars['logged_in']) {
+    $vars['user_name'] = airtrubune_format_username($vars['user']);
+    $vars['user_profile_link'] = url('user/' . $vars['user']->uid);
+    $vars['user_picture'] = theme('user_picture', array('account' => $vars['user']));
+  }
+
 }
