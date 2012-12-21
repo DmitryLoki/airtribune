@@ -21,7 +21,7 @@ function panels_default_template_default_panels_mini() {
   $mini->contexts = array();
   $mini->relationships = array();
   $display = new panels_display();
-  $display->layout = 'four_4x25';
+  $display->layout = 'fourcoltworow';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -35,6 +35,7 @@ function panels_default_template_default_panels_mini() {
       'four_second' => NULL,
       'four_third' => NULL,
       'four_fourth' => NULL,
+      'four_five' => NULL,
     ),
   );
   $display->cache = array();
@@ -76,6 +77,33 @@ e-mail: info@airtribune.com</p>',
     $display->panels['four_first'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
+    $pane->panel = 'four_five';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Copyright',
+      'title' => '',
+      'body' => '© 2012 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
+      'format' => 'full_html',
+      'substitute' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => 'footer-copyright',
+      'css_class' => '',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-2'] = $pane;
+    $display->panels['four_five'][0] = 'new-2';
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
     $pane->panel = 'four_fourth';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -107,10 +135,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['four_fourth'][0] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['four_fourth'][0] = 'new-3';
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'four_second';
     $pane->type = 'block';
     $pane->subtype = 'menu-footer-menu';
@@ -128,10 +156,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['four_second'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['four_second'][0] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'four_third';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -160,12 +188,67 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['four_third'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['four_third'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-1';
   $mini->display = $display;
   $export['footer_four_blocks'] = $mini;
+
+  $mini = new stdClass();
+  $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */
+  $mini->api_version = 1;
+  $mini->name = 'temp_header_image';
+  $mini->category = 'Blocks';
+  $mini->admin_title = 'Temporary Header Image';
+  $mini->admin_description = '';
+  $mini->requiredcontexts = array();
+  $mini->contexts = array();
+  $mini->relationships = array();
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-6';
+    $pane->panel = 'middle';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Picture',
+      'title' => '',
+      'body' => '<img src="/sites/all/themes/airtribune2/images/top_block.jpg" alt="" />',
+      'format' => 'full_html',
+      'substitute' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => 'top_picture',
+      'css_class' => '',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-6'] = $pane;
+    $display->panels['middle'][0] = 'new-6';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = 'new-6';
+  $mini->display = $display;
+  $export['temp_header_image'] = $mini;
 
   return $export;
 }
