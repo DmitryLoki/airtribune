@@ -28,7 +28,7 @@
         <?php print l(t('Sign in'), 'user'); ?>
       </div>
     <?php endif; ?>
-
+  </div>
     <div class="drop-item flags">
       <div class="pane-inner">
         <?php print $lang_links; ?>
@@ -47,6 +47,5 @@
         </div>
       </div>
      <?php endif; ?>
-
-  </div>
+  
 </div>

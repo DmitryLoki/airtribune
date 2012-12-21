@@ -206,8 +206,8 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'menu' => 'user-menu',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -365,7 +365,7 @@ function panels_default_template_default_page_manager_handlers() {
     $display->content['new-11'] = $pane;
     $display->panels['top'][0] = 'new-11';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = '0';
+  $display->title_pane = 'new-4';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_2'] = $handler;
 
