@@ -3,7 +3,6 @@ description = All that relates to default site template
 core = 7.x
 package = Templates
 php = 5.2.4
-version = 7.x-1.0
 project = panels_default_template
 dependencies[] = ctools
 dependencies[] = page_manager
