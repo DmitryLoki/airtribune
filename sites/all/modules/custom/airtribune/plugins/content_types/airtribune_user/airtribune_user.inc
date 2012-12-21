@@ -13,8 +13,6 @@ $plugin = array(
 
 /**
  * Render the custom content type.
- *
- * TODO Move markup to template file.
  */
 function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user, $language;
@@ -31,7 +29,12 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   $path = drupal_is_front_page() ? '<front>' : current_path();
   $links = language_negotiation_get_switch_links('language', $path);
   foreach ($links->links as $lang_code => $link) {
-    $links->links[$lang_code]['title'] = theme('countryicons_icon_sprite', array('code' => $lang_code, 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)) . $lang_code;
+    $links->links[$lang_code]['title'] = theme(
+      'countryicons_icon_sprite',
+      array('code' => airtrubune_get_country_code($lang_code), 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
+    )
+    // pt-br to pt.
+    . substr($lang_code, 0, 2);
     $links->links[$lang_code]['html'] = TRUE;
   }
   $content['lang_links'] = array(
@@ -41,12 +44,12 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
 
   $content['lang_icon'] = array(
     '#theme' => 'countryicons_icon',
-    '#code' => $language->language,
+    '#code' => airtrubune_get_country_code($language->language),
     '#iconset' => AIRTRIBUNE_LANGUAGES_ICONSET,
   );
 
   if ($user->uid) {
-    $content['user_menu'] = menu_tree($conf['menu']);
+    $content['user_menu'] = menu_tree('user-menu');
   }
   else {
     $content['login_form'] = drupal_get_form('user_login_block');

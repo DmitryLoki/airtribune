@@ -62,11 +62,25 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
   return $element;
 }
 
-
-
 /**
  * See issue #2370.
  */
 function airtrubune_format_username($account) {
   return $account->name;
+}
+
+/**
+ *
+ */
+function airtrubune_get_country_code($langcode) {
+  $country_codes = array(
+    'en' => 'us',
+    'ja' => 'jp',
+    'pt-br' => 'br',
+    'fa' => 'pr',
+    'sr' => 'rs',
+    'el' => 'gr',
+    'sl' => 'si',
+  );
+  return isset($country_codes[$langcode]) ? $country_codes[$langcode] : $langcode;
 }
