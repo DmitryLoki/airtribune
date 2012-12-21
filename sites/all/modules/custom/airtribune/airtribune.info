@@ -6,4 +6,7 @@ php = 5.2
 files[] = translation.handler.inc
 
 ; Airtrubune user plugin requirements.
-dependencies[] = 'locale'
+dependencies[] = locale
+dependencies[] = menu
+dependencies[] = countryicons
+dependencies[] = countryicons_shiny
