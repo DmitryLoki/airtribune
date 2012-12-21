@@ -101,6 +101,265 @@ function views_feature_views_default_views() {
   $export['activity'] = $view;
 
   $view = new view();
+  $view->name = 'events_list';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'List of past, current and next events';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'long',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  /* Field: Content: City */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  /* Sort criterion: Content: Dates -  start date (field_dates) */
+  $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Content: Dates -  start date (field_dates) */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
+  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
+
+  /* Display: Next */
+  $handler = $view->new_display('page', 'Next', 'page_events_next');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Content: Dates -  start date (field_dates) */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
+  $handler->display->display_options['path'] = 'events/next';
+  $handler->display->display_options['menu']['type'] = 'default tab';
+  $handler->display->display_options['menu']['title'] = 'Next events';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['tab_options']['type'] = 'normal';
+  $handler->display->display_options['tab_options']['title'] = 'Next events';
+  $handler->display->display_options['tab_options']['weight'] = '0';
+  $handler->display->display_options['tab_options']['name'] = 'main-menu';
+
+  /* Display: Current */
+  $handler = $view->new_display('page', 'Current', 'page_events_current');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Content: Dates -  start date (field_dates) */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
+  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
+  $handler->display->display_options['path'] = 'events/current';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Currents events';
+  $handler->display->display_options['menu']['weight'] = '1';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+
+  /* Display: Past */
+  $handler = $view->new_display('page', 'Past', 'page_events_past');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'field_dates',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'year',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  /* Field: Content: City */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
+  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
+    'format_type' => 'long',
+    'fromto' => 'value',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
+  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['operator'] = '<';
+  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
+  $handler->display->display_options['path'] = 'events/past';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Past events';
+  $handler->display->display_options['menu']['weight'] = '2';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+  $translatables['events_list'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Dates'),
+    t('Country'),
+    t('City'),
+    t('Next'),
+    t('Current'),
+    t('Past'),
+  );
+  $export['events_list'] = $view;
+
+  $view = new view();
   $view->name = 'next_events';
   $view->description = '';
   $view->tag = 'default';

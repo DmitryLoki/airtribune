@@ -1,0 +1,9 @@
+name = Airtribune membership management
+description = Provides Airtribune OG membership management functionality.
+package = Airtribune
+core = 7.x
+dependencies[] = og
+dependencies[] = entity
+files[] = at_membership.pages.inc
+files[] = views/at_membership.views.inc
+files[] = views/views_handler_field_og_membership_link_edit.inc

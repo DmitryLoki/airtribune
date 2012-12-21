@@ -2418,9 +2418,6 @@ p { margin:0; padding:6px 0 10px}
 
 }
 
-
-
-
   /* Main */
 
 .region-sidebar-first, .region-sidebar-second { width:240px;}
@@ -2429,6 +2426,9 @@ p { margin:0; padding:6px 0 10px}
 
 .panel-col-seventy { width:100%; float:left; margin-right:-240px}
 .panel-col-seventy .inside { margin-right:240px; margin-left:0}
+
+#top_inner .pane-inner .pane-inner { margin-left: 0px; margin-right: 0px; }
+#top_inner .block .block { margin-bottom: 0px; }
 
 #top_picture p { margin:0; padding:0}
 #top_picture img { vertical-align:middle; position:relative;

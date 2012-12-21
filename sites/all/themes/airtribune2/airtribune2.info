@@ -5,7 +5,7 @@
   core        = 7.x
   release     = 7.x-3.x
   screenshot  = screenshot.png
-  base theme  = adaptivetheme
+  base theme  = at_panels_everywhere
 
 
 ;----------// Stylesheets

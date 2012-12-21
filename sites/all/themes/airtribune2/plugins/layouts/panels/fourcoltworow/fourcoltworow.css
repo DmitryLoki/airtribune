@@ -1,0 +1,13 @@
+.fourcoltworow .panel-row-100.row-3,
+.fourcoltworow .panel-row-100.row-3 .region {
+    width: 100%;
+}
+
+.fourcoltworow .panel-row-100 .panel-row .region,
+.fourcoltworow .panel-row-100 .panel-row {
+    width:50%;float:left
+}
+
+.fourcoltworow .panel-row-100 .region-four-five {
+    float: none;
+}

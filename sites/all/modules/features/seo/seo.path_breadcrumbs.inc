@@ -144,7 +144,7 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_race';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_race';
   $path_breadcrumb->name = 'BreadCrumb Race';
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
@@ -173,7 +173,7 @@ function seo_path_breadcrumbs_settings_info() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'race' => 'race',
+              'pg_race' => 'pg_race',
             ),
           ),
           'context' => 'node',
@@ -184,7 +184,7 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = 0;
-  $export['breadcrumb_race'] = $path_breadcrumb;
+  $export['breadcrumb_pg_race'] = $path_breadcrumb;
 
   return $export;
 }
