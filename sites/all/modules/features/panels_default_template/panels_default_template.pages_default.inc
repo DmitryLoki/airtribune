@@ -17,118 +17,36 @@ function panels_default_template_default_page_manager_handlers() {
   $handler->task = 'site_template';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Airtribune 2.0',
-    'no_blocks' => 1,
-    'css_id' => 'page-wrapper',
-    'css' => '/* set a fixed overall width */
-  #page-wrapper > .panel-flexible-inside {
-    width: 1020px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Add some margin to the main content row. This class was set in the layout designer. */
-  #page-wrapper .main-content {
-    padding: 0 10px;
-  }',
+    'title' => 'ATPanels Everywhere Site Template',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
     'contexts' => array(),
     'relationships' => array(),
-    'access' => array(
-      'plugins' => array(),
-      'logic' => 'and',
-    ),
-    'pipeline' => 'standard',
   );
   $display = new panels_display();
-  $display->layout = 'twocol_70_30_stacked';
-  $display->layout_settings = array(
-    'items' => array(
-      'canvas' => array(
-        'type' => 'row',
-        'contains' => 'column',
-        'children' => array(
-          0 => 'main',
-        ),
-        'parent' => NULL,
-        'class' => '',
-        'column_class' => '',
-        'row_class' => '',
-        'region_class' => '',
-        'no_scale' => FALSE,
-        'fixed_width' => '',
-        'column_separation' => '0.5em',
-        'region_separation' => '0.5em',
-        'row_separation' => '0.5em',
-      ),
-      'main' => array(
-        'type' => 'column',
-        'width' => 100,
-        'width_type' => '%',
-        'children' => array(
-          0 => 1,
-          1 => 'main-row',
-        ),
-        'parent' => 'canvas',
-      ),
-      'main-row' => array(
-        'type' => 'row',
-        'contains' => 'region',
-        'children' => array(
-          0 => 'content',
-          1 => 'sidebar',
-        ),
-        'parent' => 'main',
-        'class' => 'main-content',
-      ),
-      'content' => array(
-        'type' => 'region',
-        'title' => 'Content',
-        'width' => '100',
-        'width_type' => '%',
-        'parent' => 'main-row',
-        'class' => '',
-      ),
-      'sidebar' => array(
-        'type' => 'region',
-        'title' => 'Sidebar',
-        'width' => '200',
-        'width_type' => 'px',
-        'parent' => 'main-row',
-      ),
-      1 => array(
-        'type' => 'row',
-        'contains' => 'region',
-        'children' => array(
-          0 => 'header',
-        ),
-        'parent' => 'main',
-        'class' => 'header',
-      ),
-      'header' => array(
-        'type' => 'region',
-        'title' => 'Header',
-        'width' => 100,
-        'width_type' => '%',
-        'parent' => '1',
-      ),
-    ),
-  );
+  $display->layout = 'atpe_site_template';
+  $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
       'content' => NULL,
-      'sidebar' => NULL,
-      'header' => NULL,
-      'two_66_33_top' => NULL,
-      'two_66_33_first' => NULL,
-      'two_66_33_second' => NULL,
-      'two_66_33_bottom' => NULL,
-      'top' => NULL,
-      'left' => NULL,
-      'right' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
       'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
     ),
   );
   $display->cache = array();
@@ -137,12 +55,13 @@ function panels_default_template_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'footer';
-    $pane->type = 'panels_mini';
-    $pane->subtype = 'footer_four_blocks';
+    $pane->panel = 'content';
+    $pane->type = 'page_content';
+    $pane->subtype = 'page_content';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_page_content_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -155,36 +74,9 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['footer'][0] = 'new-1';
+    $display->panels['content'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'footer';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Copyright',
-      'title' => '',
-      'body' => '© 2012 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => 'footer-copyright',
-      'css_class' => '',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['footer'][1] = 'new-2';
-    $pane = new stdClass();
-    $pane->pid = 'new-3';
     $pane->panel = 'header';
     $pane->type = 'pane_header';
     $pane->subtype = 'pane_header';
@@ -198,58 +90,12 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['header'][0] = 'new-3';
-    $pane = new stdClass();
-    $pane->pid = 'new-4';
-    $pane->panel = 'header';
-    $pane->type = 'page_primary_links';
-    $pane->subtype = 'page_primary_links';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['header'][1] = 'new-4';
+    $display->content['new-2'] = $pane;
+    $display->panels['header'][0] = 'new-2';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
-    $pane->panel = 'header';
-    $pane->type = 'airtribune_user';
-    $pane->subtype = 'airtribune_user';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'menu' => 'user-menu',
-      'override_title' => 1,
-      'override_title_text' => '<none>',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => '',
-    );
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['header'][2] = 'new-5';
-    $pane = new stdClass();
-    $pane->pid = 'new-6';
-    $pane->panel = 'left';
+    $pane->pid = 'new-3';
+    $pane->panel = 'help';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
     $pane->shown = TRUE;
@@ -262,14 +108,14 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['left'][0] = 'new-6';
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['help'][0] = 'new-3';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
-    $pane->panel = 'left';
-    $pane->type = 'page_breadcrumb';
-    $pane->subtype = 'page_breadcrumb';
+    $pane->pid = 'new-4';
+    $pane->panel = 'menu_bar';
+    $pane->type = 'pane_navigation';
+    $pane->subtype = 'pane_navigation';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -279,127 +125,12 @@ function panels_default_template_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['left'][1] = 'new-7';
-    $pane = new stdClass();
-    $pane->pid = 'new-8';
-    $pane->panel = 'left';
-    $pane->type = 'page_title';
-    $pane->subtype = 'page_title';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'markup' => 'h1',
-      'class' => '',
-      'id' => '',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['left'][2] = 'new-8';
-    $pane = new stdClass();
-    $pane->pid = 'new-9';
-    $pane->panel = 'left';
-    $pane->type = 'page_content';
-    $pane->subtype = 'page_content';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_page_content_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = '';
-    $display->content['new-9'] = $pane;
-    $display->panels['left'][3] = 'new-9';
-    $pane = new stdClass();
-    $pane->pid = 'new-10';
-    $pane->panel = 'right';
-    $pane->type = 'block';
-    $pane->subtype = 'system-navigation';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-10'] = $pane;
-    $display->panels['right'][0] = 'new-10';
-    $pane = new stdClass();
-    $pane->pid = 'new-11';
-    $pane->panel = 'right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'next_events-sidebar_pane';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'next_events',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['right'][1] = 'new-11';
-    $pane = new stdClass();
-    $pane->pid = 'new-12';
-    $pane->panel = 'top';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Picture',
-      'title' => '',
-      'body' => '<img src="/sites/all/themes/airtribune2/images/top_block.jpg" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => 'top_picture',
-      'css_class' => '',
-    );
-    $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['top'][0] = 'new-12';
-  $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = '0';
+    $display->content['new-4'] = $pane;
+    $display->panels['menu_bar'][0] = 'new-4';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context'] = $handler;
 
