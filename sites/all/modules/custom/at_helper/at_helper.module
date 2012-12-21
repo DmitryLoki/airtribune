@@ -2,9 +2,9 @@
 
 define('VIWES_EVENTS_LIST', 'events_list');
 
-define('VIWES_EVENTS_LIST_NEXT', 'page_1');
-define('VIWES_EVENTS_LIST_CURRENT', 'page_2');
-define('VIWES_EVENTS_LIST_PAST', 'page_3');
+define('VIWES_EVENTS_LIST_NEXT', 'page_events_next');
+define('VIWES_EVENTS_LIST_CURRENT', 'page_events_current');
+define('VIWES_EVENTS_LIST_PAST', 'page_events_past');
 
 define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
 
