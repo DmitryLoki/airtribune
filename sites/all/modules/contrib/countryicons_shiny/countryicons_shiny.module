@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_iconset_info().
+ */
+function countryicons_shiny_iconset_info() {
+  $iconset = new stdClass();
+  $iconset->key = 'shiny';
+  $iconset->name = t('Shiny');
+  $iconset->description = t('Shiny flags');
+  $iconset->width = '16';
+  $iconset->height = '11';
+  $iconset->extension = 'png';
+  $iconset->path = drupal_get_path('module', 'countryicons_shiny') . '/images';
+  $iconset->css_sprite = drupal_get_path('module', 'countryicons_shiny') . '/shiny-sprite.css';
+
+  return array($iconset->key => $iconset);
+}

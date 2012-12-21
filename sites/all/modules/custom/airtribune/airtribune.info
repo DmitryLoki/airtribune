@@ -3,5 +3,10 @@ description = "Airtribune module for testing purposes. To be refactored."
 core = 7.x
 package = Airtribune
 php = 5.2 
-files[] = airtribune.module
 files[] = translation.handler.inc
+
+; Airtrubune user plugin requirements.
+dependencies[] = locale
+dependencies[] = menu
+dependencies[] = countryicons
+dependencies[] = countryicons_shiny
