@@ -1,7 +1,7 @@
 <?php
 
 
-define('PILOT_PROFILE_NAME', 'test');
+define('PILOT_PROFILE_NAME', 'pilot');
 define('CONTEST_MEMBERSHIP_NAME', 'competitor');
 
 
@@ -155,6 +155,26 @@ function at_reg_field_formatter_view($entity_type, $entity, $field, $instance, $
       // User didn't have permissions.
       break;
   }
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function at_reg_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  if ($display['type'] == 'at_reg_group_subscribe') {
+    $element['field_name'] = array(
+      '#title' => t('Field name'),
+      '#description' => t('Select the field that should register the user subscription.'),
+      '#type' => 'select',
+      '#options' => array(0 => t('Automatic (best matching)')) + og_get_group_audience_fields('user', 'user'),
+      '#default_value' => $settings['field_name'],
+    );
+  }
+
+  return $element;
 }
 
 /**

@@ -243,6 +243,9 @@ function multiform_delay_auxilary_validate($form, &$form_state) {
  * executed last amongst other modules' implementations.
  */
 function multiform_module_implements_alter(&$implementations, $hook) {
+  if (!isset($implementations['multiform'])) {
+    return;
+  }
   if ($hook == 'form_alter') {
     $group = $implementations['multiform'];
     unset($implementations['multiform']);
