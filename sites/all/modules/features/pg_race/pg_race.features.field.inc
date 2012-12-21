@@ -91,7 +91,7 @@ function pg_race_field_default_fields() {
   $fields['node-pg_race-field_competition_results'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '5',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_competition_results',
@@ -187,7 +187,7 @@ function pg_race_field_default_fields() {
   $fields['node-pg_race-field_day_results'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '5',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_day_results',
