@@ -3,6 +3,8 @@
 /**
  * @file
  * Default theme implementation to display user pane.
+ *
+ * @see template_preprocess_airtribune_user_pane().
  */
 
 ?>

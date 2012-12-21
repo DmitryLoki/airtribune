@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Common functions that many Airtribune modules will need to reference.
+ */
+
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 
 /**
@@ -39,6 +44,8 @@ function airtribune_field_formatter_info() {
 
 /**
  * Implements hook_field_formatter_view().
+ *
+ * @see #23667
  */
 function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   foreach ($items as $delta => $item) {
@@ -63,14 +70,16 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
 }
 
 /**
- * See issue #2370.
+ * Format user name.
+ *
+ * @see #2370
  */
 function airtrubune_format_username($account) {
   return $account->name;
 }
 
 /**
- *
+ * Returns a country code from a locate that is provided.
  */
 function airtrubune_get_country_code($langcode) {
   $country_codes = array(

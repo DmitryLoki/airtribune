@@ -1,10 +1,13 @@
 <?php
 
 /**
- * @file Airtribune user plugin.
+ * @file
+ * Airtribune user pane plugin.
  *
- * See issue #2386.
+ * @see issue #2386.
  */
+
+// Plugin definition.
 $plugin = array(
   'title' => t('Airtrubune user'),
   'single' => TRUE,
@@ -12,7 +15,7 @@ $plugin = array(
 );
 
 /**
- * Render the custom content type.
+ * Render airtribune user panel.
  */
 function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user, $language;
@@ -41,7 +44,7 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
     '#theme' => 'links',
     '#links' => $links->links,
   );
-
+  // Switch language button.
   $content['lang_icon'] = array(
     '#theme' => 'countryicons_icon',
     '#code' => airtrubune_get_country_code($language->language),
@@ -110,15 +113,12 @@ function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
  * @see airtribune-user-pane.tpl.php
  */
 function template_preprocess_airtribune_user_pane(&$vars) {
-
   foreach (element_children($vars['elements']) as $key) {
     $vars[$key] = render($vars['elements'][$key]);
   }
-
   if ($vars['logged_in']) {
     $vars['user_name'] = airtrubune_format_username($vars['user']);
     $vars['user_profile_link'] = url('user/' . $vars['user']->uid);
     $vars['user_picture'] = theme('user_picture', array('account' => $vars['user']));
   }
-
 }

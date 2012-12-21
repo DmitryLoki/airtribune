@@ -64,6 +64,7 @@ Object.size = function(obj) {
     return size;
 };
 
+// @see http://api.jquery.com/slideToggle/
 function blockSlide(activeEl, direction, eventEl, callback, calldackFunc){
 	//alert(calldackFunc)
 	if(typeof calldackFunc == 'undefined'){
