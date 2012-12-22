@@ -282,19 +282,21 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         // Get values from $_POST for intersecting fields
         $profile_type = $profile_type_bundle = PILOT_PROFILE_NAME;
         $membership_bundle = CONTEST_MEMBERSHIP_NAME;
-//        dsm($form_state);
         
+        // Profile type could be added through profile2 settings
+        // or could exit after form rebuild (e.g. when ajax callback perfomed).
+        // In this case profile2_attach_form() should attach the profile.
         if (empty($form_state['profiles'][$profile_type])) {
           $form_state['profiles'][$profile_type] = profile2_create(array('type' => $profile_type));
+          
+          $profile_type_entity = profile2_type_load($profile_type);
+          profile2_attach_form($form, $form_state);
+          // Wrap each profile form in a fieldset.
+          $form['profile_' . $profile_type] += array(
+            '#type' => 'fieldset', 
+            '#title' => check_plain($profile_type_entity->getTranslation('label')),
+          );
         }
-        $profile_type_entity = profile2_type_load($profile_type);
-        profile2_attach_form($form, $form_state);
-        // Wrap each profile form in a fieldset.
-        $form['profile_' . $profile_type] += array(
-          '#type' => 'fieldset', 
-          '#title' => check_plain($profile_type_entity->getTranslation('label')),
-        );
-        
         
         // Get intersection of field sets in MT and Profile.
         $fields_intersect = at_reg_fields_intersect($membership_bundle, $profile_type_bundle);

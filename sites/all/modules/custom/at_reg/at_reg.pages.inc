@@ -124,8 +124,6 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
       
       $button_keys = array_keys($form['buttons']);
       $form['buttons'][array_pop($button_keys)]['#printed'] = TRUE;
-      //unset($form['multiform']['user_register_form_1']['profile_pilot']['#pre_render'][2]);
-      //unset($form['multiform']['user_register_form_1']['profile_pilot']['#pre_render'][3]);
       return $form;
     }
   }
