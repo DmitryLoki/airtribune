@@ -83,7 +83,7 @@ function main_field_default_fields() {
           'input_format_custom' => '',
           'label_position' => 'above',
           'text_parts' => array(),
-          'year_range' => '-3:+3',
+          'year_range' => '1930:+0',
         ),
         'type' => 'date_popup',
         'weight' => '42',
@@ -339,6 +339,7 @@ Prof.',
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Address');
   t('Birthdate');
   t('Gender');
   t('Name');

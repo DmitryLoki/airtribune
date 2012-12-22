@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * @file
+ * A collection of country icons, and an API for retrieving them.
+ */
+
+/**
+ * Advertise the current countryicons api version.
+ */
+function countryicons_api_version() {
+  return '2.0';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function countryicons_theme() {
+  return array(
+    'countryicons_icon' => array(
+      'variables' => array(
+        'code' => NULL,
+        'iconset' => NULL,
+        'alt' => '',
+        'title' => '',
+        'attributes' => NULL,
+        'display_unknown' => TRUE,
+      ),
+      'file' => 'countryicons.theme.inc',
+    ),
+    'countryicons_icon_sprite' => array(
+      'variables' => array('code' => NULL, 'iconset' => NULL),
+      'file' => 'countryicons.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function countryicons_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#countryicons' :
+      return t('For API documentation visit Country Icons <a href="@documentation-page">documentation page</a> on drupal.org or check the countryicons.api.php file in the module folder.', array('@documentation-page' => url('http://drupal.org/node/1091406')));
+  }
+}
+
+/**
+ * Get all iconsets and their details.
+ *
+ * @param $reset
+ *   Whether to reset the cache for countryicons_get_iconsets().
+ * @return
+ *   array of iconset objects.
+ */
+function countryicons_get_iconsets($reset = FALSE) {
+  $info = &drupal_static(__FUNCTION__, NULL, $reset);
+
+  if (!isset($info)) {
+    $info = module_invoke_all('iconset_info');
+  }
+  return $info;
+}
+
+/**
+ * Get an iconsets details.
+ *
+ * @param $iconset
+ *   The iconset name.
+ * @return
+ *   object with requested iconset.
+ */
+function countryicons_get_iconset($iconset) {
+  $iconsets = countryicons_get_iconsets();
+  return isset($iconsets[$iconset]) ? $iconsets[$iconset] : NULL;
+}
+
+/**
+ * Get the path to an icon.
+ *
+ * @param $code
+ *   A two letter ISO3166 country code.
+ * @param $iconset
+ *   The icon set to use.
+ * @return
+ *   If icon exists a string containing the path to the image file, else NULL.
+ */
+function countryicons_get_icon_path($code, $iconset) {
+  $iconset = countryicons_get_iconset($iconset);
+  if (!empty($iconset) && !empty($code)) {
+    $icon_path = $iconset->path . '/' . drupal_strtolower($code) . '.' . $iconset->extension;
+    if (file_exists($icon_path)) {
+      return $icon_path;
+    }
+  }
+}
+
+/**
+ * Get the URL to an icon.
+ *
+ * @param $code
+ *   A two letter ISO3166 country code.
+ * @param $iconset
+ *   The icon set to use.
+ * @return
+ *   If icon exists a string containing the url to the image file, else NULL.
+ */
+function countryicons_get_icon_url($code, $iconset) {
+  $icon_path = countryicons_get_icon_path($code, $iconset);
+  if (!empty($icon_path)) {
+    return url($icon_path, array('absolute' => TRUE));
+  }
+}

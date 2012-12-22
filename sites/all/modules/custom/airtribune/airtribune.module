@@ -1,6 +1,36 @@
 <?php
 
 /**
+ * @file
+ * Common functions that many Airtribune modules will need to reference.
+ */
+
+define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function airtribune_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function airtribune_theme() {
+  return array(
+    'airtribune_user_pane' => array(
+      'template' => 'airtribune-user-pane',
+      'path' => drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user',
+      'file' => 'airtribune_user.inc',
+      'render element' => 'elements',
+    ),
+  );
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function airtribune_field_formatter_info() {
@@ -14,6 +44,8 @@ function airtribune_field_formatter_info() {
 
 /**
  * Implements hook_field_formatter_view().
+ *
+ * @see #23667
  */
 function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   foreach ($items as $delta => $item) {
@@ -35,4 +67,29 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
     $element[$delta] = array('#markup' => $dates);
   }
   return $element;
+}
+
+/**
+ * Format user name.
+ *
+ * @see #2370
+ */
+function airtrubune_format_username($account) {
+  return $account->name;
+}
+
+/**
+ * Returns a country code from a locate that is provided.
+ */
+function airtrubune_get_country_code($langcode) {
+  $country_codes = array(
+    'en' => 'us',
+    'ja' => 'jp',
+    'pt-br' => 'br',
+    'fa' => 'pr',
+    'sr' => 'rs',
+    'el' => 'gr',
+    'sl' => 'si',
+  );
+  return isset($country_codes[$langcode]) ? $country_codes[$langcode] : $langcode;
 }

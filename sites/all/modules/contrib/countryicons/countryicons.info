@@ -1,0 +1,13 @@
+name = Country Icons API
+description = API for use of country icons collections such as Shiny and Glossy Shade.
+core = 7.x
+package = Multilanguage
+
+files[] = countryicons.module
+
+; Information added by drupal.org packaging script on 2011-10-07
+version = "7.x-2.0-beta1"
+core = "7.x"
+project = "countryicons"
+datestamp = "1318026702"
+
