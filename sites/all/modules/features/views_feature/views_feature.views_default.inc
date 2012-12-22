@@ -259,7 +259,7 @@ function views_feature_views_default_views() {
     0 => array(
       'field' => 'field_dates_1',
       'rendered' => 1,
-      'rendered_strip' => 0,
+      'rendered_strip' => 1,
     ),
   );
   $handler->display->display_options['defaults']['style_options'] = FALSE;
