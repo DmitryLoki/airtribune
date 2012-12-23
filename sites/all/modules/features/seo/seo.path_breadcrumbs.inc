@@ -100,6 +100,72 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_events_list_current';
+  $path_breadcrumb->name = 'Events List Current';
+  $path_breadcrumb->path = 'events/current';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Current events',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/current',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['breadcrumb_events_list_current'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_events_list_next';
+  $path_breadcrumb->name = 'Events List Next';
+  $path_breadcrumb->path = 'events/next';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Next events',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/next',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['breadcrumb_events_list_next'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_events_list_past';
+  $path_breadcrumb->name = 'Events List Past';
+  $path_breadcrumb->path = 'events/past';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Past events',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/past',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['breadcrumb_events_list_past'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest';
   $path_breadcrumb->name = 'BreadCrumb Paragliding Contest';
   $path_breadcrumb->path = 'node/%node';
