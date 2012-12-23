@@ -29,23 +29,23 @@
       </div>
     <?php endif; ?>
   </div>
-    <div class="drop-item flags">
+  <div class="drop-item flags">
+    <div class="pane-inner">
+      <?php print $lang_links; ?>
+    </div>
+  </div>
+  <?php if ($logged_in): ?>
+    <div class="drop-item user-menu">
       <div class="pane-inner">
-        <?php print $lang_links; ?>
+        <?php print $user_menu; ?>
       </div>
     </div>
-    <?php if ($logged_in): ?>
-      <div class="drop-item user-menu">
-        <div class="pane-inner">
-          <?php print $user_menu; ?>
-        </div>
+  <?php else: ?>
+    <div class="drop-item user-login">
+      <div class="pane-inner">
+        <?php print $login_form; ?>
       </div>
-    <?php else: ?>
-      <div class="drop-item user-login">
-        <div class="pane-inner">
-          <?php print $login_form; ?>
-        </div>
-      </div>
-     <?php endif; ?>
-  
+    </div>
+  <?php endif; ?>
+
 </div>
