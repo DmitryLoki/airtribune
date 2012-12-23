@@ -2484,10 +2484,45 @@ p { margin:0; padding:6px 0 10px}
 .next_events a.next_event .title { font-weight:bold; display:block}
 .next_events a.next_event .dates, .next_events a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
 .next_events a.next_event:hover .dates, .next_events a.next_event:hover .place { color:#616569}
-.next_events a.next_event .dates { background-position:-220px 3px}
-.next_events a.next_event .place { background-position:-660px 3px;}
+.next_events a.next_event .dates { background-position:-220px -13px}
+.next_events a.next_event .place { background-position:-660px -45px;}
 .next_events a.next_event:hover .dates { background-position:0 3px}
-.next_events a.next_event:hover .place { background-position:-440px 3px;}
+.next_events a.next_event:hover .place { background-position:-440px -29px;}
+
+.panel-col-seventy .block { margin-bottom:0}
+
+#page ul.tabs { margin:0; padding:0 5px; border:none}
+#page ul.tabs li { margin:0 3px; padding:0 1px; list-style:none; list-style-image:none; border-bottom:1px solid #eceff0;}
+#page ul.tabs li a { border:1px solid #dfe6e9; border-bottom-color:#cdd6da; position:relative; display:inline-block; margin:0 0 -1px; padding:0 12px; height:40px; font:24px/40px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0;
+
+	-webkit-border-radius: 2px; 
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	
+	box-shadow: 		inset 0px 1px 4px #ffffff;
+	-moz-box-shadow: 	inset 0px 1px 4px #ffffff;						
+	-webkit-box-shadow: inset 0px 1px 4px #ffffff
+
+}
+#page ul.tabs li a:hover { color:#677581;}
+#page ul.tabs li.active { border-bottom:none; padding-bottom:1px;}
+#page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:none; border:none; padding:1px 13px; color:#677581}
+
+#page .view-events-list {}
+#page .view-events-list h3 { float:left; width:90px; background:url(../images/hide_year.png) no-repeat 100% 4px; position:relative; z-index:10; font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; clear:both; margin:0 -11px 0 0;}
+#page .view-events-list .views-row { float:right; margin-left:-90px; width:100%;}
+#page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
+#page .view-events-list .views-row-first .views-field { padding-top:2px;}
+#page .view-events-list .views-field-nothing .field-content { display:block; padding:0 0 0 31px}
+#page .view-events-list a.next_event { color:#525d66; font:bold 18px/20px Arial, Helvetica, sans-serif; text-decoration:none; cursor:pointer; display:block; overflow:hidden}
+#page .view-events-list a.next_event:hover { color:#00aeef}
+#page .view-events-list a.next_event .title { font-weight:bold; display:block; padding-bottom:11px}
+#page .view-events-list a.next_event .dates, #page .view-events-list a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
+#page .view-events-list a.next_event:hover .dates, #page .view-events-list a.next_event:hover .place { color:#616569}
+#page .view-events-list a.next_event .dates { background-position:-220px -13px; float:left; padding-right:27px}
+#page .view-events-list a.next_event .place { background-position:-660px -45px; float:left}
+#page .view-events-list a.next_event:hover .dates { background-position:0 3px}
+#page .view-events-list a.next_event:hover .place { background-position:-440px -29px;}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
