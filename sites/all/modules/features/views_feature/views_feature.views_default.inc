@@ -378,8 +378,8 @@ function views_feature_views_default_views() {
 
   $view = new view();
   $view->name = 'next_events';
-  $view->description = '';
-  $view->tag = 'default';
+  $view->description = 'Display three upcoming events';
+  $view->tag = 'airtribune';
   $view->base_table = 'node';
   $view->human_name = 'Next events';
   $view->core = 7;
@@ -394,7 +394,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['use_more_text'] = 'All events';
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '3600';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '3600';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
@@ -464,38 +468,47 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_city']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
-  /* Field: All fields */
+  /* Field: All fields with markup */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields with markup';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Filter criterion: Content: Published */
+  /* Sort criterion: Start date */
+  $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['sorts']['field_dates_value']['ui_name'] = 'Start date';
+  /* Filter criterion: Node should be published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['ui_name'] = 'Node should be published';
+  $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
+  /* Filter criterion: Start date is greater than */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Start date is greater than';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'sidebar_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['link_url'] = 'user';
+  $handler->display->display_options['link_url'] = 'events';
   $translatables['next_events'] = array(
     t('Master'),
     t('Next events'),
