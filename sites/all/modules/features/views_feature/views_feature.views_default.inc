@@ -120,10 +120,27 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Dates */
+  /* Field: Path (excluded) */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['ui_name'] = 'Path (excluded)';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['path']['element_type'] = '0';
+  $handler->display->display_options['fields']['path']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['path']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
+  /* Field: Dates (excluded) */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Dates (excluded)';
+  $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
   $handler->display->display_options['fields']['field_dates']['settings'] = array(
     'format_type' => 'long',
     'fromto' => 'both',
@@ -131,21 +148,58 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Field: Content: Title */
+  /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Country */
+  $handler->display->display_options['fields']['title']['element_type'] = 'span';
+  $handler->display->display_options['fields']['title']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
-  /* Field: Content: City */
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  /* Field: City (excluded) */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (excluded)';
+  $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
+  /* Field: All fields */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
+  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['label'] = '';
+  $handler->display->display_options['fields']['field_dates_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
+    'format_type' => 'year',
+    'fromto' => 'value',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
   /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
@@ -266,47 +320,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Dates */
-  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
-  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates']['settings'] = array(
-    'format_type' => 'long',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Country */
-  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
-  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
-  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
-  /* Field: Content: City */
-  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
-  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
-  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
-  /* Field: Content: Dates */
-  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
-  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
-  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates_1']['label'] = '';
-  $handler->display->display_options['fields']['field_dates_1']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_dates_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
-    'format_type' => 'year',
-    'fromto' => 'value',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
@@ -356,9 +369,7 @@ function views_feature_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('Dates'),
-    t('Country'),
-    t('City'),
+    t('<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>'),
     t('Next'),
     t('Current'),
     t('Past'),
@@ -378,7 +389,9 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Next events';
-  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more'] = TRUE;
+  $handler->display->display_options['use_more_always'] = TRUE;
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -481,6 +494,7 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'sidebar_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['link_url'] = 'user';
   $translatables['next_events'] = array(
     t('Master'),
     t('Next events'),
