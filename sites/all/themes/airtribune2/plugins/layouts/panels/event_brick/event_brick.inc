@@ -46,7 +46,6 @@ $plugin = array(
  * Preprocess variables for event-brick.tpl.php
  */
 function template_preprocess_event_brick(&$vars) {
-  //print_r($vars);
   $vars['panel_prefix'] = '';
   $vars['panel_suffix'] = '';
 }
