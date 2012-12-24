@@ -391,6 +391,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
+  $handler->display->display_options['use_more_text'] = 'All events';
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -498,7 +499,7 @@ function views_feature_views_default_views() {
   $translatables['next_events'] = array(
     t('Master'),
     t('Next events'),
-    t('more'),
+    t('All events'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
@@ -506,6 +507,7 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>'),
     t('Content pane'),
+    t('more'),
     t('View panes'),
   );
   $export['next_events'] = $view;
