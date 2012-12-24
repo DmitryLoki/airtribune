@@ -232,79 +232,6 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg_contest-field_day_blog'.
-  $fields['node-pg_contest-field_day_blog'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_day_blog',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_with_summary',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 24,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_day_blog',
-      'label' => 'Day blog',
-      'required' => 0,
-      'settings' => array(
-        'display_summary' => 1,
-        'entity_translation_sync' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '20',
-          'summary_rows' => 5,
-        ),
-        'type' => 'text_textarea_with_summary',
-        'weight' => '2',
-      ),
-    ),
-  );
-
   // Exported field: 'node-pg_contest-field_downloads'.
   $fields['node-pg_contest-field_downloads'] = array(
     'field_config' => array(
@@ -1544,78 +1471,8 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg_contest-title_field'.
-  $fields['node-pg_contest-title_field'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'title_field',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'max_length' => 255,
-      ),
-      'translatable' => '1',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => 'A field replacing node title.',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '23',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'title_field',
-      'label' => 'Title',
-      'required' => TRUE,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'text_processing' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'text',
-        'settings' => array(
-          'size' => 60,
-        ),
-        'type' => 'text_textfield',
-        'weight' => '0',
-      ),
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
-  t('A field replacing node title.');
   t('Admission rules and entry fee');
   t('All relevant info about contest organizers (full name of the organization, address, phone, e-mail), officials with their contacts.');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
@@ -1624,7 +1481,6 @@ function pg_contest_field_default_fields() {
   t('Contest photo');
   t('Country');
   t('Dates');
-  t('Day blog');
   t('Detailed instructions on how to get to the contest location.');
   t('Determine if this is an OG group.');
   t('Downloads');
@@ -1652,7 +1508,6 @@ function pg_contest_field_default_fields() {
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Time zone');
-  t('Title');
 
   return $fields;
 }
