@@ -18,6 +18,7 @@ dependencies[] = strongarm
 dependencies[] = title
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
+features[field][] = node-pg_contest-title_field
 features[field][] = node-pg_race-field_competition_results
 features[field][] = node-pg_race-field_day_blog
 features[field][] = node-pg_race-field_day_results

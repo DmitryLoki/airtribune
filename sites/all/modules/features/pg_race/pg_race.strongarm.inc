@@ -25,7 +25,7 @@ function pg_race_strongarm() {
           'weight' => '4',
         ),
         'title' => array(
-          'weight' => '0',
+          'weight' => '-5',
         ),
         'metatags' => array(
           'weight' => '10',
