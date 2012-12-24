@@ -103,6 +103,8 @@ function multiform_get_form() {
     // Add multiform ID. It is used in hook_form_alter() to detect subforms.
     $form_state['multiform_id'] = $multiform['#multiform_id'];
     $form_state['multiform_index'] = $index;
+    // We may need multiform structure, i.e. to inspect values submitted to other subforms.
+    $form_state['multiform'] = $multiform;
     // This line is copied literally from drupal_get_form().
     $form_state['build_info']['args'] = $args;
     if (isset($form_state_save['input']['multiform'][$index])) {
@@ -288,6 +290,8 @@ function multiform_element_info_alter(&$type) {
 /**
  * Set flag for multiform_element_info(). 
  */
+// TODO: We need to set $status to FALSE and reset 'element_info' again
+// in order not affect other forms that do not use multiform.
 function is_multiform_page($status = NULL) {
   static $stored_status = FALSE;
   if ($status) {

@@ -154,7 +154,7 @@ function multiform_delayed_submit_execute(&$multiform) {
   // Only execute when form was submitted.
   if ($multiform['#submitted']) {
     // Invoke hook_multiform_alter(&$multiform).
-    // It can be used to change exectution order or to pass results
+    // It can be used to change execution order or to pass results
     // of one form processing into another form via
     // changing $multiform['#subforms'][$index]['form_state'].
     foreach (module_implements('multiform_alter') as $module) {

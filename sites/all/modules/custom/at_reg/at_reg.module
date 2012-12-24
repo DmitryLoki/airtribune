@@ -211,17 +211,11 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
   
   global $user;
   // TODO: all these changes should be performed only for Contest Group.
-  // TODO: add pilot role after subscription.
-  // TODO: develop a more flexible system to hide double fields for different MT, profile types and rolles
-  // 'Field required' condition for both double fields should be the same
+  // TODO: add 'Member' role after subscription.
+  // TODO: develop a more flexible system to hide intersecting fields for different MT, profile types and roles
+  // IMPORTANT: 'Field required' and other settings should be the same for both intersecting fields
+  // otherwise do not hide it. Also validation error should be suppressed for hidden fields.
   
-  // $multiform = in_array('multiform_usage', $form_state['build_info']['args']) ? TRUE : FALSE;
-  
-  /*
-  $multiform = isset($form_state['#multiform_id']) && $form_state['#multiform_id'] == 'contest_registration_multiform'
-              ? TRUE
-              : FALSE;
-  */
   $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
               ? TRUE
               : FALSE;
@@ -267,7 +261,7 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
     
     case 'user_register_form' :
       if($multiform) {
-        // We need after_build since profile2 hook are fired after current one,
+        // We need after_build since profile2 hook is fired after the current one,
         // so we can't change it's results here.
         $form['#after_build'][] = 'at_reg_hide_intersections_after_build';
         // TODO: fix
@@ -284,7 +278,7 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         $membership_bundle = CONTEST_MEMBERSHIP_NAME;
         
         // Profile type could be added through profile2 settings
-        // or could exit after form rebuild (e.g. when ajax callback perfomed).
+        // or could exist after form rebuild (e.g. when ajax callback perfomed).
         // In this case profile2_attach_form() should attach the profile.
         if (empty($form_state['profiles'][$profile_type])) {
           $form_state['profiles'][$profile_type] = profile2_create(array('type' => $profile_type));
@@ -428,7 +422,7 @@ function at_reg_multiform_alter(&$multiform) {
 // function at_reg_user_register_before_execute($form, &$form_state) {
 function at_reg_user_register_before_execute(&$multiform, $index) {
   // TODO: This part should be moved into $element['#process'] functions via hook_form_alter()
-  // since as it is done now, data is assigned after validation performed,
+  // since, as it is done now, data is assigned after validation performed,
   // so hidden required field don't pass validation.
   
   // User register form and form_state
