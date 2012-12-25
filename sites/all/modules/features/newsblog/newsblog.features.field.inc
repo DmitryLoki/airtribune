@@ -62,7 +62,7 @@ function newsblog_field_default_fields() {
             'trim_length' => 600,
           ),
           'type' => 'text_summary_or_trimmed',
-          'weight' => 1,
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'node',
