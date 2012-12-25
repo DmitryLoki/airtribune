@@ -16,7 +16,7 @@
  *
  * @param $theme_name, usually the active theme.
  */
-function at_get_plugins($theme_name) {d::dsm(2222);
+function at_get_plugins($theme_name) {
   $plugins = drupal_static(__FUNCTION__, array());
   if (empty($plugins)) {
     if ($plugins_cache = cache_get('at_get_plugins_plugins')) {
