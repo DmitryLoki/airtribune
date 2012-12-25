@@ -232,79 +232,6 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg_contest-field_day_blog'.
-  $fields['node-pg_contest-field_day_blog'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_day_blog',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_with_summary',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 24,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_day_blog',
-      'label' => 'Day blog',
-      'required' => 0,
-      'settings' => array(
-        'display_summary' => 1,
-        'entity_translation_sync' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '20',
-          'summary_rows' => 5,
-        ),
-        'type' => 'text_textarea_with_summary',
-        'weight' => '2',
-      ),
-    ),
-  );
-
   // Exported field: 'node-pg_contest-field_downloads'.
   $fields['node-pg_contest-field_downloads'] = array(
     'field_config' => array(
@@ -1584,7 +1511,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '23',
+          'weight' => 26,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1608,7 +1535,7 @@ function pg_contest_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => '0',
+        'weight' => -5,
       ),
     ),
   );
@@ -1624,7 +1551,6 @@ function pg_contest_field_default_fields() {
   t('Contest photo');
   t('Country');
   t('Dates');
-  t('Day blog');
   t('Detailed instructions on how to get to the contest location.');
   t('Determine if this is an OG group.');
   t('Downloads');

@@ -6,6 +6,8 @@
  */
 
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
+define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
+define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -73,10 +75,38 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
  * Format user name.
  *
  * @see #2370
+ *
+ * @param object $account
+ *   The account object for the user whose name is to be formatted.
+ *
+ * @return string
+ *   An sanitized string with the given name and family to display.
  */
 function airtrubune_format_username($account) {
-  return $account->name;
+
+  // Put login as fallback user name.
+  $user_name = $account->name;
+
+  if ($profile = profile2_load_by_user($account, AIRTRIBUNE_USER_MAIN_PROFILE)) {
+    $name_items = field_get_items('profile2', $profile, AIRTRIBUNE_USER_FULLNAME_FIELD);
+    if (isset($name_items[0]['given'], $name_items[0]['family'])) {
+      $given = $name_items[0]['given'];
+      $family = $name_items[0]['family'];
+
+      $user_name = $given . ' ' . $family;
+      if (drupal_strlen($user_name) > 15) {
+        $user_name = $given . ' ' . truncate_utf8($family, 1) . '.';
+      }
+      if (drupal_strlen($user_name) > 15) {
+        $user_name = truncate_utf8($given, 12, TRUE, TRUE);
+      }
+
+    }
+  }
+
+  return check_plain($user_name);
 }
+
 
 /**
  * Returns a country code from a locate that is provided.

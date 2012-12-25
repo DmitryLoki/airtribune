@@ -37,7 +37,9 @@ function pilot_field_default_fields() {
           'thoroughfare' => '',
           'premise' => '',
           'locality' => '',
-          'country' => 'AF',
+          'administrative_area' => '',
+          'postal_code' => '',
+          'country' => 'US',
         ),
       ),
       'deleted' => '0',
@@ -68,9 +70,7 @@ function pilot_field_default_fields() {
         'active' => 1,
         'module' => 'addressfield',
         'settings' => array(
-          'available_countries' => array(
-            'US' => 'US',
-          ),
+          'available_countries' => array(),
           'format_handlers' => array(
             'address' => 'address',
             'address-hide-country' => 0,

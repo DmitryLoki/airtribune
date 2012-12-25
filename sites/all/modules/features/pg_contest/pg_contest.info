@@ -24,7 +24,6 @@ features[features_api][] = api:1
 features[field][] = node-pg_contest-field_city
 features[field][] = node-pg_contest-field_country
 features[field][] = node-pg_contest-field_dates
-features[field][] = node-pg_contest-field_day_blog
 features[field][] = node-pg_contest-field_downloads
 features[field][] = node-pg_contest-field_fai_category
 features[field][] = node-pg_contest-field_flying_info

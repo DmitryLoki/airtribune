@@ -14,8 +14,8 @@ function panels_default_template_default_panels_mini() {
   $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */
   $mini->api_version = 1;
   $mini->name = 'footer_four_blocks';
-  $mini->category = 'Blocks';
-  $mini->admin_title = 'Footer four blocks';
+  $mini->category = 'Airtribune';
+  $mini->admin_title = 'Footer blocks';
   $mini->admin_description = '';
   $mini->requiredcontexts = array();
   $mini->contexts = array();
@@ -198,8 +198,97 @@ e-mail: info@airtribune.com</p>',
   $mini = new stdClass();
   $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */
   $mini->api_version = 1;
+  $mini->name = 'header_blocks';
+  $mini->category = 'Airtribune';
+  $mini->admin_title = 'Header blocks';
+  $mini->admin_description = 'Logo + Site name + User pane';
+  $mini->requiredcontexts = array();
+  $mini->contexts = array();
+  $mini->relationships = array();
+  $display = new panels_display();
+  $display->layout = 'one';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'one_main' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-6';
+    $pane->panel = 'one_main';
+    $pane->type = 'pane_header';
+    $pane->subtype = 'pane_header';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-6'] = $pane;
+    $display->panels['one_main'][0] = 'new-6';
+    $pane = new stdClass();
+    $pane->pid = 'new-7';
+    $pane->panel = 'one_main';
+    $pane->type = 'page_primary_links';
+    $pane->subtype = 'page_primary_links';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-7'] = $pane;
+    $display->panels['one_main'][1] = 'new-7';
+    $pane = new stdClass();
+    $pane->pid = 'new-8';
+    $pane->panel = 'one_main';
+    $pane->type = 'airtribune_user';
+    $pane->subtype = 'airtribune_user';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'menu' => 'user-menu',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['one_main'][2] = 'new-8';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = 'new-6';
+  $mini->display = $display;
+  $export['header_blocks'] = $mini;
+
+  $mini = new stdClass();
+  $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */
+  $mini->api_version = 1;
   $mini->name = 'temp_header_image';
-  $mini->category = 'Blocks';
+  $mini->category = 'Airtribune';
   $mini->admin_title = 'Temporary Header Image';
   $mini->admin_description = '';
   $mini->requiredcontexts = array();
@@ -219,7 +308,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-9';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -243,10 +332,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['middle'][0] = 'new-6';
+    $display->content['new-9'] = $pane;
+    $display->panels['middle'][0] = 'new-9';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-6';
+  $display->title_pane = 'new-9';
   $mini->display = $display;
   $export['temp_header_image'] = $mini;
 
