@@ -31,6 +31,7 @@ function multiform_ajax_form_callback() {
   
   // This part is based on ajax_form_callback().
   list($form, $form_state) = ajax_get_form();
+  // TODO: add multiform structure into $form_state. In must exist in cache (see multiform_get_form()).
   drupal_process_form($form['#form_id'], $form, $form_state);
   
   $multiform = array();

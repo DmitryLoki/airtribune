@@ -380,7 +380,7 @@ function at_reg_fields_intersect($mt_bundle, $prof_bundle) {
  */
 function at_reg_hide_field_pre_render($element) {
   // Maybe '#access' should be used here.
-  $element['#printed'] = TRUE;
+  //$element['#printed'] = TRUE;
   return $element;
 }
 
@@ -496,4 +496,29 @@ function at_reg_user_register_after_execute(&$multiform, $index) {
   $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form_state'] = $og_form_state;
 }
 
-
+/**
+ * Implements hook_multiform_crossfields().
+ */
+function at_reg_multiform_crossfields($multiform) {
+  $items = array();
+  
+  if ($multiform['#multiform_id'] == 'contest_registration_multiform') {
+    
+    $items[] = array(
+      '#base' => array(
+        '#tag' => 'og_ui_confirm_subscribe',
+        '#name' => 'field_paraglider_manufacturer',
+        '#parents' => array('field_paraglider_manufacturer'),
+        '#array_parents' => array('field_paraglider_manufacturer'),
+      ),
+      '#dependent' => array(
+        '#tag' => 'user_register_form',
+        '#name' => 'field_paraglider_manufacturer',
+        '#parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
+        '#array_parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
+      ),
+    );
+  }
+  //dsm($items);
+  return $items;
+}

@@ -124,6 +124,7 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
       
       $button_keys = array_keys($form['buttons']);
       $form['buttons'][array_pop($button_keys)]['#printed'] = TRUE;
+      //dsm($form);
       return $form;
     }
   }

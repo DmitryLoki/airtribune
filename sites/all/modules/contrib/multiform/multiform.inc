@@ -9,7 +9,7 @@
 /**
  * Initialize $multiform array.
  */
-function multiform_init_multiform_settings($all_args) {
+function multiform_init_settings($all_args) {
   $multiform = array();
   $count = count($all_args);
   // Check for multiform_settings.
@@ -153,18 +153,8 @@ function multiform_delayed_submit_prepare(&$multiform, $current_form, &$form_sta
 function multiform_delayed_submit_execute(&$multiform) {
   // Only execute when form was submitted.
   if ($multiform['#submitted']) {
-    // Invoke hook_multiform_alter(&$multiform).
-    // It can be used to change execution order or to pass results
-    // of one form processing into another form via
-    // changing $multiform['#subforms'][$index]['form_state'].
-    foreach (module_implements('multiform_alter') as $module) {
-      $function = $module . '_multiform_alter';
-      $function($multiform);
-    }
-    
     // Sort by #weight to change forms' execution order.
     uasort($multiform['#subforms'], 'element_sort');
-    
     // Perform form submitting. This is central place where processing takes place.
     $subforms = $multiform['#subforms'];
     foreach ($subforms as $index => $data) {
