@@ -125,7 +125,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'flying-site-info',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -230,16 +233,30 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'event_brick_middle';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_photos';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '<img src="/sites/default/files/placeholder/4_gallery.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'hidden',
+      'formatter' => 'colorbox',
+      'delta_limit' => '4',
+      'delta_offset' => '0',
+      'delta_reversed' => 0,
+      'formatter_settings' => array(
+        'file_view_mode' => 'default',
+        'image_style' => 'contest_thumbnail',
+        'image_link' => 'file',
+        'colorbox_node_style' => 'contest_thumbnail',
+        'colorbox_image_style' => '',
+        'colorbox_gallery' => 'field_post',
+        'colorbox_gallery_custom' => '',
+        'colorbox_caption' => 'auto',
+        'colorbox_caption_custom' => '',
+      ),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -378,17 +395,11 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-12';
     $pane->panel = 'event_brick_top';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'contest_blog-contest_pane';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '<img src="/sites/default/files/placeholder/1_news.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
