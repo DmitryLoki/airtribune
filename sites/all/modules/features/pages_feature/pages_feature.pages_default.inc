@@ -140,8 +140,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'admin_title' => '',
-      'title' => 'Prize funds and scoring categories',
-      'body' => '<img src="/sites/all/themes/airtribune2/images/placeholder/8_Prize.png" alt="" />',
+      'title' => '',
+      'body' => '<img src="/sites/default/files/placeholder/5_Big_dig_1.png" alt="" /><img src="/sites/default/files/placeholder/6_Big_dig_2.png" alt="" />',
       'format' => 'full_html',
       'substitute' => 1,
     );
@@ -164,8 +164,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'admin_title' => '',
-      'title' => ' How to get here',
-      'body' => '<img src="/sites/all/themes/airtribune2/images/placeholder/10_How.png" alt="" />',
+      'title' => 'Prize funds and scoring categories',
+      'body' => '<img src="/sites/default/files/placeholder/8_Prize.png" alt="" />',
       'format' => 'full_html',
       'substitute' => 1,
     );
@@ -181,6 +181,54 @@ function pages_feature_default_page_manager_pages() {
     $display->panels['event_brick_left_below'][1] = 'new-3';
     $pane = new stdClass();
     $pane->pid = 'new-4';
+    $pane->panel = 'event_brick_left_below';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => ' How to get here',
+      'body' => '<img src="/sites/default/files/placeholder/10_How.png" alt="" />',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['event_brick_left_below'][2] = 'new-4';
+    $pane = new stdClass();
+    $pane->pid = 'new-5';
+    $pane->panel = 'event_brick_left_below';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => 'Download',
+      'body' => '<img src="/sites/default/files/placeholder/12_download.png" alt="" />',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $display->content['new-5'] = $pane;
+    $display->panels['event_brick_left_below'][3] = 'new-5';
+    $pane = new stdClass();
+    $pane->pid = 'new-6';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -189,7 +237,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => '',
       'title' => '',
-      'body' => '<img src="/sites/all/themes/airtribune2/images/placeholder/4_gallery.png" alt="" />',
+      'body' => '<img src="/sites/default/files/placeholder/4_gallery.png" alt="" />',
       'format' => 'full_html',
       'substitute' => 1,
     );
@@ -201,10 +249,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['event_brick_middle'][0] = 'new-4';
+    $display->content['new-6'] = $pane;
+    $display->panels['event_brick_middle'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-7';
     $pane->panel = 'event_brick_right_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_info';
@@ -229,10 +277,82 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['event_brick_right_above'][0] = 'new-5';
+    $display->content['new-7'] = $pane;
+    $display->panels['event_brick_right_above'][0] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-8';
+    $pane->panel = 'event_brick_right_below';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => '',
+      'body' => '<img src="/sites/default/files/placeholder/7_radio.png" alt="" />',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['event_brick_right_below'][0] = 'new-8';
+    $pane = new stdClass();
+    $pane->pid = 'new-9';
+    $pane->panel = 'event_brick_right_below';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => 'Organizers',
+      'body' => '<img src="/sites/default/files/placeholder/9_Organizers.png" alt="" />',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-9'] = $pane;
+    $display->panels['event_brick_right_below'][1] = 'new-9';
+    $pane = new stdClass();
+    $pane->pid = 'new-10';
+    $pane->panel = 'event_brick_right_below';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => 'Twitter',
+      'body' => '<img src="/sites/default/files/placeholder/11_twitter.png" alt="" />',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-10'] = $pane;
+    $display->panels['event_brick_right_below'][2] = 'new-10';
+    $pane = new stdClass();
+    $pane->pid = 'new-11';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -241,7 +361,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'Social buttons',
       'title' => '',
-      'body' => '<img src="/sites/all/themes/airtribune2/images/placeholder/13_socials.png" alt="" />',
+      'body' => '<img src="/sites/default/files/placeholder/13_socials.png" alt="" />',
       'format' => 'full_html',
       'substitute' => 1,
     );
@@ -251,12 +371,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['event_brick_right_below'][0] = 'new-6';
+    $display->content['new-11'] = $pane;
+    $display->panels['event_brick_right_below'][3] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-12';
     $pane->panel = 'event_brick_top';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -265,7 +385,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => '',
       'title' => '',
-      'body' => '<img src="/sites/all/themes/airtribune2/images/placeholder/1_news.png" alt="" />',
+      'body' => '<img src="/sites/default/files/placeholder/1_news.png" alt="" />',
       'format' => 'full_html',
       'substitute' => 1,
     );
@@ -277,8 +397,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-7';
+    $display->content['new-12'] = $pane;
+    $display->panels['event_brick_top'][0] = 'new-12';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
