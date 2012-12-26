@@ -69,29 +69,29 @@ function pg_race_field_default_fields() {
       'label' => 'Competition results',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
+        'description_field' => 1,
         'entity_translation_sync' => FALSE,
         'file_directory' => '',
-        'file_extensions' => 'doc pdf xls odt ods',
+        'file_extensions' => 'doc pdf xls odt ods htm html',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '',
           ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title-field]/[node:field-pg-race-date:dmy]',
+          ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '',
+        'max_filesize' => '3M',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -238,29 +238,29 @@ function pg_race_field_default_fields() {
       'label' => 'Day results',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
+        'description_field' => 1,
         'entity_translation_sync' => FALSE,
         'file_directory' => '',
-        'file_extensions' => 'doc pdf xls odt ods',
+        'file_extensions' => 'doc pdf xls odt ods htm html',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '',
           ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title-field]/[node:field-pg-race-date:dmy]',
+          ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '',
+        'max_filesize' => '3M',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -503,20 +503,20 @@ function pg_race_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[node:og-group-ref:1:title-field]\\pg_races\\[node:field-pg_race-date:short]',
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title-field]/[node:field-pg-race-date:dmy]',
           ),
           'retroactive_update' => 0,
         ),
