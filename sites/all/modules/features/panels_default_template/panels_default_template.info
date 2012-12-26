@@ -2,6 +2,7 @@ name = Default site template
 description = All that relates to default site template
 core = 7.x
 package = Templates
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = page_manager
 dependencies[] = panels_mini
