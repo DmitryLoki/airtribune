@@ -152,33 +152,33 @@ function newsblog_field_default_fields() {
       'label' => 'Image',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'alt_field' => 1,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'blogs/[node:nid]-[node:title-field]',
           ),
           'retroactive_update' => 0,
         ),
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
         'min_resolution' => '300x300',
-        'title_field' => 0,
+        'title_field' => 1,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
