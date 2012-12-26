@@ -8,6 +8,7 @@ dependencies[] = date
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = filefield_paths
+dependencies[] = i18n_field
 dependencies[] = image
 dependencies[] = list
 dependencies[] = media

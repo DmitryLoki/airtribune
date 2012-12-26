@@ -681,22 +681,22 @@ function accommodation_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'hotel/[node:title]',
+            'value' => 'hotels/[node:nid]-[node:title-field]',
           ),
-          'retroactive_update' => 0,
+          'retroactive_update' => 1,
         ),
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
