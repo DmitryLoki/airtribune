@@ -55,7 +55,7 @@ function pg_race_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 8,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -147,7 +147,7 @@ function pg_race_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 9,
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -224,7 +224,7 @@ function pg_race_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 7,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -304,7 +304,7 @@ function pg_race_field_default_fields() {
         'todate' => '',
         'tz_handling' => 'none',
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'datetime',
     ),
     'field_instance' => array(
@@ -323,7 +323,7 @@ function pg_race_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => 3,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -391,7 +391,7 @@ function pg_race_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'list_integer',
     ),
     'field_instance' => array(
@@ -402,10 +402,10 @@ function pg_race_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
+          'module' => 'i18n_field',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 4,
+          'type' => 'i18n_list_default',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -479,7 +479,7 @@ function pg_race_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 5,
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -610,7 +610,7 @@ function pg_race_field_default_fields() {
           'module' => 'og_ui',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 1,
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -700,7 +700,7 @@ function pg_race_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 10,
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -732,7 +732,6 @@ function pg_race_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
-  t('Body');
   t('Competition results');
   t('Date');
   t('Day blog');
