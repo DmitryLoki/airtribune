@@ -505,9 +505,9 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -571,7 +571,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -641,7 +641,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
