@@ -55,6 +55,7 @@ features[variable][] = entity_translation_node_metadata_pg_race
 features[variable][] = entity_translation_settings_node__event
 features[variable][] = entity_translation_settings_node__hotel
 features[variable][] = entity_translation_settings_node__pg_contest
+features[variable][] = entity_translation_settings_node__pg_race
 features[variable][] = entity_translation_settings_profile2__pilot
 features[variable][] = entity_translation_shared_labels
 features[variable][] = entity_translation_workflow_enabled
