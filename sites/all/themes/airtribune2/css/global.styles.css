@@ -2590,6 +2590,21 @@ p { margin:0; padding:6px 0 10px}
 .panel_info {}
 .panel_info h2 { padding:39px 0 8px 72px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0;}
 
+.pane-contest-blog-contest-pane { padding:3px 0 34px;}
+.pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
+.pane-contest-blog-contest-pane .views-row strong {color:#333a40}
+.pane-contest-blog-contest-pane .views-row p { margin:0; padding:5px 0 0; color:#677581}
+
+.pane-node-field-flying-info { margin-right:10px}
+.panel_info .pane-node-field-flying-info h2 { background-position:0 0}
+
+.pane-node-field-info { margin-left:10px}
+
+
+.pane-node-field-photos { margin-left:-18px;}
+.pane-node-field-photos .field-item { float:left; border:1px solid #c8d0d3; margin-left:17px}
+.pane-node-field-photos .field-item img { vertical-align:middle;}
+
 
 
 	/* Footer */
