@@ -38,7 +38,7 @@ function pg_contest_field_default_fields() {
         'max_length' => '255',
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -110,7 +110,7 @@ function pg_contest_field_default_fields() {
         'profile2_private' => FALSE,
         'size' => 5,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'country',
     ),
     'field_instance' => array(
@@ -180,7 +180,7 @@ function pg_contest_field_default_fields() {
         'todate' => 'required',
         'tz_handling' => 'none',
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'datetime',
     ),
     'field_instance' => array(
@@ -801,7 +801,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 25,
+          'weight' => '25',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1338,7 +1338,7 @@ function pg_contest_field_default_fields() {
         'exclude' => array(),
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'tzfield',
     ),
     'field_instance' => array(
@@ -1428,7 +1428,7 @@ function pg_contest_field_default_fields() {
             'field_name' => FALSE,
           ),
           'type' => 'og_group_subscribe',
-          'weight' => 4,
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1511,7 +1511,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 26,
+          'weight' => '26',
         ),
         'teaser' => array(
           'label' => 'above',
