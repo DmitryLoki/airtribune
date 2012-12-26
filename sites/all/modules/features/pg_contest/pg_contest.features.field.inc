@@ -262,7 +262,7 @@ function pg_contest_field_default_fields() {
           0 => 'fid',
         ),
         'profile2_private' => FALSE,
-        'uri_scheme' => 'private',
+        'uri_scheme' => 'public',
       ),
       'translatable' => '0',
       'type' => 'file',
@@ -296,20 +296,20 @@ function pg_contest_field_default_fields() {
         'file_directory' => 'contests',
         'file_extensions' => 'txt doc docx odt xls xlsx odc pdf png jpg lkm xcm dem tpl',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '[node:field-dates:value]_[node:title]',
+            'value' => 'pg_contests/[node:nid]-[node:title-field]/downloads',
           ),
           'retroactive_update' => 0,
         ),
@@ -821,26 +821,26 @@ function pg_contest_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '',
           ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'pg_contests/[node:nid]-[node:title-field]/photos',
+          ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '',
+        'max_filesize' => '5M',
         'max_resolution' => '',
-        'min_resolution' => '',
+        'min_resolution' => '300x300',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
@@ -895,7 +895,7 @@ function pg_contest_field_default_fields() {
           0 => 'fid',
         ),
         'profile2_private' => FALSE,
-        'uri_scheme' => 'private',
+        'uri_scheme' => 'public',
       ),
       'translatable' => '0',
       'type' => 'file',
@@ -929,22 +929,22 @@ function pg_contest_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'wpt',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[node:title_field].[file:extension]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'points',
+            'value' => 'pg_contests/[node:nid]-[node:title-field]/points',
           ),
-          'retroactive_update' => 0,
+          'retroactive_update' => 1,
         ),
         'max_filesize' => '5M',
         'user_register_form' => FALSE,
