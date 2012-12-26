@@ -935,7 +935,7 @@ function pg_contest_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[node:nid]-[node:title_field].[file:extension]',
           ),
           'file_path' => array(
             'options' => array(
