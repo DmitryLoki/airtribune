@@ -18,6 +18,8 @@ function pages_feature_default_page_manager_pages() {
   $page->path = 'event/%node/details';
   $page->access = array(
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
@@ -190,8 +192,9 @@ function pages_feature_default_page_manager_pages() {
       'delta_reversed' => FALSE,
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => '<a name="event"><a/>Event info',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'anchor' => 'info',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -219,7 +222,8 @@ function pages_feature_default_page_manager_pages() {
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
-      'override_title_text' => '<a name="flying-info"></a>Flying info',
+      'override_title_text' => '7777777777777777777777',
+      'anchor' => 'flying',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -344,6 +348,8 @@ function pages_feature_default_page_manager_pages() {
   $page->path = 'event/%node/info';
   $page->access = array(
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'default tab',
@@ -426,7 +432,7 @@ function pages_feature_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '<none>';
+  $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -438,14 +444,17 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'title',
-      'formatter' => 'text_default',
+      'formatter' => 'text_trimmed',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
+      'formatter_settings' => array(
+        'trim_length' => '300',
+      ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'more' => 'flying',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -603,14 +612,17 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'title',
-      'formatter' => 'text_default',
+      'formatter' => 'text_trimmed',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
+      'formatter_settings' => array(
+        'trim_length' => '300',
+      ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'more' => 'info',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -736,7 +748,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-20'] = $pane;
     $display->panels['event_brick_top'][0] = 'new-20';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

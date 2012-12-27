@@ -107,7 +107,6 @@ function airtrubune_format_username($account) {
   return check_plain($user_name);
 }
 
-
 /**
  * Returns a country code from a locate that is provided.
  */
@@ -122,4 +121,18 @@ function airtrubune_get_country_code($langcode) {
     'sl' => 'si',
   );
   return isset($country_codes[$langcode]) ? $country_codes[$langcode] : $langcode;
+}
+
+/**
+ * Implements hook_preprocess_panels_pane().
+ *
+ * @see #2247
+ */
+function airtribune_preprocess_panels_pane(&$vars) {
+  if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
+    $vars['more'] = l(t('View more'), 'event/' . $vars['display']->args[0] . '/details', array('fragment' => $vars['pane']->configuration['more']));
+  }
+  elseif (isset($vars['pane']->configuration['anchor'])) {
+    $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
+  }
 }
