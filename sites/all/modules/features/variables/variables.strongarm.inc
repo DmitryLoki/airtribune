@@ -98,7 +98,7 @@ function variables_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ant_pattern_pg_race';
-  $strongarm->value = '[node:field-pg_race-date:short]';
+  $strongarm->value = '[node:field-pg-race-date:dm] - [node:field-pg-race-status]';
   $export['ant_pattern_pg_race'] = $strongarm;
 
   $strongarm = new stdClass();
