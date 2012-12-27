@@ -35,10 +35,16 @@ function accommodation_strongarm() {
           'weight' => '-5',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '3',
         ),
         'language' => array(
           'weight' => '5',
+        ),
+        'metatags' => array(
+          'weight' => '10',
+        ),
+        'xmlsitemap' => array(
+          'weight' => '2',
         ),
       ),
       'display' => array(),
