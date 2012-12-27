@@ -165,7 +165,7 @@ function accommodation_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'addressfield',
     ),
     'field_instance' => array(
@@ -260,7 +260,7 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -821,7 +821,7 @@ function accommodation_field_default_fields() {
         'title_value' => '',
         'url' => 0,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'link_field',
     ),
     'field_instance' => array(
@@ -905,7 +905,7 @@ function accommodation_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(

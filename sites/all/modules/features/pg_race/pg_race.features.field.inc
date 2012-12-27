@@ -687,7 +687,7 @@ function pg_race_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(

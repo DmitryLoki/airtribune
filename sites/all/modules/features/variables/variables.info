@@ -52,6 +52,7 @@ features[variable][] = entity_translation_node_metadata_advert
 features[variable][] = entity_translation_node_metadata_newsblog
 features[variable][] = entity_translation_node_metadata_pg_contest
 features[variable][] = entity_translation_node_metadata_pg_race
+features[variable][] = entity_translation_settings_node__accommodation
 features[variable][] = entity_translation_settings_node__event
 features[variable][] = entity_translation_settings_node__hotel
 features[variable][] = entity_translation_settings_node__pg_contest
