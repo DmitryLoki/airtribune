@@ -230,6 +230,72 @@ function accommodation_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-accommodation-field_hotel_wifi'.
+  $fields['node-accommodation-field_hotel_wifi'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_hotel_wifi',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'No',
+          1 => 'Yes',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'accommodation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 8,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_hotel_wifi',
+      'label' => 'Wi-Fi',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '7',
+      ),
+    ),
+  );
+
   // Exported field: 'node-accommodation-field_location'.
   $fields['node-accommodation-field_location'] = array(
     'field_config' => array(
@@ -780,7 +846,7 @@ function accommodation_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_url',
-      'label' => 'url',
+      'label' => 'Web site',
       'required' => 0,
       'settings' => array(
         'attributes' => array(
@@ -891,7 +957,8 @@ function accommodation_field_default_fields() {
   t('Phone');
   t('Photo');
   t('Title');
-  t('url');
+  t('Web site');
+  t('Wi-Fi');
 
   return $fields;
 }
