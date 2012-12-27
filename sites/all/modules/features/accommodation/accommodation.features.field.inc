@@ -694,7 +694,7 @@ function accommodation_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'hotels/[node:nid]-[node:title-field]',
+            'value' => 'hotels/[node:nid]-[node:title]',
           ),
           'retroactive_update' => 1,
         ),

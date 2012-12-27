@@ -171,7 +171,7 @@ function newsblog_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'blogs/[node:nid]-[node:title-field]',
+            'value' => 'blogs/[node:nid]-[node:title]',
           ),
           'retroactive_update' => 0,
         ),
