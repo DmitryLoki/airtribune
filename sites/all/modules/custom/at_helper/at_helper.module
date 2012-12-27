@@ -106,6 +106,9 @@ function at_helper_contest_cache_update() {
   $start_min = $start_min_timestamp = NULL;
   if (!empty($result_next)) {
     foreach ($result_next as $row) {
+      if (!isset($row->field_field_dates[0]['raw']['value'])) {
+        continue;
+      }
       $start = $row->field_field_dates[0]['raw']['value'];
       // Look for maximum start among next events.
       if (empty($start_max) || (!empty($start_max) && strtotime($start) > $start_max_timestamp)) {
@@ -128,6 +131,9 @@ function at_helper_contest_cache_update() {
   $result_current = views_get_view_result(VIWES_EVENTS_LIST, VIWES_EVENTS_LIST_CURRENT);
   if (!empty($result_current)) {
     foreach ($result_current as $row) {
+      if (!isset($row->field_field_dates[0]['raw']['value']) || !isset($row->field_field_dates[0]['raw']['value2'])) {
+        continue;
+      }
       $start = $row->field_field_dates[0]['raw']['value'];
       $finish = $row->field_field_dates[0]['raw']['value2'];
       // Look for maximum finish amoung current events.
@@ -145,6 +151,9 @@ function at_helper_contest_cache_update() {
   $result_past = views_get_view_result(VIWES_EVENTS_LIST, VIWES_EVENTS_LIST_PAST);
   if (!empty($result_past)) {
     foreach ($result_past as $row) {
+      if (!isset($row->field_field_dates[0]['raw']['value2'])) {
+        continue;
+      }
       $finish = $row->field_field_dates[0]['raw']['value2'];
       // Look form minimum finish among last.
       if (empty($finish_min) || (!empty($finish_min) && strtotime($finish) > $finish_min_timestamp)) {
