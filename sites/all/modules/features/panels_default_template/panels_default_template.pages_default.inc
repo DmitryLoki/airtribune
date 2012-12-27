@@ -235,7 +235,7 @@ function panels_default_template_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
     $display->content['new-5'] = $pane;
     $display->panels['left'][2] = 'new-5';
@@ -257,7 +257,7 @@ function panels_default_template_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = '';
     $display->content['new-6'] = $pane;
     $display->panels['left'][3] = 'new-6';

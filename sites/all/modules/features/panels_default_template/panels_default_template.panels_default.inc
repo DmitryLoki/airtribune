@@ -239,14 +239,11 @@ e-mail: info@airtribune.com</p>',
     $pane = new stdClass();
     $pane->pid = 'new-7';
     $pane->panel = 'one_main';
-    $pane->type = 'page_primary_links';
-    $pane->subtype = 'page_primary_links';
+    $pane->type = 'airtribune_primary_navigation';
+    $pane->subtype = 'airtribune_primary_navigation';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
