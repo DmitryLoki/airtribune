@@ -71,13 +71,13 @@ function pg_contest_strongarm() {
           'weight' => '4',
         ),
         'path' => array(
-          'weight' => '20',
+          'weight' => '17',
         ),
         'metatags' => array(
-          'weight' => '24',
+          'weight' => '21',
         ),
         'xmlsitemap' => array(
-          'weight' => '23',
+          'weight' => '20',
         ),
       ),
       'display' => array(),

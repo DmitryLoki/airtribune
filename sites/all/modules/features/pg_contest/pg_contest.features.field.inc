@@ -10,6 +10,236 @@
 function pg_contest_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'field_collection_item-field_organizer-field_organizer_image'.
+  $fields['field_collection_item-field_organizer-field_organizer_image'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_organizer_image',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_organizer',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => 2,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_organizer_image',
+      'label' => 'Organizer image',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 0,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '43',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_organizer-field_organizer_info'.
+  $fields['field_collection_item-field_organizer-field_organizer_info'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_organizer_info',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_with_summary',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_organizer',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 1,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_organizer_info',
+      'label' => 'Organizer info',
+      'required' => 0,
+      'settings' => array(
+        'display_summary' => 0,
+        'entity_translation_sync' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '20',
+          'summary_rows' => 5,
+        ),
+        'type' => 'text_textarea_with_summary',
+        'weight' => '42',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_organizer-field_organizer_name'.
+  $fields['field_collection_item-field_organizer-field_organizer_name'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_organizer_name',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_organizer',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_organizer_name',
+      'label' => 'Organizer name',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '41',
+      ),
+    ),
+  );
+
   // Exported field: 'node-pg_contest-field_city'.
   $fields['node-pg_contest-field_city'] = array(
     'field_config' => array(
@@ -81,7 +311,7 @@ function pg_contest_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'autocomplete_widgets_flddata',
-        'weight' => '7',
+        'weight' => '4',
       ),
     ),
   );
@@ -146,7 +376,7 @@ function pg_contest_field_default_fields() {
         'module' => 'countries',
         'settings' => array(),
         'type' => 'countries_continent',
-        'weight' => '6',
+        'weight' => '3',
       ),
     ),
   );
@@ -227,7 +457,7 @@ function pg_contest_field_default_fields() {
           'year_range' => '-0:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '5',
+        'weight' => '2',
       ),
     ),
   );
@@ -323,7 +553,7 @@ function pg_contest_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '10',
+        'weight' => '7',
       ),
     ),
   );
@@ -390,7 +620,7 @@ function pg_contest_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '9',
+        'weight' => '6',
       ),
     ),
   );
@@ -461,7 +691,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '14',
+        'weight' => '11',
       ),
     ),
   );
@@ -532,7 +762,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '19',
+        'weight' => '16',
       ),
     ),
   );
@@ -603,7 +833,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '21',
+        'weight' => '18',
       ),
     ),
   );
@@ -678,7 +908,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '12',
+        'weight' => '10',
       ),
     ),
   );
@@ -687,44 +917,40 @@ function pg_contest_field_default_fields() {
   $fields['node-pg_contest-field_organizer'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_organizer',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'field_collection',
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'path' => '',
         'profile2_private' => FALSE,
       ),
       'translatable' => '1',
-      'type' => 'text_long',
+      'type' => 'field_collection',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'All relevant info about contest organizers (full name of the organization, address, phone, e-mail), officials with their contacts.',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '14',
+          'module' => 'field_collection',
+          'settings' => array(
+            'add' => 'Add',
+            'delete' => 'Delete',
+            'description' => TRUE,
+            'edit' => 'Edit',
+            'view_mode' => 'full',
+          ),
+          'type' => 'field_collection_view',
+          'weight' => 27,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -735,21 +961,18 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_organizer',
-      'label' => 'Organizers',
-      'required' => 1,
+      'label' => 'Organizer',
+      'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '13',
+        'active' => 0,
+        'module' => 'field_collection',
+        'settings' => array(),
+        'type' => 'field_collection_embed',
+        'weight' => '9',
       ),
     ),
   );
@@ -860,7 +1083,7 @@ function pg_contest_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '26',
+        'weight' => '22',
       ),
     ),
   );
@@ -956,7 +1179,7 @@ function pg_contest_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '22',
+        'weight' => '19',
       ),
     ),
   );
@@ -1027,7 +1250,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '15',
+        'weight' => '12',
       ),
     ),
   );
@@ -1099,7 +1322,7 @@ function pg_contest_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '18',
+        'weight' => '15',
       ),
     ),
   );
@@ -1170,7 +1393,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '16',
+        'weight' => '13',
       ),
     ),
   );
@@ -1241,7 +1464,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '17',
+        'weight' => '14',
       ),
     ),
   );
@@ -1312,7 +1535,7 @@ function pg_contest_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '11',
+        'weight' => '8',
       ),
     ),
   );
@@ -1378,7 +1601,7 @@ function pg_contest_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '8',
+        'weight' => '5',
       ),
     ),
   );
@@ -1466,7 +1689,7 @@ function pg_contest_field_default_fields() {
           'og_hide' => 0,
         ),
         'type' => 'options_onoff',
-        'weight' => '3',
+        'weight' => '1',
       ),
     ),
   );
@@ -1498,7 +1721,7 @@ function pg_contest_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -1535,7 +1758,7 @@ function pg_contest_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => -5,
+        'weight' => '0',
       ),
     ),
   );
@@ -1544,7 +1767,6 @@ function pg_contest_field_default_fields() {
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
   t('Admission rules and entry fee');
-  t('All relevant info about contest organizers (full name of the organization, address, phone, e-mail), officials with their contacts.');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Awards and prize money');
   t('City');
@@ -1570,7 +1792,10 @@ function pg_contest_field_default_fields() {
 ');
   t('Is registration for the event open.');
   t('List all awards here.');
-  t('Organizers');
+  t('Organizer');
+  t('Organizer image');
+  t('Organizer info');
+  t('Organizer name');
   t('Points file');
   t('Registration switch');
   t('Schedule');
