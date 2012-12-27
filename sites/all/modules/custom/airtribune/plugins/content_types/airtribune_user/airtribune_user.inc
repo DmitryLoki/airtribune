@@ -4,7 +4,7 @@
  * @file
  * Airtribune user pane plugin.
  *
- * @see issue #2386.
+ * @see #2386.
  */
 
 // Plugin definition.
