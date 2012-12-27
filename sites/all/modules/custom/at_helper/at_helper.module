@@ -36,7 +36,7 @@ function at_helper_menu_local_tasks_alter(&$data, $router_item, $root_path) {
 /**
  * Check weather to show/hide current tab;
  */
-function at_helper_contest_link_show($display_id) {
+function at_helper_contest_link_show($display_id, $break = FALSE) {
   $match = FALSE;
   
   $current_time = time();
@@ -58,9 +58,15 @@ function at_helper_contest_link_show($display_id) {
       }
       // Check for closest next events.
       elseif (!empty($data['current_start_min']) && strtotime($data['current_start_min']) <= $current_time) {
-        // If closest event could have already started or even finished, update cache.
-        at_helper_contest_cache_update();
-        $match = at_helper_contest_link_show($display_id);
+        if (!$break) {
+          // If closest event could have already started or even finished, update cache.
+          at_helper_contest_cache_update();
+          $match = at_helper_contest_link_show($display_id, TRUE);
+        }
+        // Avoid infinite cycles.
+        else {
+          $match = FALSE;
+        }
       }
       break;
     case VIWES_EVENTS_LIST_PAST:
