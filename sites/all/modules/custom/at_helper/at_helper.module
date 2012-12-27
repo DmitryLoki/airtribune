@@ -1,10 +1,10 @@
 <?php
 
-define('VIWES_EVENTS_LIST', 'events_list');
+define('VIEWS_EVENTS_LIST', 'events_list');
 
-define('VIWES_EVENTS_LIST_NEXT', 'page_events_next');
-define('VIWES_EVENTS_LIST_CURRENT', 'page_events_current');
-define('VIWES_EVENTS_LIST_PAST', 'page_events_past');
+define('VIEWS_EVENTS_LIST_NEXT', 'page_events_next');
+define('VIEWS_EVENTS_LIST_CURRENT', 'page_events_current');
+define('VIEWS_EVENTS_LIST_PAST', 'page_events_past');
 
 define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
 
@@ -16,9 +16,9 @@ define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
 function at_helper_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   if ($router_item['tab_root']  == 'events') {
     $tabs = array(
-      'events/next' => VIWES_EVENTS_LIST_NEXT,
-      'events/current' => VIWES_EVENTS_LIST_CURRENT,
-      'events/past' => VIWES_EVENTS_LIST_PAST,
+      'events/next' => VIEWS_EVENTS_LIST_NEXT,
+      'events/current' => VIEWS_EVENTS_LIST_CURRENT,
+      'events/past' => VIEWS_EVENTS_LIST_PAST,
     );
     if (!empty($data['tabs'][0]['output'])) {
       foreach ($data['tabs'][0]['output'] as $key => $tab) {
@@ -42,14 +42,14 @@ function at_helper_contest_link_show($display_id, $break = FALSE) {
   $current_time = time();
   $data = at_helper_contest_cache_get();
   switch ($display_id) {
-    case VIWES_EVENTS_LIST_NEXT:
+    case VIEWS_EVENTS_LIST_NEXT:
       if (!empty($data['next_start_max'])) {
         if (strtotime($data['next_start_max']) > $current_time) {
           $match = TRUE;
         }
       }
       break;
-    case VIWES_EVENTS_LIST_CURRENT:
+    case VIEWS_EVENTS_LIST_CURRENT:
       // Check for lasting at the moment events.
       if (!empty($data['current_finish_max'])) {
         if (strtotime($data['current_finish_max']) >= $current_time) {
@@ -69,7 +69,7 @@ function at_helper_contest_link_show($display_id, $break = FALSE) {
         }
       }
       break;
-    case VIWES_EVENTS_LIST_PAST:
+    case VIEWS_EVENTS_LIST_PAST:
       if (!empty($data['last_finish_min'])) {
         if (strtotime($data['last_finish_min']) < $current_time) {
           $match = TRUE;
@@ -107,7 +107,7 @@ function at_helper_contest_cache_update() {
   );
   
   // Next
-  $result_next = views_get_view_result(VIWES_EVENTS_LIST, VIWES_EVENTS_LIST_NEXT);
+  $result_next = views_get_view_result(VIEWS_EVENTS_LIST, VIEWS_EVENTS_LIST_NEXT);
   $start_max = $start_max_timestamp = NULL;
   $start_min = $start_min_timestamp = NULL;
   if (!empty($result_next)) {
@@ -134,7 +134,7 @@ function at_helper_contest_cache_update() {
   
   // Current
   $finish_max = $finish_max_timestamp = NULL;
-  $result_current = views_get_view_result(VIWES_EVENTS_LIST, VIWES_EVENTS_LIST_CURRENT);
+  $result_current = views_get_view_result(VIEWS_EVENTS_LIST, VIEWS_EVENTS_LIST_CURRENT);
   if (!empty($result_current)) {
     foreach ($result_current as $row) {
       if (!isset($row->field_field_dates[0]['raw']['value']) || !isset($row->field_field_dates[0]['raw']['value2'])) {
@@ -154,7 +154,7 @@ function at_helper_contest_cache_update() {
   
   // Past
   $finish_min = $finish_min_timestamp = NULL;
-  $result_past = views_get_view_result(VIWES_EVENTS_LIST, VIWES_EVENTS_LIST_PAST);
+  $result_past = views_get_view_result(VIEWS_EVENTS_LIST, VIEWS_EVENTS_LIST_PAST);
   if (!empty($result_past)) {
     foreach ($result_past as $row) {
       if (!isset($row->field_field_dates[0]['raw']['value2'])) {
