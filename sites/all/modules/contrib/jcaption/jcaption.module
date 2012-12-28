@@ -1,0 +1,94 @@
+<?php
+/**
+* @file
+* Image Caption Module using JQuery
+* Requires javascript as enabled
+* Pull ALT or TITLE tag to caption for images using JQuery
+* @author Mattias Axelsson
+* @contact mattias.axelsson@happiness.se
+*/
+
+/**
+ * Implements hook_menu().
+ */
+function jcaption_menu() {
+  $items = array();
+
+  $items['admin/config/media/jcaption'] = array(
+    'title' => 'jCaption',
+    'description' => 'Administer jCaption settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jcaption_settings'),
+    'access arguments' => array('access jcaption settings'),
+    'file' => 'jcaption.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function _jcaption_prepare_selectors() {
+  // Prepare selecors.
+  if (!isset($jcaption_selectors)) {
+    $jcaption_selectors = explode("\n", variable_get('jcaption_selectors', '.content img'));
+    $jcaption_selectors = array_filter(array_map('trim', $jcaption_selectors));
+  }
+  return $jcaption_selectors;
+}
+
+/**
+ * Implementation of hook_init
+ * Add captioning javascript
+ */
+function jcaption_init() {
+  drupal_add_js(drupal_get_path('module', 'jcaption') . '/jcaption.js');
+  
+  $jcaption_selectors = _jcaption_prepare_selectors();
+
+  $settings = array(
+    'jcaption_selectors' => $jcaption_selectors,
+    'jcaption_alt_title' => variable_get('jcaption_alt_title', 'title'),
+    'jcaption_requireText' => variable_get('jcaption_requireText', TRUE),
+    'jcaption_copyStyle' => variable_get('jcaption_copyStyle', FALSE),
+    'jcaption_removeStyle' => variable_get('jcaption_removeStyle', TRUE),
+    'jcaption_removeClass' => variable_get('jcaption_removeClass', TRUE),
+    'jcaption_removeAlign' => variable_get('jcaption_removeAlign', TRUE),
+    'jcaption_copyAlignmentToClass' => variable_get('jcaption_copyAlignmentToClass', FALSE),
+    'jcaption_copyFloatToClass' => variable_get('jcaption_copyFloatToClass', TRUE),
+    'jcaption_copyClassToClass' => variable_get('jcaption_copyClassToClass', TRUE),
+    'jcaption_autoWidth' => variable_get('jcaption_autoWidth', TRUE),
+    'jcaption_keepLink' => variable_get('jcaption_keepLink', FALSE),
+    'jcaption_styleMarkup' => variable_get('jcaption_styleMarkup', ''),
+    'jcaption_animate' => variable_get('jcaption_animate', FALSE),
+    'jcaption_showDuration' => variable_get('jcaption_showDuration', '200'),
+    'jcaption_hideDuration' => variable_get('jcaption_hideDuration', '200')
+  );
+    
+  drupal_add_js(array('jcaption' => $settings), 'setting');
+
+}
+
+/**
+ * Implements hook_permission().
+ */
+function jcaption_permission() {
+  return array(
+    'access jcaption settings' => array(
+      'title' => t('Access jCaption settings'),
+      'description' => t('Access jCaption settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_install()
+ * Add default permission for access settings to administrator
+ */
+function jcaption_install() {
+  // rid=3 => administrator
+  user_role_change_permissions(3, 
+    array(
+      'access jcaption settings' => TRUE,
+     )
+   );
+}
