@@ -459,7 +459,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['tab_options']['type'] = 'normal';
   $handler->display->display_options['tab_options']['title'] = 'Next events';
   $handler->display->display_options['tab_options']['weight'] = '0';
-  $handler->display->display_options['tab_options']['name'] = 'main-menu';
 
   /* Display: Current */
   $handler = $view->new_display('page', 'Current', 'page_events_current');
