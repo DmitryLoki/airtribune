@@ -76,11 +76,7 @@ function menu_feature_menu_default_menu_links() {
     'link_path' => 'node/5',
     'router_path' => 'node/%',
     'link_title' => 'For the Viewers',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
+    'options' => array(),
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',
@@ -94,108 +90,6 @@ function menu_feature_menu_default_menu_links() {
     'link_path' => 'node/6',
     'router_path' => 'node/%',
     'link_title' => 'For Sponsors',
-    'options' => array(),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-45',
-  );
-  // Exported menu link: main-menu:<front>
-  $menu_links['main-menu:<front>'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => '<front>',
-    'router_path' => '',
-    'link_title' => 'Home',
-    'options' => array(),
-    'module' => 'menu',
-    'hidden' => '1',
-    'external' => '1',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-50',
-  );
-  // Exported menu link: main-menu:events
-  $menu_links['main-menu:events'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'events',
-    'router_path' => 'events',
-    'link_title' => 'Next events',
-    'options' => array(),
-    'module' => 'system',
-    'hidden' => '1',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '0',
-  );
-  // Exported menu link: main-menu:node/2
-  $menu_links['main-menu:node/2'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/2',
-    'router_path' => 'node/%',
-    'link_title' => 'Project',
-    'options' => array(),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-49',
-  );
-  // Exported menu link: main-menu:node/3
-  $menu_links['main-menu:node/3'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/3',
-    'router_path' => 'node/%',
-    'link_title' => 'Organizers',
-    'options' => array(),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-48',
-  );
-  // Exported menu link: main-menu:node/4
-  $menu_links['main-menu:node/4'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/4',
-    'router_path' => 'node/%',
-    'link_title' => 'Pilots',
-    'options' => array(),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-47',
-  );
-  // Exported menu link: main-menu:node/5
-  $menu_links['main-menu:node/5'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/5',
-    'router_path' => 'node/%',
-    'link_title' => 'Viewers',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-46',
-  );
-  // Exported menu link: main-menu:node/6
-  $menu_links['main-menu:node/6'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/6',
-    'router_path' => 'node/%',
-    'link_title' => 'Sponsors',
     'options' => array(),
     'module' => 'menu',
     'hidden' => '0',
@@ -313,15 +207,8 @@ function menu_feature_menu_default_menu_links() {
   t('For the Viewers');
   t('Home');
   t('Log out');
-  t('My main profile');
-  t('My organizer profile');
-  t('My pilot profile');
-  t('Organizers');
-  t('Pilots');
   t('Project');
-  t('Sponsors');
   t('User account');
-  t('Viewers');
 
 
   return $menu_links;
