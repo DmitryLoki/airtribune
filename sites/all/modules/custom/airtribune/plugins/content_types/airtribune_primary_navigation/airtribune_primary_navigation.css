@@ -30,7 +30,7 @@
 #header .pane-airtribune-primary-navigation .pane-content > ul > li { float:left; margin:1px -1px 1px 0; padding:0; list-style:none; list-style-image:none; font:14px/19px Arial, Helvetica, sans-serif; border-left:1px solid #7a929b; border-right:1px solid #7a929b}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li.first { border-left:none}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li.last { border-right:none; margin-right:0}
-#header .pane-airtribune-primary-navigation .pane-content > ul > li a { color:#2e4b59; padding:4px 17px 5px; display:inline-block; text-decoration:none; position:relative; border-left:1px solid #d5e5ea; border-right:1px solid #d5e5ea}
+#header .pane-airtribune-primary-navigation .pane-content > ul > li a { color:#2e4b59; padding:4px 0 5px; display:inline-block; text-decoration:none; position:relative; border-left:1px solid #d5e5ea; border-right:1px solid #d5e5ea; width:142px; text-align:center}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li:hover, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active-trail { margin:0 -1px 0 0; position:relative}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li.last:hover, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active-trail.last { margin-right:0}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li:hover a, #header .pane-airtribune-primary-navigation .pane-content > ul > li a:active, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active-trail { border:1px solid #a3cde0;
