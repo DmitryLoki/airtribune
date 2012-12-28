@@ -21,14 +21,14 @@ function entity_translation_admin_form($form, $form_state) {
   $form['entity_translation_shared_labels'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display shared labels'),
-    '#description' => t('Append an "all languages" hint to entity form widgets shared accross translations.'),
+    '#description' => t('Append an "all languages" hint to entity form widgets shared across translations.'),
     '#default_value' => variable_get('entity_translation_shared_labels', TRUE),
   );
 
   $form['entity_translation_workflow_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable translation workflow permissions'),
-    '#description' => t('By enabling the translation workflow permissions it will be possible to limit the access to the entity form elements. Once this is active every role previously allowed to access the entity form will need to be granted the <em>Edit original values</em> permission to edit the entity in the original language. Moreover, form elements dealing with values shared accross the translations will be visible only to roles having been granted the <em>Edit shared values</em> permission.'),
+    '#description' => t('By enabling the translation workflow permissions it will be possible to limit the access to the entity form elements. Once this is active every role previously allowed to access the entity form will need to be granted the <em>Edit original values</em> permission to edit the entity in the original language. Moreover, form elements dealing with values shared across the translations will be visible only to roles having been granted the <em>Edit shared values</em> permission.'),
     '#default_value' => entity_translation_workflow_enabled(),
   );
 
@@ -137,7 +137,7 @@ function entity_translation_admin_form($form, $form_state) {
         $form['settings'][$entity_type][$settings_key]['shared_fields_original_only'] = array(
           '#type' => 'checkbox',
           '#title' => t('Hide shared elements on translation forms'),
-          '#description' => t('Display form elements shared accross translations only on entity forms for the original language.'),
+          '#description' => t('Display form elements shared across translations only on entity forms for the original language.'),
           '#default_value' => $settings['shared_fields_original_only'],
         );
       }
@@ -389,9 +389,6 @@ function entity_translation_delete_confirm_submit($form, &$form_state) {
   $handler->removeTranslation($langcode);
   field_attach_presave($entity_type, $entity);
   field_attach_update($entity_type, $entity);
-
-  // Remove any existing path alias for the removed translation.
-  path_delete(array('source' => $handler->getViewPath(), 'language' => $langcode));
 
   $form_state['redirect'] = $handler->getTranslatePath();
 }

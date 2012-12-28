@@ -179,11 +179,12 @@ function entity_translation_entity_info_alter(&$entity_info) {
     }
     $et_info = &$entity_info[$entity_type]['translation']['entity_translation'];
 
-    // Every fieldable entity type must have a translation handler class, no
-    // matter if it is enabled for translation or not. As a matter of fact we
-    // might need it to correctly switch field translatability when a field is
-    // shared accross different entities.
+    // Every fieldable entity type must have a translation handler class and
+    // translation keys defined, no matter if it is enabled for translation or
+    // not. As a matter of fact we might need them to correctly switch field
+    // translatability when a field is shared across different entity types.
     $et_info += array('class' => 'EntityTranslationDefaultHandler');
+    $entity_info[$entity_type]['entity keys'] += array('translations' => 'translations');
 
     if (entity_translation_enabled($entity_type, TRUE)) {
       $entity_info[$entity_type]['language callback'] = 'entity_translation_language';
@@ -201,10 +202,6 @@ function entity_translation_entity_info_alter(&$entity_info) {
       if (!isset($et_info['edit form']) || $et_info['edit form'] === TRUE) {
         $et_info['edit form'] = $entity_type;
       }
-
-      $entity_info[$entity_type]['entity keys'] += array(
-        'translations' => 'translations',
-      );
     }
   }
 }
@@ -1530,7 +1527,7 @@ function entity_translation_form_field_ui_field_edit_form_alter(&$form, $form_st
       '#prefix' => '<label>' . t('Field synchronization') . '</label>',
       '#type' => 'checkbox',
       '#title' => t('Enable field synchronization'),
-      '#description' => t('Check this option if you wish to synchronize the value of this field accross its translations.'),
+      '#description' => t('Check this option if you wish to synchronize the value of this field across its translations.'),
       '#default_value' => !empty($instance['settings']['entity_translation_sync']),
     );
   }
@@ -1646,7 +1643,9 @@ function entity_translation_language($entity_type, $entity) {
   }
   // If a translation handler associated to the current form is found, we need
   // to update the wrapped entity. This way submitted values will be picked up.
-  else {
+  // Other entities may be created or saved while submitting the current one,
+  // hence we need to check we are dealing with it.
+  elseif ($handler->isWrappedEntity($entity_type, $entity)) {
     $langcode = $handler->getLanguage();
     $handler->setEntity($entity);
     $submitted_langcode = $handler->getLanguage();
@@ -1894,20 +1893,36 @@ function entity_translation_entity_uuid_presave(&$entity, $entity_type) {
  * translation.
  */
 function entity_translation_pathauto_alias_alter(&$alias, array &$context) {
-  // Ensure that we are dealing with a node having entity translation enabled.
-  if ($context['module'] == 'node' && $context['op'] == 'bulkupdate' && entity_translation_enabled('node') && !entity_translation_node('node', $context['data']['node'])) {
-    $translations = entity_translation_get_handler('node', $context['data']['node'])->getTranslations();
-    // Only create extra aliases if we are working on the original language to
-    // avoid infinite recursion.
-    if ($context['language'] == $translations->original) {
-      foreach ($translations->data as $language => $translation) {
-        // We already have an alias for the original language, so let's not
-        // create another one.
-        if ($language == $translations->original) {
-          continue;
+  $info = entity_get_info();
+  $entity_type = $context['module'];
+
+  // Ensure that we are dealing with a bundle having entity translation enabled.
+  if ($context['op'] == 'bulkupdate' && !empty($info[$entity_type]['token type']) && !empty($context['data'][$info[$entity_type]['token type']])) {
+    $entity = $context['data'][$info[$entity_type]['token type']];
+    list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+    if (entity_translation_enabled($entity_type) && entity_translation_enabled_bundle($entity_type, $bundle)) {
+      $translations = entity_translation_get_handler($entity_type, $entity)->getTranslations();
+      // Only create extra aliases if we are working on the original language to
+      // avoid infinite recursion.
+      if ($context['language'] == $translations->original) {
+        foreach ($translations->data as $language => $translation) {
+          // We already have an alias for the original language, so let's not
+          // create another one.
+          if ($language == $translations->original) {
+            continue;
+          }
+          pathauto_create_alias($entity_type, $context['op'], $context['source'], $context['data'], $context['type'], $language);
         }
-        pathauto_create_alias($context['module'], $context['op'], $context['source'], $context['data'], $context['type'], $language);
       }
     }
   }
+}
+
+/**
+ * Implements hook_entity_translation_delete().
+ */
+function path_entity_translation_delete($entity_type, $entity, $langcode) {
+  // Remove any existing path alias for the removed translation.
+  $handler = entity_translation_get_handler($entity_type, $entity);
+  path_delete(array('source' => $handler->getViewPath(), 'language' => $langcode));
 }

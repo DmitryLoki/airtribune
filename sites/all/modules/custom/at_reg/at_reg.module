@@ -211,17 +211,11 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
   
   global $user;
   // TODO: all these changes should be performed only for Contest Group.
-  // TODO: add pilot role after subscription.
-  // TODO: develop a more flexible system to hide double fields for different MT, profile types and rolles
-  // 'Field required' condition for both double fields should be the same
+  // TODO: add 'Member' role after subscription.
+  // TODO: develop a more flexible system to hide intersecting fields for different MT, profile types and roles
+  // IMPORTANT: 'Field required' and other settings should be the same for both intersecting fields
+  // otherwise do not hide it. Also validation error should be suppressed for hidden fields.
   
-  // $multiform = in_array('multiform_usage', $form_state['build_info']['args']) ? TRUE : FALSE;
-  
-  /*
-  $multiform = isset($form_state['#multiform_id']) && $form_state['#multiform_id'] == 'contest_registration_multiform'
-              ? TRUE
-              : FALSE;
-  */
   $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
               ? TRUE
               : FALSE;
@@ -267,7 +261,7 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
     
     case 'user_register_form' :
       if($multiform) {
-        // We need after_build since profile2 hook are fired after current one,
+        // We need after_build since profile2 hook is fired after the current one,
         // so we can't change it's results here.
         $form['#after_build'][] = 'at_reg_hide_intersections_after_build';
         // TODO: fix
@@ -282,19 +276,21 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         // Get values from $_POST for intersecting fields
         $profile_type = $profile_type_bundle = PILOT_PROFILE_NAME;
         $membership_bundle = CONTEST_MEMBERSHIP_NAME;
-//        dsm($form_state);
         
+        // Profile type could be added through profile2 settings
+        // or could exist after form rebuild (e.g. when ajax callback perfomed).
+        // In this case profile2_attach_form() should attach the profile.
         if (empty($form_state['profiles'][$profile_type])) {
           $form_state['profiles'][$profile_type] = profile2_create(array('type' => $profile_type));
+          
+          $profile_type_entity = profile2_type_load($profile_type);
+          profile2_attach_form($form, $form_state);
+          // Wrap each profile form in a fieldset.
+          $form['profile_' . $profile_type] += array(
+            '#type' => 'fieldset', 
+            '#title' => check_plain($profile_type_entity->getTranslation('label')),
+          );
         }
-        $profile_type_entity = profile2_type_load($profile_type);
-        profile2_attach_form($form, $form_state);
-        // Wrap each profile form in a fieldset.
-        $form['profile_' . $profile_type] += array(
-          '#type' => 'fieldset', 
-          '#title' => check_plain($profile_type_entity->getTranslation('label')),
-        );
-        
         
         // Get intersection of field sets in MT and Profile.
         $fields_intersect = at_reg_fields_intersect($membership_bundle, $profile_type_bundle);
@@ -384,7 +380,7 @@ function at_reg_fields_intersect($mt_bundle, $prof_bundle) {
  */
 function at_reg_hide_field_pre_render($element) {
   // Maybe '#access' should be used here.
-  $element['#printed'] = TRUE;
+  //$element['#printed'] = TRUE;
   return $element;
 }
 
@@ -426,7 +422,7 @@ function at_reg_multiform_alter(&$multiform) {
 // function at_reg_user_register_before_execute($form, &$form_state) {
 function at_reg_user_register_before_execute(&$multiform, $index) {
   // TODO: This part should be moved into $element['#process'] functions via hook_form_alter()
-  // since as it is done now, data is assigned after validation performed,
+  // since, as it is done now, data is assigned after validation performed,
   // so hidden required field don't pass validation.
   
   // User register form and form_state
@@ -500,4 +496,29 @@ function at_reg_user_register_after_execute(&$multiform, $index) {
   $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form_state'] = $og_form_state;
 }
 
-
+/**
+ * Implements hook_multiform_crossfields().
+ */
+function at_reg_multiform_crossfields($multiform) {
+  $items = array();
+  
+  if ($multiform['#multiform_id'] == 'contest_registration_multiform') {
+    
+    $items[] = array(
+      '#base' => array(
+        '#tag' => 'og_ui_confirm_subscribe',
+        '#name' => 'field_paraglider_manufacturer',
+        '#parents' => array('field_paraglider_manufacturer'),
+        '#array_parents' => array('field_paraglider_manufacturer'),
+      ),
+      '#dependent' => array(
+        '#tag' => 'user_register_form',
+        '#name' => 'field_paraglider_manufacturer',
+        '#parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
+        '#array_parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
+      ),
+    );
+  }
+  //dsm($items);
+  return $items;
+}

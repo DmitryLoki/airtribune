@@ -10,14 +10,14 @@
 function organic_groups_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'og_membership-competitor-field_test_membership'.
-  $fields['og_membership-competitor-field_test_membership'] = array(
+  // Exported field: 'og_membership-competitor-field_paraglider_color'.
+  $fields['og_membership-competitor-field_paraglider_color'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_test_membership',
+      'field_name' => 'field_paraglider_color',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -52,13 +52,13 @@ function organic_groups_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => 3,
         ),
       ),
       'entity_type' => 'og_membership',
-      'field_name' => 'field_test_membership',
-      'label' => 'test_membership',
-      'required' => 0,
+      'field_name' => 'field_paraglider_color',
+      'label' => 'Paraglider color',
+      'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'text_processing' => '0',
@@ -71,7 +71,236 @@ function organic_groups_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
+        'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'og_membership-competitor-field_paraglider_manufacturer'.
+  $fields['og_membership-competitor-field_paraglider_manufacturer'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_paraglider_manufacturer',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'competitor',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 1,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'field_name' => 'field_paraglider_manufacturer',
+      'label' => 'Paraglider manufacturer',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'autocomplete_widgets',
+        'settings' => array(
+          'autocomplete_case' => '1',
+          'autocomplete_match' => 'contains',
+          'autocomplete_xss' => '0',
+          'i18n_flddata' => '0',
+          'size' => '60',
+        ),
+        'type' => 'autocomplete_widgets_flddata',
         'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'og_membership-competitor-field_paraglider_model'.
+  $fields['og_membership-competitor-field_paraglider_model'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_paraglider_model',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'competitor',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 2,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'field_name' => 'field_paraglider_model',
+      'label' => 'Paraglider model',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'autocomplete_widgets',
+        'settings' => array(
+          'autocomplete_case' => '1',
+          'autocomplete_match' => 'contains',
+          'autocomplete_xss' => '0',
+          'i18n_flddata' => '0',
+          'size' => '60',
+        ),
+        'type' => 'autocomplete_widgets_flddata',
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'og_membership-competitor-field_tracker'.
+  $fields['og_membership-competitor-field_tracker'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_tracker',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'device' => 'device',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'ent_tracker',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'competitor',
+      'default_value' => NULL,
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 4,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'field_name' => 'field_tracker',
+      'label' => 'Link to Tracker',
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'entityreference',
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'path' => '',
+          'size' => '60',
+        ),
+        'type' => 'entityreference_autocomplete',
+        'weight' => '0',
       ),
     ),
   );
@@ -239,9 +468,12 @@ function organic_groups_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Group membership');
+  t('Link to Tracker');
+  t('Paraglider color');
+  t('Paraglider manufacturer');
+  t('Paraglider model');
   t('Request message');
   t('This is the text a user may send to the group administrators.');
-  t('test_membership');
 
   return $fields;
 }

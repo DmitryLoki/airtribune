@@ -260,15 +260,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'panels',
   );
 
-  // Exported permission: administer path breadcrumbs.
-  $permissions['administer path breadcrumbs'] = array(
-    'name' => 'administer path breadcrumbs',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'path_breadcrumbs_ui',
-  );
-
   // Exported permission: administer pathauto.
   $permissions['administer pathauto'] = array(
     'name' => 'administer pathauto',
@@ -417,6 +408,24 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: create advert content.
+  $permissions['create advert content'] = array(
+    'name' => 'create advert content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: create newsblog content.
+  $permissions['create newsblog content'] = array(
+    'name' => 'create newsblog content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: create pg_contest content.
   $permissions['create pg_contest content'] = array(
     'name' => 'create pg_contest content',
@@ -458,6 +467,24 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete any advert content.
+  $permissions['delete any advert content'] = array(
+    'name' => 'delete any advert content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete any newsblog content.
+  $permissions['delete any newsblog content'] = array(
+    'name' => 'delete any newsblog content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: delete any pg_contest content.
   $permissions['delete any pg_contest content'] = array(
     'name' => 'delete any pg_contest content',
@@ -479,6 +506,24 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: delete own accommodation content.
   $permissions['delete own accommodation content'] = array(
     'name' => 'delete own accommodation content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete own advert content.
+  $permissions['delete own advert content'] = array(
+    'name' => 'delete own advert content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete own newsblog content.
+  $permissions['delete own newsblog content'] = array(
+    'name' => 'delete own newsblog content',
     'roles' => array(
       0 => 'editor',
     ),
@@ -955,6 +1000,34 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit any advert content.
+  $permissions['edit any advert content'] = array(
+    'name' => 'edit any advert content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit any main profile.
+  $permissions['edit any main profile'] = array(
+    'name' => 'edit any main profile',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'profile2',
+  );
+
+  // Exported permission: edit any newsblog content.
+  $permissions['edit any newsblog content'] = array(
+    'name' => 'edit any newsblog content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: edit any organizer_profile profile.
   $permissions['edit any organizer_profile profile'] = array(
     'name' => 'edit any organizer_profile profile',
@@ -962,11 +1035,13 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
-  // Exported permission: edit any pilot profile.
-  $permissions['edit any pilot profile'] = array(
-    'name' => 'edit any pilot profile',
-    'roles' => array(),
-    'module' => 'profile2',
+  // Exported permission: edit any pg_contest content.
+  $permissions['edit any pg_contest content'] = array(
+    'name' => 'edit any pg_contest content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
   );
 
   // Exported permission: edit any pg_race content.
@@ -976,6 +1051,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit any pilot profile.
+  $permissions['edit any pilot profile'] = array(
+    'name' => 'edit any pilot profile',
+    'roles' => array(),
+    'module' => 'profile2',
   );
 
   // Exported permission: edit media.
@@ -1024,6 +1106,35 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own advert content.
+  $permissions['edit own advert content'] = array(
+    'name' => 'edit own advert content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit own main profile.
+  $permissions['edit own main profile'] = array(
+    'name' => 'edit own main profile',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'editor',
+    ),
+    'module' => 'profile2',
+  );
+
+  // Exported permission: edit own newsblog content.
+  $permissions['edit own newsblog content'] = array(
+    'name' => 'edit own newsblog content',
+    'roles' => array(
+      0 => 'editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: edit own organizer_profile profile.
   $permissions['edit own organizer_profile profile'] = array(
     'name' => 'edit own organizer_profile profile',
@@ -1033,13 +1144,13 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
-  // Exported permission: edit own pilot profile.
-  $permissions['edit own pilot profile'] = array(
-    'name' => 'edit own pilot profile',
+  // Exported permission: edit own pg_contest content.
+  $permissions['edit own pg_contest content'] = array(
+    'name' => 'edit own pg_contest content',
     'roles' => array(
-      0 => 'pilot',
+      0 => 'editor',
     ),
-    'module' => 'profile2',
+    'module' => 'node',
   );
 
   // Exported permission: edit own pg_race content.
@@ -1049,6 +1160,15 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit own pilot profile.
+  $permissions['edit own pilot profile'] = array(
+    'name' => 'edit own pilot profile',
+    'roles' => array(
+      0 => 'pilot',
+    ),
+    'module' => 'profile2',
   );
 
   // Exported permission: edit relations.
@@ -1337,6 +1457,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'panels',
   );
 
+  // Exported permission: view any main profile.
+  $permissions['view any main profile'] = array(
+    'name' => 'view any main profile',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'profile2',
+  );
+
   // Exported permission: view any organizer_profile profile.
   $permissions['view any organizer_profile profile'] = array(
     'name' => 'view any organizer_profile profile',
@@ -1367,6 +1497,17 @@ function roles_and_permissions_user_default_permissions() {
       4 => 'pilot',
     ),
     'module' => 'media',
+  );
+
+  // Exported permission: view own main profile.
+  $permissions['view own main profile'] = array(
+    'name' => 'view own main profile',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'editor',
+    ),
+    'module' => 'profile2',
   );
 
   // Exported permission: view own organizer_profile profile.

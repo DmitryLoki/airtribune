@@ -37,7 +37,9 @@ function pilot_field_default_fields() {
           'thoroughfare' => '',
           'premise' => '',
           'locality' => '',
-          'country' => 'AF',
+          'administrative_area' => '',
+          'postal_code' => '',
+          'country' => 'US',
         ),
       ),
       'deleted' => '0',
@@ -68,9 +70,7 @@ function pilot_field_default_fields() {
         'active' => 1,
         'module' => 'addressfield',
         'settings' => array(
-          'available_countries' => array(
-            'US' => 'US',
-          ),
+          'available_countries' => array(),
           'format_handlers' => array(
             'address' => 'address',
             'address-hide-country' => 0,
@@ -505,9 +505,9 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -571,7 +571,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -641,7 +641,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',

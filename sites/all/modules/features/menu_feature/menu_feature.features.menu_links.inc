@@ -76,11 +76,7 @@ function menu_feature_menu_default_menu_links() {
     'link_path' => 'node/5',
     'router_path' => 'node/%',
     'link_title' => 'For the Viewers',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
+    'options' => array(),
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',
@@ -178,11 +174,7 @@ function menu_feature_menu_default_menu_links() {
     'link_path' => 'node/5',
     'router_path' => 'node/%',
     'link_title' => 'Viewers',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
+    'options' => array(),
     'module' => 'menu',
     'hidden' => '0',
     'external' => '0',

@@ -165,7 +165,7 @@ function accommodation_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'addressfield',
     ),
     'field_instance' => array(
@@ -226,6 +226,72 @@ function accommodation_field_default_fields() {
         ),
         'type' => 'addressfield_standard',
         'weight' => '33',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-accommodation-field_hotel_wifi'.
+  $fields['node-accommodation-field_hotel_wifi'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_hotel_wifi',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'No',
+          1 => 'Yes',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'accommodation',
+      'default_value' => array(),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 8,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_hotel_wifi',
+      'label' => 'Wi-Fi',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '7',
       ),
     ),
   );
@@ -681,22 +747,22 @@ function accommodation_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'hotel/[node:title]',
+            'value' => 'hotels/[node:nid]-[node:title]',
           ),
-          'retroactive_update' => 0,
+          'retroactive_update' => 1,
         ),
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
@@ -755,7 +821,7 @@ function accommodation_field_default_fields() {
         'title_value' => '',
         'url' => 0,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'link_field',
     ),
     'field_instance' => array(
@@ -780,7 +846,7 @@ function accommodation_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_url',
-      'label' => 'url',
+      'label' => 'Web site',
       'required' => 0,
       'settings' => array(
         'attributes' => array(
@@ -839,7 +905,7 @@ function accommodation_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -891,7 +957,8 @@ function accommodation_field_default_fields() {
   t('Phone');
   t('Photo');
   t('Title');
-  t('url');
+  t('Web site');
+  t('Wi-Fi');
 
   return $fields;
 }
