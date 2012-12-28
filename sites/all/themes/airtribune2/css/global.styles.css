@@ -2376,47 +2376,7 @@ p { margin:0; padding:6px 0 10px}
 
 #header .block { margin:0;}
 
-#header .pane-page-primary-links { padding-top:14px}
-#header .pane-page-primary-links .pane-content > ul { position:relative; border:1px solid #8498a0; float:left; text-shadow: 0 1px 0 rgba(255,255,255,0.5); margin:0 0 0 6px; padding:0 17px;
 
-	-webkit-border-radius: 4px; 
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	
-	box-shadow: 		inset 0px 1px 4px #ffffff,
-						/**/
-						0px 1px 2px rgba(46,77,91,0.30);
-	
-	-moz-box-shadow: 	inset 0px 1px 4px #ffffff,
-						/**/
-						0px 1px 2px rgba(46,77,91,0.30);
-						
-	-webkit-box-shadow: inset 0px 1px 4px #ffffff,
-						/**/
-						0px 1px 3px rgba(46,77,91,0.2);
-	
-	background:#dceaf0;
-	background: -moz-linear-gradient(top, #dceaf0 0%, #c3d4de 100%); 
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dceaf0), color-stop(100%,#c3d4de));	
-
-}
-
-#header .pane-page-primary-links .pane-content > ul > li { float:left; margin:0; padding:0 5px; list-style:none; list-style-image:none; font:14px/21px Arial, Helvetica, sans-serif;}
-#header .pane-page-primary-links .pane-content > ul > li a { color:#2e4b59; padding:4px 10px 5px; display:inline-block; text-decoration:none; position:relative}
-#header .pane-page-primary-links .pane-content > ul > li a:hover, #header .pane-page-primary-links .pane-content > ul > li a:active, #header .pane-page-primary-links .pane-content > ul > li a.active-trail { padding:4px 9px 5px; border:1px solid #8dafbd; /*border-top-color:#bee3ec; border-bottom-color:#a3cde0;*/ border-bottom:none; border-top:none;
-
-	background:#bee3ec;
-	background: -moz-linear-gradient(top, #bee3ec 0%, #b0d3e0 10%, #9cc1d2 90%, #a3cde0 100%); 
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b0d3e0), color-stop(10%,#b0d3e0), color-stop(90%,#9cc1d2), color-stop(100%,#a3cde0));
-
-}
-
-#header .pane-page-primary-links .pane-content > ul > li a:active, #header .pane-page-primary-links .pane-content > ul > li a.active-trail { text-shadow: 0 1px 0 rgba(255,255,255,0.33); border-color:#6798ad;
-	background: #8ec8d9;
-	background: -moz-linear-gradient(top, #8ec8d9 0%, #84bbd0 10%, #73aac1 90%, #7ab7d0 100%); 
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8ec8d9), color-stop(10%,#84bbd0), color-stop(90%,#73aac1), color-stop(100%,#7ab7d0));
-
-}
 
   /* Main */
 
@@ -2440,7 +2400,7 @@ p { margin:0; padding:6px 0 10px}
 }
 
 .pane-content > h1 { margin:0; padding:6px 0 0; font:24px/26px Arial, Helvetica, sans-serif; color:#677581;}
-.pane-page-title { margin-bottom:17px}
+.pane-page-title, #page .panel-col-seventy .pane-page-title { margin-bottom:17px}
 
 .node-teaser { position:relative; font:14px/20px Arial, Helvetica, sans-serif; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px 24px; padding:0 10px 15px;}
 .node-teaser .node-header, .node-teaser .node-content { margin-left:240px; }
@@ -2555,13 +2515,14 @@ p { margin:0; padding:6px 0 10px}
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
 }
-#page ul.tabs li a:hover { color:#8f733b; background-image:url(../images/tab_bgr_hover.png);
+/*#page ul.tabs li a:hover { color:#8f733b; background-image:url(../images/tab_bgr_hover.png);
 
 	box-shadow: 		inset 0px 1px 4px rgba(255,255,255,.8);
 	-moz-box-shadow: 	inset 0px 1px 4px #ffffff;						
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
-}
+}*/
+#page ul.tabs li a:hover { color:#677581}
 #page ul.tabs li.active { border-bottom:none;}
 #page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
 
@@ -2583,9 +2544,10 @@ p { margin:0; padding:6px 0 10px}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px}
-.breadcrumb a, .breadcrumb span { color:#677581; text-decoration:none}
-.breadcrumb a:hover { text-decoration:underline}
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left}
+.breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
+.breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
+.breadcrumb:hover a:hover { color:#1cb7f1}
 
 .panel_info {}
 .panel_info h2 { padding:39px 0 8px 72px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0;}
