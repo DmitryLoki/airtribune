@@ -103,8 +103,14 @@ function menu_feature_menu_default_menu_links() {
     'menu_name' => 'user-menu',
     'link_path' => 'profile-main',
     'router_path' => 'profile-main',
-    'link_title' => '',
-    'options' => array(),
+    'link_title' => 'My main profile',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-main-profile-link',
+        ),
+      ),
+    ),
     'module' => 'system',
     'hidden' => '0',
     'external' => '0',
@@ -117,8 +123,14 @@ function menu_feature_menu_default_menu_links() {
     'menu_name' => 'user-menu',
     'link_path' => 'profile-organizer_profile',
     'router_path' => 'profile-organizer_profile',
-    'link_title' => '',
-    'options' => array(),
+    'link_title' => 'My organizer profile',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-organizer-profile-link',
+        ),
+      ),
+    ),
     'module' => 'system',
     'hidden' => '0',
     'external' => '0',
@@ -131,8 +143,14 @@ function menu_feature_menu_default_menu_links() {
     'menu_name' => 'user-menu',
     'link_path' => 'profile-pilot',
     'router_path' => 'profile-pilot',
-    'link_title' => '',
-    'options' => array(),
+    'link_title' => 'My pilot profile',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-pilot-profile-link',
+        ),
+      ),
+    ),
     'module' => 'system',
     'hidden' => '0',
     'external' => '0',
@@ -148,6 +166,11 @@ function menu_feature_menu_default_menu_links() {
     'link_title' => 'User account',
     'options' => array(
       'alter' => TRUE,
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-account-link',
+        ),
+      ),
     ),
     'module' => 'system',
     'hidden' => '0',
@@ -162,7 +185,13 @@ function menu_feature_menu_default_menu_links() {
     'link_path' => 'user/logout',
     'router_path' => 'user/logout',
     'link_title' => 'Log out',
-    'options' => array(),
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-logout-link',
+        ),
+      ),
+    ),
     'module' => 'system',
     'hidden' => '0',
     'external' => '0',
