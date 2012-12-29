@@ -1,0 +1,14 @@
+name = User Import Framework Plus
+description = User Import Framework to import users from a CSV file with more functions.
+core = 7.x
+package = User import
+dependencies[] = uif
+files[] = uif_plus.test
+
+
+; Information added by drupal.org packaging script on 2012-11-29
+version = "7.x-1.2"
+core = "7.x"
+project = "uif_plus"
+datestamp = "1354216179"
+

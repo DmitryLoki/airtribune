@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * User import from a CSV file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function uif_plus_install() {
+  $directory = file_default_scheme() . '://uif_plus';
+  file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function uif_plus_uninstall() {
+  db_query('DELETE FROM {variable} WHERE name LIKE :uif_plus', array(':uif_plus' => 'uif_plus_' . '%'));
+}
+
+/**
+ * Check and make sure uif_plus images sub-directory exists
+ */
+function uif_plus_update_7000() {
+  $directory = file_default_scheme() . '://uif_plus';
+  file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+}

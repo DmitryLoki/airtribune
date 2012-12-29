@@ -102,7 +102,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -172,7 +172,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -401,11 +401,18 @@ function organic_groups_field_default_fields() {
             'og_behavior' => array(
               'status' => TRUE,
             ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
           ),
-          'membership_type' => 'og_membership_type_default',
+          'membership_type' => 'competitor',
+          'sort' => array(
+            'type' => 'none',
+          ),
           'target_bundles' => array(),
         ),
         'handler_submit' => 'Change handler',
+        'profile2_private' => FALSE,
         'target_type' => 'node',
       ),
       'translatable' => '0',
@@ -414,6 +421,7 @@ function organic_groups_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'user',
       'default_value' => NULL,
+      'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -428,7 +436,7 @@ function organic_groups_field_default_fields() {
       'entity_type' => 'user',
       'field_name' => 'og_user_node',
       'label' => 'Group membership',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -440,9 +448,12 @@ function organic_groups_field_default_fields() {
             ),
             'status' => TRUE,
           ),
+          'prepopulate' => array(
+            'status' => 0,
+          ),
         ),
         'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'user_register_form' => 0,
       ),
       'view modes' => array(
         'full' => array(
@@ -457,6 +468,7 @@ function organic_groups_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
