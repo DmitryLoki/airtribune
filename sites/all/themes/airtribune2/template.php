@@ -285,7 +285,6 @@ function airtribune2_preprocess_node(&$vars) {
 	  $userpic = file_build_uri(DEFAULT_USER_PICTURE_PATH);
   }
   $vars['user_picture'] = '<span class="user-picture">'.theme('image_style', array( 'path' =>  $userpic, 'style_name' => 'node_userpic')).'</span>';
-  dsm($userpic); 
 }
 
 function airtribune2_process_node(&$vars) {
