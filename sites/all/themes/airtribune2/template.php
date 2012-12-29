@@ -1,5 +1,7 @@
 <?php
 
+define('DEFAULT_USER_PICTURE_PATH','pictures/default_user_picture.png');
+
 /**
  * Preprocess html.tpl.php
  */
@@ -275,8 +277,21 @@ function airtribune2_preprocess_node(&$vars) {
   if (isset($vars['content']['links']['node']['#links']['node-readmore'])) {
     $vars['content']['links']['node']['#links']['node-readmore']['title'] = t('View more');
   }
-
+  $autor = user_load($vars['uid']);
+  if(!empty($autor->picture->uri)){
+	  $userpic = $autor->picture->uri;
+  }
+  else {
+	  $userpic = file_build_uri(DEFAULT_USER_PICTURE_PATH);
+  }
+  $vars['user_picture'] = '<span class="user-picture">'.theme('image_style', array( 'path' =>  $userpic, 'style_name' => 'node_userpic')).'</span>';
+  dsm($userpic); 
 }
+
+function airtribune2_process_node(&$vars) {
+	//print_r($vars);
+}
+
 
 /**
  * Implements theme_menu_link().
@@ -335,4 +350,32 @@ function airtribune2_breadcrumb($variables) {
     $output .= '<div class="breadcrumb">' . implode(' &rarr; ', $breadcrumb) . '</div>';
     return $output;
   }
+}
+
+function _airtribune2_img_dinamic_scaling($vars){
+	$count = count($vars['#items']);
+	$excess = $count-3*floor($count/3);
+	$image_style_other = 'node_image_third';
+	if($count%3 == 0) {
+		$image_styles = array('node_image_first', 'node_image_second', 'node_image_second');
+	}
+	elseif($excess == 2){
+		$image_styles = array('node_image_second', 'node_image_second');
+	}
+	else {
+		$image_styles = array('node_image_first');
+	}
+	$is_count = 0;
+	foreach($vars['#items'] as $k => $v){
+		if(!empty($image_styles[$is_count])){
+			$image_style = $image_styles[$is_count];
+		}
+		else{
+			$image_style = $image_style_other;
+		}
+		$vars[$k]['#image_style'] = $image_style;
+		$is_count++;
+		
+	}
+	return $vars;
 }
