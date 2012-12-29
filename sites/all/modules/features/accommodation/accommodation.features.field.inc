@@ -857,8 +857,8 @@ function accommodation_field_default_fields() {
         'weight' => '14',
       ),
     ),
-  );
-
+  );  
+  
   // Exported field: 'node-accommodation-field_price_double'.
   $fields['node-accommodation-field_price_double'] = array(
     'field_config' => array(
@@ -1162,8 +1162,8 @@ function accommodation_field_default_fields() {
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
   t('Address');
-  t('Currency');
   t('Double');
+  t('Currency');
   t('Email');
   t('Location');
   t('Phone');
