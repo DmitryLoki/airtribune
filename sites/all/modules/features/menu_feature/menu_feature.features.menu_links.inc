@@ -98,6 +98,66 @@ function menu_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-45',
   );
+  // Exported menu link: user-menu:<front>
+  $menu_links['user-menu:<front>'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => '<front>',
+    'router_path' => '',
+    'link_title' => 'My registrations',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-my-registrations-link',
+        ),
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '1',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-49',
+  );
+  // Exported menu link: user-menu:node/5363
+  $menu_links['user-menu:node/5363'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'node/5363',
+    'router_path' => 'node/%',
+    'link_title' => 'My events',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-my-events-link',
+        ),
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-47',
+  );
+  // Exported menu link: user-menu:node/add/pg_contest
+  $menu_links['user-menu:node/add/pg_contest'] = array(
+    'menu_name' => 'user-menu',
+    'link_path' => 'node/add/pg_contest',
+    'router_path' => 'node/add',
+    'link_title' => 'Create event',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-create-event-link',
+        ),
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-48',
+  );
   // Exported menu link: user-menu:profile-main
   $menu_links['user-menu:profile-main'] = array(
     'menu_name' => 'user-menu',
@@ -116,7 +176,7 @@ function menu_feature_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '-45',
   );
   // Exported menu link: user-menu:profile-organizer_profile
   $menu_links['user-menu:profile-organizer_profile'] = array(
@@ -136,7 +196,7 @@ function menu_feature_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '-44',
   );
   // Exported menu link: user-menu:profile-pilot
   $menu_links['user-menu:profile-pilot'] = array(
@@ -156,14 +216,14 @@ function menu_feature_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '-43',
   );
   // Exported menu link: user-menu:user
   $menu_links['user-menu:user'] = array(
     'menu_name' => 'user-menu',
     'link_path' => 'user',
     'router_path' => 'user',
-    'link_title' => 'User account',
+    'link_title' => 'User profile',
     'options' => array(
       'alter' => TRUE,
       'attributes' => array(
@@ -177,7 +237,7 @@ function menu_feature_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '-10',
+    'weight' => '-50',
   );
   // Exported menu link: user-menu:user/logout
   $menu_links['user-menu:user/logout'] = array(
@@ -197,18 +257,24 @@ function menu_feature_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '10',
+    'weight' => '-46',
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Create event');
   t('For Organizers');
   t('For Pilots');
   t('For Sponsors');
   t('For the Viewers');
   t('Home');
   t('Log out');
+  t('My events');
+  t('My main profile');
+  t('My organizer profile');
+  t('My pilot profile');
+  t('My registrations');
   t('Project');
-  t('User account');
+  t('User profile');
 
 
   return $menu_links;
