@@ -28,7 +28,6 @@ features[path_breadcrumbs][] = breadcrumb_pg_contest_next
 features[path_breadcrumbs][] = breadcrumb_pg_contest_past
 features[path_breadcrumbs][] = breadcrumb_pg_race
 features[schemaorg][] = node-accommodation
-features[schemaorg][] = node-pg_contest
 features[schemaorg][] = node-pg_race
 features[variable][] = googleanalytics_account
 features[variable][] = googleanalytics_cache
