@@ -1,0 +1,458 @@
+<?php
+
+/**
+ * @file
+ * UIF test code.
+ */
+
+/**
+ * Simple import testing.
+ */
+class UIFTestCaseSimple extends DrupalWebTestCase {
+  protected $admin_user;
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Simple import',
+      'description' => 'Test UIF basic import.',
+      'group' => 'User Import Framework',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif');
+    $this->import_user = $this->drupalCreateUser(array('import users'));
+    $this->admin_user = $this->drupalCreateUser(array('administer users'));
+  }
+
+  // Do successful import
+  public function testUIFImportSuccessful() {
+    $this->drupalLogin($this->import_user);
+    
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Preview these records and when ready to import click Import users', array()));
+    $this->assertText(t('jane@example.com', array()));
+    $this->assertText(t('(create)', array()));
+    $this->assertText(t('mail', array()));
+    $this->assertText(t('name', array()));
+    $this->assertText(t('pass', array()));
+    $this->assertText('mail substituted for deprecated label email');
+    $this->assertText('name substituted for deprecated label username');
+    $this->assertText('pass substituted for deprecated label password');
+    
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    $this->assertText(t('One user was created', array()));
+    
+    // Retrieve imported user
+    $name = 'jane';
+    $account = user_load_by_name($name);
+    $this->assertTrue($account != NULL, t('User @name was loaded', array('@name' => $name)));
+    $account->pass_raw = 'zebra';
+    $this->drupalLogin($account);
+  }
+
+  // Do unsuccessful import
+  public function testUIFImportUnsuccessful() {
+    $this->drupalLogin($this->import_user);
+    
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_2_fails_no_email.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Missing or invalid email address', array()));
+  }
+}
+
+/**
+ * Test import with core user fields.
+ */
+class UIFTestCaseCore extends DrupalWebTestCase {
+  protected $admin_user;
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Import {user} table fields',
+      'description' => 'Test UIF with core {user} table fields.',
+      'group' => 'User Import Framework',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif', 'locale');
+    $this->import_user = $this->drupalCreateUser(array('import users'));
+    $this->admin_user = $this->drupalCreateUser(array('administer users', 'administer site configuration', 'administer languages'));
+  }
+  
+  public function testUIFImportCore() {
+    $this->drupalLogin($this->import_user);
+
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_core_fields_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Preview these records and when ready to import click Import users', array()));
+    $this->assertText(t('fred@example.com', array()));
+    $this->assertText(t('(create)', array()));
+    $this->assertText(t('mail', array()));
+    $this->assertText(t('name', array()));
+    $this->assertText(t('pass', array()));
+    $this->assertText(t('created', array()));
+    $this->assertText(t('access', array()));
+    $this->assertText(t('login', array()));
+    $this->assertText(t('status', array()));
+    $this->assertText(t('timezone', array()));
+    $this->assertText(t('language', array()));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    
+    $this->drupalLogin($this->admin_user);
+    $edit = array('langcode' => 'es');
+    $this->drupalPost('admin/config/regional/language/add', $edit, t('Add language'));
+    $edit = array('configurable_timezones' => 1);
+    $this->drupalPost('admin/config/regional/settings', $edit, t('Save configuration'));
+
+    // Retrieve imported user
+    $name = 'freddie';
+    $account = user_load_by_name($name);
+    $this->assertTrue($account != NULL, t('User @name was loaded', array('@name' => $name)));
+    $account->pass_raw = '123';
+    $this->drupalLogin($account);
+    
+    $this->drupalGet('user/' . $account->uid . '/edit');
+    $this->assertRaw('value="es" checked="checked"');
+    $this->assertRaw('value="Europe/Madrid" selected="selected"');
+    $this->assertRaw('name="mail" value="fred@example.com"');
+  }
+}
+
+/**
+ * Test import with Field module fields.
+ */
+class UIFTestCaseFieldFields extends DrupalWebTestCase {
+  protected $admin_user;
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Import Field module fields',
+      'description' => 'Test UIF with core Field module dependent fields.',
+      'group' => 'User Import Framework',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif', 'list');
+    $this->import_user = $this->drupalCreateUser(array('import users'));
+    $this->admin_user = $this->drupalCreateUser(array('administer users', 'administer site configuration', 'administer taxonomy'));
+    
+    $vocabs = taxonomy_vocabulary_get_names();
+    $term = $this->createTerm($vocabs['tags'], 'granite');
+  }
+
+  /**
+   * Test addition of all Field module fields.
+   */
+  public function testUIFImportWithFieldAllFields() {
+    $fields = array(
+      array(
+        'label' => 'Boolean Test', 
+        'field_name' => 'boolean_test', 
+        'type' => 'list_boolean',
+        'widget_type' => 'options_buttons',
+        'check_raw' => 'Boolean Test:&nbsp;</div><div class="field-items"><div class="field-item even">1</div>',
+      ),
+      array(
+        'label' => 'Decimal Test', 
+        'field_name' => 'decimal_test', 
+        'type' => 'number_decimal',
+        'widget_type' => 'number',
+        'check_text' => '3.14',
+      ),
+      array(
+        'label' => 'Float Test', 
+        'field_name' => 'float_test', 
+        'type' => 'number_float',
+        'widget_type' => 'number',
+        'check_text' => '1.23',
+      ),
+      array(
+        'label' => 'Integer Test', 
+        'field_name' => 'integer_test', 
+        'type' => 'number_integer',
+        'widget_type' => 'number',
+        'check_text' => '4 844 632',
+      ),
+      array(
+        'label' => 'Float List Test', 
+        'field_name' => 'float_list_test', 
+        'type' => 'list_float',
+        'widget_type' => 'options_select',
+        'check_text' => '4.56',
+      ),
+      array(
+        'label' => 'Integer List Test', 
+        'field_name' => 'integer_list_test', 
+        'type' => 'list_integer',
+        'widget_type' => 'options_select',
+        'check_text' => '5678',
+      ),
+      array(
+        'label' => 'Test List Test', 
+        'field_name' => 'text_list_test', 
+        'type' => 'list_text',
+        'widget_type' => 'options_select',
+        'check_text' => 'repeat',
+      ),
+      array(
+        'label' => 'Long Text Test', 
+        'field_name' => 'long_text_test', 
+        'type' => 'text_long',
+        'widget_type' => 'text_textarea',
+        'check_text' => 'now is the time for',
+      ),
+      array(
+        'label' => 'Long Text and Summary Test',
+        'field_name' => 'long_text_summary_test',
+        'type' => 'text_with_summary',
+        'widget_type' => 'text_textarea_with_summary',
+        'check_text' => 'all good people to',
+      ),
+      array(
+        'label' => 'Text Test',
+        'field_name' => 'text_test',
+        'type' => 'text',
+        'widget_type' => 'text_textfield',
+        'check_text' => 'come to the aid',
+      ),
+      array(
+        'label' => 'Term Reference Test', 
+        'field_name' => 'term_ref_test', 
+        'type' => 'taxonomy_term_reference',
+        'widget_type' => 'options_select',
+        'check_text' => 'granite',
+      ),
+    );
+    
+    $this->drupalLogin($this->admin_user);    
+    foreach ($fields as $field) {
+      $edit['fields[_add_new_field][label]'] = $field['label'];
+      $edit['fields[_add_new_field][field_name]'] = $field['field_name'];
+      $edit['fields[_add_new_field][type]'] = $field['type'];
+      $edit['fields[_add_new_field][widget_type]'] = $field['widget_type'];
+      $this->drupalPost('admin/config/people/accounts/fields', $edit, t('Save'));
+      $this->assertText(t('These settings apply to the @label field everywhere it is used.', array('@label' => $field['label'])));
+      
+      if ($field['type'] == 'taxonomy_term_reference') {
+        // otherwise no vocab assigned
+        $this->drupalPost(NULL, array(), t('Save field settings'));
+      }
+    }
+    
+    $this->drupalLogin($this->import_user);
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_field_fields_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Preview these records and when ready to import click Import users', array()));
+    $this->assertText('wilma@example.com');
+    $this->assertText(t('(create)', array()));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    
+    // Retrieve imported user
+    field_cache_clear();
+    $name = 'wilma';
+    $account = user_load_by_name($name);
+    $this->assertTrue($account != NULL, t('User @name was loaded', array('@name' => $name)));
+    $account->pass_raw = 'rubble';
+    $this->drupalLogin($account);
+    
+    foreach ($fields as $field) {
+      $this->assertText($field['label']);
+      if (isset($field['check_text'])) {
+        $this->assertText($field['check_text']);
+      }
+      elseif (isset($field['check_raw'])) {
+        $this->assertRaw($field['check_raw']);
+      }
+    }
+  }
+
+  /**
+   * Test addition of one field.
+   */
+  public function testUIFImportWithFieldOneField() {
+    $this->drupalLogin($this->admin_user);
+    $edit = array();
+    $edit['fields[_add_new_field][label]'] = 'First name';
+    $edit['fields[_add_new_field][field_name]'] = 'first_name';
+    $edit['fields[_add_new_field][type]'] = 'text';
+    $edit['fields[_add_new_field][widget_type]'] = 'text_textfield';
+    $this->drupalPost('admin/config/people/accounts/fields', $edit, t('Save'));
+    $this->assertText(t('These settings apply to the @label field everywhere it is used.', array('@label' => $edit['fields[_add_new_field][label]'])));
+    $this->drupalGet('admin/config/people/accounts/display');
+    $this->assertText('No field is hidden');
+    
+    $this->drupalLogin($this->import_user);
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_fields_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Preview these records and when ready to import click Import users', array()));
+    $this->assertText(t('wilma@example.com', array()));
+    $this->assertText(t('(create)', array()));
+    $this->assertText(t('mail', array()));
+    $this->assertText(t('name', array()));
+    $this->assertText(t('pass', array()));
+    $this->assertText(t('first_name', array()));
+    $this->assertText(t('last_name', array()));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    $this->assertNoText(t('Unknown column', array()));
+    
+    // Retrieve imported user
+    field_cache_clear();
+    $name = 'wilma';
+    $account = user_load_by_name($name);
+    $this->assertTrue($account != NULL, t('User @name was loaded', array('@name' => $name)));
+    $account->pass_raw = 'rubble';
+    $this->drupalLogin($account);
+    $this->assertText('First name');
+    $this->assertText('Wilma');
+  }
+
+  /**
+   * Test unknown field.
+   */
+  public function testUIFImportWithFieldFieldsUnsuccessful() {
+    $this->drupalLogin($this->admin_user);
+
+    $edit = array();
+    $edit['fields[_add_new_field][label]'] = 'First name';
+    $edit['fields[_add_new_field][field_name]'] = 'first_name';
+    $edit['fields[_add_new_field][type]'] = 'text';
+    $edit['fields[_add_new_field][widget_type]'] = 'text_textfield';
+    $this->drupalPost('admin/config/people/accounts/fields', $edit, t('Save'));
+    $this->assertText(t('These settings apply to the @label field everywhere it is used.', array('@label' => $edit['fields[_add_new_field][label]'])));
+    
+    $this->drupalLogin($this->import_user);
+
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_fields_2_invalid_data.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Unknown column last_name in the import file', array()));
+  }
+  
+  /**
+   * Returns a new vocabulary of some name.
+   */
+  private function createVocabulary($name) {
+    // Create a vocabulary.
+    $vocabulary = new stdClass();
+    $vocabulary->name = $name;
+    $vocabulary->description = $name;
+    $vocabulary->machine_name = drupal_strtolower($name);
+    $vocabulary->help = '';
+    $vocabulary->nodes = array('article' => 'article');
+    $vocabulary->weight = mt_rand(0, 10);
+    taxonomy_vocabulary_save($vocabulary);
+    return $vocabulary;
+  }
+
+  /**
+   * Returns a new term with some name.
+   */
+  private function createTerm($vocabulary, $name) {
+    $term = new stdClass();
+    $term->name = $name;
+    $term->description = $name;
+    // Use the first available text format.
+    $term->format = db_query_range('SELECT format FROM {filter_format}', 0, 1)->fetchField();
+    $term->vid = $vocabulary->vid;
+    taxonomy_term_save($term);
+    return $term;
+  }
+  
+}
+
+/**
+ * Test import with roles.
+ */
+class UIFTestCaseRoles extends DrupalWebTestCase {
+  protected $admin_user;
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Import with roles',
+      'description' => 'Test UIF with role import.',
+      'group' => 'User Import Framework',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif');
+    $this->import_user = $this->drupalCreateUser(array('import users'));
+    $this->admin_user = $this->drupalCreateUser(array('administer users'));
+  }
+
+  /**
+   * Test role import.
+   */
+  public function testUIFImportWithRoles() {
+    $cook_rid = $this->drupalCreateRole(array(), 'cook');
+    $bottlewasher_rid = $this->drupalCreateRole(array(), 'bottlewasher');
+    
+    $this->drupalLogin($this->import_user);
+
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif') . '/test_data/test_3_roles.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Preview these records and when ready to import click Import users', array()));
+    $this->assertText(t('frodo@example.com', array()));
+    $this->assertText(t('(create)', array()));
+    $this->assertText(t('email', array()));
+    $this->assertText(t('roles', array()));
+    
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    
+    // Retrieve imported user
+    $mail = 'frodo@example.com';
+    $account = user_load_by_mail($mail);
+    $this->userLoadAndCheckRoleAssigned($account, $cook_rid);
+    $this->userLoadAndCheckRoleAssigned($account, $bottlewasher_rid, FALSE);
+
+    $mail = 'bilbo@example.com';
+    $account = user_load_by_mail($mail);
+    $this->userLoadAndCheckRoleAssigned($account, $cook_rid);
+    $this->userLoadAndCheckRoleAssigned($account, $bottlewasher_rid);    
+
+    $mail = 'gandalf@example.com';
+    $account = user_load_by_mail($mail);
+    $this->userLoadAndCheckRoleAssigned($account, $cook_rid, FALSE);
+    $this->userLoadAndCheckRoleAssigned($account, $bottlewasher_rid, FALSE);    
+  }
+  
+  /**
+   * Check role on user object.
+   *
+   * @param object $account
+   *   The user account to check.
+   * @param string $rid
+   *   The role ID to search for.
+   * @param bool $is_assigned
+   *   (optional) Whether to assert that $rid exists (TRUE) or not (FALSE).
+   *   Defaults to TRUE.
+   */
+  private function userLoadAndCheckRoleAssigned($account, $rid, $is_assigned = TRUE) {
+    $account = user_load($account->uid, TRUE);
+    if ($is_assigned) {
+      $this->assertTrue(array_key_exists($rid, $account->roles), t('The role is present in the user object.'));
+    }
+    else {
+      $this->assertFalse(array_key_exists($rid, $account->roles), t('The role is not present in the user object.'));
+    }
+  }
+}

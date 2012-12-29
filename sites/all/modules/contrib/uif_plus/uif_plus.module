@@ -1,0 +1,632 @@
+<?php
+
+/**
+ * @file
+ * Advanced user import from a CSV file.
+ */
+
+/**
+ * Implements hook_uif_help().
+ */
+function uif_plus_uif_help() {
+  $uif_plus_help = '<p><strong>' . t('User Import Framework Plus adds support for the following:') . '</strong></p>';
+
+  $items[] = t('picture (optional) - the user\'s picture.');
+  if (module_exists('og')) {
+    $items[] = t('groups (optional) - groups user is a member of as delimited text, e.g. "admin|editor" or node nids e.g. "23|427" (without quotes)');
+  }
+
+  $instance_fields = uif_plus_profile2_fields();
+  if (count($instance_fields)) {
+    foreach ($instance_fields as $name => $data) {
+      $field_type = uif_lookup_field_type($name);
+      if (uif_is_supported_field($field_type)) {
+        $subs = array(
+          '@name' => $name,
+          '@required' => $data['required'] ? t('required') : t('optional'),
+          '%label' => $data['label'],
+          '%type' => $field_type,
+          '@description' => $data['description'] ? $data['description'] : uif_isset_or($supported_fields[$field_type]['description']),
+        );
+        $items[] = t('@name (@required) - @description (type is %type, human name is %label)', $subs);
+      }
+    }
+  }
+
+  $uif_plus_help .= theme('item_list', array('items' => $items));
+  return $uif_plus_help;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add delimiters for multiple values and move the "Next" button to the bottom
+ * of the form.
+ */
+function uif_plus_form_uif_import_form_alter(&$form, &$form_state, $form_id) {
+
+  $step = empty($form_state['storage']['step']) ? 1 : $form_state['storage']['step'];
+  $form_state['storage']['step'] = $step;
+
+  switch ($step) {
+    case 1:
+      $form['image_path'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Images path'),
+        '#default_value' => '',
+        '#size' => 25,
+        '#maxlength' => 255,
+        '#description' => t("For images, enter the full path to the directory. Default: files/uif_plus (leave blank)."),
+        '#weight' => 99,
+      );
+
+      $form['#submit'][] = 'uif_plus_form_uif_import_form_submit';
+      $form['next']['#weight'] = 100;
+
+      break;
+  }
+}
+
+/**
+ * Return TRUE if this module supports import of the passed field type.
+ */
+function uif_plus_is_supported_field($field_type) {
+  $supported_fields = uif_plus_get_supported_fields();
+  return isset($supported_fields[$field_type]);
+}
+
+function uif_plus_form_uif_import_form_submit($form, &$form_state) {
+  $form_state['storage']['image_path'] = (isset($form_state['values']['image_path'])) ? $form_state['values']['image_path'] : '';
+}
+
+/**
+ * Implementats hook_uif_post_create().
+ *
+ */
+function uif_plus_uif_post_create($account, $user_data, $form_state) {
+  uif_plus_update_user($account, $user_data, $form_state);
+}
+
+/**
+ * Implements hook_uif_post_update().
+ *
+ */
+function uif_plus_uif_post_update($account, $user_data, $form_state) {
+  uif_plus_update_user($account, $user_data, $form_state);
+}
+
+/**
+ * Common function for updating users based on types of fields as provided by
+ * contrib modules.
+ *
+ * @param object $account - User account to be updated
+ * @param array $user_data
+ */
+function uif_plus_update_user($account, $user_data, $form_state) {
+
+  $fields = uif_plus_get_field_info(array_keys($user_data));
+
+  $value_delimiter = $form_state['storage']['value_delimiter'];
+
+  $user_fields = $profile_fields = array();
+  foreach ($fields as $label => $info) {
+    if (!$info['supported']) {
+      continue;
+    }
+
+    $parser = uif_isset_or($info['import']['parser']) ? $info['import']['parser'] : 'uif_get_raw_value';
+
+    if ($label == 'picture') {
+      if (drupal_strlen($user_data[$label])) {
+        $user_fields[$label] = $parser($account, $info['data'], $user_data[$label]);
+        user_save($account, $user_fields);
+      }
+    }
+    elseif ($label == 'groups') {
+      if (isset($user_data[$label])) {
+        $parser($account, $info['data'], $user_data[$label]);
+      }
+    }
+    elseif ($info['type'] == 'entity') {
+
+      $field_values = array();
+      $values = explode($value_delimiter, $user_data[$label]);
+      $key = uif_isset_or($info['import']['key']) ? $info['import']['key'] : 'value';
+
+      foreach ($values as $value) {
+        $value = trim($value);
+        if (drupal_strlen($value)) {
+          $parsed_value = $parser($account, $info['data'], $value);
+          if (!is_null($parsed_value)) {
+            $field_values[] = $parsed_value;
+          }
+        }
+      }
+
+      if (isset($info['data']) && array_key_exists('bundles', $info['data']) && count($info['data']['bundles']['profile2'])) {
+        foreach ($info['data']['bundles']['profile2'] as $profile_type) {
+          for ($delta = 0; $delta < count($field_values); $delta++) {
+            if (($info['data']['cardinality'] == 1) && ($delta > 0)) {
+              break;
+            }
+            if (drupal_strlen($field_values[$delta] || count($field_values[$delta]))) {
+              if ($info['data']['type'] == 'file') {
+                $profile_fields[$profile_type][$label][LANGUAGE_NONE][$delta] = $field_values[$delta];
+              }
+              else {
+                $profile_fields[$profile_type][$label][LANGUAGE_NONE][$delta][$key] = $field_values[$delta];
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (count($profile_fields)) {
+    uif_plus_save_profile2_fields($account, $profile_fields);
+  }
+}
+
+/**
+ * Helper function to remove a slash from the back of a filename
+ *
+ * @param string $filename
+ * @return string
+ */
+function uif_plus_normalise_filename($filename) {
+  if ($filename[0] == DIRECTORY_SEPARATOR) {
+    $filename = drupal_substr($filename, 1);
+  }
+  return $filename;
+}
+
+/**
+ * Helper function to remove trailing slashes from file paths
+ *
+ * @param string $filepath
+ * @return string
+ */
+function uif_plus_normalise_filepath($filepath) {
+  if (drupal_substr($filepath, -1) == DIRECTORY_SEPARATOR) {
+    $filepath = drupal_substr($filepath, 0, -1);
+  }
+  return $filepath;
+}
+
+/**
+ * Implements hook_uif_supported_fields().
+ */
+function uif_plus_uif_supported_fields() {
+  return array(
+    'entityreference' => array(
+      'type' => 'entity',
+      'label' => t('Entity reference'),
+      'parser' => 'uif_plus_get_entityreference_value',
+      'key' => 'target_id',
+      'description' => t('entity reference (node only currently)'),
+    ),
+    'image' => array(
+      'type' => 'entity',
+      'label' => t('Image field'),
+      'parser' => 'uif_plus_process_image_field',
+      'key' => 'fid',
+      'description' => t('image field added to a user')
+    ),
+    'file' => array(
+      'type' => 'entity',
+      'label' => t('File field'),
+      'parser' => 'uif_plus_process_file_field',
+      'key' => 'fid',
+      'description' => t('file field added to a user')
+    ),
+  );
+}
+
+/**
+ * Process import of user pictures
+ *
+ * @param object $account
+ * @param array $field_info
+ * @param string $value
+ * @return object $picture - File object of uploaded picture
+ */
+function uif_plus_process_user_picture($account, $field_info, $value = '') {
+  if (drupal_strlen($value)) {
+    $file = uif_plus_upload_file($account, $field_info, $value);
+    return $file;
+  }
+}
+
+/**
+ * Process import of image fields
+ *
+ * @param object $account
+ * @param array $field_info
+ * @param string $value
+ * @return int - File ID of uploaded file
+ */
+function uif_plus_process_image_field($account, $field_info, $value) {
+  if (drupal_strlen($value)) {
+    $file = uif_plus_upload_file($account, $field_info, $value);
+    return $file->fid;
+  }
+}
+
+/**
+ * Process import of file fields
+ *
+ * @param object $account
+ * @param array $field_info
+ * @param string $value
+ * @return $file - Array of uploaded file data
+ */
+function uif_plus_process_file_field($account, $field_info, $value) {
+  if (drupal_strlen($value)) {
+    $file = uif_plus_upload_file($account, $field_info, $value);
+    return (array) $file;
+  }
+}
+
+/**
+ * Process import of users into groups
+ *
+ * @param object $account
+ * @param array $field_info
+ * @param string $value
+ */
+function uif_plus_process_user_groups($account, $field_info, $value) {
+  if (drupal_strlen($value) && module_exists('og')) {
+    $delimiter = variable_get('uif_value_delimiter', '|');
+    $groups = explode($delimiter, $value);
+
+    $og_version_1 = uif_plus_check_og_version_1();
+    foreach ($groups as $og) {
+      $gid = (uif_is_natural($og)) ? $og : uif_plus_get_og_group($og, $og_version_1);
+      if ($gid) {
+        // As of og 2.x-beta2 the signature for og_group() is different from 1.x
+        if ($og_version_1) {
+          og_group($gid, array('entity' => $account));
+        }
+        else {
+          og_group('node', $gid, array('entity' => $account));
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Helper function to process data for fields provided by the entityreference module.
+ */
+function uif_plus_get_entityreference_value($account, $field_info, $value) {
+  if (uif_is_natural($value)) {
+    return $value;
+  }
+
+  switch ($field_info['settings']['target_type']) {
+    case 'node':
+      $table = $field_info['foreign keys'][$field_info['settings']['target_type']]['table'];
+      $column = $field_info['foreign keys'][$field_info['settings']['target_type']]['columns']['target_id'];
+      $types = array_keys($field_info['settings']['handler_settings']['target_bundles']);
+
+      $entity_id = db_select($table, 'n')->extend('PagerDefault')
+          ->fields('n', array($column))
+          ->condition('n.type', $types, 'IN')
+          ->condition('n.title', $value)
+          ->limit(1)
+          ->execute()
+          ->fetchField();
+      return $entity_id;
+
+    case 'user':
+      // TODO: email or username
+      return $value;
+  }
+
+  return $value;
+}
+
+/**
+ * Create array of supported fields definition.
+ *
+ * @see uif_get_supported_fields()
+ * @return array
+ */
+function uif_plus_get_supported_fields() {
+  return array(
+    'list_boolean' => array(
+      'type' => 'entity',
+      'label' => t('Boolean'),
+      'description' => t('true/false. Use 0 for false, 1 for true.'),
+    ),
+    'number_float' => array(
+      'type' => 'entity',
+      'label' => t('Float'),
+      'description' => t('floating point number'),
+    ),
+    'number_decimal' => array(
+      'type' => 'entity',
+      'label' => t('Decimal'),
+      'description' => t('decimal number'),
+    ),
+    'number_integer' => array(
+      'type' => 'entity',
+      'label' => t('Integer'),
+      'description' => t('integer number'),
+    ),
+    'list_float' => array(
+      'type' => 'entity',
+      'label' => t('List (float)'),
+      'description' => t('list of floating point values'),
+    ),
+    'list_integer' => array(
+      'type' => 'entity',
+      'label' => t('List (integer)'),
+      'description' => t('list of integers'),
+    ),
+    'list_text' => array(
+      'type' => 'entity',
+      'label' => t('List (text)'),
+      'description' => t('list of text values'),
+    ),
+    'text' => array(
+      'type' => 'entity',
+      'label' => t('Text'),
+      'description' => t('text'),
+    ),
+    'text_long' => array(
+      'type' => 'entity',
+      'label' => t('Long text'),
+      'description' => t('long text'),
+    ),
+    'text_with_summary' => array(
+      'type' => 'entity',
+      'label' => t('Long text and summary'),
+      'description' => t('long text and summary'),
+    ),
+    'taxonomy_term_reference' => array(
+      'type' => 'entity',
+      'label' => t('Taxonomy term reference'),
+      'parser' => 'uif_get_taxonomy_value',
+      'key' => 'tid',
+      'description' => t('taxonomy term ID or name'),
+    ),
+    'entityreference' => array(
+      'type' => 'entity',
+      'label' => t('Entity reference'),
+      'parser' => 'uif_plus_get_entityreference_value',
+      'key' => 'target_id',
+      'description' => t('entity reference (node only currently)'),
+    ),
+    'image' => array(
+      'type' => 'entity',
+      'label' => t('Image field'),
+      'parser' => 'uif_plus_process_image_field',
+      'key' => 'fid',
+      'description' => t('image field added to a user')
+    ),
+    'file' => array(
+      'type' => 'entity',
+      'label' => t('File field'),
+      'parser' => 'uif_plus_process_file_field',
+      'key' => 'fid',
+      'description' => t('file field added to a user')
+    ),
+    'picture' => array(
+      'description' => t('the user picture'),
+      'parser' => 'uif_plus_process_user_picture'
+    ),
+    'groups' => array(
+      'description' => t('the og memberships of user'),
+      'parser' => 'uif_plus_process_user_groups'
+    )
+  );
+}
+
+/**
+ * Create array of field info of supported fields and uif plus data for the
+ * later process of import
+ *
+ * @param type $header
+ * @return boolean
+ */
+function uif_plus_get_field_info($header) {
+  $field_info = array();
+  $instance_fields = uif_plus_profile2_fields();
+  $supported_fields = uif_plus_get_supported_fields();
+
+  foreach ($header as $label) {
+    if (count($instance_fields) && isset($instance_fields[$label])) {
+      $data = uif_field_info_field($label);
+
+      $supported = isset($supported_fields[$data['type']]);
+
+      $field_info[$label] = array(
+        'type' => 'entity',
+        'supported' => $supported,
+        'data' => $data,
+      );
+
+      if ($supported) {
+        $field_info[$label]['import'] = $supported_fields[$data['type']];
+      }
+    }
+    elseif ($label == 'picture') {
+      $supported = isset($supported_fields[$label]);
+
+      $users_table = drupal_get_schema('users');
+      $field_info[$label] = array(
+        'type' => 'core',
+        'supported' => $supported,
+        'data' => $users_table['fields'][$label],
+      );
+
+      if ($supported) {
+        $field_info[$label]['import'] = $supported_fields[$label];
+      }
+    }
+    elseif ($label == 'groups') {
+      $supported = isset($supported_fields[$label]);
+
+      $field_info[$label] = array(
+        'type' => 'custom',
+        'supported' => $supported,
+        'data' => $label,
+      );
+
+      if ($supported) {
+        $field_info[$label]['import'] = $supported_fields[$label];
+      }
+    }
+    else {
+      $supported = FALSE;
+      $field_info[$label] = array(
+        'type' => 'unknown',
+        'supported' => $supported,
+      );
+    }
+
+    if (!$supported) {
+      drupal_set_message(t('Unknown column @field in the import file. Data in this column will be ignored.', array('@field' => $label)), 'warning');
+    }
+  }
+
+  return $field_info;
+}
+
+/**
+ * Get all fields provided by profile2 types
+ *
+ * @return array $instance_fields
+ */
+function uif_plus_profile2_fields() {
+  $instance_fields = array();
+  if (module_exists('profile2')) {
+    foreach (profile2_get_types() as $type) {
+      $instance_fields = array_merge($instance_fields, uif_field_info_instances('profile2', $type->type));
+    }
+  }
+  return $instance_fields;
+}
+
+/**
+ * Save fields of profile2 types
+ *
+ * @param object $account
+ * @param array $profile_fields
+ */
+function uif_plus_save_profile2_fields($account, $profile_fields) {
+  foreach ($profile_fields as $type_name => $fields) {
+    $profile = profile2_load_by_user($account, $type_name);
+    if (empty($profile)) {
+      $profile = profile2_create(array('user' => $account, 'type' => $type_name));
+    }
+    foreach ($fields as $field_name => $field) {
+      $profile->$field_name = $field;
+    }
+
+    profile2_save($profile);
+  }
+}
+
+/**
+ * Handle file uploads for image and file fields
+ *
+ * @param array $account
+ * @param array $field_info
+ * @param string $value
+ * @return object $file
+ */
+function uif_plus_upload_file($account, $field_info, $value) {
+  // prepare file paths
+  $uif_plus_image_path = variable_get('uif_plus_image_path', '');
+  if (!strlen($uif_plus_image_path)) {
+    $uif_plus_image_path = file_default_scheme() . '://uif_plus';
+  }
+  $image_path = uif_plus_normalise_filepath($uif_plus_image_path) . DIRECTORY_SEPARATOR . uif_plus_normalise_filename($value);
+
+  // get file URI
+  if ($field_info['type'] == 'int') {
+    $picture_directory = file_default_scheme() . '://' . variable_get('user_picture_path', 'pictures');
+    file_prepare_directory($picture_directory, FILE_CREATE_DIRECTORY);
+    $pathinfo = pathinfo($image_path);
+    $uri = $picture_directory . '/picture-' . $account->uid . '-' . REQUEST_TIME . '.' . $pathinfo['extension'];
+  }
+  else {
+    $picture_directory = file_default_scheme() . '://';
+    file_prepare_directory($picture_directory, FILE_CREATE_DIRECTORY);
+    $pathinfo = pathinfo($image_path);
+    $uri = $picture_directory . '/' . $pathinfo['basename'];
+  }
+
+  // prepare for file upload
+  $info = image_get_info($image_path);
+  $destination = file_stream_wrapper_uri_normalize($uri);
+
+  // create file
+  $file = new stdClass();
+  $file->uid = 1;
+  $file->uri = $image_path;
+  $file->filemime = $info['mime_type'];
+  $file->status = 1;
+  $file->filesize = $info['file_size'];
+  $file->id = 1;
+  $file->display = 1;
+
+  // Move the temporary file into the final location.
+  if ($file = file_move($file, $destination, FILE_EXISTS_RENAME)) {
+    $file->status = FILE_STATUS_PERMANENT;
+    $file = file_save($file);
+    file_usage_add($file, ($field_info['type'] == 'int') ? 'user' : $field_info['module'], 'user', 1);
+  }
+
+  return $file;
+}
+
+/**
+ * Helper function to get a group ID from the og table.
+ *
+ * http://drupal.org/node/1615542#3 - "The og table is deprecated in the 2.x version, so it should stay empty"
+ *
+ * @param mixed $group
+ * @param boolean $og_version_1 - Is the version of the og module 1.x?
+ * @return int $gid
+ */
+function uif_plus_get_og_group($group, $og_version_1) {
+  $gid = 0;
+  if ($og_version_1) {
+    $column = (intval($group) > 0) ? 'g.gid' : 'g.label';
+    $gid = db_select('og', 'g')
+        ->extend('PagerDefault')
+        ->fields('g', array('gid'))
+        ->condition($column, $group)
+        ->condition('g.state', 1)
+        ->limit(1)
+        ->execute()
+        ->fetchField();
+  }
+  else {
+    $column = (intval($group) > 0) ? 'n.nid' : 'n.title';
+    $gid = db_select('node', 'n')
+        ->extend('PagerDefault')
+        ->fields('n', array('nid'))
+        ->condition($column, $group)
+        ->condition('n.status', 1)
+        ->limit(1)
+        ->execute()
+        ->fetchField();
+  }
+  return $gid;
+}
+
+/**
+ * Helper function to check the version of og, if available. We are interested in
+ * whether the available version of og is 1.x
+ *
+ * @return boolean - If true, og is 1.x else if og is enabled, it's >= 2.0
+ */
+function uif_plus_check_og_version_1() {
+  $module_info = system_get_info('module', 'og');
+  $og_version_1 = (isset($module_info['version']) && (strpos($module_info['version'], '7.x-1.') !== FALSE)) ? TRUE : FALSE;
+  return $og_version_1;
+}
