@@ -2549,22 +2549,42 @@ p { margin:0; padding:6px 0 10px}
 .breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
 .breadcrumb:hover a:hover { color:#1cb7f1}
 
-.panel_info {}
-.panel_info h2 { padding:39px 0 8px 72px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0;}
+.panel_info { font:14px/20px Arial, Helvetica, sans-serif; color:#525c66}
+.panel_info h2 { padding:8px 10px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:#edf0f3; text-shadow: 0 1px 0 rgba(255,255,255,1); position:relative;}
+.panel_info p/*, .panel_info .field*/ { padding:9px 0 11px}
+.panel_info .more-link { text-align:left;}
+.panel_info .more-link a { color:#7d9aa8; background:url(../images/more.png) no-repeat 0 2px; font:12px/14px Arial, Helvetica, sans-serif; padding-left:10px; text-decoration:none}
+.panel_info .more-link a:hover { color:#1cb7f1}
 
-.pane-contest-blog-contest-pane { padding:3px 0 34px;}
+#page .panel_info .panel-pane { margin-bottom:20px;}
+.panel_info .pane-content { margin:0 11px}
+
+.page-event-info .panel_info {}
+.page-event-info .panel_info h2 { padding:39px 0 0 72px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0;}
+
+.page-event-info .panel_info .pane-node-field-info h2 { background-position:0 0} /* Event info */
+.page-event-info .panel_info .pane-node-field-flying-info h2 { background-position:0 -150px} /* Flying site info */
+.page-event-info .panel_info .pane-2 h2 { background-position:0 -300px} /* Prize funds and scoring categories */
+.page-event-info .panel_info .pane-6 h2 { background-position:0 -450px} /* Organizers */
+.page-event-info .panel_info .pane-3 h2 { background-position:0 -600px} /* How to get here */
+.page-event-info .panel_info .pane-7  h2 { background-position:0 -750px} /* Twitter */
+.page-event-info .panel_info .pane-4  h2 { background-position:0 -900px} /* Download */
+
+/*.pane-contest-blog-contest-pane { padding:3px 0 34px;}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
 .pane-contest-blog-contest-pane .views-row strong {color:#333a40}
 .pane-contest-blog-contest-pane .views-row p { margin:0; padding:5px 0 0; color:#677581}
 
 .pane-node-field-flying-info { margin-right:10px}
-.panel_info .pane-node-field-flying-info h2 { background-position:0 0}
+.panel_info .pane-node-field-flying-info h2 { background-position:0 0}*/
 
-.pane-node-field-info { margin-left:10px}
+/*.pane-node-field-info { margin-left:10px}*/
 
 
-.pane-node-field-photos { margin-left:-18px;}
-.pane-node-field-photos .field-item { float:left; border:1px solid #c8d0d3; margin-left:17px}
+.pane-node-field-photos { margin-left:-17px;}
+.pane-node-field-photos .pane-content { margin:0;}
+.panel_info .pane-node-field-photos .field { padding:0;}
+.pane-node-field-photos .field-item { float:left; border:1px solid #c8d0d3; margin-left:17px;}
 .pane-node-field-photos .field-item img { vertical-align:middle;}
 
 
