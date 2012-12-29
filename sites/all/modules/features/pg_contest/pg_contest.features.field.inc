@@ -2559,7 +2559,6 @@ function pg_contest_field_default_fields() {
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Awards and prize money');
   t('Awards photos');
-  t('Body');
   t('By bus');
   t('By car');
   t('By plane');
