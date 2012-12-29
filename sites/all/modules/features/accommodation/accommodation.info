@@ -28,7 +28,6 @@ features[field][] = node-accommodation-field_hotel_wifi
 features[field][] = node-accommodation-field_location
 features[field][] = node-accommodation-field_phone
 features[field][] = node-accommodation-field_photo
-features[field][] = node-accommodation-field_price_currency
 features[field][] = node-accommodation-field_price_double
 features[field][] = node-accommodation-field_price_single
 features[field][] = node-accommodation-field_url
