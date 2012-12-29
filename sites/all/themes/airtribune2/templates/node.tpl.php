@@ -102,17 +102,36 @@
  * <?php print dsm($content); ?> to find variable names to hide() or render().
  */
 
-$display_submitted = false;
 hide($content['comments']);
 hide($content['links']);
-$content['links']['created'] = array(
+if ($teaser){
+	$user_picture = false;
+	$display_submitted = false;
+	$content['links']['created'] = array(
 	 '#theme' => 'links__node__node',
 	 '#links' => array(
 	 	'node-create' => array(
 			'title' => format_date($created, 'custom', 'd M, Y')
 		)
 	 )
-);
+	);
+}
+else {
+	$content['links']['created'] = array(
+	 '#theme' => 'links__node__node',
+	 '#links' => array(
+	 	'node-create' => array(
+			'title' => t('Posted by !user on !date', array('!user' => $name, '!date' => format_date($created, 'custom', 'd M, Y'))),
+			'html' => true
+		)
+	 )
+	);
+}
+if(empty($title)){
+	$title = 'Верните заголовки емае';
+}
+//print_r($node);
+
 
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
@@ -126,12 +145,22 @@ $content['links']['created'] = array(
         </h1>
       <?php endif; ?>
     </header>
+  <?php elseif ($title && $page): ?>
+    <header<?php print $header_attributes; ?>>
+   	  <?php print '<div class="posted">'.format_date($created, 'custom', 'd M, Y').'</div>'; ?>
+      <?php if ($title): ?>
+        <h1<?php print $title_attributes; ?>>
+          <?php print $title; ?>
+        </h1>
+      <?php endif; ?>
+    </header>
   <?php endif; ?>
 
   <?php if(!empty($user_picture) || $display_submitted): ?>
     <footer<?php print $footer_attributes; ?>>
+      <?php print '<div class="author">'.t('by !name', array('!name' => $name)).'</div>';?>
       <?php print $user_picture; ?>
-      <p class="author-datetime"><?php print $submitted; ?></p>
+      <!--p class="author-datetime"><?php print $submitted; ?></p-->
     </footer>
   <?php endif; ?>
 

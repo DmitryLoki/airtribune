@@ -2350,7 +2350,7 @@ a:hover, a.active, li a.active {  text-decoration:none;}
 .draggable td a, .draggable td { color:#000000}
 h2.title { line-height:20px; font:18px/20px UniversCondensedMedium; margin:0; padding:0; text-transform:uppercase; color:#424242}
 h1.title { line-height:20px; font:18px/20px UniversCondensedMedium}
-p { margin:0; padding:6px 0 10px}
+p { margin:0; padding:9px 0 11px}
 
 
 
@@ -2566,6 +2566,19 @@ p { margin:0; padding:6px 0 10px}
 .pane-node-field-photos { margin-left:-18px;}
 .pane-node-field-photos .field-item { float:left; border:1px solid #c8d0d3; margin-left:17px}
 .pane-node-field-photos .field-item img { vertical-align:middle;}
+
+
+.page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
+.page-node .node h1.node-title { color:#333a40; font:24px/26px Arial, Helvetica, sans-serif; float:left; width:540px; padding:7px 0 8px}
+.page-node .node .node-content { clear:both;}
+.page-node .node .submitted, .page-node .node .with-user-picture { float:right;}
+.page-node .node .author { float:left; color:#616569; font-size:14px; padding-right:9px; padding-top:5px}
+.page-node .node .author a, .page-node .node .links a { color:#616569; text-decoration:none;}
+.page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
+.page-node .node .user-picture { float:left;}
+.page-node .node ul { padding-left:15px}
+.page-node .node .links { padding-left:0;}
+
 
 
 
