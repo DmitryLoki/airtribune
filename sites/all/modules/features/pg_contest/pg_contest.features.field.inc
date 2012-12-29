@@ -447,7 +447,7 @@ function pg_contest_field_default_fields() {
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_organizer',
       'label' => 'Organizers',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'text_processing' => '0',
@@ -518,7 +518,7 @@ function pg_contest_field_default_fields() {
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_organizer_logo',
       'label' => 'Organizer logo ',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,
@@ -554,12 +554,11 @@ function pg_contest_field_default_fields() {
         'module' => 'media',
         'settings' => array(
           'allowed_schemes' => array(
-            'private' => 0,
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
             0 => 0,
+            'audio' => 0,
             'default' => 0,
             'image' => 'image',
             'video' => 0,
@@ -685,7 +684,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 30,
+          'weight' => '30',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -853,7 +852,7 @@ function pg_contest_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 33,
+          'weight' => '33',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -916,7 +915,7 @@ function pg_contest_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 29,
+          'weight' => '29',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -990,7 +989,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 27,
+          'weight' => '27',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1101,7 +1100,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 31,
+          'weight' => '31',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1579,7 +1578,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 28,
+          'weight' => '28',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1780,7 +1779,7 @@ function pg_contest_field_default_fields() {
             'data' => 'full',
           ),
           'type' => 'geofield_wkt',
-          'weight' => 32,
+          'weight' => '32',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2157,7 +2156,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 34,
+          'weight' => '34',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2435,11 +2434,11 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og_ui',
+          'module' => 'at_reg',
           'settings' => array(
             'field_name' => FALSE,
           ),
-          'type' => 'og_group_subscribe',
+          'type' => 'at_reg_group_subscribe',
           'weight' => '4',
         ),
         'teaser' => array(
