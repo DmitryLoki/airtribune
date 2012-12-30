@@ -308,6 +308,23 @@ function airtribune2_menu_link__footer_menu(&$vars) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+
+function airtribune2_menu_link__user_menu(&$vars) {
+  $element = $vars['element'];
+  $sub_menu = '';
+  if ($element['#below']) {
+  	$sub_menu = drupal_render($element['#below']);
+  }
+  if(!empty($element['#localized_options']['attributes']['class'])){
+	  $element['#attributes']['class'] = array_merge($element['#attributes']['class'], $element['#localized_options']['attributes']['class']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+	if (!empty($element['#localized_options']['attributes']['title'])) {
+		$output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
+	}
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
 /**
  * Implements hook_form_alter().
  */
