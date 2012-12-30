@@ -10,6 +10,7 @@ dependencies[] = filefield_paths
 dependencies[] = image
 dependencies[] = og
 dependencies[] = og_ui
+dependencies[] = title
 dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
