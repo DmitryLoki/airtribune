@@ -18,7 +18,6 @@ features[field][] = node-newsblog-body
 features[field][] = node-newsblog-field_image
 features[field][] = node-newsblog-og_group_ref
 features[field][] = node-newsblog-title_field
-features[node][] = newsblog
 features[variable][] = field_bundle_settings_node__newsblog
 features[variable][] = language_content_type_newsblog
 features[variable][] = menu_options_newsblog
