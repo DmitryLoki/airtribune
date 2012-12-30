@@ -2604,6 +2604,52 @@ p { margin:0; padding:9px 0 11px}
 .page-node .node .field-name-field-image .field-item { float:left; margin:0 0 18px 18px}
 .page-node .node .field-name-field-image .field-item img { vertical-align:middle; border:1px solid #c8d0d3;}
 
+.item-list ul.pager { padding:15px 0 0;}
+.item-list ul.pager li { padding:0; margin:0 2px;}
+.item-list ul.pager li.pager-ellipsis { position:relative; top:7px}
+.item-list ul.pager li a, .pager li span { display:inline-block; position:relative; border:1px solid #d1d8db; border-bottom-color:#b7c1c6; border-top-color:#e1e5e8;
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  box-shadow: 0px 1px 2px rgba(46,77,91,0.15);
+  -moz-box-shadow: 0px 1px 2px rgba(46,77,91,0.15);
+  -webkit-box-shadow: 0px 1px 2px rgba(46,77,91,0.15);
+
+}
+.item-list ul.pager li a { cursor:pointer;}
+.item-list ul.pager li a span, .pager li span span { width:28px; height:28px; position:relative; text-align:center; border:1px solid #e7f2f7; border-bottom-color:#dae8ef; border-top-color:#faffff; font:bold 14px/28px Arial, Helvetica, sans-serif; color:#93a3aa; text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  box-shadow:     inset 0 0 2px rgba(46,77,91,0.05);
+  -moz-box-shadow:   inset 0 0 2px rgba(46,77,91,0.15);
+  -webkit-box-shadow: inset 0 0 2px rgba(46,77,91,0.15);
+
+  background:#e1e6e8;
+  background: -moz-linear-gradient(top, #f2f5f7 0%, #edeff0 5%, #d3dbe0 95%, #d3dee4 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f5f7), color-stop(5%,#edeff0), color-stop(95%,#d3dbe0), color-stop(100%,#d3dee4));
+
+}
+
+.item-list ul.pager li a:hover span { border-color:#dbf2fe; border-bottom-color:#cce3f0; border-top-color:#edffff; color:#7a878c;
+	
+  background:#cedde4;
+  background: -moz-linear-gradient(top, #e1f2f9 0%, #dbe9ef 5%, #c0cfd8 95%, #c3d4de 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e1f2f9), color-stop(5%,#dbe9ef), color-stop(95%,#c0cfd8), color-stop(100%,#c3d4de));
+  
+}
+
+.item-list ul.pager li a:active span, .item-list ul.pager li span span { border-color:#b7e8ff; border-bottom-color:#aad6f2; border-top-color:#c5f9ff; color:#4d798c;
+	
+  background:#cedde4;
+  background: -moz-linear-gradient(top, #bce7fb 0%, #b6dff0 5%, #a1c4d9 95%, #a4c8df 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bce7fb), color-stop(5%,#b6dff0), color-stop(95%,#a1c4d9), color-stop(100%,#a4c8df));
+  
+}
 
 
 
