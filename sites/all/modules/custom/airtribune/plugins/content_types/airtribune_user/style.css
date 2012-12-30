@@ -194,12 +194,12 @@
 .user-menu ul.menu { margin:0; padding:0}
 .user-menu ul li { margin:0; padding:2px 0 3px; display:block;}
 
-/*
-.user-menu ul li.menu-item-730,
-.user-menu ul li.menu-item-731 { background:url(images/menu_extra_bgr.png) repeat 0 0;}
-.user-menu ul li.menu-item-730 { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}
-.user-menu ul li.menu-item-731 { margin-bottom:5px; padding-bottom:7px; border-bottom:1px solid #cfba77}
-*/
+
+.user-menu ul li.user-create-event-link,
+.user-menu ul li.user-my-events-link { background:url(images/menu_extra_bgr.png) repeat 0 0;}
+.user-menu ul li.user-create-event-link { margin-top:5px; padding-top:6px; border-top:1px solid #cfba77}
+.user-menu ul li.user-my-events-link { margin-bottom:5px; padding-bottom:7px; border-bottom:1px solid #cfba77}
+
 
 .user-menu ul li a { color:#4a7990; font:14px/16px Arial, Helvetica, sans-serif; display:block; padding:4px 0 5px 39px; background:url(images/user_menu_icon.png) no-repeat 6px 0; text-shadow:0 1px 1px rgba(255,255,255,1); text-decoration:none;}
 .user-menu ul li a:hover { color:#00aeef;}
