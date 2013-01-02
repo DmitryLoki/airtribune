@@ -569,7 +569,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-14';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_photos';
+    $pane->subtype = 'node:field_contest_photos';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -579,9 +579,6 @@ function pages_feature_default_page_manager_pages() {
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
-        'file_view_mode' => 'default',
-        'image_style' => 'contest_thumbnail',
-        'image_link' => 'file',
         'colorbox_node_style' => 'contest_thumbnail',
         'colorbox_image_style' => '',
         'colorbox_gallery' => 'field_post',
