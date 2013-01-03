@@ -15,7 +15,7 @@ function rules_feature_default_rules_configuration() {
       "REQUIRES" : [ "rules", "og" ],
       "ON" : [ "og_user_insert" ],
       "IF" : [
-        { "data_is" : { "data" : [ "og-membership:type" ], "value" : "competitor" } },
+        { "data_is" : { "data" : [ "og-membership:type" ], "value" : "pg_contestant" } },
         { "user_has_role" : { "account" : [ "account" ], "roles" : { "value" : { "2" : "2" } } } }
       ],
       "DO" : [
