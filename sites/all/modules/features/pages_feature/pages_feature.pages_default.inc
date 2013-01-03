@@ -221,8 +221,8 @@ function pages_feature_default_page_manager_pages() {
       'delta_reversed' => FALSE,
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => '7777777777777777777777',
+      'override_title' => 0,
+      'override_title_text' => '',
       'anchor' => 'flying',
     );
     $pane->cache = array();
