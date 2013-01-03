@@ -10,8 +10,8 @@
 function organic_groups_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'og_membership-competitor-field_paraglider_color'.
-  $fields['og_membership-competitor-field_paraglider_color'] = array(
+  // Exported field: 'og_membership-pg_contestant-field_paraglider_color'.
+  $fields['og_membership-pg_contestant-field_paraglider_color'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -42,7 +42,7 @@ function organic_groups_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'competitor',
+      'bundle' => 'pg_contestant',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -76,8 +76,8 @@ function organic_groups_field_default_fields() {
     ),
   );
 
-  // Exported field: 'og_membership-competitor-field_paraglider_manufacturer'.
-  $fields['og_membership-competitor-field_paraglider_manufacturer'] = array(
+  // Exported field: 'og_membership-pg_contestant-field_paraglider_manufacturer'.
+  $fields['og_membership-pg_contestant-field_paraglider_manufacturer'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -108,7 +108,7 @@ function organic_groups_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'competitor',
+      'bundle' => 'pg_contestant',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -146,8 +146,8 @@ function organic_groups_field_default_fields() {
     ),
   );
 
-  // Exported field: 'og_membership-competitor-field_paraglider_model'.
-  $fields['og_membership-competitor-field_paraglider_model'] = array(
+  // Exported field: 'og_membership-pg_contestant-field_paraglider_model'.
+  $fields['og_membership-pg_contestant-field_paraglider_model'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -178,7 +178,7 @@ function organic_groups_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'competitor',
+      'bundle' => 'pg_contestant',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -216,8 +216,8 @@ function organic_groups_field_default_fields() {
     ),
   );
 
-  // Exported field: 'og_membership-competitor-field_tracker'.
-  $fields['og_membership-competitor-field_tracker'] = array(
+  // Exported field: 'og_membership-pg_contestant-field_tracker'.
+  $fields['og_membership-pg_contestant-field_tracker'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -262,7 +262,7 @@ function organic_groups_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'competitor',
+      'bundle' => 'pg_contestant',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
@@ -405,7 +405,7 @@ function organic_groups_field_default_fields() {
               'status' => 0,
             ),
           ),
-          'membership_type' => 'competitor',
+          'membership_type' => 'pg_contestant',
           'sort' => array(
             'type' => 'none',
           ),

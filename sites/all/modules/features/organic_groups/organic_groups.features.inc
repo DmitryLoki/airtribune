@@ -9,9 +9,9 @@
  */
 function organic_groups_default_og_membership_type() {
   $items = array();
-  $items['competitor'] = entity_import('og_membership_type', '{
-    "name" : "competitor",
-    "description" : "Competitor",
+  $items['pg_contestant'] = entity_import('og_membership_type', '{
+    "name" : "pg_contestant",
+    "description" : "Paragliding Contestant",
     "language" : "",
     "rdf_mapping" : []
   }');

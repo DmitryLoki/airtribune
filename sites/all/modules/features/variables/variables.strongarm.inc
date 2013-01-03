@@ -634,7 +634,7 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_og_membership__competitor';
+  $strongarm->name = 'field_bundle_settings_og_membership__pg_contestant';
   $strongarm->value = array(
     'view_modes' => array(),
     'extra_fields' => array(
@@ -642,7 +642,7 @@ function variables_strongarm() {
       'display' => array(),
     ),
   );
-  $export['field_bundle_settings_og_membership__competitor'] = $strongarm;
+  $export['field_bundle_settings_og_membership__pg_contestant'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
