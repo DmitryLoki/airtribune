@@ -20,6 +20,25 @@ function pg_contest_ctools_plugin_api() {
 function pg_contest_rdf_default_mappings() {
   $schemaorg = array();
 
+  // Exported RDF mapping: field_collection_getting_there
+  $schemaorg['field_collection_item']['field_collection_getting_there'] = array(
+    'field_gt_plane' => array(
+      'predicates' => array(),
+    ),
+    'field_gt_train' => array(
+      'predicates' => array(),
+    ),
+    'field_gt_car' => array(
+      'predicates' => array(),
+    ),
+    'field_gt_bus' => array(
+      'predicates' => array(),
+    ),
+    'field_gt_taxi' => array(
+      'predicates' => array(),
+    ),
+  );
+
   // Exported RDF mapping: pg_contest
   $schemaorg['node']['pg_contest'] = array(
     'rdftype' => array(
@@ -114,6 +133,31 @@ function pg_contest_rdf_default_mappings() {
       ),
     ),
     'field_collection_organizers' => array(
+      'predicates' => array(),
+    ),
+    'title_field' => array(
+      'predicates' => array(),
+    ),
+    'field_contest_rules' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
+    'field_registration_sw' => array(
+      'predicates' => array(),
+    ),
+    'field_open_class' => array(
+      'predicates' => array(),
+    ),
+    'field_fai_category' => array(
+      'predicates' => array(),
+    ),
+    'field_schedule' => array(
+      'predicates' => array(),
+    ),
+    'field_sample_schedule' => array(
+      'predicates' => array(),
+    ),
+    'field_collection_getting_there' => array(
       'predicates' => array(),
     ),
   );
