@@ -583,7 +583,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['path']['label'] = '';
   $handler->display->display_options['fields']['path']['exclude'] = TRUE;
   $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['path']['alter']['text'] = '/event/[nid]/info';
+  $handler->display->display_options['fields']['path']['alter']['text'] = 'event/[nid]/info';
   $handler->display->display_options['fields']['path']['element_type'] = '0';
   $handler->display->display_options['fields']['path']['element_label_type'] = '0';
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
@@ -642,7 +642,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields with markup';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = '[path]';
+  $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'next_event';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Sort criterion: Start date */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
@@ -686,8 +690,8 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('/event/[nid]/info'),
-    t('<a class="next_event" href="[path]"><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span></a>'),
+    t('event/[nid]/info'),
+    t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Content pane'),
     t('more'),
     t('View panes'),
