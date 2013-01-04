@@ -2,7 +2,7 @@
 
 
 define('PILOT_PROFILE_NAME', 'pilot');
-define('CONTEST_MEMBERSHIP_NAME', 'competitor');
+define('CONTEST_MEMBERSHIP_NAME', 'pg_contestant');
 
 
 /**
