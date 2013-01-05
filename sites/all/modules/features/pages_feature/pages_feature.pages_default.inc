@@ -695,16 +695,20 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-17';
     $pane->panel = 'event_brick_left_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_prizes';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => 'Prize funds and scoring categories',
-      'body' => '<img src="/sites/default/files/placeholder/8_Prize.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'above',
+      'formatter' => 'text_default',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -719,16 +723,22 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-18';
     $pane->panel = 'event_brick_left_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_collection_getting_there';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => ' How to get here',
-      'body' => '<img src="/sites/default/files/placeholder/10_How.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'above',
+      'formatter' => 'field_collection_fields',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(
+        'view_mode' => 'full',
+      ),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -743,16 +753,20 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-19';
     $pane->panel = 'event_brick_left_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_downloads';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => 'Download',
-      'body' => '<img src="/sites/default/files/placeholder/12_download.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'title',
+      'formatter' => 'file_default',
+      'delta_limit' => '0',
+      'delta_offset' => '0',
+      'delta_reversed' => 0,
+      'formatter_settings' => array(),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -857,16 +871,22 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-23';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_collection_organizers';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => 'Organizers',
-      'body' => '<img src="/sites/default/files/placeholder/9_Organizers.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'title',
+      'formatter' => 'field_collection_fields',
+      'delta_limit' => '0',
+      'delta_offset' => '0',
+      'delta_reversed' => 0,
+      'formatter_settings' => array(
+        'view_mode' => 'full',
+      ),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
