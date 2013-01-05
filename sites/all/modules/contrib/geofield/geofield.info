@@ -16,6 +16,7 @@ files[] = views/geofield.views.inc
 files[] = views/handlers/geofield_handler_sort.inc
 files[] = views/handlers/geofield_handler_field.inc
 files[] = views/handlers/geofield_handler_filter.inc
+files[] = views/handlers/geofield_handler_argument.inc
 files[] = views/proximity_plugins/geofieldProximityBase.inc
 files[] = views/proximity_plugins/geofieldProximityManual.inc
 files[] = views/proximity_plugins/geofieldProximityGeocoder.inc

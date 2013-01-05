@@ -65,12 +65,11 @@ class geofield_handler_filter extends views_handler_filter_numeric {
   function query() {
     $proximityPlugin = geofield_proximity_load_plugin($this->options['source']);
     $options = $proximityPlugin->getSourceValue($this);
-
     if ($options) {
       $lat_alias = $this->definition['field_name'] . '_lat';
       $lon_alias = $this->definition['field_name'] . '_lon';
       $this->ensure_my_table();
-
+      dpm($this);
       $info = $this->operators();
       if (!empty($info[$this->operator]['method'])) {
         $haversine_options = array(
