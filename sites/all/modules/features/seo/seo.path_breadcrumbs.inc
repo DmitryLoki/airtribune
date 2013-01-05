@@ -68,7 +68,7 @@ function seo_path_breadcrumbs_settings_info() {
       0 => '%site:url',
       1 => '%node:url',
     ),
-    'home' => 0,
+    'home' => 1,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
@@ -178,7 +178,7 @@ function seo_path_breadcrumbs_settings_info() {
       0 => 'events',
       1 => '%node:url',
     ),
-    'home' => 0,
+    'home' => 1,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
@@ -207,6 +207,96 @@ function seo_path_breadcrumbs_settings_info() {
   );
   $path_breadcrumb->weight = -96;
   $export['breadcrumb_pg_contest'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_2';
+  $path_breadcrumb->name = 'BreadCrumb Paragliding Contest 2';
+  $path_breadcrumb->path = 'event/%node';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => '%node:title-field',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => '%node:url',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -96;
+  $export['breadcrumb_pg_contest_2'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_blog';
+  $path_breadcrumb->name = 'BreadCrumb Paragliding Contest Blog';
+  $path_breadcrumb->path = 'event/%node/blog';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => '%node:title-field',
+      2 => 'Blog',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => '%node:url',
+      2 => 'event/%node:nid/blog',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -96;
+  $export['breadcrumb_pg_contest_blog'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -278,6 +368,98 @@ return $match;',
   );
   $path_breadcrumb->weight = -99;
   $export['breadcrumb_pg_contest_current'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_details';
+  $path_breadcrumb->name = 'BreadCrumb Paragliding Contest Details';
+  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => '%node:title-field',
+      2 => 'Details',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => '%node:url',
+      2 => 'event/%node:nid/details',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -96;
+  $export['breadcrumb_pg_contest_details'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_info';
+  $path_breadcrumb->name = 'BreadCrumb Paragliding Contest Info';
+  $path_breadcrumb->path = 'event/%node/info';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => '%node:title-field',
+      2 => 'Information',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => '%node:url',
+      2 => 'event/%node:nid',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -96;
+  $export['breadcrumb_pg_contest_info'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
