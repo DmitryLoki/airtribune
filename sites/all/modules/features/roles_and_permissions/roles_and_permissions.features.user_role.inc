@@ -16,6 +16,12 @@ function roles_and_permissions_user_default_roles() {
     'weight' => '4',
   );
 
+  // Exported role: editor.
+  $roles['editor'] = array(
+    'name' => 'editor',
+    'weight' => '5',
+  );
+
   // Exported role: organizer.
   $roles['organizer'] = array(
     'name' => 'organizer',

@@ -18,7 +18,7 @@ function seo_metatag_export_default() {
         'value' => 'sport',
       ),
       'title' => array(
-        'value' => '[node:title-field] | Paragliding | [site:name]',
+        'value' => '[node:title-field] | [site:slogan]',
       ),
       'description' => array(
         'value' => 'Watch [node:title-field] on-line in 2D and 3D, photo and video. [node:summary]',
@@ -29,15 +29,15 @@ function seo_metatag_export_default() {
     ),
   );
 
-  // Exported Metatag config instance: node:race.
-  $config['node:race'] = array(
-    'instance' => 'node:race',
+  // Exported Metatag config instance: node:pg_race.
+  $config['node:pg_race'] = array(
+    'instance' => 'node:pg_race',
     'config' => array(
       'og:type' => array(
         'value' => 'sport',
       ),
       'title' => array(
-        'value' => '[node:title-field] | [node:og-group-ref:0:title-field] | [site:name]',
+        'value' => '[node:title-field] | [node:og-group-ref:0:title-field] | [site:slogan]',
       ),
       'description' => array(
         'value' => 'Latest news from [node:og-group-ref:0:title-field] on [node:title-field]. Paragliding. [node:summary]',
@@ -56,7 +56,7 @@ function seo_metatag_export_default() {
         'value' => 'hotel',
       ),
       'title' => array(
-        'value' => '[node:title-field] | [site:name]',
+        'value' => '[node:title-field] | [site:slogan]',
       ),
     ),
   );
@@ -66,7 +66,7 @@ function seo_metatag_export_default() {
     'instance' => 'global',
     'config' => array(
       'title' => array(
-        'value' => '[current-page:title] - [site:name]',
+        'value' => '[current-page:title] | [site:slogan]',
       ),
       'description' => array(
         'value' => 'Sports event on-line presentation. Full support with registrations, live tracking, 2D and 3D live view and replay.',
@@ -100,7 +100,7 @@ function seo_metatag_export_default() {
     'instance' => 'user',
     'config' => array(
       'title' => array(
-        'value' => '[user:profile-pilot:field-address:first_name]-[user:profile-pilot:field-address:last_name] | [site:name]',
+        'value' => '[user:profile-pilot:field-address:first_name]-[user:profile-pilot:field-address:last_name] | [site:slogan]',
       ),
       'og:title' => array(
         'value' => '[user:profile-pilot:field-address:first_name] [user:profile-pilot:field-address:last_name]',
@@ -116,7 +116,7 @@ function seo_metatag_export_default() {
     'instance' => 'global:frontpage',
     'config' => array(
       'title' => array(
-        'value' => 'On-line sports events presentation. Paragliding. | [site:name]',
+        'value' => 'Paragliding competition GPS live tracking | [site:name]',
       ),
       'description' => array(
         'value' => 'Create your competition site here! It\'s free! Full support with registrations, live tracking, 2D & 3D live view and replay.',
@@ -134,7 +134,7 @@ function seo_metatag_export_default() {
         'value' => 'website',
       ),
       'og:title' => array(
-        'value' => 'On-line sports events presentation. | [site:name]',
+        'value' => 'On-line sports events presentation. | [site:slogan]',
       ),
       'og:url' => array(
         'value' => '[site:url]',
@@ -147,7 +147,7 @@ function seo_metatag_export_default() {
     'instance' => 'node',
     'config' => array(
       'title' => array(
-        'value' => '[node:title-field] | [site:name]',
+        'value' => '[node:title-field] | [site:slogan]',
       ),
       'description' => array(
         'value' => '[node:summary]',

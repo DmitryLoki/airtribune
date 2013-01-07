@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Main profile feature.
+ */
+
+include_once 'main.features.inc';

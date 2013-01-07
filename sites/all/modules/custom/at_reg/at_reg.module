@@ -1,0 +1,532 @@
+<?php
+
+
+define('PILOT_PROFILE_NAME', 'pilot');
+define('CONTEST_MEMBERSHIP_NAME', 'pg_contestant');
+
+
+/**
+ * Implements hook_menu().
+ */
+function at_reg_menu() {
+  $items = array();
+  $items['contest/%/%/subscribe'] = array(
+    'type' => MENU_CALLBACK,
+    'file' => 'at_reg.pages.inc',
+    'page callback' => 'at_reg_subscribe',
+    'page arguments' => array(1, 2),
+    // Function will take care of permissions, as we want to show "you are
+    // already a member of the group" to group members, however it is not
+    // possible to give authenticated group members the "subscribe" permissions.
+    //'access callback' => 'user_is_logged_in',
+    'access callback' => TRUE,
+
+    // We don't add the group name, as it might be private.
+    'title' => 'Join group'
+  );
+  
+  return $items;
+}
+
+
+/**
+ * Implement hook_field_formatter_info().
+ */
+function at_reg_field_formatter_info() {
+  return array(
+    'at_reg_group_subscribe' => array(
+      'label' => t('AT OG subscribe link'),
+      'field types' => array('list_boolean'),
+      'settings' => array(
+        'field_name' => FALSE,
+      ),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function at_reg_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  global $user;
+
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'at_reg_group_subscribe':
+      $account = clone $user;
+      if (!og_is_group($entity_type, $entity)) {
+        return;
+      }
+
+      if (!empty($entity->uid) && ($entity->uid == $user->uid)) {
+        // User is the group manager.
+        $element[0] = array('#markup' => t('You are the group manager'));
+        return $element;
+      }
+
+      list($id,, $bundle) = entity_extract_ids($entity_type, $entity);
+      if (og_is_member($entity_type, $id, 'user', $account, array(OG_STATE_ACTIVE, OG_STATE_PENDING))) {
+        if (og_user_access($entity_type, $id, 'unsubscribe', $account)) {
+          $links['title'] = t('Unsubscribe from group');
+          $links['href'] = "group/$entity_type/$id/unsubscribe";
+        }
+      }
+      else {
+        if (og_is_member($entity_type, $id, 'user', $account, array(OG_STATE_BLOCKED))) {
+          // If user is blocked, they should not be able to apply for
+          // membership.
+          return;
+        }
+
+        // Check if user can subscribe to the field.
+        if (empty($settings['field_name']) && $audience_field_name = og_get_best_group_audience_field('user', $user->uid, $entity_type, $bundle)) {
+          $settings['field_name'] = $audience_field_name;
+        }
+        if (!$settings['field_name']) {
+          return;
+        }
+
+        $field_info = field_info_field($settings['field_name']);
+
+        // Check if entity is referencable.
+        if ($field_info['settings']['target_type'] != $entity_type) {
+          // Group type doesn't match.
+          return;
+        }
+        if (!empty($field_info['settings']['handler_settings']['target_bundles']) && !in_array($bundle, $field_info['settings']['handler_settings']['target_bundles'])) {
+          // Bundles don't match.
+          return;
+        }
+
+        if (!og_check_field_cardinality('user', $user->uid, $settings['field_name'])) {
+          $element[0] = array('#markup' => format_plural($field_info['cardinality'], 'You are already registered to another group', 'You are already registered to @count groups'));
+          return $element;
+        }
+
+        $url = "contest/$entity_type/$id/subscribe";
+        if ($settings['field_name']) {
+          $url .= '/' . $settings['field_name'];
+        }
+
+        if (og_user_access($entity_type, $id, 'subscribe without approval', $account)) {
+          $links['title'] = t('Subscribe to group');
+          /*
+          if ($account->uid) {
+            $links['href'] = $url;
+          }
+          else {
+            $links['href'] = 'user/login';
+            $links['options'] = array('query' => array('destination' => $url));
+          }
+          */
+          $links['href'] = $url;
+        }
+        elseif (og_user_access($entity_type, $id, 'subscribe')) {
+          $links['title'] = t('Request group membership');
+          /*
+          if ($account->uid) {
+            $links['href'] = $url;
+          }
+          else {
+            $links['href'] = 'user/login';
+            $links['options'] = array('query' => array('destination' => $url));
+          }
+          */
+          $links['href'] = $url;
+        }
+        else {
+          $element[0] =  array('#markup' => t('This is a closed group. Only a group administrator can add you.'));
+          return $element;
+        }
+      }
+
+      if (!empty($links['title'])) {
+        $links += array('options' => array());
+        $element[0] = array(
+          '#type' => 'link',
+          '#title' => $links['title'],
+          '#href' => $links['href'],
+          '#options' => $links['options'],
+        );
+        return $element;
+      }
+      // User didn't have permissions.
+      break;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function at_reg_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  if ($display['type'] == 'at_reg_group_subscribe') {
+    $element['field_name'] = array(
+      '#title' => t('Field name'),
+      '#description' => t('Select the field that should register the user subscription.'),
+      '#type' => 'select',
+      '#options' => array(0 => t('Automatic (best matching)')) + og_get_group_audience_fields('user', 'user'),
+      '#default_value' => $settings['field_name'],
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function at_reg_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  if ($display['type'] != 'at_reg_group_subscribe') {
+    return;
+  }
+
+  if ($settings['field_name']) {
+    $fields = og_get_group_audience_fields();
+    return t('Field %label', array('%label' => $fields[$settings['field_name']]));
+  }
+  else {
+    return t('No field selected (best matching)');
+  }
+
+}
+
+
+// TODO: develop more flexible way to attach profile form.
+// See profile2_form_user_register_form_alter().
+
+
+
+/**
+ * Implements hook_form_alter().
+ */
+function at_reg_form_alter(&$form, &$form_state, $form_id) {
+  
+  global $user;
+  // TODO: all these changes should be performed only for Contest Group.
+  // TODO: add 'Member' role after subscription.
+  // TODO: develop a more flexible system to hide intersecting fields for different MT, profile types and roles
+  // IMPORTANT: 'Field required' and other settings should be the same for both intersecting fields
+  // otherwise do not hide it. Also validation error should be suppressed for hidden fields.
+  
+  $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+              ? TRUE
+              : FALSE;
+  switch($form_id){
+    case 'og_ui_confirm_subscribe' :
+      // Only override when OG subscribe form is used NOT in multiform
+      if(!$multiform) {
+        // Attach Profile form to OG subscription form.
+        // TODO: Data for MT is obtained from Profile.
+        if($user->uid) {
+          $profile_type = PILOT_PROFILE_NAME;
+          $form['#user'] = $user;
+          $form['#user_category'] = $profile_type;
+          if (empty($form_state['profiles'])) {
+            $profile = profile2_load_by_user($form['#user'], $form['#user_category']);
+            if (empty($profile)) {
+              $profile = profile2_create(array('type' => $form['#user_category'], 'uid' => $form['#user']->uid));
+            }
+            $form_state['profiles'][$profile->type] = $profile;
+          }
+          profile2_attach_form($form, $form_state);
+          $form['profile_' . $profile->type]['#weight'] = 10;
+          
+          
+          // Get intersection of field sets in MT and Profile.
+          $fields_intersect = at_reg_fields_intersect($form['#bundle'], $form['profile_' . $profile->type]['#bundle']);
+          foreach($fields_intersect as $field_name) {
+            // Hide Profile fields that are doubled in Membership Type fields.
+            $form['profile_' . $profile->type][$field_name]['#pre_render'][] = 'at_reg_hide_field_pre_render';
+            $lang = $form[$field_name]['#language'];
+            // Copy Profile field values into doubling MT fields.
+            $form[$field_name][$lang] = $form['profile_' . $profile->type][$field_name][$lang];
+            // TODO: hide empty fieldsets
+          }
+          
+          // Save values from MT to Profile, only if it is new.
+          if(!profile2_load_by_user($user, $profile_type)) {
+            array_unshift($form['#submit'], 'at_reg_copy_doubled_values');
+          }
+        }
+      }
+      break;
+    
+    case 'user_register_form' :
+      if($multiform) {
+        // We need after_build since profile2 hook is fired after the current one,
+        // so we can't change it's results here.
+        $form['#after_build'][] = 'at_reg_hide_intersections_after_build';
+        // TODO: fix
+        
+        
+        // IMPORTANT: We suppose that by the moment there no any other group types and group subscriptions.
+        // TODO: Work out notice above.
+        
+        // We can't check for $form_state['input'] here
+        // because it is not executed before validation, since cached form is used.
+        
+        // Get values from $_POST for intersecting fields
+        $profile_type = $profile_type_bundle = PILOT_PROFILE_NAME;
+        $membership_bundle = CONTEST_MEMBERSHIP_NAME;
+        
+        // Profile type could be added through profile2 settings
+        // or could exist after form rebuild (e.g. when ajax callback perfomed).
+        // In this case profile2_attach_form() should attach the profile.
+        if (empty($form_state['profiles'][$profile_type])) {
+          // Temporary store already added profiles in order not to pass again into profile2_attach_form().
+          // See http://drupal.org/node/1209640
+          $form_state_profiles = !empty($form_state['profiles']) ? $form_state['profiles'] : array();
+          $form_state['profiles'] = array();
+          
+          $form_state['profiles'][$profile_type] = profile2_create(array('type' => $profile_type));
+          
+          $profile_type_entity = profile2_type_load($profile_type);
+          profile2_attach_form($form, $form_state);
+          // Wrap each profile form in a fieldset.
+          $form['profile_' . $profile_type] += array(
+            '#type' => 'fieldset', 
+            '#title' => check_plain($profile_type_entity->getTranslation('label')),
+          );
+          
+          // Restore stored profiles.
+          $form_state['profiles'] = $form_state_profiles + $form_state['profiles'];
+        }
+        
+        // Get intersection of field sets in MT and Profile.
+        $fields_intersect = at_reg_fields_intersect($membership_bundle, $profile_type_bundle);
+        
+        // TODO: Maybe add process function via hook_element_info_alter().
+        foreach($fields_intersect as $field) {
+          // TODO: Add #process to intersecting fields.
+          //$form['profile_' . $profile_type]['field_paraglider_manufacturer']['#process'][] = 'at_reg_field_element_process';
+        }
+      }
+      break;
+  }
+  
+  
+  if($multiform) {
+    // $form['#after_build'][] = 'at_reg_multiform_after_build';
+    // Enable cache since some forms like og_ui_confirm_subscribe() are not cached.
+    // We need this to enable simultaneous validation of subforms.
+    // TODO: maybe we don't need this. Check multiform auxilary validation and multiform_process_form_state
+    $form_state['cache'] = TRUE;
+  }
+}
+
+/**
+ * Process double element. Set element values according to it's copy field.
+ * 
+ * TODO: needs more test of security issues. I.e. in case broken data was submitted.
+ */
+function at_reg_field_element_process($element, &$form_state) {
+  // TODO: Implement a more generic solution.
+  $lang = $element['#language'];
+  $field_name = $element[$lang]['#field_name'];
+  if(isset($_POST['multiform']['og_ui_confirm_subscribe_0'][$field_name])) {
+    $value = $_POST['multiform']['og_ui_confirm_subscribe_0'][$field_name];
+    drupal_array_set_nested_value($form_state['input'], $element['#parents'], $value);
+  }
+  return $element;
+}
+
+
+/**
+ * Implements hook_module_implements_alter().
+ * 
+ * We need hook_form_alter() to fire after all fields were already added,
+ * because we need to change current values of intersecting fields.
+ */
+function at_reg_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    $group = $implementations['at_reg'];
+    unset($implementations['at_reg']);
+    $implementations['at_reg'] = $group;
+  }
+}
+
+
+/**
+ * Hide Profile fields if they are present in MT.
+ */
+function at_reg_hide_intersections_after_build($form, $form_state) {
+  $profile_type = $profile_type_bundle = PILOT_PROFILE_NAME;
+  $membership_bundle = CONTEST_MEMBERSHIP_NAME;
+  // Get intersection of field sets in MT and Profile.
+  $fields_intersect = at_reg_fields_intersect($membership_bundle, $profile_type_bundle);
+  foreach($fields_intersect as $field_name) {
+    // Hide Profile fields that are doubled in Membership Type fields.
+    $form['profile_' . $profile_type][$field_name]['#pre_render'][] = 'at_reg_hide_field_pre_render';
+  }
+  return $form;
+}
+
+
+/**
+ * Return list of fields common for MT and Profile.
+ */
+function at_reg_fields_intersect($mt_bundle, $prof_bundle) {
+  $mt_entity = 'og_membership';
+  $prof_entity = 'profile2';
+  
+  $mt_fields = field_info_instances($mt_entity, $mt_bundle);
+  $prof_fields = field_info_instances($prof_entity, $prof_bundle);
+  return array_keys(array_intersect_key($mt_fields, $prof_fields));
+}
+
+// TODO: This will result in error for required fields.
+/**
+ * Hide form element. 
+ */
+function at_reg_hide_field_pre_render($element) {
+  // Maybe '#access' should be used here.
+  //$element['#printed'] = TRUE;
+  return $element;
+}
+
+
+/**
+ * Copy MT submitted values into doubling Profile fields.
+ */
+function at_reg_copy_doubled_values($form, &$form_state) {
+  $fields = field_info_instances($form['#entity_type'], $form['#bundle']);
+  $fields = array_keys($fields);
+  $profile_type = 'profile_' . $form['#user_category'];
+  foreach($form[$profile_type] as $key => $value) {
+    if(in_array($key, $fields)) {
+      $lang = $form[$key]['#language'];
+      $form_state['values'][$profile_type][$key][$lang] = $form_state['values'][$key][$lang];
+    }
+  }
+}
+
+
+/**
+ * Implements hook_multiform_alter().
+ */
+function at_reg_multiform_alter(&$multiform) {
+  $user_register_form_index = multiform_get_index_by_tag($multiform, 'user_register_form');
+  $og_ui_confirm_subscribe_index = multiform_get_index_by_tag($multiform, 'og_ui_confirm_subscribe');
+  
+  // Change execution order and add #after_execute.
+  $multiform['#subforms'][$user_register_form_index]['#weight'] = 1;
+  $multiform['#subforms'][$og_ui_confirm_subscribe_index]['#weight'] = 2;
+  $multiform['#subforms'][$user_register_form_index]['#before_execute'][] = 'at_reg_user_register_before_execute';
+  $multiform['#subforms'][$user_register_form_index]['#after_execute'][] = 'at_reg_user_register_after_execute';
+}
+
+/**
+ * Copy intersecting fields values (for multiform).
+ */
+//
+// function at_reg_user_register_before_execute($form, &$form_state) {
+function at_reg_user_register_before_execute(&$multiform, $index) {
+  // TODO: This part should be moved into $element['#process'] functions via hook_form_alter()
+  // since, as it is done now, data is assigned after validation performed,
+  // so hidden required field don't pass validation.
+  
+  // User register form and form_state
+  $form = $multiform['#subforms'][$index]['form'];
+  $form_state = $multiform['#subforms'][$index]['form_state'];
+  
+  $og_ui_confirm_subscribe_index = multiform_get_index_by_tag($multiform, 'og_ui_confirm_subscribe');
+  
+  $profile_type_bundle = PILOT_PROFILE_NAME;
+  $profile_type = 'profile_' . $profile_type_bundle;
+  $membership_bundle = CONTEST_MEMBERSHIP_NAME;
+  
+  $og_form = $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form'];
+  $og_form_values = $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form_state']['values'];
+  $fields = field_info_instances('og_membership', $membership_bundle);
+  $fields = array_keys($fields);
+  
+  
+  foreach($form[$profile_type] as $key => $value) {
+    if(in_array($key, $fields)) {
+      $lang = $og_form[$key]['#language'];
+      $form_state['values'][$profile_type][$key][$lang] = $og_form_values[$key][$lang];
+    }
+  }
+  
+  $multiform['#subforms'][$index]['form'] = $form;
+  $multiform['#subforms'][$index]['form_state'] = $form_state;
+}
+
+/**
+ * Multiform #after_execute implementation.
+ * 
+ * Executed after registrations form submission
+ * and before OG subscription. Used to pass newly added uid data into $form and $form_state.
+ */
+function at_reg_user_register_after_execute(&$multiform, $index) {
+  // User register form and form_state
+  $form = $multiform['#subforms'][$index]['form'];
+  $form_state = $multiform['#subforms'][$index]['form_state'];
+  // Newly added user uid
+  $uid = $form_state['values']['uid'];
+  $user = user_load($uid);
+  
+  // Changed data used for og_ui_confirm_subscribe() subscription
+  // as if newly added user's $uid was passed into arguments.
+  $og_ui_confirm_subscribe_index = multiform_get_index_by_tag($multiform, 'og_ui_confirm_subscribe');
+  $og_form = $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form'];
+  $og_form_state = $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form_state'];
+  $og_args = $og_form_state['build_info']['args'];
+  
+  $group_type = $og_args[0];
+  $gid = $og_args[1];
+  // Arg in $og_args[2] contains $user data
+  $field_name = $og_args[3];
+  
+  // See og_ui_confirm_subscribe().
+  $values = array('state' => og_user_access($group_type, $gid, 'subscribe without approval') ? OG_STATE_ACTIVE : OG_STATE_PENDING);
+  $og_membership = og_membership_create($group_type, $gid, 'user', $uid, $field_name, $values);
+  $og_form_state['og_membership'] = $og_membership;
+  $og_form_state['build_info']['args'][2] = $user;
+  $og_form['#entity'] = $og_membership;
+  
+  if (og_user_access($group_type, $gid, 'subscribe without approval')) {
+    // Hide the user request field.
+    if (!empty($form[OG_MEMBERSHIP_REQUEST_FIELD])) {
+      $form[OG_MEMBERSHIP_REQUEST_FIELD]['#access'] = FALSE;
+    }
+  }
+  
+  $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form'] = $og_form;
+  $multiform['#subforms'][$og_ui_confirm_subscribe_index]['form_state'] = $og_form_state;
+}
+
+/**
+ * Implements hook_multiform_crossfields().
+ */
+function at_reg_multiform_crossfields($multiform) {
+  $items = array();
+  
+  if ($multiform['#multiform_id'] == 'contest_registration_multiform') {
+    
+    $items[] = array(
+      '#base' => array(
+        '#tag' => 'og_ui_confirm_subscribe',
+        '#name' => 'field_paraglider_manufacturer',
+        '#parents' => array('field_paraglider_manufacturer'),
+        '#array_parents' => array('field_paraglider_manufacturer'),
+      ),
+      '#dependent' => array(
+        '#tag' => 'user_register_form',
+        '#name' => 'field_paraglider_manufacturer',
+        '#parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
+        '#array_parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
+      ),
+    );
+  }
+  //dsm($items);
+  return $items;
+}

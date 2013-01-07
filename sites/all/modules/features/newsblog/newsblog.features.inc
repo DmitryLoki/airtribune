@@ -13,20 +13,3 @@ function newsblog_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
-
-/**
- * Implements hook_node_info().
- */
-function newsblog_node_info() {
-  $items = array(
-    'newsblog' => array(
-      'name' => t('Blog'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}

@@ -1,13 +1,139 @@
 <?php
-/*function airtribune_entity_info() {
-  $info['profile2'] = array(
-    'translation' => array(
-      'entity_translation' => array(
-        'base path' => 'profile-pilot/%profile2_by_uid',
-        'class' => 'AirtribuneTranslationDefaultHandler',
-        'path wildcard' => '%profile2_by_uid',
-      ),
+
+/**
+ * @file
+ * Common functions that many Airtribune modules will need to reference.
+ */
+
+define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
+define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
+define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
+define('AIRTRIBUNE_OPENCLASS_FIELD', 'field_open_class');
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function airtribune_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function airtribune_theme() {
+  return array(
+    'airtribune_user_pane' => array(
+      'template' => 'airtribune-user-pane',
+      'path' => drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user',
+      'file' => 'airtribune_user.inc',
+      'render element' => 'elements',
     ),
-  ); 
-  return $info;
-}*/
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function airtribune_field_formatter_info() {
+  return array(
+    'adapitve_dates' => array(
+      'label' => t('Adaptive'),
+      'field types' => array('datetime'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * @see #23667
+ */
+function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  foreach ($items as $delta => $item) {
+    $date1 = getdate($ts1 = strtotime($item['value']));
+    $date2 = getdate($ts2 = strtotime($item['value2']));
+
+    // 23 Dec, 2012 — 5 Jan, 2013
+    if ($date1['year'] != $date2['year']) {
+      $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
+    }
+    // 28 Aug — 3 Sep, 2012
+    elseif ($date1['mon'] != $date2['mon']) {
+      $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
+    }
+    // 24 — 26 Aug, 2012
+    else {
+      $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
+    }
+    $element[$delta] = array('#markup' => $dates);
+  }
+  return $element;
+}
+
+/**
+ * Format user name.
+ *
+ * @see #2370
+ *
+ * @param object $account
+ *   The account object for the user whose name is to be formatted.
+ *
+ * @return string
+ *   An sanitized string with the given name and family to display.
+ */
+function airtrubune_format_username($account) {
+
+  // Put login as fallback user name.
+  $user_name = $account->name;
+
+  if ($profile = profile2_load_by_user($account, AIRTRIBUNE_USER_MAIN_PROFILE)) {
+    $name_items = field_get_items('profile2', $profile, AIRTRIBUNE_USER_FULLNAME_FIELD);
+    if (isset($name_items[0]['given'], $name_items[0]['family'])) {
+      $given = $name_items[0]['given'];
+      $family = $name_items[0]['family'];
+
+      $user_name = $given . ' ' . $family;
+      if (drupal_strlen($user_name) > 15) {
+        $user_name = $given . ' ' . truncate_utf8($family, 1) . '.';
+      }
+      if (drupal_strlen($user_name) > 15) {
+        $user_name = truncate_utf8($given, 12, TRUE, TRUE);
+      }
+
+    }
+  }
+
+  return check_plain($user_name);
+}
+
+/**
+ * Returns a country code from a locate that is provided.
+ */
+function airtrubune_get_country_code($langcode) {
+  $country_codes = array(
+    'en' => 'us',
+    'ja' => 'jp',
+    'pt-br' => 'br',
+    'fa' => 'pr',
+    'sr' => 'rs',
+    'el' => 'gr',
+    'sl' => 'si',
+  );
+  return isset($country_codes[$langcode]) ? $country_codes[$langcode] : $langcode;
+}
+
+/**
+ * Implements hook_preprocess_panels_pane().
+ *
+ * @see #2247
+ */
+function airtribune_preprocess_panels_pane(&$vars) {
+  if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
+    $vars['more'] = l(t('View more'), 'event/' . $vars['display']->args[0] . '/details', array('fragment' => $vars['pane']->configuration['more']));
+  }
+  elseif (isset($vars['pane']->configuration['anchor'])) {
+    $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
+  }
+}

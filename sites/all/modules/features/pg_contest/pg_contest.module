@@ -16,7 +16,7 @@ function pg_contest_node_info() {
       'name' => t('Paragliding Contest'),
       'base' => 'pg_contest',
       'description' => '',
-      'has_title' => TRUE,
+      'has_title' => '1',
       'title_label' => t('Name'),
       'help' => '',
     ),
@@ -42,13 +42,11 @@ function pg_contest_form($node, $form_state) {
  * @param $node
  *   The node that is being created.
  */
-/*function pg_contest_insert($node) {
+function pg_contest_insert($node) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
     pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
-}*/
-
-/**
+}
  * Implementation of hook_update
  * @param type $node
  * @see og_membership_delete_by_group()
@@ -82,6 +80,9 @@ function pg_contest_update($node) {
       pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0]['fid'], $node->nid);
     }
   }
+  
+  // Create aliases
+  _pg_contest_create_alias($node);
 }
 
 /**
@@ -160,5 +161,54 @@ function pg_contest_create_points($fid, $nid) {
     $point = entity_create('ent_point', $values);
     $point->save();
     og_group('node', $nid, array('entity_type' => 'ent_point', 'entity' => $point))->save();
+  }
+}
+
+/**
+ * Create contest alias.
+ * @author Alexandr Kapelshikov
+ */
+function _pg_contest_create_alias($node) {
+  module_load_include('inc', 'pathauto');
+  if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
+    $nid = $node->nid;
+    $alias_base = pathauto_cleanstring($node->title);
+    // Remove existing alises.
+    foreach (array("event/$nid/info", "event/$nid/details") as $source) {
+      $criteria = path_load($source);
+      if (!empty($criteria)) {
+        $criteria = array('source' => $criteria['source']);
+        path_delete($criteria);
+      }
+    }
+    $aliases = array(
+      $alias_base => "event/$nid/info",
+      $alias_base . '/info' => "event/$nid/info",
+      $alias_base . '/details' => "event/$nid/details",
+    );
+    // Save aliases.
+    foreach ($aliases as $alias => $source) {
+      $path = array('source' => $source, 'alias' => $alias);
+      path_save($path);
+    }
+  }
+}
+
+/**
+ * Delete contest alias.
+ * @author Alexandr Kapelshikov
+ */
+function _pg_contest_delete_alias($node) {
+  module_load_include('inc', 'pathauto');
+  if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
+    $nid = $node->nid;
+    // Remove existing alises.
+    foreach (array("event/$nid/info", "event/$nid/details") as $source) {
+      $criteria = path_load($source);
+      if (!empty($criteria)) {
+        $criteria = array('source' => $criteria['source']);
+        path_delete($criteria);
+      }
+    }
   }
 }

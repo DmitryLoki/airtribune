@@ -1,0 +1,337 @@
+<?php
+
+/**
+ * @file
+ * This is an API module which lets you put several forms into one <form>.
+ *
+ */
+
+define('DEFAULT_MULTIFORM_ID', 'multiform');
+
+function multiform_menu() {
+  $items['multiform/ajax'] = array(
+   'title' => 'AHAH callback', 
+    'page callback' => 'multiform_ajax_form_callback', 
+    'delivery callback' => 'ajax_deliver', 
+    'access callback' => TRUE, 
+    'theme callback' => 'ajax_base_page_theme', 
+    'type' => MENU_CALLBACK,
+    'file' => 'multiform.ajax.inc',
+  );
+  return $items;
+}
+
+/**
+ * Returns a form containing a number of other forms.
+ *
+ * When the forms are submitted their first button is pressed in array order.
+ * Make sure you rearrange the buttons in your form accordingly in a form_alter
+ * when using this function.
+ *
+ * @param ...
+ *   Every argument is a list of arguments to be passed to drupal_get_form.
+ *   For example, if the first form is called as
+ *   drupal_get_form($form_id1, $arg1, $arg2); and
+ *   the second as drupal_get_form($form_id2, $arg3, $arg4) call
+ *   multiform_get_form(array($form_id1, $arg1, $arg2), array($form_id2, $arg3, $arg4)).
+ */
+function multiform_get_form() {
+  module_load_include('inc', 'multiform');
+  
+  // Trigger multiform_element_info_alter() to replace ajax_process_form()
+  // with multiform specific multiform_ajax_process_form().
+  // We need it here for the case when subform is retrieved from cache
+  // and multiform_form_alter() isn't fired.
+  is_multiform_page(TRUE);
+  
+  $all_args = func_get_args();
+  // Prepare $multiform array
+  $multiform = multiform_init_settings($all_args);
+  $unprocessed_multiform = $multiform;
+  // Invoke hook_multiform_alter(&$multiform).
+  // It can be used to change execution order or to pass results
+  // of one form processing into another form via
+  // changing $multiform['#subforms'][$index]['form_state'].
+  foreach (module_implements('multiform_alter') as $module) {
+    $function = $module . '_multiform_alter';
+    $function($multiform);
+  }
+  multiform_crossfields_process($unprocessed_multiform);
+  $form = element_info('form');
+  $form['#id'] = 'multiform';
+  $form['#attributes'] = array();
+  // We need a $form_id so that the submission of other forms (like search) do
+  // not disturb us.
+  $form['form_id'] = array(
+    '#type' => 'hidden',
+    '#value' => 'multiform',
+    '#id' => drupal_html_id("edit-multiform"),
+    '#name' => 'form_id',
+    '#attributes' => array(),
+  );
+  $build_id = 'form-' . md5(uniqid(mt_rand(), TRUE));
+  // We need a $form_build_id because the buttons are cached and the values
+  // belonging to them in $_POST are handed to each form so those can recognize
+  // the buttons pressed.
+  $form['form_build_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $build_id,
+    '#id' => $build_id,
+    '#name' => 'form_build_id',
+    '#attributes' => array(),
+  );
+  // This is where buttons will be collected.
+  $form['buttons'] = array();
+  $form['buttons']['#weight'] = 1000;
+  $form_state_save = array();
+  $button_names = array();
+  // The only way to support $_GET would be to accept $form_state. Maybe later.
+  if ($_POST && $_POST['form_id'] == 'multiform' && !empty($_POST['form_build_id'])) {
+    $form_state_save['input'] = $_POST;
+    $_files_save = $_FILES;
+    // Retrieve buttons.
+    if ($button_elements = form_get_cache($_POST['form_build_id'], $form_state_save)) {
+      foreach ($button_elements as $button) {
+        // For each button, save it's name. Later on we will need the button
+        // names because the buttons are used in the multiform but their values
+        // in $_POST (if it exists) needs to be handed down to each form so
+        // those can recognize the button press.
+        $name = isset($button_elements['#name']) ? $button_elements['#name'] : 'op';
+        $button_names[$name] = $name;
+      }
+    }
+  }
+  // Get all subforms
+  $subforms = $multiform['#subforms'];
+  foreach ($subforms as $index => $subform) {
+    $key = $subform['key'];
+    $args = $subform['args'];
+    $form_id = $subform['form_id'];
+    // Reset $form_state and disable redirection.
+    $form_state = array('no_redirect' => TRUE);
+    // Add multiform ID. It is used in hook_form_alter() to detect subforms.
+    $form_state['multiform_id'] = $multiform['#multiform_id'];
+    $form_state['multiform_index'] = $index;
+    // We may need multiform structure, e.g. in case when crossfields are used.
+    $form_state['multiform'] = $unprocessed_multiform;
+    // This line is copied literally from drupal_get_form().
+    $form_state['build_info']['args'] = $args;
+    if (isset($form_state_save['input']['multiform'][$index])) {
+      // drupal_build_form() honors our $form_state['input'] setup.
+      $form_state['input'] = $form_state_save['input']['multiform'][$index];
+      // Pass in the information about pressed buttons too.
+      foreach ($button_names as $name) {
+        if (isset($form_state_save['input'][$name])) {
+          $form_state['input'][$name] = $form_state_save['input'][$name];
+        }
+      }
+    }
+    if (isset($_files_save['multiform']['name'][$index])) {
+      $_FILES = array();
+      foreach (array('name', 'type', 'tmp_name', 'error', 'size') as $files_key) {
+        // PHP is seriously messed up, dude.
+        foreach ($_files_save['multiform'][$files_key][$index] as $running_out_of_indexes => $data) {
+          $_FILES[$running_out_of_indexes][$files_key] = $data;
+        }
+      }
+    }
+    
+    // Build and process this form.
+    // Auxilary validation is called. $form_state['#restore_values'] added.
+    $current_form = drupal_build_form($form_id, $form_state);
+    // At this point auxilary validation has already fired (if set).
+    // Prepare data for delayed submit if needed.
+    multiform_delayed_submit_prepare($multiform, $current_form, $form_state, $index);
+    
+    // Do not render the <form> tags. Instead we render the <form> as a <div>.
+    $current_form['#theme_wrappers'] = array('container');
+    _multiform_get_form($current_form, $form['buttons'], $index);
+    // Unset any attributes specifics to form tags.
+    $disallowed_attributes = array('enctype', 'action', 'method');
+    $current_form['#attributes'] = array_diff_key($current_form['#attributes'], array_flip($disallowed_attributes));
+    $form['multiform'][$index] = $current_form;
+    if (isset($form_state['has_file_element'])) {
+      $form['#attributes']['enctype'] = 'multipart/form-data';
+    }
+  }
+  // Execute submit handlers and other required operations.
+  multiform_delayed_submit_execute($multiform);
+  
+  // Set form redirect.
+  // Keep the redirect from the first form.
+  foreach ($multiform['#subforms'] as $subform) {
+    if ($subform['key'] == 0 && isset($subform['form_state']['redirect'])) {
+      $multiform['#redirect_array']['redirect'] = $subform['form_state']['redirect']
+                                              ? $subform['form_state']['redirect']
+                                              : array();
+      break;  
+    }
+  }
+  $cache = $form['buttons'];
+  // We need multiform stracture in case crossfields used with ajax.
+  $cache['#multiform'] = $unprocessed_multiform;
+  form_set_cache($build_id, $cache, $form_state_save);
+  if (!empty($form_state_save['input'])) {
+    // We forced $form_state['no_redirect'] to TRUE above, so unset it in order
+    // to allow the redirection to proceed.
+    unset($multiform['#redirect_array']['no_redirect']);
+    if ($multiform['#redirect'] == TRUE) {
+      drupal_redirect_form($multiform['#redirect_array']);
+    }
+  }
+  return $form;
+}
+
+/**
+ * Recursive helper for multiform_get_form().
+ */
+function _multiform_get_form(&$element, &$buttons, $form_id) {
+  // Recurse.
+  foreach (element_children($element) as $key) {
+    _multiform_get_form($element[$key], $buttons, $form_id);
+  }
+  // Save but do not display buttons. Note that this is done before the #name
+  // is changed. This way the buttons belong to the top form and their values
+  // can be handed to each form.
+  if (isset($element['#button_type'])) {
+    $buttons[$element['#value']] = $element;
+    $element['#access'] = FALSE;
+  }
+  // By only changing $element['#name'] form API is not affected but the
+  // browser will put the element values into _POST where multiform_get_form
+  // expects them.
+  elseif (isset($element['#name'])) {
+    // If the name was op then we want multiform[$form_id][op]. If it was
+    // foo[bar] then we want multiform[$form_id][foo][bar].
+    $element['#name'] = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $element['#name']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ * 
+ * Add an after_build that would add an auxilary validation.
+ */
+function multiform_form_alter(&$form, &$form_state, $form_id) {
+  
+  // Check whether current form is a subform.
+  if (isset($form_state['multiform_id'])) {
+    // We need after_build function to add auxilary validation function, that
+    // should be last in the list.
+    // For the same purpose hook_module_implements_alter() is implemented.
+    $form['#after_build'][] = 'multiform_after_build';
+    
+    // Trigger multiform_element_info_alter() to replace ajax_process_form() with
+    // multiform specific multiform_ajax_process_form().
+    // We need it here for subform rebuild when ajax submit is done.
+    is_multiform_page(TRUE);
+  }
+}
+
+/**
+ * Add validation function that would delay execution of submit handlers.
+ */
+function multiform_after_build($form, $form_state) {
+  multiform_crossfields_process(NULL, $form, $form_state);
+  $form['#validate'][] = 'multiform_delay_auxilary_validate';
+  return $form;
+}
+
+/**
+ * Auxilary validation function.
+ * Should be listed last in the list of all form validation functions
+ * in order to prevent further processing.
+ */
+function multiform_delay_auxilary_validate($form, &$form_state) {
+  // Set $form_state['submitted'] value to FALSE.
+  // And possibly perform other changes. See  multiform_process_form_state().
+  multiform_process_form_state('modify', $form_state);
+}
+
+// TODO: Also we should change module's weight in order this implementation
+// to be called last, since other modules could
+// implement hook_module_implements_alter() too.
+
+/**
+ * Implements hook_module_implements_alter().
+ * 
+ * Hooks multiform_module_implements_alter() and multiform_form_alter() should be
+ * executed last amongst other modules' implementations.
+ */
+function multiform_module_implements_alter(&$implementations, $hook) {
+  if (!isset($implementations['multiform'])) {
+    return;
+  }
+  if ($hook == 'form_alter') {
+    $group = $implementations['multiform'];
+    unset($implementations['multiform']);
+    $implementations['multiform'] = $group;
+  }
+  // Used to override system_element_info() for multiform ajax purposes.
+  elseif ($hook == 'element_info') {
+    $group = $implementations['multiform'];
+    unset($implementations['multiform']);
+    $implementations['multiform'] = $group;
+  }
+}
+
+/**
+ * Implements hook_element_info_alter().
+ * 
+ * Replace ajax_process_form() #process for elements.
+ */
+function multiform_element_info_alter(&$type) {
+  // Alter element info only for multiform pages.
+  if (is_multiform_page()) {
+    module_load_include('inc', 'multiform', 'multiform.ajax');
+    foreach ($type as $key => $data) {
+      if (isset($data['#process'])) {
+        if (is_array($data['#process'])) {
+          foreach ($data['#process'] as $id => $function) {
+            if ($function == 'ajax_process_form') {
+              $type[$key]['#process'][$id] = 'multiform_ajax_process_form';
+            }
+          }
+        }
+        elseif ($data['#process'] == 'ajax_process_form') {
+          $type[$key]['#process'] = 'multiform_ajax_process_form';
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Set flag for multiform_element_info(). 
+ */
+// TODO: We need to set $status to FALSE and reset 'element_info' again
+// in order not affect other forms that do not use multiform.
+function is_multiform_page($status = NULL) {
+  static $stored_status = FALSE;
+  if ($status) {
+    // Reset element_info only once.
+    if (!$stored_status) {
+      drupal_static_reset('element_info');
+    }
+    $stored_status = $status;
+  }
+  return $stored_status;
+}
+
+function multiform_crossfields_process($multiform, &$form = NULL, &$form_state = NULL) {
+  module_load_include('inc', 'multiform', 'multiform.crossfields');
+  if ($multiform) {
+    $crossfields_info = multiform_crossfields_info($multiform);
+    
+    //dsm($crossfields_info);
+    if (!empty($_POST)) {
+      multiform_crossfields_set_post_values($multiform, $crossfields_info);
+    }
+  }
+  elseif (!$multiform && !empty($form) && isset($form_state['multiform'])) {
+    $multiform = $form_state['multiform'];
+    $crossfields_info = multiform_crossfields_info($multiform);
+    multiform_crossfields_hide_elements($multiform, $crossfields_info, $form, $form_state);
+  }
+  
+}

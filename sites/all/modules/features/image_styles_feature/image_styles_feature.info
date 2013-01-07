@@ -1,0 +1,14 @@
+name = Image styles feature
+description = Image styles feature
+core = 7.x
+package = Other
+php = 5.2.4
+dependencies[] = image
+features[features_api][] = api:1
+features[image][] = contest_thumbnail
+features[image][] = node_image_first
+features[image][] = node_image_second
+features[image][] = node_image_third
+features[image][] = node_userpic
+features[image][] = race_teaser
+features[image][] = user_pirctue_mini
