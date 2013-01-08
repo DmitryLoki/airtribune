@@ -238,11 +238,11 @@ function filefield_paths_entity_update($entity, $type) {
               }
               $files[] = &$file;
             }
-            // Invoke hook_filefield_paths_process_file().
-            foreach (module_implements('filefield_paths_process_file') as $module) {
-              if (function_exists($function = "{$module}_filefield_paths_process_file")) {
-                $function($type, $entity, $field, $instance, $langcode, $files);
-              }
+          }
+          // Invoke hook_filefield_paths_process_file().
+          foreach (module_implements('filefield_paths_process_file') as $module) {
+            if (function_exists($function = "{$module}_filefield_paths_process_file")) {
+              $function($type, $entity, $field, $instance, $langcode, $files);
             }
           }
         }
@@ -257,7 +257,6 @@ function filefield_paths_entity_update($entity, $type) {
       $entity->revision = FALSE;
     }
     // Save any changes back to the database.
-    $entity->original = isset($entity->original) ? $entity->original : NULL;
     field_attach_update($type, $entity);
     if (isset($entity->revision)) {
       // Restore revision flag so that other modules can process it if needed.
@@ -271,7 +270,7 @@ function filefield_paths_entity_update($entity, $type) {
  */
 function filefield_paths_file_presave($file) {
   // Store original filename in the database.
-  if (empty($file->origname) && isset($file->filename)) {
+  if (empty($file->origname)) {
     $file->origname = $file->filename;
   }
 }
@@ -281,14 +280,14 @@ function filefield_paths_file_presave($file) {
  */
 function _filefield_paths_replace_path($old, $new, $entity) {
   // Build regular expression.
-  $info = parse_url(file_stream_wrapper_uri_normalize($old));
+  $info = parse_url($old);
   $info['path'] = !empty($info['path']) ? $info['path'] : '';
   $absolute = str_replace("{$info['host']}{$info['path']}", '', file_create_url($old));
   $relative = parse_url($absolute, PHP_URL_PATH);
   $regex = str_replace('/', '\/', "({$absolute}|{$relative}|{$info['scheme']}://)(styles/.*?/{$info['scheme']}/|)({$info['host']}{$info['path']})");
 
   // Build replacement.
-  $info = parse_url(file_stream_wrapper_uri_normalize($new));
+  $info = parse_url($new);
   $info['path'] = !empty($info['path']) ? $info['path'] : '';
   $replacement = "_filefield_paths_replace_path_uri_scheme('\\1', '{$old}', '{$new}') . '\\2{$info['host']}{$info['path']}'";
 

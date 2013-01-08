@@ -46,29 +46,15 @@ function pg_contest_insert($node) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
     pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
-  
-  // Create aliases
-  _pg_contest_create_alias($node);
 }
-
-/**
- * Implementation of hook_insert
- * @param $node
- *   The node that is being created.
- */
-function pg_contest_delete($node) {
-  // Delete aliases
-  _pg_contest_delete_alias($node);
-}
-
-/**
- * Implementation of hook_update
+ 
+/* Implementation of hook_update
  * @param type $node
  * @see og_membership_delete_by_group()
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_update($node) {
-  if ($node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
+  if (isset($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
     if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
       //remove old points and og memberships
       $query = new EntityFieldQuery();
@@ -92,7 +78,7 @@ function pg_contest_update($node) {
     }
     if (isset($node->field_points_file[LANGUAGE_NONE])) {
       //create new points and subscribe them to group 
-      pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
+      pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0]['fid'], $node->nid);
     }
   }
   
@@ -105,7 +91,7 @@ function pg_contest_update($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_validate($node, $form, &$form_state) {
-  if (isset($node->field_points_file[LANGUAGE_NONE][0]) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
+  if (isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
     $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
     $file_string = file_get_contents($file->uri);
     $strings = preg_split('/\v/', $file_string);
