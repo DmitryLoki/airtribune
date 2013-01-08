@@ -6,6 +6,7 @@ php = 5.2
 files[] = translation.handler.inc
 
 dependencies[] = profile2
+dependencies[] = field_collection
 dependencies[] = name
 
 ; Airtrubune user plugin requirements.
