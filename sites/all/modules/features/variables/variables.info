@@ -9,6 +9,7 @@ dependencies[] = strongarm
 features[ctools][] = path_breadcrumbs:path_breadcrumbs:1
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
+features[path_breadcrumbs][] = breadcrumb_basic_page
 features[path_breadcrumbs][] = breadcrumb_race
 features[variable][] = additional_settings__active_tab_accommodation
 features[variable][] = additional_settings__active_tab_advert

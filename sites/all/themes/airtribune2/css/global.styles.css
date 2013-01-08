@@ -2599,10 +2599,11 @@ p { margin:0; padding:9px 0 11px}
 .page-node .node ul { padding-left:15px}
 .page-node .node .links { padding-left:0;}
 
-.page-node .node .field-name-field-image { margin:0 -2px 0 -18px;}
+.page-node .node .field-name-field-image { margin:0 -2px 70px -3px; padding-top:10px}
 .page-node .node .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
-.page-node .node .field-name-field-image .field-item { float:left; margin:0 0 18px 18px}
-.page-node .node .field-name-field-image .field-item img { vertical-align:middle; border:1px solid #c8d0d3;}
+.page-node .node .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
+.page-node .node .field-name-field-image .field-item img { vertical-align:middle; /*border:1px solid #c8d0d3;*/}
+/*.page-node .node ul { margin-left:20px; margin-bottom:11px}*/
 
 .item-list ul.pager { padding:15px 0 0;}
 .item-list ul.pager li { padding:0; margin:0 2px;}

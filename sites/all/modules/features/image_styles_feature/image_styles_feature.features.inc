@@ -58,7 +58,7 @@ function image_styles_feature_image_default_styles() {
   $styles['node_image_second'] = array(
     'name' => 'node_image_second',
     'effects' => array(
-      3 => array(
+      2 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -68,7 +68,7 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '340',
+          'width' => '349',
           'height' => '230',
         ),
         'weight' => '1',
@@ -80,7 +80,7 @@ function image_styles_feature_image_default_styles() {
   $styles['node_image_third'] = array(
     'name' => 'node_image_third',
     'effects' => array(
-      4 => array(
+      3 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -90,7 +90,7 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '220',
+          'width' => '232',
           'height' => '150',
         ),
         'weight' => '1',

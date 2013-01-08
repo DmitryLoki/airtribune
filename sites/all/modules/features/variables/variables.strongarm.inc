@@ -884,7 +884,9 @@ function variables_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_expanded';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
   $export['menu_expanded'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -925,25 +927,26 @@ function variables_strongarm() {
     30 => 31,
     31 => 30,
     32 => 29,
-    33 => 27,
+    33 => 28,
     34 => 24,
-    35 => 22,
-    36 => 21,
-    37 => 19,
-    38 => 15,
-    39 => 14,
-    40 => 13,
-    41 => 12,
-    42 => 11,
-    43 => 10,
-    44 => 9,
-    45 => 8,
-    46 => 7,
-    47 => 6,
-    48 => 5,
-    49 => 3,
-    50 => 2,
-    51 => 1,
+    35 => 23,
+    36 => 22,
+    37 => 21,
+    38 => 19,
+    39 => 15,
+    40 => 14,
+    41 => 13,
+    42 => 12,
+    43 => 11,
+    44 => 10,
+    45 => 9,
+    46 => 8,
+    47 => 7,
+    48 => 6,
+    49 => 5,
+    50 => 3,
+    51 => 2,
+    52 => 1,
   );
   $export['menu_masks'] = $strongarm;
 

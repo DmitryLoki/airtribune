@@ -12,6 +12,48 @@ function variables_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_basic_page';
+  $path_breadcrumb->name = 'Basic Page';
+  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => '%node:title',
+    ),
+    'paths' => array(
+      0 => '%node:url',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'page' => 'page',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -100;
+  $export['breadcrumb_basic_page'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_race';
   $path_breadcrumb->name = 'BreadCrumb Race';
   $path_breadcrumb->path = 'node/%node';
