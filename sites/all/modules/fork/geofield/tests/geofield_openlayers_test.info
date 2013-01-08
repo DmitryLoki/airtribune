@@ -1,0 +1,10 @@
+name = "Geofield/Openlayers Integration tests"
+description = "Integration tests for Geofield and Openlayers"
+core = 7.x
+hidden = TRUE
+package = Testing
+
+dependencies[] = geofield
+dependencies[] = openlayers
+
+files[] = geofield_openlayers.test
