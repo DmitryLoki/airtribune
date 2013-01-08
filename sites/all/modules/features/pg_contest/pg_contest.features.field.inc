@@ -698,7 +698,7 @@ function pg_contest_field_default_fields() {
       'label' => 'Awards photos',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 1,
+        'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
         'file_directory' => '',

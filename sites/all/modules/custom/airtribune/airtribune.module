@@ -133,7 +133,11 @@ function airtrubune_get_country_code($langcode) {
  */
 function airtribune_preprocess_panels_pane(&$vars) {
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
-    $vars['more'] = l(t('View more'), 'event/' . $vars['display']->args[0] . '/details', array('fragment' => $vars['pane']->configuration['more']));
+    $vars['more'] = l(
+      $vars['pane']->configuration['more']['title'],
+      'event/' . $vars['display']->args[0] . '/details',
+      array('fragment' => $vars['pane']->configuration['more']['fragment'])
+    );
   }
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
