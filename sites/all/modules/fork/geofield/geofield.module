@@ -206,16 +206,18 @@ function geofield_validate_geom($item) {
   if (is_string($item)) {
     try {
       $values = geofield_compute_values($item);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       return $e;
     }
   }
   else {
     try {
-     $values = geofield_compute_values($item['geom'], $item['input_format']);
+      $input_format = !empty($item['input_format']) ? $item['input_format'] : NULL;
+      $values = geofield_compute_values($item['geom'], $input_format);
     }
     catch (Exception $e) {
-     return $e;
+      return $e;
     }
   }
   return NULL;
@@ -229,27 +231,32 @@ function geofield_validate_geom($item) {
  *  If empty, return TRUE
  */
 function geofield_geom_is_empty($item) {
-  switch ($item['input_format']) {
-    case 'wkt':
-      if (!$item['geom']) {
-        return TRUE;
-      }
-      break;
-    case 'lat/lon':
-      if (empty($item['geom']['lat']) || empty($item['geom']['lon'])) {
-        return TRUE;
-      }
-      break;
-    case 'bounds':
-      if (empty($item['geom']['top']) || empty($item['geom']['right']) || empty($item['geom']['bottom']) || empty($item['geom']['left'])) {
-        return TRUE;
-      }
-      break;
-    case 'json':
-      if (empty($item['geom'])) {
-        return TRUE;
-      }
-      break;
+  if (!empty($item['input_format'])) {
+    switch ($item['input_format']) {
+      case 'wkt':
+        if (!$item['geom']) {
+          return TRUE;
+        }
+        break;
+      case 'lat/lon':
+        if (empty($item['geom']['lat']) || empty($item['geom']['lon'])) {
+          return TRUE;
+        }
+        break;
+      case 'bounds':
+        if (empty($item['geom']['top']) || empty($item['geom']['right']) || empty($item['geom']['bottom']) || empty($item['geom']['left'])) {
+          return TRUE;
+        }
+        break;
+      case 'json':
+        if (empty($item['geom'])) {
+          return TRUE;
+        }
+        break;
+    }
+  }
+  else {
+    return empty($item['geom']);
   }
 }
 
@@ -266,7 +273,9 @@ function geofield_field_presave($entity_type, $entity, $field, $instance, $langc
     // We then pass the geometry object (now stored in the geom column) to the backend to prepare it for insertion into the database
     foreach ($items as $delta => $item) {
       $items[$delta] = geofield_compute_values($item);
-      $items[$delta]['geom'] = $save_callback($items[$delta]['geom']);
+      if ($items[$delta]['geom']) {
+        $items[$delta]['geom'] = $save_callback($items[$delta]['geom']);
+      }
     }
   }
 }
