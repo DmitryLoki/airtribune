@@ -32,7 +32,7 @@ class geofieldProximityGeocoder extends geofieldProximityBase implements geofiel
       '#type' => 'select',
       '#title' => t('Geocoding Service'),
       '#options' => $geocoder_options,
-      '#default_value' => $this->options['geofield_proximity_geocoder_engine'],
+      '#default_value' => $views_plugin->options['geofield_proximity_geocoder_engine'],
       '#dependency' => array(
         'edit-options-source' => array('geocoder'),
       ),
