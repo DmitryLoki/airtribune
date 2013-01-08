@@ -18,7 +18,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Hotels',
-      1 => '%node:title-field',
+      1 => '%node:title',
     ),
     'paths' => array(
       0 => 'hotels',
@@ -62,7 +62,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Activity',
-      1 => '%node:title-field',
+      1 => '%node:title',
     ),
     'paths' => array(
       0 => '%site:url',
@@ -1096,7 +1096,7 @@ return $match;',
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => '%node:og-group-ref:0:title',
-      1 => '%node:title-field',
+      1 => '%node:title',
     ),
     'paths' => array(
       0 => '%node:og-group-ref:0:url',
