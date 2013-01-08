@@ -562,3 +562,47 @@ function airtribune2_pager_link($variables) {
   $attributes['href'] = url($_GET['q'], array('query' => $query));
   return '<a' . drupal_attributes($attributes) . '><span>' . check_plain($text) . '</span></a>';
 }
+
+/**
+ * Implements_preprocess_entity().
+ */
+function airtribune2_preprocess_entity(&$variables) {
+  if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
+    $variables['info_page'] = arg(2) == 'info';
+    if ($variables['info_page']) {
+      $contest_id = (int) arg(1);
+
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Plane'),
+        'fragment' => 'gt_plane',
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id. '/details',
+        'title' => t('Train'),
+        'fragment' => 'gt_train',
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Car'),
+        'fragment' => 'gt_car',
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Bus'),
+        'fragment' => 'gt_bus',
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Taxi'),
+        'fragment' => 'gt_taxi',
+      );
+
+      $variables['content']['transport'] = array(
+        '#theme' => 'links',
+        '#links' => $links,
+      );
+
+    }
+  }
+}
