@@ -348,3 +348,7 @@ function geofield_update_7202(&$sandbox) {
     }
   }
 }
+
+function geofield_update_7209(&$sandbox) {
+	system_rebuild_module_data();	
+}
