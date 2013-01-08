@@ -47,7 +47,8 @@ function pg_contest_insert($node) {
     pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
 }
- * Implementation of hook_update
+ 
+/* Implementation of hook_update
  * @param type $node
  * @see og_membership_delete_by_group()
  * @author Vadim Valuev <gease@mail.ru>
