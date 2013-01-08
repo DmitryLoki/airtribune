@@ -171,7 +171,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'title',
-      'formatter' => 'field_collection_view',
+      'formatter' => 'field_collection_fields',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
@@ -488,7 +488,8 @@ function pages_feature_default_page_manager_pages() {
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
-      'override_title_text' => '<a name="prize"></a>Prize found and scoring categories',
+      'override_title_text' => 'Prize found and scoring categories',
+      'anchor' => 'awards',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -514,7 +515,7 @@ function pages_feature_default_page_manager_pages() {
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
-        'colorbox_node_style' => 'thumbnail',
+        'colorbox_node_style' => 'award',
         'colorbox_image_style' => '',
         'colorbox_gallery' => 'post',
         'colorbox_gallery_custom' => '',
@@ -657,7 +658,10 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
-      'more' => 'flying',
+      'more' => array(
+        'title' => 'View more',
+        'fragment' => 'flying',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -700,19 +704,30 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-17';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_prizes';
+    $pane->subtype = 'node:field_awards_photos';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'above',
-      'formatter' => 'text_default',
-      'delta_limit' => 0,
+      'label' => 'title',
+      'formatter' => 'colorbox',
+      'delta_limit' => '0',
       'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
+      'delta_reversed' => 0,
+      'formatter_settings' => array(
+        'colorbox_node_style' => 'award',
+        'colorbox_image_style' => '',
+        'colorbox_gallery' => 'field_post',
+        'colorbox_gallery_custom' => '',
+        'colorbox_caption' => 'auto',
+        'colorbox_caption_custom' => '',
+      ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'more' => array(
+        'title' => 'More information about rize and category',
+        'fragment' => 'awards',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -739,6 +754,10 @@ function pages_feature_default_page_manager_pages() {
       'delta_reversed' => FALSE,
       'formatter_settings' => array(
         'view_mode' => 'full',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
+        'add' => 'Add',
+        'description' => 1,
       ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
@@ -836,7 +855,10 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
-      'more' => 'info',
+      'more' => array(
+        'title' => 'View more',
+        'fragment' => 'info',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
