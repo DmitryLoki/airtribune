@@ -8,6 +8,9 @@ jQuery(function($){
 		dropItemWrap.insertAfter(parentLi.parent());
 		dropItemWrap.find('.pane-inner').append($(this));
 		dropItemWrap.css({'position':'absolute', 'left':parentLi.position().left + 7, 'width':parentLi.width() - 10})
+		setTimeout(function(){
+			dropItemWrap.hide();
+		},100);
 		/*dropItemWrap.hover(
 			function(){
 				$(this).addClass('mouseover');
