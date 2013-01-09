@@ -1,0 +1,18 @@
+#airtribune-event-title {
+  background: #57ABD0;
+  color: #FFF;
+  padding: 10px;
+  font-weight: bold;
+}
+#airtribune-event-title h1 {
+  margin: 0;
+}
+#airtribune-event-title .field {
+  margin-right: 20px;
+}
+#airtribune-event-title .field-name-field-country {
+  margin-right: 5px;
+}
+#airtribune-event-title .field-name-field-country:after {
+  content: ","
+}
