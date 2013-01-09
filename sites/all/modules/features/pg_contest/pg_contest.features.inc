@@ -160,6 +160,10 @@ function pg_contest_rdf_default_mappings() {
     'field_collection_getting_there' => array(
       'predicates' => array(),
     ),
+    'field_awards_photos' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
   );
 
   return $schemaorg;

@@ -6,6 +6,7 @@ php = 5.2
 files[] = translation.handler.inc
 
 dependencies[] = profile2
+dependencies[] = field_collection
 dependencies[] = name
 
 ; Airtrubune user plugin requirements.
@@ -13,3 +14,6 @@ dependencies[] = locale
 dependencies[] = menu
 dependencies[] = countryicons
 dependencies[] = countryicons_shiny
+
+; Airtrubune event title plugin requirements.
+dependencies[] = tz_field
