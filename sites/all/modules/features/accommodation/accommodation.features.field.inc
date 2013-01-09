@@ -226,7 +226,7 @@ function accommodation_field_default_fields() {
           ),
         ),
         'type' => 'addressfield_standard',
-        'weight' => '5',
+        'weight' => '4',
       ),
     ),
   );
@@ -306,7 +306,39 @@ function accommodation_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_location',
       'foreign keys' => array(),
-      'indexes' => array(),
+      'indexes' => array(
+        'bbox' => array(
+          0 => 'top',
+          1 => 'bottom',
+          2 => 'left',
+          3 => 'right',
+        ),
+        'bottom' => array(
+          0 => 'bottom',
+        ),
+        'centroid' => array(
+          0 => 'lat',
+          1 => 'lon',
+        ),
+        'geohash' => array(
+          0 => 'geohash',
+        ),
+        'lat' => array(
+          0 => 'lat',
+        ),
+        'left' => array(
+          0 => 'left',
+        ),
+        'lon' => array(
+          0 => 'lon',
+        ),
+        'right' => array(
+          0 => 'right',
+        ),
+        'top' => array(
+          0 => 'top',
+        ),
+      ),
       'locked' => '0',
       'module' => 'geofield',
       'settings' => array(
@@ -320,7 +352,9 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => 'POINT (37.619839349781 55.75371612396)',
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -356,9 +390,16 @@ function accommodation_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'geocoder',
+        'module' => 'openlayers',
         'settings' => array(
+          'allow_edit' => 1,
+          'data_storage' => 'single',
           'delta_handling' => 'default',
+          'feature_types' => array(
+            'path' => 0,
+            'point' => 'point',
+            'polygon' => 0,
+          ),
           'geocoder_field' => 'field_hotel_address',
           'geocoder_handler' => 'google',
           'handler_settings' => array(
@@ -373,9 +414,11 @@ function accommodation_field_default_fields() {
               ),
             ),
           ),
+          'openlayers_map' => 'geofield_widget_map2',
+          'use_geocoder' => 1,
         ),
-        'type' => 'geocoder',
-        'weight' => '4',
+        'type' => 'geofield_openlayers',
+        'weight' => '5',
       ),
     ),
   );
@@ -857,8 +900,8 @@ function accommodation_field_default_fields() {
         'weight' => '14',
       ),
     ),
-  );  
-  
+  );
+
   // Exported field: 'node-accommodation-field_price_double'.
   $fields['node-accommodation-field_price_double'] = array(
     'field_config' => array(
@@ -1115,6 +1158,7 @@ function accommodation_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -1162,8 +1206,8 @@ function accommodation_field_default_fields() {
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
   t('Address');
-  t('Double');
   t('Currency');
+  t('Double');
   t('Email');
   t('Location');
   t('Phone');
