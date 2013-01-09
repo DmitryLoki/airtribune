@@ -247,7 +247,7 @@ batch
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'path_breadcrumbs_delimiter';
-  $strongarm->value = '»';
+  $strongarm->value = '&rarr;';
   $export['path_breadcrumbs_delimiter'] = $strongarm;
 
   $strongarm = new stdClass();
