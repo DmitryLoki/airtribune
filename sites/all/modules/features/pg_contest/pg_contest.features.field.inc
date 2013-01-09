@@ -684,7 +684,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 30,
+          'weight' => '30',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -778,7 +778,7 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -917,7 +917,7 @@ function pg_contest_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 29,
+          'weight' => '29',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -991,7 +991,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 27,
+          'weight' => '27',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1102,7 +1102,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 31,
+          'weight' => '31',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1187,7 +1187,7 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'countries',
           'settings' => array(),
           'type' => 'country_default',
@@ -1256,7 +1256,7 @@ function pg_contest_field_default_fields() {
       'description' => 'Start and end dates for the event.',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'airtribune',
           'settings' => array(),
           'type' => 'adapitve_dates',
@@ -1580,7 +1580,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 28,
+          'weight' => '28',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1922,7 +1922,7 @@ function pg_contest_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 35,
+          'weight' => '35',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2229,7 +2229,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 34,
+          'weight' => '34',
         ),
         'teaser' => array(
           'label' => 'above',
