@@ -134,7 +134,8 @@ function blockSlide(activeEl, direction, eventEl, callback, calldackFunc){
 		}
 		if(callback.currentSpeed == 0){
 			activeEl.removeClass('active');
-			jQuery('#airtribune-user .active, .pane-airtribune-primary-navigation ul li.expanded.active, .pane-airtribune-primary-navigation ul li.expanded a.active').removeClass('active');
+			jQuery('#airtribune-user .active').removeClass('active');
+			jQuery('.pane-airtribune-primary-navigation ul li.expanded.menu_active, .pane-airtribune-primary-navigation ul li.expanded a.menu_active').removeClass('menu_active');
 			activeEl.hide();			
 		}
 		if(calldackFunc && (callback.currentSpeed == 0 || callback.currentSpeed == callback.size + 1)){

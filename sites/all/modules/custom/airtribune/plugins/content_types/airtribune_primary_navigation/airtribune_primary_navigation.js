@@ -36,8 +36,8 @@ jQuery(function($){
 		);*/
 		
 		parentLi.click(function(){
-			if(!$(this).hasClass('active')){
-				$(this).addClass('active').children('a').addClass('active')
+			if(!$(this).hasClass('menu_active')){
+				$(this).addClass('menu_active').children('a').addClass('menu_active')
 				blockSlide($('#'+$(this).attr('rel')), 1)
 			}
 			else {
