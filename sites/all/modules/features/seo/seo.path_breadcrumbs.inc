@@ -148,7 +148,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Current events',
+      1 => 'Current',
     ),
     'paths' => array(
       0 => 'events',
@@ -170,7 +170,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Next events',
+      1 => 'Next',
     ),
     'paths' => array(
       0 => 'events',
