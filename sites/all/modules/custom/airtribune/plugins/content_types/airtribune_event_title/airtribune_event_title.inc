@@ -35,21 +35,11 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
    '#attributes' => array('id' => 'event-description', 'class' => array('container-inline')),
   );
 
-  foreach (array(AIRTRIBUNE_COUNTRY_FIELD, AIRTRIBUNE_CITY_FIELD, AIRTRIBUNE_DATES_FIELD) as $weight => $field) {
+  foreach (array(AIRTRIBUNE_COUNTRY_FIELD, AIRTRIBUNE_CITY_FIELD, AIRTRIBUNE_DATES_FIELD, AIRTRIBUNE_TIMEZONE_FIELD) as $weight => $field) {
     $content['description'][$field] = field_view_field('node', $node, $field, 'full');
     $content['description'][$field]['#weight'] = $weight;
   }
-
-  $tmz_items = field_get_items('node', $node, AIRTRIBUNE_TIMEZONE_FIELD);
-  if (!empty($tmz_items[0]['value'])) {
-    $date = new DateTime();
-    $date->setTimezone(new DateTimeZone($tmz_items[0]['value']));
-    $content['description']['time'] = array(
-      '#type' => 'item',
-      '#markup' => t('Local time &#151; !time', array('!time' => $date->format('H:i'))),
-      '#weight' => 5,
-    );
-  }
+  $content['description'][$field]['#prefix'] =  t('Local time — ');
 
   $content['#attached']['css'] = array($plugin_path . '/airtribune_event_title.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-title'));

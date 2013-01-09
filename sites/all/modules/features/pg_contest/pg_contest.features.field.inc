@@ -2436,10 +2436,12 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'tzfield',
-          'settings' => array(),
-          'type' => 'tzfield_default',
+          'settings' => array(
+            'format' => 'H:i',
+          ),
+          'type' => 'tzfield_date',
           'weight' => '9',
         ),
         'teaser' => array(
