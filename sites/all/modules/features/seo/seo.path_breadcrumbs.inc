@@ -210,7 +210,7 @@ if ($count) return TRUE;',
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Current events',
+      1 => 'Current',
     ),
     'paths' => array(
       0 => 'events',
@@ -232,7 +232,7 @@ if ($count) return TRUE;',
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Next events',
+      1 => 'Next',
     ),
     'paths' => array(
       0 => 'events',
@@ -254,7 +254,7 @@ if ($count) return TRUE;',
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Past events',
+      1 => 'Past',
     ),
     'paths' => array(
       0 => 'events',
