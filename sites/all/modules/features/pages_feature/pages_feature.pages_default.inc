@@ -403,6 +403,7 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'anchor' => 'organizers',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -643,7 +644,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-15';
     $pane->panel = 'event_brick_left_above';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_flying_info';
+    $pane->subtype = 'node:field_info';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -660,17 +661,14 @@ function pages_feature_default_page_manager_pages() {
       'override_title_text' => '',
       'more' => array(
         'title' => 'View more',
-        'fragment' => 'flying',
+        'fragment' => 'info',
       ),
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'flying-site-info',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -747,7 +745,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'above',
+      'label' => 'hidden',
       'formatter' => 'field_collection_fields',
       'delta_limit' => 0,
       'delta_offset' => '0',
@@ -760,8 +758,8 @@ function pages_feature_default_page_manager_pages() {
         'description' => 1,
       ),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'How to get here',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -840,7 +838,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-21';
     $pane->panel = 'event_brick_right_above';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_info';
+    $pane->subtype = 'node:field_flying_info';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -857,14 +855,17 @@ function pages_feature_default_page_manager_pages() {
       'override_title_text' => '',
       'more' => array(
         'title' => 'View more',
-        'fragment' => 'info',
+        'fragment' => 'flying',
       ),
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'flying-site-info',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -911,6 +912,10 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'more' => array(
+        'title' => t('More information about organizers'),
+        'fragment' => 'organizers',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(

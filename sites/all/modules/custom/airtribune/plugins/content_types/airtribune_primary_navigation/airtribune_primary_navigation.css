@@ -31,9 +31,9 @@
 #header .pane-airtribune-primary-navigation .pane-content > ul > li.first { border-left:none}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li.last { border-right:none; margin-right:0}
 #header .pane-airtribune-primary-navigation .pane-content > ul > li a { color:#2e4b59; padding:4px 0 5px; display:inline-block; text-decoration:none; position:relative; border-left:1px solid #d5e5ea; border-right:1px solid #d5e5ea; width:142px; text-align:center}
-#header .pane-airtribune-primary-navigation .pane-content > ul > li:hover, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active-trail, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active { margin:0 -1px 0 0; position:relative}
-#header .pane-airtribune-primary-navigation .pane-content > ul > li.last:hover, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active-trail.last, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active.last { margin-right:0}
-#header .pane-airtribune-primary-navigation .pane-content > ul > li:hover a, #header .pane-airtribune-primary-navigation .pane-content > ul > li a:active, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active-trail, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active { border:1px solid #a3cde0;
+#header .pane-airtribune-primary-navigation .pane-content > ul > li:hover, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active-trail, #header .pane-airtribune-primary-navigation .pane-content > ul > li.menu_active { margin:0 -1px 0 0; position:relative}
+#header .pane-airtribune-primary-navigation .pane-content > ul > li.last:hover, #header .pane-airtribune-primary-navigation .pane-content > ul > li.active-trail.last, #header .pane-airtribune-primary-navigation .pane-content > ul > li.menu_active.last { margin-right:0}
+#header .pane-airtribune-primary-navigation .pane-content > ul > li:hover a, #header .pane-airtribune-primary-navigation .pane-content > ul > li a:active, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active-trail, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.menu_active { border:1px solid #a3cde0;
 
 	background:#b4d9e7;
 	background: -moz-linear-gradient(top, #b4d9e7 0%, #aed1df 5%, #9abdcd 95%, #9cc1d2 100%);
@@ -41,7 +41,7 @@
 
 }
 
-#header .pane-airtribune-primary-navigation .pane-content > ul > li a:active, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active-trail, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active { text-shadow: 0 1px 0 rgba(255,255,255,0.33); border-color:#7ab7d0;
+#header .pane-airtribune-primary-navigation .pane-content > ul > li a:active, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.active-trail, #header .pane-airtribune-primary-navigation .pane-content > ul > li a.menu_active { text-shadow: 0 1px 0 rgba(255,255,255,0.33); border-color:#7ab7d0;
 	background: #8ec8d9;
 	background: -moz-linear-gradient(top, #87c0d6 0%, #83bbd0 5%, #73abc2 95%, #7ab7d0 100%); 
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87c0d6), color-stop(5%,#83bbd0), color-stop(95%,#73abc2), color-stop(100%,#75aec6));

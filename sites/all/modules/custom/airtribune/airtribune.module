@@ -16,6 +16,10 @@ define('AIRTRIBUNE_COUNTRY_FIELD',       'field_country');
 define('AIRTRIBUNE_CITY_FIELD',          'field_city');
 define('AIRTRIBUNE_DATES_FIELD',         'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD',      'field_time_zone');
+define('AIRTRIBUNE_OG_GROUP_REF_FIELD',  'og_group_ref');
+
+// Content types.
+define('AIRTRIBUNE_PG_CONTEST_TYPE',     'pg_contest');
 
 /**
  * Implements hook_ctools_plugin_directory().

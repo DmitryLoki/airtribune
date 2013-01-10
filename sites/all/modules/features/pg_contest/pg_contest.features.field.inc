@@ -558,8 +558,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            'default' => 0,
             0 => 0,
+            'default' => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -695,7 +695,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_awards_photos',
-      'label' => 'Awards photos',
+      'label' => 'Prize funds and scoring categories',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
@@ -1044,8 +1044,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            'default' => 0,
             0 => 0,
+            'default' => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -1514,7 +1514,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_flying_info',
-      'label' => 'Flying site info',
+      'label' => 'Flying site',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -2408,7 +2408,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_selection',
-      'label' => 'Admission rules and entry fee',
+      'label' => 'Selection and entry fee',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -2661,10 +2661,8 @@ function pg_contest_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
-  t('Admission rules and entry fee');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Awards and prize money');
-  t('Awards photos');
   t('Bus');
   t('Car');
   t('City');
@@ -2675,7 +2673,7 @@ function pg_contest_field_default_fields() {
   t('Downloads');
   t('Event info');
   t('FAI category');
-  t('Flying site info');
+  t('Flying site');
   t('Flying site photos');
   t('Full info about organizer - description, links, contacts');
   t('General');
@@ -2699,9 +2697,11 @@ function pg_contest_field_default_fields() {
   t('Photos pertaining to the general description of the contest');
   t('Plane');
   t('Points file');
+  t('Prize funds and scoring categories');
   t('Registration switch');
   t('Rules');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
+  t('Selection and entry fee');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Taxi');

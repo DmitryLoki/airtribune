@@ -17,3 +17,6 @@ dependencies[] = countryicons_shiny
 
 ; Airtrubune event title plugin requirements.
 dependencies[] = tzfield
+
+; Airtrubune event context plugin requirements.
+dependencies[] = entity

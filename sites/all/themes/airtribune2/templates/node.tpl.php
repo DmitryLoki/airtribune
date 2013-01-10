@@ -115,6 +115,9 @@ if ($teaser){
 		)
 	 )
 	);
+	if(!empty($content['field_image']['#items'])){
+		$content['field_image']['#items'] = array($content['field_image']['#items'][0]);
+	}
 }
 else {
 	$content['links']['created'] = array(
@@ -128,27 +131,6 @@ else {
 	);
 	if(!empty($content['field_image'])){
 		$content['field_image'] = _airtribune2_img_dinamic_scaling($content['field_image']);
-		//print_r($content['field_image']);
-		/*$content['field_image'] = array(
-			'#theme' => 'field',
-			'#weight' => $content['field_image']['#weight'],
-			'#title' => 'Image',
-			'#access' => $content['field_image']['#access'],
-			'#label_display' => $content['field_image']['#label_display'],
-			'#view_mode' => $content['field_image']['#view_mode'],
-			'#language' => $content['field_image']['#language'],
-			'#field_name' => 'field_image',
-			'#field_type' => 'image',
-			'#field_translatable' => $content['field_image']['#field_translatable'],
-			'#entity_type' => $content['field_image']['#entity_type'],
-			'#bundle' => $content['field_image']['#bundle'],
-			'#object' => $content['field_image']['#object'],
-			'#items' => $content['field_image']['#items'],
-			'#formatter' => '',
-			'0' => array(
-					'#markup' => airtribune2_img_process_by_count($content['field_image']['#items'])
-			)
-		);*/
 	}
 }
 if(empty($title)){
