@@ -558,8 +558,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            0 => 0,
             'default' => 0,
+            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -1044,8 +1044,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            0 => 0,
             'default' => 0,
+            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -1720,7 +1720,7 @@ function pg_contest_field_default_fields() {
   $fields['node-pg_contest-field_hq_location'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_hq_location',
@@ -1794,14 +1794,40 @@ function pg_contest_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_hq_location',
       'label' => 'Headquarter location',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'openlayers',
-        'settings' => array(),
+        'settings' => array(
+          'allow_edit' => 1,
+          'data_storage' => 'single',
+          'delta_handling' => 'default',
+          'feature_types' => array(
+            'path' => 0,
+            'point' => 'point',
+            'polygon' => 0,
+          ),
+          'geocoder_field' => 'field_info',
+          'geocoder_handler' => 'json',
+          'handler_settings' => array(
+            'google' => array(
+              'all_results' => 0,
+              'geometry_type' => 'point',
+              'reject_results' => array(
+                'APPROXIMATE' => 0,
+                'GEOMETRIC_CENTER' => 0,
+                'RANGE_INTERPOLATED' => 0,
+                'ROOFTOP' => 0,
+              ),
+            ),
+          ),
+          'openlayers_map' => 'geofield_widget_map2',
+          'use_geocoder' => 0,
+        ),
         'type' => 'geofield_openlayers',
         'weight' => '20',
       ),
