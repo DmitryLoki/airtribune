@@ -164,6 +164,9 @@ function pg_contest_rdf_default_mappings() {
       'predicates' => array(),
       'type' => 'rel',
     ),
+    'field_flying_info' => array(
+      'predicates' => array(),
+    ),
   );
 
   return $schemaorg;
