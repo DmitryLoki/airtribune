@@ -2408,7 +2408,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_selection',
-      'label' => 'Admission rules and entry fee',
+      'label' => 'Selection and entry fee',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -2661,7 +2661,6 @@ function pg_contest_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
-  t('Admission rules and entry fee');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Awards and prize money');
   t('Bus');
@@ -2702,6 +2701,7 @@ function pg_contest_field_default_fields() {
   t('Registration switch');
   t('Rules');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
+  t('Selection and entry fee');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Taxi');
