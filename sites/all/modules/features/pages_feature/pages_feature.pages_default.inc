@@ -403,6 +403,7 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'anchor' => 'organizers',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -911,6 +912,10 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'more' => array(
+        'title' => t('More information about organizers'),
+        'fragment' => 'organizers',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
