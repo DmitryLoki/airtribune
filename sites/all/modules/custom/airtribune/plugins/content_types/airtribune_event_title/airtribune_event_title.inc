@@ -19,6 +19,11 @@ $plugin = array(
  * Render airtribune event title pane.
  */
 function airtribune_airtribune_event_title_content_type_render($subtype, $conf, $panel_args, $context) {
+
+  if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
+    return;
+  }
+
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_event_title';
 
   // Event node.
@@ -54,7 +59,7 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
 }
 
 /**
- * Panels needs this empty form.
+ * Panels module needs this empty form.
  */
 function airtribune_airtribune_event_title_content_type_edit_form($form, &$form_state) {
   return $form;
