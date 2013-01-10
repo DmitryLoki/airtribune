@@ -576,26 +576,41 @@ function airtribune2_preprocess_entity(&$variables) {
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Plane'),
         'fragment' => 'gt_plane',
+		'attributes' => array(
+		  'class' => 'plane',
+		),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id. '/details',
         'title' => t('Train'),
         'fragment' => 'gt_train',
+		'attributes' => array(
+		  'class' => 'train',
+		),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Car'),
         'fragment' => 'gt_car',
+		'attributes' => array(
+		  'class' => 'car',
+		),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Bus'),
         'fragment' => 'gt_bus',
+		'attributes' => array(
+		  'class' => 'bus',
+		),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Taxi'),
         'fragment' => 'gt_taxi',
+		'attributes' => array(
+		  'class' => 'taxi',
+		),
       );
 
       $variables['content']['transport'] = array(

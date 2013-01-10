@@ -2584,13 +2584,13 @@ p { margin:0; padding:9px 0 11px}
 
 /* Feed photos */
 .pane-node-field-photos, 
-.pane-node-field-contest-photos { margin-left:-17px; padding-bottom:39px}
+.pane-node-field-contest-photos { margin-left:-19px; padding-bottom:39px}
 .pane-node-field-photos .pane-content, 
 .pane-node-field-photos .pane-content { margin:0;}
 .panel_info .pane-node-field-photos .field,
 .panel_info .pane-node-field-contest-photos .field { padding:0; margin-bottom:0}
 .pane-node-field-photos .field-item,
-.pane-node-field-contest-photos .field-item { float:left; border:1px solid #c8d0d3; margin-left:17px;}
+.pane-node-field-contest-photos .field-item { float:left; /*border:1px solid #c8d0d3;*/ margin-left:19px;}
 .pane-node-field-photos .field-item img,
 .pane-node-field-contest-photos .field-item img { vertical-align:middle;}
 .panel_info .pane-node-field-photos .pane-content,
@@ -2615,6 +2615,14 @@ p { margin:0; padding:9px 0 11px}
 /* How to get here */
 .pane-node-field-collection-getting-there {}
 .panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0}
+.pane-node-field-collection-getting-there .links { padding:8px 0 0;}
+.pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
+.pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
+.pane-node-field-collection-getting-there .links a.plane { background-position:0 0}
+.pane-node-field-collection-getting-there .links a.train { background-position:0 -100px}
+.pane-node-field-collection-getting-there .links a.car { background-position:0 -200px}
+.pane-node-field-collection-getting-there .links a.bus { background-position:0 -300px}
+.pane-node-field-collection-getting-there .links a.taxi { background-position:0 -400px}
 
 /* Downloads */
 .pane-node-field-downloads {}
