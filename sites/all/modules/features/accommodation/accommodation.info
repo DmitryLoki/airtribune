@@ -34,6 +34,7 @@ features[field][] = node-accommodation-field_price_double
 features[field][] = node-accommodation-field_price_single
 features[field][] = node-accommodation-field_url
 features[field][] = node-accommodation-title_field
+features[node][] = accommodation
 features[variable][] = field_bundle_settings_node__accommodation
 features[variable][] = language_content_type_accommodation
 features[variable][] = node_options_accommodation
