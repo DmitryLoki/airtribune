@@ -16,4 +16,4 @@ dependencies[] = countryicons
 dependencies[] = countryicons_shiny
 
 ; Airtrubune event title plugin requirements.
-dependencies[] = tz_field
+dependencies[] = tzfield
