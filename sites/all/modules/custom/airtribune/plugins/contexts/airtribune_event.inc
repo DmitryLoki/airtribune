@@ -39,7 +39,7 @@ function airtribune_context_event($empty, $data = NULL, $conf = FALSE) {
     $node = $wrapper->value();
   }
   // Fetch event node from OG.
-  elseif (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0])) {
+  elseif (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD})) {
     if ($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
       $node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
     }
