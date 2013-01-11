@@ -567,6 +567,7 @@ function airtribune2_pager_link($variables) {
  * Implements_preprocess_entity().
  */
 function airtribune2_preprocess_entity(&$variables) {
+	//print_r($variables);
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
     $variables['info_page'] = arg(2) == 'info';
     if ($variables['info_page']) {
@@ -653,5 +654,35 @@ function airtribune2_colorbox_imagefield($variables) {
     $description = '<span>' . check_plain($variables['title']) . '</span>';
     $output = '<div class="award-photo">' . $output . $description . '</div>';
   }
+  return $output;
+}
+
+/**
+ * Implements theme_field().
+ */
+function airtribune2_field($variables) {
+	//print_r($variables);
+  $output = '';
+  $colon = ':&nbsp;';
+  if($variables['element']['#bundle'] == 'field_collection_getting_there') {
+	 $colon = '';
+	 $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
+  }
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
+  }
+
+  // Render the items.
+  $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+  }
+  $output .= '</div>';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+
   return $output;
 }
