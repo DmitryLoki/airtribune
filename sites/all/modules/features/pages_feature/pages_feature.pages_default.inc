@@ -488,8 +488,8 @@ function pages_feature_default_page_manager_pages() {
       'delta_reversed' => FALSE,
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => 'Prize found and scoring categories',
+      'override_title' => 0,
+      'override_title_text' => '',
       'anchor' => 'awards',
     );
     $pane->cache = array();
@@ -723,7 +723,7 @@ function pages_feature_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
       'more' => array(
-        'title' => t('More information about prizes and categories'),
+        'title' => 'More information about prizes and categories',
         'fragment' => 'awards',
       ),
     );
@@ -913,7 +913,7 @@ function pages_feature_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
       'more' => array(
-        'title' => t('More information about organizers'),
+        'title' => 'More information about organizers',
         'fragment' => 'organizers',
       ),
     );
