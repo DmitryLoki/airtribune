@@ -37,6 +37,9 @@ function pg_contest_rdf_default_mappings() {
     'field_gt_taxi' => array(
       'predicates' => array(),
     ),
+    'field_gt_general' => array(
+      'predicates' => array(),
+    ),
   );
 
   // Exported RDF mapping: pg_contest

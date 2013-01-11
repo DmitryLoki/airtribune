@@ -723,7 +723,7 @@ function pages_feature_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
       'more' => array(
-        'title' => 'More information about rize and category',
+        'title' => t('More information about prizes and categories'),
         'fragment' => 'awards',
       ),
     );

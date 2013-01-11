@@ -60,7 +60,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -125,7 +125,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -190,7 +190,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -255,7 +255,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -320,7 +320,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -385,7 +385,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -437,11 +437,11 @@ function pg_contest_field_default_fields() {
       'description' => 'Full info about organizer - description, links, contacts',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -512,7 +512,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 1,
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -609,11 +609,11 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 2,
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -695,7 +695,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_awards_photos',
-      'label' => 'Prize funds and scoring categories',
+      'label' => 'Prize fund and scoring categories',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
@@ -917,7 +917,7 @@ function pg_contest_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => '29',
+          'weight' => 29,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1044,8 +1044,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            0 => 0,
             'default' => 0,
+            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -1102,7 +1102,7 @@ function pg_contest_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => '31',
+          'weight' => 31,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1948,7 +1948,7 @@ function pg_contest_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '35',
+          'weight' => 35,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2255,7 +2255,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '34',
+          'weight' => 34,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2270,7 +2270,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -2697,7 +2697,7 @@ function pg_contest_field_default_fields() {
   t('Photos pertaining to the general description of the contest');
   t('Plane');
   t('Points file');
-  t('Prize funds and scoring categories');
+  t('Prize fund and scoring categories');
   t('Registration switch');
   t('Rules');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
