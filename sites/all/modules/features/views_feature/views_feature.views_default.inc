@@ -112,6 +112,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Sponsors';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -372,6 +373,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
   $translatables['advert_list'] = array(
     t('Master'),
+    t('Sponsors'),
     t('more'),
     t('Apply'),
     t('Reset'),
