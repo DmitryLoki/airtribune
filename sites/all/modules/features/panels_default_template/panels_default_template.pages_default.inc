@@ -33,7 +33,14 @@ function panels_default_template_default_page_manager_handlers() {
   #page-wrapper .main-content {
     padding: 0 10px;
   }',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Event beeing viewed',
+        'keyword' => 'event',
+        'name' => 'airtribune_event',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(),
@@ -302,21 +309,10 @@ events/*',
     $pane->subtype = 'airtribune_event_title';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'pg_contest' => 'pg_contest',
-            ),
-          ),
-          'context' => 'node',
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
     );
     $pane->configuration = array(
-      'context' => 'node',
+      'context' => 'context_airtribune_event_1',
       'override_title' => 0,
       'override_title_text' => '',
     );

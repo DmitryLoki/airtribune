@@ -158,7 +158,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
   $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
@@ -180,15 +180,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsblog' => 'newsblog',
   );
-
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'event/%/blog';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Blog';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Contest pane */
   $handler = $view->new_display('panel_pane', 'Contest pane', 'contest_pane');
@@ -213,6 +204,26 @@ function views_feature_views_default_views() {
       'label' => 'OG membership: Group ID',
     ),
   );
+
+  /* Display: Contest full pane */
+  $handler = $view->new_display('panel_pane', 'Contest full pane', 'contest_full_pane');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '15';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'panel',
+      'context' => 'entity:node.members--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'OG membership: Group ID',
+    ),
+  );
   $translatables['contest_blog'] = array(
     t('Master'),
     t('more'),
@@ -223,10 +234,17 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('OG membership from node'),
     t('Все'),
-    t('Page'),
     t('Contest pane'),
     t('This pane will be shown at the event info page.'),
     t('View panes'),
+    t('Contest full pane'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
   );
   $export['contest_blog'] = $view;
 
