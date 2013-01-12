@@ -1,6 +1,6 @@
 .panel_info .pane-airtribune-event-links .pane-content { margin:0}
 #airtribune-event-links { margin:0; padding:8px 0 31px}
-#airtribune-event-links li { margin:0; padding:8px 0 0; list-style:none; list-style-image:none; font:18px/20px Arial, Helvetica, sans-serif;}
-#airtribune-event-links li a, #airtribune-event-links li span { padding-left:21px; color:#333a40; text-decoration:none; background:url(./images/event_links.png) no-repeat 0 4px; vertical-align:middle}
+#airtribune-event-links li { margin:0; padding:10px 0 0; list-style:none; list-style-image:none; font:18px/20px Arial, Helvetica, sans-serif;}
+#airtribune-event-links li a, #airtribune-event-links li span { padding-left:21px; color:#333a40; text-decoration:none; background:url(./images/event_links.png) no-repeat 0 4px; vertical-align:top}
 #airtribune-event-links li a:hover, #airtribune-event-links li a:active, #airtribune-event-links li a:focus { background-position:0 -26px; color:#00aeef}
 #airtribune-event-links li span { background-position:0 -56px}
