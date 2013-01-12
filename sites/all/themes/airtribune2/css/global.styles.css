@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* CSS Document */
+/* CSS Document */ 
 
 /**
  * global.styles.css
@@ -373,6 +373,7 @@ sup {
 sup {
   top: -0.5em;
 }
+
 
 
 sub {
@@ -1663,6 +1664,7 @@ div.field {
 }
 
 
+
 /* When labels are set to inline in field display settings the clearfix class is automatically added */
 .field-label-inline  {
 }
@@ -2338,7 +2340,7 @@ html {min-height:100%; height:100%;}
 
 #page-wrapper {position:relative; _height:100%; min-height:100%; padding:0; margin:0 auto; min-width:1000px;}
 #super { padding-bottom:352px}
-.region_inner { width:960px; margin:0 auto; position:relative}
+.region_inner { width:950px; margin:0 auto; position:relative}
 
 /*.spacer_foot { position:relative;margin:0;width:1px; height:312px; font-size:1px; padding: 40px 0 0; clear:both}*/
 
@@ -2381,13 +2383,13 @@ p { margin:0; padding:9px 0 11px}
   /* Main */
 
 .region-sidebar-first, .region-sidebar-second { width:240px;}
-.panel-col-thirty { width:230px; float:right;}
-.panel-col-thirty .inside { margin-left:0; margin-right:10px}
+.panel-col-thirty { width:231px; float:right;}
+.panel-col-thirty .inside { margin-left:0; margin-right:9px}
 
 .panel-col-seventy { width:100%; float:left; margin-right:-240px}
 .panel-col-seventy .inside { margin-right:240px; margin-left:0}
 
-#top_inner { position:relative;}
+#top_inner { position:relative; margin-right:10px}
 #top_inner .pane-inner .pane-inner { margin-left: 0px; margin-right: 0px; }
 #top_inner .block .block { margin-bottom: 0px; }
 
@@ -2420,11 +2422,11 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
 .node-teaser .node-create { float:right; padding:0}
 
-.second_sidebar .block { position:relative; background:#fafbfc;
+.second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
 
-  	box-shadow: 0 1px 3px rgba(46,75,89,0.3), 0 0 1px rgba(216,222,226,0.8);	
+  	/*box-shadow: 0 1px 3px rgba(46,75,89,0.3), 0 0 1px rgba(216,222,226,0.8);	
 	-moz-box-shadow: 0 1px 3px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,0.5);				
-	-webkit-box-shadow: 0 1px 3px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,0.5);*/
 	
 	-webkit-border-radius: 2px; 
 	-moz-border-radius: 2px;
@@ -2510,7 +2512,7 @@ p { margin:0; padding:9px 0 11px}
 
 #page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5}
 #page ul.tabs li { margin:0 3px -1px; padding:0 1px; list-style:none; list-style-image:none; border-bottom:1px solid #ccd4d8; background:url(../images/tab_bgr_hover.png) no-repeat -1000px 0;}
-#page ul.tabs li a { border:1px solid #dfe6e9; position:relative; display:inline-block; margin:0; padding:0 12px; height:40px; font:24px/40px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0; border-bottom:none;
+#page ul.tabs li a { border:1px solid #dfe6e9; position:relative; display:inline-block; margin:0; padding:0 18px; height:40px; font:24px/40px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0; border-bottom:none;
 
 	-webkit-border-radius: 2px 2px 0 0; 
 	-moz-border-radius: 2px 2px 0 0;
@@ -2566,7 +2568,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info p/*, .panel_info .field*/ { padding:9px 0 11px}
 .panel_info a { color:#0098d1; text-decoration:none}
 .panel_info a:hover { text-decoration:underline}
-.panel_info .more-link { text-align:left;}
+.panel_info .more-link { text-align:left; margin-top:-1px;} 
 .panel_info .more-link a { color:#7d9aa8; background:url(../images/more.png) no-repeat 0 2px; font:12px/14px Arial, Helvetica, sans-serif; padding-left:10px; text-decoration:none}
 .panel_info .more-link a:hover { color:#1cb7f1}
 
@@ -2578,7 +2580,7 @@ p { margin:0; padding:9px 0 11px}
 
 
 .page-event-info .panel_info {}
-.page-event-info .panel_info h2.pane-title { padding:39px 0 0 70px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0;}
+.page-event-info .panel_info h2.pane-title { padding:39px 0 0 71px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0; margin-left:-1px}
 
 .page-event-info .panel_info .pane-node-field-info h2.pane-title { background-position:0 0} /* Event info */
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title { background-position:0 -150px} /* Flying site info */
@@ -2593,8 +2595,10 @@ p { margin:0; padding:9px 0 11px}
 .pane-contest-blog-contest-pane { padding:9px 0 14px;}
 .panel_info .pane-contest-blog-contest-pane .pane-content { margin:0}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
-.pane-contest-blog-contest-pane .views-row strong {color:#333a40}
-.pane-contest-blog-contest-pane .views-row p { margin:0; padding:5px 0 0; color:#677581}
+.pane-contest-blog-contest-pane .views-row strong {color:#333a40; display:block; padding-bottom:5px}
+.pane-contest-blog-contest-pane .views-row p { margin:0; padding:0 5px 0 0; color:#677581; display:inline}
+.pane-contest-blog-contest-pane .views-row a { display:inline-block; overflow:hidden; width:7px; height:10px; background:url(../images/more.png) no-repeat 50% 0; top:2px; position:relative;}
+.pane-contest-blog-contest-pane .views-row a span { position:absolute; top:-1000px; left:0}
 
 .pane-node-field-flying-info { margin-right:10px}
 .panel_info .pane-node-field-flying-info h2 { background-position:0 0}
@@ -2606,7 +2610,7 @@ p { margin:0; padding:9px 0 11px}
 /* Feed photos */
 .pane-node-field-photos, 
 .pane-node-field-contest-photos,
-.pane-node-field-flying-site-photos { margin-left:-19px; padding-bottom:39px}
+.pane-node-field-flying-site-photos { margin-left:-20px; padding-bottom:40px; padding-top:1px}
 .pane-node-field-photos .pane-content, 
 .pane-node-field-contest-photos .pane-content, 
 .pane-node-field-flying-site-photos .pane-content { margin:0;}
@@ -2615,15 +2619,16 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-node-field-flying-site-photos .field { padding:0; margin-bottom:0}
 .pane-node-field-photos .field-item,
 .pane-node-field-contest-photos .field-item,
-.pane-node-field-flying-site-photos .field-item { float:left; /*border:1px solid #c8d0d3;*/ margin-left:19px;}
+.pane-node-field-flying-site-photos .field-item { float:left; /*border:1px solid #c8d0d3;*/ margin-left:20px;}
 .pane-node-field-photos .field-item img,
 .pane-node-field-contest-photos .field-item img,
 .pane-node-field-flying-site-photos .field-item img { vertical-align:middle;}
 
 /* Awards photos */
 .pane-node-field-awards-photos { padding-top:13px; padding-bottom:31px}
-.panel_info .pane-node-field-awards-photos .pane-content { margin:18px 0 0}
-.pane-node-field-awards-photos .field-items { margin:0 -5px 0 -9px;}
+.panel_info .pane-node-field-awards-photos .pane-content { margin:20px 0 0}
+.pane-node-field-awards-photos .field-items { margin:0 -5px 0 -10px;}
+.pane-node-field-awards-photos .field { margin-bottom:0}
 .pane-node-field-awards-photos .field-items .field-item { float:left; width:60px; padding-left:10px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px}
 .pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:both;}
 .pane-node-field-awards-photos .field-items .field-item a { color:#525c66}
@@ -2643,10 +2648,15 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
 .pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
 .pane-node-field-collection-getting-there .links a.plane { background-position:0 0}
+.pane-node-field-collection-getting-there .links a.plane:hover { background-position:-26px 0}
 .pane-node-field-collection-getting-there .links a.train { background-position:0 -100px}
+.pane-node-field-collection-getting-there .links a.train:hover { background-position:-26px -100px}
 .pane-node-field-collection-getting-there .links a.car { background-position:0 -200px}
+.pane-node-field-collection-getting-there .links a.car:hover { background-position:-26px -200px}
 .pane-node-field-collection-getting-there .links a.bus { background-position:0 -300px}
+.pane-node-field-collection-getting-there .links a.bus:hover { background-position:-26px -300px}
 .pane-node-field-collection-getting-there .links a.taxi { background-position:0 -400px}
+.pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -400px}
 
 /* Downloads */
 .pane-node-field-downloads {}
