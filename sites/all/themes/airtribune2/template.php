@@ -658,9 +658,9 @@ function airtribune2_colorbox_imagefield($variables) {
 }
 
 /**
- * Implements theme_field().
+ * Implements theme_field__field_collection_getting_there().
  */
-function airtribune2_field($variables) {
+function airtribune2_field__field_collection_getting_there($variables) {
 	//print_r($variables);
   $output = '';
   $colon = ':&nbsp;';
@@ -683,6 +683,34 @@ function airtribune2_field($variables) {
 
   // Render the top-level DIV.
   $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements theme_field__field_collection_getting_there().
+ */
+function airtribune2_field__field_collection_organizers($variables) {
+	//print_r($variables);
+  $output = '';
+  $colon = ':&nbsp;';
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<span class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</span';
+  }
+
+  // Render the items.
+  $output .= '<span class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<span class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>';
+	//$render_item = drupal_render($item);
+	$output .= drupal_render($item) . '</span>';
+  }
+  $output .= '</span>';
+
+  // Render the top-level DIV.
+  $output = '<span class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</span>';
 
   return $output;
 }

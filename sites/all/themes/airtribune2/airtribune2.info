@@ -13,6 +13,7 @@
   ; See each stylesheet for extensive documentation and help.
   stylesheets[screen][] = css/global.base.css
   stylesheets[screen][] = css/global.styles.css
+  stylesheets[screen][] = css/_to_top.css
 
   ; Print - uncomment to load basic print styles.
   ; stylesheets[print][] = css/print.css
@@ -61,6 +62,7 @@
   ; For example if you want to load a script just for IE 8 and below use the following as a guide:
   ; ie_scripts[lte IE 8] = js/my-script.js
   scripts[] = js/airtribune2.js
+  scripts[] = js/to_top.js
 
 
 ;----------// Panels

@@ -2420,7 +2420,7 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
 .node-teaser .node-create { float:right; padding:0}
 
-.next_events { position:relative; background:#fafbfc;
+.second_sidebar .block { position:relative; background:#fafbfc;
 
   	box-shadow: 0 1px 3px rgba(46,75,89,0.3), 0 0 1px rgba(216,222,226,0.8);	
 	-moz-box-shadow: 0 1px 3px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,0.5);				
@@ -2431,15 +2431,16 @@ p { margin:0; padding:9px 0 11px}
 	border-radius: 2px;
 
 }
-.next_events .pane-inner { margin:0}
-.next_events h2.block-title { background:#eceff2; margin:0; padding:6px 10px 8px; position:relative; font:24px/26px Arial, Helvetica, sans-serif; color:#677581; text-shadow:0 1px 1px #ffffff; text-align:center;
+.second_sidebar .block .pane-inner { margin:0}
+.second_sidebar .block h2.block-title { background:#eceff2; margin:0; padding:6px 10px 8px; position:relative; font:24px/26px Arial, Helvetica, sans-serif; color:#677581; text-shadow:0 1px 1px #ffffff; text-align:center;
 
 	-webkit-border-radius: 2px 2px 0 0; 
 	-moz-border-radius: 2px 2px 0 0;
 	border-radius: 2px 2px 0 0;
 
 }
-.next_events .pane-content { margin:9px 10px 14px;}
+.second_sidebar .block .pane-content { margin:9px 9px 0; padding-bottom:1px}
+.second_sidebar .next_events .pane-content { margin:9px 10px 13px;}
 .next_events .view-content { padding-bottom:4px;}
 .next_events a.next_event { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif; text-decoration:none; cursor:pointer; display:block; margin-bottom:9px}
 .next_events a.next_event:hover { color:#00aeef}
@@ -2500,6 +2501,10 @@ p { margin:0; padding:9px 0 11px}
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8ec8d9), color-stop(10%,#84bbd0), color-stop(90%,#73aac1), color-stop(100%,#7ab7d0));
 
 }
+
+.second_sidebar .block .view-advert-list {}
+.second_sidebar .block .view-advert-list .views-row { margin-bottom:8px;}
+.second_sidebar .block .view-advert-list img { border:1px solid #dde3e6; vertical-align:middle;}
 
 .panel-col-seventy .block { margin-bottom:0}
 
@@ -2583,13 +2588,16 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-2 h2.pane-title { background-position:0 -750px} /* Twitter */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title { background-position:0 -900px} /* Download */
 
-/*.pane-contest-blog-contest-pane { padding:3px 0 34px;}
+
+/* Blog */
+.pane-contest-blog-contest-pane { padding:9px 0 14px;}
+.panel_info .pane-contest-blog-contest-pane .pane-content { margin:0}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
 .pane-contest-blog-contest-pane .views-row strong {color:#333a40}
 .pane-contest-blog-contest-pane .views-row p { margin:0; padding:5px 0 0; color:#677581}
 
 .pane-node-field-flying-info { margin-right:10px}
-.panel_info .pane-node-field-flying-info h2 { background-position:0 0}*/
+.panel_info .pane-node-field-flying-info h2 { background-position:0 0}
 
 /*.pane-node-field-info { margin-left:10px}*/
 
@@ -2652,6 +2660,18 @@ p { margin:0; padding:9px 0 11px}
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
 .panel_info .pane-node-field-collection-organizers .pane-content { margin:18px 0 0}
+.pane-node-field-collection-organizers img { position:relative; border:1px solid #a2afb5;
+
+	-webkit-border-radius: 4px; 
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+
+}
+.pane-node-field-collection-organizers .entity { padding-bottom:8px;}
+.pane-node-field-collection-organizers .field-name-field-organizer-logo, .pane-node-field-collection-organizers .field-name-field-organizer-name { display:inline-block; margin-bottom:0}
+.page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:middle;}
+.page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-name { vertical-align:middle; width:145px; margin-left:9px; color:#3d464c}
+.page-event-info .pane-node-field-collection-organizers img { display:inline-block; width:40px; height:auto; vertical-align:middle;}
 
 /* Twitter */
 .pane-2 {}
@@ -2661,10 +2681,13 @@ p { margin:0; padding:9px 0 11px}
 	/* Details */
 /* Organizers */
 .pane-node-field-collection-organizers {}
-.pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item { width:50%; float:left;}
-.pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .even { clear:both}
-.pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .odd { float:right;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item { width:50%; float:left;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .even { clear:both}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .odd { float:right;}
 .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item > .entity { margin:0 9px;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:bottom;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-name { width:235px; margin-left:9px; color:#3d464c; font:bold 18px/20px Arial, Helvetica, sans-serif; padding-bottom:4px}
+.page-event-details .pane-node-field-collection-organizers img { vertical-align:middle;}
 
 /* Rules */
 .pane-node-field-contest-rules { padding-bottom:15px;}
