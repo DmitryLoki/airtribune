@@ -558,8 +558,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            0 => 0,
             'default' => 0,
+            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -2123,7 +2123,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_prizes',
-      'label' => 'Awards and prize money',
+      'label' => 'Prize fund and scoring categories',
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -2662,7 +2662,6 @@ function pg_contest_field_default_fields() {
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
-  t('Awards and prize money');
   t('Bus');
   t('Car');
   t('City');
