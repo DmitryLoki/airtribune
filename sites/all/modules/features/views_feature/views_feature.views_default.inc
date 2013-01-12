@@ -216,6 +216,23 @@ function views_feature_views_default_views() {
   /* Display: Event Sponsors */
   $handler = $view->new_display('panel_pane', 'Event Sponsors', 'panel_pane_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add sponsor\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>';
+  $handler->display->display_options['header']['area']['format'] = 'php_code';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'There are no sponsors added yet for the current event.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -289,6 +306,22 @@ function views_feature_views_default_views() {
     4 => '4',
     3 => '3',
   );
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add sponsor\'), \'node/add/advert\');?>';
+  $handler->display->display_options['header']['area']['format'] = 'php_code';
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'There are no sponsors added yet.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -396,11 +429,15 @@ function views_feature_views_default_views() {
     t('Delete link'),
     t('All'),
     t('Event Sponsors'),
+    t('<?php print l(t(\'Add sponsor\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
+    t('There are no sponsors added yet for the current event.'),
     t('View panes'),
     t('Event Banners'),
     t('<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/banner_blank.jpg\'));?></a>
 '),
     t('Site Sponsors'),
+    t('<?php print l(t(\'Add sponsor\'), \'node/add/advert\');?>'),
+    t('There are no sponsors added yet.'),
     t('Site banners'),
   );
   $export['advert_list'] = $view;
