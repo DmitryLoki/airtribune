@@ -11,5 +11,7 @@ features[image][] = node_image_first
 features[image][] = node_image_second
 features[image][] = node_image_third
 features[image][] = node_userpic
+features[image][] = organizer_details
+features[image][] = organizer_info
 features[image][] = race_teaser
 features[image][] = user_pirctue_mini

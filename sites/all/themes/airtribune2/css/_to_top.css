@@ -1,0 +1,72 @@
+/* To top panel */
+
+.to_top{display: none;}
+
+/* Large desktop */
+@media (min-width: 1024px) { 
+	.to_top {
+	  position: fixed;
+	  top: 0;
+	  bottom: 0;
+	  left: 0;
+	  width:40px;
+	  -moz-opacity: 0.3;
+	  filter: alpha(opacity=30);
+	  opacity: 0.3;
+	  display: none; 
+	  z-index:1001;
+	}
+	
+	.to_top .to_top_panel {
+	  width:100%;
+	  height: 100%;
+	  font-size: 11px;
+	  color: #4d7285;
+	  padding-top: 10px; 
+	  position: relative;
+	}
+	.to_top:hover {
+	  -moz-opacity: 0.9;
+	  filter: alpha(opacity=90);
+	  opacity: 0.9; 
+	}
+	.to_top:hover .to_top_panel {
+	  cursor: pointer;
+	  background: #f0f0f0; 
+	}
+	.to_top .close_panel {
+		position: absolute;
+		bottom: 20px;
+		left: 0px;
+		right: 0px;
+		text-align: center;
+	  line-height: 8px;
+	  font-family: tahoma, arial, verdana, sans-serif; 
+	  display: none;
+	}
+	
+	.to_top:hover .close_panel{
+		display: block;
+	}
+	.to_top .to_top_button {
+	  text-align: left;
+	  line-height: 8px;
+	  margin-left:10px;
+	  font-family: tahoma, arial, verdana, sans-serif;
+	  font-weight: bold; 
+	}	
+	.to_top .to_top_button .arrow{
+		font-size: 14px;
+		font-weight: bold; 
+		font-family: tahoma;
+		vertical-align: middle;
+	}
+/*
+}
+@media (max-width: 1350px){
+*/
+	
+	/* стиль для mini панели */
+	.to_top .to_top_panel .arrow{font-size:20px;}
+	.to_top .to_top_panel .label{display:none;}
+}
