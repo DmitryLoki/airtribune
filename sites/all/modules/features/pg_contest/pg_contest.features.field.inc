@@ -1644,6 +1644,109 @@ function pg_contest_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-pg_contest-field_header'.
+  $fields['node-pg_contest-field_header'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_header',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => '10321',
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_header',
+      'label' => 'Header image',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => '10322',
+        'entity_translation_sync' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 0,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => 'headers',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '',
+        'max_resolution' => '940x380',
+        'min_resolution' => '940x380',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported field: 'node-pg_contest-field_headquarter_info'.
   $fields['node-pg_contest-field_headquarter_info'] = array(
     'field_config' => array(
@@ -2602,6 +2705,7 @@ function pg_contest_field_default_fields() {
   t('General day-by-day schedule of the event.');
   t('General schedule');
   t('Group');
+  t('Header image');
   t('Headquarter info');
   t('Headquarter location');
   t('Headquarter location description, address and other contact information.');
