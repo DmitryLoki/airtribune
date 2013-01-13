@@ -234,7 +234,7 @@ function geofield_geom_is_empty($item) {
   if (!empty($item['input_format'])) {
     switch ($item['input_format']) {
       case 'wkt':
-        if (!$item['geom']) {
+        if (empty($item['geom'])) {
           return TRUE;
         }
         break;
@@ -265,6 +265,22 @@ function geofield_geom_is_empty($item) {
  */
 function geofield_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
   if ($field['type'] === 'geofield') {
+    /**
+     * Edge case. Currently, Drupal will set a field value to the default value if the current value
+     * is empty, even if it's set by the user. This bypasses our validation, and currently non-valid WKB
+     * data in geom causes catastrophic failures in entity_load. To compensate, we add the default value
+     * in early. When the core issue is fixed, we should drop this code.
+     *
+     * Geofield Issue: http://drupal.org/node/1886852
+     * Core Issue: http://drupal.org/node/1253820
+     */
+    if ($instance['required'] == 0 && empty($items)) {
+      $entity_ids = entity_extract_ids($entity_type, $entity);
+      if (empty($entity_ids[0])) {
+        $items = $instance['default_value'];
+      }
+    }
+
     ctools_include('plugins');
     
     $backend = ctools_get_plugins('geofield', 'geofield_backend', $field['settings']['backend']);
