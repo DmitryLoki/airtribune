@@ -507,7 +507,18 @@ events/*',
     $pane->type = 'panels_mini';
     $pane->subtype = 'temp_header_image';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'context_exists',
+          'settings' => array(
+            'exists' => '0',
+          ),
+          'context' => 'context_airtribune_event_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
@@ -525,6 +536,37 @@ events/*',
     $pane = new stdClass();
     $pane->pid = 'new-13';
     $pane->panel = 'top';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_header';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'title',
+      'formatter' => 'image',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(
+        'image_style' => '',
+        'image_link' => '',
+      ),
+      'context' => 'context_airtribune_event_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-13'] = $pane;
+    $display->panels['top'][2] = 'new-13';
+    $pane = new stdClass();
+    $pane->pid = 'new-14';
+    $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
     $pane->shown = TRUE;
@@ -536,10 +578,10 @@ events/*',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['top'][2] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['top'][3] = 'new-14';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
