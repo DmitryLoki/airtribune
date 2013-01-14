@@ -42,6 +42,7 @@ dependencies[] = entityreference_prepopulate
 dependencies[] = features
 dependencies[] = field_collection
 dependencies[] = field_group
+dependencies[] = field_permissions
 dependencies[] = field_ui
 dependencies[] = field_validation
 dependencies[] = file

@@ -10,6 +10,71 @@
 function organic_groups_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'og_membership-og_membership_type_default-og_membership_request'.
+  $fields['og_membership-og_membership_type_default-og_membership_request'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(
+        0 => 'og_membership',
+      ),
+      'field_name' => 'og_membership_request',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'og_membership_type_default',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'This is the text a user may send to the group administrators.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'field_name' => 'og_membership_request',
+      'label' => 'Request message',
+      'required' => FALSE,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'text_processing' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'rows' => 5,
+        ),
+        'type' => 'text_textarea',
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported field: 'og_membership-pg_contestant-field_paraglider_color'.
   $fields['og_membership-pg_contestant-field_paraglider_color'] = array(
     'field_config' => array(
@@ -216,6 +281,75 @@ function organic_groups_field_default_fields() {
     ),
   );
 
+  // Exported field: 'og_membership-pg_contestant-field_pg_contestant_status'.
+  $fields['og_membership-pg_contestant-field_pg_contestant_status'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_pg_contestant_status',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          1 => 'Waiting list',
+          2 => 'Waiting for payment',
+          3 => 'Payment in progress',
+          4 => 'Confirmed',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contestant',
+      'default_value' => array(
+        0 => array(
+          'value' => '1',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 5,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'field_name' => 'field_pg_contestant_status',
+      'label' => 'Payment status',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '41',
+      ),
+    ),
+  );
+
   // Exported field: 'og_membership-pg_contestant-field_tracker'.
   $fields['og_membership-pg_contestant-field_tracker'] = array(
     'field_config' => array(
@@ -224,6 +358,9 @@ function organic_groups_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_tracker',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -300,71 +437,6 @@ function organic_groups_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '0',
-      ),
-    ),
-  );
-
-  // Exported field: 'og_membership-og_membership_type_default-og_membership_request'.
-  $fields['og_membership-og_membership_type_default-og_membership_request'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(
-        0 => 'og_membership',
-      ),
-      'field_name' => 'og_membership_request',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'og_membership_type_default',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => 'This is the text a user may send to the group administrators.',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'og_membership',
-      'field_name' => 'og_membership_request',
-      'label' => 'Request message',
-      'required' => FALSE,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'text_processing' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'text',
-        'settings' => array(
-          'rows' => 5,
-        ),
-        'type' => 'text_textarea',
         'weight' => 0,
       ),
     ),
@@ -484,6 +556,7 @@ function organic_groups_field_default_fields() {
   t('Paraglider color');
   t('Paraglider manufacturer');
   t('Paraglider model');
+  t('Payment status');
   t('Request message');
   t('This is the text a user may send to the group administrators.');
 
