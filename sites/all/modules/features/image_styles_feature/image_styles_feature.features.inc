@@ -24,8 +24,8 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_resize',
         'data' => array(
-          'width' => '50',
-          'height' => '50',
+          'width' => '45',
+          'height' => '45',
         ),
         'weight' => '1',
       ),

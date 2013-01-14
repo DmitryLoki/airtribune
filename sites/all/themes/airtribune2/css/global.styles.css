@@ -2629,7 +2629,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-node-field-awards-photos .pane-content { margin:20px 0 0}
 .pane-node-field-awards-photos .field-items { margin:0 -5px 0 -10px;}
 .pane-node-field-awards-photos .field { margin-bottom:0}
-.pane-node-field-awards-photos .field-items .field-item { float:left; width: 50px; padding-left:10px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px}
+.pane-node-field-awards-photos .field-items .field-item { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px}
 /*.pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:both;}*/
 .pane-node-field-awards-photos .field-items .field-item a { color:#525c66}
 .pane-node-field-awards-photos .field-items .field-item img { vertical-align:middle; position:relative; display:inline-block; margin-bottom:2px;
