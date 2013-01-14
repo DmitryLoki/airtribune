@@ -1035,9 +1035,7 @@ function variables_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'title_auto_attach';
-  $strongarm->value = array(
-    'node:title' => 'node:title',
-  );
+  $strongarm->value = array();
   $export['title_auto_attach'] = $strongarm;
 
   $strongarm = new stdClass();

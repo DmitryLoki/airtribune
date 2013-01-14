@@ -558,8 +558,8 @@ function pg_contest_field_default_fields() {
           ),
           'allowed_types' => array(
             'audio' => 0,
-            0 => 0,
             'default' => 0,
+            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -632,7 +632,87 @@ function pg_contest_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '1',
+        'weight' => '0',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_collection_organizers-field_url'.
+  $fields['field_collection_item-field_collection_organizers-field_url'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_url',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'link',
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'rel' => '',
+          'target' => 'default',
+        ),
+        'display' => array(
+          'url_cutoff' => 80,
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'title' => 'optional',
+        'title_maxlength' => 128,
+        'title_value' => '',
+        'url' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'link_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_collection_organizers',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'link',
+          'settings' => array(),
+          'type' => 'link_default',
+          'weight' => 3,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_url',
+      'label' => 'Web site',
+      'required' => 0,
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'configurable_title' => 0,
+          'rel' => '',
+          'target' => '_blank',
+          'title' => '[field_collection_item:field_organizer_name]',
+        ),
+        'display' => array(
+          'url_cutoff' => '80',
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'title' => 'optional',
+        'title_maxlength' => '128',
+        'title_value' => '',
+        'url' => 0,
+        'user_register_form' => FALSE,
+        'validate_url' => 1,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'html5_tools',
+        'settings' => array(),
+        'type' => 'urlwidget',
+        'weight' => '3',
       ),
     ),
   );
@@ -641,7 +721,7 @@ function pg_contest_field_default_fields() {
   $fields['node-pg_contest-field_awards_photos'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '8',
+      'cardinality' => '7',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_awards_photos',
@@ -674,7 +754,15 @@ function pg_contest_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'pg_contest',
       'deleted' => '0',
-      'description' => 'Photos of prizes and awards',
+      'description' => 'Please attach photos of  awards (one photo for each) in the following order:
+Overall 
+Women
+Serial Class
+Open Class
+Sport Class
+Nations
+Clubs
+Teams',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -695,7 +783,7 @@ function pg_contest_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_awards_photos',
-      'label' => 'Prize fund and scoring categories',
+      'label' => 'Awards photos',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
@@ -991,7 +1079,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '27',
+          'weight' => 27,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1580,7 +1668,7 @@ function pg_contest_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '28',
+          'weight' => 28,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1641,6 +1729,180 @@ function pg_contest_field_default_fields() {
         ),
         'type' => 'media_generic',
         'weight' => '10',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_header'.
+  $fields['node-pg_contest-field_header'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_header',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => '10321',
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_header',
+      'label' => 'Header image',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => '10322',
+        'entity_translation_sync' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 0,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => 'headers',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '',
+        'max_resolution' => '940x380',
+        'min_resolution' => '940x380',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '1',
+      ),
+    ),
+  );
+  
+  // Exported field: 'node-pg_contest-field_headquarter_hotel'.
+  $fields['node-pg_contest-field_headquarter_hotel'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_headquarter_hotel',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(),
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 36,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_headquarter_hotel',
+      'label' => 'Headquarter hotel',
+      'required' => FALSE,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '28',
       ),
     ),
   );
@@ -2624,7 +2886,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '26',
+          'weight' => 37,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2636,24 +2898,19 @@ function pg_contest_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'title_field',
       'label' => 'Title',
-      'required' => 1,
+      'required' => TRUE,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'hide_label' => array(
-          'entity' => 0,
-          'page' => 0,
-        ),
-        'text_processing' => '0',
+        'text_processing' => 0,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'size' => '60',
+          'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => '0',
+        'weight' => -5,
       ),
     ),
   );
@@ -2663,6 +2920,7 @@ function pg_contest_field_default_fields() {
   t('A field replacing node title.');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Awards and prize money');
+  t('Awards photos');
   t('Bus');
   t('Car');
   t('City');
@@ -2680,6 +2938,8 @@ function pg_contest_field_default_fields() {
   t('General day-by-day schedule of the event.');
   t('General schedule');
   t('Group');
+  t('Header image');
+  t('Headquarter hotel');
   t('Headquarter info');
   t('Headquarter location');
   t('Headquarter location description, address and other contact information.');
@@ -2693,11 +2953,18 @@ function pg_contest_field_default_fields() {
   t('Organizer name');
   t('Organizers');
   t('Photos');
-  t('Photos of prizes and awards');
   t('Photos pertaining to the general description of the contest');
   t('Plane');
+  t('Please attach photos of  awards (one photo for each) in the following order:
+Overall 
+Women
+Serial Class
+Open Class
+Sport Class
+Nations
+Clubs
+Teams');
   t('Points file');
-  t('Prize fund and scoring categories');
   t('Registration switch');
   t('Rules');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
@@ -2708,6 +2975,7 @@ function pg_contest_field_default_fields() {
   t('Time zone');
   t('Title');
   t('Train');
+  t('Web site');
 
   return $fields;
 }

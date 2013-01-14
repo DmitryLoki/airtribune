@@ -170,6 +170,13 @@ function pg_contest_rdf_default_mappings() {
     'field_selection' => array(
       'predicates' => array(),
     ),
+    'field_prizes' => array(
+      'predicates' => array(),
+    ),
+    'field_header' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
   );
 
   return $schemaorg;
