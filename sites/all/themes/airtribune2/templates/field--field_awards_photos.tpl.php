@@ -79,7 +79,7 @@
  */
 ?>
 <?php 
-$titles_array = array(
+$labels = array(
   t('Overall'), 
   t('Women'),
   t('Serial Class'),
@@ -99,8 +99,8 @@ $titles_array = array(
   <div class="field-items"<?php print $content_attributes; ?>>
     <?php foreach ($items as $delta => $item) : ?>
       <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>    
-        <div class="label"><?php print $titles_array[$delta]; ?></div>
         <?php print render($item); ?>
+        <div class="label"><?php print $labels[$delta]; ?></div>
       </div>
     <?php endforeach; ?>
   </div>
