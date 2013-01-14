@@ -624,40 +624,6 @@ function airtribune2_preprocess_entity(&$variables) {
 }
 
 /**
- * Implements theme_colorbox_imagefield().
- */
-function airtribune2_colorbox_imagefield($variables) {
-  $class = array('colorbox');
-
-  if ($variables['image']['style_name'] == 'hide') {
-    $image = '';
-    $class[] = 'js-hide';
-  }
-  elseif (!empty($variables['image']['style_name'])) {
-    $image = theme('image_style', $variables['image']);
-  }
-  else {
-    $image = theme('image', $variables['image']);
-  }
-
-  $options = array(
-    'html' => TRUE,
-    'attributes' => array(
-      'title' => $variables['title'],
-      'class' => implode(' ', $class),
-      'rel' => $variables['gid'],
-    )
-  );
-
-  $output = l($image, $variables['path'], $options);
-  if ($variables['image']['style_name'] == 'award') {
-    $description = '<span>' . check_plain($variables['title']) . '</span>';
-    $output = '<div class="award-photo">' . $output . $description . '</div>';
-  }
-  return $output;
-}
-
-/**
  * Implements theme_field__field_collection_getting_there().
  */
 function airtribune2_field__field_collection_getting_there($variables) {

@@ -721,7 +721,7 @@ function pg_contest_field_default_fields() {
   $fields['node-pg_contest-field_awards_photos'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '7',
+      'cardinality' => '8',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_awards_photos',
