@@ -195,6 +195,61 @@ function system_variable_info($options) {
     'group' => 'theme_settings',
     'localize' => TRUE,
   );
+  // Performance options, changing them may need some extra cache refresh.
+  $variables['cache'] = array(
+    'type' => 'boolean',
+    'title' => t('Cache pages for anonymous users', array(), $options),
+    'default' => 0,
+    'group' => 'system_performance',
+  );
+  // This one belongs to a different module, block, but it won't do any harm having it here.
+  $variables['block_cache'] = array(
+    'type' => 'boolean',
+    'title' => t('Cache blocks'),
+    'default' => FALSE,
+    'description' => t('Block caching is inactive if you have enabled modules defining content access restrictions.', array(), $options),
+    'group' => 'system_performance',
+  );
+  $interval = array(0, 60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400);
+  $variables['cache_lifetime'] = array(
+    'type' => 'time_interval',
+    'title' => t('Minimum cache lifetime', array(), $options),
+    'default' => 0,
+    'interval values' => $interval,
+    'description' => t('Cached pages will not be re-created until at least this much time has elapsed.', array(), $options),
+    'group' => 'system_performance',
+  );
+  $variables['page_cache_maximum_age'] = array(
+    'type' => 'time_interval',
+    'title' => t('Expiration of cached pages', array(), $options),
+    'default' =>  0,
+    'interval values' => $interval,
+    'description' => t('The maximum time an external cache can use an old version of a page.', array(), $options),
+    'group' => 'system_performance',
+  );
+
+  $description = t('External resources can be optimized automatically, which can reduce both the size and number of requests made to your website.', array(), $options);
+  $variables['page_compression'] = array(
+    'type' => 'enable',
+    'title' => t('Compress cached pages.', array(), $options),
+    'description' => $description,
+    'default' => TRUE,
+    'group' => 'system_performance',
+  );
+  $variables['preprocess_css'] = array(
+    'type' => 'boolean',
+    'title' => t('Aggregate and compress CSS files.'),
+    'description' => $description,
+    'default' => 0,
+    'group' => 'system_performance',
+  );
+  $variables['preprocess_js'] = array(
+    'type' => 'boolean',
+    'title' => t('Aggregate JavaScript files.'),
+    'description' => $description,
+    'default' => 0,
+    'group' => 'system_performance',
+  );
   return $variables;
 }
 
@@ -222,6 +277,12 @@ function system_variable_group_info() {
     'title' => t('Theme settings'),
     'description' => t('Theme settings'),
     'access' => 'administer site configuration',
+  );
+  $groups['system_performance'] = array(
+    'title' => t('System performance'),
+    'description' => t('Options related with cache, file compression and bandwidth optimization.'),
+    'access' => 'administer site configuration',
+    'path' => 'admin/config/development/performance',
   );
   return $groups;
 }
@@ -275,6 +336,11 @@ function system_variable_type_info() {
     'title' => t('Date format'),
     'type' => 'select',
     'options callback' => 'system_variable_option_date_format',
+  );
+  $type['time_interval'] = array(
+    'title' => t('Time interval'),
+    'type' => 'select',
+    'options callback' => 'system_variable_option_time_interval',
   );
   return $type;
 }
@@ -342,6 +408,17 @@ function system_variable_option_date_format($variable, $options) {
 function system_variable_option_country($variable, $options) {
   include_once DRUPAL_ROOT . '/includes/locale.inc';
   return country_get_list();
+}
+
+/**
+ * Callback for time interval options
+ */
+function system_variable_option_time_interval($variable, $options) {
+  $period = drupal_map_assoc($variable['interval values'], 'format_interval');
+  if (isset($period[0])) {
+    $period[0] = '<' . t('none') . '>';
+  }
+  return $period;
 }
 
 /**

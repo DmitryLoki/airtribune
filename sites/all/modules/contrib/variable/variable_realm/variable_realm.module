@@ -38,9 +38,6 @@ function variable_realm_init() {
     }
     variable_realm_rebuild();
   }
-  // Refresh realm information, so if any module needs realm information after this,
-  // we'll get properly localized info.
-  drupal_static_reset('variable_realm_info');
 }
 
 /**
@@ -114,15 +111,27 @@ function variable_realm_params($realm_name = NULL) {
  * Get information about variable realms.
  */
 function variable_realm_info($realm_name = NULL) {
-  $realm_info = &drupal_static(__FUNCTION__);
-  if (!isset($realm_info)) {
-    $realm_info = _variable_realm_invoke_all('variable_realm_info');
+  $realm_info_tmp = $realm_info = &drupal_static(__FUNCTION__);
+
+  if (!isset($realm_info_tmp)) {
+    $realm_info_tmp = _variable_realm_invoke_all('variable_realm_info');
+
+    // If first param is NULL, module_load_all() only returns a boolean
+    // indicating whether all modules have been loaded.
+    if (module_load_all(NULL)) {
+      // Due to the fact that variable_realm_info() gets called by some
+      // modules and the menu access callbacks early in the bootstrap,
+      // we could not cache the realm info for later calls until all
+      // modules have been loaded.
+      $realm_info = $realm_info_tmp;
+    }
   }
+
   if ($realm_name) {
-    return isset($realm_info[$realm_name]) ? $realm_info[$realm_name] : array();
+    return isset($realm_info_tmp[$realm_name]) ? $realm_info_tmp[$realm_name] : array();
   }
   else {
-    return $realm_info;
+    return $realm_info_tmp;
   }
 }
 
@@ -239,10 +248,16 @@ function variable_realm_add($realm, $key, $values = array(), $weight = NULL, $re
  */
 function variable_realm_set($realm, $key, $name, $value, $rebuild = TRUE) {
   if ($store = variable_realm($realm, $key)) {
+    $old_value = variable_realm_get($realm, $key, $name);
     $store->variable_set($name, $value);
     if ($rebuild) {
       variable_realm_refresh($realm, $key, $name);
     }
+    $options = array(
+      'realm' => $store->realm,
+      'key' => $store->key,
+    );
+    module_invoke_all('variable_update', $name, $value, $old_value, $options);
   }
 }
 

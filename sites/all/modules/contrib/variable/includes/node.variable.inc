@@ -91,17 +91,17 @@ function node_variable_type_info() {
  */
 function node_variable_option_text_length($variable, $options = array()) {
   return array(
-    0 => t('Unlimited', array(), $options),
-    200 => t('200 characters', array(), $options),
-    400 => t('400 characters', array(), $options),
-    600 => t('600 characters', array(), $options),
-    800 => t('800 characters', array(), $options),
-    1000 => t('1000 characters', array(), $options),
-    1200 => t('1200 characters', array(), $options),
-    1400 => t('1400 characters', array(), $options),
-    1600 => t('1600 characters', array(), $options),
-    1800 => t('1800 characters', array(), $options),
-    2000 => t('2000 characters', array(), $options),
+       0 => t('Unlimited', array(), $options),
+     200 => t('@count characters', array('@count' =>  200), $options),
+     400 => t('@count characters', array('@count' =>  400), $options),
+     600 => t('@count characters', array('@count' =>  600), $options),
+     800 => t('@count characters', array('@count' =>  800), $options),
+    1000 => t('@count characters', array('@count' => 1000), $options),
+    1200 => t('@count characters', array('@count' => 1200), $options),
+    1400 => t('@count characters', array('@count' => 1400), $options),
+    1600 => t('@count characters', array('@count' => 1600), $options),
+    1800 => t('@count characters', array('@count' => 1800), $options),
+    2000 => t('@count characters', array('@count' => 2000), $options),
   );  
 }
 
