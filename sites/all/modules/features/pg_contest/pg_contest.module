@@ -46,6 +46,9 @@ function pg_contest_insert($node) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
     pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
+  
+  // Create aliases
+  _pg_contest_create_alias($node);
 }
  
 /* Implementation of hook_update
@@ -175,7 +178,7 @@ function _pg_contest_create_alias($node) {
     $nid = $node->nid;
     $alias_base = pathauto_cleanstring($node->title);
     // Remove existing alises.
-    foreach (array("event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
+    foreach (array("event/$nid", "event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
       $criteria = path_load($source);
       if (!empty($criteria)) {
         $criteria = array('source' => $criteria['source']);
@@ -183,7 +186,7 @@ function _pg_contest_create_alias($node) {
       }
     }
     $aliases = array(
-      $alias_base => "event/$nid/info",
+      $alias_base => "event/$nid",
       $alias_base . '/info' => "event/$nid/info",
       $alias_base . '/details' => "event/$nid/details",
       $alias_base . '/blog' => "event/$nid/blog",
@@ -205,7 +208,7 @@ function _pg_contest_delete_alias($node) {
   if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
     $nid = $node->nid;
     // Remove existing alises.
-    foreach (array("event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
+    foreach (array("event/$nid", "event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
       $criteria = path_load($source);
       if (!empty($criteria)) {
         $criteria = array('source' => $criteria['source']);
