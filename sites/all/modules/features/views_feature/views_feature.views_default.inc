@@ -297,8 +297,10 @@ function views_feature_views_default_views() {
     ),
   );
 
-  /* Display: Site Sponsors */
-  $handler = $view->new_display('page', 'Site Sponsors', 'page_1');
+  /* Display: Site Partners */
+  $handler = $view->new_display('page', 'Site Partners', 'page_1');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
@@ -312,7 +314,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add sponsor\'), \'node/add/advert\');?>';
+  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add partner\'), \'node/add/advert\');?>';
   $handler->display->display_options['header']['area']['format'] = 'php_code';
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* No results behavior: Global: Text area */
@@ -347,10 +349,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
   $handler->display->display_options['filters']['id']['group'] = 1;
-  $handler->display->display_options['path'] = 'sponsors';
+  $handler->display->display_options['path'] = 'partners';
 
   /* Display: Site banners */
   $handler = $view->new_display('panel_pane', 'Site banners', 'panel_pane_4');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -435,8 +439,9 @@ function views_feature_views_default_views() {
     t('Event Banners'),
     t('<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/banner_blank.jpg\'));?></a>
 '),
-    t('Site Sponsors'),
-    t('<?php print l(t(\'Add sponsor\'), \'node/add/advert\');?>'),
+    t('Site Partners'),
+    t('Partners'),
+    t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
     t('There are no sponsors added yet.'),
     t('Site banners'),
   );
