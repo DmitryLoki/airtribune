@@ -375,7 +375,7 @@ function _path_breadcrumbs_ui_form_step_basic_settings(&$form, &$form_state) {
   $form['path'] = array(
     '#type' => 'textfield',
     '#title' => t('Path'),
-    '#description' => t('The URL path where breadcrumb will be shown. You may create named placeholders for variable parts of the path by using %name for required elements. For example: "node/%node/foo" or "forum/%forum". These named placeholders can be turned into contexts on the arguments form.'),
+    '#description' => t('The URL non-aliased path where breadcrumb will be shown. You may create named placeholders for variable parts of the path by using %name for required elements. For example: "node/%node/foo" or "forum/%forum". These named placeholders can be turned into contexts on the arguments form.'),
     '#required' => TRUE,
     '#maxlength' => 256,
     '#field_prefix' => url(NULL, array('absolute' => TRUE)) . (variable_get('clean_url', 0) ? '' : '?q='),
@@ -694,6 +694,11 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings(&$form, &$form_stat
       '#default_value' => isset($breadcrumb->paths[$i]) ? $breadcrumb->paths[$i] : '',
     );
 
+    $form['breadcrumbs_table'][$unique_hash]['weight'] = array(
+      '#type'          => 'textfield',
+      '#default_value' => $i,
+    );
+
     $form['breadcrumbs_table'][$unique_hash]['delete'] = array(
       '#name'  => 'delete_' . $unique_hash,
       '#type'  => 'submit',
@@ -735,7 +740,6 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings(&$form, &$form_stat
     '#rows' => $rows,
   );
 
-
   $form['#attached']['library'][] = array('system', 'ui.autocomplete');
   $form['#attached']['library'][] = array('system', 'ui.button');
   $form['#attached']['js'][] = drupal_get_path('module', 'path_breadcrumbs_ui') . '/js/path_breadcrumbs_ui.js';
@@ -753,27 +757,6 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings(&$form, &$form_stat
   if (isset($form_state['storage']['machine_name'])) {
     _path_breadcrumbs_ui_form_apply_default_values($form, $form_state['storage']['machine_name']);
   }
-}
-
-/**
- * Make tokens tree more flated.
- * Add fake tokens for tokens with children.
- *
- * @param $tree
- *   Token tree.
- * @return array
- */
-function _path_breadcrumbs_ui_flat_token_tree($tree) {
-  $result = array();
-  foreach ($tree as $token => $token_info) {
-    $result[$token] = $token_info;
-    if (!empty($token_info['children']) && is_array($token_info['children'])) {
-      $token_expanded = drupal_substr($token, 0, drupal_strlen($token) - 1) . ':]';
-      $result[$token_expanded] = $token_info;
-      $result += _path_breadcrumbs_ui_flat_token_tree($token_info['children']);
-    }
-  }
-  return $result;
 }
 
 /**
@@ -828,12 +811,15 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings_submit($form, &$for
     $form_state['rebuild'] = TRUE;
   }
 
+  // Sort breadcrumb items based on weights changed by tabledrag.
+  usort($values['breadcrumbs_table'], 'drupal_sort_weight');
+
   // Rebuild breadcrumb titles and paths.
   $titles = array();
   $paths  = array();
   foreach ($values['breadcrumbs_table'] as $value) {
-    $titles[] = $value['left_value'];
-    $paths[] = $value['right_value'];
+    array_unshift($titles, $value['left_value']);
+    array_unshift($paths, $value['right_value']);
   }
 
   // Update titles and paths in cache.
@@ -1231,8 +1217,8 @@ function path_breadcrumbs_ui_edit_form_ajax_callback($form, $form_state) {
       // Redirect user to page with breadcrumbs list.
       ctools_include('ajax');
 
-      // Ajax responder not required since CTools 7.x-1.0 but this line
-      // should be added to keep module works properly.
+      // Ajax responder is not required since CTools 7.x-1.0 but this line
+      // should be added to keep module works properly for all versions.
       ctools_add_js('ajax-responder');
 
       $commands = array();

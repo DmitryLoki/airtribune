@@ -214,6 +214,9 @@ function path_breadcrumbs_ui_settings_submit($form, &$form_state) {
       drupal_theme_rebuild();
     }
   }
+
+  // Truncate all cached data.
+  cache_clear_all('*', PATH_BREADCRUMBS_CACHE_STORAGE, TRUE);
 }
 
 /**
