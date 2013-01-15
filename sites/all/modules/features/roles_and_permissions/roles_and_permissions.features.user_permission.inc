@@ -1060,6 +1060,28 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
+  // Exported permission: edit field_pg_contestant_status.
+  $permissions['edit field_pg_contestant_status'] = array(
+    'name' => 'edit field_pg_contestant_status',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+      2 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit field_tracker.
+  $permissions['edit field_tracker'] = array(
+    'name' => 'edit field_tracker',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+      2 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit media.
   $permissions['edit media'] = array(
     'name' => 'edit media',
@@ -1484,6 +1506,28 @@ function roles_and_permissions_user_default_permissions() {
       1 => 'pilot',
     ),
     'module' => 'profile2',
+  );
+
+  // Exported permission: view field_pg_contestant_status.
+  $permissions['view field_pg_contestant_status'] = array(
+    'name' => 'view field_pg_contestant_status',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+      2 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view field_tracker.
+  $permissions['view field_tracker'] = array(
+    'name' => 'view field_tracker',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+      2 => 'organizer',
+    ),
+    'module' => 'field_permissions',
   );
 
   // Exported permission: view media.

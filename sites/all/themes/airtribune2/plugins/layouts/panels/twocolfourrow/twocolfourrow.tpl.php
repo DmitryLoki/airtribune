@@ -21,7 +21,7 @@
         </div>
        </div>
 
-       <div class="panel-panel panel-col-thirty lastUnit">
+       <div class="panel-panel panel-col-thirty second_sidebar lastUnit">
         <div class="inside">
           <?php print $content['right']; ?>
         </div>

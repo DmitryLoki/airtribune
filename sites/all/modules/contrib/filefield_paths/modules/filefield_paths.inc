@@ -42,43 +42,40 @@ function filefield_paths_filefield_paths_field_settings() {
  * Implements hook_filefield_paths_process_file().
  */
 function filefield_paths_filefield_paths_process_file($type, $entity, $field, $instance, $langcode, &$items) {
-  if (isset($instance['settings']['filefield_paths'])) {
-    $settings = $instance['settings']['filefield_paths'];
-    foreach ($items as &$file) {
-      if ($file['timestamp'] == REQUEST_TIME || $settings['active_updating']) {
-        $token_data = array(
-          'file' => (object) $file,
-          $type => $entity
-        );
+  $settings = $instance['settings']['filefield_paths'];
+  foreach ($items as &$file) {
+    if ($file['timestamp'] == REQUEST_TIME || $settings['active_updating']) {
+      $token_data = array(
+        'file' => (object) $file,
+        $type => $entity
+      );
 
-        // Copy the original file for comparision purposes.
-        $old_file = $file;
+      // Copy the original file for comparision purposes.
+      $old_file = $file;
 
-        // Process filename.
-        $file['filename'] = !empty($settings['file_name']['value'])
-          ? filefield_paths_process_string($settings['file_name']['value'], $token_data, $settings['file_name']['options'])
-          : $file['filename'];
+      // Process filename.
+      $file['filename'] = !empty($settings['file_name']['value'])
+        ? filefield_paths_process_string($settings['file_name']['value'], $token_data, $settings['file_name']['options'])
+        : $file['filename'];
 
-        // Process filepath.
-        $file['uri'] = "{$field['settings']['uri_scheme']}://" . ltrim(filefield_paths_process_string($settings['file_path']['value'] . "/{$file['filename']}", $token_data, $settings['file_path']['options']), '/');
+      // Process filepath.
+      $file['uri'] = "{$field['settings']['uri_scheme']}://" . filefield_paths_process_string($settings['file_path']['value'] . "/{$file['filename']}", $token_data, $settings['file_path']['options']);
 
-        // Finalize file if necessary.
-        if ($file !== $old_file) {
-          $dirname = drupal_dirname($file['uri']);
-          if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY) && file_move((object) $old_file, $file['uri'])) {
-            // Process regular expression.
-            _filefield_paths_replace_path($old_file['uri'], $file['uri'], $entity);
+      // Finalize file if necessary.
+      if ($file !== $old_file) {
+        if (file_prepare_directory(drupal_dirname($file['uri']), FILE_CREATE_DIRECTORY) && file_move((object) $old_file, $file['uri'])) {
+          // Process regular expression.
+          _filefield_paths_replace_path($old_file['uri'], $file['uri'], $entity);
 
-            // Remove any old empty directories.
-            $scheme = file_uri_scheme($old_file['uri']);
-            $paths = explode('/', str_replace("{$scheme}://", '', drupal_dirname($old_file['uri'])));
-            while ($paths) {
-              if (@drupal_rmdir("{$scheme}://" . implode('/', $paths)) == TRUE) {
-                array_pop($paths);
-                continue;
-              }
-              break;
+          // Remove any old empty directories.
+          $scheme = file_uri_scheme($old_file['uri']);
+          $paths = explode('/', str_replace("{$scheme}://", '', drupal_dirname($old_file['uri'])));
+          while ($paths) {
+            if (@drupal_rmdir("{$scheme}://" . implode('/', $paths)) == TRUE) {
+              array_pop($paths);
+              continue;
             }
+            break;
           }
         }
       }

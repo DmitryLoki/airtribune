@@ -17,6 +17,7 @@ dependencies[] = invisimail
 dependencies[] = link
 dependencies[] = list
 dependencies[] = media
+dependencies[] = openlayers
 dependencies[] = strongarm
 dependencies[] = title
 features[ctools][] = strongarm:strongarm:1

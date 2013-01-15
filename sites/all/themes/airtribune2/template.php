@@ -562,3 +562,121 @@ function airtribune2_pager_link($variables) {
   $attributes['href'] = url($_GET['q'], array('query' => $query));
   return '<a' . drupal_attributes($attributes) . '><span>' . check_plain($text) . '</span></a>';
 }
+
+/**
+ * Implements_preprocess_entity().
+ */
+function airtribune2_preprocess_entity(&$variables) {
+	//print_r($variables);
+  if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
+    $variables['info_page'] = arg(2) == 'info';
+    if ($variables['info_page']) {
+      $contest_id = (int) arg(1);
+
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Plane'),
+        'fragment' => 'gt_plane',
+		'attributes' => array(
+		  'class' => 'plane',
+		),
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id. '/details',
+        'title' => t('Train'),
+        'fragment' => 'gt_train',
+		'attributes' => array(
+		  'class' => 'train',
+		),
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Car'),
+        'fragment' => 'gt_car',
+		'attributes' => array(
+		  'class' => 'car',
+		),
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Bus'),
+        'fragment' => 'gt_bus',
+		'attributes' => array(
+		  'class' => 'bus',
+		),
+      );
+      $links[] = array(
+        'href' => 'event/' . $contest_id . '/details',
+        'title' => t('Taxi'),
+        'fragment' => 'gt_taxi',
+		'attributes' => array(
+		  'class' => 'taxi',
+		),
+      );
+
+      $variables['content']['transport'] = array(
+        '#theme' => 'links',
+        '#links' => $links,
+      );
+
+    }
+  }
+}
+
+/**
+ * Implements theme_field__field_collection_getting_there().
+ */
+function airtribune2_field__field_collection_getting_there($variables) {
+	//print_r($variables);
+  $output = '';
+  $colon = ':&nbsp;';
+  if($variables['element']['#bundle'] == 'field_collection_getting_there') {
+	 $colon = '';
+	 $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
+  }
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
+  }
+
+  // Render the items.
+  $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+  }
+  $output .= '</div>';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements theme_field__field_collection_getting_there().
+ */
+function airtribune2_field__field_collection_organizers($variables) {
+	//print_r($variables);
+  $output = '';
+  $colon = ':&nbsp;';
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<span class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</span';
+  }
+
+  // Render the items.
+  $output .= '<span class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<span class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>';
+	//$render_item = drupal_render($item);
+	$output .= drupal_render($item) . '</span>';
+  }
+  $output .= '</span>';
+
+  // Render the top-level DIV.
+  $output = '<span class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</span>';
+
+  return $output;
+}

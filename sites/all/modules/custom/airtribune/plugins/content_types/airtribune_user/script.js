@@ -3,6 +3,9 @@ jQuery(function($){
 	$('#sign-in .drop-item').hide();
 	
 	$('#sign-in .user-button a, #sign-in .user-picture a').click(function(){
+		if($('.main-menu-item:visible').size() > 0){
+			blockSlide($('.main-menu-item:visible'), 0, false);
+		}
 		if($('.user-login').height() == 1 || $('.user-menu').height() == 1 ){
 			var direct = 1
 			if($('.flags:visible').size() > 0){
@@ -23,6 +26,9 @@ jQuery(function($){
 	});
 	
 	$('#sign-in .lang-icon span').click(function(){
+		if($('.main-menu-item:visible').size() > 0){
+			blockSlide($('.main-menu-item:visible'), 0, false);
+		}
 		if($('.flags').height() == 1){
 			var direct = 1;
 			if($('.user-login:visible, .user-menu:visible').size() > 0){
@@ -77,7 +83,7 @@ function blockSlide(activeEl, direction, eventEl, callback, calldackFunc){
 			eventEl.addClass('active');
 		}
 		callback.speeds = {90:100, 95:120, 100:140};
-		callback.height = itemSizes(activeEl.find('.pane-inner'))['vert'];
+		//callback.height = itemSizes(activeEl.find('.pane-inner'))['vert'];
 		callback.size = Object.size(callback.speeds);
 		if(direction){
 			callback.currentSpeed = 1;
@@ -89,6 +95,7 @@ function blockSlide(activeEl, direction, eventEl, callback, calldackFunc){
 		}
 		
 	}
+	callback.height = itemSizes(activeEl.find('.pane-inner'))['vert'];
 	
 	var speedSize = 0, speedKey;
 	for (speedKey in callback.speeds) {
@@ -128,6 +135,7 @@ function blockSlide(activeEl, direction, eventEl, callback, calldackFunc){
 		if(callback.currentSpeed == 0){
 			activeEl.removeClass('active');
 			jQuery('#airtribune-user .active').removeClass('active');
+			jQuery('.pane-airtribune-primary-navigation ul li.expanded.menu_active, .pane-airtribune-primary-navigation ul li.expanded a.menu_active').removeClass('menu_active');
 			activeEl.hide();			
 		}
 		if(calldackFunc && (callback.currentSpeed == 0 || callback.currentSpeed == callback.size + 1)){

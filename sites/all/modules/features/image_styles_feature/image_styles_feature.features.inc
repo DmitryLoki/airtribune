@@ -10,6 +10,28 @@
 function image_styles_feature_image_default_styles() {
   $styles = array();
 
+  // Exported image style: award.
+  $styles['award'] = array(
+    'name' => 'award',
+    'effects' => array(
+      4 => array(
+        'label' => 'Resize',
+        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+        'effect callback' => 'image_resize_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_resize',
+        'data' => array(
+          'width' => '45',
+          'height' => '45',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: contest_thumbnail.
   $styles['contest_thumbnail'] = array(
     'name' => 'contest_thumbnail',
@@ -26,6 +48,28 @@ function image_styles_feature_image_default_styles() {
         'data' => array(
           'width' => '160',
           'height' => '100',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: header.
+  $styles['header'] = array(
+    'name' => 'header',
+    'effects' => array(
+      3 => array(
+        'label' => 'Resize',
+        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+        'effect callback' => 'image_resize_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_resize',
+        'data' => array(
+          'width' => '940',
+          'height' => '380',
         ),
         'weight' => '1',
       ),
@@ -58,7 +102,7 @@ function image_styles_feature_image_default_styles() {
   $styles['node_image_second'] = array(
     'name' => 'node_image_second',
     'effects' => array(
-      3 => array(
+      2 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -68,7 +112,7 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '340',
+          'width' => '349',
           'height' => '230',
         ),
         'weight' => '1',
@@ -80,7 +124,7 @@ function image_styles_feature_image_default_styles() {
   $styles['node_image_third'] = array(
     'name' => 'node_image_third',
     'effects' => array(
-      4 => array(
+      3 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -90,7 +134,7 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '220',
+          'width' => '232',
           'height' => '150',
         ),
         'weight' => '1',
@@ -103,6 +147,50 @@ function image_styles_feature_image_default_styles() {
     'name' => 'node_userpic',
     'effects' => array(
       5 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '40',
+          'height' => '40',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: organizer_details.
+  $styles['organizer_details'] = array(
+    'name' => 'organizer_details',
+    'effects' => array(
+      3 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '80',
+          'height' => '80',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: organizer_info.
+  $styles['organizer_info'] = array(
+    'name' => 'organizer_info',
+    'effects' => array(
+      2 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',

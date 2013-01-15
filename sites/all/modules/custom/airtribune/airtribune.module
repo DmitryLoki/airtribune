@@ -7,15 +7,26 @@
 
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
+
+// Fields.
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
-define('AIRTRIBUNE_OPENCLASS_FIELD', 'field_open_class');
+define('AIRTRIBUNE_OPENCLASS_FIELD',     'field_open_class');
+define('AIRTRIBUNE_GETTING_THERE_FIELD', 'field_collection_getting_there');
+define('AIRTRIBUNE_COUNTRY_FIELD',       'field_country');
+define('AIRTRIBUNE_CITY_FIELD',          'field_city');
+define('AIRTRIBUNE_DATES_FIELD',         'field_dates');
+define('AIRTRIBUNE_TIMEZONE_FIELD',      'field_time_zone');
+define('AIRTRIBUNE_OG_GROUP_REF_FIELD',  'og_group_ref');
+
+// Content types.
+define('AIRTRIBUNE_PG_CONTEST_TYPE',     'pg_contest');
 
 /**
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' && $plugin_type == 'content_types') {
-    return 'plugins/content_types';
+  if ($owner == 'ctools' && ($plugin_type == 'content_types' || $plugin_type == 'contexts')) {
+    return 'plugins/' . $plugin_type;
   }
 }
 
@@ -128,12 +139,28 @@ function airtrubune_get_country_code($langcode) {
  * Implements hook_preprocess_panels_pane().
  *
  * @see #2247
+ * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
-    $vars['more'] = l(t('View more'), 'event/' . $vars['display']->args[0] . '/details', array('fragment' => $vars['pane']->configuration['more']));
+    $vars['more'] = l(
+      $vars['pane']->configuration['more']['title'],
+      'event/' . $vars['display']->args[0] . '/details',
+      array('fragment' => $vars['pane']->configuration['more']['fragment'])
+    );
   }
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
+  }
+}
+
+/**
+ * Implements hook_field_collection_item_view_alter().
+ */
+function airtribune_field_collection_item_view_alter(&$build) {
+  if ($build['#bundle'] == AIRTRIBUNE_GETTING_THERE_FIELD && arg(2) == 'details') {
+    foreach (element_children($build) as $key) {
+      $build[$key]['#prefix'] = '<a name="' . str_replace('field_', '', $key) . '"></a>';
+    }
   }
 }

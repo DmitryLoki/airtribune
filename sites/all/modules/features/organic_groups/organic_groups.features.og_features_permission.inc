@@ -82,7 +82,9 @@ function organic_groups_og_features_default_permissions() {
 
   // Exported og permission: 'node:pg_contest:subscribe without approval'
   $permissions['node:pg_contest:subscribe without approval'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'non-member' => 'non-member',
+    ),
   );
 
   // Exported og permission: 'node:pg_contest:unsubscribe'

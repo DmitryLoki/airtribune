@@ -95,8 +95,8 @@ function advert_field_default_fields() {
           'retroactive_update' => 0,
         ),
         'max_filesize' => '',
-        'max_resolution' => '200x140',
-        'min_resolution' => '200x200',
+        'max_resolution' => '200x200',
+        'min_resolution' => '200x140',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
@@ -252,7 +252,7 @@ function advert_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'advert',
-      'default_value' => NULL,
+      'default_value' => array(),
       'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
@@ -277,6 +277,15 @@ function advert_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
+            ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
           'prepopulate' => array(
             'action' => 'hide',
             'fallback' => 'hide',
@@ -300,10 +309,10 @@ function advert_field_default_fields() {
         ),
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'options',
+        'active' => 0,
+        'module' => 'og',
         'settings' => array(),
-        'type' => 'options_buttons',
+        'type' => 'og_complex',
         'weight' => '3',
       ),
     ),
@@ -335,8 +344,9 @@ function advert_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
+        'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
