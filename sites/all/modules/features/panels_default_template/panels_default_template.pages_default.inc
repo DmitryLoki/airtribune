@@ -479,21 +479,25 @@ events/*',
     $pane = new stdClass();
     $pane->pid = 'new-11';
     $pane->panel = 'top';
-    $pane->type = 'airtribune_event_title';
-    $pane->subtype = 'airtribune_event_title';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'main_featured_header';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(),
+      'plugins' => array(
+        0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => FALSE,
+        ),
+      ),
     );
     $pane->configuration = array(
-      'context' => 'context_airtribune_event_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
-      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -505,14 +509,14 @@ events/*',
     $pane->pid = 'new-12';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
-    $pane->subtype = 'temp_header_image';
+    $pane->subtype = 'event_featured_header';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
           'name' => 'context_exists',
           'settings' => array(
-            'exists' => '0',
+            'exists' => '1',
           ),
           'context' => 'context_airtribune_event_1',
           'not' => FALSE,
@@ -536,22 +540,28 @@ events/*',
     $pane = new stdClass();
     $pane->pid = 'new-13';
     $pane->panel = 'top';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_header';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'temp_header_image';
     $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'image',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'image_style' => '',
-        'image_link' => '',
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'context_exists',
+          'settings' => array(
+            'exists' => '0',
+          ),
+          'context' => 'context_airtribune_event_1',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
       ),
-      'context' => 'context_airtribune_event_1',
-      'override_title' => 1,
+    );
+    $pane->configuration = array(
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();

@@ -1,0 +1,20 @@
+.featured-header {
+  background: #DEE6E9;
+  width: 940px;
+  overflow: visible;
+  height: auto;
+}
+.featured-header-title {
+  width: auto;
+  position: static;
+  color: #000 !important;
+  color: #FFF;
+}
+.featured-header-padding {
+  width: auto;
+  position: static;
+  padding: 20px;
+}
+.featured-header .panel-region {
+  border: dotted 1px #999 !important;
+}
