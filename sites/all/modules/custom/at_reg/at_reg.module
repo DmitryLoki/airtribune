@@ -511,22 +511,24 @@ function at_reg_multiform_crossfields($multiform) {
   $items = array();
   
   if ($multiform['#multiform_id'] == 'contest_registration_multiform') {
-    
-    $items[] = array(
-      '#base' => array(
-        '#tag' => 'og_ui_confirm_subscribe',
-        '#name' => 'field_paraglider_manufacturer',
-        '#parents' => array('field_paraglider_manufacturer'),
-        '#array_parents' => array('field_paraglider_manufacturer'),
-      ),
-      '#dependent' => array(
-        '#tag' => 'user_register_form',
-        '#name' => 'field_paraglider_manufacturer',
-        '#parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
-        '#array_parents' => array('profile_pilot', 'field_paraglider_manufacturer'),
-      ),
-    );
+    $field_names = array('field_paraglider_manufacturer', 'field_paraglider_model', 'field_paraglider_color');
+    foreach ($field_names as $field_name) {
+      $items[] = array(
+        '#dependent' => array(
+          '#tag' => 'og_ui_confirm_subscribe',
+          '#name' => $field_name,
+          '#parents' => array($field_name),
+          '#array_parents' => array($field_name),
+        ),
+        '#base' => array(
+          '#tag' => 'user_register_form',
+          '#name' => $field_name,
+          '#parents' => array('profile_pilot', $field_name),
+          '#array_parents' => array('profile_pilot', $field_name),
+        ),
+      );
+    }
   }
-  //dsm($items);
+  
   return $items;
 }
