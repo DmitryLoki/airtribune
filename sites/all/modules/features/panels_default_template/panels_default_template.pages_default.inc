@@ -424,10 +424,10 @@ print l(t(\'Manage event sponsors\'), \'sponsors/%node:nid\');
       ),
     );
     $pane->configuration = array(
-      'admin_title' => 'Manage site sponsors link',
+      'admin_title' => 'Manage site partners link',
       'title' => '',
       'body' => '<?php
-print l(t(\'Manage site sponsors\'), \'sponsors\');
+print l(t(\'Manage site partners\'), \'partners\');
 ?>',
       'format' => 'php_code',
       'substitute' => 1,
