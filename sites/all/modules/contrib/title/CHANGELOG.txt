@@ -1,30 +1,6 @@
 
 Title 7.x-1.x, xxxx-xx-xx
 -------------------------
-
-
-Title 7.x-1.0-alpha5, 2012-12-18
---------------------------------
-#1869228 by plach: Updated system dependencies.
-#1062814 by Andreas Radloff, jucallme | Scott J: Added Formatters.
-#1849344 by peximo: Fixed Duplicate description element in taxonomy display
-  form.
-#1482052 by peximo | joel rotelli, epieddy: Fixed Undefined property:
-  stdClass::$type dans title_tokens_alter().
-#1761142 by joel_osc, plach | no2e: Fixed Replaced taxonomy description:
-  can't delete content (but editing works).
-#1736476 by guillaumev: Made sure entity is accurate in title_entity_language().
-#1748008 by vasike: Replaced fields should inherit the legacy field access.
-#1808454 by plach: Fixed help and permissions for the admin settings.
-#1835486 by plach: Fixed Automated tests are failing.
-#1808454 by peximo: Overhauled the admin settings form.
-#1773514 by peximo: Added Module's configuration page.
-#1396450 by logaritmisk, plach | mgifford: Fixed Notice: Undefined index:
-  fieldable in title_entity_info_alter() (line 28 of title/title.module).
-
-
-Title 7.x-1.0-alpha4, 2012-08-11
---------------------------------
 #1708046 by plach | steinmb: Fixed Term description is overwritten.
 #1709938 by Amitaibu: Prevented notice in title_field_attach_create_bundle().
 #1541414 by peximo, plach | int_ua: Added No 'Link this field to the original

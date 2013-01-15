@@ -109,11 +109,6 @@ function title_field_term_description_submit($entity_type, $entity, $legacy_fiel
     if (isset($entity->{$info['field']['field_name']}[$langcode][0][$key])) {
       $values['description'][$key] = $entity->{$info['field']['field_name']}[$langcode][0][$key];
     }
-    // If the keys are not defined an empty value has been submitted, hence we
-    // need to update the term description accordingly.
-    else {
-      $values['description'][$key] = ($key == 'value') ?  '' : filter_default_format();
-    }
   }
 }
 

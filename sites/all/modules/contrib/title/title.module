@@ -19,7 +19,6 @@
  */
 
 module_load_include('inc', 'title', 'title.core');
-module_load_include('inc', 'title', 'title.field');
 
 /**
  * Implements hook_module_implements_alter().
@@ -48,7 +47,7 @@ function title_module_implements_alter(&$implementations, $hook) {
  */
 function title_entity_info_alter(&$info) {
   foreach ($info as $entity_type => $entity_info) {
-    if (!empty($entity_info['fieldable']) && !empty($info[$entity_type]['field replacement'])) {
+    if ($entity_info['fieldable'] && !empty($info[$entity_type]['field replacement'])) {
       foreach ($info[$entity_type]['field replacement'] as $legacy_field => $data) {
         // Provide defaults for the replacing field name.
         $fr_info = &$info[$entity_type]['field replacement'][$legacy_field];
@@ -243,15 +242,12 @@ function title_field_replacement_toggle($entity_type, $bundle, $legacy_field) {
   $instance = field_info_instance($entity_type, $field_name, $bundle);
 
   if (empty($instance)) {
-    $options = variable_get('title_' . $entity_type, array());
     $field = field_info_field($field_name);
     if (empty($field)) {
       field_create_field($info['field']);
     }
     $info['instance']['entity_type'] = $entity_type;
     $info['instance']['bundle'] = $bundle;
-    $info['instance']['settings']['hide_label']['page'] = isset($options['hide_label']['page']) ? $options['hide_label']['page'] : FALSE;
-    $info['instance']['settings']['hide_label']['entity'] = isset($options['hide_label']['entity']) ? $options['hide_label']['entity'] : FALSE;
     field_create_instance($info['instance']);
     return TRUE;
   }
@@ -450,7 +446,7 @@ function title_field_sync_set($entity_type, $entity, $legacy_field, $info) {
  */
 function title_entity_language($entity_type, $entity) {
   if (module_exists('entity_translation') && entity_translation_enabled($entity_type)) {
-    $handler = entity_translation_get_handler($entity_type, $entity, TRUE);
+    $handler = entity_translation_get_handler($entity_type, $entity);
     $langcode = $handler->getLanguage();
   }
   else {
@@ -472,13 +468,6 @@ function title_field_attach_form($entity_type, $entity, &$form, &$form_state, $l
   if (!empty($fr_info)) {
     foreach ($fr_info as $legacy_field => $info)  {
       if (isset($form[$legacy_field]) && title_field_replacement_enabled($entity_type, $bundle, $legacy_field)) {
-        // Inherit the access from the title widget, so that other modules
-        // restricting access to it keep working.
-        if (isset($form[$legacy_field]['#access'])) {
-          $form[$info['field']['field_name']]['#access'] = $form[$legacy_field]['#access'];
-        }
-        // Restrict access to the legacy field form element and mark it as
-        // replaced.
         $form[$legacy_field]['#access'] = FALSE;
         $form[$legacy_field]['#field_replacement'] = TRUE;
       }
@@ -567,21 +556,11 @@ function title_menu() {
     'description' => 'Settings for the Title module.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('title_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer content types'),
     'file' => 'title.admin.inc',
   );
 
   return $items;
-}
-
-/**
- * Implements hook help.
- */
-function title_help($path, $arg) {
-  switch ($path) {
-    case 'admin/config/content/title':
-      return '<p>' . t('The settings below allow to configure the <em>default</em> settings to be used when creating new replacing fields. It is even possibile to configure them so that the selected fields are created automatically when a new bundle is created.') . '</p>';
-  }
 }
 
 /**
@@ -595,7 +574,7 @@ function title_field_extra_fields_alter(&$info) {
         foreach ($entity_info[$entity_type]['field replacement'] as $field_name => $field_replacement_info) {
           if (title_field_replacement_enabled($entity_type, $bundle_name, $field_name)) {
             // Remove the replaced legacy field.
-            unset($info[$entity_type][$bundle_name]['form'][$field_name],  $info[$entity_type][$bundle_name]['display'][$field_name]);
+            unset($info[$entity_type][$bundle_name]['form'][$field_name]);
           }
         }
       }
@@ -617,40 +596,27 @@ function title_form_field_ui_field_overview_form_alter(&$form, &$form_state) {
  * Make sure tokens are properly translated.
  */
 function title_tokens_alter(array &$replacements, array $context) {
-  $mapping = &drupal_static(__FUNCTION__);
-  if (empty($mapping)) {
-    foreach (entity_get_info() as $entity_type => $info) {
-      if (!empty($info['token type'])) {
-        $mapping[$info['token type']] = $entity_type;
-      }
+  $fr_info = title_field_replacement_info($context['type']);
+  if ($fr_info && !empty($context['data'][$context['type']])) {
+    $entity = $context['data'][$context['type']];
+    $options = $context['options'];
+
+    $langcode = NULL;
+    if (isset($options['language'])) {
+      $langcode = $options['language']->language;
     }
-  }
 
-  if (isset($mapping[$context['type']])) {
-    $entity_type = $mapping[$context['type']];
-    $fr_info = title_field_replacement_info($entity_type);
-    if ($fr_info && !empty($context['data'][$context['type']])) {
-      $entity = $context['data'][$context['type']];
-      list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
-      $options = $context['options'];
-
-      $langcode = NULL;
-      if (isset($options['language'])) {
-        $langcode = $options['language']->language;
-      }
-
-      if ($fr_info) {
-        foreach ($fr_info as $legacy_field => $info) {
-          if (title_field_replacement_enabled($entity_type, $bundle, $legacy_field)) {
-            if (isset($context['tokens'][$legacy_field])) {
-              title_field_sync_get($entity_type, $entity, $legacy_field, $info, $langcode);
-              $item = $entity->{$legacy_field};
-              if (!empty($item)) {
-                if (is_array($item)) {
-                  $item = reset($item);
-                }
-                $replacements[$context['tokens'][$legacy_field]] = $item;
+    if ($fr_info) {
+      foreach ($fr_info as $legacy_field => $info) {
+        if (title_field_replacement_enabled($context['type'], $entity->type, $legacy_field)) {
+          if (isset($context['tokens'][$legacy_field])) {
+            title_field_sync_get($context['type'], $entity, $legacy_field, $info, $langcode);
+            $item = $entity->{$legacy_field};
+            if (!empty($item)) {
+              if (is_array($item)) {
+                $item = reset($item);
               }
+              $replacements[$context['tokens'][$legacy_field]] = $item;
             }
           }
         }
@@ -668,24 +634,17 @@ function title_form_field_ui_field_edit_form_alter(&$form, $form_state) {
 
   if (title_field_replacement_is_label($entity_type, $instance['field_name'])) {
     $info = entity_get_info($entity_type);
-    $form['instance']['settings']['hide_label'] = _title_hide_label_widget($instance['settings'], $info['label']);
+    $form['instance']['settings']['hide_label'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Label replacement'),
+      '#description' => t('Check these options if you wish to display the @entity_type label in the content area.', array('@entity_type' => $info['label'])),
+      '#default_value' => !empty($instance['settings']['hide_label']) ? $instance['settings']['hide_label'] : array(),
+      '#options' => array(
+        'page' => t('Hide page title'),
+        'entity' => t('Hide entity label'),
+      ),
+    );
   }
-}
-
-/**
- * Returns the hide label form widget.
- */
-function _title_hide_label_widget($default, $entity_label) {
-  return array(
-    '#type' => 'checkboxes',
-    '#title' => t('Label replacement'),
-    '#description' => t('Check these options if you wish to hide the main page title or each label when displaying multiple items of type %entity_label.', array('%entity_label' => $entity_label)),
-    '#default_value' => !empty($default['hide_label']) ? $default['hide_label'] : array(),
-    '#options' => array(
-      'page' => t('Hide page title'),
-      'entity' => t('Hide label in %entity_label listings', array('%entity_label' => drupal_strtolower($entity_label))),
-    ),
-  );
 }
 
 /**
@@ -818,10 +777,10 @@ function title_field_attach_create_bundle($entity_type, $bundle) {
     return;
   }
 
-  $options = variable_get('title_' . $entity_type, array());
+  $options = variable_get('title_auto_attach', array());
 
   foreach (array_keys($entity_info['field replacement']) as $field_name) {
-    if (!isset($options['auto_attach'][$field_name])) {
+    if (!isset($options[$entity_type . ':' . $field_name])) {
       continue;
     }
 
@@ -832,12 +791,12 @@ function title_field_attach_create_bundle($entity_type, $bundle) {
 
     title_field_replacement_toggle($entity_type, $bundle, $field_name);
 
-    $instance = field_info_instance($entity_type, $field_name, $bundle);
     $params = array(
-      '@entity_label' => drupal_strtolower($entity_info['label']),
-      '%field_name' => t($entity_info['field replacement'][$field_name]['instance']['label']),
-     );
+      '@entity_name' => strtolower($entity_info['label']),
+      '@field_name' => $entity_info['field replacement'][$field_name]['field']['field_name'],
+      '@bundle_name' => $bundle,
+    );
 
-    drupal_set_message(t('The @entity_label %field_name field was automatically replaced.', $params));
+    drupal_set_message(t('The field @field_name was attached automatically to @entity_name - @bundle_name.', $params));
   }
 }

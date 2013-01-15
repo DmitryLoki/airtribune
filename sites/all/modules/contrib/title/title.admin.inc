@@ -79,40 +79,24 @@ function title_field_replacement_form_submit($form, &$form_state) {
  * Form settings for automated title_field attachement.
  */
 function title_admin_settings_form() {
-  $form['tabs'] = array(
-    '#type' => 'vertical_tabs',
-  );
-
-  foreach (entity_get_info() as $entity_type => $info) {
-    if (empty($info['field replacement'])) {
+  foreach (entity_get_info() as $entity_type => $entity) {
+    if (empty($entity['field replacement'])) {
       continue;
     }
 
-    $form['settings']['title_' . $entity_type] = array(
-      '#type' => 'fieldset',
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#tree' => TRUE,
-      '#group' => 'tabs',
-      '#title' => $info['label'],
-    );
-
-    $options = array();
-    foreach (array_keys($info['field replacement']) as $replacement) {
-      $options[$replacement] = drupal_ucfirst($replacement);
+    foreach (array_keys($entity['field replacement']) as $replacement) {
+      $options[$entity_type . ':' . $replacement] = $entity['label'] ." - ". ucfirst($replacement);
     }
-
-    $default = variable_get('title_' . $entity_type, array());
-    $form['settings']['title_' . $entity_type]['auto_attach'] = array(
-      '#type' => 'checkboxes',
-      '#title' => t('Automatic field replacement'),
-      '#options' => $options,
-      '#default_value' => !empty($default['auto_attach']) ? $default['auto_attach'] : array(),
-      '#description' => t('Automatically replace the selected field(s) when creating a new bundle.'),
-    );
-
-    $form['settings']['title_' . $entity_type]['hide_label'] = _title_hide_label_widget($default, $info['label']);
   }
+
+  $form['title_auto_attach'] = array(
+    '#type' => 'select',
+    '#title' => t('Auto attach replacement field'),
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#default_value' => variable_get('title_auto_attach', array()),
+    '#description' => t('Enable to auto-attach a replacement field when a bundle is created.'),
+  );
 
   return system_settings_form($form);
 }
