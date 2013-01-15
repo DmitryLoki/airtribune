@@ -438,10 +438,9 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '1',
+          'type' => 'hidden',
+          'weight' => '3',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -505,14 +504,14 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => '',
+            'image_style' => 'organizer_details',
           ),
           'type' => 'image',
-          'weight' => '2',
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -557,11 +556,11 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -613,7 +612,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -677,10 +676,9 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'link',
           'settings' => array(),
-          'type' => 'link_default',
-          'weight' => 3,
+          'type' => 'hidden',
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -1131,11 +1129,11 @@ Teams',
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -1835,7 +1833,7 @@ Teams',
       ),
     ),
   );
-  
+
   // Exported field: 'node-pg_contest-field_headquarter_hotel'.
   $fields['node-pg_contest-field_headquarter_hotel'] = array(
     'field_config' => array(
