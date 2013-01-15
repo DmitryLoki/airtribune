@@ -430,24 +430,6 @@ e-mail: info@airtribune.com</p>',
     $pane = new stdClass();
     $pane->pid = 'new-12';
     $pane->panel = 'title';
-    $pane->type = 'page_logo';
-    $pane->subtype = 'page_logo';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['title'][0] = 'new-12';
-    $pane = new stdClass();
-    $pane->pid = 'new-13';
-    $pane->panel = 'title';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
     $pane->shown = TRUE;
@@ -455,20 +437,23 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => '',
       'title' => '',
-      'body' => 'Paragliding competition GPS live tracking',
-      'format' => 'filtered_html',
+      'body' => '<h1>Grandstand sporting events</h1>',
+      'format' => 'full_html',
       'substitute' => 1,
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'main_slide_header',
+    );
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['title'][1] = 'new-13';
+    $display->content['new-12'] = $pane;
+    $display->panels['title'][0] = 'new-12';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $mini->display = $display;
@@ -498,7 +483,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-13';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -522,10 +507,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['middle'][0] = 'new-14';
+    $display->content['new-13'] = $pane;
+    $display->panels['middle'][0] = 'new-13';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-14';
+  $display->title_pane = 'new-13';
   $mini->display = $display;
   $export['temp_header_image'] = $mini;
 
