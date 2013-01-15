@@ -7,16 +7,18 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('MapTiler'),
-  'description' => t('<a href="!url">MapTiler</a> or GDAL2Tiles',
-    array('!url' => 'http://www.maptiler.org/')),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_maptiler.inc',
-    'class' => 'openlayers_layer_type_maptiler',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_maptiler_openlayers_layer_types() {
+  return array(
+    'title' => t('MapTiler'),
+    'description' => t('<a href="!url">MapTiler</a> or GDAL2Tiles',
+      array('!url' => 'http://www.maptiler.org/')),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_maptiler.inc',
+      'class' => 'openlayers_layer_type_maptiler',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers MapTiler Layer Type class
@@ -51,12 +53,12 @@ class openlayers_layer_type_maptiler extends openlayers_layer_type {
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     return array(
       'base_url' => array(
         '#type' => 'textfield',
         '#title' => t('Base URL'),
-        '#default_value' => isset($this->data['base_url']) ? 
+        '#default_value' => isset($this->data['base_url']) ?
           $this->data['base_url'] : ''
       ),
       'isBaseLayer' => array(

@@ -9,16 +9,18 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('CloudMade'),
-  'description' => t('<a href="!url">CloudMade</a> Custom Map',
-    array('!url' => 'http://cloudmade.com/')),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_cloudmade.inc',
-    'class' => 'openlayers_layer_type_cloudmade',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_cloudmade_openlayers_layer_types() {
+  return array(
+    'title' => t('CloudMade'),
+    'description' => t('<a href="!url">CloudMade</a> Custom Map',
+      array('!url' => 'http://cloudmade.com/')),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_cloudmade.inc',
+      'class' => 'openlayers_layer_type_cloudmade',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers CloudMade Layer Type class
@@ -49,7 +51,7 @@ class openlayers_layer_type_cloudmade extends openlayers_layer_type {
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     $warning = (!variable_get('openlayers_layers_cloudmade_js', FALSE) ||
       !variable_get('openlayers_layers_cloudmade_api', FALSE)) ?
         array(
@@ -91,7 +93,7 @@ class openlayers_layer_type_cloudmade extends openlayers_layer_type {
         '#title' => t('CloudMade Javascript Location'),
         '#default_value' => variable_get('openlayers_layers_cloudmade_js', ''),
         '#description' => t('The Drupal path or full URL to the location of the ' .
-          '<a href="@url">Cloudmade OpenLayers Javascript library</a>', 
+          '<a href="@url">Cloudmade OpenLayers Javascript library</a>',
           array('@url' => 'http://developers.cloudmade.com/projects/show/openlayers-api')),
       ),
     );
@@ -102,9 +104,9 @@ class openlayers_layer_type_cloudmade extends openlayers_layer_type {
    */
   function render(&$map) {
     static $cloudmade_maps_included;
-    
+
     if (!isset($cloudmade_maps_included)) {
-      drupal_add_js(drupal_get_path('module', 'openlayers') . 
+      drupal_add_js(drupal_get_path('module', 'openlayers') .
         '/plugins/layer_types/openlayers_layer_type_cloudmade.js');
       $path = variable_get('openlayers_layers_cloudmade_js', '');
       if (valid_url($path, TRUE)) {
