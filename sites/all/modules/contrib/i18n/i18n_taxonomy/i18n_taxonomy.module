@@ -142,13 +142,13 @@ function i18n_taxonomy_menu_alter(&$items) {
     $items['taxonomy/term/%taxonomy_term']['page callback'] = 'i18n_taxonomy_term_page';
     $items['taxonomy/term/%taxonomy_term']['title callback'] = 'i18n_taxonomy_term_name';
     $items['taxonomy/term/%taxonomy_term']['file'] = 'i18n_taxonomy.pages.inc';
-    $items['taxonomy/term/%taxonomy_term']['module'] = 'i18n_taxonomy';
+    $items['taxonomy/term/%taxonomy_term']['file path'] = drupal_get_path('module', 'i18n_taxonomy');
   }
 
   // Localize autocomplete
   $items['taxonomy/autocomplete']['page callback'] = 'i18n_taxonomy_autocomplete_field';
   $items['taxonomy/autocomplete']['file'] = 'i18n_taxonomy.pages.inc';
-  $items['taxonomy/autocomplete']['module'] = 'i18n_taxonomy';
+  $items['taxonomy/autocomplete']['file path'] = drupal_get_path('module', 'i18n_taxonomy');
 }
 
 /**
@@ -471,6 +471,14 @@ function i18n_taxonomy_term_name($term, $langcode = NULL) {
   return i18n_taxonomy_vocabulary_mode($term->vid, I18N_MODE_LOCALIZE) ? i18n_string(array('taxonomy', 'term', $term->tid, 'name'), $term->name, array('langcode' => $langcode, 'sanitize' => FALSE)) : $term->name;
 }
 
+
+/**
+ * Get localized term description unfiltered.
+ */
+function i18n_taxonomy_term_description($term, $langcode = NULL) {
+  return i18n_taxonomy_vocabulary_mode($term->vid, I18N_MODE_LOCALIZE) ? i18n_string(array('taxonomy', 'term', $term->tid, 'description'), $term->description, array('langcode' => $langcode, 'sanitize' => FALSE)) : $term->description;
+}
+
 /**
  * Find term translation from translation set.
  *
@@ -501,10 +509,17 @@ function i18n_taxonomy_term_get_translation($term, $langcode) {
 }
 
 /**
- * Get localized vocabulary name
+ * Get localized vocabulary name, unfiltered.
  */
 function i18n_taxonomy_vocabulary_name($vocabulary, $langcode = NULL) {
-  return i18n_object_langcode($vocabulary) ? $vocabulary->name : i18n_string(array('taxonomy', 'vocabulary', $vocabulary->vid, 'name'), $vocabulary->name, array('langcode' => $langcode));
+  return i18n_object_langcode($vocabulary) ? $vocabulary->name : i18n_string(array('taxonomy', 'vocabulary', $vocabulary->vid, 'name'), $vocabulary->name, array('langcode' => $langcode, 'sanitize' => FALSE));
+}
+
+/**
+ * Get localized vocabulary description, unfiltered.
+ */
+function i18n_taxonomy_vocabulary_description($vocabulary, $langcode = NULL) {
+  return i18n_object_langcode($vocabulary) ? $vocabulary->description : i18n_string(array('taxonomy', 'vocabulary', $vocabulary->vid, 'description'), $vocabulary->description, array('langcode' => $langcode, 'sanitize' => FALSE));
 }
 
 /**
@@ -627,7 +642,7 @@ function i18n_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
  */
 function i18n_taxonomy_taxonomy_vocabulary_update($vocabulary) {
   // Update language for related terms
-  switch ($vocabulary->i18n_mode) {
+  switch (i18n_taxonomy_vocabulary_mode($vocabulary)) {
     case I18N_MODE_LANGUAGE:
       $update['language'] = $vocabulary->language;
       break;
@@ -660,7 +675,7 @@ function i18n_taxonomy_taxonomy_vocabulary_delete($vocabulary) {
  */
 function i18n_taxonomy_taxonomy_term_presave($term) {
   switch (i18n_taxonomy_vocabulary_mode($term->vid)) {
-    case I18N_MODE_LANGUAGE; // Predefined language for all terms
+    case I18N_MODE_LANGUAGE: // Predefined language for all terms
       $term->language = taxonomy_vocabulary_load($term->vid)->language;
       break;
     case I18N_MODE_TRANSLATE: // Multilingual terms, translatable

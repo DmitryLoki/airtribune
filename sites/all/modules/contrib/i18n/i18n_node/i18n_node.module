@@ -442,9 +442,55 @@ function i18n_node_form_node_form_alter(&$form, $form_state) {
    *
    * @see http://drupal.org/node/765860
   */
+  
+  // Replace core's node submit callback with our own,
+  // in order to translate the node type name.
+  $key = array_search('node_form_submit', $form['actions']['submit']['#submit']);
+  if ($key !== FALSE) {
+    $form['actions']['submit']['#submit'][$key] = 'i18n_node_form_submit';
+  }
 
   // call a 'private' implemenation of i18n_node_form_node_form_alter()
   $form['#after_build'][] = '_i18n_node_form_node_form_alter';
+}
+
+
+/**
+ * Replacement for core's node_form_submit(), taking care of
+ * translating node type names.
+ */
+function i18n_node_form_submit($form, &$form_state) {
+  $node = node_form_submit_build_node($form, $form_state);
+  $insert = empty($node->nid);
+  node_save($node);
+  $node_link = l(t('view'), 'node/' . $node->nid);
+  $type = node_type_get_type($node->type);
+  $type_name = i18n_node_translate_type($type);
+
+  $watchdog_args = array('@type' => $node->type, '%title' => $node->title);
+  $t_args = array('@type' => $type_name, '%title' => $node->title);
+
+  if ($insert) {
+    watchdog('content', '@type: added %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
+    drupal_set_message(t('@type %title has been created.', $t_args));
+  }
+  else {
+    watchdog('content', '@type: updated %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
+    drupal_set_message(t('@type %title has been updated.', $t_args));
+  }
+  if ($node->nid) {
+    $form_state['values']['nid'] = $node->nid;
+    $form_state['nid'] = $node->nid;
+    $form_state['redirect'] = 'node/' . $node->nid;
+  }
+  else {
+    // In the unlikely case something went wrong on save, the node will be
+    // rebuilt and node form redisplayed the same way as in preview.
+    drupal_set_message(t('The post could not be saved.'), 'error');
+    $form_state['rebuild'] = TRUE;
+  }
+  // Clear the page and block caches.
+  cache_clear_all();
 }
 
 /**
@@ -471,7 +517,7 @@ function _i18n_node_form_node_form_alter($form, &$form_state) {
   }
   // Translate page title for node/add/% and node/%/edit pages.
   $types = node_type_get_types();
-  if (empty($node->nid) && $_GET['q'] == 'node/add/' . str_replace('_', '-', $node->type)) {
+  if (empty($node->nid) && strpos($_GET['q'], 'node/add/' . str_replace('_', '-', $node->type)) === 0) {
     drupal_set_title(t('Create @name', array('@name' => i18n_node_translate_type($types[$node->type], 'name'))), PASS_THROUGH);
   }
   elseif (!empty($node->nid) && $_GET['q'] == 'node/' . $node->nid . '/edit') {

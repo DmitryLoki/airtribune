@@ -75,4 +75,24 @@ class i18n_menu_link extends i18n_string_object_wrapper {
   protected function translate_access() {
     return user_access('administer menu') && user_access('translate interface');
   }
+
+  /**
+   * Get translatable properties.
+   *
+   * Check whether title or description are to be translated by default menu
+   * system.
+   */
+  protected function build_properties() {
+    $properties = parent::build_properties();
+    if ($properties) {
+      $strings = &$properties['menu']['item'][$this->get_key()];
+      $localizable = _i18n_menu_link_localizable_properties($this->object);
+      foreach ($strings as $key => $data) {
+        if (!in_array($key, $localizable)) {
+          unset($strings[$key]);
+        }
+      }
+    }
+    return $properties;
+  }
 }
