@@ -1308,6 +1308,68 @@ function views_feature_views_default_views() {
   /* Display: Standard */
   $handler = $view->new_display('panel_pane', 'Standard', 'standard');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'field_gender',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+    1 => array(
+      'field' => 'field_pg_contestant_status',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['columns'] = array(
+    'field_full_name' => 'field_full_name',
+    'field_paraglider_model' => 'field_paraglider_model',
+    'field_pg_contestant_status' => 'field_pg_contestant_status',
+    'field_gender' => 'field_gender',
+    'field_address' => 'field_address',
+  );
+  $handler->display->display_options['style_options']['default'] = 'field_pg_contestant_status';
+  $handler->display->display_options['style_options']['info'] = array(
+    'field_full_name' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_paraglider_model' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_pg_contestant_status' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_gender' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_address' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
@@ -1424,7 +1486,7 @@ function views_feature_views_default_views() {
     ),
     'field_pg_contestant_status' => array(
       'sortable' => 1,
-      'default_sort_order' => 'asc',
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
