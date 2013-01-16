@@ -10,4 +10,5 @@ features[features_api][] = api:1
 features[page_manager_pages][] = event_blog
 features[page_manager_pages][] = event_details
 features[page_manager_pages][] = event_info
+features[page_manager_pages][] = event_pilots
 features[page_manager_pages][] = event_sponsors
