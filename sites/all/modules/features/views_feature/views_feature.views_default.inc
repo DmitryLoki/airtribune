@@ -1027,6 +1027,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
   $handler->display->display_options['footer']['result']['field'] = 'result';
+  /* No results behavior: Sorry, no any entries were found. */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['ui_name'] = 'Sorry, no any entries were found.';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'Sorry, no any entries were found.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Field: Featured header: Id */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_featured_header';
@@ -1100,6 +1108,7 @@ function views_feature_views_default_views() {
     t('last »'),
     t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
     t('Displaying @start - @end of @total'),
+    t('Sorry, no any entries were found.'),
     t('Id'),
     t('.'),
     t(','),
