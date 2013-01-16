@@ -713,8 +713,8 @@ function pages_feature_default_page_manager_pages() {
     'title' => 'Info',
     'no_blocks' => 1,
     'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
+    'body_classes_to_remove' => 'page-event-info',
+    'body_classes_to_add' => 'page-event-info',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -1404,6 +1404,8 @@ function pages_feature_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array();
   $page->arguments = array(
