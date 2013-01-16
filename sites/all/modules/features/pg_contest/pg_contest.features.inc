@@ -20,6 +20,14 @@ function pg_contest_ctools_plugin_api() {
 function pg_contest_rdf_default_mappings() {
   $schemaorg = array();
 
+  // Exported RDF mapping: field_collection_organizers
+  $schemaorg['field_collection_item']['field_collection_organizers'] = array(
+    'field_organizer_logo' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
+  );
+
   // Exported RDF mapping: field_collection_getting_there
   $schemaorg['field_collection_item']['field_collection_getting_there'] = array(
     'field_gt_plane' => array(
@@ -174,6 +182,10 @@ function pg_contest_rdf_default_mappings() {
       'predicates' => array(),
     ),
     'field_header' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
+    'field_header_image' => array(
       'predicates' => array(),
       'type' => 'rel',
     ),
