@@ -8,23 +8,20 @@
 /**
  * Define module constants.
  */
+
+// Constants for rich snippets support.
 define('PATH_BREADCRUMBS_RICH_SNIPPETS_DISABLED', 0);
 define('PATH_BREADCRUMBS_RICH_SNIPPETS_RDFA', 1);
 define('PATH_BREADCRUMBS_RICH_SNIPPETS_MICRODATA', 2);
 
-/**
- * Implements hook_ctools_plugin_directory().
- */
-function path_breadcrumbs_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools') {
-    return 'plugins/' . $plugin_type;
-  }
-}
+// Constant for cache storage.
+define('PATH_BREADCRUMBS_CACHE_STORAGE', 'cache_path_breadcrumbs');
 
 /**
  * Implements hook_page_alter().
  */
 function path_breadcrumbs_page_alter() {
+
   // See if current page has path breadcrumbs.
   $breadcrumbs = path_breadcrumbs_load_variant(current_path());
 
@@ -45,45 +42,58 @@ function path_breadcrumbs_page_alter() {
  */
 function path_breadcrumbs_load_variant($path) {
 
-  if (!$path) {
+  if (empty($path)) {
     return FALSE;
   }
 
-  // Select all variants matching current path.
-  $variants = path_breadcrumbs_load_by_path($path);
+  // Trying to load breadcrumb from cache.
+  $cache_id = __FUNCTION__ . ':' . $path;
+  $cache = cache_get($cache_id, PATH_BREADCRUMBS_CACHE_STORAGE);
+  if (!empty($cache->data)) {
+    return $cache->data;
+  }
+  else {
 
-  // Check if current path maches variant.
-  // When first variant is found - return it.
-  foreach ($variants as $breadcrumb) {
+    // Select all variants matching current path.
+    $variants = path_breadcrumbs_load_by_path($path);
 
-    // Replace placeholder in path with '*'.
-    // Example: 'node/%node/view' -> 'node/*/view'.
-    $matched_path = preg_replace("
+    // Check if current path maches variant.
+    // When first variant is found - return it.
+    foreach ($variants as $breadcrumb) {
+
+      // Replace placeholder in path with '*'.
+      // Example: 'node/%node/view' -> 'node/*/view'.
+      $matched_path = preg_replace("
         /\/%    # start with slash-percent
         [^\/]+  # all symbols except for the slash
         /x", '/*', $breadcrumb->path);
 
-    if (drupal_match_path($path, $matched_path)) {
+      if (drupal_match_path($path, $matched_path)) {
 
-      // Load breadcrumbs' contexts from current path.
-      $contexts = path_breadcrumbs_get_contexts_from_arguments($breadcrumb->arguments);
+        // Load breadcrumbs' contexts from current path.
+        $contexts = path_breadcrumbs_get_contexts_from_arguments($breadcrumb->arguments);
 
-      // If breadcrumb contains broken context
-      // it means that unable to load context from URL.
-      if (isset($contexts['broken_context'])) {
-        continue;
-      }
-
-      // Check if breadcrumb is accessable.
-      if (!empty($breadcrumb->access)) {
-        $access = ctools_access($breadcrumb->access, $contexts);
-        if (!$access) {
+        // If breadcrumb contains broken context
+        // it means that unable to load context from URL.
+        if (isset($contexts['broken_context'])) {
           continue;
         }
-      }
 
-      // Build suitable breadcrumb variant.
-      return _path_breadcrumbs_build_breadcrumbs($breadcrumb, $contexts);
+        // Check if breadcrumb is accessable for current page.
+        if (!empty($breadcrumb->access)) {
+          $access = ctools_access($breadcrumb->access, $contexts);
+          if (!$access) {
+            continue;
+          }
+        }
+
+        // Build suitable breadcrumb variant.
+        $build = _path_breadcrumbs_build_breadcrumbs($breadcrumb, $contexts);
+
+        // Save data in cache and return it.
+        cache_set($cache_id, $build, PATH_BREADCRUMBS_CACHE_STORAGE);
+        return $build;
+      }
     }
   }
   return FALSE;
@@ -134,7 +144,7 @@ function _path_breadcrumbs_build_breadcrumbs($path_breadcrumb, $contexts = array
 
   // Replace module placeholders.
   $titles = str_replace($search, $replace, $titles);
-  $paths =  str_replace($search, $replace, $paths);
+  $paths  = str_replace($search, $replace, $paths);
 
   // Add custom ctools context for site.
   $site = new ctools_context('site');
@@ -176,6 +186,22 @@ function _path_breadcrumbs_build_breadcrumbs($path_breadcrumb, $contexts = array
   drupal_alter('path_breadcrumbs_view', $breadcrumb, $path_breadcrumb, $contexts);
 
   return $breadcrumb;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function path_breadcrumbs_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function path_breadcrumbs_flush_caches() {
+  return array(PATH_BREADCRUMBS_CACHE_STORAGE);
 }
 
 /**
@@ -359,7 +385,9 @@ function path_breadcrumbs_save($path_breadcrumbs) {
     // Allow modules to know that path_breadcrumbs were saved.
     $path_breadcrumbs->is_new = $save_result == SAVED_NEW;
     module_invoke_all('path_breadcrumbs_save', $path_breadcrumbs);
-    cache_clear_all('path_breadcrumbs', 'cache', TRUE);
+
+    // Truncate all cached data.
+    cache_clear_all('*', PATH_BREADCRUMBS_CACHE_STORAGE, TRUE);
   }
 
   // Return saving result, SAVED_NEW or SAVED_UPDATED.
@@ -499,12 +527,14 @@ function path_breadcrumbs_load_by_path($path) {
 
   if (empty($data[$pattern_needle])) {
 
-    if ($cache = cache_get(__FUNCTION__)) {
+    if ($cache = cache_get(__FUNCTION__, PATH_BREADCRUMBS_CACHE_STORAGE)) {
       $data = $cache->data;
     }
     else {
+
       // Do heavy work and cache results.
       ctools_include('export');
+
       // No need to sort variants by weight because path_breadcrumbs_load_all()
       // already sorted all data.
       $result = path_breadcrumbs_load_all();
@@ -515,7 +545,7 @@ function path_breadcrumbs_load_by_path($path) {
           $data[$pattern][] = $path_breadcrumbs;
         }
       }
-      cache_set(__FUNCTION__, $data, 'cache');
+      cache_set(__FUNCTION__, $data, PATH_BREADCRUMBS_CACHE_STORAGE);
     }
   }
 

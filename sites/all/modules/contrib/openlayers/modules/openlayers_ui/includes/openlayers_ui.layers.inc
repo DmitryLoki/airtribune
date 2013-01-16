@@ -11,66 +11,99 @@
 /**
  * Layer add/edit form.
  */
-function openlayers_ui_layers_types($form_state, $layer = NULL, $edit = FALSE) {
-  $form = array();
-  $form['layer_types'] = openlayers_ui_get_layer_type_options('map');
-  return $form;
-}
-
-
-/**
- * Layer add/edit form.
- */
 function openlayers_ui_layers_form($form_state, $layer = NULL) {
   $form = array();
 
-  $form['layer'] = openlayers_ui_get_layer_form($layer);
+  $edit = FALSE;
+  if ($form_state['op'] == 'add') {
+    $edit = TRUE;
+  }
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
+  $form['basics'] = array(
+    '#tree' => FALSE,
+    '#type' => 'fieldset',
+    '#title' => t('Layer Basics'),
+    '#description' => t('The following settings are for all layers.'),
+  );
+  $form['basics']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Layer Title'),
+    '#default_value' => isset($layer->title) ? $layer->title : '',
+    '#description' => t('The friendly name of your layer, which will appear in the administration interface as well on the map interface if it is exposed.'),
+  );
+  $form['basics']['name'] = array(
+    '#type' => 'machine_name',
+    '#default_value' => isset($layer->name) ? $layer->name : '',
+    '#maxlength' => 32,
+    '#machine_name' => array(
+      'exists' => 'openlayers_layer_type_load',
+      'source' => array('basics', 'title'),
+    ),
+    '#description' => t('A unique machine-readable name for this block type. It must only contain lowercase letters, numbers, and underscores.'),
+    '#disabled' => !$edit,
+  );
+  $form['basics']['description'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Layer Description'),
+    '#default_value' => isset($layer->description) ? $layer->description : '',
+    '#description' => t('The description of your layer, which will appear in the administration interface.'),
   );
 
+  $layers_options = array();
+  $layer_types = openlayers_layer_types();
+  $options = array('' => t('Select the layer type'));
+
+  // Go trough all layer types and get each options form.
+  foreach ($layer_types as $layer_type) {
+
+    if (is_object($layer) && get_class($layer) == $layer_type['name']) {
+      // Layer is of current layer type.
+      $layer_type_object = $layer;
+    }
+    else {
+      // Otherwise load layer object for current layer type.
+      $layer_type_object = openlayers_layer_type_load($layer_type['name']);
+    }
+
+    if ($layer_type_object == FALSE ||
+      in_array($layer_type['name'], array('openlayers_views_vector', 'openlayers_layer_type_raw'))) {
+      continue;
+    }
+
+    $layers_option = array(
+      '#type' => 'fieldset',
+      '#tree' => TRUE,
+      '#title' => t('Layer specific options for @layer_title', array('@layer_title' => $layer_type['title'])),
+    );
+    if (method_exists($layer_type_object, 'options_form')) {
+      $layers_option += $layer_type_object->options_form();
+      $layers_option['#states'] = array(
+        'visible' => array(
+          ':input[name="layer_type"]' => array('value' => $layer_type['name']),
+        ),
+      );
+      $layers_options[$layer_type['name']] = $layers_option;
+    }
+    $options[$layer_type['name']] = $layer_type['title'];
+  }
+
+  $form['layer_type'] = array(
+    '#type' => 'select',
+    '#title' => t('Layer Type'),
+    '#default_value' => isset($layer->data['layer_type']) ? $layer->data['layer_type']: '',
+    '#description' => t('Select the type of layer.'),
+    '#options' => $options,
+  );
+
+  $form += $layers_options;
+
   return $form;
-}
-
-/**
- * Submit handler for layers.
- */
-function openlayers_ui_layers_form_submit(&$form, &$form_state) {
-  // Save layer
-  $layer_class = $form_state['values']['data']['layer_type'];
-  $layer = openlayers_layer_type_load($layer_class);
-
-  $layer->name = $form_state['values']['name'];
-  $layer->title = $form_state['values']['title'];
-  $layer->description = $form_state['values']['description'];
-  $layer->data = $form_state['values']['data'];
-
-  if (isset($layer->data['resolutions'])) {
-    // resolutions are stored as strings because floats are not handled
-    // well by formapi
-    $layer->data['resolutions'] =
-      array_map("floatval", array_keys($layer->data['resolutions']));
-    rsort($layer->data['resolutions']);
-  }
-
-  $success = $layer->save();
-
-  // Redirect to edit page
-  if ($success) {
-    drupal_set_message(t('Layer saved.'));
-    $form_state['redirect'] = 'admin/structure/openlayers/layers/' . $layer->name . '/edit';
-  }
-  else {
-    form_set_error('openlayers', t('Error trying to save layer.'));
-  }
 }
 
 /**
  * Layer-wide-settings form
  */
-function openlayers_ui_layers_settings($form_state, $layer = NULL) {
+function openlayers_ui_layers_settings($form, &$form_state, $layer = NULL) {
   $form = array();
   $layer_types = openlayers_layer_types();
 
@@ -90,11 +123,12 @@ function openlayers_ui_layers_settings($form_state, $layer = NULL) {
   );
 
   return $form;
+
 }
 
 /**
  * Submit handler for openlayers_ui_layers_settings
- */
+*/
 function openlayers_ui_layers_settings_submit(&$form, &$form_state) {
   $layer_types = openlayers_layer_types();
   foreach ($form_state['values'] as $key => $value) {
@@ -103,146 +137,5 @@ function openlayers_ui_layers_settings_submit(&$form, &$form_state) {
         variable_set($k, $v);
       }
     }
-  }
-}
-
-/**
- * Get an actual layer form
- */
-function openlayers_ui_get_layer_form($args, $layer = FALSE) {
-  $form = array();
-
-  // TODO: this shouldn't be necessary. this is ugly code.
-  $type = $args['build_info']['args'][0];
-
-  
-  $form['basics'] = array(
-    '#tree' => TRUE,
-    '#type' => 'fieldset',
-    '#title' => t('Layer Basics'),
-    '#description' => t('The following settings are for all layers.'),
-    '#tree' => FALSE,
-  );
-  $form['basics']['name'] = array(
-    '#type' => 'textfield',
-    '#default_value' => isset($type->name) ? $type->name : '',
-    '#title' => t('Layer Machine Name'),
-    '#description' => t('This is the unique name of the layer. It must contain only alphanumeric characters and underscores.'),
-  );
-  $form['basics']['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Layer Title'),
-    '#default_value' => isset($type->title) ? $type->title : '',
-    '#description' => t('The friendly name of your layer, which will appear in the administration interface as well on the map interface if it is exposed.'),
-  );
-  $form['basics']['description'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Layer Description'),
-    '#default_value' => isset($type->description) ? $type->description : '',
-    '#description' => t('The description of your layer, which will appear in the administration interface.'),
-  );
-  
-  // @TODO: clarify use of data, and of layer_type in overriding it
-  $form['data'] = array(
-    '#tree' => TRUE,
-    '#type' => 'fieldset',
-    '#title' => t('Layer Specifics'),
-    '#description' => t('The following settings are specific to the layer type.'),
-  );
-
-  // Arrays merged in order so that options_form can override defaults
-  $form['data'] = $type->options_form() + $form['data'];
-
-  return $form;
-}
-
-/**
- * Get layer type options.
- */
-function openlayers_ui_get_layer_type_options($type) {
-  $form = array();
-  $form['layer_type_help'] = array(
-    '#type' => 'item',
-    '#markup' => t('Select a layer type to create a new layer.')
-  );
-  
-  foreach (openlayers_layer_types() as $key => $plugin) {
-    $class = ctools_plugin_get_class($plugin, 'layer_type');
-    if ($class) {
-      // Build form.
-      $form[$key] = array(
-        '#type' => 'item',
-        '#title' => l($plugin['title'], "admin/structure/openlayers/layers/add/{$key}"),
-        '#description' => $plugin['description'],
-      );
-    }
-  }
-  return $form;
-}
-
-/**
- * Import a layer from cut & paste
- */
-function openlayers_ui_layers_import_form($form_state) {
-  $form['name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Layers name'),
-    '#description' => t('Enter the name to use for this layer if it is different from the source layer. Leave blank to use the name of the layer.'),
-  );
-
-  $form['layer'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Paste layer code here'),
-    '#required' => TRUE,
-  );
-
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Import'),
-    '#submit' =>   array('openlayers_ui_layers_import_submit'),
-    '#validate' => array('openlayers_ui_layers_import_validate'),
-  );
-  return $form;
-}
-
-/**
- * Validate handler to import a layer
- */
-function openlayers_ui_layers_import_validate($form, &$form_state) {
-
-  $items = '';
-  ob_start();
-  eval($form_state['values']['layer']);
-  ob_end_clean();
-
-  if (!is_array($items)) {
-    return form_error($form['layer'], t('Unable to interpret layer code.'));
-  }
-
-  // View name must be alphanumeric or underscores, no other punctuation.
-  if (!empty($form_state['values']['name']) &&
-    preg_match('/[^a-zA-Z0-9_]/', $form_state['values']['name'])) {
-      form_error($form['name'],
-        t('Layer name must be alphanumeric or underscores only.'));
-  }
-
-  $layer = current($items);
-  $layer_type_object = openlayers_layer_type_load($layer->data['layer_type']);
-
-  if ($form_state['values']['name']) {
-    $layer->name = $form_state['values']['name'];
-  }
-
-  if ($exists = openlayers_layer_load($layer->name)) {
-    drupal_set_message(t('An existing layer of this name already exists'), 'error');
-    $form_state['redirect'] = 'admin/structure/openlayers/layers';
-  }
-  else {
-    drupal_set_title(t('Add Layer'));
-    $layer_object = new $layer->data['layer_type']($layer);
-    $output = drupal_get_form('openlayers_ui_layers_form',
-      $layer_object);
-    print theme('page', $output);
-    exit;
   }
 }

@@ -99,7 +99,7 @@ function i18n_translation_hook_info() {
  */
 function i18n_translation_check_object($type, $object) {
   if ($info = i18n_translation_set_info($type)) {
-    
+
   }
 }
 
@@ -266,15 +266,21 @@ function i18n_translation_set_create($type, $bundle = '', $translations = NULL, 
 }
 
 /**
- * Load single translation set
+ * Load single translation set.
+ *
+ * @param int $tsid
+ *   Translation set id.
+ * @param string $type
+ *   (Optional) translation set type (bundle).
  */
 function i18n_translation_set_load($tsid, $type = NULL) {
   $conditions['tsid'] = $tsid;
-  if ($type) {
-    $conditions['type'] = $type;
+  $list = entity_load('i18n_translation', array($tsid));
+  $entity = reset($list);
+  if ($entity && $type && $entity->type != $type) {
+    return NULL;
   }
-  $entity = entity_load('i18n_translation', FALSE, $conditions);
-  return reset($entity);
+  return $entity;
 }
 
 /**

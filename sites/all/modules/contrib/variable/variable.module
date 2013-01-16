@@ -418,6 +418,8 @@ function variable_hook_info() {
  *   Variable name or list of variable names
  */
 function variable_edit_form($form, $form_state, $list, $options = array()) {
+  // Pass on the values on the form for further reference.
+  $form['#variable_edit_form'] = $list;
   module_load_include('form.inc', 'variable');
   $form += variable_edit_subform($list, $options);
   return variable_settings_form($form, $options);
@@ -482,6 +484,8 @@ function variable_type_include($type) {
  */
 function variable_module_form($form, $form_state, $module) {
   variable_include();
+  // Pass on the values on the form for further reference.
+  $form['#variable_module_form'] = $module;
   return variable_edit_form($form, $form_state, array_keys(variable_list_module($module)));
 }
 
@@ -490,6 +494,8 @@ function variable_module_form($form, $form_state, $module) {
  */
 function variable_group_form($form, $form_state, $group) {
   variable_include();
+  // Pass on the values on the form for further reference.
+  $form['#variable_group_form'] = $group;
   return variable_edit_form($form, $form_state, array_keys(variable_list_group($group)));
 }
 
@@ -662,12 +668,21 @@ function variable_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form['#submit']) && is_array($form['#submit']) && in_array('system_settings_form_submit', $form['#submit'])) {
     // Replace submit callback and use our own function.
     $form['#submit'] = str_replace('system_settings_form_submit', 'variable_settings_form_submit', $form['#submit']);
+    $alter = TRUE;
+  }
+  elseif (isset($form['#variable_edit_form'])) {
+    // This is a variable form, just invoke the hook but don't change submit callback.
+    $alter = TRUE;
+  }
+  if (!empty($alter)) {
     foreach (module_implements('variable_settings_form_alter') as $module) {
       $function = $module . '_variable_settings_form_alter';
       $function($form, $form_state, $form_id);
     }
   }
 }
+
+
 
 /**
  * Implements hook_module_implements_alter().

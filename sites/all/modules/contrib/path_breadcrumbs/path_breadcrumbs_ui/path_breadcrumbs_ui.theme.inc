@@ -33,31 +33,39 @@ function _path_breadcrumbs_render_table($vars) {
       $row = array();
       $input = $form['breadcrumbs_table'][$value];
       if (isset($input['left_value']) && isset($input['right_value']) && isset($input['delete'])) {
-        $row[] = render($input['left_value']);
-        $row[] = render($input['right_value']);
-        $row[] = render($input['delete']);
-        $rows[] = $row;
+        $input['weight']['#attributes']['class'][] = 'path-weight';
+        $row[] = array('data' => $input['left_value']);
+        $row[] = array('data' => $input['right_value']);
+        $row[] = array('data' => $input['weight']);
+        $row[] = array('data' => $input['delete']);
+        $rows[] = array(
+          'data' => $row,
+          'class' => array('draggable'),
+        );
       }
     }
 
     unset($form['breadcrumbs_table']);
 
     $rows[] = array(
-      'data' => array(array('data' => render($form['more']), 'colspan' => 3))
+      'data' => array(array('data' => render($form['more']), 'colspan' => 4))
     );
 
-    $headers = array(t('Link title'), t('Link path'), t('Delete link'));
+    $headers = array(t('Link title'), t('Link path'), t('Weight'), t('Delete link'));
     $output = theme('table', array(
       'header' => $headers,
       'rows' => $rows,
       'attributes' => array(
-        'class' => array('breadcrumb-tokens')
+        'class' => array('breadcrumb-tokens'),
+        'id' => 'breadcrumbs-table',
       ),
     ));
 
     // Build some other elements after table.
     $context_placeholders = render($form['contexts']);
     $buttons = render($form['actions']);
+
+    drupal_add_tabledrag('breadcrumbs-table', 'order', 'sibling', 'path-weight');
 
     return drupal_render_children($form) . $output . $context_placeholders . $buttons;
   }

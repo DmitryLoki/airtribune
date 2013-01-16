@@ -87,5 +87,6 @@ function locale_variable_language_default_format($variable, $options = array()) 
  */
 function locale_variable_language_element_validate($element, &$form_state, $form) {
   $languages = language_list();
-  $form_state['values'][$element['#name']] = $languages[$form_state['values'][$element['#name']]];
+  $language = $languages[$element['#value']];
+  form_set_value($element, $language, $form_state);
 }

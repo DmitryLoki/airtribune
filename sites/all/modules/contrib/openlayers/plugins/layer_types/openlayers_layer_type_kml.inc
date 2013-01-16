@@ -7,16 +7,18 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('KML'),
-  'description' => t('<a href="!url">KML</a> overlay.', 
-    array('!url' => 'http://en.wikipedia.org/wiki/Keyhole_Markup_Language')),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_kml.inc',
-    'class' => 'openlayers_layer_type_kml',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_kml_openlayers_layer_types() {
+  return array(
+    'title' => t('KML'),
+    'description' => t('<a href="!url">KML</a> overlay.',
+      array('!url' => 'http://en.wikipedia.org/wiki/Keyhole_Markup_Language')),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_kml.inc',
+      'class' => 'openlayers_layer_type_kml',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers KML Layer Type class
@@ -52,7 +54,7 @@ class openlayers_layer_type_kml extends openlayers_layer_type {
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     return array(
       'url' => array(
         '#type' => 'textfield',
@@ -70,6 +72,14 @@ class openlayers_layer_type_kml extends openlayers_layer_type {
           '#default_value' => isset(
             $this->data['formatOptions']['extractStyles']) ?
             $this->data['formatOptions']['extractStyles'] : TRUE,
+        ),
+        'extractTracks' => array(
+          '#type' => 'checkbox',
+          '#title' => t('Extract Tracks'),
+          '#description' => t('Extract tracks from KML.'),
+          '#default_value' => isset(
+          $this->data['formatOptions']['extractTracks']) ?
+            $this->data['formatOptions']['extractTracks'] : TRUE,
         ),
         'extractAttributes' => array(
           '#type' => 'checkbox',
@@ -91,7 +101,7 @@ class openlayers_layer_type_kml extends openlayers_layer_type {
    * Render.
    */
   function render(&$map) {
-    drupal_add_js(drupal_get_path('module', 'openlayers') 
+    drupal_add_js(drupal_get_path('module', 'openlayers')
       . '/plugins/layer_types/openlayers_layer_type_kml.js');
     return $this->options;
   }

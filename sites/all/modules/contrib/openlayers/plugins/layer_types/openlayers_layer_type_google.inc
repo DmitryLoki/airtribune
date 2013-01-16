@@ -7,15 +7,17 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('Google'),
-  'description' => t('Google Maps API Map'),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_google.inc',
-    'class' => 'openlayers_layer_type_google',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_google_openlayers_layer_types() {
+  return array(
+    'title' => t('Google'),
+    'description' => t('Google Maps API Map'),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_google.inc',
+      'class' => 'openlayers_layer_type_google',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers Google Layer Type class
@@ -41,13 +43,14 @@ class openlayers_layer_type_google extends openlayers_layer_type {
       'layer_type' => 'google',
       'layer_handler' => 'google',
       'baselayer' => TRUE,
+      'animationEnabled' => TRUE,
     );
   }
 
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     $google_layer_types = array(
       'hybrid' => 'Hybrid',
       'normal' => 'Normal',
@@ -71,7 +74,16 @@ class openlayers_layer_type_google extends openlayers_layer_type {
         '#description' => t('Satellite and hybrid maps are occasionally
           unavailable at higher zoom levels.'),
         '#default_value' => isset($this->data['numZoomLevels']) ?
-          $this->data['numZoomLevels'] : '15'
+          $this->data['numZoomLevels'] : '21'
+      ),
+      'animationEnabled' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Animation Enabled'),
+        '#description' => t('This enables the Google Maps API zooming animation.
+          If you are having issues with your Google layer, it may be helpful
+          to turn this off.'),
+        '#default_value' => isset($this->data['animationEnabled']) ?
+          $this->data['animationEnabled'] : TRUE
       ),
     );
   }
@@ -119,27 +131,29 @@ class openlayers_layer_type_google extends openlayers_layer_type {
    */
   function render(&$map) {
     static $google_maps_included;
-    
+
     if (!isset($google_maps_included)) {
       // Include files.
-      drupal_add_js(drupal_get_path('module', 'openlayers') . 
+      drupal_add_js(drupal_get_path('module', 'openlayers') .
         '/plugins/layer_types/openlayers_layer_type_google.js');
-        
+
       $version = variable_get('openlayers_google_version', '3.5');
       if ($version == '2') {
         // Create URL for google include
-        $url = 'http://maps.google.com/maps?file=api&sensor=false&v=' . $version;
+        $url = '//maps.google.com/maps?file=api&sensor=false&v=' . $version;
         $key = variable_get('openlayers_layers_google_api', variable_get('googlemap_api_key', ''));
-        $url = !empty($key) ? '&key=' . $key : '';  
+        $url .= !empty($key) ? '&key=' . $key : '';
       }
       else {
         // Create URL for google include
-        $url = 'http://maps.google.com/maps/api/js?sensor=false&v=' . $version;
+        $url = '//maps.google.com/maps/api/js?sensor=false&v=' . $version;
       }
-      
+
       $lang = variable_get('openlayers_layers_google_language', '');
+      // Google v2 uses hl and v3 uses language
       $url .= !empty($lang) ? '&hl=' . $lang : '';
-      
+      $url .= !empty($lang) ? '&language=' . $lang : '';
+
       drupal_add_js($url, 'external');
       $google_maps_included = TRUE;
     }

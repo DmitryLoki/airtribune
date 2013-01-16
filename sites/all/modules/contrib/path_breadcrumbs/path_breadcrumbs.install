@@ -21,6 +21,12 @@ function path_breadcrumbs_uninstall() {
  * Implements hook_schema().
  */
 function path_breadcrumbs_schema() {
+
+  // Create new cache table to store cached data from path_breadcrumbs.
+  $schema['cache_path_breadcrumbs'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_path_breadcrumbs']['description'] = 'Cache table used to store information about path breadcrumbs variants for every page.';
+
+  // Table stores exportable breadcrumbs variants.
   $schema['path_breadcrumbs'] = array(
     'description' => 'Stores path breadcrumbs.',
     'export' => array(
@@ -84,7 +90,7 @@ function path_breadcrumbs_schema() {
     ),
     'primary key' => array('path_id'),
     'unique keys' => array(
-      'machine_name' => array('machine_name'), // Added in path_breadcrumbs_update_7214().
+      'machine_name' => array('machine_name'),
     ),
   );
 
@@ -221,4 +227,14 @@ function path_breadcrumbs_update_7213() {
 function path_breadcrumbs_update_7214() {
   db_add_unique_key('path_breadcrumbs', 'machine_name', array('machine_name'));
   db_drop_field('path_breadcrumbs', 'disabled');
+}
+
+/**
+ * Migrate module from 7.x-2.x to 7.x-3.x.
+ * Add {cache_path_breadcrumbs} table.
+ */
+function path_breadcrumbs_update_7300() {
+
+  // Create new cache bin storage.
+  db_create_table('cache_path_breadcrumbs', drupal_get_schema_unprocessed('system', 'cache'));
 }

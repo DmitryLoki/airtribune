@@ -600,3 +600,10 @@ function i18n_entity_translation_enabled($entity_type) {
   }
   return $cache[$entity_type];
 }
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function i18n_modules_enabled($modules) {
+  drupal_static_reset('i18n_object_info');
+}

@@ -18,7 +18,7 @@
 function _openlayers_openlayers_maps() {
   $items = array();
 
-  // Defualt map with MapQuest
+  // Default map with MapQuest
   $default = new stdClass();
   $default->api_version = 1;
   $default->name = 'default';
@@ -57,7 +57,7 @@ function _openlayers_openlayers_maps() {
     ),
   );
   $items['default'] = $default;
-  
+
   // An example Google map
   $openlayers_maps = new stdClass;
   $openlayers_maps->disabled = FALSE;
@@ -116,7 +116,7 @@ function _openlayers_openlayers_maps() {
     ),
   );
   $items['default_google'] = $openlayers_maps;
-  
+
   // Example map with MapQuest and GeoJSON
   $openlayers_maps = new stdClass;
   $openlayers_maps->disabled = FALSE;
@@ -183,14 +183,14 @@ function _openlayers_openlayers_maps() {
     ),
   );
   $items["example_geojson"] = $openlayers_maps;
-  
+
   // Example Virtual Earth map
   $openlayers_maps = new stdClass;
   $openlayers_maps->disabled = FALSE;
   $openlayers_maps->api_version = 1;
-  $openlayers_maps->name = 'example_virtual_earth';
-  $openlayers_maps->title = t('Example Virtual Earth (Bing) Map');
-  $openlayers_maps->description = t('This map uses the Virtual Earth (Bing) map API.');
+  $openlayers_maps->name = 'example_bing';
+  $openlayers_maps->title = t('Example Microsoft Bing Map');
+  $openlayers_maps->description = t('This map uses the Microsoft Bing map API.');
   $openlayers_maps->data = array(
     'width' => 'auto',
     'height' => '400px',
@@ -230,9 +230,9 @@ function _openlayers_openlayers_maps() {
     ),
     'default_layer' => 'virtualearth_street',
     'layers' => array(
-      'virtualearth_street' => 'virtualearth_street',
-      'virtualearth_satellite' => 'virtualearth_satellite',
-      'virtualearth_hybrid' => 'virtualearth_hybrid',
+      'bing_road' => 'bing_road',
+      'bing_hybrid' => 'bing_hybrid',
+      'bing_aerial' => 'bing_aerial',
     ),
     'projection' => '900913',
     'displayProjection' => '4326',
@@ -242,8 +242,8 @@ function _openlayers_openlayers_maps() {
       'temporary' => 'default',
     ),
   );
-  $items["example_virtual_earth"] = $openlayers_maps;
-  
+  $items['example_bing'] = $openlayers_maps;
+
   // Example OpenStreetMap
   $openlayers_maps = new stdClass;
   $openlayers_maps->disabled = FALSE;
@@ -283,12 +283,13 @@ function _openlayers_openlayers_maps() {
         'zoomBoxEnabled' => 1,
         'documentDrag' => 0,
       ),
+      'openlayers_behavior_zoompanel' => array(),
+
       'openlayers_behavior_scaleline' => array(),
     ),
     'default_layer' => 'osm_mapnik',
     'layers' => array(
       'osm_mapnik' => 'osm_mapnik',
-      'osm_tah' => 'osm_tah',
       'osm_cycle' => 'osm_cycle',
     ),
     'projection' => '900913',
@@ -300,14 +301,14 @@ function _openlayers_openlayers_maps() {
     ),
   );
   $items["example_osm"] = $openlayers_maps;
-  
+
   // Backwards compatibilty for features presets.  Since features
   // no longers cares about the preset hooks, we need to manually include
   // the preset file that stores the old hooks.
   $found_features = FALSE;
   if (module_exists('features')) {
     $features = features_get_features();
-    
+
     foreach ($features as $feature) {
       // Only utilize enabled features and look for presets
       if ($feature->status > 0 && !empty($feature->info['features']['openlayers_map_presets'])) {
@@ -319,7 +320,7 @@ function _openlayers_openlayers_maps() {
       }
     }
   }
-  
+
   // If features found, we have to explicilty reset the implement
   // cache.  This could be a significant performance hit on a site
   // that has a high number of modules installed.
@@ -333,6 +334,6 @@ function _openlayers_openlayers_maps() {
     $items = $items + $data;
   }
 
-  
+
   return $items;
 }
