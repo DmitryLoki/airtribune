@@ -12,4 +12,6 @@ features[views_view][] = activity
 features[views_view][] = advert_list
 features[views_view][] = contest_blog
 features[views_view][] = events_list
+features[views_view][] = featured_headers
+features[views_view][] = header_slideshow
 features[views_view][] = next_events
