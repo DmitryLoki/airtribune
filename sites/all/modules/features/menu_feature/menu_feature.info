@@ -9,6 +9,7 @@ dependencies[] = menu
 features[features_api][] = api:1
 features[menu_custom][] = account
 features[menu_custom][] = footer-menu
+features[menu_links][] = account:<front>
 features[menu_links][] = account:node/5363
 features[menu_links][] = account:node/add/pg_contest
 features[menu_links][] = account:user
