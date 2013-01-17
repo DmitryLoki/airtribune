@@ -98,18 +98,18 @@ function panels_default_template_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => 'header_images',
           ),

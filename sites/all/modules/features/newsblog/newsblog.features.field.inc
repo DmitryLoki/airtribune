@@ -164,7 +164,7 @@ function newsblog_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(

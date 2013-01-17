@@ -525,13 +525,13 @@ function pg_contest_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
@@ -790,20 +790,20 @@ Teams',
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'contest/[node:nid]-[node:title]/img/awards',
+            'value' => 'pg-contests/[node:nid]-[node:title]/img/awards',
           ),
           'retroactive_update' => 0,
         ),
@@ -1099,20 +1099,20 @@ Teams',
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:name].[file:extension]',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'contest/[node:nid]-[node:title]/img/body[file:name]',
+            'value' => 'pg_contests/[node:nid]-[node:title]/img/body',
           ),
           'retroactive_update' => 0,
         ),
@@ -1209,20 +1209,20 @@ Teams',
         'file_directory' => '',
         'file_extensions' => 'pdf rtf doc docx odt',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'contest/[node:nid]-[node:title]/rules',
+            'value' => 'pg_contests/[node:nid]-[node:title]/rules',
           ),
           'retroactive_update' => 0,
         ),
@@ -1457,7 +1457,7 @@ Teams',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
@@ -1688,20 +1688,20 @@ Teams',
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[file:basename].[file:extension]',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'contest/[node:nid]-[node:title]/img/site',
+            'value' => 'pg_contests/[node:nid]-[node:title]/img/flying_site',
           ),
           'retroactive_update' => 0,
         ),
@@ -1803,20 +1803,20 @@ Teams',
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => 'header_images',
+            'value' => 'pg_contests/[node:nid]-[node:title]/img/header',
           ),
           'retroactive_update' => 0,
         ),
