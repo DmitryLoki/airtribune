@@ -52,7 +52,7 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   );
 
   if ($user->uid) {
-    $content['user_menu'] = menu_tree('user-menu');
+    $content['user_menu'] = menu_tree(empty($conf['menu']) ? 'user-menu' : $conf['menu']);
   }
   else {
     $content['login_form'] = drupal_get_form('user_login_block');
