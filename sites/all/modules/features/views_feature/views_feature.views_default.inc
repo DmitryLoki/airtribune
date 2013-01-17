@@ -286,6 +286,13 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['fields']['field_image']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Draggableviews: Weight */
+  $handler->display->display_options['sorts']['weight']['id'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
+  $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'advert_list:panel_pane_1';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -1205,13 +1212,13 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Field: Field: Slogan */
+  /* Field: Featured header: Slogan */
   $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['label'] = '';
   $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
-  /* Field: Field: Author link */
+  /* Field: Featured header: Author link */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
