@@ -568,49 +568,38 @@ function airtribune2_pager_link($variables) {
  */
 function airtribune2_preprocess_entity(&$variables) {
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
-    $variables['info_page'] = arg(2) != 'details';
-    if ($variables['info_page']) {
+    if ($variables['view_mode'] == 'event_info_page') {
       $contest_id = (int) arg(1);
 
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Plane'),
         'fragment' => 'gt_plane',
-		'attributes' => array(
-		  'class' => 'plane',
-		),
+        'attributes' => array('class' => 'plane'),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id. '/details',
         'title' => t('Train'),
         'fragment' => 'gt_train',
-		'attributes' => array(
-		  'class' => 'train',
-		),
+        'attributes' => array('class' => 'train'),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Car'),
         'fragment' => 'gt_car',
-		'attributes' => array(
-		  'class' => 'car',
-		),
+        'attributes' => array('class' => 'car'),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Bus'),
         'fragment' => 'gt_bus',
-		'attributes' => array(
-		  'class' => 'bus',
-		),
+        'attributes' => array('class' => 'bus'),
       );
       $links[] = array(
         'href' => 'event/' . $contest_id . '/details',
         'title' => t('Taxi'),
         'fragment' => 'gt_taxi',
-		'attributes' => array(
-		  'class' => 'taxi',
-		),
+        'attributes' => array('class' => 'taxi'),
       );
 
       $variables['content']['transport'] = array(

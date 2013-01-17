@@ -164,3 +164,17 @@ function airtribune_field_collection_item_view_alter(&$build) {
     }
   }
 }
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function airtribune_entity_info_alter(&$entity_info) {
+  $entity_info['field_collection_item']['view modes']['event_info_page'] = array(
+    'label' => t('Event info page'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['field_collection_item']['view modes']['event_details_page'] = array(
+    'label' => t('Event details page'),
+    'custom settings' => TRUE,
+  );
+}

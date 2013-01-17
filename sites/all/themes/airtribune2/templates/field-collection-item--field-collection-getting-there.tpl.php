@@ -31,11 +31,11 @@
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
-    <?php if ($info_page): ?>
-    <?php print render($content['field_gt_general']); ?>
-    <?php print render($content['transport']); ?>
+    <?php if ($view_mode == 'event_info_page'): ?>
+      <?php print render($content['field_gt_general']); ?>
+      <?php print render($content['transport']); ?>
     <?php else: ?>
-    <?php print render($content); ?>
+      <?php print render($content); ?>
     <?php endif; ?>
   </div>
 </div>
