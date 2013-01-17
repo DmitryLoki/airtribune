@@ -8,6 +8,7 @@ features[features_api][] = api:1
 features[image][] = award
 features[image][] = contest_thumbnail
 features[image][] = header
+features[image][] = header_thumbnail
 features[image][] = node_image_first
 features[image][] = node_image_second
 features[image][] = node_image_third
