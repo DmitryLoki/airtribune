@@ -1,6 +1,7 @@
 name = Featured header
 core = 7.x
 package = Custom bundles
+php = 5.2.4
 dependencies[] = eck
 dependencies[] = features
 dependencies[] = field_sql_storage
