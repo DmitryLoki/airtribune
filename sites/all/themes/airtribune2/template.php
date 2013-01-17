@@ -568,7 +568,7 @@ function airtribune2_pager_link($variables) {
  */
 function airtribune2_preprocess_entity(&$variables) {
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
-    $variables['info_page'] = arg(2) == 'info';
+    $variables['info_page'] = arg(2) != 'details';
     if ($variables['info_page']) {
       $contest_id = (int) arg(1);
 
@@ -622,9 +622,11 @@ function airtribune2_preprocess_entity(&$variables) {
   }
 
   // See http://drupal.org/node/1462772
+  /*
   foreach($variables['theme_hook_suggestions'] as &$suggestion) {
     $suggestion = 'entity__' . $suggestion;
   }
+  */
 }
 
 /**
