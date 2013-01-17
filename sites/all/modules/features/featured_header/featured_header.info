@@ -1,0 +1,17 @@
+name = Featured header
+core = 7.x
+package = Custom bundles
+php = 5.2.4
+dependencies[] = eck
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = filefield_paths
+dependencies[] = image
+dependencies[] = link
+dependencies[] = media
+dependencies[] = text
+features[eck_bundle][] = ent_featured_header_ent_featured_header
+features[features_api][] = api:1
+features[field][] = ent_featured_header-ent_featured_header-field_header_author
+features[field][] = ent_featured_header-ent_featured_header-field_header_image
+features[field][] = ent_featured_header-ent_featured_header-field_header_slogan

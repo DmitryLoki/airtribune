@@ -567,7 +567,6 @@ function airtribune2_pager_link($variables) {
  * Implements_preprocess_entity().
  */
 function airtribune2_preprocess_entity(&$variables) {
-	//print_r($variables);
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
     $variables['info_page'] = arg(2) == 'info';
     if ($variables['info_page']) {
@@ -620,6 +619,11 @@ function airtribune2_preprocess_entity(&$variables) {
       );
 
     }
+  }
+
+  // See http://drupal.org/node/1462772
+  foreach($variables['theme_hook_suggestions'] as &$suggestion) {
+    $suggestion = 'entity__' . $suggestion;
   }
 }
 

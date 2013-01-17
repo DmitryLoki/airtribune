@@ -2858,3 +2858,32 @@ p { margin:0; padding:9px 0 11px}
 #social ul li a.vk:hover { background-position:-40px -18px;}
 #social ul li a.yt { background-position:-80px 0;}
 #social ul li a.yt:hover { background-position:-80px -18px;}
+
+/* Header slideshow */
+.view-header-slideshow .views_slideshow_cycle_slide {
+  position: relative;
+
+}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan {
+  top: 0;
+  position: absolute;
+  color: #FFF;
+  background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15);
+  width: 100%;
+}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan .field-content {
+  margin: 15px;
+  background: url(../images/logo_service.png) no-repeat;
+  min-height: 70px;
+  padding-left: 70px;
+  font-size: 120%;
+}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author a {
+  color: #FFF;
+  font-style: italic;
+}
