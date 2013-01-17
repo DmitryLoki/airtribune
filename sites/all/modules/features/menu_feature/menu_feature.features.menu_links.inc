@@ -10,11 +10,11 @@
 function menu_feature_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: account:node/5363
-  $menu_links['account:node/5363'] = array(
+  // Exported menu link: account:<front>
+  $menu_links['account:<front>'] = array(
     'menu_name' => 'account',
-    'link_path' => 'node/5363',
-    'router_path' => 'node/%',
+    'link_path' => '<front>',
+    'router_path' => '',
     'link_title' => 'My registrations',
     'options' => array(
       'attributes' => array(
@@ -25,10 +25,26 @@ function menu_feature_menu_default_menu_links() {
     ),
     'module' => 'menu',
     'hidden' => '0',
-    'external' => '0',
+    'external' => '1',
     'has_children' => '0',
     'expanded' => '0',
     'weight' => '-49',
+  );
+  // Exported menu link: account:node/5363
+  $menu_links['account:node/5363'] = array(
+    'menu_name' => 'account',
+    'link_path' => 'node/5363',
+    'router_path' => 'node/%',
+    'link_title' => 'My events',
+    'options' => array(
+      'attributes' => array(),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-47',
   );
   // Exported menu link: account:node/add/pg_contest
   $menu_links['account:node/add/pg_contest'] = array(
@@ -188,6 +204,7 @@ function menu_feature_menu_default_menu_links() {
   t('For sponsors');
   t('For the viewers');
   t('Home');
+  t('My events');
   t('My profile');
   t('My registrations');
   t('Sign out');
