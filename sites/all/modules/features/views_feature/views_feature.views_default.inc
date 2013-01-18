@@ -585,14 +585,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['element_type'] = 'p';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: View more link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['ui_name'] = 'View more link';
   $handler->display->display_options['fields']['view_node']['label'] = '';
+  $handler->display->display_options['fields']['view_node']['element_type'] = 'div';
+  $handler->display->display_options['fields']['view_node']['element_class'] = 'view-more';
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['view_node']['text'] = '<span>View more</span>';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(

@@ -2596,9 +2596,10 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-contest-blog-contest-pane .pane-content { margin:0}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
 .pane-contest-blog-contest-pane .views-row strong {color:#333a40; display:block; padding-bottom:5px}
-.pane-contest-blog-contest-pane .views-row p { margin:0; padding:0 5px 0 0; color:#677581; display:inline}
-.pane-contest-blog-contest-pane .views-row a { display:inline-block; overflow:hidden; width:7px; height:10px; background:url(../images/more.png) no-repeat 50% 0; top:2px; position:relative;}
-.pane-contest-blog-contest-pane .views-row a span { position:absolute; top:-1000px; left:0}
+.pane-contest-blog-contest-pane .views-row p {margin:0; padding:0 5px 0 0; color:#677581; display:inline}
+.pane-contest-blog-contest-pane .views-row p a {color: #7D9AA8;}
+.pane-contest-blog-contest-pane .view-more { display:inline-block; overflow:hidden; width:7px; height:10px; background:url(../images/more.png) no-repeat 50% 0; top:2px; position:relative;}
+.pane-contest-blog-contest-pane .view-more a span { position:absolute; top:-1000px; left:0}
 
 .pane-node-field-flying-info { margin-right:10px}
 .panel_info .pane-node-field-flying-info h2 { background-position:0 0}
