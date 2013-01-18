@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Plugin to provide an event node context.
  */
 
@@ -19,6 +18,8 @@ $plugin = array(
 );
 
 /**
+ * Fetch event node from URL.
+ * 
  * It's important to remember that $conf is optional here, because contexts
  * are not always created from the UI.
  */
