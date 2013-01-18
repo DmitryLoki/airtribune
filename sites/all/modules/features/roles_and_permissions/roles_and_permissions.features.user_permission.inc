@@ -1085,7 +1085,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit media.
   $permissions['edit media'] = array(
     'name' => 'edit media',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'media',
   );
 
@@ -1310,7 +1312,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: import media.
   $permissions['import media'] = array(
     'name' => 'import media',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'media',
   );
 
@@ -1546,8 +1550,9 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'admin',
       1 => 'anonymous user',
       2 => 'authenticated user',
-      3 => 'organizer',
-      4 => 'pilot',
+      3 => 'editor',
+      4 => 'organizer',
+      5 => 'pilot',
     ),
     'module' => 'media',
   );
