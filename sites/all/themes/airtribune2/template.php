@@ -309,7 +309,7 @@ function airtribune2_menu_link__footer_menu(&$vars) {
 }
 
 
-function airtribune2_menu_link__user_menu(&$vars) {
+function airtribune2_menu_link__account(&$vars) {
   $element = $vars['element'];
   $sub_menu = '';
   if ($element['#below']) {
