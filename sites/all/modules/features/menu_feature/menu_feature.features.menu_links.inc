@@ -37,7 +37,11 @@ function menu_feature_menu_default_menu_links() {
     'router_path' => 'node/%',
     'link_title' => 'My events',
     'options' => array(
-      'attributes' => array(),
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-my-events-link',
+        ),
+      ),
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -74,7 +78,11 @@ function menu_feature_menu_default_menu_links() {
     'link_title' => 'My profile',
     'options' => array(
       'alter' => TRUE,
-      'attributes' => array(),
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-account-link',
+        ),
+      ),
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -90,7 +98,11 @@ function menu_feature_menu_default_menu_links() {
     'router_path' => 'user/logout',
     'link_title' => 'Sign out',
     'options' => array(
-      'attributes' => array(),
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-logout-link',
+        ),
+      ),
     ),
     'module' => 'menu',
     'hidden' => '0',
