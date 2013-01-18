@@ -276,6 +276,10 @@ function variables_strongarm() {
       0 => 'countries_country',
       1 => 'cid',
     ),
+    'ent_featured_header' => array(
+      0 => 'eck_ent_featured_header',
+      1 => 'id',
+    ),
     'ent_point' => array(
       0 => 'eck_ent_point',
       1 => 'id',
@@ -290,18 +294,6 @@ function variables_strongarm() {
     ),
     'ent_trackerset' => array(
       0 => 'eck_ent_trackerset',
-      1 => 'id',
-    ),
-    'ent_featured_header' => array(
-      0 => 'eck_ent_featured_header',
-      1 => 'id',
-    ),
-    'vvv' => array(
-      0 => 'eck_vvv',
-      1 => 'id',
-    ),
-    'nnnnnnnnnnnnnnnn' => array(
-      0 => 'eck_nnnnnnnnnnnnnnnn',
       1 => 'id',
     ),
     'field_collection_item' => array(
@@ -523,6 +515,30 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entity_view_modes';
+  $strongarm->value = array(
+    'field_collection_item' => array(
+      'event_info_page' => array(
+        'label' => 'Event info page',
+        'custom settings' => 1,
+      ),
+      'event_details_page' => array(
+        'label' => 'Event details page',
+        'custom settings' => 1,
+      ),
+    ),
+    'node' => array(
+      'event_blog_teaser' => array(
+        'label' => 'Event blog teaser',
+        'custom settings' => 1,
+      ),
+    ),
+  );
+  $export['entity_view_modes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_featured_header__ent_featured_header';
   $strongarm->value = array(
     'view_modes' => array(
@@ -554,7 +570,11 @@ function variables_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'metatags' => array(
+          'weight' => '40',
+        ),
+      ),
       'display' => array(),
     ),
   );
@@ -1020,25 +1040,26 @@ function variables_strongarm() {
     31 => 30,
     32 => 29,
     33 => 28,
-    34 => 24,
-    35 => 23,
-    36 => 22,
-    37 => 21,
-    38 => 19,
-    39 => 15,
-    40 => 14,
-    41 => 13,
-    42 => 12,
-    43 => 11,
-    44 => 10,
-    45 => 9,
-    46 => 8,
-    47 => 7,
-    48 => 6,
-    49 => 5,
-    50 => 3,
-    51 => 2,
-    52 => 1,
+    34 => 26,
+    35 => 24,
+    36 => 23,
+    37 => 22,
+    38 => 21,
+    39 => 19,
+    40 => 15,
+    41 => 14,
+    42 => 13,
+    43 => 12,
+    44 => 11,
+    45 => 10,
+    46 => 9,
+    47 => 8,
+    48 => 7,
+    49 => 6,
+    50 => 5,
+    51 => 3,
+    52 => 2,
+    53 => 1,
   );
   $export['menu_masks'] = $strongarm;
 

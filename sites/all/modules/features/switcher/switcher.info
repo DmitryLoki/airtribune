@@ -135,4 +135,5 @@ dependencies[] = xmlsitemap
 dependencies[] = xmlsitemap_engines
 dependencies[] = xmlsitemap_node
 dependencies[] = xmlsitemap_user
+dependencies[] = entity_view_mode
 features[features_api][] = api:1
