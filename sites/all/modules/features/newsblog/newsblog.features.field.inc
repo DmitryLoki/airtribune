@@ -217,6 +217,9 @@ function newsblog_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -303,7 +306,7 @@ function newsblog_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'hide',
+            'fallback' => 'none',
             'skip_perm' => '0',
             'status' => 1,
           ),
