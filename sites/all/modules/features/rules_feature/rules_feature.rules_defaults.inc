@@ -9,6 +9,60 @@
  */
 function rules_feature_default_rules_configuration() {
   $items = array();
+  $items['rules_create_not_og_blog_alias'] = entity_import('rules_config', '{ "rules_create_not_og_blog_alias" : {
+      "LABEL" : "Create Not OG blog alias",
+      "PLUGIN" : "reaction rule",
+      "REQUIRES" : [ "rules", "og", "path" ],
+      "ON" : [ "node_insert", "node_update" ],
+      "IF" : [
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "newsblog" : "newsblog" } }
+          }
+        },
+        { "og_entity_is_group_content" : { "entity" : [ "node" ] } },
+        { "data_is_empty" : { "data" : [ "node:og-group-ref" ] } }
+      ],
+      "DO" : [
+        { "entity_fetch" : {
+            "USING" : { "type" : "node", "id" : [ "node:og-group-ref:0:nid" ] },
+            "PROVIDE" : { "entity_fetched" : { "entity_fetched" : "Fetched entity" } }
+          }
+        },
+        { "path_alias" : { "source" : "node\\/[node:nid]" } },
+        { "path_alias" : { "source" : "node\\/[node:nid]", "alias" : "activity\\/[node:title]" } }
+      ]
+    }
+  }');
+  $items['rules_create_og_blog_alias'] = entity_import('rules_config', '{ "rules_create_og_blog_alias" : {
+      "LABEL" : "Create OG blog alias",
+      "PLUGIN" : "reaction rule",
+      "REQUIRES" : [ "rules", "og", "path" ],
+      "ON" : [ "node_insert", "node_update" ],
+      "IF" : [
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "newsblog" : "newsblog" } }
+          }
+        },
+        { "og_entity_is_group_content" : { "entity" : [ "node" ] } },
+        { "NOT data_is_empty" : { "data" : [ "node:og-group-ref" ] } }
+      ],
+      "DO" : [
+        { "entity_fetch" : {
+            "USING" : { "type" : "node", "id" : [ "node:og-group-ref:0:nid" ] },
+            "PROVIDE" : { "entity_fetched" : { "entity_fetched" : "Fetched entity" } }
+          }
+        },
+        { "path_alias" : { "source" : "node\\/[node:nid]" } },
+        { "path_alias" : {
+            "source" : "node\\/[node:nid]",
+            "alias" : "[entity-fetched:title]\\/blog\\/[node:title]"
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_og_pilot_subscribe'] = entity_import('rules_config', '{ "rules_og_pilot_subscribe" : {
       "LABEL" : "OG pilot subscribe",
       "PLUGIN" : "reaction rule",
