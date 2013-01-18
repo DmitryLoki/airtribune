@@ -53,6 +53,18 @@ function pg_contest_field_default_fields() {
           'type' => 'text_default',
           'weight' => '4',
         ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_gt_bus',
@@ -117,6 +129,18 @@ function pg_contest_field_default_fields() {
           'settings' => array(),
           'type' => 'text_default',
           'weight' => '3',
+        ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -183,6 +207,18 @@ function pg_contest_field_default_fields() {
           'type' => 'text_default',
           'weight' => '0',
         ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_gt_general',
@@ -247,6 +283,18 @@ function pg_contest_field_default_fields() {
           'settings' => array(),
           'type' => 'text_default',
           'weight' => '1',
+        ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -313,6 +361,18 @@ function pg_contest_field_default_fields() {
           'type' => 'text_default',
           'weight' => '5',
         ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_gt_taxi',
@@ -378,6 +438,18 @@ function pg_contest_field_default_fields() {
           'type' => 'text_default',
           'weight' => '2',
         ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_gt_train',
@@ -438,6 +510,18 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '3',
+        ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '3',
+        ),
+        'event_info_page' => array(
+          'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '3',
@@ -513,6 +597,26 @@ function pg_contest_field_default_fields() {
           'type' => 'image',
           'weight' => '0',
         ),
+        'event_details_page' => array(
+          'label' => 'hidden',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => 'organizer_details',
+          ),
+          'type' => 'image',
+          'weight' => '0',
+        ),
+        'event_info_page' => array(
+          'label' => 'hidden',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => 'organizer_info',
+          ),
+          'type' => 'image',
+          'weight' => '0',
+        ),
       ),
       'entity_type' => 'field_collection_item',
       'field_name' => 'field_organizer_logo',
@@ -556,11 +660,11 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -608,6 +712,20 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '1',
+        ),
+        'event_details_page' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '1',
+        ),
+        'event_info_page' => array(
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
@@ -675,6 +793,18 @@ function pg_contest_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
+        'event_details_page' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
+        'event_info_page' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -925,7 +1055,7 @@ Teams',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -1005,7 +1135,7 @@ Teams',
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 29,
+          'weight' => '29',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1040,6 +1170,9 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_contest_photos',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -1079,7 +1212,7 @@ Teams',
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 27,
+          'weight' => '27',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1131,11 +1264,11 @@ Teams',
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -1153,6 +1286,9 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_contest_rules',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -1190,7 +1326,7 @@ Teams',
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 31,
+          'weight' => '31',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1395,6 +1531,9 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_downloads',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -1668,7 +1807,7 @@ Teams',
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 28,
+          'weight' => '28',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1884,7 +2023,7 @@ Teams',
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 36,
+          'weight' => '36',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2213,7 +2352,7 @@ Teams',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 35,
+          'weight' => '35',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2520,7 +2659,7 @@ Teams',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 34,
+          'weight' => '34',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2892,7 +3031,7 @@ Teams',
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 37,
+          'weight' => '37',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -2925,8 +3064,6 @@ Teams',
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
-  t('Awards and prize money');
-  t('Awards photos');
   t('Bus');
   t('Car');
   t('City');
@@ -2971,6 +3108,7 @@ Nations
 Clubs
 Teams');
   t('Points file');
+  t('Prize fund and scoring categories');
   t('Registration switch');
   t('Rules');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
