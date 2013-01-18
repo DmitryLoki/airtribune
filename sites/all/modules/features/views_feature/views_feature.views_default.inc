@@ -1222,8 +1222,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['label'] = '';
-  $handler->display->display_options['fields']['field_header_author']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
   $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
   $translatables['header_slideshow'] = array(
     t('Master'),
@@ -1233,6 +1232,7 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Photo by'),
   );
   $export['header_slideshow'] = $view;
 
