@@ -254,14 +254,22 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: Text area */
+  /* No results behavior: Banner blank 200x200 */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['ui_name'] = 'Banner blank 200x200';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/banner_blank.jpg\'));?></a>
-';
+  $handler->display->display_options['empty']['area']['content'] = '<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x200blank.png\'));?></a>';
   $handler->display->display_options['empty']['area']['format'] = 'php_code';
+  /* No results behavior: Banner blank 200x140 */
+  $handler->display->display_options['empty']['area_1']['id'] = 'area_1';
+  $handler->display->display_options['empty']['area_1']['table'] = 'views';
+  $handler->display->display_options['empty']['area_1']['field'] = 'area';
+  $handler->display->display_options['empty']['area_1']['ui_name'] = 'Banner blank 200x140';
+  $handler->display->display_options['empty']['area_1']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area_1']['content'] = '<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x140blank.png\'));?></a>';
+  $handler->display->display_options['empty']['area_1']['format'] = 'php_code';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
@@ -451,8 +459,8 @@ function views_feature_views_default_views() {
     t('There are no sponsors added yet for the current event.'),
     t('View panes'),
     t('Event Banners'),
-    t('<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/banner_blank.jpg\'));?></a>
-'),
+    t('<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x200blank.png\'));?></a>'),
+    t('<a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x140blank.png\'));?></a>'),
     t('Site Partners'),
     t('Partners'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
