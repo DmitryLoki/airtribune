@@ -65,6 +65,7 @@ features[field][] = node-pg_contest-field_schedule
 features[field][] = node-pg_contest-field_selection
 features[field][] = node-pg_contest-field_time_zone
 features[field][] = node-pg_contest-group_group
+features[field][] = node-pg_contest-og_roles_permissions
 features[field][] = node-pg_contest-title_field
 features[schemaorg][] = field_collection_item-field_collection_getting_there
 features[schemaorg][] = field_collection_item-field_collection_organizers

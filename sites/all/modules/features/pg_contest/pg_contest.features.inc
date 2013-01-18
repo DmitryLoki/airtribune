@@ -189,6 +189,9 @@ function pg_contest_rdf_default_mappings() {
       'predicates' => array(),
       'type' => 'rel',
     ),
+    'og_roles_permissions' => array(
+      'predicates' => array(),
+    ),
   );
 
   return $schemaorg;
