@@ -798,16 +798,14 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-17';
     $pane->panel = 'event_brick_left_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'airtribune_event_statistics';
+    $pane->subtype = 'airtribune_event_statistics';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '<img src="/sites/default/files/placeholder/5_Big_dig_1.png" alt="" /><img src="/sites/default/files/placeholder/6_Big_dig_2.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
