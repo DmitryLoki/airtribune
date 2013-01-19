@@ -2505,7 +2505,7 @@ p { margin:0; padding:9px 0 11px}
 }
 
 .second_sidebar .block .view-advert-list {}
-.second_sidebar .block .view-advert-list .views-row, .second_sidebar .block .view-advert-list .view-empty { margin-bottom:8px;}
+.second_sidebar .block .view-advert-list .views-row, .second_sidebar .block .view-advert-list .view-empty div { margin-bottom:8px;}
 .second_sidebar .block .view-advert-list img { border:1px solid #dde3e6; vertical-align:middle;}
 
 .panel-col-seventy .block { margin-bottom:0}
