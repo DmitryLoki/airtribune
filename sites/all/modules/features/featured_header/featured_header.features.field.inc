@@ -68,7 +68,7 @@ function featured_header_field_default_fields() {
           'class' => '',
           'configurable_title' => 0,
           'rel' => '',
-          'target' => 'default',
+          'target' => '_blank',
           'title' => '',
         ),
         'display' => array(
