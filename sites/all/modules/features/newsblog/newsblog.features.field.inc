@@ -56,10 +56,13 @@ function newsblog_field_default_fields() {
           'weight' => '2',
         ),
         'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(
+            'trim_length' => 600,
+          ),
+          'type' => 'text_summary_or_trimmed',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -146,10 +149,18 @@ function newsblog_field_default_fields() {
           'weight' => '3',
         ),
         'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'label' => 'hidden',
+          'module' => 'colorbox',
+          'settings' => array(
+            'colorbox_caption' => 'auto',
+            'colorbox_caption_custom' => '',
+            'colorbox_gallery' => 'post',
+            'colorbox_gallery_custom' => '',
+            'colorbox_image_style' => 'large',
+            'colorbox_node_style' => 'node_image_first',
+          ),
+          'type' => 'colorbox',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -277,10 +288,10 @@ function newsblog_field_default_fields() {
           'weight' => '1',
         ),
         'event_blog_teaser' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -383,10 +394,10 @@ function newsblog_field_default_fields() {
           'weight' => '0',
         ),
         'event_blog_teaser' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',

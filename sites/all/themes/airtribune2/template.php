@@ -371,6 +371,7 @@ function airtribune2_breadcrumb($variables) {
 }
 
 function _airtribune2_img_dinamic_scaling($vars){
+	
 	$count = count($vars['#items']);
 	$excess = $count-3*floor($count/3);
 	$image_style_other = 'node_image_third';
@@ -391,10 +392,72 @@ function _airtribune2_img_dinamic_scaling($vars){
 		else{
 			$image_style = $image_style_other;
 		}
-		$vars[$k]['#image_style'] = $image_style;
+		if($vars[$k]['#theme'] != 'colorbox_image_formatter'){
+			$vars[$k]['#image_style'] = $image_style;
+		}
+		else{
+			$vars[$k]['#display_settings']['colorbox_node_style'] = $image_style;
+		}
 		$is_count++;
 		
 	}
+	return $vars;
+}
+
+function _airtribune2_img_dinamic_scaling_event_blog_teaser($vars){
+	$count = count($vars['#items']);
+	//$excess = $count-3*floor($count/3);
+	//$image_style_other = 'node_image_third';
+	switch($count){
+		case 1:
+			$image_styles = array('event_blog_teaser_first');
+		break;
+		case 2:
+			$image_styles = array('event_blog_teaser_second');
+		break;
+		case 3:
+			$image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth');
+		break;
+		case 4:
+			$image_styles = array('event_blog_teaser_fifth', 'event_blog_teaser_sixth');
+		break;
+		case 5:
+			$image_styles = array('event_blog_teaser_first', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+		break;
+		case 6:
+			$image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+		break;
+		case 7:
+			$image_styles = array('event_blog_teaser_first', 'event_blog_teaser_seventh');
+		break;
+		case 8:
+			$image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_seventh');
+		break;
+		case 9:
+			$image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth', 'event_blog_teaser_fourth', 'event_blog_teaser_seventh');
+		break;
+		default:
+			$image_styles = array('event_blog_teaser_first', 'event_blog_teaser_eighth');
+		break;
+	}
+	$is_count = 0;
+	foreach($vars['#items'] as $k => $v){
+		if(!empty($image_styles[$is_count])){
+			$image_style = $image_style_other = $image_styles[$is_count];
+		}
+		else{
+			$image_style = $image_style_other;
+		}
+		if($vars[$k]['#theme'] != 'colorbox_image_formatter'){
+			$vars[$k]['#image_style'] = $image_style;
+		}
+		else{
+			$vars[$k]['#display_settings']['colorbox_node_style'] = $image_style;
+		}
+		$is_count++;
+		
+	}
+	//print_r($vars[0]);
 	return $vars;
 }
 

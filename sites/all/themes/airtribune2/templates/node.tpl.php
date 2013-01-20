@@ -102,9 +102,29 @@
  * <?php print dsm($content); ?> to find variable names to hide() or render().
  */
 
+//print_r($content['field_image']);
+$event_blog = false;
 hide($content['comments']);
 hide($content['links']);
-if ($teaser){
+if($view_mode == 'event_blog_teaser'){
+	$event_blog = true;
+	$title = '<a href="' . $node_url . '" rel="bookmark">' . $title . '</a>';
+	//print_r($node);
+	if(!empty($content['field_image'])){
+		$content['field_image'] = _airtribune2_img_dinamic_scaling_event_blog_teaser($content['field_image']);
+	}
+	$content['links']['node-readmore'] = array(
+	  '#theme' => 'links__node__node',
+	  '#links' => array(
+	 	'node-readmore' => array(
+          'title' => l(t('View more'), 'node/' . $node->nid),
+		  'html' => true
+		)
+	  )
+	);
+	$classes .= ' node-teaser';
+}
+else if ($teaser){
 	$user_picture = false;
 	$display_submitted = false;
 	$content['links']['created'] = array(
@@ -136,6 +156,7 @@ else {
 if(empty($title)){
 	$title = 'Верните заголовки емае';
 }
+$classes .= ' node_view_mode_' . $view_mode;
 //print_r($node);
 
 
@@ -143,7 +164,7 @@ if(empty($title)){
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php print render($title_prefix); ?>
 
-  <?php if ($title && !$page): ?>
+  <?php if ($title && !$page && !$event_blog): ?>
     <header<?php print $header_attributes; ?>>
       <?php if ($title): ?>
         <h1<?php print $title_attributes; ?>>
@@ -151,7 +172,7 @@ if(empty($title)){
         </h1>
       <?php endif; ?>
     </header>
-  <?php elseif ($title && $page): ?>
+  <?php elseif ($title && ($page || $event_blog)): ?>
     <header<?php print $header_attributes; ?>>
    	  <?php print '<div class="posted">'.format_date($created, 'custom', 'd M, Y').'</div>'; ?>
       <?php if ($title): ?>
@@ -162,7 +183,7 @@ if(empty($title)){
     </header>
   <?php endif; ?>
 
-  <?php if(!empty($user_picture) || $display_submitted): ?>
+  <?php if(!$event_blog && (!empty($user_picture) || $display_submitted)): ?>
     <footer<?php print $footer_attributes; ?>>
       <?php print '<div class="author">'.t('by !name', array('!name' => $name)).'</div>';?>
       <?php print $user_picture; ?>
