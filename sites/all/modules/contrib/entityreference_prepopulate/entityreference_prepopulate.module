@@ -97,12 +97,6 @@ function entityreference_prepopulate_field_attach_form($entity_type, $entity, &$
     return;
   }
 
-  if (!empty($form_state['triggering_element']['#ajax'])) {
-    // We are inside AJAX, so values can't be taken from URL at the
-    // moment.
-    return;
-  }
-
   // Check if there is a field that needs to be prepopulated attached to the
   // given entity.
   $found = FALSE;
@@ -210,8 +204,23 @@ function entityreference_prepopulate_get_values_from_url($field, $instance, $fla
   }
   $cache[$identifier] = FALSE;
 
-  if (empty($_GET[$field_name])) {
+  if (empty($_GET[$field_name]) && empty($_POST['form_build_id'])) {
     return;
+  }
+  // AJAX case
+  elseif (!empty($_POST['form_build_id'])) {
+    $form_build_id = $_POST['form_build_id'];
+    $form_state = array();
+    $form = form_get_cache($form_build_id, $form_state);
+    // TODO: $field_name could be not in the root of $form array
+    // and language could be other than und (e.g. when field is translatable).
+    // Check cardinality.
+    if (!empty($form[$field_name]['und'][0]['default']['#default_value'])) {
+      $_GET[$field_name] = implode(',', $form[$field_name]['und'][0]['default']['#default_value']);
+    }
+    else {
+      return;
+    }
   }
 
   if (empty($instance['settings']['behaviors']['prepopulate']['status'])) {
