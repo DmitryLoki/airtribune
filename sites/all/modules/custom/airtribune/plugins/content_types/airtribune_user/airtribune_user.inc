@@ -53,6 +53,17 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
 
   if ($user->uid) {
     $content['user_menu'] = menu_tree(empty($conf['menu']) ? 'user-menu' : $conf['menu']);
+    // Append masquerade unswitch link. See #2565.
+    if (isset($_SESSION['masquerading'])) {
+      $content['user_menu']['masquerade'] = array(
+        '#theme' => 'menu_link',
+        '#title' => t('Switch back'),
+        '#href' => 'masquerade/unswitch',
+        '#below' => array(),
+        '#attributes' => array('class' => array('masquerade-switch-back')),
+        '#localized_options' => array('query' => array('token' => drupal_get_token('masquerade/unswitch'))),
+      );
+    }
   }
   else {
     $content['login_form'] = drupal_get_form('user_login_block');
