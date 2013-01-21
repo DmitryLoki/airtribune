@@ -64,7 +64,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '5',
+          'weight' => '4',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -142,7 +142,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '1',
+          'weight' => '3',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -299,7 +299,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '2',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -377,7 +377,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '3',
+          'weight' => '5',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -455,7 +455,7 @@ function pg_contest_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '4',
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -517,14 +517,16 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '3',
+          'type' => 'text_default',
+          'weight' => '2',
         ),
         'event_details_page' => array(
-          'label' => 'above',
+          'label' => 'hidden',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
+          'type' => 'text_default',
           'weight' => '3',
         ),
         'event_info_page' => array(
@@ -563,6 +565,9 @@ function pg_contest_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_organizer_logo',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -655,7 +660,7 @@ function pg_contest_field_default_fields() {
         ),
         'max_filesize' => '1MB',
         'max_resolution' => '',
-        'min_resolution' => '200x200',
+        'min_resolution' => '140x140',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
@@ -667,9 +672,9 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
+            0 => 0,
             'audio' => 0,
             'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -801,14 +806,16 @@ function pg_contest_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
+          'module' => 'link',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '2',
+          'type' => 'link_default',
+          'weight' => '3',
         ),
         'event_details_page' => array(
-          'label' => 'above',
+          'label' => 'hidden',
+          'module' => 'link',
           'settings' => array(),
-          'type' => 'hidden',
+          'type' => 'link_default',
           'weight' => '2',
         ),
         'event_info_page' => array(

@@ -2422,6 +2422,18 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
 .node-teaser .node-create { float:right; padding:0}
 
+.pane-contest-blog-contest-full-pane .pane-inner { margin:0}
+.node_view_mode_event_blog_teaser { margin:0 0 24px; padding:0 0 9px}
+.node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
+.node_view_mode_event_blog_teaser > .clearfix { margin-left:0;}
+.node_view_mode_event_blog_teaser h1.node-title { font:24px/26px Arial, Helvetica, sans-serif; padding-bottom:8px}
+.node_view_mode_event_blog_teaser .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
+.node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
+.node_view_mode_event_blog_teaser .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+.node_view_mode_event_blog_teaser .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
+.node_view_mode_event_blog_teaser .field-name-field-image .field-item img { vertical-align:middle; border:none}
+.node_view_mode_event_blog_teaser .links { top:-1px; position:relative}
+
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
 
   	/*box-shadow: 0 1px 3px rgba(46,75,89,0.3), 0 0 1px rgba(216,222,226,0.8);	
@@ -2690,6 +2702,14 @@ p { margin:0; padding:9px 0 11px}
 
 
 	/* Details */
+
+#page .panel_info .pane-node-field-info { margin-bottom:9px}
+
+/* Feed photos */
+.page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:20px}
+
+.page-event-details .pane-node-field-flying-info { margin-right:0}
+
 /* Organizers */
 .pane-node-field-collection-organizers {}
 .page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item { width:50%; float:left;}
@@ -2699,6 +2719,9 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:bottom;}
 .page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-name { width:235px; margin-left:9px; color:#3d464c; font:bold 18px/20px Arial, Helvetica, sans-serif; padding-bottom:4px}
 .page-event-details .pane-node-field-collection-organizers img { vertical-align:middle;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer, .page-event-details .pane-node-field-collection-organizers .field-name-field-url { display:block; padding-top:18px; margin-left:1px}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer { padding-top:20px}
+.page-event-details .pane-node-field-collection-organizers a { color:#1ca3d6;}
 
 /* Rules */
 .pane-node-field-contest-rules { padding-bottom:15px;}
@@ -2720,14 +2743,15 @@ p { margin:0; padding:9px 0 11px}
 
 /* Daily schedule */
 .pane-node-field-sample-schedule {}
-.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}
+/*.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}*/
 
 /* How to get here */
 .pane-node-field-collection-getting-there {}
 .page-event-details .panel_info .pane-node-field-collection-getting-there .pane-content { margin:0 11px;}
-.pane-node-field-collection-getting-there .field-item .field { width:50%; float:left; padding:21px 0 11px}
-.pane-node-field-collection-getting-there .field-item .field_even { float:right;}
-.pane-node-field-collection-getting-there .field-item .field_odd { clear:both;}
+.pane-node-field-collection-getting-there .field-item .field { width:50%; padding:21px 0 11px}
+.pane-node-field-collection-getting-there .field-item .field-name-field-gt-col-left { float:left; padding:0}
+.pane-node-field-collection-getting-there .field-item .field-name-field-gt-col-right { float:left; padding:0}
+.pane-node-field-collection-getting-there .field-item .field .field { width:auto}
 .pane-node-field-collection-getting-there .field-label { padding:5px 0 27px 50px; background:url(../images/icons_transport.png) no-repeat 2px -500px; color:#333a40; font:24px/26px Arial, Helvetica, sans-serif;}
 .pane-node-field-collection-getting-there .field-item .field_odd .field-label,
 .pane-node-field-collection-getting-there .field-item .field_odd .field-items { margin-right:10px}

@@ -2,24 +2,29 @@
 
 /**
  * @file
- * Common functions that many Airtribune modules will need to reference.
+ * Common functions that many Airtribune plugins will need to reference.
  */
 
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
+// See field field_pg_contestant_status allowed values list.
+define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
+
 // Fields.
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
-define('AIRTRIBUNE_OPENCLASS_FIELD',     'field_open_class');
+define('AIRTRIBUNE_OPENCLASS_FIELD', 'field_open_class');
 define('AIRTRIBUNE_GETTING_THERE_FIELD', 'field_collection_getting_there');
-define('AIRTRIBUNE_COUNTRY_FIELD',       'field_country');
-define('AIRTRIBUNE_CITY_FIELD',          'field_city');
-define('AIRTRIBUNE_DATES_FIELD',         'field_dates');
-define('AIRTRIBUNE_TIMEZONE_FIELD',      'field_time_zone');
-define('AIRTRIBUNE_OG_GROUP_REF_FIELD',  'og_group_ref');
+define('AIRTRIBUNE_COUNTRY_FIELD', 'field_country');
+define('AIRTRIBUNE_CITY_FIELD', 'field_city');
+define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
+define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
+define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
+define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
 
 // Content types.
-define('AIRTRIBUNE_PG_CONTEST_TYPE',     'pg_contest');
+define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -34,11 +39,18 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
  * Implements hook_theme().
  */
 function airtribune_theme() {
+  $content_plugins_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types';
   return array(
     'airtribune_user_pane' => array(
       'template' => 'airtribune-user-pane',
-      'path' => drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user',
+      'path' => $content_plugins_path . '/airtribune_user',
       'file' => 'airtribune_user.inc',
+      'render element' => 'elements',
+    ),
+    'airtribune_event_statistics_pane' => array(
+      'template' => 'airtribune-event-statistics-pane',
+      'path' => $content_plugins_path . '/airtribune_event_statistics',
+      'file' => 'airtribune_event_statistics.inc',
       'render element' => 'elements',
     ),
   );

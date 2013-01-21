@@ -147,12 +147,12 @@
       .cboxSlideshow_on #cboxSlideshow {
         display: none;
       }
-      .cboxSlideshow_on #cboxSlideshow.hover {
+      .cboxSlideshow_on #cboxSlideshow:hover {
       }
       .cboxSlideshow_off #cboxSlideshow {
         display: none;
       }
-      .cboxSlideshow_off #cboxSlideshow.hover {
+      .cboxSlideshow_off #cboxSlideshow:hover {
       }
       #cboxPrevious {
         position: absolute;
@@ -163,7 +163,7 @@
         height: 15px;
         text-indent: -9999px;
       }
-      #cboxPrevious.hover {
+      #cboxPrevious:hover {
         background-position: 0 -111px;
       }
       #cboxNext {
@@ -175,7 +175,7 @@
         height: 15px;
         text-indent: -9999px;
       }
-      #cboxNext.hover {
+      #cboxNext:hover {
         background-position: 0 -92px;
       }
       #cboxLoadingOverlay {
@@ -194,6 +194,6 @@
         text-indent: -9999px;
         opacity: 0;
       }
-      #cboxClose.hover {
+      #cboxClose:hover {
         background-position: 0 -63px;
       }

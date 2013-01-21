@@ -3,6 +3,7 @@ description = Newsblog content type
 core = 7.x
 package = Content types
 php = 5.2.4
+dependencies[] = colorbox
 dependencies[] = ctools
 dependencies[] = entityreference
 dependencies[] = features

@@ -8,7 +8,7 @@
 /**
  * The default path to the Colorbox directory.
  */
-define('COLORBOX_MIN_PLUGIN_VERSION', '1.3.19');
+define('COLORBOX_MIN_PLUGIN_VERSION', '1.3.21.1');
 
 
 /**
@@ -78,11 +78,10 @@ function colorbox_libraries_info() {
     'name' => 'Colorbox plugin',
     'vendor url' => 'http://www.jacklmoore.com/colorbox',
     'download url' => 'http://www.jacklmoore.com/colorbox',
-    'path' => 'colorbox',
     'version arguments' => array(
-      'file' => 'colorbox/jquery.colorbox-min.js',
+      'file' => 'jquery.colorbox-min.js',
       'pattern' => '@ColorBox v([0-9\.a-z]+)@',
-      'lines' => 1,
+      'lines' => 5,
     ),
     'files' => array(
       'js' => array(
