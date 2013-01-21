@@ -437,7 +437,7 @@ function organic_groups_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => 0,
+        'weight' => '0',
       ),
     ),
   );

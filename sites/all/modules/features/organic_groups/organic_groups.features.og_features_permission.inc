@@ -31,6 +31,13 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
+  // Exported og permission: 'node:pg_contest:create advert content'
+  $permissions['node:pg_contest:create advert content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
   // Exported og permission: 'node:pg_contest:create pg_race content'
   $permissions['node:pg_contest:create pg_race content'] = array(
     'roles' => array(
@@ -38,10 +45,24 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
+  // Exported og permission: 'node:pg_contest:delete any advert content'
+  $permissions['node:pg_contest:delete any advert content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
   // Exported og permission: 'node:pg_contest:delete any pg_race content'
   $permissions['node:pg_contest:delete any pg_race content'] = array(
     'roles' => array(
       'member' => 'member',
+    ),
+  );
+
+  // Exported og permission: 'node:pg_contest:delete own advert content'
+  $permissions['node:pg_contest:delete own advert content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
     ),
   );
 
@@ -94,6 +115,13 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
+  // Exported og permission: 'node:pg_contest:update any advert content'
+  $permissions['node:pg_contest:update any advert content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
   // Exported og permission: 'node:pg_contest:update any pg_race content'
   $permissions['node:pg_contest:update any pg_race content'] = array(
     'roles' => array(
@@ -103,6 +131,13 @@ function organic_groups_og_features_default_permissions() {
 
   // Exported og permission: 'node:pg_contest:update group'
   $permissions['node:pg_contest:update group'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
+  // Exported og permission: 'node:pg_contest:update own advert content'
+  $permissions['node:pg_contest:update own advert content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
     ),

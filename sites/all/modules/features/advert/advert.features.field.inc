@@ -315,8 +315,10 @@ function advert_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'none',
-            'skip_perm' => '0',
+            'action_on_edit' => 0,
+            'fallback' => 'redirect',
+            'og_context' => 0,
+            'skip_perm' => 'administer content types',
             'status' => 1,
           ),
         ),
