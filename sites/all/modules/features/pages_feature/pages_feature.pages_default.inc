@@ -1000,7 +1000,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'title',
       'formatter' => 'colorbox',
-      'delta_limit' => '0',
+      'delta_limit' => '2',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
