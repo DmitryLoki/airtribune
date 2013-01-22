@@ -32,7 +32,7 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
   $content['title'] = array(
     '#theme' => 'html_tag',
     '#tag' => 'h1',
-    '#value' => check_plain($node->title),
+    '#value' => l(check_plain($node->title), 'event/' . $node->nid),
   );
 
   $content['description'] = array(
