@@ -735,7 +735,7 @@ function airtribune2_preprocess_entity(&$variables) {
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_organizers') {
 	if(!empty($variables['field_collection_item']->field_url) && !empty($variables['content']['field_organizer_logo'])) {
 		$variables['content']['field_organizer_logo'][0] = array(
-			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true)),
+			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
 		) ;
 	}
   }
