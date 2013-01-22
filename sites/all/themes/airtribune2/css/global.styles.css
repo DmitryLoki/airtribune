@@ -2716,7 +2716,8 @@ p { margin:0; padding:9px 0 11px}
 #page .panel_info .pane-node-field-info { margin-bottom:9px}
 
 /* Feed photos */
-.page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:20px}
+.page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:0}
+.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:20px}
 
 .page-event-details .pane-node-field-flying-info { margin-right:0}
 
