@@ -60,7 +60,7 @@ function airtribune_airtribune_event_statistics_content_type_render($subtype, $c
     return;
   }
 
-  $content['pilots_list_link'] = l(t('View pilot list'), 'event/' . $node->nid . '/pilot');
+  $content['pilots_list_link'] = l(t('View pilot list'), 'event/' . $node->nid . '/pilots');
   $content['event_map_link'] = l(t('View event map'), 'event/' . $node->nid . '/map');
 
   return (object) array(
