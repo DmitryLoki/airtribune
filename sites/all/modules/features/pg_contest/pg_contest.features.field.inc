@@ -527,7 +527,7 @@ function pg_contest_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '3',
+          'weight' => '2',
         ),
         'event_info_page' => array(
           'label' => 'above',
@@ -672,8 +672,8 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            0 => 0,
             'audio' => 0,
+            0 => 0,
             'default' => 0,
             'image' => 'image',
             'video' => 0,
@@ -816,7 +816,7 @@ function pg_contest_field_default_fields() {
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => '2',
+          'weight' => '3',
         ),
         'event_info_page' => array(
           'label' => 'above',
@@ -3243,7 +3243,7 @@ Teams',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 30,
+        'weight' => '30',
       ),
     ),
   );
