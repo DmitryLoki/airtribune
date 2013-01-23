@@ -413,6 +413,7 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'create advert content',
     'roles' => array(
       0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'node',
   );
@@ -517,6 +518,7 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'delete own advert content',
     'roles' => array(
       0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'node',
   );
@@ -1144,6 +1146,7 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'edit own advert content',
     'roles' => array(
       0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'node',
   );

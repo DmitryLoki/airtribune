@@ -30,7 +30,12 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   );
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
+
+  // Drupal bootstrap doesn't include this file if only one language is enabled.
+  // See drupal_language_initialize().
+  include_once DRUPAL_ROOT . '/includes/language.inc';
   $links = language_negotiation_get_switch_links('language', $path);
+
   foreach ($links->links as $lang_code => $link) {
     $links->links[$lang_code]['title'] = theme(
       'countryicons_icon_sprite',
@@ -53,6 +58,17 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
 
   if ($user->uid) {
     $content['user_menu'] = menu_tree(empty($conf['menu']) ? 'user-menu' : $conf['menu']);
+    // Append masquerade unswitch link. See #2565.
+    if (isset($_SESSION['masquerading'])) {
+      $content['user_menu']['masquerade'] = array(
+        '#theme' => 'menu_link',
+        '#title' => t('Switch back'),
+        '#href' => 'masquerade/unswitch',
+        '#below' => array(),
+        '#attributes' => array('class' => array('masquerade-switch-back')),
+        '#localized_options' => array('query' => array('token' => drupal_get_token('masquerade/unswitch'))),
+      );
+    }
   }
   else {
     $content['login_form'] = drupal_get_form('user_login_block');

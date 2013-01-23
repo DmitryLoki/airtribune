@@ -286,6 +286,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_image']['label'] = '';
   $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_image']['alter']['path'] = '[field_link]';
+  $handler->display->display_options['fields']['field_image']['alter']['external'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
@@ -393,6 +395,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_image']['label'] = '';
   $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_image']['alter']['path'] = '[field_link]';
+  $handler->display->display_options['fields']['field_image']['alter']['external'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
@@ -461,6 +465,7 @@ function views_feature_views_default_views() {
     t('Event Banners'),
     t('<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x140blank.png\'));?></a></div>'),
     t('<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x200blank.png\'));?></a></div>'),
+    t('_blank'),
     t('Site Partners'),
     t('Partners'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
@@ -572,38 +577,51 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Post date */
+  /* Field: Post date (Excluded) */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['ui_name'] = 'Post date';
+  $handler->display->display_options['fields']['created']['ui_name'] = 'Post date (Excluded)';
   $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['exclude'] = TRUE;
   $handler->display->display_options['fields']['created']['element_type'] = 'strong';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'race_date';
-  /* Field: Tile */
+  /* Field: Tile (Excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Tile';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Tile (Excluded)';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['preserve_tags'] = '<a> <span> <strong> <i> <u> <b>';
   $handler->display->display_options['fields']['title']['element_type'] = 'p';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  /* Field: View more link */
-  $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
-  $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
-  $handler->display->display_options['fields']['view_node']['ui_name'] = 'View more link';
-  $handler->display->display_options['fields']['view_node']['label'] = '';
-  $handler->display->display_options['fields']['view_node']['element_type'] = 'div';
-  $handler->display->display_options['fields']['view_node']['element_class'] = 'view-more';
-  $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = '<span>View more</span>';
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: View more link (Excluded) */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = 'View more link (Excluded)';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'View more';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
+  /* Field: Content: Path */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['path']['alter']['text'] = '<a href="[path]"><strong>[created]</strong><span class="blog_title">[title]<span class="view-more"><span>[nothing]</span></span></span></a>';
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
@@ -654,7 +672,7 @@ function views_feature_views_default_views() {
     t('Все'),
     t('Contest pane'),
     t('This pane will be shown at the event info page.'),
-    t('<span>View more</span>'),
+    t('<a href="[path]"><strong>[created]</strong><span class="blog_title">[title]<span class="view-more"><span>[nothing]</span></span></span></a>'),
     t('View panes'),
     t('Contest full pane'),
     t('Items per page'),

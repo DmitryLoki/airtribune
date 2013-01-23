@@ -46,12 +46,20 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
   );
 
   $open_class_items = field_get_items('node', $node, AIRTRIBUNE_OPENCLASS_FIELD);
-  $class = empty($open_class_items[0]['value']) ? 'open-class-prohibited' : 'open-class-allowed';
   // Open class actually is not a link.
-  $links[] = array(
-    'title' => t('Open class prohibited'),
-    'attributes' => array('class' => $class),
-  );
+  if (empty($open_class_items[0]['value'])) {
+    $links[] = array(
+      'title' => t('Open class prohibited'),
+      'attributes' => array('class' => 'open-class-prohibited'),
+    );
+  }
+  else {
+    $links[] = array(
+      'title' => t('Open class allowed'),
+      'attributes' => array('class' => 'open-class-allowed'),
+    );
+  }
+
   $content['links'] = array(
     '#theme' => 'links',
     '#links' => $links,

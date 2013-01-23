@@ -691,15 +691,15 @@ function airtribune2_preprocess_entity(&$variables) {
 			'#fragment' => 'gt_train',
 			'#attributes' => array('class' => 'train'),
 		  ),
-		  'car' => array(
-		  	'#title' => t('Car'),
-			'#fragment' => 'gt_car',
-			'#attributes' => array('class' => 'car'),
-		  ),
 		  'bus' => array(
 		  	'#title' => t('Bus'),
 			'#fragment' => 'gt_bus',
 			'#attributes' => array('class' => 'bus'),
+		  ),
+		  'car' => array(
+		  	'#title' => t('Car'),
+			'#fragment' => 'gt_car',
+			'#attributes' => array('class' => 'car'),
 		  ),
 		  'taxi' => array(
 		  	'#title' => t('Taxi'),
@@ -723,18 +723,19 @@ function airtribune2_preprocess_entity(&$variables) {
 
       
 
-      $variables['content']['transport'] = array(
-        '#theme' => 'links',
-        '#links' => $links,
-      );
-
+      if(!empty($links)){
+	    $variables['content']['transport'] = array(
+          '#theme' => 'links',
+          '#links' => $links,
+        );
+	  }
     }
   }
   
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_organizers') {
 	if(!empty($variables['field_collection_item']->field_url) && !empty($variables['content']['field_organizer_logo'])) {
 		$variables['content']['field_organizer_logo'][0] = array(
-			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true)),
+			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
 		) ;
 	}
   }

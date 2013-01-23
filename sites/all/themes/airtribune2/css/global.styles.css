@@ -2564,7 +2564,8 @@ p { margin:0; padding:9px 0 11px}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left}
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:700px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
+.breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
 .breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
 .breadcrumb:hover a:hover { color:#1cb7f1}
@@ -2607,18 +2608,24 @@ p { margin:0; padding:9px 0 11px}
 .pane-contest-blog-contest-pane { padding:9px 0 14px;}
 .panel_info .pane-contest-blog-contest-pane .pane-content { margin:0}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
-.pane-contest-blog-contest-pane .views-row strong {color:#333a40; display:block; padding-bottom:5px}
+.pane-contest-blog-contest-pane .views-row a { color:#78848f;}
+.pane-contest-blog-contest-pane .views-row a:hover { text-decoration:none; color:#6e7882}
+.pane-contest-blog-contest-pane .views-row strong {color:#495055; display:block; padding-bottom:5px}
+.pane-contest-blog-contest-pane .views-row a:hover strong { color:#404549;}
 .pane-contest-blog-contest-pane .views-row p {margin:0; padding:0 5px 0 0; color:#677581; display:inline}
-.pane-contest-blog-contest-pane .views-row p a {color: #7D9AA8;}
 .pane-contest-blog-contest-pane .view-more { display:inline-block; overflow:hidden; width:7px; height:10px; background:url(../images/more.png) no-repeat 50% 0; top:2px; position:relative;}
-.pane-contest-blog-contest-pane .view-more a span { position:absolute; top:-1000px; left:0}
+.pane-contest-blog-contest-pane a:hover .view-more { background-position:50% -20px;}
+.pane-contest-blog-contest-pane .view-more span { position:absolute; top:-1000px; left:0}
 
 .pane-node-field-flying-info { margin-right:10px}
 .panel_info .pane-node-field-flying-info h2 { background-position:0 0}
 
 /*.pane-node-field-info { margin-left:10px}*/
 
-
+/* Statistics */
+.pane-airtribune-event-statistics { padding-bottom:20px;}
+.panel_info .pane-airtribune-event-statistics .pane-content { margin:0;}
+.panel_info .pane-airtribune-event-statistics .more-link { margin-top:0}
 
 /* Feed photos */
 .pane-node-field-photos, 
@@ -2636,6 +2643,9 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-photos .field-item img,
 .pane-node-field-contest-photos .field-item img,
 .pane-node-field-flying-site-photos .field-item img { vertical-align:middle;}
+
+.page-event-info .pane-node-field-contest-photos, .page-event-info .pane-node-field-flying-site-photos { float:left; padding-bottom:35px}
+.page-event-info .pane-node-field-flying-site-photos { margin-left:0}
 
 /* Awards photos */
 .pane-node-field-awards-photos { padding-top:13px; padding-bottom:31px}
@@ -2662,14 +2672,14 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
 .pane-node-field-collection-getting-there .links a.plane { background-position:0 0}
 .pane-node-field-collection-getting-there .links a.plane:hover { background-position:-26px 0}
-.pane-node-field-collection-getting-there .links a.train { background-position:0 -100px}
-.pane-node-field-collection-getting-there .links a.train:hover { background-position:-26px -100px}
-.pane-node-field-collection-getting-there .links a.car { background-position:0 -200px}
-.pane-node-field-collection-getting-there .links a.car:hover { background-position:-26px -200px}
-.pane-node-field-collection-getting-there .links a.bus { background-position:0 -300px}
-.pane-node-field-collection-getting-there .links a.bus:hover { background-position:-26px -300px}
-.pane-node-field-collection-getting-there .links a.taxi { background-position:0 -400px}
-.pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -400px}
+.pane-node-field-collection-getting-there .links a.train { background-position:0 -300px}
+.pane-node-field-collection-getting-there .links a.train:hover { background-position:-26px -300px}
+.pane-node-field-collection-getting-there .links a.car { background-position:0 -400px}
+.pane-node-field-collection-getting-there .links a.car:hover { background-position:-26px -400px}
+.pane-node-field-collection-getting-there .links a.bus { background-position:0 -100px}
+.pane-node-field-collection-getting-there .links a.bus:hover { background-position:-26px -100px}
+.pane-node-field-collection-getting-there .links a.taxi { background-position:0 -200px}
+.pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -200px}
 
 /* Downloads */
 .pane-node-field-downloads {}
@@ -2706,7 +2716,8 @@ p { margin:0; padding:9px 0 11px}
 #page .panel_info .pane-node-field-info { margin-bottom:9px}
 
 /* Feed photos */
-.page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:20px}
+.page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:0}
+.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:20px}
 
 .page-event-details .pane-node-field-flying-info { margin-right:0}
 
