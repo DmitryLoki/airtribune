@@ -30,7 +30,12 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
   );
 
   $path = drupal_is_front_page() ? '<front>' : current_path();
+
+  // Drupal bootstrap doesn't include this file if only one language is enabled.
+  // See drupal_language_initialize().
+  include_once DRUPAL_ROOT . '/includes/language.inc';
   $links = language_negotiation_get_switch_links('language', $path);
+
   foreach ($links->links as $lang_code => $link) {
     $links->links[$lang_code]['title'] = theme(
       'countryicons_icon_sprite',
