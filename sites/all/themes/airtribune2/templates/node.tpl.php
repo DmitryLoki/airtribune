@@ -106,6 +106,7 @@
 $event_blog = false;
 hide($content['comments']);
 hide($content['links']);
+$account = profile2_load_by_user($node->uid, 'main');
 if($view_mode == 'event_blog_teaser'){
 	$event_blog = true;
 	$title = '<a href="' . $node_url . '" rel="bookmark">' . $title . '</a>';
@@ -140,11 +141,12 @@ else if ($teaser){
 	}
 }
 else {
+	$full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
 	$content['links']['created'] = array(
 	 '#theme' => 'links__node__node',
 	 '#links' => array(
 	 	'node-create' => array(
-			'title' => t('Posted by !user on !date', array('!user' => $name, '!date' => format_date($created, 'custom', 'd M, Y'))),
+			'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($created, 'custom', 'd M, Y'))),
 			'html' => true
 		)
 	 )
@@ -157,7 +159,7 @@ if(empty($title)){
 	$title = 'Верните заголовки емае';
 }
 $classes .= ' node_view_mode_' . $view_mode;
-//print_r($node);
+//print_r(profile2_load_by_user($node->uid, 'main'));
 
 
 ?>

@@ -2801,6 +2801,8 @@ p { margin:0; padding:9px 0 11px}
 .page-node .node .field-name-field-image .field-item img { vertical-align:middle; /*border:1px solid #c8d0d3;*/}
 /*.page-node .node ul { margin-left:20px; margin-bottom:11px}*/
 
+.page-node .node_view_mode_full .field-name-field-image { margin-bottom:37px}
+
 .item-list ul.pager { padding:15px 0 0;}
 .item-list ul.pager li { padding:0; margin:0 2px;}
 .item-list ul.pager li.pager-ellipsis { position:relative; top:7px}

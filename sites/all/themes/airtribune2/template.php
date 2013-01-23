@@ -779,7 +779,7 @@ function airtribune2_field__field_collection_getting_there($variables) {
 }
 
 /**
- * Implements theme_field__field_collection_getting_there().
+ * Implements theme_field__field_collection_organizers.
  */
 function airtribune2_field__field_collection_organizers($variables) {
 	//print_r($variables);
@@ -802,6 +802,37 @@ function airtribune2_field__field_collection_organizers($variables) {
 
   // Render the top-level DIV.
   $output = '<span class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</span>';
+
+  return $output;
+}
+/**
+ * Implements theme_field__field_collection_organizers.
+ */
+function airtribune2_field__field_full_name($variables) {
+	if($variables['field_view_mode'] == '_custom_display'){
+		return drupal_render($item);
+	}
+	$output = '';
+  $colon = ':&nbsp;';
+  if($variables['element']['#bundle'] == 'field_collection_getting_there') {
+	 $colon = '';
+	 $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
+  }
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
+  }
+
+  // Render the items.
+  $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+  }
+  $output .= '</div>';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 
   return $output;
 }
