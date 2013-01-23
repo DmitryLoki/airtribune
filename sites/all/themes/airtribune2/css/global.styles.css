@@ -2583,7 +2583,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info a:hover { text-decoration:underline}
 .panel_info .more-link { text-align:left; margin-top:-1px;} 
 .panel_info .more-link a { color:#7d9aa8; background:url(../images/more.png) no-repeat 0 2px; font:12px/14px Arial, Helvetica, sans-serif; padding-left:10px; text-decoration:none}
-.panel_info .more-link a:hover { color:#1cb7f1}
+.panel_info .more-link a:hover { color:#1cb7f1; background-position:0 -18px;}
 
 #page .panel_info .panel-pane { margin-bottom:20px;}
 .panel_info .pane-content { margin:0 11px}
@@ -2609,9 +2609,9 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-contest-blog-contest-pane .pane-content { margin:0}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
 .pane-contest-blog-contest-pane .views-row a { color:#78848f;}
-.pane-contest-blog-contest-pane .views-row a:hover { text-decoration:none; color:#6e7882}
+.pane-contest-blog-contest-pane .views-row a:hover { text-decoration:none; color:#292e33}
 .pane-contest-blog-contest-pane .views-row strong {color:#495055; display:block; padding-bottom:5px}
-.pane-contest-blog-contest-pane .views-row a:hover strong { color:#404549;}
+.pane-contest-blog-contest-pane .views-row a:hover strong { color:#14171a;}
 .pane-contest-blog-contest-pane .views-row p {margin:0; padding:0 5px 0 0; color:#677581; display:inline}
 .pane-contest-blog-contest-pane .view-more { display:inline-block; overflow:hidden; width:7px; height:10px; background:url(../images/more.png) no-repeat 50% 0; top:2px; position:relative;}
 .pane-contest-blog-contest-pane a:hover .view-more { background-position:50% -20px;}
