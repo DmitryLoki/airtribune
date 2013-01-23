@@ -774,6 +774,9 @@ function pg_contest_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_url',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -842,7 +845,7 @@ function pg_contest_field_default_fields() {
         ),
         'enable_tokens' => 1,
         'entity_translation_sync' => FALSE,
-        'title' => 'optional',
+        'title' => 'none',
         'title_maxlength' => '128',
         'title_value' => '',
         'url' => 0,
