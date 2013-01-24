@@ -15,4 +15,5 @@ features[panels_mini][] = event_featured_header
 features[panels_mini][] = footer_four_blocks
 features[panels_mini][] = header_blocks
 features[panels_mini][] = main_featured_header
+features[panels_mini][] = share_links
 features[panels_mini][] = temp_header_image

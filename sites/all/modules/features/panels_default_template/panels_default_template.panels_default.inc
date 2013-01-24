@@ -448,6 +448,67 @@ e-mail: info@airtribune.com</p>',
   $mini = new stdClass();
   $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */
   $mini->api_version = 1;
+  $mini->name = 'share_links';
+  $mini->category = 'Blocks';
+  $mini->admin_title = 'Share links';
+  $mini->admin_description = '';
+  $mini->requiredcontexts = array();
+  $mini->contexts = array();
+  $mini->relationships = array();
+  $display = new panels_display();
+  $display->layout = 'one';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'one_main' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-12';
+    $pane->panel = 'one_main';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Share links',
+      'title' => '',
+      'body' => '<!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style addthis_counter_style" style="left:50px;top:50px;">
+<a class="addthis_button_facebook_like" fb:like:layout="box_count"></a>
+<a class="addthis_button_tweet" tw:count="vertical"></a>
+<a class="addthis_button_google_plusone" g:plusone:size="tall"></a>
+<a class="addthis_counter"></a>
+</div>
+<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5101179c2b0980ab"></script>
+<!-- AddThis Button END -->',
+      'format' => 'full_html',
+      'substitute' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-12'] = $pane;
+    $display->panels['one_main'][0] = 'new-12';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = 'new-12';
+  $mini->display = $display;
+  $export['share_links'] = $mini;
+
+  $mini = new stdClass();
+  $mini->disabled = FALSE; /* Edit this to true to make a default mini disabled initially */
+  $mini->api_version = 1;
   $mini->name = 'temp_header_image';
   $mini->category = 'Airtribune';
   $mini->admin_title = 'Temporary Header Image';
@@ -469,7 +530,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-13';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -493,10 +554,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['middle'][0] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['middle'][0] = 'new-13';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-12';
+  $display->title_pane = 'new-13';
   $mini->display = $display;
   $export['temp_header_image'] = $mini;
 
