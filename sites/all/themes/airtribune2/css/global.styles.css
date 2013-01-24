@@ -2693,7 +2693,7 @@ p { margin:0; padding:9px 0 11px}
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
 .panel_info .pane-node-field-collection-organizers .pane-content { margin:18px 0 0}
-.pane-node-field-collection-organizers .field-name-field-organizer-logo .field-item { position:relative; border:1px solid #a2afb5; display:inline-block; height:40px; overflow:hidden; line-height:40px;
+.pane-node-field-collection-organizers .field-name-field-organizer-logo .field-item { position:relative; border:1px solid #a2afb5; display:inline-block; height:40px; overflow:hidden; line-height:38px;
 
 	-webkit-border-radius: 4px; 
 	-moz-border-radius: 4px;
@@ -2722,16 +2722,17 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-flying-info { margin-right:0}
 
 /* Organizers */
-.pane-node-field-collection-organizers {}
-.page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item { width:50%; float:left;}
+.page-event-details .pane-node-field-collection-organizers { padding-bottom:0;}
+.page-event-details .pane-node-field-collection-organizers p { padding-bottom:2px;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item { width:50%; float:left; padding-bottom:20px}
 .page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .even { clear:both}
 .page-event-details .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .odd { float:right;}
 .pane-node-field-collection-organizers .field-name-field-collection-organizers > .field-items > .field-item > .entity { margin:0 9px;}
-.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:bottom;}
-.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-name { width:235px; margin-left:9px; color:#3d464c; font:bold 18px/20px Arial, Helvetica, sans-serif; padding-bottom:4px}
-.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-logo .field-item  { height:80px; line-height:80px}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:bottom; margin-right:9px;}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-name { width:235px; color:#3d464c; font:bold 18px/20px Arial, Helvetica, sans-serif; padding-bottom:4px}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer-logo .field-item  { height:80px; line-height:78px; text-align:center;}
 .page-event-details .pane-node-field-collection-organizers img { vertical-align:middle;}
-.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer, .page-event-details .pane-node-field-collection-organizers .field-name-field-url { display:block; padding-top:18px; margin-left:1px}
+.page-event-details .pane-node-field-collection-organizers .field-name-field-organizer, .page-event-details .pane-node-field-collection-organizers .field-name-field-url { display:block; padding-top:2px; margin-left:1px}
 .page-event-details .pane-node-field-collection-organizers .field-name-field-organizer { padding-top:20px}
 .page-event-details .pane-node-field-collection-organizers a { color:#1ca3d6;}
 
