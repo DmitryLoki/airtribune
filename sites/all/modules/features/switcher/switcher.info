@@ -120,6 +120,7 @@ dependencies[] = track
 dependencies[] = trackerset
 dependencies[] = transliteration
 dependencies[] = tzfield
+dependencies[] = user_registrationpassword
 dependencies[] = validation
 dependencies[] = variable
 dependencies[] = variable_realm
