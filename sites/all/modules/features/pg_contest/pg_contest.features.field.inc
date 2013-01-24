@@ -487,6 +487,9 @@ function pg_contest_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_organizer',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -542,7 +545,7 @@ function pg_contest_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1814,6 +1817,9 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_country',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'iso2' => array(
