@@ -2145,7 +2145,7 @@ Teams',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '29',
+        'weight' => '27',
       ),
     ),
   );
@@ -2992,6 +2992,101 @@ Teams',
     ),
   );
 
+  // Exported field: 'node-pg_contest-field_social_links'.
+  $fields['node-pg_contest-field_social_links'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '5',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_social_links',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'link',
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'rel' => '',
+          'target' => 'default',
+        ),
+        'display' => array(
+          'url_cutoff' => 80,
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'title' => 'optional',
+        'title_maxlength' => 128,
+        'title_value' => '',
+        'url' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'link_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Facebook, Twitter, Google Plus, Youtube, Vimeo',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'link',
+          'settings' => array(),
+          'type' => 'link_default',
+          'weight' => 40,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_social_links',
+      'label' => 'Social networks links',
+      'required' => 0,
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'configurable_title' => 0,
+          'rel' => '',
+          'target' => 'default',
+          'title' => '',
+        ),
+        'display' => array(
+          'url_cutoff' => '80',
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'title' => 'none',
+        'title_maxlength' => '128',
+        'title_value' => '',
+        'url' => 0,
+        'user_register_form' => FALSE,
+        'validate_url' => 1,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_field',
+        'weight' => '26',
+      ),
+    ),
+  );
+
   // Exported field: 'node-pg_contest-field_time_zone'.
   $fields['node-pg_contest-field_time_zone'] = array(
     'field_config' => array(
@@ -3246,7 +3341,7 @@ Teams',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '30',
+        'weight' => '28',
       ),
     ),
   );
@@ -3344,6 +3439,7 @@ Teams',
   t('Downloads');
   t('Event info');
   t('FAI category');
+  t('Facebook, Twitter, Google Plus, Youtube, Vimeo');
   t('Flying site');
   t('Flying site photos');
   t('Full info about organizer - description, links, contacts');
@@ -3384,6 +3480,7 @@ Teams');
   t('Rules');
   t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
   t('Selection and entry fee');
+  t('Social networks links');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Taxi');

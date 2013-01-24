@@ -63,6 +63,7 @@ features[field][] = node-pg_contest-field_registration_sw
 features[field][] = node-pg_contest-field_sample_schedule
 features[field][] = node-pg_contest-field_schedule
 features[field][] = node-pg_contest-field_selection
+features[field][] = node-pg_contest-field_social_links
 features[field][] = node-pg_contest-field_time_zone
 features[field][] = node-pg_contest-group_group
 features[field][] = node-pg_contest-og_roles_permissions

@@ -195,6 +195,12 @@ function pg_contest_rdf_default_mappings() {
     'og_roles_permissions' => array(
       'predicates' => array(),
     ),
+    'field_social_link' => array(
+      'predicates' => array(),
+    ),
+    'field_social_links' => array(
+      'predicates' => array(),
+    ),
   );
 
   return $schemaorg;
