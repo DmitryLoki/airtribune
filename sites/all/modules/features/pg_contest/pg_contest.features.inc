@@ -9,6 +9,10 @@
  */
 function pg_contest_ctools_plugin_api() {
   list($module, $api) = func_get_args();
+  if ($module == "field_group" && $api == "field_group") {
+    return array("version" => "1");
+  }
+  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -199,6 +203,12 @@ function pg_contest_rdf_default_mappings() {
       'predicates' => array(),
     ),
     'field_social_links' => array(
+      'predicates' => array(),
+    ),
+    'field_contacts_email' => array(
+      'predicates' => array(),
+    ),
+    'field_contacts_phone' => array(
       'predicates' => array(),
     ),
   );

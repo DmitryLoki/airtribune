@@ -360,7 +360,8 @@ function field_group_multiple_field_attach_form($entity_type, $entity, &$form, &
         $form[$field_name]['#' . FIELD_GROUP_MULTIPLE] = $group_name;
         
         // Disable original field
-        $form[$field_name]['#access'] = FALSE;
+        // fix bug with order of group - see http://drupal.org/node/1812766
+        // $form[$field_name]['#access'] = FALSE;
       }
 
       $group->cardinality = _field_group_multiple_get_max_cardinality($cardinalities);
