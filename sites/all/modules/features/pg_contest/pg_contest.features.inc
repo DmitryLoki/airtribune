@@ -33,6 +33,9 @@ function pg_contest_rdf_default_mappings() {
     'field_url' => array(
       'predicates' => array(),
     ),
+    'field_organizer' => array(
+      'predicates' => array(),
+    ),
   );
 
   // Exported RDF mapping: field_collection_getting_there
