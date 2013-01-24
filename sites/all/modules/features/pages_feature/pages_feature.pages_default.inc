@@ -349,16 +349,20 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_social_links';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'Social buttons',
-      'title' => '',
-      'body' => '<img src="/sites/default/files/placeholder/13_socials.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'hidden',
+      'formatter' => 'link_url',
+      'delta_limit' => '0',
+      'delta_offset' => '0',
+      'delta_reversed' => 0,
+      'formatter_settings' => array(),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1108,16 +1112,20 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-27';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_social_links';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'Social buttons',
-      'title' => '',
-      'body' => '<img src="/sites/default/files/placeholder/13_socials.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'label' => 'hidden',
+      'formatter' => 'link_url',
+      'delta_limit' => '0',
+      'delta_offset' => '0',
+      'delta_reversed' => 0,
+      'formatter_settings' => array(),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
