@@ -2600,7 +2600,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title { background-position:0 -300px} /* Prize funds and scoring categories */
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title { background-position:0 -450px} /* Organizers */
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title { background-position:0 -600px} /* How to get here */
-.page-event-info .panel_info .pane-2 h2.pane-title { background-position:0 -750px} /* Twitter */
+.page-event-info .panel_info .pane-1 h2.pane-title { background-position:0 -750px} /* Twitter */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title { background-position:0 -900px} /* Download */
 
 
@@ -2707,8 +2707,28 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-collection-organizers img { vertical-align:middle;}
 
 /* Twitter */
-.pane-2 {}
-.panel_info .pane-2 .pane-content { margin:2px 0 0}
+.pane-1 {}
+.panel_info .pane-1 .pane-content { margin:2px 0 0}
+
+/* Socials buttons */
+.pane-node-field-social-links {}
+.panel_info .pane-node-field-social-links .pane-content { margin:0}
+.pane-node-field-social-links .field-items { margin-left:-6px; margin-right:-2px}
+.pane-node-field-social-links .field-item { float:left; padding-left:6px}
+.pane-node-field-social-links .field-item a { display:block; width:32px; height:32px; background:url(../images/socials.png) no-repeat 0 0; position:relative; overflow:hidden; text-indent:-10000px;}
+.pane-node-field-social-links .field-item a.facebook-icon { background-position:0 0}
+.pane-node-field-social-links .field-item a.twitter-icon { background-position:-32px 0}
+.pane-node-field-social-links .field-item a.google-icon { background-position:-64px 0}
+.pane-node-field-social-links .field-item a.youtube-icon { background-position:-96px 0}
+.pane-node-field-social-links .field-item a.vimeo-icon { background-position:-128px 0}
+
+/* Shares */
+.pane-share-links { padding-top:15px}
+.panel_info .pane-share-links .pane-content { margin:0}
+.pane-share-links .addthis_toolbox { margin:0 -2px 0 -5px}
+.pane-share-links .addthis_toolbox > br { display:none}
+.pane-share-links .addthis_toolbox > a { padding:0 0 0 5px}
+.pane-share-links .addthis_button_facebook_like iframe { max-width:49px;}
 
 
 	/* Details */
