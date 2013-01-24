@@ -1,0 +1,34 @@
+diff --git a/html5_tools.module b/html5_tools.module
+index de1f8e2..8dead80 100644
+--- a/html5_tools.module
++++ b/html5_tools.module
+@@ -84,7 +84,9 @@ function html5_tools_field_widget_info() {
+  * Implements hook_field_widget_form().
+  */
+ function html5_tools_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+-  $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
++  // Email field type uses 'email' instead of 'value'.
++  $target = ($field['type'] == 'email') ? 'email' : 'value';
++  $value = isset($items[$delta][$target]) ? $items[$delta][$target] : '';
+
+   switch ($instance['widget']['type']) {
+     case 'numberfield':
+@@ -107,14 +109,16 @@ function html5_tools_field_widget_form(&$form, &$form_state, $field, $instance,
+       break;
+   }
+
+-  return array('value' => $element);
++  return array($target => $element);
+ }
+
+ /**
+  * Implements hook_field_widget_error().
+  */
+ function html5_tools_field_widget_error($element, $error, $form, &$form_state) {
+-  form_error($element['value'], $error['message']);
++  // Email field type uses 'email' instead of 'value'.
++  $target = isset($element['email']) ? 'email' : 'value';
++  form_error($element[$target], $error['message']);
+ }
+
+ /**
