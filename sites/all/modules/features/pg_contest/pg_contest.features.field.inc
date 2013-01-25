@@ -663,7 +663,7 @@ function pg_contest_field_default_fields() {
         ),
         'max_filesize' => '1MB',
         'max_resolution' => '',
-        'min_resolution' => '140x140',
+        'min_resolution' => '80x80',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
@@ -675,8 +675,8 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
             0 => 0,
+            'audio' => 0,
             'default' => 0,
             'image' => 'image',
             'video' => 0,
