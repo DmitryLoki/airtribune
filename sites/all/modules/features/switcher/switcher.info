@@ -30,6 +30,7 @@ dependencies[] = draggableviews
 dependencies[] = eck
 dependencies[] = elements
 dependencies[] = email
+dependencies[] = email_registration
 dependencies[] = ent_point
 dependencies[] = ent_track
 dependencies[] = ent_tracker

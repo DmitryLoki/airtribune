@@ -353,7 +353,7 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
 				'#markup' => theme('item_list', array('items' => $items)),
 				'#weight' => 100,
 			);
-		break;
+    break;
 	}
 }
 
@@ -836,4 +836,16 @@ function airtribune2_field__field_full_name($variables) {
   $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 
   return $output;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function airtribune2_theme() {
+  return array(
+		'user_register_form' => array(
+			'render element' => 'form',
+      'template' => 'templates/user-register-form',
+		),
+	);
 }
