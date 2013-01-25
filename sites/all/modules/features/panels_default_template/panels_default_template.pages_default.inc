@@ -271,6 +271,42 @@ function panels_default_template_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'admin_title' => 'Small share links',
+      'title' => '',
+      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c"});</script><span class=\'st_fblike_hcount\' displayText=\'Facebook Like\'></span><span class=\'st_twitter_hcount\' displayText=\'Tweet\'></span><span class=\'st_plusone_hcount\' displayText=\'+1\'></span><span class=\'st_sharethis_hcount\' displayText=\'Share\'></span>',
+      'format' => 'full_html',
+      'substitute' => 0,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-6'] = $pane;
+    $display->panels['right'][0] = 'new-6';
+    $pane = new stdClass();
+    $pane->pid = 'new-7';
+    $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
     $pane->shown = TRUE;
@@ -304,12 +340,12 @@ function panels_default_template_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['right'][0] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['right'][1] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-8';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -332,14 +368,11 @@ function panels_default_template_default_page_manager_handlers() {
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'og_perm',
+          'name' => 'perm',
           'settings' => array(
-            'perm' => 'administer group',
+            'perm' => 'bypass node access',
           ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'context_airtribune_event_1',
-          ),
+          'context' => 'logged-in-user',
           'not' => FALSE,
         ),
       ),
@@ -359,12 +392,12 @@ print l(t(\'Manage event sponsors\'), \'sponsors/%node:nid\');
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['right'][1] = 'new-7';
+    $display->content['new-8'] = $pane;
+    $display->panels['right'][2] = 'new-8';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-9';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -393,12 +426,12 @@ events/*',
       'css_class' => 'next_events',
     );
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['right'][2] = 'new-8';
+    $display->content['new-9'] = $pane;
+    $display->panels['right'][3] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-10';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_4';
@@ -423,12 +456,12 @@ events/*',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['right'][3] = 'new-9';
+    $display->content['new-10'] = $pane;
+    $display->panels['right'][4] = 'new-10';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-11';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -472,12 +505,12 @@ print l(t(\'Manage site partners\'), \'partners\');
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 5;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['right'][4] = 'new-10';
+    $display->content['new-11'] = $pane;
+    $display->panels['right'][5] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-12';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
     $pane->subtype = 'main_featured_header';
@@ -503,10 +536,10 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['top'][0] = 'new-11';
+    $display->content['new-12'] = $pane;
+    $display->panels['top'][0] = 'new-12';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-13';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
     $pane->subtype = 'event_featured_header';
@@ -535,10 +568,10 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['top'][1] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['top'][1] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-14';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
     $pane->subtype = 'temp_header_image';
@@ -572,10 +605,10 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['top'][2] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['top'][2] = 'new-14';
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-15';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -590,8 +623,8 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['top'][3] = 'new-14';
+    $display->content['new-15'] = $pane;
+    $display->panels['top'][3] = 'new-15';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

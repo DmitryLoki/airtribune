@@ -93,14 +93,14 @@ $labels = array(
 
   <div class="field-items"<?php print $content_attributes; ?>>
     <?php foreach ($items as $delta => $item) : ?>
-      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>
+      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>><div class="inner">
         <div class="label"><b><?php print $labels[$delta]; ?></b></div>
         <?php
-          print render($item);
+          print t('tel: ') . render($item);
           $mail = $element["#object"]->field_contacts_email["und"][$delta]["email"];
-          if ($mail) print "<div><a href='mailto:$mail'>$mail</a></div>";
+          if ($mail) print "<div>" . t('email: ') . "<a href='mailto:$mail'>$mail</a></div>";
         ?>
-      </div>
+      </div></div>
     <?php endforeach; ?>
   </div>
 
