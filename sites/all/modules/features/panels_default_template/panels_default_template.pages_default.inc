@@ -332,14 +332,11 @@ function panels_default_template_default_page_manager_handlers() {
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'og_perm',
+          'name' => 'perm',
           'settings' => array(
-            'perm' => 'administer group',
+            'perm' => 'bypass node access',
           ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'context_airtribune_event_1',
-          ),
+          'context' => 'logged-in-user',
           'not' => FALSE,
         ),
       ),

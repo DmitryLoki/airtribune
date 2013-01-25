@@ -1530,15 +1530,12 @@ function pages_feature_default_page_manager_pages() {
         'context' => 'argument_entity_id:node_1',
         'not' => FALSE,
       ),
-      2 => array(
-        'name' => 'og_perm',
+      3 => array(
+        'name' => 'perm',
         'settings' => array(
-          'perm' => 'administer group',
+          'perm' => 'bypass node access',
         ),
-        'context' => array(
-          0 => 'logged-in-user',
-          1 => 'argument_entity_id:node_1',
-        ),
+        'context' => 'logged-in-user',
         'not' => FALSE,
       ),
     ),
