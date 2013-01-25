@@ -865,6 +865,96 @@ function pg_contest_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-pg_contest-field_address'.
+  $fields['node-pg_contest-field_address'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_address',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'addressfield',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'addressfield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => array(
+        0 => array(
+          'element_key' => 'node|pg_contest|field_address|und|0',
+          'thoroughfare' => '',
+          'premise' => '',
+          'locality' => '',
+          'administrative_area' => '',
+          'postal_code' => '',
+          'country' => 'US',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => 43,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_address',
+      'label' => 'Address',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'addressfield',
+        'settings' => array(
+          'available_countries' => array(),
+          'format_handlers' => array(
+            'address' => 'address',
+            'address-hide-country' => 0,
+            'organisation' => 0,
+            'name-full' => 0,
+            'name-oneline' => 0,
+          ),
+        ),
+        'type' => 'addressfield_standard',
+        'weight' => '22',
+      ),
+    ),
+  );
+
   // Exported field: 'node-pg_contest-field_awards_photos'.
   $fields['node-pg_contest-field_awards_photos'] = array(
     'field_config' => array(
@@ -3799,6 +3889,7 @@ Teams',
   // Translatables
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
+  t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Bus');
   t('Car');
