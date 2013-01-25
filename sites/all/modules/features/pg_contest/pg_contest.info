@@ -26,6 +26,7 @@ dependencies[] = media
 dependencies[] = og_ui
 dependencies[] = openlayers
 dependencies[] = options
+dependencies[] = reverse_geocode_widget
 dependencies[] = schemaorg
 dependencies[] = strongarm
 dependencies[] = title

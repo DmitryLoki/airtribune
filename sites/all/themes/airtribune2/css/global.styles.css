@@ -2929,3 +2929,7 @@ p { margin:0; padding:9px 0 11px}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author a { color: #FFF; }
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author .field-content { display: inline;}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
+
+
+/* Temporary */
+.field-name-field-hq-location {margin-top: 15px;}
