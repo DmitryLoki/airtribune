@@ -378,10 +378,10 @@ function panels_default_template_default_page_manager_handlers() {
       ),
     );
     $pane->configuration = array(
-      'admin_title' => 'Manage event sponsors link',
+      'admin_title' => 'Manage event partners link',
       'title' => '',
       'body' => '<?php
-print l(t(\'Manage event sponsors\'), \'sponsors/%node:nid\');
+print l(t(\'Manage event partners\'), \'partners/%node:nid\');
 ?>',
       'format' => 'php_code',
       'substitute' => 1,

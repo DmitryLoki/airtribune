@@ -1642,7 +1642,7 @@ function pages_feature_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Event sponsors';
   $page->admin_description = '';
-  $page->path = 'sponsors/%node';
+  $page->path = 'partners/%node';
   $page->access = array(
     'plugins' => array(
       0 => array(

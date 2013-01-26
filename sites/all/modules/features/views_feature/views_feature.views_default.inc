@@ -112,7 +112,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Sponsors';
+  $handler->display->display_options['title'] = 'Parners';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -222,7 +222,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add sponsor\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>';
+  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add partner\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>';
   $handler->display->display_options['header']['area']['format'] = 'php_code';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
@@ -231,7 +231,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'There are no sponsors added yet for the current event.';
+  $handler->display->display_options['empty']['area']['content'] = 'There are no partners added yet for the current event.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
@@ -436,7 +436,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
   $translatables['advert_list'] = array(
     t('Master'),
-    t('Sponsors'),
+    t('Parners'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -459,7 +459,7 @@ function views_feature_views_default_views() {
     t('Delete link'),
     t('All'),
     t('Event Sponsors'),
-    t('<?php print l(t(\'Add sponsor\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
+    t('<?php print l(t(\'Add partner\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
     t('There are no sponsors added yet for the current event.'),
     t('View panes'),
     t('Event Banners'),
