@@ -157,7 +157,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
     $vars['more'] = l(
       $vars['pane']->configuration['more']['title'],
-      'event/' . $vars['display']->args[0] . '/details',
+      'event/' . $vars['display']->args[0] . '/info/details',
       array('fragment' => $vars['pane']->configuration['more']['fragment'])
     );
   }
@@ -170,7 +170,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
  * Implements hook_field_collection_item_view_alter().
  */
 function airtribune_field_collection_item_view_alter(&$build) {
-  if ($build['#bundle'] == AIRTRIBUNE_GETTING_THERE_FIELD && arg(2) == 'details') {
+  if ($build['#bundle'] == AIRTRIBUNE_GETTING_THERE_FIELD) {
     foreach (element_children($build) as $key) {
       $build[$key]['#prefix'] = '<a name="' . str_replace('field_', '', $key) . '"></a>';
     }
