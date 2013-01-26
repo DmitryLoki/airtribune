@@ -2384,6 +2384,7 @@ p { margin:0; padding:9px 0 11px}
 
 .region-sidebar-first, .region-sidebar-second { width:240px;}
 .panel-col-thirty { width:231px; float:right;}
+.panel-panel.line { position:relative}
 .panel-col-thirty .inside { margin-left:0; margin-right:9px}
 
 .panel-col-seventy { width:100%; float:left; margin-right:-240px}
@@ -2564,7 +2565,7 @@ p { margin:0; padding:9px 0 11px}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:700px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
 .breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
@@ -2602,6 +2603,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title { background-position:0 -600px} /* How to get here */
 .page-event-info .panel_info .pane-1 h2.pane-title { background-position:0 -750px} /* Twitter */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title { background-position:0 -900px} /* Download */
+.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title { background-position:0 -1050px} /* Contacts phone */
 
 
 /* Blog */
@@ -2665,7 +2667,7 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-awards-photos .more-link { clear:both; padding-top:10px}
 
 /* How to get here */
-.pane-node-field-collection-getting-there {}
+.page-event-info .pane-node-field-collection-getting-there { padding-bottom:35px}
 .panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0}
 .pane-node-field-collection-getting-there .links { padding:8px 0 0;}
 .pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
@@ -2682,13 +2684,22 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -200px}
 
 /* Downloads */
-.pane-node-field-downloads {}
+.page-event-info .pane-node-field-downloads { width:50%; float:left;}
+.page-event-info .pane-node-field-downloads .pane-inner { margin-left:10px;}
 .panel_info .pane-node-field-downloads .pane-content { margin:18px 0 0}
 .pane-node-field-downloads .field-item { float:left; width:143px; padding-right:10px; padding-bottom:2px;}
 .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:both;}
 .pane-node-field-downloads .file img { vertical-align:middle}
 .pane-node-field-downloads .file a { color:#525c66; font:14px/16px Arial, Helvetica, sans-serif; text-decoration:none; vertical-align:middle;}
 .pane-node-field-downloads .file a:hover { color:#1cb7f1;}
+
+/* Contacts phone */
+.page-event-info .pane-node-field-contacts-phone { width:50%; float:left}
+.page-event-info .pane-node-field-contacts-phone .pane-inner { margin-right:10px}
+.pane-node-field-contacts-phone .pane-content { margin-top:9px; }
+.pane-node-field-contacts-phone .field-item { padding-top:10px}
+.page-event-info .pane-node-field-contacts-phone .field-item { white-space:nowrap}
+.pane-node-field-contacts-phone .field-item .label { color:#333a40}
 
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
@@ -2725,10 +2736,53 @@ p { margin:0; padding:9px 0 11px}
 /* Shares */
 .pane-share-links { padding-top:15px}
 .panel_info .pane-share-links .pane-content { margin:0}
-.pane-share-links .addthis_toolbox { margin:0 -2px 0 -5px}
-.pane-share-links .addthis_toolbox > br { display:none}
-.pane-share-links .addthis_toolbox > a { padding:0 0 0 5px}
-.pane-share-links .addthis_button_facebook_like iframe { max-width:49px;}
+.pane-share-links p { margin:0 -2px 0 -5px; padding:0}
+.pane-share-links p > br { display:none}
+.pane-share-links p > span { display:inline-block; padding:0 0 0 5px; float:left}
+.pane-share-links p > span span.stButton { margin:0}
+.pane-share-links .stMainServices, .pane-share-links .stButton_gradient { background:url(../images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; margin-top:4px; border:none !important; width:50px !important; min-width:0 !important;
+
+	-webkit-border-radius: 0 !important; 
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+
+
+}
+.pane-share-links .st_facebook_vcount .stMainServices { background-position:0 -96px !important; width:45px !important;}
+.pane-share-links .stButton .stBubble { height:37px !important; margin:0 !important; background-position:10px 33px; width:50px !important; background-image:url(http://w.sharethis.com/share4x/images/bubble_arrow_below.png)}
+.pane-share-links .stButton .stBubble_count { height:25px !important; font-size:14px !important; padding-top:7px !important; width:48px !important; background:#ffffff !important; border-color:#bbbbbb; color:#333333 !important}
+.pane-share-links .st_facebook_vcount .stBubble { width:45px !important}
+.pane-share-links .st_facebook_vcount .stBubble_count { width:43px !important}
+.pane-share-links .st_twitter_vcount .stMainServices { background-position:-45px -96px !important; width:59px !important}
+.pane-share-links .st_twitter_vcount .stBubble { width:59px !important}
+.pane-share-links .st_twitter_vcount .stBubble_count { width:57px !important}
+.pane-share-links .stButton_gradient span { display:none}
+.pane-share-links .st_googleplus_vcount .stButton .stButton_gradient { background-position:-104px -96px !important;}
+.pane-share-links .st_sharethis_vcount .stButton .stMainServices { background-position:-154px -96px !important; }
+
+/* Shares */
+.second_sidebar .small-pane-share-links { position:absolute; top:-40px; right:5px; background:none; border:none}
+.second_sidebar .small-pane-share-links .pane-content { margin:0}
+.second_sidebar .small-pane-share-links p { padding:0}
+.second_sidebar .small-pane-share-links p > span { vertical-align:top; display:inline-block; padding-right:5px;}
+.second_sidebar .small-pane-share-links p > span > span, .second_sidebar .small-pane-share-links p > span > div { vertical-align:top !important;}
+.small-pane-share-links .stButton { margin:0}
+.small-pane-share-links .stButton span { display:inline-block}
+.small-pane-share-links .stButton .stHBubble { margin-right:0 !important; height:14px; line-height:14px; border-color:#c1c1c1 !important; background:#ffffff !important}
+.small-pane-share-links .stButton .stBubble_hcount { height:14px; line-height:12px;}
+.small-pane-share-links .stMainServices { background:url(../images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; border:none !important; width:50px !important; min-width:0 !important;
+
+	-webkit-border-radius: 0 !important; 
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+
+
+}
+
+.small-pane-share-links .st_fblike_hcount > span { margin:0 !important}
+.small-pane-share-links .st_twitter_hcount .stMainServices { background-position:-45px -96px !important; width:59px !important; vertical-align:top}
+.small-pane-share-links .st_sharethis_hcount .stMainServices { background-position:-154px -96px !important; }
+
 
 
 	/* Details */
@@ -2803,6 +2857,16 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-downloads .field-item { width:220px;}
 .page-event-details .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:none;}
 .page-event-details .pane-node-field-downloads .field-item:nth-child(2n+1) { clear:both;}
+
+/* Socials buttons */
+.page-event-details .pane-node-field-social-links {}
+.page-event-details .pane-node-field-social-links .pane-content { margin-top:18px}
+
+/* Contacts phone */
+.page-event-details .pane-node-field-contacts-phone { }
+.page-event-details .pane-node-field-contacts-phone .pane-content { margin:-1px 6px 0; }
+.page-event-details .pane-node-field-contacts-phone .field-item { width:50%; float:left;}
+.page-event-details .pane-node-field-contacts-phone .field-item .inner { margin:0 5px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
@@ -2929,3 +2993,7 @@ p { margin:0; padding:9px 0 11px}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author a { color: #FFF; }
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author .field-content { display: inline;}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
+
+
+/* Temporary */
+.field-name-field-hq-location {margin-top: 15px;}

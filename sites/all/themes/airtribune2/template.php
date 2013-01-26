@@ -747,9 +747,10 @@ function airtribune2_preprocess_entity(&$variables) {
   
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_organizers' && $variables['view_mode'] == 'event_info_page') {
 	if(arg(0) == 'event' && !empty($variables['content']['field_organizer_logo'])) {
+		//print_r($variables['field_collection_item']);
 		$variables['content']['field_organizer_logo'][0] = array(
 			//'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
-			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/details', array('html' => true, 'fragment' => 'organizers', 'attributes' => array('target'=>'_blank'))),
+			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
 		) ;
 	}
   }
@@ -807,6 +808,11 @@ function airtribune2_field__field_collection_organizers($variables) {
   // Render the items.
   $output .= '<span class="field-items"' . $variables['content_attributes'] . '>';
   foreach ($variables['items'] as $delta => $item) {
+	  //print_r(array_keys($item['entity']['field_collection_item']));
+	  if(!empty($item['entity']['field_collection_item'])){
+		  $org = array_keys($item['entity']['field_collection_item']);
+		  $output .= '<a id="organizer_' . $org[0] . '"></a>';
+	  }
     $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<span class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>';
 	//$render_item = drupal_render($item);

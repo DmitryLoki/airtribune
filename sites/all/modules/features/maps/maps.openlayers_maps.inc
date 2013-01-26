@@ -13,6 +13,184 @@ function maps_openlayers_maps() {
   $openlayers_maps = new stdClass();
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
   $openlayers_maps->api_version = 1;
+  $openlayers_maps->name = 'event_hq';
+  $openlayers_maps->title = 'Event info HQ';
+  $openlayers_maps->description = 'A Map Used for Geofield Output';
+  $openlayers_maps->data = array(
+    'width' => '445px',
+    'height' => '215px',
+    'image_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/img/',
+    'css_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/style.css',
+    'proxy_host' => '',
+    'hide_empty_map' => 0,
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '34.791297322254195, 31.77487713467286',
+        'zoom' => '13',
+      ),
+      'restrict' => array(
+        'restrictextent' => 0,
+        'restrictedExtent' => '',
+      ),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
+      'openlayers_behavior_navigation' => array(
+        'zoomWheelEnabled' => 1,
+        'zoomBoxEnabled' => 1,
+        'documentDrag' => 0,
+      ),
+      'openlayers_behavior_zoompanel' => array(),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => array(
+          'geofield_formatter' => 'geofield_formatter',
+          'google_satellite' => 0,
+          'google_hybrid' => 0,
+          'google_normal' => 0,
+        ),
+        'point_zoom_level' => '13',
+        'zoomtolayer_scale' => '1',
+      ),
+    ),
+    'default_layer' => 'google_hybrid',
+    'layers' => array(
+      'google_satellite' => 'google_satellite',
+      'google_hybrid' => 'google_hybrid',
+      'google_normal' => 'google_normal',
+      'geofield_formatter' => 'geofield_formatter',
+    ),
+    'layer_weight' => array(
+      'geofield_formatter' => '0',
+      'openlayers_geojson_picture_this' => '0',
+    ),
+    'layer_styles' => array(
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_styles_select' => array(
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_activated' => array(
+      'geofield_formatter' => 'geofield_formatter',
+      'openlayers_geojson_picture_this' => 0,
+    ),
+    'layer_switcher' => array(
+      'geofield_formatter' => 0,
+      'openlayers_geojson_picture_this' => 0,
+    ),
+    'projection' => '900913',
+    'displayProjection' => '4326',
+    'styles' => array(
+      'default' => 'default',
+      'select' => 'default',
+      'temporary' => 'default',
+    ),
+  );
+  $export['event_hq'] = $openlayers_maps;
+
+  $openlayers_maps = new stdClass();
+  $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
+  $openlayers_maps->api_version = 1;
+  $openlayers_maps->name = 'event_hq_details';
+  $openlayers_maps->title = 'Event info HQ details';
+  $openlayers_maps->description = 'A Map Used for Geofield Output';
+  $openlayers_maps->data = array(
+    'width' => '680px',
+    'height' => '400px',
+    'image_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/img/',
+    'css_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/style.css',
+    'proxy_host' => '',
+    'hide_empty_map' => 0,
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '0, 0',
+        'zoom' => '13',
+      ),
+      'restrict' => array(
+        'restrictextent' => 0,
+        'restrictedExtent' => '',
+      ),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_fullscreen' => array(
+        'activated' => 0,
+      ),
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
+      'openlayers_behavior_navigation' => array(
+        'zoomWheelEnabled' => 0,
+        'zoomBoxEnabled' => 1,
+        'documentDrag' => 0,
+      ),
+      'openlayers_behavior_panzoombar' => array(
+        'zoomWorldIcon' => 0,
+        'panIcons' => 1,
+      ),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => array(
+          'geofield_formatter' => 'geofield_formatter',
+          'google_satellite' => 0,
+          'google_hybrid' => 0,
+          'google_normal' => 0,
+        ),
+        'point_zoom_level' => '13',
+        'zoomtolayer_scale' => '1',
+      ),
+    ),
+    'default_layer' => 'google_hybrid',
+    'layers' => array(
+      'google_satellite' => 'google_satellite',
+      'google_hybrid' => 'google_hybrid',
+      'google_normal' => 'google_normal',
+      'geofield_formatter' => 'geofield_formatter',
+    ),
+    'layer_weight' => array(
+      'geofield_formatter' => '0',
+      'openlayers_geojson_picture_this' => '0',
+    ),
+    'layer_styles' => array(
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_styles_select' => array(
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_activated' => array(
+      'geofield_formatter' => 'geofield_formatter',
+      'openlayers_geojson_picture_this' => 0,
+    ),
+    'layer_switcher' => array(
+      'geofield_formatter' => 0,
+      'openlayers_geojson_picture_this' => 0,
+    ),
+    'projection' => '900913',
+    'displayProjection' => '4326',
+    'styles' => array(
+      'default' => 'default',
+      'select' => 'default',
+      'temporary' => 'default',
+    ),
+  );
+  $export['event_hq_details'] = $openlayers_maps;
+
+  $openlayers_maps = new stdClass();
+  $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
+  $openlayers_maps->api_version = 1;
   $openlayers_maps->name = 'geofield_formatter_map2';
   $openlayers_maps->title = 'Geofield Formatter Map 2';
   $openlayers_maps->description = 'Second Map Used for Geofield Output';
