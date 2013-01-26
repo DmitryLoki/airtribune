@@ -25,8 +25,8 @@ function maps_openlayers_maps() {
     'hide_empty_map' => 0,
     'center' => array(
       'initial' => array(
-        'centerpoint' => '0, 0',
-        'zoom' => '1',
+        'centerpoint' => '34.791297322254195, 31.77487713467286',
+        'zoom' => '13',
       ),
       'restrict' => array(
         'restrictextent' => 0,
@@ -35,27 +35,35 @@ function maps_openlayers_maps() {
     ),
     'behaviors' => array(
       'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
       'openlayers_behavior_navigation' => array(
-        'zoomWheelEnabled' => 0,
+        'zoomWheelEnabled' => 1,
         'zoomBoxEnabled' => 1,
         'documentDrag' => 0,
       ),
-      'openlayers_behavior_panzoombar' => array(
-        'zoomWorldIcon' => 0,
-        'panIcons' => 1,
-      ),
+      'openlayers_behavior_zoompanel' => array(),
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
           'geofield_formatter' => 'geofield_formatter',
-          'mapquest_osm' => 0,
+          'google_satellite' => 0,
+          'google_hybrid' => 0,
+          'google_normal' => 0,
         ),
-        'point_zoom_level' => '5',
+        'point_zoom_level' => '13',
         'zoomtolayer_scale' => '1',
       ),
     ),
-    'default_layer' => 'mapquest_osm',
+    'default_layer' => 'google_hybrid',
     'layers' => array(
-      'mapquest_osm' => 'mapquest_osm',
+      'google_satellite' => 'google_satellite',
+      'google_hybrid' => 'google_hybrid',
+      'google_normal' => 'google_normal',
       'geofield_formatter' => 'geofield_formatter',
     ),
     'layer_weight' => array(
@@ -104,7 +112,7 @@ function maps_openlayers_maps() {
     'center' => array(
       'initial' => array(
         'centerpoint' => '0, 0',
-        'zoom' => '1',
+        'zoom' => '13',
       ),
       'restrict' => array(
         'restrictextent' => 0,
@@ -112,7 +120,17 @@ function maps_openlayers_maps() {
       ),
     ),
     'behaviors' => array(
+      'openlayers_behavior_fullscreen' => array(
+        'activated' => 0,
+      ),
       'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
       'openlayers_behavior_navigation' => array(
         'zoomWheelEnabled' => 0,
         'zoomBoxEnabled' => 1,
@@ -125,15 +143,19 @@ function maps_openlayers_maps() {
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
           'geofield_formatter' => 'geofield_formatter',
-          'mapquest_osm' => 0,
+          'google_satellite' => 0,
+          'google_hybrid' => 0,
+          'google_normal' => 0,
         ),
-        'point_zoom_level' => '5',
+        'point_zoom_level' => '13',
         'zoomtolayer_scale' => '1',
       ),
     ),
-    'default_layer' => 'mapquest_osm',
+    'default_layer' => 'google_hybrid',
     'layers' => array(
-      'mapquest_osm' => 'mapquest_osm',
+      'google_satellite' => 'google_satellite',
+      'google_hybrid' => 'google_hybrid',
+      'google_normal' => 'google_normal',
       'geofield_formatter' => 'geofield_formatter',
     ),
     'layer_weight' => array(
