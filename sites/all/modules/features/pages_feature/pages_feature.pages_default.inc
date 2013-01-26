@@ -1016,9 +1016,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_getting_there';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(),
-    );
+    $pane->access = array();
     $pane->configuration = array(
       'label' => 'hidden',
       'formatter' => 'field_collection_fields',
@@ -1268,14 +1266,16 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-33';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'airtribune_event_twitter';
-    $pane->subtype = 'airtribune_event_twitter';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => 'Twitter',
+      'admin_title' => '',
+      'title' => 'Twitter',
+      'body' => '<img src="/sites/default/files/placeholder/11_twitter.png" alt="" />',
+      'format' => 'full_html',
+      'substitute' => 1,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1435,16 +1435,19 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-37';
     $pane->panel = 'one_main';
-    $pane->type = 'custom';
-    $pane->subtype = 'coming_soon';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
+      'nid' => '5363',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'full',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1714,7 +1717,7 @@ function pages_feature_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = -28;
   $handler->conf = array(
-    'title' => 'Pilots (Coming soon)',
+    'title' => 'Pilots (Cooming soon)',
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -1740,17 +1743,19 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-40';
     $pane->panel = 'one_main';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
-      'name' => 'coming_soon',
+      'nid' => '5363',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'full',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
