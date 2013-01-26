@@ -2384,6 +2384,7 @@ p { margin:0; padding:9px 0 11px}
 
 .region-sidebar-first, .region-sidebar-second { width:240px;}
 .panel-col-thirty { width:231px; float:right;}
+.panel-panel.line { position:relative}
 .panel-col-thirty .inside { margin-left:0; margin-right:9px}
 
 .panel-col-seventy { width:100%; float:left; margin-right:-240px}
@@ -2564,7 +2565,7 @@ p { margin:0; padding:9px 0 11px}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:700px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
 .breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
@@ -2697,6 +2698,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-contacts-phone .pane-inner { margin-right:10px}
 .pane-node-field-contacts-phone .pane-content { margin-top:9px; }
 .pane-node-field-contacts-phone .field-item { padding-top:10px}
+.page-event-info .pane-node-field-contacts-phone .field-item { white-space:nowrap}
 .pane-node-field-contacts-phone .field-item .label { color:#333a40}
 
 /* Organizers */
@@ -2757,6 +2759,30 @@ p { margin:0; padding:9px 0 11px}
 .pane-share-links .stButton_gradient span { display:none}
 .pane-share-links .st_googleplus_vcount .stButton .stButton_gradient { background-position:-104px -96px !important;}
 .pane-share-links .st_sharethis_vcount .stButton .stMainServices { background-position:-154px -96px !important; }
+
+/* Shares */
+.second_sidebar .small-pane-share-links { position:absolute; top:-40px; right:5px; background:none; border:none}
+.second_sidebar .small-pane-share-links .pane-content { margin:0}
+.second_sidebar .small-pane-share-links p { padding:0}
+.second_sidebar .small-pane-share-links p > span { vertical-align:top; display:inline-block; padding-right:5px;}
+.second_sidebar .small-pane-share-links p > span > span, .second_sidebar .small-pane-share-links p > span > div { vertical-align:top !important;}
+.small-pane-share-links .stButton { margin:0}
+.small-pane-share-links .stButton span { display:inline-block}
+.small-pane-share-links .stButton .stHBubble { margin-right:0 !important; height:14px; line-height:14px; border-color:#c1c1c1 !important; background:#ffffff !important}
+.small-pane-share-links .stButton .stBubble_hcount { height:14px; line-height:12px;}
+.small-pane-share-links .stMainServices { background:url(../images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; border:none !important; width:50px !important; min-width:0 !important;
+
+	-webkit-border-radius: 0 !important; 
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+
+
+}
+
+.small-pane-share-links .st_fblike_hcount > span { margin:0 !important}
+.small-pane-share-links .st_twitter_hcount .stMainServices { background-position:-45px -96px !important; width:59px !important; vertical-align:top}
+.small-pane-share-links .st_sharethis_hcount .stMainServices { background-position:-154px -96px !important; }
+
 
 
 	/* Details */
