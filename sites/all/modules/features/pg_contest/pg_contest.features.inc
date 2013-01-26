@@ -214,6 +214,12 @@ function pg_contest_rdf_default_mappings() {
     'field_contacts_phone' => array(
       'predicates' => array(),
     ),
+    'field_address' => array(
+      'predicates' => array(),
+    ),
+    'field_hq_location' => array(
+      'predicates' => array(),
+    ),
   );
 
   return $schemaorg;

@@ -107,6 +107,7 @@ dependencies[] = profile2_page
 dependencies[] = rdf
 dependencies[] = relation
 dependencies[] = relation_endpoint
+dependencies[] = reverse_geocode_widget
 dependencies[] = robotstxt
 dependencies[] = roles_and_permissions
 dependencies[] = rules

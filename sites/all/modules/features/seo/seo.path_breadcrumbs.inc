@@ -504,19 +504,21 @@ return $match;',
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_details';
   $path_breadcrumb->name = 'Paragliding Contest Current Details';
-  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->path = 'event/%node/info/details';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
-      3 => 'Details',
+      3 => 'Info',
+      4 => 'Details',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/current',
       2 => 'event/%node:nid',
-      3 => 'event/%node:nid/details',
+      3 => 'event/%node:nid/info',
+      4 => 'event/%node:nid/info/details',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -958,19 +960,21 @@ return $match;',
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_details';
   $path_breadcrumb->name = 'Paragliding Contest Next Details';
-  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->path = 'event/%node/info/details';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
-      3 => 'Details',
+      3 => 'Info',
+      4 => 'Details',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
       2 => 'event/%node:nid',
-      3 => 'event/%node:nid/details',
+      3 => 'event/%node:nid/info',
+      4 => 'event/%node:nid/info/details',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1412,19 +1416,21 @@ return $match;',
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_details';
   $path_breadcrumb->name = 'Paragliding Contest Past Details';
-  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->path = 'event/%node/info/details';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
-      3 => 'Details',
+      3 => 'Info',
+      4 => 'Details',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
       2 => 'event/%node:nid',
-      3 => 'event/%node:nid/details',
+      3 => 'event/%node:nid/info',
+      4 => 'event/%node:nid/info/details',
     ),
     'home' => 1,
     'translatable' => 1,

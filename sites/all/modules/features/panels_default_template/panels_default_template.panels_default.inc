@@ -478,7 +478,7 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Share links',
       'title' => '',
-      'body' => '<!-- AddThis Button BEGIN --><div class="addthis_toolbox addthis_default_style addthis_counter_style"><a class="addthis_button_facebook_like" fb:like:layout="box_count"></a><a class="addthis_button_tweet" tw:count="vertical"></a><a class="addthis_button_google_plusone" g:plusone:size="tall"></a><a class="addthis_counter"></a></div><script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5101179c2b0980ab"></script><!-- AddThis Button END -->',
+      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c"});</script><span class=\'st_facebook_vcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_vcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_vcount\' displayText=\'Google\'></span><span class=\'st_sharethis_vcount\' displayText=\'Share\'></span>',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
