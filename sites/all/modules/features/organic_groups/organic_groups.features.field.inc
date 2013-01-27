@@ -122,7 +122,7 @@ function organic_groups_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max' => '',
+        'max' => '9999',
         'min' => '1',
         'prefix' => '',
         'suffix' => '',
