@@ -112,7 +112,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Parners';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -436,7 +436,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
   $translatables['advert_list'] = array(
     t('Master'),
-    t('Parners'),
+    t('Partners'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -460,14 +460,13 @@ function views_feature_views_default_views() {
     t('All'),
     t('Event Sponsors'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
-    t('There are no sponsors added yet for the current event.'),
+    t('There are no partners added yet for the current event.'),
     t('View panes'),
     t('Event Banners'),
     t('<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x140blank.png\'));?></a></div>'),
     t('<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x200blank.png\'));?></a></div>'),
     t('_blank'),
     t('Site Partners'),
-    t('Partners'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
     t('There are no sponsors added yet.'),
     t('Site banners'),
@@ -1582,7 +1581,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
-  /* Field: Profile: Address */
+  /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
@@ -1730,7 +1729,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
-  /* Field: Profile: Address */
+  /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
@@ -1869,7 +1868,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
-  /* Field: Profile: Address */
+  /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';

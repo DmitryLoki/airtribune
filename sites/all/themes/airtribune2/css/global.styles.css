@@ -2611,7 +2611,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-contest-blog-contest-pane .pane-content { margin:0}
 .pane-contest-blog-contest-pane .views-row { width:202px; border-left:1px solid #eff2f3; padding:12px 20px 13px 9px; float:left;  font:12px/15px Arial, Helvetica, sans-serif;}
 .pane-contest-blog-contest-pane .views-row a { color:#78848f;}
-.pane-contest-blog-contest-pane .views-row a:hover { text-decoration:none; color:#292e33}
+.pane-contest-blog-contest-pane .views-row a:hover { text-decoration:none; color:#1cb7f1}
 .pane-contest-blog-contest-pane .views-row strong {color:#495055; display:block; padding-bottom:5px}
 .pane-contest-blog-contest-pane .views-row a:hover strong { color:#14171a;}
 .pane-contest-blog-contest-pane .views-row p {margin:0; padding:0 5px 0 0; color:#677581; display:inline}
@@ -2667,7 +2667,8 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-awards-photos .more-link { clear:both; padding-top:10px}
 
 /* How to get here */
-.page-event-info .pane-node-field-collection-getting-there { padding-bottom:35px}
+.page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px}
+.page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
 .panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0}
 .pane-node-field-collection-getting-there .links { padding:8px 0 0;}
 .pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
@@ -2682,6 +2683,17 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .links a.bus:hover { background-position:-26px -100px}
 .pane-node-field-collection-getting-there .links a.taxi { background-position:0 -200px}
 .pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -200px}
+
+.page-event-info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
+.page-event-info .pane-node-field-address .pane-content { margin:0;}
+.page-event-info .pane-node-field-collection-getting-there { padding-bottom:30px}
+.page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}
+.page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
+.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
+.page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}
+.pane-node-field-address .addressfield-container-inline { display:inline;}
+.pane-node-field-address .addressfield-container-inline:after { display:none}
+.pane-node-field-address .addressfield-container-inline + .country:before { content:", "}
 
 /* Downloads */
 .page-event-info .pane-node-field-downloads { width:50%; float:left;}
@@ -2767,7 +2779,8 @@ p { margin:0; padding:9px 0 11px}
 .second_sidebar .small-pane-share-links p > span { vertical-align:top; display:inline-block; padding-right:5px;}
 .second_sidebar .small-pane-share-links p > span > span, .second_sidebar .small-pane-share-links p > span > div { vertical-align:top !important;}
 .small-pane-share-links .stButton { margin:0}
-.small-pane-share-links .stButton span { display:inline-block}
+.small-pane-share-links .stButton span { display:inline-block; vertical-align:top;}
+.small-pane-share-links .stButton .stArrow { background:url(http://w.sharethis.com/share4x/images/bubble_arrow.png) no-repeat 3px 7px !important;}
 .small-pane-share-links .stButton .stHBubble { margin-right:0 !important; height:14px; line-height:14px; border-color:#c1c1c1 !important; background:#ffffff !important}
 .small-pane-share-links .stButton .stBubble_hcount { height:14px; line-height:12px;}
 .small-pane-share-links .stMainServices { background:url(../images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; border:none !important; width:50px !important; min-width:0 !important;
@@ -2833,7 +2846,7 @@ p { margin:0; padding:9px 0 11px}
 /*.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}*/
 
 /* How to get here */
-.pane-node-field-collection-getting-there {}
+.page-event-details .pane-node-field-collection-getting-there { clear:both;}
 .page-event-details .panel_info .pane-node-field-collection-getting-there .pane-content { margin:0 11px;}
 .pane-node-field-collection-getting-there .field-item .field { width:50%; padding:21px 0 11px}
 .pane-node-field-collection-getting-there .field-item .field-name-field-gt-col-left { float:left; padding:0}
@@ -2852,6 +2865,11 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .field-name-field-gt-car .field-label { background-position:2px -700px}
 .pane-node-field-collection-getting-there .field-name-field-gt-bus .field-label { background-position:2px -800px}
 .pane-node-field-collection-getting-there .field-name-field-gt-taxi .field-label { background-position:2px -900px}
+
+.page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
+.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}
+.page-event-details .pane-node-field-hq-location .clearfix:after { clear:none;}
+.page-event-details .pane-node-field-address { float:left; margin:-6px 0 0 6px; width:200px;}
 
 /* Downloads */
 .page-event-details .pane-node-field-downloads .field-item { width:220px;}
