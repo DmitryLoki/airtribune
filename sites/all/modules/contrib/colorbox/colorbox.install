@@ -20,7 +20,7 @@ function colorbox_requirements($phase) {
         'title' => $t('Colorbox plugin'),
         'value' => $t('At least @a', array('@a' => COLORBOX_MIN_PLUGIN_VERSION)),
         'severity' => REQUIREMENT_ERROR,
-        'description' => $t('You need to download the !colorbox and extract the entire contents of the archive into the %path directory on your server.', array('!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => 'sites/all/libraries')),
+        'description' => $t('You need to download the !colorbox, extract the archive and place the colorbox directory in the %path directory on your server.', array('!colorbox' => l($t('Colorbox plugin'), $library['download url']), '%path' => 'sites/all/libraries')),
       );
     }
     elseif (version_compare($library['version'], COLORBOX_MIN_PLUGIN_VERSION, '>=')) {

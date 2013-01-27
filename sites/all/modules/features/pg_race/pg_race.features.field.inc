@@ -80,14 +80,14 @@ function pg_race_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title-field]/[node:field-pg-race-date:dmy]',
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:field-pg-race-date:dmy]',
           ),
           'retroactive_update' => 0,
         ),
@@ -249,7 +249,7 @@ function pg_race_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
@@ -509,14 +509,14 @@ function pg_race_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title-field]/[node:field-pg-race-date:dmy]',
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:field-pg-race-date:dmy]',
           ),
           'retroactive_update' => 0,
         ),

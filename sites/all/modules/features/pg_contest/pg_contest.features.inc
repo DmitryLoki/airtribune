@@ -9,6 +9,10 @@
  */
 function pg_contest_ctools_plugin_api() {
   list($module, $api) = func_get_args();
+  if ($module == "field_group" && $api == "field_group") {
+    return array("version" => "1");
+  }
+  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -19,6 +23,20 @@ function pg_contest_ctools_plugin_api() {
  */
 function pg_contest_rdf_default_mappings() {
   $schemaorg = array();
+
+  // Exported RDF mapping: field_collection_organizers
+  $schemaorg['field_collection_item']['field_collection_organizers'] = array(
+    'field_organizer_logo' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
+    'field_url' => array(
+      'predicates' => array(),
+    ),
+    'field_organizer' => array(
+      'predicates' => array(),
+    ),
+  );
 
   // Exported RDF mapping: field_collection_getting_there
   $schemaorg['field_collection_item']['field_collection_getting_there'] = array(
@@ -176,6 +194,31 @@ function pg_contest_rdf_default_mappings() {
     'field_header' => array(
       'predicates' => array(),
       'type' => 'rel',
+    ),
+    'field_header_image' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
+    'og_roles_permissions' => array(
+      'predicates' => array(),
+    ),
+    'field_social_link' => array(
+      'predicates' => array(),
+    ),
+    'field_social_links' => array(
+      'predicates' => array(),
+    ),
+    'field_contacts_email' => array(
+      'predicates' => array(),
+    ),
+    'field_contacts_phone' => array(
+      'predicates' => array(),
+    ),
+    'field_address' => array(
+      'predicates' => array(),
+    ),
+    'field_hq_location' => array(
+      'predicates' => array(),
     ),
   );
 

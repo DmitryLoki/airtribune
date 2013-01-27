@@ -8,15 +8,17 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('XYZ'),
-  'description' => t('XYZ layer type.  These are tiles sets usually in the form of {z}/{x}/{y}.png.'),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_xyz.inc',
-    'class' => 'openlayers_layer_type_xyz',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_xyz_openlayers_layer_types() {
+  return array(
+    'title' => t('XYZ'),
+    'description' => t('XYZ layer type.  These are tiles sets usually in the form of {z}/{x}/{y}.png.'),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_xyz.inc',
+      'class' => 'openlayers_layer_type_xyz',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers XYZ Layer Type class
@@ -49,13 +51,13 @@ class openlayers_layer_type_xyz extends openlayers_layer_type {
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     return array(
-      'base_url' => array(
+      'url' => array(
         '#type' => 'textfield',
         '#title' => t('Base URL (template)'),
-        '#default_value' => isset($this->data['base_url']) ?
-          $this->data['base_url'] : '',
+        '#default_value' => isset($this->data['url']) ? $this->data['url'] : '',
+        '#maxlength' => 2083,
         '#description' => t('This is the base URL template for the XYZ layer.  It should be something similar to <em>http://example.com/tiles/1.0.0/layer_name/${z}/${x}/${y}.png</em>.'),
       ),
       'layer_type' => array(

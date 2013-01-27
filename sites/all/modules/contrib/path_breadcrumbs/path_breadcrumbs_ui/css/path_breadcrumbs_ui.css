@@ -87,6 +87,10 @@
   color: #AAAAAA;
 }
 
+#breadcrumbs-table .path-weight {
+  width: 30px;
+}
+
 /**
  * Autocomplete styles.
  */

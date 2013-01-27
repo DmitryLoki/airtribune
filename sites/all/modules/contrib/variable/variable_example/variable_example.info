@@ -6,9 +6,9 @@ package = Example modules
 core = 7.x
 files[] = variable_example.variable.inc
 
-; Information added by drupal.org packaging script on 2012-07-02
-version = "7.x-2.1"
+; Information added by drupal.org packaging script on 2013-01-13
+version = "7.x-2.2"
 core = "7.x"
 project = "variable"
-datestamp = "1341236242"
+datestamp = "1358075138"
 

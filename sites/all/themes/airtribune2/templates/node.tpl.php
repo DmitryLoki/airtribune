@@ -102,9 +102,30 @@
  * <?php print dsm($content); ?> to find variable names to hide() or render().
  */
 
+//print_r($content['field_image']);
+$event_blog = false;
 hide($content['comments']);
 hide($content['links']);
-if ($teaser){
+$account = profile2_load_by_user($node->uid, 'main');
+if($view_mode == 'event_blog_teaser'){
+	$event_blog = true;
+	$title = '<a href="' . $node_url . '" rel="bookmark">' . $title . '</a>';
+	//print_r($node);
+	if(!empty($content['field_image'])){
+		$content['field_image'] = _airtribune2_img_dinamic_scaling_event_blog_teaser($content['field_image']);
+	}
+	$content['links']['node-readmore'] = array(
+	  '#theme' => 'links__node__node',
+	  '#links' => array(
+	 	'node-readmore' => array(
+          'title' => l(t('View more'), 'node/' . $node->nid),
+		  'html' => true
+		)
+	  )
+	);
+	$classes .= ' node-teaser';
+}
+else if ($teaser){
 	$user_picture = false;
 	$display_submitted = false;
 	$content['links']['created'] = array(
@@ -120,11 +141,12 @@ if ($teaser){
 	}
 }
 else {
+	$full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
 	$content['links']['created'] = array(
 	 '#theme' => 'links__node__node',
 	 '#links' => array(
 	 	'node-create' => array(
-			'title' => t('Posted by !user on !date', array('!user' => $name, '!date' => format_date($created, 'custom', 'd M, Y'))),
+			'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($created, 'custom', 'd M, Y'))),
 			'html' => true
 		)
 	 )
@@ -136,14 +158,15 @@ else {
 if(empty($title)){
 	$title = 'Верните заголовки емае';
 }
-//print_r($node);
+$classes .= ' node_view_mode_' . $view_mode;
+//print_r(profile2_load_by_user($node->uid, 'main'));
 
 
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php print render($title_prefix); ?>
 
-  <?php if ($title && !$page): ?>
+  <?php if ($title && !$page && !$event_blog): ?>
     <header<?php print $header_attributes; ?>>
       <?php if ($title): ?>
         <h1<?php print $title_attributes; ?>>
@@ -151,7 +174,7 @@ if(empty($title)){
         </h1>
       <?php endif; ?>
     </header>
-  <?php elseif ($title && $page): ?>
+  <?php elseif ($title && ($page || $event_blog)): ?>
     <header<?php print $header_attributes; ?>>
    	  <?php print '<div class="posted">'.format_date($created, 'custom', 'd M, Y').'</div>'; ?>
       <?php if ($title): ?>
@@ -162,7 +185,7 @@ if(empty($title)){
     </header>
   <?php endif; ?>
 
-  <?php if(!empty($user_picture) || $display_submitted): ?>
+  <?php if(!$event_blog && (!empty($user_picture) || $display_submitted)): ?>
     <footer<?php print $footer_attributes; ?>>
       <?php print '<div class="author">'.t('by !name', array('!name' => $name)).'</div>';?>
       <?php print $user_picture; ?>

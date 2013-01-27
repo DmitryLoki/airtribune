@@ -54,6 +54,204 @@ function image_styles_feature_image_default_styles() {
     ),
   );
 
+  // Exported image style: event_blog_teaser_eighth.
+  $styles['event_blog_teaser_eighth'] = array(
+    'name' => 'event_blog_teaser_eighth',
+    'effects' => array(
+      9 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '76',
+          'height' => '50',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_fifth.
+  $styles['event_blog_teaser_fifth'] = array(
+    'name' => 'event_blog_teaser_fifth',
+    'effects' => array(
+      6 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '525',
+          'height' => '349',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_first.
+  $styles['event_blog_teaser_first'] = array(
+    'name' => 'event_blog_teaser_first',
+    'effects' => array(
+      3 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '700',
+          'height' => '350',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_fourth.
+  $styles['event_blog_teaser_fourth'] = array(
+    'name' => 'event_blog_teaser_fourth',
+    'effects' => array(
+      5 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '232',
+          'height' => '154',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_second.
+  $styles['event_blog_teaser_second'] = array(
+    'name' => 'event_blog_teaser_second',
+    'effects' => array(
+      4 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '349',
+          'height' => '230',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_seventh.
+  $styles['event_blog_teaser_seventh'] = array(
+    'name' => 'event_blog_teaser_seventh',
+    'effects' => array(
+      8 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '115',
+          'height' => '75',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_sixth.
+  $styles['event_blog_teaser_sixth'] = array(
+    'name' => 'event_blog_teaser_sixth',
+    'effects' => array(
+      7 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '173',
+          'height' => '115',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_sixth_extra.
+  $styles['event_blog_teaser_sixth_extra'] = array(
+    'name' => 'event_blog_teaser_sixth_extra',
+    'effects' => array(
+      10 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '174',
+          'height' => '115',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_blog_teaser_third.
+  $styles['event_blog_teaser_third'] = array(
+    'name' => 'event_blog_teaser_third',
+    'effects' => array(
+      2 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '466',
+          'height' => '310',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: header.
   $styles['header'] = array(
     'name' => 'header',
@@ -70,6 +268,28 @@ function image_styles_feature_image_default_styles() {
         'data' => array(
           'width' => '940',
           'height' => '380',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: header_thumbnail.
+  $styles['header_thumbnail'] = array(
+    'name' => 'header_thumbnail',
+    'effects' => array(
+      2 => array(
+        'label' => 'Resize',
+        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+        'effect callback' => 'image_resize_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_resize',
+        'data' => array(
+          'width' => '94',
+          'height' => '38',
         ),
         'weight' => '1',
       ),
@@ -168,20 +388,37 @@ function image_styles_feature_image_default_styles() {
   $styles['organizer_details'] = array(
     'name' => 'organizer_details',
     'effects' => array(
-      3 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
+      10 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
         'module' => 'image',
-        'name' => 'image_scale_and_crop',
+        'name' => 'image_scale',
         'data' => array(
           'width' => '80',
-          'height' => '80',
+          'height' => '',
+          'upscale' => 0,
         ),
-        'weight' => '1',
+        'weight' => '2',
+      ),
+      14 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => '80',
+          'upscale' => 0,
+        ),
+        'weight' => '2',
       ),
     ),
   );
@@ -190,20 +427,37 @@ function image_styles_feature_image_default_styles() {
   $styles['organizer_info'] = array(
     'name' => 'organizer_info',
     'effects' => array(
-      2 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
+      12 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
         'module' => 'image',
-        'name' => 'image_scale_and_crop',
+        'name' => 'image_scale',
         'data' => array(
           'width' => '40',
-          'height' => '40',
+          'height' => '',
+          'upscale' => 0,
         ),
-        'weight' => '1',
+        'weight' => '2',
+      ),
+      13 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => '40',
+          'upscale' => 0,
+        ),
+        'weight' => '2',
       ),
     ),
   );

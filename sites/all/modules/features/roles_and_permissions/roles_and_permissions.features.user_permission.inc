@@ -167,7 +167,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: administer group.
   $permissions['administer group'] = array(
     'name' => 'administer group',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'og',
   );
 
@@ -413,6 +415,7 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'create advert content',
     'roles' => array(
       0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'node',
   );
@@ -517,6 +520,7 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'delete own advert content',
     'roles' => array(
       0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'node',
   );
@@ -1085,7 +1089,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit media.
   $permissions['edit media'] = array(
     'name' => 'edit media',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'media',
   );
 
@@ -1112,6 +1118,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'entity_translation',
   );
 
+  // Exported permission: edit og_roles_permissions.
+  $permissions['edit og_roles_permissions'] = array(
+    'name' => 'edit og_roles_permissions',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit original values.
   $permissions['edit original values'] = array(
     'name' => 'edit original values',
@@ -1133,6 +1148,7 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'edit own advert content',
     'roles' => array(
       0 => 'editor',
+      1 => 'organizer',
     ),
     'module' => 'node',
   );
@@ -1301,7 +1317,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: import media.
   $permissions['import media'] = array(
     'name' => 'import media',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'editor',
+    ),
     'module' => 'media',
   );
 
@@ -1537,10 +1555,20 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'admin',
       1 => 'anonymous user',
       2 => 'authenticated user',
-      3 => 'organizer',
-      4 => 'pilot',
+      3 => 'editor',
+      4 => 'organizer',
+      5 => 'pilot',
     ),
     'module' => 'media',
+  );
+
+  // Exported permission: view og_roles_permissions.
+  $permissions['view og_roles_permissions'] = array(
+    'name' => 'view og_roles_permissions',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
   );
 
   // Exported permission: view own main profile.

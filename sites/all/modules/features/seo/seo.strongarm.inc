@@ -366,7 +366,7 @@ batch
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_newsblog_pattern';
-  $strongarm->value = 'activity/[node:title]';
+  $strongarm->value = '';
   $export['pathauto_node_newsblog_pattern'] = $strongarm;
 
   $strongarm = new stdClass();

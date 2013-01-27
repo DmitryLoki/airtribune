@@ -18,10 +18,10 @@ function i18n_node_add_page() {
     drupal_goto($item['href']);
   }
   foreach ($content as &$item) {
-    // Type machine name will be the third part of the path
-    $parts = explode('/', $item['path']);
+    // Type machine name will be the first page argument
+    $page_arguments = unserialize($item['page_arguments']);
     // Check whether this has a node type, other items may be here too, see #1264662
-    $type = isset($parts[2]) ? $parts[2] : NULL;
+    $type = isset($page_arguments[0]) ? $page_arguments[0] : NULL;
     if ($type) {
       // We just need to translate the description, the title is translated by the menu system
       // The string will be filtered (xss_admin) on the theme layer

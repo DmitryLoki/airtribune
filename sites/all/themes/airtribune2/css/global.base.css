@@ -624,3 +624,7 @@ header[role=banner],
 .element-hidden {
   display: none;
 }
+
+/* Hide events view title */
+.page-events .panel-panel .pane-page-title h1 {display:none;}
+

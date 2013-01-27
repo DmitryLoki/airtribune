@@ -1,5 +1,7 @@
 <?php
 
+module_load_include('inc', 'og_ui', 'og_ui.pages');
+
 /**
  * Subscribe the current user to a group.
  *
@@ -15,7 +17,6 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
   // Set flag to show pilot profile at registration.
   // see at_reg_entity_load().
   
-  module_load_include('inc', 'og_ui', 'og_ui.pages');
   global $user;
   $entity_info = entity_get_info($entity_type);
   if (!$entity_type || !$entity_info) {
@@ -98,6 +99,9 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
 
   if (og_user_access($entity_type, $id, 'subscribe', $user) || og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
     if($user->uid) {
+      // Set values for crossfields in case form was submitted.
+      $crossfield_items = at_reg_get_crossfields_values();
+      at_reg_set_crossfields_values($crossfield_items);
       // Show the user a subscription confirmation.
       return drupal_get_form('og_ui_confirm_subscribe', $entity_type, $id, $user, $field_name);
     } else {

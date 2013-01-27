@@ -77,7 +77,7 @@ class VariableRealmUnionController extends VariableRealmDefaultController implem
     return $this->buildUnionKey($keys);
   }
   /**
-   * Implementation of VariableRealmControllerInterface::getEnabledVariables().
+   * Implementation of VariableRealmControllerInterface::getAvailableVariables().
    */
   public function getAvailableVariables() {
     $variables = $this->invokeUnionRealms('getAvailableVariables');

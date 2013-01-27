@@ -8,15 +8,17 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('OSM'),
-  'description' => t('OpenStreetMap Standard'),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_osm.inc',
-    'class' => 'openlayers_layer_type_osm',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_osm_openlayers_layer_types() {
+  return array(
+    'title' => t('OSM'),
+    'description' => t('OpenStreetMap Standard'),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_osm.inc',
+      'class' => 'openlayers_layer_type_osm',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers OSM Layer Type class
@@ -50,7 +52,7 @@ class openlayers_layer_type_osm extends openlayers_layer_type {
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     return array(
       'base_url' => array(
         '#type' => 'textfield',
@@ -79,7 +81,7 @@ class openlayers_layer_type_osm extends openlayers_layer_type {
           range(0, 18)),
         '#title' => t('Zoom Level Range'),
         '#default_value' => isset($this->data['resolutions']) ?
-          $this->data['resolutions'] : 
+          $this->data['resolutions'] :
           array_map('strval', openlayers_get_resolutions('900913'))
       ),
     );

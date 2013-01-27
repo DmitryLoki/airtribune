@@ -33,3 +33,23 @@ function title_install() {
 function title_update_7001() {
   _title_install_set_weight(100);
 }
+
+/**
+ * Implements hook_update_N.
+ *
+ * Update title_auto_attach variables to the new format.
+ */
+function title_update_7002() {
+  $variables = array();
+
+  foreach (variable_get('title_auto_attach', array()) as $variable) {
+    $pieces = explode(':', $variable);
+    $variables['title_' . $pieces[0]]['auto_attach'][$pieces[1]] = $pieces[1];
+  }
+
+  foreach ($variables as $name => $value) {
+    variable_set($name, $value);
+  }
+
+  variable_del('title_auto_attach');
+}

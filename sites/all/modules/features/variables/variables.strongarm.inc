@@ -262,6 +262,86 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entityreference:base-tables';
+  $strongarm->value = array(
+    'node' => array(
+      0 => 'node',
+      1 => 'nid',
+    ),
+    'taxonomy_term' => array(
+      0 => 'taxonomy_term_data',
+      1 => 'tid',
+    ),
+    'country' => array(
+      0 => 'countries_country',
+      1 => 'cid',
+    ),
+    'ent_featured_header' => array(
+      0 => 'eck_ent_featured_header',
+      1 => 'id',
+    ),
+    'ent_point' => array(
+      0 => 'eck_ent_point',
+      1 => 'id',
+    ),
+    'ent_track' => array(
+      0 => 'eck_ent_track',
+      1 => 'id',
+    ),
+    'ent_tracker' => array(
+      0 => 'eck_ent_tracker',
+      1 => 'id',
+    ),
+    'ent_trackerset' => array(
+      0 => 'eck_ent_trackerset',
+      1 => 'id',
+    ),
+    'field_collection_item' => array(
+      0 => 'field_collection_item',
+      1 => 'item_id',
+    ),
+    'og_membership_type' => array(
+      0 => 'og_membership_type',
+      1 => 'id',
+    ),
+    'og_membership' => array(
+      0 => 'og_membership',
+      1 => 'id',
+    ),
+    'profile2' => array(
+      0 => 'profile',
+      1 => 'pid',
+    ),
+    'profile2_type' => array(
+      0 => 'profile_type',
+      1 => 'id',
+    ),
+    'relation' => array(
+      0 => 'relation',
+      1 => 'rid',
+    ),
+    'file' => array(
+      0 => 'file_managed',
+      1 => 'fid',
+    ),
+    'taxonomy_vocabulary' => array(
+      0 => 'taxonomy_vocabulary',
+      1 => 'vid',
+    ),
+    'user' => array(
+      0 => 'users',
+      1 => 'uid',
+    ),
+    'rules_config' => array(
+      0 => 'rules_config',
+      1 => 'id',
+    ),
+  );
+  $export['entityreference:base-tables'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'entity_translation_entity_types';
   $strongarm->value = array(
     'node' => 'node',
@@ -435,78 +515,53 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entityreference:base-tables';
+  $strongarm->name = 'entity_view_modes';
   $strongarm->value = array(
-    'node' => array(
-      0 => 'node',
-      1 => 'nid',
-    ),
-    'taxonomy_term' => array(
-      0 => 'taxonomy_term_data',
-      1 => 'tid',
-    ),
-    'country' => array(
-      0 => 'countries_country',
-      1 => 'cid',
-    ),
-    'ent_point' => array(
-      0 => 'eck_ent_point',
-      1 => 'id',
-    ),
-    'ent_track' => array(
-      0 => 'eck_ent_track',
-      1 => 'id',
-    ),
-    'ent_tracker' => array(
-      0 => 'eck_ent_tracker',
-      1 => 'id',
-    ),
-    'ent_trackerset' => array(
-      0 => 'eck_ent_trackerset',
-      1 => 'id',
-    ),
     'field_collection_item' => array(
-      0 => 'field_collection_item',
-      1 => 'item_id',
+      'event_info_page' => array(
+        'label' => 'Event info page',
+        'custom settings' => 1,
+      ),
+      'event_details_page' => array(
+        'label' => 'Event details page',
+        'custom settings' => 1,
+      ),
     ),
-    'og_membership_type' => array(
-      0 => 'og_membership_type',
-      1 => 'id',
-    ),
-    'og_membership' => array(
-      0 => 'og_membership',
-      1 => 'id',
-    ),
-    'profile2' => array(
-      0 => 'profile',
-      1 => 'pid',
-    ),
-    'profile2_type' => array(
-      0 => 'profile_type',
-      1 => 'id',
-    ),
-    'relation' => array(
-      0 => 'relation',
-      1 => 'rid',
-    ),
-    'file' => array(
-      0 => 'file_managed',
-      1 => 'fid',
-    ),
-    'taxonomy_vocabulary' => array(
-      0 => 'taxonomy_vocabulary',
-      1 => 'vid',
-    ),
-    'user' => array(
-      0 => 'users',
-      1 => 'uid',
-    ),
-    'rules_config' => array(
-      0 => 'rules_config',
-      1 => 'id',
+    'node' => array(
+      'event_blog_teaser' => array(
+        'label' => 'Event blog teaser',
+        'custom settings' => 1,
+      ),
     ),
   );
-  $export['entityreference:base-tables'] = $strongarm;
+  $export['entity_view_modes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_ent_featured_header__ent_featured_header';
+  $strongarm->value = array(
+    'view_modes' => array(
+      'teaser' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
+    'extra_fields' => array(
+      'form' => array(
+        'metatags' => array(
+          'weight' => '40',
+        ),
+      ),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_ent_featured_header__ent_featured_header'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -515,11 +570,28 @@ function variables_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'metatags' => array(
+          'weight' => '40',
+        ),
+      ),
       'display' => array(),
     ),
   );
   $export['field_bundle_settings_ent_point__waypoint'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -541,15 +613,48 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
+  $strongarm->name = 'field_bundle_settings_field_collection_item__field_collection_getting_there';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
       'display' => array(),
     ),
   );
-  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
+  $export['field_bundle_settings_field_collection_item__field_collection_getting_there'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_field_collection_item__field_collection_organizers';
+  $strongarm->value = array(
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_field_collection_item__field_collection_organizers'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -788,6 +893,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'image_jpeg_quality';
+  $strongarm->value = '95';
+  $export['image_jpeg_quality'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_count';
   $strongarm->value = 2;
   $export['language_count'] = $strongarm;
@@ -928,25 +1040,26 @@ function variables_strongarm() {
     31 => 30,
     32 => 29,
     33 => 28,
-    34 => 24,
-    35 => 23,
-    36 => 22,
-    37 => 21,
-    38 => 19,
-    39 => 15,
-    40 => 14,
-    41 => 13,
-    42 => 12,
-    43 => 11,
-    44 => 10,
-    45 => 9,
-    46 => 8,
-    47 => 7,
-    48 => 6,
-    49 => 5,
-    50 => 3,
-    51 => 2,
-    52 => 1,
+    34 => 26,
+    35 => 24,
+    36 => 23,
+    37 => 22,
+    38 => 21,
+    39 => 19,
+    40 => 15,
+    41 => 14,
+    42 => 13,
+    43 => 12,
+    44 => 11,
+    45 => 10,
+    46 => 9,
+    47 => 8,
+    48 => 7,
+    49 => 6,
+    50 => 5,
+    51 => 3,
+    52 => 2,
+    53 => 1,
   );
   $export['menu_masks'] = $strongarm;
 
@@ -977,6 +1090,13 @@ function variables_strongarm() {
   $strongarm->name = 'openlayers_ui_version_check';
   $strongarm->value = 'Release 2.12';
   $export['openlayers_ui_version_check'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'page_manager_node_view_disabled';
+  $strongarm->value = FALSE;
+  $export['page_manager_node_view_disabled'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -1055,6 +1175,32 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+
+Your email is confirmed and registration is completed.
+
+Happy landings!
+Airtribune team';
+  $export['user_mail_status_activated_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_notify';
+  $strongarm->value = 1;
+  $export['user_mail_status_activated_notify'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_subject';
+  $strongarm->value = 'Account details for [user:name] at [site:name]';
+  $export['user_mail_status_activated_subject'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_default';
   $strongarm->value = 'sites/all/resources/default-user-picture.png';
   $export['user_picture_default'] = $strongarm;
@@ -1090,13 +1236,6 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'user_pirctue_mini';
-  $export['user_picture_style'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'user_pictures';
   $strongarm->value = 1;
   $export['user_pictures'] = $strongarm;
@@ -1104,9 +1243,40 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_style';
+  $strongarm->value = 'user_pirctue_mini';
+  $export['user_picture_style'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_register';
-  $strongarm->value = '2';
+  $strongarm->value = '1';
   $export['user_register'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_registrationpassword_register_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+
+Thank you for signing up for Airtribune.com
+There\'s just one more step, click on this link to verify your email address:
+
+[user:registrationpassword-url]
+
+After logging in you will be redirected to the main page and may start using the service immediately.
+
+Happy landings!
+Airtribune team';
+  $export['user_registrationpassword_register_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_registrationpassword_register_subject';
+  $strongarm->value = 'Account details for [user:name] at [site:name]';
+  $export['user_registrationpassword_register_subject'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

@@ -55,6 +55,15 @@ function newsblog_field_default_fields() {
           'type' => 'text_default',
           'weight' => '2',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(
+            'trim_length' => 600,
+          ),
+          'type' => 'text_summary_or_trimmed',
+          'weight' => '1',
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'module' => 'text',
@@ -95,6 +104,9 @@ function newsblog_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_image',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -136,6 +148,20 @@ function newsblog_field_default_fields() {
           'type' => 'image',
           'weight' => '3',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'hidden',
+          'module' => 'colorbox',
+          'settings' => array(
+            'colorbox_caption' => 'auto',
+            'colorbox_caption_custom' => '',
+            'colorbox_gallery' => 'post',
+            'colorbox_gallery_custom' => '',
+            'colorbox_image_style' => 'large',
+            'colorbox_node_style' => 'node_image_first',
+          ),
+          'type' => 'colorbox',
+          'weight' => '0',
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'module' => 'image',
@@ -164,7 +190,7 @@ function newsblog_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
@@ -202,6 +228,9 @@ function newsblog_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -254,10 +283,15 @@ function newsblog_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
+          'type' => 'hidden',
           'weight' => '1',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -283,7 +317,7 @@ function newsblog_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'hide',
+            'fallback' => 'none',
             'skip_perm' => '0',
             'status' => 1,
           ),
@@ -321,6 +355,9 @@ function newsblog_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'title_field',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -339,6 +376,7 @@ function newsblog_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -354,6 +392,12 @@ function newsblog_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '0',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',

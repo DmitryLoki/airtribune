@@ -183,7 +183,7 @@ function variable_build_mail_text($variable, $options = array()) {
 function variable_format_selection($variable, $options = array()) {
   $variable = variable_build_options($variable, $options);
   if (isset($variable['value'])) {
-    return isset($variable['options'][$variable['value']]) ? $variable['options'][$variable['value']] : t('<Invalid option>');
+    return isset($variable['options'][$variable['value']]) ? $variable['options'][$variable['value']] : '<' . t('Invalid option') . '>';
   }
   else {
     return variable_format_empty($variable);
@@ -199,12 +199,12 @@ function variable_format_options($variable, $options = array()) {
   if (isset($variable['value']) && $variable['value']) {
     if (is_array($variable['value'])) {
       foreach ($variable['value'] as $index => $value) {
-         $names[$index] = isset($variable['options'][$value]) ? $variable['options'][$value] : t('<Invalid option>');
+         $names[$index] = isset($variable['options'][$value]) ? $variable['options'][$value] : '<' . t('Invalid option') . '>';
       }
       return implode(', ', $names);
     }
     else {
-      return t('<Invalid value>');
+      return '<' . t('Invalid value') . '>';
     }
   }
   else {

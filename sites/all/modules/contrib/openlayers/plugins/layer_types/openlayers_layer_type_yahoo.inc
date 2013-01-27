@@ -7,15 +7,17 @@
 /**
  * Define the Ctools plugin options.
  */
-$plugin = array(
-  'title' => t('Yahoo'),
-  'description' => t('Yahoo Maps API Map'),
-  'layer_type' => array(
-    'file' => 'openlayers_layer_type_yahoo.inc',
-    'class' => 'openlayers_layer_type_yahoo',
-    'parent' => 'openlayers_layer_type',
-  ),
-);
+function openlayers_openlayers_layer_type_yahoo_openlayers_layer_types() {
+  return array(
+    'title' => t('Yahoo'),
+    'description' => t('Yahoo Maps API Map'),
+    'layer_type' => array(
+      'file' => 'openlayers_layer_type_yahoo.inc',
+      'class' => 'openlayers_layer_type_yahoo',
+      'parent' => 'openlayers_layer_type',
+    ),
+  );
+}
 
 /**
  * OpenLayers Yahoo Layer Type class
@@ -44,7 +46,7 @@ class openlayers_layer_type_yahoo extends openlayers_layer_type {
   /**
    * Options form which generates layers
    */
-  function options_form() {
+  function options_form($defaults = array()) {
     $warning = (!variable_get('openlayers_layers_yahoo_api', FALSE)) ?
       array('#value' => t('WARNING: Your Yahoo API key is not set.
         Map including Yahoo layers will break until it is set correctly.')
@@ -55,7 +57,7 @@ class openlayers_layer_type_yahoo extends openlayers_layer_type {
       'street' => 'Street',
       'satellite' => 'Satellite',
     );
-    
+
     return array(
       'type' => array(
         '#title' => t('Yahoo Layer Type'),
@@ -88,11 +90,11 @@ class openlayers_layer_type_yahoo extends openlayers_layer_type {
    */
   function render(&$map) {
     static $yahoo_maps_included;
-    
+
     if (!isset($yahoo_maps_included)) {
       drupal_add_js(drupal_get_path('module', 'openlayers') .
         '/plugins/layer_types/openlayers_layer_type_yahoo.js');
-      drupal_add_js("http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=" .
+      drupal_add_js("//api.maps.yahoo.com/ajaxymap?v=3.0&appid=" .
         variable_get('openlayers_layers_yahoo_api', ''),
         'external');
       $yahoo_maps_included = TRUE;

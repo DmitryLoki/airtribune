@@ -49,6 +49,8 @@ function pg_contest_insert($node) {
   
   // Create aliases
   _pg_contest_create_alias($node);
+  // Restrict subscription depending on Registration Switch field.
+  _pg_contest_og_registration_perm($node);
 }
  
 /* Implementation of hook_update
@@ -87,6 +89,8 @@ function pg_contest_update($node) {
   
   // Create aliases
   _pg_contest_create_alias($node);
+  // Restrict subscription depending on Registration Switch field.
+  _pg_contest_og_registration_perm($node);
 }
 
 /**
@@ -216,4 +220,40 @@ function _pg_contest_delete_alias($node) {
       }
     }
   }
+}
+
+/**
+ * Restrict OG registration.
+ * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
+ */
+function _pg_contest_og_registration_perm($node) {
+  
+  $entity_type = $group_type = 'node';
+  $bundle = $node->type;
+  $gid = $node->nid;
+  
+  
+  if (!og_is_group_type($entity_type, $bundle)) {
+    return;
+  }
+  
+  // Do nothing if defaults are used.
+  if (og_is_group_default_access($group_type, $gid)) {
+    return;
+  }
+  
+  // Get non-member role id.
+  $og_roles = og_roles($group_type, $bundle, $gid);
+  $nonmember_rid = array_search(OG_ANONYMOUS_ROLE, $og_roles);
+  if ($nonmember_rid === FALSE) {
+    return;
+  }
+  
+  $grant = (isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] == 1)
+         ? 1
+         : 0;
+  
+  // Set permissions.
+  $permissions = array('subscribe' => $grant, 'subscribe without approval' => $grant);
+  og_role_change_permissions($nonmember_rid, $permissions);
 }

@@ -95,7 +95,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -99;
+  $path_breadcrumb->weight = -96;
   $export['breadcrumb_activity_newsblog'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -137,7 +137,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -98;
+  $path_breadcrumb->weight = -95;
   $export['breadcrumb_basic_page'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -159,7 +159,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -95;
+  $path_breadcrumb->weight = -92;
   $export['breadcrumb_events_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -199,7 +199,7 @@ if ($count) return TRUE;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -96;
+  $path_breadcrumb->weight = -93;
   $export['breadcrumb_events_list_2'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -221,7 +221,7 @@ if ($count) return TRUE;',
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -93;
+  $path_breadcrumb->weight = -90;
   $export['breadcrumb_events_list_current'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -243,7 +243,7 @@ if ($count) return TRUE;',
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -92;
+  $path_breadcrumb->weight = -89;
   $export['breadcrumb_events_list_next'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -265,7 +265,7 @@ if ($count) return TRUE;',
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -94;
+  $path_breadcrumb->weight = -91;
   $export['breadcrumb_events_list_past'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -339,7 +339,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -87;
+  $path_breadcrumb->weight = -82;
   $export['breadcrumb_pg_contest_current'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -413,26 +413,112 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -85;
+  $path_breadcrumb->weight = -80;
   $export['breadcrumb_pg_contest_current_blog'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_blog_entry';
+  $path_breadcrumb->name = 'Paragliding Contest Current Blog Entry';
+  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => '%node:title',
+      1 => 'Blog',
+      2 => '%node:og-group-ref:0:title',
+      3 => 'Current',
+      4 => 'Events',
+    ),
+    'paths' => array(
+      0 => 'node/%node:nid',
+      1 => 'event/%node:og-group-ref:0:nid/blog',
+      2 => 'event/%node:og-group-ref:0:nid',
+      3 => 'events/current',
+      4 => 'events',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+$blog_node = $contexts[\'node\']->data;
+$contest_nid = $blog_node->og_group_ref[\'und\'][0][\'target_id\'];
+$data = node_load($contest_nid);
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value <= $current_time && $value2 >= $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_is_node_group_content',
+          'settings' => NULL,
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -97;
+  $export['breadcrumb_pg_contest_current_blog_entry'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_details';
   $path_breadcrumb->name = 'Paragliding Contest Current Details';
-  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->path = 'event/%node/info/details';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
-      3 => 'Details',
+      3 => 'Info',
+      4 => 'Details',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/current',
-      2 => '%node:url',
-      3 => '%node:url/details',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/info',
+      4 => 'event/%node:nid/info/details',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -487,7 +573,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -84;
+  $path_breadcrumb->weight = -79;
   $export['breadcrumb_pg_contest_current_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -505,8 +591,8 @@ return $match;',
     'paths' => array(
       0 => 'events',
       1 => 'events/current',
-      2 => '%node:url',
-      3 => '%node:url/info',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/info',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -561,8 +647,230 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -86;
+  $path_breadcrumb->weight = -81;
   $export['breadcrumb_pg_contest_current_info'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_map';
+  $path_breadcrumb->name = 'Paragliding Contest Current Map';
+  $path_breadcrumb->path = 'event/%node/map';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Current',
+      2 => '%node:title',
+      3 => 'Event map',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/current',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/map',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value <= $current_time && $value2 >= $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -77;
+  $export['breadcrumb_pg_contest_current_map'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_pilots';
+  $path_breadcrumb->name = 'Paragliding Contest Current Pilots';
+  $path_breadcrumb->path = 'event/%node/pilots';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Current',
+      2 => '%node:title',
+      3 => 'Pilots',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/current',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/pilots',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value <= $current_time && $value2 >= $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -78;
+  $export['breadcrumb_pg_contest_current_pilots'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_register';
+  $path_breadcrumb->name = 'Paragliding Contest Current Register';
+  $path_breadcrumb->path = 'event/%node/register';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Current',
+      2 => '%node:title',
+      3 => 'Registration',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/current',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/register',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value <= $current_time && $value2 >= $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -76;
+  $export['breadcrumb_pg_contest_current_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -635,7 +943,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -83;
+  $path_breadcrumb->weight = -75;
   $export['breadcrumb_pg_contest_next'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -653,8 +961,8 @@ return $match;',
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
-      2 => '%node:url',
-      3 => '%node:url/blog',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/blog',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -709,26 +1017,112 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -81;
+  $path_breadcrumb->weight = -73;
   $export['breadcrumb_pg_contest_next_blog'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_blog_entry';
+  $path_breadcrumb->name = 'Paragliding Contest Next Blog Entry';
+  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Next',
+      2 => '%node:og-group-ref:0:title',
+      3 => 'Blog',
+      4 => '%node:title',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/next',
+      2 => 'event/%node:og-group-ref:0:nid',
+      3 => 'event/%node:og-group-ref:0:nid/blog',
+      4 => 'node/%node:nid',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+$blog_node = $contexts[\'node\']->data;
+$contest_nid = $blog_node->og_group_ref[\'und\'][0][\'target_id\'];
+$data = node_load($contest_nid);
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value > $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_is_node_group_content',
+          'settings' => NULL,
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -99;
+  $export['breadcrumb_pg_contest_next_blog_entry'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_details';
   $path_breadcrumb->name = 'Paragliding Contest Next Details';
-  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->path = 'event/%node/info/details';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
-      3 => 'Details',
+      3 => 'Info',
+      4 => 'Details',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
-      2 => '%node:url',
-      3 => '%node:url/details',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/info',
+      4 => 'event/%node:nid/info/details',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -783,7 +1177,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -80;
+  $path_breadcrumb->weight = -72;
   $export['breadcrumb_pg_contest_next_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -857,8 +1251,230 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -82;
+  $path_breadcrumb->weight = -74;
   $export['breadcrumb_pg_contest_next_info'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_map';
+  $path_breadcrumb->name = 'Paragliding Contest Next Map';
+  $path_breadcrumb->path = 'event/%node/map';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Next',
+      2 => '%node:title',
+      3 => 'Event map',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/next',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/map',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value > $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -70;
+  $export['breadcrumb_pg_contest_next_map'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_pilots';
+  $path_breadcrumb->name = 'Paragliding Contest Next Pilots';
+  $path_breadcrumb->path = 'event/%node/pilots';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Next',
+      2 => '%node:title',
+      3 => 'Pilots',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/next',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/pilots',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value > $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -71;
+  $export['breadcrumb_pg_contest_next_pilots'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_register';
+  $path_breadcrumb->name = 'Paragliding Contest Next Registration';
+  $path_breadcrumb->path = 'event/%node/register';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Next',
+      2 => '%node:title',
+      3 => 'Registration',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/next',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/register',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value > $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -69;
+  $export['breadcrumb_pg_contest_next_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -931,7 +1547,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -91;
+  $path_breadcrumb->weight = -88;
   $export['breadcrumb_pg_contest_past'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -949,8 +1565,8 @@ return $match;',
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
-      2 => '%node:url',
-      3 => '%node:url/blog',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/blog',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1005,26 +1621,112 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -89;
+  $path_breadcrumb->weight = -86;
   $export['breadcrumb_pg_contest_past_blog'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_blog_entry';
+  $path_breadcrumb->name = 'Paragliding Contest Past Blog Entry';
+  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Past',
+      2 => '%node:og-group-ref:0:title',
+      3 => 'Blog',
+      4 => '%node:title',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/past',
+      2 => 'event/%node:og-group-ref:0:nid',
+      3 => 'event/%node:og-group-ref:0:nid/blog',
+      4 => 'node/%node:nid',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+$blog_node = $contexts[\'node\']->data;
+$contest_nid = $blog_node->og_group_ref[\'und\'][0][\'target_id\'];
+$data = node_load($contest_nid);
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value2 < $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_is_node_group_content',
+          'settings' => NULL,
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -98;
+  $export['breadcrumb_pg_contest_past_blog_entry'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_details';
   $path_breadcrumb->name = 'Paragliding Contest Past Details';
-  $path_breadcrumb->path = 'event/%node/details';
+  $path_breadcrumb->path = 'event/%node/info/details';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
-      3 => 'Details',
+      3 => 'Info',
+      4 => 'Details',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
-      2 => '%node:url',
-      3 => '%node:url/details',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/info',
+      4 => 'event/%node:nid/info/details',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1079,7 +1781,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -88;
+  $path_breadcrumb->weight = -85;
   $export['breadcrumb_pg_contest_past_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1097,8 +1799,8 @@ return $match;',
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
-      2 => '%node:url',
-      3 => '%node:url/info',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/info',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1153,8 +1855,156 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -90;
+  $path_breadcrumb->weight = -87;
   $export['breadcrumb_pg_contest_past_info'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_map';
+  $path_breadcrumb->name = 'Paragliding Contest Past Map';
+  $path_breadcrumb->path = 'event/%node/map';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Past',
+      2 => '%node:title',
+      3 => 'Event map',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/past',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/map',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value2 < $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -83;
+  $export['breadcrumb_pg_contest_past_map'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_pilots';
+  $path_breadcrumb->name = 'Paragliding Contest Past Pilots';
+  $path_breadcrumb->path = 'event/%node/pilots';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Past',
+      2 => '%node:title',
+      3 => 'Pilots',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/past',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/pilots',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Date comparison',
+            'php' => '$match = FALSE;
+$current_time = time();
+if (isset($contexts[\'node\']->data)) {
+  $data = $contexts[\'node\']->data;
+  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
+    $lang = $data->language; 
+  }
+  else {
+    $lang = \'und\';
+  }
+  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
+    $value = strtotime($data->field_dates[$lang][0][\'value\']);
+    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
+    if ($value2 < $current_time) {
+      $match = TRUE;
+    }
+  }
+}
+return $match;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -84;
+  $export['breadcrumb_pg_contest_past_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -1197,7 +2047,7 @@ return $match;',
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -97;
+  $path_breadcrumb->weight = -94;
   $export['breadcrumb_pg_race'] = $path_breadcrumb;
 
   return $export;

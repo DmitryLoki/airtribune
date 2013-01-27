@@ -28,6 +28,7 @@ function entity_get_property_info($entity_type = NULL) {
   // hook_entity_property_info() includes translated strings, so each language
   // is cached separately.
   $langcode = $GLOBALS['language']->language;
+
   if (empty($info)) {
     if ($cache = cache_get("entity_property_info:$langcode")) {
       $info = $cache->data;

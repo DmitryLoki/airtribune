@@ -18,6 +18,9 @@ function main_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_birthdate',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -44,6 +47,7 @@ function main_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'main',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -63,10 +67,10 @@ function main_field_default_fields() {
       ),
       'entity_type' => 'profile2',
       'field_name' => 'field_birthdate',
-      'label' => 'Birthdate',
+      'label' => 'Date of birth',
       'required' => 0,
       'settings' => array(
-        'default_value' => 'now',
+        'default_value' => 'blank',
         'default_value2' => 'same',
         'default_value_code' => '',
         'default_value_code2' => '',
@@ -81,11 +85,11 @@ function main_field_default_fields() {
           'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
-          'label_position' => 'above',
+          'label_position' => 'within',
           'text_parts' => array(),
           'year_range' => '1930:+0',
         ),
-        'type' => 'date_popup',
+        'type' => 'date_select',
         'weight' => '42',
       ),
     ),
@@ -99,6 +103,9 @@ function main_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_full_name',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'family' => array(
@@ -155,9 +162,9 @@ IX
 X',
         'labels' => array(
           'credentials' => 'Credentials',
-          'family' => 'Last Name',
+          'family' => 'Surname',
           'generational' => 'Generational',
-          'given' => 'First Name',
+          'given' => 'Name',
           'middle' => 'Middle name(s)',
           'title' => 'Title',
         ),
@@ -339,8 +346,7 @@ Prof.',
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Address');
-  t('Birthdate');
+  t('Date of birth');
   t('Gender');
   t('Name');
 

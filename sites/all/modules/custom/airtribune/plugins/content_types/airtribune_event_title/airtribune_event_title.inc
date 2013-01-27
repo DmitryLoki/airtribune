@@ -32,20 +32,26 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
   $content['title'] = array(
     '#theme' => 'html_tag',
     '#tag' => 'h1',
-    '#value' => check_plain($node->title),
+    '#value' => l(check_plain($node->title), 'event/' . $node->nid),
   );
 
   $content['description'] = array(
-   '#type' => 'container',
-   '#attributes' => array('id' => 'event-description', 'class' => array('container-inline')),
+    '#type' => 'container',
+    '#attributes' => array('id' => 'event-description', 'class' => array('container-inline')),
   );
 
-  foreach (array(AIRTRIBUNE_COUNTRY_FIELD, AIRTRIBUNE_CITY_FIELD, AIRTRIBUNE_DATES_FIELD, AIRTRIBUNE_TIMEZONE_FIELD) as $weight => $field) {
+  $fields = array(
+    AIRTRIBUNE_COUNTRY_FIELD,
+    AIRTRIBUNE_CITY_FIELD,
+    AIRTRIBUNE_DATES_FIELD,
+    AIRTRIBUNE_TIMEZONE_FIELD,
+  );
+  foreach ($fields as $weight => $field) {
     $content['description'][$field] = field_view_field('node', $node, $field, 'full');
     $content['description'][$field]['#weight'] = $weight;
   }
-  $content['description'][$field]['#prefix'] =  '<div class="field local_time">' . t('Local time — ');
-  $content['description'][$field]['#suffix'] =  '</div>';
+  $content['description'][$field]['#prefix'] = '<div class="field local_time">' . t('Local time — ');
+  $content['description'][$field]['#suffix'] = '</div>';
 
   $content['#attached']['css'] = array($plugin_path . '/airtribune_event_title.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-title'));

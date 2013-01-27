@@ -18,6 +18,9 @@ function advert_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_image',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -58,6 +61,12 @@ function advert_field_default_fields() {
           ),
           'type' => 'image',
           'weight' => 4,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -121,6 +130,9 @@ function advert_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_link',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -158,6 +170,12 @@ function advert_field_default_fields() {
           'type' => 'link_default',
           'weight' => 3,
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -168,13 +186,13 @@ function advert_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_link',
       'label' => 'Link',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'attributes' => array(
           'class' => '',
           'configurable_title' => 0,
           'rel' => '',
-          'target' => 'default',
+          'target' => '_blank',
           'title' => '',
         ),
         'display' => array(
@@ -207,6 +225,9 @@ function advert_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -264,6 +285,12 @@ function advert_field_default_fields() {
           'type' => 'og_list_default',
           'weight' => 1,
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -288,8 +315,10 @@ function advert_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'fallback' => 'hide',
-            'skip_perm' => '0',
+            'action_on_edit' => 0,
+            'fallback' => 'redirect',
+            'og_context' => 0,
+            'skip_perm' => 'administer content types',
             'status' => 1,
           ),
         ),
@@ -326,6 +355,9 @@ function advert_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'title_field',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -356,6 +388,12 @@ function advert_field_default_fields() {
       'description' => 'A field replacing node title.',
       'display' => array(
         'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'event_blog_teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',

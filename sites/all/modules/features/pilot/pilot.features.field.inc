@@ -18,13 +18,16 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_address',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -571,7 +574,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -641,7 +644,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -759,6 +762,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_person_phone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -1030,7 +1036,7 @@ function pilot_field_default_fields() {
         'default_country' => 'us',
         'enable_country_level_validation' => 1,
         'enable_default_country' => 1,
-        'enable_extension' => 1,
+        'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
         'user_register_form' => FALSE,
       ),
@@ -1054,13 +1060,16 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_phone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
         'size' => '15',
       ),
       'translatable' => '0',
@@ -1081,7 +1090,7 @@ function pilot_field_default_fields() {
       ),
       'entity_type' => 'profile2',
       'field_name' => 'field_phone',
-      'label' => 'Phone',
+      'label' => 'Mobile phone number',
       'required' => 1,
       'settings' => array(
         'all_country_codes' => 1,
@@ -1325,7 +1334,7 @@ function pilot_field_default_fields() {
         'default_country' => 'us',
         'enable_country_level_validation' => 1,
         'enable_default_country' => 1,
-        'enable_extension' => 1,
+        'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
         'user_register_form' => FALSE,
       ),
@@ -1349,6 +1358,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_sponsors',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -1399,7 +1411,7 @@ function pilot_field_default_fields() {
         'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'size' => '255',
+          'size' => '60',
         ),
         'type' => 'text_textfield',
         'weight' => '7',
@@ -1480,6 +1492,7 @@ function pilot_field_default_fields() {
   t('FAI License number');
   t('Insurance company');
   t('Insurance policy number');
+  t('Mobile phone number');
   t('Name');
   t('Name in national alphabet');
   t('Paraglider color');

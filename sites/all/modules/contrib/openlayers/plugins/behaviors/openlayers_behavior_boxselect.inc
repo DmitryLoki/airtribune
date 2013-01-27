@@ -7,18 +7,19 @@
 /**
  * Ctools plugin definition.
  */
-$plugin = array(
-  'title' => t('Bounding Box Select'),
-  'description' => t('Allows the selection and display of a bounding box.  Currently hard-coded for the map making interface.'),
-  'type' => 'map',
-  'ui_visibility' => FALSE,
-  'behavior' => array(
-    'file' => 'openlayers_behavior_boxselect.inc',
-    'class' => 'openlayers_behavior_boxselect',
-    'parent' => 'openlayers_behavior',
-  ),
-);
-
+function openlayers_openlayers_behavior_boxselect_openlayers_behaviors() {
+  return array(
+    'title' => t('Bounding Box Select'),
+    'description' => t('Allows the selection and display of a bounding box.  Currently hard-coded for the map making interface.'),
+    'type' => 'map',
+    'ui_visibility' => FALSE,
+    'behavior' => array(
+      'file' => 'openlayers_behavior_boxselect.inc',
+      'class' => 'openlayers_behavior_boxselect',
+      'parent' => 'openlayers_behavior',
+    ),
+  );
+}
 /**
  * BoxSelect Behavior
  */
@@ -40,7 +41,7 @@ class openlayers_behavior_boxselect extends openlayers_behavior {
     );
   }
 
-  function options_form($defaults) {
+  function options_form($defaults = array()) {
     return array(
     );
   }
@@ -49,7 +50,7 @@ class openlayers_behavior_boxselect extends openlayers_behavior {
    * Render.
    */
   function render(&$map) {
-    drupal_add_js(drupal_get_path('module', 'openlayers') . 
+    drupal_add_js(drupal_get_path('module', 'openlayers') .
       '/plugins/behaviors/openlayers_behavior_boxselect.js');
     return $this->options;
   }

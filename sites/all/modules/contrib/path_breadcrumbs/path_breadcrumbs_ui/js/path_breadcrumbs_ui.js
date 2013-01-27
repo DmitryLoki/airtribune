@@ -6,7 +6,7 @@ Drupal.pathBreadcrumbsUI = Drupal.pathBreadcrumbsUI || {};
   Drupal.behaviors.pathBreadcrumbsUI = {
     attach: function(context) {
 
-      $('.breadcrumb-tokens .form-text', context).once(function() {
+      $('.breadcrumb-tokens .form-text:not(.path-weight)', context).once(function() {
         new Drupal.pathBreadcrumbsUI.autocomplete(this);
       });
 

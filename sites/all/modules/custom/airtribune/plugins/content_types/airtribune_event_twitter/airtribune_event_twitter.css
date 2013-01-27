@@ -1,0 +1,5 @@
+.twtr-ft { display: none; }
+.twtr-widget .twtr-tweet { border-bottom: none; }
+.twtr-widget, .twtr-widget h4 a { color:#333a40 !important}
+.twtr-widget .twtr-bd { padding:0 1px 1px}
+.twtr-widget h3, .twtr-widget h4 { font-weight:normal; }
