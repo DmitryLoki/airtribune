@@ -75,6 +75,69 @@ function organic_groups_field_default_fields() {
     ),
   );
 
+  // Exported field: 'og_membership-pg_contestant-field_contestant_number'.
+  $fields['og_membership-pg_contestant-field_contestant_number'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contestant_number',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'number',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contestant',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'The number which you want to have on this competition.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 6,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'field_name' => 'field_contestant_number',
+      'label' => 'Pilot\'s number',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max' => '',
+        'min' => '1',
+        'prefix' => '',
+        'suffix' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '42',
+      ),
+    ),
+  );
+
   // Exported field: 'og_membership-pg_contestant-field_paraglider_color'.
   $fields['og_membership-pg_contestant-field_paraglider_color'] = array(
     'field_config' => array(
@@ -557,7 +620,9 @@ function organic_groups_field_default_fields() {
   t('Paraglider manufacturer');
   t('Paraglider model');
   t('Payment status');
+  t('Pilot\'s number');
   t('Request message');
+  t('The number which you want to have on this competition.');
   t('This is the text a user may send to the group administrators.');
 
   return $fields;

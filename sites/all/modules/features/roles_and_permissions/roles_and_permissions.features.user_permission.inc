@@ -167,7 +167,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: administer group.
   $permissions['administer group'] = array(
     'name' => 'administer group',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'og',
   );
 

@@ -353,7 +353,20 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
 				'#markup' => theme('item_list', array('items' => $items)),
 				'#weight' => 100,
 			);
-		break;
+    break;
+      
+      case 'user_register_form':
+      if (isset($form_state['multiform'])) {
+        $form['#theme'] = array('user_register_form_multiform');
+        // Address field
+        $lang = $form['profile_pilot']['field_address']['#language'];
+        $form['profile_pilot']['field_address'][$lang][0]['country']['#title'] = t('Nation');
+        $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
+        $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
+        
+        //dsm($form);
+      }
+    break;
 	}
 }
 
@@ -734,9 +747,10 @@ function airtribune2_preprocess_entity(&$variables) {
   
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_organizers' && $variables['view_mode'] == 'event_info_page') {
 	if(arg(0) == 'event' && !empty($variables['content']['field_organizer_logo'])) {
+		//print_r($variables['field_collection_item']);
 		$variables['content']['field_organizer_logo'][0] = array(
 			//'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
-			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/details', array('html' => true, 'fragment' => 'organizers', 'attributes' => array('target'=>'_blank'))),
+			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
 		) ;
 	}
   }
@@ -794,6 +808,11 @@ function airtribune2_field__field_collection_organizers($variables) {
   // Render the items.
   $output .= '<span class="field-items"' . $variables['content_attributes'] . '>';
   foreach ($variables['items'] as $delta => $item) {
+	  //print_r(array_keys($item['entity']['field_collection_item']));
+	  if(!empty($item['entity']['field_collection_item'])){
+		  $org = array_keys($item['entity']['field_collection_item']);
+		  $output .= '<a id="organizer_' . $org[0] . '"></a>';
+	  }
     $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<span class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>';
 	//$render_item = drupal_render($item);
@@ -836,4 +855,20 @@ function airtribune2_field__field_full_name($variables) {
   $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 
   return $output;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function airtribune2_theme() {
+  return array(
+		'user_register_form' => array(
+			'render element' => 'form',
+      'template' => 'templates/user-register-form',
+		),
+    'contest_registration_multiform' => array(
+			'render element' => 'form',
+      'template' => 'templates/contest-registration-multiform',
+		),
+	);
 }

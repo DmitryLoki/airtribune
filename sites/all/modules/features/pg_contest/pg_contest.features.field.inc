@@ -663,7 +663,7 @@ function pg_contest_field_default_fields() {
         ),
         'max_filesize' => '1MB',
         'max_resolution' => '',
-        'min_resolution' => '140x140',
+        'min_resolution' => '80x80',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
@@ -861,6 +861,96 @@ function pg_contest_field_default_fields() {
         'settings' => array(),
         'type' => 'urlwidget',
         'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_address'.
+  $fields['node-pg_contest-field_address'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_address',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'addressfield',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'addressfield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => array(
+        0 => array(
+          'element_key' => 'node|pg_contest|field_address|und|0',
+          'thoroughfare' => '',
+          'premise' => '',
+          'locality' => '',
+          'administrative_area' => '',
+          'postal_code' => '',
+          'country' => 'US',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => 43,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_address',
+      'label' => 'Address',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'addressfield',
+        'settings' => array(
+          'available_countries' => array(),
+          'format_handlers' => array(
+            'address' => 'address',
+            'address-hide-country' => 0,
+            'organisation' => 0,
+            'name-full' => 0,
+            'name-oneline' => 0,
+          ),
+        ),
+        'type' => 'addressfield_standard',
+        'weight' => '22',
       ),
     ),
   );
@@ -1072,22 +1162,25 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_collection_getting_there',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'hide_blank_items' => TRUE,
+        'hide_blank_items' => 1,
         'path' => '',
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'field_collection',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -2527,7 +2620,7 @@ Teams',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '27',
+        'weight' => '28',
       ),
     ),
   );
@@ -2604,7 +2697,7 @@ Teams',
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '22',
+        'weight' => '23',
       ),
     ),
   );
@@ -2617,6 +2710,9 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_hq_location',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'bbox' => array(
@@ -2664,7 +2760,7 @@ Teams',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -2700,34 +2796,20 @@ Teams',
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'openlayers',
+        'module' => 'reverse_geocode_widget',
         'settings' => array(
-          'allow_edit' => 1,
-          'data_storage' => 'single',
-          'delta_handling' => 'default',
-          'feature_types' => array(
-            'path' => 0,
-            'point' => 'point',
-            'polygon' => 0,
-          ),
-          'geocoder_field' => 'field_info',
-          'geocoder_handler' => 'json',
-          'handler_settings' => array(
-            'google' => array(
-              'all_results' => 0,
-              'geometry_type' => 'point',
-              'reject_results' => array(
-                'APPROXIMATE' => 0,
-                'GEOMETRIC_CENTER' => 0,
-                'RANGE_INTERPOLATED' => 0,
-                'ROOFTOP' => 0,
-              ),
+          'field_address' => 'field_address',
+          'map' => array(
+            'center' => array(
+              'lat' => '0',
+              'lng' => '0',
             ),
+            'height' => '450',
+            'width' => '700',
+            'zoom' => '9',
           ),
-          'openlayers_map' => 'geofield_widget_map2',
-          'use_geocoder' => 0,
         ),
-        'type' => 'geofield_openlayers',
+        'type' => 'reverse_geocode_widget_widget',
         'weight' => '21',
       ),
     ),
@@ -2881,7 +2963,7 @@ Teams',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '24',
+        'weight' => '25',
       ),
     ),
   );
@@ -2983,7 +3065,7 @@ Teams',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '25',
+        'weight' => '26',
       ),
     ),
   );
@@ -3138,7 +3220,7 @@ Teams',
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '23',
+        'weight' => '24',
       ),
     ),
   );
@@ -3464,7 +3546,7 @@ Teams',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '26',
+        'weight' => '27',
       ),
     ),
   );
@@ -3723,7 +3805,7 @@ Teams',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '28',
+        'weight' => '29',
       ),
     ),
   );
@@ -3810,6 +3892,7 @@ Teams',
   // Translatables
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
+  t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Bus');
   t('Car');
