@@ -191,6 +191,111 @@ function maps_openlayers_maps() {
   $openlayers_maps = new stdClass();
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
   $openlayers_maps->api_version = 1;
+  $openlayers_maps->name = 'events_map';
+  $openlayers_maps->title = 'events_map';
+  $openlayers_maps->description = 'Map used to display events\' HQ locations';
+  $openlayers_maps->data = array(
+    'width' => 'auto',
+    'height' => '380px',
+    'image_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/img/',
+    'css_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/style.css',
+    'proxy_host' => '',
+    'hide_empty_map' => 0,
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '0,0',
+        'zoom' => '2',
+      ),
+      'restrict' => array(
+        'restrictextent' => 0,
+        'restrictedExtent' => '',
+      ),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_geofield' => array(),
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_attribution' => array(
+        'seperator' => '',
+      ),
+      'openlayers_behavior_navigation' => array(
+        'zoomWheelEnabled' => 1,
+        'zoomBoxEnabled' => 1,
+        'documentDrag' => 0,
+      ),
+      'openlayers_behavior_panzoombar' => array(
+        'zoomWorldIcon' => 0,
+        'panIcons' => 1,
+      ),
+      'openlayers_behavior_popup' => array(
+        'layers' => array(
+          'events_map_openlayers_1' => 'events_map_openlayers_1',
+        ),
+        'panMapIfOutOfView' => 1,
+        'keepInMap' => 1,
+      ),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => array(
+          'events_map_openlayers_1' => 'events_map_openlayers_1',
+          'mapquest_osm' => 0,
+          'mapquest_openaerial' => 0,
+          'google_satellite' => 0,
+          'google_physical' => 0,
+        ),
+        'point_zoom_level' => '5',
+        'zoomtolayer_scale' => '1',
+      ),
+    ),
+    'default_layer' => 'google_physical',
+    'layers' => array(
+      'mapquest_osm' => 'mapquest_osm',
+      'mapquest_openaerial' => 'mapquest_openaerial',
+      'google_satellite' => 'google_satellite',
+      'google_physical' => 'google_physical',
+      'events_map_openlayers_1' => 'events_map_openlayers_1',
+    ),
+    'layer_weight' => array(
+      'events_map_openlayers_1' => '0',
+      'test_open_layers_openlayers_1' => '0',
+      'openlayers_geojson_picture_this' => '0',
+      'geofield_formatter' => '0',
+    ),
+    'layer_styles' => array(
+      'geofield_formatter' => '0',
+      'openlayers_geojson_picture_this' => '0',
+      'test_open_layers_openlayers_1' => '0',
+      'events_map_openlayers_1' => '0',
+    ),
+    'layer_styles_select' => array(
+      'geofield_formatter' => '0',
+      'openlayers_geojson_picture_this' => '0',
+      'test_open_layers_openlayers_1' => '0',
+      'events_map_openlayers_1' => '0',
+    ),
+    'layer_activated' => array(
+      'events_map_openlayers_1' => 'events_map_openlayers_1',
+      'geofield_formatter' => 0,
+      'openlayers_geojson_picture_this' => 0,
+      'test_open_layers_openlayers_1' => 0,
+    ),
+    'layer_switcher' => array(
+      'events_map_openlayers_1' => 0,
+      'geofield_formatter' => 0,
+      'openlayers_geojson_picture_this' => 0,
+      'test_open_layers_openlayers_1' => 0,
+    ),
+    'projection' => '900913',
+    'displayProjection' => '4326',
+    'styles' => array(
+      'default' => 'default',
+      'select' => 'default_select',
+      'temporary' => 'default',
+    ),
+  );
+  $export['events_map'] = $openlayers_maps;
+
+  $openlayers_maps = new stdClass();
+  $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
+  $openlayers_maps->api_version = 1;
   $openlayers_maps->name = 'geofield_formatter_map2';
   $openlayers_maps->title = 'Geofield Formatter Map 2';
   $openlayers_maps->description = 'Second Map Used for Geofield Output';

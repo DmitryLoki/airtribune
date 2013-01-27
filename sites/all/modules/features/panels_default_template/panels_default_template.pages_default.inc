@@ -594,6 +594,15 @@ print l(t(\'Manage site partners\'), \'partners\');
           'settings' => NULL,
           'not' => TRUE,
         ),
+        2 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'events*',
+          ),
+          'context' => 'argument_string_1',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array(
@@ -613,6 +622,39 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane = new stdClass();
     $pane->pid = 'new-15';
     $pane->panel = 'top';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'events_map';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'events*',
+          ),
+          'context' => 'argument_string_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $display->content['new-15'] = $pane;
+    $display->panels['top'][3] = 'new-15';
+    $pane = new stdClass();
+    $pane->pid = 'new-16';
+    $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
     $pane->shown = TRUE;
@@ -624,10 +666,10 @@ print l(t(\'Manage site partners\'), \'partners\');
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['top'][3] = 'new-15';
+    $display->content['new-16'] = $pane;
+    $display->panels['top'][4] = 'new-16';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
