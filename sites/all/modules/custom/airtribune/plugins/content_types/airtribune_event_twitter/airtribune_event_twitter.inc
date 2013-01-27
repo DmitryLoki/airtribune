@@ -69,7 +69,7 @@ new TWTR.Widget({
         avatars: false,
         behavior: 'default'
     }
-}).render().setUser('@<?=$twitter_user?>').start();
+}).render().setUser('@$twitter_user').start();
 </script>";
 
   $content['widget'] = $widget_html;
