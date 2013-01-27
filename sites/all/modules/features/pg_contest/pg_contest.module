@@ -190,7 +190,7 @@ function _pg_contestant_path_delete($url) {
  * @return array
  */
 function _pg_contest_urls_init($nid) {
-    $result = arrau();
+    $result = array();
     $result['url_base'] = "event/$nid";
     $result['url_pages'] = array(
         '/info',
