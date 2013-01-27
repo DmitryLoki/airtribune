@@ -290,7 +290,7 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->configuration = array(
       'admin_title' => 'Small share links',
       'title' => '',
-      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c"});</script><span class=\'st_fblike_hcount\' displayText=\'Facebook Like\'></span><span class=\'st_twitter_hcount\' displayText=\'Tweet\'></span><span class=\'st_plusone_hcount\' displayText=\'+1\'></span><span class=\'st_sharethis_hcount\' displayText=\'Share\'></span>',
+      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c"});</script><span class=\'st_facebook_hcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_hcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_hcount\' displayText=\'+1\'></span></span><span class=\'st_sharethis_hcount\' displayText=\'Share\'></span>',
       'format' => 'full_html',
       'substitute' => 0,
     );
