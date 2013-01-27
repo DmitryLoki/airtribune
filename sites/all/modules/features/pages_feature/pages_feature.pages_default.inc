@@ -132,18 +132,18 @@ function pages_feature_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'event_details';
+  $page->name = 'event_info';
   $page->task = 'page';
-  $page->admin_title = 'Event details';
+  $page->admin_title = 'Event info';
   $page->admin_description = '';
-  $page->path = 'event/%node/details';
+  $page->path = 'event/%node/info';
   $page->access = array(
     'logic' => 'and',
     'type' => 'none',
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'none',
+    'type' => 'default tab',
     'title' => 'Info',
     'name' => 'navigation',
     'weight' => '0',
@@ -169,17 +169,17 @@ function pages_feature_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_details_panel_context';
+  $handler->name = 'page_event_info_panel_context_2';
   $handler->task = 'page';
-  $handler->subtask = 'event_details';
+  $handler->subtask = 'event_info';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Details',
     'no_blocks' => 1,
     'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
+    'body_classes_to_remove' => 'page-event-info',
+    'body_classes_to_add' => 'page-event-details',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -779,45 +779,6 @@ function pages_feature_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['event_details'] = $page;
-
-  $page = new stdClass();
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'event_info';
-  $page->task = 'page';
-  $page->admin_title = 'Event info';
-  $page->admin_description = '';
-  $page->path = 'event/%node/info';
-  $page->access = array(
-    'logic' => 'and',
-    'type' => 'none',
-    'settings' => NULL,
-  );
-  $page->menu = array(
-    'type' => 'default tab',
-    'title' => 'Info',
-    'name' => 'navigation',
-    'weight' => '0',
-    'parent' => array(
-      'type' => 'none',
-      'title' => '',
-      'name' => 'navigation',
-      'weight' => '0',
-    ),
-  );
-  $page->arguments = array(
-    'node' => array(
-      'id' => 1,
-      'identifier' => 'Содержимое: ID',
-      'name' => 'entity_id:node',
-      'settings' => array(),
-    ),
-  );
-  $page->conf = array(
-    'admin_paths' => FALSE,
-  );
-  $page->default_handlers = array();
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -847,6 +808,15 @@ function pages_feature_default_page_manager_pages() {
             ),
           ),
           'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/info/details',
+          ),
+          'context' => 'empty',
           'not' => FALSE,
         ),
       ),
@@ -1296,16 +1266,14 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-33';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'airtribune_event_twitter';
+    $pane->subtype = 'airtribune_event_twitter';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => 'Twitter',
-      'body' => '<img src="/sites/default/files/placeholder/11_twitter.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1400,6 +1368,8 @@ function pages_feature_default_page_manager_pages() {
   $page->path = 'event/%node/map';
   $page->access = array(
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'tab',
