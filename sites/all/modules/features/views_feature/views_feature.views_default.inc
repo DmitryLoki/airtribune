@@ -696,6 +696,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -832,6 +833,8 @@ function views_feature_views_default_views() {
 
   /* Display: Past */
   $handler = $view->new_display('page', 'Past', 'page_events_past');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -991,6 +994,8 @@ function views_feature_views_default_views() {
 
   /* Display: Next */
   $handler = $view->new_display('page', 'Next', 'page_events_next');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1038,6 +1043,8 @@ function views_feature_views_default_views() {
 
   /* Display: Current */
   $handler = $view->new_display('page', 'Current', 'page_events_current');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -1075,6 +1082,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['events_list'] = array(
     t('Master'),
+    t('Next events'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -1091,10 +1099,153 @@ function views_feature_views_default_views() {
     t('event/[nid]/info'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Past'),
+    t('Past events'),
     t('Next'),
     t('Current'),
+    t('Current events'),
   );
   $export['events_list'] = $view;
+
+  $view = new view();
+  $view->name = 'events_map';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'events_map';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'openlayers_data';
+  $handler->display->display_options['style_options']['data_source'] = array(
+    'value' => 'wkt',
+    'other_lat' => 'field_hq_location',
+    'other_lon' => 'field_hq_location',
+    'wkt' => 'field_hq_location',
+    'other_top' => 'title',
+    'other_right' => 'title',
+    'other_bottom' => 'title',
+    'other_left' => 'title',
+    'name_field' => 'title',
+    'description_field' => 'field_dates',
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Headquarter location */
+  $handler->display->display_options['fields']['field_hq_location']['id'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['table'] = 'field_data_field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_hq_location']['settings'] = array(
+    'data' => 'full',
+  );
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'long',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Next:start */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Next:start';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
+  /* Filter criterion: Past:finish */
+  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['ui_name'] = 'Past:finish';
+  $handler->display->display_options['filters']['field_dates_value2']['operator'] = '<';
+  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
+  /* Filter criterion: Current:start */
+  $handler->display->display_options['filters']['field_dates_value_1']['id'] = 'field_dates_value_1';
+  $handler->display->display_options['filters']['field_dates_value_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value_1']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value_1']['ui_name'] = 'Current:start';
+  $handler->display->display_options['filters']['field_dates_value_1']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_dates_value_1']['default_date'] = 'now';
+  /* Filter criterion: Current:finish */
+  $handler->display->display_options['filters']['field_dates_value2_1']['id'] = 'field_dates_value2_1';
+  $handler->display->display_options['filters']['field_dates_value2_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2_1']['field'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2_1']['ui_name'] = 'Current:finish';
+  $handler->display->display_options['filters']['field_dates_value2_1']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_dates_value2_1']['default_date'] = 'now';
+
+  /* Display: Events map */
+  $handler = $view->new_display('openlayers', 'Events map', 'openlayers_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+
+  /* Display: Next events */
+  $handler = $view->new_display('panel_pane', 'Next events', 'panel_pane_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'openlayers_map';
+  $handler->display->display_options['style_options']['map'] = 'events_map';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $translatables['events_map'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Headquarter location'),
+    t('Events map'),
+    t('Next events'),
+    t('View panes'),
+  );
+  $export['events_map'] = $view;
 
   $view = new view();
   $view->name = 'featured_headers';
