@@ -29,13 +29,17 @@ function airtribune_airtribune_event_twitter_content_type_render($subtype, $conf
   // Event node.
   $node = $context->data;
 
+  if (empty($node->field_social_links)) {
+    return;
+  }
+
   foreach ($node->field_social_links['und'] as $link) {
     if (strpos($link['url'], 'twitter.com')) {
       $twitter_url = $link['url'];
     }
   }
 
-  if (!isset($twitter_url)) {
+  if (empty($twitter_url)) {
     return;
   }
 
@@ -95,3 +99,4 @@ new TWTR.Widget({
 function airtribune_airtribune_event_twitter_content_type_edit_form($form, &$form_state) {
   return $form;
 }
+>>>>>>> 56603e5c11abb0f28f831132016ae79800e1470b
