@@ -626,5 +626,5 @@ header[role=banner],
 }
 
 /* Hide events view title */
-.page-events .pane-page-title h1 {display:none;}
+.page-events .panel-panel .pane-page-title h1 {display:none;}
 
