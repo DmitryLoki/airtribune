@@ -184,8 +184,12 @@ function _pg_contestant_path_delete($url) {
     }
 }
 
-
-function _pg_contest_urls_init() {
+/**
+ * Initialize urls of pages 
+ * @param $nid - node nid
+ * @return array
+ */
+function _pg_contest_urls_init($nid) {
     $result = arrau();
     $result['url_base'] = "event/$nid";
     $result['url_pages'] = array(
@@ -208,7 +212,7 @@ function _pg_contest_create_alias($node) {
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
     $alias_base = pathauto_cleanstring($node->title);
-    $urls_init = _pg_contest_urls_init();
+    $urls_init = _pg_contest_urls_init($node->nid);
     $url_base = $urls_init['url_base'];
     $url_pages = $urls_init['url_pages'];
     $aliases = array($alias_base => $url_base);
@@ -239,6 +243,10 @@ function _pg_contest_delete_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
     $nid = $node->nid;
+    $urls_init = _pg_contest_urls_init($node->nid);
+    $url_base = $urls_init['url_base'];
+    $url_pages = $urls_init['url_pages'];
+    
     // Remove existing alises.
     _pg_contestant_path_delete($url_base);
     foreach ($url_pages as $source) {
