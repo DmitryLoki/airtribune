@@ -727,7 +727,7 @@ function airtribune2_preprocess_entity(&$variables) {
 			$object = get_object_vars($variables['field_collection_item']);
 			if(!empty($variables['field_collection_item']->$item_key)){
 				$links[] = array(
-        			'href' => 'event/' . $contest_id . '/details',
+        			'href' => 'event/' . $contest_id . '/info/details',
         			'title' => $transport[$k]['#title'],
         			'fragment' => $transport[$k]['#fragment'],
         			'attributes' => $transport[$k]['#attributes'],
