@@ -11,6 +11,7 @@ define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
 define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
 
 define('MAIN_PROFILE_TYPE', 'main');
+define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
 
 /**
  * Implements hook_menu_local_tasks_alter().
@@ -212,6 +213,9 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_register_form') {
     $form['#validate'][] = 'at_helper_user_reg_form_validate';
   }
+  elseif ($form_id == 'og_ui_confirm_subscribe') {
+    $form['#validate'][] = 'at_helper_og_form_validate';
+  }
 }
 
 function at_helper_user_reg_form_validate($form, &$form_state) {
@@ -241,6 +245,27 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
     // Set form error if Name and Birthdate already exist.
     if ($name_exists && $birthdate_exists) {
       form_error($form[$profile_type]['field_full_name'], 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
+    }
+  }
+}
+
+function at_helper_og_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $gid = !empty($values['gid']) ? $values['gid'] : FALSE;
+  $pilot_number = !empty($values['field_contestant_number']['und'][0]['value'])
+                ? $values['field_contestant_number']['und'][0]['value']
+                : FALSE;
+  if ($gid && $pilot_number) {
+    // TODO:
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'og_membership');
+    $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
+    //$query->fieldCondition('og_membership_request', 'value', $gid);
+    $query->fieldCondition('field_contestant_number', 'value', $pilot_number);
+    //$query->fieldCondition('field_full_name', 'family', $family);
+    $number_exists = $query->count()->execute();
+    if ($number_exists) {
+      form_error($form['field_contestant_number'], t('This number is used by another pilot.'));
     }
   }
 }

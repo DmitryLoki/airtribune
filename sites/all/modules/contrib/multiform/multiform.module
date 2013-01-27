@@ -179,6 +179,11 @@ function multiform_get_form() {
       drupal_redirect_form($multiform['#redirect_array']);
     }
   }
+  
+  if (!empty($multiform['#multiform_id'])) {
+    $form['#theme'] = array($multiform['#multiform_id']);
+  }
+  
   return $form;
 }
 
