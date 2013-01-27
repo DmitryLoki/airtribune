@@ -696,6 +696,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -832,6 +833,8 @@ function views_feature_views_default_views() {
 
   /* Display: Past */
   $handler = $view->new_display('page', 'Past', 'page_events_past');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -991,6 +994,8 @@ function views_feature_views_default_views() {
 
   /* Display: Next */
   $handler = $view->new_display('page', 'Next', 'page_events_next');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1038,6 +1043,8 @@ function views_feature_views_default_views() {
 
   /* Display: Current */
   $handler = $view->new_display('page', 'Current', 'page_events_current');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -1075,6 +1082,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['events_list'] = array(
     t('Master'),
+    t('Next events'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -1091,8 +1099,10 @@ function views_feature_views_default_views() {
     t('event/[nid]/info'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Past'),
+    t('Past events'),
     t('Next'),
     t('Current'),
+    t('Current events'),
   );
   $export['events_list'] = $view;
 
