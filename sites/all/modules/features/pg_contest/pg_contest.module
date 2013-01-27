@@ -184,6 +184,21 @@ function _pg_contestant_path_delete($url) {
     }
 }
 
+
+function _pg_contest_urls_init() {
+    $result = arrau();
+    $result['url_base'] = "event/$nid";
+    $result['url_pages'] = array(
+        '/info',
+        '/info/details',
+        '/blog',
+        '/pilots',
+        '/map',
+        '/register',
+    );
+    return $result;
+}
+
 /**
  * Create contest alias.
  * @author Alexandr Kapelshikov
@@ -193,25 +208,19 @@ function _pg_contest_create_alias($node) {
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
     $alias_base = pathauto_cleanstring($node->title);
-    $url_base = "event/$nid";
-    $pages_url = array(
-        '/info',
-        '/info/details',
-        '/blog',
-        '/pilots',
-        '/map',
-        '/register',
-    );
+    $urls_init = _pg_contest_urls_init();
+    $url_base = $urls_init['url_base'];
+    $url_pages = $urls_init['url_pages'];
     $aliases = array($alias_base => $url_base);
     
     // Remove existing alises.
     _pg_contestant_path_delete($url_base);
-    foreach ($pages_url as $source) {
-      $curr_url = $url_base . $source;  
-      _pg_contestant_path_delete($curr_url);
+    foreach ($url_pages as $source) {
+      $url_curr = $url_base . $source;  
+      _pg_contestant_path_delete($url_curr);
       
       //Create aliases array
-      $aliases[$alias_base . $source] = $curr_url;
+      $aliases[$alias_base . $source] = $url_curr;
     }
     
     // Save aliases.
@@ -231,12 +240,10 @@ function _pg_contest_delete_alias($node) {
   if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
     $nid = $node->nid;
     // Remove existing alises.
-    foreach (array("event/$nid", "event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
-      $criteria = path_load($source);
-      if (!empty($criteria)) {
-        $criteria = array('source' => $criteria['source']);
-        path_delete($criteria);
-      }
+    _pg_contestant_path_delete($url_base);
+    foreach ($url_pages as $source) {
+      $url_curr = $url_base . $source;  
+      _pg_contestant_path_delete($url_curr);
     }
   }
 }
