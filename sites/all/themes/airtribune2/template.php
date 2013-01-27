@@ -751,7 +751,7 @@ function airtribune2_preprocess_entity(&$variables) {
 		//print_r($variables['field_collection_item']);
 		$variables['content']['field_organizer_logo'][0] = array(
 			//'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
-			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
+			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/info/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
 		) ;
 	}
   }
