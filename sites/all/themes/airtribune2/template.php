@@ -356,16 +356,17 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
     break;
       
       case 'user_register_form':
-      if (isset($form_state['multiform'])) {
-        $form['#theme'] = array('user_register_form_multiform');
-        // Address field
-        $lang = $form['profile_pilot']['field_address']['#language'];
-        $form['profile_pilot']['field_address'][$lang][0]['country']['#title'] = t('Nation');
-        $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
-        $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
+	  	//print_r($form);
+      	if (isset($form_state['multiform'])) {
+        	$form['#theme'] = array('user_register_form_multiform');
+	        // Address field
+    	    $lang = $form['profile_pilot']['field_address']['#language'];
+        	$form['profile_pilot']['field_address'][$lang][0]['country']['#title'] = t('Nation');
+	        $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
+    	    $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
         
         //dsm($form);
-      }
+     	}
     break;
 	}
 }
