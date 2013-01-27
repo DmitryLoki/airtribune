@@ -2601,7 +2601,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title { background-position:0 -300px} /* Prize funds and scoring categories */
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title { background-position:0 -450px} /* Organizers */
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title { background-position:0 -600px} /* How to get here */
-.page-event-info .panel_info .pane-1 h2.pane-title { background-position:0 -750px} /* Twitter */
+.page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title { background-position:0 -750px} /* Twitter */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title { background-position:0 -900px} /* Download */
 .page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title { background-position:0 -1050px} /* Contacts phone */
 
@@ -2725,13 +2725,15 @@ p { margin:0; padding:9px 0 11px}
 }
 .pane-node-field-collection-organizers .entity { padding-bottom:8px;}
 .pane-node-field-collection-organizers .field-name-field-organizer-logo, .pane-node-field-collection-organizers .field-name-field-organizer-name { display:inline-block; margin-bottom:0}
-.page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:middle;}
+.page-event-info .pane-node-field-collection-organizers { padding-top:1px}
+.page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:middle; height:42px; overflow:hidden}
 .page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-name { vertical-align:middle; width:145px; margin-left:9px; color:#3d464c}
 .page-event-info .pane-node-field-collection-organizers img { vertical-align:middle;}
+.page-event-info .panel_info .pane-node-field-collection-organizers .more-link { margin:0 0 -1px}
 
 /* Twitter */
-.pane-1 {}
-.panel_info .pane-1 .pane-content { margin:2px 0 0}
+.pane-airtribune-event-twitter {}
+.panel_info .pane-airtribune-event-twitter .pane-content { margin:20px 0 0}
 
 /* Socials buttons */
 .pane-node-field-social-links {}

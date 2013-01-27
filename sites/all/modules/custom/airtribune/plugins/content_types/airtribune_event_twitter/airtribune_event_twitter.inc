@@ -56,12 +56,12 @@ new TWTR.Widget({
     theme: {
         shell: {
             background: '#eceff2',
-            color: '#000000'
+            color: '#333a40'
         },
         tweets: {
             background: '#ffffff',
-            color: '#000000',
-            links: '#003dd6'
+            color: '#333a40',
+            links: '#00acee'
         }
     },
     features: {

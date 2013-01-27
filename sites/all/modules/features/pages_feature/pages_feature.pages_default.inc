@@ -1016,7 +1016,9 @@ function pages_feature_default_page_manager_pages() {
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_getting_there';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(),
+    );
     $pane->configuration = array(
       'label' => 'hidden',
       'formatter' => 'field_collection_fields',
@@ -1272,8 +1274,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Twitter',
     );
     $pane->cache = array();
     $pane->style = array(
