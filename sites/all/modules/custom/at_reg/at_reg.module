@@ -24,7 +24,7 @@ function at_reg_menu() {
     // We don't add the group name, as it might be private.
     'title' => 'Join group'
   );
-  $items['event/%/register'] = array(
+  $items['event/%/registration'] = array(
     'type' => MENU_LOCAL_TASK,
     'file' => 'at_reg.pages.inc',
     //'page callback' => 'at_reg_subscribe',
@@ -37,7 +37,8 @@ function at_reg_menu() {
     'access callback' => TRUE,
 
     // We don't add the group name, as it might be private.
-    'title' => 'Register'
+    'title' => 'Registration',
+    'weight' => 50,
   );
   return $items;
 }
