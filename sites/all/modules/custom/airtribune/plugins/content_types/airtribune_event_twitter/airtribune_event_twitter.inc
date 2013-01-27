@@ -99,4 +99,3 @@ new TWTR.Widget({
 function airtribune_airtribune_event_twitter_content_type_edit_form($form, &$form_state) {
   return $form;
 }
->>>>>>> 56603e5c11abb0f28f831132016ae79800e1470b
