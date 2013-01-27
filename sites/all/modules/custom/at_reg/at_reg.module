@@ -24,10 +24,31 @@ function at_reg_menu() {
     // We don't add the group name, as it might be private.
     'title' => 'Join group'
   );
-  
+  $items['event/%/register'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'at_reg.pages.inc',
+    //'page callback' => 'at_reg_subscribe',
+    'page callback' => 'at_reg_subscribe_blank',
+    'page arguments' => array('node', 1),
+    // Function will take care of permissions, as we want to show "you are
+    // already a member of the group" to group members, however it is not
+    // possible to give authenticated group members the "subscribe" permissions.
+    //'access callback' => 'user_is_logged_in',
+    'access callback' => TRUE,
+
+    // We don't add the group name, as it might be private.
+    'title' => 'Register'
+  );
   return $items;
 }
 
+/**
+ * Temporary callback for Registration tab.
+ */
+function at_reg_subscribe_blank($entity_type, $etid) {
+  drupal_set_title('');
+  return t('Registration will open soon');
+}
 
 /**
  * Implement hook_field_formatter_info().
