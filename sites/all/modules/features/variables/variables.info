@@ -104,6 +104,7 @@ features[variable][] = openlayers_default_map
 features[variable][] = openlayers_source
 features[variable][] = openlayers_ui_preview_map
 features[variable][] = openlayers_ui_version_check
+features[variable][] = page_manager_node_view_disabled
 features[variable][] = panels_everywhere_site_template_enabled
 features[variable][] = site_default_country
 features[variable][] = sync_pg_enabled_ent_point_waypoint
