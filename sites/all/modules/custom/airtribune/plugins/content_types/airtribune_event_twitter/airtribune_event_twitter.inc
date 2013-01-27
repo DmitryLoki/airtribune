@@ -35,6 +35,10 @@ function airtribune_airtribune_event_twitter_content_type_render($subtype, $conf
     }
   }
 
+  if (!isset($twitter_url)) {
+    return;
+  }
+
   // remove trailing slash
   $twitter_url = rtrim($twitter_url, '/');
   // get username from url
@@ -72,7 +76,7 @@ new TWTR.Widget({
 }).render().setUser('@$twitter_user').start();
 </script>";
 
-  $content['widget'] = $widget_html;
+  $content['widget']['#markup'] = $widget_html;
 
   $content['#attached']['css'] = array($plugin_path . '/airtribune_event_twitter.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-twitter'));
