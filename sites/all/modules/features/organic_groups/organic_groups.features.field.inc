@@ -122,7 +122,7 @@ function organic_groups_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max' => '9999',
+        'max' => '',
         'min' => '1',
         'prefix' => '',
         'suffix' => '',
@@ -562,10 +562,9 @@ function organic_groups_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
-          'weight' => 0,
+          'type' => 'hidden',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'user',
