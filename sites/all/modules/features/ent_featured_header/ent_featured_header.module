@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Featured header feature.
+ */
+
+include_once 'ent_featured_header.features.inc';

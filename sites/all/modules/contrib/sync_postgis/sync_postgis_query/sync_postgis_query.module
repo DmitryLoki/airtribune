@@ -1,0 +1,158 @@
+<?php
+
+/**
+ * Sample client code for a normal select query. Select all nodes of type 'road'
+ * whose geometries are within the given polygon and whose field_district value
+ * is 740. Return the field_roadstatus value and the geometry value for all rows
+ * in the result set.
+ *
+ * $connection = sync_postgis_get_postgis_connection();
+ * $geom = "St_GeomFromText('POLYGON((-121.748434435966 54.4439949294269,-119.001852405208 54.4439949294269,-119.001852405208
+ * 56.7703201938044,-121.748434435966 56.7703201938044,-121.748434435966 54.4439949294269))')";
+ * try {
+ *    $query = new syncPgQuery($connection);
+ *    $sql = $query
+ *      ->filterByBundle('node', 'road')
+ *      ->filterCondition('bundle_field', 'field_district', $district)
+ *      ->filterCondition('view_mode', 'view_mode', 'full')
+ *      ->geometryCondition('within', $geom)
+ *      ->addReturnFields(array('bundle_field' => array('field_roadstatus'), 'view_mode' => array('markup')))
+ *      ->returnGeometry()
+ *      ->getSql();
+ * }
+ * catch(Exception $e) {
+ *   watchdog_exception('sync_postgis_query', $e);
+ * }
+ *
+ * Sample client code for a boolean relationship query. Queries whether or not
+ * the geometries of the two passed in entities intersect.
+ *
+ * $query = new syncPgQuery($connection, '900913');
+ * $intersects = $query->booleanRelQuery('intersects', array('eid' => 991, 'entity_type' => 'node'),
+ *    array('eid' => 992, 'entity_type' => 'node'))->execute();
+ *
+ * Sample client code for an entity relationship query, e.g. select all entities
+ * that have relationship x with entity y.
+ *
+ * $query = new syncPgQuery($connection, '900913');
+ * $entities = $query->entityRelQuery('intersects', 'node', 123)
+ *  ->filterByBundle('node', 'road')
+ *  ->addReturnFields(array('entity' => array('label')))
+ *  ->execute();
+ *
+ */
+
+/**
+ * Gets information about how to join a table for a particular query field or
+ * filter based on what's defined in hook_sync_pg_queryable(). Result is cached.
+ *
+ * @param $name
+ *    May correspond to a table name or e.g. 'bundle_field', where the table name
+ *    will be derived in a callback function.
+ *
+ * @reset
+ *    If true, static cache will be repopulated.
+ *
+ * @return Returns an array of table info arrays, each containing the table name
+ *         and the conditions on which to join to the entity table.
+ *         If $name is provided then only the matching table info definition is
+ *         returned. If there is no match the function returns FALSE.
+ */
+function sync_pg_query_get_queryables($name = NULL, $reset = FALSE) {
+  $queryables = &drupal_static(__FUNCTION__, array());
+
+  if (empty($queryables) || ($name && !isset($queryables[$name])) || $reset) {
+    $queryables = module_invoke_all('sync_pg_queryable');
+
+    if (isset($name)) {
+      if (isset($queryables[$name])) {
+        return $queryables[$name];
+      } else {
+        // Assume the name is the same as the table name and the conditions can
+        // be taken from the foreign key.
+        $table_name = $name;
+        $schema = sync_postgis_get_schema($table_name);
+        if ($schema) {
+          $foreign_key_cols = sync_pg_get_foreign_key_to_entity_table($schema);
+          if ($foreign_key_cols) {
+            $queryables[$name] = array(
+              'table_name' => $table_name,
+              'columns' => $foreign_key_cols
+            );
+            return $queryables[$name];
+          }
+        }
+        return FALSE;
+      }
+    }
+  }
+
+  return $name ? $queryables[$name] : $queryables;
+}
+
+/**
+ * Implements hook_sync_pg_queryable()
+ */
+function sync_postgis_query_sync_pg_queryable() {
+  $queryable = array(
+    'entity' => array(
+      'table_name' => SYNC_PG_ENTITY_TABLE,
+      'columns' => array('eid' => 'eid', 'entity_type' => 'entity_type')
+    ),
+    'geometry' => array(
+      'table_name' => SYNC_PG_GEOMETRY_TABLE,
+      'columns' => sync_pg_get_foreign_key_to_entity_table(sync_postgis_get_schema(SYNC_PG_GEOMETRY_TABLE))
+    ),
+    'bundle_field' => array(
+      'callback' => 'sync_pg_query_bundle_callback',
+    ),
+  );
+  return $queryable;
+}
+
+/**
+ * Callback function to get the join information for a bundle table, which
+ * depends on the entity and bundle specified in the query.
+ *
+ * @param syncPgQuery $query
+ *  The syncPgQuery object from which we can derive the entity type and class.
+ *
+ * @return Associative array with the following keys:
+ *  - 'table_name' the table on which to join
+ *  - 'columns' the columns that the join to the entity table is based on.
+ *
+ * @throws syncPgQueryException if the passed in query does not have an entity
+ *   type and bundle defined.
+ */
+function sync_pg_query_bundle_callback($query) {
+  $entity_type = $query->getEntityType();
+  $bundle = $query->getBundle();
+  if (is_null($entity_type) || is_null($bundle)) {
+    throw new syncPgQueryException(t('For this query an entity type and bundle must be specified.'));
+  }
+  $table_name = sync_postgis_table_name($entity_type, $bundle);
+  return array(
+    'table_name' => $table_name,
+    'columns' => sync_pg_get_foreign_key_to_entity_table(sync_postgis_get_schema($table_name))
+  );
+}
+
+/**
+ * Returns the proper PostGis function name for the passed in function type.
+ *
+ * @param $function_type
+ *  string e.g. 'within', or 'intersects'
+ *
+ * @return
+ *  The actual PostGIS function, e.g. 'ST_Within', or 'ST_Intersects', or NULL
+ *  if there's no such function.
+ */
+function sync_pg_query_get_function($function_type) {
+  $types = array(
+    'within' => 'ST_Within',
+    'dwithin' => 'ST_DWithin',
+    'intersects' => 'ST_Intersects',
+    'contains' => 'ST_Contains'
+  );
+  return isset($types[$function_type]) ? $types[$function_type] : NULL;
+}

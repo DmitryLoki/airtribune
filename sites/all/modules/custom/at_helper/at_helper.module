@@ -1,0 +1,296 @@
+<?php
+
+define('VIEWS_EVENTS_LIST', 'events_list');
+
+define('VIEWS_EVENTS_LIST_NEXT', 'page_events_next');
+define('VIEWS_EVENTS_LIST_CURRENT', 'page_events_current');
+define('VIEWS_EVENTS_LIST_PAST', 'page_events_past');
+
+define('AT_VIEWS_TABS_CACHE_CID', 'at_views_tabs');
+
+define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
+
+define('MAIN_PROFILE_TYPE', 'main');
+define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function at_helper_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if ($router_item['tab_root']  == 'events') {
+    $tabs = array(
+      'events/next' => VIEWS_EVENTS_LIST_NEXT,
+      'events/current' => VIEWS_EVENTS_LIST_CURRENT,
+      'events/past' => VIEWS_EVENTS_LIST_PAST,
+    );
+    if (!empty($data['tabs'][0]['output'])) {
+      foreach ($data['tabs'][0]['output'] as $key => $tab) {
+        $path = $tab['#link']['path'];
+        if (in_array($path, array_keys($tabs)) && !at_helper_contest_link_show($tabs[$path])) {
+          unset($data['tabs'][0]['output'][$key]);
+          $data['tabs'][0]['count']--;
+        }
+      }
+    }
+  }
+}
+
+// TODO: take user timezone into consideration
+/**
+ * Check weather to show/hide current tab;
+ */
+function at_helper_contest_link_show($display_id, $break = FALSE) {
+  $match = FALSE;
+  
+  $current_time = time();
+  $data = at_helper_contest_cache_get();
+  switch ($display_id) {
+    case VIEWS_EVENTS_LIST_NEXT:
+      if (!empty($data['next_start_max'])) {
+        if (strtotime($data['next_start_max']) > $current_time) {
+          $match = TRUE;
+        }
+      }
+      break;
+    case VIEWS_EVENTS_LIST_CURRENT:
+      // Check for lasting at the moment events.
+      if (!empty($data['current_finish_max'])) {
+        if (strtotime($data['current_finish_max']) >= $current_time) {
+          $match = TRUE;
+        }
+      }
+      // Check for closest next events.
+      elseif (!empty($data['current_start_min']) && strtotime($data['current_start_min']) <= $current_time) {
+        if (!$break) {
+          // If closest event could have already started or even finished, update cache.
+          at_helper_contest_cache_update();
+          $match = at_helper_contest_link_show($display_id, TRUE);
+        }
+        // Avoid infinite cycles.
+        else {
+          $match = FALSE;
+        }
+      }
+      break;
+    case VIEWS_EVENTS_LIST_PAST:
+      if (!empty($data['last_finish_min'])) {
+        if (strtotime($data['last_finish_min']) < $current_time) {
+          $match = TRUE;
+        }
+      }
+      break;
+  }
+  return $match;
+}
+
+
+/**
+ * Get cached contest periods info.
+ */
+function at_helper_contest_cache_get() {
+  $cache = cache_get(AT_VIEWS_TABS_CACHE_CID);
+  if (!$cache) {
+    $data = at_helper_contest_cache_update();
+  }
+  else {
+    $data = $cache->data;
+  }
+  return $data;
+}
+
+/**
+ * Update cache.
+ */
+function at_helper_contest_cache_update() {
+  $data = array(
+    'next_start_max' => NULL,
+    'current_finish_max' => NULL,  // Greatest among current
+    'current_start_min' => NULL,  // Lowest among next. If it is <= current, cache should be updated
+    'last_finish_min' => NULL,
+  );
+  
+  // Next
+  $result_next = views_get_view_result(VIEWS_EVENTS_LIST, VIEWS_EVENTS_LIST_NEXT);
+  $start_max = $start_max_timestamp = NULL;
+  $start_min = $start_min_timestamp = NULL;
+  if (!empty($result_next)) {
+    foreach ($result_next as $row) {
+      if (!isset($row->field_field_dates[0]['raw']['value'])) {
+        continue;
+      }
+      $start = $row->field_field_dates[0]['raw']['value'];
+      // Look for maximum start among next events.
+      if (empty($start_max) || (!empty($start_max) && strtotime($start) > $start_max_timestamp)) {
+        $start_max = $start;
+        $start_max_timestamp = strtotime($start_max);
+      }
+      
+      // Look for minimum start among next events. Used for current events tab.
+      if (empty($start_min) || (!empty($start_min) && strtotime($start) < $start_min_timestamp)) {
+        $start_min = $start;
+        $start_min_timestamp = strtotime($start_min);
+      }
+    }
+  }
+  $data['next_start_max'] = $start_max;
+  $data['current_start_min'] = $start_min;
+  
+  // Current
+  $finish_max = $finish_max_timestamp = NULL;
+  $result_current = views_get_view_result(VIEWS_EVENTS_LIST, VIEWS_EVENTS_LIST_CURRENT);
+  if (!empty($result_current)) {
+    foreach ($result_current as $row) {
+      if (!isset($row->field_field_dates[0]['raw']['value']) || !isset($row->field_field_dates[0]['raw']['value2'])) {
+        continue;
+      }
+      $start = $row->field_field_dates[0]['raw']['value'];
+      $finish = $row->field_field_dates[0]['raw']['value2'];
+      // Look for maximum finish amoung current events.
+      if (empty($finish_max) || (!empty($finish_max) && strtotime($finish) >= $finish_max_timestamp)) {
+        $finish_max = $finish;
+        $finish_max_timestamp = strtotime($finish);
+      }
+    }
+  }
+  $data['current_finish_max'] = $finish_max;
+  
+  
+  // Past
+  $finish_min = $finish_min_timestamp = NULL;
+  $result_past = views_get_view_result(VIEWS_EVENTS_LIST, VIEWS_EVENTS_LIST_PAST);
+  if (!empty($result_past)) {
+    foreach ($result_past as $row) {
+      if (!isset($row->field_field_dates[0]['raw']['value2'])) {
+        continue;
+      }
+      $finish = $row->field_field_dates[0]['raw']['value2'];
+      // Look form minimum finish among last.
+      if (empty($finish_min) || (!empty($finish_min) && strtotime($finish) > $finish_min_timestamp)) {
+        $finish_min = $finish;
+        $finish_min_timestamp = strtotime($finish_min);
+      }
+    }
+  }
+  $data['last_finish_min'] = $finish_min;
+  
+  cache_clear_all(AT_VIEWS_TABS_CACHE_CID, 'cache');
+  cache_set(AT_VIEWS_TABS_CACHE_CID, $data);
+  return $data;
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function at_helper_node_insert($node) {
+  cache_clear_all(AT_VIEWS_TABS_CACHE_CID, 'cache');
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function at_helper_node_update($node) {
+  cache_clear_all(AT_VIEWS_TABS_CACHE_CID, 'cache');
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function at_helper_node_delete($node) {
+  cache_clear_all(AT_VIEWS_TABS_CACHE_CID, 'cache');
+}
+
+
+
+
+// =================================================
+// User Registration
+// =================================================
+
+/**
+ * Implements hook_node_delete().
+ */
+function at_helper_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_register_form') {
+    $form['#validate'][] = 'at_helper_user_reg_form_validate';
+  }
+  elseif ($form_id == 'og_ui_confirm_subscribe') {
+    $form['#validate'][] = 'at_helper_og_form_validate';
+  }
+}
+
+function at_helper_user_reg_form_validate($form, &$form_state) {
+  $profile_type = 'profile_' . MAIN_PROFILE_TYPE;
+  if (empty($form_state['values'][$profile_type])) {
+    return;
+  }
+  $profile_values = $form_state['values'][$profile_type];
+  $error = FALSE;
+  $given = !empty($profile_values['field_full_name']['und'][0]['given']) ? $profile_values['field_full_name']['und'][0]['given'] : FALSE;
+  $family = !empty($profile_values['field_full_name']['und'][0]['family']) ? $profile_values['field_full_name']['und'][0]['family'] : FALSE;
+  $birthdate = !empty($profile_values['field_birthdate']['und'][0]['value']) ? $profile_values['field_birthdate']['und'][0]['value'] : FALSE;
+  if (!empty($given) && !empty($family) && !empty($birthdate)) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'profile2');
+    $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
+    $query->fieldCondition('field_full_name', 'given', $given);
+    $query->fieldCondition('field_full_name', 'family', $family);
+    $name_exists = $query->count()->execute();
+    
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'profile2');
+    $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
+    $query->fieldCondition('field_birthdate', 'value', $birthdate);
+    $birthdate_exists = $query->count()->execute();
+    
+    // Set form error if Name and Birthdate already exist.
+    if ($name_exists && $birthdate_exists) {
+      form_error($form[$profile_type]['field_full_name'], 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
+    }
+  }
+}
+
+function at_helper_og_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $gid = !empty($values['gid']) ? $values['gid'] : FALSE;
+  $pilot_number = !empty($values['field_contestant_number']['und'][0]['value'])
+                ? $values['field_contestant_number']['und'][0]['value']
+                : FALSE;
+  if ($gid && $pilot_number) {
+    // TODO:
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'og_membership');
+    $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
+    //$query->fieldCondition('og_membership_request', 'value', $gid);
+    $query->fieldCondition('field_contestant_number', 'value', $pilot_number);
+    //$query->fieldCondition('field_full_name', 'family', $family);
+    $number_exists = $query->count()->execute();
+    if ($number_exists) {
+      form_error($form['field_contestant_number'], t('This number is used by another pilot.'));
+    }
+  }
+}
+
+/**
+ * Implements hook_views_query_alter()
+ */
+function at_helper_views_query_alter(&$view, &$query) {
+  if ($view->name == 'events_map') {
+    // Remove extra filters.
+    switch ($_GET['q']) {
+      case 'events/current' :
+        unset($query->where[1]['conditions'][2]);
+        unset($query->where[1]['conditions'][3]);
+        break;
+      case 'events/past' :
+        unset($query->where[1]['conditions'][2]);
+        unset($query->where[1]['conditions'][4]);
+        unset($query->where[1]['conditions'][5]);
+        break;
+      default :
+        unset($query->where[1]['conditions'][3]);
+        unset($query->where[1]['conditions'][4]);
+        unset($query->where[1]['conditions'][5]);
+        break;
+    }
+  }
+}

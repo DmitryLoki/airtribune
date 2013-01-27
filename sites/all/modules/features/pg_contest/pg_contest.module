@@ -1,0 +1,293 @@
+<?php
+/**
+ * @file
+ * Code for the Paragliding Contest feature.
+ * Custom implementation of hooks for paragliding contest content type
+ */
+
+include_once 'pg_contest.features.inc';
+
+/**
+ * Implements hook_node_info().
+ */
+function pg_contest_node_info() {
+  $items = array(
+    'pg_contest' => array(
+      'name' => t('Paragliding Contest'),
+      'base' => 'pg_contest',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_form
+ * Default base is 'node_content'
+ * @param type $node
+ * @param type $form_state
+ */
+function pg_contest_form($node, $form_state) {
+  //Default base is 'node_content'
+  //Title field is not attached otherwise
+  $form = node_content_form($node, $form_state);
+  return $form;
+}
+
+/**
+ * Implementation of hook_insert
+ * @param $node
+ *   The node that is being created.
+ */
+function pg_contest_insert($node) {
+  if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
+    pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
+  }
+  
+  // Create aliases
+  _pg_contest_create_alias($node);
+  // Restrict subscription depending on Registration Switch field.
+  _pg_contest_og_registration_perm($node);
+}
+ 
+/* Implementation of hook_update
+ * @param type $node
+ * @see og_membership_delete_by_group()
+ * @author Vadim Valuev <gease@mail.ru>
+ */
+function pg_contest_update($node) {
+  if (isset($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
+    if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
+      //remove old points and og memberships
+      $query = new EntityFieldQuery();
+      $result = $query
+        ->entityCondition('entity_type', 'og_membership')
+        ->propertyCondition('entity_type', 'ent_point', '=')
+        ->propertyCondition('group_type', 'node', '=')
+        ->propertyCondition('gid', $node->nid, '=')
+        ->execute();
+      $query = new EntityFieldQuery();
+      $result1 = $query 
+        ->entityCondition('entity_type', 'ent_point')
+        ->fieldCondition('og_group_ref', 'target_id', $node->nid)
+        ->execute();
+      if (!empty($result['og_membership'])) {
+        og_membership_delete_multiple(array_keys($result['og_membership']));
+      }
+      if (!empty($result1['ent_point'])) {
+        entity_delete_multiple('ent_point', array_keys($result1['ent_point']));
+      }
+    }
+    if (isset($node->field_points_file[LANGUAGE_NONE])) {
+      //create new points and subscribe them to group 
+      pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0]['fid'], $node->nid);
+    }
+  }
+  
+  // Create aliases
+  _pg_contest_create_alias($node);
+  // Restrict subscription depending on Registration Switch field.
+  _pg_contest_og_registration_perm($node);
+}
+
+/**
+ * Implementation of hook_validate
+ * @author Vadim Valuev <gease@mail.ru>
+ */
+function pg_contest_validate($node, $form, &$form_state) {
+  if (isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
+    $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
+    $file_string = file_get_contents($file->uri);
+    $strings = preg_split('/\v/', $file_string);
+    foreach ($strings as $string) {
+      $elements = preg_split('/\s+/', $string);
+      if ($elements[0] == 'G') {
+        array_shift($elements);
+        $datum = strtoupper(implode($elements));
+        if ($datum != 'WGS84') {
+          form_set_error('field_points_file', t('Incorrect datum'));
+        }
+      }
+      if ($elements[0] == 'U') {
+        if ($elements[1] != 1) {
+          form_set_error('field_points_file', t('Cordinates should be Lat/Lon'));
+        }
+        else {
+          $u = TRUE;
+        }
+      }
+    }
+    if (!isset($datum)) {
+      form_set_error('field_points_file', t('Datum not set'));
+    }
+    if (!isset($u)) {
+      form_set_error('field_points_file', t('Coordinate system not set'));
+    }
+  }
+}
+
+/**
+ * Parse file and create point entities 
+ * @author Vadim Valuev <gease@mail.ru>
+ */
+function pg_contest_create_points($fid, $nid) {
+  geophp_load();
+  $file = file_load($fid);
+  $file_string = file_get_contents($file->uri);
+  $strings = preg_split('/\v/', $file_string);
+  foreach ($strings as $string) {
+    $elements = preg_split('/\s+/', $string);
+    if ($elements[0] != 'W') continue;
+    $let1 = substr($elements[3], -1);
+    $let2 = substr($elements[4], -1);
+    if (strpos('EW', $let1) !== FALSE && strpos('NS', $let2) !== FALSE) {
+      $lon = ($let1 == 'E') ? floatval($elements[3]) : -floatval($elements[3]);
+      $lat = ($let2 == 'N') ? floatval($elements[4]) : -floatval($elements[4]);
+    }
+    elseif (strpos('EW', $let2) !== FALSE && strpos('NS', $let1) !== FALSE) {
+      $lon = ($let2 == 'E') ? floatval($elements[4]) : -floatval($elements[4]);
+      $lat = ($let1 == 'N') ? floatval($elements[3]) : -floatval($elements[3]);      
+    }
+    else {
+      continue;
+    }
+    $coords = new Point($lon, $lat);
+    //$values = geofield_get_values_from_geometry($coords);
+    $values = array(
+      'type' => 'point',
+      'language' => LANGUAGE_NONE,
+      'title' => $elements[1],
+      'field_point_center' => array(
+        LANGUAGE_NONE  => array(
+          0 => geofield_get_values_from_geometry($coords)
+        )
+      )
+    );
+    $point = entity_create('ent_point', $values);
+    $point->save();
+    og_group('node', $nid, array('entity_type' => 'ent_point', 'entity' => $point))->save();
+  }
+}
+
+/**
+ * Remove existing alises for path.
+ *
+ */
+function _pg_contestant_path_delete($url) {
+    $criteria = path_load($url);
+    if (!empty($criteria)) {
+      $criteria = array('source' => $criteria['source']);
+      path_delete($criteria);
+    }
+}
+
+/**
+ * Initialize urls of pages 
+ * @param $nid - node nid
+ * @return array
+ */
+function _pg_contest_urls_init($nid) {
+    $result = array();
+    $result['url_base'] = "event/$nid";
+    $result['url_pages'] = array(
+        '/info',
+        '/info/details',
+        '/blog',
+        '/pilots',
+        '/map',
+        '/register',
+    );
+    return $result;
+}
+
+/**
+ * Create contest alias.
+ * @author Alexandr Kapelshikov
+ */
+function _pg_contest_create_alias($node) {
+  module_load_include('inc', 'pathauto');
+  if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
+    $nid = $node->nid;
+    $alias_base = pathauto_cleanstring($node->title);
+    $urls_init = _pg_contest_urls_init($node->nid);
+    $url_base = $urls_init['url_base'];
+    $url_pages = $urls_init['url_pages'];
+    $aliases = array($alias_base => $url_base);
+    
+    // Remove existing alises.
+    _pg_contestant_path_delete($url_base);
+    foreach ($url_pages as $source) {
+      $url_curr = $url_base . $source;  
+      _pg_contestant_path_delete($url_curr);
+      
+      //Create aliases array
+      $aliases[$alias_base . $source] = $url_curr;
+    }
+    
+    // Save aliases.
+    foreach ($aliases as $alias => $source) {
+      $path = array('source' => $source, 'alias' => $alias);
+      path_save($path);
+    }
+  }
+}
+
+/**
+ * Delete contest alias.
+ * @author Alexandr Kapelshikov
+ */
+function _pg_contest_delete_alias($node) {
+  module_load_include('inc', 'pathauto');
+  if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
+    $nid = $node->nid;
+    $urls_init = _pg_contest_urls_init($node->nid);
+    $url_base = $urls_init['url_base'];
+    $url_pages = $urls_init['url_pages'];
+    
+    // Remove existing alises.
+    _pg_contestant_path_delete($url_base);
+    foreach ($url_pages as $source) {
+      $url_curr = $url_base . $source;  
+      _pg_contestant_path_delete($url_curr);
+    }
+  }
+}
+
+/**
+ * Restrict OG registration.
+ * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
+ */
+function _pg_contest_og_registration_perm($node) {
+  
+  $entity_type = $group_type = 'node';
+  $bundle = $node->type;
+  $gid = $node->nid;
+  
+  
+  if (!og_is_group_type($entity_type, $bundle)) {
+    return;
+  }
+  
+  // Do nothing if defaults are used.
+  if (og_is_group_default_access($group_type, $gid)) {
+    return;
+  }
+  
+  // Get non-member role id.
+  $og_roles = og_roles($group_type, $bundle, $gid);
+  $nonmember_rid = array_search(OG_ANONYMOUS_ROLE, $og_roles);
+  if ($nonmember_rid === FALSE) {
+    return;
+  }
+  
+  $grant = (isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] == 1)
+         ? 1
+         : 0;
+  
+  // Set permissions.
+  $permissions = array('subscribe' => $grant, 'subscribe without approval' => $grant);
+  og_role_change_permissions($nonmember_rid, $permissions);
+}

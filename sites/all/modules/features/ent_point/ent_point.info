@@ -1,0 +1,8 @@
+name = Point entity
+description = Point entity
+core = 7.x
+package = Custom entities
+dependencies[] = eck
+dependencies[] = features
+features[eck_entity_type][] = ent_point
+features[features_api][] = api:1

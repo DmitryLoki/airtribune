@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Point entity feature.
+ */
+
+include_once 'ent_point.features.inc';

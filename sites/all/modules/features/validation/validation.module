@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Validation feature.
+ */
+
+include_once 'validation.features.inc';

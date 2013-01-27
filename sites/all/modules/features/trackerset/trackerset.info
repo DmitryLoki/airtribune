@@ -1,0 +1,8 @@
+name = Trackers set
+description = Trackers set (bundle of trackers set entity)
+core = 7.x
+package = Custom bundles
+dependencies[] = eck
+dependencies[] = features
+features[eck_bundle][] = ent_trackerset_trackerset
+features[features_api][] = api:1

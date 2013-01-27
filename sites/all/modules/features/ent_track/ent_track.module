@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Track entity feature.
+ */
+
+include_once 'ent_track.features.inc';

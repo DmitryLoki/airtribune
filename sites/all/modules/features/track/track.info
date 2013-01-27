@@ -1,0 +1,14 @@
+name = Track
+description = Track (bundle of track entity)
+core = 7.x
+package = Custom bundles
+php = 5.2.4
+dependencies[] = eck
+dependencies[] = features
+dependencies[] = file
+dependencies[] = geocoder
+dependencies[] = geofield
+features[eck_bundle][] = ent_track_track
+features[features_api][] = api:1
+features[field][] = ent_track-track-field_track
+features[field][] = ent_track-track-field_track_file

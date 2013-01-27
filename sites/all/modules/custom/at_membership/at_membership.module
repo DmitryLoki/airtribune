@@ -1,0 +1,172 @@
+<?php
+
+/**
+ * @file
+ * Enable users to edit membership data.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function at_membership_menu() {
+  $items = array();
+  $items['group-membership/%at_membership/edit'] = array(
+    'type' => MENU_CALLBACK,
+    'file' => 'at_membership.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('at_membership_form', 1),
+    'access callback' => 'at_membership_access',
+    'access arguments' => array(1),
+    'title callback' => 'at_membership_title',
+    'title arguments' => array(1),
+  );
+  return $items;
+}
+
+/**
+ * Edit membership page title callback.
+ */
+function at_membership_title($og_membership) {
+  $gid = $og_membership->gid;
+  $group_type = $og_membership->group_type;
+  
+  if ($group_type == 'node') {
+    $node = node_load($gid);
+    $title = t('Edit !name group membership', array('!name' => $node->title));
+  }
+  else {
+    $title = t('Edit membership');
+  }
+  return $title;
+}
+
+/**
+ * Determine whether the current user may edit OG membership data.
+ */
+function at_membership_access($og_membership) {
+  global $user;
+  
+  $type = $og_membership->type;
+  $access = FALSE;
+  if ($og_membership->entity_type == 'user' && $og_membership->group_type == 'node') {
+    if (user_access('edit any og membership') || user_access("edit any $type og membership")) {
+      $access = TRUE;
+    }
+    elseif ((user_access('edit own group og membership') || user_access("edit own group $type og membership"))  && ($node = node_load($og_membership->gid)) && $node->uid == $user->uid) {
+      $access = TRUE;
+    }
+    elseif ((user_access('edit own og membership') || user_access("edit own $type og membership")) && $og_membership->etid == $user->uid) {
+      $access = TRUE;
+    }
+  }
+  
+  return $access;
+}
+
+/**
+ * Implement hook_permission().
+ */
+function at_membership_permission() {
+  $items = array();
+  $items['edit own og membership'] = array(
+    'title' => t('Edit OWN OG membership'),
+    'description' => t('Allow users to edit own memberships.'),
+  );
+  $items['edit own group og membership'] = array(
+    'title' => t('Edit OWN GROUP OG membership'),
+    'description' => t('Allow users to edit memberships that belong to their group.'),
+  );
+  $items['edit any og membership'] = array(
+    'title' => t('Edit ANY OG membership'),
+    'description' => t('Allow users to edit any memberships.'),
+  );
+   // Generate standard node permissions for all OG membership types.
+  foreach (at_membership_permissions_get_configured_types() as $type) {
+    $items += at_membership_list_permissions($type);
+  }
+  return $items;
+}
+
+/**
+ * Fetch OG membership.
+ */
+function at_membership_load($mid = NULL, $reset = FALSE) {
+  $mids = (isset($mid) ? array($mid) : array());
+  $og_membership = at_membership_object_load_multiple($mids, $reset);
+  
+  return $og_membership ? reset($og_membership) : FALSE;
+}
+
+/**
+ * Loads multiple OG membership entities.
+ */
+function at_membership_object_load_multiple($mids = FALSE, $conditions = array(), $reset = FALSE) {
+  return entity_load('og_membership', $mids, $conditions, $reset);
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function at_membership_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'at_membership') . '/views',
+  );
+}
+
+/**
+ * Returns an array of OG membership types that should be managed by permissions.
+ */
+function at_membership_permissions_get_configured_types() {
+
+  $configured_types = array();
+
+  foreach (at_membership_type_get_types() as $type => $info) {
+    //if (variable_get('og_membership_permissions_' . $type, 1)) {
+      $configured_types[] = $type;
+    //}
+  }
+  return $configured_types;
+}
+
+/**
+ * Helper function to generate standard OG membership permission list for a given type.
+ */
+function at_membership_list_permissions($type) {
+  $info = at_membership_type_get_type($type);
+
+  // Build standard list of OG membership permissions for this type.
+  $perms = array(
+    "edit own $type og membership" => array(
+      'title' => t('%type_name: Edit OWN OG membership', array('%type_name' => $info->description)),
+    ), 
+    "edit own group $type og membership" => array(
+      'title' => t('%type_name: Edit OWN GROUP OG membership', array('%type_name' => $info->description)),
+    ),
+    "edit any $type og membership" => array(
+      'title' => t('%type_name: Edit ANY OG membership', array('%type_name' => $info->description)),
+    ), 
+  );
+
+  return $perms;
+}
+
+/**
+ * Returns a list of all the available OG membership types. 
+ */
+function at_membership_type_get_types() {
+  $types = array();
+  $og_membership_types = entity_load('og_membership_type');
+  foreach($og_membership_types as $info) {
+    $types[$info->name] = $info;
+  }
+  return $types;
+}
+
+/**
+ * Returns the OG membership type object.
+ */
+function at_membership_type_get_type($type) {
+  $types = at_membership_type_get_types();
+  return $types[$type];
+}

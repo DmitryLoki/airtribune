@@ -1,0 +1,25 @@
+name = Airtribune
+description = "Airtribune module for testing purposes. To be refactored."
+core = 7.x
+package = Airtribune
+php = 5.2 
+files[] = translation.handler.inc
+
+dependencies[] = profile2
+dependencies[] = field_collection
+dependencies[] = name
+
+; Airtrubune user plugin requirements.
+dependencies[] = locale
+dependencies[] = menu
+dependencies[] = countryicons
+dependencies[] = countryicons_shiny
+
+; Airtrubune event title plugin requirements.
+dependencies[] = tzfield
+
+; Airtrubune event statistics plugin requirements.
+dependencies[] = og
+
+; Airtrubune event context plugin requirements.
+dependencies[] = entity

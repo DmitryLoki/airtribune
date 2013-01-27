@@ -1,0 +1,14 @@
+name = Validation
+description = Fields validation rules
+core = 7.x
+package = Other
+dependencies[] = ctools
+dependencies[] = field_validation
+features[ctools][] = field_validation:default_field_validation_rules:2
+features[features_api][] = api:1
+features[field_validation_rule][] = alphanumeric
+features[field_validation_rule][] = alphanumeric_2
+features[field_validation_rule][] = alphanumeric_sponsors
+features[field_validation_rule][] = fai_license_number
+features[field_validation_rule][] = latin
+features[field_validation_rule][] = name

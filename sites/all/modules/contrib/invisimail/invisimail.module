@@ -1,0 +1,574 @@
+<?php
+// $Id: invisimail.module,v 1.3.4.17.2.19 2011/01/06 05:08:42 crell Exp $
+
+define('INVISIMAIL_MAILTO_ASCII', '&#109;&#97;&#105;&#108;&#116;&#111;&#58;');
+
+/**
+ * @file
+ * This module provides a filter that will search content for email addresses
+ * and replace them with their ascii equivalents before display. This is not
+ * a complete protection from spam harvesters, but it is some help.
+ */
+
+/**
+ * Gets a list of all encoders defined in the system.
+ *
+ * Encoders are defined by hook_invisimail_encoder_info() and use nearly the
+ * same keys as filter definitions.  The main difference is the "label" key is
+ * used in place of "title" to avoid confusion.  All callbacks will be called
+ * from common callbacks defined by invisimail.
+ *
+ * @return array
+ *   An array of all defined encoders.
+ */
+function invisimail_get_encoders() {
+
+  $encoders = &drupal_static(__FUNCTION__, array());
+
+  if (empty($encoders)) {
+    $encoders = module_invoke_all('invisimail_encoder_info');
+    foreach (array_keys($encoders) as $encoder) {
+      $encoders[$encoder] += array(
+        'settings callback' => '',
+        'prepare callback' => '',
+        'encode callback' => '',
+        'default settings' => array(),
+      );
+    }
+    drupal_alter('invisimail_encoder_info', $encoders);
+  }
+
+  return $encoders;
+}
+
+/**
+ * Gets the definition of the specified encoder.
+ *
+ * @param string $encoder
+ *   The machine name of the encoder to load.
+ * @return
+ *   An encoder definition array or NULL if not found.
+ */
+function invisimail_get_encoder($encoder) {
+  $encoders = invisimail_get_encoders();
+  return isset($encoders[$encoder]) ? $encoders[$encoder] : NULL;
+}
+
+/**
+ * Implements hook_filter_info().
+ */
+function invisimail_filter_info() {
+
+  $filters = array();
+
+  foreach (invisimail_get_encoders() as $encoder => $encoder_info) {
+    $filters['invisimail_encode_' . $encoder] = array(
+      'title' => t('Encode email addresses: @label', array('@label' => $encoder_info['label'])),
+      'description' => t('Email addresses will be obfuscated in the page source to reduce the chances of being harvested by spammers.'),
+      'prepare callback' => 'invisimail_encode_prepare',
+      'process callback' => 'invisimail_encode_process',
+      'settings callback' => 'invisimail_encode_settings',
+      'default settings' => array(
+        'encoder' => $encoder,
+        'chunk' => FALSE,
+      ) + $encoder_info['default settings'],
+      'tips callback' => 'invisimail_encode_tips',
+    );
+  }
+
+  return $filters;
+}
+
+/**
+ * Process callback for all invisimail encoders.
+ *
+ * This callback will route the text to be processed to the general processor,
+ * which in turn will route individual email addresses to the appropriate encoder.
+ */
+function invisimail_encode_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $encoder = invisimail_get_encoder($filter->settings['encoder']);
+
+  if (function_exists($encoder['encode callback'])) {
+    return invisimail_encode_string($text, $filter->settings['encoder'], $filter->settings);
+  }
+  elseif ($encoder['encode callback']) {
+    // Process is required, so there's no default passthrough option here.
+    watchdog('invisimail', 'Invalid encode callback: @callback', array('@callback' => $encoder['encode callback']));
+    return $text;
+  }
+}
+
+/**
+ * Prepare callback for all invisimail encoders.
+ *
+ * This callback will route the text to the appropriate prepare callback for
+ * the appropriate encoder. If one is not specified it will return the text
+ * unaltered.
+ */
+function invisimail_encode_prepare($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $encoder = invisimail_get_encoder($filter->settings['encoder']);
+
+  if (function_exists($encoder['prepare callback'])) {
+    return $encoder['prepare callback']($text, $filter, $format, $langcode, $cache, $cache_id);
+  }
+  elseif ($encoder['prepare callback']) {
+    watchdog('invisimail', 'Invalid prepare callback: @callback', array('@callback' => $encoder['prepare callback']));
+  }
+  else {
+    return $text;
+  }
+}
+
+/**
+ * Settings callback for all encoding filters.
+ *
+ * This callback will call encoder-specific filtering if appropriate.
+ */
+function invisimail_encode_settings($form, &$form_state, $filter, $format, $defaults) {
+
+  $settings = $filter->settings + $defaults;
+
+  return invisimail_settings_form($form, $form_state, $defaults['encoder'], $settings);
+}
+
+/**
+ * Returns the form fragment for a given encoder's settings form.
+ *
+ * @param $form
+ *   The form we are adding to.
+ * @param $form_state
+ *   The state of the form we are adding to.
+ * @param string $encoder
+ *   The name of the encoder whose settings form we want.
+ * @param array $settings
+ *   The current settings for the form fragment values.
+ * @return array
+ *   A form fragment.
+ */
+function invisimail_settings_form($form, &$form_state, $encoder, array $settings) {
+  $element['chunk'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Break up text for filtering'),
+    '#weight' => 5,
+    '#default_value' => $settings['chunk'],
+    '#description' => t('Break up the text to be filtered into chunks with and
+                          without anchor tags.  Selecting this option may slow
+                          down the filtering of text slightly, but will provide
+                          better error messages in the <em>Recent log entries</em>
+                          should content not render as you expect it when there
+                          are e-mail addresses to obfuscate.'),
+  );
+
+  $encoder = invisimail_get_encoder($settings['encoder']);
+
+  if (function_exists($encoder['settings callback'])) {
+    $element += $encoder['settings callback']($form, $form_state, $settings);
+  }
+  elseif ($encoder['settings callback']) {
+    watchdog('invisimail', 'Invalid settings callback: @callback', array('@callback' => $encoder['settings callback']));
+  }
+  // If there was nothing specified, that's not an error and we just continue normally.
+
+  return $element;
+}
+
+/**
+ * Returns the "tips" help text for all invisimail encoders.
+ */
+function invisimail_encode_tips($filter, $format, $long = FALSE) {
+  return t('Email addresses will be obfuscated in the page source to reduce the chances of being harvested by spammers.');
+}
+
+/**
+ * Generates the two pattern matching regexes for finding email addresses.
+ *
+ * This is moved to a separate function for cleanliness, and because it's
+ * a hugely complex regex that we want to be able to encapsulate separately.
+ *
+ * @return array
+ */
+function _invisimail_email_matching_regexes() {
+  // The check for the user/name portion of the email address. This is
+  // encapsulable regex that looks for at least one valid character (in most
+  // cases, a space), preceded by one invalid character, followed by at least
+  // one valid character.
+  $valid_user_chars = 'a-zA-Z0-9_\-\.\+\^!#\$%&*+\/\=\?\`\|\{\}~\'';
+  $user = "(?<![$valid_user_chars])[$valid_user_chars]+";
+  // For the domain portion of an email addy, you can have a string domain,
+  // an ipv4 address, or an ipv6 address. These three regex capture each of
+  // those possibilities, respectively.
+  $domain = '(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}';
+  $ipv4 = '[0-9]{1,3}(?:\.[0-9]{1,3}){3}';
+  $ipv6 = '[0-9a-fA-F]{1,4}(?:[0-9a-fA-F]{1,4}){7}';
+  // Now we stick it all together into a generalized, encapsulated, portable,
+  // and non-subitem-capturing (hence all the '(?:', which mark subpatterns as
+  // non-capturing) regex for grabbing email addresses.
+  $mail = "(?:$user)+\@(?:$domain|(?:\[(?:$ipv4|$ipv6)\]))";
+  // PCRE pattern modifiers; 'i' enables case-insensitivity, and 'S' enables
+  // the additional pattern analysis, as our regex is one that can benefit
+  // (it is a non-anchored pattern without a single fixed starting character.
+  // see http://us2.php.net/manual/en/reference.pcre.pattern.modifiers.php).
+  // Global case insensitivity is a little sloppy to use, but selectively
+  // toggling it within only some of the subpatterns isn't really worth the
+  // effort.
+  $modifiers = 'iS';
+  // The final pattern. We deal with these as an entire group because invisimail
+  // allows options that require us to deal with both an href and its text
+  // in relation to one another.
+  $pattern = "@(?:(<a [^>]*href=['\"](mailto:$mail)['\"][^>]*>)?((?".">(?<!mailto:))$mail))|(<a [^>]*href=['\"](mailto:$mail)['\"][^>]*>(.*?)</a>)@$modifiers";
+  $pattern_diff_link_text = "@(<a [^>]*href=['\"](mailto:$mail)['\"][^>]*>(.*?)</a>)@$modifiers";
+  $pattern_same_link_text = "@(?:(<a [^>]*href=['\"](mailto:$mail)['\"][^>]*>)?((?".">(?<!mailto:))$mail))@$modifiers";
+
+  return array(
+    'diff_link' => $pattern_diff_link_text,
+    'same_link' => $pattern_same_link_text,
+  );
+}
+
+/**
+ * Encodes all email addresses in a string using the specified encoder.
+ *
+ * @param string $string
+ *   The string to encode.
+ * @param string $encoder_id
+ *   The machine name of the encoder to use.
+ * @param array $settings
+ *   The settings to use for the specified encoder.
+ * @return string
+ *   The original string with email addresses obfuscated from spambots.
+ */
+function invisimail_encode_string($string, $encoder_id, array $settings = array()) {
+  $encoder = invisimail_get_encoder($encoder_id);
+
+  // PHP doens't allow preg callbacks to take arguments, so we have to toss
+  // the configuration options into a global temporarily.  This is so disgusting.
+  $settings['callback'] = $encoder['encode callback'];
+  $GLOBALS['invisimail_settings'] = $settings;
+
+  $patterns = _invisimail_email_matching_regexes();
+
+  // Chunking will help determine in which portion of the overall string a call
+  // to preg_replace_callback may fail.
+  if (isset($settings['chunk']) && $settings['chunk']) {
+    $substrings = preg_split( '/(<a [^>]*>.+?<\/a>)/', $string, -1, PREG_SPLIT_DELIM_CAPTURE );
+  }
+  else {
+    $substrings = array( $string );
+  }
+
+  $return = '';
+  foreach ( $substrings as $phrase ) {
+    // Call preg_replace_callback twice to avoid prolems with hitting the
+    // backtrack limit, as the more complex $pattern has issues with domains more
+    // than 13 characters.
+    $replaced_phrase = preg_replace_callback($patterns['diff_link'], '_invisimail_process_emails_callback', $phrase);
+    if ($error_code = preg_last_error()) {
+      watchdog('invisimail', 'preg_replace_callback failed on first pass with preg_last_error() of !code with pattern %pattern on text: !text',
+            array(
+              '!code'=>$error_code,
+              '%pattern' => check_plain($pattern_diff_link_text),
+              '!text' => check_plain($phrase),
+            ),
+            WATCHDOG_ERROR,
+            request_uri());
+    }
+    $replaced_phrase = preg_replace_callback($patterns['same_link'], '_invisimail_process_emails_callback', $replaced_phrase);
+    if ($error_code = preg_last_error()) {
+      watchdog('invisimail', 'preg_replace_callback failed on second pass with preg_last_error() of !code with pattern %pattern on text: !text',
+            array(
+              '!code'=>$error_code,
+              '%pattern' => check_plain($pattern_same_link_text),
+              '!text' => check_plain($phrase),
+            ),
+            WATCHDOG_ERROR,
+            request_uri());
+    }
+    $return .= $replaced_phrase;
+  }
+
+  // Clean up our global.
+  unset($GLOBALS['invisimail_settings']);
+
+  return $return;
+}
+
+/**
+ * Callback function used by preg_replace_callback.
+ *
+ * Expects the regex pattern defined in _invisimail_email_matching_regexes() to be used.
+ *
+ * @param array $matches
+ *  An array of matched patterns from our regex. Any match will have four keys,
+ *  numbered 0-3, which correspond to the capturing groups in our regex. For all
+ *  these examples, assume the following string:
+ *  <p><a href="mailto:user@domain.com">user@domain.com</a></p>
+ *    - 0: The entire matched string. This will include the email address, as
+ *      well as that email address' corresponding href mailto iff it exists. In
+ *      the example, it would be
+ *        <a href="mailto:user@domain.com">user@domain.com
+ *    - 1: The full string of the <a> tag portion of the match, iff that portion
+ *      was matched; otherwise an empty string. In the example, it would be
+ *        <a href="mailto:user@domain.com">
+ *    - 2: The mailto + email address string from the href portion of the match,
+ *      iff an href was found. In the example, it would be:
+ *        mailto:user@domain.com
+ *    - 3: The email address itself. In the example, just:
+ *      user@domain.com
+ *  for the next set of array elements, assume the following string:
+ *  <p><a href="mailto:user@domain.com">click here to eMail</a></p>
+ *    - 1: The entire matched string, but this time where the link text does not
+ *      match the mailto address.  In the example, it would be
+ *        <a href="mailto:user@domain.com">click here to eMail
+ *    - 2:The mailto + email address string from the href portion of the match,
+ *      iff an href was found. In the example, it would be:
+ *        mailto:user@domain.com
+ *    - 3: The link text. In the example, just:
+ *      click here to eMail
+ *
+ * @return string
+ *   The full ASCII-encoded string that will replace the entire match.
+ */
+function _invisimail_process_emails_callback(array $matches) {
+  $settings = $GLOBALS['invisimail_settings'];
+
+  // If $matches[1] is empty, no link portion was matched for this item, so
+  // it's a simple replace operation.
+  if (empty($matches[1])) {
+    return $settings['callback']($matches[3], $settings);
+    //return invisimail_ascii_encode($matches[3], $format['js'], $format['link']);
+  }
+
+  // If $matches[3] is something other than the eMail address, then we
+  // matched on an <a> tag that didn't have the link text the same as the
+  // mailto eMail address, so just replace the eMail address
+  if ( $matches[2] != 'mailto:'.$matches[3] ) {
+    return str_replace($matches[2], $settings['callback']($matches[2], $settings, TRUE), $matches[0]);
+  }
+
+  // We DO have an existing link portion. Do our best to preserve it; that means
+  // ignoring the js setting, since it makes for heinous string transformations.
+  return str_replace(array($matches[2], $matches[3]),
+    array($settings['callback']($matches[2], $settings, TRUE), $settings['callback']($matches[3], $settings, TRUE)), $matches[0]);
+}
+
+/**
+ * Translates a string into its HTML entity version.
+ *
+ * Unlike PHP's htmlentities() and htmlspecialchars() functions, this function
+ * will convert all characters in the string unequivocably.  That makes it useful
+ * for obfuscation, since browsers will treat the string exactly the same but
+ * most humans and spambots won't have a clue how to read it.
+ *
+ * @param string $string
+ *   An arbitrary string to encode as HTML entities.
+ * @return string
+ *   The same string encoded in raw, obfuscated HTML entities.
+ */
+function invisimail_encode_html($string) {
+  $encode = '';
+  for ($i=0; $i < strlen($string); $i++)   {
+    $char = substr($string, $i, 1);
+    $encode .= '&#'.ord($char).';';
+  }
+
+  return $encode;
+}
+
+/**
+ * Encodes a single email address using the specified encoder.
+ *
+ * @param string $email
+ *   The email address to encode.
+ * @param string $encoder
+ *   The machine name of the encoder to use.
+ * @param array $settings
+ *   An array of settings for this encoder.  If not specified, the encoder
+ *   defaults will be used.
+ * @return string
+ *   The encoded email address.
+ */
+function invisimail_encode_email($email, $encoder, array $settings = array()) {
+  $encoder_info = invisimail_get_encoder($encoder);
+  $encoder_settings = $settings + $encoder_info['default settings'];
+
+  return $encoder_info['encode callback']($email, $settings, FALSE);
+}
+
+
+// ---------- Field Formatter implementations ---------- //
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function invisimail_field_formatter_info() {
+
+  foreach (invisimail_get_encoders() as $encoder => $encoder_info) {
+    $formats['invisimail_' . $encoder] = array(
+      'label' => t('Invisimail: @encoder', array('@encoder' => $encoder_info['label'])),
+      'field types' => array('email'),
+      'settings' => $encoder_info['default settings'] + array('encoder' => $encoder),
+    );
+  }
+
+  return $formats;
+}
+
+/**
+ * Implements callback_field_formatter_view().
+ */
+function invisimail_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  foreach ($items as $delta => $item) {
+    $element[$delta] = array('#markup' => invisimail_encode_email($item['email'], $settings['encoder'], $settings));
+  }
+
+  return $element;
+}
+
+/**
+ * Implements callback_field_formatter_settings_form().
+ */
+function invisimail_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  return invisimail_settings_form($form, $form_state, $settings['encoder'], $settings);
+}
+
+/**
+ * Implements callback_field_formatter_settings_summary().
+ */
+function invisimail_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = '';
+
+  if ($display['type'] == 'invisimail') {
+    $encoder = invisimail_get_encoder($settings['encoder']);
+    $summary = t('Email addresses will be encoded using the %encoder encoder.', array('%encoder' => $encoder['label']));
+  }
+
+  return t('Hello world');
+}
+
+// ---------- Implementations of the core engine ---------- //
+
+/**
+ * Implements hook_invisimail_encoder_info().
+ */
+function invisimail_invisimail_encoder_info() {
+
+  $encoders['html_entities'] = array(
+    'label' => t('HTML entities'),
+    'settings callback' => 'invisimail_encoder_html_entities_settings',
+    'encode callback' => 'invisimail_encoder_html_entities_encode',
+    'default settings' => array('link' => 0),
+
+  );
+
+  $encoders['js_entities'] = array(
+    'label' => t('Javascript-wrapped HTML entities'),
+    'settings callback' => 'invisimail_encoder_js_entities_settings',
+    'encode callback' => 'invisimail_encoder_js_entities_encode',
+    'default settings' => array('link' => 0),
+  );
+
+  return $encoders;
+}
+
+// ----- HTML Entities encoder ----- //
+
+/**
+ * Settings form callback for the html_entities encoder.
+ */
+function invisimail_encoder_html_entities_settings($form, &$form_state, $settings) {
+
+  $element['link'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Automatically create links from email addresses.'),
+    '#default_value' => $settings['link'],
+    '#description' => t('Selecting "Automatically create links" will convert email addresses into a clickable "mailto:" link.'),
+  );
+
+  return $element;
+}
+
+/**
+ * Encoding callback for the html_entities encoder.
+ */
+function invisimail_encoder_html_entities_encode($string, $settings = array(), $is_link = FALSE) {
+  $encode = invisimail_encode_html($string);
+
+  if ($settings['link'] && !$is_link) {
+    $encode = '<a href="' . INVISIMAIL_MAILTO_ASCII . "$encode\">$encode</a>";
+  }
+
+  return $encode;
+}
+
+// ----- Javascript encoder ----- //
+
+/**
+ * Settings form callback for the js_entities encoder.
+ */
+function invisimail_encoder_js_entities_settings($form, &$form_state, $settings) {
+
+  $element['link'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Automatically create links from email addresses.'),
+    '#default_value' => $settings['link'],
+    '#description' => t('Selecting "Automatically create links" will convert email addresses into a clickable "mailto:" link.'),
+  );
+
+  return $element;
+}
+
+/**
+ * Encoding callback for the js_entities encoder.
+ *
+ * Note that a link that is already a link cannot be Javascript encoded, since
+ * the link element is already created.  Instead we just fallback to HTML
+ * encoding in that case.  A best-attempt will be made, however, to handle
+ * non-existing-links properly, possibly turning them into links if so
+ * configured.
+ *
+ */
+function invisimail_encoder_js_entities_encode($string, $settings = array(), $is_link = FALSE) {
+  static $counter = 1;
+
+  // First encode the string as HTML entities, which will then be Javascript-
+  // injected into the page.
+  $encode = invisimail_encode_html($string);
+
+  // If the email address is already inside a link we cannot use JS encoding on
+  // it, since we cannot modify the <a> element and cannot inject our placeholder
+  // span inside the href itself.  We therefore don't bother and just use the
+  // basic HTML encoding.
+  if ($is_link) {
+    return $encode;
+  }
+
+  if ($settings['link']) {
+    $mailto = INVISIMAIL_MAILTO_ASCII;
+    $encode = "<a href=\"{$mailto}{$encode}\">{$encode}</a>";
+  }
+
+  // We have to obfuscate the ID to avoid having a regular pattern for the names.
+  // if we had an ID format like "invisimail_$counter", then spambots could
+  // easily detect that string and know to parse the HTML entities that follow
+  // back into an email address.  We use sha1() instead of md5() because md5()
+  // is not allowed at all on government sites due to paranoia.
+  $link_id = sha1("mailto_link_{$counter}");
+  $counter++;
+  $output = <<<JS
+  <span id="{$link_id}"></span>
+<script type="text/javascript"> <!--
+  document.getElementById('{$link_id}').innerHTML = '{$encode}';
+// --> </script>
+JS;
+
+  return $output;
+}

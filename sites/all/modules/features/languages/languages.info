@@ -1,0 +1,9 @@
+name = Languages
+core = 7.x
+package = Other
+php = 5.2.4
+dependencies[] = features
+dependencies[] = locale
+features[features_api][] = api:1
+features[language][] = en
+features[language][] = ru

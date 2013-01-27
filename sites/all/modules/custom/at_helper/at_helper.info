@@ -1,0 +1,5 @@
+name = Airtribune helper
+description = Provides helper functionality for Airtribune. To be refactored.
+package = Airtribune
+core = 7.x
+dependencies[] = views

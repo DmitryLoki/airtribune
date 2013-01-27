@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * Implements hook_element_info().
+ */
+function elements_element_info() {
+  $types['emailfield'] = array(
+    '#input' => TRUE,
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#autocomplete_path' => FALSE,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'emailfield',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $types['searchfield'] = array(
+    '#input' => TRUE,
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#autocomplete_path' => FALSE,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'searchfield',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $types['telfield'] = array(
+    '#input' => TRUE,
+    '#size' => 20,
+    '#maxlength' => 64,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'telfield',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $types['urlfield'] = array(
+    '#input' => TRUE,
+    '#size' => 80,
+    '#maxlength' => 128,
+    '#autocomplete_path' => FALSE,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'urlfield',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $types['numberfield'] = array(
+    '#input' => TRUE,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'numberfield',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $types['rangefield'] = array(
+    '#input' => TRUE,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'rangefield',
+    '#theme_wrappers' => array('form_element'),
+  );
+
+  return $types;
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function elements_element_info_alter(&$types) {
+  // Add placeholder support to textfields and textareas.
+  foreach (array_keys($types) as $type) {
+    switch ($type) {
+      case 'textfield':
+      case 'textarea':
+        $types[$type]['#process'][] = 'form_process_placeholder';
+        break;
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function elements_theme() {
+  return array(
+    'emailfield' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+      'file' => 'elements.theme.inc',
+    ),
+    'searchfield' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+      'file' => 'elements.theme.inc',
+    ),
+    'telfield' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+      'file' => 'elements.theme.inc',
+    ),
+    'urlfield' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+      'file' => 'elements.theme.inc',
+    ),
+    'numberfield' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+      'file' => 'elements.theme.inc',
+    ),
+    'rangefield' => array(
+      'arguments' => array('element' => NULL),
+      'render element' => 'element',
+      'file' => 'elements.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Return the autocompletion HTML for a form element.
+ *
+ * @param $element
+ *   The renderable element to process for autocompletion.
+ *
+ * @return
+ *   The rendered autocompletion element HTML, or an empty string if the field
+ *   has no autocompletion enabled.
+ */
+function elements_add_autocomplete(&$element) {
+  $extra = '';
+
+  if (!empty($element['#autocomplete_path']) && drupal_valid_path($element['#autocomplete_path'])) {
+    drupal_add_library('system', 'drupal.autocomplete');
+    $element['#attributes']['class'][] = 'form-autocomplete';
+
+    $attributes = array();
+    $attributes['type'] = 'hidden';
+    $attributes['id'] = $element['#attributes']['id'] . '-autocomplete';
+    $attributes['value'] = url($element['#autocomplete_path'], array('absolute' => TRUE));
+    $attributes['disabled'] = 'disabled';
+    $attributes['class'][] = 'autocomplete';
+    $extra = '<input' . drupal_attributes($attributes) . ' />';
+  }
+
+  return $extra;
+}
+
+/**
+ * Element process callback; adds support for the HTML5 placeholder attribute.
+ *
+ * @param $element
+ *   An associative array containing the properties of the element.
+ *
+ * @return
+ *   The processed element.
+ */
+function form_process_placeholder($element) {
+  if (isset($element['#placeholder']) && !isset($element['#attributes']['placeholder'])) {
+    // If the placeholder FAPI property is set, simply add it to the form's
+    // attributes so it will be output in the HTML tag.
+    $element['#attributes']['placeholder'] = $element['#placeholder'];
+  }
+  return $element;
+}

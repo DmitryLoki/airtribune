@@ -1,0 +1,15 @@
+name = Rules feature
+description = Rules settings
+core = 7.x
+package = Other
+php = 5.2.4
+dependencies[] = entity
+dependencies[] = og
+dependencies[] = path
+dependencies[] = rules
+features[features_api][] = api:1
+features[rules_config][] = rules_create_not_og_blog_alias
+features[rules_config][] = rules_create_og_blog_alias
+features[rules_config][] = rules_og_pilot_subscribe
+features[rules_config][] = rules_pg_contestant_active
+features[rules_config][] = rules_pg_contestant_pending

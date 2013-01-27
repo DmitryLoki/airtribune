@@ -1,0 +1,288 @@
+<?php
+
+/**
+ * @file
+ *
+ * Test cases for User Import Framework Plus module
+ *
+ */
+class UIFPlusTestCase extends DrupalWebTestCase {
+
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'User import plus - General',
+      'description' => 'Test general user import framework plus functionality.',
+      'group' => 'User Import Framework Plus',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif', 'uif_plus');
+    $this->import_user = $this->drupalCreateUser(array('import users'));
+  }
+
+  /**
+   * Test the selection of a value delimiter on the UIF form, added by UIF Plus.
+   * When UIF Plus imports data for the extra field, the value_delimiter is
+   * stored in a Drupal persistent variable
+   */
+  public function testUIFPlusBasic() {
+    $this->drupalLogin($this->import_user);
+
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif_plus') . '/data/test_var.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Preview these records and when ready to import click Import users', array()));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+  }
+
+  /**
+   * Test wrong headers in CSV file. There should be a warning that the field(s) will be
+   * ignored in the data import.
+   */
+  public function testUIFPlusWrongHeader() {
+    $this->drupalLogin($this->import_user);
+
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif_plus') . '/data/test_headers_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->assertText(t('Unknown column profile_employer in the import file. Data in this column will be ignored', array()));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+  }
+
+}
+
+class UIFPlusOgFieldsTestCase extends DrupalWebTestCase {
+
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'User import plus - OG',
+      'description' => 'Test user import framework plus with OG fields.',
+      'group' => 'User Import Framework Plus',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif', 'uif_plus', 'og', 'og_ui');
+    $this->import_user = $this->drupalCreateUser(array('import users', 'administer users', 'access content', 'administer content types', 'create page content', 'edit any page content', 'administer group'));
+  }
+
+  /**
+   * Test import of og group memberships
+   */
+  public function testUIFPlusOgFieldImport() {
+    $this->drupalLogin($this->import_user);
+
+    // Create a group.
+    og_create_field(OG_GROUP_FIELD, 'node', 'page');
+
+    $settings = array();
+    $settings['title'] = t('Group 1');
+    $settings['type'] = 'page';
+    $settings['uid'] = $this->import_user->uid;
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $node = $this->drupalCreateNode($settings);
+
+    $this->drupalGet('node/' . $node->nid);
+    $this->assertText(t('Group 1'), t('Group 1 is.'));
+    $this->assertText(t('You are the group manager'), t('Group manager gets correct text.'));
+
+    // check total members
+    $memberships = og_membership_load_multiple(FALSE, array('gid' => $node->nid, 'entity_type' => 'user'));
+    $this->assertEqual(count($memberships), 1, t('Found 1 OG membership.'));
+
+    // import user into the group
+    variable_set('uif_value_delimiter', '_:_');
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif_plus') . '/data/test_og_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    $this->assertText(t('One user was created', array()));
+
+    $memberships2 = og_membership_load_multiple(FALSE, array('gid' => $node->nid, 'entity_type' => 'user'));
+    $this->assertEqual(count($memberships2), 2, t('Found 2 OG memberships.'));
+
+    // check og_membership of new user
+    $accounts = user_load_multiple(array(), array('name' => 'flintstone', 'mail' => 'flintstone@bedrock.com'));
+    $new_user = reset($accounts);
+
+    $this->assertEqual($new_user->name, 'flintstone', 'User flinstone found');
+    // Assert the user is a group member.
+    // Note: Method signature of og_is_member() is different in og-1.x and og-2.x
+    if (uif_plus_check_og_version_1()) {
+      $this->assertTrue(og_is_member($node->nid, 'user', $new_user), t('User flinstone is a group member of Group 1'));
+    }
+    else {
+      $this->assertTrue(og_is_member('node', $node->nid, 'user', $new_user), t('User flinstone is a group member of Group 1'));
+    }
+  }
+
+}
+
+class UIFPlusProfileFieldsTestCase extends DrupalWebTestCase {
+
+  protected $import_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'User import plus - Profile2',
+      'description' => 'Test user import framework plus with Profile2 fields.',
+      'group' => 'User Import Framework Plus',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif', 'uif_plus', 'profile2', 'entity_feature');
+    $this->import_user = $this->drupalCreateUser(array('import users'));
+
+    // The main profile2 type is created during module installation. Add a field to it
+    $field = array(
+      'field_name' => 'profile_fullname',
+      'type' => 'text',
+      'cardinality' => 1
+    );
+    field_create_field($field);
+    $instance = array(
+      'entity_type' => 'profile2',
+      'field_name' => 'profile_fullname',
+      'bundle' => 'main',
+      'label' => 'Full name',
+      'description' => 'Specify your first and last name.',
+      'widget' => array(
+        'type' => 'text_textfield',
+        'weight' => 0,
+      ),
+    );
+    field_create_instance($instance);
+  }
+
+  /**
+   * Test import of profile2 fields
+   */
+  public function testUIFPlusProfile2FieldImport() {
+    $this->drupalLogin($this->import_user);
+    // import user
+    variable_set('uif_value_delimiter', '_:_');
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif_plus') . '/data/test_profile2_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    //$this->assertText(t('Unknown column profile_fullname in the import file. Data in this column will be ignored.', array()));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    $this->assertText(t('One user was created', array()));
+    // load imported user
+    $accounts = user_load_multiple(array(), array('name' => 'flintstone', 'mail' => 'flintstone@bedrock.com'));
+    $new_user = reset($accounts);
+    // load and check
+    $this->assertEqual(profile2_load_by_user($new_user, 'main')->profile_fullname[LANGUAGE_NONE][0]['value'], 'Fred Flintstone', 'Profile2 field imported successfully');
+  }
+
+  /**
+   * Test import of multiple values separated by a value delimiter
+   */
+  public function testUIFPlusMultiCardinalityFieldImport() {
+    $this->drupalLogin($this->import_user);
+
+    // The main profile2 type is created during module installation. Add a field to it
+    $field = array(
+      'field_name' => 'field_interests',
+      'type' => 'text',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED
+    );
+    field_create_field($field);
+    $instance = array(
+      'entity_type' => 'user',
+      'field_name' => 'field_interests',
+      'bundle' => 'user',
+      'label' => 'Interests',
+      'description' => 'Enter your interests',
+    );
+    field_create_instance($instance);
+
+    variable_set('uif_value_delimiter', '_:_');
+    // import user
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif_plus') . '/data/test_profile2_2.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    $this->assertText(t('One user was created', array()));
+    // load imported user
+    $accounts = user_load_multiple(array(), array('name' => 'barney', 'mail' => 'barney@bedrock.com'));
+    $new_user = reset($accounts);
+
+    $this->assertEqual($new_user->field_interests[LANGUAGE_NONE][0]['value'], 'bowling', t('Interest 1: bowling, for User: @user imported successfully', array('@user' => $new_user->name)));
+    $this->assertEqual($new_user->field_interests[LANGUAGE_NONE][1]['value'], 'poker', t('Interest 2: poker, for User: @user imported successfully', array('@user' => $new_user->name)));
+    $this->assertEqual($new_user->field_interests[LANGUAGE_NONE][2]['value'], 'playing golf', t('Interest 3: playing golf, for User: @user imported successfully', array('@user' => $new_user->name)));
+  }
+
+}
+
+class UIFPlusImageFieldsTestCase extends DrupalWebTestCase {
+
+  protected $admin_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'User import plus - Images',
+      'description' => 'Test user import framework plus with Images fields.',
+      'group' => 'User Import Framework Plus',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('uif', 'uif_plus', 'profile2', 'entity_feature');
+    $this->admin_user = $this->drupalCreateUser(array('administer users', 'import users'));
+
+    // prepare for image upload
+    variable_set('user_pictures', 1);
+
+    // Check that directories specified in settings exist in filesystem.
+    $file_dir = file_default_scheme();
+    $file_check = file_prepare_directory($file_dir, FILE_CREATE_DIRECTORY);
+
+    $picture_dir = variable_get('user_picture_path', 'pictures');
+    $picture_path = $file_dir . $picture_dir;
+
+    $pic_check = file_prepare_directory($picture_path, FILE_CREATE_DIRECTORY);
+
+    // create image
+    $image = current($this->drupalGetTestFiles('image'));
+    $info = image_get_info($image->uri);
+
+    // copy to the expected location and rename it to freddie.jpg
+    $copied_image_uri = file_unmanaged_copy($image->uri, file_default_scheme() . '://uif_plus/freddie.jpg', FILE_EXISTS_REPLACE);
+  }
+
+  /**
+   * Test import if user pictures
+   */
+  public function testUIFPlusUserPictureFieldImport() {
+    // We need an admin user that can import users and view any user's account page
+    $this->drupalLogin($this->admin_user);
+
+    variable_set('uif_value_delimiter', '_:_');
+    // import user
+    $edit = array();
+    $edit['files[user_upload]'] = DRUPAL_ROOT . '/' . drupal_get_path('module', 'uif_plus') . '/data/test_images_1.csv';
+    $this->drupalPost('admin/people/uif', $edit, t('Next'));
+    $this->drupalPost(NULL, array(), t('Import users'));
+    $this->assertText(t('User import complete', array()));
+    $this->assertText(t('One user was created', array()));
+    // load imported user and log them in
+    $accounts = user_load_multiple(array(), array('name' => 'flintstone', 'mail' => 'flintstone@bedrock.com'));
+    $new_user = reset($accounts);
+
+    // Check image on new user's profile page.
+    $this->drupalGet('user/' . $new_user->uid);
+    $this->assertRaw(file_uri_target($new_user->picture->uri), t("Uploaded image is displayed in user's profile page"));
+  }
+
+}

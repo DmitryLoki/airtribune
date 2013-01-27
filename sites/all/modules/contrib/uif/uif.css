@@ -1,0 +1,10 @@
+
+#uif_user_preview table {
+  border: 1px solid #999;
+  margin-bottom: 1em;
+}
+div.uif_help_section {
+  font-size: .85em;
+  color: #555;
+  margin: .6em 0;
+}

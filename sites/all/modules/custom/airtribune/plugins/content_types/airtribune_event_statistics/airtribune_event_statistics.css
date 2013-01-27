@@ -1,0 +1,63 @@
+.es-pane {
+  font-size: 18px;
+  line-height: 1;
+  color: #333a40;
+}
+.es-count {
+  font-size: 60px;
+  font-weight: bold;
+  text-align: right;
+  min-width:58px;
+}
+.es-pilots,
+.es-places,
+.es-count,
+.es-label {
+  float: left;
+}
+.es-label span {
+  font-size: 14px;
+  font-weight: normal;
+  display:inline-block;
+  top:-1px;
+  position:relative;
+}
+.es-label {
+  margin: 19px 0 0 12px;
+}
+.es-pilots-confirmed,
+.es-pilots-waiting,
+.es-accommodation,
+.es-activities {
+  padding: 5px 0 11px;
+  height: 55px;
+}
+.es-places {
+  margin-left: 20px;
+}
+
+/* Colors */
+.es-pilots-confirmed .es-count {
+  color: #c8d40e;
+}
+.es-pilots-waiting .es-count {
+  color: #a3b9cc;
+}
+.es-accommodation .es-count {
+  color: #ffbd20;
+}
+.es-activities .es-count {
+  color: #ffc438;
+}
+.es-pilots-confirmed .es-label span {
+  color: #868d1a;
+}
+.es-pilots-waiting .es-label span {
+  color: #7e8c98;
+}
+.es-accommodation .es-label span {
+  color: #9f7a23;
+}
+.es-activities .es-label span {
+  color: #9f7a23;
+}

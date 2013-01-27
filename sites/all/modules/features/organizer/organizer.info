@@ -1,0 +1,8 @@
+name = Organizer
+description = Organizer profile
+core = 7.x
+package = Contributed entities
+dependencies[] = entity
+dependencies[] = profile2
+features[features_api][] = api:1
+features[profile2_type][] = organizer_profile

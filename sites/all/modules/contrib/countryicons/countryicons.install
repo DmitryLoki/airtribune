@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the countryicons module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function countryicons_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    if (count(countryicons_get_iconsets()) == 0) {
+      $requirements['countryicons_iconset'] = array(
+        'title' => $t('Country Icon iconset'),
+        'value' => $t('No Country Icon iconset available'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $t('Country Icons requires a iconset such as !shiny or !glossy_shade to function. Download and the go to !modules and enable at least one of them.', array('!modules' => l('admin/build/modules', 'admin/build/modules'), '!shiny' => l('Shiny', 'http://drupal.org/project/countryicons_shiny'), '!glossy_shade' => l('Glossy Shade', 'http://drupal.org/project/countryicons_glossy_shade'))),
+      );
+    }
+  }
+
+  return $requirements;
+}

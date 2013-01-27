@@ -1,0 +1,13 @@
+name = Sync Postgis Query
+description = Perform geospatial queries against your postgis database
+core = 7.x
+
+dependencies[] = sync_postgis
+
+files[] = sync_postgis_query.inc
+; Information added by drupal.org packaging script on 2012-03-28
+version = "7.x-1.0"
+core = "7.x"
+project = "sync_postgis"
+datestamp = "1332968760"
+
