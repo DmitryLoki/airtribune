@@ -269,3 +269,28 @@ function at_helper_og_form_validate($form, &$form_state) {
     }
   }
 }
+
+/**
+ * Implements hook_views_query_alter()
+ */
+function at_helper_views_query_alter(&$view, &$query) {
+  if ($view->name == 'events_map') {
+    // Remove extra filters.
+    switch ($_GET['q']) {
+      case 'events/current' :
+        unset($query->where[1]['conditions'][2]);
+        unset($query->where[1]['conditions'][3]);
+        break;
+      case 'events/past' :
+        unset($query->where[1]['conditions'][2]);
+        unset($query->where[1]['conditions'][4]);
+        unset($query->where[1]['conditions'][5]);
+        break;
+      default :
+        unset($query->where[1]['conditions'][3]);
+        unset($query->where[1]['conditions'][4]);
+        unset($query->where[1]['conditions'][5]);
+        break;
+    }
+  }
+}

@@ -562,10 +562,9 @@ function organic_groups_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
-          'weight' => 0,
+          'type' => 'hidden',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'user',

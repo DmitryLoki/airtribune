@@ -173,6 +173,37 @@ function pg_contest_create_points($fid, $nid) {
 }
 
 /**
+ * Remove existing alises for path.
+ *
+ */
+function _pg_contestant_path_delete($url) {
+    $criteria = path_load($url);
+    if (!empty($criteria)) {
+      $criteria = array('source' => $criteria['source']);
+      path_delete($criteria);
+    }
+}
+
+/**
+ * Initialize urls of pages 
+ * @param $nid - node nid
+ * @return array
+ */
+function _pg_contest_urls_init($nid) {
+    $result = array();
+    $result['url_base'] = "event/$nid";
+    $result['url_pages'] = array(
+        '/info',
+        '/info/details',
+        '/blog',
+        '/pilots',
+        '/map',
+        '/register',
+    );
+    return $result;
+}
+
+/**
  * Create contest alias.
  * @author Alexandr Kapelshikov
  */
@@ -181,20 +212,21 @@ function _pg_contest_create_alias($node) {
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
     $alias_base = pathauto_cleanstring($node->title);
+    $urls_init = _pg_contest_urls_init($node->nid);
+    $url_base = $urls_init['url_base'];
+    $url_pages = $urls_init['url_pages'];
+    $aliases = array($alias_base => $url_base);
+    
     // Remove existing alises.
-    foreach (array("event/$nid", "event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
-      $criteria = path_load($source);
-      if (!empty($criteria)) {
-        $criteria = array('source' => $criteria['source']);
-        path_delete($criteria);
-      }
+    _pg_contestant_path_delete($url_base);
+    foreach ($url_pages as $source) {
+      $url_curr = $url_base . $source;  
+      _pg_contestant_path_delete($url_curr);
+      
+      //Create aliases array
+      $aliases[$alias_base . $source] = $url_curr;
     }
-    $aliases = array(
-      $alias_base => "event/$nid",
-      $alias_base . '/info' => "event/$nid/info",
-      $alias_base . '/details' => "event/$nid/details",
-      $alias_base . '/blog' => "event/$nid/blog",
-    );
+    
     // Save aliases.
     foreach ($aliases as $alias => $source) {
       $path = array('source' => $source, 'alias' => $alias);
@@ -211,13 +243,15 @@ function _pg_contest_delete_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
     $nid = $node->nid;
+    $urls_init = _pg_contest_urls_init($node->nid);
+    $url_base = $urls_init['url_base'];
+    $url_pages = $urls_init['url_pages'];
+    
     // Remove existing alises.
-    foreach (array("event/$nid", "event/$nid/info", "event/$nid/details", "event/$nid/blog") as $source) {
-      $criteria = path_load($source);
-      if (!empty($criteria)) {
-        $criteria = array('source' => $criteria['source']);
-        path_delete($criteria);
-      }
+    _pg_contestant_path_delete($url_base);
+    foreach ($url_pages as $source) {
+      $url_curr = $url_base . $source;  
+      _pg_contestant_path_delete($url_curr);
     }
   }
 }
