@@ -2717,6 +2717,7 @@ p { margin:0; padding:9px 0 11px}
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
 .panel_info .pane-node-field-collection-organizers .pane-content { margin:18px 0 0}
+.page-event-info .pane-node-field-collection-organizers .pane-content { padding-top:1px}
 .pane-node-field-collection-organizers .field-name-field-organizer-logo .field-item { position:relative; border:1px solid #a2afb5; display:inline-block; height:40px; overflow:hidden; line-height:38px;
 
 	-webkit-border-radius: 4px; 
@@ -2730,7 +2731,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-logo { vertical-align:middle; height:42px; overflow:hidden}
 .page-event-info .pane-node-field-collection-organizers .field-name-field-organizer-name { vertical-align:middle; width:145px; margin-left:9px; color:#3d464c}
 .page-event-info .pane-node-field-collection-organizers img { vertical-align:middle;}
-.page-event-info .panel_info .pane-node-field-collection-organizers .more-link { margin:0 0 -1px}
+/*.page-event-info .panel_info .pane-node-field-collection-organizers .more-link { margin:0 0 -1px}*/
 
 /* Twitter */
 .pane-airtribune-event-twitter {}

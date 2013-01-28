@@ -158,9 +158,11 @@ function airtribune2_preprocess_pane_messages(&$vars) {
 	
   $vars['primary_local_tasks'] = menu_primary_local_tasks();
   $vars['secondary_local_tasks'] = menu_secondary_local_tasks();
-  foreach($vars['primary_local_tasks'] as $k => $v){
-	  if($v['#link']['path'] == 'event/%/register'){
-		  $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'] = 'registration';
+  if(!empty($vars['primary_local_tasks'])){
+    foreach($vars['primary_local_tasks'] as $k => $v){
+		  if($v['#link']['path'] == 'event/%/register'){
+			  $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'] = 'registration';
+		  }
 	  }
   }
 }
