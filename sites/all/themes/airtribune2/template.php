@@ -800,3 +800,38 @@ function airtribune2_theme() {
 		),
 	);
 }
+
+/**
+ * Implements theme_file_icon.
+ */
+function airtribune2_file_icon($variables) {
+  $icons = array(
+    'dem' => 'dem.png',
+    'doc' => 'doc.png',
+    'docx' => 'docx.png',
+    'jpg' => 'jpg.png',
+    'lkm' => 'lkm.png',
+    'odc' => 'odc.png',
+    'odt' => 'odt.png',
+    'pdf' => 'pdf.png',
+    'png' => 'png.png',
+    'tpl' => 'tpl.png',
+    'txt' => 'txt.png',
+    'wpt' => 'wpt.png',
+    'xcm' => 'xcm.png',
+    'xls' => 'xls.png',
+    'xlsx' => 'xlsx.png',
+  );
+  $file = $variables['file'];
+  $icon_directory = $variables['icon_directory'];
+
+  $mime = check_plain($file->filemime);
+  $path_info = pathinfo($file->filename);
+  if(!empty($icons[$path_info['extension']])){
+	$icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
+  }
+  else{
+  	$icon_url = file_icon_url($file, $icon_directory);
+  }
+  return '<img class="file-icon" alt="" title="' . $mime . '" src="' . $icon_url . '" />';
+}
