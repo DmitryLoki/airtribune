@@ -137,9 +137,7 @@ function airtribune2_preprocess_pane_navigation(&$vars) {
  * Preprocess pane twocolfourrow
  */
 function airtribune2_process_twocolfourrow(&$vars) {
-	drupal_set_title('');
-	//print_r($vars);
-	//$vars['display']->args[0] = array();
+
 }
 
 /**
@@ -157,8 +155,14 @@ function airtribune2_process_pane_navigation(&$vars) {
 
 // Preprocess pane messages vars
 function airtribune2_preprocess_pane_messages(&$vars) {
+	
   $vars['primary_local_tasks'] = menu_primary_local_tasks();
   $vars['secondary_local_tasks'] = menu_secondary_local_tasks();
+  foreach($vars['primary_local_tasks'] as $k => $v){
+	  if($v['#link']['path'] == 'event/%/register'){
+		  $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'] = 'registration';
+	  }
+  }
 }
 
 /**
@@ -170,6 +174,13 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   $base = 'panels_pane';
   $delimiter = '__';
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
+  global $user;
+  if($variables['pane']->type == 'node' && $variables['content']['#node']->nid == '5363'){
+	 $variables['title'] = '';
+  }
+  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0){
+	 $variables['content'] = '';
+  }
   //print_r($variables);
 }
 
@@ -191,6 +202,12 @@ function airtribune2_preprocess_node(&$vars) {
 	  $userpic = file_build_uri(DEFAULT_USER_PICTURE_PATH);
   }
   $vars['user_picture'] = '<span class="user-picture">'.theme('image_style', array( 'path' =>  $userpic, 'style_name' => 'node_userpic')).'</span>';
+  $vars['notitle'] = false;
+  if($vars['node']->nid == '5363') {
+	  $vars['notitle'] = true;
+	  $vars['title'] = '';
+	  $vars['user_picture'] = '';
+  }
 }
 
 function airtribune2_process_node(&$vars) {
@@ -782,4 +799,39 @@ function airtribune2_theme() {
       'template' => 'templates/contest-registration-multiform',
 		),
 	);
+}
+
+/**
+ * Implements theme_file_icon.
+ */
+function airtribune2_file_icon($variables) {
+  $icons = array(
+    'dem' => 'dem.png',
+    'doc' => 'doc.png',
+    'docx' => 'docx.png',
+    'jpg' => 'jpg.png',
+    'lkm' => 'lkm.png',
+    'odc' => 'odc.png',
+    'odt' => 'odt.png',
+    'pdf' => 'pdf.png',
+    'png' => 'png.png',
+    'tpl' => 'tpl.png',
+    'txt' => 'txt.png',
+    'wpt' => 'wpt.png',
+    'xcm' => 'xcm.png',
+    'xls' => 'xls.png',
+    'xlsx' => 'xlsx.png',
+  );
+  $file = $variables['file'];
+  $icon_directory = $variables['icon_directory'];
+
+  $mime = check_plain($file->filemime);
+  $path_info = pathinfo($file->filename);
+  if(!empty($icons[$path_info['extension']])){
+	$icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
+  }
+  else{
+  	$icon_url = file_icon_url($file, $icon_directory);
+  }
+  return '<img class="file-icon" alt="" title="' . $mime . '" src="' . $icon_url . '" />';
 }

@@ -140,7 +140,7 @@ else if ($teaser){
 		$content['field_image']['#items'] = array($content['field_image']['#items'][0]);
 	}
 }
-else {
+else if($node->nid != '5363') {
 	$full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
 	$content['links']['created'] = array(
 	 '#theme' => 'links__node__node',
@@ -155,7 +155,7 @@ else {
 		$content['field_image'] = _airtribune2_img_dinamic_scaling($content['field_image']);
 	}
 }
-if(empty($title)){
+if(!$notitle && empty($title)){
 	$title = 'Верните заголовки емае';
 }
 $classes .= ' node_view_mode_' . $view_mode;
