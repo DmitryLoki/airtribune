@@ -94,6 +94,16 @@ function pg_contest_update($node) {
 }
 
 /**
+ * Implementation of hook_delete
+ * @param $node
+ *   The node that is being deleted.
+ */
+function pg_contest_delete($node) {
+  // Delete aliases
+  _pg_contest_delete_alias($node);
+}
+
+/**
  * Implementation of hook_validate
  * @author Vadim Valuev <gease@mail.ru>
  */
