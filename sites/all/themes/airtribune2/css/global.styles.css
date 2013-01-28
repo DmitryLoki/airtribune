@@ -2536,13 +2536,14 @@ p { margin:0; padding:9px 0 11px}
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
 }
-/*#page ul.tabs li a:hover { color:#8f733b; background-image:url(../images/tab_bgr_hover.png);
+#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_hover.png);
 
 	box-shadow: 		inset 0px 1px 4px rgba(255,255,255,.8);
 	-moz-box-shadow: 	inset 0px 1px 4px #ffffff;						
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
-}*/
+}
+#page ul.tabs li a.registration:hover { color:#80633b}
 #page ul.tabs li a:hover { color:#677581}
 #page ul.tabs li.active { border-bottom:none;}
 #page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
