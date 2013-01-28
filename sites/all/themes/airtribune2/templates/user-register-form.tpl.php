@@ -34,7 +34,9 @@ $form['profile_main']['field_birthdate'][$lang][0]['value']['month']['#title'] =
 $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
 print drupal_render($form['profile_main']['field_birthdate']);
 
-print_r($form['account']['pass']);
+//print_r($form['account']['pass']);
+$form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
+$form['account']['pass']['pass1']['#description'] = t('Minimum 6 characters.');
 print drupal_render($form['account']['pass']);
 
 // Hide wrapping fieldsets.

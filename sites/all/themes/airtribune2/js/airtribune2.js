@@ -1,8 +1,3 @@
-jQuery(function($){
-	$('.pane-page-content form input').forms();
-});
-
-
 (function ($) {
 Drupal.behaviors.airtribune2 = {
   attach: function (context) {

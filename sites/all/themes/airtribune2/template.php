@@ -32,111 +32,6 @@ function airtribune2_preprocess_html(&$vars) {
 }
 
 /**
- * Preprocess Site Template
- */
-function airtribune2_preprocess_airtribune2_site_template(&$vars) {
-  global $theme_key;
-  $theme_name = $theme_key;
-
-  // Add information about the number of sidebars.
-  $content = $vars['content'];
-  
-  $sidebars = array();
-  if (!empty($content['sidebar_first']) && !empty($content['sidebar_second'])) {
-    $sidebars[] = 'two-sidebars';
-  }
-  elseif (!empty($content['sidebar_first'])) {
-    $sidebars[] = 'one-sidebar sidebar-first';
-  }
-  elseif (!empty($content['sidebar_second'])) {
-    $sidebars[] = 'one-sidebar sidebar-second';
-  }
-  else {
-    $sidebars[] = 'no-sidebars';
-  }
-  $vars['classes_array'][] = implode(' ', $sidebars);
-
-  // Add the container class, but only when the standard layout is selected,
-  // if you add more layout plugsins you will need to add the "container" class
-  // either using the logic below or directly to the template in the layout
-  // plugin template (on the main wrapper or elsewhere, where you need it).
-  if (at_get_setting('enable_extensions', $theme_name) === 0) {
-    if (at_get_setting('enable_markup_overides', $theme_name) === 0) {
-      if (at_get_setting('page_full_width_wrappers', $theme_name) === 0) {
-        if ($vars['layout']['theme'] = 'airtribune2_site_template') {
-          $vars['classes_array'][] = 'container';
-        }
-      }
-    }
-  }
-
-  // Strip stupid contextual links region class, wtf?
-  $vars['classes_array'] = array_values(array_diff($vars['classes_array'], array('contextual-links-region')));
-
-  // Generate page classes, in AT Core these are all Extensions
-  if (at_get_setting('enable_extensions', $theme_name) === 1) {
-    if ($page_classes = generate_page_classes($vars, $theme_name)) {
-      foreach ($page_classes as $class_name) {
-        $vars['classes_array'][] = $class_name;
-      }
-    }
-  }
-  
-}
-
-/**
- * Preprocess Site Template
- */
-function airtribune2_preprocess_airtribune2_site_template_fww(&$vars) {
-  global $theme_key;
-  $theme_name = $theme_key;
-
-  // Add information about the number of sidebars.
-  $content = $vars['content'];
-  
-  $sidebars = array();
-  if (!empty($content['sidebar_first']) && !empty($content['sidebar_second'])) {
-    $sidebars[] = 'two-sidebars';
-  }
-  elseif (!empty($content['sidebar_first'])) {
-    $sidebars[] = 'one-sidebar sidebar-first';
-  }
-  elseif (!empty($content['sidebar_second'])) {
-    $sidebars[] = 'one-sidebar sidebar-second';
-  }
-  else {
-    $sidebars[] = 'no-sidebars';
-  }
-  $vars['classes_array'][] = implode(' ', $sidebars);
-
-  // Add the container class, but only when the standard layout is selected,
-  // if you add more layout plugsins you will need to add the "container" class
-  // either using the logic below or directly to the template in the layout
-  // plugin template (on the main wrapper or elsewhere, where you need it).
-  if (at_get_setting('enable_extensions', $theme_name) === 0) {
-    if (at_get_setting('enable_markup_overides', $theme_name) === 0) {
-      if (at_get_setting('page_full_width_wrappers', $theme_name) === 0) {
-        if ($vars['layout']['theme'] = 'airtribune2_site_template') {
-          $vars['classes_array'][] = 'container';
-        }
-      }
-    }
-  }
-
-  // Strip stupid contextual links region class, wtf?
-  $vars['classes_array'] = array_values(array_diff($vars['classes_array'], array('contextual-links-region')));
-
-  // Generate page classes, in AT Core these are all Extensions
-  if (at_get_setting('enable_extensions', $theme_name) === 1) {
-    if ($page_classes = generate_page_classes($vars, $theme_name)) {
-      foreach ($page_classes as $class_name) {
-        $vars['classes_array'][] = $class_name;
-      }
-    }
-  }
-}
-
-/**
  * Preprocess Pane Header
  */
 function airtribune2_preprocess_pane_header(&$vars) {
@@ -239,6 +134,15 @@ function airtribune2_preprocess_pane_navigation(&$vars) {
 }
 
 /**
+ * Preprocess pane twocolfourrow
+ */
+function airtribune2_process_twocolfourrow(&$vars) {
+	drupal_set_title('');
+	//print_r($vars);
+	//$vars['display']->args[0] = array();
+}
+
+/**
  * Preprocess pane navigation vars
  */
 function airtribune2_process_pane_navigation(&$vars) {
@@ -331,6 +235,12 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
+	if($form_id != 'user_login_block') {
+		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
+		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
+		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
+		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/forms_action.js';
+	}
 	switch ($form_id) {
     	case 'user_login_block':
 			//print_r($form);
