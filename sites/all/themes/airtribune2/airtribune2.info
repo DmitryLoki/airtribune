@@ -61,7 +61,6 @@
   ;
   ; For example if you want to load a script just for IE 8 and below use the following as a guide:
   ; ie_scripts[lte IE 8] = js/my-script.js
-  scripts[] = js/jquery.forms.js
   scripts[] = js/airtribune2.js
   scripts[] = js/to_top.js
 
