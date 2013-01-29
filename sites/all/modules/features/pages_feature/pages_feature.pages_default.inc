@@ -1724,7 +1724,7 @@ function pages_feature_default_page_manager_pages() {
   );
   $page->default_handlers = array();
   $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->disabled = TRUE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'page_event_pilots_panel_context';
   $handler->task = 'page';
@@ -1827,7 +1827,7 @@ function pages_feature_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->disabled = TRUE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'page_event_pilots_panel_context_2';
   $handler->task = 'page';
