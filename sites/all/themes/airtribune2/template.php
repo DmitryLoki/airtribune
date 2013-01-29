@@ -161,7 +161,7 @@ function airtribune2_preprocess_pane_messages(&$vars) {
   if(!empty($vars['primary_local_tasks'])){
     foreach($vars['primary_local_tasks'] as $k => $v){
 		  if($v['#link']['path'] == 'event/%/register'){
-			  $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'] = 'registration';
+			  //$vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'] = 'registration';
 		  }
 	  }
   }
@@ -836,4 +836,20 @@ function airtribune2_file_icon($variables) {
   	$icon_url = file_icon_url($file, $icon_directory);
   }
   return '<img class="file-icon" alt="" title="' . $mime . '" src="' . $icon_url . '" />';
+}
+
+/**
+ * Preprocess field.tpl.php
+ */
+function airtribune2_preprocess_field(&$vars) {
+  $element = $vars['element'];
+  if ($element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
+    $categories = airtribune_get_awards_prize_categories();
+    foreach ($vars['items'] as $delta => $item) {
+      if (isset($categories[$item['#item']['title']])) {
+        $vars['items'][$delta]['#item']['title'] = $categories[$item['#item']['title']];
+        $vars['items'][$delta]['#suffix'] = $categories[$item['#item']['title']];
+      }
+    }
+  }
 }

@@ -25,22 +25,22 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
   $node = $context->data;
 
   $links[] = array(
-    'href' => 'event/' . $node->nid . '/details',
+    'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('Selection and entry fee'),
     'fragment' => 'selection',
   );
   $links[] = array(
-    'href' => 'event/' . $node->nid . '/details',
+    'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('General schedule'),
     'fragment' => 'general-schedule',
   );
   $links[] = array(
-    'href' => 'event/' . $node->nid . '/details',
+    'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('Daily schedule'),
     'fragment' => 'daily-schedule',
   );
   $links[] = array(
-    'href' => 'event/' . $node->nid . '/details',
+    'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('Rules'),
     'fragment' => 'rules',
   );

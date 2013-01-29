@@ -1307,16 +1307,14 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-33';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'airtribune_event_twitter';
+    $pane->subtype = 'airtribune_event_twitter';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => 'Twitter',
-      'body' => '<img src="/sites/default/files/placeholder/11_twitter.png" alt="" />',
-      'format' => 'full_html',
-      'substitute' => 1,
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => 'Twitter',
     );
     $pane->cache = array();
     $pane->style = array(
