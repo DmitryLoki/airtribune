@@ -8,6 +8,12 @@ jQuery(function($){
 		$(this).addClass('items_padding');
 		$(this).parent().hide();
 	});
+	var select_z_index = 1000;
+	$('.pane-page-content form select').each(function(){
+		$(this).parents('.form-wrapper, .form-item').css({'z-index':select_z_index, 'position':'relative'})
+		select_z_index --;
+	});
+	
 	//$('.pane-content form').each(function(){
 		/*var formObj = {};
 		$('.required').each(function(){
