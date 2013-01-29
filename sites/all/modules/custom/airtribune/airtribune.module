@@ -21,6 +21,7 @@ define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
 define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
+define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -175,4 +176,47 @@ function airtribune_field_collection_item_view_alter(&$build) {
       $build[$key]['#prefix'] = '<a name="' . str_replace('field_', '', $key) . '"></a>';
     }
   }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * @see #2615
+ */
+function airtribune_field_widget_image_image_form_alter(&$element, &$form_state, $context) {
+  if (isset($element['#field_name']) && $element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
+    foreach (element_children($element) as $delta) {
+      $element[$delta]['#process'][] = 'airtribune_field_widget_process';
+    }
+  }
+}
+
+/**
+ * Element proccess callback.
+ *
+ * @see airtribune_field_widget_image_image_form_alter().
+ */
+function airtribune_field_widget_process($element, &$form_state, $form) {
+  $element['title']['#title'] = 'Category';
+  $element['title']['#type'] = 'select';
+  $element['title']['#description'] = t('Select scoring category');
+  $element['title']['#options'] = airtribune_get_awards_prize_categories();
+ return $element;
+}
+
+/**
+ * Get awards prize categories.
+ */
+function airtribune_get_awards_prize_categories($category = FALSE) {
+  $categories = array(
+    'overall' => t('Overall'),
+    'women' => t('Women'),
+    'serial_class' => t('Serial Class'),
+    'open_class' => t('Open Class'),
+    'sport_class' => t('Sport Class'),
+    'nations' => t('Nations'),
+    'clubs' => t('Clubs'),
+    'teams' => t('Teams'),
+  );
+  return $category ? $categories[$category] : $categories;
 }
