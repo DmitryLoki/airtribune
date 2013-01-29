@@ -161,7 +161,7 @@ function airtribune2_preprocess_pane_messages(&$vars) {
   if(!empty($vars['primary_local_tasks'])){
     foreach($vars['primary_local_tasks'] as $k => $v){
 		  if($v['#link']['path'] == 'event/%/register'){
-			  //$vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'] = 'registration';
+			  $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
 		  }
 	  }
   }
@@ -254,7 +254,7 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-	if($form_id != 'user_login_block') {
+	if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass') {
 		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
 		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
 		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
