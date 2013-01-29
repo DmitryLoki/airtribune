@@ -208,6 +208,17 @@ function pages_feature_default_page_manager_pages() {
           ),
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 4,
+              1 => 7,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
+        ),
       ),
     ),
   );
@@ -1534,6 +1545,17 @@ function pages_feature_default_page_manager_pages() {
 }',
           ),
           'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 4,
+              1 => 7,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
         ),
       ),
     ),
