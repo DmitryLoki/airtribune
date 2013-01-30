@@ -44,5 +44,4 @@ print drupal_render($form['account']['pass']);
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
 
-$form['actions']['submit']['#value'] = t('Register');
 print drupal_render_children($form);

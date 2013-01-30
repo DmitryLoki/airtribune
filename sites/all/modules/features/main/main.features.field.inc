@@ -68,7 +68,7 @@ function main_field_default_fields() {
       'entity_type' => 'profile2',
       'field_name' => 'field_birthdate',
       'label' => 'Date of birth',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'default_value' => 'blank',
         'default_value2' => 'same',
