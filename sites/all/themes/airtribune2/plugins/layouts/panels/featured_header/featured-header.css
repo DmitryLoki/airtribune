@@ -5,7 +5,7 @@
   position: relative;
   overflow: hidden;
 }
-.featured-header-title {
+ .featured-header-title {
   top: 0;
   position: absolute;
   width: 900px;
@@ -14,9 +14,11 @@
   color: #FFF;
   z-index: 9;
 }
+.featured-header .featured-header-title h1 {
+  color: #FFF;
+}
 .featured-header-padding {
   top: 0;
   position: absolute;
   width: 940px;
 }
-
