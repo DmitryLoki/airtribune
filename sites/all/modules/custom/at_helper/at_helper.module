@@ -14,6 +14,14 @@ define('MAIN_PROFILE_TYPE', 'main');
 define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
 
 /**
+ * Implements hook_menu_alter().
+ */
+function at_helper_menu_alter(&$items) {
+  $items['user/login']['title'] = 'Sign in';
+  $items['user/register']['title'] = 'Register new user';
+}
+
+/**
  * Implements hook_menu_local_tasks_alter().
  */
 function at_helper_menu_local_tasks_alter(&$data, $router_item, $root_path) {
@@ -210,12 +218,51 @@ function at_helper_node_delete($node) {
  * Implements hook_node_delete().
  */
 function at_helper_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_register_form') {
-    $form['#validate'][] = 'at_helper_user_reg_form_validate';
+  switch ($form_id) {
+    case 'user_register_form' :
+      $form['#validate'][] = 'at_helper_user_reg_form_validate';
+      $form['actions']['submit']['#value'] = t('Register new user');
+      break;
+    case 'user_pass' :
+      $form['actions']['submit']['#value'] = t('Request new password');
+      break;
+    case 'user_login' :
+      $form['actions']['submit']['#value'] = t('Sign in');
+      break;
+    case 'og_ui_confirm_subscribe' :
+      $form['#validate'][] = 'at_helper_og_form_validate';
+      break;
   }
-  elseif ($form_id == 'og_ui_confirm_subscribe') {
-    $form['#validate'][] = 'at_helper_og_form_validate';
+}
+
+/**
+ * Alter Name field widget
+ */
+function at_helper_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (!empty($element['#field_name']) && $element['#field_name'] == 'field_full_name' && $element['#required']) {
+    $element['#after_build'] = array('_at_helper_addressfield_after_build');
+    
   }
+}
+
+/**
+ * Add #pre_render to name field components.
+ */
+function _at_helper_addressfield_after_build($element, $form_state) {
+  foreach ($element['#components'] as $k => $component) {
+    if (empty($component['#exclude'])) {      
+      $element[$k]['#pre_render'][] = '_at_helper_addressfield_pre_render';
+    }
+  }
+  return $element;
+}
+
+/**
+ * Add #required asterisk to name field components.
+ */
+function _at_helper_addressfield_pre_render($element) {
+  $element['#required'] = TRUE;
+  return $element;
 }
 
 function at_helper_user_reg_form_validate($form, &$form_state) {
