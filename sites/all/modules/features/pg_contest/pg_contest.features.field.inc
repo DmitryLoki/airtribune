@@ -1180,7 +1180,7 @@ Teams',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -2760,7 +2760,7 @@ Teams',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
