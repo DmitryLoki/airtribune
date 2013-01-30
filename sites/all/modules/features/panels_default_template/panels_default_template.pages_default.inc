@@ -321,15 +321,6 @@ function panels_default_template_default_page_manager_handlers() {
           'context' => 'context_airtribune_event_1',
           'not' => FALSE,
         ),
-        1 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
       ),
     );
     $pane->configuration = array(
@@ -359,15 +350,6 @@ function panels_default_template_default_page_manager_handlers() {
           'name' => 'og_is_node_group',
           'settings' => NULL,
           'context' => 'context_airtribune_event_1',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
           'not' => FALSE,
         ),
         2 => array(
@@ -441,14 +423,11 @@ events/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
+        1 => array(
+          'name' => 'og_is_node_group',
+          'settings' => NULL,
+          'context' => 'context_airtribune_event_1',
+          'not' => TRUE,
         ),
       ),
     );
@@ -471,15 +450,6 @@ events/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'role',
           'settings' => array(
@@ -490,6 +460,12 @@ events/*',
           ),
           'context' => 'logged-in-user',
           'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_is_node_group',
+          'settings' => NULL,
+          'context' => 'context_airtribune_event_1',
+          'not' => TRUE,
         ),
       ),
     );
