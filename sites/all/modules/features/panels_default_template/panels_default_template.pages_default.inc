@@ -530,6 +530,14 @@ print l(t(\'Manage site partners\'), \'partners\');
           'settings' => NULL,
           'not' => TRUE,
         ),
+        1 => array(
+          'name' => 'context_exists',
+          'settings' => array(
+            'exists' => '0',
+          ),
+          'context' => 'context_airtribune_event_1',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array(
