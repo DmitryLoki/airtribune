@@ -1360,7 +1360,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_pager']['type'] = 'views_slideshow_pager_fields';
   $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_pager']['views_slideshow_pager_fields_fields'] = array(
     'field_header_image' => 0,
-    'field_header_slogan' => 0,
     'field_header_author' => 0,
   );
   $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_controls']['weight'] = '1';
@@ -1370,14 +1369,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_pager']['type'] = 'views_slideshow_pager_fields';
   $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_pager']['views_slideshow_pager_fields_fields'] = array(
     'field_header_image' => 0,
-    'field_header_slogan' => 0,
     'field_header_author' => 0,
   );
   $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_controls']['weight'] = '1';
   $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_controls']['type'] = 'views_slideshow_controls_text';
   $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_slide_counter']['weight'] = '1';
-  $handler->display->display_options['style_options']['views_slideshow_cycle']['timeout'] = '5000';
-  $handler->display->display_options['style_options']['views_slideshow_cycle']['speed'] = '700';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['transition_advanced'] = 1;
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['timeout'] = '7000';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['speed'] = '1800';
   $handler->display->display_options['style_options']['views_slideshow_cycle']['delay'] = '0';
   $handler->display->display_options['style_options']['views_slideshow_cycle']['start_paused'] = 0;
   $handler->display->display_options['style_options']['views_slideshow_cycle']['remember_slide_days'] = '1';
@@ -1398,18 +1397,44 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Field: Featured header: Slogan */
-  $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
-  $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
-  $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
-  $handler->display->display_options['fields']['field_header_slogan']['label'] = '';
-  $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
   /* Field: Featured header: Author link */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
   $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
+
+  /* Display: Default header */
+  $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+
+  /* Display: Front page header */
+  $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['label'] = '';
+  $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_header_image']['settings'] = array(
+    'image_style' => 'header',
+    'image_link' => '',
+  );
+  /* Field: Featured header: Author link */
+  $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
+  $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
+  /* Field: Featured header: Slogan */
+  $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['label'] = '';
+  $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
   $translatables['header_slideshow'] = array(
     t('Master'),
     t('more'),
@@ -1419,6 +1444,9 @@ function views_feature_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Photo by'),
+    t('Default header'),
+    t('View panes'),
+    t('Front page header'),
   );
   $export['header_slideshow'] = $view;
 
