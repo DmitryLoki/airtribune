@@ -44,6 +44,7 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
     AIRTRIBUNE_COUNTRY_FIELD,
     AIRTRIBUNE_CITY_FIELD,
     AIRTRIBUNE_DATES_FIELD,
+    AIRTRIBUNE_FAI_CATEGORY_FIELD,
     AIRTRIBUNE_TIMEZONE_FIELD,
   );
   foreach ($fields as $weight => $field) {
