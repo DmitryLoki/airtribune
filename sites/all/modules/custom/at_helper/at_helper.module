@@ -19,6 +19,10 @@ define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
 function at_helper_menu_alter(&$items) {
   $items['user/login']['title'] = 'Sign in';
   $items['user/register']['title'] = 'Register new user';
+  
+  $items['user/login']['weight'] = 0;
+  $items['user/register']['weight'] = 1;
+  $items['user/password']['weight'] = 2;
 }
 
 /**
