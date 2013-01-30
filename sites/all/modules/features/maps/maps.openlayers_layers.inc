@@ -19,7 +19,7 @@ function maps_openlayers_layers() {
   $openlayers_layers->data = array(
     'type' => 'hybrid',
     'layer_type' => 'openlayers_layer_type_google',
-    'numZoomLevels' => '21',
+    'numZoomLevels' => '20',
     'animationEnabled' => 1,
   );
   $export['google_hybrid_at_edition'] = $openlayers_layers;
