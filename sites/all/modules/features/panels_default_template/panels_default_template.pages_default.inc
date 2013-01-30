@@ -521,43 +521,6 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->pid = 'new-13';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
-    $pane->subtype = 'default_featured_header';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'front',
-          'settings' => NULL,
-          'not' => TRUE,
-        ),
-        1 => array(
-          'name' => 'context_exists',
-          'settings' => array(
-            'exists' => '0',
-          ),
-          'context' => 'context_airtribune_event_1',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['top'][1] = 'new-13';
-    $pane = new stdClass();
-    $pane->pid = 'new-14';
-    $pane->panel = 'top';
-    $pane->type = 'panels_mini';
     $pane->subtype = 'event_featured_header';
     $pane->shown = TRUE;
     $pane->access = array(
@@ -582,12 +545,12 @@ print l(t(\'Manage site partners\'), \'partners\');
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['top'][2] = 'new-14';
+    $display->content['new-13'] = $pane;
+    $display->panels['top'][1] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-14';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
     $pane->subtype = 'events_map';
@@ -599,6 +562,53 @@ print l(t(\'Manage site partners\'), \'partners\');
           'settings' => array(
             'visibility_setting' => '1',
             'paths' => 'events*',
+          ),
+          'context' => 'argument_string_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-14'] = $pane;
+    $display->panels['top'][2] = 'new-14';
+    $pane = new stdClass();
+    $pane->pid = 'new-15';
+    $pane->panel = 'top';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'default_featured_header';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
+        1 => array(
+          'name' => 'context_exists',
+          'settings' => array(
+            'exists' => '0',
+          ),
+          'context' => 'context_airtribune_event_1',
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'events
+events/*',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
