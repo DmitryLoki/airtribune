@@ -231,10 +231,6 @@ function maps_openlayers_maps() {
         'zoomBoxEnabled' => 1,
         'documentDrag' => 0,
       ),
-      'openlayers_behavior_panzoombar' => array(
-        'zoomWorldIcon' => 0,
-        'panIcons' => 1,
-      ),
       'openlayers_behavior_popup' => array(
         'layers' => array(
           'events_map_openlayers_1' => 'events_map_openlayers_1',
@@ -242,6 +238,7 @@ function maps_openlayers_maps() {
         'panMapIfOutOfView' => 1,
         'keepInMap' => 1,
       ),
+      'openlayers_behavior_zoompanel' => array(),
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
           'events_map_openlayers_1' => 'events_map_openlayers_1',
