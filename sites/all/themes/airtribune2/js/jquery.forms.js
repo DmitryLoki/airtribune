@@ -123,7 +123,13 @@ jQuery.fn.forms = function(options){ // custom form elements
 						el.handle.items.hide();
 					}
 				}
-				(el.handle.find('.items:visible').size() != 0) ? el.handle.items.hide() : el.handle.items.show();
+				if(el.handle.find('.items:visible').size() != 0){ 
+					el.handle.items.hide()
+				}
+				else{
+					jQuery('.select .items').hide();
+					el.handle.items.show();
+				}
 			})
 			el.handle.css({'position':'relative', 'display':'inline-block'})
 			el.handle.find('span').css('display', 'block')

@@ -3,7 +3,7 @@
 // Email
 $form['account']['mail']['#title'] = t('Email');
 $form['account']['mail']['#description'] = t('This will be your login.');
-$form['account']['mail']['#attributes']['rel'] = t('Enter yuor email');
+$form['account']['mail']['#attributes']['rel'] = t('Enter your email');
 print drupal_render($form['account']['mail']);
 
 
