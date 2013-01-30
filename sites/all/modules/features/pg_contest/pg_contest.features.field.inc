@@ -839,7 +839,7 @@ function pg_contest_field_default_fields() {
         'attributes' => array(
           'class' => '',
           'configurable_title' => 0,
-          'rel' => '',
+          'rel' => 'nofollow',
           'target' => '_blank',
           'title' => '[field_collection_item:field_organizer_name]',
         ),
