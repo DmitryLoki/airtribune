@@ -545,17 +545,14 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->pid = 'new-13';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
-    $pane->subtype = 'event_featured_header';
+    $pane->subtype = 'default_featured_header';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
-          'name' => 'context_exists',
-          'settings' => array(
-            'exists' => '1',
-          ),
-          'context' => 'context_airtribune_event_1',
-          'not' => FALSE,
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
         ),
       ),
     );
@@ -577,30 +574,16 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->pid = 'new-14';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
-    $pane->subtype = 'temp_header_image';
+    $pane->subtype = 'event_featured_header';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
           'name' => 'context_exists',
           'settings' => array(
-            'exists' => '0',
+            'exists' => '1',
           ),
           'context' => 'context_airtribune_event_1',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'front',
-          'settings' => NULL,
-          'not' => TRUE,
-        ),
-        2 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'events*',
-          ),
-          'context' => 'argument_string_1',
           'not' => FALSE,
         ),
       ),
