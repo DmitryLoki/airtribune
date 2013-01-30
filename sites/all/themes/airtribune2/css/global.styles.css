@@ -2423,6 +2423,9 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
 .node-teaser .node-create { float:right; padding:0}
 
+.node .node-content h2 { margin:0 0 -2px; padding:7px 0 0; font:24px/26px Arial, Helvetica, sans-serif;}
+.node .node-content p + h2 { padding-top:36px}
+
 .pane-contest-blog-contest-full-pane .pane-inner { margin:0}
 .node_view_mode_event_blog_teaser { margin:0 0 24px; padding:0 0 9px}
 .node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
@@ -3158,6 +3161,9 @@ p { margin:0; padding:9px 0 11px}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author .field-content { display: inline;}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
+/* Header special pages */
+.page-node-5362 .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
+.page-node-5362 .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px }
 
 /* Temporary */
 .field-name-field-hq-location {margin-top: 15px;}

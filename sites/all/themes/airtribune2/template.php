@@ -29,6 +29,7 @@ function airtribune2_preprocess_html(&$vars) {
 	  //$vars['title'] = t('Activity feed');
 	  drupal_set_title(t('Activity feed'));
   }
+  //print_r($vars);
 }
 
 /**
@@ -205,7 +206,7 @@ function airtribune2_preprocess_node(&$vars) {
   }
   $vars['user_picture'] = '<span class="user-picture">'.theme('image_style', array( 'path' =>  $userpic, 'style_name' => 'node_userpic')).'</span>';
   $vars['notitle'] = false;
-  if($vars['node']->nid == '5363') {
+  if($vars['node']->nid == '5363' || $vars['node']->nid == '5362') {
 	  $vars['notitle'] = true;
 	  $vars['title'] = '';
 	  $vars['user_picture'] = '';

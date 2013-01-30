@@ -140,7 +140,7 @@ else if ($teaser){
 		$content['field_image']['#items'] = array($content['field_image']['#items'][0]);
 	}
 }
-else if($node->nid != '5363') {
+else if($node->nid != '5363' && $node->nid != '5362') {
 	$full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
 	$content['links']['created'] = array(
 	 '#theme' => 'links__node__node',
