@@ -2050,5 +2050,107 @@ return $match;',
   $path_breadcrumb->weight = -94;
   $export['breadcrumb_pg_race'] = $path_breadcrumb;
 
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_register';
+  $path_breadcrumb->name = 'User Register';
+  $path_breadcrumb->path = 'user/register';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Register new user',
+    ),
+    'paths' => array(
+      0 => 'user/register',
+    ),
+    'home' => 1,
+    'translatable' => 0,
+    'arguments' => NULL,
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['user_register'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_request_new_password';
+  $path_breadcrumb->name = 'User Request new password';
+  $path_breadcrumb->path = 'user/password';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Request new password',
+    ),
+    'paths' => array(
+      0 => 'user/password',
+    ),
+    'home' => 1,
+    'translatable' => 0,
+    'arguments' => NULL,
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['user_request_new_password'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_sign_in';
+  $path_breadcrumb->name = 'User Sign in';
+  $path_breadcrumb->path = 'user';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Sign in',
+    ),
+    'paths' => array(
+      0 => 'user',
+    ),
+    'home' => 1,
+    'translatable' => 0,
+    'arguments' => NULL,
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['user_sign_in'] = $path_breadcrumb;
+
   return $export;
 }

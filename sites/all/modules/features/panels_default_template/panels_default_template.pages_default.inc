@@ -321,15 +321,6 @@ function panels_default_template_default_page_manager_handlers() {
           'context' => 'context_airtribune_event_1',
           'not' => FALSE,
         ),
-        1 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
       ),
     );
     $pane->configuration = array(
@@ -359,15 +350,6 @@ function panels_default_template_default_page_manager_handlers() {
           'name' => 'og_is_node_group',
           'settings' => NULL,
           'context' => 'context_airtribune_event_1',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
           'not' => FALSE,
         ),
         2 => array(
@@ -441,14 +423,11 @@ events/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
+        1 => array(
+          'name' => 'og_is_node_group',
+          'settings' => NULL,
+          'context' => 'context_airtribune_event_1',
+          'not' => TRUE,
         ),
       ),
     );
@@ -471,15 +450,6 @@ events/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'event/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'role',
           'settings' => array(
@@ -490,6 +460,12 @@ events/*',
           ),
           'context' => 'logged-in-user',
           'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_is_node_group',
+          'settings' => NULL,
+          'context' => 'context_airtribune_event_1',
+          'not' => TRUE,
         ),
       ),
     );
@@ -577,27 +553,14 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->pid = 'new-14';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
-    $pane->subtype = 'temp_header_image';
+    $pane->subtype = 'events_map';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
-          'name' => 'context_exists',
-          'settings' => array(
-            'exists' => '0',
-          ),
-          'context' => 'context_airtribune_event_1',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'front',
-          'settings' => NULL,
-          'not' => TRUE,
-        ),
-        2 => array(
           'name' => 'path_visibility',
           'settings' => array(
-            'visibility_setting' => '0',
+            'visibility_setting' => '1',
             'paths' => 'events*',
           ),
           'context' => 'argument_string_1',
@@ -623,15 +586,29 @@ print l(t(\'Manage site partners\'), \'partners\');
     $pane->pid = 'new-15';
     $pane->panel = 'top';
     $pane->type = 'panels_mini';
-    $pane->subtype = 'events_map';
+    $pane->subtype = 'default_featured_header';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
+        1 => array(
+          'name' => 'context_exists',
+          'settings' => array(
+            'exists' => '0',
+          ),
+          'context' => 'context_airtribune_event_1',
+          'not' => FALSE,
+        ),
+        2 => array(
           'name' => 'path_visibility',
           'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'events*',
+            'visibility_setting' => '0',
+            'paths' => 'events
+events/*',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
