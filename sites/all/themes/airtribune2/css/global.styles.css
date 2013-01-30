@@ -3162,8 +3162,15 @@ p { margin:0; padding:9px 0 11px}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
 /* Header special pages */
-.page-node-5362 .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
-.page-node-5362 .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px }
+.page-node-5362 .featured-header-title,
+.page-events .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
+.page-node-5362 .featured-header-title h1,
+.page-events .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px }
 
 /* Temporary */
 .field-name-field-hq-location {margin-top: 15px;}
+
+/* OpenLayers */
+.featured-header-padding .olControlZoomPanel { top:150px}
+#super .olLayerGoogleV3.olLayerGoogleCopyright { left:auto; right:0 !important}
+#super .olLayerGoogleV3.olLayerGooglePoweredBy { bottom:-3px !important;}
