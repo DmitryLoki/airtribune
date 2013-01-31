@@ -1,5 +1,5 @@
 jQuery(function($){
-	$('.pane-page-content form input, .pane-page-content form select').forms();
+	$('.pane-page-content form input, .pane-page-content form select').forms({disableChoiceOfFirstItemInSelection:true});
 	$('.pane-page-content form .select .items_inner').each(function(){
 		$(this).parent().show();
 		$(this).jScrollPane({scrollbarWidth:4, showArrows:false});

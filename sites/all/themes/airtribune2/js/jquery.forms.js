@@ -9,6 +9,8 @@ jQuery.fn.forms = function(options){ // custom form elements
 		radio: true,
 		file: true,
 		select: true,
+        //Prevent first item in options list to be selectable (Title of list)
+        disableChoiceOfFirstItemInSelection:false,
 		file_bt: 'Обзор',
 		ie: jQuery.browser.msie
 	},options);
@@ -104,33 +106,30 @@ jQuery.fn.forms = function(options){ // custom form elements
 			el.css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 			el.name = el.attr('name').replace(/[\[\]]/g, '');
 			el.replace = '<span class="'+el.type+' el-name-'+el.name+'"><div class="checked_option_wrap"><span class="checked_option"></span></div><span class="items"><span class="items_inner">';
-			var i = 0;
-			el.children().each(function(){
+			el.children().each(function(i, item){
 				el.option = el.children().eq(i);
 				el.option.selected = (el.option.attr('selected')) ? ' selected' : '';
-				el.replace += '<span class="option'+el.option.selected+'">'+el.option.html()+'</span>';
-				i++;
+                el.replace += '<span class="option'+el.option.selected+' hi">'+el.option.html()+'</span>';
 			});
 			el.replace += '</span></span></span>';
 			el.after(el.replace);
 			el.handle = el.next();
 			el.handle.items = el.handle.find('.items')
 			el.handle.cheked = el.handle.find('.checked_option');
-			el.handle.cheked.html(el.handle.find('.selected').html() || el.handle.children(':first-child')).click(function(){
-				jQuery('body').bind('click', bodyClick);
+			el.handle.cheked.html(el.handle.find('.selected').html() || el.handle.children(':first-child')).click(function(event){
+				jQuery('body').bind('click', {parent:this},bodyClick);
 				function bodyClick(e) {
-					if(e.originalEvent.originalTarget.className != 'checked_option') {
-						el.handle.items.hide();
+                    //If e.target is not a child of el.handle then hide list
+					if(jQuery(e.target).parents('.'+el.handle.attr('class').split(' ').join('.')).length == 0) {
+						    el.handle.items.hide();
+                            jQuery('body').unbind('click', bodyClick);
 					}
 				}
-				if(el.handle.find('.items:visible').size() != 0){ 
-					el.handle.items.hide()
-				}
-				else{
-					jQuery('.select .items').hide();
-					el.handle.items.show();
-				}
-			})
+				el.handle.items.toggle();
+                if(opt.disableChoiceOfFirstItemInSelection){
+                    el.handle.items.find('span.option:eq(0)').hide();
+                }
+			});
 			el.handle.css({'position':'relative', 'display':'inline-block'})
 			el.handle.find('span').css('display', 'block')
 			el.handle.items.css({'position':'absolute', 'top':'100%', 'left':0}).hide()
