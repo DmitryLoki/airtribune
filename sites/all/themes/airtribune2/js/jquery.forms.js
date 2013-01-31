@@ -122,10 +122,12 @@ jQuery.fn.forms = function(options){ // custom form elements
                     //If e.target is not a child of el.handle then hide list
 					if(jQuery(e.target).parents('.'+el.handle.attr('class').split(' ').join('.')).length == 0) {
 						    el.handle.items.hide();
+							el.handle.removeClass('select_opened');
                             jQuery('body').unbind('click', bodyClick);
 					}
 				}
 				el.handle.items.toggle();
+				el.handle.toggleClass('select_opened');
                 if(opt.disableChoiceOfFirstItemInSelection){
                     el.handle.items.find('span.option:eq(0)').hide();
                 }
