@@ -1036,13 +1036,22 @@ function views_feature_views_default_views() {
     'view_mode' => 'full',
   );
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/[nid]';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Headquarter location */
   $handler->display->display_options['fields']['field_hq_location']['id'] = 'field_hq_location';
   $handler->display->display_options['fields']['field_hq_location']['table'] = 'field_data_field_hq_location';
@@ -1152,6 +1161,7 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Nid'),
     t('Headquarter location'),
     t('Country'),
     t('City'),
