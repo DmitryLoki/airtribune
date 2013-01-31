@@ -32,7 +32,7 @@ define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools') {
+  if ($owner == 'ctools' || $owner == 'field_validation') {
     return 'plugins/' . $plugin_type;
   }
 }
