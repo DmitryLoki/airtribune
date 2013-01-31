@@ -32,7 +32,7 @@ define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools') {
+  if ($owner == 'ctools' || $owner == 'field_validation') {
     return 'plugins/' . $plugin_type;
   }
 }
@@ -195,14 +195,14 @@ function airtribune_field_widget_image_image_form_alter(&$element, &$form_state,
 /**
  * Element proccess callback.
  *
- * @see airtribune_field_widget_image_image_form_alter().
+ * @see airtribune_field_widget_image_image_form_alter()
  */
 function airtribune_field_widget_process($element, &$form_state, $form) {
   $element['title']['#title'] = 'Category';
   $element['title']['#type'] = 'select';
   $element['title']['#description'] = t('Select scoring category');
   $element['title']['#options'] = airtribune_get_awards_prize_categories();
- return $element;
+  return $element;
 }
 
 /**
