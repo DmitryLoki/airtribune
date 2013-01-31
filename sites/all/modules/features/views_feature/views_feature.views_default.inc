@@ -1032,7 +1032,7 @@ function views_feature_views_default_views() {
     'other_bottom' => 'title',
     'other_left' => 'title',
     'name_field' => 'title',
-    'description_field' => 'field_dates',
+    'description_field' => 'nothing',
     'view_mode' => 'full',
   );
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -1051,11 +1051,22 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_hq_location']['settings'] = array(
     'data' => 'full',
   );
+  /* Field: Content: Country */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  /* Field: Content: City */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   /* Field: Content: Dates */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
   $handler->display->display_options['fields']['field_dates']['settings'] = array(
@@ -1065,6 +1076,11 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="event-location">[field_country], [field_city]</span><span class="event-dates">[field_dates]</span>';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -1137,6 +1153,10 @@ function views_feature_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Headquarter location'),
+    t('Country'),
+    t('City'),
+    t('Custom text'),
+    t('<span class="event-location">[field_country], [field_city]</span><span class="event-dates">[field_dates]</span>'),
     t('Events map'),
     t('Next events'),
     t('View panes'),
