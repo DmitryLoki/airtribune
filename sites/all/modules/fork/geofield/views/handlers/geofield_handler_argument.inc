@@ -47,7 +47,6 @@ class geofield_handler_argument extends views_handler_argument {
   }
   
   function query($group_by = FALSE) {
-    dpm($this);
     $entity = entity_metadata_wrapper($this->options['geofield_proximity_entity_url_entity_type'], $this->argument);
     $options = array();
     if (isset($entity->{$this->options['geofield_proximity_entity_url_field']})) {
