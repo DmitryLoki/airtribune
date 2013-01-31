@@ -210,6 +210,7 @@ function maps_openlayers_maps() {
     'css_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/style.css',
     'proxy_host' => '',
     'hide_empty_map' => 0,
+    'zoomWheelDisabledUntilClick' => TRUE,
     'center' => array(
       'initial' => array(
         'centerpoint' => '0,0',
