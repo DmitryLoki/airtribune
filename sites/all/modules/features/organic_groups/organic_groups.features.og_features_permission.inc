@@ -82,9 +82,7 @@ function organic_groups_og_features_default_permissions() {
 
   // Exported og permission: 'node:pg_contest:manage permissions'
   $permissions['node:pg_contest:manage permissions'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-    ),
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:pg_contest:manage roles'
