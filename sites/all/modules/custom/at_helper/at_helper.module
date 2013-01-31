@@ -243,9 +243,17 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
  * Alter Name field widget
  */
 function at_helper_field_widget_form_alter(&$element, &$form_state, $context) {
-  if (!empty($element['#field_name']) && $element['#field_name'] == 'field_full_name' && $element['#required']) {
-    $element['#after_build'] = array('_at_helper_addressfield_after_build');
-    
+  if (!empty($element['#field_name']) && $element['#required']) {
+    switch ($element['#field_name']) {
+      case 'field_full_name' :
+        $element['#after_build'] = array('_at_helper_addressfield_after_build');
+        break;
+      case 'field_birthdate' :
+        $element['#title'] .= " " . theme('form_required_marker');
+        $element['#after_build'] = array('_at_helper_datefield_after_build');
+        
+        break;
+    }
   }
 }
 
@@ -258,6 +266,13 @@ function _at_helper_addressfield_after_build($element, $form_state) {
       $element[$k]['#pre_render'][] = '_at_helper_addressfield_pre_render';
     }
   }
+  return $element;
+}
+
+function _at_helper_datefield_after_build($element, $form_state) {
+  $element['value']['year']['#options'][''] = t('Year');
+  $element['value']['month']['#options'][''] = t('Month');
+  $element['value']['day']['#options'][''] = t('Day');
   return $element;
 }
 

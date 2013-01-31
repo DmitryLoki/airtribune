@@ -251,12 +251,9 @@ function maps_openlayers_maps() {
         'zoomtolayer_scale' => '1',
       ),
     ),
-    'default_layer' => 'google_physical',
+    'default_layer' => 'google_hybrid_at_edition',
     'layers' => array(
-      'mapquest_osm' => 'mapquest_osm',
-      'mapquest_openaerial' => 'mapquest_openaerial',
-      'google_satellite' => 'google_satellite',
-      'google_physical' => 'google_physical',
+      'google_hybrid_at_edition' => 'google_hybrid_at_edition',
       'events_map_openlayers_1' => 'events_map_openlayers_1',
     ),
     'layer_weight' => array(
