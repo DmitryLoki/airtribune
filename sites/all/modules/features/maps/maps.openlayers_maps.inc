@@ -257,11 +257,12 @@ function maps_openlayers_maps() {
         'zoomtolayer_scale' => '1',
       ),
     ),
-    'default_layer' => 'google_satellite',
+    'default_layer' => 'google_physical',
     'layers' => array(
       'google_hybrid_at_edition' => 'google_hybrid_at_edition',
       'google_normal_at_edition' => 'google_normal_at_edition',
       'google_satellite' => 'google_satellite',
+      'google_physical' => 'google_physical',
       'events_map_openlayers_1' => 'events_map_openlayers_1',
     ),
     'layer_weight' => array(
