@@ -31,6 +31,9 @@ function pg_contest_strongarm() {
       'diff_standard' => array(
         'custom_settings' => FALSE,
       ),
+      'event_blog_teaser' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
