@@ -863,3 +863,10 @@ function airtribune2_preprocess_field(&$vars) {
     }
   }
 }
+
+/**
+ * Implements theme_preprocess_openlayers_map.
+ */
+function airtribune2_preprocess_openlayers_map(&$variables, $hook){
+	drupal_add_js('sites/all/themes/airtribune2/js/FramedCloud.js');
+}
