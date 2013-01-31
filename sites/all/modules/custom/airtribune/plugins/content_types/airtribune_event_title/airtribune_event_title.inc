@@ -40,19 +40,22 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
     '#attributes' => array('id' => 'event-description', 'class' => array('container-inline')),
   );
 
-  $fields = array(
-    AIRTRIBUNE_COUNTRY_FIELD,
-    AIRTRIBUNE_CITY_FIELD,
-    AIRTRIBUNE_DATES_FIELD,
-    AIRTRIBUNE_FAI_CATEGORY_FIELD,
-    AIRTRIBUNE_TIMEZONE_FIELD,
-  );
+  $fields[] = AIRTRIBUNE_COUNTRY_FIELD;
+  $fields[] = AIRTRIBUNE_CITY_FIELD;
+  $fields[] = AIRTRIBUNE_DATES_FIELD;
+  // Do not display "None" FAI category value. See #2632.
+  $fai_items = field_get_items('node', $node, AIRTRIBUNE_FAI_CATEGORY_FIELD);
+  if (!empty($fai_items[0]['value'])) {
+    $fields[] = AIRTRIBUNE_FAI_CATEGORY_FIELD;
+  }
+  $fields[] = AIRTRIBUNE_TIMEZONE_FIELD;
+
   foreach ($fields as $weight => $field) {
     $content['description'][$field] = field_view_field('node', $node, $field, 'full');
     $content['description'][$field]['#weight'] = $weight;
   }
-  $content['description'][$field]['#prefix'] = '<div class="field local_time">' . t('Local time — ');
-  $content['description'][$field]['#suffix'] = '</div>';
+  $content['description'][AIRTRIBUNE_TIMEZONE_FIELD]['#prefix'] = '<div class="field local_time">' . t('Local time — ');
+  $content['description'][AIRTRIBUNE_TIMEZONE_FIELD]['#suffix'] = '</div>';
 
   $content['#attached']['css'] = array($plugin_path . '/airtribune_event_title.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-title'));
