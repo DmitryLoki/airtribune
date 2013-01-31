@@ -186,12 +186,12 @@ function advert_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_link',
       'label' => 'Link',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'attributes' => array(
           'class' => '',
           'configurable_title' => 0,
-          'rel' => '',
+          'rel' => 'nofollow',
           'target' => '_blank',
           'title' => '',
         ),
