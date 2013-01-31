@@ -82,7 +82,7 @@ Drupal.openlayers.addBehavior('openlayers_behavior_popup', function (data, optio
         Drupal.attachBehaviors();
         Drupal.openlayers.popup.selectedFeature = feature;
       },
-      unselect: function(feature) {
+      onUnselect: function(feature) {
         if (feature.popup != null && feature.popup) {
           map.removePopup(feature.popup);
           feature.popup.destroy();
