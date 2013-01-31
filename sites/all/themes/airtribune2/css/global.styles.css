@@ -3191,5 +3191,6 @@ p { margin:0; padding:9px 0 11px}
 }
 #popup_FrameDecorationDiv_4 { height:23px !important; z-index:100;}
 .olFramedCloudPopupContent a { color:#333a40; font:bold 10px/10px Arial, Helvetica, sans-serif; text-decoration:none; display:block; padding: 5px  6px;}
+.olFramedCloudPopupContent a:hover { color:#00aeef}
 .olFramedCloudPopupContent a span { display:block;}
 .olFramedCloudPopupContent a .title { font:bold 12px/15px Arial, Helvetica, sans-serif; padding-bottom:2px}
