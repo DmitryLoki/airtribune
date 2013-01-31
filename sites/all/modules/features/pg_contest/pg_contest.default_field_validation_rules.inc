@@ -19,7 +19,7 @@ function pg_contest_default_field_validation_rule() {
   $rule->col = 'title';
   $rule->entity_type = 'node';
   $rule->bundle = 'pg_contest';
-  $rule->validator = 'field_validation_unique_values_validator';
+  $rule->validator = 'airtribune_unique_values_validator';
   $rule->settings = array(
     'data' => 'airtribune',
     'bypass' => 0,
@@ -33,7 +33,7 @@ function pg_contest_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'You can add only one picture per prize category. This category has already got a picture.';
+  $rule->error_message = 'You can add only one picture per prize category. [value] has already got a picture.';
   $export['unique_prize_category'] = $rule;
 
   return $export;
