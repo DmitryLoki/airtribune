@@ -20,8 +20,8 @@ function at_helper_menu_alter(&$items) {
   $items['user/login']['title'] = 'Sign in';
   $items['user/register']['title'] = 'Register new user';
   
-  $items['user/login']['weight'] = 0;
-  $items['user/register']['weight'] = 1;
+  $items['user/register']['weight'] = 0;
+  $items['user/login']['weight'] = 1;
   $items['user/password']['weight'] = 2;
 }
 
@@ -273,6 +273,23 @@ function _at_helper_datefield_after_build($element, $form_state) {
   $element['value']['year']['#options'][''] = t('Year');
   $element['value']['month']['#options'][''] = t('Month');
   $element['value']['day']['#options'][''] = t('Day');
+  $element['value']['month']['#options'] = array_replace(
+    $element['value']['month']['#options'],
+    array(
+      1 => t('January'),
+      2 => t('February'),
+      3 => t('March'),
+      4 => t('April'),
+      5 => t('May'),
+      6 => t('June'),
+      7 => t('July'),
+      8 => t('August'),
+      9 => t('September'),
+      10 => t('October'),
+      11 => t('November'),
+      12 => t('December'),
+    )
+  );
   return $element;
 }
 
@@ -360,3 +377,20 @@ function at_helper_views_query_alter(&$view, &$query) {
     }
   }
 }
+
+
+// =========================================
+// Openlayers fix for events map
+// =========================================
+
+/*
+function at_helper_js_alter(&$javascript) {
+  if (arg(0) == 'events') {
+    $js_path = drupal_get_path('module', 'openlayers') . '/plugins/behaviors/openlayers_behavior_zoomtolayer.js';
+    if (isset($javascript[$js_path])) {
+      
+    }
+    
+  }
+}
+*/
