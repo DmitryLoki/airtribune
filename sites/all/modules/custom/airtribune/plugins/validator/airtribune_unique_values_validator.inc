@@ -12,12 +12,12 @@ $plugin = array(
   'label' => t('Airtribune unique values on multiple fields'),
   'description' => t('Verifies that all specified fields contain unique values.'),
   'handler' => array(
-    'class' => 'AirtribuneUniqueValuesValidator',
+    'class' => 'airtribune_unique_values_validator',
   ),
 );
 
 
-class AirtribuneUniqueValuesValidator extends field_validation_validator {
+class airtribune_unique_values_validator extends field_validation_validator {
 
   /**
    * Validate field. 
