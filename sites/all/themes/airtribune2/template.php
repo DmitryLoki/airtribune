@@ -29,6 +29,7 @@ function airtribune2_preprocess_html(&$vars) {
 	  //$vars['title'] = t('Activity feed');
 	  drupal_set_title(t('Activity feed'));
   }
+  //print_r($vars);
 }
 
 /**
@@ -180,8 +181,20 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if($variables['pane']->type == 'node' && $variables['content']['#node']->nid == '5363'){
 	 $variables['title'] = '';
   }
-  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0){
+  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0 && $variables['display']->layout != 'featured_header'){
 	 $variables['content'] = '';
+	 if(arg(1)){
+		 if(arg(1) == 'register'){
+			 drupal_set_title(t('Register new user'));
+		 }
+		 if(arg(1) == 'password'){
+			 drupal_set_title(t('Request new password'));
+		 }
+	 }
+	 else{
+		 drupal_set_title(t('Sign in'));
+	 }
+	 //print_r($variables);
   }
   //print_r($variables);
 }
@@ -205,7 +218,7 @@ function airtribune2_preprocess_node(&$vars) {
   }
   $vars['user_picture'] = '<span class="user-picture">'.theme('image_style', array( 'path' =>  $userpic, 'style_name' => 'node_userpic')).'</span>';
   $vars['notitle'] = false;
-  if($vars['node']->nid == '5363') {
+  if($vars['node']->nid == '5363' || $vars['node']->nid == '5362') {
 	  $vars['notitle'] = true;
 	  $vars['title'] = '';
 	  $vars['user_picture'] = '';
