@@ -226,6 +226,13 @@ function maps_openlayers_maps() {
       'openlayers_behavior_attribution' => array(
         'seperator' => '',
       ),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
       'openlayers_behavior_navigation' => array(
         'zoomWheelEnabled' => 1,
         'zoomBoxEnabled' => 1,
@@ -242,18 +249,19 @@ function maps_openlayers_maps() {
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
           'events_map_openlayers_1' => 'events_map_openlayers_1',
-          'mapquest_osm' => 0,
-          'mapquest_openaerial' => 0,
+          'google_hybrid_at_edition' => 0,
+          'google_normal_at_edition' => 0,
           'google_satellite' => 0,
-          'google_physical' => 0,
         ),
         'point_zoom_level' => '5',
         'zoomtolayer_scale' => '1',
       ),
     ),
-    'default_layer' => 'google_hybrid_at_edition',
+    'default_layer' => 'google_satellite',
     'layers' => array(
       'google_hybrid_at_edition' => 'google_hybrid_at_edition',
+      'google_normal_at_edition' => 'google_normal_at_edition',
+      'google_satellite' => 'google_satellite',
       'events_map_openlayers_1' => 'events_map_openlayers_1',
     ),
     'layer_weight' => array(
