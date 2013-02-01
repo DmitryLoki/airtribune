@@ -2975,11 +2975,11 @@ p { margin:0; padding:9px 0 11px}
 }
 
 .page-user .pane-page-content form .form-item { margin-top:16px; position:relative;}
-.page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:5px}
+.page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:7px}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4px}
 .page-user .pane-page-content form .form-item input.form-text,
-.page-user .pane-page-content form .select .checked_option_wrap { width:220px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:3px 10px 7px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
+.page-user .pane-page-content form .select .checked_option_wrap { width:220px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:5px 10px 5px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2992,7 +2992,7 @@ p { margin:0; padding:9px 0 11px}
 }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 11px; width:220px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email { width:290px;}
-.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:4px 0 0 4px}
+.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 0 0 4px}
 .page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
 .page-user .pane-page-content form .field-type-list-text label { float:left;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { float:left; margin:1px 0 0;}
@@ -3078,7 +3078,8 @@ p { margin:0; padding:9px 0 11px}
 
 .page-user .pane-page-content form .select { margin-right:8px;}
 .page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 20px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -44px; cursor:pointer;}
+.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 20px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+.page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover, .page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option { background-position:100% -44px}
 .page-user .pane-page-content form .date-month .checked_option { min-width:99px}
 .page-user .pane-page-content form .date-day .checked_option { min-width:39px}
 .page-user .pane-page-content form .date-year .checked_option { min-width:49px}
@@ -3191,5 +3192,6 @@ p { margin:0; padding:9px 0 11px}
 }
 #popup_FrameDecorationDiv_4 { height:23px !important; z-index:100;}
 .olFramedCloudPopupContent a { color:#333a40; font:bold 10px/10px Arial, Helvetica, sans-serif; text-decoration:none; display:block; padding: 5px  6px;}
+.olFramedCloudPopupContent a:hover { color:#00aeef}
 .olFramedCloudPopupContent a span { display:block;}
 .olFramedCloudPopupContent a .title { font:bold 12px/15px Arial, Helvetica, sans-serif; padding-bottom:2px}
