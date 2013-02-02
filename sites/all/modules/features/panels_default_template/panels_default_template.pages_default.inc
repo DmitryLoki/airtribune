@@ -285,7 +285,18 @@ function panels_default_template_default_page_manager_handlers() {
           'context' => 'empty',
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
       ),
+      'logic' => 'or',
     );
     $pane->configuration = array(
       'admin_title' => 'Small share links',
