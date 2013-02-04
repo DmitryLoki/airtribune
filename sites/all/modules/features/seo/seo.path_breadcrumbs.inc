@@ -179,25 +179,7 @@ function seo_path_breadcrumbs_settings_info() {
     'home' => 1,
     'translatable' => 1,
     'arguments' => NULL,
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => '',
-            'php' => '$now_date_str = date(\'Y-m-d\',time());
-$count = db_select(\'field_data_field_dates\')
-  ->condition(\'field_dates_value\', $now_date_str, \'>\')
-  ->countQuery()
-  ->execute()
-  ->fetchField();
-if ($count) return TRUE;',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
+    'access' => array(),
   );
   $path_breadcrumb->weight = -93;
   $export['breadcrumb_events_list_2'] = $path_breadcrumb;
@@ -424,31 +406,11 @@ if ($count) return TRUE;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-$blog_node = $contexts[\'node\']->data;
-$contest_nid = $blog_node->og_group_ref[\'und\'][0][\'target_id\'];
-$data = node_load($contest_nid);
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
         2 => array(
@@ -508,32 +470,13 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
-      ),
       'logic' => 'and',
     ),
   );
@@ -920,31 +863,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-$blog_node = $contexts[\'node\']->data;
-$contest_nid = $blog_node->og_group_ref[\'und\'][0][\'target_id\'];
-$data = node_load($contest_nid);
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
         2 => array(
@@ -1398,31 +1321,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-$blog_node = $contexts[\'node\']->data;
-$contest_nid = $blog_node->og_group_ref[\'und\'][0][\'target_id\'];
-$data = node_load($contest_nid);
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
         2 => array(
