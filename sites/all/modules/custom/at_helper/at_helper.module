@@ -394,3 +394,8 @@ function at_helper_js_alter(&$javascript) {
   }
 }
 */
+function at_helper_init() {
+  if (arg(0) == 'events') {
+    drupal_add_js( drupal_get_path('module', 'at_helper') . '/js/event_map_title_helper.js' );
+  }
+}
