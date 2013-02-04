@@ -53,6 +53,7 @@ function maps_openlayers_maps() {
           'geofield_formatter' => 'geofield_formatter',
           'google_satellite' => 0,
           'google_normal_at_edition' => 0,
+          'google_hybrid_at_edition' => 0,
         ),
         'point_zoom_level' => '13',
         'zoomtolayer_scale' => '1',
@@ -73,12 +74,12 @@ function maps_openlayers_maps() {
     'layer_styles' => array(
       'openlayers_geojson_picture_this' => '0',
       'events_map_openlayers_1' => '0',
-      'geofield_formatter' => '0',
+      'geofield_formatter' => 'marker_events',
     ),
     'layer_styles_select' => array(
       'openlayers_geojson_picture_this' => '0',
       'events_map_openlayers_1' => '0',
-      'geofield_formatter' => '0',
+      'geofield_formatter' => 'clone_of_marker_events',
     ),
     'layer_activated' => array(
       'geofield_formatter' => 'geofield_formatter',
@@ -170,12 +171,12 @@ function maps_openlayers_maps() {
     'layer_styles' => array(
       'openlayers_geojson_picture_this' => '0',
       'events_map_openlayers_1' => '0',
-      'geofield_formatter' => '0',
+      'geofield_formatter' => 'marker_events',
     ),
     'layer_styles_select' => array(
       'openlayers_geojson_picture_this' => '0',
       'events_map_openlayers_1' => '0',
-      'geofield_formatter' => '0',
+      'geofield_formatter' => 'clone_of_marker_events',
     ),
     'layer_activated' => array(
       'geofield_formatter' => 'geofield_formatter',
@@ -206,8 +207,8 @@ function maps_openlayers_maps() {
   $openlayers_maps->data = array(
     'width' => 'auto',
     'height' => '380px',
-    'image_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/img/',
-    'css_path' => 'sites/all/modules/contrib/openlayers/themes/default_dark/style.css',
+    'image_path' => 'sites/all/themes/airtribune2/plugins/openlayers/tribune/img/',
+    'css_path' => 'sites/all/themes/airtribune2/plugins/openlayers/tribune/style.css',
     'proxy_host' => '',
     'hide_empty_map' => 0,
     'zoomWheelDisabledUntilClick' => TRUE,
@@ -253,6 +254,7 @@ function maps_openlayers_maps() {
           'google_hybrid_at_edition' => 0,
           'google_normal_at_edition' => 0,
           'google_satellite' => 0,
+          'google_physical' => 0,
         ),
         'point_zoom_level' => '5',
         'zoomtolayer_scale' => '1',
@@ -268,40 +270,35 @@ function maps_openlayers_maps() {
     ),
     'layer_weight' => array(
       'events_map_openlayers_1' => '0',
-      'test_open_layers_openlayers_1' => '0',
       'openlayers_geojson_picture_this' => '0',
       'geofield_formatter' => '0',
     ),
     'layer_styles' => array(
-      'geofield_formatter' => '0',
-      'openlayers_geojson_picture_this' => '0',
-      'test_open_layers_openlayers_1' => '0',
-      'events_map_openlayers_1' => '0',
+      'geofield_formatter' => 'marker_events',
+      'openlayers_geojson_picture_this' => 'marker_events',
+      'events_map_openlayers_1' => 'marker_events',
     ),
     'layer_styles_select' => array(
-      'geofield_formatter' => '0',
-      'openlayers_geojson_picture_this' => '0',
-      'test_open_layers_openlayers_1' => '0',
-      'events_map_openlayers_1' => '0',
+      'geofield_formatter' => 'clone_of_marker_events',
+      'openlayers_geojson_picture_this' => 'clone_of_marker_events',
+      'events_map_openlayers_1' => 'clone_of_marker_events',
     ),
     'layer_activated' => array(
       'events_map_openlayers_1' => 'events_map_openlayers_1',
       'geofield_formatter' => 0,
       'openlayers_geojson_picture_this' => 0,
-      'test_open_layers_openlayers_1' => 0,
     ),
     'layer_switcher' => array(
       'events_map_openlayers_1' => 0,
       'geofield_formatter' => 0,
       'openlayers_geojson_picture_this' => 0,
-      'test_open_layers_openlayers_1' => 0,
     ),
     'projection' => '900913',
     'displayProjection' => '4326',
     'styles' => array(
-      'default' => 'default',
-      'select' => 'default_select',
-      'temporary' => 'default',
+      'default' => 'marker_events',
+      'select' => 'clone_of_marker_events',
+      'temporary' => 'marker_events',
     ),
   );
   $export['events_map'] = $openlayers_maps;

@@ -7,7 +7,6 @@ Drupal.behaviors.airtribune2 = {
     .attr('title', 'Under construction')
     .attr('href', '')
     .click(function(){return false;})
-
   }
 }
 })(jQuery);

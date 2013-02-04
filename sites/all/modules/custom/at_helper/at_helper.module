@@ -243,7 +243,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
  * Alter Name field widget
  */
 function at_helper_field_widget_form_alter(&$element, &$form_state, $context) {
-  if (!empty($element['#field_name']) && $element['#required']) {
+  if (!empty($element['#field_name']) && !empty($element['#required'])) {
     switch ($element['#field_name']) {
       case 'field_full_name' :
         $element['#after_build'] = array('_at_helper_addressfield_after_build');
