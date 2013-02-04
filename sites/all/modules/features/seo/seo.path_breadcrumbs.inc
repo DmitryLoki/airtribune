@@ -310,29 +310,11 @@ if ($count) return TRUE;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -384,29 +366,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -618,29 +582,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -692,29 +638,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -766,29 +694,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -840,29 +750,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value <= $current_time && $value2 >= $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'current',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -914,29 +806,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -988,29 +862,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1148,29 +1004,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1222,29 +1060,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1296,29 +1116,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1370,29 +1172,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1444,29 +1228,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value > $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'next',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1518,29 +1284,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1592,29 +1340,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1752,29 +1482,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1826,29 +1538,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1900,29 +1594,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
@@ -1974,29 +1650,11 @@ return $match;',
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
+          'name' => 'event_dates',
           'settings' => array(
-            'description' => 'Date comparison',
-            'php' => '$match = FALSE;
-$current_time = time();
-if (isset($contexts[\'node\']->data)) {
-  $data = $contexts[\'node\']->data;
-  if ( !empty($data->language) && !empty($data->field_dates[$data->language][0][\'value\']) ) {
-    $lang = $data->language; 
-  }
-  else {
-    $lang = \'und\';
-  }
-  if (!empty($data->field_dates[$lang][0][\'value\']) && !empty($data->field_dates[$lang][0][\'value2\'])) {
-    $value = strtotime($data->field_dates[$lang][0][\'value\']);
-    $value2 = strtotime($data->field_dates[$lang][0][\'value2\']);
-    if ($value2 < $current_time) {
-      $match = TRUE;
-    }
-  }
-}
-return $match;',
+            'status' => 'past',
           ),
+          'context' => 'node',
           'not' => FALSE,
         ),
       ),
