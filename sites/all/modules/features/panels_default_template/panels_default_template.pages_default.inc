@@ -376,10 +376,8 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->configuration = array(
       'admin_title' => 'Manage event partners link',
       'title' => '',
-      'body' => '<?php
-print l(t(\'Manage event partners\'), \'partners/%node:nid\');
-?>',
-      'format' => 'php_code',
+      'body' => '<a href="/partners/%node:nid">Manage event partners</a>',
+      'format' => 'filtered_html',
       'substitute' => 1,
     );
     $pane->cache = array();
@@ -483,9 +481,7 @@ events/*',
     $pane->configuration = array(
       'admin_title' => 'Manage site partners link',
       'title' => '',
-      'body' => '<?php
-print l(t(\'Manage site partners\'), \'partners\');
-?>',
+      'body' => '<a href="/partners">Manage site partners</a>',
       'format' => 'php_code',
       'substitute' => 1,
     );
