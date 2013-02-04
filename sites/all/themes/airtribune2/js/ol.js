@@ -15,7 +15,7 @@ Drupal.behaviors.disableZoomWheelBeforeClick = {
                 olMap = olObject.openlayers,
                 navControls = olMap.getControlsByClass('OpenLayers.Control.Navigation');
 
-            if(!mapOptions.zoomWheelDisabledUntilClick) {
+            if(mapOptions.zoomWheelDisabledUntilClick === false) {
                 return;
             }
 
