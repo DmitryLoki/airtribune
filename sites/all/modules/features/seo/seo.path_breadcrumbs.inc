@@ -478,6 +478,7 @@ function seo_path_breadcrumbs_settings_info() {
           'not' => FALSE,
         ),
       'logic' => 'and',
+      ),
     ),
   );
   $path_breadcrumb->weight = -79;
