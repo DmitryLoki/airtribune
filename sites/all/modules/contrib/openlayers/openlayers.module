@@ -174,8 +174,7 @@ function openlayers_build_map($map = array()) {
   // Process map parts.
   $map['layers'] = _openlayers_layers_process($map['layers'], $map);
   $map['behaviors'] = _openlayers_behaviors_render($map['behaviors'], $map);
-  $map['styles'] = _openlayers_styles_process($map['styles'],
-    $map['layer_styles'], $map['layer_styles_select'], $map);
+  $map['styles'] = _openlayers_styles_process($map['styles'], $map['layer_styles'], $map['layer_styles_select'], $map);
 
   // Hook to alter map one last time.  Final modification to existing
   // styles, behaviors, layers can happen here, but adding new styles,
@@ -285,13 +284,12 @@ function openlayers_get_layer_object($layer, $map = array()) {
   $layer->description = t($layer->description);
 
   // Attempt to get ctool class
-  // class is renamed klass because of PHP keywords
   if (isset($layer_types[$layer->data['layer_type']]) &&
-    $klass = ctools_plugin_get_class(
+    $class = ctools_plugin_get_class(
       $layer_types[$layer->data['layer_type']],
       'layer_type')
   ) {
-    $layer_object = new $klass($layer, $map);
+    $layer_object = new $class($layer, $map);
     return $layer_object;
   }
   else {
@@ -320,6 +318,16 @@ function openlayers_layer_load($name, $reset = FALSE) {
   if (is_array($layer) && isset($layer[$name])) {
     $layer_object = openlayers_get_layer_object($layer[$name]);
     if (openlayers_layer_sanity_check($layer_object)) {
+      // Automatic layer load for layers.
+      /*
+      $definitions = ctools_get_plugins('openlayers', 'layer_types');
+      $type = get_class($layer_object);
+      $base = basename($definitions[$type]['file'], '.inc');
+      $js = $definitions[$type]['path'] . '/' . $base .'.js';
+      $css = $definitions[$type]['path'] . '/' . $base .'.css';
+      drupal_add_js($js);
+      drupal_add_css($css);
+      */
       return $layer_object;
     }
   }
@@ -345,8 +353,79 @@ function openlayers_layers_load($reset = FALSE) {
   foreach ($layers as $layer) {
     $layer_objects[$layer->name] = openlayers_get_layer_object($layer);
   }
+
   return array_filter($layer_objects, 'openlayers_layer_sanity_check');
 }
+
+/**
+ * Check the plugin definition of a layer.
+ * Some field *MUST* be there to work correctly with OL.
+ *
+ * @ingroup openlayers_api
+ * @param $definition
+ * @return bool
+ */
+function openlayers_layer_definition_check($definition) {
+  $mandatory_fields = array(
+    array('title'),
+    array('description'),
+    array('name'),
+    array('path'),
+    array('layer_type', 'file'),
+    array('layer_type', 'class'),
+    array('layer_type', 'parent'),
+  );
+
+  foreach ($mandatory_fields as $field) {
+    $missing = drupal_array_nested_key_exists($definition, $field);
+    if (!$missing) {
+      drupal_set_message(t("There's a problem in the plugin definition of the layer type <em>!type</em>. The layer will be disabled.", array('!type' => $definition['name'])), 'warning');
+      watchdog('openlayers', 'Layer !layer is unavailable because its
+                                plugin definition is incomplete.',
+        array('!layer' => $definition['name']),
+        WATCHDOG_ERROR);
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**
+ * Check the plugin definition of a behavior.
+ * Some field *MUST* be there to work correctly with OL.
+ *
+ * @ingroup openlayers_api
+ * @param $definition
+ * @return bool
+ */
+function openlayers_behavior_definition_check($definition) {
+  $mandatory_fields = array(
+    array('title'),
+    array('description'),
+    array('name'),
+    array('path'),
+    array('type'),
+    array('behavior', 'file'),
+    array('behavior', 'class'),
+    array('behavior', 'parent'),
+  );
+
+  foreach ($mandatory_fields as $field) {
+    $missing = drupal_array_nested_key_exists($definition, $field);
+    if (!$missing) {
+      drupal_set_message(t("There's a problem in the definition of the behavior <em>!behavior</em>. The behavior will be disabled.", array('!behavior' => $definition['name'])), 'warning');
+      watchdog('openlayers', 'Behavior !behavior is unavailable because its
+                                plugin definition is incomplete.',
+        array('!behavior' => $definition['name']),
+        WATCHDOG_ERROR);
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
 
 /**
  * Check layer to determine whether it has all the
@@ -366,6 +445,10 @@ function openlayers_layers_load($reset = FALSE) {
 function openlayers_layer_sanity_check($layer, $projection = FALSE, $strict = FALSE) {
   // Handle layers after they've been rendered for a map
   $layer = (is_array($layer)) ? (object) $layer : $layer;
+
+  if (!isset($layer->name)) {
+    return !$strict;
+  }
 
   if (!isset($layer->data['projection']) || !is_array($layer->data['projection'])) {
     watchdog('openlayers', 'Layer %name does not have a projection set.',
@@ -431,7 +514,9 @@ function openlayers_layer_delete($layer) {
  */
 function openlayers_layer_types($reset = FALSE) {
   ctools_include('plugins');
-  return ctools_get_plugins('openlayers', 'layer_types');
+  $layers = ctools_get_plugins('openlayers', 'layer_types');
+
+  return array_filter($layers, 'openlayers_layer_definition_check');
 }
 
 /**
@@ -472,7 +557,9 @@ function openlayers_layer_type_load($name, $reset = FALSE) {
  */
 function openlayers_behaviors($reset = FALSE) {
   ctools_include('plugins');
-  return ctools_get_plugins('openlayers', 'behaviors');
+  $behaviors = ctools_get_plugins('openlayers', 'behaviors');
+  return array_filter($behaviors, 'openlayers_behavior_definition_check');
+
 }
 
 /**
@@ -594,15 +681,14 @@ function openlayers_map_load($name = '', $reset = FALSE) {
     ctools_export_load_object_reset('openlayers_maps');
   }
 
-  $maps = ctools_export_load_object(
-    'openlayers_maps', 'names', array($name));
+  $maps = ctools_export_load_object('openlayers_maps', 'names', array($name));
+
   if (empty($maps[$name])) {
     return FALSE;
-  }
-  else {
+  } else {
     $map = $maps[$name];
     $map->data['map_name'] = $name;
-    return $map;
+    return clone $map;
   }
 }
 
@@ -795,7 +881,11 @@ function openlayers_get_resolutions($projection, $zoom_start = 0, $zoom_end = FA
         4.777314266967774,
         2.388657133483887,
         1.1943285667419434,
-        0.5971642833709717);
+        0.5971642833709717,
+        0.29858214169740677,
+        0.14929107084870338,
+        0.07464553542435169
+      );
       break;
     case '4326':
       // 16 zoom levels, taken from
@@ -816,7 +906,9 @@ function openlayers_get_resolutions($projection, $zoom_start = 0, $zoom_end = FA
         0.000171661376953125,
         0.0000858306884765625,
         0.00004291534423828125,
-        0.000021457672119140625);
+        0.000021457672119140625,
+        0.000010728836059570312,
+      );
       break;
     default:
       $res = array();
@@ -868,59 +960,126 @@ class openlayers_behavior {
  * All other parent classes can be autoloaded through ctools.
  */
 class openlayers_layer_type {
-  var $options, $map;
 
+  /**
+   * Stores the options for this layer.
+   * @var array
+   */
+  public $data = array();
+
+  /**
+   * Stores the current map.
+   * @var array
+   */
+  public $map;
+
+  /**
+   * Set configuration and store map.
+   *
+   * @param $layer
+   *   Configuration object with the options for the layer.
+   * @param $map
+   *   Array with the current map.
+   */
   function __construct($layer = array(), $map = array()) {
     foreach (array('name', 'title', 'description', 'data', 'export_type') as $k) {
       if (isset($layer->{$k})) {
         $this->{$k} = $layer->{$k};
       }
     }
-    if (isset($this->data) && is_array($this->data)) {
-      $this->data += $this->options_init();
-    }
+    // Extend options with the defaults.
+    $this->data += $this->options_init();
+
     $this->map = $map;
   }
 
-  function options_init() {
-    return array();
-  }
-
-  function options_form($defaults = array()) {
-    return array();
-  }
-
   /**
+   * Provides the default options for the layer.
+   *
    * @return
-   *   A version of this layer_type which can be saved,
-   *   when attempting to save a modified layer
+   *   An associative array with the default options.
    */
-  function to_record() {
+  function options_init() {
     return array(
-      'name' => $this->name,
-      'description' => $this->description,
-      'title' => $this->title,
-      'data' => $this->data
+      'layer_type' => get_class($this),
+      'isBaseLayer' => TRUE,
+      'projection' => array('900913'),
+      'serverResolutions' => openlayers_get_resolutions('900913'),
+      'maxExtent' => openlayers_get_extent('900913'),
+      'resolutions' => openlayers_get_resolutions('900913'),
+      'base_url' => NULL,
+      'transitionEffect' => 'resize',
+      'weight' => 0
     );
   }
 
   /**
+   * Options form to configure layer instance options.
+   *
    * @return
-   *   Success value on saving this layer
+   *   Array with form elements.
    */
-  function save() {
-    if (!empty($this->name)) {
-      return (db_select('openlayers_layers')
-          ->fields('openlayers_layers', array('name'))
-          ->condition('name', $this->name)
-          ->execute()
-          ->fetchCol()) ?
-        drupal_write_record('openlayers_layers', $this->to_record(), 'name') :
-        drupal_write_record('openlayers_layers', $this->to_record());
-    }
+  function options_form($default = array()) {
+    return array(
+      'projection' => array(
+        '#type' => 'select',
+        '#title' => t('Projection'),
+        '#multiple' => TRUE,
+        '#options' => array(
+          '900913' => '900913',
+          '4326' => '4326'
+        ),
+        '#default_value' => isset($default->data['projection']) ?
+          $default->data['projection'] :
+          '900913'
+      ),
+      'isBaseLayer' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Base Layer'),
+        '#description' => t('Uncheck to make this map an overlay'),
+        '#default_value' => !empty($default->data['isBaseLayer']) ?
+          $default->data['isBaseLayer'] : FALSE
+      ),
+    );
   }
 
+  /**
+   * Validate the options_form().
+   *
+   * @param array $default
+   */
+  function options_form_validate($form, &$form_state) {
+
+  }
+
+  /**
+   * Submit the options_form().
+   *
+   * @param array $default
+   */
+  function options_form_submit($form, &$form_state) {
+
+  }
+
+  /**
+   * Options form to configure layer-type-wide options.
+   *
+   * @return
+   *   Array with form elements.
+   */
+  function settings_form() {
+    return array();
+  }
+
+  /**
+   * Render the layer and return the layer options.
+   *
+   * Has no return value.
+   *
+   * @param $map
+   */
   function render(&$map) {}
+
 }
 
 /**
