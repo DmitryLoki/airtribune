@@ -3178,7 +3178,7 @@ p { margin:0; padding:9px 0 11px}
 
 /* OpenLayers */
 .featured-header-padding .olControlZoomPanel { top:150px}
-.featured-header-padding .olControlLayerSwitcher .maximizeDiv, .featured-header-padding .olControlLayerSwitcher .minimizeDiv { top:-18pxpx}
+.featured-header-padding .olControlLayerSwitcher .maximizeDiv, .featured-header-padding .olControlLayerSwitcher .minimizeDiv { top:-18px}
 .featured-header-padding .olControlLayerSwitcher { top:165px;}
 #super .olLayerGoogleV3.olLayerGoogleCopyright { left:auto; right:0 !important}
 #super .olLayerGoogleV3.olLayerGooglePoweredBy { bottom:-3px !important;}
