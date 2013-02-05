@@ -163,7 +163,7 @@ function activity_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_address',
       'label' => 'Address',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'user_register_form' => FALSE,
@@ -384,7 +384,7 @@ function activity_field_default_fields() {
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
         'size' => '15',
       ),
       'translatable' => '0',
