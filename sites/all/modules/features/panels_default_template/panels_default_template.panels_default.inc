@@ -345,14 +345,14 @@ e-mail: info@airtribune.com</p>',
       'admin_title' => 'Follow us',
       'title' => 'Follow us',
       'body' => '<div id="social">
-   <ul>
-    <li><a href="" class="tw"><span>Twitter</span></a></li>
-    <li><a href="" class="vk"><span>VKontakte</span></a></li>
-    <li><a href="" class="lj"><span>Livejournal</span></a></li>
-    <li><a href="" class="fb"><span>Facebook</span></a></li>
-    <li><a href="" class="yt"><span>Youtube</span></a></li>
-   </ul>
-  </div>',
+  <ul>
+    <li><a href="#" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
+    <li><a href="#" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
+    <li><a href="#" class="lj" rel="nofollow" target="_blank"><span>Livejournal</span></a></li>
+    <li><a href="#" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
+    <li><a href="#" class="yt" rel="nofollow" target="_blank"><span>Youtube</span></a></li>
+  </ul>
+</div>',
       'format' => 'full_html',
       'substitute' => TRUE,
     );

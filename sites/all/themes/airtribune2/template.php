@@ -869,4 +869,6 @@ function airtribune2_preprocess_field(&$vars) {
  */
 function airtribune2_preprocess_openlayers_map(&$variables, $hook){
 	drupal_add_js('sites/all/themes/airtribune2/js/FramedCloud.js');
+  // Enable zoom wheel only after click on the map.
+  drupal_add_js('sites/all/themes/airtribune2/js/ol.js');
 }

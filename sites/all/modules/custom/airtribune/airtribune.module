@@ -26,6 +26,7 @@ define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 
 
 /**

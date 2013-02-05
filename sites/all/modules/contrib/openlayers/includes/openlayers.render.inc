@@ -28,13 +28,14 @@ function _openlayers_layers_process($layers = array(), &$map = array()) {
       }
       else $layers[$key]->weight = 0;
     }
+    else unset($layers[$key]);
   }
 
   // Sort layers
   usort($layers, '_openlayers_layers_process_sort');
 
   // Process into array-based layer data for the map
-  foreach ($layers as $layer_object) {
+  foreach ($layers as $type => $layer_object) {
     if (is_object($layer_object)) {
       $layer_object->render($map);
       $layer_object->data['title'] = $layer_object->title;
@@ -218,7 +219,7 @@ function _openlayers_create_map_id() {
  *   Processed path.
  */
 function openlayers_style_path($path) {
-  if (strpos($path, '${') !== 0) { 
+  if (strpos($path, '${') !== 0) {
     $path = file_create_url($path);
     $path = str_replace('%24%7B', '${', $path);
     $path = str_replace('%7D', '}', $path);

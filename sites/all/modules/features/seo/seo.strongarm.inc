@@ -733,11 +733,29 @@ batch
 User-agent: *
 Crawl-delay: 10
 # CUSTOM
+Disallow: /*sort=
+Disallow: /*/node/*/translate
 Disallow: /*/node/*/
 Disallow: /*/node/*/group
-Disallow: /*/node/*/translate
 Disallow: /*/group/node/*
-Disallow: /*sort=
+Disallow: /*/event/*
+Disallow: /*/taxonomy/term/*
+#
+Disallow: /node/*/translate
+Disallow: /node/*
+Disallow: /node/*/group
+Disallow: /group/node/*
+Disallow: /event/*
+Disallow: /taxonomy/term/*
+#
+Disallow: /?q=node/*/translate
+Disallow: /?q=node/*
+Disallow: /?q=node/*/group
+Disallow: /?q=group/node/*
+Disallow: /?q=event/*
+Disallow: /?q=taxonomy/term/*
+# Other
+Disallow: /filter/tips/
 # Directories
 Disallow: /includes/
 Disallow: /misc/

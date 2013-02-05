@@ -6,54 +6,44 @@
 /**
  * Openlayer layer handler for KML layer
  */
-(function($) {
-
 Drupal.openlayers.layer.kml = function(title, map, options) {
 
-  var features = null;
-  options.projection = 'EPSG:' + options.projection;
-  options.styleMap = Drupal.openlayers.getStyleMap(map, options.drupalID);
-  var layer = new OpenLayers.Layer.Vector(title, options);
+  var layer = new OpenLayers.Layer.Vector(title, {
+    name: options.name,
+    drupalID: options.drupalID,
+    layer_handler: options.layer_handler,
+    styleMap: Drupal.openlayers.getStyleMap(map, options.drupalID)
+  });
 
   // KML Projection handling and formating options
   var kml_options = options.formatOptions;
   kml_options.internalProjection = new OpenLayers.Projection('EPSG:' + map.projection);
-  kml_options.externalProjection = new OpenLayers.Projection(options.projection);
+  kml_options.externalProjection = new OpenLayers.Projection('EPSG:' + options.projection);
 
-  // Use an AJAX like call to get data from URL
-  OpenLayers.Request.GET({
-    url: options.url,
-    callback: function (response) {
-      var format = new OpenLayers.Format.KML(kml_options);
-      var features = format.read(response.responseText);
-      // Add features, if needed
-      if (features) {
-        layer.addFeatures(features);
-        layer.events.triggerEvent('loadend');
+  if (options.method == 'file' || options.method == 'url') {
+    var uri = options.url;
+    // Use an AJAX like call to get data from URL
+    OpenLayers.Request.GET({
+      url: uri,
+      callback: function (response) {
+        addFeatures(response.responseText, kml_options);
       }
-    }
-  });
+    });
+  }
 
-  // Extend options with a Fixed strategy fo getting from URL.
-  //
-  // This seems a bit more natural but does not
-  // seem to work.
-  /*
-  var layer = new OpenLayers.Layer.Vector(
-    title,
-    $.extend(options, {
-    strategies: [new OpenLayers.Strategy.Fixed()],
-    protocol: new OpenLayers.Protocol.HTTP({
-        url: options.url,
-        format: new OpenLayers.Format.KML(
-          options.formatOptions
-        )
-      })
-    })
-  );
-  */
+  if (options.method == 'raw') {
+    addFeatures(options.raw, kml_options);
+  }
+
+  function addFeatures(kml, options) {
+    var format = new OpenLayers.Format.KML(options);
+    var features = format.read(kml);
+    // Add features, if needed
+    if (features) {
+      layer.addFeatures(features);
+      layer.events.triggerEvent('loadend');
+    }
+  }
 
   return layer;
 };
-
-})(jQuery);
