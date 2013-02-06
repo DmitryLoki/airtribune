@@ -4,6 +4,7 @@ core = 7.x
 package = Other
 php = 5.2.4
 dependencies[] = accommodation
+dependencies[] = activity
 dependencies[] = addressfield
 dependencies[] = admin_menu
 dependencies[] = advert
