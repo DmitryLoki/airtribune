@@ -379,18 +379,18 @@ function at_helper_views_query_alter(&$view, &$query) {
 }
 
 
-// =========================================
-// Openlayers fix for events map
-// =========================================
-
-/*
-function at_helper_js_alter(&$javascript) {
-  if (arg(0) == 'events') {
-    $js_path = drupal_get_path('module', 'openlayers') . '/plugins/behaviors/openlayers_behavior_zoomtolayer.js';
-    if (isset($javascript[$js_path])) {
-      
+/**
+ * Implements hook_page_manager_contexts_alter()
+ * 
+ * Add node context for event/[nid]/register page
+ */
+function at_helper_page_manager_contexts_alter(&$contexts, $placeholders) {
+  if (arg(0) == 'event' && arg(2) == 'register') {
+    $raw_node = node_load(arg(1));
+    if ($raw_node->nid) {
+      $node = ctools_context_create('node', $raw_node);
+      panels_everywhere_site_template_add_context($contexts, $node, t('Node being viewed'), 'node', 'node');
     }
-    
   }
 }
-*/
+
