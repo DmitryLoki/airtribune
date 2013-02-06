@@ -43,7 +43,7 @@ function pg_contest_form($node, $form_state) {
  */
 function pg_contest_node_presave($node) {
   // We don't want path module to create node alias.
-  if ($node->type == 'pg_contest' && isset($node->path)) {
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE && isset($node->path)) {
     $node->event_path = $node->path;
     unset($node->path);
   }
