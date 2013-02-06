@@ -20,6 +20,9 @@ function accommodation_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -73,7 +76,7 @@ function accommodation_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'body',
-      'label' => 'Services',
+      'label' => 'Services and prices',
       'required' => 0,
       'settings' => array(
         'display_summary' => 1,
@@ -89,7 +92,7 @@ function accommodation_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '11',
+        'weight' => '12',
       ),
     ),
   );
@@ -98,10 +101,13 @@ function accommodation_field_default_fields() {
   $fields['node-accommodation-field_email'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '2',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_email',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -153,11 +159,9 @@ function accommodation_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'html5_tools',
-        'settings' => array(
-          'size' => 60,
-        ),
+        'settings' => array(),
         'type' => 'emailwidget',
-        'weight' => '9',
+        'weight' => '10',
       ),
     ),
   );
@@ -452,10 +456,13 @@ function accommodation_field_default_fields() {
   $fields['node-accommodation-field_phone'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '4',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_phone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -750,7 +757,7 @@ function accommodation_field_default_fields() {
           'size' => 15,
         ),
         'type' => 'phone_number',
-        'weight' => '7',
+        'weight' => '8',
       ),
     ),
   );
@@ -759,7 +766,7 @@ function accommodation_field_default_fields() {
   $fields['node-accommodation-field_photo'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '10',
+      'cardinality' => '8',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_photo',
@@ -846,7 +853,7 @@ function accommodation_field_default_fields() {
             ),
             'value' => 'hotels/[node:nid]-[node:title]',
           ),
-          'retroactive_update' => 1,
+          'retroactive_update' => 0,
         ),
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
@@ -859,10 +866,10 @@ function accommodation_field_default_fields() {
         'module' => 'media',
         'settings' => array(
           'allowed_schemes' => array(
-            'private' => 'private',
             'public' => 'public',
           ),
           'allowed_types' => array(
+            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
@@ -871,7 +878,7 @@ function accommodation_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '8',
+        'weight' => '9',
       ),
     ),
   );
@@ -884,6 +891,9 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_price_currency',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -906,7 +916,7 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -933,7 +943,7 @@ function accommodation_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_price_currency',
       'label' => 'Currency',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'user_register_form' => FALSE,
@@ -943,7 +953,7 @@ function accommodation_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '14',
+        'weight' => '15',
       ),
     ),
   );
@@ -1021,7 +1031,7 @@ function accommodation_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '13',
+        'weight' => '14',
       ),
     ),
   );
@@ -1099,7 +1109,7 @@ function accommodation_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '12',
+        'weight' => '13',
       ),
     ),
   );
@@ -1194,7 +1204,7 @@ function accommodation_field_default_fields() {
         'module' => 'html5_tools',
         'settings' => array(),
         'type' => 'urlwidget',
-        'weight' => '6',
+        'weight' => '7',
       ),
     ),
   );
@@ -1288,7 +1298,7 @@ function accommodation_field_default_fields() {
   t('Location');
   t('Phone');
   t('Photo');
-  t('Services');
+  t('Services and prices');
   t('Single');
   t('Title');
   t('Web site');
