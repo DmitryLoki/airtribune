@@ -23,6 +23,7 @@ function airtribune_event_dates_access_settings($form, &$form_state, $conf) {
   $form['settings']['status'] = array(
     '#title' => t('Event status'),
     '#type' => 'radios',
+    '#required' => TRUE,
     '#options' => array(
       'past' => t('Past event'),
       'current' => t('Current event'),
@@ -37,13 +38,27 @@ function airtribune_event_dates_access_settings($form, &$form_state, $conf) {
  * Check for access.
  */
 function airtribune_event_dates_access_check($conf, $context) {
+
   // There should always be a context at this point, but this is safe.
-  if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
+  if (empty($context) || empty($context->data) || !($context->data->type == AIRTRIBUNE_PG_CONTEST_TYPE || $context->data->type == AIRTRIBUNE_NEWSBLOG_TYPE)) {
     return;
   }
 
-  // Event node.
-  $node = $context->data;
+  if ($context->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // Event node.
+    $node = $context->data;
+  }
+  else {
+    // Path breadcrumbs doesn't support relationships.
+    // So we have fetch event node from OG ref field.
+    $og_items = field_get_items('node', $context->data, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+    if (isset($og_items[0]['target_id'])) {
+      $node = node_load($og_items[0]['target_id']);
+    }
+    else {
+      return;
+    }
+  }
 
   $dates_items = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
   if (isset($dates_items[0]['value'], $dates_items[0]['value2'])) {

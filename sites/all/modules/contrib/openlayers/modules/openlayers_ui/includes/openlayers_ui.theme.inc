@@ -12,10 +12,10 @@
  */
 function theme_openlayers_ui_form_layer_description($args) {
   if (!empty($args['layer_link'])) {
-    $args['layer_title'] = l($args['layer_title'], $args['layer_link']);
+    $args['layer_title'] = l($args['layer_title'], $args['layer_link'], array('query' => drupal_get_destination()));
   }
   return $args['layer_title'] . ($args['layer_description'] ?
-    ': <span class="openlayers-form-layer-description">' .
+    ' <span class="openlayers-form-layer-description">' .
     $args['layer_description'] . '</span>' :
     '');
 }

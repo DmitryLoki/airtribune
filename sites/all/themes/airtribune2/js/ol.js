@@ -4,31 +4,28 @@
  */
 Drupal.behaviors.disableZoomWheelBeforeClick = {
     attach:function (context) {
-        if(!Drupal.settings.openlayers) {
-            return;
-        }
-        var mapsContainers = Drupal.settings.openlayers.maps;
-        for (var map in mapsContainers) {
-            var mapContainer = jQuery('#' + mapsContainers[map].id),
-                olObject = mapContainer.data('openlayers'),
-                mapOptions = olObject.map,
+            var mapContainer = jQuery(context),
+                olObject = mapContainer.data('openlayers');
+
+            if (!olObject) return;
+
+            var mapOptions = olObject.map,
                 olMap = olObject.openlayers,
                 navControls = olMap.getControlsByClass('OpenLayers.Control.Navigation');
 
-            if(mapOptions.zoomWheelDisabledUntilClick === false) {
+            if (mapOptions.zoomWheelDisabledUntilClick === false) {
                 return;
             }
 
-            for(var i = 0; i < navControls.length; ++i) {
+            for (var i = 0; i < navControls.length; ++i) {
                 navControls[i].disableZoomWheel();
             }
 
-            mapContainer.bind('click', function() {
-                for(var i = 0; i < navControls.length; ++i)
+            mapContainer.bind('click', function () {
+                for (var i = 0; i < navControls.length; ++i)
                     navControls[i].enableZoomWheel();
                 jQuery(this).unbind('click', arguments.callee);
             })
-        }
 
     }
 };
