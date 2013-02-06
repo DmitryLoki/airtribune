@@ -260,16 +260,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area_1']['field'] = 'area';
   $handler->display->display_options['empty']['area_1']['ui_name'] = 'Banner blank 200x140';
   $handler->display->display_options['empty']['area_1']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area_1']['content'] = '<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x140blank.png\'));?></a></div>';
-  $handler->display->display_options['empty']['area_1']['format'] = 'php_code';
+  $handler->display->display_options['empty']['area_1']['content'] = '<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>';
+  $handler->display->display_options['empty']['area_1']['format'] = 'full_html';
   /* No results behavior: Banner blank 200x200 */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['ui_name'] = 'Banner blank 200x200';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x200blank.png\'));?></a></div>';
-  $handler->display->display_options['empty']['area']['format'] = 'php_code';
+  $handler->display->display_options['empty']['area']['content'] = '<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>';
+  $handler->display->display_options['empty']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Link (excluded) */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
@@ -467,8 +467,8 @@ function views_feature_views_default_views() {
     t('There are no partners added yet for the current event.'),
     t('View panes'),
     t('Event Banners'),
-    t('<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x140blank.png\'));?></a></div>'),
-    t('<div><a href="#"><?php print theme(\'image\', array(\'path\' => variable_get(\'file_public_path\', conf_path() . \'/files\') . \'/Sponsors200x200blank.png\'));?></a></div>'),
+    t('<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>'),
+    t('<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>'),
     t('_blank'),
     t('Site Partners'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
