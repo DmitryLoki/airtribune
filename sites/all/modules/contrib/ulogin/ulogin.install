@@ -1,0 +1,108 @@
+<?php
+/**
+ * Implements hook_uninstall().
+ */
+function ulogin_uninstall() {
+  variable_del('ulogin_display');
+  variable_del('ulogin_fields');
+  variable_del('ulogin_optional');
+  variable_del('ulogin_providers');
+  variable_del('ulogin_hidden');
+  variable_del('ulogin_destination');
+  variable_del('ulogin_forms');
+  variable_del('ulogin_duplicate_emails');
+  variable_del('ulogin_redirect');
+  variable_del('ulogin_pictures');
+  variable_del('ulogin_adv_providers');
+  variable_del('ulogin_adv_hidden');
+  variable_del('ulogin_load_type');
+  variable_del('ulogin_email_confirm');
+  variable_del('ulogin_disable_username_change');
+  variable_del('ulogin_remove_password_fields');
+  variable_del('ulogin_display_name');
+  variable_del('ulogin_override_realname');
+  variable_del('ulogin_username');
+  variable_del('ulogin_icons_path');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function ulogin_schema() {
+  $schema = array();
+  
+  $schema['ulogin_identity'] = array(
+    'description' => 'Holds identities from uLogin service.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Unique id of uLogin identity.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'The {users}.uid that owns this uLogin identity.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'network' => array(
+        'description' => 'The authentication provider for this uLogin identity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'ulogin_uid' => array(
+        'description' => 'The uLogin uid for this uLogin identity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'data' => array(
+        'description' => 'A serialized array containing information from uLogin service.',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'normal',
+      ),
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+    ),
+    'unique keys' => array(
+      'network_ulogin_uid' => array('network', 'ulogin_uid'),
+    ),
+    'foreign keys' => array(
+      'ulogin_identity_user' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  
+  return $schema;
+}
+
+/**
+ * Disables ulogin_username module if it was installed.
+ */
+function ulogin_update_7002(&$sandbox) {
+  if (module_exists('ulogin_username')) {
+    module_disable(array('ulogin_username'), FALSE);
+    drupal_uninstall_modules(array('ulogin_username'), FALSE);
+    variable_set('ulogin_username', '[user:ulogin:first_name] [user:ulogin:last_name]');
+  }
+}
+
+/**
+ * Adds ulogin_identity table.
+ */
+function ulogin_update_7001(&$sandbox) {
+  if (!db_table_exists('ulogin_identity')) {
+    $schema = ulogin_schema();
+    db_create_table('ulogin_identity', $schema['ulogin_identity']);
+  }
+}
