@@ -477,7 +477,7 @@ function seo_path_breadcrumbs_settings_info() {
           'context' => 'node',
           'not' => FALSE,
         ),
-      'logic' => 'and',
+        'logic' => 'and',
       ),
     ),
   );

@@ -44,8 +44,14 @@ function pg_contest_form($node, $form_state) {
 function pg_contest_node_presave($node) {
   // We don't want path module to create node alias.
   if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE && isset($node->path)) {
+    
+    // Store path alias settings.
     $node->event_path = $node->path;
-    unset($node->path);
+    
+    // Set pathauto to FALSE to avoid pathauto_node_update_alias() processing.
+    // Clear $node->path['alias'] to avoid path_node_insert() processing.
+    // Remove all other path data since we don't need it any more.
+    $node->path = array('pathauto' => FALSE, 'alias' => '',);
   }
 }
 
@@ -261,7 +267,34 @@ function _pg_contest_create_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
+    
     $alias_base = !empty($node->event_path['alias']) ? $node->event_path['alias'] : pathauto_cleanstring($node->title);
+    
+    // Check if alias is set manually.
+    if (!empty($node->event_path['alias'])) {
+      $alias_base = $node->event_path['alias'];
+    }
+    // Else try to get pathauto pattern.
+    else {
+      // See pathauto_node_update_alias().
+      $options = array('language' => pathauto_entity_language('node', $node));
+      
+      // Skip processing if the node has no pattern.
+      if (!pathauto_pattern_load_by_entity('node', $node->type, $options['language'])) {
+        return;
+      }
+      
+      module_load_include('inc', 'pathauto');
+      $uri = entity_uri('node', $node);
+      // Ask pathauto to return alias.
+      $alias_base = pathauto_create_alias('node', 'return', $uri['path'], array('node' => $node), $node->type, $options['language']);
+    }
+    
+    // Do nothing if there is no alias set (otherwise we may blow away existing aliases...)
+    if (empty($alias_base)) {
+      return;
+    }
+    
     $urls_init = _pg_contest_urls_init($node->nid);
     $url_base = $urls_init['url_base'];
     $url_pages = $urls_init['url_pages'];
