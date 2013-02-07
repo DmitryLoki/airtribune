@@ -2882,7 +2882,7 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .field-name-field-gt-taxi .field-label { background-position:2px -900px}
 
 .page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
-.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}
+/*.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}*/
 .page-event-details .pane-node-field-hq-location .clearfix:after { clear:none;}
 .page-event-details .pane-node-field-address { float:left; margin:-6px 0 0 6px; width:200px;}
 
