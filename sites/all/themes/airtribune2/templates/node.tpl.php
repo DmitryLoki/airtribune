@@ -158,7 +158,6 @@ else if($node->nid != '5363' && $node->nid != '5362') {
 		)
 	 )
 	);
-	hide($content['links']['created']);
 	if(!empty($content['field_image'])){
 		$content['field_image'] = _airtribune2_img_dinamic_scaling($content['field_image']);
 	}
