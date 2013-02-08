@@ -170,7 +170,6 @@ $classes .= ' node_view_mode_' . $view_mode;
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php print render($title_prefix); ?>
-
   <?php if ($title && !$page && !$event_blog): ?>
     <header<?php print $header_attributes; ?>>
       <?php if ($title): ?>
