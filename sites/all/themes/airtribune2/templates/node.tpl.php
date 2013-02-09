@@ -106,7 +106,7 @@
 $event_blog = false;
 hide($content['comments']);
 hide($content['links']);
-hide($content['links']['disqus']);
+//hide($content['links']['disqus']);
 hide($content['disqus']);
 $account = profile2_load_by_user($node->uid, 'main');
 if($view_mode == 'event_blog_teaser'){
