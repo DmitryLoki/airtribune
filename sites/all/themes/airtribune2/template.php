@@ -29,7 +29,16 @@ function airtribune2_preprocess_html(&$vars) {
     //$vars['title'] = t('Activity feed');
     drupal_set_title(t('Activity feed'));
   }
-  //print_r($vars);
+  if(!empty($vars['page']['content']['system_main']['nodes'])){
+
+    $nodes = $vars['page']['content']['system_main']['nodes'];
+    $nodes_k = array_keys($vars['page']['content']['system_main']['nodes']);
+  
+    if(count($nodes) == 2 && !empty($nodes[$nodes_k[0]]['#node']) && $nodes[$nodes_k[0]]['#node']->promote == 1){
+      $vars['classes_array'][] = 'logo_in_title';
+    }  
+  }
+  //dsm($vars);
 }
 
 /**
