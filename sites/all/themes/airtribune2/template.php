@@ -884,3 +884,15 @@ function airtribune2_preprocess_openlayers_map(&$variables, $hook){
   // Enable zoom wheel only after click on the map.
   drupal_add_js('sites/all/themes/airtribune2/js/ol.js');
 }
+
+/**
+ * Implements hook_js_alter().
+ */
+function airtribune2_js_alter(&$javascript) {
+  // Fix script weight.
+  $nav_path = drupal_get_path('module', 'openlayers') . '/plugins/behaviors/openlayers_behavior_navigation.js';
+  $oj_path = drupal_get_path('theme', 'airtribune2') . '/js/ol.js';
+  if (isset($javascript[$nav_path]) && isset($javascript[$oj_path])) {
+    $javascript[$oj_path]['weight'] = $javascript[$nav_path]['weight'] + 0.001;
+  }
+}
