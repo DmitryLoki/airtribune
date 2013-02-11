@@ -378,7 +378,7 @@ class openlayers_views_style_data extends views_plugin_style {
    * Find and compute styling attributes.
    */
   function get_style($feature, $handlers, $datasource, $record) {
-    $style = array();
+    $style = NULL;
 
     if (isset($datasource['style_field']) && !empty($datasource['style_field'])) {
       $style_field = $handlers[$datasource['style_field']];
