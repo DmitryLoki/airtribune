@@ -11,7 +11,7 @@ OpenLayers.Layer.MapBox = OpenLayers.Class(OpenLayers.Layer.TMS, {
     initialize: function (name, options) {
         var newArguments, // Arguments which will be automatically
                           // sent to the Layer.TMS constructor
-            urls; // Multiple server URLs with the same contents
+            url; // Multiple server URLs with the same contents
                   // but distributed for performance
         mapbox_logo = "<a class='mapbox-branding' href='http://mapbox.com'></a> | <a href='http://mapbox.com/tos'>Terms of Service</a>";
         options = OpenLayers.Util.extend({
@@ -28,7 +28,7 @@ OpenLayers.Layer.MapBox = OpenLayers.Class(OpenLayers.Layer.TMS, {
             wrapDateLine: true,
             buffer: 0
         }, options);
-        urls = (options.urls) ? options.urls : [
+        url = (options.url) ? options.url : [
             "http://a.tiles.mapbox.com/",
             "http://b.tiles.mapbox.com/",
             "http://c.tiles.mapbox.com/",
@@ -38,7 +38,7 @@ OpenLayers.Layer.MapBox = OpenLayers.Class(OpenLayers.Layer.TMS, {
           options.attribution = "<a class='mapbox-branding' href='http://mapbox.com'></a> | <a href='http://mapbox.com/tos'>Terms of Service</a> | Data CCBYSA OSM"
         }
 
-        newArguments = [name, urls, options];
+        newArguments = [name, url, options];
         OpenLayers.Layer.TMS.prototype.initialize.apply(this, newArguments);
     },
     CLASS_NAME: "OpenLayers.Layer.MapBox"

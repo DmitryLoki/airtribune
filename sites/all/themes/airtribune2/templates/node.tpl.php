@@ -102,10 +102,12 @@
  * <?php print dsm($content); ?> to find variable names to hide() or render().
  */
 
-//print_r($content['field_image']);
+//print_r($content['links']);
 $event_blog = false;
 hide($content['comments']);
 hide($content['links']);
+//hide($content['links']['disqus']);
+hide($content['disqus']);
 $account = profile2_load_by_user($node->uid, 'main');
 if($view_mode == 'event_blog_teaser'){
 	$event_blog = true;
@@ -123,6 +125,29 @@ if($view_mode == 'event_blog_teaser'){
 		)
 	  )
 	);
+	if(drupal_get_path('module', 'disqus')){
+		$content['links']['disqus'] = array(
+	  	  '#theme' => 'links',
+	  	  '#links' => array(
+	 		'disqus_comments_num' => array(
+          		'title' => 'Comments',
+          		'href' => 'node/' . $node->nid,
+          		'fragment' => 'disqus_thread',
+          		'attributes' => array(
+            		'data-disqus-identifier' => 'node/' . $node->nid,
+          		)
+			)
+	  	  ),
+	  	  '#attributes'=> array(
+	  		'class' => array( 'links', 'inline')
+	  	  )
+		);
+		$content['links']['#attached']['js'][] = drupal_get_path('module', 'disqus') . '/disqus.js';
+    	$content['links']['#attached']['js'][] = array(
+    		'data' => array('disqusComments' => $node->disqus['domain']),
+    		'type' => 'setting',
+    	);
+	}
 	$classes .= ' node-teaser';
 }
 else if ($teaser){
@@ -170,7 +195,6 @@ $classes .= ' node_view_mode_' . $view_mode;
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php print render($title_prefix); ?>
-
   <?php if ($title && !$page && !$event_blog): ?>
     <header<?php print $header_attributes; ?>>
       <?php if ($title): ?>
@@ -205,6 +229,11 @@ $classes .= ' node_view_mode_' . $view_mode;
   <?php if ($links = render($content['links'])): ?>
     <nav<?php print $links_attributes; ?>><?php print $links; ?></nav>
   <?php endif; ?>
+
+  <?php if ($diskus = render($content['disqus'])): ?>
+   <?php print render($content['disqus']) ?>
+  <?php endif; ?>
+
 
   <?php print render($content['comments']); ?>
 

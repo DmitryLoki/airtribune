@@ -568,7 +568,10 @@ events/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'events*',
+            'paths' => 'events
+events/next
+events/past
+events/current',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
@@ -615,7 +618,9 @@ events/*',
           'settings' => array(
             'visibility_setting' => '0',
             'paths' => 'events
-events/*',
+events/next
+events/past
+events/current',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
