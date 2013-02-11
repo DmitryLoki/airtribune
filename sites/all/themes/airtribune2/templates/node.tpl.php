@@ -130,12 +130,12 @@ if($view_mode == 'event_blog_teaser'){
 	  	  '#theme' => 'links',
 	  	  '#links' => array(
 	 		'disqus_comments_num' => array(
-          	'title' => 'Comments',
-          	'href' => 'node/' . $node->nid,
-          	'fragment' => 'disqus_thread',
-          	'attributes' => array(
-            	'data-disqus-identifier' => 'node/' . $node->nid,
-          	)
+          		'title' => 'Comments',
+          		'href' => 'node/' . $node->nid,
+          		'fragment' => 'disqus_thread',
+          		'attributes' => array(
+            		'data-disqus-identifier' => 'node/' . $node->nid,
+          		)
 			)
 	  	  ),
 	  	  '#attributes'=> array(
