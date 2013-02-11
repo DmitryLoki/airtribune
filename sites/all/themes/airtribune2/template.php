@@ -26,10 +26,19 @@ function airtribune2_preprocess_html(&$vars) {
   }
   $vars['classes_array'][] = 'body_bgr';
   if($vars['is_front']) {
-	  //$vars['title'] = t('Activity feed');
-	  drupal_set_title(t('Activity feed'));
+    //$vars['title'] = t('Activity feed');
+    drupal_set_title(t('Activity feed'));
   }
-  //print_r($vars);
+  if(!empty($vars['page']['content']['system_main']['nodes'])){
+
+    $nodes = $vars['page']['content']['system_main']['nodes'];
+    $nodes_k = array_keys($vars['page']['content']['system_main']['nodes']);
+  
+    if(count($nodes) == 2 && !empty($nodes[$nodes_k[0]]['#node']) && $nodes[$nodes_k[0]]['#node']->promote == 1){
+      $vars['classes_array'][] = 'logo_in_title';
+    }  
+  }
+  //dsm($vars);
 }
 
 /**
@@ -156,15 +165,15 @@ function airtribune2_process_pane_navigation(&$vars) {
 
 // Preprocess pane messages vars
 function airtribune2_preprocess_pane_messages(&$vars) {
-	
+  
   $vars['primary_local_tasks'] = menu_primary_local_tasks();
   $vars['secondary_local_tasks'] = menu_secondary_local_tasks();
   if(!empty($vars['primary_local_tasks'])){
     foreach($vars['primary_local_tasks'] as $k => $v){
-		  if($v['#link']['path'] == 'event/%/register'){
-			  $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
-		  }
-	  }
+      if($v['#link']['path'] == 'event/%/register'){
+        $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
+      }
+    }
   }
 }
 
@@ -179,22 +188,25 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
   global $user;
   if($variables['pane']->type == 'node' && $variables['content']['#node']->nid == '5363'){
-	 $variables['title'] = '';
+    $variables['title'] = '';
   }
   if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0 && $variables['display']->layout != 'featured_header'){
-	 $variables['content'] = '';
-	 if(arg(1)){
-		 if(arg(1) == 'register'){
-			 drupal_set_title(t('Register new user'));
-		 }
-		 if(arg(1) == 'password'){
-			 drupal_set_title(t('Request new password'));
-		 }
-	 }
-	 else{
-		 drupal_set_title(t('Sign in'));
-	 }
-	 //print_r($variables);
+   $variables['content'] = '';
+   if(arg(1)){
+     if(arg(1) == 'register'){
+       drupal_set_title(t('Register new user'));
+     }
+     if(arg(1) == 'password'){
+       drupal_set_title(t('Request new password'));
+     }
+   }
+   else{
+     drupal_set_title(t('Sign in'));
+   }
+   //print_r($variables);
+  }
+  if($variables['pane']->subtype == 'paragliding_pilots_list-fai'){
+    $variables['title'] = '';
   }
   //print_r($variables);
 }
@@ -211,22 +223,22 @@ function airtribune2_preprocess_node(&$vars) {
   }
   $autor = user_load($vars['uid']);
   if(!empty($autor->picture->uri)){
-	  $userpic = $autor->picture->uri;
+    $userpic = $autor->picture->uri;
   }
   else {
-	  $userpic = file_build_uri(DEFAULT_USER_PICTURE_PATH);
+    $userpic = file_build_uri(DEFAULT_USER_PICTURE_PATH);
   }
   $vars['user_picture'] = '<span class="user-picture">'.theme('image_style', array( 'path' =>  $userpic, 'style_name' => 'node_userpic')).'</span>';
   $vars['notitle'] = false;
   if($vars['node']->nid == '5363' || $vars['node']->nid == '5362') {
-	  $vars['notitle'] = true;
-	  $vars['title'] = '';
-	  $vars['user_picture'] = '';
+    $vars['notitle'] = true;
+    $vars['title'] = '';
+    $vars['user_picture'] = '';
   }
 }
 
 function airtribune2_process_node(&$vars) {
-	//print_r($vars);
+  //print_r($vars);
 }
 
 
@@ -237,12 +249,12 @@ function airtribune2_menu_link__footer_menu(&$vars) {
   $element = $vars['element'];
   $sub_menu = '';
   if ($element['#below']) {
-  	$sub_menu = drupal_render($element['#below']);
+    $sub_menu = drupal_render($element['#below']);
   }
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-	if (!empty($element['#localized_options']['attributes']['title'])) {
-		$output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
-	}
+  if (!empty($element['#localized_options']['attributes']['title'])) {
+    $output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
+  }
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
@@ -251,15 +263,15 @@ function airtribune2_menu_link__account(&$vars) {
   $element = $vars['element'];
   $sub_menu = '';
   if ($element['#below']) {
-  	$sub_menu = drupal_render($element['#below']);
+    $sub_menu = drupal_render($element['#below']);
   }
   if(!empty($element['#localized_options']['attributes']['class'])){
-	  $element['#attributes']['class'] = array_merge($element['#attributes']['class'], $element['#localized_options']['attributes']['class']);
+    $element['#attributes']['class'] = array_merge($element['#attributes']['class'], $element['#localized_options']['attributes']['class']);
   }
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-	if (!empty($element['#localized_options']['attributes']['title'])) {
-		$output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
-	}
+  if (!empty($element['#localized_options']['attributes']['title'])) {
+    $output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
+  }
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
@@ -267,47 +279,47 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-	if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass') {
-		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
-		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
-		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
-		$form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/forms_action.js';
-	}
-	switch ($form_id) {
-    	case 'user_login_block':
-			//print_r($form);
-			$form['name']['#attributes']['rel'] = t('Enter your e-mail');
-			unset($form['name']['#title']);
-			$form['pass']['#attributes']['rel'] = t('Enter your password');
-			unset($form['pass']['#title']);
-			$form['actions']['submit']['#value'] = t('Go');
-			
-			$items = array();
-			$items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
-			if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
-				$reg_attrs = array('attributes' => array(
-					'class' => array('user_register_button'),
-					'title' => t('Create a new user account.'))
-				);
-				$items[] = l(t('Register new user'), 'user/register', $reg_attrs);
-			}
-			$form['links'] = array(
-				'#markup' => theme('item_list', array('items' => $items)),
-				'#weight' => 100,
-			);
+  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass') {
+    $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
+    $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
+    $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
+    $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/forms_action.js';
+  }
+  switch ($form_id) {
+      case 'user_login_block':
+      //print_r($form);
+      $form['name']['#attributes']['rel'] = t('Enter your e-mail');
+      unset($form['name']['#title']);
+      $form['pass']['#attributes']['rel'] = t('Enter your password');
+      unset($form['pass']['#title']);
+      $form['actions']['submit']['#value'] = t('Go');
+      
+      $items = array();
+      $items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
+      if (variable_get('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)) {
+        $reg_attrs = array('attributes' => array(
+          'class' => array('user_register_button'),
+          'title' => t('Create a new user account.'))
+        );
+        $items[] = l(t('Register new user'), 'user/register', $reg_attrs);
+      }
+      $form['links'] = array(
+        '#markup' => theme('item_list', array('items' => $items)),
+        '#weight' => 100,
+      );
     break;
       
       case 'user_register_form':
-      	if (isset($form_state['multiform'])) {
-        	$form['#theme'] = array('user_register_form_multiform');
-	        // Address field
-    	    $lang = $form['profile_pilot']['field_address']['#language'];
-        	$form['profile_pilot']['field_address'][$lang][0]['country']['#title'] = t('Nation');
-	        $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
-    	    $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
-     	}
+        if (isset($form_state['multiform'])) {
+          $form['#theme'] = array('user_register_form_multiform');
+          // Address field
+          $lang = $form['profile_pilot']['field_address']['#language'];
+          $form['profile_pilot']['field_address'][$lang][0]['country']['#title'] = t('Nation');
+          $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
+          $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
+       }
     break;
-	}
+  }
 }
 
 function airtribune2_breadcrumb($variables) {
@@ -324,94 +336,94 @@ function airtribune2_breadcrumb($variables) {
 }
 
 function _airtribune2_img_dinamic_scaling($vars){
-	
-	$count = count($vars['#items']);
-	$excess = $count-3*floor($count/3);
-	$image_style_other = 'node_image_third';
-	if($count%3 == 0) {
-		$image_styles = array('node_image_first', 'node_image_second', 'node_image_second');
-	}
-	elseif($excess == 2){
-		$image_styles = array('node_image_second', 'node_image_second');
-	}
-	else {
-		$image_styles = array('node_image_first');
-	}
-	$is_count = 0;
-	foreach($vars['#items'] as $k => $v){
-		if(!empty($image_styles[$is_count])){
-			$image_style = $image_styles[$is_count];
-		}
-		else{
-			$image_style = $image_style_other;
-		}
-		if($vars[$k]['#theme'] != 'colorbox_image_formatter'){
-			$vars[$k]['#image_style'] = $image_style;
-		}
-		else{
-			$vars[$k]['#display_settings']['colorbox_node_style'] = $image_style;
-		}
-		$is_count++;
-		
-	}
-	return $vars;
+  
+  $count = count($vars['#items']);
+  $excess = $count-3*floor($count/3);
+  $image_style_other = 'node_image_third';
+  if($count%3 == 0) {
+    $image_styles = array('node_image_first', 'node_image_second', 'node_image_second');
+  }
+  elseif($excess == 2){
+    $image_styles = array('node_image_second', 'node_image_second');
+  }
+  else {
+    $image_styles = array('node_image_first');
+  }
+  $is_count = 0;
+  foreach($vars['#items'] as $k => $v){
+    if(!empty($image_styles[$is_count])){
+      $image_style = $image_styles[$is_count];
+    }
+    else{
+      $image_style = $image_style_other;
+    }
+    if($vars[$k]['#theme'] != 'colorbox_image_formatter'){
+      $vars[$k]['#image_style'] = $image_style;
+    }
+    else{
+      $vars[$k]['#display_settings']['colorbox_node_style'] = $image_style;
+    }
+    $is_count++;
+    
+  }
+  return $vars;
 }
 
 function _airtribune2_img_dinamic_scaling_event_blog_teaser($vars){
-	$count = count($vars['#items']);
-	//$excess = $count-3*floor($count/3);
-	//$image_style_other = 'node_image_third';
-	switch($count){
-		case 1:
-			$image_styles = array('event_blog_teaser_first');
-		break;
-		case 2:
-			$image_styles = array('event_blog_teaser_second');
-		break;
-		case 3:
-			$image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth');
-		break;
-		case 4:
-			$image_styles = array('event_blog_teaser_fifth', 'event_blog_teaser_sixth');
-		break;
-		case 5:
-			$image_styles = array('event_blog_teaser_first', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
-		break;
-		case 6:
-			$image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
-		break;
-		case 7:
-			$image_styles = array('event_blog_teaser_first', 'event_blog_teaser_seventh');
-		break;
-		case 8:
-			$image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_seventh');
-		break;
-		case 9:
-			$image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth', 'event_blog_teaser_fourth', 'event_blog_teaser_seventh');
-		break;
-		default:
-			$image_styles = array('event_blog_teaser_first', 'event_blog_teaser_eighth');
-		break;
-	}
-	$is_count = 0;
-	foreach($vars['#items'] as $k => $v){
-		if(!empty($image_styles[$is_count])){
-			$image_style = $image_style_other = $image_styles[$is_count];
-		}
-		else{
-			$image_style = $image_style_other;
-		}
-		if($vars[$k]['#theme'] != 'colorbox_image_formatter'){
-			$vars[$k]['#image_style'] = $image_style;
-		}
-		else{
-			$vars[$k]['#display_settings']['colorbox_node_style'] = $image_style;
-		}
-		$is_count++;
-		
-	}
-	//print_r($vars[0]);
-	return $vars;
+  $count = count($vars['#items']);
+  //$excess = $count-3*floor($count/3);
+  //$image_style_other = 'node_image_third';
+  switch($count){
+    case 1:
+      $image_styles = array('event_blog_teaser_first');
+    break;
+    case 2:
+      $image_styles = array('event_blog_teaser_second');
+    break;
+    case 3:
+      $image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth');
+    break;
+    case 4:
+      $image_styles = array('event_blog_teaser_fifth', 'event_blog_teaser_sixth');
+    break;
+    case 5:
+      $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+    break;
+    case 6:
+      $image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+    break;
+    case 7:
+      $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_seventh');
+    break;
+    case 8:
+      $image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_seventh');
+    break;
+    case 9:
+      $image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth', 'event_blog_teaser_fourth', 'event_blog_teaser_seventh');
+    break;
+    default:
+      $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_eighth');
+    break;
+  }
+  $is_count = 0;
+  foreach($vars['#items'] as $k => $v){
+    if(!empty($image_styles[$is_count])){
+      $image_style = $image_style_other = $image_styles[$is_count];
+    }
+    else{
+      $image_style = $image_style_other;
+    }
+    if($vars[$k]['#theme'] != 'colorbox_image_formatter'){
+      $vars[$k]['#image_style'] = $image_style;
+    }
+    else{
+      $vars[$k]['#display_settings']['colorbox_node_style'] = $image_style;
+    }
+    $is_count++;
+    
+  }
+  //print_r($vars[0]);
+  return $vars;
 }
 
 /**
@@ -468,12 +480,12 @@ function airtribune2_pager($variables) {
     // When there is more than one page, create the pager list.
     if ($i != $pager_max) {
       if ($i > 1) {
-		if ($li_first) {
-      		$items[] = array(
-        		'class' => array('pager-first'), 
-        		'data' => $li_first,
-      		);
-    	}
+    if ($li_first) {
+          $items[] = array(
+            'class' => array('pager-first'), 
+            'data' => $li_first,
+          );
+      }
         $items[] = array(
           'class' => array('pager-ellipsis'), 
           'data' => '…',
@@ -505,12 +517,12 @@ function airtribune2_pager($variables) {
           'class' => array('pager-ellipsis'), 
           'data' => '…',
         );
-		if ($li_last) {
-		   $items[] = array(
-		     'class' => array('pager-last'), 
-		     'data' => $li_last,
-		   );
-	    }
+    if ($li_last) {
+       $items[] = array(
+         'class' => array('pager-last'), 
+         'data' => $li_last,
+       );
+      }
       }
     }
     // End generation.
@@ -586,113 +598,113 @@ function airtribune2_pager_link($variables) {
  */
 function airtribune2_preprocess_entity(&$variables) {
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_getting_there') {
-	if ($variables['view_mode'] == 'event_details_page') {  
-	  $field_gt_col_left = array(
-	  	'#theme' => 'field',
-		'#label_display' => 'hidden',
+  if ($variables['view_mode'] == 'event_details_page') {  
+    $field_gt_col_left = array(
+      '#theme' => 'field',
+    '#label_display' => 'hidden',
         '#access' => 1,
         '#view_mode' => 'event_details_page',
         '#weight' => 99,
-		'#field_name' => 'field_gt_col_left',
-		'#items' => array(),
-		'#field_type' => 'markup',
-		'#language' => 'und',
+    '#field_name' => 'field_gt_col_left',
+    '#items' => array(),
+    '#field_type' => 'markup',
+    '#language' => 'und',
         '#entity_type' => 'field_collection_item',
         '#bundle' => 'field_collection_getting_there',
-		'#formatter' => 'text_default',
-	  );
-	  $field_gt_col_right = array(
-	  	'#theme' => 'field',
-		'#label_display' => 'hidden',
+    '#formatter' => 'text_default',
+    );
+    $field_gt_col_right = array(
+      '#theme' => 'field',
+    '#label_display' => 'hidden',
         '#access' => 1,
         '#view_mode' => 'event_details_page',
         '#weight' => 100,
-		'#field_name' => 'field_gt_col_right',
-		'#items' => array(),
-		'#field_type' => 'markup',
-		'#language' => 'und',
+    '#field_name' => 'field_gt_col_right',
+    '#items' => array(),
+    '#field_type' => 'markup',
+    '#language' => 'und',
         '#entity_type' => 'field_collection_item',
         '#bundle' => 'field_collection_getting_there',
-		'#formatter' => 'text_default',
-	  );
-	  $count = 1;
-	  foreach($variables['content'] as $k => $v){
-		  if($k != 'field_gt_general' && $v['#theme'] == 'field'){
-			  if($count%2 == 0){
-				  $field_gt_col_right[] = $field_gt_col_right['#items'][] = array('#markup' => render($variables['content'][$k]));
-			  }
-			  else{
-				  $field_gt_col_left[] = $field_gt_col_left['#items'][] = array('#markup' => render($variables['content'][$k]));
-			  }
-			  unset($variables['content'][$k]);
-			  $count++;
-		  }
-	  }
-	  $variables['content']['field_gt_col_right'] = $field_gt_col_right;
-	  $variables['content']['field_gt_col_left'] = $field_gt_col_left;
-	  
+    '#formatter' => 'text_default',
+    );
+    $count = 1;
+    foreach($variables['content'] as $k => $v){
+      if($k != 'field_gt_general' && $v['#theme'] == 'field'){
+        if($count%2 == 0){
+          $field_gt_col_right[] = $field_gt_col_right['#items'][] = array('#markup' => render($variables['content'][$k]));
+        }
+        else{
+          $field_gt_col_left[] = $field_gt_col_left['#items'][] = array('#markup' => render($variables['content'][$k]));
+        }
+        unset($variables['content'][$k]);
+        $count++;
+      }
+    }
+    $variables['content']['field_gt_col_right'] = $field_gt_col_right;
+    $variables['content']['field_gt_col_left'] = $field_gt_col_left;
+    
     }
     if ($variables['view_mode'] == 'event_info_page') {
-		$transport = array(
-		  'plane' => array(
-		  	'#title' => t('Plane'),
-			'#fragment' => 'gt_plane',
-			'#attributes' => array('class' => 'plane'),
-		  ),
-		  'train' => array(
-		  	'#title' => t('Train'),
-			'#fragment' => 'gt_train',
-			'#attributes' => array('class' => 'train'),
-		  ),
-		  'bus' => array(
-		  	'#title' => t('Bus'),
-			'#fragment' => 'gt_bus',
-			'#attributes' => array('class' => 'bus'),
-		  ),
-		  'car' => array(
-		  	'#title' => t('Car'),
-			'#fragment' => 'gt_car',
-			'#attributes' => array('class' => 'car'),
-		  ),
-		  'taxi' => array(
-		  	'#title' => t('Taxi'),
-			'#fragment' => 'gt_taxi',
-			'#attributes' => array('class' => 'taxi'),
-		  ),
-		);
-		$contest_id = (int) arg(1);
-		foreach($transport as $k => $v){
-			$item_key = 'field_gt_' . $k;
-			$object = get_object_vars($variables['field_collection_item']);
-			if(!empty($variables['field_collection_item']->$item_key)){
-				$links[] = array(
-        			'href' => 'event/' . $contest_id . '/info/details',
-        			'title' => $transport[$k]['#title'],
-        			'fragment' => $transport[$k]['#fragment'],
-        			'attributes' => $transport[$k]['#attributes'],
-      			);
-			}
-		}
+    $transport = array(
+      'plane' => array(
+        '#title' => t('Plane'),
+      '#fragment' => 'gt_plane',
+      '#attributes' => array('class' => 'plane'),
+      ),
+      'train' => array(
+        '#title' => t('Train'),
+      '#fragment' => 'gt_train',
+      '#attributes' => array('class' => 'train'),
+      ),
+      'bus' => array(
+        '#title' => t('Bus'),
+      '#fragment' => 'gt_bus',
+      '#attributes' => array('class' => 'bus'),
+      ),
+      'car' => array(
+        '#title' => t('Car'),
+      '#fragment' => 'gt_car',
+      '#attributes' => array('class' => 'car'),
+      ),
+      'taxi' => array(
+        '#title' => t('Taxi'),
+      '#fragment' => 'gt_taxi',
+      '#attributes' => array('class' => 'taxi'),
+      ),
+    );
+    $contest_id = (int) arg(1);
+    foreach($transport as $k => $v){
+      $item_key = 'field_gt_' . $k;
+      $object = get_object_vars($variables['field_collection_item']);
+      if(!empty($variables['field_collection_item']->$item_key)){
+        $links[] = array(
+              'href' => 'event/' . $contest_id . '/info/details',
+              'title' => $transport[$k]['#title'],
+              'fragment' => $transport[$k]['#fragment'],
+              'attributes' => $transport[$k]['#attributes'],
+            );
+      }
+    }
 
       
 
       if(!empty($links)){
-	    $variables['content']['transport'] = array(
+      $variables['content']['transport'] = array(
           '#theme' => 'links',
           '#links' => $links,
         );
-	  }
+    }
     }
   }
   
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_organizers' && $variables['view_mode'] == 'event_info_page') {
-	if(arg(0) == 'event' && !empty($variables['content']['field_organizer_logo'])) {
-		//print_r($variables['field_collection_item']);
-		$variables['content']['field_organizer_logo'][0] = array(
-			//'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
-			'#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/info/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
-		) ;
-	}
+  if(arg(0) == 'event' && !empty($variables['content']['field_organizer_logo'])) {
+    //print_r($variables['field_collection_item']);
+    $variables['content']['field_organizer_logo'][0] = array(
+      //'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
+      '#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/info/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
+    ) ;
+  }
   }
 
   // See http://drupal.org/node/1462772
@@ -707,12 +719,12 @@ function airtribune2_preprocess_entity(&$variables) {
  * Implements theme_field__field_collection_getting_there().
  */
 function airtribune2_field__field_collection_getting_there($variables) {
-	//print_r($variables);
+  //print_r($variables);
   $output = '';
   $colon = ':&nbsp;';
   if($variables['element']['#bundle'] == 'field_collection_getting_there') {
-	 $colon = '';
-	 $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
+   $colon = '';
+   $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
   }
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
@@ -737,7 +749,7 @@ function airtribune2_field__field_collection_getting_there($variables) {
  * Implements theme_field__field_collection_organizers.
  */
 function airtribune2_field__field_collection_organizers($variables) {
-	//print_r($variables);
+  //print_r($variables);
   $output = '';
   $colon = ':&nbsp;';
   // Render the label, if it's not hidden.
@@ -748,15 +760,15 @@ function airtribune2_field__field_collection_organizers($variables) {
   // Render the items.
   $output .= '<span class="field-items"' . $variables['content_attributes'] . '>';
   foreach ($variables['items'] as $delta => $item) {
-	  //print_r(array_keys($item['entity']['field_collection_item']));
-	  if(!empty($item['entity']['field_collection_item'])){
-		  $org = array_keys($item['entity']['field_collection_item']);
-		  $output .= '<a id="organizer_' . $org[0] . '"></a>';
-	  }
+    //print_r(array_keys($item['entity']['field_collection_item']));
+    if(!empty($item['entity']['field_collection_item'])){
+      $org = array_keys($item['entity']['field_collection_item']);
+      $output .= '<a id="organizer_' . $org[0] . '"></a>';
+    }
     $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<span class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>';
-	//$render_item = drupal_render($item);
-	$output .= drupal_render($item) . '</span>';
+  //$render_item = drupal_render($item);
+  $output .= drupal_render($item) . '</span>';
   }
   $output .= '</span>';
 
@@ -769,14 +781,14 @@ function airtribune2_field__field_collection_organizers($variables) {
  * Implements theme_field__field_collection_organizers.
  */
 function airtribune2_field__field_full_name($variables) {
-	if($variables['field_view_mode'] == '_custom_display'){
-		return drupal_render($item);
-	}
-	$output = '';
+  if($variables['field_view_mode'] == '_custom_display'){
+    return drupal_render($item);
+  }
+  $output = '';
   $colon = ':&nbsp;';
   if($variables['element']['#bundle'] == 'field_collection_getting_there') {
-	 $colon = '';
-	 $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
+   $colon = '';
+   $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
   }
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
@@ -802,15 +814,15 @@ function airtribune2_field__field_full_name($variables) {
  */
 function airtribune2_theme() {
   return array(
-		'user_register_form' => array(
-			'render element' => 'form',
+    'user_register_form' => array(
+      'render element' => 'form',
       'template' => 'templates/user-register-form',
-		),
+    ),
     'contest_registration_multiform' => array(
-			'render element' => 'form',
+      'render element' => 'form',
       'template' => 'templates/contest-registration-multiform',
-		),
-	);
+    ),
+  );
 }
 
 /**
@@ -840,10 +852,10 @@ function airtribune2_file_icon($variables) {
   $mime = check_plain($file->filemime);
   $path_info = pathinfo($file->filename);
   if(!empty($icons[$path_info['extension']])){
-	$icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
+  $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
   }
   else{
-  	$icon_url = file_icon_url($file, $icon_directory);
+    $icon_url = file_icon_url($file, $icon_directory);
   }
   return '<img class="file-icon" alt="" title="' . $mime . '" src="' . $icon_url . '" />';
 }
@@ -868,7 +880,7 @@ function airtribune2_preprocess_field(&$vars) {
  * Implements theme_preprocess_openlayers_map.
  */
 function airtribune2_preprocess_openlayers_map(&$variables, $hook){
-	drupal_add_js('sites/all/themes/airtribune2/js/FramedCloud.js');
+  drupal_add_js('sites/all/themes/airtribune2/js/FramedCloud.js');
   // Enable zoom wheel only after click on the map.
   drupal_add_js('sites/all/themes/airtribune2/js/ol.js');
 }

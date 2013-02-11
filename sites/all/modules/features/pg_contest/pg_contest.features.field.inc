@@ -2067,7 +2067,7 @@ Teams',
   $fields['node-pg_contest-field_downloads'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '5',
+      'cardinality' => '10',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_downloads',

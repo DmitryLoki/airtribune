@@ -2703,8 +2703,8 @@ p { margin:0; padding:9px 0 11px}
 /* Downloads */
 .page-event-info .pane-node-field-downloads { width:50%; float:left;}
 .page-event-info .pane-node-field-downloads .pane-inner { margin-left:10px;}
-.panel_info .pane-node-field-downloads .pane-content { margin:18px 0 0}
-.pane-node-field-downloads .field-item { float:left; width:143px; padding-right:10px; padding-bottom:7px;}
+.panel_info .pane-node-field-downloads .pane-content { margin:18px 0 0 10px}
+.pane-node-field-downloads .field-item { float:left; width:143px; padding-right:10px; padding-bottom:6px;}
 .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:both;}
 .pane-node-field-downloads .file img { vertical-align:middle}
 .pane-node-field-downloads .file a { color:#525c66; font:14px/16px Arial, Helvetica, sans-serif; text-decoration:none; vertical-align:middle;}
@@ -2883,9 +2883,9 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-address { float:left; margin:-6px 0 0 6px; width:200px;}
 
 /* Downloads */
-.page-event-details .pane-node-field-downloads .field-item { width:220px;}
-/*.page-event-details .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:none;}*/
-.page-event-details .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:both;}
+.page-event-details .pane-node-field-downloads .field-item { width:162px;}
+.page-event-details .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:none;}
+.page-event-details .pane-node-field-downloads .field-item:nth-child(4n+1) { clear:both;}
 
 /* Socials buttons */
 .page-event-details .pane-node-field-social-links {}
@@ -2907,7 +2907,7 @@ p { margin:0; padding:9px 0 11px}
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node .user-picture { float:left;}
 .page-node .node ul { padding-left:15px}
-.page-node .node .links { padding-left:0;}
+.page-node .node .links { padding-left:0; padding-bottom: 20px;}
 
 .page-node .node .field-name-field-image { margin:0 -2px 70px -3px; padding-top:10px}
 .page-node .node .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
@@ -3106,6 +3106,34 @@ p { margin:0; padding:9px 0 11px}
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+.pane-paragliding-pilots-list-fai {}
+.pane-paragliding-pilots-list-fai .pane-inner { margin: 0;}
+.page-event-pilots .view-paragliding-pilots-list .views-table { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; position: relative; border-collapse: separate; border-top: none; color: #525d66; font: 14px/16px Arial, Helvetica, sans-serif;
+
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+
+}
+.page-event-pilots .view-paragliding-pilots-list .views-table caption { position: relative; background: #f1f4f6; color: #677581; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px;
+
+  -webkit-border-radius: 3px 3px 0 0 ;
+  -moz-border-radius: 3px 3px 0 0 ;
+  border-radius: 3px 3px 0 0 ;
+
+}
+.page-event-pilots .view-paragliding-pilots-list .views-table thead tr { background: #f7f8f9}
+.page-event-pilots .view-paragliding-pilots-list .views-table tr.odd { background: none}
+.page-event-pilots .view-paragliding-pilots-list .views-table tr.even { background: #fafafa}
+.page-event-pilots .view-paragliding-pilots-list .views-table tr.odd td.active, .page-event-pilots .view-paragliding-pilots-list .views-table tr.even td.active { background: no-repeat;}
+.page-event-pilots .view-paragliding-pilots-list .views-table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 9px 21px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
+.page-event-pilots .view-paragliding-pilots-list .views-table thead th a { color: #525d66}
+.page-event-pilots .view-paragliding-pilots-list .views-table thead th.active a { color: #1cb7f1}
+.page-event-pilots .view-paragliding-pilots-list .views-table thead th:first-child { border-left: none;}
+.page-event-pilots .view-paragliding-pilots-list .views-table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px;}
+.page-event-pilots .view-paragliding-pilots-list .views-table .views-row-first td { border-top: none;}
+.page-event-pilots .view-paragliding-pilots-list .views-table tr td:first-child { border-left: none;}
+
 	/* Footer */
 
 #footer h2.block-title { color:#004b66; font-size:14px; margin:0; padding:0; font-weight:bold;}
@@ -3164,10 +3192,12 @@ p { margin:0; padding:9px 0 11px}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
 /* Header special pages */
+.logo_in_title .featured-header-title,
 .page-node-5362 .featured-header-title,
 .page-user .featured-header-title,
 .page-events .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
 .page-events .featured-header-title { background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5);}
+.logo_in_title .featured-header-title h1,
 .page-node-5362 .featured-header-title h1,
 .page-user .featured-header-title h1,
 .page-events .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px }
