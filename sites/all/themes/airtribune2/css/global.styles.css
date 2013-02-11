@@ -2718,6 +2718,8 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-downloads .file a { color:#525c66; font:14px/16px Arial, Helvetica, sans-serif; text-decoration:none; vertical-align:middle;}
 .pane-node-field-downloads .file a:hover { color:#1cb7f1;}
 
+.page-event-info .pane-node-field-downloads .field-item { float: none;; width: auto;}
+
 /* Contacts phone */
 .page-event-info .pane-node-field-contacts-phone { width:50%; float:left}
 .page-event-info .pane-node-field-contacts-phone .pane-inner { margin-right:10px}
