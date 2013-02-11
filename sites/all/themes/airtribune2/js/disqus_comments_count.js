@@ -1,29 +1,23 @@
 jQuery(document).ready(function () {
-    if(!Drupal.settings.disqus) return;
-    var $ = jQuery;
+    var $ = jQuery,
+        commentsCountLink = $('a[href$="#disqus_thread"]');
 
-    var commentsCountLink = $('<a id="comments-count-link" style="display:none" href="' + location.href + '#disqus_thread" ></a>');
-
-    $('.posted').append(commentsCountLink);
-
-    //Load count.js
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.src = 'http://'+disqus_shortname+'.disqus.com/count.js';
-    s.onload = readyHandler;
-    s.onreadystatechange = function () {
-        if (s.readyState == 'complete') {
-            readyHandler();
+    $(document).ajaxComplete(function (event, xhr, ajaxOptions) {
+        //if this ajax request was for count.js
+        if (ajaxOptions.url.indexOf('count.js') > -1) {
+            replaceDisplayCountFunction();
         }
-    };
-    document.getElementsByTagName('HEAD')[0].appendChild(s);
+    });
 
     //When count.js loaded
-    function readyHandler() {
-        DISQUSWIDGETS.displayCount = function(commentsData){
-            var commentsCount = commentsData.counts[0].comments;
-            commentsCountLink.html(commentsCount);
-            commentsCountLink.show();
+    function replaceDisplayCountFunction() {
+        //replace displayCount function from count.js
+        DISQUSWIDGETS.displayCount = function (commentsData) {
+            var commentsCounts = commentsData.counts;
+            for (var i = 0; i < commentsCounts.length; ++i) {
+                var commentsCount = commentsCounts[i].comments;
+                commentsCountLink.eq(i).html(commentsCount);
+            }
         };
     }
 });
