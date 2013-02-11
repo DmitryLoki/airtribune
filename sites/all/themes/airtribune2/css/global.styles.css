@@ -2406,6 +2406,9 @@ p { margin:0; padding:9px 0 11px}
 .pane-content > h1 { margin:0; padding:6px 0 0; font:24px/26px Arial, Helvetica, sans-serif; color:#677581;}
 .pane-page-title, #page .panel-col-seventy .pane-page-title { margin-bottom:17px}
 
+.node .disqus_comments_num { position: absolute; top: 1px; right: 0;}
+.node .disqus_comments_num a { background: url(../images/coments_count.png) no-repeat 0 0; font: 14px/16px Arial, Helvetica, sans-serif; color: #9aafc1; text-decoration: none; width: 37px; height: 22px; overflow: hidden; padding: 2px 2px 4px; text-align: center; display: none;}
+
 .node-teaser { position:relative; font:14px/20px Arial, Helvetica, sans-serif; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px 24px; padding:0 10px 15px;}
 .node-teaser .node-header, .node-teaser .node-content { margin-left:240px; }
 .node-teaser > .clearfix { margin-left:240px; clear:both;}
@@ -2416,13 +2419,14 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .field { width:100%; float:right;}
 .node-teaser .field-name-field-image { float:left; width:220px; margin:-24px 0 -22px -240px;}
 .node-teaser .field-name-field-image img { border:1px solid #c1cacf; vertical-align:middle;}
-.node-teaser h1.node-title { margin:0; padding:0 0 4px; font:18px/20px Arial, Helvetica, sans-serif;}
+.node-teaser h1.node-title { margin:0 50px 0 0; padding:0 0 4px; font:18px/20px Arial, Helvetica, sans-serif;}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
 .node-teaser h1.node-title a:hover { color:#00aeef}
 .node-teaser.node-sticky h1.node-title { background:url(../images/star.png) no-repeat 0 2px; padding-left:25px;}
 .node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
 .node-teaser .node-create { float:right; padding:0}
 
+.node {position: relative;}
 .node .node-content h2 { margin:0 0 -2px; padding:7px 0 0; font:24px/26px Arial, Helvetica, sans-serif;}
 .node .node-content p + h2 { padding-top:36px}
 
@@ -2430,13 +2434,16 @@ p { margin:0; padding:9px 0 11px}
 .node_view_mode_event_blog_teaser { margin:0 0 24px; padding:0 0 9px}
 .node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
 .node_view_mode_event_blog_teaser > .clearfix { margin-left:0;}
-.node_view_mode_event_blog_teaser h1.node-title { font:24px/26px Arial, Helvetica, sans-serif; padding-bottom:8px}
+.node_view_mode_event_blog_teaser h1.node-title { font:24px/26px Arial, Helvetica, sans-serif; padding-bottom:8px; margin-right: 50px;}
 .node_view_mode_event_blog_teaser .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
 .node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
 .node_view_mode_event_blog_teaser .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item img { vertical-align:middle; border:none}
-.node_view_mode_event_blog_teaser .links { top:-1px; position:relative}
+.node_view_mode_event_blog_teaser .disqus_comments_num { padding-right: 0; padding-top: 36px; right: -1px;}
+.node_view_mode_event_blog_teaser .disqus_comments_num a { background-position: 0 -28px; font: 18px/20px Arial, Helvetica, sans-serif; color: #ffffff; height: 25px}
+
+
 
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
 
@@ -2550,6 +2557,7 @@ p { margin:0; padding:9px 0 11px}
 #page ul.tabs li a:hover { color:#677581}
 #page ul.tabs li.active { border-bottom:none;}
 #page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
+#page ul.tabs li.event_add { float: right;}
 
 #page .view-events-list {}
 #page .view-events-list h3 { float:left; width:90px; background:url(../images/hide_year.png) no-repeat 100% 4px; position:relative; z-index:10; font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; clear:both; margin:0 -11px 0 0;}

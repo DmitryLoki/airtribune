@@ -173,6 +173,22 @@ function airtribune2_preprocess_pane_messages(&$vars) {
       if($v['#link']['path'] == 'event/%/register'){
         $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
       }
+      if($v['#link']['path'] == 'events/add'){
+        $vars['primary_local_tasks'][$k] = array(
+          '#theme' => 'links',
+          '#links' => array(
+            'event_add' => array(
+              'title' => $vars['primary_local_tasks'][$k]['#link']['title'],
+              'href' => $vars['primary_local_tasks'][$k]['#link']['href'],
+              'attributes' => array(
+                'class' => array('registration'),
+              )              
+            ),
+          ),
+        );
+        // $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
+        // $vars['primary_local_tasks'][$k]['#attributes']['class'] = array('event_add');
+      }
     }
   }
 }
