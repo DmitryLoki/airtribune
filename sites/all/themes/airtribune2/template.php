@@ -29,7 +29,16 @@ function airtribune2_preprocess_html(&$vars) {
     //$vars['title'] = t('Activity feed');
     drupal_set_title(t('Activity feed'));
   }
-  //print_r($vars);
+  if(!empty($vars['page']['content']['system_main']['nodes'])){
+
+    $nodes = $vars['page']['content']['system_main']['nodes'];
+    $nodes_k = array_keys($vars['page']['content']['system_main']['nodes']);
+  
+    if(count($nodes) == 2 && !empty($nodes[$nodes_k[0]]['#node']) && $nodes[$nodes_k[0]]['#node']->promote == 1){
+      $vars['classes_array'][] = 'logo_in_title';
+    }  
+  }
+  //dsm($vars);
 }
 
 /**
@@ -874,4 +883,16 @@ function airtribune2_preprocess_openlayers_map(&$variables, $hook){
   drupal_add_js('sites/all/themes/airtribune2/js/FramedCloud.js');
   // Enable zoom wheel only after click on the map.
   drupal_add_js('sites/all/themes/airtribune2/js/ol.js');
+}
+
+/**
+ * Implements hook_js_alter().
+ */
+function airtribune2_js_alter(&$javascript) {
+  // Fix script weight.
+  $nav_path = drupal_get_path('module', 'openlayers') . '/plugins/behaviors/openlayers_behavior_navigation.js';
+  $oj_path = drupal_get_path('theme', 'airtribune2') . '/js/ol.js';
+  if (isset($javascript[$nav_path]) && isset($javascript[$oj_path])) {
+    $javascript[$oj_path]['weight'] = $javascript[$nav_path]['weight'] + 0.001;
+  }
 }
