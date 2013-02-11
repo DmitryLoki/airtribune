@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
             var commentsCounts = commentsData.counts;
             for (var i = 0; i < commentsCounts.length; ++i) {
                 var commentsCount = commentsCounts[i].comments;
-                commentsCountLink.eq(i).html(commentsCount);
+                commentsCountLink.eq(i).html(commentsCount).css({'display':'block'});
             }
         };
     }
