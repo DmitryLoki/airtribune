@@ -93,9 +93,6 @@ Drupal.behaviors.openlayers = {
             // Attach data to map DOM object
             $(this).data('openlayers', {'map': map, 'openlayers': openlayers});
 
-            // Finally, attach behaviors
-            Drupal.attachBehaviors(this);
-
             if ($.browser.msie) {
               $(window).load(function() {
                 openlayers.render(map.id);
@@ -103,6 +100,9 @@ Drupal.behaviors.openlayers = {
             } else {
               openlayers.render(map.id);
             }
+
+            // Finally, attach behaviors
+            Drupal.attachBehaviors(this);
           }
           catch (e) {
             var errorMessage = e.name + ': ' + e.message;
