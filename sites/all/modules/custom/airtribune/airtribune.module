@@ -167,7 +167,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
   }
-
+  
   if (isset($vars['pane']->configuration['map'])) {
     $map = $vars['pane']->configuration['map'];
 
@@ -183,6 +183,10 @@ function airtribune_preprocess_panels_pane(&$vars) {
     }
   }
 
+  // Add link to create event page to next events pane
+  if ($vars['pane']->subtype == 'next_events-sidebar_pane') {
+      $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+  }
 }
 
 /**
