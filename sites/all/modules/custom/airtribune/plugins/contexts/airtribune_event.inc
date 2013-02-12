@@ -12,7 +12,7 @@ $plugin = array(
   'context' => 'airtribune_context_event',
   'edit form' => 'airtribune_context_event_settings_form',
   'keyword' => 'event',
-  'context name' => 'airtribune_event',
+  'context name' => 'node',
   'convert list' => 'airtribune_context_event_convert_list',
   'convert' => 'airtribune_context_event_convert',
 );

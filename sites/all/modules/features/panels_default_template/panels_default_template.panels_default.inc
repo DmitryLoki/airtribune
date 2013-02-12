@@ -88,8 +88,7 @@ function panels_default_template_default_panels_mini() {
   $mini->category = 'Airtribune';
   $mini->admin_title = 'Event featured header';
   $mini->admin_description = '';
-  $mini->requiredcontexts = array();
-  $mini->contexts = array(
+  $mini->requiredcontexts = array(
     0 => array(
       'identifier' => 'Event beeing viewed',
       'keyword' => 'event',
@@ -97,6 +96,7 @@ function panels_default_template_default_panels_mini() {
       'id' => 1,
     ),
   );
+  $mini->contexts = array();
   $mini->relationships = array();
   $display = new panels_display();
   $display->layout = 'featured_header';
@@ -115,23 +115,26 @@ function panels_default_template_default_panels_mini() {
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'padding';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_header_image';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_map-event_map';
     $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'image',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'image_style' => 'header',
-        'image_link' => '',
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/map',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
       ),
-      'context' => 'context_airtribune_event_1',
-      'override_title' => 1,
-      'override_title_text' => '',
+    );
+    $pane->configuration = array(
+      'arguments' => array(
+        'field_geofield_distance' => '%event:nid',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -145,6 +148,49 @@ function panels_default_template_default_panels_mini() {
     $display->panels['padding'][0] = 'new-3';
     $pane = new stdClass();
     $pane->pid = 'new-4';
+    $pane->panel = 'padding';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_header_image';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/map',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'label' => 'title',
+      'formatter' => 'image',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(
+        'image_style' => 'header',
+        'image_link' => '',
+      ),
+      'context' => 'requiredcontext_airtribune_event_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['padding'][1] = 'new-4';
+    $pane = new stdClass();
+    $pane->pid = 'new-5';
     $pane->panel = 'title';
     $pane->type = 'airtribune_event_title';
     $pane->subtype = 'airtribune_event_title';
@@ -163,8 +209,8 @@ function panels_default_template_default_panels_mini() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['title'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['title'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $mini->display = $display;
@@ -196,7 +242,7 @@ function panels_default_template_default_panels_mini() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'events_map-panel_pane_1';
@@ -211,10 +257,10 @@ function panels_default_template_default_panels_mini() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['padding'][0] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['padding'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'title';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -235,10 +281,10 @@ function panels_default_template_default_panels_mini() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['title'][0] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['title'][0] = 'new-7';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-5';
+  $display->title_pane = 'new-6';
   $mini->display = $display;
   $export['events_map'] = $mini;
 
@@ -275,7 +321,7 @@ function panels_default_template_default_panels_mini() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-8';
     $pane->panel = 'four_first';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -305,10 +351,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['four_first'][0] = 'new-7';
+    $display->content['new-8'] = $pane;
+    $display->panels['four_first'][0] = 'new-8';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-9';
     $pane->panel = 'four_five';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -332,10 +378,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['four_five'][0] = 'new-8';
+    $display->content['new-9'] = $pane;
+    $display->panels['four_five'][0] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-10';
     $pane->panel = 'four_fourth';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -367,10 +413,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['four_fourth'][0] = 'new-9';
+    $display->content['new-10'] = $pane;
+    $display->panels['four_fourth'][0] = 'new-10';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-11';
     $pane->panel = 'four_second';
     $pane->type = 'block';
     $pane->subtype = 'menu-footer-menu';
@@ -388,10 +434,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['four_second'][0] = 'new-10';
+    $display->content['new-11'] = $pane;
+    $display->panels['four_second'][0] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-12';
     $pane->panel = 'four_third';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -420,10 +466,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['four_third'][0] = 'new-11';
+    $display->content['new-12'] = $pane;
+    $display->panels['four_third'][0] = 'new-12';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-7';
+  $display->title_pane = 'new-8';
   $mini->display = $display;
   $export['footer_four_blocks'] = $mini;
 
@@ -451,7 +497,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-13';
     $pane->panel = 'one_main';
     $pane->type = 'pane_header';
     $pane->subtype = 'pane_header';
@@ -466,10 +512,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['one_main'][0] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['one_main'][0] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-14';
     $pane->panel = 'one_main';
     $pane->type = 'airtribune_primary_navigation';
     $pane->subtype = 'airtribune_primary_navigation';
@@ -484,10 +530,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['one_main'][1] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['one_main'][1] = 'new-14';
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-15';
     $pane->panel = 'one_main';
     $pane->type = 'airtribune_user';
     $pane->subtype = 'airtribune_user';
@@ -506,10 +552,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['one_main'][2] = 'new-14';
+    $display->content['new-15'] = $pane;
+    $display->panels['one_main'][2] = 'new-15';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-12';
+  $display->title_pane = 'new-13';
   $mini->display = $display;
   $export['header_blocks'] = $mini;
 
@@ -551,7 +597,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-16';
     $pane->panel = 'padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-front_page_header';
@@ -566,8 +612,8 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['padding'][0] = 'new-15';
+    $display->content['new-16'] = $pane;
+    $display->panels['padding'][0] = 'new-16';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $mini->display = $display;
@@ -597,7 +643,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-16';
+    $pane->pid = 'new-17';
     $pane->panel = 'one_main';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -618,10 +664,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-16'] = $pane;
-    $display->panels['one_main'][0] = 'new-16';
+    $display->content['new-17'] = $pane;
+    $display->panels['one_main'][0] = 'new-17';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-16';
+  $display->title_pane = 'new-17';
   $mini->display = $display;
   $export['share_links'] = $mini;
 
@@ -649,7 +695,7 @@ e-mail: info@airtribune.com</p>',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-17';
+    $pane->pid = 'new-18';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -673,10 +719,10 @@ e-mail: info@airtribune.com</p>',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['middle'][0] = 'new-17';
+    $display->content['new-18'] = $pane;
+    $display->panels['middle'][0] = 'new-18';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-17';
+  $display->title_pane = 'new-18';
   $mini->display = $display;
   $export['temp_header_image'] = $mini;
 
