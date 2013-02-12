@@ -167,6 +167,16 @@ function airtribune_preprocess_panels_pane(&$vars) {
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
   }
+
+  if (isset($vars['pane']->configuration['map'])) {
+
+    $vars['title'] .= '<span class="event-map-toggle-pane">' . t('Hide') . '</span>';
+    $vars['title'] .= '<span class="event-map-enable-' . $vars['pane']->configuration['map'] . '">' . t('Enable') . '</span>';
+
+    $vars['classes_array'][] = 'event-map-pane';
+
+  }
+
 }
 
 /**
