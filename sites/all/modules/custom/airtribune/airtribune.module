@@ -169,12 +169,18 @@ function airtribune_preprocess_panels_pane(&$vars) {
   }
 
   if (isset($vars['pane']->configuration['map'])) {
+    $map = $vars['pane']->configuration['map'];
 
     $vars['title'] .= '<span class="event-map-toggle-pane">' . t('Hide') . '</span>';
-    $vars['title'] .= '<span class="event-map-enable-' . $vars['pane']->configuration['map'] . '">' . t('Enable') . '</span>';
-
+    $vars['title'] .= '<span class="event-map-enable-' . $map . '">' . t('Enable') . '</span>';
     $vars['classes_array'][] = 'event-map-pane';
 
+    if ($map == 'accommodations' && user_access('create accommodation content')) {
+      $vars['title'] .= l('Add accommodation', 'node/add/accommodation');
+    }
+    if ($map == 'activities' && user_access('create activity content')) {
+      $vars['title'] .= l('Add activity', 'node/add/activity');
+    }
   }
 
 }
