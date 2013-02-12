@@ -88,10 +88,7 @@ function ulogin_feature_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'ulogin_hidden';
   $strongarm->value = array(
-    'vkontakte' => 'vkontakte',
-    'linkedin' => 'linkedin',
-    'flickr' => 'flickr',
-    'vimeo' => 'vimeo',
+    'vkontakte' => 0,
     'odnoklassniki' => 0,
     'mailru' => 0,
     'facebook' => 0,
@@ -101,9 +98,12 @@ function ulogin_feature_strongarm() {
     'livejournal' => 0,
     'openid' => 0,
     'lastfm' => 0,
+    'linkedin' => 0,
     'liveid' => 0,
     'soundcloud' => 0,
     'steam' => 0,
+    'flickr' => 0,
+    'vimeo' => 0,
     'youtube' => 0,
     'webmoney' => 0,
   );
@@ -136,11 +136,11 @@ function ulogin_feature_strongarm() {
   $strongarm->name = 'ulogin_providers';
   $strongarm->value = array(
     'facebook' => 'facebook',
-    'twitter' => 'twitter',
-    'google' => 'google',
     'vkontakte' => 0,
     'odnoklassniki' => 0,
     'mailru' => 0,
+    'twitter' => 0,
+    'google' => 0,
     'yandex' => 0,
     'livejournal' => 0,
     'openid' => 0,
