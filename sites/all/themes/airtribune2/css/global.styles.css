@@ -3250,7 +3250,8 @@ p { margin:0; padding:9px 0 11px}
   border-radius: 2px 2px 0 0;
   color: #677581;
 }
-.event-map-pane span {
+.event-map-pane h2 span,
+.event-map-pane h2 a {
   display: block;
   float: right;
   font-size: 12px;
