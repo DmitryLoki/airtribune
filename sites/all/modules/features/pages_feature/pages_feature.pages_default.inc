@@ -1704,19 +1704,12 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-40';
     $pane->panel = 'one_main';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_accommodations-panel_event_map_pane';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'nid' => '5363',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'full',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
+      'map' => 'accommodations',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1728,6 +1721,26 @@ function pages_feature_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-40'] = $pane;
     $display->panels['one_main'][0] = 'new-40';
+    $pane = new stdClass();
+    $pane->pid = 'new-41';
+    $pane->panel = 'one_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_activities-panel_event_map_pane';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'map' => 'activities',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-41'] = $pane;
+    $display->panels['one_main'][1] = 'new-41';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1858,7 +1871,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-41';
+    $pane->pid = 'new-42';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -1879,8 +1892,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-41'] = $pane;
-    $display->panels['middle'][0] = 'new-41';
+    $display->content['new-42'] = $pane;
+    $display->panels['middle'][0] = 'new-42';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1934,7 +1947,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-42';
+    $pane->pid = 'new-43';
     $pane->panel = 'one_main';
     $pane->type = 'node';
     $pane->subtype = 'node';
@@ -1958,8 +1971,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['one_main'][0] = 'new-42';
+    $display->content['new-43'] = $pane;
+    $display->panels['one_main'][0] = 'new-43';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2051,7 +2064,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-43';
+    $pane->pid = 'new-44';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -2072,8 +2085,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-43'] = $pane;
-    $display->panels['middle'][0] = 'new-43';
+    $display->content['new-44'] = $pane;
+    $display->panels['middle'][0] = 'new-44';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2171,7 +2184,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-44';
+    $pane->pid = 'new-45';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -2190,8 +2203,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-44'] = $pane;
-    $display->panels['middle'][0] = 'new-44';
+    $display->content['new-45'] = $pane;
+    $display->panels['middle'][0] = 'new-45';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
