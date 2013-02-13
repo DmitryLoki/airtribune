@@ -9,7 +9,7 @@ class geofield_handler_argument extends views_handler_argument {
   
   var $operator = NULL;
   
-  function init(&$view, &$options){
+  function init(&$view, &$options) {
     parent::init($view, $options);
     $this->operator = '<';
   }
@@ -63,7 +63,7 @@ class geofield_handler_argument extends views_handler_argument {
         'destination_longitude' => $this->table_alias . '.' . $lon_alias,
         'earth_radius' => $this->options['unit'],
       );
-      $this->query->add_where_expression(0, geofield_haversine($haversine_options) . ' ' .$this->operator . ' ' . $this->options['distance']);     
+      $this->query->add_where_expression(0, geofield_haversine($haversine_options) . ' ' . $this->operator . ' ' . $this->options['distance']);     
     }
   }
 }

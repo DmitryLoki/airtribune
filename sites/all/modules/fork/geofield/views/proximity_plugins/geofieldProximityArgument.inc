@@ -22,9 +22,29 @@ class geofieldProximityArgument extends geofieldProximityBase implements geofiel
     $options['geofield_proximity_argument_delta'] = array(
       'default' => 0,
     );
+    $options['geofield_proximity_argument_number'] = array(
+      'default' => 0,
+    );
   }
 
   public function options_form(&$form, &$form_state, $views_plugin) {
+    $form['geofield_proximity_argument_number'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Argument position'),
+      '#default_value' => $views_plugin->options['geofield_proximity_argument_number'],
+      '#dependency' => array(
+        'edit-options-source' => array('entity_from_argument'),
+      ),
+    );
+    if (module_exists('elements')) {
+      $form['geofield_proximity_argument_number']['#type'] = 'numberfield';
+      $form['geofield_proximity_argument_number']['#attributes'] = array(
+        'step' => 1,
+        'min' => 0,
+        'max' => 10
+      );
+    }
+    
     $entities = entity_get_info();
     $entity_options = array();
     foreach ($entities as $key => $entity) {
@@ -62,19 +82,18 @@ class geofieldProximityArgument extends geofieldProximityBase implements geofiel
     $entity_type = $views_plugin->options['geofield_proximity_argument_entity_type'];
     $geofield_name = $views_plugin->options['geofield_proximity_argument_field'];
     $delta = $views_plugin->options['geofield_proximity_argument_delta'];
-
-    //$entity = menu_get_object($entity_type);
-    if (isset($entity) && !empty($geofield_name)) {
-      $field_data = field_get_items($entity_type, $entity, $geofield_name);
-
-      if ($field_data != FALSE) {
+    $argument = $views_plugin->view->args[$views_plugin->options['geofield_proximity_argument_number']];
+    $entity = entity_metadata_wrapper($views_plugin->options['geofield_proximity_argument_entity_type'], $argument);
+    $options = array();
+    if (isset($entity->{$views_plugin->options['geofield_proximity_argument_field']})) {
+      $options = $entity->{$views_plugin->options['geofield_proximity_argument_field']}->value();
+      if ($options) {
         return array(
-          'latitude' => $field_data[$delta]['lat'],
-          'longitude' => $field_data[$delta]['lon'],
+          'latitude' => $options['lat'],
+          'longitude' => $options['lon'],
         );
       }
     }
-
     return FALSE;
   }
 }
