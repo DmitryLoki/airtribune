@@ -28,7 +28,6 @@ define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 
-
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -127,7 +126,6 @@ function airtrubune_format_username($account) {
       if (drupal_strlen($user_name) > 15) {
         $user_name = truncate_utf8($given, 12, TRUE, TRUE);
       }
-
     }
   }
 
@@ -139,7 +137,7 @@ function airtrubune_format_username($account) {
  */
 function airtrubune_get_country_code($langcode) {
   $country_codes = array(
-    'en' => 'us',
+    'en' => 'gb',
     'ja' => 'jp',
     'pt-br' => 'br',
     'fa' => 'pr',
@@ -167,7 +165,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
   }
-  
+
   if (isset($vars['pane']->configuration['map'])) {
     $map = $vars['pane']->configuration['map'];
 
@@ -185,7 +183,33 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   // Add link to create event page to next events pane
   if ($vars['pane']->subtype == 'next_events-sidebar_pane') {
-      $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+    $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+  }
+
+  // Add links to switch view of pilots list
+  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE) {
+    $pilots_links[] = array(
+      'title' => 'Group by status',
+      'link' => 'events/' . $vars['display']->args[0] . '/pilots/status',
+      'class' => 'by-status',
+    );
+    $pilots_links[] = array(
+      'title' => 'Group by country',
+      'link' => 'events/' . $vars['display']->args[0] . '/pilots/country',
+      'class' => 'by-country',
+    );
+
+    $cont = '<div class="switch-pilots-view">';
+
+    foreach ($pilots_links as $lcount => $pilots_link) {
+      $cont .= l(
+        t($pilots_link['title']),
+        $pilots_link['link'],
+        array('attributes' => array('class' => $pilots_link['class']))
+      );
+    }
+    $cont .= '</div>';
+    $vars['pane_prefix'] .= $cont;
   }
 }
 
@@ -242,3 +266,4 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
   );
   return $category ? $categories[$category] : $categories;
 }
+
