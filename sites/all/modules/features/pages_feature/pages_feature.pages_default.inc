@@ -1927,7 +1927,7 @@ function pages_feature_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
   $handler->handler = 'panel_context';
-  $handler->weight = -29;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Pilots (FAI)',
     'no_blocks' => 1,
@@ -1966,17 +1966,6 @@ function pages_feature_default_page_manager_pages() {
           'context' => 'argument_entity_id:node_1',
           'not' => FALSE,
         ),
-        2 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 4,
-              1 => 7,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
       ),
     ),
   );
@@ -2012,7 +2001,19 @@ function pages_feature_default_page_manager_pages() {
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/pilots/status',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'context' => array(
         0 => 'argument_entity_id:node_1',
@@ -2030,6 +2031,42 @@ function pages_feature_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-44'] = $pane;
     $display->panels['middle'][0] = 'new-44';
+    $pane = new stdClass();
+    $pane->pid = 'new-45';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-standard';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/pilots/status',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-45'] = $pane;
+    $display->panels['middle'][1] = 'new-45';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2041,7 +2078,7 @@ function pages_feature_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
   $handler->handler = 'panel_context';
-  $handler->weight = -28;
+  $handler->weight = -30;
   $handler->conf = array(
     'title' => 'Pilots (Cooming soon)',
     'no_blocks' => 1,
@@ -2083,7 +2120,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-45';
+    $pane->pid = 'new-46';
     $pane->panel = 'one_main';
     $pane->type = 'node';
     $pane->subtype = 'node';
@@ -2107,8 +2144,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-45'] = $pane;
-    $display->panels['one_main'][0] = 'new-45';
+    $display->content['new-46'] = $pane;
+    $display->panels['one_main'][0] = 'new-46';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2120,7 +2157,7 @@ function pages_feature_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
   $handler->handler = 'panel_context';
-  $handler->weight = -30;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Pilots (Standard)',
     'no_blocks' => 1,
@@ -2159,17 +2196,6 @@ function pages_feature_default_page_manager_pages() {
           'context' => 'argument_entity_id:node_1',
           'not' => TRUE,
         ),
-        2 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 4,
-              1 => 7,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
       ),
     ),
   );
@@ -2200,12 +2226,24 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-46';
+    $pane->pid = 'new-47';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/pilots/country',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'context' => array(
         0 => 'argument_entity_id:node_1',
@@ -2221,8 +2259,44 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-46'] = $pane;
-    $display->panels['middle'][0] = 'new-46';
+    $display->content['new-47'] = $pane;
+    $display->panels['middle'][0] = 'new-47';
+    $pane = new stdClass();
+    $pane->pid = 'new-48';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-fai';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/pilots/country',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-48'] = $pane;
+    $display->panels['middle'][1] = 'new-48';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2320,7 +2394,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-47';
+    $pane->pid = 'new-49';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -2339,8 +2413,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-47'] = $pane;
-    $display->panels['middle'][0] = 'new-47';
+    $display->content['new-49'] = $pane;
+    $display->panels['middle'][0] = 'new-49';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
