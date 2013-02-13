@@ -393,7 +393,7 @@ function airtribune2_ulogin_widget($variables) {
           'title' => $icon->name,
           'attributes' => array('x-ulogin-button' => $icon->name, 'class' => 'ulogin-icon-' . $icon->name),
         ));*/
-        $output .= '<div class="ulogin-icon-'.$icon->name.'" x-ulogin-button="'.$icon->name.'">'.t($icon->name).'</div>';
+        $output .= '<div class="ulogin-icon-'.$icon->name.'" x-ulogin-button="'.$icon->name.'">'.t('Facebook login').'</div>';
       }
     }
     elseif ($element['#ulogin_display'] == 'buttons' && is_array($element['#ulogin_icons']) && !empty($element['#ulogin_icons'])) {
@@ -404,7 +404,7 @@ function airtribune2_ulogin_widget($variables) {
           'title' => $key,
           'attributes' => array('x-ulogin-button' => $key, 'class' => 'ulogin-icon-' . $key),
         ));*/
-        $output .= '<div class="ulogin-icon-'.$key.'" x-ulogin-button="'.$key.'">'.t($key).'</div>';
+        $output .= '<div class="ulogin-icon-'.$key.'" x-ulogin-button="'.$key.'">'.t('Facebook login').'</div>';
       }
     }
     else {
