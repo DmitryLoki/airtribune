@@ -3305,3 +3305,9 @@ p { margin:0; padding:9px 0 11px}
 .event-map-pane table td.views-field-body p {
   padding: 0;
 }
+.event-map-pane span.currency-EUR:before {
+  content: "€ "
+}
+.event-map-pane span.currency-USD:before {
+  content: "$ "
+}
