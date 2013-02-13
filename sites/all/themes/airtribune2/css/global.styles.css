@@ -2682,7 +2682,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-awards-photos .more-link { padding-top:26px}
 
 /* How to get here */
-.page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px}
+.page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px;}
+.page-event-info #page .pane-node-field-collection-getting-there.no-title { width: 50%; float: left;}
 .page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
 .panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0}
 .pane-node-field-collection-getting-there .links { padding:8px 0 0;}
@@ -2704,13 +2705,13 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-collection-getting-there { padding-bottom:30px}
 .page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}
 .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
-.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
-.page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}
+/*.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
+.page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
 .pane-node-field-address .addressfield-container-inline { display:inline;}
 .pane-node-field-address .addressfield-container-inline:after { display:none}
 .pane-node-field-address .addressfield-container-inline + .country:before { content:", "}
 
-.page-event-info #page .pane-field-collection-item-field-gt-general { margin-bottom:0; width:50%; float:right;}
+.page-event-info #page .pane-field-collection-item-field-gt-general { margin-bottom:16px; width:50%; float:right;}
 .page-event-info #page .pane-field-collection-item-field-gt-general p { padding:0}
 .page-event-info #page .pane-field-collection-item-field-gt-general .pane-content { margin-left:0}
 
@@ -2873,7 +2874,7 @@ p { margin:0; padding:9px 0 11px}
 /*.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}*/
 
 /* How to get here */
-.page-event-details .pane-node-field-collection-getting-there { clear:both;}
+.page-event-details .pane-node-field-collection-getting-there { clear:both; padding-top: 10px;}
 .page-event-details .panel_info .pane-node-field-collection-getting-there .pane-content { margin:0 11px;}
 .pane-node-field-collection-getting-there .field-item .field { width:50%; padding:21px 0 11px}
 .pane-node-field-collection-getting-there .field-item .field-name-field-gt-col-left { float:left; padding:0}
@@ -2899,6 +2900,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-address { float:left; margin:-6px 0 0 6px; width:200px;}
 
 .page-event-details #page .pane-field-collection-item-field-gt-general { margin-bottom:0}
+
+.page-event-details #page .pane-node-field-headquarter-info { clear:both; margin-bottom: 5px;}
 
 /* Downloads */
 .page-event-details .pane-node-field-downloads .field-item { width:162px;}

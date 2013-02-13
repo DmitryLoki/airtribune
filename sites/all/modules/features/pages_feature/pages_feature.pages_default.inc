@@ -649,6 +649,34 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-9';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
+    $pane->subtype = 'field_collection_item:field_gt_general';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'hidden',
+      'formatter' => 'text_default',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(),
+      'context' => 'relationship_field_collection_from_field:node:pg_contest:field_collection_getting_there_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $display->content['new-9'] = $pane;
+    $display->panels['event_brick_left_below'][4] = 'new-9';
+    $pane = new stdClass();
+    $pane->pid = 'new-10';
+    $pane->panel = 'event_brick_left_below';
+    $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_getting_there';
     $pane->shown = TRUE;
     $pane->access = array();
@@ -668,34 +696,6 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => 'How to get here',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 4;
-    $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['event_brick_left_below'][4] = 'new-9';
-    $pane = new stdClass();
-    $pane->pid = 'new-10';
-    $pane->panel = 'event_brick_left_below';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'field_collection_item:field_gt_general';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'hidden',
-      'formatter' => 'text_default',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
-      'context' => 'relationship_field_collection_from_field:node:pg_contest:field_collection_getting_there_1',
-      'override_title' => 0,
-      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1174,6 +1174,8 @@ function pages_feature_default_page_manager_pages() {
       'left_below' => NULL,
       'right_below' => NULL,
       'bottom' => NULL,
+      'event_brick_left_bottom' => NULL,
+      'event_brick_right_bottom' => NULL,
     ),
   );
   $display->cache = array();
@@ -1241,19 +1243,16 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-25';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_hq_location';
+    $pane->subtype = 'node:field_headquarter_info';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'geofield_openlayers',
+      'label' => 'hidden',
+      'formatter' => 'text_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'data' => 'full',
-        'map_preset' => 'event_hq_details',
-      ),
+      'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'How to get here',
@@ -1270,6 +1269,37 @@ function pages_feature_default_page_manager_pages() {
     $display->panels['event_brick_middle'][0] = 'new-25';
     $pane = new stdClass();
     $pane->pid = 'new-26';
+    $pane->panel = 'event_brick_middle';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_hq_location';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'title',
+      'formatter' => 'geofield_openlayers',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(
+        'data' => 'full',
+        'map_preset' => 'event_hq_details',
+      ),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-26'] = $pane;
+    $display->panels['event_brick_middle'][1] = 'new-26';
+    $pane = new stdClass();
+    $pane->pid = 'new-27';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_address';
@@ -1297,12 +1327,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['event_brick_middle'][1] = 'new-26';
+    $display->content['new-27'] = $pane;
+    $display->panels['event_brick_middle'][2] = 'new-27';
     $pane = new stdClass();
-    $pane->pid = 'new-27';
+    $pane->pid = 'new-28';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_getting_there';
@@ -1321,34 +1351,6 @@ function pages_feature_default_page_manager_pages() {
         'description' => 1,
         'view_mode' => 'event_details_page',
       ),
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['event_brick_middle'][2] = 'new-27';
-    $pane = new stdClass();
-    $pane->pid = 'new-28';
-    $pane->panel = 'event_brick_middle';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_headquarter_info';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'hidden',
-      'formatter' => 'text_default',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
