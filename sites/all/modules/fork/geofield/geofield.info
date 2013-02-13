@@ -24,3 +24,4 @@ files[] = views/proximity_plugins/geofieldProximityEntityURL.inc
 files[] = views/proximity_plugins/geofieldProximityOtherGeofield.inc
 files[] = views/proximity_plugins/geofieldProximityCurrentUser.inc
 files[] = views/proximity_plugins/geofieldProximityExposedFilter.inc
+files[] = views/proximity_plugins/geofieldProximityArgument.inc

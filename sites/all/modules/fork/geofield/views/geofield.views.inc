@@ -92,6 +92,10 @@ function geofield_proximity_views_handlers() {
       'name' => t('Exposed Geofield Proximity Filter'),
       'class' => 'geofieldProximityExposedFilter',
     ),
+    'entity_from_argument' => array(
+      'name' => t('Entity from Argument'),
+      'class' => 'geofieldProximityArgument',
+    )
   );
 
   if (module_exists('geocoder')) {

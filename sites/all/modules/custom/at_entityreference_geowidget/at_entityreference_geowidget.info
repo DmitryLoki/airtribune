@@ -1,0 +1,10 @@
+name = "Airtribune Entityreference Geowidget"
+description = "Geo input widget for entityreference"
+core = 7.x
+package = Airtribune
+php = 5.2
+version = "7.x-dev"
+dependencies[] = openlayers
+dependencies[] = entityreference
+files[] = at_entityreference_geowidget.module
+configure = 

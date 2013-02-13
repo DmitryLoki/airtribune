@@ -26,6 +26,7 @@ class geofield_handler_field extends views_handler_field_numeric {
 
       $this->field_alias = $this->query->add_field(NULL, geofield_haversine($haversine_options), $this->table_alias . '_' . $this->field);
     }
+    dpm($this->view->argument);
   }
 
   function option_definition() {
