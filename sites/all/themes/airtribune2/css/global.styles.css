@@ -3044,7 +3044,7 @@ p { margin:0; padding:9px 0 11px}
 .page-user .pane-page-content form .form-item-pass .password-strength .password-strength-text { }
 
 .page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:38px}
-.page-user .pane-page-content form .form-actions input { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
+.page-user .pane-page-content form .form-actions input, .events-add a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -3060,7 +3060,7 @@ p { margin:0; padding:9px 0 11px}
   
 }
 
-.page-user .pane-page-content form .form-actions input:hover {border-color:#ecd767;
+.page-user .pane-page-content form .form-actions input:hover, .events-add a:hover {border-color:#ecd767;
 
   background:#e4c25e;
   background: -moz-linear-gradient(top, #e4c25e 0%, #d8a92d 100%); 
@@ -3072,7 +3072,7 @@ p { margin:0; padding:9px 0 11px}
   
 }
 
-.page-user .pane-page-content form .form-actions input:active { border-color:#d5a722;
+.page-user .pane-page-content form .form-actions input:active, .events-add a:active { border-color:#d5a722;
   background:#d3b246;
   background: -moz-linear-gradient(top, #d3b246 0%, #ca9f22 100%); 
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3b246), color-stop(100%,#ca9f22));
@@ -3093,6 +3093,8 @@ p { margin:0; padding:9px 0 11px}
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbebc2), color-stop(100%,#f1dba8)); 
 
 }
+
+.events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
 .page-user .pane-page-content form .select { margin-right:8px;}
 .page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
