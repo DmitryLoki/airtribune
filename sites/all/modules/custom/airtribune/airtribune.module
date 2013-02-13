@@ -167,6 +167,26 @@ function airtribune_preprocess_panels_pane(&$vars) {
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
   }
+  
+  if (isset($vars['pane']->configuration['map'])) {
+    $map = $vars['pane']->configuration['map'];
+
+    $vars['title'] .= '<span class="event-map-toggle-pane">' . t('Hide') . '</span>';
+    $vars['title'] .= '<span class="event-map-enable-' . $map . '">' . t('Enable') . '</span>';
+    $vars['classes_array'][] = 'event-map-pane';
+
+    if ($map == 'accommodations' && user_access('create accommodation content')) {
+      $vars['title'] .= l('Add accommodation', 'node/add/accommodation');
+    }
+    if ($map == 'activities' && user_access('create activity content')) {
+      $vars['title'] .= l('Add activity', 'node/add/activity');
+    }
+  }
+
+  // Add link to create event page to next events pane
+  if ($vars['pane']->subtype == 'next_events-sidebar_pane') {
+      $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+  }
 }
 
 /**

@@ -183,8 +183,8 @@ function theme_field_group_multiple_table_form($variables) {
       $lang = array_shift(array_keys($data));
       if (isset($data[$lang]['#type']) && $data[$lang]['#type'] == "phone_number" && isset($data[$lang]['#entity']->$field_name)) {
         $default_values = $data[$lang]['#entity']->$field_name;
-        $data[$lang]['number']['#value'] = $default_values[$lang][$delta]['number'];
-        $data[$lang]['country_codes']['#value'] = $default_values[$lang][$delta]['country_codes'];
+        $data[$lang]['number']['#value'] = isset($default_values[$lang][$delta]['number'])?$default_values[$lang][$delta]['number']:array();
+        $data[$lang]['country_codes']['#value'] = isset($default_values[$lang][$delta]['country_codes'])?$default_values[$lang][$delta]['country_codes']:array();
       }
       $row[] = array("data" => drupal_render($data), "class" => "");
     }

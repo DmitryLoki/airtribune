@@ -64,5 +64,17 @@ $panel_suffix = isset($panel_suffix) ? $panel_suffix : '';
       </div>
     </div>
   </div>
+  <div class="panel-row row-3 clearfix">
+    <div class="region region-two-big-brick-left-below">
+      <div class="region-inner clearfix">
+        <?php print $content['event_brick_left_bottom']; ?>
+      </div>
+    </div>
+    <div class="region region-two-small-brick-right-below">
+      <div class="region-inner clearfix">
+        <?php print $content['event_brick_right_bottom']; ?>
+      </div>
+    </div>
+  </div>
 </div>
 <?php print $panel_suffix; ?>

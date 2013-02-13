@@ -85,7 +85,7 @@ Drupal.behaviors.openlayers = {
             }
 
             // Initialize openlayers map
-            var openlayers = new OpenLayers.Map(map.id, options);
+            var openlayers = new OpenLayers.Map(options);
 
             // Run the layer addition first
             Drupal.openlayers.addLayers(map, openlayers);
@@ -93,12 +93,16 @@ Drupal.behaviors.openlayers = {
             // Attach data to map DOM object
             $(this).data('openlayers', {'map': map, 'openlayers': openlayers});
 
+            if ($.browser.msie) {
+              $(window).load(function() {
+                openlayers.render(map.id);
+              });
+            } else {
+              openlayers.render(map.id);
+            }
+
             // Finally, attach behaviors
             Drupal.attachBehaviors(this);
-
-            if ($.browser.msie) {
-              Drupal.openlayers.redrawVectors();
-            }
           }
           catch (e) {
             var errorMessage = e.name + ': ' + e.message;
