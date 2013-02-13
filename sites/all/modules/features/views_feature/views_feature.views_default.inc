@@ -712,6 +712,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
+    'field_price_currency' => 'field_price_single',
     'field_price_single' => 'field_price_single',
     'field_price_double' => 'field_price_double',
     'field_hotel_wifi' => 'field_hotel_wifi',
@@ -720,6 +721,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_price_currency' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -756,6 +764,14 @@ function views_feature_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['override'] = FALSE;
+  /* Field: Currency - excluded */
+  $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
+  $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
+  $handler->display->display_options['fields']['field_price_currency']['field'] = 'field_price_currency';
+  $handler->display->display_options['fields']['field_price_currency']['ui_name'] = 'Currency - excluded';
+  $handler->display->display_options['fields']['field_price_currency']['label'] = '';
+  $handler->display->display_options['fields']['field_price_currency']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_price_currency']['element_label_colon'] = FALSE;
   /* Field: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -764,16 +780,20 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = 'Name';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Single price */
+  /* Field: Single price - overridden */
   $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
   $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
   $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price';
-  /* Field: Double price */
+  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
+  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
+  /* Field: Double price - overridden */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
   $handler->display->display_options['fields']['field_price_double']['field'] = 'field_price_double';
-  $handler->display->display_options['fields']['field_price_double']['ui_name'] = 'Double price';
+  $handler->display->display_options['fields']['field_price_double']['ui_name'] = 'Double price - overridden';
+  $handler->display->display_options['fields']['field_price_double']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_price_double']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_double]</span>';
   /* Field: WiFi */
   $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
@@ -860,7 +880,9 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('Name'),
     t('Single'),
+    t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
     t('Double'),
+    t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
     t('Wi-Fi'),
     t('Distance to HQ, km'),
     t('.'),
