@@ -190,23 +190,19 @@ function airtribune_preprocess_panels_pane(&$vars) {
   if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE) {
     $pilots_links[] = array(
       'title' => 'Group by status',
-      'link' => 'events/' . $vars['display']->args[0] . '/pilots/status',
+      'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
       'class' => 'by-status',
     );
     $pilots_links[] = array(
       'title' => 'Group by country',
-      'link' => 'events/' . $vars['display']->args[0] . '/pilots/country',
+      'link' => url('event/' . $vars['display']->args[0] . '/pilots/country'),
       'class' => 'by-country',
     );
 
     $cont = '<div class="switch-pilots-view">';
 
     foreach ($pilots_links as $lcount => $pilots_link) {
-      $cont .= l(
-        t($pilots_link['title']),
-        $pilots_link['link'],
-        array('attributes' => array('class' => $pilots_link['class']))
-      );
+      $cont .= '<a href="' . $pilots_link['link'] . '" class="' . $pilots_link['class'] . '">' . t($pilots_link['title']) . '</a>';
     }
     $cont .= '</div>';
     $vars['pane_prefix'] .= $cont;
