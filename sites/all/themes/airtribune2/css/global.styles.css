@@ -3127,6 +3127,9 @@ p { margin:0; padding:9px 0 11px}
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+#user-login .form-type-ulogin-widget { margin-left: 210px;}
+#user-login .ulogin-icon-facebook { float: none;}
+
 .pane-paragliding-pilots-list-fai {}
 .pane-paragliding-pilots-list-fai .pane-inner { margin: 0;}
 .page-event-pilots .view-paragliding-pilots-list .views-table { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; position: relative; border-collapse: separate; border-top: none; color: #525d66; font: 14px/16px Arial, Helvetica, sans-serif;
@@ -3154,6 +3157,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-pilots .view-paragliding-pilots-list .views-table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px;}
 .page-event-pilots .view-paragliding-pilots-list .views-table .views-row-first td { border-top: none;}
 .page-event-pilots .view-paragliding-pilots-list .views-table tr td:first-child { border-left: none;}
+
 
 	/* Footer */
 

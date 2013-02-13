@@ -303,12 +303,14 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
   }
   switch ($form_id) {
       case 'user_login_block':
-      //print_r($form);
+      
       $form['name']['#attributes']['rel'] = t('Enter your e-mail');
       unset($form['name']['#title']);
       $form['pass']['#attributes']['rel'] = t('Enter your password');
       unset($form['pass']['#title']);
       $form['actions']['submit']['#value'] = t('Go');
+      $form['actions']['#weight'] = 89;
+      $form['ulogin']['#weight'] = 79;
       
       $items = array();
       $items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
@@ -323,6 +325,7 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         '#markup' => theme('item_list', array('items' => $items)),
         '#weight' => 100,
       );
+      //print_r($form);
     break;
       
       case 'user_register_form':
@@ -336,6 +339,97 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
        }
     break;
   }
+}
+
+
+function airtribune2_ulogin_widget($variables) {
+  $element = $variables['element'];
+  $output = '';
+  
+  if (variable_get('ulogin_redirect', 0)) {
+    $callback = 'Drupalulogintoken';
+    $redirect = urlencode(url('sites/all/libraries/ulogin/ulogin_xd.html', array('absolute' => TRUE)));
+  }
+  else {
+    $callback = '';
+    $redirect = _ulogin_token_url($element['#ulogin_destination']);
+  }
+  
+  $id = drupal_html_id($element['#ulogin_id']);
+  if (in_array($element['#ulogin_display'], array('small', 'panel', 'buttons'))) {
+    $output = '<div ';
+    $output .= 'id="' . $id . '"' .
+      'x-ulogin-params="' .
+      'display=' . $element['#ulogin_display'];
+    // requested fields
+    $output .= '&fields=' . $element['#ulogin_fields'] .
+      '&optional=' . $element['#ulogin_optional'];
+    // available providers
+    if ($element['#ulogin_display'] != 'buttons') {
+      $output .= '&providers=' . $element['#ulogin_providers'] .
+        '&hidden=' . $element['#ulogin_hidden'];
+    }
+    // callback and redirect
+    if (variable_get('ulogin_redirect', 0)) {
+      $output .= '&callback=' . $callback .
+        '&redirect_uri=' . $redirect;
+    }
+    else {
+      $output .= '&redirect_uri=' . $redirect;
+    }
+    
+    // receiver for custom icons
+    if ($element['#ulogin_display'] == 'buttons') {
+      $output .= '&receiver=' . urlencode(url('sites/all/libraries/ulogin/xd_custom.html', array('absolute' => TRUE))); 
+    }
+    $output .= '">';
+    
+    // custom icons
+    if ($element['#ulogin_display'] == 'buttons' && !empty($element['#ulogin_icons_path'])) {
+      foreach (file_scan_directory($element['#ulogin_icons_path'], '//') as $icon) {
+        /*$output .= theme('image', array(
+          'path' => $icon->uri,
+          'alt' => $icon->name,
+          'title' => $icon->name,
+          'attributes' => array('x-ulogin-button' => $icon->name, 'class' => 'ulogin-icon-' . $icon->name),
+        ));*/
+        $output .= '<div class="ulogin-icon-'.$icon->name.'" x-ulogin-button="'.$icon->name.'">'.t($icon->name).'</div>';
+      }
+    }
+    elseif ($element['#ulogin_display'] == 'buttons' && is_array($element['#ulogin_icons']) && !empty($element['#ulogin_icons'])) {
+      foreach ($element['#ulogin_icons'] as $key => $value) {
+        /*$output .= theme('image', array(
+          'path' => $value,
+          'alt' => $key,
+          'title' => $key,
+          'attributes' => array('x-ulogin-button' => $key, 'class' => 'ulogin-icon-' . $key),
+        ));*/
+        $output .= '<div class="ulogin-icon-'.$key.'" x-ulogin-button="'.$key.'">'.t($key).'</div>';
+      }
+    }
+    else {
+      
+    }
+    
+    $output .= '</div>';
+  }
+  elseif ($element['#ulogin_display'] == 'window') {
+    $output = '<a href="#" ' .
+      'id="' . $id . '"' .
+      'x-ulogin-params="display=' . $element['#ulogin_display'] .
+      '&fields=' . $element['#ulogin_fields'] .
+      '&optional=' . $element['#ulogin_optional'] .
+      //'&providers=' . $element['#ulogin_providers'] .
+      //'&hidden=' . $element['#ulogin_hidden'] .
+      '&callback=' . $callback .
+      '&redirect_uri=' . $redirect . '"><img src="//ulogin.ru/img/button.png" width=187 height=30 alt="' . t('MultiAuthentication') . '"/></a>';
+  }
+  
+  /*if (variable_get('ulogin_load_type', 1)) {
+    drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
+  }*/
+  drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
+  return $output;
 }
 
 function airtribune2_breadcrumb($variables) {
