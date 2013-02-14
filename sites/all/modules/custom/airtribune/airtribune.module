@@ -27,6 +27,7 @@ define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
+define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -265,3 +266,29 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
   return $category ? $categories[$category] : $categories;
 }
 
+/**
+ * Great-circle distance.
+ */
+function airtribune_calculate_distance($p1, $p2) {
+
+  $earth_radius = 6372795;
+
+  $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
+  $p2 = array($p2[1] * M_PI / 180, $p2[0] * M_PI / 180);
+
+  $cl1 = cos($p1[0]);
+  $cl2 = cos($p2[0]);
+  $sl1 = sin($p1[0]);
+  $sl2 = sin($p2[0]);
+  $delta = $p2[1] - $p1[1];
+  $cdelta = cos($delta);
+  $sdelta = sin($delta);
+
+  $y = sqrt(pow($cl2 * $sdelta, 2) + pow($cl1 * $sl2 - $sl1 * $cl2 * $cdelta, 2));
+  $x = $sl1 * $sl2 + $cl1 * $cl2 * $cdelta;
+
+  $ad = atan2($y, $x);
+  $dist = $ad * $earth_radius;
+
+  return $dist;
+}

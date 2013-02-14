@@ -94,30 +94,3 @@ function drush_calculate_hotels_distance($nid) {
   drush_log('Found hotels: ' . count($rows), 'status');
   drush_log('Execution time: ' . timer_read(__FUNCTION__) . ' ms', 'status');
 }
-
-/**
- * Great-circle distance.
- */
-function airtribune_calculate_distance($p1, $p2) {
-
-  $earth_radius = 6372795;
-
-  $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
-  $p2 = array($p2[1] * M_PI / 180, $p2[0] * M_PI / 180);
-
-  $cl1 = cos($p1[0]);
-  $cl2 = cos($p2[0]);
-  $sl1 = sin($p1[0]);
-  $sl2 = sin($p2[0]);
-  $delta = $p2[1] - $p1[1];
-  $cdelta = cos($delta);
-  $sdelta = sin($delta);
-
-  $y = sqrt(pow($cl2 * $sdelta, 2) + pow($cl1 * $sl2 - $sl1 * $cl2 * $cdelta, 2));
-  $x = $sl1 * $sl2 + $cl1 * $cl2 * $cdelta;
-
-  $ad = atan2($y, $x);
-  $dist = $ad * $earth_radius;
-
-  return $dist;
-}
