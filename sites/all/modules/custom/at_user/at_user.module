@@ -95,6 +95,17 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'user_profile_form') {
     drupal_add_js(drupal_get_path('module', 'at_user') . '/at_user_helper.js');
   }
+  if ($form_id == 'user_login_block') {
+    $form['#validate'][] = 'at_user_login_block_validate';
+    $form['#action'] = '/' . variable_get('site_frontpage', 'activity') . '?destination=user/login';
+  }
+}
+
+function at_user_login_block_validate($form, &$form_state) {
+  // user type wrong password in user login block
+  if (empty($form_state['uid'])) {
+    drupal_goto("/user/login");
+  }
 }
 
 /**
