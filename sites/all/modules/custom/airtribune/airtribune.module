@@ -155,6 +155,8 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
+
+  // Add 'view more' links to panes.
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
     $vars['more'] = l(
       $vars['pane']->configuration['more']['title'],
@@ -162,6 +164,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
       array('fragment' => $vars['pane']->configuration['more']['fragment'])
     );
   }
+  // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
   }
@@ -199,13 +202,12 @@ function airtribune_preprocess_panels_pane(&$vars) {
       'class' => 'by-country',
     );
 
-    $cont = '<div class="switch-pilots-view">';
-
-    foreach ($pilots_links as $lcount => $pilots_link) {
-      $cont .= '<a href="' . $pilots_link['link'] . '" class="' . $pilots_link['class'] . '">' . t($pilots_link['title']) . '</a>';
+    $content = '<div class="switch-pilots-view">';
+    foreach ($pilots_links as $pilots_link) {
+      $content .= '<a href="' . $pilots_link['link'] . '" class="' . $pilots_link['class'] . '">' . t($pilots_link['title']) . '</a>';
     }
-    $cont .= '</div>';
-    $vars['pane_prefix'] .= $cont;
+    $content .= '</div>';
+    $vars['pane_prefix'] .= $content;
   }
 }
 
