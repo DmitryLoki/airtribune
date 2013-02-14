@@ -20,6 +20,8 @@ $plugin = array(
     'event_brick_middle'      => t('Middle'),
     'event_brick_left_below'  => t('Left below'),
     'event_brick_right_below' => t('Right below'),
+    'event_brick_left_bottom'  => t('Left bottom'),
+    'event_brick_right_bottom' => t('Right bottom'),
   ),
   'type' => 'two',
   'options' => array(

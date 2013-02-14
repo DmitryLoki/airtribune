@@ -97,6 +97,238 @@ function accommodation_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-accommodation-field_accommodation_price_double'.
+  $fields['node-accommodation-field_accommodation_price_double'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_accommodation_price_double',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'double_field',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'first' => array(
+          'maxlength' => '32',
+        ),
+        'profile2_private' => FALSE,
+        'second' => array(
+          'maxlength' => '32',
+        ),
+      ),
+      'translatable' => '0',
+      'type' => 'double_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'accommodation',
+      'default_value' => array(
+        0 => array(
+          'first' => '0',
+          'second' => 'eur',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'double_field',
+          'settings' => array(
+            'first' => array(
+              'format' => '_none',
+              'hidden' => 0,
+              'prefix' => '',
+              'suffix' => ':&nbsp;',
+            ),
+            'second' => array(
+              'format' => '_none',
+              'hidden' => 0,
+              'prefix' => '',
+              'suffix' => '',
+            ),
+            'style' => 'inline',
+          ),
+          'type' => 'double_field_unformatted_list',
+          'weight' => 15,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_accommodation_price_double',
+      'label' => 'Double',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'double_field',
+        'settings' => array(
+          'first' => array(
+            'general' => array(
+              'prefix' => '',
+              'required' => 1,
+              'suffix' => '',
+            ),
+            'textfield' => array(
+              'size' => '10',
+            ),
+          ),
+          'inline' => 1,
+          'second' => array(
+            'general' => array(
+              'prefix' => '',
+              'required' => 1,
+              'suffix' => '',
+            ),
+            'select' => array(
+              'allowed_values' => array(
+                'eur' => 'EUR',
+                'usd' => 'USD',
+              ),
+            ),
+          ),
+        ),
+        'type' => 'textfield_&_select',
+        'weight' => '18',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-accommodation-field_accommodation_price_single'.
+  $fields['node-accommodation-field_accommodation_price_single'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_accommodation_price_single',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'double_field',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'first' => array(
+          'maxlength' => '32',
+        ),
+        'profile2_private' => FALSE,
+        'second' => array(
+          'maxlength' => '32',
+        ),
+      ),
+      'translatable' => '0',
+      'type' => 'double_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'accommodation',
+      'default_value' => array(
+        0 => array(
+          'first' => '0',
+          'second' => 'eur',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'double_field',
+          'settings' => array(
+            'first' => array(
+              'format' => '_none',
+              'hidden' => 0,
+              'prefix' => '',
+              'suffix' => ':&nbsp;',
+            ),
+            'second' => array(
+              'format' => '_none',
+              'hidden' => 0,
+              'prefix' => '',
+              'suffix' => '',
+            ),
+            'style' => 'inline',
+          ),
+          'type' => 'double_field_unformatted_list',
+          'weight' => 14,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_accommodation_price_single',
+      'label' => 'Single',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'double_field',
+        'settings' => array(
+          'first' => array(
+            'general' => array(
+              'prefix' => '',
+              'required' => 1,
+              'suffix' => '',
+            ),
+            'textfield' => array(
+              'size' => '10',
+            ),
+          ),
+          'inline' => 1,
+          'second' => array(
+            'general' => array(
+              'prefix' => '',
+              'required' => 1,
+              'suffix' => '',
+            ),
+            'select' => array(
+              'allowed_values' => array(
+                'eur' => 'EUR',
+                'usd' => 'USD',
+              ),
+            ),
+          ),
+        ),
+        'type' => 'textfield_&_select',
+        'weight' => '17',
+      ),
+    ),
+  );
+
   // Exported field: 'node-accommodation-field_address'.
   $fields['node-accommodation-field_address'] = array(
     'field_config' => array(
@@ -865,8 +1097,8 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            0 => 0,
             'audio' => 0,
+            0 => 0,
             'default' => 0,
             'image' => 'image',
             'video' => 0,
@@ -875,237 +1107,6 @@ function accommodation_field_default_fields() {
         ),
         'type' => 'media_generic',
         'weight' => '9',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-accommodation-field_price_currency'.
-  $fields['node-accommodation-field_price_currency'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_price_currency',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          1 => 'EUR',
-          2 => 'USD',
-        ),
-        'allowed_values_function' => '',
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'list_integer',
-    ),
-    'field_instance' => array(
-      'bundle' => 'accommodation',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '9',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_price_currency',
-      'label' => 'Currency',
-      'required' => 1,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_buttons',
-        'weight' => '15',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-accommodation-field_price_double'.
-  $fields['node-accommodation-field_price_double'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_price_double',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'max_length' => '255',
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'accommodation',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '11',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_price_double',
-      'label' => 'Double',
-      'required' => 0,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '14',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-accommodation-field_price_single'.
-  $fields['node-accommodation-field_price_single'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_price_single',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'max_length' => '255',
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'accommodation',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '10',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_price_single',
-      'label' => 'Single',
-      'required' => 0,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '13',
       ),
     ),
   );
@@ -1288,7 +1289,6 @@ function accommodation_field_default_fields() {
   // Included for use with string extractors like potx.
   t('A field replacing node title.');
   t('Address');
-  t('Currency');
   t('Double');
   t('Email');
   t('Location');

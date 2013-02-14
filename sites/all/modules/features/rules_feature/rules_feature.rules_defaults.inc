@@ -106,5 +106,16 @@ function rules_feature_default_rules_configuration() {
       "DO" : [ { "data_set" : { "data" : [ "og-membership:state" ], "value" : "2" } } ]
     }
   }');
+  $items['rules_redirect_to_user_edit'] = entity_import('rules_config', '{ "rules_redirect_to_user_edit" : {
+      "LABEL" : "Redirect from user\\/view to user\\/edit",
+      "PLUGIN" : "reaction rule",
+      "REQUIRES" : [ "rules" ],
+      "ON" : [ "user_view" ],
+      "IF" : [
+        { "data_is" : { "data" : [ "account:uid" ], "value" : [ "site:current-user:uid" ] } }
+      ],
+      "DO" : [ { "redirect" : { "url" : "[account:edit-url]" } } ]
+    }
+  }');
   return $items;
 }

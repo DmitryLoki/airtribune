@@ -1,0 +1,5 @@
+name = Airtribune user profile
+description = Provides Airtribune user profile pages. To be refactored.
+package = Airtribune
+core = 7.x
+;dependencies[] = profile2

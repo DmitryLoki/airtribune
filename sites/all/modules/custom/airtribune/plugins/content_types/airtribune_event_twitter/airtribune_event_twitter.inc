@@ -29,8 +29,18 @@ function airtribune_airtribune_event_twitter_content_type_render($subtype, $conf
   // Event node.
   $node = $context->data;
 
+  $content['widget']['#markup'] = '';
+  $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-twitter'));
+  $content['#theme_wrappers'] = array('container');
+
+  $return_obg = (object) array(
+    'module' => 'airtribune',
+    'content' => $content,
+    'delta' => 1,
+  );
+
   if (empty($node->field_social_links)) {
-    return;
+    return $return_obg;
   }
 
   foreach ($node->field_social_links['und'] as $link) {
@@ -40,7 +50,7 @@ function airtribune_airtribune_event_twitter_content_type_render($subtype, $conf
   }
 
   if (empty($twitter_url)) {
-    return;
+    return $return_obg;
   }
 
   // remove trailing slash

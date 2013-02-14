@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function at_user_menu() {
+  $items = array();
+
+  $items['user/%/pilot'] = array(
+    'title' => 'Edit Pilot',
+    'page callback' => 'at_user_redirect_to_pilot',
+    'page arguments' => array(1),
+    'access callback' => 'user_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['profile-pilot/%user/user'] = array(
+    'title' => 'Edit user',
+    'page callback' => 'at_user_redirect_to_user',
+    'page arguments' => array(1),
+    'access callback' => 'user_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['user/is_email_exists/%'] = array(
+    'title' => 'Is email exists',
+    'page callback' => 'at_user_is_email_exists',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['user/is_name_exists/%/%'] = array(
+    'title' => 'Is email exists',
+    'page callback' => 'at_user_is_name_exists',
+    'page arguments' => array(2,3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+function at_user_redirect_to_pilot($nid) {
+  drupal_goto('profile-pilot/' . arg(1) . '/edit');
+}
+
+function at_user_redirect_to_user($nid) {
+  drupal_goto('user/' . arg(1) . '/edit');
+}
+
+function at_user_is_email_exists($mail) {
+  if (empty($mail)) {
+    return;
+  }
+  $count = db_select('users', 'u')
+  ->condition('mail', $mail)
+  ->countQuery()
+  ->execute()
+  ->fetchField();
+  if ($count) {
+    // return TRUE;
+    $result['exists'] = 'TRUE'; // can pass boolean to js?
+    echo drupal_json_encode($result);
+  }
+}
+
+function at_user_is_name_exists($first_name, $last_name) {
+  if (empty($first_name) || empty($last_name)) {
+    return;
+  }
+  $count = db_select('field_data_field_full_name', 'n')
+  ->condition(
+    db_or()
+      ->condition('field_full_name_given', $first_name)
+      ->condition('field_full_name_family', $last_name)
+  )
+  ->countQuery()
+  ->execute()
+  ->fetchField();
+  if ($count) {
+    // return TRUE;
+    $result['exists'] = 'TRUE';
+    echo drupal_json_encode($result);
+  }
+}
+
+/*
+ * Hook form alter for user create/login/pass-reset
+ */
+function at_user_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'user_profile_form') {
+    drupal_add_js(drupal_get_path('module', 'at_user') . '/at_user_helper.js');
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function at_user_preprocess_page(&$variables) {
+  // global $user;
+  // if (arg(0) == "user" && arg(1) == null) {
+  //   if (isset($user->uid)) {
+  //     at_user_redirect_to_user($user->uid);
+  //   else {
+  //     drupal_goto('user/login');
+  //   }
+  // }
+
+  $tabs_to_disable = array(
+    // 'user/%/devel', 'node/%/devel', 'node/%/log',
+    'user/%/view', 'user/%/ulogin', 'profile-pilot/%/view'
+  );
+  foreach ($variables['tabs'] as $group_key => $tab_group) {
+    if (is_array($tab_group)) {
+      foreach ($tab_group as $key => $tab) {
+        if (isset($tab['#link']['path']) && in_array($tab['#link']['path'], $tabs_to_disable)){
+          unset($variables['tabs'][$group_key][$key]);
+        }
+      }
+    }
+  }
+}

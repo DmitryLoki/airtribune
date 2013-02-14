@@ -125,6 +125,29 @@ if($view_mode == 'event_blog_teaser'){
 		)
 	  )
 	);
+	if(drupal_get_path('module', 'disqus')){
+		$content['links']['disqus'] = array(
+	  	  '#theme' => 'links',
+	  	  '#links' => array(
+	 		'disqus_comments_num' => array(
+          		'title' => 'Comments',
+          		'href' => 'node/' . $node->nid,
+          		'fragment' => 'disqus_thread',
+          		'attributes' => array(
+            		'data-disqus-identifier' => 'node/' . $node->nid,
+          		)
+			)
+	  	  ),
+	  	  '#attributes'=> array(
+	  		'class' => array( 'links', 'inline')
+	  	  )
+		);
+		$content['links']['#attached']['js'][] = drupal_get_path('module', 'disqus') . '/disqus.js';
+    	$content['links']['#attached']['js'][] = array(
+    		'data' => array('disqusComments' => $node->disqus['domain']),
+    		'type' => 'setting',
+    	);
+	}
 	$classes .= ' node-teaser';
 }
 else if ($teaser){
