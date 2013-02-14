@@ -348,7 +348,7 @@ function airtribune2_ulogin_widget($variables) {
   
   if (variable_get('ulogin_redirect', 0)) {
     $callback = 'Drupalulogintoken';
-    $redirect = urlencode(url('sites/all/libraries/ulogin/ulogin_xd.html', array('absolute' => TRUE)));
+    $redirect = urlencode(file_create_url('sites/all/libraries/ulogin/ulogin_xd.html'));
   }
   else {
     $callback = '';
@@ -362,8 +362,8 @@ function airtribune2_ulogin_widget($variables) {
       'x-ulogin-params="' .
       'display=' . $element['#ulogin_display'];
     // requested fields
-    $output .= '&fields=' . $element['#ulogin_fields'] .
-      '&optional=' . $element['#ulogin_optional'];
+    $output .= '&fields=' . $element['#ulogin_fields_required'] .
+      '&optional=' . $element['#ulogin_fields_optional'];
     // available providers
     if ($element['#ulogin_display'] != 'buttons') {
       $output .= '&providers=' . $element['#ulogin_providers'] .
@@ -380,7 +380,7 @@ function airtribune2_ulogin_widget($variables) {
     
     // receiver for custom icons
     if ($element['#ulogin_display'] == 'buttons') {
-      $output .= '&receiver=' . urlencode(url('sites/all/libraries/ulogin/xd_custom.html', array('absolute' => TRUE))); 
+      $output .= '&receiver=' . urlencode(file_create_url('sites/all/libraries/ulogin/xd_custom.html'));
     }
     $output .= '">';
     
@@ -417,8 +417,8 @@ function airtribune2_ulogin_widget($variables) {
     $output = '<a href="#" ' .
       'id="' . $id . '"' .
       'x-ulogin-params="display=' . $element['#ulogin_display'] .
-      '&fields=' . $element['#ulogin_fields'] .
-      '&optional=' . $element['#ulogin_optional'] .
+      '&fields=' . $element['#ulogin_fields_required'] .
+      '&optional=' . $element['#ulogin_fields_optional'] .
       //'&providers=' . $element['#ulogin_providers'] .
       //'&hidden=' . $element['#ulogin_hidden'] .
       '&callback=' . $callback .
