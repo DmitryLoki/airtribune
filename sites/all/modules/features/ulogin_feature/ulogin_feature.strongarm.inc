@@ -28,7 +28,7 @@ function ulogin_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ulogin_display';
-  $strongarm->value = 'panel';
+  $strongarm->value = 'buttons';
   $export['ulogin_display'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -113,7 +113,7 @@ function ulogin_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ulogin_icons_path';
-  $strongarm->value = '';
+  $strongarm->value = 'sites/all/themes/airtribune2/images/ulogin';
   $export['ulogin_icons_path'] = $strongarm;
 
   $strongarm = new stdClass();
