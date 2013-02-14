@@ -5,6 +5,8 @@
 function ulogin_uninstall() {
   variable_del('ulogin_display');
   variable_del('ulogin_fields');
+  variable_del('ulogin_fields_required');
+  variable_del('ulogin_fields_optional');
   variable_del('ulogin_optional');
   variable_del('ulogin_providers');
   variable_del('ulogin_hidden');
@@ -23,6 +25,8 @@ function ulogin_uninstall() {
   variable_del('ulogin_override_realname');
   variable_del('ulogin_username');
   variable_del('ulogin_icons_path');
+  variable_del('ulogin_widget_title');
+  variable_del('ulogin_widget_weight');
 }
 
 /**
@@ -84,6 +88,13 @@ function ulogin_schema() {
   );
   
   return $schema;
+}
+
+/**
+ * Converts ulogin_fields to ulogin_fields_required.
+ */
+function ulogin_update_7003(&$sandbox) {
+  variable_set('ulogin_fields_required', variable_get('ulogin_fields', array('first_name', 'last_name', 'email', 'nickname', 'bdate', 'sex', 'photo', 'photo_big', 'country', 'city')));
 }
 
 /**

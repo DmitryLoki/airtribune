@@ -5,6 +5,55 @@
  */
 
 /**
+ * Implements hook_rules_action_info().
+ */
+function ulogin_rules_action_info() {
+  return array(
+    'ulogin_url_managed_file' => array(
+      'label' => t('Save remote file to managed file'),
+      'group' => t('uLogin'),
+      'parameter' => array(
+        'url' => array(
+          'label' => t('URL'),
+          'type' => 'uri',
+          'description' => t('URL to the remote file.'),
+        ),
+        'directory' => array(
+          'label' => t('File directory'),
+          'type' => 'text',
+          'description' => t('File directory to save remote file to.'),
+        ),
+      ),
+      'provides' => array(
+        'file' => array(
+          'label' => 'Managed file entity',
+          'type' => 'file',
+        ), 
+      ),
+    ),
+  );
+}
+
+function ulogin_url_managed_file($url, $directory) {
+  watchdog('ulogin', $url . $directory);
+  if ($url) {
+    $url_info = parse_url($url);
+    $directory = file_default_scheme() . '://' . $directory . '/' . $url_info['host'] . dirname($url_info['path']);
+    file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+    $content = drupal_http_request($url);
+	  $file = file_save_data($content->data, $directory . '/' . basename($url_info['path']), FILE_EXISTS_REPLACE);
+	  
+	  $path_info = pathinfo($url);
+	  if (empty($path_info['extension'])) {
+	    $info = image_get_info($file->uri);
+	    $file = file_move($file, $directory . '/' . basename($url_info['path']) . '.' . $info['extension'], FILE_EXISTS_REPLACE);
+	  }
+  }
+  
+  return array('file' => $file);
+}
+
+/**
  * Implements hook_rules_data_info().
  * @ingroup rules
  */
@@ -50,7 +99,7 @@ function ulogin_rules_event_info() {
   
   $events['ulogin_identity_added'] = array(
     'label' => t('User added uLogin identity'),
-    'group' => t('User'),
+    'group' => t('uLogin'),
     'variables' => array(
       'ulogin_user' => array(
         'label' => t('User adding the identity'),
@@ -65,7 +114,7 @@ function ulogin_rules_event_info() {
   );
   $events['ulogin_identity_deleted'] = array(
     'label' => t('User deleted uLogin identity'),
-    'group' => t('User'),
+    'group' => t('uLogin'),
     'variables' => array(
       'ulogin_user' => array(
         'label' => t('User deleting the identity'),
@@ -91,7 +140,7 @@ function ulogin_rules_condition_info() {
   
   $conditions['ulogin_user_created_ulogin'] = array(
     'label' => t('User created by uLogin'),
-    'group' => t('User'),
+    'group' => t('uLogin'),
     'parameter' => array(
       'account' => array('label' => t('User'), 'type' => 'user'),
     ),
