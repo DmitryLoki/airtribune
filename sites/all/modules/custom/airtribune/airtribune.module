@@ -139,7 +139,7 @@ function airtrubune_format_username($account) {
  */
 function airtrubune_get_country_code($langcode) {
   $country_codes = array(
-    'en' => 'us',
+    'en' => 'gb',
     'ja' => 'jp',
     'pt-br' => 'br',
     'fa' => 'pr',
