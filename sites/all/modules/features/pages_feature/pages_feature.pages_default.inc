@@ -56,7 +56,7 @@ function pages_feature_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Event accommodition';
   $page->admin_description = '';
-  $page->path = 'event/%event/map/accommodations/%accommodation';
+  $page->path = 'event/%event/map/accommodation/%accommodation';
   $page->access = array(
     'logic' => 'and',
     'plugins' => array(
