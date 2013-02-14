@@ -28,6 +28,7 @@ define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
+define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 
 /**
  * Implements hook_ctools_plugin_directory().
