@@ -11,6 +11,7 @@ features[ctools][] = page_manager:pages_default:1
 features[ctools_custom_content][] = coming_soon
 features[features_api][] = api:1
 features[page_manager_handlers][] = node_view_http_response
+features[page_manager_pages][] = event_accommodition
 features[page_manager_pages][] = event_add
 features[page_manager_pages][] = event_blog
 features[page_manager_pages][] = event_info

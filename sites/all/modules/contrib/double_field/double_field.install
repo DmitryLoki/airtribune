@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the double field module.
+ */
+
+
+/**
+ * Implements hook_field_schema().
+ *
+ * In MySQL the length of varchar column can be specified as a value
+ * from 0 to 65,535 in 5.0.3 and later versions.
+ * We also should take into account that every table (regardless
+ * of storage engine) has a maximum row size of 65,535 bytes.
+ * See http://drupal.org/node/159605 for futher information.
+ */
+function double_field_field_schema($field) {
+
+  // Accept 16 kB as safe value of length.
+  $limit = 16384;
+  foreach (array('first', 'second') as $subfield) {
+
+    // Before 7.x-2.x maxlength was stored as "$subfield_maxlength".
+    // This might lead to "Notice: Undefined index" while running update.php.
+    if (empty($field['settings'][$subfield]['maxlength'])) {
+      $field['settings'][$subfield]['maxlength'] = 255;
+    }
+
+    // UTF8 string takes 3 bytes.
+    if ($field['settings'][$subfield]['maxlength'] < $limit / 3) {
+      $columns[$subfield] = array(
+        'type' => 'varchar',
+        'length' => (int) $field['settings'][$subfield]['maxlength'],
+        'not null' => FALSE,
+      );
+    }
+    else {
+      $columns[$subfield] = array(
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      );
+    }
+  }
+
+  return array('columns' => $columns);
+}
+
+/**
+ * Fix fields settings.
+ */
+function double_field_update_7201() {
+
+  $query = db_select('field_config', 'fc', array('fetch' => PDO::FETCH_ASSOC))
+    ->fields('fc')
+    ->condition('type', 'double_field');
+  foreach ($query->execute() as $field) {
+
+    $field_data = unserialize($field['data']);
+    foreach (array('first', 'second') as $subfield) {
+      $field_data['settings'][$subfield]['maxlength'] = $field_data['settings'][$subfield . '_maxlength'];
+      unset($field_data['settings'][$subfield . '_maxlength']);
+    }
+    $field_data['indexes'] = array();
+
+    // Save the field data.
+    $query = db_update('field_config')
+      ->condition('id', $field['id'])
+      ->fields(array('data' => serialize($field_data)))
+      ->execute();
+
+    $query = db_select('field_config_instance', 'fc', array('fetch' => PDO::FETCH_ASSOC))
+      ->fields('fc')
+      ->condition('field_id', $field['id']);
+    foreach ($query->execute() as $instance) {
+      $instance_data = unserialize($instance['data']);
+
+      // Update widget type and widget settings.
+      $instance_data['widget']['type'] = 'textfield_&_textfield';
+      $widget_info = double_field_field_widget_info();
+      foreach (array('first', 'second') as $subfield) {
+        $old_settings = $instance_data['widget']['settings'][$subfield];
+        $instance_data['widget']['settings'][$subfield] = $widget_info['textfield_&_textfield']['settings'][$subfield];
+        $instance_data['widget']['settings'][$subfield]['textfield']['size'] = $old_settings['size'];
+        unset($old_settings['size']);
+        $instance_data['widget']['settings'][$subfield]['general'] = $old_settings;
+      }
+
+      // Update formatter type and formatter settings.
+      $formatters = double_field_field_formatter_info();
+      foreach ($instance_data['display'] as &$display) {
+        switch ($display['type']) {
+          case 'double_field_inline':
+            $display['type'] = 'double_field_unformatted_list';
+            $display['settings']['style'] = 'inline';
+            break;
+
+          case 'double_field_block':
+            $display['type'] = 'double_field_unformatted_list';
+            $display['settings']['style'] = 'block';
+            break;
+
+          case 'double_field_fieldset':
+            $display['type'] = 'double_field_fieldset';
+            break;
+
+        }
+        foreach (array('first', 'second') as $subfield) {
+          $display['settings'][$subfield] = array_merge(
+            $formatters[$display['type']]['settings'][$subfield],
+            $display['settings'][$subfield]
+          );
+        }
+      }
+
+      // Save the instance data.
+      $query = db_update('field_config_instance')
+        ->condition('id', $instance['id'])
+        ->fields(array('data' => serialize($instance_data)))
+        ->execute();
+    }
+  }
+
+}
