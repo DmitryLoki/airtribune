@@ -9,11 +9,6 @@ class geofield_handler_argument extends views_handler_argument {
   
   var $operator = NULL;
   
-  function init(&$view, &$options) {
-    parent::init($view, $options);
-    $this->operator = '<';
-  }
-  
   function option_definition() {
     $options = parent::option_definition();
     $proximityPlugin = new geofieldProximityEntityURL();
@@ -46,24 +41,19 @@ class geofield_handler_argument extends views_handler_argument {
     );
   }
   
+/**
+  * Set the input for this argument
+  *
+  * @return TRUE if it successfully validates; FALSE if it does not.
+  */
+function set_argument($arg) {
+  if (!$this->validate_arg($arg)) {
+    return FALSE;
+  }
+  $this->argument = $arg;
+  return TRUE;
+}
+  
   function query($group_by = FALSE) {
-    $entity = entity_metadata_wrapper($this->options['geofield_proximity_entity_url_entity_type'], $this->argument);
-    $options = array();
-    if (isset($entity->{$this->options['geofield_proximity_entity_url_field']})) {
-      $options = $entity->{$this->options['geofield_proximity_entity_url_field']}->value();
-    }
-    if ($options) {
-      $lat_alias = $this->definition['field_name'] . '_lat';
-      $lon_alias = $this->definition['field_name'] . '_lon';
-      $this->ensure_my_table();
-      $haversine_options = array(
-        'origin_latitude' => $options['lat'],
-        'origin_longitude' => $options['lon'],
-        'destination_latitude' => $this->table_alias . '.' . $lat_alias,
-        'destination_longitude' => $this->table_alias . '.' . $lon_alias,
-        'earth_radius' => $this->options['unit'],
-      );
-      $this->query->add_where_expression(0, geofield_haversine($haversine_options) . ' ' . $this->operator . ' ' . $this->options['distance']);     
-    }
   }
 }

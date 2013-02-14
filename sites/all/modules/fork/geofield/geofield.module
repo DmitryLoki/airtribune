@@ -347,6 +347,21 @@ function geofield_views_api() {
 }
 
 /**
+ * Implementation of hook_views_plugins()
+ * @author Vadim Valuev<gease@mail.ru>
+ */
+function geofield_views_plugins(){
+return array(
+   'argument validator' => array(
+      'geofield_entity' => array(
+        'title' => t('Entity with geofield'),
+        'handler' => 'geofield_plugin_argument_validate_entity',
+       ),
+    )
+  );
+}
+
+/**
  * Implements hook_ctools_plugin_type().
  */
 function geofield_ctools_plugin_type() {
