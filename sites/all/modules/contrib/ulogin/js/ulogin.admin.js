@@ -7,7 +7,7 @@ Drupal.behaviors.ulogin_vtabs_SettingsSummary.attach = function(context, setting
     return;
   }
   
-  $('fieldset', context).not('#edit-fset-ulogin-other').each(function(index, Element) {
+  $('fieldset', context).not('#edit-fset-other').each(function(index, Element) {
     $(this).drupalSetSummary(function (context) {
       var vals = [];
       
@@ -22,7 +22,7 @@ Drupal.behaviors.ulogin_vtabs_SettingsSummary.attach = function(context, setting
     });
   });
   
-  $('fieldset#edit-fset-ulogin-other', context).drupalSetSummary(function(context) {
+  $('fieldset#edit-fset-other', context).drupalSetSummary(function(context) {
     var vals = [];
     
     var redirect = $('input#edit-ulogin-destination', context).attr('value');
@@ -57,7 +57,7 @@ Drupal.behaviors.ulogin_vtabs_SettingsSummary.attach = function(context, setting
     return vals.join('<br />');
   });
   
-  $providers_fset = $('fieldset#edit-fset-ulogin-providers', context);
+  $providers_fset = $('fieldset#edit-fset-providers', context);
   $providers_fset.find('input').each(function(index, Element) {
     var id = $(this).attr('id');
     var corr_id = id.replace('providers', 'hidden');
@@ -66,6 +66,28 @@ Drupal.behaviors.ulogin_vtabs_SettingsSummary.attach = function(context, setting
     }
     
     var $corr_el = $providers_fset.find('#' + corr_id);
+    if ($(this).is(':checked') && !$corr_el.is(':checked')) {
+      $corr_el.parent().hide();
+    }
+    $(this).click(function(event) {
+      if (!$(this).is(':checked')) {
+        $corr_el.parent().show();
+      }
+      else if ($(this).is(':checked') && !$corr_el.is(':checked')) {
+        $corr_el.parent().hide();
+      }
+    });
+  });
+  
+  $fields_fset = $('fieldset#edit-fset-fields', context);
+  $fields_fset.find('input').each(function(index, Element) {
+    var id = $(this).attr('id');
+    var corr_id = id.replace('required', 'optional');
+    if (id == corr_id) {
+      corr_id = id.replace('optional', 'required');
+    }
+    
+    var $corr_el = $fields_fset.find('#' + corr_id);
     if ($(this).is(':checked') && !$corr_el.is(':checked')) {
       $corr_el.parent().hide();
     }

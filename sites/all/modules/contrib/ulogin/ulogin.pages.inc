@@ -59,8 +59,14 @@ function ulogin_callback() {
   }
   
   if ($identity = _ulogin_identity_load($data)) {
-    $form_state['uid'] = $identity['uid'];
-    user_login_submit(array(), $form_state);
+    //check if user is blocked
+    if (_ulogin_user_is_blocked_by_uid($identity['uid'])) {
+      drupal_set_message(t('Your account has not been activated or is blocked.'), 'error');
+    }
+    else {
+      $form_state['uid'] = $identity['uid'];
+      user_login_submit(array(), $form_state);
+    }
   }
   //handle duplicate email addresses
   elseif (variable_get('ulogin_duplicate_emails', 1) && !empty($data['email']) && $account = user_load_by_mail($data['email'])) {
@@ -79,37 +85,7 @@ function ulogin_callback() {
     global $ulogin_data;
     $ulogin_data = $data;
     user_external_login_register(_ulogin_make_username($data), 'ulogin');
-    _ulogin_identity_save($data);
-    
-    $user_save_trigger = FALSE;
-    $edit = array();
-    //save user picture
-    if (variable_get('user_pictures', 0) && variable_get('ulogin_pictures', 1)) {
-      $photo_url = '';
-      if (!empty($data['photo_big']) && $data['photo_big'] != 'http://ulogin.ru/img/photo_big.png') {
-        $photo_url = $data['photo_big'];
-      }
-      elseif (!empty($data['photo']) && $data['photo'] != 'http://ulogin.ru/img/photo.png') {
-        $photo_url = $data['photo'];
-      }
-      if ($photo_url) {
-        $photo = drupal_http_request($photo_url);
-			  $file = file_save_data($photo->data);
-			  $file->status = 0; //to make user_save() to process the file and move it
-			  $edit['picture'] = $file;
-			  $user_save_trigger = TRUE;
-      }
-    }
-    //email_confirm: if email was manually entered - trigger email change confirmation
-    if (!empty($data['email']) && !empty($data['manual']) && in_array('email', explode(',', $data['manual'])) &&
-      variable_get('ulogin_email_confirm', 0) && module_exists('email_confirm')) {
-      $edit['mail'] = $data['email'];
-      $user_save_trigger = TRUE;
-    }
-    
-    if ($user_save_trigger) {
-      user_save($user, $edit);
-    }
+    _ulogin_user_save($data);
   }
   
   $destination = drupal_get_destination();
@@ -141,6 +117,7 @@ function ulogin_user_identity($form, &$form_state, $account) {
     '#theme' => 'table',
     '#header' => $header,
     '#rows' => $rows,
+    '#empty' => t('You don\'t have any identities yet.')
   );
   
   //add more identities
@@ -148,6 +125,7 @@ function ulogin_user_identity($form, &$form_state, $account) {
     $form['ulogin_widget'] = array(
       '#type' => 'ulogin_widget',
       '#title' => t('Add more identities'),
+      '#weight' => 10,
       '#ulogin_destination' => '',
     );
   }
@@ -156,6 +134,7 @@ function ulogin_user_identity($form, &$form_state, $account) {
   if (user_access('administer site configuration') || user_access('administer users')) {
     $form['vtabs'] = array(
       '#type' => 'vertical_tabs',
+      '#weight' => 20,
     );
     
     $header = array(t('Token'), t('Value'));
@@ -209,7 +188,7 @@ function ulogin_user_identity_delete($form, &$form_state, $account, $id) {
   }
   $del_identity_data = unserialize($del_identity['data']);
   $username = format_username($account);
-  $quetion = t('Are you sure you want to detach the uLogin identity !identity from %user?',
+  $question = t('Are you sure you want to detach the uLogin identity !identity from %user?',
     array(
       '!identity' => l($del_identity_data['identity'], $del_identity_data['identity'], array('attributes' => array('target' => '_blank'), 'external' => TRUE)),
       '%user' => $username));
@@ -218,7 +197,7 @@ function ulogin_user_identity_delete($form, &$form_state, $account, $id) {
   $form['#user'] = $account;
   $form['#del_identity_data'] = $del_identity_data;
   $form['question'] = array(
-    '#markup' => $quetion,
+    '#markup' => $question,
     '#prefix' => '<div>',
     '#suffix' => '</div>',
   );
