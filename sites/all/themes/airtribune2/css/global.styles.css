@@ -3302,12 +3302,18 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane h2 span,
 .event-map-pane h2 a { display: block; float: right; cursor: pointer; margin: 2px -1px 0 5px; background: url(../images/table_action.png) no-repeat 0 0;}
 .event-map-pane h2 span { overflow: hidden; text-indent: -9999px; width: 25px; height: 25px;}
-.event-map-pane h2 span.event-map-enable { background-position: 0 -75px}
-.event-map-pane h2 span.event-map-enable:hover { background-position: 0 -100px}
-.event-map-pane h2 span.event-map-enable-active { background-position: 0 -125px}
-.event-map-pane h2 span.event-map-toggle-pane { background-position: -25px -75px}
-.event-map-pane h2 span.event-map-toggle-pane:hover { background-position: -25px -100px}
-.event-map-pane h2 span.event-map-toggle-pane-active { background-position: -25px -125px}
+.event-map-pane h2 span.event-map-enable { background-position: -25px -75px}
+.event-map-pane h2 span.event-map-enable:hover { background-position: -25px -100px}
+.event-map-pane h2 span.event-map-enable:active { background-position: -25px -125px}
+.event-map-pane h2 span.event-map-enable-active { background-position: 0 -75px}
+.event-map-pane h2 span.event-map-enable-active:hover { background-position: 0 -100px}
+.event-map-pane h2 span.event-map-enable-active:active { background-position: 0 -125px}
+.event-map-pane h2 span.event-map-toggle-pane { background-position: -75px -75px}
+.event-map-pane h2 span.event-map-toggle-pane:hover { background-position: -75px -100px}
+.event-map-pane h2 span.event-map-toggle-pane:active { background-position: -75px -125px}
+.event-map-pane h2 span.event-map-toggle-pane-active { background-position: -50px -75px}
+.event-map-pane h2 span.event-map-toggle-pane-active:hover { background-position: -50px -100px}
+.event-map-pane h2 span.event-map-toggle-pane-active:active { background-position: -50px -125px}
 .event-map-pane h2 a { height: 22px; font: 14px/22px Arial, Helvetica, sans-serif; padding: 0 6px 0 27px; margin-right: 0px; border: 1px solid #dcc065; color: #ffffff; background-color: #e7c766; text-decoration: none; position: relative;
 
   -webkit-border-radius: 3px;
