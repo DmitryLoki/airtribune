@@ -175,7 +175,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $map = $vars['pane']->configuration['map'];
 
     $vars['title'] .= '<span class="event-map-toggle-pane">' . t('Hide') . '</span>';
-    $vars['title'] .= '<span class="event-map-enable-' . $map . '">' . t('Enable') . '</span>';
+    $vars['title'] .= '<span class="event-map-enable event-map-enable-' . $map . ' event-map-enable-active">' . t('Enable') . '</span>';
     $vars['classes_array'][] = 'event-map-pane';
 
     if ($map == 'accommodations' && user_access('create accommodation content')) {
