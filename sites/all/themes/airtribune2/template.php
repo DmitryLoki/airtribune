@@ -338,6 +338,17 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
           $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
        }
     break;
+
+      case 'user_login':
+        unset($form['name']['#description']);
+        $form['name']['#attributes']['rel'] = t('Enter your e-mail');
+        unset($form['pass']['#description']);
+        $form['pass']['#attributes']['rel'] = t('Enter your password');
+        $form['ulogin']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
+        $form['ulogin']['#weight'] = 89;
+        $form['actions']['#weight'] = 79;
+        //print_r($form);
+    break;
   }
 }
 
