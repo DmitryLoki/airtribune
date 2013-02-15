@@ -805,40 +805,48 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
   $handler->display->display_options['fields']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
   $handler->display->display_options['fields']['field_geofield_distance']['label'] = 'Distance to HQ, km';
-  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '0';
-  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_url';
+  $handler->display->display_options['fields']['field_geofield_distance']['set_precision'] = TRUE;
+  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '1';
+  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
     'lat' => '',
     'lon' => '',
   );
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_track';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
-  /* Sort criterion: Node post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['ui_name'] = 'Node post date';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Distance to HQ */
-  $handler->display->display_options['arguments']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['arguments']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['arguments']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
-  $handler->display->display_options['arguments']['field_geofield_distance']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_geofield_distance']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_geofield_distance']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_geofield_distance']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['field_geofield_distance']['validate_options']['types'] = array(
+  /* Sort criterion: Distance to HQ */
+  $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['sorts']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
+  $handler->display->display_options['sorts']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_manual'] = array(
+    'lat' => '',
+    'lon' => '',
+  );
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  $handler->display->display_options['arguments']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['distance'] = '30';
-  $handler->display->display_options['arguments']['field_geofield_distance']['unit'] = '6371';
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -855,18 +863,36 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
+  /* Filter criterion: Distance to HQ */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '30',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
-    'field_geofield_distance' => array(
+    'null' => array(
       'type' => 'panel',
       'context' => 'entity:node.members--1',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Distance to HQ',
+      'label' => 'Global: Null',
     ),
   );
   $translatables['event_accommodations'] = array(
@@ -981,40 +1007,47 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
   $handler->display->display_options['fields']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
   $handler->display->display_options['fields']['field_geofield_distance']['label'] = 'Distance to HQ, km';
-  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '0';
-  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_url';
+  $handler->display->display_options['fields']['field_geofield_distance']['set_precision'] = TRUE;
+  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '1';
+  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
     'lat' => '',
     'lon' => '',
   );
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_track';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
-  /* Sort criterion: Node post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['ui_name'] = 'Node post date';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Distance to HQ */
-  $handler->display->display_options['arguments']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['arguments']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['arguments']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
-  $handler->display->display_options['arguments']['field_geofield_distance']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_geofield_distance']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_geofield_distance']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_geofield_distance']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['field_geofield_distance']['validate_options']['types'] = array(
+  /* Sort criterion: Distance to HQ */
+  $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['sorts']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
+  $handler->display->display_options['sorts']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_manual'] = array(
+    'lat' => '',
+    'lon' => '',
+  );
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  $handler->display->display_options['arguments']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['distance'] = '30';
-  $handler->display->display_options['arguments']['field_geofield_distance']['unit'] = '6371';
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -1031,18 +1064,36 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
   );
+  /* Filter criterion: Distance to HQ */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '30',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
-    'field_geofield_distance' => array(
+    'null' => array(
       'type' => 'panel',
       'context' => 'entity:node.members--1',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Distance to HQ',
+      'label' => 'Global: Null',
     ),
   );
   $translatables['event_activities'] = array(
