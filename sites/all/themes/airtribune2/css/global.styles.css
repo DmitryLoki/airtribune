@@ -3141,8 +3141,23 @@ p { margin:0; padding:9px 0 11px}
 #user-login .form-type-ulogin-widget { margin-left: 210px;}
 #user-login .ulogin-icon-facebook { float: none;}
 
+
+.page-event-pilots .view-paragliding-pilots-list .views-table {}
+.switch-pilots-view { float: right; padding: 9px 0 18px;}
+.switch-pilots-view a { display: block; width: 40px; height: 41px; float: left; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat 0 -1000px; margin-left: 10px;}
+.switch-pilots-view a.by-status { background-position: 0 -375px}
+.switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -475px}
+.switch-pilots-view a.by-country { background-position: 0 -575px}
+.switch-pilots-view a.by-country:hover, .switch-pilots-view a.by-country.active { background-position: 0 -675px}
+
 .pane-paragliding-pilots-list-fai {}
-.pane-paragliding-pilots-list-fai .pane-inner { margin: 0;}
+.pane-paragliding-pilots-list-fai, .pane-paragliding-pilots-list-standard { clear: both;}
+.pane-paragliding-pilots-list-fai .pane-inner, .pane-paragliding-pilots-list-standard .pane-inner { margin: 0;}
+.page-event-pilots .views-field-counter { text-align: center;}
+
+.pane-paragliding-pilots-list-standard caption div { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
+.pane-paragliding-pilots-list-standard caption div.female { background-position: 0 -773px}
+.pane-paragliding-pilots-list-standard caption div.male { background-position: 0 -873px}
 
 
 
@@ -3154,7 +3169,7 @@ table { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; po
   border-radius: 0 0 3px 3px;
 
 }
-table caption { position: relative; background: #f1f4f6; color: #677581; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px;
+table caption { position: relative; background: #f1f4f6; color: #677581; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px;
 
   -webkit-border-radius: 3px 3px 0 0 ;
   -moz-border-radius: 3px 3px 0 0 ;
@@ -3174,7 +3189,6 @@ table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; paddin
 table .views-row-first td { border-top: none;}
 table tr td.:first-child { border-left: none;}
 
-.page-event-pilots .view-paragliding-pilots-list .views-table {}
 
 
 	/* Footer */

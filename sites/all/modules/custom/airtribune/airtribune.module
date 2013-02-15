@@ -196,12 +196,12 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $pilots_links[] = array(
       'title' => 'Group by status',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
-      'class' => 'by-status',
+      'class' => 'by-status' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
     );
     $pilots_links[] = array(
       'title' => 'Group by country',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/country'),
-      'class' => 'by-country',
+      'class' => 'by-country' . (($vars['pane']->subtype == 'paragliding_pilots_list-fai') ? ' active' : ''),
     );
 
     $content = '<div class="switch-pilots-view">';
