@@ -2596,7 +2596,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info p/*, .panel_info .field*/ { padding:9px 0 11px}
 .panel_info a { color:#0098d1; text-decoration:none}
 .panel_info a:hover { text-decoration:underline}
-.panel_info .more-link { text-align:left; margin-top:-1px;} 
+.panel_info .more-link { text-align:left; margin-top:-1px; clear: both;} 
 .panel_info .more-link a { color:#7d9aa8; background:url(../images/more.png) no-repeat 0 2px; font:12px/14px Arial, Helvetica, sans-serif; padding-left:10px; text-decoration:none}
 .panel_info .more-link a:hover { color:#1cb7f1; background-position:0 -18px;}
 
@@ -2685,7 +2685,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px;}
 .page-event-info #page .pane-node-field-collection-getting-there.no-title { width: 50%; float: left;}
 .page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
-.panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0}
+.page-event-info #page .pane-node-field-collection-getting-there.no-title .more-link { margin-top: 5px;}
+.panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0 11px; padding-top: 5px;}
 .pane-node-field-collection-getting-there .links { padding:8px 0 0;}
 .pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
 .pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
@@ -2700,8 +2701,9 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .links a.taxi { background-position:0 -200px}
 .pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -200px}
 
+
 .page-event-info #page .panel_info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
-.page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 0;}
+.page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 11px;}
 .page-event-info .pane-node-field-collection-getting-there { padding-bottom:30px}
 .page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}
 .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
