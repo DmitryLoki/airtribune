@@ -1,0 +1,241 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function at_validation_menu() {
+  $items['at-validation/ajax'] = array(
+    'title' => 'Clientside validation ajax callback',
+    'page callback' => '_at_validation_ajax',
+    // TODO: check access arguments
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Ajax callback.
+ * Returns validation messages for form element.
+ */
+function _at_validation_ajax() {
+  
+  list($form, $form_state) = ajax_get_form();
+  $form_state['values'] = array();
+  
+  // TODO: set 'limit_validation_errors' and remove 'submitted' property.
+  // See _form_validate() and form_set_error().
+  // $form_state['triggering_element']['#limit_validation_errors'] = 
+  $form_state['submitted'] = TRUE;
+  $form = form_builder($form['#form_id'], $form, $form_state);
+  
+  // Define validation scope.
+  $triggering_element = $form_state['triggering_element'];
+  $array_parents = $triggering_element['#array_parents'];
+  $element = $form;
+  foreach ($array_parents as $k => $array_parent) {
+    // TODO: Check for field_collection.
+    if (empty($element['#field_name'])) {
+      $element = $element[$array_parent];
+    }
+    else {
+      // Current triggering_element cardinality (this is only for fields).
+      $cardinality = $array_parent;
+      $element = $element[$cardinality];
+      
+      $field_name = $element['#field_name'];
+      $entity_type = $element['#entity_type'];
+      $bundle = $element['#bundle'];
+      $field_info = field_info_field($field_name);
+      $instance_info = field_info_instance($entity_type, $field_name, $bundle);
+      
+      $field_type = $field_info['type'];
+      $widget_type = $instance_info['widget']['type'];
+      break;
+    }
+  }
+  
+  /*
+    $key_exists = FALSE;
+    $element = drupal_array_get_nested_value($form, $array_parents, $key_exists);
+  */
+  
+  // Get validation errors.
+  // And remove errors from $_SESSION['message'] in order not to show them after page refresh.
+  _form_validate($element, $form_state);
+  $errors = form_get_errors();
+  if (!empty($_SESSION['messages']['error'])) {
+    unset($_SESSION['messages']['error']);
+  }
+  
+  if (!empty($errors)) {
+    $html = array_shift($errors);
+    
+    
+    // Get slector for ajax validation messages.
+    $selector = '';
+    if (empty($field_name)) {
+      $selector = '#' . $element['#id'];
+    }
+    else {
+      $plugin = at_validation_field_plugin($field_type, $widget_type);
+      if (!empty($plugin)) {
+        // Add Ajax validator to the widget.
+        $function = $plugin['selector'];
+        $selector = $function($element, $triggering_element);
+      }
+    }
+    
+    $commands = array();
+    // http://drupal.org/node/1028410#comment-6424572
+    $commands[] = ajax_command_invoke($selector, 'before', array($html));
+    return drupal_json_output($commands);
+  }
+  else {
+    // TODO: here add return for the case when validation succeeded.
+  }
+}
+
+
+/**
+ * Implements hook_field_widget_form_alter().
+ * 
+ * Adds ajax handler to field widgets.
+ * Ctools plugins should be used for individual handlers.
+ */
+function at_validation_field_widget_form_alter(&$element, &$form_state, $context) {
+  // TODO: Check clientside_validation settings.
+  // Check if ajax is enabled for the current field instance (entity, bundle and field).
+  
+  // Temporary list of bundles.
+  // List bundles for each entity with ajax-validation enabled.
+  $entities['profile2'] = array('main');
+  if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities['profile2'])) {
+    // Search for corresponding plugin for the current widget.
+    $field_type = $context['field']['type'];
+    $widget_type = $context['instance']['widget']['type'];
+    
+    $plugin = at_validation_field_plugin($field_type, $widget_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the widget.
+      $function = $plugin['validator'];
+      $function($element, $form_state, $context);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ * 
+ * Adds ajax handler to form elements.
+ */
+function at_validation_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_register_form') {
+    // Form caching is set in ajax_process_form().
+    
+    // We should add #ajax settings here but not in #after_build because
+    // these should already exist before ajax_process_form() is called.
+    // ajax_process_form() is a #process function. #process functions are
+    // called before #after_build ones.
+    
+    // Email field
+    $element = &$form['account']['mail'];
+    $input_type = $element['#type'];
+    $plugin = at_validation_generic_plugin($input_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the input element.
+      $function = $plugin['validator'];
+      $function($element, $form_state);
+    }
+  }
+}
+
+/**
+ * Get FIELD validator plugin.
+ */
+function at_validation_field_plugin($field_type, $widget_type) {
+  // Get at_validator plugins.
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('at_validation', 'at_validator');    
+  foreach ($plugins as $plugin) {
+    if ($plugin['field_type'] == $field_type && $plugin['widget_type'] == $widget_type) {
+      return $plugin;
+    }
+  }
+    
+  return FALSE;
+}
+
+/**
+ * Get GENERIC validator plugin.
+ */
+function at_validation_generic_plugin($input_type) {
+    // Get at_validator plugins.
+    ctools_include('plugins');
+    $plugins = ctools_get_plugins('at_validation', 'at_validator_generic');
+    foreach ($plugins as $plugin) {
+      if ($plugin['input_type'] == $input_type) {
+        return $plugin;
+      }
+    }
+    
+  return FALSE;
+}
+
+/**
+ * An #after_build function for a widget form. Added only if required.
+ * This #after_build is added within plugins. It is intended to invoke
+ * plugin's custom after_build function. We can't user plugin's after_build
+ * directly because plugin is not included when before validation (Since
+ * cached form is used).
+ */
+function at_validation_field_widget_form_after_build($element, &$form_state) {
+  
+  $field_name = $element['#field_name'];
+  $entity_type = $element['#entity_type'];
+  $bundle = $element['#bundle'];
+  $field_info = field_info_field($field_name);
+  $instance_info = field_info_instance($entity_type, $field_name, $bundle);
+  
+  $field_type = $field_info['type'];
+  $widget_type = $instance_info['widget']['type'];
+  
+  $plugin = at_validation_field_plugin($field_type, $widget_type);
+  if (!empty($plugin)) {
+    // Invoke plugin's after_build for the widget.
+    $function = $plugin['after_build'];
+    $element = $function($element, $form_state);
+  }
+  return $element;
+}
+
+// =======================================================
+// Ctools
+// =======================================================
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function at_validation_ctools_plugin_type() {
+  // Used for field widgets.
+  $plugins['at_validator'] = array(
+    'use hooks' => FALSE,
+  );
+  // Used for generic form elements.
+  $plugins['at_validator_generic'] = array(
+    'use hooks' => FALSE,
+  );
+  return $plugins;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_validation_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'at_validation' && $plugin == 'at_validator') {
+    return 'plugins/at_validator';
+  }
+  if ($module == 'at_validation' && $plugin == 'at_validator_generic') {
+    return 'plugins/at_validator_generic';
+  }
+}
