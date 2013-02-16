@@ -109,6 +109,9 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
 }
 
 function at_user_change_login_error_msg_validate($form, &$form_state) {
+  if (empty($_SESSION['messages'])) {
+    return;
+  }
   foreach($_SESSION['messages']['error'] as $key => $error) {
     if ($error == 'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>') {
       $_SESSION['messages']['error'][$key] = 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>';
