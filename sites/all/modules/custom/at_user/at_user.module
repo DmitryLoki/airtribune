@@ -6,18 +6,18 @@
 function at_user_menu() {
   $items = array();
 
-  $items['user/is_email_exists/%'] = array(
+  $items['is_email_exists/%'] = array(
     'title' => 'Is email exists',
     'page callback' => 'at_user_is_email_exists',
-    'page arguments' => array(2),
+    'page arguments' => array(1),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
-  $items['user/is_name_exists/%/%'] = array(
+  $items['is_user_exists/%/%/%'] = array(
     'title' => 'Is email exists',
-    'page callback' => 'at_user_is_name_exists',
-    'page arguments' => array(2,3),
+    'page callback' => 'at_user_is_user_exists',
+    'page arguments' => array(1,2,3),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -30,37 +30,72 @@ function at_user_is_email_exists($mail) {
     return;
   }
   $count = db_select('users', 'u')
-  ->condition('mail', $mail)
-  ->countQuery()
-  ->execute()
-  ->fetchField();
+    ->condition('mail', $mail)
+    ->countQuery()
+    ->execute()
+    ->fetchField();
   if ($count) {
-    // return TRUE;
     $result['exists'] = 'TRUE'; // can pass boolean to js?
     echo drupal_json_encode($result);
   }
 }
 
-function at_user_is_name_exists($first_name, $last_name) {
-  if (empty($first_name) || empty($last_name)) {
+function at_user_is_user_exists($first_name, $last_name, $birthday) {
+  if (empty($first_name) || empty($last_name) || empty($birthday)) {
     return;
   }
-  $count = db_select('field_data_field_full_name', 'n')
-  ->condition(
-    db_or()
-      ->condition('field_full_name_given', $first_name)
-      ->condition('field_full_name_family', $last_name)
-  )
-  ->countQuery()
-  ->execute()
-  ->fetchField();
-  if ($count) {
-    // return TRUE;
-    $result['exists'] = 'TRUE';
-    echo drupal_json_encode($result);
+
+  $result['exists'] = 'FALSE';
+
+  $users_with_name = db_select('field_data_field_full_name', 'n')
+    ->condition(
+      db_and()
+        ->condition('field_full_name_given', $first_name, '=')
+        ->condition('field_full_name_family', $last_name, '=')
+    )
+    ->countQuery()
+    ->execute();
+
+  $users_with_birthday = db_select('field_data_field_birthdate', 'b')
+    ->condition('field_birthdate_value', $birthday, '=')
+    ->countQuery()
+    ->execute();
+
+  foreach ($users_with_name as $n_eid) {
+    foreach ($users_with_birthday as $b_eid) {
+      if ($n_eid == $b_eid) {
+        $result['exists'] = 'TRUE';
+      }
+    }
   }
+
+  echo drupal_json_encode($result);
 }
 
+/*
+  select entity_id from field_data_field_full_name where field_full_name_family='Ivanovich' and field_full_name_given='Ivan'
+  select entity_id from field_data_field_birthdate where field_birthdate_value='2013-01-14'
+
+  $users = db_select('field_data_field_birthdate', 'bd')
+    ->fields('bd', array('entity_id'))
+    ->condition('bd.field_birthdate_value', '2013-01-14', '=')
+    //->leftJoin('field_data_field_full_name', 'name', 'bd.entity_id = name.entity_id')
+    ->innerJoin('field_data_field_full_name', 'name', 'bd.entity_id = name.entity_id')
+    ->condition('name.field_full_name_family', 'Ivanovich', '=')
+    ->condition('name.field_full_name_given', 'Ivan', '=')
+    ->execute();
+  print_r($users->__toString());
+  var_dump($users);
+
+  $users = db_select('field_data_field_birthdate', 'bd')
+    ->join('field_data_field_full_name', 'name', 'bd.entity_id = name.entity_id')
+    ->fields('bd', array('entity_id'))
+    ->condition('bd.field_birthdate_value', '2013-01-14')
+    ->condition('name.field_full_name_family', 'Ivanovich')
+    ->condition('name.field_full_name_given', 'Ivan')
+    ->execute();
+ var_dump($users);
+*/
 
 /**
  * Implements hook_menu_alter().
