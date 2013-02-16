@@ -95,22 +95,34 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'user_profile_form') {
     drupal_add_js(drupal_get_path('module', 'at_user') . '/at_user_helper.js');
   }
+  // see #2633
   if ($form_id == 'user_login_block') {
     $form['#action'] = '/' . variable_get('site_frontpage', '') . '?destination=user';
   }
+  // see #2633
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
     $form['inline_errors']['#markup'] = '';
     $form['inline_errors']['#weight'] = -10;
-    $form['#validate'][] = 'at_user_user_login_block_validate';
+    $form['#validate'][] = 'at_user_change_login_error_msg_validate';
+    $form['#validate'][] = 'at_user_change_login_error_inline_validate';
   }
 }
 
-function at_user_user_login_block_validate($form, &$form_state) {
+function at_user_change_login_error_msg_validate($form, &$form_state) {
+  foreach($_SESSION['messages']['error'] as $key => $error) {
+    if ($error == 'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>') {
+      $_SESSION['messages']['error'][$key] = 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>';
+    }
+  }
+}
+
+function at_user_change_login_error_inline_validate($form, &$form_state) {
   // user type wrong password / name
   if (empty($form_state['uid'])) {
     // at user login block
     if ($form['#form_id'] == 'user_login_block') {
       // $form_state['redirect'] = "user/login";
+      // drupal_goto('user/login?mail='.$form_state['values']['name']);
       drupal_goto('user/login');
     }
     // at login form at user/login
@@ -118,12 +130,9 @@ function at_user_user_login_block_validate($form, &$form_state) {
       $form_errors = form_get_errors();
       $drupal_errors = drupal_get_messages('error');
       //form_clear_error();
-
       $form_state['complete form']['inline_errors']['#markup'] = '<div class="inline_login_errors">';
       foreach($drupal_errors['error'] as $key => $error) {
-        if (in_array($error, $form_errors)) {
           $form_state['complete form']['inline_errors']['#markup'] .= $error . "<br/>";
-        }
       }
       $form_state['complete form']['inline_errors']['#markup'] .= '</div>';
     }
