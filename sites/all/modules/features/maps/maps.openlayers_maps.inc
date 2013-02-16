@@ -258,7 +258,7 @@ function maps_openlayers_maps() {
         'zoomtolayer_scale' => '1',
       ),
     ),
-    'default_layer' => 'google_physical',
+    'default_layer' => 'google_normal_at_edition',
     'layers' => array(
       'google_hybrid_at_edition' => 'google_hybrid_at_edition',
       'google_normal_at_edition' => 'google_normal_at_edition',
