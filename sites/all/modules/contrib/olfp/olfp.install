@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the openlayers_heatmapss module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function olfp_requirements($phase) {
+  $requirements = array();
+
+  // Ensure translations do not break at install time.
+  $t = get_t();
+  $library = libraries_get_libraries();
+
+  $requirements['olfp']['title'] = $t('OL Feature Popups extension');
+  if (isset($library['OL-FeaturePopups'])) {
+    $requirements['olfp']['value'] = $t('Installed');
+    $requirements['olfp']['severity'] = REQUIREMENT_OK;
+  }
+
+  return $requirements;
+}
