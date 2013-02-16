@@ -1697,14 +1697,14 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_dimensions';
-  $strongarm->value = '2561024';
+  $strongarm->value = '150x150';
   $export['user_picture_dimensions'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_file_size';
-  $strongarm->value = '500';
+  $strongarm->value = '200';
   $export['user_picture_file_size'] = $strongarm;
 
   $strongarm = new stdClass();
