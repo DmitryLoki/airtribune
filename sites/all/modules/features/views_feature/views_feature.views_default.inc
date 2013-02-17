@@ -2876,9 +2876,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'jcarousel';
   $handler->display->display_options['style_options']['wrap'] = '0';
-  $handler->display->display_options['style_options']['visible'] = '3';
+  $handler->display->display_options['style_options']['visible'] = '1';
   $handler->display->display_options['style_options']['auto'] = '0';
   $handler->display->display_options['style_options']['autoPause'] = 1;
+  $handler->display->display_options['style_options']['start'] = '2';
   $handler->display->display_options['style_options']['easing'] = '';
   $handler->display->display_options['style_options']['vertical'] = 0;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -2891,8 +2892,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_photo']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_photo']['settings'] = array(
-    'image_style' => 'medium',
-    'image_link' => '',
+    'image_style' => 'hotel_preview',
+    'image_link' => 'file',
   );
   $handler->display->display_options['fields']['field_photo']['group_rows'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['delta_offset'] = '0';
