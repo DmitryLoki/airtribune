@@ -3138,6 +3138,9 @@ p { margin:0; padding:9px 0 11px}
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+.inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
+.inline_login_errors a { color: #00aeef; font: 14px/16px Arial, Helvetica, sans-serif;}
+
 #user-login .form-type-ulogin-widget { margin-left: 210px;}
 #user-login .ulogin-icon-facebook { float: none;}
 
