@@ -2347,7 +2347,7 @@ html {min-height:100%; height:100%;}
 
 
 img { border:none}
-a { color:#004d9a; text-decoration:underline;}
+a { color:#00aeef; text-decoration:underline;}
 a:hover, a.active, li a.active {  text-decoration:none;}
 .draggable td a, .draggable td { color:#000000}
 h2.title { line-height:20px; font:18px/20px UniversCondensedMedium; margin:0; padding:0; text-transform:uppercase; color:#424242}
@@ -2596,7 +2596,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info p/*, .panel_info .field*/ { padding:9px 0 11px}
 .panel_info a { color:#0098d1; text-decoration:none}
 .panel_info a:hover { text-decoration:underline}
-.panel_info .more-link { text-align:left; margin-top:-1px;} 
+.panel_info .more-link { text-align:left; margin-top:-1px; clear: both;} 
 .panel_info .more-link a { color:#7d9aa8; background:url(../images/more.png) no-repeat 0 2px; font:12px/14px Arial, Helvetica, sans-serif; padding-left:10px; text-decoration:none}
 .panel_info .more-link a:hover { color:#1cb7f1; background-position:0 -18px;}
 
@@ -2685,7 +2685,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px;}
 .page-event-info #page .pane-node-field-collection-getting-there.no-title { width: 50%; float: left;}
 .page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
-.panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0}
+.page-event-info #page .pane-node-field-collection-getting-there.no-title .more-link { margin-top: 5px;}
+.panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0 11px; padding-top: 5px;}
 .pane-node-field-collection-getting-there .links { padding:8px 0 0;}
 .pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
 .pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
@@ -2700,8 +2701,9 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-collection-getting-there .links a.taxi { background-position:0 -200px}
 .pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -200px}
 
+
 .page-event-info #page .panel_info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
-.page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 0;}
+.page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 11px;}
 .page-event-info .pane-node-field-collection-getting-there { padding-bottom:30px}
 .page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}
 .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
@@ -2721,6 +2723,8 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-node-field-downloads .pane-content { margin:18px 0 0 10px}
 .pane-node-field-downloads .field-item { float:left; width:143px; padding-right:10px; padding-bottom:6px;}
 .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:both;}
+.pane-node-field-downloads .file { display: inline-block; padding-right:10px; padding-bottom:6px;}
+.page-event-info .pane-node-field-downloads .file { display: block;}
 .pane-node-field-downloads .file img { vertical-align:middle}
 .pane-node-field-downloads .file a { color:#525c66; font:14px/16px Arial, Helvetica, sans-serif; text-decoration:none; vertical-align:middle;}
 .pane-node-field-downloads .file a:hover { color:#1cb7f1;}
@@ -2761,6 +2765,7 @@ p { margin:0; padding:9px 0 11px}
 /* Socials buttons */
 .pane-node-field-social-links {}
 .panel_info .pane-node-field-social-links .pane-content { margin:0}
+.page-event-info .pane-node-field-social-links { padding-top: 29px;}
 .pane-node-field-social-links .field-items { margin-left:-6px; margin-right:-2px}
 .pane-node-field-social-links .field-item { float:left; padding-left:6px}
 .pane-node-field-social-links .field-item a { display:block; width:32px; height:32px; background:url(../images/socials.png) no-repeat 0 0; position:relative; overflow:hidden; text-indent:-10000px;}
@@ -3012,7 +3017,8 @@ p { margin:0; padding:9px 0 11px}
 
 }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 11px; width:220px; left:210px; text-align:left; margin-top:1px}
-.page-user .pane-page-content form .form-item input.form-email { width:290px;}
+.page-user .pane-page-content form .form-item input.form-email,
+.page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
 .page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 0 0 4px}
 .page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
 .page-user .pane-page-content form .field-type-list-text label { float:left;}
@@ -3097,6 +3103,11 @@ p { margin:0; padding:9px 0 11px}
 
 }
 
+.page-user #user-login .form-actions { float: left;}
+.page-user #user-login .form-type-ulogin-widget { float: left; margin: 38px 0 0 8px}
+.page-user #user-login:after { content: "."; visibility: hidden; height: 0; clear: both; display: block;}
+.page-user #user-login .ulogin_prefix { margin: 38px 0 0 25px; font: 18px/30px Arial, Helvetica, sans-serif; color: #8898a4; float: left;}
+
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
 .page-user .pane-page-content form .select { margin-right:8px;}
@@ -3130,11 +3141,29 @@ p { margin:0; padding:9px 0 11px}
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+.inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
+.inline_login_errors a { color: #00aeef; font: 14px/16px Arial, Helvetica, sans-serif;}
+
 #user-login .form-type-ulogin-widget { margin-left: 210px;}
 #user-login .ulogin-icon-facebook { float: none;}
 
+
+.page-event-pilots .view-paragliding-pilots-list .views-table {}
+.switch-pilots-view { float: right; padding: 9px 0 18px;}
+.switch-pilots-view a { display: block; width: 40px; height: 41px; float: left; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat 0 -1000px; margin-left: 10px;}
+.switch-pilots-view a.by-status { background-position: 0 -375px}
+.switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -475px}
+.switch-pilots-view a.by-country { background-position: 0 -575px}
+.switch-pilots-view a.by-country:hover, .switch-pilots-view a.by-country.active { background-position: 0 -675px}
+
 .pane-paragliding-pilots-list-fai {}
-.pane-paragliding-pilots-list-fai .pane-inner { margin: 0;}
+.pane-paragliding-pilots-list-fai, .pane-paragliding-pilots-list-standard { clear: both;}
+.pane-paragliding-pilots-list-fai .pane-inner, .pane-paragliding-pilots-list-standard .pane-inner { margin: 0;}
+.page-event-pilots .views-field-counter { text-align: center;}
+
+.pane-paragliding-pilots-list-standard caption div { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
+.pane-paragliding-pilots-list-standard caption div.female { background-position: 0 -773px}
+.pane-paragliding-pilots-list-standard caption div.male { background-position: 0 -873px}
 
 
 
@@ -3146,7 +3175,7 @@ table { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; po
   border-radius: 0 0 3px 3px;
 
 }
-table caption { position: relative; background: #f1f4f6; color: #677581; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px;
+table caption { position: relative; background: #f1f4f6; color: #677581; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px;
 
   -webkit-border-radius: 3px 3px 0 0 ;
   -moz-border-radius: 3px 3px 0 0 ;
@@ -3159,6 +3188,7 @@ table tr.even { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
 table tbody tr:hover { background: #cceffc;}
 table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 9px 21px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
+table thead tr + tr th { font-weight: normal;}
 table thead th a { color: #525d66}
 table thead th.active a { color: #1cb7f1}
 table thead th.views-field:first-child { border-left: none;}
@@ -3166,8 +3196,50 @@ table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; paddin
 table .views-row-first td { border-top: none;}
 table tr td.:first-child { border-left: none;}
 
-.page-event-pilots .view-paragliding-pilots-list .views-table {}
 
+/* page-event-map-activity-accommodation */
+.page-event-map-activity-accommodation .firstUnit .panel-pane .pane-inner { margin: 0;}
+.page-event-map-activity-accommodation .firstUnit .panel-pane { font: 14px/20px Arial, Helvetica, sans-serif;}
+.page-event-map-activity-accommodation .firstUnit h2.pane-title { font: 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding-top: 14px;}
+.page-event-map-activity-accommodation .firstUnit p { padding-top: 7px;}
+.pane-node-title .pane-content { font: bold 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding: 15px 0 20px; }
+.page-event-map-activity-accommodation .pane-hq-distance,
+.page-event-map-activity-accommodation .pane-node-field-accommodation-price-single,
+.page-event-map-activity-accommodation .pane-node-field-accommodation-price-double,
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi { float: left; color: #525d66; font: bold 16px/18px Arial, Helvetica, sans-serif; margin: 0 27px 16px 2px;}
+.page-event-map-activity-accommodation .pane-hq-distance .hq-distance,
+.page-event-map-activity-accommodation .field_buttons .field-items { display: inline-block; background: #40c2f3; padding: 1px 4px 3px; border: 1px solid #3cbbeb; vertical-align: middle; color: #ffffff; position: relative; margin:0 0 1px 2px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+.page-event-map-activity-accommodation .field_buttons .field-label { padding-top: 2px;}
+.page-event-map-activity-accommodation .pane-node-field-accommodation-price-single .field-items { background: #f3c740; border-color: #e8c041}
+.page-event-map-activity-accommodation .pane-node-field-accommodation-price-double .field-items { background: #f39d40; border-color: #e89841}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items { background: #dae25e url(../images/wifi.png) no-repeat 6px 4px; border-color: #d0db5d; padding-left: 30px;}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items .field-item { background: url(../images/wifi.png) no-repeat 0 -28px; width: 14px; height: 10px; margin: 5px 0 3px; display: block; overflow: hidden; text-indent: -9999px;
+}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field_wifi_no .field-items { background-color: #f36e3f; border-color: #f3613f;}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field_wifi_no .field-items .field-item { background-position: 0 -53px}
+.page-event-map-activity-accommodation .pane-node-field-photo,
+.page-event-map-activity-accommodation .pane-photos-carousel-accommodation { clear: both; border-top: 1px dashed #f0f3f4; padding: 30px 6px 16px; margin: 0 -6px;}
+.page-event-map-activity-accommodation .pane-node-field-photo .field-item { float: left; padding: 0 0 2px 2px;}
+.page-event-map-activity-accommodation .pane-node-field-photo .field-type-image { margin: 0;}
+.page-event-map-activity-accommodation .pane-node-field-photo .field-item img { vertical-align: middle;}
+.page-event-map-activity-accommodation .pane-node-field-address h2.pane-title { padding-bottom: 7px;}
+.page-event-map-activity-accommodation .fields_contacts .field-label { color: #333a40}
+
+.pane-photos-carousel-accommodation {}
+.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 310px; overflow: hidden;}
+.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 127px;}
+.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-item { width: 466px; height: 310px; border: none; margin: 0 1px;}
+.pane-photos-carousel-accommodation .jcarousel-prev, .pane-photos-carousel-accommodation .jcarousel-next { width: 126px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% 140px;}
+.pane-photos-carousel-accommodation .jcarousel-prev { left: 0; background-position: 50% 140px}
+.pane-photos-carousel-accommodation .jcarousel-prev-disabled, .pane-photos-carousel-accommodation .jcarousel-prev:hover { background-position: 50% -480px}
+.pane-photos-carousel-accommodation .jcarousel-next { right: 0; background-position: 50% -170px}
+.pane-photos-carousel-accommodation .jcarousel-next-disabled, .pane-photos-carousel-accommodation .jcarousel-next:hover { background-position: 50% -790px}
 
 	/* Footer */
 
@@ -3280,12 +3352,18 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane h2 span,
 .event-map-pane h2 a { display: block; float: right; cursor: pointer; margin: 2px -1px 0 5px; background: url(../images/table_action.png) no-repeat 0 0;}
 .event-map-pane h2 span { overflow: hidden; text-indent: -9999px; width: 25px; height: 25px;}
-.event-map-pane h2 span.event-map-enable { background-position: 0 -75px}
-.event-map-pane h2 span.event-map-enable:hover { background-position: 0 -100px}
-.event-map-pane h2 span.event-map-enable-active { background-position: 0 -125px}
-.event-map-pane h2 span.event-map-toggle-pane { background-position: -25px -75px}
-.event-map-pane h2 span.event-map-toggle-pane:hover { background-position: -25px -100px}
-.event-map-pane h2 span.event-map-toggle-pane-active { background-position: -25px -125px}
+.event-map-pane h2 span.event-map-enable { background-position: -25px -75px}
+.event-map-pane h2 span.event-map-enable:hover { background-position: -25px -100px}
+.event-map-pane h2 span.event-map-enable:active { background-position: -25px -125px}
+.event-map-pane h2 span.event-map-enable-active { background-position: 0 -75px}
+.event-map-pane h2 span.event-map-enable-active:hover { background-position: 0 -100px}
+.event-map-pane h2 span.event-map-enable-active:active { background-position: 0 -125px}
+.event-map-pane h2 span.event-map-toggle-pane { background-position: -75px -75px}
+.event-map-pane h2 span.event-map-toggle-pane:hover { background-position: -75px -100px}
+.event-map-pane h2 span.event-map-toggle-pane:active { background-position: -75px -125px}
+.event-map-pane h2 span.event-map-toggle-pane-active { background-position: -50px -75px}
+.event-map-pane h2 span.event-map-toggle-pane-active:hover { background-position: -50px -100px}
+.event-map-pane h2 span.event-map-toggle-pane-active:active { background-position: -50px -125px}
 .event-map-pane h2 a { height: 22px; font: 14px/22px Arial, Helvetica, sans-serif; padding: 0 6px 0 27px; margin-right: 0px; border: 1px solid #dcc065; color: #ffffff; background-color: #e7c766; text-decoration: none; position: relative;
 
   -webkit-border-radius: 3px;
@@ -3300,22 +3378,16 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane h2 a:hover { background-color: #e3b836; border-color: #d8b237; background-position: 0 -25px}
 .event-map-pane h2 a:active { background-color: #c9a330; border-color: #c09e31; background-position: 0 -50px}
 
-.event-map-pane table {
-  margin-top: 0;
-  border-top-width: 0;
-}
-.event-map-pane table tr a {
-  color: #00AEEF;
-}
-.event-map-pane table td.views-field-title {
-  text-align: left;
-}
-.event-map-pane table td.views-field-body p {
-  padding: 0;
-}
-.event-map-pane span.currency-EUR:before {
-  content: "€ "
-}
-.event-map-pane span.currency-USD:before {
-  content: "$ "
-}
+.event-map-pane table { margin-top: 0; border-top-width: 0;}
+.event-map-pane table tr a { color: #00aeef; text-decoration: none;}
+.event-map-pane table tr a:hover { text-decoration: underline;}
+.event-map-pane table td.views-field-title { text-align: left;}
+.event-map-pane table td.views-field-body p { padding: 0;}
+.event-map-pane span.currency-EUR:before { content: "€ "}
+.event-map-pane span.currency-USD:before { content: "$ "}
+
+.event-map-pane th.views-field-field-geofield-distance { width: 111px; padding-left: 19px; padding-right: 19px;}
+.event-map-pane td { text-align: center;}
+.event-map-pane td.views-field-title, 
+.event-map-pane td.views-field-body { text-align: left;}
+.event-map-pane .pane-inner { margin: 0;}
