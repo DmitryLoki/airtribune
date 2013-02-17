@@ -24,18 +24,29 @@
                     $("#popup_close").bind('mousedown', function () {
                         event.stopPropagation();
                         try {
+                            that.selectedFeature = undefined;
+                            selectControl.onUnselect();
                             selectControl.unselect();
                         } catch (e) {
                         }
                     })
                 };
-                map.openlayers.events.on({'moveend':that.moveEndListener});
+                var oldOnUnselect = selectControl.onUnselect;
+                selectControl.onUnselect = function(){
+                    that.selectedFeature = undefined;
+                    oldOnUnselect.call(this, arguments[0]);
+                };
+
+                map.openlayers.events.on({'moveend':$.proxy(entityReferenceWidget.moveEndListener, entityReferenceWidget)});
                 div.addClass('at-entityreference-geowidget-processed');
             }
-        },
+        }
+    };
+
+    var entityReferenceWidget = {
         moveEndListener:function (event) {
             var request = event.object.getExtent().transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326')).toString();
-            $.get(Drupal.settings.basePath + 'at_entityreference_geowidget', {bbox:request}, $.proxy(Drupal.atEntityreferenceGeowidget.parseResponse, event.object));
+            $.get(Drupal.settings.basePath + 'at_entityreference_geowidget', {bbox:request}, $.proxy(this.parseResponse, event.object));
         },
 
         parseResponse:function (response) {
@@ -59,14 +70,11 @@
                         if (map.popups.length) {
                             features[i].popup = window.popup;
                         }
-                        that.selectControl.onSelect(features[i]);
+                        that.selectControl.select(features[i]);
                         return;
                     }
                 }
             }
-        },
-        addReference:function (event) {
-            alert('clicked');
         }
     }
 })(jQuery);
