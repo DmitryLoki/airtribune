@@ -354,7 +354,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_accomodation';
   $path_breadcrumb->name = 'Paragliding contest Current Accomodation';
-  $path_breadcrumb->path = 'event/%node/map/accommodation/%accomodnode';
+  $path_breadcrumb->path = 'event/%node/map/%accomodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
@@ -368,7 +368,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'events/current',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/accommodation/%accomodnode:nid',
+      4 => 'event/%node:nid/map/%accomodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1003,7 +1003,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_accomodation';
   $path_breadcrumb->name = 'Paragliding contest Next Accomodation';
-  $path_breadcrumb->path = 'event/%node/map/accommodation/%accomodnode';
+  $path_breadcrumb->path = 'event/%node/map/%accomodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
@@ -1017,7 +1017,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'events/next',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/accommodation/%accomodnode:nid',
+      4 => 'event/%node:nid/map/%accomodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1652,7 +1652,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_accomodation';
   $path_breadcrumb->name = 'Paragliding contest Past Accomodation';
-  $path_breadcrumb->path = 'event/%node/map/accommodation/%accomodnode';
+  $path_breadcrumb->path = 'event/%node/map/%accomodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
@@ -1666,7 +1666,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'events/past',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/accommodation/%accomodnode:nid',
+      4 => 'event/%node:nid/map/%accomodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
