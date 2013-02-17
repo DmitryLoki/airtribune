@@ -125,7 +125,7 @@ function pages_feature_default_page_manager_pages() {
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
+    'body_classes_to_add' => 'page-event-map-activity-accommodation',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -320,7 +320,7 @@ function pages_feature_default_page_manager_pages() {
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
-        'colorbox_node_style' => 'medium',
+        'colorbox_node_style' => 'race_teaser',
         'colorbox_image_style' => '',
         'colorbox_gallery' => 'post',
         'colorbox_gallery_custom' => '',
@@ -562,7 +562,7 @@ function pages_feature_default_page_manager_pages() {
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
+    'body_classes_to_add' => 'page-event-map-activity-accommodation',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -643,7 +643,7 @@ function pages_feature_default_page_manager_pages() {
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
-        'colorbox_node_style' => 'medium',
+        'colorbox_node_style' => 'race_teaser',
         'colorbox_image_style' => '',
         'colorbox_gallery' => 'post',
         'colorbox_gallery_custom' => '',
@@ -651,8 +651,8 @@ function pages_feature_default_page_manager_pages() {
         'colorbox_caption_custom' => '',
       ),
       'context' => 'argument_entity_id:node_2',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -674,7 +674,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => 'argument_entity_id:node_2',
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'Description',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -690,19 +690,24 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-16';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_url';
+    $pane->subtype = 'node:field_address';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'inline',
-      'formatter' => 'link_default',
+      'label' => 'above',
+      'formatter' => 'addressfield_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
+      'formatter_settings' => array(
+        'use_widget_handlers' => 1,
+        'format_handlers' => array(
+          'address' => 'address',
+        ),
+      ),
       'context' => 'argument_entity_id:node_2',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Contacts',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -746,24 +751,19 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-18';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_address';
+    $pane->subtype = 'node:field_email';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'inline',
-      'formatter' => 'addressfield_default',
-      'delta_limit' => 0,
+      'formatter' => 'email_default',
+      'delta_limit' => '0',
       'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'use_widget_handlers' => 1,
-        'format_handlers' => array(
-          'address' => 'address',
-        ),
-      ),
+      'delta_reversed' => 0,
+      'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_2',
       'override_title' => 0,
-      'override_title_text' => '',
+      'override_title_text' => '<none>',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -779,12 +779,12 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-19';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_email';
+    $pane->subtype = 'node:field_url';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'email_default',
+      'label' => 'inline',
+      'formatter' => 'link_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,

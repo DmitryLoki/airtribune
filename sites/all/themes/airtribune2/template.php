@@ -952,6 +952,7 @@ function airtribune2_field($variables) {
     case 'field_address':
       $variables['label'] = t('Address');
     case 'field_email':
+    case 'field_phone':
     case 'field_url':
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
