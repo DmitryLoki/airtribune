@@ -256,7 +256,7 @@ function pg_race_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title-field]/[node:field-pg-race-date:dmy]',
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:field-pg-race-date:dmy]',
           ),
           'retroactive_update' => 0,
         ),
