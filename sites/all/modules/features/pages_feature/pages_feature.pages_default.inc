@@ -196,6 +196,36 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_hotel_wifi';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'inline',
+      'formatter' => 'list_default',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(
+        'field_name' => '0',
+      ),
+      'context' => 'argument_entity_id:node_2',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][2] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'middle';
+    $pane->type = 'entity_field';
     $pane->subtype = 'node:field_accommodation_price_single';
     $pane->shown = TRUE;
     $pane->access = array();
@@ -222,7 +252,7 @@ function pages_feature_default_page_manager_pages() {
       ),
       'context' => 'argument_entity_id:node_2',
       'override_title' => 0,
-      'override_title_text' => '',
+      'override_title_text' => 'Single',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -230,12 +260,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['middle'][2] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['middle'][3] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_accommodation_price_double';
@@ -261,36 +291,6 @@ function pages_feature_default_page_manager_pages() {
           'suffix' => '',
         ),
         'style' => 'inline',
-      ),
-      'context' => 'argument_entity_id:node_2',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['middle'][3] = 'new-4';
-    $pane = new stdClass();
-    $pane->pid = 'new-5';
-    $pane->panel = 'middle';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_hotel_wifi';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'inline',
-      'formatter' => 'list_default',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'field_name' => '0',
       ),
       'context' => 'argument_entity_id:node_2',
       'override_title' => 0,
@@ -328,8 +328,8 @@ function pages_feature_default_page_manager_pages() {
         'colorbox_caption_custom' => '',
       ),
       'context' => 'argument_entity_id:node_2',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -351,7 +351,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => 'argument_entity_id:node_2',
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'Services and prices',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -367,19 +367,24 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-8';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_url';
+    $pane->subtype = 'node:field_address';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'inline',
-      'formatter' => 'link_default',
+      'label' => 'above',
+      'formatter' => 'addressfield_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
-      'formatter_settings' => array(),
+      'formatter_settings' => array(
+        'use_widget_handlers' => 1,
+        'format_handlers' => array(
+          'address' => 'address',
+        ),
+      ),
       'context' => 'argument_entity_id:node_2',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Contacts',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -423,21 +428,16 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-10';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_address';
+    $pane->subtype = 'node:field_email';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'inline',
-      'formatter' => 'addressfield_default',
+      'formatter' => 'email_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'use_widget_handlers' => 1,
-        'format_handlers' => array(
-          'address' => 'address',
-        ),
-      ),
+      'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_2',
       'override_title' => 0,
       'override_title_text' => '',
@@ -456,12 +456,12 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-11';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_email';
+    $pane->subtype = 'node:field_url';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'inline',
-      'formatter' => 'email_default',
+      'formatter' => 'link_default',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,

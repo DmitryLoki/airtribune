@@ -899,7 +899,7 @@ function airtribune2_field__field_collection_organizers($variables) {
   return $output;
 }
 /**
- * Implements theme_field__field_collection_organizers.
+ * Implements theme_field__field_full_name.
  */
 function airtribune2_field__field_full_name($variables) {
   if($variables['field_view_mode'] == '_custom_display'){
@@ -911,6 +911,63 @@ function airtribune2_field__field_full_name($variables) {
    $colon = '';
    $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
   }
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
+  }
+
+  // Render the items.
+  $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+  }
+  $output .= '</div>';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+
+  return $output;
+}
+/**
+ * Implements theme_field__field_full_name.
+ */
+function airtribune2_field($variables) {
+  //print $variables['element']['#field_name'];
+  $colon = ':&nbsp;';
+  switch ($variables['element']['#field_name']) {
+    case 'field_accommodation_price_single':
+    case 'field_accommodation_price_double':
+    case 'field_hotel_wifi':
+      $colon = '&nbsp;';
+      $variables['field_view_mode'] = '';
+      $variables['label_hidden'] = '';
+      $variables['classes'] .= ' field_buttons';
+
+      if ($variables['element']['#field_name'] == 'field_hotel_wifi' && !$variables['element']['#items'][0]['value']) {
+        $variables['classes'] .= ' field_wifi_no';
+      }
+
+      break;
+    case 'field_address':
+      $variables['label'] = t('Address');
+    case 'field_email':
+    case 'field_url':
+      $variables['field_view_mode'] = '';
+      $variables['label_hidden'] = '';
+      $variables['classes'] .= ' fields_contacts';
+      break;
+    
+    default:
+      //print $variables['element']['#field_name'];
+      # code...
+      break;
+  }
+  //print_r($variables);
+  if($variables['field_view_mode'] == '_custom_display'){
+    return drupal_render($item);
+  }
+  $output = '';
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
     $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
