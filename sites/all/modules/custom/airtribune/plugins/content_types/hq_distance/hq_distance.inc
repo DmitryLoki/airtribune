@@ -41,7 +41,7 @@ function airtribune_hq_distance_content_type_render($subtype, $conf, $panel_args
 
   if (isset($hq_location_latlon, $location_latlon)) {
     $distance = airtribune_calculate_distance($hq_location_latlon, $location_latlon);
-    $content = t('HQ Distance !distance km', array('!distance' => '<span class="hq-distance">' . round($distance/1000, 2) . '</span>'));
+    $content = t('HQ Dist !distance', array('!distance' => '<span class="hq-distance">' . round($distance/1000, 2) . ' km</span>'));
 
     return (object) array(
       'module' => 'airtribune',

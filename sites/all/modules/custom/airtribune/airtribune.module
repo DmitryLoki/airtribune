@@ -23,6 +23,8 @@ define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
 define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
+define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
+define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -196,12 +198,12 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $pilots_links[] = array(
       'title' => 'Group by status',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
-      'class' => 'by-status',
+      'class' => 'by-status' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
     );
     $pilots_links[] = array(
       'title' => 'Group by country',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/country'),
-      'class' => 'by-country',
+      'class' => 'by-country' . (($vars['pane']->subtype == 'paragliding_pilots_list-fai') ? ' active' : ''),
     );
 
     $content = '<div class="switch-pilots-view">';

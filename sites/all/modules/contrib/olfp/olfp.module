@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Main module file for the openlayers_heatmaps module.
+ */
+
+/**
+ * Implements hook_ctools_plugins_api().
+ */
+function olfp_ctools_plugin_api($module, $api) {
+  if ($module == "openlayers") {
+    switch ($api) {
+      case 'openlayers_layers':
+      case 'openlayers_behaviors':
+        return array('version' => 1);
+    }
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function olfp_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'openlayers' && !empty($plugin)) {
+    return 'openlayers_plugins/' . $plugin;
+  }
+}
+
+/**
+ * Return path to library.
+ *
+ * Return the path to the default bundled library if not found in
+ * sites/all/libraries.
+ *
+ * @return string
+ */
+function _olfp_get_path() {
+  $lib = libraries_get_libraries();
+
+  if (isset($lib['OL-FeaturePopups'])) {
+    if (file_exists($lib['OL-FeaturePopups'])) {
+      return $lib['OL-FeaturePopups'];
+    }
+  }
+
+  return drupal_get_path('module', 'olfp').'/lib/OL-FeaturePopups';
+}

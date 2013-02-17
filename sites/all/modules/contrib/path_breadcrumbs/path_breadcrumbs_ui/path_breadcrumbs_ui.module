@@ -649,7 +649,9 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings(&$form, &$form_stat
   // Add help message about path_breadcrumbs_i18n module.
   if (!module_exists('path_breadcrumbs_i18n')) {
     $form['translatable']['#disabled'] = TRUE;
-    $form['translatable']['#description'] = t('You have to enable <a href="@modules_url">@module_name</a> module if you need translatable breadcrumbs.', array('@module_name' => 'Path breadcrumbs translation', '@modules_url' => url('admin/modules')));
+    $form['translatable']['#description'] = t(
+      'You have to enable <a href="@modules_url">@module_name</a> module if you need translatable breadcrumbs.',
+      array('@module_name' => 'Path breadcrumbs translation', '@modules_url' => url('admin/modules')));
   }
   else {
     $form['translatable']['#description'] = t('Every breadcrumb will be available for translation.');
@@ -706,6 +708,10 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings(&$form, &$form_stat
       '#ajax'  => array(
         'callback' => '_path_breadcrumbs_ui_form_step_breadcrumbs_settings_ajax',
         'wrapper'  => 'path-breadcrumbs-ui-form-wrapper',
+        'progress' => array(
+          'type' => 'throbber',
+          'message' => '',
+        ),
       ),
     );
   }
@@ -818,8 +824,8 @@ function _path_breadcrumbs_ui_form_step_breadcrumbs_settings_submit($form, &$for
   $titles = array();
   $paths  = array();
   foreach ($values['breadcrumbs_table'] as $value) {
-    array_unshift($titles, $value['left_value']);
-    array_unshift($paths, $value['right_value']);
+    $titles[] = $value['left_value'];
+    $paths[]  = $value['right_value'];
   }
 
   // Update titles and paths in cache.
@@ -859,7 +865,7 @@ function _path_breadcrumbs_ui_form_apply_default_values(&$form, $machine_name) {
   }
 
   // Try to apply values from cache to form.
-  foreach ($form as $key => $value) {
+  foreach ($form as $key => $form_value) {
     if (!empty($breadcrumb->{$key}) && is_array($breadcrumb->{$key})) {
       foreach ($breadcrumb->{$key} as $array_key => $value) {
         $form[$key][$array_key]['#default_value'] = $value;

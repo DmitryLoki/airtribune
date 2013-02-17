@@ -1,0 +1,18 @@
+name = "OpenLayers Feature Popups"
+description = "OpenLayers feature popup extension"
+core = 7.x
+package = "OpenLayers"
+php = 5.2
+dependencies[] = ctools
+dependencies[] = openlayers
+dependencies[] = libraries
+
+; Core files
+files[] = olfp.module
+
+; Information added by drupal.org packaging script on 2013-01-24
+version = "7.x-2.x-dev"
+core = "7.x"
+project = "olfp"
+datestamp = "1359034568"
+
