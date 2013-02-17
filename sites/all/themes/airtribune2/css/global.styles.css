@@ -2723,6 +2723,8 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-node-field-downloads .pane-content { margin:18px 0 0 10px}
 .pane-node-field-downloads .field-item { float:left; width:143px; padding-right:10px; padding-bottom:6px;}
 .pane-node-field-downloads .field-item:nth-child(3n+1) { clear:both;}
+.pane-node-field-downloads .file { display: inline-block; padding-right:10px; padding-bottom:6px;}
+.page-event-info .pane-node-field-downloads .file { display: block;}
 .pane-node-field-downloads .file img { vertical-align:middle}
 .pane-node-field-downloads .file a { color:#525c66; font:14px/16px Arial, Helvetica, sans-serif; text-decoration:none; vertical-align:middle;}
 .pane-node-field-downloads .file a:hover { color:#1cb7f1;}
@@ -2763,6 +2765,7 @@ p { margin:0; padding:9px 0 11px}
 /* Socials buttons */
 .pane-node-field-social-links {}
 .panel_info .pane-node-field-social-links .pane-content { margin:0}
+.page-event-info .pane-node-field-social-links { padding-top: 29px;}
 .pane-node-field-social-links .field-items { margin-left:-6px; margin-right:-2px}
 .pane-node-field-social-links .field-item { float:left; padding-left:6px}
 .pane-node-field-social-links .field-item a { display:block; width:32px; height:32px; background:url(../images/socials.png) no-repeat 0 0; position:relative; overflow:hidden; text-indent:-10000px;}
