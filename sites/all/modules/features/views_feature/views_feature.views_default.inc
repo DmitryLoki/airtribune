@@ -3047,9 +3047,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_photo']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_photo']['type'] = 'colorbox';
   $handler->display->display_options['fields']['field_photo']['settings'] = array(
-    'image_style' => 'hotel_preview',
-    'image_link' => 'file',
+    'colorbox_node_style' => 'hotel_preview',
+    'colorbox_image_style' => '',
+    'colorbox_gallery' => 'post',
+    'colorbox_gallery_custom' => '',
+    'colorbox_caption' => 'auto',
+    'colorbox_caption_custom' => '',
   );
   $handler->display->display_options['fields']['field_photo']['group_rows'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['delta_offset'] = '0';
