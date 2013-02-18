@@ -1,17 +1,20 @@
-(function($){
-    $.fn.checkValidationResult = function(errorText) {
-        var errorElement = this.data('error-element');
+(function ($) {
+    $.fn.checkValidationResult = function (errorText) {
+        var form = this.parents('form'),
+            formValidator = form.validate();
 
-        if(!errorElement)  {
-            errorElement = $('<span></span>');
-            this.data('error-element', errorElement);
-            this.before(errorElement);
-        }
+        formValidator.errorsFor(this[0]).remove();
+
         if(errorText){
-            errorElement.html(errorText).show();
-        } else {
-            errorElement.hide();
+            formValidator.showLabel(this[0], errorText);
         }
-
     }
-})(jQuery.noConflict());
+})(jQuery);
+
+Drupal.behaviors.customFormValidation = {
+    attach:function () {
+        Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
+            element.after(error);
+        };
+    }
+};
