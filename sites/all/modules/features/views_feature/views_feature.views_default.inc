@@ -1240,7 +1240,7 @@ function views_feature_views_default_views() {
   );
 
   /* Display: Overlay accommodations */
-  $handler = $view->new_display('openlayers', 'Overlay accommodations', 'overlay');
+  $handler = $view->new_display('openlayers', 'Overlay accommodations', 'overlay_accommodations');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -1264,7 +1264,7 @@ function views_feature_views_default_views() {
   );
 
   /* Display: Overlay activities */
-  $handler = $view->new_display('openlayers', 'Overlay activities', 'openlayers_1');
+  $handler = $view->new_display('openlayers', 'Overlay activities', 'overlay_activities');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -1288,7 +1288,7 @@ function views_feature_views_default_views() {
   );
 
   /* Display: Overlay HQ */
-  $handler = $view->new_display('openlayers', 'Overlay HQ', 'openlayers_2');
+  $handler = $view->new_display('openlayers', 'Overlay HQ', 'overlay_hq');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
