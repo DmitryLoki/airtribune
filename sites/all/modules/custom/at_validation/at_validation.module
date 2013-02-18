@@ -151,6 +151,19 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
       $function = $plugin['validator'];
       $function($element, $form_state);
     }
+    
+    $form['account']['mail']['#element_validate'][] = 'at_validation_mail_validate';
+  }
+}
+
+function at_validation_mail_validate($element, &$form_state) {
+  //$mail = trim($form_state['values']['mail']);
+  //form_set_value($form['account']['mail'], $mail, $form_state);
+  if ($error = user_validate_mail($form_state['values']['mail'])) {
+    form_set_error('mail', $error);
+  }
+  elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
+    form_set_error('mail', t('The e-mail address %email is already registered.', array('%email' => $form_state['values']['mail'], '@password' => url('user/password'))));
   }
 }
 
