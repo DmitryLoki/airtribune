@@ -3236,10 +3236,13 @@ table tr td.:first-child { border-left: none;}
 .pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 127px;}
 .pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-item { width: 466px !important; height: 310px; border: none; margin: 0 1px;}
 .pane-photos-carousel-accommodation .jcarousel-prev, .pane-photos-carousel-accommodation .jcarousel-next { width: 126px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
-.pane-photos-carousel-accommodation .jcarousel-prev:hover { left: 0; background-position: 50% -480px}
-.pane-photos-carousel-accommodation .jcarousel-prev:active { left: 0; background-position: 50% 140px}
-.pane-photos-carousel-accommodation .jcarousel-next:hover { right: 0; background-position: 50% -790px}
-.pane-photos-carousel-accommodation .jcarousel-next:active { right: 0; background-position: 50% -170px}
+.pane-photos-carousel-accommodation .jcarousel-prev { left: 0;}
+.pane-photos-carousel-accommodation .jcarousel-next { right: 0;}
+.pane-photos-carousel-accommodation .jcarousel-prev:focus, .pane-photos-carousel-accommodation .jcarousel-next:focus { outline: none;}
+.pane-photos-carousel-accommodation .jcarousel-prev:hover { background-position: 50% -480px}
+.pane-photos-carousel-accommodation .jcarousel-prev:active { background-position: 50% 140px}
+.pane-photos-carousel-accommodation .jcarousel-next:hover { background-position: 50% -790px}
+.pane-photos-carousel-accommodation .jcarousel-next:active { background-position: 50% -170px}
 
 	/* Footer */
 
