@@ -22,6 +22,7 @@ jQuery(document).ready(function () {
         'keyup':passValidate,
         'blur':passValidate
     });
+
     function passValidate() {
         var validator = form.validate(),
             passStrengthBubble =  $(this).siblings('.password-strength.form_booble');
@@ -34,6 +35,4 @@ jQuery(document).ready(function () {
             $(this).parents('.form-item').find('span.form_booble.validate-error[link="' + $(this).attr('id') + '"]').remove();
         }
     }
-
-    form.validate().settings.errorElement = 'span';
 });
