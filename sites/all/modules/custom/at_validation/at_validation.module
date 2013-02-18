@@ -115,6 +115,7 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities['profile2'])) {
     // Form caching is set in ajax_process_form().
     $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
+    $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
     // Search for corresponding plugin for the current widget.
     $field_type = $context['field']['type'];
     $widget_type = $context['instance']['widget']['type'];
