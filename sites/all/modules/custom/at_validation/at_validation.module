@@ -67,32 +67,34 @@ function _at_validation_ajax() {
   if (!empty($_SESSION['messages']['error'])) {
     unset($_SESSION['messages']['error']);
   }
-  
+  // Get slector for ajax validation messages.
+  $selector = '';
+  if (empty($field_name)) {
+    $selector = '#' . $element['#id'];
+  }
+  else {
+    $plugin = at_validation_field_plugin($field_type, $widget_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the widget.
+      $function = $plugin['selector'];
+      $selector = $function($element, $triggering_element);
+    }
+  }
+
   if (!empty($errors)) {
     $html = array_shift($errors);
-    
-    
-    // Get slector for ajax validation messages.
-    $selector = '';
-    if (empty($field_name)) {
-      $selector = '#' . $element['#id'];
-    }
-    else {
-      $plugin = at_validation_field_plugin($field_type, $widget_type);
-      if (!empty($plugin)) {
-        // Add Ajax validator to the widget.
-        $function = $plugin['selector'];
-        $selector = $function($element, $triggering_element);
-      }
-    }
-    
+
     $commands = array();
     // http://drupal.org/node/1028410#comment-6424572
-    $commands[] = ajax_command_invoke($selector, 'before', array($html));
+    $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
     return drupal_json_output($commands);
   }
   else {
     // TODO: here add return for the case when validation succeeded.
+    $commands = array();
+    // http://drupal.org/node/1028410#comment-6424572
+    $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+    return drupal_json_output($commands);
   }
 }
 
@@ -132,7 +134,7 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
 function at_validation_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_register_form') {
     // Form caching is set in ajax_process_form().
-    
+    drupal_add_js(drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js');
     // We should add #ajax settings here but not in #after_build because
     // these should already exist before ajax_process_form() is called.
     // ajax_process_form() is a #process function. #process functions are
