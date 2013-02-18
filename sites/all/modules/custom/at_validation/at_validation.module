@@ -114,7 +114,7 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   $entities['profile2'] = array('main');
   if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities['profile2'])) {
     // Form caching is set in ajax_process_form().
-    drupal_add_js(drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js');
+    $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
     // Search for corresponding plugin for the current widget.
     $field_type = $context['field']['type'];
     $widget_type = $context['instance']['widget']['type'];
@@ -136,7 +136,7 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
 function at_validation_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_register_form') {
     // Form caching is set in ajax_process_form().
-    drupal_add_js(drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js');
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
     // We should add #ajax settings here but not in #after_build because
     // these should already exist before ajax_process_form() is called.
     // ajax_process_form() is a #process function. #process functions are
