@@ -113,6 +113,8 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   // List bundles for each entity with ajax-validation enabled.
   $entities['profile2'] = array('main');
   if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities['profile2'])) {
+    // Form caching is set in ajax_process_form().
+    drupal_add_js(drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js');
     // Search for corresponding plugin for the current widget.
     $field_type = $context['field']['type'];
     $widget_type = $context['instance']['widget']['type'];
