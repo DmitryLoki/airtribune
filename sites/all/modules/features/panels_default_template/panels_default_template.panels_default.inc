@@ -116,6 +116,40 @@ function panels_default_template_default_panels_mini() {
     $pane->pid = 'new-3';
     $pane->panel = 'padding';
     $pane->type = 'views_panes';
+    $pane->subtype = 'header_slideshow-event_header';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/map',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'arguments' => array(
+        'gid' => '%event:nid',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['padding'][0] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'padding';
+    $pane->type = 'views_panes';
     $pane->subtype = 'event_map-event_map';
     $pane->shown = TRUE;
     $pane->access = array(
@@ -135,49 +169,6 @@ function panels_default_template_default_panels_mini() {
       'arguments' => array(
         'field_geofield_distance' => '%event:nid',
       ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['padding'][0] = 'new-3';
-    $pane = new stdClass();
-    $pane->pid = 'new-4';
-    $pane->panel = 'padding';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_header_image';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'event/*/map',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'image',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'image_style' => 'header',
-        'image_link' => '',
-      ),
-      'context' => 'requiredcontext_airtribune_event_1',
-      'override_title' => 1,
-      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(

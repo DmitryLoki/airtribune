@@ -2046,6 +2046,59 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['label'] = '';
   $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
+
+  /* Display: Event header */
+  $handler = $view->new_display('panel_pane', 'Event header', 'event_header');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: OG membership: OG membership from Featured header */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['label'] = '';
+  $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_header_image']['settings'] = array(
+    'image_style' => 'header',
+    'image_link' => '',
+  );
+  /* Field: Featured header: Author link */
+  $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
+  $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'user',
+      'context' => 'airtribune_event.group-group',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'OG membership: Group ID',
+    ),
+  );
   $translatables['header_slideshow'] = array(
     t('Master'),
     t('more'),
@@ -2058,6 +2111,9 @@ function views_feature_views_default_views() {
     t('Default header'),
     t('View panes'),
     t('Front page header'),
+    t('Event header'),
+    t('OG membership from ent_featured_header'),
+    t('All'),
   );
   $export['header_slideshow'] = $view;
 
