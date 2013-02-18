@@ -189,7 +189,7 @@ function at_validation_generic_plugin($input_type) {
 /**
  * An #after_build function for a widget form. Added only if required.
  * This #after_build is added within plugins. It is intended to invoke
- * plugin's custom after_build function. We can't user plugin's after_build
+ * plugin's custom after_build function. We can't use plugin's after_build
  * directly because plugin is not included when before validation (Since
  * cached form is used).
  */
@@ -211,6 +211,25 @@ function at_validation_field_widget_form_after_build($element, &$form_state) {
     $element = $function($element, $form_state);
   }
   return $element;
+}
+
+/**
+ * Implements hook_js_alter().
+ * 
+ * Set custom function for validation errors display.
+ */
+function at_validation_js_alter(&$javascript) {
+  foreach ($javascript['settings']['data'] as $k => $setting) {
+    if (!empty($setting['clientsideValidation']['forms'])) {
+      foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
+        $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
+        $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'my_test_func';
+      }
+      //$javascript['settings']['data'][$k] = $setting;
+      break;
+    }
+  }
+  
 }
 
 // =======================================================
