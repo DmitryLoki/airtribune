@@ -223,9 +223,9 @@ function at_validation_js_alter(&$javascript) {
     if (!empty($setting['clientsideValidation']['forms'])) {
       foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
         $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
-        $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'my_test_func';
+        $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'customErrorPlacement';
       }
-      //$javascript['settings']['data'][$k] = $setting;
+      $javascript['settings']['data'][$k] = $setting;
       break;
     }
   }
