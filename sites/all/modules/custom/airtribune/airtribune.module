@@ -23,11 +23,14 @@ define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
 define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
+define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
+define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
-
+define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
+define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -127,7 +130,6 @@ function airtrubune_format_username($account) {
       if (drupal_strlen($user_name) > 15) {
         $user_name = truncate_utf8($given, 12, TRUE, TRUE);
       }
-
     }
   }
 
@@ -139,7 +141,7 @@ function airtrubune_format_username($account) {
  */
 function airtrubune_get_country_code($langcode) {
   $country_codes = array(
-    'en' => 'us',
+    'en' => 'gb',
     'ja' => 'jp',
     'pt-br' => 'br',
     'fa' => 'pr',
@@ -157,6 +159,8 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
+
+  // Add 'view more' links to panes.
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
     $vars['more'] = l(
       $vars['pane']->configuration['more']['title'],
@@ -164,15 +168,16 @@ function airtribune_preprocess_panels_pane(&$vars) {
       array('fragment' => $vars['pane']->configuration['more']['fragment'])
     );
   }
+  // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
     $vars['pane_prefix'] = '<a name="' . $vars['pane']->configuration['anchor'] . '"></a>';
   }
-  
+
   if (isset($vars['pane']->configuration['map'])) {
     $map = $vars['pane']->configuration['map'];
 
     $vars['title'] .= '<span class="event-map-toggle-pane">' . t('Hide') . '</span>';
-    $vars['title'] .= '<span class="event-map-enable-' . $map . '">' . t('Enable') . '</span>';
+    $vars['title'] .= '<span class="event-map-enable event-map-enable-' . $map . '">' . t('Enable') . '</span>';
     $vars['classes_array'][] = 'event-map-pane';
 
     if ($map == 'accommodations' && user_access('create accommodation content')) {
@@ -185,7 +190,28 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   // Add link to create event page to next events pane
   if ($vars['pane']->subtype == 'next_events-sidebar_pane') {
-      $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+    $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+  }
+
+  // Add links to switch view of pilots list
+  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE) {
+    $pilots_links[] = array(
+      'title' => 'Group by status',
+      'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
+      'class' => 'by-status' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
+    );
+    $pilots_links[] = array(
+      'title' => 'Group by country',
+      'link' => url('event/' . $vars['display']->args[0] . '/pilots/country'),
+      'class' => 'by-country' . (($vars['pane']->subtype == 'paragliding_pilots_list-fai') ? ' active' : ''),
+    );
+
+    $content = '<div class="switch-pilots-view">';
+    foreach ($pilots_links as $pilots_link) {
+      $content .= '<a href="' . $pilots_link['link'] . '" class="' . $pilots_link['class'] . '">' . t($pilots_link['title']) . '</a>';
+    }
+    $content .= '</div>';
+    $vars['pane_prefix'] .= $content;
   }
 }
 
@@ -241,4 +267,31 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
     'teams' => t('Teams'),
   );
   return $category ? $categories[$category] : $categories;
+}
+
+/**
+ * Great-circle distance.
+ */
+function airtribune_calculate_distance($p1, $p2) {
+
+  $earth_radius = 6372795;
+
+  $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
+  $p2 = array($p2[1] * M_PI / 180, $p2[0] * M_PI / 180);
+
+  $cl1 = cos($p1[0]);
+  $cl2 = cos($p2[0]);
+  $sl1 = sin($p1[0]);
+  $sl2 = sin($p2[0]);
+  $delta = $p2[1] - $p1[1];
+  $cdelta = cos($delta);
+  $sdelta = sin($delta);
+
+  $y = sqrt(pow($cl2 * $sdelta, 2) + pow($cl1 * $sl2 - $sl1 * $cl2 * $cdelta, 2));
+  $x = $sl1 * $sl2 + $cl1 * $cl2 * $cdelta;
+
+  $ad = atan2($y, $x);
+  $dist = $ad * $earth_radius;
+
+  return $dist;
 }

@@ -14,6 +14,7 @@ features[page_manager_handlers][] = node_view_http_response
 features[page_manager_pages][] = event_add
 features[page_manager_pages][] = event_blog
 features[page_manager_pages][] = event_info
+features[page_manager_pages][] = event_item
 features[page_manager_pages][] = event_map
 features[page_manager_pages][] = event_pilots
 features[page_manager_pages][] = event_sponsors

@@ -8,8 +8,10 @@ Drupal.behaviors.airtribune2 = {
     .attr('href', '')
     .click(function(){return false;})
 
-    $('.event-map-toggle-pane').click(function(){
-      $(this).parent('h2').next().toggle();
+    $('.event-map-toggle-pane').once(function(){
+      $(this).click(function(){
+        $(this).toggleClass('event-map-toggle-pane-active').parent('h2').next().toggle();
+      })
 
     })
 

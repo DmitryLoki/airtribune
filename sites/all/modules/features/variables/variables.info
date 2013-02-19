@@ -122,6 +122,7 @@ features[variable][] = sync_pg_enabled_ent_point_waypoint
 features[variable][] = sync_pg_fields_ent_point_waypoint
 features[variable][] = sync_postgis_transform_indexes
 features[variable][] = tabs__active_tab
+features[variable][] = tabtamer_tab_settings
 features[variable][] = theme_default
 features[variable][] = title_auto_attach
 features[variable][] = translation_language_type

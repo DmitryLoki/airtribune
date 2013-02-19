@@ -36,6 +36,10 @@ function ulogin_token_info() {
       'name' => t('Identity'),
       'description' => t('Identity') . ' ' . t('provided by uLogin.'),
     ),
+    'photo_processed' => array(
+      'name' => t('Checked photo'),
+      'description' => t('Big photo by default. If big photo is not available - then photo.'),
+    ),
   );
   
   foreach (_ulogin_fields_list() as $key => $value) {
@@ -67,7 +71,24 @@ function ulogin_tokens($type, $tokens, array $data = array(), array $options = a
   
   if ($type == 'ulogin' && !empty($data['ulogin'])) {
     foreach ($tokens as $name => $original) {
-      $replacements[$original] = $sanitize ? check_plain($data['ulogin'][$name]) : $data['ulogin'][$name];
+      if ($name == 'photo_processed') { //computed token
+        $photo_url = '';
+        if (isset($data['ulogin']['photo_big']) && $data['ulogin']['photo_big'] != 'http://ulogin.ru/img/photo_big.png') {
+          $photo_url = $data['ulogin']['photo_big'];
+        }
+        elseif (isset($data['ulogin']['photo']) && $data['ulogin']['photo'] != 'http://ulogin.ru/img/photo.png') {
+          $photo_url = $data['ulogin']['photo'];
+        }
+        $replacements[$original] = $sanitize ? check_plain($photo_url) : $photo_url;
+      }
+      else {
+        if (isset($data['ulogin'][$name])) {
+          $replacements[$original] = $sanitize ? check_plain($data['ulogin'][$name]) : $data['ulogin'][$name];
+        }
+        else {
+          $replacements[$original] = '';
+        }
+      }
     }
   }
   

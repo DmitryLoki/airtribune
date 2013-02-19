@@ -9,9 +9,9 @@ dependencies[] = path_breadcrumbs
 dependencies[] = i18n_string
 dependencies[] = i18n
 
-; Information added by drupal.org packaging script on 2013-01-15
+; Information added by drupal.org packaging script on 2013-01-29
 version = "7.x-3.x-dev"
 core = "7.x"
 project = "path_breadcrumbs"
-datestamp = "1358256394"
+datestamp = "1359423311"
 

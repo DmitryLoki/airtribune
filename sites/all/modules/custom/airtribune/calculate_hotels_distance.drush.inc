@@ -64,18 +64,19 @@ function drush_calculate_hotels_distance($nid) {
   $result = $query->execute();
 
   $title_maxlength = 10;
+  $rows = array();
   foreach ($result as $index => $record) {
     $location = array($record->field_location_lon, $record->field_location_lat);
     $distance = airtribune_calculate_distance($hq_location, $location) / 1000;
     if (!$limit || $limit > $distance) {
-      $record->distance = str_pad(number_format($distance, 2), 9, ' ', STR_PAD_LEFT);
+      $record->distance = str_pad(number_format($distance, 3), 9, ' ', STR_PAD_LEFT);
       $rows[] = (array) $record;
       $distances[$index] = $record->distance;
       $title_length = drupal_strlen($record->title);
       $title_maxlength = $title_length > $title_maxlength ? $title_length : $title_maxlength;
     }
   }
-
+  $total = count($rows);
   if ($rows) {
     $header[] = array('Id', 'Title', 'Latitude', 'Longitude', 'Distance');
     $header[] = array(
@@ -83,7 +84,7 @@ function drush_calculate_hotels_distance($nid) {
       str_repeat('-', $title_maxlength),
       '---------------',
       '---------------',
-      '---------',
+      '----------',
     );
 
     array_multisort($distances, SORT_ASC, $rows);
@@ -91,33 +92,6 @@ function drush_calculate_hotels_distance($nid) {
     drush_print_table($rows, TRUE);
   }
 
-  drush_log('Found hotels: ' . count($rows), 'status');
+  drush_log('Found hotels: ' . $total , 'status');
   drush_log('Execution time: ' . timer_read(__FUNCTION__) . ' ms', 'status');
-}
-
-/**
- * Great-circle distance.
- */
-function airtribune_calculate_distance($p1, $p2) {
-
-  $earth_radius = 6372795;
-
-  $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
-  $p2 = array($p2[1] * M_PI / 180, $p2[0] * M_PI / 180);
-
-  $cl1 = cos($p1[0]);
-  $cl2 = cos($p2[0]);
-  $sl1 = sin($p1[0]);
-  $sl2 = sin($p2[0]);
-  $delta = $p2[1] - $p1[1];
-  $cdelta = cos($delta);
-  $sdelta = sin($delta);
-
-  $y = sqrt(pow($cl2 * $sdelta, 2) + pow($cl1 * $sl2 - $sl1 * $cl2 * $cdelta, 2));
-  $x = $sl1 * $sl2 + $cl1 * $cl2 * $cdelta;
-
-  $ad = atan2($y, $x);
-  $dist = $ad * $earth_radius;
-
-  return $dist;
 }

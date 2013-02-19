@@ -18,6 +18,7 @@ features[image][] = event_blog_teaser_sixth_extra
 features[image][] = event_blog_teaser_third
 features[image][] = header
 features[image][] = header_thumbnail
+features[image][] = hotel_preview
 features[image][] = node_image_first
 features[image][] = node_image_second
 features[image][] = node_image_third
