@@ -3409,3 +3409,5 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane td.views-field-title, 
 .event-map-pane td.views-field-body { text-align: left;}
 .event-map-pane .pane-inner { margin: 0;}
+
+#disqus_thread { padding-top: 35px;}
