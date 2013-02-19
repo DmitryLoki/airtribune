@@ -10,7 +10,7 @@ define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
 // See field field_pg_contestant_status allowed values list.
 define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
-define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'medium');
+define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
 
 // Fields.
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
@@ -121,9 +121,16 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
       foreach ($items as $item) {
         $images[] = theme('image_formatter', array('item' => $item, 'image_style' => AIRTRIBUNE_CAROUSEL_IMAGE_STYLE));
       };
+      $options = array(
+        'wrap' => 'circular',
+        'scroll' => 1,
+        //'visible' => 1,
+        'start' => 2,
+      );
 
-      $element[0]['#markup'] = theme('jcarousel', array('items' => $images, 'options' => array ('wrap' => 'circular')));
-      $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
+      $element[0]['#markup'] = theme('jcarousel', array('items' => $images, 'options' => $options));
+      //$element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
+      $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel-circular.js');
 
       break;
   }

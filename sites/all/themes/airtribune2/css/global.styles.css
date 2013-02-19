@@ -3200,13 +3200,19 @@ table tr td.:first-child { border-left: none;}
 /* page-event-map-activity-accommodation */
 .page-event-map-activity-accommodation .firstUnit .panel-pane .pane-inner { margin: 0;}
 .page-event-map-activity-accommodation .firstUnit .panel-pane { font: 14px/20px Arial, Helvetica, sans-serif;}
-.page-event-map-activity-accommodation .firstUnit h2.pane-title { font: 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding-top: 14px;}
+.page-event-map-activity-accommodation .firstUnit h2.pane-title, .page-event-map-activity-accommodation .firstUnit h2, .page-event-map-activity-accommodation .firstUnit h1 { font: 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding-top: 14px;}
+.page-event-map-activity-accommodation .firstUnit .pane-node-title .pane-content, .page-event-map-activity-accommodation .firstUnit h1 { /*padding-bottom: 26px;*/ font-weight: bold;}
+.page-event-map-activity-accommodation .pane-node-content h2.pane-title  { display: none;}
 .page-event-map-activity-accommodation .firstUnit p { padding-top: 7px;}
 .pane-node-title .pane-content { font: bold 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding: 15px 0 20px; }
 .page-event-map-activity-accommodation .pane-hq-distance,
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-single,
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-double,
-.page-event-map-activity-accommodation .pane-node-field-hotel-wifi { float: left; color: #525d66; font: bold 16px/18px Arial, Helvetica, sans-serif; margin: 0 27px 16px 2px;}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi,
+.page-event-map-activity-accommodation .field-name-field-accommodation-price-single,
+.page-event-map-activity-accommodation .field-name-field-accommodation-price-double,
+.page-event-map-activity-accommodation .field-name-field-hotel-wifi { float: left; color: #525d66; font: bold 16px/18px Arial, Helvetica, sans-serif; margin: 0 27px 16px 2px;}
+.page-event-map-activity-accommodation .pane-hq-distance .pane-content { font-weight: bold; line-height: 18px; position: relative; z-index: 10; font-size: 16px}
 .page-event-map-activity-accommodation .pane-hq-distance .hq-distance,
 .page-event-map-activity-accommodation .field_buttons .field-items { display: inline-block; background: #40c2f3; padding: 1px 4px 3px; border: 1px solid #3cbbeb; vertical-align: middle; color: #ffffff; position: relative; margin:0 0 1px 2px;
 
@@ -3216,33 +3222,42 @@ table tr td.:first-child { border-left: none;}
 
 }
 .page-event-map-activity-accommodation .field_buttons .field-label { padding-top: 2px;}
-.page-event-map-activity-accommodation .pane-node-field-accommodation-price-single .field-items { background: #f3c740; border-color: #e8c041}
-.page-event-map-activity-accommodation .pane-node-field-accommodation-price-double .field-items { background: #f39d40; border-color: #e89841}
-.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items { background: #dae25e url(../images/wifi.png) no-repeat 6px 4px; border-color: #d0db5d; padding-left: 30px;}
-.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items .field-item { background: url(../images/wifi.png) no-repeat 0 -28px; width: 14px; height: 10px; margin: 5px 0 3px; display: block; overflow: hidden; text-indent: -9999px;
+.page-event-map-activity-accommodation .pane-node-field-accommodation-price-single .field-items,
+.page-event-map-activity-accommodation .field-name-field-accommodation-price-single .field-items { background: #f3c740; border-color: #e8c041}
+.page-event-map-activity-accommodation .pane-node-field-accommodation-price-double .field-items,
+.page-event-map-activity-accommodation .field-name-field-accommodation-price-double .field-items { background: #f39d40; border-color: #e89841}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items,
+.page-event-map-activity-accommodation .field-name-field-hotel-wifi .field-items { background: #dae25e url(../images/wifi.png) no-repeat 6px 4px; border-color: #d0db5d; padding-left: 30px;}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items .field-item,
+.page-event-map-activity-accommodation .field-name-field-hotel-wifi .field-items .field-item { background: url(../images/wifi.png) no-repeat 0 -28px; width: 14px; height: 10px; margin: 5px 0 3px; display: block; overflow: hidden; text-indent: -9999px;
 }
-.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field_wifi_no .field-items { background-color: #f36e3f; border-color: #f3613f;}
-.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field_wifi_no .field-items .field-item { background-position: 0 -53px}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field_wifi_no .field-items,
+.page-event-map-activity-accommodation .field_wifi_no .field-items { background-color: #f36e3f; border-color: #f3613f;}
+.page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field_wifi_no .field-items .field-item,
+.page-event-map-activity-accommodation .field_wifi_no .field-items .field-item { background-position: 0 -53px}
 .page-event-map-activity-accommodation .pane-node-field-photo,
-.page-event-map-activity-accommodation .pane-photos-carousel-accommodation { clear: both; border-top: 1px dashed #f0f3f4; padding: 30px 6px 16px; margin: 0 -6px;}
+.page-event-map-activity-accommodation .field-name-field-photo { clear: both; border-top: 1px dashed #f0f3f4; padding: 30px 6px 12px; margin: 0 -6px;}
 .page-event-map-activity-accommodation .pane-node-field-photo .field-item { float: left; padding: 0 0 2px 2px;}
 .page-event-map-activity-accommodation .pane-node-field-photo .field-type-image { margin: 0;}
 .page-event-map-activity-accommodation .pane-node-field-photo .field-item img { vertical-align: middle;}
 .page-event-map-activity-accommodation .pane-node-field-address h2.pane-title { padding-bottom: 7px;}
+.page-event-map-activity-accommodation .field_title { clear: both;}
 .page-event-map-activity-accommodation .fields_contacts .field-label { color: #333a40}
+.page-event-map-activity-accommodation .field-name-field-address { padding-top: 7px;}
 
-.pane-photos-carousel-accommodation {}
-.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 310px; overflow: hidden;}
-.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 127px;}
-.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-item { width: 466px !important; height: 310px; border: none; margin: 0 1px;}
-.pane-photos-carousel-accommodation .jcarousel-prev, .pane-photos-carousel-accommodation .jcarousel-next { width: 126px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
-.pane-photos-carousel-accommodation .jcarousel-prev { left: 0;}
-.pane-photos-carousel-accommodation .jcarousel-next { right: 0;}
-.pane-photos-carousel-accommodation .jcarousel-prev:focus, .pane-photos-carousel-accommodation .jcarousel-next:focus { outline: none;}
-.pane-photos-carousel-accommodation .jcarousel-prev:hover { background-position: 50% -480px}
-.pane-photos-carousel-accommodation .jcarousel-prev:active { background-position: 50% 140px}
-.pane-photos-carousel-accommodation .jcarousel-next:hover { background-position: 50% -790px}
-.pane-photos-carousel-accommodation .jcarousel-next:active { background-position: 50% -170px}
+.field-name-field-photo {}
+.field-name-field-photo .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 310px; overflow: hidden;}
+.field-name-field-photo .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 127px;}
+.field-name-field-photo .jcarousel-skin-default .jcarousel-item { width: 466px; height: 310px; border: none; margin: 0 1px;}
+.field-name-field-photo .jcarousel-skin-default .jcarousel-item img { width: 466px; height: 310px;}
+.field-name-field-photo .jcarousel-prev, .field-name-field-photo .jcarousel-next { width: 126px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
+.field-name-field-photo .jcarousel-prev { left: 0;}
+.field-name-field-photo .jcarousel-next { right: 0;}
+.field-name-field-photo .jcarousel-prev:focus, .field-name-field-photo .jcarousel-next:focus { outline: none;}
+.field-name-field-photo .jcarousel-prev:hover { background-position: 50% -480px}
+.field-name-field-photo .jcarousel-prev:active { background-position: 50% 140px}
+.field-name-field-photo .jcarousel-next:hover { background-position: 50% -790px}
+.field-name-field-photo .jcarousel-next:active { background-position: 50% -170px}
 
 	/* Footer */
 
