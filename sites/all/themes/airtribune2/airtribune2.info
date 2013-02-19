@@ -63,6 +63,7 @@
   ; ie_scripts[lte IE 8] = js/my-script.js
   scripts[] = js/airtribune2.js
   scripts[] = js/disqus_comments_count.js
+  scripts[] = js/event_map_features_toggle.js
   scripts[] = js/to_top.js
 
 
