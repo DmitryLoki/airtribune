@@ -1215,24 +1215,18 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Contextual filter: HQ Location */
-  $handler->display->display_options['arguments']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['arguments']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['arguments']['field_geofield_distance']['ui_name'] = 'HQ Location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_geofield_distance']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_geofield_distance']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_geofield_distance']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_geofield_distance']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['field_geofield_distance']['validate_options']['types'] = array(
-    'pg_contest' => 'pg_contest',
-  );
-  $handler->display->display_options['arguments']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
-  $handler->display->display_options['arguments']['field_geofield_distance']['distance'] = '100';
-  $handler->display->display_options['arguments']['field_geofield_distance']['unit'] = '6371';
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'geofield_entity';
+  $handler->display->display_options['arguments']['null']['validate_options']['geofield'] = 'field_hq_location';
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -1250,6 +1244,23 @@ function views_feature_views_default_views() {
     'accommodation' => 'accommodation',
     'activity' => 'activity',
   );
+  /* Filter criterion: Content: Location - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '2000',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
 
   /* Display: Pane */
   $handler = $view->new_display('panel_pane', 'Pane', 'event_map');
@@ -1260,14 +1271,25 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
-    'field_geofield_distance' => array(
+    'null' => array(
       'type' => 'user',
-      'context' => 'entity:node.nid',
+      'context' => 'airtribune_event.nid',
       'context_optional' => 0,
       'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Location - proximity',
+      'fixed' => '56',
+      'label' => 'Global: Null',
     ),
   );
 
@@ -1294,6 +1316,23 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
+  /* Filter criterion: Content: Location - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '2000',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
 
   /* Display: Overlay activities */
   $handler = $view->new_display('openlayers', 'Overlay activities', 'overlay_activities');
@@ -1318,6 +1357,23 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
   );
+  /* Filter criterion: Content: Location - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '2000',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
 
   /* Display: Overlay HQ */
   $handler = $view->new_display('openlayers', 'Overlay HQ', 'overlay_hq');
@@ -2010,16 +2066,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Sorry, no any entries were found.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Field: Featured header: Id */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['id']['field'] = 'id';
-  /* Field: Featured header: Title */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Slogan */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
@@ -2036,14 +2092,13 @@ function views_feature_views_default_views() {
     'image_style' => 'header_thumbnail',
     'image_link' => 'file',
   );
-  /* Field: Author link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['ui_name'] = 'Author link';
   $handler->display->display_options['fields']['field_header_author']['label'] = 'Author';
   $handler->display->display_options['fields']['field_header_author']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
   /* Field: Events from OG ref */
   $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
   $handler->display->display_options['fields']['og_group_ref']['table'] = 'og_membership';
@@ -2054,13 +2109,13 @@ function views_feature_views_default_views() {
     'link' => 1,
   );
   $handler->display->display_options['fields']['og_group_ref']['delta_offset'] = '0';
-  /* Field: Edit link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link';
   $handler->display->display_options['fields']['edit_link']['label'] = 'Operations';
-  /* Field: Delete link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
   $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
@@ -2094,12 +2149,10 @@ function views_feature_views_default_views() {
     t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
     t('Displaying @start - @end of @total'),
     t('Sorry, no any entries were found.'),
-    t('Id'),
-    t('.'),
-    t(','),
-    t('Title'),
-    t('Slogan'),
-    t('Image'),
+    t('Broken handler eck_ent_featured_header.id'),
+    t('Broken handler eck_ent_featured_header.title'),
+    t('Broken handler field_data_field_header_slogan.field_header_slogan'),
+    t('Header image'),
     t('Author'),
     t('Events'),
     t('Operations'),
@@ -2168,7 +2221,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartypenobg'] = 0;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
-  /* Field: Field: Image */
+  /* Field: Content: Header image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -2179,12 +2232,11 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Field: Featured header: Author link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
-  $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
 
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
@@ -2194,7 +2246,7 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Image */
+  /* Field: Content: Header image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -2205,13 +2257,12 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Field: Featured header: Author link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
-  $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
-  /* Field: Featured header: Slogan */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
@@ -2222,13 +2273,13 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Event header', 'event_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: OG membership from Featured header */
+  /* Relationship: Broken/missing handler */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Image */
+  /* Field: Content: Header image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -2239,12 +2290,11 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Field: Featured header: Author link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
-  $handler->display->display_options['fields']['field_header_author']['click_sort_column'] = 'url';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
@@ -2283,7 +2333,7 @@ function views_feature_views_default_views() {
     t('View panes'),
     t('Front page header'),
     t('Event header'),
-    t('OG membership from ent_featured_header'),
+    t('og_membership_rel'),
     t('All'),
   );
   $export['header_slideshow'] = $view;
