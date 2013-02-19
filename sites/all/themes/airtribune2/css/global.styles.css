@@ -3234,7 +3234,8 @@ table tr td.:first-child { border-left: none;}
 .pane-photos-carousel-accommodation {}
 .pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 310px; overflow: hidden;}
 .pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 127px;}
-.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-item { width: 466px !important; height: 310px; border: none; margin: 0 1px;}
+.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-item { width: 466px; height: 310px; border: none; margin: 0 1px;}
+.pane-photos-carousel-accommodation .jcarousel-skin-default .jcarousel-item img {height: 310px;}
 .pane-photos-carousel-accommodation .jcarousel-prev, .pane-photos-carousel-accommodation .jcarousel-next { width: 126px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
 .pane-photos-carousel-accommodation .jcarousel-prev { left: 0;}
 .pane-photos-carousel-accommodation .jcarousel-next { right: 0;}
