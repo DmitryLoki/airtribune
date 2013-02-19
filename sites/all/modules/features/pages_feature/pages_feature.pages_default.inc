@@ -1803,6 +1803,8 @@ function pages_feature_default_page_manager_pages() {
         'not' => FALSE,
       ),
     ),
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'tab',
