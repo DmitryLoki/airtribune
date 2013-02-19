@@ -764,6 +764,32 @@ function views_feature_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['override'] = FALSE;
+  /* Field: NID - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'NID - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Title - overriden */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title - overriden';
+  $handler->display->display_options['fields']['title']['label'] = 'Name';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Single price - overridden */
+  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
+  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Currency - excluded */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
@@ -772,21 +798,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_currency']['label'] = '';
   $handler->display->display_options['fields']['field_price_currency']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_price_currency']['element_label_colon'] = FALSE;
-  /* Field: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
-  $handler->display->display_options['fields']['title']['label'] = 'Name';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Single price - overridden */
-  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
-  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Double price - overridden */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
@@ -987,14 +998,25 @@ function views_feature_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['override'] = FALSE;
-  /* Field: Title */
+  /* Field: NID - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'NID - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Title - overriden */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title - overriden';
   $handler->display->display_options['fields']['title']['label'] = 'Name';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
@@ -1155,16 +1177,26 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['id'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['field'] = 'reverse_field_headquarter_hotel_node';
-  /* Field: Title */
+  /* Field: Node ID - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Node ID - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Title - overrided */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title - overrided';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Location */
   $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
   $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
@@ -1292,6 +1324,45 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Node ID - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Node ID - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Title - overriden */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title - overriden';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Location */
+  $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
+  $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
+  $handler->display->display_options['fields']['field_location']['field'] = 'field_location';
+  $handler->display->display_options['fields']['field_location']['ui_name'] = 'Location';
+  $handler->display->display_options['fields']['field_location']['label'] = '';
+  $handler->display->display_options['fields']['field_location']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_location']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_location']['settings'] = array(
+    'data' => 'full',
+  );
+  /* Field: Description */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
