@@ -48,21 +48,22 @@ function main_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'All',
+    'label' => 'Personal',
     'weight' => '0',
     'children' => array(
       0 => 'field_gender',
-      1 => 'field_birthdate',
-      2 => 'field_full_name',
+      1 => 'field_full_name',
+      2 => 'field_birthdate',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Personal',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'collapsible',
     ),
   );
   $export['group_all|profile2|main|form'] = $field_group;

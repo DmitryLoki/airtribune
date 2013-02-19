@@ -129,6 +129,7 @@ dependencies[] = trackerset
 dependencies[] = transliteration
 dependencies[] = tzfield
 dependencies[] = ulogin
+dependencies[] = user_picture_field
 dependencies[] = user_registrationpassword
 dependencies[] = validation
 dependencies[] = variable
