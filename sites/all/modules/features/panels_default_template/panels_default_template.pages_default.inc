@@ -216,7 +216,6 @@ function panels_default_template_default_page_manager_handlers() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'accommodation' => 'accommodation',
               'advert' => 'advert',
               'newsblog' => 'newsblog',
               'pg_contest' => 'pg_contest',

@@ -1872,6 +1872,29 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-42';
     $pane->panel = 'middle';
+    $pane->type = 'node_title';
+    $pane->subtype = 'node_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'link' => 0,
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-42'] = $pane;
+    $display->panels['middle'][0] = 'new-42';
+    $pane = new stdClass();
+    $pane->pid = 'new-43';
+    $pane->panel = 'middle';
     $pane->type = 'hq_distance';
     $pane->subtype = 'hq_distance';
     $pane->shown = TRUE;
@@ -1887,12 +1910,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['middle'][0] = 'new-42';
+    $display->content['new-43'] = $pane;
+    $display->panels['middle'][1] = 'new-43';
     $pane = new stdClass();
-    $pane->pid = 'new-43';
+    $pane->pid = 'new-44';
     $pane->panel = 'middle';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
@@ -1901,8 +1924,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'links' => 1,
       'no_extras' => 1,
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
       'identifier' => '',
       'link' => 1,
       'leave_node_title' => 0,
@@ -1915,10 +1938,10 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-43'] = $pane;
-    $display->panels['middle'][1] = 'new-43';
+    $display->content['new-44'] = $pane;
+    $display->panels['middle'][2] = 'new-44';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1998,7 +2021,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-44';
+    $pane->pid = 'new-45';
     $pane->panel = 'one_main';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_accommodations-panel_event_map_pane';
@@ -2015,10 +2038,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-44'] = $pane;
-    $display->panels['one_main'][0] = 'new-44';
+    $display->content['new-45'] = $pane;
+    $display->panels['one_main'][0] = 'new-45';
     $pane = new stdClass();
-    $pane->pid = 'new-45';
+    $pane->pid = 'new-46';
     $pane->panel = 'one_main';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_activities-panel_event_map_pane';
@@ -2035,8 +2058,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-45'] = $pane;
-    $display->panels['one_main'][1] = 'new-45';
+    $display->content['new-46'] = $pane;
+    $display->panels['one_main'][1] = 'new-46';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2129,7 +2152,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-46';
+    $pane->pid = 'new-47';
     $pane->panel = 'one_main';
     $pane->type = 'node';
     $pane->subtype = 'node';
@@ -2153,8 +2176,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-46'] = $pane;
-    $display->panels['one_main'][0] = 'new-46';
+    $display->content['new-47'] = $pane;
+    $display->panels['one_main'][0] = 'new-47';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2235,7 +2258,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-47';
+    $pane->pid = 'new-48';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -2268,10 +2291,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-47'] = $pane;
-    $display->panels['middle'][0] = 'new-47';
+    $display->content['new-48'] = $pane;
+    $display->panels['middle'][0] = 'new-48';
     $pane = new stdClass();
-    $pane->pid = 'new-48';
+    $pane->pid = 'new-49';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -2304,8 +2327,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-48'] = $pane;
-    $display->panels['middle'][1] = 'new-48';
+    $display->content['new-49'] = $pane;
+    $display->panels['middle'][1] = 'new-49';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2386,7 +2409,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-49';
+    $pane->pid = 'new-50';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -2419,10 +2442,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-49'] = $pane;
-    $display->panels['middle'][0] = 'new-49';
+    $display->content['new-50'] = $pane;
+    $display->panels['middle'][0] = 'new-50';
     $pane = new stdClass();
-    $pane->pid = 'new-50';
+    $pane->pid = 'new-51';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -2455,8 +2478,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-50'] = $pane;
-    $display->panels['middle'][1] = 'new-50';
+    $display->content['new-51'] = $pane;
+    $display->panels['middle'][1] = 'new-51';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2554,7 +2577,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-51';
+    $pane->pid = 'new-52';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -2573,8 +2596,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-51'] = $pane;
-    $display->panels['middle'][0] = 'new-51';
+    $display->content['new-52'] = $pane;
+    $display->panels['middle'][0] = 'new-52';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
