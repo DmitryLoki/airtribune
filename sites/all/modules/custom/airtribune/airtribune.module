@@ -10,6 +10,7 @@ define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
 // See field field_pg_contestant_status allowed values list.
 define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
+define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'medium');
 
 // Fields.
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
@@ -71,35 +72,66 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
+    'airtribune_carousel' => array(
+      'label' => t('Carousel'),
+      'field types' => array('image'),
+
+    ),
   );
 }
 
 /**
  * Implements hook_field_formatter_view().
  *
- * @see #23667
+ * @see #2367
+ * @see #2732
  */
 function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  foreach ($items as $delta => $item) {
-    $date1 = getdate($ts1 = strtotime($item['value']));
-    $date2 = getdate($ts2 = strtotime($item['value2']));
 
-    // 23 Dec, 2012 — 5 Jan, 2013
-    if ($date1['year'] != $date2['year']) {
-      $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
-    }
-    // 28 Aug — 3 Sep, 2012
-    elseif ($date1['mon'] != $date2['mon']) {
-      $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
-    }
-    // 24 — 26 Aug, 2012
-    else {
-      $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
-    }
-    $element[$delta] = array('#markup' => $dates);
+  if (!$items) {
+    return;
   }
+  switch ($display['type']) {
+
+    case 'adapitve_dates':
+
+      foreach ($items as $delta => $item) {
+        $date1 = getdate($ts1 = strtotime($item['value']));
+        $date2 = getdate($ts2 = strtotime($item['value2']));
+
+        // 23 Dec, 2012 — 5 Jan, 2013
+        if ($date1['year'] != $date2['year']) {
+          $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
+        }
+        // 28 Aug — 3 Sep, 2012
+        elseif ($date1['mon'] != $date2['mon']) {
+          $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
+        }
+        // 24 — 26 Aug, 2012
+        else {
+          $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
+        }
+        $element[$delta] = array('#markup' => $dates);
+      }
+
+      break;
+
+    case 'airtribune_carousel':
+
+      foreach ($items as $item) {
+        $images[] = theme('image_formatter', array('item' => $item, 'image_style' => AIRTRIBUNE_CAROUSEL_IMAGE_STYLE));
+      };
+
+      $element[0]['#markup'] = theme('jcarousel', array('items' => $images, 'options' => array ('wrap' => 'circular')));
+      $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
+
+      break;
+  }
+
   return $element;
 }
+
+
 
 /**
  * Format user name.

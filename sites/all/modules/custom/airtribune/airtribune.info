@@ -8,6 +8,7 @@ files[] = translation.handler.inc
 dependencies[] = profile2
 dependencies[] = field_collection
 dependencies[] = name
+dependencies[] = jcarousel
 
 ; Airtrubune user plugin requirements.
 dependencies[] = locale

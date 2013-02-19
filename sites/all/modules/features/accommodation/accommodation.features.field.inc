@@ -1030,12 +1030,9 @@ function accommodation_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => 'thumbnail',
-          ),
-          'type' => 'image',
+          'module' => 'airtribune',
+          'settings' => array(),
+          'type' => 'airtribune_carousel',
           'weight' => '3',
         ),
         'event_blog_teaser' => array(
