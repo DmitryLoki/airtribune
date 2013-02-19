@@ -4,6 +4,7 @@ core = 7.x
 package = Content types
 php = 5.2.4
 dependencies[] = addressfield
+dependencies[] = airtribune
 dependencies[] = cck_phone
 dependencies[] = ctools
 dependencies[] = double_field
