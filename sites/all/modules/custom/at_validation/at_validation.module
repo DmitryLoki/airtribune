@@ -76,8 +76,9 @@ function _at_validation_ajax() {
     $plugin = at_validation_field_plugin($field_type, $widget_type);
     if (!empty($plugin)) {
       // Add Ajax validator to the widget.
+      // And filter errors if needed. See name__name_widget.inc
       $function = $plugin['selector'];
-      $selector = $function($element, $triggering_element);
+      $selector = $function($element, $triggering_element, $errors);
     }
   }
 

@@ -14,7 +14,7 @@ function at_validation_validator__datetime__date_select(&$element, &$form_state,
   );
 }
 
-function at_validation_validator__datetime__date_select_id($element, $triggering_element) {
+function at_validation_validator__datetime__date_select_id($element, $triggering_element, $errors) {
   $selector = '#' . $element['#id'] . '-value';
   return $selector;
 }
