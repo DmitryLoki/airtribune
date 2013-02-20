@@ -27,6 +27,13 @@ function user_feature_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'user_default_timezone';
+  $strongarm->value = '0';
+  $export['user_default_timezone'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_email_verification';
   $strongarm->value = 0;
   $export['user_email_verification'] = $strongarm;
@@ -164,6 +171,32 @@ Thank you for registering at [site:name]. Your application for an account is cur
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+
+Your email is confirmed and registration is completed.
+
+Happy landings!
+Airtribune team';
+  $export['user_mail_status_activated_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_notify';
+  $strongarm->value = 1;
+  $export['user_mail_status_activated_notify'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_subject';
+  $strongarm->value = 'Account details for [user:name] at [site:name]';
+  $export['user_mail_status_activated_subject'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_status_blocked_body';
   $strongarm->value = '[user:name],
 
@@ -214,6 +247,20 @@ Your account on [site:name] has been canceled.
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_default';
+  $strongarm->value = 'sites/all/resources/default-user-picture.png';
+  $export['user_picture_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_dimensions';
+  $strongarm->value = '150x150';
+  $export['user_picture_dimensions'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_field_source_bundle';
   $strongarm->value = '';
   $export['user_picture_field_source_bundle'] = $strongarm;
@@ -231,6 +278,72 @@ Your account on [site:name] has been canceled.
   $strongarm->name = 'user_picture_field_source_field';
   $strongarm->value = 'field_user_avatar';
   $export['user_picture_field_source_field'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_file_size';
+  $strongarm->value = '200';
+  $export['user_picture_file_size'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_guidelines';
+  $strongarm->value = '';
+  $export['user_picture_guidelines'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_path';
+  $strongarm->value = 'pictures';
+  $export['user_picture_path'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_picture_style';
+  $strongarm->value = 'user_pirctue_mini';
+  $export['user_picture_style'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_pictures';
+  $strongarm->value = 1;
+  $export['user_pictures'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_register';
+  $strongarm->value = '1';
+  $export['user_register'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_registrationpassword_register_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+
+Thank you for signing up for Airtribune.com
+There\'s just one more step, click on this link to verify your email address:
+
+[user:registrationpassword-url]
+
+After logging in you will be redirected to the main page and may start using the service immediately.
+
+Happy landings!
+Airtribune team';
+  $export['user_registrationpassword_register_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_registrationpassword_register_subject';
+  $strongarm->value = 'Account details for [user:name] at [site:name]';
+  $export['user_registrationpassword_register_subject'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
