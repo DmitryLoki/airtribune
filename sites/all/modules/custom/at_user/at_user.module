@@ -22,7 +22,33 @@ function at_user_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%/pilot'] = array(
+    'title' => 'Edit Pilot',
+    'page callback' => 'at_user_redirect_to_pilot',
+    'page arguments' => array(1),
+    'access callback' => 'user_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['profile-pilot/%user/user'] = array(
+    'title' => 'Edit user',
+    'page callback' => 'at_user_redirect_to_user',
+    'page arguments' => array(1),
+    'access callback' => 'user_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
+}
+
+function at_user_redirect_to_pilot($nid) {
+  drupal_goto('profile-pilot/' . arg(1) . '/edit');
+}
+
+function at_user_redirect_to_user($nid) {
+  drupal_goto('user/' . arg(1) . '/edit');
 }
 
 function at_user_is_email_exists($mail) {
