@@ -45,6 +45,11 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'page-event-map-activity-accommodation';
     }
   }
+  if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
+    $vars['classes_array'][] = 'page-user';
+  }
+  //print arg(2);
+  //print_r($vars)
   //dsm($vars);
 }
 
@@ -454,6 +459,15 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
           $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
           $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
        }
+       // Email
+      $form['account']['mail']['#title'] = t('Email');
+      $form['account']['mail']['#description'] = t('This will be your login.');
+      $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
+
+
+      $form['account']['pass']['pass1']['#attributes']['rel'] = t('Enter your password');
+      $form['account']['pass']['pass1']['#description'] = t('Minimum 6 characters.');
+      $form['account']['pass']['pass2']['#attributes']['rel'] = t('Repeat your password');
     break;
 
       case 'user_login':
@@ -465,6 +479,9 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['ulogin']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
         //print_r($form);
+    break;
+      case 'multiform':
+        print_r($form);
     break;
   }
 }
@@ -1117,6 +1134,10 @@ function airtribune2_theme() {
     'contest_registration_multiform' => array(
       'render element' => 'form',
       'template' => 'templates/contest-registration-multiform',
+    ),
+    'og_ui_confirm_subscribe' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration',
     ),
   );
 }

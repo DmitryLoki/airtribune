@@ -1,4 +1,15 @@
 jQuery(function($){
+	/*Drupal.behaviors.forms_action = {
+		attach: function (context) {
+
+  			// Temporary disable these menu items,
+  			$('.pane-page-content form .select .items_inner').once(function(){
+  				alert(1)
+  				$(this).forms({disableChoiceOfFirstItemInSelection:true});
+  			});
+    	}
+  	}*/
+
 	$('.pane-page-content form input, .pane-page-content form select').forms({disableChoiceOfFirstItemInSelection:true});
 	$('.pane-page-content form .select .items_inner').each(function(){
 		$(this).parent().show();
@@ -13,6 +24,12 @@ jQuery(function($){
 		$(this).parents('.form-wrapper, .form-item').css({'z-index':select_z_index, 'position':'relative'})
 		select_z_index --;
 	});
+
+	$('.reg_choice .form_show').click(function(){
+		$('#event_register').show();
+		$(this).parent().hide();
+		return false;
+	})
 	
 	//$('.pane-content form').each(function(){
 		/*var formObj = {};
