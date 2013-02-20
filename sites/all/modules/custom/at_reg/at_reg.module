@@ -276,6 +276,7 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
           // Hide crossfields and set their values based on base fields.
           $form['#after_build'][] = 'at_reg_authorized_form_after_build';
         }
+        $form['#theme'] = 'og_ui_confirm_subscribe';
       }
       break;
     
