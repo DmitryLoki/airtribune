@@ -1143,9 +1143,8 @@ function accommodation_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => '9',
         ),
         'event_blog_teaser' => array(
@@ -1218,9 +1217,8 @@ function accommodation_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '11',
         ),
         'event_blog_teaser' => array(
@@ -1296,9 +1294,8 @@ function accommodation_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '10',
         ),
         'event_blog_teaser' => array(
