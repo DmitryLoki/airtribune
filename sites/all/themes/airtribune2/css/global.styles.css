@@ -3016,6 +3016,7 @@ p { margin:0; padding:9px 0 11px}
   -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
 
 }
+html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 11px; width:220px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
 .page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
@@ -3049,11 +3050,14 @@ p { margin:0; padding:9px 0 11px}
 .page-user .pane-page-content form .field_good input.form-text { border:2px solid #ffc446; margin:0;}
 .page-user .pane-page-content form .field_excellent input.form-text { border:2px solid #95da3a; margin:0;}
 .page-user .pane-page-content form .form-item-pass-pass2 { margin-top:6px; padding-bottom:0}
-.page-user .pane-page-content form .form-item-pass .password-strength { margin:0; width:auto; float:none; /*border:2px solid #95db3a;*/ }
+.page-user .pane-page-content form .form-item-pass .password-strength,
+.page-user .pane-page-content form .form-type-password-confirm .password-strength { margin:0; width:auto; float:none; /*border:2px solid #95db3a;*/ }
 .page-user .pane-page-content form .form-item-pass .password-strength .password-strength-text { }
 
 .page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:38px}
-.page-user .pane-page-content form .form-actions input, .events-add a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
+.page-user .pane-page-content form .form-actions input, 
+.events-add a,
+.page-user .pane-page-content form .reg_choice a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -3069,7 +3073,7 @@ p { margin:0; padding:9px 0 11px}
   
 }
 
-.page-user .pane-page-content form .form-actions input:hover, .events-add a:hover {border-color:#ecd767;
+.page-user .pane-page-content form .form-actions input:hover, .events-add a:hover, .page-user .pane-page-content form .reg_choice a:hover {border-color:#ecd767;
 
   background:#e4c25e;
   background: -moz-linear-gradient(top, #e4c25e 0%, #d8a92d 100%); 
@@ -3081,7 +3085,7 @@ p { margin:0; padding:9px 0 11px}
   
 }
 
-.page-user .pane-page-content form .form-actions input:active, .events-add a:active { border-color:#d5a722;
+.page-user .pane-page-content form .form-actions input:active, .events-add a:active, .page-user .pane-page-content form .reg_choice a:active { border-color:#d5a722;
   background:#d3b246;
   background: -moz-linear-gradient(top, #d3b246 0%, #ca9f22 100%); 
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3b246), color-stop(100%,#ca9f22));
@@ -3090,6 +3094,11 @@ p { margin:0; padding:9px 0 11px}
   -moz-box-shadow: 0 1px 4px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,.5), inset 0 0 2px #d5a722;            
   -webkit-box-shadow: 0 1px 4px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,.5), inset 0 0 2px #d5a722;
 }
+
+.page-user .pane-page-content form .reg_choice { text-align: center;}
+.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 56px; line-height: 20px; padding-top: 12px; overflow: hidden; vertical-align: top;}
+.page-user .pane-page-content form .reg_choice a.form_show { padding-top: 2px; height: 66px;}
+#event_register { display: none;}
 
 .page-user .pane-page-content form .form-actions input.disabled, .page-user .pane-page-content form .form-actions input.disabled:hover, .page-user .pane-page-content form .form-actions input.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
 
@@ -3102,6 +3111,8 @@ p { margin:0; padding:9px 0 11px}
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbebc2), color-stop(100%,#f1dba8)); 
 
 }
+
+.page-event-register.page-user .pane-page-content form .form-actions input { width: 240px; text-align: center;}
 
 .page-user #user-login .form-actions { float: left;}
 .page-user #user-login .form-type-ulogin-widget { float: left; margin: 38px 0 0 8px}
@@ -3140,6 +3151,14 @@ p { margin:0; padding:9px 0 11px}
 
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
+
+.page-user .pane-page-content form .field-name-field-address .select,
+.page-user .pane-page-content form .form-type-phone-number .select,
+.page-user .pane-page-content form .field-name-field-t-shirt-size .select,
+.page-user .pane-page-content form .field-name-field-blood-type .select { width: 243px;}
+.page-user .pane-page-content form .field-name-field-address legend { display: none;}
+.page-user .pane-page-content form .form-phone-number { width: 243px; display: inline-block;}
+
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
 .inline_login_errors a { color: #00aeef; font: 14px/16px Arial, Helvetica, sans-serif;}
@@ -3322,6 +3341,7 @@ table tr td.:first-child { border-left: none;}
 .page-user .featured-header-title,
 .page-events .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
 .page-events .featured-header-title, .page-event-map .featured-header-title { background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5);}
+.page-user.page-event-register .featured-header-title .pane-airtribune-event-title { padding: 16px 20px 19px;}
 .logo_in_title .featured-header-title h1,
 .page-node-5362 .featured-header-title h1,
 .page-user .featured-header-title h1,
