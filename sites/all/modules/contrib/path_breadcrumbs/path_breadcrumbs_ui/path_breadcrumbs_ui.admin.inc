@@ -175,6 +175,43 @@ function path_breadcrumbs_ui_settings($form, $form_state) {
     '#description' => t("If this value checked module will replace system or theme breadcrumb render function by module's one.<br/>Note that if this checkbox is unchecked module will not be able to implement settings above.")
   );
 
+  // Cache settings.
+  $form['path_breadcrumbs_cache'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Performance settings'),
+  );
+
+  $form['path_breadcrumbs_cache']['path_breadcrumbs_cache_enabled'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable cache for the breadcrumbs'),
+    '#description' => t("Enables caching of breadcrumb's navigations. Use only on production sites."),
+    '#default_value' => variable_get('path_breadcrumbs_cache_enabled', FALSE),
+  );
+
+  $form['path_breadcrumbs_cache']['path_breadcrumbs_cache_lifetime'] = array(
+    '#type' => 'select',
+    '#title' => t('Cache lifetime'),
+    '#options' => array(
+      CACHE_PERMANENT => t('Permanent'),
+      CACHE_TEMPORARY => t('Temporary'),
+      60 * 5 => t('@amount minutes', array('@amount' => 5)),
+      60 * 15 => t('@amount minutes', array('@amount' => 15)),
+      60 * 30 => t('@amount minutes', array('@amount' => 30)),
+      60 * 60 => t('@amount minutes', array('@amount' => 60)),
+      60 * 60 * 2 => t('@amount hours', array('@amount' => 2)),
+      60 * 60 * 4 => t('@amount hours', array('@amount' => 4)),
+      60 * 60 * 8 => t('@amount hours', array('@amount' => 8)),
+      60 * 60 * 12 => t('@amount hours', array('@amount' => 12)),
+      60 * 60 * 24 => t('@amount hours', array('@amount' => 24)),
+      60 * 60 * 24 * 3 => t('@amount days', array('@amount' => 3)),
+      60 * 60 * 24 * 7 => t('@amount days', array('@amount' => 7)),
+    ),
+    '#description' => t('You can read more information about cache settings <a href="@url">here</a>.', array(
+      '@url' => url('http://api.drupal.org/api/drupal/includes!cache.inc/function/cache_set/7', array('external' => TRUE)),
+    )),
+    '#default_value' => variable_get('path_breadcrumbs_cache_lifetime', CACHE_PERMANENT),
+  );
+
   $form['path_breadcrumbs_home_link'] = array(
     '#type' => 'fieldset',
     '#title' => t('Home link settings'),

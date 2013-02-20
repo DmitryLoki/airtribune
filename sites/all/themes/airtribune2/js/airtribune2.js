@@ -7,6 +7,16 @@ Drupal.behaviors.airtribune2 = {
     .attr('title', 'Under construction')
     .attr('href', '')
     .click(function(){return false;})
+
+    $('.event-map-toggle-pane').once(function(){
+      $(this).click(function(){
+        $(this).toggleClass('event-map-toggle-pane-active').parent('h2').next().toggle();
+      })
+
+    })
+
+
   }
+
 }
 })(jQuery);

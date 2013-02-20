@@ -182,6 +182,23 @@
   -webkit-box-shadow: 0 1px 4px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,.5), inset 0 0 2px #d5a722;
 }
 
+.ulogin-icon-facebook { position:relative; height:30px; border:1px solid #7f8893; font-size:14px; color:#f2f2f2; text-shadow:0 1px 1px rgba(255,255,255,0.4); padding:0; cursor:pointer; text-align: center; width: 110px; line-height: 28px; float: left; margin: -1px 0 0 -1px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1), inset 0 0 2px #7d9cdd;
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1), inset 0 0 2px #7d9cdd;         
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1), inset 0 0 2px #7d9cdd;
+  
+  background:#556fa6;
+  background: -moz-linear-gradient(top, #6782c0 0%, #4161aa 100%); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6782c0), color-stop(100%,#4161aa));    
+  
+}
+.form-type-ulogin-widget { padding: 0;}
+
 
 .user-menu .pane-inner { margin:0; position:absolute; bottom:0; left:0; width:198px; border:1px solid #edf7f8; background:url(images/login_bgr.png) repeat 0 0; padding:21px 0 14px;
 

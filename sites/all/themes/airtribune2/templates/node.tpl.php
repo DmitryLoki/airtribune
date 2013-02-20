@@ -103,92 +103,12 @@
  */
 
 //print_r($content['links']);
-$event_blog = false;
+//$event_blog = false;
 hide($content['comments']);
 hide($content['links']);
 //hide($content['links']['disqus']);
 hide($content['disqus']);
-$account = profile2_load_by_user($node->uid, 'main');
-if($view_mode == 'event_blog_teaser'){
-	$event_blog = true;
-	$title = '<a href="' . $node_url . '" rel="bookmark">' . $title . '</a>';
-	//print_r($node);
-	if(!empty($content['field_image'])){
-		$content['field_image'] = _airtribune2_img_dinamic_scaling_event_blog_teaser($content['field_image']);
-	}
-	$content['links']['node-readmore'] = array(
-	  '#theme' => 'links__node__node',
-	  '#links' => array(
-	 	'node-readmore' => array(
-          'title' => l(t('View more'), 'node/' . $node->nid),
-		  'html' => true
-		)
-	  )
-	);
-	if(drupal_get_path('module', 'disqus')){
-		$content['links']['disqus'] = array(
-	  	  '#theme' => 'links',
-	  	  '#links' => array(
-	 		'disqus_comments_num' => array(
-          		'title' => 'Comments',
-          		'href' => 'node/' . $node->nid,
-          		'fragment' => 'disqus_thread',
-          		'attributes' => array(
-            		'data-disqus-identifier' => 'node/' . $node->nid,
-          		)
-			)
-	  	  ),
-	  	  '#attributes'=> array(
-	  		'class' => array( 'links', 'inline')
-	  	  )
-		);
-		$content['links']['#attached']['js'][] = drupal_get_path('module', 'disqus') . '/disqus.js';
-    	$content['links']['#attached']['js'][] = array(
-    		'data' => array('disqusComments' => $node->disqus['domain']),
-    		'type' => 'setting',
-    	);
-	}
-	$classes .= ' node-teaser';
-}
-else if ($teaser){
-	$user_picture = false;
-	$display_submitted = false;
-	$content['links']['created'] = array(
-	 '#theme' => 'links__node__node',
-	 '#links' => array(
-	 	'node-create' => array(
-			'title' => format_date($created, 'custom', 'd M, Y')
-		)
-	 )
-	);
-	if(!empty($content['field_image']['#items'])){
-		$content['field_image']['#items'] = array($content['field_image']['#items'][0]);
-	}
-}
 
-else if($node->nid != '5363' && $node->nid != '5362') {
-	if (isset($account->field_full_name)) {
-	    $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
-	} else {
-	    $full_name = $name;
-	}
-	$content['links']['created'] = array(
-	 '#theme' => 'links__node__node',
-	 '#links' => array(
-	 	'node-create' => array(
-			'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($created, 'custom', 'd M, Y'))),
-			'html' => true
-		)
-	 )
-	);
-	if(!empty($content['field_image'])){
-		$content['field_image'] = _airtribune2_img_dinamic_scaling($content['field_image']);
-	}
-}
-if(!$notitle && empty($title)){
-	$title = 'Верните заголовки емае';
-}
-$classes .= ' node_view_mode_' . $view_mode;
 //print_r(profile2_load_by_user($node->uid, 'main'));
 
 

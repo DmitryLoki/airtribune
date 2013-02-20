@@ -24,12 +24,12 @@ function main_ctools_plugin_api() {
 function main_default_profile2_type() {
   $items = array();
   $items['main'] = entity_import('profile2_type', '{
-    "userCategory" : false,
-    "userView" : false,
+    "userCategory" : true,
+    "userView" : true,
     "type" : "main",
     "label" : "Main profile",
     "weight" : "0",
-    "data" : { "registration" : true, "use_page" : true },
+    "data" : { "registration" : 1, "use_page" : 0 },
     "rdf_mapping" : []
   }');
   return $items;
