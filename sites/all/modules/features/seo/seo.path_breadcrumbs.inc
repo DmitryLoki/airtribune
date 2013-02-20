@@ -352,23 +352,23 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_accomodation';
-  $path_breadcrumb->name = 'Paragliding contest Current Accomodation';
-  $path_breadcrumb->path = 'event/%node/map/%accomodnode';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_accommodation';
+  $path_breadcrumb->name = 'Paragliding contest Current Accommodation';
+  $path_breadcrumb->path = 'event/%node/map/%accommodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
       3 => 'Event map',
-      4 => '%accomodnode:title',
+      4 => '%accommodnode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/current',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%accomodnode:nid',
+      4 => 'event/%node:nid/map/%accommodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -380,11 +380,11 @@ function seo_path_breadcrumbs_settings_info() {
           'identifier' => 'Content: ID',
         ),
       ),
-      'accomodnode' => array(
-        'position' => 4,
+      'accommodnode' => array(
+        'position' => 3,
         'argument' => 'entity_id:node',
         'settings' => array(
-          'identifier' => 'Content accomodation: ID',
+          'identifier' => 'Content accommodation: ID',
         ),
       ),
     ),
@@ -415,7 +415,7 @@ function seo_path_breadcrumbs_settings_info() {
               'accommodation' => 'accommodation',
             ),
           ),
-          'context' => 'accomodnode',
+          'context' => 'accommodnode',
           'not' => FALSE,
         ),
       ),
@@ -423,7 +423,7 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = -62;
-  $export['breadcrumb_pg_contest_current_accomodation'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest_current_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -1001,23 +1001,23 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_accomodation';
-  $path_breadcrumb->name = 'Paragliding contest Next Accomodation';
-  $path_breadcrumb->path = 'event/%node/map/%accomodnode';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_accommodation';
+  $path_breadcrumb->name = 'Paragliding contest Next Accommodation';
+  $path_breadcrumb->path = 'event/%node/map/%accommodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
       3 => 'Event map',
-      4 => '%accomodnode:title',
+      4 => '%accommodnode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%accomodnode:nid',
+      4 => 'event/%node:nid/map/%accommodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1029,11 +1029,11 @@ function seo_path_breadcrumbs_settings_info() {
           'identifier' => 'Content: ID',
         ),
       ),
-      'accomodnode' => array(
-        'position' => 4,
+      'accommodnode' => array(
+        'position' => 3,
         'argument' => 'entity_id:node',
         'settings' => array(
-          'identifier' => 'Content accomodation: ID',
+          'identifier' => 'Content accommodation: ID',
         ),
       ),
     ),
@@ -1064,7 +1064,7 @@ function seo_path_breadcrumbs_settings_info() {
               'accommodation' => 'accommodation',
             ),
           ),
-          'context' => 'accomodnode',
+          'context' => 'accommodnode',
           'not' => FALSE,
         ),
       ),
@@ -1072,7 +1072,7 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = -61;
-  $export['breadcrumb_pg_contest_next_accomodation'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest_next_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -1650,23 +1650,23 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_accomodation';
-  $path_breadcrumb->name = 'Paragliding contest Past Accomodation';
-  $path_breadcrumb->path = 'event/%node/map/%accomodnode';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_accommodation';
+  $path_breadcrumb->name = 'Paragliding contest Past Accommodation';
+  $path_breadcrumb->path = 'event/%node/map/%accommodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
       3 => 'Event map',
-      4 => '%accomodnode:title',
+      4 => '%accommodnode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%accomodnode:nid',
+      4 => 'event/%node:nid/map/%accommodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1678,11 +1678,11 @@ function seo_path_breadcrumbs_settings_info() {
           'identifier' => 'Content: ID',
         ),
       ),
-      'accomodnode' => array(
-        'position' => 4,
+      'accommodnode' => array(
+        'position' => 3,
         'argument' => 'entity_id:node',
         'settings' => array(
-          'identifier' => 'Content accomodation: ID',
+          'identifier' => 'Content accommodation: ID',
         ),
       ),
     ),
@@ -1713,7 +1713,7 @@ function seo_path_breadcrumbs_settings_info() {
               'accommodation' => 'accommodation',
             ),
           ),
-          'context' => 'accomodnode',
+          'context' => 'accommodnode',
           'not' => FALSE,
         ),
       ),
@@ -1721,7 +1721,7 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = -63;
-  $export['breadcrumb_pg_contest_past_accomodation'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest_past_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
