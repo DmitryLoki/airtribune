@@ -2108,85 +2108,6 @@ function pages_feature_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_pilots_panel_context_3';
-  $handler->task = 'page';
-  $handler->subtask = 'event_pilots';
-  $handler->handler = 'panel_context';
-  $handler->weight = -30;
-  $handler->conf = array(
-    'title' => 'Pilots (Cooming soon)',
-    'no_blocks' => 1,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 4,
-              1 => 7,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => TRUE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'one';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'one_main' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-47';
-    $pane->panel = 'one_main';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'nid' => '5363',
-      'links' => 0,
-      'leave_node_title' => 0,
-      'identifier' => '',
-      'build_mode' => 'full',
-      'link_node_title' => 0,
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-47'] = $pane;
-    $display->panels['one_main'][0] = 'new-47';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'page_event_pilots_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
@@ -2260,7 +2181,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-48';
+    $pane->pid = 'new-47';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -2293,10 +2214,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-48'] = $pane;
-    $display->panels['middle'][0] = 'new-48';
+    $display->content['new-47'] = $pane;
+    $display->panels['middle'][0] = 'new-47';
     $pane = new stdClass();
-    $pane->pid = 'new-49';
+    $pane->pid = 'new-48';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -2329,8 +2250,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-49'] = $pane;
-    $display->panels['middle'][1] = 'new-49';
+    $display->content['new-48'] = $pane;
+    $display->panels['middle'][1] = 'new-48';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2411,7 +2332,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-50';
+    $pane->pid = 'new-49';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -2444,10 +2365,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-50'] = $pane;
-    $display->panels['middle'][0] = 'new-50';
+    $display->content['new-49'] = $pane;
+    $display->panels['middle'][0] = 'new-49';
     $pane = new stdClass();
-    $pane->pid = 'new-51';
+    $pane->pid = 'new-50';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -2480,8 +2401,87 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
+    $display->content['new-50'] = $pane;
+    $display->panels['middle'][1] = 'new-50';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_pilots_panel_context_3';
+  $handler->task = 'page';
+  $handler->subtask = 'event_pilots';
+  $handler->handler = 'panel_context';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => 'Pilots (Cooming soon)',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 4,
+              1 => 7,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'one';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'one_main' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-51';
+    $pane->panel = 'one_main';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '5363',
+      'links' => 0,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'full',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
     $display->content['new-51'] = $pane;
-    $display->panels['middle'][1] = 'new-51';
+    $display->panels['one_main'][0] = 'new-51';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
