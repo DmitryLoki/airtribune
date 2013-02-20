@@ -3096,7 +3096,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 }
 
 .page-user .pane-page-content form .reg_choice { text-align: center;}
-.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 56px; line-height: 20px; padding-top: 12px; overflow: hidden;}
+.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 56px; line-height: 20px; padding-top: 12px; overflow: hidden; vertical-align: top;}
 .page-user .pane-page-content form .reg_choice a.form_show { padding-top: 2px; height: 66px;}
 #event_register { display: none;}
 
