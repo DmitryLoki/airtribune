@@ -167,8 +167,10 @@ function panels_default_template_default_panels_mini() {
     );
     $pane->configuration = array(
       'arguments' => array(
-        'field_geofield_distance' => '%event:nid',
+        'null' => '%event:nid',
       ),
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
