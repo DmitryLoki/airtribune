@@ -417,7 +417,7 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass') {
+  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass' || $form_id == 'user_profile_form') {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
@@ -480,8 +480,9 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['actions']['#weight'] = 79;
         //print_r($form);
     break;
-      case 'multiform':
-        print_r($form);
+      case 'user_profile_form':
+        
+        //print_r($form);
     break;
   }
 }
@@ -1138,6 +1139,10 @@ function airtribune2_theme() {
     'og_ui_confirm_subscribe' => array(
       'render element' => 'form',
       'template' => 'templates/contest-registration',
+    ),
+    'user_profile_form' => array(
+      'render element' => 'form',
+      'template' => 'templates/user-profile-form',
     ),
   );
 }
