@@ -61,7 +61,7 @@
 
 #sign-in .user-picture { position:absolute; top:3px; right:7px}
 
-#sign-in .drop-item { position:absolute; top:5px; right:11px; width:200px; overflow:hidden; height:1px;
+#sign-in .drop-item { position:absolute; top:5px; right:11px; width:200px; overflow:hidden; height:115px;
 
   -webkit-border-radius: 0 0 3px 3px;
   -moz-border-radius: 0 0 3px 3px;

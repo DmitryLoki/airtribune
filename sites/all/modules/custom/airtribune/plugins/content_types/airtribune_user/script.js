@@ -45,11 +45,11 @@ jQuery(function($){
         if(item.is(':visible')){
             slideUp(item,cb);
         } else {
-            item.slideDown({duration:1000,easing:'easeOutCirc',complete:cb})
+            item.slideDown({duration:600,easing:'easeOutCubic',complete:cb})
         }
     }
     function slideUp(dropItems, cb){
-        dropItems.slideUp({duration:800,easing:'easeInCubic', complete:cb}).removeClass('active');
+        dropItems.slideUp({duration:400,easing:'easeInCubic', complete:cb}).removeClass('active');
     }
 });
 
@@ -57,8 +57,8 @@ jQuery.extend( jQuery.easing,{
     easeInCubic: function (x, t, b, c, d) {
         return c*(t/=d)*t*t + b;
     },
-    easeOutCirc: function (x, t, b, c, d) {
-        return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+    easeOutCubic: function (x, t, b, c, d) {
+        return c*((t=t/d-1)*t*t + 1) + b;
     }
 });
 
