@@ -73,7 +73,16 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9]*$',
+    'data' => '^[a-zA-Z0-9[:punct:]\\s]*$',
+    'bypass' => 0,
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      6 => 0,
+      5 => 0,
+      4 => 0,
+      7 => 0,
+    ),
     'errors' => 0,
   );
   $rule->error_message = 'Disallowed symbols in paraglider model';
@@ -167,7 +176,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
+    'data' => '^[a-zA-Z0-9[:punct:]\\s]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -193,7 +202,16 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z]*$',
+    'data' => '^[a-zA-Z0-9[:punct:]\\s]*$',
+    'bypass' => 0,
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      6 => 0,
+      5 => 0,
+      4 => 0,
+      7 => 0,
+    ),
     'errors' => 1,
   );
   $rule->error_message = 'Non-latin symbols in paraglider manufacturer';
