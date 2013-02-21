@@ -3436,6 +3436,7 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane table tr a { color: #00aeef; text-decoration: none;}
 .event-map-pane table tr a:hover { text-decoration: underline;}
 .event-map-pane table td.views-field-title { text-align: left;}
+.event-map-pane .view-event-activities table td.views-field-title { width: 205px;}
 .event-map-pane table td.views-field-body p { padding: 0;}
 .event-map-pane span.currency-EUR:before { content: "€ "}
 .event-map-pane span.currency-USD:before { content: "$ "}
