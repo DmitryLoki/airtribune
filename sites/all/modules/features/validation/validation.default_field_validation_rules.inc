@@ -21,7 +21,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
+    'data' => '^[[:alpha:][:punct:][:digit:] ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -33,7 +33,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Address field may contain only English text.';
+  $rule->error_message = 'Invalid symbols in Address field.';
   $export['address1_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -47,7 +47,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
+    'data' => '^[[:alpha:][:punct:][:digit:] ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -59,7 +59,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Address field may contain only English text.';
+  $rule->error_message = 'Invalid symbols in Address field.';
   $export['address2_alphanumeric'] = $rule;
 
   $rule = new stdClass();

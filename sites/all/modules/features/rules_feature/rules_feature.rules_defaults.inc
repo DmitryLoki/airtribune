@@ -80,6 +80,7 @@ function rules_feature_default_rules_configuration() {
   $items['rules_pg_contestant_active'] = entity_import('rules_config', '{ "rules_pg_contestant_active" : {
       "LABEL" : "OG membership pg_contestant active",
       "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
       "REQUIRES" : [ "rules", "og" ],
       "ON" : [ "og_membership_presave" ],
       "IF" : [
@@ -97,6 +98,7 @@ function rules_feature_default_rules_configuration() {
   $items['rules_pg_contestant_pending'] = entity_import('rules_config', '{ "rules_pg_contestant_pending" : {
       "LABEL" : "OG membership pg_contestant pending",
       "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
       "REQUIRES" : [ "rules", "og" ],
       "ON" : [ "og_membership_presave" ],
       "IF" : [
