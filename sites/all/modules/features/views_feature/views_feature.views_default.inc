@@ -881,7 +881,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
   $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
   $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '100',
+    'distance' => '30',
     'distance2' => 200,
     'unit' => '6371',
     'origin' => '',
@@ -1093,7 +1093,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
   $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
   $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '30',
+    'distance' => '100',
     'distance2' => 200,
     'unit' => '6371',
     'origin' => '',
