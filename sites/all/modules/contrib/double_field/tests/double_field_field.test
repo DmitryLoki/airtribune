@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Tests for Double field schema.
+ */
+
+/**
+ * Test case for Double field schema.
+ */
+class DoubleFieldFieldTestCase extends DoubleFieldTestCase {
+
+  /**
+   * Information about the test.
+   */
+  public static function getInfo() {
+    return array(
+      'name'  => 'Field settings',
+      'description' => 'Test global field settings',
+      'group' => DoubleFieldTestCase::GROUP,
+    );
+  }
+
+  /**
+   * Test widgets in field admin UI.
+   */
+  public function testFieldCreation() {
+
+    $field_name = strtolower($this->randomName(8));
+    $field_label = strtolower($this->randomName(8));
+    $field_ui_path = "admin/structure/types/manage/{$this->type_name}/";
+    $this->drupalGet($field_ui_path . 'fields');
+
+    // Check whether double field type is accessible.
+    $this->assertFieldByXPath(
+      '//select[@id="edit-fields-add-new-field-type"]/option',
+      'double_field',
+      'Element «edit-fields-add-new-field-type» exists.'
+    );
+    // Check whether double field widgets are accessible.
+    $widgets = $this->xpath('//select[@id="edit-fields-add-new-field-widget-type"]/optgroup[@label="Double field"]/option/@value');
+    foreach ($widgets as $widget) {
+      $widget = (string) $widget;
+      if (empty($this->widgets[$widget])) {
+        $this->fail('Widget «' . $widget . '» exists.');
+      }
+    }
+    $this->assertTrue(count($this->widgets) == count($widgets), 'All widgets exist.');
+
+    // Add new field via admin UI.
+    $edit = array(
+      'fields[_add_new_field][label]' => $field_label,
+      'fields[_add_new_field][field_name]' => $field_name,
+      'fields[_add_new_field][type]' => 'double_field',
+      'fields[_add_new_field][widget_type]' => 'textfield_&_textfield',
+    );
+    $this->drupalPost($field_ui_path . 'fields', $edit, t('Save'));
+
+    // Drupal prepends «field_» prefix to all custom fields.
+    $field_name = 'field_' . $field_name;
+    $edit = array(
+      'field[settings][first][maxlength]' => DoubleFieldWidget::MAXLENGTH,
+      'field[settings][second][maxlength]' => DoubleFieldWidget::MAXLENGTH,
+    );
+    $this->drupalPost("{$field_ui_path}fields/{$field_name}/field-settings", $edit, t('Save field settings'));
+    $this->assertText(t('Updated field !label field settings.', array('!label' => $field_label)), 'Success message exists');
+
+    $this->assertTrue(field_read_field($field_name), 'The field persists in database.');
+
+  }
+
+}

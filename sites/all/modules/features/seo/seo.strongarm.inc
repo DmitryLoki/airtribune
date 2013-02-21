@@ -394,7 +394,7 @@ batch
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_pg_contest_pattern';
-  $strongarm->value = '';
+  $strongarm->value = '[node:title]';
   $export['pathauto_node_pg_contest_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -733,11 +733,29 @@ batch
 User-agent: *
 Crawl-delay: 10
 # CUSTOM
+Disallow: /*sort=
+Disallow: /*/node/*/translate
 Disallow: /*/node/*/
 Disallow: /*/node/*/group
-Disallow: /*/node/*/translate
 Disallow: /*/group/node/*
-Disallow: /*sort=
+Disallow: /*/event/*
+Disallow: /*/taxonomy/term/*
+#
+Disallow: /node/*/translate
+Disallow: /node/*
+Disallow: /node/*/group
+Disallow: /group/node/*
+Disallow: /event/*
+Disallow: /taxonomy/term/*
+#
+Disallow: /?q=node/*/translate
+Disallow: /?q=node/*
+Disallow: /?q=node/*/group
+Disallow: /?q=group/node/*
+Disallow: /?q=event/*
+Disallow: /?q=taxonomy/term/*
+# Other
+Disallow: /filter/tips/
 # Directories
 Disallow: /includes/
 Disallow: /misc/

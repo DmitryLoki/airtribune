@@ -91,11 +91,11 @@
         $url = $element["#object"]->field_social_links["und"][$delta]["url"];
         // we can use simple check, not ($foo !== false) becose $url 
         // always contain 'http://' at beginning of line
-        if (strpos($url, 'facebook.com'))    {print "<a href='$url' class='facebook-icon'><span>Facebook</span></a>";}
-        if (strpos($url, 'twitter.com'))     {print "<a href='$url' class='twitter-icon'><span>Twitter</span></a>";}
-        if (strpos($url, 'plus.google.com')) {print "<a href='$url' class='google-icon'><span>Google Plus</span></a>";}
-        if (strpos($url, 'youtube.com'))     {print "<a href='$url' class='youtube-icon'><span>Youtube</span></a>";}
-        if (strpos($url, 'vimeo.com'))       {print "<a href='$url' class='vimeo-icon'><span>Vimeo</span></a>";}
+        if (strpos($url, 'facebook.com'))    {print "<a href='$url' class='facebook-icon' rel='nofollow' target='_blank'><span>Facebook</span></a>";}
+        if (strpos($url, 'twitter.com'))     {print "<a href='$url' class='twitter-icon' rel='nofollow' target='_blank'><span>Twitter</span></a>";}
+        if (strpos($url, 'plus.google.com')) {print "<a href='$url' class='google-icon' rel='nofollow' target='_blank'><span>Google Plus</span></a>";}
+        if (strpos($url, 'youtube.com'))     {print "<a href='$url' class='youtube-icon' rel='nofollow' target='_blank'><span>Youtube</span></a>";}
+        if (strpos($url, 'vimeo.com'))       {print "<a href='$url' class='vimeo-icon' rel='nofollow' target='_blank'><span>Vimeo</span></a>";}
         ?>
       </div>
     <?php endforeach; ?>

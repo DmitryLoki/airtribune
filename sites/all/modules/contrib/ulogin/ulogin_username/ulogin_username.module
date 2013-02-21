@@ -1,0 +1,12 @@
+<?php
+/**
+ * Implements hook_ulogin_username_alter().
+ */
+function ulogin_username_ulogin_username_alter(&$name, $data) {
+  $name = $desired_name = $data['first_name'] . ' ' . $data['last_name'];
+  $counter = 0;
+  while (user_load_by_name($name)) {
+    $counter++;
+    $name = $desired_name . ' ' . $counter;
+  }
+}

@@ -18,13 +18,13 @@ function seo_metatag_export_default() {
         'value' => 'sport',
       ),
       'title' => array(
-        'value' => '[node:title-field] | [site:slogan]',
+        'value' => '[node:title] | [site:slogan]',
       ),
       'description' => array(
-        'value' => 'Watch [node:title-field] on-line in 2D and 3D, photo and video. [node:summary]',
+        'value' => 'Watch [node:title] on-line in 2D and 3D, photo and video. [node:summary]',
       ),
       'keywords' => array(
-        'value' => '[node:title-field], paragliding, [node:field_location]',
+        'value' => '[node:title], paragliding, [node:field_location]',
       ),
     ),
   );
@@ -37,13 +37,13 @@ function seo_metatag_export_default() {
         'value' => 'sport',
       ),
       'title' => array(
-        'value' => '[node:title-field] | [node:og-group-ref:0:title-field] | [site:slogan]',
+        'value' => '[node:title] | [node:og-group-ref:0:title] | [site:slogan]',
       ),
       'description' => array(
-        'value' => 'Latest news from [node:og-group-ref:0:title-field] on [node:title-field]. Paragliding. [node:summary]',
+        'value' => 'Latest news from [node:og-group-ref:0:title] on [node:title]. Paragliding. [node:summary]',
       ),
       'keywords' => array(
-        'value' => '[node:og-group-ref:0:title-field], paragliding, [node:field_location], live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
+        'value' => '[node:og-group-ref:0:title], paragliding, [node:field_location], live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
       ),
     ),
   );
@@ -56,7 +56,7 @@ function seo_metatag_export_default() {
         'value' => 'hotel',
       ),
       'title' => array(
-        'value' => '[node:title-field] | [site:slogan]',
+        'value' => '[node:title] | [site:slogan]',
       ),
     ),
   );
@@ -147,13 +147,13 @@ function seo_metatag_export_default() {
     'instance' => 'node',
     'config' => array(
       'title' => array(
-        'value' => '[node:title-field] | [site:slogan]',
+        'value' => '[node:title] | [site:slogan]',
       ),
       'description' => array(
         'value' => '[node:summary]',
       ),
       'og:title' => array(
-        'value' => '[node:title-field]',
+        'value' => '[node:title]',
       ),
       'og:description' => array(
         'value' => '[node:summary]',

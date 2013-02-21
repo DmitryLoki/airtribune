@@ -28,6 +28,7 @@ dependencies[] = media
 dependencies[] = og_ui
 dependencies[] = openlayers
 dependencies[] = options
+dependencies[] = pathauto
 dependencies[] = reverse_geocode_widget
 dependencies[] = schemaorg
 dependencies[] = strongarm

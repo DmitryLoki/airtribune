@@ -224,6 +224,10 @@ function pg_contest_rdf_default_mappings() {
     'field_hq_location' => array(
       'predicates' => array(),
     ),
+    'field_downloads' => array(
+      'predicates' => array(),
+      'type' => 'rel',
+    ),
   );
 
   return $schemaorg;

@@ -216,7 +216,6 @@ function panels_default_template_default_page_manager_handlers() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'accommodation' => 'accommodation',
               'advert' => 'advert',
               'newsblog' => 'newsblog',
               'pg_contest' => 'pg_contest',
@@ -285,12 +284,23 @@ function panels_default_template_default_page_manager_handlers() {
           'context' => 'empty',
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
       ),
+      'logic' => 'or',
     );
     $pane->configuration = array(
       'admin_title' => 'Small share links',
       'title' => '',
-      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c"});</script><span class=\'st_facebook_hcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_hcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_hcount\' displayText=\'+1\'></span></span><span class=\'st_sharethis_hcount\' displayText=\'Share\'></span>',
+      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c", nativeCount: true});</script><span class=\'st_facebook_hcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_hcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_hcount\' displayText=\'+1\'></span></span><span class=\'st_sharethis_hcount\' displayText=\'Share\'></span>',
       'format' => 'full_html',
       'substitute' => 0,
     );
@@ -365,10 +375,8 @@ function panels_default_template_default_page_manager_handlers() {
     $pane->configuration = array(
       'admin_title' => 'Manage event partners link',
       'title' => '',
-      'body' => '<?php
-print l(t(\'Manage event partners\'), \'partners/%node:nid\');
-?>',
-      'format' => 'php_code',
+      'body' => '<a href="/partners/%node:nid">Manage event partners</a>',
+      'format' => 'filtered_html',
       'substitute' => 1,
     );
     $pane->cache = array();
@@ -472,9 +480,7 @@ events/*',
     $pane->configuration = array(
       'admin_title' => 'Manage site partners link',
       'title' => '',
-      'body' => '<?php
-print l(t(\'Manage site partners\'), \'partners\');
-?>',
+      'body' => '<a href="/partners">Manage site partners</a>',
       'format' => 'php_code',
       'substitute' => 1,
     );
@@ -561,7 +567,10 @@ print l(t(\'Manage site partners\'), \'partners\');
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'events*',
+            'paths' => 'events
+events/next
+events/past
+events/current',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
@@ -608,7 +617,9 @@ print l(t(\'Manage site partners\'), \'partners\');
           'settings' => array(
             'visibility_setting' => '0',
             'paths' => 'events
-events/*',
+events/next
+events/past
+events/current',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,

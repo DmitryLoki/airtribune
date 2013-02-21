@@ -102,75 +102,19 @@
  * <?php print dsm($content); ?> to find variable names to hide() or render().
  */
 
-//print_r($content['field_image']);
-$event_blog = false;
+//print_r($content['links']);
+//$event_blog = false;
 hide($content['comments']);
 hide($content['links']);
-$account = profile2_load_by_user($node->uid, 'main');
-if($view_mode == 'event_blog_teaser'){
-	$event_blog = true;
-	$title = '<a href="' . $node_url . '" rel="bookmark">' . $title . '</a>';
-	//print_r($node);
-	if(!empty($content['field_image'])){
-		$content['field_image'] = _airtribune2_img_dinamic_scaling_event_blog_teaser($content['field_image']);
-	}
-	$content['links']['node-readmore'] = array(
-	  '#theme' => 'links__node__node',
-	  '#links' => array(
-	 	'node-readmore' => array(
-          'title' => l(t('View more'), 'node/' . $node->nid),
-		  'html' => true
-		)
-	  )
-	);
-	$classes .= ' node-teaser';
-}
-else if ($teaser){
-	$user_picture = false;
-	$display_submitted = false;
-	$content['links']['created'] = array(
-	 '#theme' => 'links__node__node',
-	 '#links' => array(
-	 	'node-create' => array(
-			'title' => format_date($created, 'custom', 'd M, Y')
-		)
-	 )
-	);
-	if(!empty($content['field_image']['#items'])){
-		$content['field_image']['#items'] = array($content['field_image']['#items'][0]);
-	}
-}
+//hide($content['links']['disqus']);
+hide($content['disqus']);
 
-else if($node->nid != '5363' && $node->nid != '5362') {
-	if (isset($account->field_full_name)) {
-	    $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
-	} else {
-	    $full_name = $name;
-	}
-	$content['links']['created'] = array(
-	 '#theme' => 'links__node__node',
-	 '#links' => array(
-	 	'node-create' => array(
-			'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($created, 'custom', 'd M, Y'))),
-			'html' => true
-		)
-	 )
-	);
-	if(!empty($content['field_image'])){
-		$content['field_image'] = _airtribune2_img_dinamic_scaling($content['field_image']);
-	}
-}
-if(!$notitle && empty($title)){
-	$title = 'Верните заголовки емае';
-}
-$classes .= ' node_view_mode_' . $view_mode;
 //print_r(profile2_load_by_user($node->uid, 'main'));
 
 
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php print render($title_prefix); ?>
-
   <?php if ($title && !$page && !$event_blog): ?>
     <header<?php print $header_attributes; ?>>
       <?php if ($title): ?>
@@ -205,6 +149,11 @@ $classes .= ' node_view_mode_' . $view_mode;
   <?php if ($links = render($content['links'])): ?>
     <nav<?php print $links_attributes; ?>><?php print $links; ?></nav>
   <?php endif; ?>
+
+  <?php if ($diskus = render($content['disqus'])): ?>
+   <?php print render($content['disqus']) ?>
+  <?php endif; ?>
+
 
   <?php print render($content['comments']); ?>
 

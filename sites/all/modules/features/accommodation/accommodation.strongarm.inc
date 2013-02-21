@@ -28,6 +28,12 @@ function accommodation_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'event_blog_teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -41,7 +47,7 @@ function accommodation_strongarm() {
           'weight' => '5',
         ),
         'metatags' => array(
-          'weight' => '10',
+          'weight' => '11',
         ),
         'xmlsitemap' => array(
           'weight' => '2',

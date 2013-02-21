@@ -225,33 +225,47 @@ function openlayers_ui_get_layer_options($type = 'baselayer',
 
   // Go through layers to theme output.
   foreach ($layers as $key => $layer) {
+
+    if (!is_object($layer)) continue;
+
     // not filtering by projection
     // this layer has an appropriate projection
     // this layer can be reprojected because it is vector
+    $variables = array();
     if (
       !isset($projection) ||
       in_array($projection, $layer->data['projection']) ||
       !empty($layer->data['vector'])
     ) {
-      if ($type == 'baselayer' && $layer->data['baselayer']) {
-        $options[$key] = theme('openlayers_ui_form_layer_description',
-          array(
+
+      if ($layer->data['isBaseLayer'] == TRUE && $type == 'baselayer') {
+        $variables = array(
+          'layer_title' => $layer->title,
+          'layer_description' => $layer->description,
+          'layer_link' => $layer->export_type & EXPORT_IN_DATABASE ?
+            "admin/structure/openlayers/layers/list/{$layer->name}/edit" : NULL
+        );
+      }
+
+      if ($layer->data['isBaseLayer'] == FALSE && $type == 'overlay') {
+        $variables = array(
+          'layer_title' => $layer->title,
+          'layer_description' => $layer->description,
+          'layer_link' => $layer->export_type & EXPORT_IN_DATABASE ?
+            "admin/structure/openlayers/layers/list/{$layer->name}/edit" : NULL
+        );
+
+        if ($layer->data['layer_type'] == 'openlayers_views_vector') {
+          $variables = array(
             'layer_title' => $layer->title,
             'layer_description' => $layer->description,
-            'layer_link' => $layer->export_type & EXPORT_IN_DATABASE ?
-              "admin/structure/openlayers/layers/list/{$layer->name}/edit" : NULL
-            ));
+            'layer_link' => "admin/structure/views/view/{$layer->data['views']['view']}/edit/{$layer->data['views']['display']}"
+          );
+        }
       }
-      elseif ($type != 'baselayer' &&
-        empty($layer->data['baselayer'])) {
-        $options[$key] = theme('openlayers_ui_form_layer_description',
-          array(
-            'layer_title' => $layer->title,
-            'layer_description' => $layer->description,
-            'layer_link' => $layer->export_type & EXPORT_IN_DATABASE ?
-              "admin/structure/openlayers/layers/list/{$layer->name}/edit" : NULL
-            ));
-      }
+    }
+    if (!empty($variables)) {
+      $options[$key] = theme('openlayers_ui_form_layer_description', $variables);
     }
   }
   return $options;

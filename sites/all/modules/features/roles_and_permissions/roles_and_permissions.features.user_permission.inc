@@ -1204,7 +1204,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit own pilot profile'] = array(
     'name' => 'edit own pilot profile',
     'roles' => array(
-      0 => 'pilot',
+      0 => 'authenticated user',
+      1 => 'pilot',
     ),
     'module' => 'profile2',
   );
@@ -1596,7 +1597,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own pilot profile'] = array(
     'name' => 'view own pilot profile',
     'roles' => array(
-      0 => 'pilot',
+      0 => 'authenticated user',
+      1 => 'pilot',
     ),
     'module' => 'profile2',
   );

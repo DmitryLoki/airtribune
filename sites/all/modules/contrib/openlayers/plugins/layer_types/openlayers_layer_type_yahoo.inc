@@ -23,24 +23,14 @@ function openlayers_openlayers_layer_type_yahoo_openlayers_layer_types() {
  * OpenLayers Yahoo Layer Type class
  */
 class openlayers_layer_type_yahoo extends openlayers_layer_type {
-  function __construct($layer = array(), $map = array()) {
-    parent::__construct($layer, $map);
-    if (isset($this->data)) {
-      $this->data += $this->options_init();
-    }
-    else {
-      $this->data = $this->options_init();
-    }
-  }
+
   /**
    * Provide initial values for options.
    */
   function options_init() {
     return array(
-      'projection' => array('900913'),
-      'layer_type' => 'yahoo',
       'layer_handler' => 'yahoo',
-    );
+    ) + parent::options_init();
   }
 
   /**
@@ -66,10 +56,6 @@ class openlayers_layer_type_yahoo extends openlayers_layer_type {
           $this->data['type'] : 'normal',
         '#options' => $yahoo_layer_types
       ),
-      'layer_type' => array(
-        '#type' => 'hidden',
-        '#value' => 'openlayers_layer_type_yahoo'
-      ),
       $warning
     );
   }
@@ -92,13 +78,12 @@ class openlayers_layer_type_yahoo extends openlayers_layer_type {
     static $yahoo_maps_included;
 
     if (!isset($yahoo_maps_included)) {
+      drupal_add_js("//api.maps.yahoo.com/ajaxymap?v=3.0&appid=" .
+          variable_get('openlayers_layers_yahoo_api', ''),
+        'external');
       drupal_add_js(drupal_get_path('module', 'openlayers') .
         '/plugins/layer_types/openlayers_layer_type_yahoo.js');
-      drupal_add_js("//api.maps.yahoo.com/ajaxymap?v=3.0&appid=" .
-        variable_get('openlayers_layers_yahoo_api', ''),
-        'external');
       $yahoo_maps_included = TRUE;
     }
-    return $this->options;
   }
 }

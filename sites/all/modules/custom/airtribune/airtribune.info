@@ -8,6 +8,7 @@ files[] = translation.handler.inc
 dependencies[] = profile2
 dependencies[] = field_collection
 dependencies[] = name
+dependencies[] = jcarousel
 
 ; Airtrubune user plugin requirements.
 dependencies[] = locale
@@ -19,7 +20,9 @@ dependencies[] = countryicons_shiny
 dependencies[] = tzfield
 
 ; Airtrubune event statistics plugin requirements.
+; Airtrubune event dates access plugin requirements.
 dependencies[] = og
 
 ; Airtrubune event context plugin requirements.
+; Airtrubune event dates access plugin requirements.
 dependencies[] = entity

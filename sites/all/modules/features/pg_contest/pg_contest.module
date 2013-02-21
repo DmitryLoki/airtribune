@@ -37,10 +37,56 @@ function pg_contest_form($node, $form_state) {
   return $form;
 }
 
+/* Implementation of hook_presave
+ * @param type $node
+ * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
+ */
+function pg_contest_node_presave($node) {
+  // We don't want path module to create node alias.
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE && isset($node->path)) {
+    
+    // Store path alias settings.
+    $node->event_path = $node->path;
+    
+    // Set pathauto to FALSE to avoid pathauto_node_update_alias() processing.
+    // Clear $node->path['alias'] to avoid path_node_insert() processing.
+    // Remove all other path data since we don't need it any more.
+    $node->path = array('pathauto' => FALSE, 'alias' => '',);
+  }
+}
+
+/**
+ * Implements hook_form_node_form_alter().
+ * 
+ * Set default path alias values for node form.
+ * TODO: Make sure that this is always fired after path_form_node_form_alter().
+ */
+function pg_contest_form_node_form_alter(&$form, $form_state) {
+  $form = _pg_contest_prepopulate_path($form, $form_state);
+}
+
+/**
+ * Prepopulate node form path settings field.
+ */
+function _pg_contest_prepopulate_path($form, &$form_state) {
+  if (!empty($form['#node']->nid)) {
+    $conditions = array('source' => 'event/' . $form['#node']->nid);
+    $path = path_load($conditions);
+    if (!empty($path)) {
+      $form['path']['#collapsed'] = empty($path['alias']);
+      $form['path']['alias']['#default_value'] = $path['alias'];
+      $form['path']['pid']['#value'] = $path['pid'];
+      $form['path']['source']['#value'] = $path['source'];
+      $form['path']['language']['#value'] = $path['language'];
+    }
+  }
+  return $form;
+}
+
 /**
  * Implementation of hook_insert
  * @param $node
- *   The node that is being created.
+ * The node that is being created.
  */
 function pg_contest_insert($node) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
@@ -207,6 +253,8 @@ function _pg_contest_urls_init($nid) {
         '/info/details',
         '/blog',
         '/pilots',
+        '/pilots/status',
+        '/pilots/country',
         '/map',
         '/register',
     );
@@ -221,7 +269,34 @@ function _pg_contest_create_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
-    $alias_base = pathauto_cleanstring($node->title);
+    
+    $alias_base = !empty($node->event_path['alias']) ? $node->event_path['alias'] : pathauto_cleanstring($node->title);
+    
+    // Check if alias is set manually.
+    if (!empty($node->event_path['alias'])) {
+      $alias_base = $node->event_path['alias'];
+    }
+    // Else try to get pathauto pattern.
+    else {
+      // See pathauto_node_update_alias().
+      $options = array('language' => pathauto_entity_language('node', $node));
+      
+      // Skip processing if the node has no pattern.
+      if (!pathauto_pattern_load_by_entity('node', $node->type, $options['language'])) {
+        return;
+      }
+      
+      module_load_include('inc', 'pathauto');
+      $uri = entity_uri('node', $node);
+      // Ask pathauto to return alias.
+      $alias_base = pathauto_create_alias('node', 'return', $uri['path'], array('node' => $node), $node->type, $options['language']);
+    }
+    
+    // Do nothing if there is no alias set (otherwise we may blow away existing aliases...)
+    if (empty($alias_base)) {
+      return;
+    }
+    
     $urls_init = _pg_contest_urls_init($node->nid);
     $url_base = $urls_init['url_base'];
     $url_pages = $urls_init['url_pages'];

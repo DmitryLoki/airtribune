@@ -141,7 +141,7 @@ function hook_openlayers_layers() {
   $layer->title = 'Google Maps Satellite';
   $layer->description = 'Google Maps Satellite Imagery.';
   $layer->data = array(
-    'baselayer' => TRUE,
+    'isBaseLayer' => TRUE,
     'type' => 'satellite',
     'projection' => array('900913'),
     'layer_type' => 'openlayers_layer_type_google',
