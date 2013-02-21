@@ -61,7 +61,7 @@ function airtribune_airtribune_event_statistics_content_type_render($subtype, $c
         ':bundle' => 'accommodation',
         ':lat' => $location['lat'],
         ':lon' => $location['lon'],
-        ':distance' => 100000,
+        ':distance' => 30000,
       ));
       $content['accommodation'] = $result->fetchField();
 
@@ -70,7 +70,7 @@ function airtribune_airtribune_event_statistics_content_type_render($subtype, $c
         ':bundle' => 'activity',
         ':lat' => $location['lat'],
         ':lon' => $location['lon'],
-        ':distance' => 30000,
+        ':distance' => 100000,
       ));
       $content['activities']  = $result->fetchField();
     }
