@@ -394,3 +394,12 @@ function at_helper_page_manager_contexts_alter(&$contexts, $placeholders) {
   }
 }
 
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_helper_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'addressfield') {
+    return 'plugins/' . $plugin;
+  }
+}
