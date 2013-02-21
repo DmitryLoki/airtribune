@@ -124,7 +124,8 @@ function panels_default_template_default_panels_mini() {
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/map',
+            'paths' => 'event/*/map
+event/*/map/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -158,7 +159,8 @@ function panels_default_template_default_panels_mini() {
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'event/*/map',
+            'paths' => 'event/*/map
+event/*/map/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
