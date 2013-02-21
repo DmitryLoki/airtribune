@@ -1,6 +1,6 @@
 jQuery(function($){
 	
-	$('.pane-page-content form input, .pane-page-content form select').forms({disableChoiceOfFirstItemInSelection:true});
+	$('.pane-page-content form input, .pane-page-content form select').forms({disableChoiceOfFirstItemInSelection:true, file:false});
 	$('.pane-page-content form .select .items_inner').each(function(){
 		$(this).parent().show();
 		$('#event_register').show()
