@@ -9,38 +9,56 @@ jQuery(function($){
     dropItems.hide();
 
     userLoginDropItemHeader.click(function(event){
-        slideUp(flagDropItem);
-        flagDropItemHeader.removeClass('active');
-
-        $('.user-login, .user-menu').slideToggle();
-        $(this).toggleClass('active');
+        var $that = $(this);
+        slideUp(flagDropItem, function onSlideComplete(){
+            flagDropItemHeader.removeClass('active');
+            toggle($('.user-login, .user-menu'));
+            $that.toggleClass('active');
+        });
 
         event.preventDefault();
     }).removeClass('active');
 
     flagDropItemHeader.click(function(event){
-        slideUp(userLoginDropItem);
-        userLoginDropItemHeader.removeClass('active');
-        $('.flags').slideToggle();
-        $(this).toggleClass('active');
+        var $that = $(this);
+        slideUp(userLoginDropItem, function onSlideComplete(){
+            userLoginDropItemHeader.removeClass('active');
+            toggle($('.flags'));
+            $that.toggleClass('active');
+        });
 
         event.preventDefault();
     });
 
     $('body').click(function (e) {
         if (!($(e.target).parents('#sign-in').length)) {
-            slideUp(dropItems);
-            flagDropItemHeader.removeClass('active');
-            userLoginDropItemHeader.removeClass('active');
+            slideUp(dropItems, function onSlideUpComplete(){
+                flagDropItemHeader.removeClass('active');
+                userLoginDropItemHeader.removeClass('active');
+            });
         }
     });
 
     setPlaceholder('.form-item input');
 
-    function slideUp(dropItems){
-        dropItems.each(function(i, item){
-            $(item).slideUp().removeClass('active');
-        })
+    function toggle(item, cb){
+        if(item.is(':visible')){
+            slideUp(item,cb);
+        } else {
+            item.slideDown({duration:1000,easing:'easeOutCirc',complete:cb})
+        }
+    }
+    function slideUp(dropItems, cb){
+        dropItems.slideUp({duration:800,easing:'easeInCubic', complete:cb}).removeClass('active');
+    }
+});
+
+jQuery.extend( jQuery.easing,{
+    easeInCubic: function (x, t, b, c, d) {
+        return c*(t/=d)*t*t + b;
+    },
+    easeOutCirc: function (x, t, b, c, d) {
+        return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
     }
 });
 
