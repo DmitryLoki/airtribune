@@ -26,6 +26,7 @@ define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
+define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
