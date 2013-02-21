@@ -35,14 +35,15 @@ function _at_validation_ajax() {
   $element = $form;
   foreach ($array_parents as $k => $array_parent) {
     // TODO: Check for field_collection.
-    if (empty($element['#field_name'])) {
-      $element = $element[$array_parent];
-    }
-    else {
+    $element = $element[$array_parent];
+
+    if (!empty($element['#field_name'])) {
       // Current triggering_element cardinality (this is only for fields).
-      $cardinality = $array_parent;
-      $element = $element[$cardinality];
-      
+      // Not every widget has cardinality. I.e. options_select
+      if (isset($element['#cardinality'])) {
+        $cardinality = $array_parents[$k+1];
+        $element = $element[$cardinality];
+      }
       $field_name = $element['#field_name'];
       $entity_type = $element['#entity_type'];
       $bundle = $element['#bundle'];
@@ -110,9 +111,13 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   // TODO: Check clientside_validation settings.
   // Check if ajax is enabled for the current field instance (entity, bundle and field).
   
+  if (empty($element['#entity_type']) || empty($element['#bundle'])) {
+    return;
+  }
+  
   // Temporary list of bundles.
   // List bundles for each entity with ajax-validation enabled.
-  $entities['profile2'] = array('main');
+  $entities['profile2'] = array('main', 'pilot');
   if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities['profile2'])) {
     // Form caching is set in ajax_process_form().
     $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
@@ -120,6 +125,7 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
     // Search for corresponding plugin for the current widget.
     $field_type = $context['field']['type'];
     $widget_type = $context['instance']['widget']['type'];
+    //dsm($field_type . ' ' . $widget_type);
     
     $plugin = at_validation_field_plugin($field_type, $widget_type);
     if (!empty($plugin)) {
