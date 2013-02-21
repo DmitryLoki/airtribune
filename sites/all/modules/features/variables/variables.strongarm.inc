@@ -34,6 +34,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'additional_settings__active_tab_page';
+  $strongarm->value = 'edit-workflow';
+  $export['additional_settings__active_tab_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_pg_contest';
   $strongarm->value = 'edit-schemaorg-ui';
   $export['additional_settings__active_tab_pg_contest'] = $strongarm;
@@ -90,6 +97,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_page';
+  $strongarm->value = '';
+  $export['ant_pattern_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'ant_pattern_pg_contest';
   $strongarm->value = '';
   $export['ant_pattern_pg_contest'] = $strongarm;
@@ -128,6 +142,13 @@ function variables_strongarm() {
   $strongarm->name = 'ant_php_newsblog';
   $strongarm->value = 0;
   $export['ant_php_newsblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_page';
+  $strongarm->value = 0;
+  $export['ant_php_page'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -219,6 +240,20 @@ function variables_strongarm() {
   $strongarm->name = 'date_first_day';
   $strongarm->value = '0';
   $export['date_first_day'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_dm';
+  $strongarm->value = 'd M';
+  $export['date_format_dm'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_dmy';
+  $strongarm->value = 'd M, Y';
+  $export['date_format_dmy'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -378,6 +413,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entity_translation_hide_translation_links_page';
+  $strongarm->value = 0;
+  $export['entity_translation_hide_translation_links_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'entity_translation_hide_translation_links_pg_contest';
   $strongarm->value = 0;
   $export['entity_translation_hide_translation_links_pg_contest'] = $strongarm;
@@ -409,6 +451,13 @@ function variables_strongarm() {
   $strongarm->name = 'entity_translation_node_metadata_newsblog';
   $strongarm->value = '0';
   $export['entity_translation_node_metadata_newsblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'entity_translation_node_metadata_page';
+  $strongarm->value = '0';
+  $export['entity_translation_node_metadata_page'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -1263,6 +1312,84 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'event/%pm_arg/pilots',
       'tabtamer_title' => '',
     ),
+    'user/%/pilot' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%/pilot',
+      'tabtamer_title' => '',
+    ),
+    'user/%/ulogin' => array(
+      'weight' => '0',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'user/%user/ulogin',
+      'tabtamer_title' => '',
+    ),
+    'user/%/view' => array(
+      'weight' => '-10',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'user/%user/view',
+      'tabtamer_title' => '',
+    ),
+    'user/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%user/edit',
+      'tabtamer_title' => 'Edit user',
+    ),
+    'user/%/edit/account' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%user_category/edit/account',
+      'tabtamer_title' => '',
+    ),
+    'user/%/edit/main' => array(
+      'weight' => '3',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%user_category/edit/main',
+      'tabtamer_title' => '',
+    ),
+    'user/login' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/login',
+      'tabtamer_title' => '',
+    ),
+    'user/register' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/register',
+      'tabtamer_title' => '',
+    ),
+    'user/password' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/password',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/user' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%user/user',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/view' => array(
+      'weight' => '-10',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/view',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
+      'tabtamer_title' => 'Edit pilot',
+    ),
+    'profile-pilot/%/delete' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/delete',
+      'tabtamer_title' => '',
+    ),
     'node/%/revisions' => array(
       'weight' => '2',
       'action' => 'enabled',
@@ -1652,119 +1779,6 @@ function variables_strongarm() {
   $strongarm->name = 'translation_language_type';
   $strongarm->value = 'language_content';
   $export['translation_language_type'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_default_timezone';
-  $strongarm->value = '0';
-  $export['user_default_timezone'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_mail_status_activated_body';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
-
-Your email is confirmed and registration is completed.
-
-Happy landings!
-Airtribune team';
-  $export['user_mail_status_activated_body'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_mail_status_activated_notify';
-  $strongarm->value = 1;
-  $export['user_mail_status_activated_notify'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_mail_status_activated_subject';
-  $strongarm->value = 'Account details for [user:name] at [site:name]';
-  $export['user_mail_status_activated_subject'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_default';
-  $strongarm->value = 'sites/all/resources/default-user-picture.png';
-  $export['user_picture_default'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_dimensions';
-  $strongarm->value = '2561024';
-  $export['user_picture_dimensions'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_file_size';
-  $strongarm->value = '500';
-  $export['user_picture_file_size'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_guidelines';
-  $strongarm->value = '';
-  $export['user_picture_guidelines'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_path';
-  $strongarm->value = 'pictures';
-  $export['user_picture_path'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'user_pirctue_mini';
-  $export['user_picture_style'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_pictures';
-  $strongarm->value = 1;
-  $export['user_pictures'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_register';
-  $strongarm->value = '1';
-  $export['user_register'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_registrationpassword_register_body';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
-
-Thank you for signing up for Airtribune.com
-There\'s just one more step, click on this link to verify your email address:
-
-[user:registrationpassword-url]
-
-After logging in you will be redirected to the main page and may start using the service immediately.
-
-Happy landings!
-Airtribune team';
-  $export['user_registrationpassword_register_body'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_registrationpassword_register_subject';
-  $strongarm->value = 'Account details for [user:name] at [site:name]';
-  $export['user_registrationpassword_register_subject'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

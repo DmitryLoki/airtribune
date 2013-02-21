@@ -48,12 +48,35 @@ function airtribune_airtribune_event_statistics_content_type_render($subtype, $c
     $content['pilots_confirmed'] = $query->countQuery()->execute()->fetchField();
     $content['pilots_waiting'] = $total_pilots - $content['pilots_confirmed'];
 
-    // Count contest accomodation.
-    $content['activities'] = 0;
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $location = $wrapper->{AIRTRIBUNE_HQ_LOCATION_FIELD}->value();
+    if ($location) {
+      // TODO: Do not count unpublished nodes.
+      $location_table = 'field_data_' . AIRTRIBUNE_LOCATION_FIELD;
+      $sql = "SELECT COUNT(*) FROM $location_table location WHERE bundle = :bundle AND
+      ST_Distance(ST_Point(location.field_location_lon, field_location_lat)::geography, ST_Point(:lon, :lat)::geography) < :distance";
 
-    // Count contest activities.
-    $content['accommodation'] = 0;
+      // Count contest accomodation.
+      $result = db_query($sql, array(
+        ':bundle' => 'accommodation',
+        ':lat' => $location['lat'],
+        ':lon' => $location['lon'],
+        ':distance' => 30000,
+      ));
+      $content['accommodation'] = $result->fetchField();
 
+      // Count contest activities.
+      $result = db_query($sql, array(
+        ':bundle' => 'activity',
+        ':lat' => $location['lat'],
+        ':lon' => $location['lon'],
+        ':distance' => 100000,
+      ));
+      $content['activities']  = $result->fetchField();
+    }
+    else {
+      throw new Exception(t('Cannot load HQ location field.'));
+    }
   }
   catch (Exception $e) {
     watchdog('airtribune', 'Event statistics failed: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);

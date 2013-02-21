@@ -38,6 +38,18 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'logo_in_title';
     }  
   }
+  /* Adding specific class for activity and accommodation pages */
+  $pemaa = array('node-type-activity', 'node-type-accommodation');
+  foreach ($pemaa as $key => $value) {  
+    if (array_search($value, $vars['classes_array'])) {
+      $vars['classes_array'][] = 'page-event-map-activity-accommodation';
+    }
+  }
+  if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
+    $vars['classes_array'][] = 'page-user';
+  }
+  //print arg(2);
+  //print_r($vars)
   //dsm($vars);
 }
 
@@ -204,7 +216,7 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
   global $user;
   if($variables['pane']->type == 'node' && $variables['content']['#node']->nid == '5363'){
-    $variables['title'] = '';
+    //$variables['title'] = '';
   }
   if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0 && $variables['display']->layout != 'featured_header'){
    $variables['content'] = '';
@@ -251,10 +263,120 @@ function airtribune2_preprocess_node(&$vars) {
     $vars['title'] = '';
     $vars['user_picture'] = '';
   }
+
 }
 
 function airtribune2_process_node(&$vars) {
   //print_r($vars);
+  $vars['event_blog'] = false;
+  $account = profile2_load_by_user($vars['node']->uid, 'main');
+
+  /* If view mode is event_blog_teaser */
+  if($vars['view_mode'] == 'event_blog_teaser'){
+    $vars['event_blog'] = true;
+    $vars['title'] = '<a href="' . $vars['node_url'] . '" rel="bookmark">' . $vars['title'] . '</a>';
+    //print_r($vars['node']);
+
+    /* Changing the style of the output image */
+    if(!empty($vars['content']['field_image'])){
+      $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling_event_blog_teaser($vars['content']['field_image']);
+    }
+
+    /* Read more link */
+    $vars['content']['links']['node-readmore'] = array(
+      '#theme' => 'links__node__node',
+      '#links' => array(
+        'node-readmore' => array(
+          'title' => l(t('View more'), 'node/' . $vars['node']->nid),
+          'html' => true
+        )
+      )
+    );
+
+    /* Disqus comment counter */
+    if(drupal_get_path('module', 'disqus')){
+      $vars['content']['links']['disqus'] = array(
+        '#theme' => 'links',
+        '#links' => array(
+          'disqus_comments_num' => array(
+            'title' => 'Comments',
+            'href' => 'node/' . $vars['node']->nid,
+            'fragment' => 'disqus_thread',
+            'attributes' => array(
+              'data-disqus-identifier' => 'node/' . $vars['node']->nid,
+            )
+          )
+        ),
+        '#attributes'=> array(
+          'class' => array( 'links', 'inline')
+        )
+      );
+      $vars['content']['links']['#attached']['js'][] = drupal_get_path('module', 'disqus') . '/disqus.js';
+      $vars['content']['links']['#attached']['js'][] = array(
+        'data' => array('disqusComments' => $vars['node']->disqus['domain']),
+        'type' => 'setting',
+      );
+    }
+    $vars['classes'] .= ' node-teaser';
+  }
+
+  /* activity & accommodation */
+  else if ($vars['node']->type == 'activity' || $vars['node']->type == 'accommodation') {
+    $vars['notitle'] = true;
+    $vars['title'] = '';
+    $vars['user_picture'] = '';
+    $vars['display_submitted'] = '';
+    if (!empty($vars['content']['body'])) {
+      $vars['content']['body']['#prefix'] = '<h2 class="field_title">' . $vars['content']['body']['#title'] . '</h2>';
+    }
+    if (!empty($vars['content']['field_address'])) {
+      $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
+    }
+    //print_r($vars['content']);
+  }
+
+  /* If teaser */
+  else if ($vars['teaser']){
+    $vars['user_picture'] = false;
+    $vars['display_submitted'] = false;
+    $vars['content']['links']['created'] = array(
+      '#theme' => 'links__node__node',
+      '#links' => array(
+        'node-create' => array(
+          'title' => format_date($vars['created'], 'custom', 'd M, Y')
+        )
+      )
+    );
+    if(!empty($vars['content']['field_image']['#items'])){
+      $vars['content']['field_image']['#items'] = array($vars['content']['field_image']['#items'][0]);
+    }
+  }
+
+  /* Change of specific nodes */
+  else if($vars['node']->nid != '5363' && $vars['node']->nid != '5362') {
+    if (isset($account->field_full_name)) {
+      $vars['full_name'] = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
+    } else {
+      $vars['full_name'] = $name;
+    }
+    $vars['content']['links']['created'] = array(
+      '#theme' => 'links__node__node',
+      '#links' => array(
+        'node-create' => array(
+          'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
+          'html' => true
+        )
+      )
+    );
+    if(!empty($vars['content']['field_image'])){
+      $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
+    }
+  }
+
+  if(!$vars['notitle'] && empty($vars['title'])){
+    $vars['title'] = 'Верните заголовки емае';
+  }
+  $vars['classes'] .= ' node_view_mode_' . $vars['view_mode'];
 }
 
 
@@ -295,7 +417,7 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass') {
+  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass' || $form_id == 'user_profile_form') {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
@@ -337,6 +459,15 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
           $form['profile_pilot']['field_address'][$lang][0]['street_block']['premise']['#printed'] = TRUE;
           $form['profile_pilot']['field_address'][$lang][0]['street_block']['thoroughfare']['#title'] = t('Address');
        }
+       // Email
+      $form['account']['mail']['#title'] = t('Email');
+      $form['account']['mail']['#description'] = t('This will be your login.');
+      $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
+
+
+      $form['account']['pass']['pass1']['#attributes']['rel'] = t('Enter your password');
+      $form['account']['pass']['pass1']['#description'] = t('Minimum 6 characters.');
+      $form['account']['pass']['pass2']['#attributes']['rel'] = t('Repeat your password');
     break;
 
       case 'user_login':
@@ -347,6 +478,10 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['ulogin']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
         $form['ulogin']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
+        //print_r($form);
+    break;
+      case 'user_profile_form':
+        
         //print_r($form);
     break;
   }
@@ -899,7 +1034,7 @@ function airtribune2_field__field_collection_organizers($variables) {
   return $output;
 }
 /**
- * Implements theme_field__field_collection_organizers.
+ * Implements theme_field__field_full_name.
  */
 function airtribune2_field__field_full_name($variables) {
   if($variables['field_view_mode'] == '_custom_display'){
@@ -911,6 +1046,64 @@ function airtribune2_field__field_full_name($variables) {
    $colon = '';
    $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
   }
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
+  }
+
+  // Render the items.
+  $output .= '<div class="field-items"' . $variables['content_attributes'] . '>';
+  foreach ($variables['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<div class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+  }
+  $output .= '</div>';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+
+  return $output;
+}
+/**
+ * Implements theme_field__field_full_name.
+ */
+function airtribune2_field($variables) {
+  //print $variables['element']['#field_name'];
+  $colon = ':&nbsp;';
+  switch ($variables['element']['#field_name']) {
+    case 'field_accommodation_price_single':
+    case 'field_accommodation_price_double':
+    case 'field_hotel_wifi':
+      $colon = '&nbsp;';
+      $variables['field_view_mode'] = '';
+      $variables['label_hidden'] = '';
+      $variables['classes'] .= ' field_buttons';
+
+      if ($variables['element']['#field_name'] == 'field_hotel_wifi' && !$variables['element']['#items'][0]['value']) {
+        $variables['classes'] .= ' field_wifi_no';
+      }
+
+      break;
+    case 'field_address':
+      $variables['label'] = t('Address');
+    case 'field_email':
+    case 'field_phone':
+    case 'field_url':
+      $variables['field_view_mode'] = '';
+      $variables['label_hidden'] = '';
+      $variables['classes'] .= ' fields_contacts';
+      break;
+    
+    default:
+      //print $variables['element']['#field_name'];
+      # code...
+      break;
+  }
+  //print_r($variables);
+  if($variables['field_view_mode'] == '_custom_display'){
+    return drupal_render($item);
+  }
+  $output = '';
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
     $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
@@ -942,6 +1135,14 @@ function airtribune2_theme() {
     'contest_registration_multiform' => array(
       'render element' => 'form',
       'template' => 'templates/contest-registration-multiform',
+    ),
+    'og_ui_confirm_subscribe' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration',
+    ),
+    'user_profile_form' => array(
+      'render element' => 'form',
+      'template' => 'templates/user-profile-form',
     ),
   );
 }

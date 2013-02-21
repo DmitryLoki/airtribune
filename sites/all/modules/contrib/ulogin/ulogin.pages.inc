@@ -30,8 +30,10 @@ function ulogin_callback() {
   global $user;
   //user is already logged in, tries to add new identity
   if (user_is_logged_in()) {
+    $z=1;
     //identity is already registered
     if ($identity = _ulogin_identity_load($data)) {
+      $z=1;
       //registered to this user
       if ($user->uid == $identity['uid']) {
         drupal_set_message(t('You have already registered this identity.'));
@@ -70,16 +72,25 @@ function ulogin_callback() {
   }
   //handle duplicate email addresses
   elseif (variable_get('ulogin_duplicate_emails', 1) && !empty($data['email']) && $account = user_load_by_mail($data['email'])) {
-    drupal_set_message(t('You are trying to login with email address of another user.'), 'error');
-    if (!empty($account->data['ulogin'])) {
-      $providers = _ulogin_providers_list();
-      drupal_set_message(t('If you are completely sure it is your email address, try to login through %network.',
-        array('%network' => $providers[$account->data['ulogin']['network']])), 'status');
-    }
-    else {
-      drupal_set_message(t('If you are completely sure it is your email address, try to login using your username and password on this site. If you don\'t remember your password - <a href="@password">request new password</a>.',
-        array('@password' => url('user/password'))));
-    }
+//    drupal_set_message(t('You are trying to login with email address of another user.'), 'error');
+    // if mail exists - login this user using mail
+    // generate key & name for authmap
+    $name = "ulogin_" . $data['network'] . "_" . $data['uid'] ;
+    user_set_authmaps($account, array("authname_ulogin" => $name));
+    // write data to ulogin table
+    _ulogin_identity_save($data, $account->uid);
+    // Log user in.
+    $form_state['uid'] = $account->uid;
+    user_login_submit(array(), $form_state);
+//    if (!empty($account->data['ulogin'])) {
+//      $providers = _ulogin_providers_list();
+//      drupal_set_message(t('If you are completely sure it is your email address, try to login through %network.',
+//        array('%network' => $providers[$account->data['ulogin']['network']])), 'status');
+//    }
+//    else {
+//      drupal_set_message(t('If you are completely sure it is your email address, try to login using your username and password on this site. If you don\'t remember your password - <a href="@password">request new password</a>.',
+//        array('@password' => url('user/password'))));
+//    }
   }
   else {
     global $ulogin_data;

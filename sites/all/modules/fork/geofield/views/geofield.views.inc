@@ -53,13 +53,6 @@ function geofield_field_views_data($field) {
           'field_name' => $field['field_name'],
           'real_field' => $table_name,
         ),
-        'argument' => array(
-          'field' => 'field_geofield_distance',
-          'handler' => 'geofield_handler_argument',
-          'table' => $table_name,
-          'field_name' => $field['field_name'],
-          'real_field' => $table_name,
-        ),
       );
     }
   }
