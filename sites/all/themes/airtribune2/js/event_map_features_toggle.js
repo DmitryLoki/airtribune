@@ -18,12 +18,27 @@ jQuery(document).ready(function () {
     }
 
     var eyes = $('.event-map-enable');
-    $('.event-map-enable-accommodations').data('layer', map.layers[4]);
-    $('.event-map-enable-activities').data('layer', map.layers[5]);
+    $('.event-map-enable-accommodations').data('layer', getLayerByDrupalID(map.layers, "event_map_overlay_accommodations"));
+    $('.event-map-enable-activities').data('layer', getLayerByDrupalID(map.layers, "event_map_overlay_activities"));
 
     eyes.bind('click', function () {
         $(this).toggleClass('event-map-enable-active');
         var layer = $(this).data('layer');
+        if(!layer){
+            console.error('No layer found for',this);
+            return
+        }
         layer.setVisibility(!layer.visibility);
-    })
+    });
+
+    function getLayerByDrupalID(layers, drupalID) {
+        for (var i = 0, l = layers.length; i < l; ++i) {
+            if (layers[i].layers !== undefined) {
+                return getLayerByDrupalID(layers[i].layers, drupalID);
+            }
+            if (layers[i].drupalID === drupalID) {
+                return layers[i];
+            }
+        }
+    }
 });

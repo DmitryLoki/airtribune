@@ -20,12 +20,12 @@ function pilot_ctools_plugin_api() {
 function pilot_default_profile2_type() {
   $items = array();
   $items['pilot'] = entity_import('profile2_type', '{
-    "userCategory" : false,
-    "userView" : false,
+    "userCategory" : true,
+    "userView" : true,
     "type" : "pilot",
     "label" : "Pilot profile",
     "weight" : "0",
-    "data" : { "registration" : 0, "use_page" : 1 },
+    "data" : { "registration" : 0, "use_page" : 0 },
     "rdf_mapping" : []
   }');
   return $items;
