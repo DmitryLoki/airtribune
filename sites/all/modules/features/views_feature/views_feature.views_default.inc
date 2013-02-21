@@ -780,6 +780,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = 'Name';
   $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['rel'] = 'nofollow';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
@@ -881,7 +882,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
   $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
   $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '100',
+    'distance' => '30',
     'distance2' => 200,
     'unit' => '6371',
     'origin' => '',
@@ -1014,6 +1015,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = 'Name';
   $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['rel'] = 'nofollow';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
@@ -1061,6 +1063,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -1093,7 +1096,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
   $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
   $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '30',
+    'distance' => '100',
     'distance2' => 200,
     'unit' => '6371',
     'origin' => '',
@@ -2272,6 +2275,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['label'] = '';
   $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Groups audience */
+  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['ui_name'] = 'Groups audience';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
 
   /* Display: Event header */
   $handler = $view->new_display('panel_pane', 'Event header', 'event_header');

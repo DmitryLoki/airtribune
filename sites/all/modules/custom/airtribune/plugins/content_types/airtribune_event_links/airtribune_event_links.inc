@@ -24,26 +24,35 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
   // Event node.
   $node = $context->data;
 
-  $links[] = array(
+  $links['event-selection'] = array(
     'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('Selection and entry fee'),
     'fragment' => 'selection',
   );
-  $links[] = array(
+  $links['event-general-schedule'] = array(
     'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('General schedule'),
     'fragment' => 'general-schedule',
   );
-  $links[] = array(
+  $links['event-daily-schedule'] = array(
     'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('Daily schedule'),
     'fragment' => 'daily-schedule',
   );
-  $links[] = array(
+  $links['event-rules'] = array(
     'href' => 'event/' . $node->nid . '/info/details',
     'title' => t('Rules'),
     'fragment' => 'rules',
   );
+
+  $rules_items = field_get_items('node', $node, AIRTRIBUNE_RULES_FIELD);
+  if (!empty($rules_items[0])) {
+    $links['event-rules-file'] = array(
+      'href' => file_create_url($rules_items[0]['uri']),
+      'title' => t('download'),
+    );
+  }
+
 
   $open_class_items = field_get_items('node', $node, AIRTRIBUNE_OPENCLASS_FIELD);
   // Open class actually is not a link.
@@ -59,6 +68,9 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
       'attributes' => array('class' => 'open-class-allowed'),
     );
   }
+
+
+
 
   $content['links'] = array(
     '#theme' => 'links',
