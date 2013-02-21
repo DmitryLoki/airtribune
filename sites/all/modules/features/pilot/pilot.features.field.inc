@@ -27,7 +27,7 @@ function pilot_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -67,6 +67,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -76,6 +77,7 @@ function pilot_field_default_fields() {
           'available_countries' => array(),
           'format_handlers' => array(
             'address' => 'address',
+            'address-hide-state' => 'address-hide-state',
             'address-hide-country' => 0,
             'organisation' => 0,
             'name-full' => 0,
@@ -142,6 +144,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -198,6 +201,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'max' => '',
         'min' => '',
         'prefix' => '',
@@ -265,6 +269,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -331,6 +336,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -401,6 +407,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -467,6 +474,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -533,6 +541,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -599,6 +608,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -669,6 +679,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -739,6 +750,7 @@ function pilot_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -1038,6 +1050,7 @@ function pilot_field_default_fields() {
         'enable_default_country' => 1,
         'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1336,6 +1349,7 @@ function pilot_field_default_fields() {
         'enable_default_country' => 1,
         'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1404,6 +1418,7 @@ function pilot_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -1471,6 +1486,7 @@ function pilot_field_default_fields() {
       'required' => FALSE,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
