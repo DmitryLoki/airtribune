@@ -1,0 +1,14 @@
+name = HybridAuth
+description = "Provides HybridAuth social sign-on."
+core = 7.x
+php = 5.2
+package = "User interface"
+configure = admin/config/people/hybridauth
+dependencies[] = ctools
+
+; Information added by drupal.org packaging script on 2013-02-20
+version = "7.x-2.6+9-dev"
+core = "7.x"
+project = "hybridauth"
+datestamp = "1361323557"
+
