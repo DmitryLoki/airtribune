@@ -2705,7 +2705,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info #page .panel_info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
 .page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 11px;}
 .page-event-info .pane-node-field-collection-getting-there { padding-bottom:30px}
-.page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}
+/*.page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}*/
 .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
 /*.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
 .page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
