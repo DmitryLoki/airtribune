@@ -3115,7 +3115,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-event-register.page-user .pane-page-content form .form-actions input { width: 240px; text-align: center;}
 
 .page-user #user-login .form-actions { float: left;}
-.page-user #user-login .form-type-ulogin-widget { float: left; margin: 38px 0 0 8px}
+.page-user #user-login .form-type-ulogin-widget, .page-user #user-login .hybridauth-widget { float: left; margin: 38px 0 0 8px}
 .page-user #user-login:after { content: "."; visibility: hidden; height: 0; clear: both; display: block;}
 .page-user #user-login .ulogin_prefix { margin: 38px 0 0 25px; font: 18px/30px Arial, Helvetica, sans-serif; color: #8898a4; float: left;}
 

@@ -1,0 +1,1 @@
+<span class="hybridauth-icon hybridauth-<?php print drupal_strtolower($provider_id); ?>" title="<?php print $provider_name; ?>"><?php print t($provider_name . ' login'); ?></span>
