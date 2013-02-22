@@ -91,23 +91,6 @@ function validation_default_field_validation_rule() {
   $rule = new stdClass();
   $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
   $rule->api_version = 2;
-  $rule->rulename = 'Alphanumeric 2';
-  $rule->name = 'alphanumeric_2';
-  $rule->field_name = 'field_insurance_policy_number';
-  $rule->col = 'value';
-  $rule->entity_type = 'profile2';
-  $rule->bundle = 'pilot';
-  $rule->validator = 'field_validation_regex_validator';
-  $rule->settings = array(
-    'data' => '^[a-zA-Z0-9]*$',
-    'errors' => 1,
-  );
-  $rule->error_message = 'Disallowed symbols in insurance policy number';
-  $export['alphanumeric_2'] = $rule;
-
-  $rule = new stdClass();
-  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
-  $rule->api_version = 2;
   $rule->rulename = 'Alphanumeric';
   $rule->name = 'alphanumeric_sponsors';
   $rule->field_name = 'field_sponsors';
@@ -147,23 +130,6 @@ function validation_default_field_validation_rule() {
   );
   $rule->error_message = 'City field may contain only English text. ';
   $export['city_latin'] = $rule;
-
-  $rule = new stdClass();
-  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
-  $rule->api_version = 2;
-  $rule->rulename = 'FAI license number';
-  $rule->name = 'fai_license_number';
-  $rule->field_name = 'field_fai_license_number';
-  $rule->col = 'value';
-  $rule->entity_type = 'profile2';
-  $rule->bundle = 'pilot';
-  $rule->validator = 'field_validation_regex_validator';
-  $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
-    'errors' => 0,
-  );
-  $rule->error_message = 'Disallowed symbols in FAI license number';
-  $export['fai_license_number'] = $rule;
 
   $rule = new stdClass();
   $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
