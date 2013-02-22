@@ -380,13 +380,15 @@ function airtribune_node_view($node, $view_mode, $langcode) {
   $emails = _airtribune_field_get_items_with_delta('node', $node, $field_email, LANGUAGE_NONE);
   foreach ($emails as $delta => $email) {
     $contacts[$delta]['label'] = $labels[$delta];
-    $contacts[$delta]['email'] = render(field_view_value('node', $node, $field_email, $emails[$delta]));
+    $field_view_value = field_view_value('node', $node, $field_email, $emails[$delta]);
+    $contacts[$delta]['email'] = render($field_view_value);
   }
   
   $phones = _airtribune_field_get_items_with_delta('node', $node, $field_phone, LANGUAGE_NONE);
   foreach ($phones as $delta => $phone) {
     $contacts[$delta]['label'] = $labels[$delta];
-    $contacts[$delta]['phone'] = render(field_view_value('node', $node, $field_phone, $phones[$delta]));
+    $field_view_value = field_view_value('node', $node, $field_phone, $phones[$delta]);
+    $contacts[$delta]['phone'] = render($field_view_value);
   }
   ksort($contacts);
   $content = '';
