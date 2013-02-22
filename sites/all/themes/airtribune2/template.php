@@ -432,7 +432,8 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       unset($form['pass']['#title']);
       $form['actions']['submit']['#value'] = t('Go');
       $form['actions']['#weight'] = 89;
-      $form['ulogin']['#weight'] = 79;
+      unset($form['ulogin']);
+      $form['hybridauth']['#weight'] = 79;
       
       $items = array();
       $items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
@@ -475,8 +476,9 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['name']['#attributes']['rel'] = t('Enter your e-mail');
         unset($form['pass']['#description']);
         $form['pass']['#attributes']['rel'] = t('Enter your password');
-        $form['ulogin']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
-        $form['ulogin']['#weight'] = 89;
+        unset($form['ulogin']);
+        $form['hybridauth']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
+        $form['hybridauth']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
         //print_r($form);
     break;
