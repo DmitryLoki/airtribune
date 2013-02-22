@@ -1,0 +1,103 @@
+.hybridauth-icon {
+  display: block;
+  float: left;
+  width: 16px;
+  height: 16px;
+}
+.hybridauth-none {
+  background: transparent url(icons/openid.png) 0px 0px no-repeat;
+}
+.hybridauth-aol {
+  background: transparent url(icons/aol.png) 0px 0px no-repeat;
+}
+.hybridauth-facebook {
+  background: transparent url(icons/facebook.png) 0px 0px no-repeat;
+}
+.hybridauth-foursquare {
+  background: transparent url(icons/foursquare.png) 0px 0px no-repeat;
+}
+.hybridauth-google {
+  background: transparent url(icons/google.png) 0px 0px no-repeat;
+}
+.hybridauth-linkedin {
+  background: transparent url(icons/linkedin.png) 0px 0px no-repeat;
+}
+.hybridauth-live {
+  background: transparent url(icons/live.png) 0px 0px no-repeat;
+}
+.hybridauth-myspace {
+  background: transparent url(icons/myspace.png) 0px 0px no-repeat;
+}
+.hybridauth-openid {
+  background: transparent url(icons/openid.png) 0px 0px no-repeat;
+}
+.hybridauth-twitter {
+  background: transparent url(icons/twitter.png) 0px 0px no-repeat;
+}
+.hybridauth-yahoo {
+  background: transparent url(icons/yahoo.png) 0px 0px no-repeat;
+}
+
+.hybridauth-px500 {
+  background: transparent url(icons/500px.png) 0px 0px no-repeat;
+}
+.hybridauth-disqus {
+  background: transparent url(icons/disqus.png) 0px 0px no-repeat;
+}
+.hybridauth-github {
+  background: transparent url(icons/github.png) 0px 0px no-repeat;
+}
+.hybridauth-goodreads {
+  background: transparent url(icons/goodreads.png) 0px 0px no-repeat;
+}
+.hybridauth-gowalla {
+  background: transparent url(icons/gowalla.png) 0px 0px no-repeat;
+}
+.hybridauth-identica {
+  background: transparent url(icons/identica.png) 0px 0px no-repeat;
+}
+.hybridauth-instagram {
+  background: transparent url(icons/instagram.png) 0px 0px no-repeat;
+}
+.hybridauth-lastfm {
+  background: transparent url(icons/lastfm.png) 0px 0px no-repeat;
+}
+.hybridauth-mailru {
+  background: transparent url(icons/mailru.png) 0px 0px no-repeat;
+}
+.hybridauth-murmur {
+  background: transparent url(icons/murmur.png) 0px 0px no-repeat;
+}
+.hybridauth-odnoklassniki {
+  background: transparent url(icons/odnoklassniki.png) 0px 0px no-repeat;
+}
+.hybridauth-pixnet {
+  background: transparent url(icons/pixnet.png) 0px 0px no-repeat;
+}
+.hybridauth-plurk {
+  background: transparent url(icons/plurk.png) 0px 0px no-repeat;
+}
+.hybridauth-qq {
+  background: transparent url(icons/qq.png) 0px 0px no-repeat;
+}
+.hybridauth-sina {
+  background: transparent url(icons/sina.png) 0px 0px no-repeat;
+}
+.hybridauth-skyrock {
+  background: transparent url(icons/skyrock.png) 0px 0px no-repeat;
+}
+.hybridauth-tumblr {
+  background: transparent url(icons/tumblr.png) 0px 0px no-repeat;
+}
+.hybridauth-viadeo {
+  background: transparent url(icons/viadeo.png) 0px 0px no-repeat;
+}
+.hybridauth-vimeo {
+  background: transparent url(icons/vimeo.png) 0px 0px no-repeat;
+}
+.hybridauth-vkontakte {
+  background: transparent url(icons/vkontakte.png) 0px 0px no-repeat;
+}
+.hybridauth-yandex {
+  background: transparent url(icons/yandex.png) 0px 0px no-repeat;
+}
