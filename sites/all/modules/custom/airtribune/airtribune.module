@@ -335,3 +335,114 @@ function airtribune_calculate_distance($p1, $p2) {
 
   return $dist;
 }
+
+/**
+ * Implements hook_field_extra_fields().
+ * Show contest contacts as field.
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function airtribune_field_extra_fields() {
+  return array(
+    'node' => array(                           // Entity type
+      'pg_contest' => array(                      // Bundle name
+        'display' => array(                    // "display" or "form"
+          'airtribune_contest_contacts' => array(          // Field name
+            'label' => t('Contacts'),            // Label
+            'description' => t('Contacts'), // Description
+            'weight' => 0,                     // Default weight
+          ),
+        ),
+      ),
+    ),
+  );
+}
+ 
+/**
+ * Implements hook_node_view().
+ * Show contest contacts as field.
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function airtribune_node_view($node, $view_mode, $langcode) {
+  $field_email = 'field_contacts_email';
+  $field_phone = 'field_contacts_phone';
+
+  // @todo: get labels from field_group_multiple widget
+  $labels = array(
+    t('General questions'),
+    t('Selection and entry'),
+    t('Transportation'),
+    t('Accomodation')
+  );    
+
+  $extra_fields = field_extra_fields_get_display('node', $node->type, $view_mode);
+  $contacts = array();
+
+  $emails = _airtribune_field_get_items_with_delta('node', $node, $field_email, LANGUAGE_NONE);
+  foreach ($emails as $delta => $email) {
+    $contacts[$delta]['label'] = $labels[$delta];
+    $field_view_value = field_view_value('node', $node, $field_email, $emails[$delta]);
+    $contacts[$delta]['email'] = render($field_view_value);
+  }
+  
+  $phones = _airtribune_field_get_items_with_delta('node', $node, $field_phone, LANGUAGE_NONE);
+  foreach ($phones as $delta => $phone) {
+    $contacts[$delta]['label'] = $labels[$delta];
+    $field_view_value = field_view_value('node', $node, $field_phone, $phones[$delta]);
+    $contacts[$delta]['phone'] = render($field_view_value);
+  }
+  ksort($contacts);
+  $content = '';
+  foreach ($contacts as $contact) {
+    $content .= '<div class="label"><b>'.$contact['label'].'</b></div>';
+    if (isset($contact['phone'])) {
+      $content .= '<div class="phone">' . t('tel') . ': ' . $contact['phone'] . '</div>';
+    }
+    if (isset($contact['email'])) {
+      $content .= '<div class="email">' . t('email') . ': ' . $contact['email'] . '</div>';
+    }
+  }
+  
+  if (isset($extra_fields['airtribune_contest_contacts']) && $extra_fields['airtribune_contest_contacts']['visible']) {
+    $node->content['airtribune_contest_contacts'] = array(
+      '#markup' => $content,
+    );
+  }
+}
+
+/**
+ * 
+ * Alternative for field_get_items().
+ * Return values with delta keys.
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @todo Get revisions
+ */
+function _airtribune_field_get_items_with_delta($entity_type, $entity, $field_name, $langcode = NULL) {
+  global $language;
+  if (!isset($langcode)) {
+    $langcode = $language->language;
+  }
+  $entity_info = entity_get_info($entity_type);
+  $entity_id_name = $entity_info['entity keys']['id'];
+  $field_info = field_info_field($field_name);
+  $field_storages = $field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT]['field_data_'.$field_name];
+  foreach ($field_storages as $field_storage) {
+    $field_sql[] = $field_storage;
+  }
+  $query = db_select('field_data_'.$field_name, 'f')
+    ->fields('f', array_merge($field_sql, array('delta')))
+    ->condition('f.entity_id', $entity->{$entity_id_name})
+    ->condition('f.language', $langcode)
+    ->orderBy('f.delta', 'ASC')
+    ->execute();
+  
+  $result = array();
+  while ($values = $query->fetchAssoc()) {
+    $delta = $values['delta'];
+    foreach ($values as $key => $value) {
+      if ($key != 'delta') {
+        $result[$delta][str_replace($field_name.'_', '', $key)] = $value;
+      }
+    }
+  }
+  return $result;
+}

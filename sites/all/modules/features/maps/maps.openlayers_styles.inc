@@ -192,7 +192,7 @@ function maps_openlayers_styles() {
   $openlayers_styles->title = 'Marker activity';
   $openlayers_styles->description = 'Activities';
   $openlayers_styles->data = array(
-    'externalGraphic' => 'sites/all/themes/airtribune2/images/markers/marker_info.png',
+    'externalGraphic' => 'sites/all/themes/airtribune2/images/markers/marker_activity.png',
     'pointRadius' => 6,
     'fillColor' => '#EE9900',
     'strokeColor' => '#EE9900',
@@ -218,7 +218,7 @@ function maps_openlayers_styles() {
   $openlayers_styles->title = 'Marker activity active';
   $openlayers_styles->description = 'Activity active';
   $openlayers_styles->data = array(
-    'externalGraphic' => 'sites/all/themes/airtribune2/images/markers/marker_info_active.png',
+    'externalGraphic' => 'sites/all/themes/airtribune2/images/markers/marker_activity_active.png',
     'pointRadius' => 6,
     'fillColor' => '#EE9900',
     'strokeColor' => '#EE9900',

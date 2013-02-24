@@ -780,16 +780,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = 'Name';
   $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['rel'] = 'nofollow';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Single price - overridden */
-  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
-  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Currency - excluded */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
@@ -798,6 +792,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_currency']['label'] = '';
   $handler->display->display_options['fields']['field_price_currency']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_price_currency']['element_label_colon'] = FALSE;
+  /* Field: Single price - overridden */
+  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
+  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Double price - overridden */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
@@ -1014,6 +1015,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = 'Name';
   $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['rel'] = 'nofollow';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
@@ -1061,6 +1063,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2245,6 +2248,14 @@ function views_feature_views_default_views() {
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Groups audience */
+  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['ui_name'] = 'Groups audience';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
