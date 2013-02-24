@@ -784,13 +784,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Single price - overridden */
-  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
-  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Currency - excluded */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
@@ -799,6 +792,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_currency']['label'] = '';
   $handler->display->display_options['fields']['field_price_currency']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_price_currency']['element_label_colon'] = FALSE;
+  /* Field: Single price - overridden */
+  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
+  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Double price - overridden */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
