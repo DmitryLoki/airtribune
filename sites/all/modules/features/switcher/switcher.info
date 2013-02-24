@@ -28,7 +28,6 @@ dependencies[] = date_views
 dependencies[] = dblog
 dependencies[] = device
 dependencies[] = disqus
-dependencies[] = double_field
 dependencies[] = draggableviews
 dependencies[] = eck
 dependencies[] = elements
