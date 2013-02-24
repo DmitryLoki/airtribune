@@ -2248,6 +2248,14 @@ function views_feature_views_default_views() {
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Groups audience */
+  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['ui_name'] = 'Groups audience';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
