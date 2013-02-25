@@ -205,9 +205,12 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
     $url = 'event/' . $vars['display']->args[0] . '/info/details';
     $options  = array('fragment' => $vars['pane']->configuration['more']['fragment']);
-
     $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
-    $vars['more'] = l($vars['pane']->configuration['more']['title'], $url, $options);
+
+    // For some panes the 'view more' link should not be shown.
+    if (isset($vars['pane']->configuration['more']['title'])) {
+      $vars['more'] = l($vars['pane']->configuration['more']['title'], $url, $options);
+    }
   }
   // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {

@@ -601,6 +601,9 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'How to get here',
+      'more' => array(
+        'fragment' => 'how_to_get_here',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
