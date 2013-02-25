@@ -506,9 +506,9 @@ function image_styles_feature_image_default_styles() {
     ),
   );
 
-  // Exported image style: user_pirctue_mini.
-  $styles['user_pirctue_mini'] = array(
-    'name' => 'user_pirctue_mini',
+  // Exported image style: user_picture_mini.
+  $styles['user_picture_mini'] = array(
+    'name' => 'user_picture_mini',
     'effects' => array(
       2 => array(
         'label' => 'Resize',

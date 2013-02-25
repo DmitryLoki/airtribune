@@ -47,7 +47,7 @@ function accommodation_strongarm() {
           'weight' => '5',
         ),
         'metatags' => array(
-          'weight' => '11',
+          'weight' => '10',
         ),
         'xmlsitemap' => array(
           'weight' => '2',

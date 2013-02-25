@@ -21,7 +21,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
+    'data' => '^[[:alpha:][:punct:][:digit:] ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -33,7 +33,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Address field may contain only English text.';
+  $rule->error_message = 'Invalid symbols in Address field.';
   $export['address1_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -47,7 +47,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
+    'data' => '^[[:alpha:][:punct:][:digit:] ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -59,7 +59,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Address field may contain only English text.';
+  $rule->error_message = 'Invalid symbols in Address field.';
   $export['address2_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -73,28 +73,20 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9]*$',
+    'data' => '^[a-zA-Z0-9[:punct:]\\s]*$',
+    'bypass' => 0,
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      6 => 0,
+      5 => 0,
+      4 => 0,
+      7 => 0,
+    ),
     'errors' => 0,
   );
   $rule->error_message = 'Disallowed symbols in paraglider model';
   $export['alphanumeric'] = $rule;
-
-  $rule = new stdClass();
-  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
-  $rule->api_version = 2;
-  $rule->rulename = 'Alphanumeric 2';
-  $rule->name = 'alphanumeric_2';
-  $rule->field_name = 'field_insurance_policy_number';
-  $rule->col = 'value';
-  $rule->entity_type = 'profile2';
-  $rule->bundle = 'pilot';
-  $rule->validator = 'field_validation_regex_validator';
-  $rule->settings = array(
-    'data' => '^[a-zA-Z0-9]*$',
-    'errors' => 1,
-  );
-  $rule->error_message = 'Disallowed symbols in insurance policy number';
-  $export['alphanumeric_2'] = $rule;
 
   $rule = new stdClass();
   $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
@@ -142,23 +134,6 @@ function validation_default_field_validation_rule() {
   $rule = new stdClass();
   $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
   $rule->api_version = 2;
-  $rule->rulename = 'FAI license number';
-  $rule->name = 'fai_license_number';
-  $rule->field_name = 'field_fai_license_number';
-  $rule->col = 'value';
-  $rule->entity_type = 'profile2';
-  $rule->bundle = 'pilot';
-  $rule->validator = 'field_validation_regex_validator';
-  $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
-    'errors' => 0,
-  );
-  $rule->error_message = 'Disallowed symbols in FAI license number';
-  $export['fai_license_number'] = $rule;
-
-  $rule = new stdClass();
-  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
-  $rule->api_version = 2;
   $rule->rulename = 'Insurance_alphanumeric';
   $rule->name = 'insurance_alphanumeric';
   $rule->field_name = 'field_insurance_company';
@@ -167,7 +142,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
+    'data' => '^[a-zA-Z0-9[:punct:]\\s]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -193,7 +168,16 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z]*$',
+    'data' => '^[a-zA-Z0-9[:punct:]\\s]*$',
+    'bypass' => 0,
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      6 => 0,
+      5 => 0,
+      4 => 0,
+      7 => 0,
+    ),
     'errors' => 1,
   );
   $rule->error_message = 'Non-latin symbols in paraglider manufacturer';
