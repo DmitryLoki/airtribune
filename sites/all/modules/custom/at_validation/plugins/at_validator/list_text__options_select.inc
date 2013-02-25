@@ -1,9 +1,5 @@
 <?php
 
-// TODO:
-// Selector is not correctly defined.
-// Ajax on select fires only once.
-
 $plugin = array(
   'field_type' => 'list_text',
   'widget_type' => 'options_select',
@@ -12,14 +8,13 @@ $plugin = array(
 );
 
 function at_validation_validator__list_text__options_select(&$element, &$form_state, $context) {
-  $element['#ajax'] = array(
-    'path' => 'at-validation/ajax',
+  $element['#ajax'] = at_validation_ajax_defaults();
+  $element['#ajax'] += array(
     'event' => 'change',
   );
 }
 
 function at_validation_validator__list_text__options_select_id($element, $triggering_element, &$errors) {
   $selector = '#' . $element['#id'];
-  //$selector = '#edit-profile-pilot-field-blood-type-und';
   return $selector;
 }

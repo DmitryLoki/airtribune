@@ -6,7 +6,7 @@
 function at_validation_menu() {
   $items['at-validation/ajax'] = array(
     'title' => 'Clientside validation ajax callback',
-    'page callback' => '_at_validation_ajax',
+    'page callback' => 'at_validation_ajax',
     // TODO: check access arguments
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -15,12 +15,52 @@ function at_validation_menu() {
 }
 
 /**
+ * Generic Ajax callback.
+ * Check if multiform is used and select corresponding callback function.
+ */
+function at_validation_ajax() {
+  $multiform = isset($_POST['multiform']);
+  
+  if (!$multiform) {
+    list($form, $form_state) = ajax_get_form();
+    return _at_validation_ajax($form, $form_state);
+  }
+  else {
+    // TODO: enable is_multiform_page(TRUE);
+    // Maybe this should be moved to multiform
+    module_load_include('inc', 'multiform', 'multiform.ajax');
+    // We need to set this flag for at_validation_ajax_defaults().
+    is_multiform_page(TRUE);
+    
+    // TODO: Get _multiform_index
+    global $user;
+    if (!$user->uid) {
+      $multiform_index = 'user_register_form_1';
+    }
+    else {
+      $multiform_index = 'og_ui_confirm_subscribe_0';
+    }
+    //$_POST = $multiform['multiform'][$multiform_index];
+    
+    unset($_POST['form_build_id']);
+    unset($_POST['form_id']);
+    $_POST += $_POST['multiform'][$multiform_index];
+    unset($_POST['multiform']);
+    
+    list($form, $form_state) = ajax_get_form();
+    // We don't need to trigger multiform workflow.
+    _at_validation_remove_multiform_data($form, $form_state);
+    
+    return _at_validation_ajax($form, $form_state);
+  }
+}
+
+/**
  * Ajax callback.
  * Returns validation messages for form element.
  */
-function _at_validation_ajax() {
-  
-  list($form, $form_state) = ajax_get_form();
+function _at_validation_ajax($form, $form_state) {
+  //list($form, $form_state) = ajax_get_form();
   $form_state['values'] = array();
   
   // TODO: set 'limit_validation_errors' and remove 'submitted' property.
@@ -110,7 +150,6 @@ function _at_validation_ajax() {
 function at_validation_field_widget_form_alter(&$element, &$form_state, $context) {
   // TODO: Check clientside_validation settings.
   // Check if ajax is enabled for the current field instance (entity, bundle and field).
-  
   if (empty($element['#entity_type']) || empty($element['#bundle'])) {
     return;
   }
@@ -118,15 +157,15 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   // Temporary list of bundles.
   // List bundles for each entity with ajax-validation enabled.
   $entities['profile2'] = array('main', 'pilot');
-  if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities['profile2'])) {
+  $entities['og_membership'] = array('pg_contestant');
+  if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities[$element['#entity_type']])) {
     // Form caching is set in ajax_process_form().
     $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
-    $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    //$element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
     // Search for corresponding plugin for the current widget.
     $field_type = $context['field']['type'];
     $widget_type = $context['instance']['widget']['type'];
-    //dsm($field_type . ' ' . $widget_type);
-    
+    //dsm($field_type . ' ' . $widget_type . ' ' . $element['#field_name']);
     $plugin = at_validation_field_plugin($field_type, $widget_type);
     if (!empty($plugin)) {
       // Add Ajax validator to the widget.
@@ -145,6 +184,7 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_register_form') {
     // Form caching is set in ajax_process_form().
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
     // We should add #ajax settings here but not in #after_build because
     // these should already exist before ajax_process_form() is called.
     // ajax_process_form() is a #process function. #process functions are
@@ -253,6 +293,23 @@ function at_validation_js_alter(&$javascript) {
   
 }
 
+/**
+ * Prepare default ajax settings for plugins.
+ */
+function at_validation_ajax_defaults() {
+  $defaults = array();
+  $callback_path = 'at-validation/ajax';
+  if (function_exists('is_multiform_page') && (is_multiform_page() == TRUE)) {
+    $callback_path = 'at-validation/multiform/ajax';
+  }
+  
+  $defaults = array(
+    'path' => $callback_path,
+    'progress' => 'none',
+  );
+  
+  return $defaults;
+}
 // =======================================================
 // Ctools
 // =======================================================
@@ -283,3 +340,14 @@ function at_validation_ctools_plugin_directory($module, $plugin) {
     return 'plugins/at_validator_generic';
   }
 }
+
+// =======================================================
+// Multiform integration
+// =======================================================
+
+function _at_validation_remove_multiform_data(&$form, &$form_state) {
+  unset($form_state['multiform']);
+  unset($form_state['multiform_index']);
+  unset($form_state['multiform_id']);
+}
+
