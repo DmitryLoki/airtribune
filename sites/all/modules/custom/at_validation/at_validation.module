@@ -289,6 +289,16 @@ function at_validation_js_alter(&$javascript) {
       if (is_multiform_page()) {
         _at_validation_js_alter($setting);
       }
+      // Temp fix
+      // TODO: Clientside validation doesn't add setting #required for name components (see at_helper widget after_build).
+      elseif (isset($setting['clientsideValidation']['forms']['user-register-form']['rules'])) {
+        $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
+        $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+        $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = 'Name is required';
+        $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+        $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required';  
+      }
+      
       $javascript['settings']['data'][$k] = $setting;
       break;
     }
@@ -330,6 +340,12 @@ function _at_validation_js_alter(&$setting) {
       }
     }
   }
+  
+  // TODO: make Name components required.
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['required'] = TRUE;
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = 'Name is required';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['required'] = TRUE;
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = 'Surname is required';
   
   $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
   $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
