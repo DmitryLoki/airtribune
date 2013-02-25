@@ -63,7 +63,7 @@
             ajaxSuccess = Drupal.ajax.prototype.success;
 
         Drupal.ajax.prototype.beforeSerialize = function (element, options) {
-            if (options.url = '/at-validation/ajax') {
+            if (options.url === '/at-validation/ajax') {
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
                 return formValidator.element(activeField);
