@@ -1,7 +1,7 @@
 <?php
 
 $plugin = array(
-  'field_type' => 'addressfield',
+  'field_type' => 'addressfield_0',
   'widget_type' => 'addressfield_standard',
   'validator' => 'at_validation_validator__addressfield__addressfield_standard',
   'selector' => 'at_validation_validator__addressfield__addressfield_standard_id',

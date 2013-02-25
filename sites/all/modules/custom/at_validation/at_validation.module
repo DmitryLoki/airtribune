@@ -286,6 +286,9 @@ function at_validation_js_alter(&$javascript) {
         $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
         $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'customErrorPlacement';
       }
+      if (is_multiform_page()) {
+        _at_validation_js_alter($setting);
+      }
       $javascript['settings']['data'][$k] = $setting;
       break;
     }
@@ -294,17 +297,32 @@ function at_validation_js_alter(&$javascript) {
 }
 
 /**
+ * Change js settings for Clientside Validation (for multiforms).
+ * TODO: This is a temporary solution that works only form this case.
+ */
+function _at_validation_js_alter(&$setting) {
+  $keys = array('og_ui_confirm_subscribe_0' => 'og-ui-confirm-subscribe', 'user_register_form_1' => 'user-register-form');
+  $rules = array();
+  foreach ($keys as $index => $key) {
+    $subform_rules = $setting['clientsideValidation']['forms'][$key]['rules'];
+    foreach ($subform_rules as $k => $rule) {
+      $name = "multiform[$index]" . preg_replace('/^[^[]+/', '[\0]', $k);
+      $rules[$name] = $rule;
+    }
+  }
+  $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
+  $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
+  unset($setting['clientsideValidation']['forms']['user-register-form']);
+  unset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']);
+}
+
+/**
  * Prepare default ajax settings for plugins.
  */
 function at_validation_ajax_defaults() {
   $defaults = array();
-  $callback_path = 'at-validation/ajax';
-  if (function_exists('is_multiform_page') && (is_multiform_page() == TRUE)) {
-    $callback_path = 'at-validation/multiform/ajax';
-  }
-  
   $defaults = array(
-    'path' => $callback_path,
+    'path' => 'at-validation/ajax',
     'progress' => 'none',
   );
   
