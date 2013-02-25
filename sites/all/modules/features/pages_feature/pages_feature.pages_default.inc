@@ -479,6 +479,7 @@ function pages_feature_default_page_manager_pages() {
       'event_brick_right_bottom' => NULL,
     ),
   );
+
   $display->cache = array();
   $display->title = '';
   $display->content = array();
@@ -502,8 +503,9 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'machine_name' => 'info:event_info',
       'more' => array(
-        'title' => 'View more',
+        'title' => t('View more'),
         'fragment' => 'info',
       ),
     );
@@ -563,6 +565,7 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'machine_name' => 'info:awards',
       'more' => array(
         'title' => 'More information about prizes and categories',
         'fragment' => 'awards',
@@ -598,6 +601,9 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'How to get here',
+      'more' => array(
+        'fragment' => 'how_to_get_here',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -696,6 +702,7 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => 'How to get here',
+      'machine_name' => 'info:how_to_get_here',
       'more' => array(
         'title' => 'View more',
         'fragment' => 'how_to_get_here',
@@ -856,6 +863,7 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'machine_name' => 'info:flying_info',
       'more' => array(
         'title' => 'View more',
         'fragment' => 'flying',
@@ -915,6 +923,7 @@ function pages_feature_default_page_manager_pages() {
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'machine_name' => 'info:organizers',
       'more' => array(
         'title' => 'More information about organizers',
         'fragment' => 'organizers',
