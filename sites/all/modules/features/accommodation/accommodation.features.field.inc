@@ -394,7 +394,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '9',
+          'weight' => '11',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -801,7 +801,7 @@ function accommodation_field_default_fields() {
           'module' => 'airtribune',
           'settings' => array(),
           'type' => 'airtribune_carousel',
-          'weight' => '1',
+          'weight' => '3',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -858,11 +858,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -915,10 +915,9 @@ function accommodation_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '10',
+          'type' => 'hidden',
+          'weight' => '9',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -989,7 +988,7 @@ function accommodation_field_default_fields() {
             'thousand_separator' => ' ',
           ),
           'type' => 'number_integer',
-          'weight' => '3',
+          'weight' => '2',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1064,7 +1063,7 @@ function accommodation_field_default_fields() {
             'thousand_separator' => ' ',
           ),
           'type' => 'number_integer',
-          'weight' => '2',
+          'weight' => '1',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1240,7 +1239,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '11',
+          'weight' => '10',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
