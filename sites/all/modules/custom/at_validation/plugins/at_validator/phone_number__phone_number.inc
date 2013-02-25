@@ -9,7 +9,7 @@ $plugin = array(
 );
 
 function at_validation_validator__phone_number__phone_number(&$element, &$form_state, $context) {
-  $element['#after_build'][] = 'at_validation_validator__phone_number__phone_number_after_build';
+  $element['#after_build'][] = 'at_validation_field_widget_form_after_build';
 }
 
 function at_validation_validator__phone_number__phone_number_id($element, $triggering_element, &$errors) {

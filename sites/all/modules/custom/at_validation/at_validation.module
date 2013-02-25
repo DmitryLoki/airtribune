@@ -33,7 +33,13 @@ function at_validation_ajax() {
     is_multiform_page(TRUE);
     
     // TODO: Get _multiform_index
-    $multiform_index = 'user_register_form_1';
+    global $user;
+    if (!$user->uid) {
+      $multiform_index = 'user_register_form_1';
+    }
+    else {
+      $multiform_index = 'og_ui_confirm_subscribe_0';
+    }
     //$_POST = $multiform['multiform'][$multiform_index];
     
     unset($_POST['form_build_id']);

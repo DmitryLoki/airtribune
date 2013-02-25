@@ -9,7 +9,7 @@ $plugin = array(
 );
 
 function at_validation_validator__addressfield__addressfield_standard(&$element, &$form_state, $context) {
-  $element['#after_build'][] = 'at_validation_validator__addressfield__addressfield_standard_after_build';
+  $element['#after_build'][] = 'at_validation_field_widget_form_after_build';
 }
 
 function at_validation_validator__addressfield__addressfield_standard_id($element, $triggering_element, &$errors) {
