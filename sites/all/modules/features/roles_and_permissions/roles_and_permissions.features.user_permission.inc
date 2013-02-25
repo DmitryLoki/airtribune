@@ -420,6 +420,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: create field_pg_contestant_status.
+  $permissions['create field_pg_contestant_status'] = array(
+    'name' => 'create field_pg_contestant_status',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: create newsblog content.
   $permissions['create newsblog content'] = array(
     'name' => 'create newsblog content',
@@ -1153,6 +1162,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own field_pg_contestant_status.
+  $permissions['edit own field_pg_contestant_status'] = array(
+    'name' => 'edit own field_pg_contestant_status',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit own main profile.
   $permissions['edit own main profile'] = array(
     'name' => 'edit own main profile',
@@ -1533,7 +1551,9 @@ function roles_and_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'admin',
       1 => 'administrator',
-      2 => 'organizer',
+      2 => 'anonymous user',
+      3 => 'authenticated user',
+      4 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1568,6 +1588,18 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'view og_roles_permissions',
     'roles' => array(
       0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view own field_pg_contestant_status.
+  $permissions['view own field_pg_contestant_status'] = array(
+    'name' => 'view own field_pg_contestant_status',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+      2 => 'organizer',
+      3 => 'pilot',
     ),
     'module' => 'field_permissions',
   );
