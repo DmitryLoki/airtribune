@@ -6,7 +6,6 @@
 
 include_once 'accommodation.features.inc';
 
-
 /**
  * Implements hook_node_info().
  */

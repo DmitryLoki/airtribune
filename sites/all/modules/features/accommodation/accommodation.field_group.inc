@@ -23,9 +23,9 @@ function accommodation_field_group_info() {
     'label' => 'Price',
     'weight' => '12',
     'children' => array(
-      0 => 'field_price_currency',
+      0 => 'field_price_single',
       1 => 'field_price_double',
-      2 => 'field_price_single',
+      2 => 'field_price_currency',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

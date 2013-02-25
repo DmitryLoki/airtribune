@@ -394,7 +394,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '12',
+          'weight' => '9',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -801,7 +801,7 @@ function accommodation_field_default_fields() {
           'module' => 'airtribune',
           'settings' => array(),
           'type' => 'airtribune_carousel',
-          'weight' => '3',
+          'weight' => '1',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -893,27 +893,32 @@ function accommodation_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          1 => 'EUR',
-          2 => 'USD',
+          'eur' => 'EUR',
+          'usd' => 'USD',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'list_integer',
+      'type' => 'list_text',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => 'eur',
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
+          'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '9',
+          'type' => 'list_default',
+          'weight' => '10',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -941,7 +946,7 @@ function accommodation_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '15',
+        'weight' => '14',
       ),
     ),
   );
@@ -954,28 +959,19 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_price_double',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
+      'field_permissions' => array(
+        'type' => '0',
       ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'number',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max_length' => '255',
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'number_integer',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
@@ -984,10 +980,16 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '11',
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '3',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1008,17 +1010,18 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'max' => '',
+        'min' => '0',
+        'prefix' => '',
+        'suffix' => '',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '14',
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '13',
       ),
     ),
   );
@@ -1031,28 +1034,19 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_price_single',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
+      'field_permissions' => array(
+        'type' => '0',
       ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'number',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max_length' => '255',
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'number_integer',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
@@ -1061,10 +1055,16 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '10',
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '2',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1085,17 +1085,18 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'max' => '',
+        'min' => '0',
+        'prefix' => '',
+        'suffix' => '',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '13',
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '12',
       ),
     ),
   );
@@ -1239,7 +1240,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '13',
+          'weight' => '11',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
