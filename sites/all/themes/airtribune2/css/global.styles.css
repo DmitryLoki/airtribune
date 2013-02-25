@@ -3247,8 +3247,8 @@ table tr td.:first-child { border-left: none;}
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-single,
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-double,
 .page-event-map-activity-accommodation .pane-node-field-hotel-wifi,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-single,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-double,
+.page-event-map-activity-accommodation .field-name-field-price-single,
+.page-event-map-activity-accommodation .field-name-field-price-double,
 .page-event-map-activity-accommodation .field-name-field-hotel-wifi { float: left; color: #525d66; font: bold 16px/18px Arial, Helvetica, sans-serif; margin: 6px 27px 16px 2px;}
 .page-event-map-activity-accommodation .pane-hq-distance .pane-content { font-weight: bold; line-height: 18px; position: relative; z-index: 10; font-size: 16px}
 .page-event-map-activity-accommodation .pane-hq-distance .hq-distance,
@@ -3261,9 +3261,9 @@ table tr td.:first-child { border-left: none;}
 }
 .page-event-map-activity-accommodation .field_buttons .field-label { padding-top: 2px;}
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-single .field-items,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-single .field-items { background: #f3c740; border-color: #e8c041}
+.page-event-map-activity-accommodation .field-name-field-price-single .field-items { background: #f3c740; border-color: #e8c041}
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-double .field-items,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-double .field-items { background: #f39d40; border-color: #e89841}
+.page-event-map-activity-accommodation .field-name-field-price-double .field-items { background: #f39d40; border-color: #e89841}
 .page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items,
 .page-event-map-activity-accommodation .field-name-field-hotel-wifi .field-items { background: #dae25e url(../images/wifi.png) no-repeat 6px 4px; border-color: #d0db5d; padding-left: 30px;}
 .page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items .field-item,

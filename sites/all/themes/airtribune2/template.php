@@ -1082,7 +1082,9 @@ function airtribune2_field($variables) {
   switch ($variables['element']['#field_name']) {
     case 'field_price_single':
     case 'field_price_double':
-
+    
+      $colon = '&nbsp;';
+      $variables['classes'] .= ' field_buttons';
       $currency = field_view_field('node', $element['#object'], 'field_price_currency');
       if (isset($variables['items'][0], $currency)) {
         $variables['items'][0]['#suffix'] = ' ' . render($currency);
