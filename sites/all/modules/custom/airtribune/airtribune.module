@@ -202,11 +202,15 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   // Add 'view more' links to panes.
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
-    $vars['more'] = l(
-      $vars['pane']->configuration['more']['title'],
-      'event/' . $vars['display']->args[0] . '/info/details',
-      array('fragment' => $vars['pane']->configuration['more']['fragment'])
-    );
+
+    $url = 'event/' . $vars['display']->args[0] . '/info/details';
+    $options  = array('fragment' => $vars['pane']->configuration['more']['fragment']);
+    $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
+
+    // For some panes the 'view more' link should not be shown.
+    if (isset($vars['pane']->configuration['more']['title'])) {
+      $vars['more'] = l($vars['pane']->configuration['more']['title'], $url, $options);
+    }
   }
   // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
@@ -313,7 +317,6 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
  * Great-circle distance.
  */
 function airtribune_calculate_distance($p1, $p2) {
-
   $earth_radius = 6372795;
 
   $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);

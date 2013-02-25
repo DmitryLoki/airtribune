@@ -236,6 +236,12 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if($variables['pane']->subtype == 'paragliding_pilots_list-fai'){
     $variables['title'] = '';
   }
+  if ($variables['pane']->type == 'node_title') {
+    if (arg(2) && arg(2) == 'map' && arg(3)) {
+      $n = node_load(arg(3));
+      $variables['content'] = $n->title;
+    }
+  }
   //print_r($variables);
 }
 
@@ -332,7 +338,7 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_address'])) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
-    //print_r($vars['content']);
+    //print_r(node_load($vars['node']->nid));
   }
 
   /* If teaser */
