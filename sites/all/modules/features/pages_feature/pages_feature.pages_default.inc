@@ -297,7 +297,7 @@ function pages_feature_default_page_manager_pages() {
             'description' => 'Temporary lock past events',
             'php' => 'if (isset($contexts[\'context_airtribune_event_1\']->data)) {
   $node = $contexts[\'context_airtribune_event_1\']->data;
-  $next_events = array(5366, 5365, 5364, 5359);
+  $next_events = array(5366, 5365, 5364, 5359, 5438);
   return !in_array($node->nid, $next_events);
 }',
           ),
