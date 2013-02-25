@@ -1070,11 +1070,19 @@ function airtribune2_field__field_full_name($variables) {
  * Implements theme_field__field_full_name.
  */
 function airtribune2_field($variables) {
+  $element = $variables['element'];
   //print $variables['element']['#field_name'];
   $colon = ':&nbsp;';
   switch ($variables['element']['#field_name']) {
-    case 'field_accommodation_price_single':
-    case 'field_accommodation_price_double':
+    case 'field_price_single':
+    case 'field_price_double':
+
+      $currency = field_view_field('node', $element['#object'], 'field_price_currency');
+      if (isset($variables['items'][0], $currency)) {
+        $variables['items'][0]['#suffix'] = ' ' . render($currency);
+      }
+
+      break;
     case 'field_hotel_wifi':
       $colon = '&nbsp;';
       $variables['field_view_mode'] = '';
@@ -1220,3 +1228,4 @@ function airtribune2_js_alter(&$javascript) {
     $javascript[$oj_path]['weight'] = $javascript[$nav_path]['weight'] + 0.001;
   }
 }
+
