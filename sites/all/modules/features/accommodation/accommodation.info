@@ -19,6 +19,7 @@ dependencies[] = invisimail
 dependencies[] = link
 dependencies[] = list
 dependencies[] = media
+dependencies[] = number
 dependencies[] = openlayers
 dependencies[] = reverse_geocode_widget
 dependencies[] = strongarm
