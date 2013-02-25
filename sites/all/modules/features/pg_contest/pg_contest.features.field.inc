@@ -425,7 +425,7 @@ function pg_contest_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text_long',
     ),
     'field_instance' => array(
@@ -506,7 +506,7 @@ function pg_contest_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'text_long',
     ),
     'field_instance' => array(
