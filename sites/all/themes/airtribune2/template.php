@@ -1235,3 +1235,15 @@ function airtribune2_js_alter(&$javascript) {
   }
 }
 
+/**
+ * Implements hook_tablesort_indicator().
+ */
+function airtribune2_tablesort_indicator($variables) {
+  if ($variables['style'] == "asc") {
+    return '<span class="arrow_sort arrow-asc" title="' . t('sort ascending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-asc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort ascending'), 'title' => t('sort ascending')));
+  }
+  else {
+    return '<span class="arrow_sort arrow-desc" title="' . t('sort descending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-desc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort descending'), 'title' => t('sort descending')));
+  }
+}
+
