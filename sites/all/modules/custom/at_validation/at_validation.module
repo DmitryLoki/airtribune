@@ -310,6 +310,27 @@ function _at_validation_js_alter(&$setting) {
       $rules[$name] = $rule;
     }
   }
+  
+  // TODO: This is a temp fix for phone fields.
+  // There is a bug with title. Instead field's #name is used.
+  $names = array(
+    'multiform[user_register_form_1][profile_pilot][field_phone][und][0][number]' => array(
+      'original' => 'profile_pilot[field_phone][und][0][number]',
+      'replacement' => 'Mobile phone number',
+    ),
+    'multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][number]' => array(
+      'original' => 'profile_pilot[field_person_phone][und][0][number]',
+      'replacement' => 'Phone',
+    ),
+  );
+  foreach ($names as $key => $data) {
+    if (!empty($rules[$key]['messages'])) {
+      foreach ($rules[$key]['messages'] as $m => $msg) {
+        $rules[$key]['messages'][$m] = str_replace($data['original'], $data['replacement'], $msg);
+      }
+    }
+  }
+  
   $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
   $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
   unset($setting['clientsideValidation']['forms']['user-register-form']);
