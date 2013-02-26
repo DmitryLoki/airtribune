@@ -34,8 +34,8 @@ $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#prefix'] = ''
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
 $reg_form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-$reg_form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your name English transcription.');
-$reg_form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname English transcription.');
+$reg_form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your name in English transcription.');
+$reg_form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
 $reg_form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
 // Print components.
