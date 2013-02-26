@@ -242,6 +242,11 @@ function airtribune2_preprocess_panels_pane(&$variables) {
       $variables['content'] = $n->title;
     }
   }
+  if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
+    $variables['classes_array'][] = 'wrapper-with-link';
+    //dsm($variables);
+
+  }
   //print_r($variables);
 }
 
@@ -1082,7 +1087,9 @@ function airtribune2_field($variables) {
   switch ($variables['element']['#field_name']) {
     case 'field_price_single':
     case 'field_price_double':
-
+    
+      $colon = '&nbsp;';
+      $variables['classes'] .= ' field_buttons';
       $currency = field_view_field('node', $element['#object'], 'field_price_currency');
       if (isset($variables['items'][0], $currency)) {
         $variables['items'][0]['#suffix'] = ' ' . render($currency);
@@ -1232,6 +1239,18 @@ function airtribune2_js_alter(&$javascript) {
   $oj_path = drupal_get_path('theme', 'airtribune2') . '/js/ol.js';
   if (isset($javascript[$nav_path]) && isset($javascript[$oj_path])) {
     $javascript[$oj_path]['weight'] = $javascript[$nav_path]['weight'] + 0.001;
+  }
+}
+
+/**
+ * Implements hook_tablesort_indicator().
+ */
+function airtribune2_tablesort_indicator($variables) {
+  if ($variables['style'] == "asc") {
+    return '<span class="arrow_sort arrow-asc" title="' . t('sort ascending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-asc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort ascending'), 'title' => t('sort ascending')));
+  }
+  else {
+    return '<span class="arrow_sort arrow-desc" title="' . t('sort descending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-desc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort descending'), 'title' => t('sort descending')));
   }
 }
 

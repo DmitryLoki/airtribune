@@ -53,7 +53,14 @@ function pg_contest_strongarm() {
           'weight' => '31',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'airtribune_contest_contacts' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__pg_contest'] = $strongarm;
