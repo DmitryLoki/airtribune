@@ -2534,7 +2534,7 @@ p { margin:0; padding:9px 0 11px}
 
 .panel-col-seventy .block { margin-bottom:0}
 
-#page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5; background:url(../images/tab_bgr_hover2.png) no-repeat -1000px 0;}
+#page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5; background:url(../images/tab_bgr_reg_hover.png) no-repeat -1000px 0;}
 #page ul.tabs li { margin:0 3px -1px; padding:0 1px; list-style:none; list-style-image:none; border-bottom:1px solid #ccd4d8; background:url(../images/tab_bgr_hover.png) no-repeat -1000px 0;}
 #page ul.tabs li a { border:1px solid #dfe6e9; position:relative; display:inline-block; margin:0; padding:0 18px; height:40px; font:24px/40px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0; border-bottom:none;
 
@@ -2547,15 +2547,15 @@ p { margin:0; padding:9px 0 11px}
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
 }
-#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_hover.png); border-color: #d2b464;
+#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_reg.png); border-color: #d2b464;
 
 	box-shadow: 		inset 0px 1px 4px rgba(255,255,255,.5);
 	-moz-box-shadow: 	inset 0px 1px 4px rgba(255,255,255,.5);						
 	-webkit-box-shadow: inset 0px 1px 4px rgba(255,255,255,.5);
 
 }
-#page ul.tabs li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_hover2.png);}
-#page ul.tabs li a:hover { color:#677581}
+#page ul.tabs li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_reg_hover.png);}
+#page ul.tabs li a:hover { color:#677581; background-image: url(../images/tab_bgr_hover.png)}
 #page ul.tabs li.active { border-bottom:none;}
 #page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
 #page ul.tabs li.active a.registration, #page ul.tabs li.active a.registration:hover { color: #8f733b;}
