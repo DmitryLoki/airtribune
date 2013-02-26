@@ -15,24 +15,13 @@ jQuery(document).ready(function () {
         return element;
     }
 
-    var passField = $('[id^="edit-pass"]'),
-        form = passField.parents('form');
+    var passCheckFunction = Drupal.behaviors.password.passCheck,
+        passCheckFunctionMatch = Drupal.behaviors.password.passCheckMatch;
 
-    passField.bind({
-        'keyup':passValidate,
-        'blur':passValidate
-    });
+    $('#edit-pass-pass1').rules('add', {depends: function(){if(!passCheckFunction()){
+        $('#edit-pass-pass1')
+    }}});
+    $('#edit-pass-pass2').rules('add', {depends: function(){passCheckFunctionMatch();}});
 
-    function passValidate() {
-        var validator = form.validate(),
-            passStrengthBubble =  $(this).siblings('.password-strength.form_booble');
-        if (this.value.length == 0) {
-            passStrengthBubble.hide();
-        } else {
-            passStrengthBubble.css('display','inline-block')
-        }
-        if (validator.element(this)) {
-            $(this).parents('.form-item').find('span.form_booble.validate-error[link="' + $(this).attr('id') + '"]').remove();
-        }
-    }
+    $('#autocomplete li').live('click', function(){jQuery(this).parents('#autocomplete').hide()})
 });

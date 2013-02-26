@@ -19,12 +19,20 @@
     jQuery(document).ready(function () {
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
             formValidator.settings.success = $.proxy(function (error) {
-                var currentElement = this.currentElements,
-                    errorElement = currentElement.data('error-element');
-                currentElement.parents('div.form-item').removeClass('field_error');
-                if (errorElement) {
-                    errorElement.remove();
-                }
+                var successElements = $(this.successList);
+                successElements.each(function (i, element) {
+                    var currentElement = $(element),
+                        errorElement = currentElement.data('error-element');
+                    //Password fields validates separately
+                    if(currentElement.attr('type') == 'password'){
+                        return;
+                    }
+                    currentElement.parents('div.form-item').removeClass('field_error');
+                    if (errorElement) {
+                        errorElement.remove();
+                    }
+                });
+
             }, formValidator);
         };
 
@@ -72,7 +80,7 @@
             }
         };
 
-        Drupal.ajax.prototype.success = function(){
+        Drupal.ajax.prototype.success = function () {
             ajaxSuccess.apply(this, arguments);
             var formValidator = $(activeField).parents('form').validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
