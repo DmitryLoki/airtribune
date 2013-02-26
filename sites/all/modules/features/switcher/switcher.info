@@ -67,7 +67,6 @@ dependencies[] = i18n_variable
 dependencies[] = image
 dependencies[] = image_styles_feature
 dependencies[] = invisimail
-dependencies[] = jcaption
 dependencies[] = jcarousel
 dependencies[] = l10n_update
 dependencies[] = languages
