@@ -317,16 +317,18 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
     $query->fieldCondition('field_full_name', 'given', $given);
     $query->fieldCondition('field_full_name', 'family', $family);
+    $query->fieldCondition('field_birthdate', 'value', $birthdate);
     $name_exists = $query->count()->execute();
-    
+    /*
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
     $query->fieldCondition('field_birthdate', 'value', $birthdate);
     $birthdate_exists = $query->count()->execute();
-    
+    */
     // Set form error if Name and Birthdate already exist.
-    if ($name_exists && $birthdate_exists) {
+    //if ($name_exists && $birthdate_exists) {
+    if ($name_exists) {
       form_error($form[$profile_type]['field_full_name'], 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
     }
   }
