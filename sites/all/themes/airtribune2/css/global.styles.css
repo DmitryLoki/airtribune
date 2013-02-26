@@ -2628,8 +2628,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a { background-position:0 -750px} /* Twitter */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title a { background-position:0 -900px} /* Download */
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title, 
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title a { background-position:0 -1050px} /* Contacts phone */
+.page-event-info .panel_info .pane-field-group h2.pane-title, 
+.page-event-info .panel_info .pane-field-group h2.pane-title a { background-position:0 -1050px} /* Contacts phone */
 
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a:hover { background-position:0 -1200px} /* Event info */ 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a:hover { background-position:0 -1350px} /* Flying site info */ 
@@ -2638,7 +2638,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a:hover { background-position:0 -1800px} /* How to get here */ 
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a:hover { background-position:0 -1950px} /* Twitter */ 
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title a:hover { background-position:0 -2100px} /* Download */ 
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title a:hover { background-position:0 -2250px} /* Contacts phone */
+.page-event-info .panel_info .pane-field-group h2.pane-title a:hover { background-position:0 -2250px} /* Contacts phone */
 
 
 /* Blog */
@@ -2753,12 +2753,16 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-downloads .field-item { float: none;; width: auto;}
 
 /* Contacts phone */
-.page-event-info .pane-node-field-contacts-phone { width:50%; float:left; clear:both;}
-.page-event-info .pane-node-field-contacts-phone .pane-inner { margin-right:10px}
-.pane-node-field-contacts-phone .pane-content { margin-top:9px; }
-.pane-node-field-contacts-phone .field-item { padding-top:10px}
-.page-event-info .pane-node-field-contacts-phone .field-item { white-space:nowrap}
-.pane-node-field-contacts-phone .field-item .label { color:#333a40}
+.page-event-info .pane-field-group { width:50%; float:left; clear:both; color: #525c66; font: 14px/20px Arial, Helvetica, sans-serif;}
+/*.page-event-info .pane-field-group .pane-inner { margin-right:10px}*/
+.page-event-info .pane-field-group .pane-content { padding-top: 9px; margin: 0 8px;}
+.page-event-info .pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
+.page-event-info .pane-field-group .field-label { font-weight: normal; display: inline;}
+.page-event-info .pane-field-group .field-items { display: inline;}
+.page-event-info .pane-field-group .field-name-field-contacts-email .field-items,
+.page-event-info .pane-field-group .field-name-field-name-email .field-items { width: 170px;}
+.page-event-info .pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
+
 
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
@@ -2939,10 +2943,10 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-social-links .pane-content { margin-top:18px}
 
 /* Contacts phone */
-.page-event-details .pane-node-field-contacts-phone { }
-.page-event-details .pane-node-field-contacts-phone .pane-content { margin:-1px 6px 0; }
-.page-event-details .pane-node-field-contacts-phone .field-item { width:50%; float:left;}
-.page-event-details .pane-node-field-contacts-phone .field-item .inner { margin:0 5px;}
+.page-event-details .pane-field-group { }
+.page-event-details .pane-field-group .pane-content { margin:-1px 6px 0; }
+.page-event-details .pane-field-group .field-item { width:50%; float:left;}
+.page-event-details .pane-field-group .field-item .inner { margin:0 5px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}

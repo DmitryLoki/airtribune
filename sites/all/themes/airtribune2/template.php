@@ -368,13 +368,13 @@ function airtribune2_process_node(&$vars) {
     if (isset($account->field_full_name)) {
       $vars['full_name'] = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
     } else {
-      $vars['full_name'] = $name;
+      $vars['full_name'] = $vars['name'];
     }
     $vars['content']['links']['created'] = array(
       '#theme' => 'links__node__node',
       '#links' => array(
         'node-create' => array(
-          'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
+          'title' => t('Posted by !user on !date', array('!user' => render($vars['full_name']), '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
           'html' => true
         )
       )
