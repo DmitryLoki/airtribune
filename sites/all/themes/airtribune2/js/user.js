@@ -29,8 +29,7 @@ Drupal.behaviors.password = {
       var passwordDescription = $('div.password-suggestions', outerWrapper).hide();
 
       // Check the password strength.
-      var passwordCheck = function () {
-
+        Drupal.behaviors.password.passCheck = passwordCheck = function (event) {
         // Evaluate the password strength.
         var result = Drupal.evaluatePasswordStrength(passwordInput.val(), settings.password);
 
@@ -51,16 +50,17 @@ Drupal.behaviors.password = {
         $(innerWrapper).find('.indicator').css('width', result.strength + '%');
 
         // Update the strength indication text.
-
+        $(outerWrapper).find('.validate-error').remove();
         $(innerWrapper).removeClass('field_error').removeClass('field_good').removeClass('field_excellent').find('.error').removeClass('error');
 		$(innerWrapper).addClass('field_'+result.pass);
 		$(innerWrapper).find('.password-strength-text').html(result.indicatorText);
 
         passwordCheckMatch();
+        return result.pass == 'error';
       };
 
       // Check that password and confirmation inputs match.
-      var passwordCheckMatch = function () {
+        Drupal.behaviors.password.passCheckMatch = passwordCheckMatch = function () {
 
         if (confirmInput.val()) {
           var success = passwordInput.val() === confirmInput.val();
@@ -72,7 +72,7 @@ Drupal.behaviors.password = {
           if (this.confirmClass) {
             confirmChild.removeClass(this.confirmClass);
           }
-
+          $(outerWrapper).find('.validate-error').remove();
           // Fill in the success message and set the class accordingly.
           var confirmClass = '';
 		  confirmInput.parent().removeClass('field_error').removeClass('field_good').removeClass('field_excellent').find('.error').removeClass('error');
@@ -83,12 +83,13 @@ Drupal.behaviors.password = {
         else {
           confirmResult.css({ visibility: 'hidden' });
         }
+        return success;
       };
 
       // Monitor keyup and blur events.
       // Blur must be used because a mouse paste does not trigger keyup.
       passwordInput.keyup(passwordCheck).focus(passwordCheck).blur(passwordCheck);
-      confirmInput.keyup(passwordCheckMatch).blur(passwordCheckMatch);
+      confirmInput.keyup(passwordCheckMatch).focus(passwordCheck).blur(passwordCheckMatch);
     });
   }
 };
@@ -101,10 +102,17 @@ Drupal.behaviors.password = {
 Drupal.evaluatePasswordStrength = function (password, translate) {
   var weaknesses = 0, strength = 100, msg = [];
 
+  var alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  var qwerty = 'qwertyuiopasdfghklzxcvbnm';
+  var lowerPassword = password.toLowerCase();
   var hasLowercase = /[a-z]+/.test(password);
   var hasUppercase = /[A-Z]+/.test(password);
   var hasNumbers = /[0-9]+/.test(password);
   var hasPunctuation = /[^a-zA-Z0-9]+/.test(password);
+  var symbolsInRow =
+          /(.)\1{5}/.test(password) ||
+          alphabet.indexOf(lowerPassword) > -1 ||
+          qwerty.indexOf(lowerPassword) > -1;
 
   // If there is a username edit box on the page, compare password to that, otherwise
   // use value from the database.
@@ -116,6 +124,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     msg.push(translate.tooShort);
     strength -= ((6 - password.length) * 5) + 30;
   }
+
 
   // Count weaknesses.
   if (!hasLowercase) {
@@ -135,6 +144,9 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     weaknesses++;
   }
 
+    if(symbolsInRow) {
+        weaknesses = 5;
+    }
   // Apply penalty for each weakness (balanced against length penalty).
   switch (weaknesses) {
     case 1:
@@ -152,6 +164,10 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     case 4:
       strength -= 40;
       break;
+
+    case 5:
+      strength = 0;
+      break;
   }
 
   // Check if password is the same as the username.
@@ -160,9 +176,26 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     // Passwords the same as username are always very weak.
     strength = 5;
   }
-
+  var indicatorText, pass;
   // Based on the strength, work out what text should be shown by the password strength meter.
-  if (strength < 60) {
+  if(password.length == 0){
+      indicatorText = "Password required";
+      pass = 'error';
+  }
+  else if(strength == 0 || password.length < 6){
+    indicatorText = "This password is too simple and easy to guess";
+    pass = 'error';
+  } else if(password.length < 8) {
+    indicatorText = translate.weak;
+    pass = 'error';
+  } else if( password.length < 10) {
+    indicatorText = translate.fair;
+    pass = 'good';
+  } else {
+    indicatorText = translate.strong;
+    pass = 'excellent';
+  }
+  /*else if (strength < 60) {
     indicatorText = translate.weak;
 	pass = 'error';
   } else if (strength < 70) {
@@ -174,7 +207,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
   } else if (strength <= 100) {
     indicatorText = translate.strong;
 	pass = 'excellent';
-  }
+  }*/
 
   // Assemble the final message.
   msg = translate.hasWeaknesses + '<ul><li>' + msg.join('</li><li>') + '</li></ul>';
