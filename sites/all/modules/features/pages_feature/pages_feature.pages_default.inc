@@ -1483,8 +1483,8 @@ function pages_feature_default_page_manager_pages() {
       'bundle' => 'pg_contest',
       'build_mode' => 'default',
       'field_group' => 'group_contacts',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Contacts',
     );
     $pane->cache = array();
     $pane->style = array(
