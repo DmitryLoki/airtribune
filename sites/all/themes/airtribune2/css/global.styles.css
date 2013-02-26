@@ -3469,6 +3469,8 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane td.views-field-title, 
 .event-map-pane td.views-field-body { text-align: left;}
 .event-map-pane .pane-inner { margin: 0;}
+.event-map-pane span.currency-EUR:before { content: "€ "}
+.event-map-pane span.currency-USD:before { content: "$ "}
 
 #disqus_thread { padding-top: 35px;}
 
