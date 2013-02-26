@@ -242,6 +242,11 @@ function airtribune2_preprocess_panels_pane(&$variables) {
       $variables['content'] = $n->title;
     }
   }
+  if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
+    $variables['classes_array'][] = 'wrapper-with-link';
+    //dsm($variables);
+
+  }
   //print_r($variables);
 }
 
