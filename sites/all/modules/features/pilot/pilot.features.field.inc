@@ -707,6 +707,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_person_name',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -745,8 +748,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_person_name',
-      'label' => 'Name',
+      'label' => 'Person to contact in case of emergency',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -1509,11 +1513,11 @@ function pilot_field_default_fields() {
   t('Insurance company');
   t('Insurance policy number');
   t('Mobile phone number');
-  t('Name');
   t('Name in national alphabet');
   t('Paraglider color');
   t('Paraglider manufacturer');
   t('Paraglider model');
+  t('Person to contact in case of emergency');
   t('Phone');
   t('Pilot number in <a href="http://civlrankings.fai.org/" target=_blank>CIVL rankings</a>');
   t('Sponsors');

@@ -236,6 +236,17 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if($variables['pane']->subtype == 'paragliding_pilots_list-fai'){
     $variables['title'] = '';
   }
+  if ($variables['pane']->type == 'node_title') {
+    if (arg(2) && arg(2) == 'map' && arg(3)) {
+      $n = node_load(arg(3));
+      $variables['content'] = $n->title;
+    }
+  }
+  if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
+    $variables['classes_array'][] = 'wrapper-with-link';
+    //dsm($variables);
+
+  }
   //print_r($variables);
 }
 
@@ -332,7 +343,7 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_address'])) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
-    //print_r($vars['content']);
+    //print_r(node_load($vars['node']->nid));
   }
 
   /* If teaser */
@@ -1070,11 +1081,21 @@ function airtribune2_field__field_full_name($variables) {
  * Implements theme_field__field_full_name.
  */
 function airtribune2_field($variables) {
+  $element = $variables['element'];
   //print $variables['element']['#field_name'];
   $colon = ':&nbsp;';
   switch ($variables['element']['#field_name']) {
-    case 'field_accommodation_price_single':
-    case 'field_accommodation_price_double':
+    case 'field_price_single':
+    case 'field_price_double':
+    
+      $colon = '&nbsp;';
+      $variables['classes'] .= ' field_buttons';
+      $currency = field_view_field('node', $element['#object'], 'field_price_currency');
+      if (isset($variables['items'][0], $currency)) {
+        $variables['items'][0]['#suffix'] = ' ' . render($currency);
+      }
+
+      break;
     case 'field_hotel_wifi':
       $colon = '&nbsp;';
       $variables['field_view_mode'] = '';
@@ -1220,3 +1241,16 @@ function airtribune2_js_alter(&$javascript) {
     $javascript[$oj_path]['weight'] = $javascript[$nav_path]['weight'] + 0.001;
   }
 }
+
+/**
+ * Implements hook_tablesort_indicator().
+ */
+function airtribune2_tablesort_indicator($variables) {
+  if ($variables['style'] == "asc") {
+    return '<span class="arrow_sort arrow-asc" title="' . t('sort ascending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-asc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort ascending'), 'title' => t('sort ascending')));
+  }
+  else {
+    return '<span class="arrow_sort arrow-desc" title="' . t('sort descending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-desc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort descending'), 'title' => t('sort descending')));
+  }
+}
+

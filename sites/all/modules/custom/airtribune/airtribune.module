@@ -202,11 +202,15 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   // Add 'view more' links to panes.
   if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
-    $vars['more'] = l(
-      $vars['pane']->configuration['more']['title'],
-      'event/' . $vars['display']->args[0] . '/info/details',
-      array('fragment' => $vars['pane']->configuration['more']['fragment'])
-    );
+
+    $url = 'event/' . $vars['display']->args[0] . '/info/details';
+    $options  = array('fragment' => $vars['pane']->configuration['more']['fragment']);
+    $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
+
+    // For some panes the 'view more' link should not be shown.
+    if (isset($vars['pane']->configuration['more']['title'])) {
+      $vars['more'] = l($vars['pane']->configuration['more']['title'], $url, $options);
+    }
   }
   // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
@@ -313,7 +317,6 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
  * Great-circle distance.
  */
 function airtribune_calculate_distance($p1, $p2) {
-
   $earth_radius = 6372795;
 
   $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
@@ -337,79 +340,6 @@ function airtribune_calculate_distance($p1, $p2) {
 }
 
 /**
- * Implements hook_field_extra_fields().
- * Show contest contacts as field.
- * @author Vyacheslav Malchik <info@vkey.biz>
- */
-function airtribune_field_extra_fields() {
-  return array(
-    'node' => array(                           // Entity type
-      'pg_contest' => array(                      // Bundle name
-        'display' => array(                    // "display" or "form"
-          'airtribune_contest_contacts' => array(          // Field name
-            'label' => t('Contacts'),            // Label
-            'description' => t('Contacts'), // Description
-            'weight' => 0,                     // Default weight
-          ),
-        ),
-      ),
-    ),
-  );
-}
- 
-/**
- * Implements hook_node_view().
- * Show contest contacts as field.
- * @author Vyacheslav Malchik <info@vkey.biz>
- */
-function airtribune_node_view($node, $view_mode, $langcode) {
-  $field_email = 'field_contacts_email';
-  $field_phone = 'field_contacts_phone';
-
-  // @todo: get labels from field_group_multiple widget
-  $labels = array(
-    t('General questions'),
-    t('Selection and entry'),
-    t('Transportation'),
-    t('Accomodation')
-  );    
-
-  $extra_fields = field_extra_fields_get_display('node', $node->type, $view_mode);
-  $contacts = array();
-
-  $emails = _airtribune_field_get_items_with_delta('node', $node, $field_email, LANGUAGE_NONE);
-  foreach ($emails as $delta => $email) {
-    $contacts[$delta]['label'] = $labels[$delta];
-    $field_view_value = field_view_value('node', $node, $field_email, $emails[$delta]);
-    $contacts[$delta]['email'] = render($field_view_value);
-  }
-  
-  $phones = _airtribune_field_get_items_with_delta('node', $node, $field_phone, LANGUAGE_NONE);
-  foreach ($phones as $delta => $phone) {
-    $contacts[$delta]['label'] = $labels[$delta];
-    $field_view_value = field_view_value('node', $node, $field_phone, $phones[$delta]);
-    $contacts[$delta]['phone'] = render($field_view_value);
-  }
-  ksort($contacts);
-  $content = '';
-  foreach ($contacts as $contact) {
-    $content .= '<div class="label"><b>'.$contact['label'].'</b></div>';
-    if (isset($contact['phone'])) {
-      $content .= '<div class="phone">' . t('tel') . ': ' . $contact['phone'] . '</div>';
-    }
-    if (isset($contact['email'])) {
-      $content .= '<div class="email">' . t('email') . ': ' . $contact['email'] . '</div>';
-    }
-  }
-  
-  if (isset($extra_fields['airtribune_contest_contacts']) && $extra_fields['airtribune_contest_contacts']['visible']) {
-    $node->content['airtribune_contest_contacts'] = array(
-      '#markup' => $content,
-    );
-  }
-}
-
-/**
  * 
  * Alternative for field_get_items().
  * Return values with delta keys.
@@ -428,7 +358,7 @@ function _airtribune_field_get_items_with_delta($entity_type, $entity, $field_na
   foreach ($field_storages as $field_storage) {
     $field_sql[] = $field_storage;
   }
-  $query = db_select('field_data_'.$field_name, 'f')
+  $query = db_select('field_data_' . $field_name, 'f')
     ->fields('f', array_merge($field_sql, array('delta')))
     ->condition('f.entity_id', $entity->{$entity_id_name})
     ->condition('f.language', $langcode)
