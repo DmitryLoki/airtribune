@@ -35,6 +35,14 @@ function path_breadcrumbs_variable_info($options) {
     'group' => 'path_breadcrumbs',
   );
 
+  $variables['path_breadcrumbs_truncate_length'] = array(
+    'type' => 'number',
+    'title' => t('Title max length', array(), $options),
+    'description' => t('An upper limit of symbols in the title. Title over the limit will be truncated with adding ellipsis at the end.'),
+    'default' => 100,
+    'group' => 'path_breadcrumbs',
+  );
+
   $variables['path_breadcrumbs_rich_snippets'] = array(
     'type' => 'select',
     'title' => t('Rich snippets support', array(), $options),
