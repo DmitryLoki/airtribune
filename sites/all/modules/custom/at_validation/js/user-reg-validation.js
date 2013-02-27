@@ -22,6 +22,4 @@ jQuery(document).ready(function () {
         $('#edit-pass-pass1')
     }}});
     $('#edit-pass-pass2').rules('add', {depends: function(){passCheckFunctionMatch();}});
-
-    $('#autocomplete li').live('click', function(){jQuery(this).parents('#autocomplete').hide()})
 });

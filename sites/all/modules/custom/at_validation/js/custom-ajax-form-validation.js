@@ -86,4 +86,6 @@
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
         }
     });
+
+    $('#autocomplete li').live('click', function(){jQuery(this).parents('#autocomplete').hide()})
 })(jQuery);
