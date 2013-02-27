@@ -1246,21 +1246,18 @@ function pages_feature_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-24';
     $pane->panel = 'event_brick_left_below';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_contacts_phone';
+    $pane->type = 'field_group';
+    $pane->subtype = 'field_group';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'global_phone_number',
-      'delta_limit' => '0',
-      'delta_offset' => '0',
-      'delta_reversed' => 0,
-      'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
+      'label' => NULL,
+      'bundle' => 'pg_contest',
+      'build_mode' => 'default',
+      'field_group' => 'group_contacts',
       'override_title' => 1,
       'override_title_text' => 'Contacts',
-      'anchor' => 'event-contacts',
     );
     $pane->cache = array();
     $pane->style = array(
