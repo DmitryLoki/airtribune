@@ -2756,12 +2756,12 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-field-group { width:50%; float:left; clear:both; color: #525c66; font: 14px/20px Arial, Helvetica, sans-serif;}
 /*.page-event-info .pane-field-group .pane-inner { margin-right:10px}*/
 .page-event-info .pane-field-group .pane-content { padding-top: 9px; margin: 0 8px;}
-.page-event-info .pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
-.page-event-info .pane-field-group .field-label { font-weight: normal; display: inline;}
-.page-event-info .pane-field-group .field-items { display: inline;}
-.page-event-info .pane-field-group .field-name-field-contacts-email .field-items,
-.page-event-info .pane-field-group .field-name-field-name-email .field-items { width: 170px;}
-.page-event-info .pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
+.pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
+.pane-field-group .field-label { font-weight: normal; display: inline;}
+.pane-field-group .field-items { display: inline;}
+.pane-field-group .field-name-field-contacts-email .field-items,
+.pane-field-group .field-name-field-name-email .field-items { width: 170px;}
+.pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
 
 
 /* Organizers */
@@ -2947,8 +2947,9 @@ p { margin:0; padding:9px 0 11px}
 /* Contacts phone */
 .page-event-details .pane-field-group { }
 .page-event-details .pane-field-group .pane-content { margin:-1px 6px 0; }
-.page-event-details .pane-field-group .field-item { width:50%; float:left;}
-.page-event-details .pane-field-group .field-item .inner { margin:0 5px;}
+.page-event-details .pane-field-group .field-wrapper { width:50%; float:left; clear: both;}
+.page-event-details .pane-field-group .even { clear: none;}
+.page-event-details .pane-field-group .field-wrapper > * { margin:0 5px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
