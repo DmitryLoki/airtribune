@@ -2534,7 +2534,7 @@ p { margin:0; padding:9px 0 11px}
 
 .panel-col-seventy .block { margin-bottom:0}
 
-#page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5; background:url(../images/tab_bgr_hover2.png) no-repeat -1000px 0;}
+#page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5; background:url(../images/tab_bgr_reg_hover.png) no-repeat -1000px 0;}
 #page ul.tabs li { margin:0 3px -1px; padding:0 1px; list-style:none; list-style-image:none; border-bottom:1px solid #ccd4d8; background:url(../images/tab_bgr_hover.png) no-repeat -1000px 0;}
 #page ul.tabs li a { border:1px solid #dfe6e9; position:relative; display:inline-block; margin:0; padding:0 18px; height:40px; font:24px/40px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0; border-bottom:none;
 
@@ -2547,15 +2547,15 @@ p { margin:0; padding:9px 0 11px}
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
 }
-#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_hover.png); border-color: #d2b464;
+#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_reg.png); border-color: #d2b464;
 
 	box-shadow: 		inset 0px 1px 4px rgba(255,255,255,.5);
 	-moz-box-shadow: 	inset 0px 1px 4px rgba(255,255,255,.5);						
 	-webkit-box-shadow: inset 0px 1px 4px rgba(255,255,255,.5);
 
 }
-#page ul.tabs li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_hover2.png);}
-#page ul.tabs li a:hover { color:#677581}
+#page ul.tabs li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_reg_hover.png);}
+#page ul.tabs li a:hover { color:#677581; background-image: url(../images/tab_bgr_hover.png)}
 #page ul.tabs li.active { border-bottom:none;}
 #page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
 #page ul.tabs li.active a.registration, #page ul.tabs li.active a.registration:hover { color: #8f733b;}
@@ -2628,8 +2628,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a { background-position:0 -750px} /* Twitter */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title a { background-position:0 -900px} /* Download */
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title, 
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title a { background-position:0 -1050px} /* Contacts phone */
+.page-event-info .panel_info .pane-field-group h2.pane-title, 
+.page-event-info .panel_info .pane-field-group h2.pane-title a { background-position:0 -1050px} /* Contacts phone */
 
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a:hover { background-position:0 -1200px} /* Event info */ 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a:hover { background-position:0 -1350px} /* Flying site info */ 
@@ -2638,7 +2638,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a:hover { background-position:0 -1800px} /* How to get here */ 
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a:hover { background-position:0 -1950px} /* Twitter */ 
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title a:hover { background-position:0 -2100px} /* Download */ 
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title a:hover { background-position:0 -2250px} /* Contacts phone */
+.page-event-info .panel_info .pane-field-group h2.pane-title a:hover { background-position:0 -2250px} /* Contacts phone */
 
 
 /* Blog */
@@ -2753,12 +2753,16 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-downloads .field-item { float: none;; width: auto;}
 
 /* Contacts phone */
-.page-event-info .pane-node-field-contacts-phone { width:50%; float:left; clear:both;}
-.page-event-info .pane-node-field-contacts-phone .pane-inner { margin-right:10px}
-.pane-node-field-contacts-phone .pane-content { margin-top:9px; }
-.pane-node-field-contacts-phone .field-item { padding-top:10px}
-.page-event-info .pane-node-field-contacts-phone .field-item { white-space:nowrap}
-.pane-node-field-contacts-phone .field-item .label { color:#333a40}
+.page-event-info .pane-field-group { width:50%; float:left; clear:both; color: #525c66; font: 14px/20px Arial, Helvetica, sans-serif;}
+/*.page-event-info .pane-field-group .pane-inner { margin-right:10px}*/
+.page-event-info .pane-field-group .pane-content { padding-top: 9px; margin: 0 8px;}
+.page-event-info .pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
+.page-event-info .pane-field-group .field-label { font-weight: normal; display: inline;}
+.page-event-info .pane-field-group .field-items { display: inline;}
+.page-event-info .pane-field-group .field-name-field-contacts-email .field-items,
+.page-event-info .pane-field-group .field-name-field-name-email .field-items { width: 170px;}
+.page-event-info .pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
+
 
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
@@ -2923,7 +2927,9 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
 /*.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}*/
 .page-event-details .pane-node-field-hq-location .clearfix:after { clear:none;}
-.page-event-details .pane-node-field-address { float:left; margin:-6px 0 0 6px; width:200px;}
+.page-event-details #page .pane-node-field-hq-location { margin-bottom: 0;}
+.page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 -4px; width:200px;}
+.page-event-details #page .pane-node-field-address .field-label { font-weight: normal;}
 
 .page-event-details #page .pane-field-collection-item-field-gt-general { margin-bottom:0}
 
@@ -2939,10 +2945,10 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-social-links .pane-content { margin-top:18px}
 
 /* Contacts phone */
-.page-event-details .pane-node-field-contacts-phone { }
-.page-event-details .pane-node-field-contacts-phone .pane-content { margin:-1px 6px 0; }
-.page-event-details .pane-node-field-contacts-phone .field-item { width:50%; float:left;}
-.page-event-details .pane-node-field-contacts-phone .field-item .inner { margin:0 5px;}
+.page-event-details .pane-field-group { }
+.page-event-details .pane-field-group .pane-content { margin:-1px 6px 0; }
+.page-event-details .pane-field-group .field-item { width:50%; float:left;}
+.page-event-details .pane-field-group .field-item .inner { margin:0 5px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
@@ -3487,10 +3493,10 @@ table tr td.:first-child { border-left: none;}
 .views-field-field-pg-contestant-status span.Payment-in-progress { background-position: 0 -49px; color: #efae00;}
 .views-field-field-pg-contestant-status span.Confirmed { background-position: 0 1px; color: #b6c32a;}
 
-.page-event-pilots-country caption { background-image: url(../images/table_action.png); background-repeat: no-repeat; background-position: 8px -967px}
-.page-event-pilots-country caption .countryicon-sprite { margin: 0 15px 2px 4px;}
-.page-event-pilots-country .views-table + .views-table th { display: none;}
-.page-event-pilots-country .views-table + .views-table tr:first-child td { border-top: none;}
+.page-event-pilots .view-paragliding-pilots-list caption { background-image: url(../images/table_action.png); background-repeat: no-repeat; background-position: 8px -967px}
+.page-event-pilots .view-paragliding-pilots-list caption .countryicon-sprite { margin: 0 15px 2px 4px;}
+.page-event-pilots .view-paragliding-pilots-list .views-table + .views-table th { display: none;}
+.page-event-pilots .view-paragliding-pilots-list .views-table + .views-table tr:first-child td { border-top: none;}
 
 .page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
 .page-event-pilots-status td.views-field-field-paraglider-model { width: 66px;}
