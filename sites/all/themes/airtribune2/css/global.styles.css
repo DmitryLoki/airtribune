@@ -3029,6 +3029,7 @@ p { margin:0; padding:9px 0 11px}
 
 .page-user .pane-page-content form .form-item { margin-top:16px; position:relative;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:7px}
+.page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4p; clear: both;}
 .page-user .pane-page-content form .form-item input.form-text,
@@ -3052,7 +3053,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-list-text label { float:left;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { float:left; margin:1px 0 0;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio label { width:auto; float:none; color:#525d66; font-size:16px; margin-right:45px}
-.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:40px}
+.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; /*padding-bottom:40px*/}
 .page-user .pane-page-content form .form-type-select label { float:left; margin-right:19px}
 .page-user .pane-page-content form .form-type-select > div { float:left;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
