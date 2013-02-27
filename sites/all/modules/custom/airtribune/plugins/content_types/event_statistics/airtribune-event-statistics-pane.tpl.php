@@ -13,19 +13,19 @@
     <div class="es-pilots-confirmed">
       <div class="es-count"><?php print $pilots_confirmed; ?></div>
       <div class="es-label">
-        <?php print t('Pilots'); ?><br/>
+        <?php print l(t('Pilots'), $pilots_url); ?><br/>
         <span><?php print t('confirmed'); ?></span>
       </div>
     </div>
     <div class="es-pilots-waiting">
       <div class="es-count"><?php print $pilots_waiting; ?></div>
       <div class="es-label">
-        <?php print t('Pilots'); ?><br/>
+        <?php print l(t('Pilots'), $pilots_url); ?><br/>
         <span><?php print t('in waiting list'); ?></span>
       </div>
     </div>
     <div class="more-link">
-      <?php print $pilots_list_link; ?>
+      <?php print l(t('View pilots list'), $pilots_url); ?><br/>
     </div>
   </div>
   <div class="es-places">
@@ -34,7 +34,7 @@
         <?php print $accommodation; ?>
       </div>
       <div class="es-label">
-        <?php print t('Accommodation'); ?><br/>
+        <?php print l(t('Accommodations'), $map_url, array('fragment' => 'event-accommodations')); ?><br/>
         <span><?php print t('places'); ?></span>
       </div>
     </div>
@@ -43,12 +43,12 @@
         <?php print $activities; ?>
       </div>
       <div class="es-label">
-        <?php print t('Activities'); ?><br/>
+        <?php print l(t('Activities'), $map_url, array('fragment' => 'event-activities')); ?><br/>
         <span><?php print t('places'); ?></span>
       </div>
     </div>
     <div class="more-link">
-      <?php print $event_map_link; ?>
+      <?php print l(t('View event map'), $map_url); ?><br/>
     </div>
   </div>
 </div>

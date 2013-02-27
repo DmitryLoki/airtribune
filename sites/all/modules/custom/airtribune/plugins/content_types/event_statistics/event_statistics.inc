@@ -2,36 +2,36 @@
 
 /**
  * @file
- * Airtribune event statisitics pane plugin.
+ * Event statisitics pane plugin.
  *
  * @see #2544.
  */
 
 // Plugin definition.
 $plugin = array(
-  'title' => t('Airtrubune event statistics'),
+  'title' => t('Event statistics'),
   'single' => TRUE,
   'category' => array('Airtribune'),
   'required context' => new ctools_context_required(t('Node'), 'node'),
 );
 
 /**
- * Render airtribune event title pane.
+ * Render event statisics pane.
  */
-function airtribune_airtribune_event_statistics_content_type_render($subtype, $conf, $panel_args, $context) {
+function airtribune_event_statistics_content_type_render($subtype, $conf, $panel_args, $context) {
 
   if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
     return;
   }
 
-  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_event_statistics';
+  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/event_statistics';
 
   // Event node.
   $node = $context->data;
 
   $content = array(
     '#theme' => 'airtribune_event_statistics_pane',
-    '#attached' => array('css' => array($plugin_path . '/airtribune_event_statistics.css')),
+    '#attached' => array('css' => array($plugin_path . '/event_statistics.css')),
   );
 
   try {
@@ -83,8 +83,7 @@ function airtribune_airtribune_event_statistics_content_type_render($subtype, $c
     return;
   }
 
-  $content['pilots_list_link'] = l(t('View pilot list'), 'event/' . $node->nid . '/pilots');
-  $content['event_map_link'] = l(t('View event map'), 'event/' . $node->nid . '/map');
+  $content['#event_id'] = $node->nid;
 
   return (object) array(
     'module' => 'airtribune',
@@ -96,7 +95,7 @@ function airtribune_airtribune_event_statistics_content_type_render($subtype, $c
 /**
  * Panels module needs this empty form.
  */
-function airtribune_airtribune_event_statistics_content_type_edit_form($form, &$form_state) {
+function airtribune_event_statistics_content_type_edit_form($form, &$form_state) {
   return $form;
 }
 
@@ -109,6 +108,8 @@ function airtribune_airtribune_event_statistics_content_type_edit_form($form, &$
  * @see airtribune-event-statistics-pane.tpl.php
  */
 function template_preprocess_airtribune_event_statistics_pane(&$vars) {
+  $vars['pilots_url'] = 'event/' . $vars['elements']['#event_id'] . '/pilots';
+  $vars['map_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
   foreach (element_children($vars['elements']) as $key) {
     $vars[$key] = render($vars['elements'][$key]);
   }

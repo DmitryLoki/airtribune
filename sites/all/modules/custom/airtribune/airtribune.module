@@ -57,8 +57,8 @@ function airtribune_theme() {
     ),
     'airtribune_event_statistics_pane' => array(
       'template' => 'airtribune-event-statistics-pane',
-      'path' => $content_plugins_path . '/airtribune_event_statistics',
-      'file' => 'airtribune_event_statistics.inc',
+      'path' => $content_plugins_path . '/event_statistics',
+      'file' => 'event_statistics.inc',
       'render element' => 'elements',
     ),
   );
@@ -200,17 +200,26 @@ function airtrubune_get_country_code($langcode) {
  */
 function airtribune_preprocess_panels_pane(&$vars) {
 
-  // Add 'view more' links to panes.
-  if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
+  $configuration = $vars['pane']->configuration;
 
-    $url = 'event/' . $vars['display']->args[0] . '/info/details';
-    $options  = array('fragment' => $vars['pane']->configuration['more']['fragment']);
+  // Add 'view more' links to panes.
+  if (isset($configuration['more'], $vars['display']->args[0])) {
+    $options = array();
+
+    if ($configuration['more']['page'] == 'details') {
+      $url = 'event/' . $vars['display']->args[0] . '/info/details';
+    }
+
+    if (isset($configuration['more']['fragment'])) {
+      $options  = array('fragment' => $configuration['more']['fragment']);
+    }
+
+    if (isset($configuration['more']['title'])) {
+      $vars['more'] = l($configuration['more']['title'], $url, $options);
+    }
+
     $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
 
-    // For some panes the 'view more' link should not be shown.
-    if (isset($vars['pane']->configuration['more']['title'])) {
-      $vars['more'] = l($vars['pane']->configuration['more']['title'], $url, $options);
-    }
   }
   // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
@@ -337,42 +346,4 @@ function airtribune_calculate_distance($p1, $p2) {
   $dist = $ad * $earth_radius;
 
   return $dist;
-}
-
-/**
- * 
- * Alternative for field_get_items().
- * Return values with delta keys.
- * @author Vyacheslav Malchik <info@vkey.biz>
- * @todo Get revisions
- */
-function _airtribune_field_get_items_with_delta($entity_type, $entity, $field_name, $langcode = NULL) {
-  global $language;
-  if (!isset($langcode)) {
-    $langcode = $language->language;
-  }
-  $entity_info = entity_get_info($entity_type);
-  $entity_id_name = $entity_info['entity keys']['id'];
-  $field_info = field_info_field($field_name);
-  $field_storages = $field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT]['field_data_'.$field_name];
-  foreach ($field_storages as $field_storage) {
-    $field_sql[] = $field_storage;
-  }
-  $query = db_select('field_data_' . $field_name, 'f')
-    ->fields('f', array_merge($field_sql, array('delta')))
-    ->condition('f.entity_id', $entity->{$entity_id_name})
-    ->condition('f.language', $langcode)
-    ->orderBy('f.delta', 'ASC')
-    ->execute();
-  
-  $result = array();
-  while ($values = $query->fetchAssoc()) {
-    $delta = $values['delta'];
-    foreach ($values as $key => $value) {
-      if ($key != 'delta') {
-        $result[$delta][str_replace($field_name.'_', '', $key)] = $value;
-      }
-    }
-  }
-  return $result;
 }
