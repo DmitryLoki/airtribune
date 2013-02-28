@@ -43,7 +43,7 @@
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
-            if (!error.text()) {
+            if (!error.text() || element.parent('div.form-item').find('.form_booble').length) {
                 return;
             }
             var errorBubble =
