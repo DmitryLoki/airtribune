@@ -183,7 +183,8 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Pilot number in <a href="http://civlrankings.fai.org/" target=_blank>CIVL rankings</a>',
+      'description' => '<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
+',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1509,6 +1510,8 @@ function pilot_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
+');
   t('Address');
   t('As you wish, you can type in here full name or just the first name of the contact person.');
   t('Blood type');
@@ -1523,7 +1526,6 @@ function pilot_field_default_fields() {
   t('Paraglider model');
   t('Person to contact in case of emergency');
   t('Phone');
-  t('Pilot number in <a href="http://civlrankings.fai.org/" target=_blank>CIVL rankings</a>');
   t('Sponsors');
   t('T-shirt size');
 

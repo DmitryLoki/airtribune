@@ -314,6 +314,11 @@ function at_validation_js_alter(&$javascript) {
           $rules = &$setting['clientsideValidation']['forms']['user-profile-form']['rules'];
           $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'Address field may contain only English text.';
           $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'Address 2 field may contain only English text.';
+          
+          // Address components regex
+          $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          
           unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
         }
         if (isset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']['rules'])) {
@@ -321,6 +326,10 @@ function at_validation_js_alter(&$javascript) {
           $rules = &$setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']['rules'];
           $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'Address field may contain only English text.';
           $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'Address 2 field may contain only English text.';
+          // Address components regex
+          $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          
           unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
           
           $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
@@ -402,6 +411,9 @@ function _at_validation_js_alter(&$setting) {
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'Address field may contain only English text.';
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['messages']['regexMatch'] = 'Address 2 field may contain only English text.';
   unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][postal_code]']['regexMatch']);
+  // Address components regex
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
   
   $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
   $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
@@ -416,7 +428,7 @@ function at_validation_ajax_defaults() {
   $defaults = array();
   $defaults = array(
     'path' => 'at-validation/ajax',
-    'progress' => 'none',
+    //'progress' => 'none',
   );
   
   return $defaults;

@@ -30,7 +30,7 @@ function at_validation_validator__phone_number__phone_number_after_build($elemen
   );
   unset($element['number']['#ajax_processed']);
   $element['number'] = ajax_process_form($element['number'], $form_state);
-  
+  /*
   // /country_codes' component
   $element['country_codes']['#ajax'] = $defaults;
   $element['country_codes']['#ajax'] += array(
@@ -38,6 +38,6 @@ function at_validation_validator__phone_number__phone_number_after_build($elemen
   );
   unset($element['country_codes']['#ajax_processed']);
   $element['country_codes'] = ajax_process_form($element['country_codes'], $form_state);
-  
+  */
   return $element;
 }
