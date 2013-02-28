@@ -1258,6 +1258,7 @@ function pages_feature_default_page_manager_pages() {
       'field_group' => 'group_contacts',
       'override_title' => 1,
       'override_title_text' => 'Contacts',
+      'anchor' => 'event-contacts',
     );
     $pane->cache = array();
     $pane->style = array(
