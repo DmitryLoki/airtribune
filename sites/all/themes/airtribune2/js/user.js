@@ -189,7 +189,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     indicatorText = translate.weak;
     pass = 'error';
   } else if( password.length < 10) {
-    indicatorText = translate.fair;
+    indicatorText = translate.good;
     pass = 'good';
   } else {
     indicatorText = translate.strong;

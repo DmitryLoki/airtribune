@@ -47,7 +47,7 @@
                 return;
             }
             var errorBubble =
-                    jQuery('<span class="validate-error form_booble error"><span class="form_booble_inner">' + error.text() + '</span></span>')
+                    jQuery('<span class="validate-error form_booble error"><span class="form_booble_inner">' + error.html() + '</span></span>')
                         .attr('for', element.attr('id'))
                         .attr('link', element.attr('id')),
                 form = element.parents('div.form-item').addClass('field_error');
@@ -83,9 +83,23 @@
         Drupal.ajax.prototype.success = function () {
             ajaxSuccess.apply(this, arguments);
             var formValidator = $(activeField).parents('form').validate();
-            Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
-        }
+            if(formValidator){
+                Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+            }
+        };
+
+        setTimeout(function(){
+            var passField = $('.password-field');
+            if(passField.length && passField.val() != ''){
+                passField.parents('form').validate().element(passField[0]);
+            }
+        }, 500);
     });
 
-    $('#autocomplete li').live('click', function(){jQuery(this).parents('#autocomplete').hide()})
+    $('#autocomplete li').live('click', function(){jQuery(this).parents('#autocomplete').hide()});
+
+    $(document).bind('click', function(){
+       $('#autocomplete').hide();
+    });
+
 })(jQuery);
