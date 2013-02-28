@@ -35,6 +35,14 @@
 .es-places {
   margin-left: 20px;
 }
+.es-places a {
+  color: #333a40;
+  text-decoration: none;
+}
+.es-places a:hover {
+  color: #0098D1;
+  text-decoration: none;
+}
 
 /* Colors */
 .es-pilots-confirmed .es-count {
