@@ -2756,12 +2756,12 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-field-group { width:50%; float:left; clear:both; color: #525c66; font: 14px/20px Arial, Helvetica, sans-serif;}
 /*.page-event-info .pane-field-group .pane-inner { margin-right:10px}*/
 .page-event-info .pane-field-group .pane-content { padding-top: 9px; margin: 0 8px;}
-.page-event-info .pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
-.page-event-info .pane-field-group .field-label { font-weight: normal; display: inline;}
-.page-event-info .pane-field-group .field-items { display: inline;}
-.page-event-info .pane-field-group .field-name-field-contacts-email .field-items,
-.page-event-info .pane-field-group .field-name-field-name-email .field-items { width: 170px;}
-.page-event-info .pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
+.pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
+.pane-field-group .field-label { font-weight: normal; display: inline;}
+.pane-field-group .field-items { display: inline;}
+.pane-field-group .field-name-field-contacts-email .field-items,
+.pane-field-group .field-name-field-name-email .field-items { width: 170px;}
+.pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
 
 
 /* Organizers */
@@ -2947,8 +2947,9 @@ p { margin:0; padding:9px 0 11px}
 /* Contacts phone */
 .page-event-details .pane-field-group { }
 .page-event-details .pane-field-group .pane-content { margin:-1px 6px 0; }
-.page-event-details .pane-field-group .field-item { width:50%; float:left;}
-.page-event-details .pane-field-group .field-item .inner { margin:0 5px;}
+.page-event-details .pane-field-group .field-wrapper { width:50%; float:left; clear: both;}
+.page-event-details .pane-field-group .even { clear: none;}
+.page-event-details .pane-field-group .field-wrapper > * { margin:0 5px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
@@ -3029,6 +3030,7 @@ p { margin:0; padding:9px 0 11px}
 
 .page-user .pane-page-content form .form-item { margin-top:16px; position:relative;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:7px}
+.page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4p; clear: both;}
 .page-user .pane-page-content form .form-item input.form-text,
@@ -3052,7 +3054,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-list-text label { float:left;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { float:left; margin:1px 0 0;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio label { width:auto; float:none; color:#525d66; font-size:16px; margin-right:45px}
-.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:40px}
+.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; /*padding-bottom:40px*/}
 .page-user .pane-page-content form .form-type-select label { float:left; margin-right:19px}
 .page-user .pane-page-content form .form-type-select > div { float:left;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
@@ -3252,10 +3254,11 @@ table tbody tr:hover { background: #cceffc;}
 table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
 table thead tr + tr th { font-weight: normal;}
 table thead th a { color: #525d66; padding-right: 20px; background: url(../images/table_action.png) no-repeat 100% -1068px;}
+table thead th a:hover { color: #33c0f8; background-position: 100% -1268px;}
 table thead th.active a { color: #33c0f8; padding-right: 0; background: none;}
 table thead th.active a span { display: inline-block; width: 10px; height: 8px; background: url(../images/table_action.png) no-repeat 100% -10000px; margin-left: 10px; padding: 0;}
-table thead th.active a span.arrow-asc { background-position: 0 -1275px;}
-table thead th.active a span.arrow-desc { background-position: 0 -1175px;}
+table thead th.active a span.arrow-asc { background-position: -90px -1275px;}
+table thead th.active a span.arrow-desc { background-position: -90px -1175px;}
 table thead th.views-field:first-child { border-left: none;}
 table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px; vertical-align: top;}
 table .views-row-first td { border-top: none;}
@@ -3497,6 +3500,8 @@ table tr td.:first-child { border-left: none;}
 .page-event-pilots .view-paragliding-pilots-list caption .countryicon-sprite { margin: 0 15px 2px 4px;}
 .page-event-pilots .view-paragliding-pilots-list .views-table + .views-table th { display: none;}
 .page-event-pilots .view-paragliding-pilots-list .views-table + .views-table tr:first-child td { border-top: none;}
+
+.page-event-pilots .pane-views-panes { margin: 0 -1px;}
 
 .page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
 .page-event-pilots-status td.views-field-field-paraglider-model { width: 66px;}

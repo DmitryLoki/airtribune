@@ -80,7 +80,8 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       0 => 'anonymous user',
-      1 => 'editor',
+      1 => 'authenticated user',
+      2 => 'editor',
     ),
     'module' => 'user',
   );
@@ -279,14 +280,18 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: administer profile types.
   $permissions['administer profile types'] = array(
     'name' => 'administer profile types',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'profile2',
   );
 
   // Exported permission: administer profiles.
   $permissions['administer profiles'] = array(
     'name' => 'administer profiles',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'profile2',
   );
 
@@ -1044,7 +1049,10 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit any organizer_profile profile.
   $permissions['edit any organizer_profile profile'] = array(
     'name' => 'edit any organizer_profile profile',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
     'module' => 'profile2',
   );
 
@@ -1069,7 +1077,10 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit any pilot profile.
   $permissions['edit any pilot profile'] = array(
     'name' => 'edit any pilot profile',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
     'module' => 'profile2',
   );
 
@@ -1195,7 +1206,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit own organizer_profile profile'] = array(
     'name' => 'edit own organizer_profile profile',
     'roles' => array(
-      0 => 'organizer',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'organizer',
     ),
     'module' => 'profile2',
   );
@@ -1222,8 +1235,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit own pilot profile'] = array(
     'name' => 'edit own pilot profile',
     'roles' => array(
-      0 => 'authenticated user',
-      1 => 'pilot',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'pilot',
     ),
     'module' => 'profile2',
   );
@@ -1530,7 +1544,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view any organizer_profile profile'] = array(
     'name' => 'view any organizer_profile profile',
     'roles' => array(
-      0 => 'editor',
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'profile2',
   );
@@ -1539,8 +1554,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view any pilot profile'] = array(
     'name' => 'view any pilot profile',
     'roles' => array(
-      0 => 'authenticated user',
-      1 => 'pilot',
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'profile2',
   );
@@ -1619,8 +1634,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own organizer_profile profile'] = array(
     'name' => 'view own organizer_profile profile',
     'roles' => array(
-      0 => 'editor',
-      1 => 'organizer',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'organizer',
     ),
     'module' => 'profile2',
   );
@@ -1629,8 +1645,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own pilot profile'] = array(
     'name' => 'view own pilot profile',
     'roles' => array(
-      0 => 'authenticated user',
-      1 => 'pilot',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'pilot',
     ),
     'module' => 'profile2',
   );
