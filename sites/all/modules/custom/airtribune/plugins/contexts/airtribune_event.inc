@@ -12,7 +12,7 @@ $plugin = array(
   'context' => 'airtribune_context_event',
   'edit form' => 'airtribune_context_event_settings_form',
   'keyword' => 'event',
-  'context name' => 'node',
+  'context name' => 'event',
   'convert list' => 'airtribune_context_event_convert_list',
   'convert' => 'airtribune_context_event_convert',
 );
@@ -28,8 +28,8 @@ function airtribune_context_event($empty, $data = NULL, $conf = FALSE) {
     return;
   }
 
-  $context = new ctools_context('node');
-  $context->plugin = 'node';
+  $context = new ctools_context('event');
+  $context->plugin = 'event';
 
   $wrapper = entity_metadata_wrapper('node', (int) arg(1));
   if (!$wrapper->value()) {

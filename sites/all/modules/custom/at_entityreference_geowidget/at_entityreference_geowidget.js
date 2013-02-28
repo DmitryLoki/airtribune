@@ -17,8 +17,9 @@
                     that.selectedFeature = feature;
                     oldOnSelect.call(that, feature);
                     $("#popup a").click(function (event) {
-                        event.preventDefault();
-                        alert('a')
+                        //event.preventDefault();
+                        alert('a');
+                        return false;
                     });
 
                     $("#popup_close").bind('mousedown', function () {
@@ -75,6 +76,10 @@
                     }
                 }
             }
+        },
+        
+        processClick:function(event){
+   
         }
     }
 })(jQuery);

@@ -59,6 +59,11 @@ function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $f
     '#title' => t('Map'),
     '#markup' => $output_map
   );
+  $element['reference'] = array(
+    '#type' => 'hidden',
+    '#prefix' => '<div class="selected">',
+    '#suffix' => '</div>'
+  );
   drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'])), 'setting');
   return $element;
 }
@@ -83,16 +88,12 @@ function at_entityreference_geowidget_ajax(){
   }
   $view->set_exposed_input(array(
     'field_location_lat' => array(
-      //'min' => $bounds[1],
-      //'max' => $bounds[2],
-      'min' => -180,
-      'max' => 180,
+      'min' => $bounds[1],
+      'max' => $bounds[3],
     ),
     'field_location_lon' => array(
-      /*'min' => $bounds[0],
-      'max' => $bounds[3],*/
-      'min' => -180,
-      'max' => 180,
+      'min' => $bounds[0],
+      'max' => $bounds[2],
     )
   ));
   print drupal_json_encode($view->execute_display('openlayers_1'));
