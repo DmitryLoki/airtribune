@@ -35,11 +35,11 @@
 .es-places {
   margin-left: 20px;
 }
-.es-places a {
+.es-label a {
   color: #333a40;
   text-decoration: none;
 }
-.es-places a:hover {
+.es-label a:hover {
   color: #0098D1;
   text-decoration: none;
 }
