@@ -322,6 +322,11 @@ function at_validation_js_alter(&$javascript) {
           $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'Address field may contain only English text.';
           $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'Address 2 field may contain only English text.';
           unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
+          
+          $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
+          $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
+          $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
+          
         }
         
         $names = array(

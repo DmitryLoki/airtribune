@@ -62,13 +62,15 @@ function at_validation_validator__name__name_widget_id($element, $triggering_ele
       // and return the message.
       if (strpos($error, $patterns['components_blank']) !== FALSE) {
         if ($error != $patterns['components_check']) {
-          $component = ($component == 'given') ? 'family' : 'given';
+          //$component = ($component == 'given') ? 'family' : 'given';
+          unset($error[$k]);
           break;
         }
       }
       // Else if 'Name is required' message.
       elseif ($error == $patterns['field_required']) {
-        $component = 'given';
+        //$component = 'given';
+        unset($error[$k]);
         break;
       }
       // Else if neither case found, return the message and link to the triggering element.
