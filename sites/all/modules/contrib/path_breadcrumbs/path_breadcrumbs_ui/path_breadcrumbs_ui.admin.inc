@@ -131,6 +131,14 @@ function path_breadcrumbs_ui_settings($form, $form_state) {
     '#description' => t('Symbol that separates breadcrumbs.'),
   );
 
+  $form['path_breadcrumbs_settings']['path_breadcrumbs_truncate_length'] = array(
+    '#type' => 'select',
+    '#title' => t('Title max length'),
+    '#default_value' => variable_get('path_breadcrumbs_truncate_length', 100),    
+    '#options' => drupal_map_assoc(range(10, 150)),
+    '#description' => t('An upper limit of symbols in the title. Title over the limit will be truncated with adding ellipsis at the end.'),
+  );
+
   $form['path_breadcrumbs_settings']['path_breadcrumbs_rich_snippets'] = array(
     '#type' => 'select',
     '#title' => t('Rich snippets support'),

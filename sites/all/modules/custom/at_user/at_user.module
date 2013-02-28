@@ -23,11 +23,11 @@ function at_user_menu() {
   );
 
   $items['user/%/pilot'] = array(
-    'title' => 'Edit Pilot',
+    'title' => 'Edit pilot',
     'page callback' => 'at_user_redirect_to_pilot',
     'page arguments' => array(1),
-    'access callback' => 'user_view_access',
-    'access arguments' => array(1),
+    'access callback' => 'user_access',
+    'access arguments' => array('edit own pilot profile'),
     'type' => MENU_LOCAL_TASK,
   );
 

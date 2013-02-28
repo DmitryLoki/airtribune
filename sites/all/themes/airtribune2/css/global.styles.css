@@ -2534,7 +2534,7 @@ p { margin:0; padding:9px 0 11px}
 
 .panel-col-seventy .block { margin-bottom:0}
 
-#page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5; background:url(../images/tab_bgr_hover2.png) no-repeat -1000px 0;}
+#page ul.tabs { margin:0 0 9px; padding:0 5px; border-bottom:1px solid #dce2e5; background:url(../images/tab_bgr_reg_hover.png) no-repeat -1000px 0;}
 #page ul.tabs li { margin:0 3px -1px; padding:0 1px; list-style:none; list-style-image:none; border-bottom:1px solid #ccd4d8; background:url(../images/tab_bgr_hover.png) no-repeat -1000px 0;}
 #page ul.tabs li a { border:1px solid #dfe6e9; position:relative; display:inline-block; margin:0; padding:0 18px; height:40px; font:24px/40px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0; border-bottom:none;
 
@@ -2547,15 +2547,15 @@ p { margin:0; padding:9px 0 11px}
 	-webkit-box-shadow: inset 0px 1px 4px #ffffff
 
 }
-#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_hover.png); border-color: #d2b464;
+#page ul.tabs li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_reg.png); border-color: #d2b464;
 
 	box-shadow: 		inset 0px 1px 4px rgba(255,255,255,.5);
 	-moz-box-shadow: 	inset 0px 1px 4px rgba(255,255,255,.5);						
 	-webkit-box-shadow: inset 0px 1px 4px rgba(255,255,255,.5);
 
 }
-#page ul.tabs li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_hover2.png);}
-#page ul.tabs li a:hover { color:#677581}
+#page ul.tabs li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_reg_hover.png);}
+#page ul.tabs li a:hover { color:#677581; background-image: url(../images/tab_bgr_hover.png)}
 #page ul.tabs li.active { border-bottom:none;}
 #page ul.tabs li.active a, #page ul.tabs li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
 #page ul.tabs li.active a.registration, #page ul.tabs li.active a.registration:hover { color: #8f733b;}
@@ -2608,16 +2608,37 @@ p { margin:0; padding:9px 0 11px}
 
 
 .page-event-info .panel_info {}
-.page-event-info .panel_info h2.pane-title { padding:39px 0 0 71px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0; margin-left:-1px}
+.page-event-info .panel_info h2.pane-title,
+.page-event-info .panel_info h2.pane-title a { padding:39px 0 0 71px; font:24px/22px Arial, Helvetica, sans-serif; color:#333a40; background:url(../images/info_icons.png) no-repeat 0 0; margin-left:-1px}
+.page-event-info .panel_info .wrapper-with-link h2.pane-title { padding: 0; background: none;}
+.page-event-info .panel_info h2.pane-title a { display: inline-block; text-decoration: none;}
+.page-event-info .panel_info h2.pane-title a:hover { color: #00aeef}
 
-.page-event-info .panel_info .pane-node-field-info h2.pane-title { background-position:0 0} /* Event info */
-.page-event-info .panel_info .pane-node-field-flying-info h2.pane-title { background-position:0 -150px} /* Flying site info */
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title { background-position:0 -300px} /* Prize funds and scoring categories */
-.page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title { background-position:0 -450px} /* Organizers */
-.page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title { background-position:0 -600px} /* How to get here */
-.page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title { background-position:0 -750px} /* Twitter */
-.page-event-info .panel_info .pane-node-field-downloads h2.pane-title { background-position:0 -900px} /* Download */
-.page-event-info .panel_info .pane-node-field-contacts-phone h2.pane-title { background-position:0 -1050px} /* Contacts phone */
+.page-event-info .panel_info .pane-node-field-info h2.pane-title, 
+.page-event-info .panel_info .pane-node-field-info h2.pane-title a { background-position:0 0} /* Event info */
+.page-event-info .panel_info .pane-node-field-flying-info h2.pane-title, 
+.page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a { background-position:0 -150px} /* Flying site info */
+.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title, 
+.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
+.page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title, 
+.page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a { background-position:0 -450px} /* Organizers */
+.page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title, 
+.page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a { background-position:0 -600px} /* How to get here */
+.page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title, 
+.page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a { background-position:0 -750px} /* Twitter */
+.page-event-info .panel_info .pane-node-field-downloads h2.pane-title, 
+.page-event-info .panel_info .pane-node-field-downloads h2.pane-title a { background-position:0 -900px} /* Download */
+.page-event-info .panel_info .pane-field-group h2.pane-title, 
+.page-event-info .panel_info .pane-field-group h2.pane-title a { background-position:0 -1050px} /* Contacts phone */
+
+.page-event-info .panel_info .pane-node-field-info h2.pane-title a:hover { background-position:0 -1200px} /* Event info */ 
+.page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a:hover { background-position:0 -1350px} /* Flying site info */ 
+.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
+.page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a:hover { background-position:0 -1650px} /* Organizers */ 
+.page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a:hover { background-position:0 -1800px} /* How to get here */ 
+.page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a:hover { background-position:0 -1950px} /* Twitter */ 
+.page-event-info .panel_info .pane-node-field-downloads h2.pane-title a:hover { background-position:0 -2100px} /* Download */ 
+.page-event-info .panel_info .pane-field-group h2.pane-title a:hover { background-position:0 -2250px} /* Contacts phone */
 
 
 /* Blog */
@@ -2705,7 +2726,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info #page .panel_info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
 .page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 11px;}
 .page-event-info .pane-node-field-collection-getting-there { padding-bottom:30px}
-.page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}
+/*.page-event-info .panel_info .pane-node-field-collection-getting-there .pane-content { margin-top:0}*/
 .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
 /*.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
 .page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
@@ -2732,12 +2753,16 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-downloads .field-item { float: none;; width: auto;}
 
 /* Contacts phone */
-.page-event-info .pane-node-field-contacts-phone { width:50%; float:left; clear:both;}
-.page-event-info .pane-node-field-contacts-phone .pane-inner { margin-right:10px}
-.pane-node-field-contacts-phone .pane-content { margin-top:9px; }
-.pane-node-field-contacts-phone .field-item { padding-top:10px}
-.page-event-info .pane-node-field-contacts-phone .field-item { white-space:nowrap}
-.pane-node-field-contacts-phone .field-item .label { color:#333a40}
+.page-event-info .pane-field-group { width:50%; float:left; clear:both; color: #525c66; font: 14px/20px Arial, Helvetica, sans-serif;}
+/*.page-event-info .pane-field-group .pane-inner { margin-right:10px}*/
+.page-event-info .pane-field-group .pane-content { padding-top: 9px; margin: 0 8px;}
+.pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
+.pane-field-group .field-label { font-weight: normal; display: inline;}
+.pane-field-group .field-items { display: inline;}
+.pane-field-group .field-name-field-contacts-email .field-items,
+.pane-field-group .field-name-field-name-email .field-items { width: 170px;}
+.pane-field-group .field-name-field-contacts-phone .field-items { width: 180px;}
+
 
 /* Organizers */
 .pane-node-field-collection-organizers { padding-bottom:31px}
@@ -2902,7 +2927,9 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
 /*.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}*/
 .page-event-details .pane-node-field-hq-location .clearfix:after { clear:none;}
-.page-event-details .pane-node-field-address { float:left; margin:-6px 0 0 6px; width:200px;}
+.page-event-details #page .pane-node-field-hq-location { margin-bottom: 0;}
+.page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 -4px; width:200px;}
+.page-event-details #page .pane-node-field-address .field-label { font-weight: normal;}
 
 .page-event-details #page .pane-field-collection-item-field-gt-general { margin-bottom:0}
 
@@ -2918,10 +2945,11 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-social-links .pane-content { margin-top:18px}
 
 /* Contacts phone */
-.page-event-details .pane-node-field-contacts-phone { }
-.page-event-details .pane-node-field-contacts-phone .pane-content { margin:-1px 6px 0; }
-.page-event-details .pane-node-field-contacts-phone .field-item { width:50%; float:left;}
-.page-event-details .pane-node-field-contacts-phone .field-item .inner { margin:0 5px;}
+.page-event-details .pane-field-group { }
+.page-event-details .pane-field-group .pane-content { margin:-1px 6px 0; }
+.page-event-details .pane-field-group .field-wrapper { width:50%; float:left; clear: both;}
+.page-event-details .pane-field-group .even { clear: none;}
+.page-event-details .pane-field-group .field-wrapper > * { margin:0 5px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
@@ -3002,6 +3030,7 @@ p { margin:0; padding:9px 0 11px}
 
 .page-user .pane-page-content form .form-item { margin-top:16px; position:relative;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:7px}
+.page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4p; clear: both;}
 .page-user .pane-page-content form .form-item input.form-text,
@@ -3025,7 +3054,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-list-text label { float:left;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { float:left; margin:1px 0 0;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio label { width:auto; float:none; color:#525d66; font-size:16px; margin-right:45px}
-.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:40px}
+.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; /*padding-bottom:40px*/}
 .page-user .pane-page-content form .form-type-select label { float:left; margin-right:19px}
 .page-user .pane-page-content form .form-type-select > div { float:left;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
@@ -3115,7 +3144,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-event-register.page-user .pane-page-content form .form-actions input { width: 240px; text-align: center;}
 
 .page-user #user-login .form-actions { float: left;}
-.page-user #user-login .form-type-ulogin-widget { float: left; margin: 38px 0 0 8px}
+.page-user #user-login .form-type-ulogin-widget, .page-user #user-login .hybridauth-widget { float: left; margin: 38px 0 0 8px}
 .page-user #user-login:after { content: "."; visibility: hidden; height: 0; clear: both; display: block;}
 .page-user #user-login .ulogin_prefix { margin: 38px 0 0 25px; font: 18px/30px Arial, Helvetica, sans-serif; color: #8898a4; float: left;}
 
@@ -3210,7 +3239,7 @@ table { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; po
   border-radius: 0 0 3px 3px;
 
 }
-table caption { position: relative; background: #f1f4f6; color: #677581; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px;
+table caption { position: relative; background: #f1f4f6; color: #758594; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px;
 
   -webkit-border-radius: 3px 3px 0 0 ;
   -moz-border-radius: 3px 3px 0 0 ;
@@ -3222,18 +3251,22 @@ tr.odd { background: none}
 table tr.even { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
 table tbody tr:hover { background: #cceffc;}
-table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 9px 21px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
+table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
 table thead tr + tr th { font-weight: normal;}
-table thead th a { color: #525d66}
-table thead th.active a { color: #1cb7f1}
+table thead th a { color: #525d66; padding-right: 20px; background: url(../images/table_action.png) no-repeat 100% -1068px;}
+table thead th a:hover { color: #33c0f8; background-position: 100% -1268px;}
+table thead th.active a { color: #33c0f8; padding-right: 0; background: none;}
+table thead th.active a span { display: inline-block; width: 10px; height: 8px; background: url(../images/table_action.png) no-repeat 100% -10000px; margin-left: 10px; padding: 0;}
+table thead th.active a span.arrow-asc { background-position: -90px -1275px;}
+table thead th.active a span.arrow-desc { background-position: -90px -1175px;}
 table thead th.views-field:first-child { border-left: none;}
-table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px;}
+table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px; vertical-align: top;}
 table .views-row-first td { border-top: none;}
 table tr td.:first-child { border-left: none;}
 
 
 /* page-event-map-activity-accommodation */
-.page-event-map-activity-accommodation .firstUnit .panel-pane .pane-inner { margin: 0;}
+.page-event-map-activity-accommodation .firstUnit .panel-pane .pane-inner .pane-inner { margin: 0;}
 .page-event-map-activity-accommodation .firstUnit .panel-pane { font: 14px/20px Arial, Helvetica, sans-serif;}
 .page-event-map-activity-accommodation .firstUnit h2.pane-title, .page-event-map-activity-accommodation .firstUnit h2, .page-event-map-activity-accommodation .firstUnit h1 { font: 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding-top: 14px;}
 .page-event-map-activity-accommodation .firstUnit .pane-node-title .pane-content, .page-event-map-activity-accommodation .firstUnit h1 { /*padding-bottom: 26px;*/ font-weight: bold;}
@@ -3244,23 +3277,23 @@ table tr td.:first-child { border-left: none;}
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-single,
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-double,
 .page-event-map-activity-accommodation .pane-node-field-hotel-wifi,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-single,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-double,
-.page-event-map-activity-accommodation .field-name-field-hotel-wifi { float: left; color: #525d66; font: bold 16px/18px Arial, Helvetica, sans-serif; margin: 0 27px 16px 2px;}
+.page-event-map-activity-accommodation .field-name-field-price-single,
+.page-event-map-activity-accommodation .field-name-field-price-double,
+.page-event-map-activity-accommodation .field-name-field-hotel-wifi { float: left; color: #525d66; font: bold 16px/18px Arial, Helvetica, sans-serif; margin: 6px 27px 16px 2px;}
 .page-event-map-activity-accommodation .pane-hq-distance .pane-content { font-weight: bold; line-height: 18px; position: relative; z-index: 10; font-size: 16px}
 .page-event-map-activity-accommodation .pane-hq-distance .hq-distance,
-.page-event-map-activity-accommodation .field_buttons .field-items { display: inline-block; background: #40c2f3; padding: 1px 4px 3px; border: 1px solid #3cbbeb; vertical-align: middle; color: #ffffff; position: relative; margin:0 0 1px 2px;
+.page-event-map-activity-accommodation .field_buttons .field-items { display: inline-block; background: #40c2f3; padding: 2px 4px; border: 1px solid #3cbbeb; vertical-align: middle; color: #ffffff; position: relative; margin:0 0 1px 2px;
 
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 
 }
 .page-event-map-activity-accommodation .field_buttons .field-label { padding-top: 2px;}
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-single .field-items,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-single .field-items { background: #f3c740; border-color: #e8c041}
+.page-event-map-activity-accommodation .field-name-field-price-single .field-items { background: #f3c740; border-color: #e8c041}
 .page-event-map-activity-accommodation .pane-node-field-accommodation-price-double .field-items,
-.page-event-map-activity-accommodation .field-name-field-accommodation-price-double .field-items { background: #f39d40; border-color: #e89841}
+.page-event-map-activity-accommodation .field-name-field-price-double .field-items { background: #f39d40; border-color: #e89841}
 .page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items,
 .page-event-map-activity-accommodation .field-name-field-hotel-wifi .field-items { background: #dae25e url(../images/wifi.png) no-repeat 6px 4px; border-color: #d0db5d; padding-left: 30px;}
 .page-event-map-activity-accommodation .pane-node-field-hotel-wifi .field-items .field-item,
@@ -3282,10 +3315,10 @@ table tr td.:first-child { border-left: none;}
 
 .field-name-field-photo {}
 .field-name-field-photo .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 310px; overflow: hidden;}
-.field-name-field-photo .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 127px;}
+.field-name-field-photo .jcarousel-skin-default .jcarousel-clip-horizontal { width: 466px; overflow: visible; margin-left: 116px;}
 .field-name-field-photo .jcarousel-skin-default .jcarousel-item { width: 466px; height: 310px; border: none; margin: 0 1px;}
 .field-name-field-photo .jcarousel-skin-default .jcarousel-item img { width: 466px; height: 310px;}
-.field-name-field-photo .jcarousel-prev, .field-name-field-photo .jcarousel-next { width: 126px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
+.field-name-field-photo .jcarousel-prev, .field-name-field-photo .jcarousel-next { width: 115px; height: 310px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
 .field-name-field-photo .jcarousel-prev { left: 0;}
 .field-name-field-photo .jcarousel-next { right: 0;}
 .field-name-field-photo .jcarousel-prev:focus, .field-name-field-photo .jcarousel-next:focus { outline: none;}
@@ -3435,16 +3468,43 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane table { margin-top: 0; border-top-width: 0;}
 .event-map-pane table tr a { color: #00aeef; text-decoration: none;}
 .event-map-pane table tr a:hover { text-decoration: underline;}
-.event-map-pane table td.views-field-title { text-align: left;}
-.event-map-pane .view-event-activities table td.views-field-title { width: 205px;}
+.event-map-pane table td.views-field-title { text-align: left; width: 201px;}
+.event-map-pane .view-event-activities table td.views-field-title { /*width: 205px;*/}
 .event-map-pane table td.views-field-body p { padding: 0;}
-.event-map-pane span.currency-EUR:before { content: "€ "}
-.event-map-pane span.currency-USD:before { content: "$ "}
 
 .event-map-pane th.views-field-field-geofield-distance { width: 111px; padding-left: 19px; padding-right: 19px;}
+.event-map-pane .view-event-accommodations th { padding-top: 9px; padding-bottom: 11px;}
 .event-map-pane td { text-align: center;}
 .event-map-pane td.views-field-title, 
 .event-map-pane td.views-field-body { text-align: left;}
 .event-map-pane .pane-inner { margin: 0;}
+.event-map-pane span.currency-EUR:before { content: "€ "}
+.event-map-pane span.currency-USD:before { content: "$ "}
 
 #disqus_thread { padding-top: 35px;}
+
+
+/* Event pilots */
+.page-event-pilots td.views-field-counter { width: 31px;}
+.page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
+.page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center;}
+.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center;}
+
+.views-field-field-pg-contestant-status span { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px;}
+.views-field-field-pg-contestant-status span.Waiting-list { background-position: 0 -99px; color: #c1c7cc;}
+.views-field-field-pg-contestant-status span.Waiting-for-payment { background-position: 0 -149px; color: #97caf2;}
+.views-field-field-pg-contestant-status span.Payment-in-progress { background-position: 0 -49px; color: #efae00;}
+.views-field-field-pg-contestant-status span.Confirmed { background-position: 0 1px; color: #b6c32a;}
+
+.page-event-pilots .view-paragliding-pilots-list caption { background-image: url(../images/table_action.png); background-repeat: no-repeat; background-position: 8px -967px}
+.page-event-pilots .view-paragliding-pilots-list caption .countryicon-sprite { margin: 0 15px 2px 4px;}
+.page-event-pilots .view-paragliding-pilots-list .views-table + .views-table th { display: none;}
+.page-event-pilots .view-paragliding-pilots-list .views-table + .views-table tr:first-child td { border-top: none;}
+
+.page-event-pilots .pane-views-panes { margin: 0 -1px;}
+
+.page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
+.page-event-pilots-status td.views-field-field-paraglider-model { width: 66px;}
+.page-event-pilots-status td.views-field-field-sponsors { width: 86px;}
+.page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
+.page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}

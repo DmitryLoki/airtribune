@@ -186,7 +186,7 @@ function advert_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_link',
       'label' => 'Link',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'attributes' => array(
           'class' => '',
