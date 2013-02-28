@@ -125,10 +125,11 @@ function rules_feature_default_rules_configuration() {
       "REQUIRES" : [ "rules" ],
       "ON" : [ "user_login" ],
       "IF" : [
-        { "data_is_empty" : { "data" : [ "account:profile-main:field-full-name" ] } }
+        { "data_is_empty" : { "data" : [ "account:profile-main:field-full-name" ] } },
+        { "hybridauth_user_created_hybridauth" : { "account" : [ "account" ] } }
       ],
       "DO" : [
-        { "drupal_message" : { "message" : "Please enter your first, last name and birthday." } },
+        { "drupal_message" : { "message" : "Your account has been created with Facebook login.\u003Cbr\u003E\r\nPlease, fill the form below." } },
         { "redirect" : { "url" : "[account:edit-url]" } }
       ]
     }
