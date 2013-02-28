@@ -1294,12 +1294,6 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'event/%pm_arg/info',
       'tabtamer_title' => '',
     ),
-    'event/%/pilots' => array(
-      'weight' => '30',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'event/%pm_arg/pilots',
-      'tabtamer_title' => '',
-    ),
     'event/%/blog' => array(
       'weight' => '0',
       'action' => 'enabled',
@@ -1310,6 +1304,12 @@ function variables_strongarm() {
       'weight' => '40',
       'action' => 'enabled',
       'tabtamer_original_path' => 'event/%pm_arg/map',
+      'tabtamer_title' => '',
+    ),
+    'event/%/pilots' => array(
+      'weight' => '30',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%pm_arg/pilots',
       'tabtamer_title' => '',
     ),
     'user/%/pilot' => array(
@@ -1338,14 +1338,20 @@ function variables_strongarm() {
     ),
     'user/%/edit/account' => array(
       'weight' => '0',
-      'action' => 'enabled',
+      'action' => 'hidden',
       'tabtamer_original_path' => 'user/%user_category/edit/account',
       'tabtamer_title' => '',
     ),
     'user/%/edit/main' => array(
       'weight' => '3',
-      'action' => 'enabled',
+      'action' => 'hidden',
       'tabtamer_original_path' => 'user/%user_category/edit/main',
+      'tabtamer_title' => '',
+    ),
+    'user/%/edit/pilot' => array(
+      'weight' => '3',
+      'action' => 'hidden',
+      'tabtamer_original_path' => 'user/%user_category/edit/pilot',
       'tabtamer_title' => '',
     ),
     'user/login' => array(

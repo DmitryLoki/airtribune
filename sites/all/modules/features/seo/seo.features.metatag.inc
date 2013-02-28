@@ -100,10 +100,10 @@ function seo_metatag_export_default() {
     'instance' => 'user',
     'config' => array(
       'title' => array(
-        'value' => '[user:profile-pilot:field-address:first_name]-[user:profile-pilot:field-address:last_name] | [site:slogan]',
+        'value' => '[user:profile-pilot:name-field-full-name] | [site:slogan]',
       ),
       'og:title' => array(
-        'value' => '[user:profile-pilot:field-address:first_name] [user:profile-pilot:field-address:last_name]',
+        'value' => '[user:profile-pilot:name-field-full-name]',
       ),
       'og:type' => array(
         'value' => 'profile',
