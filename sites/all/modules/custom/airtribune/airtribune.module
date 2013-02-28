@@ -342,12 +342,18 @@ function airtribune_field_widget_phone_number_form_alter(&$element, &$form_state
 function airtribune_field_phone_widget_process($element, &$form_state, $form) {
   $is_phone = isset($element['country_codes']['#default_value']) && !empty($element['number']['#default_value']);
   $cc = $is_phone ? $element['country_codes']['#default_value'] : NULL;
-  $country = cck_phone_countrycodes($cc) ;
-  // Add country code to phone number
-  $element['number']['#default_value'] = ltrim($country['code'], '+') . $element['number']['#default_value'];
+  $country = cck_phone_countrycodes($cc);
+  if (isset($country['code'])) {
+    // Add country code to phone number
+    $element['number']['#default_value'] = ltrim($country['code'], '+') . $element['number']['#default_value'];
+  }
   $element['number']['#prefix'] = '+';
   // Remove country code select
-  unset($element['country_codes']);
+  //unset($element['country_codes']);
+  $element['country_codes'] = array (
+    '#type' => 'value',
+    '#value' => FALSE,
+  );
   // Add validation
   array_unshift($element['#element_validate'], 'airtribune_phone_number_validate');
 
@@ -365,6 +371,8 @@ function airtribune_phone_number_validate(&$element, &$form_state) {
   }
   $element['#value']['number'] = substr($number, strpos($number, $country_code)+ strlen($country_code), strlen($number)-1);
   $element['#value']['country_codes'] = $cc;
+  $element['number']['#value'] =  $element['#value']['number'];
+  $element['country_codes']['#value'] = $element['#value']['country_codes'];
   $form_state['values'][AIRTRIBUNE_PHONE_FIELD][LANGUAGE_NONE][0] = $element['#value'];
   $form_state['input'][AIRTRIBUNE_PHONE_FIELD][LANGUAGE_NONE][0] = $element['#value'];
 }
