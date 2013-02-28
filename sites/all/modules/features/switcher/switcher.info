@@ -97,7 +97,6 @@ dependencies[] = organizer
 dependencies[] = page_manager
 dependencies[] = pages_feature
 dependencies[] = panels
-dependencies[] = panels_default_template
 dependencies[] = panels_everywhere
 dependencies[] = panels_mini
 dependencies[] = path
