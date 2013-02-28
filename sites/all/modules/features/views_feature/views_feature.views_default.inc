@@ -2604,8 +2604,8 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
-      'type' => 'user',
-      'context' => 'airtribune_event.group-group',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',

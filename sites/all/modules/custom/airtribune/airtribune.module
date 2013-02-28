@@ -330,7 +330,6 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
  */
 function airtribune_field_widget_phone_number_form_alter(&$element, &$form_state, $context) {
   if (isset($element['#field_name']) && $element['#field_name'] == AIRTRIBUNE_PHONE_FIELD) {
-      $element['#element_validate'] = array('airtribune_phone_number_validate');
       $element['#process'][] = 'airtribune_field_phone_widget_process';
   }
 }
@@ -341,13 +340,22 @@ function airtribune_field_widget_phone_number_form_alter(&$element, &$form_state
  * @see airtribune_field_widget_phone_number_form_alter()
  */
 function airtribune_field_phone_widget_process($element, &$form_state, $form) {
-  $cc = isset($element['country_codes']['#default_value']) ? $element['country_codes']['#default_value'] : '';
+  $is_phone = isset($element['country_codes']['#default_value']) && !empty($element['number']['#default_value']);
+  $cc = $is_phone ? $element['country_codes']['#default_value'] : NULL;
   $country = cck_phone_countrycodes($cc);
-  // Add country code to phone number
-  $element['number']['#default_value'] = ltrim($country['code'], '+') . $element['number']['#default_value'];
+  if (isset($country['code'])) {
+    // Add country code to phone number
+    $element['number']['#default_value'] = ltrim($country['code'], '+') . $element['number']['#default_value'];
+  }
   $element['number']['#prefix'] = '+';
   // Remove country code select
-  unset($element['country_codes']);
+  //unset($element['country_codes']);
+  $element['country_codes'] = array (
+    '#type' => 'value',
+    '#value' => FALSE,
+  );
+  // Add validation
+  array_unshift($element['#element_validate'], 'airtribune_phone_number_validate');
 
   return $element;
 }
@@ -363,16 +371,20 @@ function airtribune_phone_number_validate(&$element, &$form_state) {
   }
   $element['#value']['number'] = substr($number, strpos($number, $country_code)+ strlen($country_code), strlen($number)-1);
   $element['#value']['country_codes'] = $cc;
+  $element['number']['#value'] =  $element['#value']['number'];
+  $element['country_codes']['#value'] = $element['#value']['country_codes'];
   $form_state['values'][AIRTRIBUNE_PHONE_FIELD][LANGUAGE_NONE][0] = $element['#value'];
   $form_state['input'][AIRTRIBUNE_PHONE_FIELD][LANGUAGE_NONE][0] = $element['#value'];
-  // Return to standart validation
-  cck_phone_phone_number_validate($element, $form_state);
 }
 
 /**
  * Get country by phone number
  *
  * @param $number Phone number without leading '+'
+ * @return
+ *   If an invalid $cc is provided, FALSE will be returned.
+ *   If the country code is valid the country code for
+ *   that country will be returned.
  */
 function _airtribune_get_contry_by_phone_code($number) {
   foreach (cck_phone_countrycodes() as $cc => $value) {
@@ -380,7 +392,7 @@ function _airtribune_get_contry_by_phone_code($number) {
       return array($cc => $value) ;
     }
   }
-  return NULL;
+  return FALSE;
 }
 
 /**
@@ -407,4 +419,27 @@ function airtribune_calculate_distance($p1, $p2) {
   $dist = $ad * $earth_radius;
 
   return $dist;
+}
+
+/**
+ * Add event context to default site template.
+ */
+function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
+
+  if (!$contexts['node']->empty) {
+    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      $raw_node = $contexts['node']->data;
+    }
+    // Fetch event node from OG.
+    else {
+      $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
+      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+      }
+    }
+  }
+
+  $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
+  panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
+
 }

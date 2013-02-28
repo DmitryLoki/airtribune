@@ -1,6 +1,7 @@
 name = Pages feature
 description = Pages feature
 core = 7.x
+package = Other
 php = 5.2.4
 version = 7.x-1.0-dev
 project = pages_feature

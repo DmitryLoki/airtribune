@@ -9,22 +9,22 @@
 
 // Plugin definition.
 $plugin = array(
-  'title' => t('Airtrubune event title'),
+  'title' => t('Eevent title'),
   'single' => TRUE,
   'category' => array('Airtribune'),
   'required context' => new ctools_context_required(t('Node'), 'node'),
 );
 
 /**
- * Render airtribune event title pane.
+ * Render event title pane.
  */
-function airtribune_airtribune_event_title_content_type_render($subtype, $conf, $panel_args, $context) {
+function airtribune_event_title_content_type_render($subtype, $conf, $panel_args, $context) {
 
   if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
     return;
   }
 
-  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_event_title';
+  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/event_title';
 
   // Event node.
   $node = $context->data;
@@ -57,8 +57,8 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
   $content['description'][AIRTRIBUNE_TIMEZONE_FIELD]['#prefix'] = '<div class="field local_time">' . t('Local time — ');
   $content['description'][AIRTRIBUNE_TIMEZONE_FIELD]['#suffix'] = '</div>';
 
-  $content['#attached']['css'] = array($plugin_path . '/airtribune_event_title.css');
-  $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-title'));
+  $content['#attached']['css'] = array($plugin_path . '/event_title.css');
+  $content['#attributes'] = array('id' => drupal_html_id('event-title'));
   $content['#theme_wrappers'] = array('container');
 
   return (object) array(
@@ -71,6 +71,6 @@ function airtribune_airtribune_event_title_content_type_render($subtype, $conf, 
 /**
  * Panels module needs this empty form.
  */
-function airtribune_airtribune_event_title_content_type_edit_form($form, &$form_state) {
+function airtribune_event_title_content_type_edit_form($form, &$form_state) {
   return $form;
 }
