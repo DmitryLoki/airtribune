@@ -165,6 +165,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_civl_id',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -196,8 +199,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_civl_id',
-      'label' => 'CIVL id',
+      'label' => 'CIVL ID',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -1406,7 +1410,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Decal on the paraglider',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1417,6 +1421,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_sponsors',
       'label' => 'Sponsors',
       'required' => 0,
@@ -1507,8 +1512,7 @@ function pilot_field_default_fields() {
   t('Address');
   t('As you wish, you can type in here full name or just the first name of the contact person.');
   t('Blood type');
-  t('CIVL id');
-  t('Decal on the paraglider');
+  t('CIVL ID');
   t('FAI License number');
   t('Insurance company');
   t('Insurance policy number');
