@@ -27,7 +27,6 @@ define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
-define('AIRTRIBUNE_PHONE_FIELD', 'field_phone');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -321,78 +320,6 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
     'teams' => t('Teams'),
   );
   return $category ? $categories[$category] : $categories;
-}
-
-/**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
- *
- * @see #2769
- */
-function airtribune_field_widget_phone_number_form_alter(&$element, &$form_state, $context) {
-  if (isset($element['#field_name']) && $element['#field_name'] == AIRTRIBUNE_PHONE_FIELD) {
-      $element['#process'][] = 'airtribune_field_phone_widget_process';
-  }
-}
-
-/**
- * Element proccess callback.
- *
- * @see airtribune_field_widget_phone_number_form_alter()
- */
-function airtribune_field_phone_widget_process($element, &$form_state, $form) {
-  $is_phone = isset($element['country_codes']['#default_value']) && !empty($element['number']['#default_value']);
-  $cc = $is_phone ? $element['country_codes']['#default_value'] : NULL;
-  $country = cck_phone_countrycodes($cc);
-  if (isset($country['code'])) {
-    // Add country code to phone number
-    $element['number']['#default_value'] = ltrim($country['code'], '+') . $element['number']['#default_value'];
-  }
-  $element['number']['#prefix'] = '+';
-  // Remove country code select
-  //unset($element['country_codes']);
-  $element['country_codes'] = array (
-    '#type' => 'value',
-    '#value' => FALSE,
-  );
-  // Add validation
-  array_unshift($element['#element_validate'], 'airtribune_phone_number_validate');
-
-  return $element;
-}
-
-/**
- * An #element_validate callback for the phone_number element.
- */
-function airtribune_phone_number_validate(&$element, &$form_state) {
-  $number = $element['#value']['number'];
-  $country = _airtribune_get_contry_by_phone_code($number);
-  foreach ($country as $cc => $value) {
-    $country_code = ltrim((string)$value['code'], '+');
-  }
-  $element['#value']['number'] = substr($number, strpos($number, $country_code)+ strlen($country_code), strlen($number)-1);
-  $element['#value']['country_codes'] = $cc;
-  $element['number']['#value'] =  $element['#value']['number'];
-  $element['country_codes']['#value'] = $element['#value']['country_codes'];
-  $form_state['values'][AIRTRIBUNE_PHONE_FIELD][LANGUAGE_NONE][0] = $element['#value'];
-  $form_state['input'][AIRTRIBUNE_PHONE_FIELD][LANGUAGE_NONE][0] = $element['#value'];
-}
-
-/**
- * Get country by phone number
- *
- * @param $number Phone number without leading '+'
- * @return
- *   If an invalid $cc is provided, FALSE will be returned.
- *   If the country code is valid the country code for
- *   that country will be returned.
- */
-function _airtribune_get_contry_by_phone_code($number) {
-  foreach (cck_phone_countrycodes() as $cc => $value) {
-    if (strpos((string)$number, ltrim((string)$value['code'], '+')) === 0) {
-      return array($cc => $value) ;
-    }
-  }
-  return FALSE;
 }
 
 /**
