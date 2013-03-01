@@ -15,16 +15,4 @@ jQuery(document).ready(function () {
         return element;
     }
 
-    var passField = $('#edit-pass-pass1'),
-        passCheckFunction = Drupal.behaviors.password.passCheck,
-        passCheckFunctionMatch = Drupal.behaviors.password.passCheckMatch,
-        formValidatorData = passField.parents('form').data('validator');
-
-    formValidatorData.settings.rules[passField.attr('name')].depends = function () {
-        passCheckFunction();
-    };
-
-    $('#edit-pass-pass2').rules('add', {depends:function () {
-        passCheckFunctionMatch();
-    }});
 });

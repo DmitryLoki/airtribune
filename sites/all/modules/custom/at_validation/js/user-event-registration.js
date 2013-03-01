@@ -6,6 +6,5 @@ jQuery(document).ready(function(){
             response[1] = {};
         }
         ajaxSuccess.apply(this, arguments);
-
     };
 });
