@@ -66,17 +66,6 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'user_profile_form') {
-    $form['account']['mail']['#title'] = t('Login/Email');
-    $form['account']['current_pass']['#title'] = t('Old password');
-    $form['account']['pass']['#prefix'] = '<div id="pass-change-common-title">' . t('Change password') . '</div>';
-    $form['account']['pass']['#description'] .= '<br>' . t('Minimun 6 symbols');
-    $form['account']['mail']['#weight'] = 1;
-    $form['account']['pass']['#weight'] = 2;
-    $form['account']['current_pass']['#weight'] = 3;
-    // this need to override pass1 & pass2 titles
-    $form['account']['pass']['#process'] = array('form_process_password_confirm', 'at_user_password_title_change');
-  }
   // see #2633
   if ($form_id == 'user_login_block') {
     $form['#action'] = '/' . variable_get('site_frontpage', '') . '?destination=user';
@@ -88,12 +77,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['#validate'][] = 'at_user_change_login_error_msg_validate';
     $form['#validate'][] = 'at_user_change_login_error_inline_validate';
   }
-}
-
-function at_user_password_title_change($element) {
-  $element['pass1']['#title'] = t("New password");
-  $element['pass2']['#title'] = t("Repeat new password");
-  return $element;
 }
 
 function at_user_change_login_error_msg_validate($form, &$form_state) {
