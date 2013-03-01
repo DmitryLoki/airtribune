@@ -37,21 +37,23 @@
                     }
                 });
             }, formValidator);
+            if ($('#edit-pass-pass1').length > 0) {
+              var passField = $('#edit-pass-pass1'),
 
-            var passField = $('#edit-pass-pass1'),
-                passMatchField = $('#edit-pass-pass2'),
-                passCheckFunction = Drupal.behaviors.password.passCheck;
+                  passMatchField = $('#edit-pass-pass2'),
+                  passCheckFunction = Drupal.behaviors.password.passCheck;
 
-            jQuery.validator.addMethod('passFieldValid', function () {
-                return !passCheckFunction();
-            }, '');
-            jQuery.validator.addMethod('passMatchValid', function () {
-                return passField.val() == passMatchField.val();
-            }, Drupal.settings.password.confirmFailure);
+              jQuery.validator.addMethod('passFieldValid', function () {
+                  return !passCheckFunction();
+              }, '');
+              jQuery.validator.addMethod('passMatchValid', function () {
+                  return passField.val() == passMatchField.val();
+              }, Drupal.settings.password.confirmFailure);
 
-            passField.rules('add', {passFieldValid:true});
-            passField.rules('remove', 'required');
-            passMatchField.rules('add', {passMatchValid:true});
+              passField.rules('add', {passFieldValid:true});
+              passField.rules('remove', 'required');
+              passMatchField.rules('add', {passMatchValid:true});
+            }
         };
 
         for (var f in Drupal.settings.clientsideValidation.forms) {
