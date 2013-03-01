@@ -229,7 +229,15 @@ function pages_feature_default_page_manager_handlers() {
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'markup' => 'h1',
       'class' => '',
@@ -328,6 +336,15 @@ function pages_feature_default_page_manager_handlers() {
           ),
           'context' => 'node',
           'not' => TRUE,
+        ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'user/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
         ),
       ),
     );
