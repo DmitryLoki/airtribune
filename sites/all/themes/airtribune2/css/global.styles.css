@@ -3028,11 +3028,12 @@ p { margin:0; padding:9px 0 11px}
 
 }
 
+.page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
 .page-user .pane-page-content form .form-item { margin-top:16px; position:relative;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:7px}
 .page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px;}
-.page-user .pane-page-content form .form-item .description { padding-top:4p; clear: both;}
+.page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both;}
 .page-user .pane-page-content form .form-item input.form-text,
 .page-user .pane-page-content form .select .checked_option_wrap { width:220px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:5px 10px 5px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
 
@@ -3069,7 +3070,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 }
 .page-user .pane-page-content form .form_booble_inner { min-width:120px; padding:7px 10px 9px 17px; max-width:200px; font:italic 12px/14px Arial, Helvetica, sans-serif; display:inline-block; margin-left:-7px}
-.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d;}
+.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
 .page-user .pane-page-content form .field_error .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
 .page-user .pane-page-content form .field_good .form_booble { border:2px solid #ffc446; color:#ffc446;}
 .page-user .pane-page-content form .field_good .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -274px}
@@ -3167,7 +3168,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 }
 .page-user .pane-page-content form .select .items_padding { padding:12px 0 !important;}
-.page-user .pane-page-content form .select .option { color:#2d3033; font:16px/18px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
+.page-user .pane-page-content form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
 .page-user .pane-page-content form .select .option:hover { color:#00aeef;}
 .page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden;}
 .page-user .pane-page-content form .jspPane { position:relative;}
@@ -3312,6 +3313,7 @@ table tr td.:first-child { border-left: none;}
 .page-event-map-activity-accommodation .field_title { clear: both;}
 .page-event-map-activity-accommodation .fields_contacts .field-label { color: #333a40}
 .page-event-map-activity-accommodation .field-name-field-address { padding-top: 7px;}
+.page-event-map-activity-accommodation .field-name-field-address .field-items { float: none;}
 
 .field-name-field-photo {}
 .field-name-field-photo .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 310px; overflow: hidden;}
@@ -3385,6 +3387,14 @@ table tr td.:first-child { border-left: none;}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
 /* Header special pages */
+
+.featured-header { width: 940px; height: 380px; background: #DEE6E9; position: relative; overflow: hidden; margin: 0 auto 20px;}
+.featured-header .panel-pane,
+.featured-header .pane-inner { margin: 0;}
+.featured-header-title { top: 0; position: absolute; width: 900px; padding: 16px 20px 19px; /*background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15);*/  background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5); color: #FFF; z-index: 9;}
+.featured-header .featured-header-title h1 { color: #FFF;}
+.featured-header-padding { top: 0; position: absolute; width: 940px;}
+
 .logo_in_title .featured-header-title,
 .page-node-5362 .featured-header-title,
 .page-user .featured-header-title,
@@ -3395,6 +3405,8 @@ table tr td.:first-child { border-left: none;}
 .page-node-5362 .featured-header-title h1,
 .page-user .featured-header-title h1,
 .page-events .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px }
+
+
 
 
 /* Temporary */
