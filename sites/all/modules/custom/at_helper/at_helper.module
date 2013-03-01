@@ -246,6 +246,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
 function _at_helper_user_register_form_after_build($element, $form_state) {
   $element['#attached']['js'][1]['data']['password']['confirmSuccess'] = t('Passwords match');
   $element['#attached']['js'][1]['data']['password']['confirmFailure'] = t('Passwords do not match');
+  $element['#attached']['js'][1]['data']['password']['easyToGuess'] = t('This password is too simple and easy to guess.');
   return $element;
 }
 
