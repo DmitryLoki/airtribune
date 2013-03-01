@@ -33,7 +33,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Invalid symbols in Address field.';
+  $rule->error_message = 'This field may contain only English letters.';
   $export['address1_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -59,7 +59,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Invalid symbols in Address field.';
+  $rule->error_message = 'This field may contain only English letters.';
   $export['address2_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -137,7 +137,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'City field may contain only English text. ';
+  $rule->error_message = 'This field may contain only English letters.';
   $export['city_latin'] = $rule;
 
   $rule = new stdClass();
