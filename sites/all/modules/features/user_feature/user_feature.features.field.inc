@@ -57,7 +57,7 @@ function user_feature_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'user_pirctue_mini',
+            'image_style' => '',
           ),
           'type' => 'image',
           'weight' => '1',
@@ -65,7 +65,7 @@ function user_feature_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_user_avatar',
-      'label' => 'Avatar',
+      'label' => 'Your photo',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
@@ -74,20 +74,20 @@ function user_feature_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+            'value' => '[user:uid].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'pictures',
           ),
           'retroactive_update' => 0,
         ),
@@ -101,18 +101,18 @@ function user_feature_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'preview_image_style' => 'user_pirctue_mini',
+          'preview_image_style' => 'node_userpic',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '1',
+        'weight' => 0,
       ),
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Avatar');
+  t('Your photo');
 
   return $fields;
 }

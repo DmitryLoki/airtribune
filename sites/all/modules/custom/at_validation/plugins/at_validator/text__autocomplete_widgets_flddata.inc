@@ -8,8 +8,8 @@ $plugin = array(
 );
 
 function at_validation_validator__text__autocomplete_widgets_flddata(&$element, &$form_state, $context) {
-  $element['value']['#ajax'] = array(
-    'path' => 'at-validation/ajax',
+  $element['value']['#ajax'] = at_validation_ajax_defaults();
+  $element['value']['#ajax'] += array(
     'event' => 'focusout',
   );
 }

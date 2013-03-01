@@ -340,6 +340,10 @@ function path_breadcrumbs_breadcrumb($variables) {
       // Get breadcrumb title from a link like "<a href = "/path">title</a>".
       $title = trim(strip_tags($breadcrumb));
 
+      // truncate to max length, consider ellipsis (+3 symbols)
+      $truncate_length = variable_get('path_breadcrumbs_truncate_length', 100) + 3;
+      $title = truncate_utf8($title, $truncate_length, TRUE, TRUE);
+
       // Wrap title in additional element for microdata support.
       if ($snippet == PATH_BREADCRUMBS_RICH_SNIPPETS_MICRODATA) {
         $title = '<span itemprop="title">' . $title . '</span>';

@@ -1,0 +1,14 @@
+name = HybridAuth uLogin
+description = "Migrate uLogin identities to HybridAuth."
+core = 7.x
+php = 5.2
+package = "User interface"
+configure = admin/config/people/hybridauth/ulogin
+dependencies[] = hybridauth
+
+; Information added by drupal.org packaging script on 2013-02-22
+version = "7.x-2.6+11-dev"
+core = "7.x"
+project = "hybridauth"
+datestamp = "1361496297"
+

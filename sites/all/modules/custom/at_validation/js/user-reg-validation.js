@@ -15,24 +15,4 @@ jQuery(document).ready(function () {
         return element;
     }
 
-    var passField = $('[id^="edit-pass"]'),
-        form = passField.parents('form');
-
-    passField.bind({
-        'keyup':passValidate,
-        'blur':passValidate
-    });
-
-    function passValidate() {
-        var validator = form.validate(),
-            passStrengthBubble =  $(this).siblings('.password-strength.form_booble');
-        if (this.value.length == 0) {
-            passStrengthBubble.hide();
-        } else {
-            passStrengthBubble.css('display','inline-block')
-        }
-        if (validator.element(this)) {
-            $(this).parents('.form-item').find('span.form_booble.validate-error[link="' + $(this).attr('id') + '"]').remove();
-        }
-    }
 });

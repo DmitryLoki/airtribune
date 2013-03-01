@@ -12,8 +12,8 @@ $plugin = array(
 );
 
 function at_validation_validator__list_text__options_buttons(&$element, &$form_state, $context) {
-  $element['#ajax'] = array(
-    'path' => 'at-validation/ajax',
+  $element['#ajax'] = at_validation_ajax_defaults();
+  $element['#ajax'] += array(
     'event' => 'change',
   );
 }

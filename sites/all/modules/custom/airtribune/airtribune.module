@@ -57,8 +57,8 @@ function airtribune_theme() {
     ),
     'airtribune_event_statistics_pane' => array(
       'template' => 'airtribune-event-statistics-pane',
-      'path' => $content_plugins_path . '/airtribune_event_statistics',
-      'file' => 'airtribune_event_statistics.inc',
+      'path' => $content_plugins_path . '/event_statistics',
+      'file' => 'event_statistics.inc',
       'render element' => 'elements',
     ),
   );
@@ -200,13 +200,26 @@ function airtrubune_get_country_code($langcode) {
  */
 function airtribune_preprocess_panels_pane(&$vars) {
 
+  $configuration = $vars['pane']->configuration;
+
   // Add 'view more' links to panes.
-  if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
-    $vars['more'] = l(
-      $vars['pane']->configuration['more']['title'],
-      'event/' . $vars['display']->args[0] . '/info/details',
-      array('fragment' => $vars['pane']->configuration['more']['fragment'])
-    );
+  if (isset($configuration['more'], $vars['display']->args[0])) {
+    $options = array();
+
+    if ($configuration['more']['page'] == 'details') {
+      $url = 'event/' . $vars['display']->args[0] . '/info/details';
+    }
+
+    if (isset($configuration['more']['fragment'])) {
+      $options  = array('fragment' => $configuration['more']['fragment']);
+    }
+
+    if (isset($configuration['more']['title'])) {
+      $vars['more'] = l($configuration['more']['title'], $url, $options);
+    }
+
+    $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
+
   }
   // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
@@ -313,7 +326,6 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
  * Great-circle distance.
  */
 function airtribune_calculate_distance($p1, $p2) {
-
   $earth_radius = 6372795;
 
   $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
@@ -334,4 +346,27 @@ function airtribune_calculate_distance($p1, $p2) {
   $dist = $ad * $earth_radius;
 
   return $dist;
+}
+
+/**
+ * Add event context to default site template.
+ */
+function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
+
+  if (!$contexts['node']->empty) {
+    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      $raw_node = $contexts['node']->data;
+    }
+    // Fetch event node from OG.
+    else {
+      $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
+      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+      }
+    }
+  }
+
+  $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
+  panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
+
 }

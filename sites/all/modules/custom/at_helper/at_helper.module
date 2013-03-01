@@ -226,6 +226,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
     case 'user_register_form' :
       $form['#validate'][] = 'at_helper_user_reg_form_validate';
       $form['actions']['submit']['#value'] = t('Register new user');
+      $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
       break;
     case 'user_pass' :
       $form['actions']['submit']['#value'] = t('Request new password');
@@ -237,6 +238,21 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['#validate'][] = 'at_helper_og_form_validate';
       break;
   }
+}
+
+/**
+ * Password element #after_build.
+ */
+function _at_helper_user_register_form_after_build($element, $form_state) {
+  $element['#attached']['js'][1]['data']['password']['confirmSuccess'] = t('Passwords match');
+  $element['#attached']['js'][1]['data']['password']['confirmFailure'] = t('Passwords do not match');
+  $element['#attached']['js'][1]['data']['password']['easyToGuess'] = t('This password is too simple and easy to guess.');
+  
+  $element['#attached']['js'][1]['data']['password']['weak'] = t('Weak password');
+  $element['#attached']['js'][1]['data']['password']['fair'] = t('Fair password');
+  $element['#attached']['js'][1]['data']['password']['good'] = t('Good password');
+  $element['#attached']['js'][1]['data']['password']['strong'] = t('Strong password');
+  return $element;
 }
 
 /**
@@ -317,16 +333,18 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
     $query->fieldCondition('field_full_name', 'given', $given);
     $query->fieldCondition('field_full_name', 'family', $family);
+    $query->fieldCondition('field_birthdate', 'value', $birthdate);
     $name_exists = $query->count()->execute();
-    
+    /*
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
     $query->fieldCondition('field_birthdate', 'value', $birthdate);
     $birthdate_exists = $query->count()->execute();
-    
+    */
     // Set form error if Name and Birthdate already exist.
-    if ($name_exists && $birthdate_exists) {
+    //if ($name_exists && $birthdate_exists) {
+    if ($name_exists) {
       form_error($form[$profile_type]['field_full_name'], 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
     }
   }
@@ -343,7 +361,7 @@ function at_helper_og_form_validate($form, &$form_state) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership');
     $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
-    //$query->fieldCondition('og_membership_request', 'value', $gid);
+    $query->fieldCondition('og_membership_request', 'value', $gid);
     $query->fieldCondition('field_contestant_number', 'value', $pilot_number);
     //$query->fieldCondition('field_full_name', 'family', $family);
     $number_exists = $query->count()->execute();
@@ -394,3 +412,12 @@ function at_helper_page_manager_contexts_alter(&$contexts, $placeholders) {
   }
 }
 
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_helper_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'addressfield') {
+    return 'plugins/' . $plugin;
+  }
+}

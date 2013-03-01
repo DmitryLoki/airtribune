@@ -1318,10 +1318,10 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'user/%/pilot',
       'tabtamer_title' => '',
     ),
-    'user/%/ulogin' => array(
+    'user/%/hybridauth' => array(
       'weight' => '0',
       'action' => 'disabled',
-      'tabtamer_original_path' => 'user/%user/ulogin',
+      'tabtamer_original_path' => 'user/%user/hybridauth',
       'tabtamer_title' => '',
     ),
     'user/%/view' => array(
@@ -1338,14 +1338,20 @@ function variables_strongarm() {
     ),
     'user/%/edit/account' => array(
       'weight' => '0',
-      'action' => 'enabled',
+      'action' => 'hidden',
       'tabtamer_original_path' => 'user/%user_category/edit/account',
       'tabtamer_title' => '',
     ),
     'user/%/edit/main' => array(
       'weight' => '3',
-      'action' => 'enabled',
+      'action' => 'hidden',
       'tabtamer_original_path' => 'user/%user_category/edit/main',
+      'tabtamer_title' => '',
+    ),
+    'user/%/edit/pilot' => array(
+      'weight' => '3',
+      'action' => 'hidden',
+      'tabtamer_original_path' => 'user/%user_category/edit/pilot',
       'tabtamer_title' => '',
     ),
     'user/login' => array(
@@ -1558,24 +1564,6 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'import/%/log',
       'tabtamer_title' => '',
     ),
-    'field-collection/field-collection-getting-there/%/view' => array(
-      'weight' => '-10',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/view',
-      'tabtamer_title' => '',
-    ),
-    'field-collection/field-collection-getting-there/%/edit' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/edit',
-      'tabtamer_title' => '',
-    ),
-    'field-collection/field-collection-getting-there/%/delete' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/delete',
-      'tabtamer_title' => '',
-    ),
     'field-collection/field-collection-organizers/%/view' => array(
       'weight' => '-10',
       'action' => 'enabled',
@@ -1592,6 +1580,24 @@ function variables_strongarm() {
       'weight' => '0',
       'action' => 'enabled',
       'tabtamer_original_path' => 'field-collection/field-collection-organizers/%field_collection_item/delete',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-getting-there/%/view' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/view',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-getting-there/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/edit',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-getting-there/%/delete' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/delete',
       'tabtamer_title' => '',
     ),
     'media/%/view' => array(
@@ -1618,24 +1624,6 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'group/%/%/admin/people/add-user',
       'tabtamer_title' => '',
     ),
-    'profile-main/%/view' => array(
-      'weight' => '-10',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-main/%profile2_by_uid/view',
-      'tabtamer_title' => '',
-    ),
-    'profile-main/%/edit' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-main/%profile2_by_uid/edit',
-      'tabtamer_title' => '',
-    ),
-    'profile-main/%/delete' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-main/%profile2_by_uid/delete',
-      'tabtamer_title' => '',
-    ),
     'profile-organizer_profile/%/view' => array(
       'weight' => '-10',
       'action' => 'enabled',
@@ -1654,24 +1642,6 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'profile-organizer_profile/%profile2_by_uid/delete',
       'tabtamer_title' => '',
     ),
-    'profile-pilot/%/view' => array(
-      'weight' => '-10',
-      'action' => 'disabled',
-      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/view',
-      'tabtamer_title' => '',
-    ),
-    'profile-pilot/%/edit' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
-      'tabtamer_title' => '',
-    ),
-    'profile-pilot/%/delete' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/delete',
-      'tabtamer_title' => '',
-    ),
     'taxonomy/term/%/view' => array(
       'weight' => '0',
       'action' => 'enabled',
@@ -1682,54 +1652,6 @@ function variables_strongarm() {
       'weight' => '10',
       'action' => 'enabled',
       'tabtamer_original_path' => 'taxonomy/term/%taxonomy_term/edit',
-      'tabtamer_title' => '',
-    ),
-    'user/%/ulogin' => array(
-      'weight' => '0',
-      'action' => 'disabled',
-      'tabtamer_original_path' => 'user/%user/ulogin',
-      'tabtamer_title' => '',
-    ),
-    'user/%/view' => array(
-      'weight' => '-10',
-      'action' => 'disabled',
-      'tabtamer_original_path' => 'user/%user/view',
-      'tabtamer_title' => '',
-    ),
-    'user/%/edit' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'user/%user/edit',
-      'tabtamer_title' => '',
-    ),
-    'user/%/ulogin/delete' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'user/%user/ulogin/delete',
-      'tabtamer_title' => '',
-    ),
-    'user/%/edit/account' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'user/%user_category/edit/account',
-      'tabtamer_title' => '',
-    ),
-    'user/login' => array(
-      'weight' => '1',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'user/login',
-      'tabtamer_title' => '',
-    ),
-    'user/register' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'user/register',
-      'tabtamer_title' => '',
-    ),
-    'user/password' => array(
-      'weight' => '2',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'user/password',
       'tabtamer_title' => '',
     ),
     'events/add' => array(

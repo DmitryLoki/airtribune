@@ -123,6 +123,16 @@ interface EntityTranslationHandlerInterface {
   public function setEntity($entity);
 
   /**
+   * Checks that the wrapped entity matches the give entity
+   *
+   * @param $entity_type
+   *   The type of the entity to be matched.
+   * @param $entity
+   *   The entity to be matched.
+   */
+  public function isWrappedEntity($entity_type, $entity);
+
+  /**
    * Sets the translation update status.
    *
    * @param $outdated
@@ -329,7 +339,9 @@ class EntityTranslationDefaultHandler implements EntityTranslationHandlerInterfa
     $this->pathScheme = 'default';
     $this->routerMap = array();
 
-    $this->initPathVariables();
+    if (entity_translation_enabled($entity_type)) {
+      $this->initPathVariables();
+    }
   }
 
   /**
@@ -718,6 +730,14 @@ class EntityTranslationDefaultHandler implements EntityTranslationHandlerInterfa
 
     // Update bundle and entity id properties.
     list($this->entityId, , $this->bundle) = entity_extract_ids($this->entityType, $this->entity);
+  }
+
+  /**
+   * @see EntityTranslationHandlerInterface::isWrappedEntity()
+   */
+  public function isWrappedEntity($entity_type, $entity) {
+    list($id,,) = entity_extract_ids($entity_type, $entity);
+    return $entity_type == $this->entityType && $id == $this->entityId;
   }
 
   /**
@@ -1263,7 +1283,7 @@ class EntityTranslationDefaultHandler implements EntityTranslationHandlerInterfa
     $values += array(
       'status' => TRUE,
       'retranslate' => 0,
-      'name' => $GLOBALS['user']->name,
+      'name' => isset($GLOBALS['user']->name) ? $GLOBALS['user']->name : '',
     );
 
     if (!isset($translations->data[$form_langcode])) {
@@ -1288,7 +1308,7 @@ class EntityTranslationDefaultHandler implements EntityTranslationHandlerInterfa
     }
 
     $translation['status'] = intval($values['status']);
-    $translation['uid'] = user_load_by_name($values['name'])->uid;
+    $translation['uid'] = $values['name'] ? user_load_by_name($values['name'])->uid : 0;
     $translation['created'] = empty($values['created']) ? REQUEST_TIME : strtotime($values['created']);
     $this->setTranslation($translation);
 

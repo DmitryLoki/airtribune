@@ -236,6 +236,17 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if($variables['pane']->subtype == 'paragliding_pilots_list-fai'){
     $variables['title'] = '';
   }
+  if ($variables['pane']->type == 'node_title') {
+    if (arg(2) && arg(2) == 'map' && arg(3)) {
+      $n = node_load(arg(3));
+      $variables['content'] = $n->title;
+    }
+  }
+  if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
+    $variables['classes_array'][] = 'wrapper-with-link';
+    //dsm($variables);
+
+  }
   //print_r($variables);
 }
 
@@ -332,7 +343,7 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_address'])) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
-    //print_r($vars['content']);
+    //print_r(node_load($vars['node']->nid));
   }
 
   /* If teaser */
@@ -357,13 +368,13 @@ function airtribune2_process_node(&$vars) {
     if (isset($account->field_full_name)) {
       $vars['full_name'] = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
     } else {
-      $vars['full_name'] = $name;
+      $vars['full_name'] = $vars['name'];
     }
     $vars['content']['links']['created'] = array(
       '#theme' => 'links__node__node',
       '#links' => array(
         'node-create' => array(
-          'title' => t('Posted by !user on !date', array('!user' => render($full_name), '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
+          'title' => t('Posted by !user on !date', array('!user' => render($vars['full_name']), '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
           'html' => true
         )
       )
@@ -432,7 +443,8 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       unset($form['pass']['#title']);
       $form['actions']['submit']['#value'] = t('Go');
       $form['actions']['#weight'] = 89;
-      $form['ulogin']['#weight'] = 79;
+      unset($form['ulogin']);
+      $form['hybridauth']['#weight'] = 79;
       
       $items = array();
       $items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
@@ -475,8 +487,9 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['name']['#attributes']['rel'] = t('Enter your e-mail');
         unset($form['pass']['#description']);
         $form['pass']['#attributes']['rel'] = t('Enter your password');
-        $form['ulogin']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
-        $form['ulogin']['#weight'] = 89;
+        unset($form['ulogin']);
+        $form['hybridauth']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
+        $form['hybridauth']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
         //print_r($form);
     break;
@@ -1068,11 +1081,21 @@ function airtribune2_field__field_full_name($variables) {
  * Implements theme_field__field_full_name.
  */
 function airtribune2_field($variables) {
+  $element = $variables['element'];
   //print $variables['element']['#field_name'];
   $colon = ':&nbsp;';
   switch ($variables['element']['#field_name']) {
-    case 'field_accommodation_price_single':
-    case 'field_accommodation_price_double':
+    case 'field_price_single':
+    case 'field_price_double':
+    
+      $colon = '&nbsp;';
+      $variables['classes'] .= ' field_buttons';
+      $currency = field_view_field('node', $element['#object'], 'field_price_currency');
+      if (isset($variables['items'][0], $currency)) {
+        $variables['items'][0]['#suffix'] = ' ' . render($currency);
+      }
+
+      break;
     case 'field_hotel_wifi':
       $colon = '&nbsp;';
       $variables['field_view_mode'] = '';
@@ -1218,3 +1241,16 @@ function airtribune2_js_alter(&$javascript) {
     $javascript[$oj_path]['weight'] = $javascript[$nav_path]['weight'] + 0.001;
   }
 }
+
+/**
+ * Implements hook_tablesort_indicator().
+ */
+function airtribune2_tablesort_indicator($variables) {
+  if ($variables['style'] == "asc") {
+    return '<span class="arrow_sort arrow-asc" title="' . t('sort ascending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-asc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort ascending'), 'title' => t('sort ascending')));
+  }
+  else {
+    return '<span class="arrow_sort arrow-desc" title="' . t('sort descending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-desc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort descending'), 'title' => t('sort descending')));
+  }
+}
+
