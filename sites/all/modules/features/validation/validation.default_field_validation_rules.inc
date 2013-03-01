@@ -85,7 +85,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Disallowed symbols in paraglider model';
+  $rule->error_message = 'This field may contain only English letters.';
   $export['alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -163,7 +163,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'Insurance Company field may contain only English text.';
+  $rule->error_message = 'This field may contain only English letters.';
   $export['insurance_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -189,7 +189,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 1,
   );
-  $rule->error_message = 'Non-latin symbols in paraglider manufacturer';
+  $rule->error_message = 'This field may contain only English letters.';
   $export['latin'] = $rule;
 
   $rule = new stdClass();
