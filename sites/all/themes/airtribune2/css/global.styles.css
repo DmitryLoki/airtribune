@@ -3153,7 +3153,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 .page-user .pane-page-content form .select { margin-right:8px;}
 .page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 20px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 25px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
 .page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
 .page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option, .page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
 .page-user .pane-page-content form .date-month .checked_option { min-width:99px}
@@ -3182,6 +3182,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+.page-user .pane-page-content form .field-widget-options-select .select,
 .page-user .pane-page-content form .field-name-field-address .select,
 .page-user .pane-page-content form .form-type-phone-number .select,
 .page-user .pane-page-content form .field-name-field-t-shirt-size .select,
@@ -3204,6 +3205,9 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user-edit .fieldset-wrapper > .form-item-language .form-item label { width: auto; text-align: left;}
 .page-user-edit .form-item-language > .form-radios { float: left; width: 244px;}
 .page-user-edit form legend { display: none;}
+
+.form-item .ajax-progress .throbber { margin-top: 8px;}
+.form-item .ajax-progress .message { margin-top: 4px;}
 
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
