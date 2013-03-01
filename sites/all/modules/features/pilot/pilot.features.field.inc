@@ -436,6 +436,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_name_in_national_alphabet',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -474,8 +477,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_name_in_national_alphabet',
-      'label' => 'Name in national alphabet',
+      'label' => 'Your name in national alphabet',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -1520,7 +1524,6 @@ function pilot_field_default_fields() {
   t('Insurance company');
   t('Insurance policy number');
   t('Mobile phone number');
-  t('Name in national alphabet');
   t('Paraglider color');
   t('Paraglider manufacturer');
   t('Paraglider model');
@@ -1528,6 +1531,7 @@ function pilot_field_default_fields() {
   t('Phone');
   t('Sponsors');
   t('T-shirt size');
+  t('Your name in national alphabet');
 
   return $fields;
 }

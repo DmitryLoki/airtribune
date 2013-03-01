@@ -185,7 +185,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
   var indicatorText, pass;
   // Based on the strength, work out what text should be shown by the password strength meter.
   if(password.length == 0){
-      indicatorText = "Password field is required.";
+      indicatorText = "Password is required.";
       pass = 'error';
   }
   else if(password.length > 0 && password.length < 6){

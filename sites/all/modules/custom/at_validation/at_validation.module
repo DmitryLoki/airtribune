@@ -304,9 +304,9 @@ function at_validation_js_alter(&$javascript) {
         if (isset($setting['clientsideValidation']['forms']['user-register-form']['rules'])) {
           $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
           $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
-          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = 'Name is required';
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = 'Name is required.';
           $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
-          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required';
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
           $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
         }
         if (isset($setting['clientsideValidation']['forms']['user-profile-form']['rules'])) {
@@ -403,9 +403,9 @@ function _at_validation_js_alter(&$setting) {
   // #2623
   // TODO: make Name components required.
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['required'] = TRUE;
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = 'Name is required';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = 'Name is required.';
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['required'] = TRUE;
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = 'Surname is required';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
   // Address components
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
