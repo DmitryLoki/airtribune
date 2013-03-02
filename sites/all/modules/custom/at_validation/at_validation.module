@@ -315,6 +315,7 @@ function at_validation_js_alter(&$javascript) {
           $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
           $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
           $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+          $rules['profile_main[field_birthdate][und][0][value][year]'] = $rules['profile_main[field_birthdate][und][0][value]'];
         }
         if (isset($setting['clientsideValidation']['forms']['user-profile-form']['rules'])) {
           // Address components
@@ -444,6 +445,8 @@ function _at_validation_js_alter(&$setting) {
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
   // CIVL ID
   $rules['multiform[user_register_form_1][profile_pilot][field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+  
+  $rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value][year]'] = $rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value]'];
   
   $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
   $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
