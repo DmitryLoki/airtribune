@@ -1,7 +1,7 @@
 (function ($) {
-
     var activeField,
         submitButton;
+
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
             form = that.parents('form'),
@@ -9,9 +9,19 @@
 
         formValidator.errorsFor(that[0]).remove();
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+        var validationMethod = 'failed-ajax-validation-' + that.attr('name');
         if (errorText) {
-            formValidator.showLabel(that[0], errorText);
+            jQuery.validator.addMethod(validationMethod, function(){return false}, errorText);
+            that.rules('add',validationMethod);
+            var elementRules = Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')];
+            if(!elementRules){
+                Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')] = {};
+            }
+            Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod] = true;
+            formValidator.element(that);
         } else {
+            delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod];
+            that.rules('remove',validationMethod);
             formValidator.settings.success();
         }
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
@@ -34,7 +44,9 @@
 
     jQuery(document).ready(function () {
         submitButton = $('#edit-submit').addClass('disabled');
+
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
+
             formValidator.settings.success = $.proxy(function (error) {
                 var successElements = $(this.successList);
                 successElements.each(function (i, element) {
@@ -107,6 +119,7 @@
             //insert event handler before other handlers
             f.bind(event, function () {
                 activeField = this;
+                $(this).rules('remove','failed-ajax-validation-' + this.name);
             });
             var currentBindings = f.data('events')[event];
             currentBindings.unshift(currentBindings.pop());
