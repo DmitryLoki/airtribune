@@ -1,5 +1,7 @@
 <?php
 
+$form['field_avatar']['#attached']['js'][0] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
+
 print drupal_render($form['field_user_avatar']);
 
 $form['account']['mail']['#title'] = t('Login');
