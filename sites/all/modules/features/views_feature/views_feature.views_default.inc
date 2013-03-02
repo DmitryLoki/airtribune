@@ -1558,8 +1558,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
-      'type' => 'user',
-      'context' => 'airtribune_event.nid',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '56',
@@ -2208,14 +2208,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2_1']['operator'] = '>=';
   $handler->display->display_options['filters']['field_dates_value2_1']['default_date'] = 'now';
 
-  /* Display: Events map */
-  $handler = $view->new_display('openlayers', 'Events map', 'openlayers_1');
+  /* Display: Events overlay */
+  $handler = $view->new_display('openlayers', 'Events overlay', 'overlay');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
 
-  /* Display: Next events */
-  $handler = $view->new_display('panel_pane', 'Next events', 'panel_pane_1');
+  /* Display: Events pane */
+  $handler = $view->new_display('panel_pane', 'Events pane', 'events_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'openlayers_map';
@@ -2234,8 +2234,8 @@ function views_feature_views_default_views() {
     t('Nid'),
     t('Headquarter location'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
-    t('Events map'),
-    t('Next events'),
+    t('Events overlay'),
+    t('Events pane'),
     t('View panes'),
   );
   $export['events_map'] = $view;
