@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
             response[0].merge = false;
         }
         ajaxSuccess.apply(this, arguments);
-        if(response[1] && response[1].command == "insert") {
+        if(response && response[1] && response[1].command == "insert") {
             updateForm(jQuery('#'+jQuery(response[1].data).attr('id')));
         }
     };
