@@ -227,6 +227,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['#validate'][] = 'at_helper_user_reg_form_validate';
       $form['actions']['submit']['#value'] = t('Register new user');
       $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
+      $form['account']['pass']['#description'] = t('Type your password in both fields');
       break;
     case 'user_pass' :
       $form['actions']['submit']['#value'] = t('Request new password');
