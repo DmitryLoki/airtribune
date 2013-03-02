@@ -94,7 +94,14 @@
                     passCheckFunction = Drupal.behaviors.password.passCheck;
 
                 jQuery.validator.addMethod('passFieldValid', function () {
-                    return !passCheckFunction();
+                    if(passField.val()) {
+                        return !passCheckFunction();
+                    }
+                    else {
+                        $.validator.messages.passFieldValid = "Password is required.";
+                        return false;
+                    }
+
                 }, '');
                 jQuery.validator.addMethod('passMatchValid', function () {
                     return passField.val() == passMatchField.val();
