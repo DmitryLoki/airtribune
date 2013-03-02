@@ -7,8 +7,11 @@ jQuery(document).ready(function(){
         }
         ajaxSuccess.apply(this, arguments);
         if(response && response[1] && response[1].command == "insert") {
-            updateForm(jQuery('#'+jQuery(response[1].data).attr('id')));
+            var element = jQuery('#'+jQuery(response[1].data).attr('id'));
+            updateForm(element);
+            Drupal.settings.clientsideValidation.updateValidationSettings(element.parents('form').validate());
         }
+
     };
 
     $('#edit-profile-pilot-field-address-und-0-country [selected="selected"]').removeAttr('selected');
