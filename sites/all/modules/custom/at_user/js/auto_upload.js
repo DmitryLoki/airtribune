@@ -3,13 +3,18 @@
     attach: function (context, settings) {
 
       var widget = $('.image-widget').first();
-      if (widget.find('.image-preview').size() == 0) {
+      widget.prev('label').hide();
+      if (!widget.find('.image-preview').size() && !widget.find('.photo-empty-div').size()) {
         widget.addClass('photo-empty');
         widget.append("<div class='photo-empty-div'></div>").addClass();
       }
+      else if(!widget.find('.delete-photo').size()){
+        widget.find('.image-preview').append('<div class="delete-photo"></div>');
+        widget.find('.image-widget-data span').hide();
+      }
 
       $('form', context).delegate('input.form-file', 'change', function() {  
-        $(this).next('input[type="submit"]').mousedown();
+        $(this).parents('.image-widget-data').find('input[type="submit"]').mousedown();
       }); 
 
       $('form', context).delegate('.image-preview', 'click', function() {  

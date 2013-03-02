@@ -1,5 +1,8 @@
 <?php
 
+//print_r($form);
+$lang = $form['profile_main']['field_full_name']['#language'];
+$form['field_user_avatar'][$lang][0]['#title'] = '';
 $form['field_avatar']['#attached']['js'][0] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
 
 print drupal_render($form['field_user_avatar']);
