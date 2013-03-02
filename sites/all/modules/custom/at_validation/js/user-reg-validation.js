@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
     }
 
     var birthdateInput = jQuery(
-        '<input id="birthdate-fake-input" name="profile_main[field_birthdate]" style="position:absolute;left:-1000px;margin-top:12px">');
+        '<input id="birthdate-fake-input" name="profile-main-fake-input" style="position:absolute;left:-1000px;margin-top:12px">');
     year.parents('.form-item:last').append(birthdateInput);
     birthdateInput.rules('add', {birthDateFilled:true});
 
