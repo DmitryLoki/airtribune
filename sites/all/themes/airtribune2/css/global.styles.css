@@ -883,7 +883,6 @@ div.messages  {
   width: 405px;
   padding: 14px 30px 16px 75px;
   border: none;
-  color: #ffffff;
   font: 18px/20px Arial, Helvetica, sans-serif;
   min-height: 40px;
   text-align: center;
@@ -894,6 +893,7 @@ div.messages  {
   border-radius: 9px;
 }
 div.messages .close_messages { position: absolute; top: 3px; right: 3px; width: 14px; height: 14px; background: url(../images/close.png) no-repeat 0 0; cursor: pointer;}
+div.messages .close_messages:hover { background-position: 0 -14px}
 
 
 /* Multiple message of the same type are output as a list */
@@ -905,6 +905,7 @@ div.messages ul {
 
 /* Normal priority messages */
 div.status {
+  color: #ffffff;
   background: #b0e46b url(../images/maessage.png) no-repeat 11px 11px;
 }
 
@@ -3219,6 +3220,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user-edit .fieldset-wrapper > .form-item-language .form-item label { width: auto; text-align: left;}
 .page-user-edit .form-item-language > .form-radios { float: left; width: 244px;}
 /*.page-user-edit form legend { display: none;}*/
+html.js fieldset.collapse-processed { height: auto; padding-top: 1px;}
 html.js .page-user-edit form legend .fieldset-legend { background: none; padding-left: 210px; padding-top: 30px; padding-bottom: 6px;}
 html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 
