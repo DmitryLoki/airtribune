@@ -242,7 +242,7 @@ function at_validation_mail_validate($element, &$form_state) {
     form_set_error('mail', $error);
   }
   elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
-    form_set_error('mail', t('The e-mail is already registered. <br />' . l('Forgot your password?', 'user/password')));
+    form_set_error('mail', t('This e-mail is already registered. <br />' . l('Forgot your password?', 'user/password')));
   }
 }
 

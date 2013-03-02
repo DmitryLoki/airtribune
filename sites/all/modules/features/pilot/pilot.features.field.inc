@@ -816,8 +816,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_person_phone',
-      'label' => 'Phone',
+      'label' => 'Contact phone number in case of emergency',
       'required' => 1,
       'settings' => array(
         'all_country_codes' => 1,
@@ -1519,6 +1520,7 @@ function pilot_field_default_fields() {
   t('Address');
   t('Blood type');
   t('CIVL ID');
+  t('Contact phone number in case of emergency');
   t('FAI License number');
   t('Insurance company');
   t('Insurance policy number');
@@ -1527,7 +1529,6 @@ function pilot_field_default_fields() {
   t('Paraglider manufacturer');
   t('Paraglider model');
   t('Person to contact in case of emergency');
-  t('Phone');
   t('Sponsors');
   t('T-shirt size');
   t('The full name of your contact person and your relationship.');
