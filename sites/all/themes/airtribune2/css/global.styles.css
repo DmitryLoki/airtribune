@@ -3188,7 +3188,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-name-field-t-shirt-size .select,
 .page-user .pane-page-content form .field-name-field-blood-type .select { width: 243px;}
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
-.page-user .pane-page-content form .form-phone-number { width: 243px; display: inline-block;}
+.page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
 
 
 /* User account form */

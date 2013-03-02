@@ -112,8 +112,8 @@ jQuery.fn.forms = function(options){ // custom form elements
                 el.replace += '<span class="option'+el.option.selected+' hi">'+el.option.html()+'</span>';
 			});
 			el.replace += '</span></span></span>';
-			el.after(el.replace);
-			el.handle = el.next();
+			el.before(el.replace);
+			el.handle = el.prev();
 			el.handle.items = el.handle.find('.items')
 			el.handle.cheked = el.handle.find('.checked_option');
 			el.handle.cheked.html(el.handle.find('.selected').html() || el.handle.children(':first-child')).click(function(event){
