@@ -746,7 +746,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'As you wish, you can type in here full name or just the first name of the contact person.',
+      'description' => 'The full name of your contact person and your relationship.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1517,7 +1517,6 @@ function pilot_field_default_fields() {
   t('<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
 ');
   t('Address');
-  t('As you wish, you can type in here full name or just the first name of the contact person.');
   t('Blood type');
   t('CIVL ID');
   t('FAI License number');
@@ -1531,6 +1530,7 @@ function pilot_field_default_fields() {
   t('Phone');
   t('Sponsors');
   t('T-shirt size');
+  t('The full name of your contact person and your relationship.');
   t('Your name in national alphabet');
 
   return $fields;
