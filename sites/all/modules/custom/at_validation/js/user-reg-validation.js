@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
         return element;
     }
 
-    //Drupal.disableTabKey(form);
+    Drupal.disableTabKey(form);
 
     var birthdateInput = jQuery(
         '<input id="birthdate-fake-input" name="profile-main-fake-input" style="position:absolute;left:-1000px;margin-top:12px">');
