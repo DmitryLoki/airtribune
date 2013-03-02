@@ -3047,6 +3047,8 @@ p { margin:0; padding:9px 0 11px}
 
 }
 html.js .page-user input.form-autocomplete { background-image: none; }
+.page-user .pane-page-content form .form-item:after { content: "."; visibility: hidden; height: 0; clear: both; overflow: hidden; display: block;}
+.page-user .pane-page-content form .form-type-date-select .form-item:after { content: none;}
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 11px; width:220px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
 .page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
@@ -3151,7 +3153,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-.page-user .pane-page-content form .select { margin-right:8px;}
+.page-user .pane-page-content form .select { margin-right:8px; float: left;}
 .page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
 .page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 25px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
 .page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
@@ -3190,6 +3192,8 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
 .page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
 
+.page-user .pane-page-content form .date-year .select { margin-right: 0;}
+
 
 /* User account form */
 .page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
@@ -3206,7 +3210,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user-edit .form-item-language > .form-radios { float: left; width: 244px;}
 .page-user-edit form legend { display: none;}
 
-.form-item .ajax-progress { margin-top: 6px;}
+.form-item .date-padding + .ajax-progress { margin-top: 6px;}
 .form-item .ajax-progress .throbber { margin-top: 8px;}
 .form-item .ajax-progress .message { margin-top: 4px;}
 
