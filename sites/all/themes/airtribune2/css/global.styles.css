@@ -3190,6 +3190,10 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
 .page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
 
+.page-user .pane-page-content form .form-type-select * { white-space: nowrap;}
+.page-user .pane-page-content form .form-type-select select, 
+.page-user .pane-page-content form .form-type-select .select { white-space: normal;}
+
 
 /* User account form */
 .page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
@@ -3206,8 +3210,8 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user-edit .form-item-language > .form-radios { float: left; width: 244px;}
 .page-user-edit form legend { display: none;}
 
-.form-item .ajax-progress .throbber { margin-top: 8px;}
-.form-item .ajax-progress .message { margin-top: 4px;}
+.form-item .ajax-progress .throbber { margin-top: 8px; float: none; display: inline-block;}
+.form-item .ajax-progress .message { margin-top: 4px; display: inline-block;}
 
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
