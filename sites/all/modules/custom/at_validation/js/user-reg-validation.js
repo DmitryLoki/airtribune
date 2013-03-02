@@ -47,10 +47,19 @@ jQuery(document).ready(function () {
 
     var ajaxValidationResult = $.fn.checkValidationResult;
     $.fn.checkValidationResult = function (errorText) {
-        if($(this).attr('id') == "edit-profile-main-field-birthdate-und-0-value"){
+        if ($(this).attr('id') == "edit-profile-main-field-birthdate-und-0-value") {
             ajaxValidationResult.call(birthdateInput, errorText);
         } else {
             ajaxValidationResult.call(this, errorText);
         }
+    };
+
+    //Throbber position fix for birthday fields
+    var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend;
+    Drupal.ajax.prototype.beforeSend = function (xmlhttprequest, options) {
+        if (options.extraData._triggering_element_name.indexOf('field_birthdate') > -1) {
+            this.element = document.getElementById('edit-profile-main-field-birthdate-und-0-value');
+        }
+        ajaxBeforeSend.apply(this, arguments);
     }
 });
