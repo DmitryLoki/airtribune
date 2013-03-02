@@ -293,7 +293,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only digits';
+  $rule->error_message = 'This field may contain only digits.';
   $export['person_phone_digits'] = $rule;
 
   $rule = new stdClass();
