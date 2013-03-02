@@ -178,6 +178,11 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   if ($element['#field_name'] == 'field_t_shirt_size') {
     $element['#after_build'][] = '_t_shirt_size_after_build';
   }
+  
+  // Change field_address default select option name.
+  if ($element['#field_name'] == 'field_address') {
+    $element['#after_build'][] = '_address_after_build';
+  }
 }
 
 /**
@@ -187,6 +192,16 @@ function _t_shirt_size_after_build($element, $form_state) {
   $element['#options']['_none'] = t(' - Choose size - ');
   return $element;
 }
+
+function _address_after_build($element, $form_state) {
+  $options = array('' => t(' - Choose country - '));
+  foreach ($element['country']['#options'] as $k => $v) {
+    $options[$k] = $v;
+  }
+  $element['country']['#options'] = $options;
+  return $element;
+}
+
 
 /**
  * Implements hook_form_alter().
