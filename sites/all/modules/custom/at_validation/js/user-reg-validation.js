@@ -3,7 +3,8 @@ jQuery(document).ready(function () {
         month = setBlurBind($('#edit-profile-main-field-birthdate-und-0-value-month')),
         day = setBlurBind($('#edit-profile-main-field-birthdate-und-0-value-day')),
         year = setBlurBind($('#edit-profile-main-field-birthdate-und-0-value-year')),
-        formValidator = month.closest('form').validate();
+        form = month.closest('form'),
+        formValidator = form.validate();
 
     function setBlurBind(element) {
         var changeHandlers = element.data('events').change;
@@ -17,6 +18,8 @@ jQuery(document).ready(function () {
         changeHandlers.unshift(changeHandlers.pop());
         return element;
     }
+
+    //Drupal.disableTabKey(form);
 
     var birthdateInput = jQuery(
         '<input id="birthdate-fake-input" name="profile-main-fake-input" style="position:absolute;left:-1000px;margin-top:12px">');

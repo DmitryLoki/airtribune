@@ -21,6 +21,7 @@ jQuery(function ($) {
     $('#event_register').hide();
     $('.reg_choice .form_show').click(function () {
         $('#event_register').show();
+        Drupal.disableTabKey($('#event_register'));
         $(this).parent().hide();
         return false;
     });

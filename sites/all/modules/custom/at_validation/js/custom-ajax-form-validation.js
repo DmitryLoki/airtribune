@@ -11,11 +11,13 @@
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
         var validationMethod = 'failed-ajax-validation-' + that.attr('name');
         if (errorText) {
-            jQuery.validator.addMethod(validationMethod, function(){return false}, errorText);
-            that.rules('add',validationMethod);
+            jQuery.validator.addMethod(validationMethod, function () {
+                return false
+            }, errorText);
+            that.rules('add', validationMethod);
 
             var elementRules = Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')];
-            if(!elementRules){
+            if (!elementRules) {
                 Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')] = {};
             }
             Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod] = true;
@@ -23,10 +25,10 @@
             formValidator.element(that);
         } else {
 
-            if(Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')]){
+            if (Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')]) {
                 delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod];
             }
-            that.rules('remove',validationMethod);
+            that.rules('remove', validationMethod);
 
             formValidator.settings.success();
         }
@@ -47,6 +49,17 @@
         formValidator.successList = successList;
         submitButton[allElementsValid ? 'removeClass' : 'addClass']('disabled');
     }
+
+    Drupal.disableTabKey = function (form) {
+        form.validate().elements().each(function (i, element) {
+            var keyUpBindings = $(element).bind('keyup',function (event) {
+                if (event.keyCode === 9) {//TAB key
+                    event.stopImmediatePropagation();
+                }
+            }).data('events').keyup;
+            keyUpBindings.unshift(keyUpBindings.pop());
+        });
+    };
 
     jQuery(document).ready(function () {
         submitButton = $('#edit-submit').addClass('disabled');
@@ -76,20 +89,20 @@
             }, formValidator);
 
             if ($('#edit-pass-pass1').length > 0) {
-              var passField = $('#edit-pass-pass1'),
-                  passMatchField = $('#edit-pass-pass2'),
-                  passCheckFunction = Drupal.behaviors.password.passCheck;
+                var passField = $('#edit-pass-pass1'),
+                    passMatchField = $('#edit-pass-pass2'),
+                    passCheckFunction = Drupal.behaviors.password.passCheck;
 
-              jQuery.validator.addMethod('passFieldValid', function () {
-                  return !passCheckFunction();
-              }, '');
-              jQuery.validator.addMethod('passMatchValid', function () {
-                  return passField.val() == passMatchField.val();
-              }, Drupal.settings.password.confirmFailure);
+                jQuery.validator.addMethod('passFieldValid', function () {
+                    return !passCheckFunction();
+                }, '');
+                jQuery.validator.addMethod('passMatchValid', function () {
+                    return passField.val() == passMatchField.val();
+                }, Drupal.settings.password.confirmFailure);
 
-              passField.rules('add', {passFieldValid:true});
-              passField.rules('remove', 'required');
-              passMatchField.rules('add', {passMatchValid:true});
+                passField.rules('add', {passFieldValid:true});
+                passField.rules('remove', 'required');
+                passMatchField.rules('add', {passMatchValid:true});
             }
         };
 
@@ -125,7 +138,7 @@
             //insert event handler before other handlers
             f.bind(event, function () {
                 activeField = this;
-                $(this).rules('remove','failed-ajax-validation-' + this.name);
+                $(this).rules('remove', 'failed-ajax-validation-' + this.name);
             });
             var currentBindings = f.data('events')[event];
             currentBindings.unshift(currentBindings.pop());
