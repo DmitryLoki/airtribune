@@ -8,7 +8,7 @@ $form['field_avatar']['#attached']['js'][0] = drupal_get_path('module', 'at_user
 print drupal_render($form['field_user_avatar']);
 
 $form['account']['mail']['#title'] = t('Email');
-$form['account']['mail']['#title']['#attributes']['rel'] = t('Enter your email');
+$form['account']['mail']['#attributes']['rel'] = t('Enter your email');
 $form['account']['mail']['#description'] = t('This will be your login');
 $form['account']['current_pass']['#title'] = t('Old password');
 $form['account']['current_pass']['#description'] = t('Minimun 6 symbols');
