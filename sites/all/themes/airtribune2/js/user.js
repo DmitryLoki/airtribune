@@ -84,15 +84,14 @@ Drupal.behaviors.password = {
         return success;
       };
 
-      // Monitor keyup and blur events.
-      // Blur must be used because a mouse paste does not trigger keyup.
-      passwordInput.keyup(function(){
+      // Monitor blur events.
+      passwordInput.blur(function(){
           passwordCheck();
           if(confirmInput[0].visited){
               confirmInput.closest('form').validate().element(confirmInput[0]);
           }
       });
-      confirmInput.keyup(function(){
+      confirmInput.blur(function(){
           this.visited = true;
           confirmInput.closest('form').validate().element(confirmInput[0]);
       });
