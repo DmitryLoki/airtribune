@@ -80,7 +80,7 @@ function user_feature_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[user:uid].[file:ffp-extension-original]',
+            'value' => '',
           ),
           'file_path' => array(
             'options' => array(
