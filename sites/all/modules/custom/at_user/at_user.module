@@ -66,6 +66,18 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
+  // make upload & delete (user_picture / avatar imagefield) without form_submit
+  // see #2764
+  if ($form_id == 'user_profile_form') {
+    $lang = $form['field_user_avatar']['#language'];
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
+//    if (isset($form_state['triggering_element']['#id']) &&
+//      $form_state['triggering_element']['#id'] == 'edit-field-avatar-und-0-remove-button') {
+    if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
+        $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove") {
+      at_user_photo_ajax_remove($form, $form_state, $form_id);
+    }
+  }
   // see #2633
   if ($form_id == 'user_login_block') {
     $form['#action'] = '/' . variable_get('site_frontpage', '') . '?destination=user';
@@ -77,6 +89,58 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['#validate'][] = 'at_user_change_login_error_msg_validate';
     $form['#validate'][] = 'at_user_change_login_error_inline_validate';
   }
+}
+
+function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
+  global $user;
+
+  if ($file = file_load($user->picture)) {
+    // When a module is managing a file, it must manage the usage count.
+    // Here we decrement the usage count with file_usage_delete().
+    file_usage_delete($file, 'file', 'user', 1);
+
+    // The file_delete() function takes a file object and checks to see if
+    // the file is being used by any other modules. If it is the delete
+    // operation is cancelled, otherwise the file is deleted.
+    file_delete($file);
+
+    // empty fields & save user data
+    $edit['picture'] = null;
+    $edit['field_user_avatar'] = null;
+    $saved_user = user_save($user, $edit);
+  }
+  // drupal_set_message(t('The image @image_name was removed.', array('@image_name' => $file->filename)));
+}
+
+function at_user_photo_ajax_upload(stdClass $file) {
+  global $user;
+  // create new file
+  $file->fid = 0;
+  // set the status of the uploaded file.
+  $file->status = FILE_STATUS_PERMANENT; // FILE_EXISTS_RENAME
+
+  if ($res = file_save($file)) {
+    $account         = user_load($user->uid);
+    $edit['picture'] = $res;
+    $edit['field_user_avatar']['und'][] = array(
+      // 'alt' => '',
+      // 'title' => '',
+      // 'width' => 100,
+      // 'height' => 100,
+      'fid'       => $res->fid,
+      'uid'       => $res->uid,
+      'uri'       => $res->destination,
+      'status'    => $res->status,
+      'filename'  => $res->filename,
+      'filemime'  => $res->filemime,
+      'filesize'  => $res->filesize,
+      'timestamp' => $res->timestamp,
+    );
+    $saved_user = user_save($account, $edit);
+  }
+
+  // it's form upload validator, so we need return empty array to avoid errors
+  return array();
 }
 
 function at_user_change_login_error_msg_validate($form, &$form_state) {
