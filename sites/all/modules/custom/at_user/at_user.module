@@ -98,6 +98,7 @@ function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
     // When a module is managing a file, it must manage the usage count.
     // Here we decrement the usage count with file_usage_delete().
     file_usage_delete($file, 'file', 'user', 1);
+    file_usage_delete($file, 'user', 'user', 1);
 
     // The file_delete() function takes a file object and checks to see if
     // the file is being used by any other modules. If it is the delete
@@ -114,12 +115,8 @@ function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
 
 function at_user_photo_ajax_upload(stdClass $file) {
   global $user;
-  // create new file
-  $file->fid = 0;
-  // set the status of the uploaded file.
-  $file->status = FILE_STATUS_PERMANENT; // FILE_EXISTS_RENAME
 
-  if ($res = file_save($file)) {
+  if ($res = file_copy($file, 'public://pictures/')) {
     $account         = user_load($user->uid);
     $edit['picture'] = $res;
     $edit['field_user_avatar']['und'][] = array(
