@@ -1457,6 +1457,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_t_shirt_size',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -1477,6 +1480,7 @@ function pilot_field_default_fields() {
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'list_text',
@@ -1496,15 +1500,17 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_t_shirt_size',
       'label' => 'T-shirt size',
-      'required' => FALSE,
+      'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
