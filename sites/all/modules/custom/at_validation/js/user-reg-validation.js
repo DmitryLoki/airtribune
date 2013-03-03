@@ -22,8 +22,8 @@ jQuery(document).ready(function () {
     Drupal.disableTabKey(form);
 
     var birthdateInput = jQuery(
-        '<input id="birthdate-fake-input" name="profile-main-fake-input" style="position:absolute;left:-1000px;margin-top:12px">');
-    year.parents('.form-item:last').append(birthdateInput);
+        '<input id="birthdate-fake-input" name="profile-main-fake-input" style="z-index:0;position:absolute;left:-1000px;border:none;margin-top:12px">');
+    year.parent().parent().append(birthdateInput);
     birthdateInput.rules('add', {birthDateFilled:true});
 
     jQuery.validator.addMethod('birthDateFilled', function () {
@@ -58,7 +58,7 @@ jQuery(document).ready(function () {
     var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend;
     Drupal.ajax.prototype.beforeSend = function (xmlhttprequest, options) {
         if (options.extraData._triggering_element_name.indexOf('field_birthdate') > -1) {
-            this.element = document.getElementById('edit-profile-main-field-birthdate-und-0-value');
+            this.element = jQuery('.date-year')[0];
         }
         ajaxBeforeSend.apply(this, arguments);
     }

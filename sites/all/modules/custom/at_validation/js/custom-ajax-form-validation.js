@@ -22,16 +22,13 @@
             }
             Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod] = true;
 
-            formValidator.element(that);
         } else {
-
             if (Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')]) {
                 delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod];
             }
             that.rules('remove', validationMethod);
-
-            formValidator.settings.success();
         }
+        formValidator.element(that);
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
         checkAllElementsValid(formValidator);
     };
