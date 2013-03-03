@@ -3070,7 +3070,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
 .page-user .pane-page-content form .field-type-list-text label { float:left;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { float:left; margin:1px 0 0;}
-.page-user .pane-page-content form .field-type-list-text .form-type-radio label { width:auto; float:none; color:#525d66; font-size:16px; margin-right:45px}
+.page-user .pane-page-content form .field-type-list-text .form-type-radio label { width:auto; float:none; color:#525d66; font-size:16px; margin-right:45px; margin-left: 5px;}
 .page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; /*padding-bottom:40px*/}
 .page-user .pane-page-content form .form-type-select label { float:left; margin-right:19px}
 .page-user .pane-page-content form .form-type-select > div { float:left;}
