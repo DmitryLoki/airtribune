@@ -1,8 +1,8 @@
 <?php
 
 $plugin = array(
-  'field_type' => 'list_text',
-  'widget_type' => 'options_select',
+  'field_type' => 'list_text 0',  // We don't need this plugin
+  'widget_type' => 'options_select 0',
   'validator' => 'at_validation_validator__list_text__options_select',
   'selector' => 'at_validation_validator__list_text__options_select_id',
 );

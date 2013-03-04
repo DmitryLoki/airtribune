@@ -379,7 +379,7 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
     if ($name_exists) {
       $element = isset($form[$profile_type]) ? $form[$profile_type]['field_full_name'] : $form;
       //form_error($form[$profile_type]['field_full_name'], 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
-      form_error($element, 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
+      form_error($element, 'This name, surname and date of birth combination already exist. ' . l('Forgot your password?', 'user/password'));
     }
   }
 }
