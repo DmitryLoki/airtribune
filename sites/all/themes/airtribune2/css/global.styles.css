@@ -2943,13 +2943,15 @@ p { margin:0; padding:9px 0 11px}
 .page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
 /*.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}*/
 .page-event-details .pane-node-field-hq-location .clearfix:after { clear:none;}
-.page-event-details #page .pane-node-field-hq-location { margin-bottom: 0;}
-.page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 -4px; width:200px;}
+.page-event-details #page .pane-node-field-hq-location { margin-bottom: 0; padding-top: 5px;}
+.page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 -4px; width:200px; padding-top: 5px;}
 .page-event-details #page .pane-node-field-address .field-label { font-weight: normal;}
 
 .page-event-details #page .pane-field-collection-item-field-gt-general { margin-bottom:0}
+.page-event-details #page .pane-field-collection-item-field-gt-general p { padding-top: 0;}
 
-.page-event-details #page .pane-node-field-headquarter-info { clear:both; margin-bottom: 5px;}
+.page-event-details #page .pane-node-field-headquarter-info { clear:both; margin-bottom: 0;}
+.page-event-details #page .pane-node-field-headquarter-info p { padding-bottom: 0;}
 
 /* Downloads */
 .page-event-details .pane-node-field-downloads .field-item { width:162px;}
@@ -3045,7 +3047,7 @@ p { margin:0; padding:9px 0 11px}
 }
 
 .page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
-.page-user .pane-page-content form .form-item { margin-top:16px; position:relative;}
+.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 0;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:7px}
 .page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px;}
@@ -3167,7 +3169,6 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-.page-user .pane-page-content form .select { margin-right:8px;}
 .page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
 .page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 20px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
 .page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
@@ -3198,13 +3199,18 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+.page-user .pane-page-content form .form-item .select { float: left;}
+.page-user .pane-page-content form .form-wrapper { clear: both;}
 .page-user .pane-page-content form .field-name-field-address .select,
 .page-user .pane-page-content form .form-type-phone-number .select,
 .page-user .pane-page-content form .field-name-field-t-shirt-size .select,
 .page-user .pane-page-content form .field-name-field-blood-type .select { width: 243px;}
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
-.page-user .pane-page-content form .form-phone-number { width: 243px; display: inline-block;}
+.page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
+.page-user .pane-page-content form .form-phone-number .form-item { display: block; margin-top: 0;}
 
+.page-user .pane-page-content form .form-type-date-select .form-type-select .select { margin-right: 8px;}
+.page-user .pane-page-content form .form-type-date-select .form-type-select:last-child .select{ margin-right: 0;}
 
 /* User account form */
 /*.page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
@@ -3223,6 +3229,10 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 html.js fieldset.collapse-processed { height: auto; padding-top: 1px;}
 html.js .page-user-edit form legend .fieldset-legend { background: none; padding-left: 210px; padding-top: 30px; padding-bottom: 6px;}
 html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
+
+.form-item .date-padding + .ajax-progress { margin-top: 6px;}
+.form-item .ajax-progress .throbber { margin-top: 8px;}
+.form-item .ajax-progress .message { margin-top: 4px;}
 
 /* user avatar */
 .page-user-edit .field-name-field-user-avatar .image-widget { margin-left: 210px; position: relative; display: block; overflow: hidden;}
