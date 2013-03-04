@@ -255,7 +255,7 @@ function _at_helper_user_register_extra_after_build($form, $form_state) {
   if (isset($form['profile_main']['field_birthdate']) && isset($form['profile_main']['field_full_name'])) {
     $form['profile_main']['field_birthdate']['und'][0]['#element_validate'][] = 'at_helper_user_reg_form_validate';
     // TODO: This returns error for multiform ajax.
-    //$form['profile_main']['field_full_name']['und'][0]['#element_validate'][] = 'at_helper_user_reg_form_validate';
+    $form['profile_main']['field_full_name']['und'][0]['#element_validate'][] = 'at_helper_user_reg_form_validate';
   }
   
   return $form;
@@ -359,7 +359,8 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
   $time = new DateObject($birthdate);
   $birthdate = $time->format('Y-m-d H:i:s');
   
-  if (!empty($given) && !empty($family) && !empty($birthdate)) {
+  //watchdog('tmp', $birthdate . ' ' . $time->validGranularity('year', 'month', 'day'));
+  if (!empty($given) && !empty($family) && !empty($birthdate) && $time->validGranularity('year', 'month', 'day')) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
@@ -390,7 +391,7 @@ function at_helper_og_form_validate($form, &$form_state) {
   $pilot_number = !empty($values['field_contestant_number']['und'][0]['value'])
                 ? $values['field_contestant_number']['und'][0]['value']
                 : FALSE;
-  watchdog('test', $gid . ' ' . $pilot_number);
+  //watchdog('test', $gid . ' ' . $pilot_number);
   if ($gid && $pilot_number) {
     // TODO:
     $query = new EntityFieldQuery();

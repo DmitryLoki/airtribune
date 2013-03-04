@@ -125,7 +125,12 @@ function _at_validation_ajax($form, $form_state) {
 
   if (!empty($errors)) {
     $html = array_shift($errors);
-
+    
+    // TODO: This is a hack for Name+Birthday unique check
+    if (strpos($html, 'This name, surname') !== FALSE) {
+      $selector = '#edit-profile-main-field-birthdate-und-0-value';
+    }
+    
     $commands = array();
     // http://drupal.org/node/1028410#comment-6424572
     $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
@@ -136,6 +141,14 @@ function _at_validation_ajax($form, $form_state) {
     $commands = array();
     // http://drupal.org/node/1028410#comment-6424572
     $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+    
+    // TODO: This is a hack for Name+Birthday unique check
+    if (in_array($selector, array('#edit-profile-main-field-full-name-und-0-given', '#edit-profile-main-field-full-name-und-0-family'))) {
+      $selector = '#edit-profile-main-field-birthdate-und-0-value';
+      $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+      
+    }
+    
     return drupal_json_output($commands);
   }
 }
