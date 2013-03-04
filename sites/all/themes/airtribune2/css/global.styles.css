@@ -3197,6 +3197,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 }
 .page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
+.page-user .pane-page-content form .form-item .select { float: left;}
 .page-user .pane-page-content form .field-name-field-address .select,
 .page-user .pane-page-content form .form-type-phone-number .select,
 .page-user .pane-page-content form .field-name-field-t-shirt-size .select,
