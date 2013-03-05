@@ -230,10 +230,10 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['account']['pass']['#description'] = t('Type your password in both fields');
       // TODO: Add after_build only when performing ajax validation.
       $form['#after_build'][] = '_at_helper_user_register_extra_after_build';
-      /*
+      
       // TODO: Add after_build only when performing ajax validation.
       $form['#after_build'][] = '_at_helper_og_form_extra_after_build';
-      */
+      
       break;
     case 'user_pass' :
       $form['actions']['submit']['#value'] = t('Request new password');
@@ -245,7 +245,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['#validate'][] = 'at_helper_og_form_validate';
       
       // TODO: Add after_build only when performing ajax validation.
-      //$form['#after_build'][] = '_at_helper_og_form_extra_after_build';
+      $form['#after_build'][] = '_at_helper_og_form_extra_after_build';
       
       break;
   }
@@ -262,7 +262,7 @@ function _at_helper_user_register_extra_after_build($form, $form_state) {
 }
 
 function _at_helper_og_form_extra_after_build($form, $form_state) {
-  //dsm($form);
+  
   if (isset($form['field_contestant_number'])) {
     $form['field_contestant_number']['und'][0]['#element_validate'][] = 'at_helper_og_form_validate';
   }
@@ -397,7 +397,7 @@ function at_helper_og_form_validate($form, &$form_state) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership');
     $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
-    $query->fieldCondition('og_membership_request', 'value', $gid);
+    $query->propertyCondition('gid', $gid);
     $query->fieldCondition('field_contestant_number', 'value', $pilot_number);
     //$query->fieldCondition('field_full_name', 'family', $family);
     $number_exists = $query->count()->execute();
