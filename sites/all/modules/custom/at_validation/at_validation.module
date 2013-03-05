@@ -149,9 +149,17 @@ function _at_validation_ajax($form, $form_state) {
     
     // TODO: This is a hack for Name+Birthday unique check
     if (in_array($selector, array('#edit-profile-main-field-full-name-und-0-given', '#edit-profile-main-field-full-name-und-0-family'))) {
-      $selector = '#edit-profile-main-field-birthdate-und-0-value';
-      $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
-      
+      $profile_type = 'profile_' . MAIN_PROFILE_TYPE;
+      $profile_values = $form_state['values'][$profile_type];
+      $birthdate = !empty($profile_values['field_birthdate']['und'][0]['value']) ? $profile_values['field_birthdate']['und'][0]['value'] : FALSE;
+      //watchdog('tset', $birthdate);
+      if (!empty($birthdate)) {
+        $time = new DateObject($birthdate);
+        if ($time->validGranularity('year', 'month', 'day')) {
+          $selector = '#edit-profile-main-field-birthdate-und-0-value';
+          $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+        }
+      }
     }
     
     return drupal_json_output($commands);
