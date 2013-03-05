@@ -36,16 +36,19 @@ jQuery(function($){
 		);*/
 		
 		parentLi.click(function(){
+            var slideElement = $('#'+$(this).attr('rel'));
 			if(!$(this).hasClass('menu_active')){
-				$(this).addClass('menu_active').children('a').addClass('menu_active')
-				blockSlide($('#'+$(this).attr('rel')), 1)
+				$(this).addClass('menu_active').children('a').addClass('menu_active');
+				Drupal.toggle(slideElement)
 			}
 			else {
-				//$(this).removeClass('active')
-				blockSlide($('#'+$(this).attr('rel')), 0)
+				var that = this;
+                Drupal.toggle(slideElement, function(){
+                    $(that).removeClass('menu_active').children('a').removeClass('menu_active');
+                })
 			}
 			
-		})
+		});
 		
 		
 		parentLiInc++;
@@ -53,8 +56,11 @@ jQuery(function($){
 	});
 	$('body').click(function (e) {
 		if (!($(e.target).parents('.pane-airtribune-primary-navigation ul li, .main-menu-item').length)) {
-			if($('.main-menu-item:visible').size() > 0){
-				blockSlide($('.main-menu-item:visible'), 0, false);
+            var visibleMenuItem = $('.main-menu-item:visible');
+			if(visibleMenuItem.size() > 0){
+                Drupal.toggle(visibleMenuItem, function(){
+                    $('[rel="'+this.getAttribute('id')+'"]').removeClass('menu_active').children('a').removeClass('menu_active');
+                });
 			}
 			
 		}

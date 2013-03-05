@@ -48,6 +48,8 @@ jQuery(function($){
             item.slideDown({duration:600,easing:'easeOutCubic',complete:cb})
         }
     }
+
+    Drupal.toggle = toggle;
     function slideUp(dropItems, cb){
         dropItems.slideUp({duration:400,easing:'easeInCubic', complete:cb}).removeClass('active');
     }
