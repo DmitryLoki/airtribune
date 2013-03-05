@@ -356,11 +356,14 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
   $given = !empty($profile_values['field_full_name']['und'][0]['given']) ? $profile_values['field_full_name']['und'][0]['given'] : FALSE;
   $family = !empty($profile_values['field_full_name']['und'][0]['family']) ? $profile_values['field_full_name']['und'][0]['family'] : FALSE;
   $birthdate = !empty($profile_values['field_birthdate']['und'][0]['value']) ? $profile_values['field_birthdate']['und'][0]['value'] : FALSE;
-  $time = new DateObject($birthdate);
-  $birthdate = $time->format('Y-m-d H:i:s');
   
   //watchdog('tmp', $birthdate . ' ' . $time->validGranularity('year', 'month', 'day'));
-  if (!empty($given) && !empty($family) && !empty($birthdate) && $time->validGranularity('year', 'month', 'day')) {
+  if (!empty($given) && !empty($family) && !empty($birthdate)) {
+    $time = new DateObject($birthdate);
+    $birthdate = $time->format('Y-m-d H:i:s');
+    if (!$time->validGranularity('year', 'month', 'day')) {
+      return;
+    }
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
