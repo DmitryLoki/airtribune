@@ -9,8 +9,8 @@ print drupal_render($form['field_user_avatar']);
 
 $form['account']['mail']['#title'] = t('Email');
 $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
-$form['account']['mail']['#description'] = t('This will be your login');
-$form['account']['current_pass']['#title'] = t('Old password');
+$form['account']['mail']['#description'] = t('This is you login. If you change it, you must enter your current password below as well.');
+$form['account']['current_pass']['#title'] = t('Current password');
 $form['account']['current_pass']['#description'] = t('Minimun 6 symbols');
 $form['account']['pass']['pass1']['#title'] = t("New password");
 $form['account']['pass']['pass2']['#title'] = t("Repeat new password");
@@ -29,8 +29,8 @@ if (!empty($form['profile_main'])) {
   $form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
   $form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-  $form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your name English transcription.');
-  $form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname English transcription.');
+  $form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your Name in English transcription.');
+  $form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
   $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
   $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
 
