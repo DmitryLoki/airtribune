@@ -23,6 +23,12 @@
         }
       });
 
+      $('#user-profile-form').ajaxComplete(function(event, xhr, settings) {
+        if ((event.target.id) == 'user-profile-form') {
+          $('.messages').show().delay(7000).fadeOut(1000);
+        }
+      });
+
     }
   };
 })(jQuery);
