@@ -17,6 +17,6 @@ function at_validation_validator__number_integer__number(&$element, &$form_state
 }
 
 function at_validation_validator__number_integer__number_id($element, $triggering_element, &$errors) {
-  $selector = '#' . $element['#id'] . '-value';dsm($selector);
+  $selector = '#' . $element['#id'] . '-value';
   return $selector;
 }
