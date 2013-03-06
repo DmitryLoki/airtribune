@@ -76,9 +76,14 @@ function setPlaceholder(id, setRequiredMark) {
                 + (setRequiredMark ? requiredSpan : '')
                 + '</span>');
             jQuery(this).parent().append(span);
-            setTimeout(function () {
-                if (input.value.length > 0)
+            function hidePlaceholder() {
+                if (input.value.length > 0){
                     span.hide();
+                }
+            }
+            setTimeout(function(){
+                hidePlaceholder();
+                setTimeout(hidePlaceholder, 1000);
             }, 1000);
             if (jQuery(this).attr('value') != '') {
                 jQuery(this).parent().children('span.label').hide();
