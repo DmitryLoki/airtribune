@@ -2,6 +2,7 @@
   Drupal.behaviors.autoUpload = {
     attach: function (context, settings) {
 
+      
       var widget = $('.image-widget').first();
       widget.prev('label').hide();
       if (!widget.find('.image-preview').size() && !widget.find('.photo-empty-div').size()) {
@@ -26,6 +27,7 @@
       $('#user-profile-form').ajaxComplete(function(event, xhr, settings) {
         if ((event.target.id) == 'user-profile-form') {
           $('.messages').show().delay(7000).fadeOut(1000);
+          $('input.form-file').forms({file_bt: ''});
         }
       });
 

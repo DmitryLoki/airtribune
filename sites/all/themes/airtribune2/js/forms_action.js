@@ -1,7 +1,7 @@
 function updateForm(container) {
     var $ = jQuery,
         container = container || $(document);
-    $( 'input, .pane-page-content form select', container).forms({disableChoiceOfFirstItemInSelection:true, file:false});
+    $( 'input, .pane-page-content form select', container).forms({disableChoiceOfFirstItemInSelection:true, file_bt: ''});
     $('.select .items_inner', container).each(function () {
         $(this).parent().show();
         $(this).jScrollPane({scrollbarWidth:4, showArrows:false});

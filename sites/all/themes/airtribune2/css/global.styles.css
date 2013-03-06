@@ -3047,10 +3047,10 @@ p { margin:0; padding:9px 0 11px}
 }
 
 .page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
-.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 20px;}
+.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 30px;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:5px}
 .page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
-.page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -10px;}
+.page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -20px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both;}
 .page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
 .page-user .pane-page-content form .form-item input.form-text,
@@ -3218,6 +3218,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 /* User account form */
 /*.page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
 .page-user-edit #edit-field-user-avatar div.image-widget-data { display: inline; float: none;}*/
+.page-user-edit .pane-page-content form .date-padding .form-item { padding-bottom: 0;}
 .page-user-edit .form-type-name-element > label { float: left; padding-right: 4px;}
 .page-user-edit .form-type-name-element > div { max-width: 250px; float: left;}
 .page-user.page-user-edit .form-type-name-element .form-item { margin-top: 0;}
@@ -3230,7 +3231,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user-edit .form-item-language > .form-radios { float: left; width: 244px;}
 /*.page-user-edit form legend { display: none;}*/
 html.js fieldset.collapse-processed { height: auto; padding-top: 1px;}
-html.js .page-user-edit form legend .fieldset-legend { background: none; padding-left: 210px; padding-top: 30px; padding-bottom: 6px;}
+html.js .page-user-edit form legend .fieldset-legend { background: none; padding-left: 210px; padding-top: 10px; padding-bottom: 6px;}
 html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 
 .form-item .date-padding + .ajax-progress { margin-top: 6px;}
@@ -3238,6 +3239,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .form-item .ajax-progress .message { margin-top: 4px;}
 
 /* user avatar */
+.page-user-edit .pane-page-content form .form-type-date-select { margin-top: 0;}
+.page-user-edit .pane-page-content form .field-type-list-text .form-type-radio { padding-bottom: 2px;}
 .page-user-edit .field-name-field-user-avatar .image-widget { margin-left: 210px; position: relative; display: block; overflow: hidden;}
 .page-user-edit .field-name-field-user-avatar .photo-empty-div,
 .page-user-edit .field-name-field-user-avatar .image-preview { border: 1px solid #d2d6d9; width: 150px; height: 150px; position: relative; background: url(../images/no_photo.png) no-repeat 50% 50%;
