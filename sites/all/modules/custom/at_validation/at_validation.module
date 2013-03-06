@@ -35,7 +35,12 @@ function at_validation_ajax() {
     // TODO: Get _multiform_index
     global $user;
     if (!$user->uid) {
-      $multiform_index = 'user_register_form_1';
+      if ($_POST['_triggering_element_name'] == 'field_contestant_number[und][0][value]') {
+        $multiform_index = 'og_ui_confirm_subscribe_0';
+      }
+      else {
+        $multiform_index = 'user_register_form_1';
+      }
     }
     else {
       $multiform_index = 'og_ui_confirm_subscribe_0';
@@ -125,7 +130,12 @@ function _at_validation_ajax($form, $form_state) {
 
   if (!empty($errors)) {
     $html = array_shift($errors);
-
+    
+    // TODO: This is a hack for Name+Birthday unique check
+    if (strpos($html, 'This name, surname') !== FALSE) {
+      $selector = '#edit-profile-main-field-birthdate-und-0-value';
+    }
+    
     $commands = array();
     // http://drupal.org/node/1028410#comment-6424572
     $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
@@ -136,6 +146,22 @@ function _at_validation_ajax($form, $form_state) {
     $commands = array();
     // http://drupal.org/node/1028410#comment-6424572
     $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+    
+    // TODO: This is a hack for Name+Birthday unique check
+    if (in_array($selector, array('#edit-profile-main-field-full-name-und-0-given', '#edit-profile-main-field-full-name-und-0-family'))) {
+      $profile_type = 'profile_' . MAIN_PROFILE_TYPE;
+      $profile_values = $form_state['values'][$profile_type];
+      $birthdate = !empty($profile_values['field_birthdate']['und'][0]['value']) ? $profile_values['field_birthdate']['und'][0]['value'] : FALSE;
+      //watchdog('tset', $birthdate);
+      if (!empty($birthdate)) {
+        $time = new DateObject($birthdate);
+        if ($time->validGranularity('year', 'month', 'day')) {
+          $selector = '#edit-profile-main-field-birthdate-und-0-value';
+          $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+        }
+      }
+    }
+    
     return drupal_json_output($commands);
   }
 }
@@ -148,6 +174,10 @@ function _at_validation_ajax($form, $form_state) {
  * Ctools plugins should be used for individual handlers.
  */
 function at_validation_field_widget_form_alter(&$element, &$form_state, $context) {
+  
+  if (array_keys($element) == array('value')) {
+    return at_validation_field_widget_form_alter_tmp($element, $form_state, $context);
+  }
   // TODO: Check clientside_validation settings.
   // Check if ajax is enabled for the current field instance (entity, bundle and field).
   if (empty($element['#entity_type']) || empty($element['#bundle'])) {
@@ -176,10 +206,87 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   
   // Change field_t_shirt_size default select option name.
   if ($element['#field_name'] == 'field_t_shirt_size') {
-    $element['#options']['_none'] = t(' - Choose size - ');
-    $element['#options'][''] = t(' - Choose size - ');
+    $element['#after_build'][] = '_t_shirt_size_after_build';
+  }
+  // Change field_blood_type default select option name.
+  if ($element['#field_name'] == 'field_blood_type') {
+    $element['#after_build'][] = '_blood_type_after_build';
+  }
+  // Change field_address default select option name.
+  if ($element['#field_name'] == 'field_address') {
+    $element['#after_build'][] = '_address_after_build';
   }
 }
+
+// TEST ==================================
+function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $context) {
+  // TODO: Check clientside_validation settings.
+  // Check if ajax is enabled for the current field instance (entity, bundle and field).
+  if (empty($element['value']['#entity_type']) || empty($element['value']['#bundle'])) {
+    return;
+  }
+  
+  // Temporary list of bundles.
+  // List bundles for each entity with ajax-validation enabled.
+  $entities['profile2'] = array('main', 'pilot');
+  $entities['og_membership'] = array('pg_contestant');
+  if (isset($entities[$element['value']['#entity_type']]) && in_array($element['value']['#bundle'], $entities[$element['value']['#entity_type']])) {
+    // Form caching is set in ajax_process_form().
+    $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
+    //$element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    // Search for corresponding plugin for the current widget.
+    $field_type = $context['field']['type'];
+    $widget_type = $context['instance']['widget']['type'];
+    //dsm($field_type . ' ' . $widget_type . ' ' . $element['value']['#field_name']);
+    $plugin = at_validation_field_plugin($field_type, $widget_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the widget.
+      $function = $plugin['validator'];
+      $function($element, $form_state, $context);
+    }
+  }
+  
+  // Change field_t_shirt_size default select option name.
+  if ($element['value']['#field_name'] == 'field_t_shirt_size') {
+    $element['#after_build'][] = '_t_shirt_size_after_build';
+  }
+  // Change field_blood_type default select option name.
+  if ($element['value']['#field_name'] == 'field_blood_type') {
+    $element['#after_build'][] = '_blood_type_after_build';
+  }
+  // Change field_address default select option name.
+  if ($element['value']['#field_name'] == 'field_address') {
+    $element['#after_build'][] = '_address_after_build';
+  }
+}
+// =======================================
+
+/**
+ * After build for field_t_shirt_size field widget.
+ */
+function _t_shirt_size_after_build($element, $form_state) {
+  $element['#options']['_none'] = t('Choose size');
+  return $element;
+}
+/**
+ * After build for field_blood_type field widget.
+ */
+function _blood_type_after_build($element, $form_state) {
+  $element['#options']['_none'] = t('Choose blood type');
+  return $element;
+}
+/**
+ * After build for field_address field widget.
+ */
+function _address_after_build($element, $form_state) {
+  $options = array('' => t('Choose country'));
+  foreach ($element['country']['#options'] as $k => $v) {
+    $options[$k] = $v;
+  }
+  $element['country']['#options'] = $options;
+  return $element;
+}
+
 
 /**
  * Implements hook_form_alter().
@@ -220,7 +327,7 @@ function at_validation_mail_validate($element, &$form_state) {
     form_set_error('mail', $error);
   }
   elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
-    form_set_error('mail', t('The e-mail is already registered. ' . l('Forgot your password?', 'user/password')));
+    form_set_error('mail', t('This email is already registered. <br />' . l('Forgot your password?', 'user/password')));
   }
 }
 
@@ -304,9 +411,9 @@ function at_validation_js_alter(&$javascript) {
         if (isset($setting['clientsideValidation']['forms']['user-register-form']['rules'])) {
           $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
           $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
-          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = 'Name is required';
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = 'Name is required.';
           $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
-          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required';
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
           $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
         }
         if (isset($setting['clientsideValidation']['forms']['user-profile-form']['rules'])) {
@@ -318,8 +425,15 @@ function at_validation_js_alter(&$javascript) {
           // Address components regex
           $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
           $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-          
+          $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+          // CIVL ID
+          $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+
           unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
+          unset($rules['profile_pilot[field_address][und][0][country]']['regexMatch']);
+          //Phone number select
+          unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
+          unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
         }
         if (isset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']['rules'])) {
           // Address components
@@ -329,9 +443,17 @@ function at_validation_js_alter(&$javascript) {
           // Address components regex
           $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
           $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-          
+          $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+          // CIVL ID
+          $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+
           unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
-          
+          unset($rules['profile_pilot[field_address][und][0][country]']['regexMatch']);
+          //Phone number select
+          unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
+          unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
+
+
           $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
           $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
           $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
@@ -403,22 +525,35 @@ function _at_validation_js_alter(&$setting) {
   // #2623
   // TODO: make Name components required.
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['required'] = TRUE;
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = 'Name is required';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = 'Name is required.';
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['required'] = TRUE;
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = 'Surname is required';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
   // Address components
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
   unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][postal_code]']['regexMatch']);
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][country]']['regexMatch']);
+  //Phone number select
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_phone][und][0][country_codes]']);
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][country_codes]']);
+
   // Address components regex
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-  
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+  // CIVL ID
+  $rules['multiform[user_register_form_1][profile_pilot][field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+
+  //$rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value][year]'] = $rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value]'];
+
   $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
   $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
   unset($setting['clientsideValidation']['forms']['user-register-form']);
   unset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']);
+
+
+
 }
 
 /**

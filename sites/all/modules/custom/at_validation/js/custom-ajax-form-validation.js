@@ -1,6 +1,7 @@
 (function ($) {
+    var activeField,
+        submitButton;
 
-    var activeField;
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
             form = that.parents('form'),
@@ -8,16 +9,60 @@
 
         formValidator.errorsFor(that[0]).remove();
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+        var validationMethod = 'failed-ajax-validation-' + that.attr('name');
         if (errorText) {
-            formValidator.showLabel(that[0], errorText);
+            jQuery.validator.addMethod(validationMethod, function () {
+                return false
+            }, errorText);
+            that.rules('add', validationMethod);
+
+            var elementRules = Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')];
+            if (!elementRules) {
+                Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')] = {};
+            }
+            Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod] = true;
+
         } else {
-            formValidator.settings.success();
+            if (Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')]) {
+                delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod];
+            }
+            that.rules('remove', validationMethod);
         }
+        formValidator.element(that);
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+        checkAllElementsValid(formValidator);
+    };
+
+    function checkAllElementsValid(formValidator) {
+        var allElements = formValidator.elements(),
+            allElementsValid = true,
+            successList = formValidator.successList.slice(0);
+        for (var i = 0, l = allElements.length; i < l; ++i) {
+            if (!formValidator.check(allElements.get(i))) {
+                allElementsValid = false;
+                break;
+            }
+        }
+        formValidator.successList = successList;
+        submitButton[allElementsValid ? 'removeClass' : 'addClass']('disabled');
+    }
+
+    Drupal.disableTabKey = function (form) {
+        form.validate().elements().each(function (i, element) {
+            var keyUpBindings = $(element).bind('keyup',function (event) {
+                if (event.keyCode === 9) {//TAB key
+                    event.stopImmediatePropagation();
+                }
+            }).data('events').keyup;
+            keyUpBindings.unshift(keyUpBindings.pop());
+        });
     };
 
     jQuery(document).ready(function () {
+        submitButton = $('#edit-submit').addClass('disabled');
+
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
+
             formValidator.settings.success = $.proxy(function (error) {
                 var successElements = $(this.successList);
                 successElements.each(function (i, element) {
@@ -36,28 +81,38 @@
                         errorElement.remove();
                     }
                 });
+
+                checkAllElementsValid(formValidator);
             }, formValidator);
 
-            var passField = $('#edit-pass-pass1'),
-                passMatchField = $('#edit-pass-pass2'),
-                passCheckFunction = Drupal.behaviors.password.passCheck;
+            if ($('#edit-pass-pass1').length > 0) {
+                var passField = $('#edit-pass-pass1'),
+                    passMatchField = $('#edit-pass-pass2'),
+                    passCheckFunction = Drupal.behaviors.password.passCheck;
 
-            jQuery.validator.addMethod('passFieldValid', function () {
-                return !passCheckFunction();
-            }, '');
-            jQuery.validator.addMethod('passMatchValid', function () {
-                return passField.val() == passMatchField.val();
-            }, Drupal.settings.password.confirmFailure);
+                jQuery.validator.addMethod('passFieldValid', function () {
+                    if(passField.val()) {
+                        return !passCheckFunction();
+                    }
+                    else {
+                        $.validator.messages.passFieldValid = "Password is required.";
+                        return false;
+                    }
 
-            passField.rules('add', {passFieldValid:true});
-            passField.rules('remove', 'required');
-            passMatchField.rules('add', {passMatchValid:true});
+                }, '');
+                jQuery.validator.addMethod('passMatchValid', function () {
+                    return passField.val() == passMatchField.val();
+                }, Drupal.settings.password.confirmFailure);
+
+                passField.rules('add', {passFieldValid:true});
+                passField.rules('remove', 'required');
+                passMatchField.rules('add', {passMatchValid:true});
+            }
         };
 
         for (var f in Drupal.settings.clientsideValidation.forms) {
             var form = $('#' + f);
             Drupal.settings.clientsideValidation.updateValidationSettings(form.validate());
-
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
@@ -74,6 +129,7 @@
             }
             element.data('error-element', errorBubble);
             element.after(errorBubble);
+            submitButton.addClass('disabled');
         };
 
         function createBubble(html) {
@@ -86,6 +142,7 @@
             //insert event handler before other handlers
             f.bind(event, function () {
                 activeField = this;
+                $(this).rules('remove', 'failed-ajax-validation-' + this.name);
             });
             var currentBindings = f.data('events')[event];
             currentBindings.unshift(currentBindings.pop());
@@ -96,6 +153,7 @@
 
         Drupal.ajax.prototype.beforeSerialize = function (element, options) {
             if (options.url === '/at-validation/ajax') {
+                submitButton.addClass('disabled');
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
                 return formValidator.element(activeField);

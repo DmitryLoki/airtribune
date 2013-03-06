@@ -203,7 +203,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z-\' ]*$',
+    'data' => '^[a-zA-Z0-9-.,)(/\\\\\\\\& ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -293,7 +293,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only digits';
+  $rule->error_message = 'This field may contain only digits.';
   $export['person_phone_digits'] = $rule;
 
   $rule = new stdClass();
@@ -319,7 +319,7 @@ function validation_default_field_validation_rule() {
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only digits';
+  $rule->error_message = 'This field may contain only digits.';
   $export['phone_digits'] = $rule;
 
   return $export;

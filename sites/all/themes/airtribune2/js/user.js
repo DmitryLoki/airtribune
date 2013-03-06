@@ -84,15 +84,14 @@ Drupal.behaviors.password = {
         return success;
       };
 
-      // Monitor keyup and blur events.
-      // Blur must be used because a mouse paste does not trigger keyup.
-      passwordInput.keyup(function(){
+      // Monitor blur events.
+      passwordInput.blur(function(){
           passwordCheck();
           if(confirmInput[0].visited){
               confirmInput.closest('form').validate().element(confirmInput[0]);
           }
       });
-      confirmInput.keyup(function(){
+      confirmInput.blur(function(){
           this.visited = true;
           confirmInput.closest('form').validate().element(confirmInput[0]);
       });
@@ -185,7 +184,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
   var indicatorText, pass;
   // Based on the strength, work out what text should be shown by the password strength meter.
   if(password.length == 0){
-      indicatorText = "Password field is required.";
+      indicatorText = "Password is required.";
       pass = 'error';
   }
   else if(password.length > 0 && password.length < 6){
