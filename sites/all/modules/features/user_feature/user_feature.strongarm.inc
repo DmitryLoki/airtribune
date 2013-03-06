@@ -42,7 +42,7 @@ function user_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_duplicate_emails';
-  $strongarm->value = '1';
+  $strongarm->value = '2';
   $export['hybridauth_duplicate_emails'] = $strongarm;
 
   $strongarm = new stdClass();

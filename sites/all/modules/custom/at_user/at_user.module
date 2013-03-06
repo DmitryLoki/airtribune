@@ -66,16 +66,29 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
+  // make upload & delete (user_picture / avatar imagefield) without form_submit
+  // see #2764
   if ($form_id == 'user_profile_form') {
-    $form['account']['mail']['#title'] = t('Login/Email');
-    $form['account']['current_pass']['#title'] = t('Old password');
-    $form['account']['pass']['#prefix'] = '<div id="pass-change-common-title">' . t('Change password') . '</div>';
-    $form['account']['pass']['#description'] .= '<br>' . t('Minimun 6 symbols');
-    $form['account']['mail']['#weight'] = 1;
-    $form['account']['pass']['#weight'] = 2;
-    $form['account']['current_pass']['#weight'] = 3;
-    // this need to override pass1 & pass2 titles
-    $form['account']['pass']['#process'] = array('form_process_password_confirm', 'at_user_password_title_change');
+//    if (isset($form_state['triggering_element']['#id']) &&
+//      $form_state['triggering_element']['#id'] == 'edit-field-avatar-und-0-remove-button') {
+    if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
+        $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove") {
+
+      // remove photo
+      at_user_photo_ajax_remove($form, $form_state, $form_id);
+    }
+
+    $lang = $form['field_user_avatar']['#language'];
+    // own field validators
+    $form['field_user_avatar'][$lang][0]['#upload_validators'] = array();
+    //unset($form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_image_resolution']);
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_extensions'] = array(0=>'png gif jpg jpeg');
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(0=>'200x200',1=>'60x60');
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
+    // user can upload/delete photo many times, so we need to clear message queue;
+    // form_clear_error();
+    // drupal_set_message();
   }
   // see #2633
   if ($form_id == 'user_login_block') {
@@ -96,14 +109,121 @@ function at_user_password_title_change($element) {
   return $element;
 }
 
+function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
+  global $user;
+
+  if ($file = file_load($user->picture)) {
+    // When a module is managing a file, it must manage the usage count.
+    // Here we decrement the usage count with file_usage_delete().
+    file_usage_delete($file, 'file', 'user', 1);
+    file_usage_delete($file, 'user', 'user', 1);
+
+    // The file_delete() function takes a file object and checks to see if
+    // the file is being used by any other modules. If it is the delete
+    // operation is cancelled, otherwise the file is deleted.
+    file_delete($file);
+
+    // empty fields & save user data
+    $edit['picture'] = null;
+    $edit['field_user_avatar'] = null;
+    $saved_user = user_save($user, $edit);
+  }
+}
+
+function at_user_init() {
+  $hide_messages = array (
+    'You have already registered this identity.'
+  );
+  $replace_messages = array (
+    //'Some string' => 'Replaced string',
+    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>'
+  );
+  if ($messages = drupal_get_messages()) {
+    foreach($messages  as $type => $messages_by_type) {
+      foreach($messages_by_type as $key => $message) {
+        if (array_key_exists(t($message), $replace_messages)){
+          $message = t($replace_messages[$message]);
+        }
+        // if current message not in message list, which we want to hide,
+        // then again add this msg to drupal msg stack
+        if (!in_array(t($message), $hide_messages)){
+          drupal_set_message($message, $type);
+        }
+      }
+    }
+  }
+}
+
+function at_user_file_validate_image_resolution(stdClass $file, $maximum_dimensions = 0, $minimum_dimensions = 0) {
+  $errors = array();
+
+  // Check first that the file is an image.
+  if ($info = image_get_info($file->uri)) {
+    if ($maximum_dimensions) {
+      // Check that it is smaller than the given dimensions.
+      list($width, $height) = explode('x', $maximum_dimensions);
+      if ($info['width'] > $width || $info['height'] > $height) {
+        // Try to resize the image to fit the dimensions.
+        if ($image = image_load($file->uri)) {
+          image_scale($image, $width, $height);
+          image_save($image);
+          $file->filesize = $image->info['file_size'];
+          // this line commented to avoid repeated messages at ajax-uploading without form_submit
+          // drupal_set_message(t('The image was resized to fit within the maximum allowed dimensions of %dimensions pixels.', array('%dimensions' => $maximum_dimensions)), 'status', FALSE);
+        }
+        else {
+          $errors[] = t('The image is too large; the maximum dimensions are %dimensions pixels.', array('%dimensions' => $maximum_dimensions), 'status', FALSE);
+        }
+      }
+    }
+
+    if ($minimum_dimensions) {
+      // Check that it is larger than the given dimensions.
+      list($width, $height) = explode('x', $minimum_dimensions);
+      if ($info['width'] < $width || $info['height'] < $height) {
+        $errors[] = t('The image is too small; the minimum dimensions are %dimensions pixels.', array('%dimensions' => $minimum_dimensions), 'status', FALSE);
+      }
+    }
+  }
+
+  return $errors;
+}
+
+function at_user_photo_ajax_upload(stdClass $file) {
+  global $user;
+
+  if ($res = file_copy($file, 'public://pictures/')) {
+    $account         = user_load($user->uid);
+
+    $image = image_get_info($res->uri);
+    if ($image['file_size'] > (200*1024) || $image['width'] > 200 || $image['height'] > 200) {
+      return array('Image must be smaller 200 Kb & 150x150 px');
+    }
+
+    $edit['picture'] = $res;
+    $edit['field_user_avatar']['und'][] = array(
+      // 'alt' => '',
+      // 'title' => '',
+      // 'width' => 100,
+      // 'height' => 100,
+      'fid'       => $res->fid,
+      'uid'       => $res->uid,
+      'uri'       => $res->destination,
+      'status'    => $res->status,
+      'filename'  => $res->filename,
+      'filemime'  => $res->filemime,
+      'filesize'  => $res->filesize,
+      'timestamp' => $res->timestamp,
+    );
+    $saved_user = user_save($account, $edit);
+  }
+  // it's form upload validator, so we need return empty array to avoid errors
+  return array();
+}
+
 function at_user_change_login_error_msg_validate($form, &$form_state) {
   if (empty($_SESSION['messages'])) {
     return;
-  }
-  foreach($_SESSION['messages']['error'] as $key => $error) {
-    if ($error == 'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>') {
-      $_SESSION['messages']['error'][$key] = 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>';
-    }
   }
 }
 

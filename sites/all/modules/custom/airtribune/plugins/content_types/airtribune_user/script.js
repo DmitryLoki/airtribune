@@ -48,6 +48,8 @@ jQuery(function($){
             item.slideDown({duration:600,easing:'easeOutCubic',complete:cb})
         }
     }
+
+    Drupal.toggle = toggle;
     function slideUp(dropItems, cb){
         dropItems.slideUp({duration:400,easing:'easeInCubic', complete:cb}).removeClass('active');
     }
@@ -74,9 +76,14 @@ function setPlaceholder(id, setRequiredMark) {
                 + (setRequiredMark ? requiredSpan : '')
                 + '</span>');
             jQuery(this).parent().append(span);
-            setTimeout(function () {
-                if (input.value.length > 0)
+            function hidePlaceholder() {
+                if (input.value.length > 0){
                     span.hide();
+                }
+            }
+            setTimeout(function(){
+                hidePlaceholder();
+                setTimeout(hidePlaceholder, 1000);
             }, 1000);
             if (jQuery(this).attr('value') != '') {
                 jQuery(this).parent().children('span.label').hide();

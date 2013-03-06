@@ -1940,7 +1940,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/past';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Past events';
+  $handler->display->display_options['menu']['title'] = 'Past';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
@@ -1987,11 +1987,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/next';
   $handler->display->display_options['menu']['type'] = 'default tab';
-  $handler->display->display_options['menu']['title'] = 'Next events';
+  $handler->display->display_options['menu']['title'] = 'Next';
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['tab_options']['type'] = 'normal';
-  $handler->display->display_options['tab_options']['title'] = 'Next events';
+  $handler->display->display_options['tab_options']['title'] = 'Next';
   $handler->display->display_options['tab_options']['weight'] = '0';
 
   /* Display: Current */
@@ -2029,7 +2029,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/current';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Currents events';
+  $handler->display->display_options['menu']['title'] = 'Current';
   $handler->display->display_options['menu']['weight'] = '2';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
