@@ -83,7 +83,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['field_user_avatar'][$lang][0]['#upload_validators'] = array();
     //unset($form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_image_resolution']);
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_extensions'] = array(0=>'png gif jpg jpeg');
-    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(0=>'200x200',1=>'60x60');
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(0=>'150x150',1=>'60x60');
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
     // user can upload/delete photo many times, so we need to clear message queue;
@@ -166,7 +166,7 @@ function at_user_file_validate_image_resolution(stdClass $file, $maximum_dimensi
           // drupal_set_message(t('The image was resized to fit within the maximum allowed dimensions of %dimensions pixels.', array('%dimensions' => $maximum_dimensions)), 'status', FALSE);
         }
         else {
-          $errors[] = t('The image is too large; the maximum dimensions are %dimensions pixels.', array('%dimensions' => $maximum_dimensions), 'status', FALSE);
+          $errors[] = t('The image is too large; the maximum dimensions are %dimensions pixels.', array('%dimensions' => $maximum_dimensions));
         }
       }
     }
@@ -175,7 +175,7 @@ function at_user_file_validate_image_resolution(stdClass $file, $maximum_dimensi
       // Check that it is larger than the given dimensions.
       list($width, $height) = explode('x', $minimum_dimensions);
       if ($info['width'] < $width || $info['height'] < $height) {
-        $errors[] = t('The image is too small; the minimum dimensions are %dimensions pixels.', array('%dimensions' => $minimum_dimensions), 'status', FALSE);
+        $errors[] = t('The image is too small; the minimum dimensions are %dimensions pixels.', array('%dimensions' => $minimum_dimensions));
       }
     }
   }
@@ -188,11 +188,6 @@ function at_user_photo_ajax_upload(stdClass $file) {
 
   if ($res = file_copy($file, 'public://pictures/')) {
     $account         = user_load($user->uid);
-
-    $image = image_get_info($res->uri);
-    if ($image['file_size'] > (200*1024) || $image['width'] > 200 || $image['height'] > 200) {
-      return array('Image must be smaller 200 Kb & 150x150 px');
-    }
 
     $edit['picture'] = $res;
     $edit['field_user_avatar']['und'][] = array(
