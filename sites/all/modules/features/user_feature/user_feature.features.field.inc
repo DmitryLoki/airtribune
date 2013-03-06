@@ -57,7 +57,7 @@ function user_feature_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => '',
+            'image_style' => 'user_picture',
           ),
           'type' => 'image',
           'weight' => '1',
@@ -69,7 +69,7 @@ function user_feature_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
-        'default_image' => '12182',
+        'default_image' => 0,
         'entity_translation_sync' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
@@ -101,11 +101,11 @@ function user_feature_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'preview_image_style' => 'node_userpic',
+          'preview_image_style' => 'user_picture',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => 0,
+        'weight' => '0',
       ),
     ),
   );
