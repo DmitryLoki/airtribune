@@ -103,6 +103,12 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
+function at_user_password_title_change($element) {
+  $element['pass1']['#title'] = t("New password");
+  $element['pass2']['#title'] = t("Repeat new password");
+  return $element;
+}
+
 function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
   global $user;
 
