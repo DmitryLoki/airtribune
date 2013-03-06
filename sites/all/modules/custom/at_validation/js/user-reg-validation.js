@@ -22,7 +22,7 @@ jQuery(document).ready(function () {
     Drupal.disableTabKey(form);
 
     var birthdateInput = jQuery(
-        '<input id="birthdate-fake-input" name="profile-main-fake-input" style="z-index:0;position:absolute;left:-1000px;border:none;margin-top:12px">');
+        '<input id="birthdate-fake-input" name="profile-main-fake-input" style="z-index:0;position:absolute;left:-10000px;border:none;margin-top:12px; visibility:hidden" disabled="disabled">');
     year.parent().parent().append(birthdateInput);
     birthdateInput.rules('add', {birthDateFilled:true});
 
