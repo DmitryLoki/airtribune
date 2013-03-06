@@ -11,6 +11,273 @@ function views_feature_views_default_views() {
   $export = array();
 
   $view = new view();
+  $view->name = 'accommodations';
+  $view->description = '';
+  $view->tag = 'administration';
+  $view->base_table = 'node';
+  $view->human_name = 'Accommodations';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Accommodations';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'administer nodes';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '25';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['columns'] = array(
+    'nid' => 'nid',
+    'title' => 'title',
+    'status' => 'status',
+    'field_price_single' => 'field_price_single',
+    'field_price_double' => 'field_price_double',
+    'field_price_currency' => 'field_price_currency',
+    'field_hotel_wifi' => 'field_hotel_wifi',
+    'field_email' => 'field_email',
+    'changed' => 'changed',
+    'edit_node' => 'edit_node',
+    'delete_node' => 'edit_node',
+  );
+  $handler->display->display_options['style_options']['default'] = 'changed';
+  $handler->display->display_options['style_options']['info'] = array(
+    'nid' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'status' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_price_single' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_price_double' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_price_currency' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_hotel_wifi' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_email' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'changed' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 1,
+    ),
+    'edit_node' => array(
+      'align' => '',
+      'separator' => '<br/>',
+      'empty_column' => 0,
+    ),
+    'delete_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Footer: Result summary */
+  $handler->display->display_options['footer']['result']['id'] = 'result';
+  $handler->display->display_options['footer']['result']['table'] = 'views';
+  $handler->display->display_options['footer']['result']['field'] = 'result';
+  $handler->display->display_options['footer']['result']['ui_name'] = 'Result summary';
+  /* No results behavior: No accommodations */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['ui_name'] = 'No accommodations';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'Sorry, no accommodations were found to display.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
+  /* Field: Node ID */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Node ID';
+  $handler->display->display_options['fields']['nid']['label'] = 'ID';
+  /* Field: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Published */
+  $handler->display->display_options['fields']['status']['id'] = 'status';
+  $handler->display->display_options['fields']['status']['table'] = 'node';
+  $handler->display->display_options['fields']['status']['field'] = 'status';
+  $handler->display->display_options['fields']['status']['ui_name'] = 'Published';
+  $handler->display->display_options['fields']['status']['not'] = 0;
+  /* Field: Single price */
+  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price';
+  $handler->display->display_options['fields']['field_price_single']['settings'] = array(
+    'thousand_separator' => ' ',
+    'prefix_suffix' => 1,
+  );
+  /* Field: Double price */
+  $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
+  $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
+  $handler->display->display_options['fields']['field_price_double']['field'] = 'field_price_double';
+  $handler->display->display_options['fields']['field_price_double']['ui_name'] = 'Double price';
+  $handler->display->display_options['fields']['field_price_double']['settings'] = array(
+    'thousand_separator' => ' ',
+    'prefix_suffix' => 1,
+  );
+  /* Field: Currency */
+  $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
+  $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
+  $handler->display->display_options['fields']['field_price_currency']['field'] = 'field_price_currency';
+  $handler->display->display_options['fields']['field_price_currency']['ui_name'] = 'Currency';
+  /* Field: Wi-Fi */
+  $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['field'] = 'field_hotel_wifi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['ui_name'] = 'Wi-Fi';
+  /* Field: Email */
+  $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
+  $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
+  /* Field: Updated */
+  $handler->display->display_options['fields']['changed']['id'] = 'changed';
+  $handler->display->display_options['fields']['changed']['table'] = 'node';
+  $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['ui_name'] = 'Updated';
+  $handler->display->display_options['fields']['changed']['label'] = 'Updated';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'dmy';
+  /* Field: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['ui_name'] = 'Edit link';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
+  /* Field: Delete link */
+  $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
+  $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
+  $handler->display->display_options['fields']['delete_node']['ui_name'] = 'Delete link';
+  $handler->display->display_options['fields']['delete_node']['label'] = '';
+  $handler->display->display_options['fields']['delete_node']['element_label_colon'] = FALSE;
+  /* Filter criterion: Node type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'accommodation' => 'accommodation',
+  );
+  /* Filter criterion: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['filters']['title']['operator'] = 'contains';
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Search by title';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
+    7 => 0,
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['path'] = 'admin/content/accommodations';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Accommodations';
+  $handler->display->display_options['menu']['weight'] = '1';
+  $handler->display->display_options['menu']['context'] = 0;
+  $translatables['accommodations'] = array(
+    t('Master'),
+    t('Accommodations'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Displaying @start - @end of @total'),
+    t('Sorry, no accommodations were found to display.'),
+    t('ID'),
+    t('Title'),
+    t('Published'),
+    t('Single'),
+    t('Double'),
+    t('Currency'),
+    t('Wi-Fi'),
+    t('Email'),
+    t('Updated'),
+    t('Operations'),
+    t('Search by title'),
+    t('Page'),
+  );
+  $export['accommodations'] = $view;
+
+  $view = new view();
   $view->name = 'activity';
   $view->description = 'Emulates the default Drupal front page; you may set the default home page path to this view to make it your front page.';
   $view->tag = 'default';
@@ -784,13 +1051,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Single price - overridden */
-  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
-  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
-  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Currency - excluded */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
@@ -799,6 +1059,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_currency']['label'] = '';
   $handler->display->display_options['fields']['field_price_currency']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_price_currency']['element_label_colon'] = FALSE;
+  /* Field: Single price - overridden */
+  $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
+  $handler->display->display_options['fields']['field_price_single']['ui_name'] = 'Single price - overridden';
+  $handler->display->display_options['fields']['field_price_single']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_price_single']['alter']['text'] = '<span class="currency-[field_price_currency]">[field_price_single]</span>';
   /* Field: Double price - overridden */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
@@ -1025,6 +1292,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['field'] = 'body';
   $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
   $handler->display->display_options['fields']['body']['label'] = 'Description';
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '230';
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   /* Field: Distance to HQ */
   $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1289,8 +1558,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
-      'type' => 'user',
-      'context' => 'airtribune_event.nid',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '56',
@@ -1939,14 +2208,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2_1']['operator'] = '>=';
   $handler->display->display_options['filters']['field_dates_value2_1']['default_date'] = 'now';
 
-  /* Display: Events map */
-  $handler = $view->new_display('openlayers', 'Events map', 'openlayers_1');
+  /* Display: Events overlay */
+  $handler = $view->new_display('openlayers', 'Events overlay', 'overlay');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
 
-  /* Display: Next events */
-  $handler = $view->new_display('panel_pane', 'Next events', 'panel_pane_1');
+  /* Display: Events pane */
+  $handler = $view->new_display('panel_pane', 'Events pane', 'events_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'openlayers_map';
@@ -1965,8 +2234,8 @@ function views_feature_views_default_views() {
     t('Nid'),
     t('Headquarter location'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
-    t('Events map'),
-    t('Next events'),
+    t('Events overlay'),
+    t('Events pane'),
     t('View panes'),
   );
   $export['events_map'] = $view;
@@ -2248,6 +2517,14 @@ function views_feature_views_default_views() {
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Groups audience */
+  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['ui_name'] = 'Groups audience';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
@@ -2327,8 +2604,8 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
-      'type' => 'user',
-      'context' => 'airtribune_event.group-group',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',

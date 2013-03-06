@@ -75,7 +75,7 @@ function _hybridauth_popup_close($redirect = TRUE) {
   //}
   drupal_add_js(drupal_get_path('module', 'hybridauth') . '/js/hybridauth.js');
   drupal_add_js('
-    document.location.href = "' . base_path() .'";
+    document.location.href = "' . base_path() .'user";
     var redirect = ' . ($redirect ? 'true' : 'false') . ';
     if (window.opener && redirect){
       window.opener.parent.location.href = "' . url($destination, array('absolute' => TRUE)) . '";

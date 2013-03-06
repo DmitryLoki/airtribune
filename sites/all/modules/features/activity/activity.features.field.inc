@@ -136,7 +136,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(

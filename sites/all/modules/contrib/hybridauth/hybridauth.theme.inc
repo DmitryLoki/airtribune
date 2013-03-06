@@ -19,10 +19,10 @@ function template_preprocess_hybridauth_widget(&$vars, $hook) {
           'html' => TRUE,
           'query' => $query,
           'attributes' => array(
-            //'id' => drupal_html_id('hybridauth-widget-provider-' . $provider_id),
             'title' => $provider_name,
             'class' => array('hybridauth-widget-provider'),
             'rel' => array('nofollow'),
+            'onclick' => "event.preventDefault(); popup_window = window.open(this.href, 'hybridauth', 'location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,titlebar=yes,toolbar=no,channelmode=yes,fullscreen=yes,width=800,height=500'); popup_window.focus(); return false;",
           ),
         )
       );
@@ -76,7 +76,6 @@ function template_preprocess_hybridauth_widget(&$vars, $hook) {
         'html' => TRUE,
         'query' => $query,
         'attributes' => array(
-          //'id' => drupal_html_id('hybridauth-widget-provider-' . $provider_id),
           'title' => $element['#hybridauth_widget_link_title'],
           'class' => $class,
           'rel' => array('nofollow'),
@@ -96,4 +95,3 @@ function template_preprocess_hybridauth_provider_icon(&$vars, $hook) {
     $vars['provider_name'] = hybridauth_get_provider_name($vars['provider_id']);
   }
 }
-

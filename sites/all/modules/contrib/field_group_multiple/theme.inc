@@ -125,6 +125,10 @@ function theme_field_group_multiple_label_value_form($variables) {
   return $output;
 }
 
+function sort_by_weight($a, $b) {
+  return $a['state']['instance']['widget']['weight'] > $b['state']['instance']['widget']['weight'];
+}
+
 /**
  * TODO implement drag & drop for order and remove item row
  */
@@ -151,7 +155,7 @@ function theme_field_group_multiple_table_form($variables) {
   if ($titles) {
     $header[] = '<div class="th-title">' . $row_titles[0] . '</div>';
   }
-
+  usort($group->fields, "sort_by_weight");
   foreach ($group->fields as $field_name => $field_state) {
 
     $field_title = check_plain($field_state['state']['instance']['label']);

@@ -57,8 +57,8 @@ function airtribune_theme() {
     ),
     'airtribune_event_statistics_pane' => array(
       'template' => 'airtribune-event-statistics-pane',
-      'path' => $content_plugins_path . '/airtribune_event_statistics',
-      'file' => 'airtribune_event_statistics.inc',
+      'path' => $content_plugins_path . '/event_statistics',
+      'file' => 'event_statistics.inc',
       'render element' => 'elements',
     ),
   );
@@ -200,13 +200,26 @@ function airtrubune_get_country_code($langcode) {
  */
 function airtribune_preprocess_panels_pane(&$vars) {
 
+  $configuration = $vars['pane']->configuration;
+
   // Add 'view more' links to panes.
-  if (isset($vars['pane']->configuration['more'], $vars['display']->args[0])) {
-    $vars['more'] = l(
-      $vars['pane']->configuration['more']['title'],
-      'event/' . $vars['display']->args[0] . '/info/details',
-      array('fragment' => $vars['pane']->configuration['more']['fragment'])
-    );
+  if (isset($configuration['more'], $vars['display']->args[0])) {
+    $options = array();
+
+    if ($configuration['more']['page'] == 'details') {
+      $url = 'event/' . $vars['display']->args[0] . '/info/details';
+    }
+
+    if (isset($configuration['more']['fragment'])) {
+      $options  = array('fragment' => $configuration['more']['fragment']);
+    }
+
+    if (isset($configuration['more']['title'])) {
+      $vars['more'] = l($configuration['more']['title'], $url, $options);
+    }
+
+    $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
+
   }
   // Add anchors to pane titles.
   elseif (isset($vars['pane']->configuration['anchor'])) {
@@ -313,7 +326,6 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
  * Great-circle distance.
  */
 function airtribune_calculate_distance($p1, $p2) {
-
   $earth_radius = 6372795;
 
   $p1 = array($p1[1] * M_PI / 180, $p1[0] * M_PI / 180);
@@ -337,110 +349,24 @@ function airtribune_calculate_distance($p1, $p2) {
 }
 
 /**
- * Implements hook_field_extra_fields().
- * Show contest contacts as field.
- * @author Vyacheslav Malchik <info@vkey.biz>
+ * Add event context to default site template.
  */
-function airtribune_field_extra_fields() {
-  return array(
-    'node' => array(                           // Entity type
-      'pg_contest' => array(                      // Bundle name
-        'display' => array(                    // "display" or "form"
-          'airtribune_contest_contacts' => array(          // Field name
-            'label' => t('Contacts'),            // Label
-            'description' => t('Contacts'), // Description
-            'weight' => 0,                     // Default weight
-          ),
-        ),
-      ),
-    ),
-  );
-}
- 
-/**
- * Implements hook_node_view().
- * Show contest contacts as field.
- * @author Vyacheslav Malchik <info@vkey.biz>
- */
-function airtribune_node_view($node, $view_mode, $langcode) {
-  $field_email = 'field_contacts_email';
-  $field_phone = 'field_contacts_phone';
+function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
-  // @todo: get labels from field_group_multiple widget
-  $labels = array(
-    t('General questions'),
-    t('Selection and entry'),
-    t('Transportation'),
-    t('Accomodation')
-  );    
-
-  $extra_fields = field_extra_fields_get_display('node', $node->type, $view_mode);
-  $contacts = array();
-
-  $emails = _airtribune_field_get_items_with_delta('node', $node, $field_email, LANGUAGE_NONE);
-  foreach ($emails as $delta => $email) {
-    $contacts[$delta]['label'] = $labels[$delta];
-    $contacts[$delta]['email'] = render(field_view_value('node', $node, $field_email, $emails[$delta]));
-  }
-  
-  $phones = _airtribune_field_get_items_with_delta('node', $node, $field_phone, LANGUAGE_NONE);
-  foreach ($phones as $delta => $phone) {
-    $contacts[$delta]['label'] = $labels[$delta];
-    $contacts[$delta]['phone'] = render(field_view_value('node', $node, $field_phone, $phones[$delta]));
-  }
-  ksort($contacts);
-  $content = '';
-  foreach ($contacts as $contact) {
-    $content .= '<div class="label"><b>'.$contact['label'].'</b></div>';
-    if (isset($contact['phone'])) {
-      $content .= '<div class="phone">' . t('tel') . ': ' . $contact['phone'] . '</div>';
+  if (!$contexts['node']->empty) {
+    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      $raw_node = $contexts['node']->data;
     }
-    if (isset($contact['email'])) {
-      $content .= '<div class="email">' . t('email') . ': ' . $contact['email'] . '</div>';
-    }
-  }
-  
-  if (isset($extra_fields['airtribune_contest_contacts']) && $extra_fields['airtribune_contest_contacts']['visible']) {
-    $node->content['airtribune_contest_contacts'] = array(
-      '#markup' => $content,
-    );
-  }
-}
-
-/**
- * 
- * Alternative for field_get_items().
- * Return values with delta keys.
- * @author Vyacheslav Malchik <info@vkey.biz>
- * @todo Get revisions
- */
-function _airtribune_field_get_items_with_delta($entity_type, $entity, $field_name, $langcode = NULL) {
-  global $language;
-  if (!isset($langcode)) {
-    $langcode = $language->language;
-  }
-  $entity_info = entity_get_info($entity_type);
-  $entity_id_name = $entity_info['entity keys']['id'];
-  $field_info = field_info_field($field_name);
-  $field_storages = $field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT]['field_data_'.$field_name];
-  foreach ($field_storages as $field_storage) {
-    $field_sql[] = $field_storage;
-  }
-  $query = db_select('field_data_'.$field_name, 'f')
-    ->fields('f', array_merge($field_sql, array('delta')))
-    ->condition('f.entity_id', $entity->{$entity_id_name})
-    ->condition('f.language', $langcode)
-    ->orderBy('f.delta', 'ASC')
-    ->execute();
-  
-  $result = array();
-  while ($values = $query->fetchAssoc()) {
-    $delta = $values['delta'];
-    foreach ($values as $key => $value) {
-      if ($key != 'delta') {
-        $result[$delta][str_replace($field_name.'_', '', $key)] = $value;
+    // Fetch event node from OG.
+    else {
+      $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
+      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
       }
     }
   }
-  return $result;
+
+  $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
+  panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
+
 }

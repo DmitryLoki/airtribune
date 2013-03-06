@@ -714,7 +714,7 @@ function pg_contest_field_default_fields() {
         'max_length' => '255',
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -1172,7 +1172,7 @@ Teams',
         'path' => '',
         'profile2_private' => FALSE,
       ),
-      'translatable' => '1',
+      'translatable' => '0',
       'type' => 'field_collection',
     ),
     'field_instance' => array(
@@ -1325,11 +1325,11 @@ Teams',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
-          'weight' => 41,
+          'weight' => '41',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1391,11 +1391,11 @@ Teams',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => 42,
+          'weight' => '42',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',

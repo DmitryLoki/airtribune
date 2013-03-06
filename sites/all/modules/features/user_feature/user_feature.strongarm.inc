@@ -190,7 +190,7 @@ function user_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_username';
-  $strongarm->value = 'hybridauth_[user:hybridauth:provider]_[user:hybridauth:identifier]';
+  $strongarm->value = '[user:hybridauth:firstName]_[user:hybridauth:lastName]';
   $export['hybridauth_username'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -536,7 +536,7 @@ Your account on [site:name] has been canceled.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'user_pirctue_mini';
+  $strongarm->value = 'user_picture_mini';
   $export['user_picture_style'] = $strongarm;
 
   $strongarm = new stdClass();

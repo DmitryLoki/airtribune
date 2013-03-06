@@ -2462,7 +2462,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'My profile',
-      1 => 'Edit user profile',
+      1 => 'Edit user',
     ),
     'paths' => array(
       0 => 'user',

@@ -1,9 +1,23 @@
 File (Field) Paths 7.x-1.x-dev, xxxx-xx-xx (development release)
 --------------------------------------------------------------------------------
 
+- #1714596: Fixed issue with file_attach_update() introduced in Drupal 7.15.
+- #1705298: Fixed extra beggining slash.
+- #1512466 by maximpodorov, perarnet: Fixed issue with multi-value updates.
+- #1438290 by xtfer: Fixed D6 to D7 upgrade path.
+- #1432200: Fixed issue with missing langcode variable.
+- #1420700: Fixed issue with pass-by-reference issue.
+- Fixed issue with malformed URIs.
+
+
+
+File (Field) Paths 7.x-1.0-beta3, 2012-02-08
+--------------------------------------------------------------------------------
+
 - #1429238 by ocanzillon: Fixed Drush command syntax error.
 - #1334448 by pianodavid, Deciphered: Fixed issue with revision flag.
 - Changed a large chunk of core functionality to simplify.
+
 
 
 File (Field) Paths 7.x-1.0-beta2, 2012-02-05
@@ -14,6 +28,7 @@ File (Field) Paths 7.x-1.0-beta2, 2012-02-05
 - #1051736: Fixed issue with dirname().
 - Added support for URI Scheme changes via Updating.
 - Added support for Video module.
+
 
 
 File (Field) Paths 7.x-1.0-beta1, 2011-11-08
@@ -34,6 +49,7 @@ File (Field) Paths 7.x-1.0-beta1, 2011-11-08
 - #578442 by szantog, mfb, deciphered: Added features support.
 - Added relevant tokens for Entity support.
 - Added Entity support.
+
 
 
 File (Field) Paths 7.x-1.0-alpha1, 2011-06-12
