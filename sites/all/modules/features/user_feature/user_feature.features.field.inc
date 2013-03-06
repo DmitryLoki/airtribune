@@ -105,7 +105,7 @@ function user_feature_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '0',
+        'weight' => 0,
       ),
     ),
   );
