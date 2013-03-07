@@ -1,5 +1,6 @@
 <?php
 
+drupal_add_js(drupal_get_path('module', 'at_validation') . '/js/user-event-registration.js');
 // Pilot profile
 // =====================
 // Address field
