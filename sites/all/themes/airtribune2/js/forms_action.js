@@ -1,7 +1,7 @@
 function updateForm(container) {
     var $ = jQuery,
         container = container || $(document);
-    $( 'input, .pane-page-content form select', container).forms({disableChoiceOfFirstItemInSelection:true, file:false});
+    $( 'input, .pane-page-content form select', container).forms({disableChoiceOfFirstItemInSelection:true, file_bt: ''});
     $('.select .items_inner', container).each(function () {
         $(this).parent().show();
         $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
@@ -25,119 +25,4 @@ jQuery(function ($) {
         $(this).parent().hide();
         return false;
     });
-
-    //$('.pane-content form').each(function(){
-    /*var formObj = {};
-     $('.required').each(function(){
-     if (typeof formObj[$(this).parents('form').attr('id')] == 'undefined') {
-     formObj[$(this).parents('form').attr('id')] = {}
-     }
-     var flag = false;
-     //alert($(this)[0].tagName)
-     switch($(this).get(0).tagName){
-     case 'INPUT':
-     switch ($(this).get(0).type) {
-     case 'password':
-     case 'text':
-     if ($(this).val() != '') {
-     flag = true;
-     }
-     $(this).bind('keyup change', function(e){
-     //alert($(this).get(0).tagName)
-     var falg = false;
-     if($(this).val() != '') {
-     falg = true;
-     }
-     formsRequired($(this), falg)
-     })
-     break;
-     case 'checkbox':
-     //alert(1)
-     if ($(this).is(':checked')) {
-     flag = true;
-     }
-     $(this).change(function(){
-     var falg = false;
-     if($(this).attr('checked')) {
-     falg = true;
-     }
-     formsRequired($(this), falg);
-     })
-     $(this).next().click(function(){
-     var falg = false;
-     if($(this).prev().attr('checked')) {
-     falg = true;
-     }
-     formsRequired($(this).prev(), falg);
-     })
-     break;
-     }
-     break;
-     case 'TEXTAREA':
-     if ($(this).val() != '') {
-     flag = true;
-     }
-     $(this).bind('keyup change', function(e){
-     var falg = false;
-     if($(this).val() != '') {
-     falg = true;
-     }
-     formsRequired($(this), falg)
-     })
-
-     break;
-     }
-     formObj[$(this).parents('form').attr('id')][$(this).attr('id')] = flag;
-     });
-     for (var key in formObj) {
-     var reqFlag = true;
-     for (var key_inner in formObj[key]) {
-     if(!formObj[key][key_inner]) {
-     reqFlag = false;
-     }
-     }
-     if (!reqFlag) {
-     $('#'+key).find('.form-submit').attr('disabled', 'disabled').addClass('disabled');
-     }
-     }
-     function formsRequired(el, flag){
-     formObj[el.parents('form').attr('id')][el.attr('id')] = flag;
-     setSubmitButtonDisabled(el, !checkAllFieldsFilled(el));
-     }
-
-     function checkAllFieldsFilled(el){
-     var formObjFlag = true;
-     for (var key in formObj[el.parents('form').attr('id')]) {
-     if(!formObj[el.parents('form').attr('id')][key]) {
-     formObjFlag = false;
-     break;
-     }
-     }
-     return formObjFlag;
-     }
-
-     /**
-     * Disables or enables submit button of el's form
-     * @param el
-     * @param {Boolean} disabled
-     */
-    /*function setSubmitButtonDisabled(el, disabled) {
-     if(!disabled) {
-     $('#'+el.parents('form').attr('id')).find('.form-submit').removeAttr('disabled').removeClass('disabled');
-     }
-     else {
-     $('#'+el.parents('form').attr('id')).find('.form-submit').attr('disabled', 'disabled').addClass('disabled');
-     }
-     }*/
-//	});
 });
-
-/*(function ($) {
- Drupal.behaviors.airtribune2 = {
- attach: function (context) {
-
- // Temporary disable these menu items,
- alert(1);
-
- }
- })(jQuery);*/

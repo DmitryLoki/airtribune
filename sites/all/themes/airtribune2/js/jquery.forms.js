@@ -21,7 +21,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 		if (el.type.indexOf('select') + 1) {
 			el.type = 'select'
 		}
-		if (el.is('input') && opt[el.type] == true) {
+		if (el.is('input') && opt[el.type] == true && !el.hasClass('styled_element')) {
 			el.name = el.attr('name').replace(/[\[\]]/g, '');
 			el.replace = (el.type != 'file') ? '<span class="'+el.type+' el-name-'+el.name+'"></span>' : '<span class="'+el.type+'"><span class="input"></span><span class="button">'+opt.file_bt+'</span></span>';
 			el.before(el.replace);
@@ -51,6 +51,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 							el.prev().toggleClass('check_'+el.type);
 						})
 					}
+					el.addClass('styled_element');
 				break;
 				case 'radio':
 					if (el.attr('checked')) {
@@ -78,6 +79,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 							el.prev().addClass('check_'+el.type);
 						});
 					}
+					el.addClass('styled_element');
 				break;
 				case 'file':
 					el.id = el.attr('id');
@@ -87,11 +89,12 @@ jQuery.fn.forms = function(options){ // custom form elements
 					el.emulate.children('.emulate-click').css({'position':'absolute', 'top':0, 'right':0, 'width':'100%', 'height':'100%', 'overflow':'hidden'});
 					el.emulate.children('.emulate-click').append(el);
 					el.emulate.css({'position':'relative', 'overflow':'hidden'})
-					el.emulate.find('input').css({'opacity':'0', 'font-size':'199px', 'top':'0', 'right':'0', 'position':'absolute', 'cursor':'pointer', 'padding':'0', 'margin':'0 0 0 0', 'border':'none', 'z-index':'10000', 'background':'#000000', 'direction':'rtl'})
+					el.emulate.find('input').css({'opacity':'0', 'font-size':'199px', 'top':'0', 'left':'0', 'position':'absolute', 'cursor':'pointer', 'padding':'0', 'margin':'0 0 0 0', 'border':'none', 'z-index':'10000', 'background':'#000000', 'direction':'rtl'})
 					el.emulate.find('input').change(function(){
 						el.emulate.find('.input').html(jQuery(this).val())
 					})
 					el.serch = el.parents('.form-wrapper').attr('id');
+					el.addClass('styled_element');
 					el.interval = setInterval(function(){	
 					//alert(el.serch)					
 						jQuery('#'+el.serch).find('.image-widget-data > input.form-file, .filefield-upload > input.form-file').each(function(){
@@ -102,7 +105,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 				break;
 			}
 		}
-		else if (el.is('select') && opt[el.type] == true) {
+		else if (el.is('select') && opt[el.type] == true && !el.hasClass('styled_element')) {
 			el.css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 			el.name = el.attr('name').replace(/[\[\]]/g, '');
 			el.replace = '<span class="'+el.type+' el-name-'+el.name+'"><div class="checked_option_wrap"><span class="checked_option"></span></div><span class="items"><span class="items_inner">';
@@ -145,6 +148,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 				el.handle.items.hide();
 				el.change();
 			});
+			el.addClass('styled_element');
 		}
 	});	
 }
