@@ -8,6 +8,21 @@ jQuery(function($){
 
     dropItems.hide();
 
+    //Dynamically set height of logged in user
+    setUserMenuDropItemHeight();
+    function setUserMenuDropItemHeight(){
+        var userMenu = $('.user-menu'),
+            menuItems = userMenu.find('li'),
+            totalHeight = 0;
+
+        menuItems.each(function(i ,menuItem){
+            totalHeight += $(menuItem).outerHeight();
+        });
+
+        totalHeight += parseInt(userMenu.find('.pane-inner').css('padding-top'),10) + 50;
+        userMenu.height(totalHeight);
+    }
+
     userLoginDropItemHeader.click(function(event){
         var $that = $(this);
         slideUp(flagDropItem, function onSlideComplete(){

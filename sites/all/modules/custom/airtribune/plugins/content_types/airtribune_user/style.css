@@ -61,7 +61,7 @@
 
 #sign-in .user-picture { position:absolute; top:3px; right:7px}
 
-#sign-in .drop-item { position:absolute; top:5px; right:11px; width:200px; overflow:hidden; height:115px;
+#sign-in .drop-item { position:absolute; top:5px; right:11px; width:200px; overflow:hidden;
 
   -webkit-border-radius: 0 0 3px 3px;
   -moz-border-radius: 0 0 3px 3px;
@@ -221,7 +221,7 @@ a:hover .hybridauth-facebook {
 }
 
 .user-menu ul.menu { margin:0; padding:0}
-.user-menu ul li { margin:0; padding:2px 0 3px; display:block;}
+.user-menu ul li { margin:0; padding:2px 0 3px; display:block; height: 25px;}
 
 
 .user-menu ul li.user-create-event-link,
