@@ -11,13 +11,20 @@ $form['account']['mail']['#title'] = t('Email');
 $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
 $form['account']['mail']['#description'] = t('This is you login. If you change it, you must enter your current password below as well.');
 $form['account']['current_pass']['#title'] = t('Current password');
-$form['account']['current_pass']['#description'] = t('Minimun 6 symbols');
+$form['account']['current_pass']['#description'] = t('Your current password.');
 $form['account']['pass']['pass1']['#title'] = t("New password");
+$form['account']['pass']['pass1']['#description'] = t('Minimun 6 symbols.');
 $form['account']['pass']['pass2']['#title'] = t("Repeat new password");
-$form['account']['pass']['#description'] = t('Minimun 6 symbols');
 $form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
 
-print drupal_render($form['account']['mail']);
+$form['account']['mail_dummy'] = array(
+  '#type' => 'item',
+  '#title' => t('Email'),
+  '#markup' => $form['account']['mail']['#value'],
+);
+
+print drupal_render($form['account']['mail_dummy']);
+hide($form['account']['mail']);
 
 // Main profile Name field
 if (!empty($form['profile_main'])) {
