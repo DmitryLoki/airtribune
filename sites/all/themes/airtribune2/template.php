@@ -1076,6 +1076,10 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/user-profile-form',
     ),
+    'profile2_edit_pilot_form' => array(
+      'render element' => 'form',
+      'template' => 'templates/profile2-edit-pilot-form',
+    ),
   );
 }
 
