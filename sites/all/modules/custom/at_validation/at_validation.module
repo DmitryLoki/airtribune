@@ -435,29 +435,34 @@ function at_validation_js_alter(&$javascript) {
           unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
           unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
         }
-        if (isset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']['rules'])) {
-          // Address components
-          $rules = &$setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']['rules'];
-          $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
-          $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
-          // Address components regex
-          $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-          $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-          $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
-          // CIVL ID
-          $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
 
-          unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
-          unset($rules['profile_pilot[field_address][und][0][country]']['regexMatch']);
-          //Phone number select
-          unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
-          unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
+        
+        foreach (array('og-ui-confirm-subscribe', 'profile2-edit-pilot-form') as $form_name) {
+          if (isset($setting['clientsideValidation']['forms'][$form_name]['rules'])) {
+            // Address components
+            $rules = &$setting['clientsideValidation']['forms'][$form_name]['rules'];
+            $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+            $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+            // Address components regex
+            $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+            $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+            $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+            // CIVL ID
+            $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
 
+            unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
+            unset($rules['profile_pilot[field_address][und][0][country]']['regexMatch']);
+            //Phone number select
+            unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
+            unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
 
-          $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
-          $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
-          $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
-          
+            // There is a bug with clientside and og-ui-confirm-subscribe crossfields
+            if ($form_name == 'og-ui-confirm-subscribe') {
+              $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
+              $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
+              $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
+            }
+          }
         }
         
         $names = array(
