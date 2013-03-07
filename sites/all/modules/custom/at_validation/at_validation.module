@@ -317,6 +317,7 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
   }
   if($form_id == 'og_ui_confirm_subscribe') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/reset-nation-dropdown-box.js';
   }
 }
 
