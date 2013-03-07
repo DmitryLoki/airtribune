@@ -26,7 +26,8 @@
 
       $('#user-profile-form').ajaxComplete(function(event, xhr, settings) {
         if ((event.target.id) == 'user-profile-form') {
-          $('.messages').show().delay(7000).fadeOut(1000);
+          var messages = $('#user-profile-form .messages');
+          messages.show().delay(7000).fadeOut(1000);
           $('input.form-file').forms({file_bt: ''});
         }
       });
