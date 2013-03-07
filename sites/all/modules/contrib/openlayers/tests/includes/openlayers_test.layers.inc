@@ -17,7 +17,7 @@ function _openlayers_test_openlayers_layers() {
     'layer_type' => 'openlayers_layer_type_kml',
     'layer_handler' => 'kml',
     'projection' => array('4326'),
-    'baselayer' => FALSE,
+    'isBaseLayer' => FALSE,
     'vector' => TRUE,
     'url' => url(drupal_get_path('module', 'openlayers_test') . '/data/openlayers_test.kml'),
   );
@@ -33,7 +33,7 @@ function _openlayers_test_openlayers_layers() {
     'layer_type' => 'openlayers_layer_type_geojson',
     'layer_handler' => 'geojson',
     'projection' => array('4326'),
-    'baselayer' => FALSE,
+    'isBaseLayer' => FALSE,
     'vector' => TRUE,
     'url' => url(drupal_get_path('module', 'openlayers_test') . '/data/openlayers_test.json'),
   );
@@ -49,7 +49,7 @@ function _openlayers_test_openlayers_layers() {
     'layer_type' => 'openlayers_layer_type_geojson',
     'layer_handler' => 'geojson',
     'projection' => array('4326'),
-    'baselayer' => FALSE,
+    'isBaseLayer' => FALSE,
     'vector' => TRUE,
     'geojson_data' => '
 {

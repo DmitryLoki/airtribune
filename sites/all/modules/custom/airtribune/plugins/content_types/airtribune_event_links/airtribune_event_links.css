@@ -1,7 +1,17 @@
 .panel_info .pane-airtribune-event-links .pane-content { margin:0}
-#airtribune-event-links { margin:0; padding:13px 0 30px}
-#airtribune-event-links li { margin:0; padding:10px 0 0; list-style:none; list-style-image:none; font:18px/20px Arial, Helvetica, sans-serif;}
+#airtribune-event-links { margin:0; padding:13px 0 30px; float: left;}
+#airtribune-event-links li { margin:0; padding:10px 0 0; list-style:none; list-style-image:none; font:18px/20px Arial, Helvetica, sans-serif; clear: both;}
 #airtribune-event-links li a, #airtribune-event-links li span { padding-left:21px; color:#333a40; text-decoration:none; background:url(./images/event_links.png) no-repeat 0 4px; vertical-align:top}
 #airtribune-event-links li a:hover, #airtribune-event-links li a:active, #airtribune-event-links li a:focus { background-position:0 -26px; color:#00aeef}
 #airtribune-event-links li span.open-class-prohibited { background-position:0 -56px}
 #airtribune-event-links li span.open-class-allowed { background-position:0 -86px}
+
+#airtribune-event-links li.event-rules { float: left;}
+#airtribune-event-links li.event-rules-file { float: right; clear: none; padding-top: 14px;}
+#airtribune-event-links li.event-rules-file a, #airtribune-event-links li.event-rules-file a:hover { background-position: 0 -120px; background-color: #7ed5f6; position: relative; font: 13px/15px Arial, Helvetica, sans-serif; color: #fffeff; height: 16px; padding: 0 15px 0 20px; min-width: 63px; display: block; text-align: center;
+  
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+
+}

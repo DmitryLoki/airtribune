@@ -12,9 +12,12 @@ function path_breadcrumbs_uninstall() {
   variable_del('path_breadcrumbs_home_link_enabled');
   variable_del('path_breadcrumbs_home_link_title');
   variable_del('path_breadcrumbs_delimiter');
+  variable_del('path_breadcrumbs_truncate_length');
   variable_del('path_breadcrumbs_rich_snippets');
   variable_del('path_breadcrumbs_hide_single_breadcrumb');
   variable_del('path_breadcrumbs_internal_render');
+  variable_del('path_breadcrumbs_cache_enabled');
+  variable_del('path_breadcrumbs_cache_lifetime');
 }
 
 /**

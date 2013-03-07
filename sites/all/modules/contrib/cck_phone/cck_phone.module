@@ -572,6 +572,26 @@ function cck_phone_field_settings_form($field, $instance, $has_data) {
  * Implements hook_field_widget_form().
  */
 function cck_phone_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // Save all item values in global variable
+  global $_cck_phone_items, $_cck_phone_items_count;
+  if (!isset($_cck_phone_items)) {
+    $_cck_phone_items = $items;
+    $_cck_phone_items_count = $field['cardinality'];
+  }
+  
+  if (count($items)==1 && isset($items[0]) && !empty($items[0])) {
+    foreach ($_cck_phone_items as $hdelta => $hitem) {
+      if ($hitem['number'] == $items[0]['number'] && $hitem['country_codes'] == $items[0]['country_codes'] && $hitem['extension'] == $items[0]['extension']) {
+        $tmp = $items[0];
+        $items = array();
+        for ($i = 0; $i < $_cck_phone_items_count; $i++) {
+          $items[] = $tmp;
+        }
+        break;
+      }
+    }
+  }
+  
   // Retrieve any values set in $form_state, as will be the case during AJAX
   // rebuilds of this form.
   if (isset($form_state['values'][$field['field_name']][$langcode])) {

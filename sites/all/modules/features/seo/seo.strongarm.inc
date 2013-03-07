@@ -239,6 +239,20 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_cache_enabled';
+  $strongarm->value = 0;
+  $export['path_breadcrumbs_cache_enabled'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_cache_lifetime';
+  $strongarm->value = '0';
+  $export['path_breadcrumbs_cache_lifetime'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'path_breadcrumbs_decode_entities';
   $strongarm->value = 1;
   $export['path_breadcrumbs_decode_entities'] = $strongarm;
@@ -284,6 +298,13 @@ batch
   $strongarm->name = 'path_breadcrumbs_rich_snippets';
   $strongarm->value = '2';
   $export['path_breadcrumbs_rich_snippets'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'path_breadcrumbs_truncate_length';
+  $strongarm->value = '30';
+  $export['path_breadcrumbs_truncate_length'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -394,7 +415,7 @@ batch
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_pg_contest_pattern';
-  $strongarm->value = '';
+  $strongarm->value = '[node:title]';
   $export['pathauto_node_pg_contest_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -733,11 +754,29 @@ batch
 User-agent: *
 Crawl-delay: 10
 # CUSTOM
+Disallow: /*sort=
+Disallow: /*/node/*/translate
 Disallow: /*/node/*/
 Disallow: /*/node/*/group
-Disallow: /*/node/*/translate
 Disallow: /*/group/node/*
-Disallow: /*sort=
+Disallow: /*/event/*
+Disallow: /*/taxonomy/term/*
+#
+Disallow: /node/*/translate
+Disallow: /node/*
+Disallow: /node/*/group
+Disallow: /group/node/*
+Disallow: /event/*
+Disallow: /taxonomy/term/*
+#
+Disallow: /?q=node/*/translate
+Disallow: /?q=node/*
+Disallow: /?q=node/*/group
+Disallow: /?q=group/node/*
+Disallow: /?q=event/*
+Disallow: /?q=taxonomy/term/*
+# Other
+Disallow: /filter/tips/
 # Directories
 Disallow: /includes/
 Disallow: /misc/

@@ -31,7 +31,8 @@ function multiform_ajax_form_callback() {
   
   // This part is based on ajax_form_callback().
   list($form, $form_state) = ajax_get_form();
-  // TODO: add multiform structure into $form_state. In must exist in cache (see multiform_get_form()).
+  // TODO: add multiform structure into $form_state if needed.
+  // Though it must exist in cache (see multiform_get_form()).
   drupal_process_form($form['#form_id'], $form, $form_state);
   
   $multiform = array();
@@ -40,9 +41,26 @@ function multiform_ajax_form_callback() {
   
   if (!empty($form_state['triggering_element'])) {
     $callback = $form_state['triggering_element']['#ajax']['callback'];
+    // Restore form elements' #name property
+    $index = $form_state['multiform_index'];
+    multiform_ajax_restore_element_name($form, $index);
   }
   if (!empty($callback) && function_exists($callback)) {
     return $callback($form, $form_state);
+  }
+}
+
+/**
+ * Add multiform index to name. It is used for POST requiest data processing.
+ * See _multiform_get_form().
+ */
+function multiform_ajax_restore_element_name(&$element, $index) {
+  // Recurse.
+  foreach (element_children($element) as $key) {
+    multiform_ajax_restore_element_name($element[$key], $index);
+  }
+  if (!isset($element['#button_type']) && isset($element['#name']) && (strpos($element['#name'], 'multiform') === FALSE)) {
+    $element['#name'] = "multiform[$index]" . preg_replace('/^[^[]+/', '[\0]', $element['#name']);
   }
 }
 
@@ -71,6 +89,10 @@ function multiform_ajax_process_form($element, &$form_state) {
  */
 function multiform_multiform_ajax_alter(&$element, $key, $form_state) {
       $setting = $element['#attached']['js'][$key];
+      // Do nothing if this is js file path.
+      if(!is_array($setting)) {
+        return;
+      }
       if (isset($setting['data']['ajax'][$element['#id']]['url']) && $setting['data']['ajax'][$element['#id']]['url'] == '/system/ajax') {
         $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url'] = '/multiform/ajax';
         // Add multiform_index in order to define triggering element's subform when triggered.

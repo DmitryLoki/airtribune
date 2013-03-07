@@ -27,7 +27,7 @@ Drupal.openlayers.addBehavior('openlayers_behavior_zoomtolayer', function (data,
       // For KML layers, we need to wait until layer is loaded.  Ideally
       // we could check for any layer that is loading from an external
       // source, but for now, just check KML
-      if (layers[i].layer_handler == 'kml' || layers[i].layer_handler == 'geojson') {
+      if (layers[i].layer_handler == 'kml') {
         layers[i].events.register('loadend', layers[i], function() {
           layerextent = layers[i].getDataExtent().scale(zoomtolayer_scale);
           map.fullExtent.extend(layerextent);

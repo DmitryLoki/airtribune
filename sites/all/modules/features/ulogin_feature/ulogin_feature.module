@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the ulogin_feature feature.
+ */
+
+include_once 'ulogin_feature.features.inc';

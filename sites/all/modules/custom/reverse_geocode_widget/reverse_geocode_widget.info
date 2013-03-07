@@ -1,4 +1,4 @@
-name = Reverse Geocode Widget for Geofield
+name = Reverse Geocode Widget for Geofield[M @
 description = "A Geofield widget that provides reverse geocoding based on Google Maps API."
 core = 7.x
 dependencies[] = geofield

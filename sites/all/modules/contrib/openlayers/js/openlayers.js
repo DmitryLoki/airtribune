@@ -85,7 +85,7 @@ Drupal.behaviors.openlayers = {
             }
 
             // Initialize openlayers map
-            var openlayers = new OpenLayers.Map(map.id, options);
+            var openlayers = new OpenLayers.Map(options);
 
             // Run the layer addition first
             Drupal.openlayers.addLayers(map, openlayers);
@@ -93,12 +93,16 @@ Drupal.behaviors.openlayers = {
             // Attach data to map DOM object
             $(this).data('openlayers', {'map': map, 'openlayers': openlayers});
 
+            if ($.browser.msie) {
+              $(window).load(function() {
+                openlayers.render(map.id);
+              });
+            } else {
+              openlayers.render(map.id);
+            }
+
             // Finally, attach behaviors
             Drupal.attachBehaviors(this);
-
-            if ($.browser.msie) {
-              Drupal.openlayers.redrawVectors();
-            }
           }
           catch (e) {
             var errorMessage = e.name + ': ' + e.message;
@@ -159,12 +163,12 @@ Drupal.openlayers = {
 
     var sorted = [];
     for (var name in map.layers) {
-      sorted.push({'name': name, 'weight': map.layers[name].weight, 'baselayer': map.layers[name].baselayer });
+      sorted.push({'name': name, 'weight': map.layers[name].weight, 'isBaseLayer': map.layers[name].isBaseLayer });
     }
 
     sorted.sort(function(a, b) {
       var x = parseInt(a.weight, 10), y = parseInt(b.weight, 10);
-      return ((a.baselayer && x < y) ? -1 : ((b.baselayer || x > y) ? 1 : 0));
+      return ((a.isBaseLayer && x < y) ? -1 : ((b.isBaseLayer || x > y) ? 1 : 0));
     });
 
     for (var i = 0; i < sorted.length; ++i) {

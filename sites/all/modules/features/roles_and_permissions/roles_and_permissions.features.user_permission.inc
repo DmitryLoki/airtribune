@@ -80,7 +80,8 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       0 => 'anonymous user',
-      1 => 'editor',
+      1 => 'authenticated user',
+      2 => 'editor',
     ),
     'module' => 'user',
   );
@@ -279,14 +280,18 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: administer profile types.
   $permissions['administer profile types'] = array(
     'name' => 'administer profile types',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'profile2',
   );
 
   // Exported permission: administer profiles.
   $permissions['administer profiles'] = array(
     'name' => 'administer profiles',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'profile2',
   );
 
@@ -418,6 +423,15 @@ function roles_and_permissions_user_default_permissions() {
       1 => 'organizer',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: create field_pg_contestant_status.
+  $permissions['create field_pg_contestant_status'] = array(
+    'name' => 'create field_pg_contestant_status',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
   );
 
   // Exported permission: create newsblog content.
@@ -1035,7 +1049,10 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit any organizer_profile profile.
   $permissions['edit any organizer_profile profile'] = array(
     'name' => 'edit any organizer_profile profile',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
     'module' => 'profile2',
   );
 
@@ -1060,7 +1077,10 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit any pilot profile.
   $permissions['edit any pilot profile'] = array(
     'name' => 'edit any pilot profile',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
     'module' => 'profile2',
   );
 
@@ -1153,6 +1173,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own field_pg_contestant_status.
+  $permissions['edit own field_pg_contestant_status'] = array(
+    'name' => 'edit own field_pg_contestant_status',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit own main profile.
   $permissions['edit own main profile'] = array(
     'name' => 'edit own main profile',
@@ -1177,7 +1206,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit own organizer_profile profile'] = array(
     'name' => 'edit own organizer_profile profile',
     'roles' => array(
-      0 => 'organizer',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'organizer',
     ),
     'module' => 'profile2',
   );
@@ -1204,7 +1235,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit own pilot profile'] = array(
     'name' => 'edit own pilot profile',
     'roles' => array(
-      0 => 'pilot',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'pilot',
     ),
     'module' => 'profile2',
   );
@@ -1511,7 +1544,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view any organizer_profile profile'] = array(
     'name' => 'view any organizer_profile profile',
     'roles' => array(
-      0 => 'editor',
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'profile2',
   );
@@ -1520,8 +1554,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view any pilot profile'] = array(
     'name' => 'view any pilot profile',
     'roles' => array(
-      0 => 'authenticated user',
-      1 => 'pilot',
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'profile2',
   );
@@ -1532,7 +1566,9 @@ function roles_and_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'admin',
       1 => 'administrator',
-      2 => 'organizer',
+      2 => 'anonymous user',
+      3 => 'authenticated user',
+      4 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1571,6 +1607,18 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: view own field_pg_contestant_status.
+  $permissions['view own field_pg_contestant_status'] = array(
+    'name' => 'view own field_pg_contestant_status',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+      2 => 'organizer',
+      3 => 'pilot',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: view own main profile.
   $permissions['view own main profile'] = array(
     'name' => 'view own main profile',
@@ -1586,8 +1634,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own organizer_profile profile'] = array(
     'name' => 'view own organizer_profile profile',
     'roles' => array(
-      0 => 'editor',
-      1 => 'organizer',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'organizer',
     ),
     'module' => 'profile2',
   );
@@ -1596,7 +1645,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own pilot profile'] = array(
     'name' => 'view own pilot profile',
     'roles' => array(
-      0 => 'pilot',
+      0 => 'administrator',
+      1 => 'editor',
+      2 => 'pilot',
     ),
     'module' => 'profile2',
   );

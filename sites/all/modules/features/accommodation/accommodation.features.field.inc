@@ -20,6 +20,9 @@ function accommodation_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -53,7 +56,7 @@ function accommodation_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '4',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -73,7 +76,7 @@ function accommodation_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'body',
-      'label' => 'Services',
+      'label' => 'Services and prices',
       'required' => 0,
       'settings' => array(
         'display_summary' => 1,
@@ -94,6 +97,96 @@ function accommodation_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-accommodation-field_address'.
+  $fields['node-accommodation-field_address'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_address',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'addressfield',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'addressfield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'accommodation',
+      'default_value' => array(
+        0 => array(
+          'element_key' => 'node|accommodation|field_address|und|0',
+          'thoroughfare' => '',
+          'premise' => '',
+          'locality' => '',
+          'administrative_area' => '',
+          'postal_code' => '',
+          'country' => 'US',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => '5',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_address',
+      'label' => 'Address',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'addressfield',
+        'settings' => array(
+          'available_countries' => array(),
+          'format_handlers' => array(
+            'address' => 'address',
+            'address-hide-country' => 0,
+            'organisation' => 0,
+            'name-full' => 0,
+            'name-oneline' => 0,
+          ),
+        ),
+        'type' => 'addressfield_standard',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'node-accommodation-field_email'.
   $fields['node-accommodation-field_email'] = array(
     'field_config' => array(
@@ -102,6 +195,9 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_email',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -120,14 +216,14 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'invisimail',
           'settings' => array(
             'encoder' => 'html_entities',
             'link' => 1,
           ),
           'type' => 'invisimail_html_entities',
-          'weight' => '6',
+          'weight' => '7',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -153,98 +249,9 @@ function accommodation_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'html5_tools',
-        'settings' => array(
-          'size' => 60,
-        ),
+        'settings' => array(),
         'type' => 'emailwidget',
         'weight' => '9',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-accommodation-field_hotel_address'.
-  $fields['node-accommodation-field_hotel_address'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_hotel_address',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'locked' => '0',
-      'module' => 'addressfield',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'addressfield',
-    ),
-    'field_instance' => array(
-      'bundle' => 'accommodation',
-      'default_value' => array(
-        0 => array(
-          'element_key' => 'node|hotel|field_hotel_address|und|0',
-          'thoroughfare' => '',
-          'premise' => '',
-          'locality' => '',
-          'administrative_area' => '',
-          'postal_code' => '',
-          'country' => 'US',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'addressfield',
-          'settings' => array(
-            'format_handlers' => array(
-              0 => 'address',
-            ),
-            'use_widget_handlers' => 1,
-          ),
-          'type' => 'addressfield_default',
-          'weight' => '2',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_hotel_address',
-      'label' => 'Address',
-      'required' => 1,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'addressfield',
-        'settings' => array(
-          'available_countries' => array(),
-          'format_handlers' => array(
-            'address' => 'address',
-            'organisation' => 'organisation',
-            'address-hide-country' => 0,
-            'name-full' => 0,
-            'name-oneline' => 0,
-          ),
-        ),
-        'type' => 'addressfield_standard',
-        'weight' => '5',
       ),
     ),
   );
@@ -284,11 +291,11 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 8,
+          'weight' => '0',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -379,27 +386,15 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => array(
-        0 => array(
-          'input_format' => 'lat/lon',
-          'geom' => array(
-            'lat' => '-3.0688241177140907',
-            'lon' => '118.828125',
-          ),
-        ),
-      ),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'geofield',
-          'settings' => array(
-            'data' => 'full',
-            'map_preset' => 'geofield_formatter_map2',
-          ),
-          'type' => 'geofield_openlayers',
-          'weight' => '1',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '11',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -431,13 +426,14 @@ function accommodation_field_default_fields() {
         'active' => 1,
         'module' => 'reverse_geocode_widget',
         'settings' => array(
-          'field_address' => 'field_hotel_address',
+          'field_address' => 'field_address',
           'map' => array(
             'center' => array(
               'lat' => '0',
               'lng' => '0',
             ),
             'height' => '400',
+            'html5' => 0,
             'width' => '750',
             'zoom' => '9',
           ),
@@ -456,13 +452,16 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_phone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
         'size' => '15',
       ),
       'translatable' => '0',
@@ -474,11 +473,11 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => '4',
+          'weight' => '6',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -798,14 +797,11 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
-          ),
-          'type' => 'image',
-          'weight' => '5',
+          'label' => 'hidden',
+          'module' => 'airtribune',
+          'settings' => array(),
+          'type' => 'airtribune_carousel',
+          'weight' => '3',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -846,7 +842,7 @@ function accommodation_field_default_fields() {
             ),
             'value' => 'hotels/[node:nid]-[node:title]',
           ),
-          'retroactive_update' => 1,
+          'retroactive_update' => 0,
         ),
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
@@ -859,12 +855,12 @@ function accommodation_field_default_fields() {
         'module' => 'media',
         'settings' => array(
           'allowed_schemes' => array(
-            'private' => 'private',
             'public' => 'public',
           ),
           'allowed_types' => array(
             'audio' => 0,
             'default' => 0,
+            0 => 0,
             'image' => 'image',
             'video' => 0,
           ),
@@ -884,6 +880,9 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_price_currency',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -894,28 +893,31 @@ function accommodation_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          1 => 'EUR',
-          2 => 'USD',
+          'eur' => 'EUR',
+          'usd' => 'USD',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'list_integer',
+      'type' => 'list_text',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => array(),
+      'default_value' => array(
+        0 => array(
+          'value' => 'eur',
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 9,
+          'type' => 'hidden',
+          'weight' => '9',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -933,7 +935,7 @@ function accommodation_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_price_currency',
       'label' => 'Currency',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'user_register_form' => FALSE,
@@ -956,28 +958,19 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_price_double',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
+      'field_permissions' => array(
+        'type' => '0',
       ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'number',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max_length' => '255',
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'number_integer',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
@@ -986,11 +979,16 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 11,
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '2',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1011,16 +1009,17 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'max' => '',
+        'min' => '0',
+        'prefix' => '',
+        'suffix' => '',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
         'weight' => '13',
       ),
     ),
@@ -1034,28 +1033,19 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_price_single',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
+      'field_permissions' => array(
+        'type' => '0',
       ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'number',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max_length' => '255',
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'number_integer',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
@@ -1064,11 +1054,16 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 10,
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '1',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1089,16 +1084,17 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'text_processing' => '0',
+        'max' => '',
+        'min' => '0',
+        'prefix' => '',
+        'suffix' => '',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
         'weight' => '12',
       ),
     ),
@@ -1146,11 +1142,11 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => '3',
+          'weight' => '8',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1243,7 +1239,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 7,
+          'weight' => '10',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1288,7 +1284,7 @@ function accommodation_field_default_fields() {
   t('Location');
   t('Phone');
   t('Photo');
-  t('Services');
+  t('Services and prices');
   t('Single');
   t('Title');
   t('Web site');

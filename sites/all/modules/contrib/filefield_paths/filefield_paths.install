@@ -156,6 +156,7 @@ function filefield_paths_update_7107() {
   db_drop_table('filefield_paths');
 
   // Update field instance settings.
+  drupal_load('module', 'filefield_paths');
   $field_types = array_keys(_filefield_paths_get_field_types());
   foreach (field_info_fields() as $field) {
     if (in_array($field['type'], $field_types)) {

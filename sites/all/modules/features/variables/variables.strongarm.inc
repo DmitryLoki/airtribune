@@ -34,6 +34,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'additional_settings__active_tab_page';
+  $strongarm->value = 'edit-workflow';
+  $export['additional_settings__active_tab_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_pg_contest';
   $strongarm->value = 'edit-schemaorg-ui';
   $export['additional_settings__active_tab_pg_contest'] = $strongarm;
@@ -90,6 +97,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_page';
+  $strongarm->value = '';
+  $export['ant_pattern_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'ant_pattern_pg_contest';
   $strongarm->value = '';
   $export['ant_pattern_pg_contest'] = $strongarm;
@@ -132,6 +146,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_page';
+  $strongarm->value = 0;
+  $export['ant_php_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'ant_php_pg_contest';
   $strongarm->value = 0;
   $export['ant_php_pg_contest'] = $strongarm;
@@ -142,6 +163,40 @@ function variables_strongarm() {
   $strongarm->name = 'ant_php_pg_race';
   $strongarm->value = 0;
   $export['ant_php_pg_race'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'clientside_validation_default_settings';
+  $strongarm->value = array(
+    'validate_options' => array(
+      'disable_html5' => '1',
+      'captcha' => '1',
+      'validate_onsubmit' => '1',
+      'validate_onblur' => '1',
+      'validate_onblur_always' => '0',
+      'validate_onkeyup' => '0',
+      'show_messages' => '0',
+    ),
+    'error' => array(
+      'prefix' => '',
+      'suffix' => '',
+      'scrollto_errormessage' => 0,
+      'scroll_speed' => '1000',
+      'error_element' => 'label',
+    ),
+    'error_placement' => array(
+      'error_placement_default' => '1',
+      'jquery_selector' => '',
+      'custom_error_function' => '',
+    ),
+    'include_hidden' => array(
+      'include_hidden_fields' => 0,
+      'validate_tabs' => 0,
+      'include_hidden' => '',
+    ),
+  );
+  $export['clientside_validation_default_settings'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -223,6 +278,20 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_dm';
+  $strongarm->value = 'd M';
+  $export['date_format_dm'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_dmy';
+  $strongarm->value = 'd M, Y';
+  $export['date_format_dmy'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'date_format_html5_tools_iso8601';
   $strongarm->value = 'c';
   $export['date_format_html5_tools_iso8601'] = $strongarm;
@@ -255,89 +324,93 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'empty_timezone_message';
+  $strongarm->name = 'disqus_developer';
   $strongarm->value = 0;
-  $export['empty_timezone_message'] = $strongarm;
+  $export['disqus_developer'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entityreference:base-tables';
+  $strongarm->name = 'disqus_domain';
+  $strongarm->value = 'airtribune';
+  $export['disqus_domain'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_inherit_login';
+  $strongarm->value = 1;
+  $export['disqus_inherit_login'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_localization';
+  $strongarm->value = 1;
+  $export['disqus_localization'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_location';
+  $strongarm->value = 'content_area';
+  $export['disqus_location'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_nodetypes';
   $strongarm->value = array(
-    'node' => array(
-      0 => 'node',
-      1 => 'nid',
-    ),
-    'taxonomy_term' => array(
-      0 => 'taxonomy_term_data',
-      1 => 'tid',
-    ),
-    'country' => array(
-      0 => 'countries_country',
-      1 => 'cid',
-    ),
-    'ent_featured_header' => array(
-      0 => 'eck_ent_featured_header',
-      1 => 'id',
-    ),
-    'ent_point' => array(
-      0 => 'eck_ent_point',
-      1 => 'id',
-    ),
-    'ent_track' => array(
-      0 => 'eck_ent_track',
-      1 => 'id',
-    ),
-    'ent_tracker' => array(
-      0 => 'eck_ent_tracker',
-      1 => 'id',
-    ),
-    'ent_trackerset' => array(
-      0 => 'eck_ent_trackerset',
-      1 => 'id',
-    ),
-    'field_collection_item' => array(
-      0 => 'field_collection_item',
-      1 => 'item_id',
-    ),
-    'og_membership_type' => array(
-      0 => 'og_membership_type',
-      1 => 'id',
-    ),
-    'og_membership' => array(
-      0 => 'og_membership',
-      1 => 'id',
-    ),
-    'profile2' => array(
-      0 => 'profile',
-      1 => 'pid',
-    ),
-    'profile2_type' => array(
-      0 => 'profile_type',
-      1 => 'id',
-    ),
-    'relation' => array(
-      0 => 'relation',
-      1 => 'rid',
-    ),
-    'file' => array(
-      0 => 'file_managed',
-      1 => 'fid',
-    ),
-    'taxonomy_vocabulary' => array(
-      0 => 'taxonomy_vocabulary',
-      1 => 'vid',
-    ),
-    'user' => array(
-      0 => 'users',
-      1 => 'uid',
-    ),
-    'rules_config' => array(
-      0 => 'rules_config',
-      1 => 'id',
-    ),
+    'accommodation' => 'accommodation',
+    'newsblog' => 'newsblog',
+    'advert' => 0,
+    'pg_contest' => 0,
+    'pg_race' => 0,
+    'page' => 0,
   );
-  $export['entityreference:base-tables'] = $strongarm;
+  $export['disqus_nodetypes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_publickey';
+  $strongarm->value = '';
+  $export['disqus_publickey'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_secretkey';
+  $strongarm->value = '';
+  $export['disqus_secretkey'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_sso';
+  $strongarm->value = 0;
+  $export['disqus_sso'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_userapikey';
+  $strongarm->value = 'szSKCDQdbJR4jqSeSTYwWHz4XoEy92PzZIGN3ASNfWPt1kVXZjxG7v3xr06aAupW';
+  $export['disqus_userapikey'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'disqus_weight';
+  $strongarm->value = '50';
+  $export['disqus_weight'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'empty_timezone_message';
+  $strongarm->value = 0;
+  $export['empty_timezone_message'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -374,6 +447,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entity_translation_hide_translation_links_page';
+  $strongarm->value = 0;
+  $export['entity_translation_hide_translation_links_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'entity_translation_hide_translation_links_pg_contest';
   $strongarm->value = 0;
   $export['entity_translation_hide_translation_links_pg_contest'] = $strongarm;
@@ -405,6 +485,13 @@ function variables_strongarm() {
   $strongarm->name = 'entity_translation_node_metadata_newsblog';
   $strongarm->value = '0';
   $export['entity_translation_node_metadata_newsblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'entity_translation_node_metadata_page';
+  $strongarm->value = '0';
+  $export['entity_translation_node_metadata_page'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -539,6 +626,86 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entityreference:base-tables';
+  $strongarm->value = array(
+    'node' => array(
+      0 => 'node',
+      1 => 'nid',
+    ),
+    'taxonomy_term' => array(
+      0 => 'taxonomy_term_data',
+      1 => 'tid',
+    ),
+    'country' => array(
+      0 => 'countries_country',
+      1 => 'cid',
+    ),
+    'ent_featured_header' => array(
+      0 => 'eck_ent_featured_header',
+      1 => 'id',
+    ),
+    'ent_point' => array(
+      0 => 'eck_ent_point',
+      1 => 'id',
+    ),
+    'ent_track' => array(
+      0 => 'eck_ent_track',
+      1 => 'id',
+    ),
+    'ent_tracker' => array(
+      0 => 'eck_ent_tracker',
+      1 => 'id',
+    ),
+    'ent_trackerset' => array(
+      0 => 'eck_ent_trackerset',
+      1 => 'id',
+    ),
+    'field_collection_item' => array(
+      0 => 'field_collection_item',
+      1 => 'item_id',
+    ),
+    'og_membership_type' => array(
+      0 => 'og_membership_type',
+      1 => 'id',
+    ),
+    'og_membership' => array(
+      0 => 'og_membership',
+      1 => 'id',
+    ),
+    'profile2' => array(
+      0 => 'profile',
+      1 => 'pid',
+    ),
+    'profile2_type' => array(
+      0 => 'profile_type',
+      1 => 'id',
+    ),
+    'relation' => array(
+      0 => 'relation',
+      1 => 'rid',
+    ),
+    'file' => array(
+      0 => 'file_managed',
+      1 => 'fid',
+    ),
+    'taxonomy_vocabulary' => array(
+      0 => 'taxonomy_vocabulary',
+      1 => 'vid',
+    ),
+    'user' => array(
+      0 => 'users',
+      1 => 'uid',
+    ),
+    'rules_config' => array(
+      0 => 'rules_config',
+      1 => 'id',
+    ),
+  );
+  $export['entityreference:base-tables'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_featured_header__ent_featured_header';
   $strongarm->value = array(
     'view_modes' => array(
@@ -583,19 +750,6 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
-  $strongarm->value = array(
-    'view_modes' => array(),
-    'extra_fields' => array(
-      'form' => array(),
-      'display' => array(),
-    ),
-  );
-  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_track__track';
   $strongarm->value = array(
     'view_modes' => array(
@@ -609,6 +763,19 @@ function variables_strongarm() {
     ),
   );
   $export['field_bundle_settings_ent_track__track'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -1147,6 +1314,404 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'tabtamer_tab_settings';
+  $strongarm->value = array(
+    'event/%/register' => array(
+      'weight' => '50',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%/register',
+      'tabtamer_title' => '',
+    ),
+    'event/%/info' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%pm_arg/info',
+      'tabtamer_title' => '',
+    ),
+    'event/%/blog' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%pm_arg/blog',
+      'tabtamer_title' => '',
+    ),
+    'event/%/map' => array(
+      'weight' => '40',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%pm_arg/map',
+      'tabtamer_title' => '',
+    ),
+    'event/%/pilots' => array(
+      'weight' => '30',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%pm_arg/pilots',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/user' => array(
+      'weight' => '-98',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%user/user',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/view' => array(
+      'weight' => '-100',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/view',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/edit' => array(
+      'weight' => '-97',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
+      'tabtamer_title' => 'Edit pilot',
+    ),
+    'profile-pilot/%/delete' => array(
+      'weight' => '-99',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/delete',
+      'tabtamer_title' => '',
+    ),
+    'user/%/pilot' => array(
+      'weight' => '10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%/pilot',
+      'tabtamer_title' => '',
+    ),
+    'user/%/hybridauth' => array(
+      'weight' => '0',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'user/%user/hybridauth',
+      'tabtamer_title' => '',
+    ),
+    'user/%/view' => array(
+      'weight' => '-10',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'user/%user/view',
+      'tabtamer_title' => '',
+    ),
+    'user/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%user/edit',
+      'tabtamer_title' => 'Edit user',
+    ),
+    'user/%/edit/account' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%user_category/edit/account',
+      'tabtamer_title' => '',
+    ),
+    'user/%/edit/main' => array(
+      'weight' => '3',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/%user_category/edit/main',
+      'tabtamer_title' => '',
+    ),
+    'user/login' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/login',
+      'tabtamer_title' => '',
+    ),
+    'user/register' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/register',
+      'tabtamer_title' => '',
+    ),
+    'user/password' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'user/password',
+      'tabtamer_title' => '',
+    ),
+    'node/%/revisions' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/revisions',
+      'tabtamer_title' => '',
+    ),
+    'node/%/import' => array(
+      'weight' => '10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/import',
+      'tabtamer_title' => '',
+    ),
+    'node/%/delete-items' => array(
+      'weight' => '11',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/delete-items',
+      'tabtamer_title' => '',
+    ),
+    'node/%/unlock' => array(
+      'weight' => '11',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/unlock',
+      'tabtamer_title' => '',
+    ),
+    'node/%/view' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/view',
+      'tabtamer_title' => '',
+    ),
+    'node/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/edit',
+      'tabtamer_title' => '',
+    ),
+    'node/%/delete' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%node/delete',
+      'tabtamer_title' => '',
+    ),
+    'node/%/group' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%/group',
+      'tabtamer_title' => '',
+    ),
+    'node/%/log' => array(
+      'weight' => '12',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'node/%/log',
+      'tabtamer_title' => '',
+    ),
+    'ent_featured_header/ent_featured_header/%/view' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_featured_header/ent_featured_header/%/view',
+      'tabtamer_title' => '',
+    ),
+    'ent_featured_header/ent_featured_header/%/edit' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_featured_header/ent_featured_header/%/edit',
+      'tabtamer_title' => '',
+    ),
+    'ent_featured_header/ent_featured_header/%/delete' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_featured_header/ent_featured_header/%/delete',
+      'tabtamer_title' => '',
+    ),
+    'ent_point/waypoint/%/view' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_point/waypoint/%/view',
+      'tabtamer_title' => '',
+    ),
+    'ent_point/waypoint/%/edit' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_point/waypoint/%/edit',
+      'tabtamer_title' => '',
+    ),
+    'ent_point/waypoint/%/delete' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_point/waypoint/%/delete',
+      'tabtamer_title' => '',
+    ),
+    'ent_track/track/%/view' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_track/track/%/view',
+      'tabtamer_title' => '',
+    ),
+    'ent_track/track/%/edit' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_track/track/%/edit',
+      'tabtamer_title' => '',
+    ),
+    'ent_track/track/%/delete' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_track/track/%/delete',
+      'tabtamer_title' => '',
+    ),
+    'ent_tracker/device/%/view' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_tracker/device/%/view',
+      'tabtamer_title' => '',
+    ),
+    'ent_tracker/device/%/edit' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_tracker/device/%/edit',
+      'tabtamer_title' => '',
+    ),
+    'ent_tracker/device/%/delete' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_tracker/device/%/delete',
+      'tabtamer_title' => '',
+    ),
+    'ent_trackerset/trackerset/%/view' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_trackerset/trackerset/%/view',
+      'tabtamer_title' => '',
+    ),
+    'ent_trackerset/trackerset/%/edit' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_trackerset/trackerset/%/edit',
+      'tabtamer_title' => '',
+    ),
+    'ent_trackerset/trackerset/%/delete' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'ent_trackerset/trackerset/%/delete',
+      'tabtamer_title' => '',
+    ),
+    'import/%/import' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'import/%/import',
+      'tabtamer_title' => '',
+    ),
+    'import/%/delete-items' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'import/%/delete-items',
+      'tabtamer_title' => '',
+    ),
+    'import/%/unlock' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'import/%/unlock',
+      'tabtamer_title' => '',
+    ),
+    'import/%/log' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'import/%/log',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-organizers/%/view' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-organizers/%field_collection_item/view',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-organizers/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-organizers/%field_collection_item/edit',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-organizers/%/delete' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-organizers/%field_collection_item/delete',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-getting-there/%/view' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/view',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-getting-there/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/edit',
+      'tabtamer_title' => '',
+    ),
+    'field-collection/field-collection-getting-there/%/delete' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'field-collection/field-collection-getting-there/%field_collection_item/delete',
+      'tabtamer_title' => '',
+    ),
+    'media/%/view' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'media/%file/view',
+      'tabtamer_title' => '',
+    ),
+    'media/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'media/%file/edit',
+      'tabtamer_title' => '',
+    ),
+    'media/%/delete' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'media/%file/delete',
+      'tabtamer_title' => '',
+    ),
+    'group/%/%/admin/people/add-user' => array(
+      'weight' => '5',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'group/%/%/admin/people/add-user',
+      'tabtamer_title' => '',
+    ),
+    'profile-organizer_profile/%/view' => array(
+      'weight' => '-10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-organizer_profile/%profile2_by_uid/view',
+      'tabtamer_title' => '',
+    ),
+    'profile-organizer_profile/%/edit' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-organizer_profile/%profile2_by_uid/edit',
+      'tabtamer_title' => '',
+    ),
+    'profile-organizer_profile/%/delete' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-organizer_profile/%profile2_by_uid/delete',
+      'tabtamer_title' => '',
+    ),
+    'taxonomy/term/%/view' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'taxonomy/term/%taxonomy_term/view',
+      'tabtamer_title' => '',
+    ),
+    'taxonomy/term/%/edit' => array(
+      'weight' => '10',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'taxonomy/term/%taxonomy_term/edit',
+      'tabtamer_title' => '',
+    ),
+    'events/add' => array(
+      'weight' => '99',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'events/add',
+      'tabtamer_title' => '',
+    ),
+    'events/past' => array(
+      'weight' => '0',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'events/past',
+      'tabtamer_title' => '',
+    ),
+    'events/next' => array(
+      'weight' => '1',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'events/next',
+      'tabtamer_title' => '',
+    ),
+    'events/current' => array(
+      'weight' => '2',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'events/current',
+      'tabtamer_title' => '',
+    ),
+  );
+  $export['tabtamer_tab_settings'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'theme_default';
   $strongarm->value = 'airtribune2';
   $export['theme_default'] = $strongarm;
@@ -1164,119 +1729,6 @@ function variables_strongarm() {
   $strongarm->name = 'translation_language_type';
   $strongarm->value = 'language_content';
   $export['translation_language_type'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_default_timezone';
-  $strongarm->value = '0';
-  $export['user_default_timezone'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_mail_status_activated_body';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
-
-Your email is confirmed and registration is completed.
-
-Happy landings!
-Airtribune team';
-  $export['user_mail_status_activated_body'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_mail_status_activated_notify';
-  $strongarm->value = 1;
-  $export['user_mail_status_activated_notify'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_mail_status_activated_subject';
-  $strongarm->value = 'Account details for [user:name] at [site:name]';
-  $export['user_mail_status_activated_subject'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_default';
-  $strongarm->value = 'sites/all/resources/default-user-picture.png';
-  $export['user_picture_default'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_dimensions';
-  $strongarm->value = '2561024';
-  $export['user_picture_dimensions'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_file_size';
-  $strongarm->value = '500';
-  $export['user_picture_file_size'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_guidelines';
-  $strongarm->value = '';
-  $export['user_picture_guidelines'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_path';
-  $strongarm->value = 'pictures';
-  $export['user_picture_path'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_pictures';
-  $strongarm->value = 1;
-  $export['user_pictures'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'user_pirctue_mini';
-  $export['user_picture_style'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_register';
-  $strongarm->value = '1';
-  $export['user_register'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_registrationpassword_register_body';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
-
-Thank you for signing up for Airtribune.com
-There\'s just one more step, click on this link to verify your email address:
-
-[user:registrationpassword-url]
-
-After logging in you will be redirected to the main page and may start using the service immediately.
-
-Happy landings!
-Airtribune team';
-  $export['user_registrationpassword_register_body'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'user_registrationpassword_register_subject';
-  $strongarm->value = 'Account details for [user:name] at [site:name]';
-  $export['user_registrationpassword_register_subject'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

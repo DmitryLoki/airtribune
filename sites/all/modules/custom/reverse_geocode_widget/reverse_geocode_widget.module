@@ -1,29 +1,33 @@
 <?php
 
 /**
+ * @file
+ * Implements reverse geocoding for Geofield 2.x
+ */
+
+/**
  * Implements hook_field_widget_info().
  */
 function reverse_geocode_widget_field_widget_info() {
   $widgets = array();
-  
+
   $widgets['reverse_geocode_widget_widget'] = array(
     'label' => 'Reverse Geocoding',
     'description' => 'A Geofield widget that provides reverse geocoding based on Google Maps API. (Addressfield supported)',
     'field types' => array('geofield'),
-		'settings' => array(
+    'settings' => array(
       'map' => array(
         'center' => array(
           'lat' => 0.0,
-          'lng' => 0.0
+          'lng' => 0.0,
         ),
         'auto_center' => TRUE,
         'zoom' => 10,
-				'width' => 400,
-				'height' => 300,
-				'html5' => false,
+        'width' => 400,
+        'height' => 300,
+        'html5' => FALSE,
       ),
-			'field_address' => false,
-			
+      'field_address' => FALSE,
     ),
   );
 
@@ -44,58 +48,60 @@ function reverse_geocode_widget_field_widget_settings_form($field, $instance) {
       );
       $form['map']['center'] = array('#type' => 'fieldset', '#title' => 'Default map center');
       $form['map']['center']['lat'] = array(
-        '#type' => 'textfield', // 'hidden',
+        '#type' => 'textfield',
         '#title' => t('Latitude'),
         '#default_value' => $settings['map']['center']['lat'],
         '#required' => TRUE,
       );
       $form['map']['center']['lng'] = array(
-        '#type' => 'textfield', // 'hidden',
+        '#type' => 'textfield',
         '#title' => t('Longtitude'),
         '#default_value' => $settings['map']['center']['lng'],
         '#required' => TRUE,
       );
       $form['map']['zoom'] = array(
-        '#type' => 'textfield', // 'hidden',
+        '#type' => 'textfield',
         '#title' => t('Default zoom level'),
         '#default_value' => $settings['map']['zoom'],
         '#required' => TRUE,
       );
-			$form['map']['width'] = array(
-        '#type' => 'textfield', // 'hidden',
+      $form['map']['width'] = array(
+        '#type' => 'textfield',
         '#title' => t('Width'),
         '#default_value' => $settings['map']['width'],
         '#required' => TRUE,
       );
-			$form['map']['height'] = array(
-        '#type' => 'textfield', // 'hidden',
+      $form['map']['height'] = array(
+        '#type' => 'textfield',
         '#title' => t('Height'),
         '#default_value' => $settings['map']['height'],
         '#required' => TRUE,
       );
-			$form['map']['html5'] = array(
-        '#type' => 'checkbox', // 'hidden',
+      $form['map']['html5'] = array(
+        '#type' => 'checkbox',
         '#title' => t('Use HTML5 Geolocation to set default values (experimental)'),
-        '#default_value' => (!empty($settings['map']['html5'])) ? $settings['map']['html5'] : FALSE
+        '#default_value' => (!empty($settings['map']['html5'])) ? $settings['map']['html5'] : FALSE,
       );
-			$form['field_address'] = array(
+      $form['field_address'] = array(
         '#type' => 'select',
         '#title' => t('Address field'),
         '#default_value' => $settings['field_address'],
-				'#options' => array()
+        '#options' => array(),
       );
-			$fields = field_info_instances($instance['entity_type'], $instance['bundle']);
+      $fields = field_info_instances($instance['entity_type'], $instance['bundle']);
       $form['field_address']['#options'][0] = t('-Choose address field-');
-			foreach($fields as $id => $f)
-				if($f['widget']['type']=='addressfield_standard')
-					$form['field_address']['#options'][$id] = $f['label'].'('.$id.')';				
-			
-			/* If there are no addressfields */
-			if(!count($form['field_address']['#options']))
-				drupal_set_message(t("Please add addressfield"),"error");
-			
+      foreach ($fields as $id => $f) {
+        if ($f['widget']['type'] == 'addressfield_standard') {
+          $form['field_address']['#options'][$id] = $f['label'] . '(' . $id . ')';
+        }
+      }
+      /* If there are no addressfields */
+      if (!count($form['field_address']['#options'])) {
+        drupal_set_message(t("Please add addressfield"), "error");
+      }
+
       break;
-  }	
+  }
   return $form;
 }
 
@@ -103,28 +109,28 @@ function reverse_geocode_widget_field_widget_settings_form($field, $instance) {
  * Implements hook_field_widget_form().
  */
 function reverse_geocode_widget_field_widget_form(&$form, &$form_state, $field, $instance,
-  $langcode, $items, $delta, $base){
+  $langcode, $items, $delta, $base) {
   $element = $base;
-	
+
   $widget = $instance['widget'];
   $settings = $widget['settings'];
 
-  // $element['input_format'] is not a db field, but we use it determine how to parse/calculate values in our widget.
   $element['input_format'] = array(
     '#type' => 'value',
     '#attributes' => array('class' => array('geofield_input_format')),
     '#value' => GEOFIELD_INPUT_AUTO_DISCOVER,
   );
-  
-  $width = $settings['map']['width'];	
+
+  $width = $settings['map']['width'];
   $height = $settings['map']['height'];
-	
+
   switch ($widget['type']) {
     case 'reverse_geocode_widget_widget':
-  	  $id = 'reverse_geocode_widget_widget_' . str_replace('_', '-', $instance['field_name']);
-  	  $element['lat']['#prefix'] = '<div id="geocode-map" class="geocode-widget" style="border:1px solid #ccc;width:'.$width.'px;height:'.$height.'px"></div>';
-			
-			$latlon_value = array(
+      $id = 'reverse_geocode_widget_widget_' . str_replace('_', '-', $instance['field_name']);
+      $element['lat']['#prefix'] = '<div id="geocode-map" class="geocode-widget" style="border:1px solid #ccc;width:'
+      . $width . 'px;height:' . $height . 'px"></div>';
+
+      $latlon_value = array(
         'lat' => '',
         'lon' => '',
       );
@@ -140,62 +146,31 @@ function reverse_geocode_widget_field_widget_form(&$form, &$form_state, $field, 
         '#description' => check_plain($instance['description']),
         '#default_value' => $latlon_value,
         '#required' => $instance['required'],
-        '#geolocation' => (!empty($settings['map']['html5'])) ? $settings['map']['html5'] : FALSE
+        '#geolocation' => (!empty($settings['map']['html5'])) ? $settings['map']['html5'] : FALSE,
       );
 
       $element['input_format']['#value'] = GEOFIELD_INPUT_LAT_LON;
-			
-			$field_address = $settings['field_address'];
 
-			// Include libraries from hook_library
-			$element['#attached']['library'][] = array('reverse_geocode_widget', 'gmap');
-			$element['#attached']['library'][] = array('reverse_geocode_widget', 'widget');
-			$element['#attached']['js'][] = array(
+      $field_address = $settings['field_address'];
+
+      drupal_add_js('http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&language=en', array('type' => 'external'));
+      drupal_add_js(drupal_get_path('module', 'reverse_geocode_widget') . "/js/widget.js");
+      $element['#attached']['js'][] = array(
         'type' => 'setting',
         'data' => array(
-					'reverse_geocode_widget' => array(
-						"default_value"=>$latlon_value,
-						"id" => $id,
-						"zoom" => $settings['map']['zoom'],
-						"center_lat" => $settings['map']['center']['lat'],
-						"center_lng" => $settings['map']['center']['lng'],
-						"lat" => "#edit-".str_replace('_', '-', $instance['field_name'])."-$langcode-$delta-geom-lat",
-						"lng" => "#edit-".str_replace('_', '-', $instance['field_name'])."-$langcode-$delta-geom-lon",
-						"field_address" => "#edit-".str_replace('_', '-', $field_address),
-					)
-				),
+          'reverse_geocode_widget' => array(
+            "default_value" => $latlon_value,
+            "id" => $id,
+            "zoom" => $settings['map']['zoom'],
+            "center_lat" => $settings['map']['center']['lat'],
+            "center_lng" => $settings['map']['center']['lng'],
+            "lat" => "#edit-" . str_replace('_', '-', $instance['field_name']) . "-$langcode-$delta-geom-lat",
+            "lng" => "#edit-" . str_replace('_', '-', $instance['field_name']) . "-$langcode-$delta-geom-lon",
+            "field_address" => "#edit-" . str_replace('_', '-', $field_address),
+          ),
+        ),
       );
-      
-	  break;
+      break;
   }
   return $element;
-}
-
-function reverse_geocode_widget_library() {
-	global $language;
-  $path = drupal_get_path('module', 'reverse_geocode_widget');
-
-  $libraries = array();	
-	
-  $libraries['gmap'] = array(
-    'title' => 'Google Map API',
-		'version' => '3.x',
-		'type' => 'external',
-    'js' => array(
-      "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&language=".$language->language => array(),
-    ),
-  );
-	$libraries['widget'] = array(
-    'title' => 'Reverse Geocoding Widget behavior',
-    'version' => '1.x',
-    'js' => array(
-      "$path/js/widget.js" => array(),
-    ),
-  );
-  return $libraries;
-}
-
-/* Debug function */
-function _d($var){
-	drupal_set_message(print_r($var, true));	
 }

@@ -296,6 +296,28 @@ function image_styles_feature_image_default_styles() {
     ),
   );
 
+  // Exported image style: hotel_preview.
+  $styles['hotel_preview'] = array(
+    'name' => 'hotel_preview',
+    'effects' => array(
+      10 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '466',
+          'height' => '310',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: node_image_first.
   $styles['node_image_first'] = array(
     'name' => 'node_image_first',
@@ -484,9 +506,31 @@ function image_styles_feature_image_default_styles() {
     ),
   );
 
-  // Exported image style: user_pirctue_mini.
-  $styles['user_pirctue_mini'] = array(
-    'name' => 'user_pirctue_mini',
+  // Exported image style: user_picture.
+  $styles['user_picture'] = array(
+    'name' => 'user_picture',
+    'effects' => array(
+      12 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '150',
+          'height' => '150',
+        ),
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported image style: user_picture_mini.
+  $styles['user_picture_mini'] = array(
+    'name' => 'user_picture_mini',
     'effects' => array(
       2 => array(
         'label' => 'Resize',
