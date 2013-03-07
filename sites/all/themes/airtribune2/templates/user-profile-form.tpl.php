@@ -17,7 +17,14 @@ $form['account']['pass']['pass2']['#title'] = t("Repeat new password");
 $form['account']['pass']['#description'] = t('Minimun 6 symbols');
 $form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
 
-print drupal_render($form['account']['mail']);
+$form['account']['mail_dummy'] = array(
+  '#type' => 'item',
+  '#title' => t('Email'),
+  '#markup' => $form['account']['mail']['#value'],
+);
+
+print drupal_render($form['account']['mail_dummy']);
+hide($form['account']['mail']);
 
 // Main profile Name field
 if (!empty($form['profile_main'])) {
