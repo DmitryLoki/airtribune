@@ -382,7 +382,8 @@ events/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'user/*',
+            'paths' => 'user/*
+profile-pilot/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
