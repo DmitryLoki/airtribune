@@ -216,6 +216,10 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   if ($element['#field_name'] == 'field_address') {
     $element['#after_build'][] = '_address_after_build';
   }
+  // Change field_birthdate components order.
+  if ($element['#field_name'] == 'field_birthdate') {
+    $element['#after_build'][] = '_birthdate_after_build';
+  }
 }
 
 // TEST ==================================
@@ -265,25 +269,34 @@ function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $con
  * After build for field_t_shirt_size field widget.
  */
 function _t_shirt_size_after_build($element, $form_state) {
-  $element['#options']['_none'] = t('Choose size');
+  $element['#options']['_none'] = t('Select your size');
   return $element;
 }
 /**
  * After build for field_blood_type field widget.
  */
 function _blood_type_after_build($element, $form_state) {
-  $element['#options']['_none'] = t('Choose blood type');
+  $element['#options']['_none'] = t('Select your type');
   return $element;
 }
 /**
  * After build for field_address field widget.
  */
 function _address_after_build($element, $form_state) {
-  $options = array('' => t('Choose country'));
+  $options = array('' => t('Select your country'));
   foreach ($element['country']['#options'] as $k => $v) {
     $options[$k] = $v;
   }
   $element['country']['#options'] = $options;
+  return $element;
+}
+/**
+ * After build for field_birthdate field widget.
+ */
+function _birthdate_after_build($element, $form_state) {
+  //dsm($element);
+  $element['value']['month']['#weight'] = 1;
+  $element['value']['day']['#weight'] = 0;
   return $element;
 }
 
@@ -412,16 +425,16 @@ function at_validation_js_alter(&$javascript) {
         if (isset($setting['clientsideValidation']['forms']['user-register-form']['rules'])) {
           $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
           $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
-          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = 'Name is required.';
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
           $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
-          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
-          $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
         }
         if (isset($setting['clientsideValidation']['forms']['user-profile-form']['rules'])) {
           // Address components
           $rules = &$setting['clientsideValidation']['forms']['user-profile-form']['rules'];
-          $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
-          $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+          $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = t('This field may contain only English letters.');
           
           // Address components regex
           $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
@@ -537,13 +550,13 @@ function _at_validation_js_alter(&$setting) {
   // #2623
   // TODO: make Name components required.
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['required'] = TRUE;
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = 'Name is required.';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['required'] = TRUE;
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = 'Surname is required.';
-  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
   // Address components
-  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
-  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['messages']['regexMatch'] = t('This field may contain only English letters.');
   unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][postal_code]']['regexMatch']);
   unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][country]']['regexMatch']);
   //Phone number select
@@ -559,13 +572,11 @@ function _at_validation_js_alter(&$setting) {
 
   //$rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value][year]'] = $rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value]'];
 
+  $rules['multiform[user_register_form_1][pass][pass2]']['messages']['required'] = t('Type the password in both fields.');
   $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
   $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
   unset($setting['clientsideValidation']['forms']['user-register-form']);
   unset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']);
-
-
-
 }
 
 /**

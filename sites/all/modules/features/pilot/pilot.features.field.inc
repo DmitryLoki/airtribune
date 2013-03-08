@@ -231,6 +231,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_fai_license_number',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -269,8 +272,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_fai_license_number',
-      'label' => 'FAI License number',
+      'label' => 'FAI license number',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -1527,7 +1531,7 @@ function pilot_field_default_fields() {
   t('Blood type');
   t('CIVL ID');
   t('Contact phone number in case of emergency');
-  t('FAI License number');
+  t('FAI license number');
   t('Insurance company');
   t('Insurance policy number');
   t('Mobile phone number');
