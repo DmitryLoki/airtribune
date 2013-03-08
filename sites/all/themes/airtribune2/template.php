@@ -38,6 +38,7 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'logo_in_title';
     }  
   }
+
   /* Adding specific class for activity and accommodation pages */
   $pemaa = array('node-type-activity', 'node-type-accommodation');
   foreach ($pemaa as $key => $value) {  
@@ -45,12 +46,19 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'page-event-map-activity-accommodation';
     }
   }
+
+  /* If event register page */
   if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
     $vars['classes_array'][] = 'page-user';
   }
+
+  /* If profile pilot page */
+  if (!empty($vars['page']['content']['system_main']['profile_pilot'])) {
+    $vars['classes_array'][] = 'page-user';
+  }
   //print arg(2);
-  //print_r($vars)
-  //dsm($vars);
+  //print_r($vars);
+  //dpm($vars);
 }
 
 /**
@@ -428,7 +436,14 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass' || $form_id == 'user_profile_form' || $form_id == 'og_ui_confirm_subscribe') {
+  if(
+     $form_id == 'user_register_form' ||
+     $form_id == 'user_login' ||
+     $form_id == 'user_pass' ||
+     $form_id == 'user_profile_form' ||
+     $form_id == 'profile2_edit_pilot_form' ||
+     $form_id == 'og_ui_confirm_subscribe'
+  ) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 

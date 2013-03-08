@@ -3202,6 +3202,8 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 
 .page-user .pane-page-content form .form-type-select:after { content: "."; visibility: hidden; height: 0; overflow: hidden; clear: both; display: block;}
+.page-user .pane-page-content form .form-item .form-type-select { padding-bottom: 5px;}
+.page-user .pane-page-content form .form-item .form-item:last-child { padding-bottom: 0;}
 .page-user .pane-page-content form .form-item .select { float: left;}
 .page-user .pane-page-content form .form-wrapper { clear: both;}
 .page-user .pane-page-content form .field-name-field-address .select,
