@@ -1817,7 +1817,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'hidden',
       'formatter' => 'colorbox',
-      'delta_limit' => '2',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
@@ -1852,13 +1852,13 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'title',
       'formatter' => 'colorbox',
-      'delta_limit' => '2',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
         'colorbox_node_style' => 'contest_thumbnail',
         'colorbox_image_style' => '',
-        'colorbox_gallery' => 'post',
+        'colorbox_gallery' => 'field_post',
         'colorbox_gallery_custom' => '',
         'colorbox_caption' => 'auto',
         'colorbox_caption_custom' => '',

@@ -22,6 +22,8 @@ define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
 define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
+define('AIRTRIBUNE_CONTEST_PHOTOS_FIELD', 'field_contest_photos');
+define('AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD', 'field_flying_site_photos');
 define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');

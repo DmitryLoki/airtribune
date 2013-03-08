@@ -38,7 +38,6 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'logo_in_title';
     }  
   }
-
   /* Adding specific class for activity and accommodation pages */
   $pemaa = array('node-type-activity', 'node-type-accommodation');
   foreach ($pemaa as $key => $value) {  
@@ -46,19 +45,12 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'page-event-map-activity-accommodation';
     }
   }
-
-  /* If event register page */
   if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
     $vars['classes_array'][] = 'page-user';
   }
-
-  /* If profile pilot page */
-  if (!empty($vars['page']['content']['system_main']['profile_pilot'])) {
-    $vars['classes_array'][] = 'page-user';
-  }
   //print arg(2);
-  //print_r($vars);
-  //dpm($vars);
+  //print_r($vars)
+  //dsm($vars);
 }
 
 /**
@@ -436,14 +428,7 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  if(
-     $form_id == 'user_register_form' ||
-     $form_id == 'user_login' ||
-     $form_id == 'user_pass' ||
-     $form_id == 'user_profile_form' ||
-     $form_id == 'profile2_edit_pilot_form' ||
-     $form_id == 'og_ui_confirm_subscribe'
-  ) {
+  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass' || $form_id == 'user_profile_form') {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
@@ -513,6 +498,97 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         //print_r($form);
     break;
   }
+}
+
+
+function airtribune2_ulogin_widget($variables) {
+  $element = $variables['element'];
+  $output = '';
+  
+  if (variable_get('ulogin_redirect', 0)) {
+    $callback = 'Drupalulogintoken';
+    $redirect = urlencode(file_create_url('sites/all/libraries/ulogin/ulogin_xd.html'));
+  }
+  else {
+    $callback = '';
+    $redirect = _ulogin_token_url($element['#ulogin_destination']);
+  }
+  
+  $id = drupal_html_id($element['#ulogin_id']);
+  if (in_array($element['#ulogin_display'], array('small', 'panel', 'buttons'))) {
+    $output = '<div ';
+    $output .= 'id="' . $id . '"' .
+      'x-ulogin-params="' .
+      'display=' . $element['#ulogin_display'];
+    // requested fields
+    $output .= '&fields=' . $element['#ulogin_fields_required'] .
+      '&optional=' . $element['#ulogin_fields_optional'];
+    // available providers
+    if ($element['#ulogin_display'] != 'buttons') {
+      $output .= '&providers=' . $element['#ulogin_providers'] .
+        '&hidden=' . $element['#ulogin_hidden'];
+    }
+    // callback and redirect
+    if (variable_get('ulogin_redirect', 0)) {
+      $output .= '&callback=' . $callback .
+        '&redirect_uri=' . $redirect;
+    }
+    else {
+      $output .= '&redirect_uri=' . $redirect;
+    }
+    
+    // receiver for custom icons
+    if ($element['#ulogin_display'] == 'buttons') {
+      $output .= '&receiver=' . urlencode(file_create_url('sites/all/libraries/ulogin/xd_custom.html'));
+    }
+    $output .= '">';
+    
+    // custom icons
+    if ($element['#ulogin_display'] == 'buttons' && !empty($element['#ulogin_icons_path'])) {
+      foreach (file_scan_directory($element['#ulogin_icons_path'], '//') as $icon) {
+        /*$output .= theme('image', array(
+          'path' => $icon->uri,
+          'alt' => $icon->name,
+          'title' => $icon->name,
+          'attributes' => array('x-ulogin-button' => $icon->name, 'class' => 'ulogin-icon-' . $icon->name),
+        ));*/
+        $output .= '<div class="ulogin-icon-'.$icon->name.'" x-ulogin-button="'.$icon->name.'">'.t('Facebook login').'</div>';
+      }
+    }
+    elseif ($element['#ulogin_display'] == 'buttons' && is_array($element['#ulogin_icons']) && !empty($element['#ulogin_icons'])) {
+      foreach ($element['#ulogin_icons'] as $key => $value) {
+        /*$output .= theme('image', array(
+          'path' => $value,
+          'alt' => $key,
+          'title' => $key,
+          'attributes' => array('x-ulogin-button' => $key, 'class' => 'ulogin-icon-' . $key),
+        ));*/
+        $output .= '<div class="ulogin-icon-'.$key.'" x-ulogin-button="'.$key.'">'.t('Facebook login').'</div>';
+      }
+    }
+    else {
+      
+    }
+    
+    $output .= '</div>';
+  }
+  elseif ($element['#ulogin_display'] == 'window') {
+    $output = '<a href="#" ' .
+      'id="' . $id . '"' .
+      'x-ulogin-params="display=' . $element['#ulogin_display'] .
+      '&fields=' . $element['#ulogin_fields_required'] .
+      '&optional=' . $element['#ulogin_fields_optional'] .
+      //'&providers=' . $element['#ulogin_providers'] .
+      //'&hidden=' . $element['#ulogin_hidden'] .
+      '&callback=' . $callback .
+      '&redirect_uri=' . $redirect . '"><img src="//ulogin.ru/img/button.png" width=187 height=30 alt="' . t('MultiAuthentication') . '"/></a>';
+  }
+  
+  /*if (variable_get('ulogin_load_type', 1)) {
+    drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
+  }*/
+  drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
+  return $output;
 }
 
 function airtribune2_breadcrumb($variables) {
@@ -1091,10 +1167,6 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/user-profile-form',
     ),
-    'profile2_edit_pilot_form' => array(
-      'render element' => 'form',
-      'template' => 'templates/profile2-edit-pilot-form',
-    ),
   );
 }
 
@@ -1137,6 +1209,7 @@ function airtribune2_file_icon($variables) {
  * Preprocess field.tpl.php
  */
 function airtribune2_preprocess_field(&$vars) {
+
   $element = $vars['element'];
   if ($element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
     $categories = airtribune_get_awards_prize_categories();
@@ -1147,6 +1220,15 @@ function airtribune2_preprocess_field(&$vars) {
       }
     }
   }
+
+  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD || $element['#field_name'] == AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD) {
+    foreach ($vars['items'] as $delta => $item) {
+      if ($delta >= 2) {
+        $vars['item_attributes_array'][$delta]['style'] = 'display: none';
+      }
+    }
+  }
+
 }
 
 /**
@@ -1180,5 +1262,48 @@ function airtribune2_tablesort_indicator($variables) {
   else {
     return '<span class="arrow_sort arrow-desc" title="' . t('sort descending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-desc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort descending'), 'title' => t('sort descending')));
   }
+}
+
+/**
+ * Implements theme_colorbox_image_field().
+ */
+function airtribune2_colorbox_imagefield($variables) {
+
+  static $counter;
+  if (empty($counter)) {
+    $counter['field_contest_photos'] = 0;
+    $counter['field_flying_site_photos'] = 0;
+  }
+
+  // Extract field name from gid.
+  $gid_items = explode('-', $variables['gid']);
+  $field_name = end($gid_items);
+  $class = array('colorbox');
+
+  if (isset($counter[$field_name])) {
+    $counter[$field_name]++;
+  }
+
+  if (isset($counter[$field_name]) && $counter[$field_name] > 2) {
+    $image = '';
+    $class[] = 'js-hide';
+  }
+  elseif (!empty($variables['image']['style_name'])) {
+    $image = theme('image_style', $variables['image']);
+  }
+  else {
+    $image = theme('image', $variables['image']);
+  }
+
+  $options = array(
+    'html' => TRUE,
+    'attributes' => array(
+      'title' => $variables['title'],
+      'class' => implode(' ', $class),
+      'rel' => $variables['gid'],
+    )
+  );
+
+  return l($image, $variables['path'], $options);
 }
 
