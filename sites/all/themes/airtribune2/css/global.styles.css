@@ -2542,7 +2542,7 @@ p { margin:0; padding:9px 0 11px}
 
 /* Statistics */
 .pane-airtribune-event-statistics,
-.pane-event-statistics { padding-bottom:20px; height: 162px;} 
+.pane-event-statistics { padding-bottom:20px; height: 161px;} 
 .panel_info .pane-airtribune-event-statistics .pane-content { margin:0;}
 .panel_info .pane-airtribune-event-statistics .more-link { margin-top:0; min-height:19px;}
 
