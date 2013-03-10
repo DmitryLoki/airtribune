@@ -1,10 +1,10 @@
 Drupal.behaviors.events_map_title_helper = {
-    attach: function(context){
+    attach:function (context) {
         var $ = jQuery,
             mapContainer = $(context),
             mapData = mapContainer.data('openlayers');
 
-        if(!mapData || mapData.shifted) return;
+        if (!mapData || mapData.shifted) return;
 
         var map = mapData.openlayers,
             features = [];
@@ -14,28 +14,47 @@ Drupal.behaviors.events_map_title_helper = {
                 features = features.concat(map.layers[l].features);
             }
         }
-
-        if(features.length < 2) return;
-
-        map.zoomOut();
-
-        var topMost = {top:-Infinity},
-            title = $('.featured-header-title'),
-            extent = map.getExtent();
-
-        features.forEach(function (feature) {
-            var bound = feature.geometry.getBounds();
-            if (bound.top > topMost.top) {
-                topMost = bound;
+        var layer = map.layers[0];
+        setTimeout(function () {
+            if (features.length < 2) {
+                return;
             }
-        });
 
-        var pixel = map.getPixelFromLonLat(new OpenLayers.LonLat(topMost.left, topMost.top));
-        var northMapPoint = map.getPixelFromLonLat(new OpenLayers.LonLat(extent.left, extent.top));
+            var topMost = {top:-Infinity},
+                topMostFeature = {},
+                title = $('.featured-header-title'),
+                extent = map.getExtent();
 
-        map.pan(0, -northMapPoint.y - parseInt(title.css('height')) + pixel.y);
+            features.forEach(function (feature) {
+                var bound = feature.geometry.getBounds();
+                if (bound.top > topMost.top) {
+                    topMost = bound;
+                    topMostFeature = feature;
+                }
+            });
 
-        //set mark, that map zoomed and paned
-        mapContainer.data('shifted', true);
+            var titleHeight = parseInt(title.css('height'), 10),
+                pixel = map.getPixelFromLonLat(new OpenLayers.LonLat(topMost.left, topMost.top));
+
+            if (titleHeight > pixel.y) {
+                return;
+            }
+
+            map.pan(0, titleHeight - pixel.y - 25, {animate: false});
+
+            //set mark, that map zoomed and paned
+            mapContainer.data('shifted', true);
+
+            for (var i = 0, zoomOutNeeded = false, l = features.length; i < l; i++) {
+                var feature = features[i];
+                if (!extent.containsBounds(feature.geometry.getBounds())) {
+                    zoomOutNeeded = true;
+                    break;
+                }
+            }
+            if (zoomOutNeeded) {
+                map.zoomOut();
+            }
+        }, 100)
     }
 };
