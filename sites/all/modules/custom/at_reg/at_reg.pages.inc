@@ -16,6 +16,9 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
   // This is done in hook_form_alter().
   // Set flag to show pilot profile at registration.
   // see at_reg_entity_load().
+
+
+
   
   global $user;
   $entity_info = entity_get_info($entity_type);
@@ -91,6 +94,8 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
     }
   }
 
+
+
   if ($redirect) {
     drupal_set_message($message);
     $url = entity_uri($entity_type, $entity);
@@ -98,12 +103,14 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
   }
 
   if (og_user_access($entity_type, $id, 'subscribe', $user) || og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
+
     if($user->uid) {
+
       // Set values for crossfields in case form was submitted.
       $crossfield_items = at_reg_get_crossfields_values();
       at_reg_set_crossfields_values($crossfield_items);
       // Show the user a subscription confirmation.
-      return drupal_get_form('og_ui_confirm_subscribe', $entity_type, $id, $user, $field_name);
+      $form = drupal_get_form('og_ui_confirm_subscribe', $entity_type, $id, $user, $field_name);
     } else {
       // Prepare registration form.
       // og_ui_confirm_subscribe() $user value will be replaced by a new one after user registration.
@@ -125,12 +132,14 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
       );
       
       $form = multiform_get_form($multiform);
-      drupal_set_title(check_plain($entity->title));
+
       $button_keys = array_keys($form['buttons']);
       $form['buttons'][array_pop($button_keys)]['#printed'] = TRUE;
       //dsm($form);
-      return $form;
     }
+
+    drupal_set_title(check_plain($entity->title));
+    return $form;
   }
 }
 
