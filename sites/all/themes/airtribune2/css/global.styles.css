@@ -3048,6 +3048,7 @@ p { margin:0; padding:9px 0 11px}
 
 .page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
 .page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 30px;}
+.page-user .pane-page-content form#user-login .form-item { padding-bottom: 10px;}
 .page-user .pane-page-content form label { display:inline-block; width:190px; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; text-align:right; margin-right:14px; vertical-align:top; margin-top:5px}
 .page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
 .page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -20px;}
@@ -3164,9 +3165,9 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-event-register.page-user .pane-page-content form .form-actions input { width: 240px; text-align: center;}
 
 .page-user #user-login .form-actions { float: left;}
-.page-user #user-login .form-type-ulogin-widget, .page-user #user-login .hybridauth-widget { float: left; margin: 38px 0 0 8px}
+.page-user #user-login .form-type-ulogin-widget, .page-user #user-login .hybridauth-widget { float: left; margin: 47px 0 0 8px}
 .page-user #user-login:after { content: "."; visibility: hidden; height: 0; clear: both; display: block;}
-.page-user #user-login .ulogin_prefix { margin: 38px 0 0 25px; font: 18px/30px Arial, Helvetica, sans-serif; color: #8898a4; float: left;}
+.page-user #user-login .ulogin_prefix { margin: 47px 0 0 25px; font: 18px/30px Arial, Helvetica, sans-serif; color: #8898a4; float: left;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
