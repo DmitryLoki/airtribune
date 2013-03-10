@@ -948,7 +948,7 @@ event/*/map/*',
     );
     $pane->configuration = array(
       'context' => array(
-        0 => 'node',
+        0 => 'event',
       ),
     );
     $pane->cache = array();
