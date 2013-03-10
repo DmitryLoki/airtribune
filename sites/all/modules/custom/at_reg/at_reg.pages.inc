@@ -125,7 +125,7 @@ function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
       );
       
       $form = multiform_get_form($multiform);
-      
+      drupal_set_title(check_plain($entity->title));
       $button_keys = array_keys($form['buttons']);
       $form['buttons'][array_pop($button_keys)]['#printed'] = TRUE;
       //dsm($form);
