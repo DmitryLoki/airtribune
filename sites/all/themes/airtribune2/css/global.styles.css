@@ -3449,3 +3449,9 @@ table tr td.:first-child { border-left: none;}
 .page-event-pilots-status td.views-field-field-sponsors { width: 86px;}
 .page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
 .page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}
+
+
+/* Krumo */
+.krumo-root {
+  color: #000;
+}
