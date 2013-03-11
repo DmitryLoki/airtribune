@@ -342,7 +342,22 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'og_ui_confirm_subscribe') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/reset-nation-dropdown-box.js';
+    $form['#after_build'][] = 'at_validation_form_after_build';
   }
+}
+
+/**
+ * Remove script for collapsing addressfield in not empty.
+ */
+function at_validation_form_after_build($form, $form_state) {
+  if (!empty($form_state['values']['profile_pilot']['field_address']['und'][0]['thoroughfare'])) {
+    foreach ($form['#attached']['js'] as $k => $js) {
+      if (strpos($js, 'reset-nation-dropdown') !== FALSE) {
+        unset($form['#attached']['js'][$k]);
+      }
+    }
+  }
+  return $form;
 }
 
 function at_validation_mail_validate($element, &$form_state) {
