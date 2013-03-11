@@ -39,8 +39,17 @@ function at_entityreference_geowidget_field_widget_info() {
 * Implements hook_field_widget_form();
 */
 function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $map = openlayers_map_load('events_map');
+  if(isset($items[$delta])) {
+    $value = $items[$delta]['target_id'];
+    $entityreference_node = node_load($value);
+    $location = $entityreference_node->field_location['und'][0];
+    $map->data['center']['initial']['centerpoint'] = $location['lat'] . ',' . $location['lon'];
+    if (isset($map->data['behaviors']['openlayers_behavior_zoomtolayer'])) {
+      unset($map->data['behaviors']['openlayers_behavior_zoomtolayer']);
+    }
+  }
   //we cannot use opelayers_map_render() directly here, cause we need map id
-  $map = openlayers_map_load('clone_of_accommodation');
   $map = openlayers_build_map($map->data);
   if (empty($map['errors'])) {
     $js = array('openlayers' => array('maps' => array($map['id'] => $map)));
@@ -53,18 +62,22 @@ function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $f
   }
   $element['map'] = array(
     '#attached' => array(
-      'js' => array(drupal_get_path('module', 'at_entityreference_geowidget') . '/at_entityreference_geowidget.js')
+      'js' => array(drupal_get_path('module', 'at_entityreference_geowidget') . '/at_entityreference_geowidget.js'),
+      'css' => array(drupal_get_path('module', 'at_entityreference_geowidget') . '/at_entityreference_geowidget.css'),
     ),
     '#type' => 'item',
     '#title' => t('Map'),
-    '#markup' => $output_map
+    '#markup' => $output_map,
+    '#suffix' => '<div class="entityreference-selected"></div>'
   );
-  $element['reference'] = array(
+  $element['target_id'] = array(
     '#type' => 'hidden',
     '#prefix' => '<div class="selected">',
-    '#suffix' => '</div>'
+    '#suffix' => '</div>',
+    '#delta' => $delta
   );
-  drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'])), 'setting');
+  $element['#element_validate'] = array('at_entityreference_geowidget_validate');
+  drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'], 'value' => $value)), 'setting');
   return $element;
 }
 
@@ -73,7 +86,6 @@ function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $f
  * @param array $map
  */
 function at_entityreference_geowidget_openlayers_map_preprocess_alter(&$map = array()) {
-  //dpm($map);
   $map['layers'][] = $map['layers_activated'][] = 'test_geo_openlayers_1';
 }
 
@@ -98,4 +110,8 @@ function at_entityreference_geowidget_ajax(){
   ));
   print drupal_json_encode($view->execute_display('openlayers_1'));
   ajax_footer();
+}
+
+function at_entityreference_geowidget_validate($element, &$form_state) {
+  form_set_value($element, array('und' => array('target_id' => $element['target_id']['#value'])), $form_state);
 }

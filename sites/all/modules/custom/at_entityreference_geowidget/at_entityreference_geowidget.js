@@ -16,9 +16,9 @@
                     }
                     that.selectedFeature = feature;
                     oldOnSelect.call(that, feature);
-                    $("#popup a").click(function (event) {
+                    $("#popup .entityreference-select").click(function (event) {
                         //event.preventDefault();
-                        alert('a');
+                        entityReferenceWidget.processClick(event);
                         return false;
                     });
 
@@ -39,6 +39,7 @@
                 };
 
                 map.openlayers.events.on({'moveend':$.proxy(entityReferenceWidget.moveEndListener, entityReferenceWidget)});
+                map.openlayers.events.triggerEvent('moveend');
                 div.addClass('at-entityreference-geowidget-processed');
             }
         }
@@ -76,10 +77,18 @@
                     }
                 }
             }
+            if (Drupal.settings.atEntityreferenceGeowidget.value) {
+              var val = Drupal.settings.atEntityreferenceGeowidget.value;
+              var features = map.layers[4].getFeaturesByAttribute('nid', val);
+              that.selectControl.select(features[0]);
+              $("#popup .entityreference-select").click();
+            }
         },
         
         processClick:function(event){
-   
+          var nid = $(event.target).find('.nid');
+          $('.field-type-entityreference .selected input').val(nid.text());
+          $('.entityreference-selected').html(nid.parents('.openlayers-tooltip-description').find('.views-field-title').html());
         }
     }
 })(jQuery);
