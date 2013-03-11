@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Implements Simple Phone Widget for CCK Phone
+ */
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function simple_phone_number_widget_field_widget_info() {
+  $widgets = array();
+  $widgets['simple_phone_number_widget'] = array(
+    'label' => 'Simple phone number',
+    'description' => 'Simple Phone Number Widget for CCK Phone field',
+    'field types' => array('phone_number'),
+  );
+  return $widgets;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $field, $instance,
+  $langcode, $items, $delta, $base
+) {
+  $element = $base;
+
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+
+  $element['input_format'] = array(
+    '#type' => 'value',
+    '#value' => "",
+  );
+
+  switch ($widget['type']) {
+    case 'simple_phone_number_widget':
+      $number = (isset($items[$delta])) ? $items[$delta]['number'] : FALSE;
+      $countrycode = (isset($items[$delta])) ? $items[$delta]['country_codes'] : FALSE;
+      $cc = cck_phone_countrycodes();
+      if ($countrycode && isset($cc[$countrycode])) {
+        $number = substr($cc[$countrycode]['code'], 1) . $number;
+      }
+
+      $element['country_codes'] = array(
+        '#type' => 'hidden',
+        '#value' => $countrycode,
+      );
+
+      $element['number'] = array(
+        '#type' => 'textfield',
+        '#title' => check_plain($instance['label']),
+        '#description' => check_plain($instance['description']),
+        '#default_value' => $number,
+        '#required' => $instance['required'],
+        '#field_prefix' => '+',
+        '#element_validate' => array('_simple_phonenumber_validate'),
+      );
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Validate function for Simple Phone Number widget
+ *
+ */
+function _simple_phonenumber_validate(&$element, &$form_state) {
+  $country = _get_contry_by_phone_code($element['#value']);
+  if ($country) {
+    $field_name = $element['#parents'][0];
+    $language = $element['#parents'][1];
+    $delta = $element['#parents'][2];
+
+    $countrycode = array_pop(array_keys($country));
+    $tmp = array_pop($country);
+    $number = substr($element['#value'], strlen($tmp['code']) - 1);
+
+    $form_state['input'][$field_name][$language][$delta]['country_codes'] = $countrycode;
+    $form_state['values'][$field_name][$language][$delta]['country_codes'] = $countrycode;
+    $form_state['input'][$field_name][$language][$delta]['number'] = $number;
+    $form_state['values'][$field_name][$language][$delta]['number'] = $number;
+
+    if (!cck_phone_validate_number($countrycode, $number)) {
+      form_set_error($field_name);
+    }
+  }
+}
+
+/**
+ * Get country by phone number
+ *
+ * @param $number Phone number without leading '+'
+ *
+ * @return
+ *   If an invalid $cc is provided, FALSE will be returned.
+ *   If the country code is valid the country code for
+ *   that country will be returned.
+ */
+function _get_contry_by_phone_code($number) {
+  foreach (cck_phone_countrycodes() as $cc => $value) {
+    if (strpos((string)$number, ltrim((string)$value['code'], '+')) === 0) {
+      return array($cc => $value);
+    }
+  }
+  return FALSE;
+}
+

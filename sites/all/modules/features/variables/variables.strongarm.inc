@@ -167,6 +167,40 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'clientside_validation_default_settings';
+  $strongarm->value = array(
+    'validate_options' => array(
+      'disable_html5' => '1',
+      'captcha' => '1',
+      'validate_onsubmit' => '1',
+      'validate_onblur' => '1',
+      'validate_onblur_always' => '0',
+      'validate_onkeyup' => '0',
+      'show_messages' => '0',
+    ),
+    'error' => array(
+      'prefix' => '',
+      'suffix' => '',
+      'scrollto_errormessage' => 0,
+      'scroll_speed' => '1000',
+      'error_element' => 'label',
+    ),
+    'error_placement' => array(
+      'error_placement_default' => '1',
+      'jquery_selector' => '',
+      'custom_error_function' => '',
+    ),
+    'include_hidden' => array(
+      'include_hidden_fields' => 0,
+      'validate_tabs' => 0,
+      'include_hidden' => '',
+    ),
+  );
+  $export['clientside_validation_default_settings'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'colorbox_caption_trim';
   $strongarm->value = '0';
   $export['colorbox_caption_trim'] = $strongarm;
@@ -1294,12 +1328,6 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'event/%pm_arg/info',
       'tabtamer_title' => '',
     ),
-    'event/%/pilots' => array(
-      'weight' => '30',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'event/%pm_arg/pilots',
-      'tabtamer_title' => '',
-    ),
     'event/%/blog' => array(
       'weight' => '0',
       'action' => 'enabled',
@@ -1312,8 +1340,38 @@ function variables_strongarm() {
       'tabtamer_original_path' => 'event/%pm_arg/map',
       'tabtamer_title' => '',
     ),
+    'event/%/pilots' => array(
+      'weight' => '30',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'event/%pm_arg/pilots',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/user' => array(
+      'weight' => '-98',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%user/user',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/view' => array(
+      'weight' => '-100',
+      'action' => 'disabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/view',
+      'tabtamer_title' => '',
+    ),
+    'profile-pilot/%/edit' => array(
+      'weight' => '-97',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
+      'tabtamer_title' => 'Edit pilot',
+    ),
+    'profile-pilot/%/delete' => array(
+      'weight' => '-99',
+      'action' => 'enabled',
+      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/delete',
+      'tabtamer_title' => '',
+    ),
     'user/%/pilot' => array(
-      'weight' => '0',
+      'weight' => '10',
       'action' => 'enabled',
       'tabtamer_original_path' => 'user/%/pilot',
       'tabtamer_title' => '',
@@ -1364,30 +1422,6 @@ function variables_strongarm() {
       'weight' => '2',
       'action' => 'enabled',
       'tabtamer_original_path' => 'user/password',
-      'tabtamer_title' => '',
-    ),
-    'profile-pilot/%/user' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-pilot/%user/user',
-      'tabtamer_title' => '',
-    ),
-    'profile-pilot/%/view' => array(
-      'weight' => '-10',
-      'action' => 'disabled',
-      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/view',
-      'tabtamer_title' => '',
-    ),
-    'profile-pilot/%/edit' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/edit',
-      'tabtamer_title' => 'Edit pilot',
-    ),
-    'profile-pilot/%/delete' => array(
-      'weight' => '0',
-      'action' => 'enabled',
-      'tabtamer_original_path' => 'profile-pilot/%profile2_by_uid/delete',
       'tabtamer_title' => '',
     ),
     'node/%/revisions' => array(

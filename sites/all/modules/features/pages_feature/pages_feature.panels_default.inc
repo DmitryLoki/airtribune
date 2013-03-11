@@ -114,10 +114,10 @@ e-mail: info@airtribune.com</p>',
       'title' => 'Follow us',
       'body' => '<div id="social">
   <ul>
-    <li><a href="#" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
-    <li><a href="#" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
+    <li><a href="http://twitter.com/airtribune" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
+    <li><a href="http://vk.com/airtribune" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
     <li><a href="#" class="lj" rel="nofollow" target="_blank"><span>Livejournal</span></a></li>
-    <li><a href="#" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
+    <li><a href="http://www.facebook.com/groups/300523859959914" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
     <li><a href="#" class="yt" rel="nofollow" target="_blank"><span>Youtube</span></a></li>
   </ul>
 </div>',

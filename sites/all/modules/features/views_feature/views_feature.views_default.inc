@@ -1570,8 +1570,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
-      'type' => 'user',
-      'context' => 'airtribune_event.nid',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '56',
@@ -2071,7 +2071,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/past';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Past events';
+  $handler->display->display_options['menu']['title'] = 'Past';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
@@ -2118,11 +2118,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/next';
   $handler->display->display_options['menu']['type'] = 'default tab';
-  $handler->display->display_options['menu']['title'] = 'Next events';
+  $handler->display->display_options['menu']['title'] = 'Next';
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['tab_options']['type'] = 'normal';
-  $handler->display->display_options['tab_options']['title'] = 'Next events';
+  $handler->display->display_options['tab_options']['title'] = 'Next';
   $handler->display->display_options['tab_options']['weight'] = '0';
 
   /* Display: Current */
@@ -2160,7 +2160,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/current';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Currents events';
+  $handler->display->display_options['menu']['title'] = 'Current';
   $handler->display->display_options['menu']['weight'] = '2';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
@@ -2339,14 +2339,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2_1']['operator'] = '>=';
   $handler->display->display_options['filters']['field_dates_value2_1']['default_date'] = 'now';
 
-  /* Display: Events map */
-  $handler = $view->new_display('openlayers', 'Events map', 'openlayers_1');
+  /* Display: Events overlay */
+  $handler = $view->new_display('openlayers', 'Events overlay', 'overlay');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
 
-  /* Display: Next events */
-  $handler = $view->new_display('panel_pane', 'Next events', 'panel_pane_1');
+  /* Display: Events pane */
+  $handler = $view->new_display('panel_pane', 'Events pane', 'events_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'openlayers_map';
@@ -2365,8 +2365,8 @@ function views_feature_views_default_views() {
     t('Nid'),
     t('Headquarter location'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
-    t('Events map'),
-    t('Next events'),
+    t('Events overlay'),
+    t('Events pane'),
     t('View panes'),
   );
   $export['events_map'] = $view;
@@ -2733,8 +2733,8 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
-      'type' => 'user',
-      'context' => 'airtribune_event.group-group',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',

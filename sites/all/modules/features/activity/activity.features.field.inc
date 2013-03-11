@@ -81,6 +81,7 @@ function activity_field_default_fields() {
       'settings' => array(
         'display_summary' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
@@ -136,7 +137,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -166,6 +167,7 @@ function activity_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -241,6 +243,7 @@ function activity_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -340,6 +343,7 @@ function activity_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -389,6 +393,7 @@ function activity_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'activity',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -660,15 +665,16 @@ function activity_field_default_fields() {
         'enable_default_country' => 1,
         'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
+        'module' => 'simple_phone_number_widget',
         'settings' => array(
           'size' => 15,
         ),
-        'type' => 'phone_number',
+        'type' => 'simple_phone_number_widget',
         'weight' => '8',
       ),
     ),
@@ -744,6 +750,7 @@ function activity_field_default_fields() {
         'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
@@ -869,6 +876,7 @@ function activity_field_default_fields() {
         ),
         'enable_tokens' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'title' => 'optional',
         'title_maxlength' => '128',
         'title_value' => '',

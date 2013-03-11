@@ -1,0 +1,5 @@
+name = Simple Phone Number Widget for CCK Phone field
+description = "Simple Phone Number Widget for CCK Phone field."
+core = 7.x
+dependencies[] = cck_phone
+

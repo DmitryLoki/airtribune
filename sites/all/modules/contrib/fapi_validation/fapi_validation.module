@@ -1,0 +1,324 @@
+ <?php
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function fapi_validation_element_info_alter(&$types) {
+  foreach ($types as $type_name => $type_info ) {
+    if (!empty($type_info['#input'])) {
+      $types[$type_name]['#process'][] = 'fapi_validation_element_process';
+    }
+  }
+}
+
+/**
+ * Process element rules and filters.
+ */
+function fapi_validation_element_process($element, &$form_state) {
+  if (!empty($element['#filters'])) {
+    $element_validate = empty($element['#element_validate']) ? array() : $element['#element_validate'];
+    $element['#element_validate'] = array_merge(array('fapi_validate_element_filter'), $element_validate);
+  }
+  if (!empty($element['#rules'])) {
+    $element['#element_validate'][] = 'fapi_validate_element_validate';
+  }
+  return $element;
+}
+
+/**
+ * Run element filter callbacks.
+ */
+function fapi_validate_element_filter(&$element, &$form_state) {
+  fapi_validation_filters_execute($element, $form_state);
+}
+
+/**
+ * Run element validation callbacks.
+ */
+function fapi_validate_element_validate(&$element, &$form_state) {
+  fapi_validation_rules_execute($element, $form_state);
+}
+
+function fapi_validation_filters_execute(&$element, &$form_state) {
+  $data = _fapi_validation_data('filters');
+
+  if (!isset($element['#value'])) {
+    return;
+  }
+
+  foreach ($element['#filters'] as $filter) {
+    if (!empty($data[$filter])) {
+      $element['#value'] = $data[$filter]['callback']($element['#value']);
+      form_set_value($element, $element['#value'], $form_state);
+    }
+  }
+}
+
+function fapi_validation_rules_execute(&$element, &$form_state) {
+  $data = _fapi_validation_data('rules');
+
+  // If element is empty and not required, by pass rule validation.
+  if (!$element['#required'] && empty($element['#value'])) {
+    return;
+  }
+
+  foreach ($element['#rules'] as $rule) {
+    $error_message = $error_callback = NULL;
+
+    // If $rule is an array, use error message if is setted.
+    if (is_array($rule)) {
+      if (!isset($rule['rule'])) {
+        drupal_set_message(t('Rule array with wrong structure on %field.', array('%field' => $element['#name'])), 'error');
+        continue;
+      }
+
+      if (isset($rule['error'])) {
+        $error_message = $rule['error'];
+      }
+
+      if (isset($rule['error callback'])) {
+        $error_callback = $rule['error callback'];
+      }
+
+      $rule = $rule['rule'];
+    }
+    
+    preg_match('/^(.*?)(\[(.*)\])?$/', $rule, $rs);
+    
+    $rule = $rs[1];
+   
+    if (!isset($data[$rule])) {
+      drupal_set_message(t('Rule %rule not found!', array('%rule' => $rule)), 'error');
+      continue;
+    }
+
+    $params = array($element['#value']);
+
+    // Parsing parameters.
+    if (isset($rs[3])) {
+      if ($rule == 'regexp') {
+        $params[] = array($rs[3]);
+      }
+      else {
+        $params[] = preg_split('/ *, */', $rs[3]);
+      }
+    }
+
+    $params[] = &$element;
+    $params[] = &$form_state;
+    
+    $ret = call_user_func_array($data[$rule]['callback'], $params);
+
+    if (!$ret) {
+      if (!is_null($error_callback)) {
+        $error_params = array(
+          $rule, $params, $element, $form_state
+        );
+        $error = call_user_func_array($error_callback, $error_params);
+      }
+      else {
+        $error = is_null($error_message) ? $data[$rule]['error_msg'] : $error_message;
+        $error = t($error, array('%field' => $element['#title']));
+      }
+      form_set_error($element['#name'], $error);
+    }
+  }
+}
+
+function _fapi_validation_data($type, $refresh=NULL) {
+  static $data = array();
+  
+  if (!isset($data[$type]) || !count($data[$type]) || $refresh) {
+    foreach (module_implements('fapi_validation_' . $type) as $module) {
+      $validations = module_invoke($module, 'fapi_validation_' . $type);
+      if (isset($validations) && is_array($validations)) {
+        foreach ($validations as $name => $info) {
+          $data[$type][$name] = $info;
+        }
+      }
+    }
+  }
+  
+  return $data[$type];
+}
+
+/**
+ * Implementation of hook_fapi_validation_rules
+ */
+function fapi_validation_fapi_validation_rules() {
+  return array(
+    'numeric' => array(
+      'callback' => 'fapi_validation_rule_numeric',
+      'error_msg' => t('Use only numbers at %field.')
+    ),
+    'alpha' => array(
+      'callback' => 'fapi_validation_rule_alpha',
+      'error_msg' => t('Use only alpha characters at %field.')
+    ),
+    'alpha_numeric' => array(
+      'callback' => 'fapi_validation_rule_alpha_numeric',
+      'error_msg' => t('Use only alpha numerics characters at %field.')
+    ),
+    'email' => array(
+      'callback' => 'fapi_validation_rule_email',
+      'error_msg' => t('%field not is a valid email.')
+    ),
+    'length' => array(
+      'callback' => 'fapi_validation_rule_length',
+      'error_msg' => t('Invalid size of %field value.')
+    ),
+    'chars' => array(
+      'callback' => 'fapi_validation_rule_chars',
+      'error_msg' => t('Invalid characters on %field value.')
+    ),
+    'url' => array(
+      'callback' => 'fapi_validation_rule_url',
+      'error_msg' => t('Invalid format of %field.')
+    ),
+    'ipv4' => array(
+      'callback' => 'fapi_validation_rule_ipv4',
+      'error_msg' => t('Invalid format of %field.')
+    ),
+    'alpha_dash' => array(
+      'callback' => 'fapi_validation_rule_alpha_dash',
+      'error_msg' => t('Use only alpha numerics, hyphen and underscore at %field.')
+    ),
+    'digit' => array(
+      'callback' => 'fapi_validation_rule_digit',
+      'error_msg' => t('Use only digits on %field.')
+    ),
+    'decimal' => array(
+      'callback' => 'fapi_validation_rule_decimal',
+      'error_msg' => t('Use only decimal on %field.')
+    ),
+    'regexp' =>  array(
+      'callback' => 'fapi_validation_rule_regexp',
+      'error_msg' => t('%field value does not match rule.')
+    ),
+    'match_field' => array(
+      'callback' => 'fapi_validation_rule_match_field',
+      'error_msg' => t('%field value does not match other field.')
+    )
+  );
+}
+
+/**
+ * Implementation of hook_fapi_validation_filters
+ */
+function fapi_validation_fapi_validation_filters() {
+  return array(
+    'numeric' => array(
+      'callback' => 'fapi_validation_filter_numeric',
+    ),
+    'trim' => array(
+      'callback' => 'fapi_validation_filter_trim',
+    ),
+    'uppercase' => array(
+      'callback' => 'fapi_validation_filter_uppercase',
+    ),
+    'lowercase' => array(
+      'callback' => 'fapi_validation_filter_lowercase',
+    ),
+  );
+}
+
+/**
+ * Rules
+ */
+
+function fapi_validation_rule_numeric($value) {
+  return is_numeric($value);
+}
+
+function fapi_validation_rule_alpha($value) {
+  return (bool) preg_match('/^[\pL]++$/uD', (string) $value);
+}
+
+function fapi_validation_rule_alpha_numeric($value) {
+  return (bool) preg_match('/^[\pL\pN]++$/uD', (string) $value);
+}
+
+function fapi_validation_rule_email($value) {
+  return valid_email_address($value);
+}
+
+function fapi_validation_rule_length($value, $params) {
+  $size = mb_strlen($value);
+  if (count($params) == 1) {
+    return $size == (int) $params[0];
+  }
+  elseif (count($params) == 2) {
+    if ($params[1] == '*') {
+      return ($size >= (int) $params[0]);
+    }
+    return ($size >= (int) $params[0] && $size <= (int) $params[1]);
+  }
+}
+
+function fapi_validation_rule_url($value, $params = array()) {
+  return valid_url($value, !empty($params) && $params[0] == 'absolute');
+}
+
+function fapi_validation_rule_ipv4($value) {
+  $pattern = '/^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
+    . '(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/';
+  return (bool) preg_match($pattern, $value);
+}
+
+function fapi_validation_rule_alpha_dash($value) {
+  return (bool) preg_match('/^[-\pL\pN_]+$/uD', (string) $value);
+}
+
+function fapi_validation_rule_digit($value) {
+  return (bool) preg_match('/^\d+$/', $value);
+}
+
+function fapi_validation_rule_chars($value, $params) {
+  for ($i = 0; $i < mb_strlen($value); $i++) {
+    $current = substr($value, $i, 1);
+    if (! in_array($current, $params)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+function fapi_validation_rule_decimal($value, $params) {
+  if (count($params) == 2) {
+    $pattern = '/^[0-9]{' . $params[0] . '}\.[0-9]{' . $params[1] . '}$/';
+    return (bool) preg_match($pattern, (string) $value);
+  }
+  else {
+    return (bool) preg_match('/\d+\.\d+/', $value);
+  }
+  return FALSE;
+}
+
+function fapi_validation_rule_regexp($value, $params) {
+  return (bool) preg_match($params[0], (string) $value);
+}
+
+function fapi_validation_rule_match_field($value, $params, $element, $form_state) {
+  return ($value == $form_state['values'][$params[0]]);
+}
+
+
+/**
+ * Filters
+ */
+
+function fapi_validation_filter_numeric($value) {
+  return preg_replace('/[^0-9]+/', '', $value);
+}
+
+function fapi_validation_filter_trim($value) {
+  return trim($value);
+}
+
+function fapi_validation_filter_uppercase($value) {
+  return mb_strtoupper($value);
+}
+
+function fapi_validation_filter_lowercase($value) {
+  return mb_strtolower($value);
+}

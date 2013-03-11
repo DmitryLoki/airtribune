@@ -163,6 +163,8 @@ function pages_feature_default_page_manager_handlers() {
       'left' => NULL,
       'right' => NULL,
       'footer' => NULL,
+      'featured_header_title' => NULL,
+      'featured_header_padding' => NULL,
     ),
   );
   $display->cache = array();
@@ -171,6 +173,131 @@ function pages_feature_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'header_slideshow-front_page_header';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-1'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-1';
+    $pane = new stdClass();
+    $pane->pid = 'new-2';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events_map-events_pane';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'events
+events/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-2'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-2';
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'header_slideshow-default_header';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'events
+events/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['featured_header_padding'][2] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'featured_header_title';
+    $pane->type = 'page_title';
+    $pane->subtype = 'page_title';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'markup' => 'h1',
+      'class' => '',
+      'id' => '',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-4';
+    $pane = new stdClass();
+    $pane->pid = 'new-5';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -188,10 +315,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-1'] = $pane;
-    $display->panels['footer'][0] = 'new-1';
+    $display->content['new-5'] = $pane;
+    $display->panels['footer'][0] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-2';
+    $pane->pid = 'new-6';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -209,10 +336,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['header'][0] = 'new-2';
+    $display->content['new-6'] = $pane;
+    $display->panels['header'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-7';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -227,10 +354,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['left'][0] = 'new-3';
+    $display->content['new-7'] = $pane;
+    $display->panels['left'][0] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-8';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -251,6 +378,16 @@ function pages_feature_default_page_manager_handlers() {
           'context' => 'node',
           'not' => TRUE,
         ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'user/*
+profile-pilot/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array(
@@ -268,10 +405,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['left'][1] = 'new-4';
+    $display->content['new-8'] = $pane;
+    $display->panels['left'][1] = 'new-8';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-9';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -290,10 +427,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['left'][2] = 'new-5';
+    $display->content['new-9'] = $pane;
+    $display->panels['left'][2] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-10';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -323,10 +460,28 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['right'][0] = 'new-6';
+    $display->content['new-10'] = $pane;
+    $display->panels['right'][0] = 'new-10';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-11';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_list-panel_pane_4';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-11'] = $pane;
+    $display->panels['right'][1] = 'new-11';
+    $pane = new stdClass();
+    $pane->pid = 'new-12';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -359,12 +514,12 @@ function pages_feature_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['right'][1] = 'new-7';
+    $display->content['new-12'] = $pane;
+    $display->panels['right'][2] = 'new-12';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-13';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -379,8 +534,8 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['top'][0] = 'new-8';
+    $display->content['new-13'] = $pane;
+    $display->panels['top'][0] = 'new-13';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -409,14 +564,7 @@ function pages_feature_default_page_manager_handlers() {
   #page-wrapper .main-content {
     padding: 0 10px;
   }',
-    'contexts' => array(
-      0 => array(
-        'identifier' => 'Event beeing viewed',
-        'keyword' => 'event',
-        'name' => 'airtribune_event',
-        'id' => 1,
-      ),
-    ),
+    'contexts' => array(),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
@@ -425,7 +573,7 @@ function pages_feature_default_page_manager_handlers() {
           'settings' => array(
             'exists' => '1',
           ),
-          'context' => 'context_airtribune_event_1',
+          'context' => 'event',
           'not' => FALSE,
         ),
       ),
@@ -523,6 +671,8 @@ function pages_feature_default_page_manager_handlers() {
       'left' => NULL,
       'right' => NULL,
       'footer' => NULL,
+      'featured_header_title' => NULL,
+      'featured_header_padding' => NULL,
     ),
   );
   $display->cache = array();
@@ -530,7 +680,101 @@ function pages_feature_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-14';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'header_slideshow-event_header';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/map
+event/*/map/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'event',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-14'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-14';
+    $pane = new stdClass();
+    $pane->pid = 'new-15';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_map-event_map';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/map
+event/*/map/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'context' => array(
+        0 => 'event',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-15'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-15';
+    $pane = new stdClass();
+    $pane->pid = 'new-16';
+    $pane->panel = 'featured_header_title';
+    $pane->type = 'event_title';
+    $pane->subtype = 'event_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'event',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-16'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-16';
+    $pane = new stdClass();
+    $pane->pid = 'new-17';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -548,10 +792,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['footer'][0] = 'new-9';
+    $display->content['new-17'] = $pane;
+    $display->panels['footer'][0] = 'new-17';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-18';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -569,10 +813,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['header'][0] = 'new-10';
+    $display->content['new-18'] = $pane;
+    $display->panels['header'][0] = 'new-18';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-19';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -587,10 +831,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-11'] = $pane;
-    $display->panels['left'][0] = 'new-11';
+    $display->content['new-19'] = $pane;
+    $display->panels['left'][0] = 'new-19';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-20';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -628,10 +872,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['left'][1] = 'new-12';
+    $display->content['new-20'] = $pane;
+    $display->panels['left'][1] = 'new-20';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-21';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -650,10 +894,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-13'] = $pane;
-    $display->panels['left'][2] = 'new-13';
+    $display->content['new-21'] = $pane;
+    $display->panels['left'][2] = 'new-21';
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-22';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -691,10 +935,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['right'][0] = 'new-14';
+    $display->content['new-22'] = $pane;
+    $display->panels['right'][0] = 'new-22';
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-23';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
@@ -704,7 +948,7 @@ function pages_feature_default_page_manager_handlers() {
     );
     $pane->configuration = array(
       'context' => array(
-        0 => 'node',
+        0 => 'event',
       ),
     );
     $pane->cache = array();
@@ -715,10 +959,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['right'][1] = 'new-15';
+    $display->content['new-23'] = $pane;
+    $display->panels['right'][1] = 'new-23';
     $pane = new stdClass();
-    $pane->pid = 'new-16';
+    $pane->pid = 'new-24';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -750,10 +994,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-16'] = $pane;
-    $display->panels['right'][2] = 'new-16';
+    $display->content['new-24'] = $pane;
+    $display->panels['right'][2] = 'new-24';
     $pane = new stdClass();
-    $pane->pid = 'new-17';
+    $pane->pid = 'new-25';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -773,14 +1017,14 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['right'][3] = 'new-17';
+    $display->content['new-25'] = $pane;
+    $display->panels['right'][3] = 'new-25';
     $pane = new stdClass();
-    $pane->pid = 'new-18';
+    $pane->pid = 'new-26';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_4';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array(
       'plugins' => array(),
     );
@@ -793,10 +1037,10 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-18'] = $pane;
-    $display->panels['right'][4] = 'new-18';
+    $display->content['new-26'] = $pane;
+    $display->panels['right'][4] = 'new-26';
     $pane = new stdClass();
-    $pane->pid = 'new-19';
+    $pane->pid = 'new-27';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -811,8 +1055,8 @@ function pages_feature_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-19'] = $pane;
-    $display->panels['top'][0] = 'new-19';
+    $display->content['new-27'] = $pane;
+    $display->panels['top'][0] = 'new-27';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1180,6 +1424,105 @@ function pages_feature_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'page_event_info_panel_context_3';
+  $handler->task = 'page';
+  $handler->subtask = 'event_info';
+  $handler->handler = 'panel_context';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => 'Temp lock',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Event beeing viewed',
+        'keyword' => 'event',
+        'name' => 'airtribune_event',
+        'id' => 1,
+      ),
+    ),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Temporary lock past events',
+            'php' => 'if (isset($contexts[\'context_airtribune_event_1\']->data)) {
+  $node = $contexts[\'context_airtribune_event_1\']->data;
+  $end = strtotime(\'2013/01/01 00:00:00\');
+  $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
+  if (($start - $end) < 0) {
+    return TRUE;
+  }
+  return FALSE;
+}',
+          ),
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 4,
+              1 => 7,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'middle';
+    $pane->type = 'custom';
+    $pane->subtype = 'coming_soon';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => '',
+      'body' => '',
+      'format' => 'filtered_html',
+      'substitute' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['middle'][0] = 'new-4';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'page_event_info_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'event_info';
@@ -1264,7 +1607,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'event_brick_left_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_info';
@@ -1297,10 +1640,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['event_brick_left_above'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['event_brick_left_above'][0] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'event_statistics';
     $pane->subtype = 'event_statistics';
@@ -1319,10 +1662,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['event_brick_left_below'][0] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['event_brick_left_below'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_awards_photos';
@@ -1360,10 +1703,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['event_brick_left_below'][1] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['event_brick_left_below'][1] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-8';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_hq_location';
@@ -1398,10 +1741,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['event_brick_left_below'][2] = 'new-7';
+    $display->content['new-8'] = $pane;
+    $display->panels['event_brick_left_below'][2] = 'new-8';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-9';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_address';
@@ -1431,10 +1774,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['event_brick_left_below'][3] = 'new-8';
+    $display->content['new-9'] = $pane;
+    $display->panels['event_brick_left_below'][3] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-10';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'field_collection_item:field_gt_general';
@@ -1459,10 +1802,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['event_brick_left_below'][4] = 'new-9';
+    $display->content['new-10'] = $pane;
+    $display->panels['event_brick_left_below'][4] = 'new-10';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-11';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_getting_there';
@@ -1499,10 +1842,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['event_brick_left_below'][5] = 'new-10';
+    $display->content['new-11'] = $pane;
+    $display->panels['event_brick_left_below'][5] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-12';
     $pane->panel = 'event_brick_left_bottom';
     $pane->type = 'field_group';
     $pane->subtype = 'field_group';
@@ -1529,10 +1872,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['event_brick_left_bottom'][0] = 'new-11';
+    $display->content['new-12'] = $pane;
+    $display->panels['event_brick_left_bottom'][0] = 'new-12';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-13';
     $pane->panel = 'event_brick_left_bottom';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_downloads';
@@ -1561,10 +1904,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['event_brick_left_bottom'][1] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['event_brick_left_bottom'][1] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-14';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_contest_photos';
@@ -1573,16 +1916,16 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'hidden',
       'formatter' => 'colorbox',
-      'delta_limit' => '2',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
         'colorbox_node_style' => 'contest_thumbnail',
         'colorbox_image_style' => '',
-        'colorbox_gallery' => 'field_post',
-        'colorbox_gallery_custom' => '',
-        'colorbox_caption' => 'auto',
-        'colorbox_caption_custom' => '',
+        'colorbox_gallery' => 'custom',
+        'colorbox_gallery_custom' => 'contest_photos',
+        'colorbox_caption' => 'custom',
+        'colorbox_caption_custom' => 'info',
       ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
@@ -1596,10 +1939,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['event_brick_middle'][0] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['event_brick_middle'][0] = 'new-14';
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-15';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_site_photos';
@@ -1608,14 +1951,14 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'title',
       'formatter' => 'colorbox',
-      'delta_limit' => '2',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
         'colorbox_node_style' => 'contest_thumbnail',
         'colorbox_image_style' => '',
-        'colorbox_gallery' => 'post',
-        'colorbox_gallery_custom' => '',
+        'colorbox_gallery' => 'custom',
+        'colorbox_gallery_custom' => 'flying_site_photos',
         'colorbox_caption' => 'auto',
         'colorbox_caption_custom' => '',
       ),
@@ -1631,10 +1974,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['event_brick_middle'][1] = 'new-14';
+    $display->content['new-15'] = $pane;
+    $display->panels['event_brick_middle'][1] = 'new-15';
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-16';
     $pane->panel = 'event_brick_right_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_info';
@@ -1670,10 +2013,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['event_brick_right_above'][0] = 'new-15';
+    $display->content['new-16'] = $pane;
+    $display->panels['event_brick_right_above'][0] = 'new-16';
     $pane = new stdClass();
-    $pane->pid = 'new-16';
+    $pane->pid = 'new-17';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'airtribune_event_links';
     $pane->subtype = 'airtribune_event_links';
@@ -1692,10 +2035,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-16'] = $pane;
-    $display->panels['event_brick_right_below'][0] = 'new-16';
+    $display->content['new-17'] = $pane;
+    $display->panels['event_brick_right_below'][0] = 'new-17';
     $pane = new stdClass();
-    $pane->pid = 'new-17';
+    $pane->pid = 'new-18';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_organizers';
@@ -1728,10 +2071,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['event_brick_right_below'][1] = 'new-17';
+    $display->content['new-18'] = $pane;
+    $display->panels['event_brick_right_below'][1] = 'new-18';
     $pane = new stdClass();
-    $pane->pid = 'new-18';
+    $pane->pid = 'new-19';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'airtribune_event_twitter';
     $pane->subtype = 'airtribune_event_twitter';
@@ -1750,10 +2093,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-18'] = $pane;
-    $display->panels['event_brick_right_below'][2] = 'new-18';
+    $display->content['new-19'] = $pane;
+    $display->panels['event_brick_right_below'][2] = 'new-19';
     $pane = new stdClass();
-    $pane->pid = 'new-19';
+    $pane->pid = 'new-20';
     $pane->panel = 'event_brick_right_bottom';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_social_links';
@@ -1778,10 +2121,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-19'] = $pane;
-    $display->panels['event_brick_right_bottom'][0] = 'new-19';
+    $display->content['new-20'] = $pane;
+    $display->panels['event_brick_right_bottom'][0] = 'new-20';
     $pane = new stdClass();
-    $pane->pid = 'new-20';
+    $pane->pid = 'new-21';
     $pane->panel = 'event_brick_right_bottom';
     $pane->type = 'panels_mini';
     $pane->subtype = 'share_links';
@@ -1799,10 +2142,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-20'] = $pane;
-    $display->panels['event_brick_right_bottom'][1] = 'new-20';
+    $display->content['new-21'] = $pane;
+    $display->panels['event_brick_right_bottom'][1] = 'new-21';
     $pane = new stdClass();
-    $pane->pid = 'new-21';
+    $pane->pid = 'new-22';
     $pane->panel = 'event_brick_top';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_blog-contest_pane';
@@ -1817,107 +2160,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-21'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-21';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_event_info_panel_context_3';
-  $handler->task = 'page';
-  $handler->subtask = 'event_info';
-  $handler->handler = 'panel_context';
-  $handler->weight = -30;
-  $handler->conf = array(
-    'title' => 'Temp lock',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(
-      0 => array(
-        'identifier' => 'Event beeing viewed',
-        'keyword' => 'event',
-        'name' => 'airtribune_event',
-        'id' => 1,
-      ),
-    ),
-    'relationships' => array(),
-    'access' => array(
-      'logic' => 'and',
-      'plugins' => array(
-        0 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'Temporary lock past events',
-            'php' => 'if (isset($contexts[\'context_airtribune_event_1\']->data)) {
-  $node = $contexts[\'context_airtribune_event_1\']->data;
-  $end = strtotime(\'2013/01/01 00:00:00\');
-  $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0) {
-    return TRUE;
-  }
-  return FALSE;
-}',
-          ),
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 4,
-              1 => 7,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => TRUE,
-        ),
-      ),
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-22';
-    $pane->panel = 'middle';
-    $pane->type = 'custom';
-    $pane->subtype = 'coming_soon';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
     $display->content['new-22'] = $pane;
-    $display->panels['middle'][0] = 'new-22';
+    $display->panels['event_brick_top'][0] = 'new-22';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1939,7 +2183,16 @@ function pages_feature_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'How to get here field collection',
+        'keyword' => 'How to get here field collection',
+        'name' => 'field_collection_from_field:node:pg_contest:field_collection_getting_there',
+        'delta' => '0',
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'logic' => 'and',
       'plugins' => array(
@@ -2079,6 +2332,34 @@ function pages_feature_default_page_manager_pages() {
     $pane->pid = 'new-26';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
+    $pane->subtype = 'field_collection_item:field_gt_general';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'hidden',
+      'formatter' => 'text_default',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(),
+      'context' => 'relationship_field_collection_from_field:node:pg_contest:field_collection_getting_there_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-26'] = $pane;
+    $display->panels['event_brick_middle'][1] = 'new-26';
+    $pane = new stdClass();
+    $pane->pid = 'new-27';
+    $pane->panel = 'event_brick_middle';
+    $pane->type = 'entity_field';
     $pane->subtype = 'node:field_hq_location';
     $pane->shown = TRUE;
     $pane->access = array();
@@ -2102,12 +2383,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['event_brick_middle'][1] = 'new-26';
+    $display->content['new-27'] = $pane;
+    $display->panels['event_brick_middle'][2] = 'new-27';
     $pane = new stdClass();
-    $pane->pid = 'new-27';
+    $pane->pid = 'new-28';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_address';
@@ -2135,12 +2416,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['event_brick_middle'][2] = 'new-27';
+    $display->content['new-28'] = $pane;
+    $display->panels['event_brick_middle'][3] = 'new-28';
     $pane = new stdClass();
-    $pane->pid = 'new-28';
+    $pane->pid = 'new-29';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_getting_there';
@@ -2169,12 +2450,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-28'] = $pane;
-    $display->panels['event_brick_middle'][3] = 'new-28';
+    $display->content['new-29'] = $pane;
+    $display->panels['event_brick_middle'][4] = 'new-29';
     $pane = new stdClass();
-    $pane->pid = 'new-29';
+    $pane->pid = 'new-30';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_downloads';
@@ -2198,12 +2479,12 @@ function pages_feature_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 5;
     $pane->locks = array();
-    $display->content['new-29'] = $pane;
-    $display->panels['event_brick_middle'][4] = 'new-29';
+    $display->content['new-30'] = $pane;
+    $display->panels['event_brick_middle'][5] = 'new-30';
     $pane = new stdClass();
-    $pane->pid = 'new-30';
+    $pane->pid = 'new-31';
     $pane->panel = 'event_brick_right_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_sample_schedule';
@@ -2229,10 +2510,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-30'] = $pane;
-    $display->panels['event_brick_right_above'][0] = 'new-30';
+    $display->content['new-31'] = $pane;
+    $display->panels['event_brick_right_above'][0] = 'new-31';
     $pane = new stdClass();
-    $pane->pid = 'new-31';
+    $pane->pid = 'new-32';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_social_links';
@@ -2257,10 +2538,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-31'] = $pane;
-    $display->panels['event_brick_right_below'][0] = 'new-31';
+    $display->content['new-32'] = $pane;
+    $display->panels['event_brick_right_below'][0] = 'new-32';
     $pane = new stdClass();
-    $pane->pid = 'new-32';
+    $pane->pid = 'new-33';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'panels_mini';
     $pane->subtype = 'share_links';
@@ -2278,10 +2559,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-32'] = $pane;
-    $display->panels['event_brick_right_below'][1] = 'new-32';
+    $display->content['new-33'] = $pane;
+    $display->panels['event_brick_right_below'][1] = 'new-33';
     $pane = new stdClass();
-    $pane->pid = 'new-33';
+    $pane->pid = 'new-34';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_info';
@@ -2307,10 +2588,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-33'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-33';
+    $display->content['new-34'] = $pane;
+    $display->panels['event_brick_top'][0] = 'new-34';
     $pane = new stdClass();
-    $pane->pid = 'new-34';
+    $pane->pid = 'new-35';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_contest_photos';
@@ -2319,14 +2600,14 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'hidden',
       'formatter' => 'colorbox',
-      'delta_limit' => '4',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
         'colorbox_node_style' => 'contest_thumbnail',
         'colorbox_image_style' => '',
-        'colorbox_gallery' => 'post',
-        'colorbox_gallery_custom' => '',
+        'colorbox_gallery' => 'custom',
+        'colorbox_gallery_custom' => 'contest_photos_details',
         'colorbox_caption' => 'auto',
         'colorbox_caption_custom' => '',
       ),
@@ -2342,10 +2623,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-34'] = $pane;
-    $display->panels['event_brick_top'][1] = 'new-34';
+    $display->content['new-35'] = $pane;
+    $display->panels['event_brick_top'][1] = 'new-35';
     $pane = new stdClass();
-    $pane->pid = 'new-35';
+    $pane->pid = 'new-36';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_info';
@@ -2374,10 +2655,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-35'] = $pane;
-    $display->panels['event_brick_top'][2] = 'new-35';
+    $display->content['new-36'] = $pane;
+    $display->panels['event_brick_top'][2] = 'new-36';
     $pane = new stdClass();
-    $pane->pid = 'new-36';
+    $pane->pid = 'new-37';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_site_photos';
@@ -2386,14 +2667,14 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'label' => 'hidden',
       'formatter' => 'colorbox',
-      'delta_limit' => '8',
+      'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
       'formatter_settings' => array(
         'colorbox_node_style' => 'contest_thumbnail',
         'colorbox_image_style' => '',
-        'colorbox_gallery' => 'post',
-        'colorbox_gallery_custom' => '',
+        'colorbox_gallery' => 'custom',
+        'colorbox_gallery_custom' => 'flying_site_photos_details',
         'colorbox_caption' => 'auto',
         'colorbox_caption_custom' => '',
       ),
@@ -2409,10 +2690,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-36'] = $pane;
-    $display->panels['event_brick_top'][3] = 'new-36';
+    $display->content['new-37'] = $pane;
+    $display->panels['event_brick_top'][3] = 'new-37';
     $pane = new stdClass();
-    $pane->pid = 'new-37';
+    $pane->pid = 'new-38';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_organizers';
@@ -2444,10 +2725,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-37'] = $pane;
-    $display->panels['event_brick_top'][4] = 'new-37';
+    $display->content['new-38'] = $pane;
+    $display->panels['event_brick_top'][4] = 'new-38';
     $pane = new stdClass();
-    $pane->pid = 'new-38';
+    $pane->pid = 'new-39';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_selection';
@@ -2473,10 +2754,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
-    $display->content['new-38'] = $pane;
-    $display->panels['event_brick_top'][5] = 'new-38';
+    $display->content['new-39'] = $pane;
+    $display->panels['event_brick_top'][5] = 'new-39';
     $pane = new stdClass();
-    $pane->pid = 'new-39';
+    $pane->pid = 'new-40';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_contest_rules';
@@ -2502,10 +2783,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 6;
     $pane->locks = array();
-    $display->content['new-39'] = $pane;
-    $display->panels['event_brick_top'][6] = 'new-39';
+    $display->content['new-40'] = $pane;
+    $display->panels['event_brick_top'][6] = 'new-40';
     $pane = new stdClass();
-    $pane->pid = 'new-40';
+    $pane->pid = 'new-41';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_prizes';
@@ -2531,10 +2812,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 7;
     $pane->locks = array();
-    $display->content['new-40'] = $pane;
-    $display->panels['event_brick_top'][7] = 'new-40';
+    $display->content['new-41'] = $pane;
+    $display->panels['event_brick_top'][7] = 'new-41';
     $pane = new stdClass();
-    $pane->pid = 'new-41';
+    $pane->pid = 'new-42';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_awards_photos';
@@ -2566,8 +2847,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 8;
     $pane->locks = array();
-    $display->content['new-41'] = $pane;
-    $display->panels['event_brick_top'][8] = 'new-41';
+    $display->content['new-42'] = $pane;
+    $display->panels['event_brick_top'][8] = 'new-42';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2676,7 +2957,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-42';
+    $pane->pid = 'new-43';
     $pane->panel = 'middle';
     $pane->type = 'node_title';
     $pane->subtype = 'node_title';
@@ -2696,10 +2977,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['middle'][0] = 'new-42';
+    $display->content['new-43'] = $pane;
+    $display->panels['middle'][0] = 'new-43';
     $pane = new stdClass();
-    $pane->pid = 'new-43';
+    $pane->pid = 'new-44';
     $pane->panel = 'middle';
     $pane->type = 'hq_distance';
     $pane->subtype = 'hq_distance';
@@ -2718,10 +2999,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-43'] = $pane;
-    $display->panels['middle'][1] = 'new-43';
+    $display->content['new-44'] = $pane;
+    $display->panels['middle'][1] = 'new-44';
     $pane = new stdClass();
-    $pane->pid = 'new-44';
+    $pane->pid = 'new-45';
     $pane->panel = 'middle';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
@@ -2746,8 +3027,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-44'] = $pane;
-    $display->panels['middle'][2] = 'new-44';
+    $display->content['new-45'] = $pane;
+    $display->panels['middle'][2] = 'new-45';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2827,7 +3108,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-45';
+    $pane->pid = 'new-46';
     $pane->panel = 'one_main';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_accommodations-panel_event_map_pane';
@@ -2845,10 +3126,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-45'] = $pane;
-    $display->panels['one_main'][0] = 'new-45';
+    $display->content['new-46'] = $pane;
+    $display->panels['one_main'][0] = 'new-46';
     $pane = new stdClass();
-    $pane->pid = 'new-46';
+    $pane->pid = 'new-47';
     $pane->panel = 'one_main';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_activities-panel_event_map_pane';
@@ -2866,8 +3147,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-46'] = $pane;
-    $display->panels['one_main'][1] = 'new-46';
+    $display->content['new-47'] = $pane;
+    $display->panels['one_main'][1] = 'new-47';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2983,7 +3264,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-47';
+    $pane->pid = 'new-48';
     $pane->panel = 'one_main';
     $pane->type = 'custom';
     $pane->subtype = 'coming_soon';
@@ -3004,8 +3285,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-47'] = $pane;
-    $display->panels['one_main'][0] = 'new-47';
+    $display->content['new-48'] = $pane;
+    $display->panels['one_main'][0] = 'new-48';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3086,7 +3367,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-48';
+    $pane->pid = 'new-49';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -3119,10 +3400,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-48'] = $pane;
-    $display->panels['middle'][0] = 'new-48';
+    $display->content['new-49'] = $pane;
+    $display->panels['middle'][0] = 'new-49';
     $pane = new stdClass();
-    $pane->pid = 'new-49';
+    $pane->pid = 'new-50';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -3155,8 +3436,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-49'] = $pane;
-    $display->panels['middle'][1] = 'new-49';
+    $display->content['new-50'] = $pane;
+    $display->panels['middle'][1] = 'new-50';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3237,7 +3518,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-50';
+    $pane->pid = 'new-51';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -3270,10 +3551,10 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-50'] = $pane;
-    $display->panels['middle'][0] = 'new-50';
+    $display->content['new-51'] = $pane;
+    $display->panels['middle'][0] = 'new-51';
     $pane = new stdClass();
-    $pane->pid = 'new-51';
+    $pane->pid = 'new-52';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -3306,8 +3587,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-51'] = $pane;
-    $display->panels['middle'][1] = 'new-51';
+    $display->content['new-52'] = $pane;
+    $display->panels['middle'][1] = 'new-52';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3405,7 +3686,7 @@ function pages_feature_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-52';
+    $pane->pid = 'new-53';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -3424,8 +3705,8 @@ function pages_feature_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-52'] = $pane;
-    $display->panels['middle'][0] = 'new-52';
+    $display->content['new-53'] = $pane;
+    $display->panels['middle'][0] = 'new-53';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

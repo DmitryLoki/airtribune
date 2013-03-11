@@ -61,6 +61,7 @@ function organic_groups_field_default_fields() {
       'required' => FALSE,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => 0,
         'user_register_form' => FALSE,
       ),
@@ -117,12 +118,14 @@ function organic_groups_field_default_fields() {
         ),
       ),
       'entity_type' => 'og_membership',
+      'exclude_cv' => 0,
       'field_name' => 'field_contestant_number',
       'label' => 'Pilot\'s number',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max' => '',
+        'exclude_cv' => FALSE,
+        'max' => '9999',
         'min' => '1',
         'prefix' => '',
         'suffix' => '',
@@ -189,6 +192,7 @@ function organic_groups_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -255,6 +259,7 @@ function organic_groups_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -325,6 +330,7 @@ function organic_groups_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
@@ -401,6 +407,7 @@ function organic_groups_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -489,6 +496,7 @@ function organic_groups_field_default_fields() {
           ),
         ),
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -587,6 +595,7 @@ function organic_groups_field_default_fields() {
           ),
         ),
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => 0,
       ),
       'view modes' => array(

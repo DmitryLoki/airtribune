@@ -22,6 +22,8 @@ define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
 define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
+define('AIRTRIBUNE_CONTEST_PHOTOS_FIELD', 'field_contest_photos');
+define('AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD', 'field_flying_site_photos');
 define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
@@ -346,4 +348,27 @@ function airtribune_calculate_distance($p1, $p2) {
   $dist = $ad * $earth_radius;
 
   return $dist;
+}
+
+/**
+ * Add event context to default site template.
+ */
+function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
+
+  if (!$contexts['node']->empty) {
+    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      $raw_node = $contexts['node']->data;
+    }
+    // Fetch event node from OG.
+    else {
+      $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
+      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+      }
+    }
+  }
+
+  $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
+  panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
+
 }

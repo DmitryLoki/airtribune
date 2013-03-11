@@ -1,6 +1,6 @@
 .es-pane {
   font-size: 18px;
-  line-height: 1;
+  line-height: 1; 
   color: #333a40;
 }
 .es-count {
@@ -34,6 +34,14 @@
 }
 .es-places {
   margin-left: 20px;
+}
+.panel_info .es-label a {
+  color: #333a40;
+  text-decoration: none;
+}
+.panel_info .es-label a:hover {
+  color: #0098D1;
+  text-decoration: none;
 }
 
 /* Colors */

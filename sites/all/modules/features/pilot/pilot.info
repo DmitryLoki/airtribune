@@ -12,6 +12,7 @@ dependencies[] = list
 dependencies[] = number
 dependencies[] = options
 dependencies[] = profile2
+dependencies[] = simple_phone_number_widget
 features[ctools][] = field_group:field_group:1
 features[features_api][] = api:1
 features[field][] = profile2-pilot-field_address

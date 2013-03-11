@@ -1209,6 +1209,7 @@ function airtribune2_file_icon($variables) {
  * Preprocess field.tpl.php
  */
 function airtribune2_preprocess_field(&$vars) {
+
   $element = $vars['element'];
   if ($element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
     $categories = airtribune_get_awards_prize_categories();
@@ -1219,6 +1220,26 @@ function airtribune2_preprocess_field(&$vars) {
       }
     }
   }
+  //d::dump()
+  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD || $element['#field_name'] == AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD) {
+    foreach ($vars['items'] as $delta => $item) {
+      $gid = $item['#display_settings']['colorbox_gallery_custom'];
+      if ($gid == 'contest_photos_details') {
+        $limit = 4;
+      }
+      elseif ($gid == 'flying_site_photos_details') {
+        $limit = 8;
+      }
+      else {
+        $limit = 2;
+      }
+
+      if ($delta >= $limit) {
+        $vars['item_attributes_array'][$delta]['style'] = 'display: none';
+      }
+    }
+  }
+
 }
 
 /**
@@ -1252,5 +1273,60 @@ function airtribune2_tablesort_indicator($variables) {
   else {
     return '<span class="arrow_sort arrow-desc" title="' . t('sort descending') . '"></span>'; //theme('image', array('path' => 'misc/arrow-desc.png', 'width' => 13, 'height' => 13, 'alt' => t('sort descending'), 'title' => t('sort descending')));
   }
+}
+
+/**
+ * Implements theme_colorbox_image_field().
+ */
+function airtribune2_colorbox_imagefield($variables) {
+
+  static $counter;
+  $gid = $variables['gid'];
+
+  if ($counter == NULL) {
+    $counter['contest_photos'] = $counter['flying_site_photos'] = 0;
+    $counter['contest_photos_details'] = $counter['flying_site_photos_details'] = 0;
+  }
+
+  if (isset($counter[$gid])) {
+    $counter[$gid]++;
+    if ($gid == 'contest_photos_details') {
+      $hidden = $counter[$gid] > 4;
+    }
+    elseif ($gid == 'flying_site_photos_details') {
+      $hidden = $counter[$gid] > 8;
+    }
+    else {
+      $hidden = $counter[$gid] > 2;
+    }
+    $gid = 'contest-gallery';
+  }
+  else {
+    $hidden = FALSE;
+  }
+
+  $class = array('colorbox');
+  if ($hidden) {
+    $image = '';
+    $class[] = 'js-hide';
+  }
+  elseif (!empty($variables['image']['style_name'])) {
+    $image = theme('image_style', $variables['image']);
+  }
+  else {
+    $image = theme('image', $variables['image']);
+  }
+
+  $options = array(
+    'html' => TRUE,
+    'attributes' => array(
+      'title' => $variables['title'],
+      'class' => implode(' ', $class),
+      'rel' => $gid,
+    ),
+  );
+
+
+  return l($image, $variables['path'], $options);
 }
 
