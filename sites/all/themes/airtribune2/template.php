@@ -1224,7 +1224,17 @@ function airtribune2_preprocess_field(&$vars) {
   if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD || $element['#field_name'] == AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD) {
     foreach ($vars['items'] as $delta => $item) {
       $gid = $item['#display_settings']['colorbox_gallery_custom'];
-      if ($delta >= ($gid == 'contest_photos' || $gid == 'flying_site_photos' ? 2 : 4)) {
+      if ($gid == 'contest_photos_details') {
+        $limit = 4;
+      }
+      elseif ($gid == 'flying_site_photos_details') {
+        $limit = 8;
+      }
+      else {
+        $limit = 2;
+      }
+
+      if ($delta >= $limit) {
         $vars['item_attributes_array'][$delta]['style'] = 'display: none';
       }
     }
@@ -1280,7 +1290,15 @@ function airtribune2_colorbox_imagefield($variables) {
 
   if (isset($counter[$gid])) {
     $counter[$gid]++;
-    $hidden = $counter[$gid] > ($gid == 'contest_photos' || $gid == 'flying_site_photos' ? 2 : 4);
+    if ($gid == 'contest_photos_details') {
+      $hidden = $counter[$gid] > 4;
+    }
+    elseif ($gid == 'flying_site_photos_details') {
+      $hidden = $counter[$gid] > 8;
+    }
+    else {
+      $hidden = $counter[$gid] > 2;
+    }
     $gid = 'contest-gallery';
   }
   else {
