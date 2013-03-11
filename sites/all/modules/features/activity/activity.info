@@ -16,6 +16,7 @@ dependencies[] = image
 dependencies[] = link
 dependencies[] = media
 dependencies[] = reverse_geocode_widget
+dependencies[] = simple_phone_number_widget
 dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1

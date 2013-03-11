@@ -27,7 +27,7 @@ function pilot_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -808,6 +808,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -1073,11 +1074,11 @@ function pilot_field_default_fields() {
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
+        'module' => 'simple_phone_number_widget',
         'settings' => array(
           'size' => 15,
         ),
-        'type' => 'phone_number',
+        'type' => 'simple_phone_number_widget',
         'weight' => '15',
       ),
     ),
@@ -1108,6 +1109,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -1372,11 +1374,11 @@ function pilot_field_default_fields() {
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
+        'module' => 'simple_phone_number_widget',
         'settings' => array(
           'size' => 15,
         ),
-        'type' => 'phone_number',
+        'type' => 'simple_phone_number_widget',
         'weight' => '5',
       ),
     ),
