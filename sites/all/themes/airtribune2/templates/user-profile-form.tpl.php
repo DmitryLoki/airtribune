@@ -13,7 +13,6 @@ $form['account']['mail']['#description'] = t('This is you login. If you change i
 $form['account']['current_pass']['#title'] = t('Current password');
 $form['account']['current_pass']['#description'] = t('Your current password.');
 $form['account']['pass']['pass1']['#title'] = t("New password");
-$form['account']['pass']['pass1']['#description'] = t('Minimun 6 symbols.');
 $form['account']['pass']['pass2']['#title'] = t("Repeat new password");
 $form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
 
@@ -36,8 +35,8 @@ if (!empty($form['profile_main'])) {
   $form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
   $form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
   $form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-  $form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your Name in English transcription.');
-  $form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
+  //$form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your Name in English transcription.');
+  //$form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
   $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
   $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
 
