@@ -123,16 +123,18 @@ jQuery.fn.forms = function(options){ // custom form elements
 				jQuery('body').bind('click', {parent:this},bodyClick);
 				function bodyClick(e) {
                     //If e.target is not a child of el.handle then hide list
-					if(jQuery(e.target).parents('.'+el.handle.attr('class').split(' ').join('.')).length == 0) {
-						    el.handle.items.hide();
-							el.handle.removeClass('select_opened');
-                            jQuery('body').unbind('click', bodyClick);
+                    if (jQuery(e.target).parents('.' + el.handle.attr('class').split(' ').join('.')).length == 0) {
+                        el.handle.items.hide();
+                        el.handle.removeClass('select_opened');
+                        el.handle.items.trigger('select-hided');
+                        jQuery('body').unbind('click', bodyClick);
 					}
 				}
 				el.handle.items.toggle();
 				el.handle.toggleClass('select_opened');
+                el.handle.items.trigger(jQuery.Event(el.handle.items.is(':visible') ? 'select-showed' : 'select-hided'));
                 if(opt.disableChoiceOfFirstItemInSelection){
-                    el.handle.items.find('span.option:eq(0)').hide();
+                    el.handle.items.find('span.option:eq(0)').addClass('option-title').hide();
                 }
 			});
 			el.handle.css({'position':'relative', 'display':'inline-block'})
