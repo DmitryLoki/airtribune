@@ -11,8 +11,8 @@ module_load_include('inc', 'og_ui', 'og_ui.pages');
  *   Optional; The user ID of the subscribing user. If empty the current user
  *   will be used.
  */
-function at_reg_subscribe($entity_type, $etid, $field_name = NULL) {
-  
+function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
+  $etid = $node->nid;
   // This is done in hook_form_alter().
   // Set flag to show pilot profile at registration.
   // see at_reg_entity_load().
