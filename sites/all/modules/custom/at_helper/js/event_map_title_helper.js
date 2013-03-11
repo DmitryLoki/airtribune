@@ -14,7 +14,7 @@ Drupal.behaviors.events_map_title_helper = {
                 features = features.concat(map.layers[l].features);
             }
         }
-        var layer = map.layers[0];
+
         setTimeout(function () {
             if (features.length < 2) {
                 return;
@@ -23,8 +23,9 @@ Drupal.behaviors.events_map_title_helper = {
             var topMost = {top:-Infinity},
                 topMostFeature = {},
                 title = $('.featured-header-title'),
-                extent = map.getExtent();
+                extent;
 
+            //Search for feature with max top (min y) property
             features.forEach(function (feature) {
                 var bound = feature.geometry.getBounds();
                 if (bound.top > topMost.top) {
@@ -34,15 +35,24 @@ Drupal.behaviors.events_map_title_helper = {
             });
 
             var titleHeight = parseInt(title.css('height'), 10),
-                pixel = map.getPixelFromLonLat(new OpenLayers.LonLat(topMost.left, topMost.top));
+                pixel = map.getViewPortPxFromLonLat(new OpenLayers.LonLat(topMost.left, topMost.top));
 
-            if (titleHeight > pixel.y) {
+            //if topmost feature already below title
+            if (titleHeight > pixel.y && pixel.y > 0) {
                 return;
             }
 
-            map.pan(0, titleHeight - pixel.y - 25, {animate: false});
+            //for rear cases, when feature out of map
+            if(pixel.y < 0) {
+                titleHeight = -titleHeight;
+                pixel.y = -pixel.y;
+            }
 
-            //set mark, that map zoomed and paned
+            map.pan(0, titleHeight - (pixel.y) - 140, {animate: false});
+
+            extent = map.getExtent();
+
+            //set mark, that map paned
             mapContainer.data('shifted', true);
 
             for (var i = 0, zoomOutNeeded = false, l = features.length; i < l; i++) {
