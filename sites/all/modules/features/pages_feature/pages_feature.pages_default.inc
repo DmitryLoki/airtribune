@@ -1120,6 +1120,14 @@ function pages_feature_default_page_manager_pages() {
     'access' => array(
       'logic' => 'and',
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Create your event! | [site:slogan]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -1234,6 +1242,14 @@ function pages_feature_default_page_manager_pages() {
         ),
       ),
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'News | [node:title] | [site:slogan]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -1337,6 +1353,14 @@ function pages_feature_default_page_manager_pages() {
           ),
           'context' => 'logged-in-user',
           'not' => TRUE,
+        ),
+      ),
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'News | [node:title] | [site:slogan]',
         ),
       ),
     ),
@@ -1574,6 +1598,14 @@ function pages_feature_default_page_manager_pages() {
           'settings' => NULL,
           'context' => 'argument_entity_id:node_1',
           'not' => FALSE,
+        ),
+      ),
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Detailed Info | [node:title] | [site:slogan]',
         ),
       ),
     ),
@@ -2211,6 +2243,14 @@ function pages_feature_default_page_manager_pages() {
           'settings' => NULL,
           'context' => 'argument_entity_id:node_1',
           'not' => FALSE,
+        ),
+      ),
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'General Info | [node:title] | [site:slogan]',
         ),
       ),
     ),
@@ -2942,6 +2982,14 @@ function pages_feature_default_page_manager_pages() {
     'access' => array(
       'logic' => 'and',
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '[node:title] | [site:slogan]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -3092,6 +3140,14 @@ function pages_feature_default_page_manager_pages() {
     'relationships' => array(),
     'access' => array(
       'logic' => 'and',
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Event map | [node:title] | [site:slogan]',
+        ),
+      ),
     ),
   );
   $display = new panels_display();
@@ -3339,6 +3395,14 @@ function pages_feature_default_page_manager_pages() {
         ),
       ),
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Pilots list | [node:title] | [site:slogan]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -3487,6 +3551,14 @@ function pages_feature_default_page_manager_pages() {
           ),
           'context' => 'argument_entity_id:node_1',
           'not' => FALSE,
+        ),
+      ),
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Pilots list | [node:title] | [site:slogan]',
         ),
       ),
     ),
