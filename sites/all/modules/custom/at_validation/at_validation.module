@@ -204,6 +204,8 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
     }
   }
   
+  
+  // TODO: Move to a single function.
   // Change field_t_shirt_size default select option name.
   if ($element['#field_name'] == 'field_t_shirt_size') {
     $element['#after_build'][] = '_t_shirt_size_after_build';
@@ -228,6 +230,18 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
 
 // TEST ==================================
 function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $context) {
+  
+  if (!empty($element[0]['#entity_type']) && !empty($element[0]['#bundle'])) {
+    // Change field_user_avatar description.
+    if ($element[0]['#field_name'] == 'field_user_avatar') {
+      $upload_validators = $element[0]['#upload_validators'];
+      if (!empty($element[0]['#description']) && !empty($upload_validators['file_validate_size'])) {
+        $substring = t('Files must be less than !size.', array('!size' => '<strong>' . format_size($upload_validators['file_validate_size'][0]) . '</strong>'));
+        $element[0]['#description'] = str_replace($substring, '', $element[0]['#description']);//18874368
+      }
+    }
+  }
+  
   // TODO: Check clientside_validation settings.
   // Check if ajax is enabled for the current field instance (entity, bundle and field).
   if (empty($element['value']['#entity_type']) || empty($element['value']['#bundle'])) {
@@ -311,6 +325,7 @@ function _full_name_after_build($element, $form_state) {
   $element['family']['#description'] = t('Your surname in English transcription.');
   return $element;
 }
+
 
 /**
  * Implements hook_form_alter().
