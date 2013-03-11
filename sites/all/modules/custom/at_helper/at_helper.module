@@ -227,7 +227,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['#validate'][] = 'at_helper_user_reg_form_validate';
       $form['actions']['submit']['#value'] = t('Register new user');
       $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
-      $form['account']['pass']['#description'] = t('Type your password in both fields');
+      unset($form['account']['pass']['#description']);
       // TODO: Add after_build only when performing ajax validation.
       $form['#after_build'][] = '_at_helper_user_register_extra_after_build';
       
@@ -282,6 +282,7 @@ function _at_helper_user_register_form_after_build($element, $form_state) {
   $element['#attached']['js'][1]['data']['password']['good'] = t('Good password.');
   $element['#attached']['js'][1]['data']['password']['strong'] = t('Strong password.');
   $element['pass1']['#description'] = t('Minimum 6 characters.');
+  $element['pass2']['#description'] = t('Type your password in both fields');
   return $element;
 }
 
