@@ -235,6 +235,9 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['#after_build'][] = '_at_helper_og_form_extra_after_build';
       
       break;
+    case 'user_profile_form' :
+      $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
+      break;
     case 'user_pass' :
       $form['actions']['submit']['#value'] = t('Request new password');
       break;
