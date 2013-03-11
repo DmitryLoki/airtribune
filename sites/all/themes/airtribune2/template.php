@@ -45,12 +45,16 @@ function airtribune2_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'page-event-map-activity-accommodation';
     }
   }
+
+  /* If event register page */
   if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
     $vars['classes_array'][] = 'page-user';
   }
-  //print arg(2);
-  //print_r($vars)
-  //dsm($vars);
+
+  /* If profile pilot page */
+  if (!empty($vars['page']['content']['system_main']['profile_pilot'])) {
+    $vars['classes_array'][] = 'page-user';
+  }
 }
 
 /**
@@ -231,7 +235,6 @@ function airtribune2_preprocess_panels_pane(&$variables) {
    else{
      drupal_set_title(t('Sign in'));
    }
-   //print_r($variables);
   }
   if($variables['pane']->subtype == 'paragliding_pilots_list-fai'){
     $variables['title'] = '';
@@ -244,10 +247,7 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   }
   if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
     $variables['classes_array'][] = 'wrapper-with-link';
-    //dsm($variables);
-
   }
-  //print_r($variables);
 }
 
 /**
@@ -278,7 +278,6 @@ function airtribune2_preprocess_node(&$vars) {
 }
 
 function airtribune2_process_node(&$vars) {
-  //print_r($vars);
   $vars['event_blog'] = false;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
 
@@ -286,7 +285,6 @@ function airtribune2_process_node(&$vars) {
   if($vars['view_mode'] == 'event_blog_teaser'){
     $vars['event_blog'] = true;
     $vars['title'] = '<a href="' . $vars['node_url'] . '" rel="bookmark">' . $vars['title'] . '</a>';
-    //print_r($vars['node']);
 
     /* Changing the style of the output image */
     if(!empty($vars['content']['field_image'])){
@@ -343,7 +341,6 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_address'])) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
-    //print_r(node_load($vars['node']->nid));
   }
 
   /* If teaser */
@@ -459,7 +456,6 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         '#markup' => theme('item_list', array('items' => $items)),
         '#weight' => 100,
       );
-      //print_r($form);
     break;
       
       case 'user_register_form':
@@ -475,8 +471,6 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       $form['account']['mail']['#title'] = t('Email');
       $form['account']['mail']['#description'] = t('This will be your login.');
       $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
-
-
       $form['account']['pass']['pass1']['#attributes']['rel'] = t('Enter your password');
       $form['account']['pass']['pass1']['#description'] = t('Minimum 6 characters.');
       $form['account']['pass']['pass2']['#attributes']['rel'] = t('Repeat your password');
@@ -491,104 +485,12 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['hybridauth']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
         $form['hybridauth']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
-        //print_r($form);
     break;
       case 'user_profile_form':
         
         //print_r($form);
     break;
   }
-}
-
-
-function airtribune2_ulogin_widget($variables) {
-  $element = $variables['element'];
-  $output = '';
-  
-  if (variable_get('ulogin_redirect', 0)) {
-    $callback = 'Drupalulogintoken';
-    $redirect = urlencode(file_create_url('sites/all/libraries/ulogin/ulogin_xd.html'));
-  }
-  else {
-    $callback = '';
-    $redirect = _ulogin_token_url($element['#ulogin_destination']);
-  }
-  
-  $id = drupal_html_id($element['#ulogin_id']);
-  if (in_array($element['#ulogin_display'], array('small', 'panel', 'buttons'))) {
-    $output = '<div ';
-    $output .= 'id="' . $id . '"' .
-      'x-ulogin-params="' .
-      'display=' . $element['#ulogin_display'];
-    // requested fields
-    $output .= '&fields=' . $element['#ulogin_fields_required'] .
-      '&optional=' . $element['#ulogin_fields_optional'];
-    // available providers
-    if ($element['#ulogin_display'] != 'buttons') {
-      $output .= '&providers=' . $element['#ulogin_providers'] .
-        '&hidden=' . $element['#ulogin_hidden'];
-    }
-    // callback and redirect
-    if (variable_get('ulogin_redirect', 0)) {
-      $output .= '&callback=' . $callback .
-        '&redirect_uri=' . $redirect;
-    }
-    else {
-      $output .= '&redirect_uri=' . $redirect;
-    }
-    
-    // receiver for custom icons
-    if ($element['#ulogin_display'] == 'buttons') {
-      $output .= '&receiver=' . urlencode(file_create_url('sites/all/libraries/ulogin/xd_custom.html'));
-    }
-    $output .= '">';
-    
-    // custom icons
-    if ($element['#ulogin_display'] == 'buttons' && !empty($element['#ulogin_icons_path'])) {
-      foreach (file_scan_directory($element['#ulogin_icons_path'], '//') as $icon) {
-        /*$output .= theme('image', array(
-          'path' => $icon->uri,
-          'alt' => $icon->name,
-          'title' => $icon->name,
-          'attributes' => array('x-ulogin-button' => $icon->name, 'class' => 'ulogin-icon-' . $icon->name),
-        ));*/
-        $output .= '<div class="ulogin-icon-'.$icon->name.'" x-ulogin-button="'.$icon->name.'">'.t('Facebook login').'</div>';
-      }
-    }
-    elseif ($element['#ulogin_display'] == 'buttons' && is_array($element['#ulogin_icons']) && !empty($element['#ulogin_icons'])) {
-      foreach ($element['#ulogin_icons'] as $key => $value) {
-        /*$output .= theme('image', array(
-          'path' => $value,
-          'alt' => $key,
-          'title' => $key,
-          'attributes' => array('x-ulogin-button' => $key, 'class' => 'ulogin-icon-' . $key),
-        ));*/
-        $output .= '<div class="ulogin-icon-'.$key.'" x-ulogin-button="'.$key.'">'.t('Facebook login').'</div>';
-      }
-    }
-    else {
-      
-    }
-    
-    $output .= '</div>';
-  }
-  elseif ($element['#ulogin_display'] == 'window') {
-    $output = '<a href="#" ' .
-      'id="' . $id . '"' .
-      'x-ulogin-params="display=' . $element['#ulogin_display'] .
-      '&fields=' . $element['#ulogin_fields_required'] .
-      '&optional=' . $element['#ulogin_fields_optional'] .
-      //'&providers=' . $element['#ulogin_providers'] .
-      //'&hidden=' . $element['#ulogin_hidden'] .
-      '&callback=' . $callback .
-      '&redirect_uri=' . $redirect . '"><img src="//ulogin.ru/img/button.png" width=187 height=30 alt="' . t('MultiAuthentication') . '"/></a>';
-  }
-  
-  /*if (variable_get('ulogin_load_type', 1)) {
-    drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
-  }*/
-  drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
-  return $output;
 }
 
 function airtribune2_breadcrumb($variables) {
