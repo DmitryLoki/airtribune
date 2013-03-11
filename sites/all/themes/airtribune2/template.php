@@ -1220,10 +1220,11 @@ function airtribune2_preprocess_field(&$vars) {
       }
     }
   }
-
+  //d::dump()
   if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD || $element['#field_name'] == AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD) {
     foreach ($vars['items'] as $delta => $item) {
-      if ($delta >= 2) {
+      $gid = $item['#display_settings']['colorbox_gallery_custom'];
+      if ($delta >= ($gid == 'contest_photos' || $gid == 'flying_site_photos' ? 2 : 4)) {
         $vars['item_attributes_array'][$delta]['style'] = 'display: none';
       }
     }
@@ -1270,21 +1271,24 @@ function airtribune2_tablesort_indicator($variables) {
 function airtribune2_colorbox_imagefield($variables) {
 
   static $counter;
-  if (empty($counter)) {
-    $counter['field_contest_photos'] = 0;
-    $counter['field_flying_site_photos'] = 0;
+  $gid = $variables['gid'];
+
+  if ($counter == NULL) {
+    $counter['contest_photos'] = $counter['flying_site_photos'] = 0;
+    $counter['contest_photos_details'] = $counter['flying_site_photos_details'] = 0;
   }
 
-  // Extract field name from gid.
-  $gid_items = explode('-', $variables['gid']);
-  $field_name = end($gid_items);
+  if (isset($counter[$gid])) {
+    $counter[$gid]++;
+    $hidden = $counter[$gid] > ($gid == 'contest_photos' || $gid == 'flying_site_photos' ? 2 : 4);
+    $gid = 'contest-gallery';
+  }
+  else {
+    $hidden = FALSE;
+  }
+
   $class = array('colorbox');
-
-  if (isset($counter[$field_name])) {
-    $counter[$field_name]++;
-  }
-
-  if (isset($counter[$field_name]) && $counter[$field_name] > 2) {
+  if ($hidden) {
     $image = '';
     $class[] = 'js-hide';
   }
@@ -1300,9 +1304,10 @@ function airtribune2_colorbox_imagefield($variables) {
     'attributes' => array(
       'title' => $variables['title'],
       'class' => implode(' ', $class),
-      'rel' => $variables['gid'],
-    )
+      'rel' => $gid,
+    ),
   );
+
 
   return l($image, $variables['path'], $options);
 }
