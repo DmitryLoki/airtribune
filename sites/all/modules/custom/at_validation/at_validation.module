@@ -220,6 +220,10 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   if ($element['#field_name'] == 'field_birthdate') {
     $element['#after_build'][] = '_birthdate_after_build';
   }
+  // Change field_full_name components description.
+  if ($element['#field_name'] == 'field_full_name') {
+    $element['#after_build'][] = '_full_name_after_build';
+  }
 }
 
 // TEST ==================================
@@ -299,7 +303,14 @@ function _birthdate_after_build($element, $form_state) {
   $element['value']['day']['#weight'] = 0;
   return $element;
 }
-
+/**
+ * After build for field_birthdate field widget.
+ */
+function _full_name_after_build($element, $form_state) {
+  $element['given']['#description'] = t('Your name in English transcription.');
+  $element['family']['#description'] = t('Your surname in English transcription.');
+  return $element;
+}
 
 /**
  * Implements hook_form_alter().
