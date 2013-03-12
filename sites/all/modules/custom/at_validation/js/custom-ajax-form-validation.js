@@ -38,7 +38,8 @@
             allElementsValid = true,
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
-            if (!formValidator.check(allElements.get(i))) {
+            var element = allElements.get(i);
+            if (!formValidator.check(element) && !formValidator.optional(element)) {
                 allElementsValid = false;
                 break;
             }
