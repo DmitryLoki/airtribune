@@ -1,5 +1,6 @@
 <?php
 
+$pass_fieldset_title = 'Change password';
 // if user initiate procedure of password reset, then hide main div with avatar, name, and birthday
 // and show only password change form
 if (!empty($_GET['pass-reset-token'])) {
