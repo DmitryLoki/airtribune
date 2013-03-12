@@ -39,7 +39,7 @@
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
-            if (!formValidator.check(element)) {
+            if (!formValidator.check(element) && !formValidator.optional(element)) {
                 allElementsValid = false;
                 break;
             }
