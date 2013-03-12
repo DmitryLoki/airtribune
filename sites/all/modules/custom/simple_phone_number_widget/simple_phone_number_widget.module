@@ -40,6 +40,7 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
       $number = (isset($items[$delta])) ? $items[$delta]['number'] : FALSE;
       $countrycode = (isset($items[$delta])) ? $items[$delta]['country_codes'] : FALSE;
       $cc = cck_phone_countrycodes();
+      $full_number = '';
       if ($countrycode && isset($cc[$countrycode])) {
         $full_number = substr($cc[$countrycode]['code'], 1) . $number;
       }
