@@ -2938,15 +2938,15 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
 .page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
-.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 0 0 0}
 .page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
-.page-user .pane-page-content form .field-type-list-text .form-type-radios { margin-bottom: -20px;}
+.page-user .pane-page-content form .field-type-list-text .form-type-radios { margin-bottom: -19px;}
 .page-user .pane-page-content form .field-type-list-text .form-radios { display: inline-block; padding-bottom: 6px; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { margin: 0 0 0 1px; padding-bottom: 10px; display: inline;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio .inline-label { width:auto;  top: 0; text-align: left;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio label { color:#525d66; font-size:16px; margin-right:31px; margin-left: 0; margin-top: 6px; vertical-align: top;}
 .page-user .pane-page-content form .field-type-list-text .form-type-radio .valign { display: none;}
-.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px}
+.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
 .page-user .pane-page-content form .form-type-date-select .form-item { display: inline; position: static;}
 .page-user .pane-page-content form .form-type-date-select .form-item div { display: inline;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
@@ -3107,9 +3107,12 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user-edit .fieldset-wrapper > .form-item-language .form-item  { margin-top: 0;}
 .page-user-edit .fieldset-wrapper > .form-item-language .form-item label { width: auto; text-align: left;}
 .page-user-edit .form-item-language > .form-radios { float: left; width: 244px;}
+
+.page-user-edit .pane-page-content form .form-actions { padding-top: 56px; padding-bottom: 59px;}
+
 /*.page-user-edit form legend { display: none;}*/
 html.js fieldset.collapse-processed { height: auto; padding-top: 1px;}
-html.js .page-user-edit form legend .fieldset-legend { background: none; padding-left: 210px; padding-top: 10px; padding-bottom: 6px;}
+html.js .page-user-edit form legend .fieldset-legend { background: none; padding-left: 210px; padding-top: 5px; padding-bottom: 6px;}
 html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 
 .form-item .date-padding + .ajax-progress { margin-top: 6px;}
@@ -3121,7 +3124,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .page-user-edit .pane-page-content form .field-type-image .description br:first-child { display: none;}
 .page-user-edit .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
 .page-user-edit .pane-page-content form .form-type-item .inline-label { top: -10px;}
-.page-user-edit .pane-page-content form .form-type-date-select { margin-top: 0;}
+.page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
+.page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
 .page-user-edit .pane-page-content form .field-type-list-text .form-type-radio { padding-bottom: 2px;}
 .page-user-edit .field-name-field-user-avatar .image-widget { margin-left: 210px; position: relative; display: block; overflow: hidden;}
 .page-user-edit .field-name-field-user-avatar .photo-empty-div,
@@ -3137,10 +3141,11 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 
 .image-widget .image-widget-data { position: absolute; top: 1px; left: 1px; z-index: 10;}
 .image-widget .form-submit { position: absolute; top: -1000px;}
-.image-widget span.file { width: 150px; height: 150px; display: block;}
-.image-widget span.emulate-click { cursor: pointer; display: block; background: url(../images/file_upload.png) no-repeat 118px 8px;}
-.image-widget span.emulate-click:hover { background-position: 118px -192px}
-.image-widget span.emulate-click:active { background-position: 118px -392px}
+.image-widget span.file { width: 150px; height: 150px; display: block; position: relative;}
+.image-widget span.emulate-click { cursor: pointer; display: block;}
+.image-widget span.emulate-click-plus { width: 24px; height: 24px; top: 0; right: -32px; display: block; background: url(../images/file_upload.png) no-repeat 0 0; position: absolute;}
+.image-widget span.file:hover span.emulate-click-plus { background-position: 0 -200px}
+.image-widget span.file:active span.emulate-click-plus { background-position: 0 -400px}
 .image-widget span.input { display: none !important;}
 .image-widget .delete-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url(../images/file_upload.png) no-repeat 118px -592px;}
 .image-widget .delete-photo:hover { background-position: 118px -792px}

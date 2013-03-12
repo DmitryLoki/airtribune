@@ -1270,3 +1270,12 @@ function airtribune2_form_element_label($variables) {
   // The leading whitespace helps visually separate fields from inline labels.
   return ' <div class="inline-label"><label' . drupal_attributes($attributes) . '>' . $t('!title!required', array('!title' => str_replace(' <', '<', $title), '!required' => $required)) . "</label><span class=\"valign\"></span></div>\n";
 }
+
+/**
+ * Implements hook_css_alter().
+ */
+function airtribune2_css_alter(&$css) {
+  // Remove defaults.css file.
+  //unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
+  unset($css[drupal_get_path('module', 'date') . '/date_api/date.css']);
+}

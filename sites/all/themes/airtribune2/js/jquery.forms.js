@@ -85,10 +85,18 @@ jQuery.fn.forms = function(options){ // custom form elements
 					el.id = el.attr('id');
 					el.show()
 					el.emulate = el.prev();
-					el.emulate.append('<span class="emulate-click"></span>');
+					el.emulate.append('<span class="emulate-click"></span><span class="emulate-click-plus"></span>');
 					el.emulate.children('.emulate-click').css({'position':'absolute', 'top':0, 'right':0, 'width':'100%', 'height':'100%', 'overflow':'hidden'});
 					el.emulate.children('.emulate-click').append(el);
-					el.emulate.css({'position':'relative', 'overflow':'hidden'})
+					el.emulate.children('.emulate-click-plus').hover(
+						function(){
+							jQuery(this).append(el);
+						},
+						function(){
+							jQuery(this).parent().find('.emulate-click').append(el);
+						}
+					);
+					el.emulate.css({'position':'relative'})
 					el.emulate.find('input').css({'opacity':'0', 'font-size':'199px', 'top':'0', 'left':'0', 'position':'absolute', 'cursor':'pointer', 'padding':'0', 'margin':'0 0 0 0', 'border':'none', 'z-index':'10000', 'background':'#000000', 'direction':'rtl'})
 					el.emulate.find('input').change(function(){
 						el.emulate.find('.input').html(jQuery(this).val())
