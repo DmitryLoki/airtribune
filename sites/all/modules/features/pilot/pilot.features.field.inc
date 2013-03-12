@@ -808,9 +808,9 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Including international code.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1075,9 +1075,7 @@ function pilot_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'simple_phone_number_widget',
-        'settings' => array(
-          'size' => 15,
-        ),
+        'settings' => array(),
         'type' => 'simple_phone_number_widget',
         'weight' => '15',
       ),
@@ -1109,9 +1107,9 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Your phone number including international code.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1122,6 +1120,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_phone',
       'label' => 'Mobile phone number',
       'required' => 1,
@@ -1375,9 +1374,7 @@ function pilot_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'simple_phone_number_widget',
-        'settings' => array(
-          'size' => 15,
-        ),
+        'settings' => array(),
         'type' => 'simple_phone_number_widget',
         'weight' => '5',
       ),
@@ -1534,6 +1531,7 @@ function pilot_field_default_fields() {
   t('CIVL ID');
   t('Contact phone number in case of emergency');
   t('FAI license number');
+  t('Including international code.');
   t('Insurance company');
   t('Insurance policy number');
   t('Mobile phone number');
@@ -1545,6 +1543,7 @@ function pilot_field_default_fields() {
   t('T-shirt size');
   t('The full name of your contact person and your relationship.');
   t('Your name in national alphabet');
+  t('Your phone number including international code.');
 
   return $fields;
 }

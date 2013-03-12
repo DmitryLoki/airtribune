@@ -12,8 +12,6 @@ $form['profile_main']['field_full_name'][$lang][0]['family']['#prefix'] = '';
 $form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
 $form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
 $form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-$form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your name in English transcription.');
-$form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
 $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
 $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
 
@@ -28,7 +26,7 @@ print drupal_render($form['profile_main']['field_gender']);
 
 
 $lang = $form['profile_main']['field_birthdate']['#language'];
-$form['profile_main']['field_birthdate'][$lang][0]['value']['month']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
+$form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
 $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
 print drupal_render($form['profile_main']['field_birthdate']);
 

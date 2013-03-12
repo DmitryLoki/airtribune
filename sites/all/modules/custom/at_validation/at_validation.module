@@ -204,6 +204,8 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
     }
   }
   
+  
+  // TODO: Move to a single function.
   // Change field_t_shirt_size default select option name.
   if ($element['#field_name'] == 'field_t_shirt_size') {
     $element['#after_build'][] = '_t_shirt_size_after_build';
@@ -220,10 +222,26 @@ function at_validation_field_widget_form_alter(&$element, &$form_state, $context
   if ($element['#field_name'] == 'field_birthdate') {
     $element['#after_build'][] = '_birthdate_after_build';
   }
+  // Change field_full_name components description.
+  if ($element['#field_name'] == 'field_full_name') {
+    $element['#after_build'][] = '_full_name_after_build';
+  }
 }
 
 // TEST ==================================
 function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $context) {
+  
+  if (!empty($element[0]['#entity_type']) && !empty($element[0]['#bundle'])) {
+    // Change field_user_avatar description.
+    if ($element[0]['#field_name'] == 'field_user_avatar') {
+      $upload_validators = $element[0]['#upload_validators'];
+      if (!empty($element[0]['#description']) && !empty($upload_validators['file_validate_size'])) {
+        $substring = t('Files must be less than !size.', array('!size' => '<strong>' . format_size($upload_validators['file_validate_size'][0]) . '</strong>'));
+        $element[0]['#description'] = str_replace($substring, '', $element[0]['#description']);//18874368
+      }
+    }
+  }
+  
   // TODO: Check clientside_validation settings.
   // Check if ajax is enabled for the current field instance (entity, bundle and field).
   if (empty($element['value']['#entity_type']) || empty($element['value']['#bundle'])) {
@@ -299,6 +317,14 @@ function _birthdate_after_build($element, $form_state) {
   $element['value']['day']['#weight'] = 0;
   return $element;
 }
+/**
+ * After build for field_birthdate field widget.
+ */
+function _full_name_after_build($element, $form_state) {
+  $element['given']['#description'] = t('Your name in English transcription.');
+  $element['family']['#description'] = t('Your surname in English transcription.');
+  return $element;
+}
 
 
 /**
@@ -331,7 +357,22 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'og_ui_confirm_subscribe') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/reset-nation-dropdown-box.js';
+    $form['#after_build'][] = 'at_validation_form_after_build';
   }
+}
+
+/**
+ * Remove script for collapsing addressfield in not empty.
+ */
+function at_validation_form_after_build($form, $form_state) {
+  if (!empty($form_state['values']['profile_pilot']['field_address']['und'][0]['thoroughfare'])) {
+    foreach ($form['#attached']['js'] as $k => $js) {
+      if (strpos($js, 'reset-nation-dropdown') !== FALSE) {
+        unset($form['#attached']['js'][$k]);
+      }
+    }
+  }
+  return $form;
 }
 
 function at_validation_mail_validate($element, &$form_state) {
