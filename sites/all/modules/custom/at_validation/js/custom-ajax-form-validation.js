@@ -33,20 +33,20 @@
         checkAllElementsValid(formValidator);
     };
 
-    function checkAllElementsValid(formValidator) {
+    var checkAllElementsValid = Drupal.checkAllElementsValid = function(formValidator) {
         var allElements = formValidator.elements(),
             allElementsValid = true,
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
-            if (!formValidator.check(element) && !formValidator.optional(element)) {
+            if (!formValidator.check(element)) {
                 allElementsValid = false;
                 break;
             }
         }
         formValidator.successList = successList;
         submitButton[allElementsValid ? 'removeClass' : 'addClass']('disabled');
-    }
+    };
 
     Drupal.disableTabKey = function (form) {
         form.validate().elements().each(function (i, element) {
@@ -60,7 +60,7 @@
     };
 
     jQuery(document).ready(function () {
-        submitButton = $('#edit-submit').addClass('disabled');
+        submitButton = $('#edit-submit');
 
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
 
@@ -105,15 +105,18 @@
                     return passField.val() == passMatchField.val();
                 }, Drupal.settings.password.confirmFailure);
 
-                passField.rules('add', {passFieldValid:true});
+                passField.rules('add', {passFieldValid:true, required:true});
                 passField.rules('remove', 'required');
-                passMatchField.rules('add', {passMatchValid:true});
+                passMatchField.rules('add', {passMatchValid:true, required:true});
             }
         };
 
         for (var f in Drupal.settings.clientsideValidation.forms) {
-            var form = $('#' + f);
-            Drupal.settings.clientsideValidation.updateValidationSettings(form.validate());
+            var form = $('#' + f),
+                validator = form.validate();
+            Drupal.settings.clientsideValidation.updateValidationSettings(validator);
+            checkAllElementsValid(validator);
+
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
