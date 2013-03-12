@@ -12,12 +12,12 @@ function updateForm(container) {
     });
     var select_z_index = 1000;
     $('select', container).each(function () {
-        if(!$(this).parents('.form-item').parents('.form-wrapper')){
+        //if(!$(this).parents('.form-item').parents('.form-wrapper')){
             $(this).parents('.form-wrapper, .form-item').css({'z-index':select_z_index, 'position':'relative'})
-        }
+        /*}
         else {
             $(this).parents('.form-wrapper').css({'z-index':select_z_index, 'position':'relative'})
-        }
+        }*/
         select_z_index--;
     });
 
