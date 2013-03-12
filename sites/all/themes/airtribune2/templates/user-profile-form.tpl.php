@@ -1,10 +1,16 @@
 <?php
 
+global $user;
+
 $pass_fieldset_title = 'Change password';
 // if user initiate procedure of password reset, then hide main div with avatar, name, and birthday
 // and show only password change form
 if (!empty($_GET['pass-reset-token'])) {
   drupal_get_path('module', 'at_user') . '/js/pass_reset.js';
+  $pass_fieldset_title = 'Set password';
+}
+
+if ($hyb_id = _hybridauth_identity_load_by_uid($user->uid)) {
   $pass_fieldset_title = 'Set password';
 }
 
