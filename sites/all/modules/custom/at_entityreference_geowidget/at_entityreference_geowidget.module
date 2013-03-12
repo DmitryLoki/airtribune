@@ -115,3 +115,12 @@ function at_entityreference_geowidget_ajax(){
 function at_entityreference_geowidget_validate($element, &$form_state) {
   form_set_value($element, array('und' => array('target_id' => $element['target_id']['#value'])), $form_state);
 }
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_entityreference_geowidget_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'entityreference') {
+    return 'plugins/' . $plugin;
+  }
+}
