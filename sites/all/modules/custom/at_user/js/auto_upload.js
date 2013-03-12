@@ -4,7 +4,7 @@
 
       
       var widget = $('.image-widget').first();
-      widget.prev('label').hide();
+      widget.prev('.inline-label').css({'visibility':'hidden'});
       if (!widget.find('.image-preview').size() && !widget.find('.photo-empty-div').size()) {
         widget.addClass('photo-empty');
         widget.append("<div class='photo-empty-div'></div>").addClass();
