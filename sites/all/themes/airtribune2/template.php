@@ -1269,5 +1269,5 @@ function airtribune2_form_element_label($variables) {
   }
 
   // The leading whitespace helps visually separate fields from inline labels.
-  return ' <div class="inline-label"><label' . drupal_attributes($attributes) . '>' . $t('!title !required', array('!title' => $title, '!required' => $required)) . "</label><span class=\"valign\"></span></div>\n";
+  return ' <div class="inline-label"><label' . drupal_attributes($attributes) . '>' . $t('!title!required', array('!title' => str_replace(' <', '<', $title), '!required' => $required)) . "</label><span class=\"valign\"></span></div>\n";
 }
