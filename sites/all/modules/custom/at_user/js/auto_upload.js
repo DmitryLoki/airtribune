@@ -31,7 +31,36 @@
           $('input.form-file').forms({file_bt: ''});
         }
       });
-
     }
   };
+})(jQuery);
+
+(function($){
+    //Override default drupal file validation to show custom error message
+  var oldDrupalValidateExtension = Drupal.file.validateExtension,
+      oldAttach = Drupal.behaviors.fileValidateAutoAttach.attach,
+      validateFunction = function(event) {
+        var fileInput = $(this);
+
+        fileInput.closest('.image-widget-data').siblings('.form_booble').remove();
+        fileInput.closest('.form-managed-file').removeClass('field_error');
+        var result = oldDrupalValidateExtension.call(this, event);
+
+        //exactly 'false', not undefined
+        if(result === false) {
+          var errorMessage = $('.file-upload-js-error'),
+              errorBubble = Drupal.createErrorBubble(errorMessage.html());
+          errorMessage.after(errorBubble);
+          errorMessage.remove();
+          fileInput.closest('.form-managed-file').addClass('field_error');
+        }
+
+        return result;
+      };
+
+    Drupal.file.validateExtension = validateFunction;
+    Drupal.behaviors.fileValidateAutoAttach.attach = function(context, settings) {
+      Drupal.file.validateExtension = validateFunction;
+      oldAttach.call(this, context, settings);
+    };
 })(jQuery);

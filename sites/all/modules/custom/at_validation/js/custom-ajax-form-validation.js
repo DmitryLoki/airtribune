@@ -132,9 +132,9 @@
             submitButton.addClass('disabled');
         };
 
-        function createBubble(html) {
+        var createBubble = Drupal.createErrorBubble = function(html) {
             return jQuery('<span class="form_booble"><span class="form_booble_inner">' + html + '</span></span>');
-        }
+        };
 
         for (var field in Drupal.settings.ajax) {
             var f = jQuery(Drupal.settings.ajax[field].selector),
