@@ -66,6 +66,7 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
+  global $user;
   // make upload & delete (user_picture / avatar imagefield) without form_submit
   // see #2764
   if ($form_id == 'user_profile_form') {
@@ -89,6 +90,13 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // user can upload/delete photo many times, so we need to clear message queue;
     // form_clear_error();
     // drupal_set_message();
+
+    // Unset 'current password' field, if user logged thru hybridauth/facebook
+    if ($hybridauth = _hybridauth_identity_load_by_uid($user->uid)) {
+      unset($form['account']['current_pass']);
+      unset($form['account']['current_pass_required_values']);
+      $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
+    }
   }
   // see #2633
   if ($form_id == 'user_login_block') {
