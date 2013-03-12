@@ -47,7 +47,7 @@ print drupal_render($reg_form['profile_main']['field_gender']);
 
 
 $lang = $reg_form['profile_main']['field_birthdate']['#language'];
-$reg_form['profile_main']['field_birthdate'][$lang][0]['value']['month']['#title'] = $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'];
+$reg_form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'];
 $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
 print drupal_render($reg_form['profile_main']['field_birthdate']);
 

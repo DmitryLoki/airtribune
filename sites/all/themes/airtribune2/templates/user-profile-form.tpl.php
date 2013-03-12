@@ -46,7 +46,7 @@ if (!empty($form['profile_main'])) {
   print drupal_render($form['profile_main']['field_gender']);
 
   $lang = $form['profile_main']['field_birthdate']['#language'];
-  $form['profile_main']['field_birthdate'][$lang][0]['value']['month']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
+  $form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
   $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
   print drupal_render($form['profile_main']['field_birthdate']);
 }

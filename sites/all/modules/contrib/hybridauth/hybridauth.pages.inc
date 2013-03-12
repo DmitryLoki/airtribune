@@ -79,8 +79,8 @@ function _hybridauth_popup_close($redirect = TRUE) {
     var redirect = ' . ($redirect ? 'true' : 'false') . ';
     if (window.opener && redirect){
       window.opener.parent.location.href = "' . url($destination, array('absolute' => TRUE)) . '";
+      window.self.close();
     }
-    window.self.close();
   ', 'inline');
   $page = element_info('page');
   $page['#children'] = 'Closing...';
