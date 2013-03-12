@@ -10,7 +10,7 @@
         widget.append("<div class='photo-empty-div'></div>").addClass();
       }
       else if(!widget.find('.delete-photo').size()){
-        widget.find('.image-preview').append('<div class="delete-photo"></div>');
+        widget.find('.image-preview').append('<div class="delete-photo"><div class="delete-photo-plus"></div></div>');
         widget.find('.image-widget-data span').hide();
       }
 

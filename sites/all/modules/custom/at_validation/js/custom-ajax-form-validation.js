@@ -72,8 +72,8 @@
 
                     if (currentElement.attr('id') == 'edit-pass-pass2') {
                         var successBubble = createBubble(Drupal.settings.password.confirmSuccess);
-                        currentElement.closest('div.form-item').addClass('field_excellent').
-                            append(successBubble);
+                        currentElement.closest('div.form-item').addClass('field_excellent').find('.form-text').
+                            after(successBubble);
                         currentElement.data('error-element', successBubble);
                     }
 
@@ -200,6 +200,15 @@
                 // ignore IE throwing errors when focusing hidden elements
             }
         }
+    }
+
+     //Throbber position fix for birthday fields
+    var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend;
+    Drupal.ajax.prototype.beforeSend = function (xmlhttprequest, options) {
+        if (options.extraData._triggering_element_name.indexOf('field_birthdate') > -1) {
+            this.element = jQuery('.date-year')[0];
+        }
+        ajaxBeforeSend.apply(this, arguments);
     }
 
 
