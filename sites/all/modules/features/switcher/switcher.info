@@ -87,6 +87,7 @@ dependencies[] = menu
 dependencies[] = menu_attributes
 dependencies[] = menu_feature
 dependencies[] = metatag
+dependencies[] = metatag_panels
 dependencies[] = multiform
 dependencies[] = name
 dependencies[] = newsblog
