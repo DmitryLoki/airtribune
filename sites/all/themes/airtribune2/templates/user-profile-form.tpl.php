@@ -1,6 +1,21 @@
 <?php
 
-//print_r($form);
+global $user;
+
+$pass_fieldset_title = 'Change password';
+// if user initiate procedure of password reset, then hide main div with avatar, name, and birthday
+// and show only password change form
+if (!empty($_GET['pass-reset-token'])) {
+  drupal_get_path('module', 'at_user') . '/js/pass_reset.js';
+  $pass_fieldset_title = 'Set password';
+}
+
+if ($hyb_id = _hybridauth_identity_load_by_uid($user->uid)) {
+  $pass_fieldset_title = 'Set password';
+}
+
+print "<div id='name_and_birthday'>"; // #name_and_birthday start
+
 $lang = $form['profile_main']['field_full_name']['#language'];
 $form['field_user_avatar'][$lang][0]['#title'] = '';
 $form['field_avatar']['#attached']['js'][0] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
@@ -11,7 +26,7 @@ $form['account']['mail']['#title'] = t('Email');
 $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
 $form['account']['mail']['#description'] = t('This is you login. If you change it, you must enter your current password below as well.');
 $form['account']['current_pass']['#title'] = t('Current password');
-$form['account']['current_pass']['#description'] = t('Your current password.');
+$form['account']['current_pass']['#description'] = t('Your current password. If your forgot your password, you can reset it <a href="/user/password">here</a>.');
 $form['account']['pass']['pass1']['#title'] = t("New password");
 $form['account']['pass']['pass2']['#title'] = t("Repeat new password");
 $form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
@@ -51,9 +66,11 @@ if (!empty($form['profile_main'])) {
   print drupal_render($form['profile_main']['field_birthdate']);
 }
 
+print "</div>"; // #name_and_birthday end
+
 $form['pass_fieldset'] = array(
   '#type' => 'fieldset',
-  '#title' => t('Change password'),
+  '#title' => t($pass_fieldset_title) ,
   '#prefix' => '<div id="password-fieldset">',
   '#suffix' => '</div>',
   '#collapsible' => TRUE,
