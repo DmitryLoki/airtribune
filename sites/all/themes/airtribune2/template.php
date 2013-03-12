@@ -481,7 +481,7 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['name']['#attributes']['rel'] = t('Enter your e-mail');
         unset($form['pass']['#description']);
         $form['pass']['#attributes']['rel'] = t('Enter your password');
-        $form['hybridauth']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
+        $form['hybridauth']['#prefix'] = '<div class="hybridauth_prefix">'.t('or').'</div>';
         $form['hybridauth']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
     break;
