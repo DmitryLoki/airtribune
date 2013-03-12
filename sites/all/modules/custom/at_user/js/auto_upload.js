@@ -4,13 +4,13 @@
 
       
       var widget = $('.image-widget').first();
-      widget.prev('label').hide();
+      widget.prev('.inline-label').css({'visibility':'hidden'});
       if (!widget.find('.image-preview').size() && !widget.find('.photo-empty-div').size()) {
         widget.addClass('photo-empty');
         widget.append("<div class='photo-empty-div'></div>").addClass();
       }
       else if(!widget.find('.delete-photo').size()){
-        widget.find('.image-preview').append('<div class="delete-photo"></div>');
+        widget.find('.image-preview').append('<div class="delete-photo"><div class="delete-photo-plus"></div></div>');
         widget.find('.image-widget-data span').hide();
       }
 
@@ -31,7 +31,36 @@
           $('input.form-file').forms({file_bt: ''});
         }
       });
-
     }
   };
+})(jQuery);
+
+(function($){
+    //Override default drupal file validation to show custom error message
+  var oldDrupalValidateExtension = Drupal.file.validateExtension,
+      oldAttach = Drupal.behaviors.fileValidateAutoAttach.attach,
+      validateFunction = function(event) {
+        var fileInput = $(this);
+
+        fileInput.closest('.image-widget-data').siblings('.form_booble').remove();
+        fileInput.closest('.form-managed-file').removeClass('field_error');
+        var result = oldDrupalValidateExtension.call(this, event);
+
+        //exactly 'false', not undefined
+        if(result === false) {
+          var errorMessage = $('.file-upload-js-error'),
+              errorBubble = Drupal.createErrorBubble(errorMessage.html());
+          errorMessage.after(errorBubble);
+          errorMessage.remove();
+          fileInput.closest('.form-managed-file').addClass('field_error');
+        }
+
+        return result;
+      };
+
+    Drupal.file.validateExtension = validateFunction;
+    Drupal.behaviors.fileValidateAutoAttach.attach = function(context, settings) {
+      Drupal.file.validateExtension = validateFunction;
+      oldAttach.call(this, context, settings);
+    };
 })(jQuery);

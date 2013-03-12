@@ -23,7 +23,7 @@ Drupal.behaviors.password = {
 
       // Add the description box.
       //var passwordMeter = '<div class="password-strength"><div class="password-strength-text" aria-live="assertive"></div><div class="password-strength-title">' + translate['strengthTitle'] + '</div><div class="password-indicator"><div class="indicator"></div></div></div>';
-	  var passwordMeter = '<span style="display:none" class="password-strength form_booble"><span class="password-strength-text form_booble_inner" aria-live="assertive"></span></span>';
+	    var passwordMeter = '<span style="display:none" class="password-strength form_booble"><span class="password-strength-text form_booble_inner" aria-live="assertive"></span></span>';
       //$(confirmInput).parent().after('<div class="password-suggestions description"></div>');
       $(innerWrapper).find('input').after(passwordMeter);
       var passwordDescription = $('div.password-suggestions', outerWrapper).hide();
