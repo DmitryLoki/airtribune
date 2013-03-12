@@ -354,6 +354,11 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
     
     $form['account']['mail']['#element_validate'][] = 'at_validation_mail_validate';
   }
+  // User edit page
+  if ($form_id == 'user_profile_form') {
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-edit-validation.js.';
+  }
+  
   if($form_id == 'og_ui_confirm_subscribe') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/reset-nation-dropdown-box.js';
