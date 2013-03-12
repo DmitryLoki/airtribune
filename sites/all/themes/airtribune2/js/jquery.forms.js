@@ -108,7 +108,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 		else if (el.is('select') && opt[el.type] == true && !el.hasClass('styled_element')) {
 			el.css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 			el.name = el.attr('name').replace(/[\[\]]/g, '');
-			el.replace = '<span class="'+el.type+' el-name-'+el.name+'"><div class="checked_option_wrap"><span class="checked_option"></span></div><span class="items"><span class="items_inner">';
+			el.replace = '<span class="'+el.type+' el-name-'+el.name+'"><span class="checked_option_wrap"><span class="checked_option"></span></span><span class="items"><span class="items_inner">';
 			el.children().each(function(i, item){
 				el.option = el.children().eq(i);
 				el.option.selected = (el.option.attr('selected')) ? ' selected' : '';
