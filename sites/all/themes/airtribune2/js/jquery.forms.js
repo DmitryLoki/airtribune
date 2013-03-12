@@ -156,6 +156,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 				el.children().eq(el.handle.index).attr('selected', 'selected');
 				el.handle.cheked.html(el.handle.items.children('.items_inner').find('.selected').html())
 				el.handle.items.hide();
+                el.handle.items.trigger('select-hided');
 				el.change();
 			});
 			el.addClass('styled_element');
