@@ -357,6 +357,7 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
   // User edit page
   if ($form_id == 'user_profile_form') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-edit-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
   }
   
   if($form_id == 'og_ui_confirm_subscribe') {
@@ -496,6 +497,14 @@ function at_validation_js_alter(&$javascript) {
           //Phone number select
           unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
           unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
+          
+          //Name
+          $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
         }
 
         
