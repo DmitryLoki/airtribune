@@ -39,7 +39,7 @@
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
-            if (!formValidator.check(element) && !formValidator.optional(element)) {
+            if (!formValidator.check(element) && !(formValidator.optional(element) && $(element).attr('type') != 'password')) {
                 allElementsValid = false;
                 break;
             }
@@ -157,9 +157,9 @@
 
         Drupal.ajax.prototype.beforeSerialize = function (element, options) {
             if (options.url === '/at-validation/ajax') {
-                submitButton.addClass('disabled');
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+                submitButton.addClass('disabled');
                 return formValidator.element(activeField);
             } else {
                 beforeSerialize.call(this, element, options);
