@@ -21,7 +21,7 @@ function user_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_destination';
-  $strongarm->value = '[user:url]';
+  $strongarm->value = '';
   $export['hybridauth_destination'] = $strongarm;
 
   $strongarm = new stdClass();
