@@ -2,8 +2,14 @@
 
 global $user;
 
-//print $user->mail;
-print drupal_render($form['user_mail']);
+//print drupal_render($form['user_mail']);
+$form['account']['mail_dummy'] = array(
+  '#type' => 'item',
+  '#title' => t('Email'),
+  '#markup' => $form['user_mail']['#markup'],
+);
+
+print drupal_render($form['account']['mail_dummy']);
 
 // Main profile
 // =====================
@@ -30,7 +36,7 @@ if (!empty($form['profile_main'])) {
 
   // Birthdate
   $lang = $form['profile_main']['field_birthdate']['#language'];
-  $form['profile_main']['field_birthdate'][$lang][0]['value']['month']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
+  $form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
   $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
   print drupal_render($form['profile_main']['field_birthdate']);
 

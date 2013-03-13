@@ -3126,8 +3126,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 /* user avatar */
 .page-user-edit .pane-page-content form .field-type-image .description { margin-bottom: -23px;}
 .page-user-edit .pane-page-content form .field-type-image .description br:first-child { display: none;}
-.page-user-edit .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
-.page-user-edit .pane-page-content form .form-type-item .inline-label { top: -10px;}
+.page-user .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
+.page-user .pane-page-content form .form-type-item .inline-label { top: -10px;}
 .page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
 .page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
 .page-user-edit .pane-page-content form .field-type-list-text .form-type-radio { padding-bottom: 2px;}
