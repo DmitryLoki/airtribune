@@ -48,6 +48,7 @@ jQuery(document).ready(function () {
     var ajaxValidationResult = $.fn.checkValidationResult;
     $.fn.checkValidationResult = function (errorText) {
         if ($(this).attr('id') == "edit-profile-main-field-birthdate-und-0-value") {
+            birthdateInput.rules('add', {birthDateFilled:true, required:true});
             ajaxValidationResult.call(birthdateInput, errorText);
         } else {
             ajaxValidationResult.call(this, errorText);
