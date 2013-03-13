@@ -8,13 +8,13 @@ $plugin = array(
 );
 
 function at_validation_validator__phone_number__simple_phone_number_widget(&$element, &$form_state, $context) {
-  $element['number']['#ajax'] = at_validation_ajax_defaults();
-  $element['number']['#ajax'] += array(
+  $element['full_number']['#ajax'] = at_validation_ajax_defaults();
+  $element['full_number']['#ajax'] += array(
     'event' => 'focusout',
   );
 }
 
 function at_validation_validator__phone_number__simple_phone_number_widget_id($element, $triggering_element, &$errors) {
-  $selector = '#' . $element['#id'] . '-number';
+  $selector = '#' . $element['#id'] . '-full-number';
   return $selector;
 }
