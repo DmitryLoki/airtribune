@@ -2,6 +2,7 @@
 
 
 define('PILOT_PROFILE_NAME', 'pilot');
+define('MAIN_PROFILE_NAME', 'main');
 define('CONTEST_MEMBERSHIP_NAME', 'pg_contestant');
 
 
@@ -272,9 +273,18 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         // TODO: Data for MT is obtained from Profile.
         if($user->uid) {
           $form_state['user'] = $user;
-          $profile_type = PILOT_PROFILE_NAME;
-          at_reg_form_attach_profile($form, $form_state, $profile_type);
+          //$profile_type = PILOT_PROFILE_NAME;
+          at_reg_form_attach_profile($form, $form_state, PILOT_PROFILE_NAME);
+          at_reg_form_attach_profile($form, $form_state, MAIN_PROFILE_NAME);
           // Hide crossfields and set their values based on base fields.
+          // TODO: These two functions must not be even added while at_reg_form_attach_profile().
+          unset($form['#submit'][2]);
+          unset($form['#validate'][3]);
+          //dsm($form);
+          
+          $form['user_mail'] = array(
+            '#markup' => $user->mail,
+          );
           $form['#after_build'][] = 'at_reg_authorized_form_after_build';
         }
         $form['#theme'] = 'og_ui_confirm_subscribe';

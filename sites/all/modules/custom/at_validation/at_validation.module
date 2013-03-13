@@ -479,6 +479,7 @@ function at_validation_js_alter(&$javascript) {
           $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
           $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
           $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
           $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
           $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
           $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
@@ -521,8 +522,17 @@ function at_validation_js_alter(&$javascript) {
             }
           
             if (isset($setting['clientsideValidation']['forms'][$f]['rules'])) {
-              // Address components
               $rules = &$setting['clientsideValidation']['forms'][$f]['rules'];
+              
+              // Name components
+              $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+              $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+              $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+              $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+              $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+              $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+              
+              // Address components
               $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
               $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
               // Address components regex
