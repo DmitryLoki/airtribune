@@ -887,6 +887,7 @@ div.messages  {
   min-height: 40px;
   text-align: center;
   position: relative;
+  margin-bottom: 28px;
 
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;

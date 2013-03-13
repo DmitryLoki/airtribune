@@ -130,14 +130,21 @@
             }
             var errorBubble = createBubble(error.html())
                     .attr('for', element.attr('id'))
-                    .attr('link', element.attr('id')),
-                form = element.closest('div.form-item').addClass('field_error').removeClass('field_excellent');
+                    .attr('link', element.attr('id'));
             var previousErrorElement = element.data('error-element');
             if (previousErrorElement) {
                 previousErrorElement.remove();
             }
             element.data('error-element', errorBubble);
-            element.after(errorBubble);
+            if (element.attr('id') == 'birthdate-fake-input') {
+                var form = element.parents('div.form-item')
+                element.parent().after(errorBubble);
+            }
+            else {
+                var form = element.closest('div.form-item')
+                element.after(errorBubble);
+            }
+            form.addClass('field_error').removeClass('field_excellent');
             element.closest('form').find('input.form-submit').addClass('disabled');
         };
 
