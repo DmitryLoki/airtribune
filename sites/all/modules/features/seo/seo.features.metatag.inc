@@ -61,6 +61,16 @@ function seo_metatag_export_default() {
     ),
   );
 
+  // Exported Metatag config instance: node:newsblog.
+  $config['node:newsblog'] = array(
+    'instance' => 'node:newsblog',
+    'config' => array(
+      'title' => array(
+        'value' => '[node:title]. [node:og-group-ref:0:title] | [site:slogan]',
+      ),
+    ),
+  );
+
   // Exported Metatag config instance: global.
   $config['global'] = array(
     'instance' => 'global',
@@ -100,10 +110,10 @@ function seo_metatag_export_default() {
     'instance' => 'user',
     'config' => array(
       'title' => array(
-        'value' => '[user:profile-pilot:name-field-full-name] | [site:slogan]',
+        'value' => '[user:profile-pilot:field_name_in_national_alphabet] | [site:slogan]',
       ),
       'og:title' => array(
-        'value' => '[user:profile-pilot:name-field-full-name]',
+        'value' => '[user:profile-pilot:field_name_in_national_alphabet]',
       ),
       'og:type' => array(
         'value' => 'profile',
