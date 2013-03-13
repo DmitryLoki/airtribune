@@ -1445,6 +1445,10 @@ function views_feature_views_default_views() {
     'style_field' => '',
   );
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Entity Reference: Referencing entity */
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['id'] = 'reverse_field_headquarter_hotel_node';
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['field'] = 'reverse_field_headquarter_hotel_node';
   /* Field: Node ID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -1493,21 +1497,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null']['validate']['type'] = 'geofield_entity';
-  $handler->display->display_options['arguments']['null']['validate_options']['entity'] = 'ent_track';
-  $handler->display->display_options['arguments']['null']['validate_options']['geofield'] = 'field_location';
-  /* Contextual filter: Content: Nid */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
-    'accommodation' => 'accommodation',
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -1573,14 +1565,6 @@ function views_feature_views_default_views() {
       'fixed' => '56',
       'label' => 'Global: Null',
     ),
-    'nid' => array(
-      'type' => 'user',
-      'context' => 'entity:node.members--1',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Nid',
-    ),
   );
 
   /* Display: Overlay accommodations */
@@ -1589,33 +1573,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Global: Null */
-  $handler->display->display_options['arguments']['null']['id'] = 'null';
-  $handler->display->display_options['arguments']['null']['table'] = 'views';
-  $handler->display->display_options['arguments']['null']['field'] = 'null';
-  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null']['validate']['type'] = 'geofield_entity';
-  $handler->display->display_options['arguments']['null']['validate_options']['entity'] = 'ent_tracker';
-  $handler->display->display_options['arguments']['null']['validate_options']['geofield'] = 'field_hq_location';
-  /* Contextual filter: Content: Nid */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
-    'accommodation' => 'accommodation',
-  );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -1657,20 +1614,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Global: Null */
-  $handler->display->display_options['arguments']['null']['id'] = 'null';
-  $handler->display->display_options['arguments']['null']['table'] = 'views';
-  $handler->display->display_options['arguments']['null']['field'] = 'null';
-  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null']['validate']['type'] = 'geofield_entity';
-  $handler->display->display_options['arguments']['null']['validate_options']['entity'] = 'ent_track';
-  $handler->display->display_options['arguments']['null']['validate_options']['geofield'] = 'field_location';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -1786,7 +1729,7 @@ function views_feature_views_default_views() {
   );
 
   /* Display: Overlay HQ location */
-  $handler = $view->new_display('openlayers', 'Overlay HQ location', 'openlayers_2');
+  $handler = $view->new_display('openlayers', 'Overlay HQ location', 'openlayers_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -1794,13 +1737,13 @@ function views_feature_views_default_views() {
     'value' => 'wkt',
     'other_lat' => 'title',
     'other_lon' => 'title',
-    'wkt' => 'field_location',
+    'wkt' => 'field_hq_location',
     'other_top' => 'title',
     'other_right' => 'title',
     'other_bottom' => 'title',
     'other_left' => 'title',
     'name_field' => '',
-    'description_field' => 'field_location',
+    'description_field' => '',
     'view_mode' => 'full',
     'style_field' => '',
   );
@@ -1808,6 +1751,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Node ID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -1829,17 +1773,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Location */
-  $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
-  $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
-  $handler->display->display_options['fields']['field_location']['field'] = 'field_location';
-  $handler->display->display_options['fields']['field_location']['ui_name'] = 'Location';
-  $handler->display->display_options['fields']['field_location']['label'] = '';
-  $handler->display->display_options['fields']['field_location']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_location']['click_sort_column'] = 'geom';
-  $handler->display->display_options['fields']['field_location']['settings'] = array(
-    'data' => 'full',
-  );
   /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
@@ -1847,11 +1780,27 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  /* Field: Content: Headquarter location */
+  $handler->display->display_options['fields']['field_hq_location']['id'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['table'] = 'field_data_field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_hq_location']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_hq_location']['settings'] = array(
+    'data' => 'full',
+  );
+  /* Field: Content: Headquarter info */
+  $handler->display->display_options['fields']['field_headquarter_info']['id'] = 'field_headquarter_info';
+  $handler->display->display_options['fields']['field_headquarter_info']['table'] = 'field_data_field_headquarter_info';
+  $handler->display->display_options['fields']['field_headquarter_info']['field'] = 'field_headquarter_info';
+  $handler->display->display_options['fields']['field_headquarter_info']['label'] = '';
+  $handler->display->display_options['fields']['field_headquarter_info']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
@@ -1878,7 +1827,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'accommodation' => 'accommodation',
+    'pg_contest' => 'pg_contest',
   );
   $translatables['event_map'] = array(
     t('Master'),
@@ -1888,6 +1837,7 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Content referencing Content from field_headquarter_hotel'),
     t('All'),
     t('Pane'),
     t('View panes'),
@@ -1895,6 +1845,7 @@ function views_feature_views_default_views() {
     t('Overlay activities'),
     t('Overlay HQ'),
     t('Overlay HQ location'),
+    t('Headquarter location'),
   );
   $export['event_map'] = $view;
 
