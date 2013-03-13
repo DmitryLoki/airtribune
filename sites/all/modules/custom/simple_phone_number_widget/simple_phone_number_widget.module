@@ -94,7 +94,17 @@ function _simple_phonenumber_validate($element, &$form_state) {
   $field_name = $element['#parents'][1];
   $language = $element['#parents'][2];
   $delta = $element['#parents'][3];
+  
+  //Prepare element for validation
+  $element['#field_parents'][0] = $element['#parents'][0];
+  $element['#field_name'] = $field_name;
+  $element['#language'] = $language;
+  $element['#delta'] = $delta;
+  
+  $countrycode = NULL;
   $element['#value'] = preg_replace('/[^0-9]/', '', $element['#value']);
+  $number = $element['#value'];
+  
   if ($element['#value'] == '') {
     $form_state['input'][$field_name][$language][$delta]['country_codes'] = FALSE;
     $form_state['values'][$field_name][$language][$delta]['country_codes'] = FALSE;
@@ -112,12 +122,15 @@ function _simple_phonenumber_validate($element, &$form_state) {
       $form_state['values'][$field_name][$language][$delta]['country_codes'] = $countrycode;
       $form_state['input'][$field_name][$language][$delta]['number'] = $number;
       $form_state['values'][$field_name][$language][$delta]['number'] = $number;
-
-      if (!cck_phone_validate_number($countrycode, $number)) {
-        form_set_error($field_name);
-      }     
+   
     }
   }
+  $element['#value'] = array(
+    'country_codes' => $countrycode,
+    'number' => $number,
+  );
+  
+  cck_phone_phone_number_validate($element, $form_state);
 }
 
 /**
