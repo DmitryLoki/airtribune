@@ -1,6 +1,5 @@
 (function ($) {
-    var activeField,
-        submitButton;
+    var activeField;
 
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
@@ -35,11 +34,12 @@
 
     var checkAllElementsValid = Drupal.checkAllElementsValid = function(formValidator) {
         var allElements = formValidator.elements(),
+            submitButton = allElements.closest('form').find('input.form-submit'),
             allElementsValid = true,
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
-            if (!formValidator.check(element) && !(formValidator.optional(element) && $(element).attr('type') != 'password')) {
+            if (!formValidator.check(element) && ($(element).rules().required || $(element).attr('type') === 'password')) {
                 allElementsValid = false;
                 break;
             }
@@ -60,7 +60,6 @@
     };
 
     jQuery(document).ready(function () {
-        submitButton = $('#edit-submit');
 
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
 
@@ -93,6 +92,7 @@
 
                 jQuery.validator.addMethod('passFieldValid', function () {
                     if(passField.val()) {
+                        $.validator.messages.passFieldValid = "";
                         return !passCheckFunction();
                     }
                     else {
@@ -116,7 +116,12 @@
                 validator = form.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(validator);
             checkAllElementsValid(validator);
-
+            form.find('select').bind('change', function(){
+                var $this = $(this);
+                if($this.rules()) {
+                    validator.element(this);
+                }
+            })
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
@@ -133,7 +138,7 @@
             }
             element.data('error-element', errorBubble);
             element.after(errorBubble);
-            submitButton.addClass('disabled');
+            element.closest('form').find('input.form-submit').addClass('disabled');
         };
 
         var createBubble = Drupal.createErrorBubble = function(html) {
@@ -159,8 +164,9 @@
             if (options.url === '/at-validation/ajax') {
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
-                submitButton.addClass('disabled');
-                return formValidator.element(activeField);
+                var validationResult = formValidator.element(activeField);
+                element.find('input.form-submit').addClass('disabled');
+                return validationResult;
             } else {
                 beforeSerialize.call(this, element, options);
             }
