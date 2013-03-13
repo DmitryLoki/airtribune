@@ -333,6 +333,9 @@ function _full_name_after_build($element, $form_state) {
  * Adds ajax handler to form elements.
  */
 function at_validation_form_alter(&$form, &$form_state, $form_id) {
+  $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+              ? TRUE
+              : FALSE;
   if ($form_id == 'user_register_form') {
     // Form caching is set in ajax_process_form().
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
@@ -358,6 +361,9 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'user_profile_form') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-edit-validation.js';
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    if (!$multiform) {
+      $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
+    }
   }
   
   if($form_id == 'og_ui_confirm_subscribe') {

@@ -39,7 +39,7 @@
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
-            if (!formValidator.check(element) && !(formValidator.optional(element) && $(element).attr('type') != 'password')) {
+            if (!formValidator.check(element) && ($(element).rules().required || $(element).attr('type') === 'password')) {
                 allElementsValid = false;
                 break;
             }
