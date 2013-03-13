@@ -78,10 +78,12 @@ function _simple_phonenumber_element_validate(&$element, &$form_state) {
   $language = $element['#parents'][2];
   $delta = $element['#parents'][3];
   $element_name = $element['#parents'][4];
-  $element_value = $form_state['values'][$field_name][$language][$delta][$element_name];
-  $element['#value'] = $element_value;
-  
-  form_set_value($element, $element_value, $form_state);
+  if (isset($form_state['values'][$field_name])) {
+    $element_value = $form_state['values'][$field_name][$language][$delta][$element_name];
+    $element['#value'] = $element_value;
+
+    form_set_value($element, $element_value, $form_state);
+  }
 }
 
 /**
