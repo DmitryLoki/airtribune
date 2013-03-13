@@ -2720,7 +2720,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'hidden',
-      'formatter' => 'airtribune_carousel',
+      'formatter' => 'airtribune_info_carousel',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,

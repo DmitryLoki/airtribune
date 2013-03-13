@@ -2561,13 +2561,30 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-node-field-flying-site-photos .field { padding:0; margin-bottom:0}
 .pane-node-field-photos .field-item,
 .pane-node-field-contest-photos .field-item,
-.pane-node-field-flying-site-photos .field-item { float:left; /*border:1px solid #c8d0d3;*/ margin-left:20px;}
+.pane-node-field-flying-site-photos .field-item { /*float:left; border:1px solid #c8d0d3;*/ margin-left:20px;}
 .pane-node-field-photos .field-item img,
 .pane-node-field-contest-photos .field-item img,
 .pane-node-field-flying-site-photos .field-item img { vertical-align:middle;}
 
-.page-event-info .pane-node-field-contest-photos, .page-event-info .pane-node-field-flying-site-photos { float:left; padding-bottom:35px}
+.page-event-info .pane-node-field-contest-photos, .page-event-info .pane-node-field-flying-site-photos { padding-bottom:16px}
 .page-event-info .pane-node-field-flying-site-photos { margin-left:0}
+
+.pane-node-field-contest-photos .pane-content { margin:0; padding-top: 11px;}
+.pane-node-field-contest-photos .more-link { padding: 10px 0 0 20px;}
+
+.field-name-field-contest-photos {}
+.field-name-field-contest-photos .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 150px; overflow: hidden;}
+.field-name-field-contest-photos .jcarousel-skin-default .jcarousel-clip-horizontal { width: 468px; overflow: visible; margin-left: 116px;}
+.field-name-field-contest-photos .jcarousel-skin-default .jcarousel-item { width: 232px; height: 150px; border: none; margin: 0 1px;}
+.field-name-field-contest-photos .jcarousel-skin-default .jcarousel-item img { width: 232px; height: 150px;}
+.field-name-field-contest-photos .jcarousel-prev, .field-name-field-contest-photos .jcarousel-next { width: 115px; height: 150px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
+.field-name-field-contest-photos .jcarousel-prev { left: 0;}
+.field-name-field-contest-photos .jcarousel-next { right: 0;}
+.field-name-field-contest-photos .jcarousel-prev:focus, .field-name-field-contest-photos .jcarousel-next:focus { outline: none;}
+.field-name-field-contest-photos .jcarousel-prev:hover { background-position: 50% -560px}
+.field-name-field-contest-photos .jcarousel-prev:active { background-position: 50% 60px}
+.field-name-field-contest-photos .jcarousel-next:hover { background-position: 50% -870px}
+.field-name-field-contest-photos .jcarousel-next:active { background-position: 50% -250px}
 
 /* Awards photos */
 .pane-node-field-awards-photos { padding-top:13px; padding-bottom:31px}
@@ -2747,7 +2764,7 @@ p { margin:0; padding:9px 0 11px}
 
 /* Feed photos */
 .page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:0}
-.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:20px}
+.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:20px; float:left; }
 
 .page-event-details .pane-node-field-flying-info { margin-right:0}
 

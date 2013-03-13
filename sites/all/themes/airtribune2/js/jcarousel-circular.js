@@ -38,7 +38,7 @@
                     var last = jcarousel.list.find('li:last');
                     last.css({width:'0px'});
                     jcarousel.list.prepend(last);
-                    last.animate({width:'466px'});
+                    last.animate({width: last.find('img').width()}, 200);
                     event.stopImmediatePropagation();
                 }
 
@@ -46,7 +46,7 @@
                     var first = jcarousel.list.find('li:first');
                     first.animate({width:'0px'}, {complete:function () {
                         jcarousel.list.append(first);
-                        first.animate({width:'466px'});
+                        first.animate({width: first.find('img').width()}, 200);
                     }});
                     event.stopImmediatePropagation();
                 }

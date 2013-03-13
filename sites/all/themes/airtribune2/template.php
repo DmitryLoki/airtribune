@@ -1127,7 +1127,7 @@ function airtribune2_preprocess_field(&$vars) {
   }
 
   if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD) {
-    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'airtribune_carousel'));
+    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'airtribune_info_carousel'));
     if (isset($flying_site_photos[0])) {
       foreach ($flying_site_photos[0]['#items'] as $item) {
         $vars['items'][0]['#items'][] = $item;
