@@ -1125,26 +1125,15 @@ function airtribune2_preprocess_field(&$vars) {
       }
     }
   }
-  //d::dump()
-  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD || $element['#field_name'] == AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD) {
-    foreach ($vars['items'] as $delta => $item) {
-      $gid = $item['#display_settings']['colorbox_gallery_custom'];
-      if ($gid == 'contest_photos_details') {
-        $limit = 4;
-      }
-      elseif ($gid == 'flying_site_photos_details') {
-        $limit = 8;
-      }
-      else {
-        $limit = 2;
-      }
 
-      if ($delta >= $limit) {
-        $vars['item_attributes_array'][$delta]['style'] = 'display: none';
+  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD) {
+    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'airtribune_carousel'));
+    if (isset($flying_site_photos[0])) {
+      foreach ($flying_site_photos[0]['#items'] as $item) {
+        $vars['items'][0]['#items'][] = $item;
       }
     }
   }
-
 }
 
 /**
@@ -1200,9 +1189,6 @@ function airtribune2_colorbox_imagefield($variables) {
     }
     elseif ($gid == 'flying_site_photos_details') {
       $hidden = $counter[$gid] > 8;
-    }
-    else {
-      $hidden = $counter[$gid] > 2;
     }
     $gid = 'contest-gallery';
   }

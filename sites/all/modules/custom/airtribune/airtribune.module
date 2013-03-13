@@ -131,7 +131,9 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         'start' => 2,
       );
 
-      $element[0]['#markup'] = theme('jcarousel', array('items' => $images, 'options' => $options));
+      $element[0]['#theme'] = 'jcarousel';
+      $element[0]['#items'] = $images;
+      $element[0]['#options'] = $options;
       //$element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
       $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel-circular.js');
 
