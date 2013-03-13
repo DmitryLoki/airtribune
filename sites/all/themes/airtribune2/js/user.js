@@ -91,7 +91,12 @@ Drupal.behaviors.password = {
               confirmInput.closest('form').validate().element(confirmInput[0]);
           }
       });
-      confirmInput.blur(function(){
+      passwordInput.keyup(function(){
+        if(confirmInput[0].visited){
+            confirmInput.closest('form').validate().element(confirmInput[0]);
+        }
+      });
+      confirmInput.keyup(function(){
           this.visited = true;
           confirmInput.closest('form').validate().element(confirmInput[0]);
       });
@@ -192,7 +197,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     pass = 'error';
   } else if(password.length < 8) {
     indicatorText = translate.weak;
-    pass = 'error';
+    pass = 'weak';
   } else if( password.length < 10) {
     indicatorText = translate.good;
     pass = 'good';
