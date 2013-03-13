@@ -85,15 +85,17 @@ class geofieldProximityArgument extends geofieldProximityBase implements geofiel
     if (isset($views_plugin->view->args[$views_plugin->options['geofield_proximity_argument_number']])){
       $argument = $views_plugin->view->args[$views_plugin->options['geofield_proximity_argument_number']];
     }
-    $entity = entity_metadata_wrapper($views_plugin->options['geofield_proximity_argument_entity_type'], $argument);
-    $options = array();
-    if (isset($entity->{$views_plugin->options['geofield_proximity_argument_field']})) {
-      $options = $entity->{$views_plugin->options['geofield_proximity_argument_field']}->value();
-      if ($options) {
-        return array(
-          'latitude' => $options['lat'],
-          'longitude' => $options['lon'],
-        );
+    if (isset($argument)) {
+      $entity = entity_metadata_wrapper($views_plugin->options['geofield_proximity_argument_entity_type'], (int)$argument);
+      $options = array();
+      if (isset($entity->{$views_plugin->options['geofield_proximity_argument_field']})) {
+        $options = $entity->{$views_plugin->options['geofield_proximity_argument_field']}->value();
+        if ($options) {
+          return array(
+            'latitude' => $options['lat'],
+            'longitude' => $options['lon'],
+          );
+        }
       }
     }
     return FALSE;
