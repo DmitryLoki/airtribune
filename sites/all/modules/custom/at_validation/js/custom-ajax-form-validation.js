@@ -92,6 +92,7 @@
 
                 jQuery.validator.addMethod('passFieldValid', function () {
                     if(passField.val()) {
+                        $.validator.messages.passFieldValid = "";
                         return !passCheckFunction();
                     }
                     else {
@@ -137,7 +138,7 @@
             }
             element.data('error-element', errorBubble);
             element.after(errorBubble);
-            element.find('input.form-submit').addClass('disabled');
+            element.closest('form').find('input.form-submit').addClass('disabled');
         };
 
         var createBubble = Drupal.createErrorBubble = function(html) {
@@ -163,8 +164,9 @@
             if (options.url === '/at-validation/ajax') {
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+                var validationResult = formValidator.element(activeField);
                 element.find('input.form-submit').addClass('disabled');
-                return formValidator.element(activeField);
+                return validationResult;
             } else {
                 beforeSerialize.call(this, element, options);
             }

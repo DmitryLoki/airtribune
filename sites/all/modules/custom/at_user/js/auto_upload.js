@@ -2,17 +2,19 @@
   Drupal.behaviors.autoUpload = {
     attach: function (context, settings) {
 
-      
       var widget = $('.image-widget').first();
-      widget.prev('.inline-label').css({'visibility':'hidden'});
-      if (!widget.find('.image-preview').size() && !widget.find('.photo-empty-div').size()) {
-        widget.addClass('photo-empty');
-        widget.append("<div class='photo-empty-div'></div>").addClass();
-      }
-      else if(!widget.find('.delete-photo').size()){
-        widget.find('.image-preview').append('<div class="delete-photo"><div class="delete-photo-plus"></div></div>');
-        widget.find('.image-widget-data span').hide();
-      }
+      widget.once(function(){
+          widget.prev('.inline-label').css({'visibility':'hidden'});
+          if (!widget.find('.image-preview').size() && !widget.find('.photo-empty-div').size()) {
+              widget.addClass('photo-empty');
+              widget.append("<div class='photo-empty-div'></div>").addClass();
+          }
+          else if(!widget.find('.delete-photo').size()){
+              widget.find('.image-preview').append('<div class="delete-photo"><div class="delete-photo-plus"></div></div>');
+              widget.find('.image-widget-data span').hide();
+          }
+      });
+
 
       $('form', context).delegate('input.form-file', 'change', function() {  
         $(this).parents('.image-widget-data').find('input[type="submit"]').mousedown();
