@@ -2963,11 +2963,14 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form_booble_inner { min-width:120px; padding:7px 10px 9px 17px; max-width:200px; font:italic 12px/14px Arial, Helvetica, sans-serif; display:inline-block; margin-left:-7px}
 .page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
 .page-user .pane-page-content form .field_error .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
+.page-user .pane-page-content form .field_weak .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
+.page-user .pane-page-content form .field_weak .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
 .page-user .pane-page-content form .field_good .form_booble { border:2px solid #ffc446; color:#ffc446;}
 .page-user .pane-page-content form .field_good .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -274px}
 .page-user .pane-page-content form .field_excellent .form_booble { border:2px solid #95da3a; color:#95da3a;}
 .page-user .pane-page-content form .field_excellent .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -74px}
 .page-user .pane-page-content form .form-item input.form-text.error, .page-user .pane-page-content form .field_error input.form-text { border:2px solid #ff464d; margin:0;}
+.page-user .pane-page-content form .field_weak input.form-text { border:2px solid #ff464d; margin:0;}
 .page-user .pane-page-content form .field_good input.form-text { border:2px solid #ffc446; margin:0;}
 .page-user .pane-page-content form .field_excellent input.form-text { border:2px solid #95da3a; margin:0;}
 .page-user .pane-page-content form .form-item-pass-pass2 { padding-bottom:0}
