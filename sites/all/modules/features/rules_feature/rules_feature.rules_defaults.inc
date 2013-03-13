@@ -77,6 +77,21 @@ function rules_feature_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_on_empty_profile'] = entity_import('rules_config', '{ "rules_on_empty_profile" : {
+      "LABEL" : "Redirect to main profile if name not filled",
+      "PLUGIN" : "reaction rule",
+      "REQUIRES" : [ "rules", "hybridauth" ],
+      "ON" : [ "user_login" ],
+      "IF" : [
+        { "data_is_empty" : { "data" : [ "account:profile-main:field-full-name" ] } },
+        { "hybridauth_user_created_hybridauth" : { "account" : [ "account" ] } }
+      ],
+      "DO" : [
+        { "drupal_message" : { "message" : "Your account has been created with Facebook login. Please, fill the form below." } },
+        { "redirect" : { "url" : "[account:edit-url]" } }
+      ]
+    }
+  }');
   $items['rules_pg_contestant_active'] = entity_import('rules_config', '{ "rules_pg_contestant_active" : {
       "LABEL" : "OG membership pg_contestant active",
       "PLUGIN" : "reaction rule",
@@ -117,21 +132,6 @@ function rules_feature_default_rules_configuration() {
         { "data_is" : { "data" : [ "account:uid" ], "value" : [ "site:current-user:uid" ] } }
       ],
       "DO" : [ { "redirect" : { "url" : "[account:edit-url]" } } ]
-    }
-  }');
-  $items['rules_on_empty_profile'] = entity_import('rules_config', '{ "rules_on_empty_profile" : {
-      "LABEL" : "Redirect to main profile if name not filled",
-      "PLUGIN" : "reaction rule",
-      "REQUIRES" : [ "rules" ],
-      "ON" : [ "user_login" ],
-      "IF" : [
-        { "data_is_empty" : { "data" : [ "account:profile-main:field-full-name" ] } },
-        { "hybridauth_user_created_hybridauth" : { "account" : [ "account" ] } }
-      ],
-      "DO" : [
-        { "drupal_message" : { "message" : "Your account has been created with Facebook login.\u003Cbr\u003E\r\nPlease, fill the form below." } },
-        { "redirect" : { "url" : "[account:edit-url]" } }
-      ]
     }
   }');
   return $items;

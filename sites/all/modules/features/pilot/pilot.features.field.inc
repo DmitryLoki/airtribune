@@ -27,7 +27,7 @@ function pilot_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -62,6 +62,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_address',
       'label' => 'Address',
       'required' => 1,
@@ -77,6 +78,7 @@ function pilot_field_default_fields() {
           'available_countries' => array(),
           'format_handlers' => array(
             'address' => 'address',
+            'address-hide-address2' => 'address-hide-address2',
             'address-hide-state' => 'address-hide-state',
             'address-hide-country' => 0,
             'organisation' => 0,
@@ -808,7 +810,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => 'Including international code.',
       'display' => array(
@@ -1107,7 +1109,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => 'Your phone number including international code.',
       'display' => array(
