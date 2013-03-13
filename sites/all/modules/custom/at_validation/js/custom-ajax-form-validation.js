@@ -115,7 +115,12 @@
                 validator = form.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(validator);
             checkAllElementsValid(validator);
-
+            form.find('select').bind('change', function(){
+                var $this = $(this);
+                if($this.rules()) {
+                    validator.element(this);
+                }
+            })
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
