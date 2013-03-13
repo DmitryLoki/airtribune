@@ -543,12 +543,12 @@ function at_validation_js_alter(&$javascript) {
         }
         
         $names = array(
-          'profile_pilot[field_phone][und][0][number]' => array(
-            'original' => 'profile_pilot[field_phone][und][0][number]',
+          'profile_pilot[field_phone][und][0][full_number]' => array(
+            'original' => 'profile_pilot[field_phone][und][0][full_number]',
             'replacement' => 'Mobile phone number',
           ),
-          'profile_pilot[field_person_phone][und][0][number]' => array(
-            'original' => 'profile_pilot[field_person_phone][und][0][number]',
+          'profile_pilot[field_person_phone][und][0][full_number]' => array(
+            'original' => 'profile_pilot[field_person_phone][und][0][full_number]',
             'replacement' => 'Phone',
           ),
         );
@@ -587,12 +587,12 @@ function _at_validation_js_alter(&$setting) {
   // TODO: This is a temp fix for phone fields.
   // There is a bug with title. Instead field's #name is used.
   $names = array(
-    'multiform[user_register_form_1][profile_pilot][field_phone][und][0][number]' => array(
-      'original' => 'profile_pilot[field_phone][und][0][number]',
+    'multiform[user_register_form_1][profile_pilot][field_phone][und][0][full_number]' => array(
+      'original' => 'profile_pilot[field_phone][und][0][full_number]',
       'replacement' => 'Mobile phone number',
     ),
-    'multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][number]' => array(
-      'original' => 'profile_pilot[field_person_phone][und][0][number]',
+    'multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][full_number]' => array(
+      'original' => 'profile_pilot[field_person_phone][und][0][full_number]',
       'replacement' => 'Phone',
     ),
   );
