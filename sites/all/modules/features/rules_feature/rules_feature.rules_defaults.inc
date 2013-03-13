@@ -134,5 +134,16 @@ function rules_feature_default_rules_configuration() {
       "DO" : [ { "redirect" : { "url" : "[account:edit-url]" } } ]
     }
   }');
+  $items['rules_rules_redirect_to_pilot_edit'] = entity_import('rules_config', '{ "rules_rules_redirect_to_pilot_edit" : {
+      "LABEL" : "Redirect from profile-pilot\\/view to profile-pilot\\/edit",
+      "PLUGIN" : "reaction rule",
+      "REQUIRES" : [ "rules", "profile2" ],
+      "ON" : [ "profile2_view" ],
+      "IF" : [
+        { "data_is" : { "data" : [ "profile2:type:type" ], "value" : "pilot" } }
+      ],
+      "DO" : [ { "redirect" : { "url" : "user\\/[profile2:user:uid]\\/pilot" } } ]
+    }
+  }');
   return $items;
 }
