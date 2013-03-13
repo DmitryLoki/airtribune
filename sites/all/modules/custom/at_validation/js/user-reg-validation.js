@@ -24,7 +24,7 @@ jQuery(document).ready(function () {
     var birthdateInput = jQuery(
         '<input id="birthdate-fake-input" name="profile-main-fake-input" style="z-index:0;position:absolute;left:-10000px;border:none;margin-top:12px; visibility:hidden">');
     year.parent().parent().append(birthdateInput);
-    birthdateInput.rules('add', {birthDateFilled:true});
+    birthdateInput.rules('add', {birthDateFilled:true, required:true});
 
     jQuery.validator.addMethod('birthDateFilled', function () {
         return month.val() && day.val() && year.val();
@@ -41,7 +41,7 @@ jQuery(document).ready(function () {
 
     var updateValidationSettings = Drupal.settings.clientsideValidation.updateValidationSettings;
     Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
-        birthdateInput.rules('add', {birthDateFilled:true});
+        birthdateInput.rules('add', {birthDateFilled:true, required:true});
         updateValidationSettings.call(this, formValidator);
     };
 

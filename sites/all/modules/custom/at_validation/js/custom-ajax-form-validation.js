@@ -1,6 +1,5 @@
 (function ($) {
-    var activeField,
-        submitButton;
+    var activeField;
 
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
@@ -35,6 +34,7 @@
 
     var checkAllElementsValid = Drupal.checkAllElementsValid = function(formValidator) {
         var allElements = formValidator.elements(),
+            submitButton = allElements.closest('form').find('input.form-submit'),
             allElementsValid = true,
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
@@ -60,7 +60,6 @@
     };
 
     jQuery(document).ready(function () {
-        submitButton = $('#edit-submit');
 
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
 
@@ -133,7 +132,7 @@
             }
             element.data('error-element', errorBubble);
             element.after(errorBubble);
-            submitButton.addClass('disabled');
+            element.find('input.form-submit').addClass('disabled');
         };
 
         var createBubble = Drupal.createErrorBubble = function(html) {
@@ -159,7 +158,7 @@
             if (options.url === '/at-validation/ajax') {
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
-                submitButton.addClass('disabled');
+                element.find('input.form-submit').addClass('disabled');
                 return formValidator.element(activeField);
             } else {
                 beforeSerialize.call(this, element, options);
