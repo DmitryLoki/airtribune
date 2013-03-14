@@ -39,7 +39,7 @@ function updateForm(container) {
         });
 
         function keyupHandler(event) {
-            var key = event.keyCode;
+            var key = event.which || event.keyCode;
             //if pressed key is a letter or digit
             if ((key >= 65 && key <= 122) || (key >= 48 && key <= 57)) {
                 searchString += String.fromCharCode(key);
@@ -48,7 +48,7 @@ function updateForm(container) {
         }
 
         function keydownHandler(event) {
-            var key = event.keyCode;
+            var key = event.which || event.keyCode;
             if (key == 8 /* backspace */) {
                 //remove last symbol from search string
                 searchString = searchString.slice(0, -1);

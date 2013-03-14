@@ -34,12 +34,13 @@
     };
 
     var checkAllElementsValid = Drupal.checkAllElementsValid = function (formValidator) {
+        var allElements = formValidator.elements(),
+            submitButton = allElements.closest('form').find('input.form-submit');
         if (allElementsValid) {
+            submitButton.removeClass('disabled');
             return;
         }
-        var allElements = formValidator.elements(),
-            submitButton = allElements.closest('form').find('input.form-submit'),
-            successList = formValidator.successList.slice(0);
+        var successList = formValidator.successList.slice(0);
         allElementsValid = true;
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
