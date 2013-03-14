@@ -33,7 +33,6 @@
     };
 
     var checkAllElementsValid = Drupal.checkAllElementsValid = function (formValidator) {
-        debugger;
         var form = $(formValidator.currentForm),
             submitButton = form.find('input.form-submit'),
             allElementsValid = form.data('all-elements-valid');
