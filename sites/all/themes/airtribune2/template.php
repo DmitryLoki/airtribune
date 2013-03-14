@@ -222,8 +222,8 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if($variables['pane']->type == 'node' && $variables['content']['#node']->nid == '5363'){
     //$variables['title'] = '';
   }
-  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0 && $variables['display']->layout != 'featured_header'){
-   $variables['content'] = '';
+  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0) {
+
    if(arg(1)){
      if(arg(1) == 'register'){
        drupal_set_title(t('Register new user'));
