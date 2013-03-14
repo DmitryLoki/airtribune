@@ -32,7 +32,7 @@
         checkAllElementsValid(formValidator);
     };
 
-    var checkAllElementsValid = Drupal.checkAllElementsValid = function(formValidator) {
+    var checkAllElementsValid = Drupal.checkAllElementsValid = function (formValidator) {
         var allElements = formValidator.elements(),
             submitButton = allElements.closest('form').find('input.form-submit'),
             allElementsValid = true,
@@ -91,7 +91,7 @@
                     passCheckFunction = Drupal.behaviors.password.passCheck;
 
                 jQuery.validator.addMethod('passFieldValid', function () {
-                    if(passField.val()) {
+                    if (passField.val()) {
                         $.validator.messages.passFieldValid = "";
                         return !passCheckFunction();
                     }
@@ -116,9 +116,9 @@
                 validator = form.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(validator);
             checkAllElementsValid(validator);
-            form.find('select').bind('change', function(){
+            form.find('select').bind('change', function () {
                 var $this = $(this);
-                if($this.rules()) {
+                if ($this.rules()) {
                     validator.element(this);
                 }
             })
@@ -129,8 +129,8 @@
                 return;
             }
             var errorBubble = createBubble(error.html())
-                    .attr('for', element.attr('id'))
-                    .attr('link', element.attr('id'));
+                .attr('for', element.attr('id'))
+                .attr('link', element.attr('id'));
             var previousErrorElement = element.data('error-element');
             if (previousErrorElement) {
                 previousErrorElement.remove();
@@ -148,7 +148,7 @@
             element.closest('form').find('input.form-submit').addClass('disabled');
         };
 
-        var createBubble = Drupal.createErrorBubble = function(html) {
+        var createBubble = Drupal.createErrorBubble = function (html) {
             return jQuery('<span class="form_booble"><span class="form_booble_inner">' + html + '</span></span>');
         };
 
@@ -195,11 +195,11 @@
         }, 500);
 
         $('#autocomplete li').live('click', function () {
-            jQuery(this).parents('#autocomplete').hide()
+            jQuery(this).parents('#autocomplete').remove()
         });
 
-        $(document).bind('click', function () {
-            $('#autocomplete').hide();
+        $('.form-autocomplete').bind('focusout', function () {
+            $('#autocomplete').remove();
         });
     });
 
@@ -218,7 +218,7 @@
         }
     }
 
-     //Throbber position fix for birthday fields
+    //Throbber position fix for birthday fields
     var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend;
     Drupal.ajax.prototype.beforeSend = function (xmlhttprequest, options) {
         if (options.extraData._triggering_element_name.indexOf('field_birthdate') > -1) {
