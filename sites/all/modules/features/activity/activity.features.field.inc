@@ -726,7 +726,7 @@ function activity_field_default_fields() {
           'label' => 'hidden',
           'module' => 'jcarousel_formatter',
           'settings' => array(
-            'full_image_modal' => 'colorbox',
+            'full_image_modal' => 'nolink',
             'full_image_style' => '',
             'jcarousel_formatter_orientation' => 'horizontal',
             'jcarousel_formatter_skin' => 'default',
