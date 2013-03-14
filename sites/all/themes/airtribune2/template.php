@@ -1303,3 +1303,10 @@ function airtribune2_status_messages($variables) {
   }
   return $output;
 }
+
+/**
+ * Implemetns hook_jcarousel_formatter_element_alter().
+ */
+function airtribune2_jcarousel_formatter_element_alter(&$element) {
+  $element['#attached']['js'][] = drupal_get_path('theme', 'airtribune_2') . '/js/jcarousel-circular.js';
+}
