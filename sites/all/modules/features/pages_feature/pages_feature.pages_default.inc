@@ -3315,7 +3315,7 @@ function pages_feature_default_page_manager_pages() {
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/country',
+            'paths' => 'event/*/pilots/nation',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -3351,7 +3351,7 @@ function pages_feature_default_page_manager_pages() {
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'event/*/pilots/country',
+            'paths' => 'event/*/pilots/nation',
           ),
           'context' => 'empty',
           'not' => FALSE,

@@ -67,18 +67,15 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
   global $user;
+  if ($form_id == 'user_profile_form') {
   // make upload & delete (user_picture / avatar imagefield) without form_submit
   // see #2764
-  if ($form_id == 'user_profile_form') {
 //    if (isset($form_state['triggering_element']['#id']) &&
 //      $form_state['triggering_element']['#id'] == 'edit-field-avatar-und-0-remove-button') {
     if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
         $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove") {
-
-      // remove photo
       at_user_photo_ajax_remove($form, $form_state, $form_id);
     }
-
     $lang = $form['field_user_avatar']['#language'];
     // own field validators
     $form['field_user_avatar'][$lang][0]['#upload_validators'] = array();
@@ -87,16 +84,14 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(0=>'150x150',1=>'60x60');
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
-    // user can upload/delete photo many times, so we need to clear message queue;
-    // form_clear_error();
-    // drupal_set_message();
 
-    // Unset 'current password' field, if user logged thru hybridauth/facebook
-    if ($hybridauth = _hybridauth_identity_load_by_uid($user->uid)) {
-      unset($form['account']['current_pass']);
-      unset($form['account']['current_pass_required_values']);
-      $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
-    }
+    // see #2817
+    // send mail to user on password change
+    $form['#submit'][] = 'at_user_notify_user_at_password_change';
+    // Unset 'current password' field
+    unset($form['account']['current_pass']);
+    unset($form['account']['current_pass_required_values']);
+    $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
   }
   // see #2633
   if ($form_id == 'user_login_block') {
@@ -222,6 +217,31 @@ function at_user_photo_ajax_upload(stdClass $file) {
   }
   // it's form upload validator, so we need return empty array to avoid errors
   return array();
+}
+
+function at_user_notify_user_at_password_change(&$form, $form_state) {
+  // load user by form, becose password can be changed by admin / editor
+  // so we need uid & mail for changed user
+  $user = $form_state['user'];
+  // check for changes
+  if (!empty($form_state['input']['pass']['pass1'])) {
+    $name = $form_state['profiles']['main']->field_full_name['und']['0']['safe'];
+    $fullname = $name['given'] . ' ' . $name['family'];
+    drupal_mail('system', 'mail', $user->mail, $user->language,
+      array(
+        'context' => array(
+          'subject' => t('Airtribune.com - Your password was changed.'),
+          'message' => t('Dear, @fullname
+
+Your password has been changed.
+If you did not initialize password change procedure, please contact support immediately using this email: support@airtribune.com
+
+Happy landings,
+Airtribune team', array('@fullname' => $fullname))
+        )
+      )
+    );
+  }
 }
 
 function at_user_change_login_error_msg_validate($form, &$form_state) {
