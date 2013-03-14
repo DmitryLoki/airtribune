@@ -1,5 +1,6 @@
 (function ($) {
-    var activeField;
+    var activeField,
+        allElementsValid = false;
 
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
@@ -33,10 +34,13 @@
     };
 
     var checkAllElementsValid = Drupal.checkAllElementsValid = function (formValidator) {
+        if (allElementsValid) {
+            return;
+        }
         var allElements = formValidator.elements(),
             submitButton = allElements.closest('form').find('input.form-submit'),
-            allElementsValid = true,
             successList = formValidator.successList.slice(0);
+        allElementsValid = true;
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
             if (!formValidator.check(element) && ($(element).rules().required || $(element).attr('type') === 'password')) {
@@ -128,6 +132,7 @@
             if (!error.text()) {
                 return;
             }
+            allElementsValid = false;
             var errorBubble = createBubble(error.html())
                 .attr('for', element.attr('id'))
                 .attr('link', element.attr('id'));
@@ -194,13 +199,24 @@
             }
         }, 500);
 
-        $('#autocomplete li').live('click', function () {
-            jQuery(this).parents('#autocomplete').remove()
-        });
+        $('#autocomplete li')
+            .live('click', function () {
+                jQuery(this).parents('#autocomplete').remove()
+            });
 
-        $('.form-autocomplete').bind('focusout', function () {
-            $('#autocomplete').remove();
-        });
+        $('.form-autocomplete')
+            .bind('focusout', function () {
+                $('#autocomplete').remove();
+            })
+            .bind('keydown', function (event) {
+
+                var selectedLi = $('#autocomplete li.selected');
+                if (event.keyCode == 13 /* enter key*/ && selectedLi.length) {
+                    this.value = selectedLi.text();
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            });
     });
 
     $.validator.prototype.focusInvalid = function () {
