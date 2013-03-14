@@ -1,0 +1,220 @@
+<?php
+/**
+ * @file
+ * jCarousel field formatter.
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function jcarousel_formatter_field_formatter_info() {
+  return array(
+    'jcarousel_formatter' => array(
+      'label' => t('jCarousel'),
+      'field types' => array('image', 'media'),
+      'settings' => array(
+        'jcarousel_image_style' => 'jcarousel-thumbnail',
+        'full_image_style' => 'jcarousel-thumbnail',
+        'full_image_modal' => 'file',
+        'jcarousel_formatter_skin' => 'default',
+        'jcarousel_formatter_orientation' => 'horizontal',),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * This code just passes straight through theme('jcarousel').
+ */
+function jcarousel_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $type = $field['type'];
+
+  foreach ($items as $delta => $item) {
+    // Media returns items as classes, so let's cast it to array.
+    if (!empty($item['file']) && $item['file'] instanceof stdClass) {
+      $file = (array) $item['file'];
+      $item = array_merge($item, $file);
+    }
+
+    // Get thumbnails.
+    $thumbnail = theme('image_style', $variables = array(
+      'style_name' => $display['settings']['jcarousel_image_style'],
+      'path'       => $item['uri'],
+      'alt'        => (!empty($item['alt'])) ? check_plain($item['alt']) : $entity->title,
+      'title'      => (!empty($item['title'])) ? check_plain($item['title']) : $entity->title,
+      )
+    );
+
+    // If we want to have a link prepere the path.
+    if ($display['settings']['full_image_modal'] != 'nolink') {
+      // Set link (large image, file, ...).
+      if ($display['settings']['full_image_modal'] != 'file' && !empty($display['settings']['full_image_style'])) {
+        $path = image_style_url($display['settings']['full_image_style'], $item['uri']);
+      }
+      else {
+        $path = file_create_url($item['uri']);
+      }
+    }
+
+    // Create the items.
+    if (!empty($path)) {
+      $items[$delta] = l($thumbnail, $path, array(
+        'html' => TRUE,
+        'attributes' => array(
+          'title' => check_plain($entity->title),
+          'rel' => 'gallery-' . $entity->nid,
+          'class' => (!empty($display['settings']['full_image_modal'])) ? $display['settings']['full_image_modal'] : 'no-modal'),
+        )
+      );
+    }
+    else {
+      $items[$delta] = $thumbnail;
+    }
+
+  }
+
+  $element[0] = array(
+    '#theme' => 'jcarousel',
+    '#items' => $items,
+    '#options' => array(
+      'skin' => $display['settings']['jcarousel_formatter_skin'],
+      'vertical' => ($display['settings']['jcarousel_formatter_orientation'] == 'vertical') ? TRUE : FALSE,
+    ),
+  );
+
+  // Allow other modules to alter these settings.
+  drupal_alter('jcarousel_formatter_element', $element);
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function jcarousel_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $image_styles = image_style_options(FALSE);
+
+  $element['jcarousel_image_style'] = array(
+    '#title' => t('jCarousel image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['jcarousel_image_style'],
+    '#empty_option' => t('None (original image)'),
+    '#options' => $image_styles,
+  );
+  $element['full_image_modal'] = array(
+    '#title' => t('Should the items link to the full image'),
+    '#type' => 'select',
+    '#default_value' => $settings['full_image_modal'],
+    '#options' => array(
+      'nolink' => t('Do not link to the full image'),
+      'file' => t('Link to the file'),
+    ),
+  );
+  $element['full_image_style'] = array(
+    '#title' => t('Full image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['full_image_style'],
+    '#empty_option' => t('None (original image)'),
+    '#states' => array(
+      'invisible' => array(
+        '#edit-full-image-modal, #edit-fields-field-picture-settings-edit-form-settings-full-image-modal' => array('value' => 'nolink'),
+      ),
+    ),
+    '#options' => $image_styles,
+  );
+  $element['jcarousel_formatter_skin'] = array(
+    '#title' => t('jCarousel skin'),
+    '#description' => t('jCarousel skin to be used. Skins can be implemented by 3rd party modules using <em>hook_jcarousel_skin_info()</em>.'),
+    '#type' => 'select',
+    '#default_value' => $settings['jcarousel_formatter_skin'],
+    '#options' => _jcarousel_formatter_skins(),
+  );
+  $element['jcarousel_formatter_orientation'] = array(
+    '#title' => t('jCarousel orientation'),
+    '#type' => 'select',
+    '#default_value' => $settings['jcarousel_formatter_orientation'],
+    '#options' => array(
+      'horizontal' => t('Horizontal'),
+      'vertical' => t('Vertical')),
+  );
+
+  // If colorbox or lightbox2 modules are enabled, we add these choices.
+  if (module_exists('colorbox')) {
+    $element['full_image_modal']['#options']['colorbox'] = t('Display the file in Colorbox');
+  }
+  elseif (module_exists('lightbox2')) {
+    $element['full_image_modal']['#options']['lightbox'] = t('Display the file in Lightbox');
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function jcarousel_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array();
+  $image_styles = image_style_options(FALSE);
+  $skins = _jcarousel_formatter_skins();
+
+  // Unset possible 'No defined styles' option.
+  unset($image_styles['']);
+
+  // Styles could be lost because of enabled/disabled modules that defines
+  // their styles in code.
+  $summary[] = t('jCarousel image style: @style', array('@style' => $image_styles[$settings['jcarousel_image_style']]));
+  $summary[] = t('The image will open as: @style', array('@style' => $settings['full_image_modal']));
+  if ($settings['full_image_modal'] != 'nolink') {
+    $summary[] = t('Full image style: @style', array('@style' => (!empty($image_styles[$settings['full_image_style']])) ? $image_styles[$settings['full_image_style']] : t('None (original image)')));
+  }
+  $summary[] = t('jCarousel skin: @skin', array('@skin' => $skins[$settings['jcarousel_formatter_skin']]));
+  $summary[] = t('jCarousel orientation: @orientation', array('@orientation' => $settings['jcarousel_formatter_orientation']));
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements template_preprocess_field().
+ */
+function jcarousel_formatter_preprocess_field(&$variables, $hook) {
+  // Add the a descriptive class to the classes array for this  element.
+  if (isset($variables['element']['#formatter']) && $variables['element']['#formatter'] == 'jcarousel_formatter') {
+    $variables['classes_array'][] = 'field-formatter-jcarousel';
+  }
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function jcarousel_formatter_image_default_styles() {
+  $styles = array();
+  $styles['jcarousel-thumbnail'] = array(
+    'effects' => array(
+      array(
+        'name' => 'image_scale_and_crop',
+        'data' => array('width' => 100, 'height' => 100),
+        'weight' => 0,
+      ),
+    ),
+  );
+  return $styles;
+}
+
+/**
+ * Retrieve list of implemented jCarousel skins to for form options.
+ */
+function _jcarousel_formatter_skins() {
+  $items = array();
+  foreach (jcarousel_skins() as $name => $skin) {
+    $items[$name] = $skin['title'];
+  }
+  return $items;
+}

@@ -16,6 +16,7 @@ dependencies[] = geofield
 dependencies[] = html5_tools
 dependencies[] = image
 dependencies[] = invisimail
+dependencies[] = jcarousel_formatter
 dependencies[] = link
 dependencies[] = list
 dependencies[] = media

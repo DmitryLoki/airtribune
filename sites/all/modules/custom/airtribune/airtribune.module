@@ -76,16 +76,6 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
-    'airtribune_carousel' => array(
-      'label' => t('Carousel'),
-      'field types' => array('image'),
-
-    ),
-    'airtribune_info_carousel' => array(
-      'label' => t('Carousel info'),
-      'field types' => array('image'),
-
-    ),
   );
 }
 
@@ -122,46 +112,6 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         }
         $element[$delta] = array('#markup' => $dates);
       }
-
-      break;
-
-    case 'airtribune_carousel':
-
-      foreach ($items as $item) {
-        $images[] = theme('image_formatter', array('item' => $item, 'image_style' => AIRTRIBUNE_CAROUSEL_IMAGE_STYLE));
-      };
-      $options = array(
-        'wrap' => 'circular',
-        'scroll' => 1,
-        //'visible' => 1,
-        'start' => 2,
-      );
-
-      $element[0]['#theme'] = 'jcarousel';
-      $element[0]['#items'] = $images;
-      $element[0]['#options'] = $options;
-      //$element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
-      $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel-circular.js');
-
-      break;
-
-    case 'airtribune_info_carousel':
-
-      foreach ($items as $item) {
-        $images[] = theme('image_formatter', array('item' => $item, 'image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE));
-      };
-      $options = array(
-        'wrap' => 'circular',
-        'scroll' => 1,
-        //'visible' => 1,
-        'start' => 2,
-      );
-
-      $element[0]['#theme'] = 'jcarousel';
-      $element[0]['#items'] = $images;
-      $element[0]['#options'] = $options;
-      //$element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
-      $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel-circular.js');
 
       break;
   }

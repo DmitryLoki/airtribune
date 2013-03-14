@@ -13,6 +13,7 @@ dependencies[] = filefield_paths
 dependencies[] = geofield
 dependencies[] = html5_tools
 dependencies[] = image
+dependencies[] = jcarousel_formatter
 dependencies[] = link
 dependencies[] = media
 dependencies[] = reverse_geocode_widget
