@@ -246,5 +246,24 @@
         ajaxBeforeSend.apply(this, arguments);
     }
 
+    Drupal.ajax.prototype.error = function (response, uri) {
+        console.error(Drupal.ajaxError(response, uri));
+        // Remove the progress element.
+        if (this.progress.element) {
+            $(this.progress.element).remove();
+        }
+        if (this.progress.object) {
+            this.progress.object.stopMonitoring();
+        }
+        // Undo hide.
+        $(this.wrapper).show();
+        // Re-enable the element.
+        $(this.element).removeClass('progress-disabled').removeAttr('disabled');
+        // Reattach behaviors, if they were detached in beforeSerialize().
+        if (this.form) {
+            var settings = response.settings || this.settings || Drupal.settings;
+            Drupal.attachBehaviors(this.form, settings);
+        }
+    };
 
 })(jQuery);
