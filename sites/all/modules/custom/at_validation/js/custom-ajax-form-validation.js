@@ -194,14 +194,13 @@
             }
         }, 500);
 
-    });
+        $('#autocomplete li').live('click', function () {
+            jQuery(this).parents('#autocomplete').hide()
+        });
 
-    $('#autocomplete li').live('click', function () {
-        jQuery(this).parents('#autocomplete').hide()
-    });
-
-    $(document).bind('click', function () {
-        $('#autocomplete').hide();
+        $(document).bind('click', function () {
+            $('#autocomplete').hide();
+        });
     });
 
     $.validator.prototype.focusInvalid = function () {
