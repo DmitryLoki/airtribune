@@ -3104,6 +3104,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['state']['value'] = array(
     1 => '1',
   );
+  /* Filter criterion: Pilots number */
+  $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
 
   /* Display: Standard */
   $handler = $view->new_display('panel_pane', 'Standard', 'standard');
