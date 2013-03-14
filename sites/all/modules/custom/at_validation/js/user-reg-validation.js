@@ -39,11 +39,14 @@ jQuery(document).ready(function () {
         }
     };
 
-    var updateValidationSettings = Drupal.settings.clientsideValidation.updateValidationSettings;
-    Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
-        birthdateInput.rules('add', {birthDateFilled:true, required:true});
-        updateValidationSettings.call(this, formValidator);
-    };
+    setTimeout(function(){
+        var updateValidationSettings = Drupal.settings.clientsideValidation.updateValidationSettings;
+        Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
+            birthdateInput.rules('add', {birthDateFilled:true, required:true});
+            updateValidationSettings.call(this, formValidator);
+        };
+    }, 1000);
+
 
     var ajaxValidationResult = $.fn.checkValidationResult;
     $.fn.checkValidationResult = function (errorText) {
