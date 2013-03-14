@@ -103,6 +103,4 @@ print drupal_render($form['profile_pilot']['field_blood_type']);
 // Hide profile fieldsets
 drupal_render($form['profile_pilot']);
 
-dsm($form);
-
 print drupal_render_children($form);
