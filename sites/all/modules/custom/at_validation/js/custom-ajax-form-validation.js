@@ -1,6 +1,5 @@
 (function ($) {
-    var activeField,
-        allElementsValid = false;
+    var activeField;
 
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
@@ -34,13 +33,16 @@
     };
 
     var checkAllElementsValid = Drupal.checkAllElementsValid = function (formValidator) {
-        var allElements = formValidator.elements(),
-            submitButton = allElements.closest('form').find('input.form-submit');
+        debugger;
+        var form = $(formValidator.currentForm),
+            submitButton = form.find('input.form-submit'),
+            allElementsValid = form.data('all-elements-valid');
         if (allElementsValid) {
             submitButton.removeClass('disabled');
             return;
         }
-        var successList = formValidator.successList.slice(0);
+        var allElements = formValidator.elements(),
+            successList = formValidator.successList.slice(0);
         allElementsValid = true;
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
@@ -49,6 +51,7 @@
                 break;
             }
         }
+        form.data('all-elements-valid',allElementsValid);
         formValidator.successList = successList;
         submitButton[allElementsValid ? 'removeClass' : 'addClass']('disabled');
     };
@@ -133,7 +136,9 @@
             if (!error.text()) {
                 return;
             }
-            allElementsValid = false;
+            var formItem = element.parents('div.form-item'),
+                form = formItem.closest('form');
+            form.data('all-elements-valid', false);
             var errorBubble = createBubble(error.html())
                 .attr('for', element.attr('id'))
                 .attr('link', element.attr('id'));
@@ -143,14 +148,12 @@
             }
             element.data('error-element', errorBubble);
             if (element.attr('id') == 'birthdate-fake-input') {
-                var form = element.parents('div.form-item')
                 element.parent().after(errorBubble);
             }
             else {
-                var form = element.closest('div.form-item')
                 element.after(errorBubble);
             }
-            form.addClass('field_error').removeClass('field_excellent');
+            formItem.addClass('field_error').removeClass('field_excellent');
             element.closest('form').find('input.form-submit').addClass('disabled');
         };
 
