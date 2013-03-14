@@ -11,6 +11,7 @@ define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 // See field field_pg_contestant_status allowed values list.
 define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
 define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
+define('AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE', 'contest_gallery_thumb');
 
 // Fields.
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
@@ -22,6 +23,8 @@ define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
 define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
+define('AIRTRIBUNE_CONTEST_PHOTOS_FIELD', 'field_contest_photos');
+define('AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD', 'field_flying_site_photos');
 define('AIRTRIBUNE_AWARDS_PHOTOS_FIELD', 'field_awards_photos');
 define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
@@ -73,11 +76,6 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
-    'airtribune_carousel' => array(
-      'label' => t('Carousel'),
-      'field types' => array('image'),
-
-    ),
   );
 }
 
@@ -114,24 +112,6 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         }
         $element[$delta] = array('#markup' => $dates);
       }
-
-      break;
-
-    case 'airtribune_carousel':
-
-      foreach ($items as $item) {
-        $images[] = theme('image_formatter', array('item' => $item, 'image_style' => AIRTRIBUNE_CAROUSEL_IMAGE_STYLE));
-      };
-      $options = array(
-        'wrap' => 'circular',
-        'scroll' => 1,
-        //'visible' => 1,
-        'start' => 2,
-      );
-
-      $element[0]['#markup'] = theme('jcarousel', array('items' => $images, 'options' => $options));
-      //$element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel.js');
-      $element[0]['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/jcarousel-circular.js');
 
       break;
   }
@@ -346,4 +326,27 @@ function airtribune_calculate_distance($p1, $p2) {
   $dist = $ad * $earth_radius;
 
   return $dist;
+}
+
+/**
+ * Add event context to default site template.
+ */
+function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
+
+  if (!$contexts['node']->empty) {
+    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      $raw_node = $contexts['node']->data;
+    }
+    // Fetch event node from OG.
+    else {
+      $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
+      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+      }
+    }
+  }
+
+  $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
+  panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
+
 }

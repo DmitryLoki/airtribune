@@ -1,0 +1,711 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function at_validation_menu() {
+  $items['at-validation/ajax'] = array(
+    'title' => 'Clientside validation ajax callback',
+    'page callback' => 'at_validation_ajax',
+    // TODO: check access arguments
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Generic Ajax callback.
+ * Check if multiform is used and select corresponding callback function.
+ */
+function at_validation_ajax() {
+  $multiform = isset($_POST['multiform']);
+  
+  if (!$multiform) {
+    list($form, $form_state) = ajax_get_form();
+    return _at_validation_ajax($form, $form_state);
+  }
+  else {
+    // TODO: enable is_multiform_page(TRUE);
+    // Maybe this should be moved to multiform
+    module_load_include('inc', 'multiform', 'multiform.ajax');
+    // We need to set this flag for at_validation_ajax_defaults().
+    is_multiform_page(TRUE);
+    
+    // TODO: Get _multiform_index
+    global $user;
+    if (!$user->uid) {
+      if ($_POST['_triggering_element_name'] == 'field_contestant_number[und][0][value]') {
+        $multiform_index = 'og_ui_confirm_subscribe_0';
+      }
+      else {
+        $multiform_index = 'user_register_form_1';
+      }
+    }
+    else {
+      $multiform_index = 'og_ui_confirm_subscribe_0';
+    }
+    //$_POST = $multiform['multiform'][$multiform_index];
+    
+    unset($_POST['form_build_id']);
+    unset($_POST['form_id']);
+    $_POST += $_POST['multiform'][$multiform_index];
+    unset($_POST['multiform']);
+    
+    list($form, $form_state) = ajax_get_form();
+    // We don't need to trigger multiform workflow.
+    _at_validation_remove_multiform_data($form, $form_state);
+    
+    return _at_validation_ajax($form, $form_state);
+  }
+}
+
+/**
+ * Ajax callback.
+ * Returns validation messages for form element.
+ */
+function _at_validation_ajax($form, $form_state) {
+  //list($form, $form_state) = ajax_get_form();
+  $form_state['values'] = array();
+  
+  // TODO: set 'limit_validation_errors' and remove 'submitted' property.
+  // See _form_validate() and form_set_error().
+  // $form_state['triggering_element']['#limit_validation_errors'] = 
+  $form_state['submitted'] = TRUE;
+  $form = form_builder($form['#form_id'], $form, $form_state);
+  
+  // Define validation scope.
+  $triggering_element = $form_state['triggering_element'];
+  $array_parents = $triggering_element['#array_parents'];
+  $element = $form;
+  foreach ($array_parents as $k => $array_parent) {
+    // TODO: Check for field_collection.
+    $element = $element[$array_parent];
+
+    if (!empty($element['#field_name'])) {
+      // Current triggering_element cardinality (this is only for fields).
+      // Not every widget has cardinality. I.e. options_select
+      if (isset($element['#cardinality'])) {
+        $cardinality = $array_parents[$k+1];
+        $element = $element[$cardinality];
+      }
+      $field_name = $element['#field_name'];
+      $entity_type = $element['#entity_type'];
+      $bundle = $element['#bundle'];
+      $field_info = field_info_field($field_name);
+      $instance_info = field_info_instance($entity_type, $field_name, $bundle);
+      
+      $field_type = $field_info['type'];
+      $widget_type = $instance_info['widget']['type'];
+      break;
+    }
+  }
+  
+  /*
+    $key_exists = FALSE;
+    $element = drupal_array_get_nested_value($form, $array_parents, $key_exists);
+  */
+  
+  // Get validation errors.
+  // And remove errors from $_SESSION['message'] in order not to show them after page refresh.
+  _form_validate($element, $form_state);
+  $errors = form_get_errors();
+  if (!empty($_SESSION['messages']['error'])) {
+    unset($_SESSION['messages']['error']);
+  }
+  // Get slector for ajax validation messages.
+  $selector = '';
+  if (empty($field_name)) {
+    $selector = '#' . $element['#id'];
+  }
+  else {
+    $plugin = at_validation_field_plugin($field_type, $widget_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the widget.
+      // And filter errors if needed. See name__name_widget.inc
+      $function = $plugin['selector'];
+      $selector = $function($element, $triggering_element, $errors);
+    }
+  }
+
+  if (!empty($errors)) {
+    $html = array_shift($errors);
+    
+    // TODO: This is a hack for Name+Birthday unique check
+    if (strpos($html, 'This name, surname') !== FALSE) {
+      $selector = '#edit-profile-main-field-birthdate-und-0-value';
+    }
+    
+    $commands = array();
+    // http://drupal.org/node/1028410#comment-6424572
+    $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
+    return drupal_json_output($commands);
+  }
+  else {
+    // TODO: here add return for the case when validation succeeded.
+    $commands = array();
+    // http://drupal.org/node/1028410#comment-6424572
+    $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+    
+    // TODO: This is a hack for Name+Birthday unique check
+    if (in_array($selector, array('#edit-profile-main-field-full-name-und-0-given', '#edit-profile-main-field-full-name-und-0-family'))) {
+      $profile_type = 'profile_' . MAIN_PROFILE_TYPE;
+      $profile_values = $form_state['values'][$profile_type];
+      $birthdate = !empty($profile_values['field_birthdate']['und'][0]['value']) ? $profile_values['field_birthdate']['und'][0]['value'] : FALSE;
+      //watchdog('tset', $birthdate);
+      if (!empty($birthdate)) {
+        $time = new DateObject($birthdate);
+        if ($time->validGranularity('year', 'month', 'day')) {
+          $selector = '#edit-profile-main-field-birthdate-und-0-value';
+          $commands[] = ajax_command_invoke($selector, 'checkValidationResult', array(''));
+        }
+      }
+    }
+    
+    return drupal_json_output($commands);
+  }
+}
+
+
+/**
+ * Implements hook_field_widget_form_alter().
+ * 
+ * Adds ajax handler to field widgets.
+ * Ctools plugins should be used for individual handlers.
+ */
+function at_validation_field_widget_form_alter(&$element, &$form_state, $context) {
+  
+  if (array_keys($element) == array('value')) {
+    return at_validation_field_widget_form_alter_tmp($element, $form_state, $context);
+  }
+  // TODO: Check clientside_validation settings.
+  // Check if ajax is enabled for the current field instance (entity, bundle and field).
+  if (empty($element['#entity_type']) || empty($element['#bundle'])) {
+    return;
+  }
+  
+  // Temporary list of bundles.
+  // List bundles for each entity with ajax-validation enabled.
+  $entities['profile2'] = array('main', 'pilot');
+  $entities['og_membership'] = array('pg_contestant');
+  if (isset($entities[$element['#entity_type']]) && in_array($element['#bundle'], $entities[$element['#entity_type']])) {
+    // Form caching is set in ajax_process_form().
+    $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
+    //$element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    // Search for corresponding plugin for the current widget.
+    $field_type = $context['field']['type'];
+    $widget_type = $context['instance']['widget']['type'];
+    //dsm($field_type . ' ' . $widget_type . ' ' . $element['#field_name']);
+    $plugin = at_validation_field_plugin($field_type, $widget_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the widget.
+      $function = $plugin['validator'];
+      $function($element, $form_state, $context);
+    }
+  }
+  
+  
+  // TODO: Move to a single function.
+  // Change field_t_shirt_size default select option name.
+  if ($element['#field_name'] == 'field_t_shirt_size') {
+    $element['#after_build'][] = '_t_shirt_size_after_build';
+  }
+  // Change field_blood_type default select option name.
+  if ($element['#field_name'] == 'field_blood_type') {
+    $element['#after_build'][] = '_blood_type_after_build';
+  }
+  // Change field_address default select option name.
+  if ($element['#field_name'] == 'field_address') {
+    $element['#after_build'][] = '_address_after_build';
+  }
+  // Change field_birthdate components order.
+  if ($element['#field_name'] == 'field_birthdate') {
+    $element['#after_build'][] = '_birthdate_after_build';
+  }
+  // Change field_full_name components description.
+  if ($element['#field_name'] == 'field_full_name') {
+    $element['#after_build'][] = '_full_name_after_build';
+  }
+}
+
+// TEST ==================================
+function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $context) {
+  
+  if (!empty($element[0]['#entity_type']) && !empty($element[0]['#bundle'])) {
+    // Change field_user_avatar description.
+    if ($element[0]['#field_name'] == 'field_user_avatar') {
+      $upload_validators = $element[0]['#upload_validators'];
+      if (!empty($element[0]['#description']) && !empty($upload_validators['file_validate_size'])) {
+        $substring = t('Files must be less than !size.', array('!size' => '<strong>' . format_size($upload_validators['file_validate_size'][0]) . '</strong>'));
+        $element[0]['#description'] = str_replace($substring, '', $element[0]['#description']);//18874368
+      }
+    }
+  }
+  
+  // TODO: Check clientside_validation settings.
+  // Check if ajax is enabled for the current field instance (entity, bundle and field).
+  if (empty($element['value']['#entity_type']) || empty($element['value']['#bundle'])) {
+    return;
+  }
+  
+  // Temporary list of bundles.
+  // List bundles for each entity with ajax-validation enabled.
+  $entities['profile2'] = array('main', 'pilot');
+  $entities['og_membership'] = array('pg_contestant');
+  if (isset($entities[$element['value']['#entity_type']]) && in_array($element['value']['#bundle'], $entities[$element['value']['#entity_type']])) {
+    // Form caching is set in ajax_process_form().
+    $element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
+    //$element['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    // Search for corresponding plugin for the current widget.
+    $field_type = $context['field']['type'];
+    $widget_type = $context['instance']['widget']['type'];
+    //dsm($field_type . ' ' . $widget_type . ' ' . $element['value']['#field_name']);
+    $plugin = at_validation_field_plugin($field_type, $widget_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the widget.
+      $function = $plugin['validator'];
+      $function($element, $form_state, $context);
+    }
+  }
+  
+  // Change field_t_shirt_size default select option name.
+  if ($element['value']['#field_name'] == 'field_t_shirt_size') {
+    $element['#after_build'][] = '_t_shirt_size_after_build';
+  }
+  // Change field_blood_type default select option name.
+  if ($element['value']['#field_name'] == 'field_blood_type') {
+    $element['#after_build'][] = '_blood_type_after_build';
+  }
+  // Change field_address default select option name.
+  if ($element['value']['#field_name'] == 'field_address') {
+    $element['#after_build'][] = '_address_after_build';
+  }
+}
+// =======================================
+
+/**
+ * After build for field_t_shirt_size field widget.
+ */
+function _t_shirt_size_after_build($element, $form_state) {
+  $element['#options']['_none'] = t('Select your size');
+  return $element;
+}
+/**
+ * After build for field_blood_type field widget.
+ */
+function _blood_type_after_build($element, $form_state) {
+  $element['#options']['_none'] = t('Select your type');
+  return $element;
+}
+/**
+ * After build for field_address field widget.
+ */
+function _address_after_build($element, $form_state) {
+  $options = array('' => t('Select your country'));
+  foreach ($element['country']['#options'] as $k => $v) {
+    $options[$k] = $v;
+  }
+  $element['country']['#options'] = $options;
+  return $element;
+}
+/**
+ * After build for field_birthdate field widget.
+ */
+function _birthdate_after_build($element, $form_state) {
+  //dsm($element);
+  $element['value']['month']['#weight'] = 1;
+  $element['value']['day']['#weight'] = 0;
+  return $element;
+}
+/**
+ * After build for field_birthdate field widget.
+ */
+function _full_name_after_build($element, $form_state) {
+  $element['given']['#description'] = t('Your name in English transcription.');
+  $element['family']['#description'] = t('Your surname in English transcription.');
+  return $element;
+}
+
+
+/**
+ * Implements hook_form_alter().
+ * 
+ * Adds ajax handler to form elements.
+ */
+function at_validation_form_alter(&$form, &$form_state, $form_id) {
+  $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+              ? TRUE
+              : FALSE;
+  if ($form_id == 'user_register_form') {
+    // Form caching is set in ajax_process_form().
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
+    // We should add #ajax settings here but not in #after_build because
+    // these should already exist before ajax_process_form() is called.
+    // ajax_process_form() is a #process function. #process functions are
+    // called before #after_build ones.
+    
+    // Email field
+    $element = &$form['account']['mail'];
+    $input_type = $element['#type'];
+    $plugin = at_validation_generic_plugin($input_type);
+    if (!empty($plugin)) {
+      // Add Ajax validator to the input element.
+      $function = $plugin['validator'];
+      $function($element, $form_state);
+    }
+    
+    $form['account']['mail']['#element_validate'][] = 'at_validation_mail_validate';
+  }
+  // User edit page
+  if ($form_id == 'user_profile_form') {
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-edit-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    if (!$multiform) {
+      $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
+    }
+  }
+  
+  if($form_id == 'og_ui_confirm_subscribe') {
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/reset-nation-dropdown-box.js';
+    $form['#after_build'][] = 'at_validation_form_after_build';
+    // We need it for authorized event registration
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+  }
+}
+
+/**
+ * Remove script for collapsing addressfield in not empty.
+ */
+function at_validation_form_after_build($form, $form_state) {
+  if (!empty($form_state['values']['profile_pilot']['field_address']['und'][0]['thoroughfare'])) {
+    foreach ($form['#attached']['js'] as $k => $js) {
+      if (strpos($js, 'reset-nation-dropdown') !== FALSE) {
+        unset($form['#attached']['js'][$k]);
+      }
+    }
+  }
+  return $form;
+}
+
+function at_validation_mail_validate($element, &$form_state) {
+  //$mail = trim($form_state['values']['mail']);
+  //form_set_value($form['account']['mail'], $mail, $form_state);
+  if ($error = user_validate_mail($form_state['values']['mail'])) {
+    form_set_error('mail', $error);
+  }
+  elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
+    form_set_error('mail', t('This email is already registered. <br />' . l('Forgot your password?', 'user/password')));
+  }
+}
+
+/**
+ * Get FIELD validator plugin.
+ */
+function at_validation_field_plugin($field_type, $widget_type) {
+  // Get at_validator plugins.
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('at_validation', 'at_validator');    
+  foreach ($plugins as $plugin) {
+    if ($plugin['field_type'] == $field_type && $plugin['widget_type'] == $widget_type) {
+      return $plugin;
+    }
+  }
+    
+  return FALSE;
+}
+
+/**
+ * Get GENERIC validator plugin.
+ */
+function at_validation_generic_plugin($input_type) {
+    // Get at_validator plugins.
+    ctools_include('plugins');
+    $plugins = ctools_get_plugins('at_validation', 'at_validator_generic');
+    foreach ($plugins as $plugin) {
+      if ($plugin['input_type'] == $input_type) {
+        return $plugin;
+      }
+    }
+    
+  return FALSE;
+}
+
+/**
+ * An #after_build function for a widget form. Added only if required.
+ * This #after_build is added within plugins. It is intended to invoke
+ * plugin's custom after_build function. We can't use plugin's after_build
+ * directly because plugin is not included when before validation (Since
+ * cached form is used).
+ */
+function at_validation_field_widget_form_after_build($element, &$form_state) {
+  
+  $field_name = $element['#field_name'];
+  $entity_type = $element['#entity_type'];
+  $bundle = $element['#bundle'];
+  $field_info = field_info_field($field_name);
+  $instance_info = field_info_instance($entity_type, $field_name, $bundle);
+  
+  $field_type = $field_info['type'];
+  $widget_type = $instance_info['widget']['type'];
+  
+  $plugin = at_validation_field_plugin($field_type, $widget_type);
+  if (!empty($plugin)) {
+    // Invoke plugin's after_build for the widget.
+    $function = $plugin['after_build'];
+    $element = $function($element, $form_state);
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_js_alter().
+ * 
+ * Set custom function for validation errors display.
+ */
+function at_validation_js_alter(&$javascript) {
+  foreach ($javascript['settings']['data'] as $k => $setting) {
+    if (!empty($setting['clientsideValidation']['forms'])) {
+      foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
+        $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
+        $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'customErrorPlacement';
+      }
+      if (is_multiform_page()) {
+        _at_validation_js_alter($setting);
+      }
+      // Temp fix
+      else {
+        // TODO: Clientside validation doesn't add setting #required for name components (see at_helper widget after_build).
+        if (isset($setting['clientsideValidation']['forms']['user-register-form']['rules'])) {
+          $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
+          $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          // Password
+          $rules['pass[pass2]']['messages']['required'] = t('Type the password in both fields.');
+        }
+        if (isset($setting['clientsideValidation']['forms']['user-profile-form']['rules'])) {
+          // Address components
+          $rules = &$setting['clientsideValidation']['forms']['user-profile-form']['rules'];
+          $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          
+          // Address components regex
+          $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+          // CIVL ID
+          $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+
+          unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
+          unset($rules['profile_pilot[field_address][und][0][country]']['regexMatch']);
+          //Phone number select
+          unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
+          unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
+          
+          //Name
+          $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+        }
+
+        
+        foreach (array('og-ui-confirm-subscribe', 'profile2-edit-pilot-form') as $form_name) {
+          foreach($setting['clientsideValidation']['forms'] as $f => $data) {
+            if (strpos($f, $form_name) === FALSE) {
+              continue;
+            }
+          
+            if (isset($setting['clientsideValidation']['forms'][$f]['rules'])) {
+              $rules = &$setting['clientsideValidation']['forms'][$f]['rules'];
+              
+              // Name components
+              $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+              $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+              $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+              $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+              $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+              $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+              
+              // Address components
+              $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+              $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
+              // Address components regex
+              $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+              $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+              $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+              // CIVL ID
+              $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+
+              unset($rules['profile_pilot[field_address][und][0][postal_code]']['regexMatch']);
+              unset($rules['profile_pilot[field_address][und][0][country]']['regexMatch']);
+              //Phone number select
+              unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
+              unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
+
+              // There is a bug with clientside and og-ui-confirm-subscribe crossfields
+              if (strpos($f, 'og-ui-confirm-subscribe') !== FALSE) {
+                $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
+                $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
+                $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
+              }
+            }
+          }
+        }
+        
+        $names = array(
+          'profile_pilot[field_phone][und][0][full_number]' => array(
+            'original' => 'profile_pilot[field_phone][und][0][full_number]',
+            'replacement' => 'Mobile phone number',
+          ),
+          'profile_pilot[field_person_phone][und][0][full_number]' => array(
+            'original' => 'profile_pilot[field_person_phone][und][0][full_number]',
+            'replacement' => 'Phone',
+          ),
+        );
+        
+        foreach ($names as $key => $data) {
+          if (!empty($rules[$key]['messages'])) {
+            foreach ($rules[$key]['messages'] as $m => $msg) {
+              $rules[$key]['messages'][$m] = str_replace($data['original'], $data['replacement'], $msg);
+            }
+          }
+        }
+      }
+      
+      $javascript['settings']['data'][$k] = $setting;
+      break;
+    }
+  }
+  
+}
+
+/**
+ * Change js settings for Clientside Validation (for multiforms).
+ * TODO: This is a temporary solution that works only form this case.
+ */
+function _at_validation_js_alter(&$setting) {
+  $keys = array('og_ui_confirm_subscribe_0' => 'og-ui-confirm-subscribe', 'user_register_form_1' => 'user-register-form');
+  $rules = array();
+  foreach ($keys as $index => $key) {
+    $subform_rules = $setting['clientsideValidation']['forms'][$key]['rules'];
+    foreach ($subform_rules as $k => $rule) {
+      $name = "multiform[$index]" . preg_replace('/^[^[]+/', '[\0]', $k);
+      $rules[$name] = $rule;
+    }
+  }
+  
+  // TODO: This is a temp fix for phone fields.
+  // There is a bug with title. Instead field's #name is used.
+  $names = array(
+    'multiform[user_register_form_1][profile_pilot][field_phone][und][0][full_number]' => array(
+      'original' => 'profile_pilot[field_phone][und][0][full_number]',
+      'replacement' => 'Mobile phone number',
+    ),
+    'multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][full_number]' => array(
+      'original' => 'profile_pilot[field_person_phone][und][0][full_number]',
+      'replacement' => 'Phone',
+    ),
+  );
+  foreach ($names as $key => $data) {
+    if (!empty($rules[$key]['messages'])) {
+      foreach ($rules[$key]['messages'] as $m => $msg) {
+        $rules[$key]['messages'][$m] = str_replace($data['original'], $data['replacement'], $msg);
+      }
+    }
+  }
+  
+  // #2623
+  // TODO: make Name components required.
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['required'] = TRUE;
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['required'] = TRUE;
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+  // Address components
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][postal_code]']['regexMatch']);
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][country]']['regexMatch']);
+  //Phone number select
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_phone][und][0][country_codes]']);
+  unset($rules['multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][country_codes]']);
+
+  // Address components regex
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
+  // CIVL ID
+  $rules['multiform[user_register_form_1][profile_pilot][field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
+
+  //$rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value][year]'] = $rules['multiform[user_register_form_1][profile_main][field_birthdate][und][0][value]'];
+  // Password
+  $rules['multiform[user_register_form_1][pass][pass2]']['messages']['required'] = t('Type the password in both fields.');
+  
+  $setting['clientsideValidation']['forms']['multiform'] = $setting['clientsideValidation']['forms']['user-register-form'];
+  $setting['clientsideValidation']['forms']['multiform']['rules'] = $rules;
+  unset($setting['clientsideValidation']['forms']['user-register-form']);
+  unset($setting['clientsideValidation']['forms']['og-ui-confirm-subscribe']);
+}
+
+/**
+ * Prepare default ajax settings for plugins.
+ */
+function at_validation_ajax_defaults() {
+  $defaults = array();
+  $defaults = array(
+    'path' => 'at-validation/ajax',
+    //'progress' => 'none',
+  );
+  
+  return $defaults;
+}
+// =======================================================
+// Ctools
+// =======================================================
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function at_validation_ctools_plugin_type() {
+  // Used for field widgets.
+  $plugins['at_validator'] = array(
+    'use hooks' => FALSE,
+  );
+  // Used for generic form elements.
+  $plugins['at_validator_generic'] = array(
+    'use hooks' => FALSE,
+  );
+  return $plugins;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_validation_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'at_validation' && $plugin == 'at_validator') {
+    return 'plugins/at_validator';
+  }
+  if ($module == 'at_validation' && $plugin == 'at_validator_generic') {
+    return 'plugins/at_validator_generic';
+  }
+}
+
+// =======================================================
+// Multiform integration
+// =======================================================
+
+function _at_validation_remove_multiform_data(&$form, &$form_state) {
+  unset($form_state['multiform']);
+  unset($form_state['multiform_index']);
+  unset($form_state['multiform_id']);
+}
+

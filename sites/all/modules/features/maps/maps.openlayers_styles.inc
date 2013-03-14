@@ -208,7 +208,6 @@ function maps_openlayers_styles() {
     'graphicYOffset' => -28,
     'labelAlign' => 'cm',
   );
-
   $export['marker_activity'] = $openlayers_styles;
 
   $openlayers_styles = new stdClass();
@@ -234,8 +233,57 @@ function maps_openlayers_styles() {
     'graphicYOffset' => -28,
     'labelAlign' => 'cm',
   );
-
   $export['marker_activity_hover'] = $openlayers_styles;
+  
+  $openlayers_styles = new stdClass();
+  $openlayers_styles->disabled = FALSE; /* Edit this to true to make a default openlayers_styles disabled initially */
+  $openlayers_styles->api_version = 1;
+  $openlayers_styles->name = 'marker_hqacc';
+  $openlayers_styles->title = 'Marker HQ/Accomodation';
+  $openlayers_styles->description = 'HQ/Accomodation';
+  $openlayers_styles->data = array(
+    'externalGraphic' => 'sites/all/themes/airtribune2/images/markers/marker_hqacc.png',
+    'pointRadius' => 6,
+    'fillColor' => '#EE9900',
+    'strokeColor' => '#EE9900',
+    'strokeWidth' => 1,
+    'fillOpacity' => 1,
+    'strokeOpacity' => 1,
+    'strokeLinecap' => 'round',
+    'strokeDashstyle' => 'solid',
+    'graphicWidth' => 24,
+    'graphicHeight' => 50,
+    'graphicOpacity' => 1,
+    'graphicXOffset' => -12,
+    'graphicYOffset' => -50,
+    'labelAlign' => 'cm',
+  );
+  $export['marker_hqacc'] = $openlayers_styles;
+  
+  $openlayers_styles = new stdClass();
+  $openlayers_styles->disabled = FALSE; /* Edit this to true to make a default openlayers_styles disabled initially */
+  $openlayers_styles->api_version = 1;
+  $openlayers_styles->name = 'marker_hqacc_hover';
+  $openlayers_styles->title = 'Marker HQ/Accomodation active';
+  $openlayers_styles->description = 'HQ/Accomodation active';
+  $openlayers_styles->data = array(
+    'externalGraphic' => 'sites/all/themes/airtribune2/images/markers/marker_hqacc_active.png',
+    'pointRadius' => 6,
+    'fillColor' => '#EE9900',
+    'strokeColor' => '#EE9900',
+    'strokeWidth' => 1,
+    'fillOpacity' => 1,
+    'strokeOpacity' => 1,
+    'strokeLinecap' => 'round',
+    'strokeDashstyle' => 'solid',
+    'graphicWidth' => 24,
+    'graphicHeight' => 50,
+    'graphicOpacity' => 1,
+    'graphicXOffset' => -12,
+    'graphicYOffset' => -50,
+    'labelAlign' => 'cm',
+  );
+  $export['marker_hqacc_hover'] = $openlayers_styles;
 
   return $export;
 }

@@ -89,6 +89,10 @@ function multiform_ajax_process_form($element, &$form_state) {
  */
 function multiform_multiform_ajax_alter(&$element, $key, $form_state) {
       $setting = $element['#attached']['js'][$key];
+      // Do nothing if this is js file path.
+      if(!is_array($setting)) {
+        return;
+      }
       if (isset($setting['data']['ajax'][$element['#id']]['url']) && $setting['data']['ajax'][$element['#id']]['url'] == '/system/ajax') {
         $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url'] = '/multiform/ajax';
         // Add multiform_index in order to define triggering element's subform when triggered.

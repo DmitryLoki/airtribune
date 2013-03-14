@@ -57,43 +57,45 @@ function user_feature_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'user_pirctue_mini',
+            'image_style' => 'user_picture',
           ),
           'type' => 'image',
           'weight' => '1',
         ),
       ),
       'entity_type' => 'user',
+      'exclude_cv' => 0,
       'field_name' => 'field_user_avatar',
-      'label' => 'Avatar',
+      'label' => 'Your photo',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '',
           ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'pictures',
+          ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '200 KB',
-        'max_resolution' => '150x150',
-        'min_resolution' => '60x60',
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '150x150',
         'title_field' => 0,
         'user_register_form' => 0,
       ),
@@ -101,18 +103,18 @@ function user_feature_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'preview_image_style' => 'user_pirctue_mini',
+          'preview_image_style' => 'user_picture',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '1',
+        'weight' => 0,
       ),
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Avatar');
+  t('Your photo');
 
   return $fields;
 }

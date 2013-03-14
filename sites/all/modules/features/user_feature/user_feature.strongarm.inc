@@ -21,7 +21,7 @@ function user_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_destination';
-  $strongarm->value = '[user:url]';
+  $strongarm->value = '';
   $export['hybridauth_destination'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -42,7 +42,7 @@ function user_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_duplicate_emails';
-  $strongarm->value = '1';
+  $strongarm->value = '2';
   $export['hybridauth_duplicate_emails'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -306,7 +306,7 @@ A request to reset the password for your account has been made at [site:name].
 
 You may now log in by clicking this link or copying and pasting it to your browser:
 
-[user:one-time-login-url]
+[user:one-time-login-url]/login
 
 This link can only be used once to log in and will lead you to a page where you can set your password. It expires after one day and nothing will happen if it\'s not used.
 
@@ -536,7 +536,7 @@ Your account on [site:name] has been canceled.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_picture_style';
-  $strongarm->value = 'user_pirctue_mini';
+  $strongarm->value = 'user_picture_mini';
   $export['user_picture_style'] = $strongarm;
 
   $strongarm = new stdClass();

@@ -40,17 +40,24 @@ function airtribune2_preprocess_html(&$vars) {
   }
   /* Adding specific class for activity and accommodation pages */
   $pemaa = array('node-type-activity', 'node-type-accommodation');
-  foreach ($pemaa as $key => $value) {  
-    if (array_search($value, $vars['classes_array'])) {
-      $vars['classes_array'][] = 'page-event-map-activity-accommodation';
-    }
+  $result_ar = array_intersect($pemaa, $vars['classes_array']);
+  if (!empty($result_ar)) {
+    $vars['classes_array'][] = 'page-event-map-activity-accommodation';
   }
+
+  /* If event register page */
   if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
     $vars['classes_array'][] = 'page-user';
   }
-  //print arg(2);
-  //print_r($vars)
-  //dsm($vars);
+
+  /* If profile pilot page */
+  if (!empty($vars['page']['content']['system_main']['profile_pilot'])) {
+    $vars['classes_array'][] = 'page-user';
+  }
+    /* If pilot status list */
+  if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
+    $vars['classes_array'][] = 'page-event-pilots-status';
+  }
 }
 
 /**
@@ -218,8 +225,8 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if($variables['pane']->type == 'node' && $variables['content']['#node']->nid == '5363'){
     //$variables['title'] = '';
   }
-  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0 && $variables['display']->layout != 'featured_header'){
-   $variables['content'] = '';
+  if($variables['pane']->type == 'page_title' && arg(0) == 'user' && $user->uid == 0) {
+
    if(arg(1)){
      if(arg(1) == 'register'){
        drupal_set_title(t('Register new user'));
@@ -231,7 +238,6 @@ function airtribune2_preprocess_panels_pane(&$variables) {
    else{
      drupal_set_title(t('Sign in'));
    }
-   //print_r($variables);
   }
   if($variables['pane']->subtype == 'paragliding_pilots_list-fai'){
     $variables['title'] = '';
@@ -244,10 +250,7 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   }
   if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
     $variables['classes_array'][] = 'wrapper-with-link';
-    //dsm($variables);
-
   }
-  //print_r($variables);
 }
 
 /**
@@ -278,7 +281,6 @@ function airtribune2_preprocess_node(&$vars) {
 }
 
 function airtribune2_process_node(&$vars) {
-  //print_r($vars);
   $vars['event_blog'] = false;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
 
@@ -286,7 +288,6 @@ function airtribune2_process_node(&$vars) {
   if($vars['view_mode'] == 'event_blog_teaser'){
     $vars['event_blog'] = true;
     $vars['title'] = '<a href="' . $vars['node_url'] . '" rel="bookmark">' . $vars['title'] . '</a>';
-    //print_r($vars['node']);
 
     /* Changing the style of the output image */
     if(!empty($vars['content']['field_image'])){
@@ -343,7 +344,6 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_address'])) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
-    //print_r(node_load($vars['node']->nid));
   }
 
   /* If teaser */
@@ -428,7 +428,8 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  if($form_id == 'user_register_form' || $form_id == 'user_login' || $form_id == 'user_pass' || $form_id == 'user_profile_form') {
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form');
+  if(in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.forms.js'; 
@@ -443,7 +444,6 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       unset($form['pass']['#title']);
       $form['actions']['submit']['#value'] = t('Go');
       $form['actions']['#weight'] = 89;
-      unset($form['ulogin']);
       $form['hybridauth']['#weight'] = 79;
       
       $items = array();
@@ -459,7 +459,6 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         '#markup' => theme('item_list', array('items' => $items)),
         '#weight' => 100,
       );
-      //print_r($form);
     break;
       
       case 'user_register_form':
@@ -475,8 +474,6 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       $form['account']['mail']['#title'] = t('Email');
       $form['account']['mail']['#description'] = t('This will be your login.');
       $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
-
-
       $form['account']['pass']['pass1']['#attributes']['rel'] = t('Enter your password');
       $form['account']['pass']['pass1']['#description'] = t('Minimum 6 characters.');
       $form['account']['pass']['pass2']['#attributes']['rel'] = t('Repeat your password');
@@ -487,108 +484,15 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['name']['#attributes']['rel'] = t('Enter your e-mail');
         unset($form['pass']['#description']);
         $form['pass']['#attributes']['rel'] = t('Enter your password');
-        unset($form['ulogin']);
-        $form['hybridauth']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
+        $form['hybridauth']['#prefix'] = '<div class="hybridauth_prefix">'.t('or').'</div>';
         $form['hybridauth']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
-        //print_r($form);
     break;
       case 'user_profile_form':
         
         //print_r($form);
     break;
   }
-}
-
-
-function airtribune2_ulogin_widget($variables) {
-  $element = $variables['element'];
-  $output = '';
-  
-  if (variable_get('ulogin_redirect', 0)) {
-    $callback = 'Drupalulogintoken';
-    $redirect = urlencode(file_create_url('sites/all/libraries/ulogin/ulogin_xd.html'));
-  }
-  else {
-    $callback = '';
-    $redirect = _ulogin_token_url($element['#ulogin_destination']);
-  }
-  
-  $id = drupal_html_id($element['#ulogin_id']);
-  if (in_array($element['#ulogin_display'], array('small', 'panel', 'buttons'))) {
-    $output = '<div ';
-    $output .= 'id="' . $id . '"' .
-      'x-ulogin-params="' .
-      'display=' . $element['#ulogin_display'];
-    // requested fields
-    $output .= '&fields=' . $element['#ulogin_fields_required'] .
-      '&optional=' . $element['#ulogin_fields_optional'];
-    // available providers
-    if ($element['#ulogin_display'] != 'buttons') {
-      $output .= '&providers=' . $element['#ulogin_providers'] .
-        '&hidden=' . $element['#ulogin_hidden'];
-    }
-    // callback and redirect
-    if (variable_get('ulogin_redirect', 0)) {
-      $output .= '&callback=' . $callback .
-        '&redirect_uri=' . $redirect;
-    }
-    else {
-      $output .= '&redirect_uri=' . $redirect;
-    }
-    
-    // receiver for custom icons
-    if ($element['#ulogin_display'] == 'buttons') {
-      $output .= '&receiver=' . urlencode(file_create_url('sites/all/libraries/ulogin/xd_custom.html'));
-    }
-    $output .= '">';
-    
-    // custom icons
-    if ($element['#ulogin_display'] == 'buttons' && !empty($element['#ulogin_icons_path'])) {
-      foreach (file_scan_directory($element['#ulogin_icons_path'], '//') as $icon) {
-        /*$output .= theme('image', array(
-          'path' => $icon->uri,
-          'alt' => $icon->name,
-          'title' => $icon->name,
-          'attributes' => array('x-ulogin-button' => $icon->name, 'class' => 'ulogin-icon-' . $icon->name),
-        ));*/
-        $output .= '<div class="ulogin-icon-'.$icon->name.'" x-ulogin-button="'.$icon->name.'">'.t('Facebook login').'</div>';
-      }
-    }
-    elseif ($element['#ulogin_display'] == 'buttons' && is_array($element['#ulogin_icons']) && !empty($element['#ulogin_icons'])) {
-      foreach ($element['#ulogin_icons'] as $key => $value) {
-        /*$output .= theme('image', array(
-          'path' => $value,
-          'alt' => $key,
-          'title' => $key,
-          'attributes' => array('x-ulogin-button' => $key, 'class' => 'ulogin-icon-' . $key),
-        ));*/
-        $output .= '<div class="ulogin-icon-'.$key.'" x-ulogin-button="'.$key.'">'.t('Facebook login').'</div>';
-      }
-    }
-    else {
-      
-    }
-    
-    $output .= '</div>';
-  }
-  elseif ($element['#ulogin_display'] == 'window') {
-    $output = '<a href="#" ' .
-      'id="' . $id . '"' .
-      'x-ulogin-params="display=' . $element['#ulogin_display'] .
-      '&fields=' . $element['#ulogin_fields_required'] .
-      '&optional=' . $element['#ulogin_fields_optional'] .
-      //'&providers=' . $element['#ulogin_providers'] .
-      //'&hidden=' . $element['#ulogin_hidden'] .
-      '&callback=' . $callback .
-      '&redirect_uri=' . $redirect . '"><img src="//ulogin.ru/img/button.png" width=187 height=30 alt="' . t('MultiAuthentication') . '"/></a>';
-  }
-  
-  /*if (variable_get('ulogin_load_type', 1)) {
-    drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
-  }*/
-  drupal_add_js(array('ulogin' => array($id)), array('type' => 'setting'));
-  return $output;
 }
 
 function airtribune2_breadcrumb($variables) {
@@ -1167,6 +1071,10 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/user-profile-form',
     ),
+    'profile2_edit_pilot_form' => array(
+      'render element' => 'form',
+      'template' => 'templates/profile2-edit-pilot-form',
+    ),
   );
 }
 
@@ -1209,6 +1117,7 @@ function airtribune2_file_icon($variables) {
  * Preprocess field.tpl.php
  */
 function airtribune2_preprocess_field(&$vars) {
+
   $element = $vars['element'];
   if ($element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
     $categories = airtribune_get_awards_prize_categories();
@@ -1216,6 +1125,21 @@ function airtribune2_preprocess_field(&$vars) {
       if (isset($categories[$item['#item']['title']])) {
         $vars['items'][$delta]['#item']['title'] = $categories[$item['#item']['title']];
         $vars['items'][$delta]['#suffix'] = $categories[$item['#item']['title']];
+      }
+    }
+  }
+
+  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD) {
+    $settings = array(
+      'full_image_modal' => 'colorbox',
+      'jcarousel_image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE,
+      'full_image_style' => 'large',
+    );
+    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
+
+    if (isset($flying_site_photos[0])) {
+      foreach ($flying_site_photos[0]['#items'] as $item) {
+        $vars['items'][0]['#items'][] = $item;
       }
     }
   }
@@ -1254,3 +1178,140 @@ function airtribune2_tablesort_indicator($variables) {
   }
 }
 
+/**
+ * Implements theme_colorbox_image_field().
+ */
+function airtribune2_colorbox_imagefield($variables) {
+
+  static $counter;
+  $gid = $variables['gid'];
+
+  if ($counter == NULL) {
+    $counter['contest_photos'] = $counter['flying_site_photos'] = 0;
+    $counter['contest_photos_details'] = $counter['flying_site_photos_details'] = 0;
+  }
+
+  if (isset($counter[$gid])) {
+    $counter[$gid]++;
+    if ($gid == 'contest_photos_details') {
+      $hidden = $counter[$gid] > 4;
+    }
+    elseif ($gid == 'flying_site_photos_details') {
+      $hidden = $counter[$gid] > 8;
+    }
+    $gid = 'contest-gallery';
+  }
+  else {
+    $hidden = FALSE;
+  }
+
+  $class = array('colorbox');
+  if ($hidden) {
+    $image = '';
+    $class[] = 'js-hide';
+  }
+  elseif (!empty($variables['image']['style_name'])) {
+    $image = theme('image_style', $variables['image']);
+  }
+  else {
+    $image = theme('image', $variables['image']);
+  }
+
+  $options = array(
+    'html' => TRUE,
+    'attributes' => array(
+      'title' => $variables['title'],
+      'class' => implode(' ', $class),
+      'rel' => $gid,
+    ),
+  );
+
+
+  return l($image, $variables['path'], $options);
+}
+
+/**
+ * Implements theme_form_element_label().
+ */
+function airtribune2_form_element_label($variables) {
+  $element = $variables['element'];
+  // This is also used in the installer, pre-database setup.
+  $t = get_t();
+
+  // If title and required marker are both empty, output no label.
+  if ((!isset($element['#title']) || $element['#title'] === '') && empty($element['#required'])) {
+    return '';
+  }
+
+  // If the element is required, a required marker is appended to the label.
+  $required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '';
+
+  $title = filter_xss_admin($element['#title']);
+
+  $attributes = array();
+  // Style the label as class option to display inline with the element.
+  if ($element['#title_display'] == 'after') {
+    $attributes['class'] = 'option';
+  }
+  // Show label only to screen readers to avoid disruption in visual flows.
+  elseif ($element['#title_display'] == 'invisible') {
+    $attributes['class'] = 'element-invisible';
+  }
+
+  if (!empty($element['#id'])) {
+    $attributes['for'] = $element['#id'];
+  }
+
+  // The leading whitespace helps visually separate fields from inline labels.
+  return ' <div class="inline-label"><label' . drupal_attributes($attributes) . '>' . $t('!title!required', array('!title' => str_replace(' <', '<', $title), '!required' => $required)) . "</label><span class=\"valign\"></span></div>\n";
+}
+
+/**
+ * Implements hook_css_alter().
+ */
+function airtribune2_css_alter(&$css) {
+  // Remove defaults.css file.
+  //unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
+  unset($css[drupal_get_path('module', 'date') . '/date_api/date.css']);
+}
+
+/**
+ * Implements theme_status_messages().
+ */
+function airtribune2_status_messages($variables) {
+  $display = $variables['display'];
+  $output = '';
+
+  $status_heading = array(
+    'status' => t('Status message'),
+    'error' => t('Error message'),
+    'warning' => t('Warning message'),
+  );
+  foreach (drupal_get_messages($display) as $type => $messages) {
+    $output .= "<div class=\"messages $type\">\n";
+    if (!empty($status_heading[$type])) {
+      $output .= '<h2 class="element-invisible">' . $status_heading[$type] . "</h2>\n";
+    }
+    if (count($messages) > 1) {
+      $output .= " <ul>\n";
+      foreach ($messages as $message) {
+        $output .= '  <li>' . $message . "</li>\n";
+      }
+      $output .= " </ul>\n";
+    }
+    else {
+      $output .= $messages[0] . '<span class="valign"></span>';
+    }
+    $output .= "</div>\n";
+  }
+  return $output;
+}
+
+/**
+ * Implemetns hook_jcarousel_formatter_element_alter().
+ */
+function airtribune2_jcarousel_formatter_element_alter(&$element) {
+  $element['#attached']['js'][] = drupal_get_path('theme', 'airtribune2') . '/js/jcarousel-circular.js';
+  $element[0]['#options']['wrap'] = 'circular';
+  $element[0]['#options']['start'] = 2;
+}

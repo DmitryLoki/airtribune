@@ -81,6 +81,7 @@ function accommodation_field_default_fields() {
       'settings' => array(
         'display_summary' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
@@ -136,7 +137,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -166,6 +167,7 @@ function accommodation_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -244,6 +246,7 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -316,6 +319,7 @@ function accommodation_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -415,6 +419,7 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'local_solr' => array(
           'enabled' => FALSE,
           'lat_field' => 'lat',
@@ -469,6 +474,7 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -740,15 +746,16 @@ function accommodation_field_default_fields() {
         'enable_default_country' => 1,
         'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
+        'module' => 'simple_phone_number_widget',
         'settings' => array(
           'size' => 15,
         ),
-        'type' => 'phone_number',
+        'type' => 'simple_phone_number_widget',
         'weight' => '7',
       ),
     ),
@@ -798,9 +805,15 @@ function accommodation_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'airtribune',
-          'settings' => array(),
-          'type' => 'airtribune_carousel',
+          'module' => 'jcarousel_formatter',
+          'settings' => array(
+            'full_image_modal' => 'nolink',
+            'full_image_style' => '',
+            'jcarousel_formatter_orientation' => 'horizontal',
+            'jcarousel_formatter_skin' => 'default',
+            'jcarousel_image_style' => 'hotel_preview',
+          ),
+          'type' => 'jcarousel_formatter',
           'weight' => '3',
         ),
         'event_blog_teaser' => array(
@@ -824,6 +837,7 @@ function accommodation_field_default_fields() {
         'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
@@ -858,11 +872,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -938,6 +952,7 @@ function accommodation_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1009,6 +1024,7 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'max' => '',
         'min' => '0',
         'prefix' => '',
@@ -1084,6 +1100,7 @@ function accommodation_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'max' => '',
         'min' => '0',
         'prefix' => '',
@@ -1178,6 +1195,7 @@ function accommodation_field_default_fields() {
         ),
         'enable_tokens' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'title' => 'optional',
         'title_maxlength' => '128',
         'title_value' => '[node:title]',
@@ -1260,6 +1278,7 @@ function accommodation_field_default_fields() {
       'required' => TRUE,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => 0,
         'user_register_form' => FALSE,
       ),

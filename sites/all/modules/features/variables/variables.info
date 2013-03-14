@@ -30,6 +30,7 @@ features[variable][] = ant_php_newsblog
 features[variable][] = ant_php_page
 features[variable][] = ant_php_pg_contest
 features[variable][] = ant_php_pg_race
+features[variable][] = clientside_validation_default_settings
 features[variable][] = colorbox_caption_trim
 features[variable][] = colorbox_caption_trim_length
 features[variable][] = colorbox_compression_type

@@ -62,6 +62,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_address',
       'label' => 'Address',
       'required' => 1,
@@ -77,6 +78,7 @@ function pilot_field_default_fields() {
           'available_countries' => array(),
           'format_handlers' => array(
             'address' => 'address',
+            'address-hide-address2' => 'address-hide-address2',
             'address-hide-state' => 'address-hide-state',
             'address-hide-country' => 0,
             'organisation' => 0,
@@ -165,6 +167,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_civl_id',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -180,7 +185,8 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Pilot number in <a href="http://civlrankings.fai.org/" target=_blank>CIVL rankings</a>',
+      'description' => '<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
+',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -196,8 +202,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_civl_id',
-      'label' => 'CIVL id',
+      'label' => 'CIVL ID',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -226,6 +233,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_fai_license_number',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -264,8 +274,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_fai_license_number',
-      'label' => 'FAI License number',
+      'label' => 'FAI license number',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -431,6 +442,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_name_in_national_alphabet',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -469,8 +483,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_name_in_national_alphabet',
-      'label' => 'Name in national alphabet',
+      'label' => 'Your name in national alphabet',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -707,6 +722,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_person_name',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -734,7 +752,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'As you wish, you can type in here full name or just the first name of the contact person.',
+      'description' => 'The full name of your contact person and your relationship.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -745,8 +763,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_person_name',
-      'label' => 'Name',
+      'label' => 'Person to contact in case of emergency',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -791,8 +810,9 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
+      'default_value' => array(),
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Including international code.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -803,8 +823,9 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_person_phone',
-      'label' => 'Phone',
+      'label' => 'Contact phone number in case of emergency',
       'required' => 1,
       'settings' => array(
         'all_country_codes' => 1,
@@ -1055,11 +1076,9 @@ function pilot_field_default_fields() {
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
-        'settings' => array(
-          'size' => 15,
-        ),
-        'type' => 'phone_number',
+        'module' => 'simple_phone_number_widget',
+        'settings' => array(),
+        'type' => 'simple_phone_number_widget',
         'weight' => '15',
       ),
     ),
@@ -1090,8 +1109,9 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
+      'default_value' => array(),
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Your phone number including international code.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1102,6 +1122,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_phone',
       'label' => 'Mobile phone number',
       'required' => 1,
@@ -1354,11 +1375,9 @@ function pilot_field_default_fields() {
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
-        'settings' => array(
-          'size' => 15,
-        ),
-        'type' => 'phone_number',
+        'module' => 'simple_phone_number_widget',
+        'settings' => array(),
+        'type' => 'simple_phone_number_widget',
         'weight' => '5',
       ),
     ),
@@ -1402,7 +1421,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Decal on the paraglider',
+      'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1413,6 +1432,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_sponsors',
       'label' => 'Sponsors',
       'required' => 0,
@@ -1442,6 +1462,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_t_shirt_size',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -1462,6 +1485,7 @@ function pilot_field_default_fields() {
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'list_text',
@@ -1481,15 +1505,17 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_t_shirt_size',
       'label' => 'T-shirt size',
-      'required' => FALSE,
+      'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
@@ -1500,24 +1526,26 @@ function pilot_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
+');
   t('Address');
-  t('As you wish, you can type in here full name or just the first name of the contact person.');
   t('Blood type');
-  t('CIVL id');
-  t('Decal on the paraglider');
-  t('FAI License number');
+  t('CIVL ID');
+  t('Contact phone number in case of emergency');
+  t('FAI license number');
+  t('Including international code.');
   t('Insurance company');
   t('Insurance policy number');
   t('Mobile phone number');
-  t('Name');
-  t('Name in national alphabet');
   t('Paraglider color');
   t('Paraglider manufacturer');
   t('Paraglider model');
-  t('Phone');
-  t('Pilot number in <a href="http://civlrankings.fai.org/" target=_blank>CIVL rankings</a>');
+  t('Person to contact in case of emergency');
   t('Sponsors');
   t('T-shirt size');
+  t('The full name of your contact person and your relationship.');
+  t('Your name in national alphabet');
+  t('Your phone number including international code.');
 
   return $fields;
 }

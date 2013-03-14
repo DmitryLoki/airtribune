@@ -8,6 +8,21 @@ jQuery(function($){
 
     dropItems.hide();
 
+    //Dynamically set height of logged in user
+    setUserMenuDropItemHeight();
+    function setUserMenuDropItemHeight(){
+        var userMenu = $('.user-menu'),
+            menuItems = userMenu.find('li'),
+            totalHeight = 0;
+
+        menuItems.each(function(i ,menuItem){
+            totalHeight += $(menuItem).outerHeight();
+        });
+
+        totalHeight += parseInt(userMenu.find('.pane-inner').css('padding-top'),10) + 50;
+        userMenu.height(totalHeight);
+    }
+
     userLoginDropItemHeader.click(function(event){
         var $that = $(this);
         slideUp(flagDropItem, function onSlideComplete(){
@@ -48,6 +63,8 @@ jQuery(function($){
             item.slideDown({duration:600,easing:'easeOutCubic',complete:cb})
         }
     }
+
+    Drupal.toggle = toggle;
     function slideUp(dropItems, cb){
         dropItems.slideUp({duration:400,easing:'easeInCubic', complete:cb}).removeClass('active');
     }
@@ -74,9 +91,14 @@ function setPlaceholder(id, setRequiredMark) {
                 + (setRequiredMark ? requiredSpan : '')
                 + '</span>');
             jQuery(this).parent().append(span);
-            setTimeout(function () {
-                if (input.value.length > 0)
+            function hidePlaceholder() {
+                if (input.value.length > 0){
                     span.hide();
+                }
+            }
+            setTimeout(function(){
+                hidePlaceholder();
+                setTimeout(hidePlaceholder, 1000);
             }, 1000);
             if (jQuery(this).attr('value') != '') {
                 jQuery(this).parent().children('span.label').hide();
