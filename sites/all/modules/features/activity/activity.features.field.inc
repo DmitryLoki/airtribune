@@ -724,9 +724,15 @@ function activity_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'airtribune',
-          'settings' => array(),
-          'type' => 'airtribune_carousel',
+          'module' => 'jcarousel_formatter',
+          'settings' => array(
+            'full_image_modal' => 'colorbox',
+            'full_image_style' => '',
+            'jcarousel_formatter_orientation' => 'horizontal',
+            'jcarousel_formatter_skin' => 'default',
+            'jcarousel_image_style' => 'hotel_preview',
+          ),
+          'type' => 'jcarousel_formatter',
           'weight' => '0',
         ),
         'event_blog_teaser' => array(

@@ -2720,11 +2720,17 @@ function pages_feature_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'hidden',
-      'formatter' => 'airtribune_info_carousel',
+      'formatter' => 'jcarousel_formatter',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
-      'formatter_settings' => array(),
+      'formatter_settings' => array(
+        'jcarousel_image_style' => 'contest_gallery_thumb',
+        'full_image_style' => '',
+        'full_image_modal' => 'colorbox',
+        'jcarousel_formatter_skin' => 'default',
+        'jcarousel_formatter_orientation' => 'horizontal',
+      ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',

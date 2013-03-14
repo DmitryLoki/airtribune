@@ -1,0 +1,7 @@
+name = jCarousel formatter
+description = Creates a field formatter for jcarousel.
+package = User interface
+dependencies[] = jcarousel
+core = 7.x
+
+files[] = jcarousel_formatter.module
