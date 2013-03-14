@@ -848,23 +848,23 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_pilots_by_country';
-  $path_breadcrumb->name = 'Paragliding contest Current Pilots by Country';
-  $path_breadcrumb->path = 'event/%node/pilots/country';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_pilots_by_nation';
+  $path_breadcrumb->name = 'Paragliding contest Current Pilots by nation';
+  $path_breadcrumb->path = 'event/%node/pilots/nation';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
       3 => 'Pilots',
-      4 => 'By country',
+      4 => 'By nation',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/current',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/pilots',
-      4 => 'event/%node:nid/pilots/country',
+      4 => 'event/%node:nid/pilots/nation',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -902,12 +902,12 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = -71;
-  $export['breadcrumb_pg_contest_current_pilots_by_country'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest_current_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_pilots_by_payment_status';
-  $path_breadcrumb->name = 'Paragliding contest Current Pilots by payment Status';
+  $path_breadcrumb->name = 'Paragliding contest Current Pilots by Status';
   $path_breadcrumb->path = 'event/%node/pilots/status';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -915,7 +915,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'Current',
       2 => '%node:title',
       3 => 'Pilots',
-      4 => 'By payment status',
+      4 => 'By status',
     ),
     'paths' => array(
       0 => 'events',
@@ -1572,23 +1572,23 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_pilots_by_country';
-  $path_breadcrumb->name = 'Paragliding contest Next Pilots by Country';
-  $path_breadcrumb->path = 'event/%node/pilots/country';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_pilots_by_nation';
+  $path_breadcrumb->name = 'Paragliding contest Next Pilots by nation';
+  $path_breadcrumb->path = 'event/%node/pilots/nation';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
       3 => 'Pilots',
-      4 => 'By country',
+      4 => 'By nation',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/pilots',
-      4 => 'event/%node:nid/pilots/country',
+      4 => 'event/%node:nid/pilots/nation',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1626,12 +1626,12 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = -70;
-  $export['breadcrumb_pg_contest_next_pilots_by_country'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest_next_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_pilots_by_payment_status';
-  $path_breadcrumb->name = 'Paragliding contest Next Pilots by payment Status';
+  $path_breadcrumb->name = 'Paragliding contest Next Pilots by Status';
   $path_breadcrumb->path = 'event/%node/pilots/status';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -1639,7 +1639,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'Next',
       2 => '%node:title',
       3 => 'Pilots',
-      4 => 'By payment status',
+      4 => 'By status',
     ),
     'paths' => array(
       0 => 'events',
@@ -2296,23 +2296,23 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_pilots_by_country';
-  $path_breadcrumb->name = 'Paragliding contest Past Pilots by Country';
-  $path_breadcrumb->path = 'event/%node/pilots/country';
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_pilots_by_nation';
+  $path_breadcrumb->name = 'Paragliding contest Past Pilots by nation';
+  $path_breadcrumb->path = 'event/%node/pilots/nation';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
       3 => 'Pilots',
-      4 => 'By country',
+      4 => 'By nation',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/pilots',
-      4 => 'event/%node:nid/pilots/country',
+      4 => 'event/%node:nid/pilots/nation',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -2350,12 +2350,12 @@ function seo_path_breadcrumbs_settings_info() {
     ),
   );
   $path_breadcrumb->weight = -72;
-  $export['breadcrumb_pg_contest_past_pilots_by_country'] = $path_breadcrumb;
+  $export['breadcrumb_pg_contest_past_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_pilots_by_payment_status';
-  $path_breadcrumb->name = 'Paragliding contest Past Pilots by payment Status';
+  $path_breadcrumb->name = 'Paragliding contest Past Pilots by Status';
   $path_breadcrumb->path = 'event/%node/pilots/status';
   $path_breadcrumb->data = array(
     'titles' => array(
@@ -2363,7 +2363,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'Past',
       2 => '%node:title',
       3 => 'Pilots',
-      4 => 'By payment status',
+      4 => 'By status',
     ),
     'paths' => array(
       0 => 'events',

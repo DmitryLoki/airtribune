@@ -254,7 +254,7 @@ function _pg_contest_urls_init($nid) {
         '/blog',
         '/pilots',
         '/pilots/status',
-        '/pilots/country',
+        '/pilots/nation',
         '/map',
         '/register',
     );

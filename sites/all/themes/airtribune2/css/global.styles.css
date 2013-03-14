@@ -3190,8 +3190,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .switch-pilots-view a { display: block; width: 40px; height: 41px; float: left; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat 0 -1000px; margin-left: 10px;}
 .switch-pilots-view a.by-status { background-position: 0 -375px}
 .switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -475px}
-.switch-pilots-view a.by-country { background-position: 0 -575px}
-.switch-pilots-view a.by-country:hover, .switch-pilots-view a.by-country.active { background-position: 0 -675px}
+.switch-pilots-view a.by-nation { background-position: 0 -575px}
+.switch-pilots-view a.by-nation:hover, .switch-pilots-view a.by-nation.active { background-position: 0 -675px}
 
 .pane-paragliding-pilots-list-fai {}
 .pane-paragliding-pilots-list-fai, .pane-paragliding-pilots-list-standard { clear: both;}
