@@ -393,6 +393,7 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
     //if ($name_exists && $birthdate_exists) {
     
     if ($name_exists) {
+      return;
       // Check if data belongs to current user.
       if ($user->uid) {
         $result = $orig_query->execute();
