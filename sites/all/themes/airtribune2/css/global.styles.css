@@ -3474,6 +3474,8 @@ table tr td.:first-child { border-left: none;}
 .page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
 .page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center;}
 .page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center;}
+.page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 4px;}
+.page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
 
 .views-field-field-pg-contestant-status span { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px;}
 .views-field-field-pg-contestant-status span.Waiting-list { background-position: 0 -99px; color: #c1c7cc;}
