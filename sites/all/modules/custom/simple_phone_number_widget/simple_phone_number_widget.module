@@ -127,6 +127,10 @@ function _simple_phonenumber_validate($element, &$form_state) {
       $form_state['values'][$field_name][$language][$delta]['number'] = $number;
     }
   }
+  
+  if ($element['#required'] && empty($element['#value'])) {
+    form_error($element, t('!name field is required.', array('!name' => $element['#title'])));
+  }
 
   $element['#value'] = array(
     'country_codes' => $countrycode,
