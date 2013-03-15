@@ -14,15 +14,15 @@ jQuery(function ($) {
                 //Disable error messages on TAB-key.
                 form.once(function () {
                     Drupal.disableTabKey(form);
-                    passFields.one('keyup', function(){
-                        Drupal.checkAllElementsValid(formValidator);
+                    passConfirm.one('focus', function() {
+                        disableForm();
                     })
                 });
 
                 passConfirm[0].visited = false;
                 passFields.bind('keyup', function () {
                     if (passConfirm.val() == "" || passField.val() == "") {
-                        form.find('input.form-submit').addClass('disabled');
+                        disableForm()
                     }
                     passFields.unbind('keyup', arguments.callee);
                 });
@@ -34,6 +34,11 @@ jQuery(function ($) {
                 Drupal.checkAllElementsValid(formValidator);
             }
         }, 500);
-
+        function disableForm() {
+            form.
+                find('input.form-submit')
+                .addClass('disabled')
+                .data('all-elements-valid', false);
+        }
     })
 });
