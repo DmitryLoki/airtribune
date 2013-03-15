@@ -118,19 +118,16 @@ function _simple_phonenumber_validate($element, &$form_state) {
       $countrycode = array_pop(array_keys($country));
       $tmp = array_pop($country);
       $number = substr($element['#value'], strlen($tmp['code']) - 1);
+      // Set number for validate
+      $number = empty($number) ? $element['#value'] : $number;
       
       $form_state['input'][$field_name][$language][$delta]['country_codes'] = $countrycode;
       $form_state['values'][$field_name][$language][$delta]['country_codes'] = $countrycode;
       $form_state['input'][$field_name][$language][$delta]['number'] = $number;
       $form_state['values'][$field_name][$language][$delta]['number'] = $number;
-   
     }
   }
-  
-  if ($element['#required'] && empty($element['#value'])) {
-    form_error($element, t('!name field is required.', array('!name' => $element['#title'])));
-  }
-  
+
   $element['#value'] = array(
     'country_codes' => $countrycode,
     'number' => $number,
