@@ -45,15 +45,22 @@ function airtribune2_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'page-event-map-activity-accommodation';
   }
 
+  /* If profile pilot page */
+  if (!empty($vars['page']['content']['system_main']['profile_pilot'])) {
+    $vars['classes_array'][] = 'page-user';
+    $vars['classes_array'][] = 'page-user-header-logo';
+  }
+
+  /* If user page */
+  if (in_array('page-user', $vars['classes_array'])) {
+    $vars['classes_array'][] = 'page-user-header-logo';
+  }
+
   /* If event register page */
   if(arg(0) == 'event' && arg(2) && arg(2) == 'register'){
     $vars['classes_array'][] = 'page-user';
   }
 
-  /* If profile pilot page */
-  if (!empty($vars['page']['content']['system_main']['profile_pilot'])) {
-    $vars['classes_array'][] = 'page-user';
-  }
     /* If pilot status list */
   if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
     $vars['classes_array'][] = 'page-event-pilots-status';

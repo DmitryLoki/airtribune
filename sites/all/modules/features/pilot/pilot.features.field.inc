@@ -27,7 +27,7 @@ function pilot_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -485,7 +485,7 @@ function pilot_field_default_fields() {
       'entity_type' => 'profile2',
       'exclude_cv' => 0,
       'field_name' => 'field_name_in_national_alphabet',
-      'label' => 'Your name in national alphabet',
+      'label' => 'Your full name in national alphabet',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -810,7 +810,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Including international code.',
       'display' => array(
@@ -1109,7 +1109,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Your phone number including international code.',
       'display' => array(
@@ -1544,7 +1544,7 @@ function pilot_field_default_fields() {
   t('Sponsors');
   t('T-shirt size');
   t('The full name of your contact person and your relationship.');
-  t('Your name in national alphabet');
+  t('Your full name in national alphabet');
   t('Your phone number including international code.');
 
   return $fields;

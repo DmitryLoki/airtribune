@@ -2,13 +2,15 @@
 
 global $user;
 
+$form['actions']['cancel']['#prefix'] = '<span class="join_another_action">' . t('or') . ' </span>';
+
 //print drupal_render($form['user_mail']);
 $form['account']['mail_dummy'] = array(
   '#type' => 'item',
   '#title' => t('Email'),
   '#markup' => $form['user_mail']['#markup'],
 );
-
+hide($form['user_mail']);
 print drupal_render($form['account']['mail_dummy']);
 
 // Main profile
@@ -60,6 +62,9 @@ print drupal_render($form['profile_pilot']['field_fai_license_number']);
 print drupal_render($form['profile_pilot']['field_civl_id']);
 
 // Pilot's number
+print drupal_render($form['field_contestant_number']);
+
+// Pilot's number
 print drupal_render($og_form['field_contestant_number']);
 
 // T-shirt.
@@ -97,5 +102,7 @@ print drupal_render($form['profile_pilot']['field_blood_type']);
 
 // Hide profile fieldsets
 drupal_render($form['profile_pilot']);
+
+dsm($form);
 
 print drupal_render_children($form);
