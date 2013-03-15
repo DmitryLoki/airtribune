@@ -203,7 +203,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-.,)(/\\\\\\\\&\' ]*$',
+    'data' => '^[a-zA-Z0-9\\-\\.,)(/\\\\\\\\&\' ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -281,7 +281,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^\+[0-9]*$',
+    'data' => '^\\+[0-9]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -307,7 +307,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^\+[0-9]*$',
+    'data' => '^\\+[0-9]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
