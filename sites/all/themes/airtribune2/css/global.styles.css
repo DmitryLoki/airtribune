@@ -2632,9 +2632,9 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general, .page-event-info .pane-node-field-collection-getting-there .field-item .field-name-field-gt-general p { padding:0;}
 /*.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
 .page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
-.pane-node-field-address .addressfield-container-inline { display:inline;}
-.pane-node-field-address .addressfield-container-inline:after { display:none}
-.pane-node-field-address .addressfield-container-inline + .country:before { content:", "}
+.addressfield-container-inline { display:inline;}
+.addressfield-container-inline:after { display:none}
+.addressfield-container-inline + .country:before { content:", "}
 
 .page-event-info #page .pane-field-collection-item-field-gt-general { margin-bottom:16px; width:50%; float:right;}
 .page-event-info #page .pane-field-collection-item-field-gt-general p { padding:0}
@@ -3488,9 +3488,12 @@ table tr td.:first-child { border-left: none;}
 
 .page-event-pilots .pane-views-panes { margin: 0 -1px;}
 
+.page-event-pilots-status td.views-field-field-full-name { width: 181px;}
 .page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
-.page-event-pilots-status td.views-field-field-paraglider-model { width: 66px;}
-.page-event-pilots-status td.views-field-field-sponsors { width: 86px;}
+.page-event-pilots-status td.views-field-field-paraglider-model { width: 66px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-paraglider-model .td_inner { width: 86px;}
+.page-event-pilots-status td.views-field-field-sponsors { width: 86px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 86px;}
 .page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
 .page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}
 

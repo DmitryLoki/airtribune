@@ -872,11 +872,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -1179,8 +1179,9 @@ function accommodation_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_url',
-      'label' => 'Web site',
+      'label' => 'Web',
       'required' => 0,
       'settings' => array(
         'attributes' => array(
@@ -1306,7 +1307,7 @@ function accommodation_field_default_fields() {
   t('Services and prices');
   t('Single');
   t('Title');
-  t('Web site');
+  t('Web');
   t('Wi-Fi');
 
   return $fields;
