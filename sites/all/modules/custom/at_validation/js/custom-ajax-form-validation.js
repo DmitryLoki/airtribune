@@ -50,7 +50,7 @@
                 break;
             }
         }
-        form.data('all-elements-valid',allElementsValid);
+        form.data('all-elements-valid', allElementsValid);
         formValidator.successList = successList;
         submitButton[allElementsValid ? 'removeClass' : 'addClass']('disabled');
     };
@@ -172,29 +172,6 @@
             currentBindings.unshift(currentBindings.pop());
         }
 
-        var beforeSerialize = Drupal.ajax.prototype.beforeSerialize,
-            ajaxSuccess = Drupal.ajax.prototype.success;
-
-        Drupal.ajax.prototype.beforeSerialize = function (element, options) {
-            if (options.url === '/at-validation/ajax') {
-                var formValidator = element.validate();
-                Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
-                var validationResult = formValidator.element(activeField);
-                element.find('input.form-submit').addClass('disabled');
-                return validationResult;
-            } else {
-                beforeSerialize.call(this, element, options);
-            }
-        };
-
-        Drupal.ajax.prototype.success = function () {
-            ajaxSuccess.apply(this, arguments);
-            var formValidator = $(activeField).parents('form').validate();
-            if (formValidator) {
-                Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
-            }
-        };
-
         setTimeout(function () {
             var passField = $('.password-field');
             if (passField.length && passField.val() != '') {
@@ -235,16 +212,42 @@
                 // ignore IE throwing errors when focusing hidden elements
             }
         }
-    }
+    };
 
     //Throbber position fix for birthday fields
-    var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend;
+    var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend,
+        beforeSerialize = Drupal.ajax.prototype.beforeSerialize,
+        ajaxSuccess = Drupal.ajax.prototype.success;
+
     Drupal.ajax.prototype.beforeSend = function (xmlhttprequest, options) {
         if (options.extraData._triggering_element_name.indexOf('field_birthdate') > -1) {
             this.element = jQuery('.date-year')[0];
         }
         ajaxBeforeSend.apply(this, arguments);
-    }
+
+        $(this.element).attr('disabled', false).attr('readonly',true).css('backgroundColor','#f0f0f0');
+    };
+
+    Drupal.ajax.prototype.success = function () {
+        ajaxSuccess.apply(this, arguments);
+        var formValidator = $(activeField).parents('form').validate();
+        if (formValidator) {
+            Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+        }
+        $(this.element).attr('readonly',false).css('backgroundColor','');
+    };
+
+    Drupal.ajax.prototype.beforeSerialize = function (element, options) {
+        if (options.url === '/at-validation/ajax') {
+            var formValidator = element.validate();
+            Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+            var validationResult = formValidator.element(activeField);
+            element.find('input.form-submit').addClass('disabled');
+            return validationResult;
+        } else {
+            beforeSerialize.call(this, element, options);
+        }
+    };
 
     Drupal.ajax.prototype.error = function (response, uri) {
         console.error(Drupal.ajaxError(response, uri));

@@ -13,6 +13,8 @@ $form['account']['mail_dummy'] = array(
 hide($form['user_mail']);
 print drupal_render($form['account']['mail_dummy']);
 
+$form['actions']['submit']['#value'] = t('Register to this event!');
+
 // Main profile
 // =====================
 if (!empty($form['profile_main'])) {

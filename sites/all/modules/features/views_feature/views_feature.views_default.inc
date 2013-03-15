@@ -3413,6 +3413,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['ui_name'] = 'Gender (excluded)';
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
   /* Field: Global: View result counter */
   $handler->display->display_options['fields']['counter']['id'] = 'counter';
@@ -3426,7 +3428,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])';
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])[field_gender]';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
     'format' => 'default',
@@ -3531,6 +3533,8 @@ function views_feature_views_default_views() {
     t('Standard event pilots'),
     t('View panes'),
     t('FAI'),
+    t('<span class="gender-[field_gender-value]"></span>'),
+    t('[field_full_name] ([field_contestant_number])[field_gender]'),
     t('FAI event pilots'),
   );
   $export['paragliding_pilots_list'] = $view;

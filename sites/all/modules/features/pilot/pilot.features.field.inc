@@ -27,7 +27,7 @@ function pilot_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -472,7 +472,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Your name and surname.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -810,7 +810,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => 'Including international code.',
       'display' => array(
@@ -1109,7 +1109,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => 'Your phone number including international code.',
       'display' => array(
@@ -1545,6 +1545,7 @@ function pilot_field_default_fields() {
   t('T-shirt size');
   t('The full name of your contact person and your relationship.');
   t('Your full name in national alphabet');
+  t('Your name and surname.');
   t('Your phone number including international code.');
 
   return $fields;

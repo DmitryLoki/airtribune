@@ -231,12 +231,14 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
       array(
         'context' => array(
           'subject' => t('Airtribune.com - Your password was changed.'),
-          'message' => t('Dear, @fullname
+          'message' => t('Dear, @fullname!
 
 Your password has been changed.
-If you did not initialize password change procedure, please contact support immediately using this email: support@airtribune.com
+If you did not initialize password change procedure, please contact support immediately.
 
-Happy landings,
+You may use support@airtribune.com, or simply reply to this email.
+
+Happy landings!
 Airtribune team', array('@fullname' => $fullname))
         )
       )
