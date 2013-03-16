@@ -3386,6 +3386,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_contestant_number']['label'] = '';
   $handler->display->display_options['fields']['field_contestant_number']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_contestant_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_contestant_number']['type'] = 'number_unformatted';
   $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
