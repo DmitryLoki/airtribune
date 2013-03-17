@@ -93,7 +93,6 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
   switch ($display['type']) {
 
     case 'adapitve_dates':
-
       foreach ($items as $delta => $item) {
         $date1 = getdate($ts1 = strtotime($item['value']));
         $date2 = getdate($ts2 = strtotime($item['value2']));

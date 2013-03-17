@@ -516,7 +516,7 @@ function at_reg_user_register_before_execute(&$multiform, $index) {
   
   
   foreach($form[$profile_type] as $key => $value) {
-    if(in_array($key, $fields)) {
+    if (in_array($key, $fields)) {
       $lang = $og_form[$key]['#language'];
       $form_state['values'][$profile_type][$key][$lang] = $og_form_values[$key][$lang];
     }

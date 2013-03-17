@@ -25,6 +25,8 @@ function pg_contest_field_group_info() {
     'children' => array(
       0 => 'field_contacts_email',
       1 => 'field_contacts_phone',
+      2 => 'field_position',
+      3 => 'field_full_name',
     ),
     'format_type' => 'field_group_multiple_table',
     'format_settings' => array(
@@ -38,9 +40,9 @@ function pg_contest_field_group_info() {
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
-        'row_titles' => '-none-,General questions,Selection and entry fee,Transportation,Accommodation',
+        'row_titles' => '',
       ),
-      'formatter' => 'open',
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_contacs|node|pg_contest|form'] = $field_group;
@@ -58,8 +60,10 @@ function pg_contest_field_group_info() {
     'label' => 'Contacts',
     'weight' => '46',
     'children' => array(
-      0 => 'field_contacts_email',
-      1 => 'field_contacts_phone',
+      0 => 'field_full_name',
+      1 => 'field_contacts_email',
+      2 => 'field_contacts_phone',
+      3 => 'field_position',
     ),
     'format_type' => 'field_group_multiple_container',
     'format_settings' => array(
