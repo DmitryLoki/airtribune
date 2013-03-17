@@ -234,6 +234,12 @@ function pg_contest_rdf_default_mappings() {
       'predicates' => array(),
       'type' => 'rel',
     ),
+    'field_full_name' => array(
+      'predicates' => array(),
+    ),
+    'field_position' => array(
+      'predicates' => array(),
+    ),
   );
 
   return $schemaorg;
