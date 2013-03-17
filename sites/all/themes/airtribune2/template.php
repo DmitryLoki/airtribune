@@ -1307,7 +1307,7 @@ function airtribune2_status_messages($variables) {
       $output .= " </ul>\n";
     }
     else {
-      $output .= $messages[0] . '<span class="valign"></span>';
+      $output .= '<span>' . $messages[0] . '</span><span class="valign"></span>';
     }
     $output .= "</div>\n";
   }
