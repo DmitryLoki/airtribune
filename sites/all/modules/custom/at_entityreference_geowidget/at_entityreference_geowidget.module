@@ -1,0 +1,126 @@
+<?php
+
+
+/**
+* Implements hook_menu();
+*/
+function at_entityreference_geowidget_menu() {
+  $items = array();
+  $items['at_entityreference_geowidget'] = array(
+    'title' => 'Ajax callback',
+    'page callback' => 'at_entityreference_geowidget_ajax',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+
+/**
+* Implements hook_field_widget_info();
+*/
+function at_entityreference_geowidget_field_widget_info() {
+  $widgets['at_entityreference_geowidget'] = array(
+    'label' => t('Geowidget'),
+    'description' => t('An advanced geowidget.'),
+    'field types' => array('entityreference'),
+    'settings' => array(
+    ),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      'default value' => FIELD_BEHAVIOR_NONE,
+    ),
+  );
+
+  return $widgets;  
+}
+
+/**
+* Implements hook_field_widget_form();
+*/
+function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $map = openlayers_map_load('events_map');
+  if(isset($items[$delta])) {
+    $value = $items[$delta]['target_id'];
+    $entityreference_node = node_load($value);
+    $location = $entityreference_node->field_location['und'][0];
+    $map->data['center']['initial']['centerpoint'] = $location['lat'] . ',' . $location['lon'];
+    if (isset($map->data['behaviors']['openlayers_behavior_zoomtolayer'])) {
+      unset($map->data['behaviors']['openlayers_behavior_zoomtolayer']);
+    }
+  }
+  //we cannot use opelayers_map_render() directly here, cause we need map id
+  $map = openlayers_build_map($map->data);
+  if (empty($map['errors'])) {
+    $js = array('openlayers' => array('maps' => array($map['id'] => $map)));
+    drupal_add_js($js, 'setting');
+
+    // Push map through theme function and return
+    $output_map = theme('openlayers_map', array(
+      'map' => $map,
+    ));
+  }
+  $element['map'] = array(
+    '#attached' => array(
+      'js' => array(drupal_get_path('module', 'at_entityreference_geowidget') . '/at_entityreference_geowidget.js'),
+      'css' => array(drupal_get_path('module', 'at_entityreference_geowidget') . '/at_entityreference_geowidget.css'),
+    ),
+    '#type' => 'item',
+    '#title' => t('Map'),
+    '#markup' => $output_map,
+    '#suffix' => '<div class="entityreference-selected"></div>'
+  );
+  $element['target_id'] = array(
+    '#type' => 'hidden',
+    '#prefix' => '<div class="selected">',
+    '#suffix' => '</div>',
+    '#delta' => $delta
+  );
+  $element['#element_validate'] = array('at_entityreference_geowidget_validate');
+  drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'], 'value' => $value)), 'setting');
+  return $element;
+}
+
+/**
+ * Implements hook_openlayers_map_preprocess_alter
+ * @param array $map
+ */
+function at_entityreference_geowidget_openlayers_map_preprocess_alter(&$map = array()) {
+  $map['layers'][] = $map['layers_activated'][] = 'test_geo_openlayers_1';
+}
+
+function at_entityreference_geowidget_ajax(){
+  /*drupal_add_library('system', 'drupal.ajax');
+  drupal_add_library('system', 'jquery.form');*/
+  $bounds = $_GET['bbox'];
+  $bounds = explode(',', $bounds);
+  $view = views_get_view('test_geo');
+  if (is_null(drupal_get_http_header('Content-Type'))) {
+    drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
+  }
+  $view->set_exposed_input(array(
+    'field_location_lat' => array(
+      'min' => $bounds[1],
+      'max' => $bounds[3],
+    ),
+    'field_location_lon' => array(
+      'min' => $bounds[0],
+      'max' => $bounds[2],
+    )
+  ));
+  print drupal_json_encode($view->execute_display('openlayers_1'));
+  ajax_footer();
+}
+
+function at_entityreference_geowidget_validate($element, &$form_state) {
+  form_set_value($element, array('und' => array('target_id' => $element['target_id']['#value'])), $form_state);
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_entityreference_geowidget_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'entityreference') {
+    return 'plugins/' . $plugin;
+  }
+}

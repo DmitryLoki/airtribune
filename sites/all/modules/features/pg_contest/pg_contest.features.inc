@@ -40,6 +40,12 @@ function pg_contest_rdf_default_mappings() {
     'field_organizer' => array(
       'predicates' => array(),
     ),
+    'field_position' => array(
+      'predicates' => array(),
+    ),
+    'field_contacts_phone' => array(
+      'predicates' => array(),
+    ),
   );
 
   // Exported RDF mapping: field_collection_getting_there
@@ -227,6 +233,12 @@ function pg_contest_rdf_default_mappings() {
     'field_downloads' => array(
       'predicates' => array(),
       'type' => 'rel',
+    ),
+    'field_full_name' => array(
+      'predicates' => array(),
+    ),
+    'field_position' => array(
+      'predicates' => array(),
     ),
   );
 

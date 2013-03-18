@@ -56,7 +56,7 @@ function activity_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => '1',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -81,6 +81,7 @@ function activity_field_default_fields() {
       'settings' => array(
         'display_summary' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
@@ -136,7 +137,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -145,7 +146,7 @@ function activity_field_default_fields() {
             'use_widget_handlers' => 1,
           ),
           'type' => 'addressfield_default',
-          'weight' => 5,
+          'weight' => '2',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -166,6 +167,7 @@ function activity_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -216,11 +218,11 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
-          'weight' => 1,
+          'weight' => '3',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -241,6 +243,7 @@ function activity_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -317,12 +320,9 @@ function activity_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'geofield',
-          'settings' => array(
-            'data' => 'full',
-          ),
-          'type' => 'geofield_wkt',
-          'weight' => 3,
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '6',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -343,6 +343,7 @@ function activity_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -392,15 +393,16 @@ function activity_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'activity',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => 4,
+          'weight' => '4',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -663,15 +665,16 @@ function activity_field_default_fields() {
         'enable_default_country' => 1,
         'enable_extension' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'cck_phone',
+        'module' => 'simple_phone_number_widget',
         'settings' => array(
           'size' => 15,
         ),
-        'type' => 'phone_number',
+        'type' => 'simple_phone_number_widget',
         'weight' => '8',
       ),
     ),
@@ -720,14 +723,17 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'image',
+          'label' => 'hidden',
+          'module' => 'jcarousel_formatter',
           'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
+            'full_image_modal' => 'nolink',
+            'full_image_style' => '',
+            'jcarousel_formatter_orientation' => 'horizontal',
+            'jcarousel_formatter_skin' => 'default',
+            'jcarousel_image_style' => 'hotel_preview',
           ),
-          'type' => 'image',
-          'weight' => 2,
+          'type' => 'jcarousel_formatter',
+          'weight' => '0',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -750,6 +756,7 @@ function activity_field_default_fields() {
         'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
@@ -839,11 +846,11 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => 6,
+          'weight' => '5',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -875,6 +882,7 @@ function activity_field_default_fields() {
         ),
         'enable_tokens' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'title' => 'optional',
         'title_maxlength' => '128',
         'title_value' => '',

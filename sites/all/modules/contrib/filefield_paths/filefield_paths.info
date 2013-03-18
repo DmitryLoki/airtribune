@@ -4,9 +4,11 @@ dependencies[] = token
 package = Fields
 core = 7.x
 
+; Core files.
 files[] = filefield_paths.install
 files[] = filefield_paths.module
 
+; Integration files.
 files[] = modules/features.inc
 files[] = modules/file.inc
 files[] = modules/filefield_paths.drush.inc
@@ -15,11 +17,13 @@ files[] = modules/image.inc
 files[] = modules/token.inc
 files[] = modules/video.inc
 
-;files[] = tests/filefield_paths.test
+; Simpletest files.
+; files[] = tests/file.test
+; files[] = tests/filefield_paths.test
 
-; Information added by drupal.org packaging script on 2012-02-07
-version = "7.x-1.0-beta3"
+; Information added by drupal.org packaging script on 2012-08-10
+version = "7.x-1.0-beta3+4-dev"
 core = "7.x"
 project = "filefield_paths"
-datestamp = "1328655041"
+datestamp = "1344601058"
 

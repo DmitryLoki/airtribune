@@ -46,55 +46,69 @@ function path_breadcrumbs_load_variant($path) {
     return FALSE;
   }
 
-  // Trying to load breadcrumb from cache.
-  $cache_id = __FUNCTION__ . ':' . $path;
-  $cache = cache_get($cache_id, PATH_BREADCRUMBS_CACHE_STORAGE);
-  if (!empty($cache->data)) {
-    return $cache->data;
+  // See if user enabled cache for breadcrumbs.
+  $cache_enabled = variable_get('path_breadcrumbs_cache_enabled', FALSE);
+  if ($cache_enabled) {
+
+    // Trying to load breadcrumb from cache.
+    $cache_id = __FUNCTION__ . ':' . $path;
+    $cache = cache_get($cache_id, PATH_BREADCRUMBS_CACHE_STORAGE);
+    if (!empty($cache->data)) {
+      return $cache->data;
+    }
   }
-  else {
 
-    // Select all variants matching current path.
-    $variants = path_breadcrumbs_load_by_path($path);
+  // Select all variants matching current path.
+  $variants = path_breadcrumbs_load_by_path($path);
 
-    // Check if current path maches variant.
-    // When first variant is found - return it.
-    foreach ($variants as $breadcrumb) {
+  // Check if current path maches variant.
+  // When first variant is found - return it.
+  foreach ($variants as $breadcrumb) {
 
-      // Replace placeholder in path with '*'.
-      // Example: 'node/%node/view' -> 'node/*/view'.
-      $matched_path = preg_replace("
+    // Replace placeholder in path with '*'.
+    // Example: 'node/%node/view' -> 'node/*/view'.
+    $matched_path = preg_replace("
         /\/%    # start with slash-percent
         [^\/]+  # all symbols except for the slash
         /x", '/*', $breadcrumb->path);
 
-      if (drupal_match_path($path, $matched_path)) {
+    if (drupal_match_path($path, $matched_path)) {
 
-        // Load breadcrumbs' contexts from current path.
-        $contexts = path_breadcrumbs_get_contexts_from_arguments($breadcrumb->arguments);
+      // Load breadcrumbs' contexts from current path.
+      $contexts = path_breadcrumbs_get_contexts_from_arguments($breadcrumb->arguments);
 
-        // If breadcrumb contains broken context
-        // it means that unable to load context from URL.
-        if (isset($contexts['broken_context'])) {
+      // If breadcrumb contains broken context
+      // it means that unable to load context from URL.
+      if (isset($contexts['broken_context'])) {
+        continue;
+      }
+
+      // Check if breadcrumb is accessable for current page.
+      if (!empty($breadcrumb->access)) {
+        $access = ctools_access($breadcrumb->access, $contexts);
+        if (!$access) {
           continue;
         }
+      }
 
-        // Check if breadcrumb is accessable for current page.
-        if (!empty($breadcrumb->access)) {
-          $access = ctools_access($breadcrumb->access, $contexts);
-          if (!$access) {
-            continue;
-          }
+      // Build suitable breadcrumb variant.
+      $build = _path_breadcrumbs_build_breadcrumbs($breadcrumb, $contexts);
+
+      // Save data in cache and return it.
+      if ($cache_enabled) {
+        $cache_lifetime = variable_get('path_breadcrumbs_cache_lifetime', CACHE_PERMANENT);
+
+        // Apply current time to cache expiration time to set valid cache expire date.
+        if ($cache_lifetime > CACHE_PERMANENT) {
+          $cache_lifetime += REQUEST_TIME;
         }
 
-        // Build suitable breadcrumb variant.
-        $build = _path_breadcrumbs_build_breadcrumbs($breadcrumb, $contexts);
-
-        // Save data in cache and return it.
-        cache_set($cache_id, $build, PATH_BREADCRUMBS_CACHE_STORAGE);
-        return $build;
+        cache_set($cache_id, $build, PATH_BREADCRUMBS_CACHE_STORAGE, $cache_lifetime);
       }
+
+      return $build;
     }
+
   }
   return FALSE;
 }
@@ -267,7 +281,7 @@ function path_breadcrumbs_breadcrumb($variables) {
       $elem_tag = 'div';
 
       // Add style that will display breadcrumbs wrapped in <div> inline.
-      drupal_add_css(drupal_get_path('module', 'path_breadcrumbs') . '/path_breadcrumbs.css');
+      drupal_add_css(drupal_get_path('module', 'path_breadcrumbs') . '/css/path_breadcrumbs.css');
     }
 
     foreach ($breadcrumbs as $key => $breadcrumb) {
@@ -326,6 +340,10 @@ function path_breadcrumbs_breadcrumb($variables) {
       // Get breadcrumb title from a link like "<a href = "/path">title</a>".
       $title = trim(strip_tags($breadcrumb));
 
+      // truncate to max length, consider ellipsis (+3 symbols)
+      $truncate_length = variable_get('path_breadcrumbs_truncate_length', 100) + 3;
+      $title = truncate_utf8($title, $truncate_length, TRUE, TRUE);
+
       // Wrap title in additional element for microdata support.
       if ($snippet == PATH_BREADCRUMBS_RICH_SNIPPETS_MICRODATA) {
         $title = '<span itemprop="title">' . $title . '</span>';
@@ -338,8 +356,12 @@ function path_breadcrumbs_breadcrumb($variables) {
       $breadcrumbs[$key] = '<' . $elem_tag . ' class="' . implode(' ', $classes) . '" ' . $elem_property . '>' . $new_breadcrumb . '</' . $elem_tag . '>';
     }
 
+    // Get breadcrumb delimiter and wrap it into <span> for customization.
     $delimiter = variable_get('path_breadcrumbs_delimiter', '»');
-    $output .= '<div class="breadcrumb"' . $root_property . '>' . implode(' ' . trim($delimiter) . ' ', $breadcrumbs) . '</div>';
+    $delimiter = '<span class="delimiter">' . trim($delimiter) . '</span>';
+
+    // Build final version of breadcrumb's HTML output.
+    $output .= '<div class="breadcrumb"' . $root_property . '>' . implode(" $delimiter ", $breadcrumbs) . '</div>';
     return $output;
   }
 
@@ -356,7 +378,10 @@ function path_breadcrumbs_breadcrumb($variables) {
  *   ID of inserted/updated path breadcrumb.
  */
 function path_breadcrumbs_save($path_breadcrumbs) {
+
+  // Include Chaos Tools' exportable library.
   ctools_include('export');
+
   // Build array with full access data.
   if (!empty($path_breadcrumbs->access) && !empty($path_breadcrumbs->logic)) {
     $path_breadcrumbs->access['logic'] = $path_breadcrumbs->logic;
@@ -410,7 +435,9 @@ function path_breadcrumbs_delete($name) {
   // Call ctools functions to remove object correctly.
   ctools_export_crud_delete('path_breadcrumbs', $path_breadcrumbs);
   path_breadcrumbs_object_cache_clear($name);
-  cache_clear_all('path_breadcrumbs', 'cache', TRUE);
+
+  // Truncate all cached data.
+  cache_clear_all('*', PATH_BREADCRUMBS_CACHE_STORAGE, TRUE);
 }
 
 /**

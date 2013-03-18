@@ -6,15 +6,6 @@
 function at_user_menu() {
   $items = array();
 
-  $items['user/%/pilot'] = array(
-    'title' => 'Edit Pilot',
-    'page callback' => 'at_user_redirect_to_pilot',
-    'page arguments' => array(1),
-    'access callback' => 'user_view_access',
-    'access arguments' => array(1),
-    'type' => MENU_LOCAL_TASK,
-  );
-
   $items['profile-pilot/%user/user'] = array(
     'title' => 'Edit user',
     'page callback' => 'at_user_redirect_to_user',
@@ -24,25 +15,18 @@ function at_user_menu() {
     'type' => MENU_LOCAL_TASK,
   );
 
-  $items['user/is_email_exists/%'] = array(
-    'title' => 'Is email exists',
-    'page callback' => 'at_user_is_email_exists',
-    'page arguments' => array(2),
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['user/is_name_exists/%/%'] = array(
-    'title' => 'Is email exists',
-    'page callback' => 'at_user_is_name_exists',
-    'page arguments' => array(2,3),
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
+  $items['user/%/pilot'] = array(
+    'title' => 'Edit pilot',
+    'page callback' => 'at_user_redirect_to_pilot',
+    'page arguments' => array(1),
+    'access callback' => 'user_access',
+    'access arguments' => array('edit own pilot profile'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
   );
 
   return $items;
 }
-
 
 function at_user_redirect_to_pilot($nid) {
   drupal_goto('profile-pilot/' . arg(1) . '/edit');
@@ -52,48 +36,244 @@ function at_user_redirect_to_user($nid) {
   drupal_goto('user/' . arg(1) . '/edit');
 }
 
-function at_user_is_email_exists($mail) {
-  if (empty($mail)) {
-    return;
-  }
-  $count = db_select('users', 'u')
-  ->condition('mail', $mail)
-  ->countQuery()
-  ->execute()
-  ->fetchField();
-  if ($count) {
-    // return TRUE;
-    $result['exists'] = 'TRUE'; // can pass boolean to js?
-    echo drupal_json_encode($result);
-  }
+/**
+ * Implements hook_menu_alter().
+ */
+function at_user_menu_alter(&$items) {
+  // hide the tab on the user account page
+  $items['user/%user_category/edit/main']['access callback'] = FALSE;
 }
 
-function at_user_is_name_exists($first_name, $last_name) {
-  if (empty($first_name) || empty($last_name)) {
-    return;
-  }
-  $count = db_select('field_data_field_full_name', 'n')
-  ->condition(
-    db_or()
-      ->condition('field_full_name_given', $first_name)
-      ->condition('field_full_name_family', $last_name)
-  )
-  ->countQuery()
-  ->execute()
-  ->fetchField();
-  if ($count) {
-    // return TRUE;
-    $result['exists'] = 'TRUE';
-    echo drupal_json_encode($result);
+/**
+ * Implements hook_form_FORM_ID_alter() for the user edit form.
+ */
+function at_user_form_user_profile_form_alter(&$form, &$form_state) {
+  // merge the profile2 form with the user account form
+  // if profile type = 'main' & checkbox 'Provide a separate page for editing profiles' is unset, so userCategory = TRUE
+  if (($type = profile2_get_types('main')) && $type->userCategory) {
+    if (empty($form_state['profiles'])) {
+      $profile = profile2_load_by_user($form['#user'], 'main');
+      if (empty($profile)) {
+        $profile = profile_create(array('type' => 'main', 'uid' => $form['#user']->uid));
+      }
+      $form_state['profiles'][$profile->type] = $profile;
+    }
+    profile2_attach_form($form, $form_state);
   }
 }
 
 /*
- * Hook form alter for user create/login/pass-reset
+ * Implements hook_form_alter for user create/login/pass-reset
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
+  global $user;
   if ($form_id == 'user_profile_form') {
-    drupal_add_js(drupal_get_path('module', 'at_user') . '/at_user_helper.js');
+  // make upload & delete (user_picture / avatar imagefield) without form_submit
+  // see #2764
+//    if (isset($form_state['triggering_element']['#id']) &&
+//      $form_state['triggering_element']['#id'] == 'edit-field-avatar-und-0-remove-button') {
+    if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
+        $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove") {
+      at_user_photo_ajax_remove($form, $form_state, $form_id);
+    }
+    $lang = $form['field_user_avatar']['#language'];
+    // own field validators
+    $form['field_user_avatar'][$lang][0]['#upload_validators'] = array();
+    //unset($form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_image_resolution']);
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_extensions'] = array(0=>'png gif jpg jpeg');
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(0=>'150x150',1=>'60x60');
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
+
+    // see #2817
+    // send mail to user on password change
+    $form['#submit'][] = 'at_user_notify_user_at_password_change';
+    // Unset 'current password' field
+    unset($form['account']['current_pass']);
+    unset($form['account']['current_pass_required_values']);
+    $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
+  }
+  // see #2633
+  if ($form_id == 'user_login_block') {
+    $form['#action'] = '/' . variable_get('site_frontpage', '') . '?destination=user';
+  }
+  // see #2633
+  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    $form['inline_errors']['#markup'] = '';
+    $form['inline_errors']['#weight'] = -10;
+    $form['#validate'][] = 'at_user_change_login_error_msg_validate';
+    $form['#validate'][] = 'at_user_change_login_error_inline_validate';
+  }
+}
+
+function at_user_password_title_change($element) {
+  $element['pass1']['#title'] = t("New password");
+  $element['pass2']['#title'] = t("Repeat new password");
+  return $element;
+}
+
+function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
+  global $user;
+
+  if ($file = file_load($user->picture)) {
+    // When a module is managing a file, it must manage the usage count.
+    // Here we decrement the usage count with file_usage_delete().
+    file_usage_delete($file, 'file', 'user', 1);
+    file_usage_delete($file, 'user', 'user', 1);
+
+    // The file_delete() function takes a file object and checks to see if
+    // the file is being used by any other modules. If it is the delete
+    // operation is cancelled, otherwise the file is deleted.
+    file_delete($file);
+
+    // empty fields & save user data
+    $edit['picture'] = null;
+    $edit['field_user_avatar'] = null;
+    $saved_user = user_save($user, $edit);
+  }
+}
+
+function at_user_init() {
+  $hide_messages = array (
+    'You have already registered this identity.'
+  );
+  $replace_messages = array (
+    //'Some string' => 'Replaced string',
+    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>'
+  );
+  if ($messages = drupal_get_messages()) {
+    foreach($messages  as $type => $messages_by_type) {
+      foreach($messages_by_type as $key => $message) {
+        if (array_key_exists(t($message), $replace_messages)){
+          $message = t($replace_messages[$message]);
+        }
+        // if current message not in message list, which we want to hide,
+        // then again add this msg to drupal msg stack
+        if (!in_array(t($message), $hide_messages)){
+          drupal_set_message($message, $type);
+        }
+      }
+    }
+  }
+}
+
+function at_user_file_validate_image_resolution(stdClass $file, $maximum_dimensions = 0, $minimum_dimensions = 0) {
+  $errors = array();
+
+  // Check first that the file is an image.
+  if ($info = image_get_info($file->uri)) {
+    if ($maximum_dimensions) {
+      // Check that it is smaller than the given dimensions.
+      list($width, $height) = explode('x', $maximum_dimensions);
+      if ($info['width'] > $width || $info['height'] > $height) {
+        // Try to resize the image to fit the dimensions.
+        if ($image = image_load($file->uri)) {
+          image_scale($image, $width, $height);
+          image_save($image);
+          $file->filesize = $image->info['file_size'];
+          // this line commented to avoid repeated messages at ajax-uploading without form_submit
+          // drupal_set_message(t('The image was resized to fit within the maximum allowed dimensions of %dimensions pixels.', array('%dimensions' => $maximum_dimensions)), 'status', FALSE);
+        }
+        else {
+          $errors[] = t('The image is too large; the maximum dimensions are %dimensions pixels.', array('%dimensions' => $maximum_dimensions));
+        }
+      }
+    }
+
+    if ($minimum_dimensions) {
+      // Check that it is larger than the given dimensions.
+      list($width, $height) = explode('x', $minimum_dimensions);
+      if ($info['width'] < $width || $info['height'] < $height) {
+        $errors[] = t('The image is too small; the minimum dimensions are %dimensions pixels.', array('%dimensions' => $minimum_dimensions));
+      }
+    }
+  }
+
+  return $errors;
+}
+
+function at_user_photo_ajax_upload(stdClass $file) {
+  global $user;
+
+  if ($res = file_copy($file, 'public://pictures/')) {
+    $account         = user_load($user->uid);
+
+    $edit['picture'] = $res;
+    $edit['field_user_avatar']['und'][] = array(
+      // 'alt' => '',
+      // 'title' => '',
+      // 'width' => 100,
+      // 'height' => 100,
+      'fid'       => $res->fid,
+      'uid'       => $res->uid,
+      'uri'       => $res->destination,
+      'status'    => $res->status,
+      'filename'  => $res->filename,
+      'filemime'  => $res->filemime,
+      'filesize'  => $res->filesize,
+      'timestamp' => $res->timestamp,
+    );
+    $saved_user = user_save($account, $edit);
+  }
+  // it's form upload validator, so we need return empty array to avoid errors
+  return array();
+}
+
+function at_user_notify_user_at_password_change(&$form, $form_state) {
+  // load user by form, becose password can be changed by admin / editor
+  // so we need uid & mail for changed user
+  $user = $form_state['user'];
+  // check for changes
+  if (!empty($form_state['input']['pass']['pass1'])) {
+    $name = $form_state['profiles']['main']->field_full_name['und']['0']['safe'];
+    $fullname = $name['given'] . ' ' . $name['family'];
+    drupal_mail('system', 'mail', $user->mail, $user->language,
+      array(
+        'context' => array(
+          'subject' => t('Airtribune.com - Your password was changed.'),
+          'message' => t('Dear, @fullname!
+
+Your password has been changed.
+If you did not initialize password change procedure, please contact support immediately.
+
+You may use support@airtribune.com, or simply reply to this email.
+
+Happy landings!
+Airtribune team', array('@fullname' => $fullname))
+        )
+      )
+    );
+  }
+}
+
+function at_user_change_login_error_msg_validate($form, &$form_state) {
+  if (empty($_SESSION['messages'])) {
+    return;
+  }
+}
+
+function at_user_change_login_error_inline_validate($form, &$form_state) {
+  // user type wrong password / name
+  if (empty($form_state['uid'])) {
+    // at user login block
+    if ($form['#form_id'] == 'user_login_block') {
+      // $form_state['redirect'] = "user/login";
+      // drupal_goto('user/login?mail='.$form_state['values']['name']);
+      drupal_goto('user/login');
+    }
+    // at login form at user/login
+    if (form_get_errors()) {
+      $form_errors = form_get_errors();
+      $drupal_errors = drupal_get_messages('error');
+      //form_clear_error();
+      $form_state['complete form']['inline_errors']['#markup'] = '<div class="inline_login_errors">';
+      foreach($drupal_errors['error'] as $key => $error) {
+          $form_state['complete form']['inline_errors']['#markup'] .= $error . "<br/>";
+      }
+      $form_state['complete form']['inline_errors']['#markup'] .= '</div>';
+    }
+    // update form, need for form-redirect and markup update
+    $form_state['rebuild'] = TRUE;
   }
 }
 
@@ -101,18 +281,9 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
  * Implements hook_preprocess_page().
  */
 function at_user_preprocess_page(&$variables) {
-  // global $user;
-  // if (arg(0) == "user" && arg(1) == null) {
-  //   if (isset($user->uid)) {
-  //     at_user_redirect_to_user($user->uid);
-  //   else {
-  //     drupal_goto('user/login');
-  //   }
-  // }
-
   $tabs_to_disable = array(
     // 'user/%/devel', 'node/%/devel', 'node/%/log',
-    'user/%/view', 'user/%/ulogin', 'profile-pilot/%/view'
+    'user/%/view', 'profile-pilot/%/view', 'profile-main/%/view'
   );
   foreach ($variables['tabs'] as $group_key => $tab_group) {
     if (is_array($tab_group)) {

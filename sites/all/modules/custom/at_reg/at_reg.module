@@ -2,6 +2,7 @@
 
 
 define('PILOT_PROFILE_NAME', 'pilot');
+define('MAIN_PROFILE_NAME', 'main');
 define('CONTEST_MEMBERSHIP_NAME', 'pg_contestant');
 
 
@@ -24,23 +25,53 @@ function at_reg_menu() {
     // We don't add the group name, as it might be private.
     'title' => 'Join group'
   );
-  $items['event/%/register'] = array(
+  $items['event/%node/register'] = array(
     'type' => MENU_LOCAL_TASK,
     'file' => 'at_reg.pages.inc',
-    //'page callback' => 'at_reg_subscribe',
-    'page callback' => 'at_reg_subscribe_blank',
+    'page callback' => 'at_reg_subscribe',
+    //'page callback' => 'at_reg_subscribe_blank',
     'page arguments' => array('node', 1),
     // Function will take care of permissions, as we want to show "you are
     // already a member of the group" to group members, however it is not
     // possible to give authenticated group members the "subscribe" permissions.
     //'access callback' => 'user_is_logged_in',
-    'access callback' => TRUE,
+    'access callback' => 'at_reg_subscribe_access',
+    'access arguments' => array('node', 1),
 
     // We don't add the group name, as it might be private.
     'title' => 'Registration',
     'weight' => 50,
   );
   return $items;
+}
+
+/**
+ * Access callback for event registration page.
+ */
+function at_reg_subscribe_access($entity_type, $node) {
+  
+  $etid = $node->nid;
+  global $user;
+  
+  $entity = entity_load_single($entity_type, $etid);
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  
+  if (!og_user_access($entity_type, $id, 'subscribe', $user) && !og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
+    return FALSE;
+  }
+  
+  if($user->uid) {
+    
+    if (og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_ACTIVE))
+        || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_PENDING))
+        || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_BLOCKED))) {
+      
+      return FALSE;
+    }
+  }
+  
+  
+  return TRUE;
 }
 
 /**
@@ -242,11 +273,21 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         // TODO: Data for MT is obtained from Profile.
         if($user->uid) {
           $form_state['user'] = $user;
-          $profile_type = PILOT_PROFILE_NAME;
-          at_reg_form_attach_profile($form, $form_state, $profile_type);
+          //$profile_type = PILOT_PROFILE_NAME;
+          at_reg_form_attach_profile($form, $form_state, PILOT_PROFILE_NAME);
+          at_reg_form_attach_profile($form, $form_state, MAIN_PROFILE_NAME);
           // Hide crossfields and set their values based on base fields.
+          // TODO: These two functions must not be even added while at_reg_form_attach_profile().
+          unset($form['#submit'][2]);
+          unset($form['#validate'][3]);
+          //dsm($form);
+          
+          $form['user_mail'] = array(
+            '#markup' => $user->mail,
+          );
           $form['#after_build'][] = 'at_reg_authorized_form_after_build';
         }
+        $form['#theme'] = 'og_ui_confirm_subscribe';
       }
       break;
     
@@ -475,7 +516,7 @@ function at_reg_user_register_before_execute(&$multiform, $index) {
   
   
   foreach($form[$profile_type] as $key => $value) {
-    if(in_array($key, $fields)) {
+    if (in_array($key, $fields)) {
       $lang = $og_form[$key]['#language'];
       $form_state['values'][$profile_type][$key][$lang] = $og_form_values[$key][$lang];
     }

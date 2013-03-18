@@ -116,15 +116,16 @@ function panels_default_template_default_panels_mini() {
     $pane->pid = 'new-3';
     $pane->panel = 'padding';
     $pane->type = 'views_panes';
-    $pane->subtype = 'event_map-event_map';
+    $pane->subtype = 'header_slideshow-event_header';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
           'name' => 'path_visibility',
           'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*/map',
+            'visibility_setting' => '0',
+            'paths' => 'event/*/map
+event/*/map/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -133,7 +134,7 @@ function panels_default_template_default_panels_mini() {
     );
     $pane->configuration = array(
       'arguments' => array(
-        'field_geofield_distance' => '%event:nid',
+        'gid' => '%event:nid',
       ),
     );
     $pane->cache = array();
@@ -149,16 +150,17 @@ function panels_default_template_default_panels_mini() {
     $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'padding';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_header_image';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_map-event_map';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
           'name' => 'path_visibility',
           'settings' => array(
-            'visibility_setting' => '0',
-            'paths' => 'event/*/map',
+            'visibility_setting' => '1',
+            'paths' => 'event/*/map
+event/*/map/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -166,17 +168,10 @@ function panels_default_template_default_panels_mini() {
       ),
     );
     $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'image',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'image_style' => 'header',
-        'image_link' => '',
+      'arguments' => array(
+        'null' => '%event:nid',
       ),
-      'context' => 'requiredcontext_airtribune_event_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -652,7 +647,7 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Share links',
       'title' => '',
-      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c"});</script><span class=\'st_facebook_vcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_vcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_vcount\' displayText=\'Google +\'></span></span></span><span class=\'st_sharethis_vcount\' displayText=\'Share\'></span>',
+      'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c", nativeCount: true});</script><span class=\'st_facebook_vcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_vcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_vcount\' displayText=\'Google +\'></span></span></span><span class=\'st_sharethis_vcount\' displayText=\'Share\'></span>',
       'format' => 'full_html',
       'substitute' => TRUE,
     );

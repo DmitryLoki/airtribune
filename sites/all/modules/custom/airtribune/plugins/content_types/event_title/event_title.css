@@ -1,0 +1,12 @@
+/*.pane-airtribune-event-title { position:absolute; top:0; left:0; width:100%; z-index:9;}*/
+.featured-header-title .pane-event-title h1 { margin: 0 0 11px; font:bold 36px/40px Arial, Helvetica, sans-serif; background:none; padding:0}
+.featured-header-title .pane-event-title h1 a {color: #FFF; text-decoration: none;}
+.featured-header-title .pane-event-title h1 a:hover { color:rgba(255,255,255,.75)}
+.pane-event-title .field { margin-right: 26px; font:18px/20px Arial, Helvetica, sans-serif; background:url(./images/title_pics.png) no-repeat 0 0; padding:0 0 0 27px}
+.pane-event-title .field-name-field-country { margin-right: 5px; padding-left:23px; background-position:0 2px; font-weight:bold;}
+.pane-event-title .field-name-field-country:after { content: ","}
+.pane-event-title .field-name-field-city { padding-left:0; background:none; font-weight:bold;}
+.pane-event-title .field-name-field-dates { background-position:0 -148px}
+.pane-event-title .local_time { background-position:0 -298px}
+.pane-event-title .field-name-field-time-zone { background:none; padding-left:0}
+.pane-event-title .field-name-field-fai-category { background-position:0 -448px}

@@ -254,7 +254,7 @@ function _pg_contest_urls_init($nid) {
         '/blog',
         '/pilots',
         '/pilots/status',
-        '/pilots/country',
+        '/pilots/nation',
         '/map',
         '/register',
     );
@@ -376,3 +376,29 @@ function _pg_contest_og_registration_perm($node) {
   $permissions = array('subscribe' => $grant, 'subscribe without approval' => $grant);
   og_role_change_permissions($nonmember_rid, $permissions);
 }
+
+/**
+ * Implements hook_cron().
+ */
+function pg_contest_cron() {
+  $now = time();
+  $date = $now - 2 * 24 * 3600;
+  
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'pg_contest');
+  $query->fieldCondition('field_dates', 'value', date("Y-m-d", $date), '<');
+  $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now), '>=');
+  $result = $query->execute();
+  
+  if (!empty($result['node'])) {
+    foreach ($result['node'] as $nid => $date) {
+      $node = node_load($nid);
+      if ($node->nid) {
+        $node->field_registration_sw['und'][0]['value'] = 0;
+        node_save($node);
+      }
+    }
+  }
+}
+

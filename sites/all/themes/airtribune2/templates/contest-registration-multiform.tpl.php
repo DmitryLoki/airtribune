@@ -1,5 +1,8 @@
-<div><?php print l(t('I have an Airtribune account.'), 'user/login', array('query' => array('destination' => $_GET['q'])));?></div>
-<div><a href="#">I have never registered on Airtribune.com and events hosted on it.</a></div>
+<div class="reg_choice">
+	<?php print l(t('I have an Airtribune account.'), 'user/login', array('query' => array('destination' => $_GET['q'])));?>
+	<a href="#" class="form_show"><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></a>
+</div>
+<div id="event_register">
 <?php
 
 // multiform subforms indices
@@ -31,8 +34,8 @@ $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#prefix'] = ''
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#suffix'] = '';
 $reg_form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'] = 'before';
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
-$reg_form['profile_main']['field_full_name'][$lang][0]['given']['#description'] = t('Your name English transcription.');
-$reg_form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname English transcription.');;
+$reg_form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
+$reg_form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
 // Print components.
 print drupal_render($reg_form['profile_main']['field_full_name'][$lang][0]['given']);
 print drupal_render($reg_form['profile_main']['field_full_name'][$lang][0]['family']);
@@ -42,8 +45,13 @@ drupal_render($reg_form['profile_main']['field_full_name']);
 
 print drupal_render($reg_form['profile_main']['field_gender']);
 
+
+$lang = $reg_form['profile_main']['field_birthdate']['#language'];
+$reg_form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'];
+$reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
 print drupal_render($reg_form['profile_main']['field_birthdate']);
 
+$reg_form['account']['pass']['#attached']['js'][0] = 'sites/all/themes/airtribune2/js/user.js';
 print drupal_render($reg_form['account']['pass']);
 
 // Hide wrapping fieldsets.
@@ -108,11 +116,15 @@ print drupal_render($reg_form['profile_pilot']['field_blood_type']);
 drupal_render($reg_form['profile_pilot']);
 
 
+//$reg_form['actions']['#prefix'] = '<div class="form-actions">';
+//$reg_form['actions']['#suffix'] = '</div>';
+//print_r($reg_form);
 
 
 
-
-
+print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
 
 // Render everything else.
 print drupal_render_children($form);
+?>
+</div>
