@@ -206,8 +206,8 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
     drupal_mail('system', 'mail', $user->mail, $user->language,
       array(
         'context' => array(
-          'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX + AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
-          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE + AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
+          'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
+          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
         )
       )
     );

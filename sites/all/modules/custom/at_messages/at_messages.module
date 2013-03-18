@@ -2,11 +2,7 @@
 
 // Email templates
 define('AT_MSG_EMAIL_SUBJ_PREFIX', 'Airtribune.com - ');
-define('AT_MSG_EMAIL_BODY_SIGNATURE', '
-
-Happy landings!
-Airtribune team');
-
+define('AT_MSG_EMAIL_BODY_SIGNATURE', "\r\n\r\nHappy landings!\r\nAirtribune team");
 
 // guest reg on event
 define('AT_MSG_SITE_GUEST_REG_ON_EVENT', 'Thank you! Your registration for @event_name as well as on Airtribune is almost finished. Please, check your email for further instructions.');
@@ -14,7 +10,7 @@ define('AT_MSG_SITE_GUEST_REG_ON_EVENT', 'Thank you! Your registration for @even
 
 // pilot reg on event
 define('AT_MSG_SITE_PILOT_REG_ON_EVENT', 'You have been successfully registered for @event_name! Follow your status on this page.');
-define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT', 'You have been successfully registered for @event_name!');
+define('AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_PILOT', 'You have been successfully registered for @event_name!');
 define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT', 'Dear @pilot_full_name!
 
 You have been successfully registered for @event_name.
@@ -30,7 +26,7 @@ For any questions related to @event_name, please contact directly the organizer:
 // notify org about new pilot
 define('AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG', '@pilot_full_name - new pilot registered for @event_name.');
 define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG', '@pilot_full_name is registered for @event_name.
-<br /> 
+<br />
 <b>Registration details</b>
 <br />
 
@@ -45,8 +41,8 @@ Postal code: <b>@postal_code</b>
 Address: <b>@address</b>
 Mobile phone: <b>@mobile_phone</b>
 FAI License number: <b>@fai_license_number</b>
-CIVL ID: <b>@civl_number</b>
-Pilot\'s number: <b>@pilots_number</b>
+CIVL ID: <b>@civl_id</b>
+Pilot\'s number: <b>@contestant_number</b>
 T-shirt size: <b>@t_shirt_size</b>
 Paraglider manufacturer: <b>@paraglider_manufacturer</b>
 Paraglider model: <b>@paraglider_model</b>
@@ -54,7 +50,7 @@ Paraglider color: <b>@paraglider_color</b>
 Sponsors: <b>@sponsors</b>
 Insurance company: <b>@insurance_company</b>
 Insurance policy number: <b>@insurance_policy_number</b>
-Your full name in national alphabet: <b>@full_name_national</b>
+Your full name in national alphabet: <b>@name_in_national_alphabet</b>
 Person to contact in case of emergency: <b>@person_emergency</b>
 Contact phone number in case of emergency: <b>@phone_emergency</b>
 Blood type: <b>@blood_type</b>');
@@ -77,14 +73,14 @@ You may use support@airtribune.com, or simply reply to this email.');
  */
 function at_messages_init() {
   $hide_messages = array (
-    'You have already registered this identity.' // hybrydauth
+    'You have already registered this identity.' // hybridauth
   );
   $replace_messages = array (
     //'Some string' => 'Replaced string',
-    'New identity added.' => 'Your Facebook account has added successfully.', // hybrydauth
+    'New identity added.' => 'Your Facebook account has added successfully.', // hybridauth
     'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions has been sent to your email.', // guest register
     'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.', // guest activate account by email link
-    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>' // user tab
+    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>' // user pass recovery
   );
   if ($messages = drupal_get_messages()) {
     foreach($messages  as $type => $messages_by_type) {
@@ -100,4 +96,100 @@ function at_messages_init() {
       }
     }
   }
+}
+
+function at_messages_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'og_ui_confirm_subscribe') {
+    $form['#submit'][] = 'at_messages_register_at_event_submit';
+  }
+}
+
+function at_messages_register_at_event_submit($form, &$form_state) {
+  // TRUE if guest
+  // FALSE if already registered & logged user
+  $is_guest = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+    ? TRUE
+    : FALSE;
+
+  $f = $form_state['values'];
+
+  $gender = array('male', 'female');
+  $event = node_load($f['gid']);
+  $event_name = $event->title;
+  $organiser = user_load($event->uid);
+  $organiser_profile_main = profile2_load_by_user($organiser, 'main');
+  //$organiser_full_name = $organiser_profile_main['field_full_name']['und'][0]['given'] . ' ' . $organiser_profile_main['field_full_name']['und'][0]['family'];
+
+  if ($is_guest) {
+    $user = $form_state['build_info']['args'][2];
+    $profile_main = profile2_load_by_user($user, 'profile_main');
+    $profile_pilot = profile2_load_by_user($user, 'profile_pilot');
+  } else {
+    $user = $form_state['user'];
+    $profile_main = $f['profile_main'];
+    $profile_pilot = $f['profile_pilot'];
+  }
+
+  $full_info = array(
+    '@event_name' => $event_name,
+    '@org_email' => $organiser->mail,
+    //'@org_full_name' => $organiser_full_name,
+    '@org_full_name' => 'org name',
+    '@pilot_email' => $user->mail,
+    '@pilot_full_name' => $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'],
+    '@pilot_name' => $profile_main['field_full_name']['und'][0]['given'],
+    '@pilot_surname' => $profile_main['field_full_name']['und'][0]['family'],
+    '@gender' => $gender[$profile_main['field_gender']['und'][0]['value']],
+    '@birthdate' => format_date(strtotime($profile_main['field_birthdate']['und'][0]['value']), 'custom', 'd/m/Y'),
+    '@nation' => $profile_pilot['field_address']['und'][0]['country'],
+    '@city' => $profile_pilot['field_address']['und'][0]['locality'],
+    '@postal_code' => $profile_pilot['field_address']['und'][0]['postal_code'],
+    '@address' => $profile_pilot['field_address']['und'][0]['thoroughfare'],
+    '@mobile_phone' => $profile_pilot['field_phone']['und'][0]['full_number'],
+    '@fai_license_number' => $profile_pilot['field_fai_license_number']['und'][0]['value'],
+    '@civl_id' => $profile_pilot['field_civl_id']['und'][0]['value'],
+    '@contestant_number' => $f['field_contestant_number']['und'][0]['value'],
+    '@t_shirt_size' => $profile_pilot['field_t_shirt_size']['und'][0]['value'],
+    '@paraglider_manufacturer' => $profile_pilot['field_paraglider_manufacturer']['und'][0]['value'],
+    '@paraglider_model' => $profile_pilot['field_paraglider_model']['und'][0]['value'],
+    '@paraglider_color' => $profile_pilot['field_paraglider_color']['und'][0]['value'],
+    '@sponsors' => $profile_pilot['field_sponsors']['und'][0]['value'],
+    '@insurance_company' => $profile_pilot['field_insurance_company']['und'][0]['value'],
+    '@insurance_policy_number' => $profile_pilot['field_insurance_policy_number']['und'][0]['value'],
+    '@name_in_national_alphabet' => $profile_pilot['field_name_in_national_alphabet']['und'][0]['value'],
+    '@person_emergency' => $profile_pilot['field_person_name']['und'][0]['value'],
+    '@phone_emergency' => $profile_pilot['field_person_phone']['und'][0]['full_number'],
+    '@blood_type' => $profile_pilot['field_blood_type']['und'][0]['value'],
+  );
+
+//  dpm($full_info);
+//  dpm($form_state);
+//  dpm($user);
+//  dpm($organiser);
+//  dpm($profile_main);
+//  dpm($profile_pilot);
+
+  if ($is_guest) {
+    drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT, $full_info));
+  } else {
+    drupal_set_message(t(AT_MSG_SITE_PILOT_REG_ON_EVENT, $full_info));
+  }
+
+  drupal_mail('system', 'mail', $user->mail, $user->language,
+    array(
+      'context' => array(
+        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_PILOT),
+        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
+      )
+    )
+  );
+//  drupal_mail('system', 'mail', $organiser->mail, $organiser->language,
+//    array(
+//      'context' => array(
+//        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG),
+//        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
+//      )
+//    )
+//  );
+
 }
