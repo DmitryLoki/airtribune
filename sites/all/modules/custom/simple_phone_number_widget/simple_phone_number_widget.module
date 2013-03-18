@@ -36,56 +36,101 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
 
   switch ($widget['type']) {
     case 'simple_phone_number_widget':
+      drupal_add_js(drupal_get_path('module', 'simple_phone_number_widget') . '/simple_phone_number_widget.js');
       $number = (isset($items[$delta])) ? $items[$delta]['number'] : FALSE;
       $countrycode = (isset($items[$delta])) ? $items[$delta]['country_codes'] : FALSE;
       $cc = cck_phone_countrycodes();
+      $full_number = '';
       if ($countrycode && isset($cc[$countrycode])) {
-        $number = substr($cc[$countrycode]['code'], 1) . $number;
+        $full_number = substr($cc[$countrycode]['code'], 1) . $number;
       }
+      
+      $element['full_number'] = array(
+        '#type' => 'textfield',
+        '#title' => check_plain($instance['label']),
+        '#description' => check_plain($instance['description']),
+        '#default_value' => '+' . $full_number,
+        '#required' => $instance['required'],
+        '#attributes' => array('class' => array('simple-phone-full-number')),
+        '#element_validate' => array('_simple_phonenumber_validate'),
+      );
 
       $element['country_codes'] = array(
         '#type' => 'hidden',
         '#value' => $countrycode,
+        '#element_validate' => array('_simple_phonenumber_element_validate'),
       );
-
+      
       $element['number'] = array(
-        '#type' => 'textfield',
-        '#title' => check_plain($instance['label']),
-        '#description' => check_plain($instance['description']),
-        '#default_value' => $number,
-        '#required' => $instance['required'],
-        '#field_prefix' => '+',
-        '#element_validate' => array('_simple_phonenumber_validate'),
+        '#type' => 'hidden',
+        '#value' => $number,
+        '#element_validate' => array('_simple_phonenumber_element_validate'),
       );
+      
       break;
   }
   return $element;
+}
+
+
+function _simple_phonenumber_element_validate(&$element, &$form_state) {
+  $field_name = $element['#parents'][1];
+  $language = $element['#parents'][2];
+  $delta = $element['#parents'][3];
+  $element_name = $element['#parents'][4];
+  if (isset($form_state['values'][$field_name])) {
+    $element_value = $form_state['values'][$field_name][$language][$delta][$element_name];
+    $element['#value'] = $element_value;
+
+    form_set_value($element, $element_value, $form_state);
+  }
 }
 
 /**
  * Validate function for Simple Phone Number widget
  *
  */
-function _simple_phonenumber_validate(&$element, &$form_state) {
-  $country = _get_contry_by_phone_code($element['#value']);
-  if ($country) {
-    $field_name = $element['#parents'][0];
-    $language = $element['#parents'][1];
-    $delta = $element['#parents'][2];
-
-    $countrycode = array_pop(array_keys($country));
-    $tmp = array_pop($country);
-    $number = substr($element['#value'], strlen($tmp['code']) - 1);
-
-    $form_state['input'][$field_name][$language][$delta]['country_codes'] = $countrycode;
-    $form_state['values'][$field_name][$language][$delta]['country_codes'] = $countrycode;
-    $form_state['input'][$field_name][$language][$delta]['number'] = $number;
-    $form_state['values'][$field_name][$language][$delta]['number'] = $number;
-
-    if (!cck_phone_validate_number($countrycode, $number)) {
-      form_set_error($field_name);
+function _simple_phonenumber_validate($element, &$form_state) {
+  $field_name = $element['#parents'][1];
+  $language = $element['#parents'][2];
+  $delta = $element['#parents'][3];
+  
+  //Prepare element for validation
+  $element['#field_parents'][0] = $element['#parents'][0];
+  $element['#field_name'] = $field_name;
+  $element['#language'] = $language;
+  $element['#delta'] = $delta;
+  
+  $countrycode = NULL;
+  $element['#value'] = preg_replace('/[^0-9]/', '', $element['#value']);
+  $number = $element['#value'];
+  
+  if ($element['#value'] == '') {
+    $form_state['input'][$field_name][$language][$delta]['country_codes'] = FALSE;
+    $form_state['values'][$field_name][$language][$delta]['country_codes'] = FALSE;
+    $form_state['input'][$field_name][$language][$delta]['number'] = FALSE;
+    $form_state['values'][$field_name][$language][$delta]['number'] = FALSE;
+  }
+  else {
+    $country = _get_contry_by_phone_code($element['#value']);
+    if ($country) {
+      $countrycode = array_pop(array_keys($country));
+      $tmp = array_pop($country);
+      $number = substr($element['#value'], strlen($tmp['code']) - 1);
+      
+      $form_state['input'][$field_name][$language][$delta]['country_codes'] = $countrycode;
+      $form_state['values'][$field_name][$language][$delta]['country_codes'] = $countrycode;
+      $form_state['input'][$field_name][$language][$delta]['number'] = $number;
+      $form_state['values'][$field_name][$language][$delta]['number'] = $number;
+   
     }
   }
+  $element['#value'] = array(
+    'country_codes' => $countrycode,
+    'number' => $number,
+  );
+  
+  cck_phone_phone_number_validate($element, $form_state);
 }
 
 /**

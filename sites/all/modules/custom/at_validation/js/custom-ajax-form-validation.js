@@ -1,6 +1,5 @@
 (function ($) {
-    var activeField,
-        submitButton;
+    var activeField;
 
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
@@ -33,19 +32,21 @@
         checkAllElementsValid(formValidator);
     };
 
-    function checkAllElementsValid(formValidator) {
+    var checkAllElementsValid = Drupal.checkAllElementsValid = function(formValidator) {
         var allElements = formValidator.elements(),
+            submitButton = allElements.closest('form').find('input.form-submit'),
             allElementsValid = true,
             successList = formValidator.successList.slice(0);
         for (var i = 0, l = allElements.length; i < l; ++i) {
-            if (!formValidator.check(allElements.get(i))) {
+            var element = allElements.get(i);
+            if (!formValidator.check(element) && ($(element).rules().required || $(element).attr('type') === 'password')) {
                 allElementsValid = false;
                 break;
             }
         }
         formValidator.successList = successList;
         submitButton[allElementsValid ? 'removeClass' : 'addClass']('disabled');
-    }
+    };
 
     Drupal.disableTabKey = function (form) {
         form.validate().elements().each(function (i, element) {
@@ -59,7 +60,6 @@
     };
 
     jQuery(document).ready(function () {
-        submitButton = $('#edit-submit').addClass('disabled');
 
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
 
@@ -72,8 +72,8 @@
 
                     if (currentElement.attr('id') == 'edit-pass-pass2') {
                         var successBubble = createBubble(Drupal.settings.password.confirmSuccess);
-                        currentElement.closest('div.form-item').addClass('field_excellent').
-                            append(successBubble);
+                        currentElement.closest('div.form-item').addClass('field_excellent').find('.form-text').
+                            after(successBubble);
                         currentElement.data('error-element', successBubble);
                     }
 
@@ -92,6 +92,7 @@
 
                 jQuery.validator.addMethod('passFieldValid', function () {
                     if(passField.val()) {
+                        $.validator.messages.passFieldValid = "";
                         return !passCheckFunction();
                     }
                     else {
@@ -104,15 +105,23 @@
                     return passField.val() == passMatchField.val();
                 }, Drupal.settings.password.confirmFailure);
 
-                passField.rules('add', {passFieldValid:true});
+                passField.rules('add', {passFieldValid:true, required:true});
                 passField.rules('remove', 'required');
-                passMatchField.rules('add', {passMatchValid:true});
+                passMatchField.rules('add', {passMatchValid:true, required:true});
             }
         };
 
         for (var f in Drupal.settings.clientsideValidation.forms) {
-            var form = $('#' + f);
-            Drupal.settings.clientsideValidation.updateValidationSettings(form.validate());
+            var form = $('#' + f),
+                validator = form.validate();
+            Drupal.settings.clientsideValidation.updateValidationSettings(validator);
+            checkAllElementsValid(validator);
+            form.find('select').bind('change', function(){
+                var $this = $(this);
+                if($this.rules()) {
+                    validator.element(this);
+                }
+            })
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
@@ -121,15 +130,22 @@
             }
             var errorBubble = createBubble(error.html())
                     .attr('for', element.attr('id'))
-                    .attr('link', element.attr('id')),
-                form = element.closest('div.form-item').addClass('field_error').removeClass('field_excellent');
+                    .attr('link', element.attr('id'));
             var previousErrorElement = element.data('error-element');
             if (previousErrorElement) {
                 previousErrorElement.remove();
             }
             element.data('error-element', errorBubble);
-            element.after(errorBubble);
-            submitButton.addClass('disabled');
+            if (element.attr('id') == 'birthdate-fake-input') {
+                var form = element.parents('div.form-item')
+                element.parent().after(errorBubble);
+            }
+            else {
+                var form = element.closest('div.form-item')
+                element.after(errorBubble);
+            }
+            form.addClass('field_error').removeClass('field_excellent');
+            element.closest('form').find('input.form-submit').addClass('disabled');
         };
 
         var createBubble = Drupal.createErrorBubble = function(html) {
@@ -153,10 +169,11 @@
 
         Drupal.ajax.prototype.beforeSerialize = function (element, options) {
             if (options.url === '/at-validation/ajax') {
-                submitButton.addClass('disabled');
                 var formValidator = element.validate();
                 Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
-                return formValidator.element(activeField);
+                var validationResult = formValidator.element(activeField);
+                element.find('input.form-submit').addClass('disabled');
+                return validationResult;
             } else {
                 beforeSerialize.call(this, element, options);
             }
@@ -200,6 +217,15 @@
                 // ignore IE throwing errors when focusing hidden elements
             }
         }
+    }
+
+     //Throbber position fix for birthday fields
+    var ajaxBeforeSend = Drupal.ajax.prototype.beforeSend;
+    Drupal.ajax.prototype.beforeSend = function (xmlhttprequest, options) {
+        if (options.extraData._triggering_element_name.indexOf('field_birthdate') > -1) {
+            this.element = jQuery('.date-year')[0];
+        }
+        ajaxBeforeSend.apply(this, arguments);
     }
 
 

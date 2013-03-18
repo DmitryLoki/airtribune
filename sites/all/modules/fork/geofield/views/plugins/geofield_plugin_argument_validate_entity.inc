@@ -23,7 +23,6 @@ class geofield_plugin_argument_validate_entity extends views_plugin_argument_val
     foreach ($types as $type => $info) {
       $options[$type] = check_plain(t($info['label']));
     }
-
     $form['entity'] = array(
       '#type' => 'select',
       '#title' => t('Entity type'),
@@ -48,7 +47,7 @@ class geofield_plugin_argument_validate_entity extends views_plugin_argument_val
 
   function options_submit(&$form, &$form_state, &$options = array()) {
     // filter trash out of the options so we don't store giant unnecessary arrays
-    $options['entity'] = array_filter($options['entity']);
+    //$options['entity'] = array_filter($options['entity']);
   }
   
   function validate_argument($argument) {

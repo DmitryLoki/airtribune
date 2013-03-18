@@ -23,7 +23,7 @@ Drupal.behaviors.password = {
 
       // Add the description box.
       //var passwordMeter = '<div class="password-strength"><div class="password-strength-text" aria-live="assertive"></div><div class="password-strength-title">' + translate['strengthTitle'] + '</div><div class="password-indicator"><div class="indicator"></div></div></div>';
-	  var passwordMeter = '<span style="display:none" class="password-strength form_booble"><span class="password-strength-text form_booble_inner" aria-live="assertive"></span></span>';
+	    var passwordMeter = '<span style="display:none" class="password-strength form_booble"><span class="password-strength-text form_booble_inner" aria-live="assertive"></span></span>';
       //$(confirmInput).parent().after('<div class="password-suggestions description"></div>');
       $(innerWrapper).find('input').after(passwordMeter);
       var passwordDescription = $('div.password-suggestions', outerWrapper).hide();
@@ -91,7 +91,12 @@ Drupal.behaviors.password = {
               confirmInput.closest('form').validate().element(confirmInput[0]);
           }
       });
-      confirmInput.blur(function(){
+      passwordInput.keyup(function(){
+        if(confirmInput[0].visited){
+            confirmInput.closest('form').validate().element(confirmInput[0]);
+        }
+      });
+      confirmInput.keyup(function(){
           this.visited = true;
           confirmInput.closest('form').validate().element(confirmInput[0]);
       });
@@ -192,7 +197,7 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
     pass = 'error';
   } else if(password.length < 8) {
     indicatorText = translate.weak;
-    pass = 'error';
+    pass = 'weak';
   } else if( password.length < 10) {
     indicatorText = translate.good;
     pass = 'good';

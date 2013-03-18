@@ -1727,6 +1727,108 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
+
+  /* Display: Overlay HQ location */
+  $handler = $view->new_display('openlayers', 'Overlay HQ location', 'openlayers_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'openlayers_data';
+  $handler->display->display_options['style_options']['data_source'] = array(
+    'value' => 'wkt',
+    'other_lat' => 'title',
+    'other_lon' => 'title',
+    'wkt' => 'field_hq_location',
+    'other_top' => 'title',
+    'other_right' => 'title',
+    'other_bottom' => 'title',
+    'other_left' => 'title',
+    'name_field' => '',
+    'description_field' => '',
+    'view_mode' => 'full',
+    'style_field' => '',
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Node ID - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Node ID - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Title - overriden */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title - overriden';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/map/[nid]';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Description */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  /* Field: Content: Headquarter location */
+  $handler->display->display_options['fields']['field_hq_location']['id'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['table'] = 'field_data_field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_hq_location']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_hq_location']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_hq_location']['settings'] = array(
+    'data' => 'full',
+  );
+  /* Field: Content: Headquarter info */
+  $handler->display->display_options['fields']['field_headquarter_info']['id'] = 'field_headquarter_info';
+  $handler->display->display_options['fields']['field_headquarter_info']['table'] = 'field_data_field_headquarter_info';
+  $handler->display->display_options['fields']['field_headquarter_info']['field'] = 'field_headquarter_info';
+  $handler->display->display_options['fields']['field_headquarter_info']['label'] = '';
+  $handler->display->display_options['fields']['field_headquarter_info']['element_label_colon'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Node is published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Node type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
   $translatables['event_map'] = array(
     t('Master'),
     t('more'),
@@ -1742,6 +1844,8 @@ function views_feature_views_default_views() {
     t('Overlay accommodations'),
     t('Overlay activities'),
     t('Overlay HQ'),
+    t('Overlay HQ location'),
+    t('Headquarter location'),
   );
   $export['event_map'] = $view;
 

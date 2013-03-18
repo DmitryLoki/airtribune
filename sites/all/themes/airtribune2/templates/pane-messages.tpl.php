@@ -1,4 +1,3 @@
-<?php print $messages; ?>
 <?php print render($page['help']); ?>
 <?php if ($primary_local_tasks || $secondary_local_tasks || $action_links): ?>
   <div id="tasks">
@@ -13,3 +12,4 @@
     <?php endif; ?>
   </div>
 <?php endif; ?>
+<?php print $messages; ?>

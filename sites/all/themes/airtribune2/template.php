@@ -425,7 +425,7 @@ function airtribune2_menu_link__account(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form');
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form');
   if(in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
@@ -481,7 +481,7 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
         $form['name']['#attributes']['rel'] = t('Enter your e-mail');
         unset($form['pass']['#description']);
         $form['pass']['#attributes']['rel'] = t('Enter your password');
-        $form['hybridauth']['#prefix'] = '<div class="ulogin_prefix">'.t('or').'</div>';
+        $form['hybridauth']['#prefix'] = '<div class="hybridauth_prefix">'.t('or').'</div>';
         $form['hybridauth']['#weight'] = 89;
         $form['actions']['#weight'] = 79;
     break;
@@ -1125,26 +1125,15 @@ function airtribune2_preprocess_field(&$vars) {
       }
     }
   }
-  //d::dump()
-  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD || $element['#field_name'] == AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD) {
-    foreach ($vars['items'] as $delta => $item) {
-      $gid = $item['#display_settings']['colorbox_gallery_custom'];
-      if ($gid == 'contest_photos_details') {
-        $limit = 4;
-      }
-      elseif ($gid == 'flying_site_photos_details') {
-        $limit = 8;
-      }
-      else {
-        $limit = 2;
-      }
 
-      if ($delta >= $limit) {
-        $vars['item_attributes_array'][$delta]['style'] = 'display: none';
+  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD) {
+    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'airtribune_carousel'));
+    if (isset($flying_site_photos[0])) {
+      foreach ($flying_site_photos[0]['#items'] as $item) {
+        $vars['items'][0]['#items'][] = $item;
       }
     }
   }
-
 }
 
 /**
@@ -1200,9 +1189,6 @@ function airtribune2_colorbox_imagefield($variables) {
     }
     elseif ($gid == 'flying_site_photos_details') {
       $hidden = $counter[$gid] > 8;
-    }
-    else {
-      $hidden = $counter[$gid] > 2;
     }
     $gid = 'contest-gallery';
   }
@@ -1278,4 +1264,36 @@ function airtribune2_css_alter(&$css) {
   // Remove defaults.css file.
   //unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
   unset($css[drupal_get_path('module', 'date') . '/date_api/date.css']);
+}
+
+/**
+ * Implements theme_status_messages().
+ */
+function airtribune2_status_messages($variables) {
+  $display = $variables['display'];
+  $output = '';
+
+  $status_heading = array(
+    'status' => t('Status message'),
+    'error' => t('Error message'),
+    'warning' => t('Warning message'),
+  );
+  foreach (drupal_get_messages($display) as $type => $messages) {
+    $output .= "<div class=\"messages $type\">\n";
+    if (!empty($status_heading[$type])) {
+      $output .= '<h2 class="element-invisible">' . $status_heading[$type] . "</h2>\n";
+    }
+    if (count($messages) > 1) {
+      $output .= " <ul>\n";
+      foreach ($messages as $message) {
+        $output .= '  <li>' . $message . "</li>\n";
+      }
+      $output .= " </ul>\n";
+    }
+    else {
+      $output .= $messages[0] . '<span class="valign"></span>';
+    }
+    $output .= "</div>\n";
+  }
+  return $output;
 }

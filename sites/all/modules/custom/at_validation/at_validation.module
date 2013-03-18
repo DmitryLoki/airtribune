@@ -333,10 +333,14 @@ function _full_name_after_build($element, $form_state) {
  * Adds ajax handler to form elements.
  */
 function at_validation_form_alter(&$form, &$form_state, $form_id) {
+  $multiform = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+              ? TRUE
+              : FALSE;
   if ($form_id == 'user_register_form') {
     // Form caching is set in ajax_process_form().
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/custom-ajax-form-validation.js';
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
     // We should add #ajax settings here but not in #after_build because
     // these should already exist before ajax_process_form() is called.
     // ajax_process_form() is a #process function. #process functions are
@@ -354,10 +358,21 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
     
     $form['account']['mail']['#element_validate'][] = 'at_validation_mail_validate';
   }
+  // User edit page
+  if ($form_id == 'user_profile_form') {
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-edit-validation.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
+    if (!$multiform) {
+      $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
+    }
+  }
+  
   if($form_id == 'og_ui_confirm_subscribe') {
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-event-registration.js';
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/reset-nation-dropdown-box.js';
     $form['#after_build'][] = 'at_validation_form_after_build';
+    // We need it for authorized event registration
+    $form['#attached']['js'][] = drupal_get_path('module', 'at_validation').'/js/user-reg-validation.js';
   }
 }
 
@@ -467,6 +482,7 @@ function at_validation_js_alter(&$javascript) {
           $rules = &$setting['clientsideValidation']['forms']['user-register-form']['rules'];
           $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
           $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
           $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
           $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
           $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
@@ -491,6 +507,14 @@ function at_validation_js_alter(&$javascript) {
           //Phone number select
           unset($rules['profile_pilot[field_phone][und][0][country_codes]']);
           unset($rules['profile_pilot[field_person_phone][und][0][country_codes]']);
+          
+          //Name
+          $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+          $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+          $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+          $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
         }
 
         
@@ -501,8 +525,17 @@ function at_validation_js_alter(&$javascript) {
             }
           
             if (isset($setting['clientsideValidation']['forms'][$f]['rules'])) {
-              // Address components
               $rules = &$setting['clientsideValidation']['forms'][$f]['rules'];
+              
+              // Name components
+              $rules['profile_main[field_full_name][und][0][given]']['required'] = TRUE;
+              $rules['profile_main[field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+              $rules['profile_main[field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+              $rules['profile_main[field_full_name][und][0][family]']['required'] = TRUE;
+              $rules['profile_main[field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
+              $rules['profile_main[field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
+              
+              // Address components
               $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
               $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
               // Address components regex
@@ -529,12 +562,12 @@ function at_validation_js_alter(&$javascript) {
         }
         
         $names = array(
-          'profile_pilot[field_phone][und][0][number]' => array(
-            'original' => 'profile_pilot[field_phone][und][0][number]',
+          'profile_pilot[field_phone][und][0][full_number]' => array(
+            'original' => 'profile_pilot[field_phone][und][0][full_number]',
             'replacement' => 'Mobile phone number',
           ),
-          'profile_pilot[field_person_phone][und][0][number]' => array(
-            'original' => 'profile_pilot[field_person_phone][und][0][number]',
+          'profile_pilot[field_person_phone][und][0][full_number]' => array(
+            'original' => 'profile_pilot[field_person_phone][und][0][full_number]',
             'replacement' => 'Phone',
           ),
         );
@@ -573,12 +606,12 @@ function _at_validation_js_alter(&$setting) {
   // TODO: This is a temp fix for phone fields.
   // There is a bug with title. Instead field's #name is used.
   $names = array(
-    'multiform[user_register_form_1][profile_pilot][field_phone][und][0][number]' => array(
-      'original' => 'profile_pilot[field_phone][und][0][number]',
+    'multiform[user_register_form_1][profile_pilot][field_phone][und][0][full_number]' => array(
+      'original' => 'profile_pilot[field_phone][und][0][full_number]',
       'replacement' => 'Mobile phone number',
     ),
-    'multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][number]' => array(
-      'original' => 'profile_pilot[field_person_phone][und][0][number]',
+    'multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][full_number]' => array(
+      'original' => 'profile_pilot[field_person_phone][und][0][full_number]',
       'replacement' => 'Phone',
     ),
   );
