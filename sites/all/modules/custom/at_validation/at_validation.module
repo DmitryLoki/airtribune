@@ -636,6 +636,7 @@ function _at_validation_js_alter(&$setting) {
   // TODO: make Name components required.
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['required'] = TRUE;
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['required'] = t('Name is required.');
+  $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][given]']['messages']['regexMatch'] = t('This field may contain only English letters.');
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['required'] = TRUE;
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['required'] = t('Surname is required.');
   $rules['multiform[user_register_form_1][profile_main][field_full_name][und][0][family]']['messages']['regexMatch'] = t('This field may contain only English letters.');
