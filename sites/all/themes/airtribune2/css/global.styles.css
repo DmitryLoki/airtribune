@@ -3183,6 +3183,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .image-widget .delete-photo:active .delete-photo-plus { background-position: 0 -1000px}
 /*.image-widget span.emulate-click input { margin-top: 1000px !important;}*/
 
+.node-form .image-widget .image-widget-data { position: relative;}
+.node-form .image-widget span.file { height: auto; width: auto;}
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
 .inline_login_errors a { color: #00aeef; font: 14px/16px Arial, Helvetica, sans-serif;}
