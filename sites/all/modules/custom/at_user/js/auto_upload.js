@@ -53,6 +53,7 @@
           errorMessage.after(errorBubble);
           errorMessage.remove();
           fileInput.closest('.form-managed-file').addClass('field_error');
+          event.stopImmediatePropagation();
         }
 
         return result;
