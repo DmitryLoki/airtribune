@@ -45,6 +45,11 @@ jQuery(document).ready(function () {
             birthdateInput.rules('add', {birthDateFilled:true, required:true});
             updateValidationSettings.call(this, formValidator);
         };
+        var form = birthdateInput.closest('form'),
+            validator = form.validate();
+        form.data('all-elements-valid', false);
+        Drupal.settings.clientsideValidation.updateValidationSettings(validator);
+        Drupal.checkAllElementsValid(validator);
     }, 1000);
 
 
