@@ -127,7 +127,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 			el.handle = el.prev();
 			el.handle.items = el.handle.find('.items')
 			el.handle.cheked = el.handle.find('.checked_option');
-			el.handle.cheked.html(el.handle.find('.selected').html() || el.handle.children(':first-child').html()).click(function(event){
+			el.handle.cheked.html(el.handle.find('.selected').html() || el.handle.find('.option:first-child').html()).click(function(event){
 				jQuery('body').bind('click', {parent:this},bodyClick);
 				function bodyClick(e) {
                     //If e.target is not a child of el.handle then hide list
