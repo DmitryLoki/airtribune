@@ -1,0 +1,103 @@
+<?php
+
+// Email templates
+define('AT_MSG_EMAIL_SUBJ_PREFIX', 'Airtribune.com - ');
+define('AT_MSG_EMAIL_BODY_SIGNATURE', '
+
+Happy landings!
+Airtribune team');
+
+
+// guest reg on event
+define('AT_MSG_SITE_GUEST_REG_ON_EVENT', 'Thank you! Your registration for @event_name as well as on Airtribune is almost finished. Please, check your email for further instructions.');
+
+
+// pilot reg on event
+define('AT_MSG_SITE_PILOT_REG_ON_EVENT', 'You have been successfully registered for @event_name! Follow your status on this page.');
+define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT', 'You have been successfully registered for @event_name!');
+define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT', 'Dear @pilot_full_name!
+
+You have been successfully registered for @event_name.
+
+Follow your status changes on the pilots list.
+
+For any questions related to @event_name, please contact directly the organizer:
+
+@org_full_name
+@org_email');
+
+
+// notify org about new pilot
+define('AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG', '@pilot_full_name - new pilot registered for @event_name.');
+define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG', '@pilot_full_name is registered for @event_name.
+<br /> 
+<b>Registration details</b>
+<br />
+
+Email: <b>@pilot_email</b>
+Name: <b>@pilot_name</b>
+Surname: <b>@pilot_surname</b>
+Gender: <b>@gender</b>
+Date of birth: <b>@birthdate</b>
+Nation: <b>@nation</b>
+City: <b>@city</b>
+Postal code: <b>@postal_code</b>
+Address: <b>@address</b>
+Mobile phone: <b>@mobile_phone</b>
+FAI License number: <b>@fai_license_number</b>
+CIVL ID: <b>@civl_number</b>
+Pilot\'s number: <b>@pilots_number</b>
+T-shirt size: <b>@t_shirt_size</b>
+Paraglider manufacturer: <b>@paraglider_manufacturer</b>
+Paraglider model: <b>@paraglider_model</b>
+Paraglider color: <b>@paraglider_color</b>
+Sponsors: <b>@sponsors</b>
+Insurance company: <b>@insurance_company</b>
+Insurance policy number: <b>@insurance_policy_number</b>
+Your full name in national alphabet: <b>@full_name_national</b>
+Person to contact in case of emergency: <b>@person_emergency</b>
+Contact phone number in case of emergency: <b>@phone_emergency</b>
+Blood type: <b>@blood_type</b>');
+
+// notify user about password change
+define('AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE', 'Your password was changed.');
+define('AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE', 'Dear @fullname!
+
+Your password has been changed.
+If you did not initialize password change procedure, please contact support immediately.
+
+You may use support@airtribune.com, or simply reply to this email.');
+
+// define('AT_MSG_SITE_', '');
+// define('AT_MSG_EMAIL_SUBJ_', '');
+// define('AT_MSG_EMAIL_BODY_', '');
+
+/*
+ * Hide drupal messages or replace messages to our values
+ */
+function at_messages_init() {
+  $hide_messages = array (
+    'You have already registered this identity.' // hybrydauth
+  );
+  $replace_messages = array (
+    //'Some string' => 'Replaced string',
+    'New identity added.' => 'Your Facebook account has added successfully.', // hybrydauth
+    'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions has been sent to your email.', // guest register
+    'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.', // guest activate account by email link
+    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>' // user tab
+  );
+  if ($messages = drupal_get_messages()) {
+    foreach($messages  as $type => $messages_by_type) {
+      foreach($messages_by_type as $key => $message) {
+        if (array_key_exists(t($message), $replace_messages)){
+          $message = t($replace_messages[$message]);
+        }
+        // if current message not in message list, which we want to hide,
+        // then again add this msg to drupal msg stack
+        if (!in_array(t($message), $hide_messages)){
+          drupal_set_message($message, $type);
+        }
+      }
+    }
+  }
+}
