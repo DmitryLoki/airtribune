@@ -103,7 +103,7 @@
                         return !passCheckFunction();
                     }
                     else {
-                        $.validator.messages.passFieldValid = "Password is required.";
+                        $.validator.messages.passFieldValid = Drupal.settings.password.required;
                         return false;
                     }
 
