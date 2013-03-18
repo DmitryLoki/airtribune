@@ -889,7 +889,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['path']['field'] = 'path';
   $handler->display->display_options['fields']['path']['label'] = '';
   $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['path']['alter']['text'] = '<a href="[path]"><strong>[created]</strong><span class="blog_title">[title]<span class="view-more"><span>[nothing]</span></span></span></a>';
+  $handler->display->display_options['fields']['path']['alter']['text'] = '<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>';
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
@@ -942,7 +942,7 @@ function views_feature_views_default_views() {
     t('Все'),
     t('Contest pane'),
     t('This pane will be shown at the event info page.'),
-    t('<a href="[path]"><strong>[created]</strong><span class="blog_title">[title]<span class="view-more"><span>[nothing]</span></span></span></a>'),
+    t('<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>'),
     t('View panes'),
     t('Contest full pane'),
     t('Items per page'),
@@ -3018,7 +3018,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -3072,7 +3072,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
   $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
   $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
-  /* Sort criterion: Profile: Name (field_full_name:family) */
+  /* Sort criterion: Field: Name (field_full_name:family) */
   $handler->display->display_options['sorts']['field_full_name_family']['id'] = 'field_full_name_family';
   $handler->display->display_options['sorts']['field_full_name_family']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['sorts']['field_full_name_family']['field'] = 'field_full_name_family';
@@ -3223,7 +3223,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['counter']['field'] = 'counter';
   $handler->display->display_options['fields']['counter']['label'] = '#';
   $handler->display->display_options['fields']['counter']['counter_start'] = '1';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -3423,7 +3423,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['counter']['field'] = 'counter';
   $handler->display->display_options['fields']['counter']['label'] = '#';
   $handler->display->display_options['fields']['counter']['counter_start'] = '1';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -3478,7 +3478,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
   $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
   $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
-  /* Sort criterion: Profile: Name (field_full_name:family) */
+  /* Sort criterion: Field: Name (field_full_name:family) */
   $handler->display->display_options['sorts']['field_full_name_family']['id'] = 'field_full_name_family';
   $handler->display->display_options['sorts']['field_full_name_family']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['sorts']['field_full_name_family']['field'] = 'field_full_name_family';

@@ -2536,6 +2536,7 @@ p { margin:0; padding:9px 0 11px}
 .pane-contest-blog-contest-pane .views-row strong {color:#495055; display:block; padding-bottom:5px}
 .pane-contest-blog-contest-pane .views-row a:hover strong { color:#14171a;}
 .pane-contest-blog-contest-pane .views-row p {margin:0; padding:0 5px 0 0; color:#677581; display:inline}
+.pane-contest-blog-contest-pane .blog_title_inner { margin-right: 5px;}
 .pane-contest-blog-contest-pane .view-more { display:inline-block; overflow:hidden; width:7px; height:10px; background:url(../images/more.png) no-repeat 50% 0; top:2px; position:relative;}
 .pane-contest-blog-contest-pane a:hover .view-more { background-position:50% -20px;}
 .pane-contest-blog-contest-pane .view-more span { position:absolute; top:-1000px; left:0}
