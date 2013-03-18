@@ -16,6 +16,7 @@ dependencies[] = auto_nodetitle
 dependencies[] = autocomplete_widgets
 dependencies[] = block
 dependencies[] = cck_phone
+dependencies[] = clientside_validation
 dependencies[] = clientside_validation_fapi
 dependencies[] = clientside_validation_field_validation
 dependencies[] = clientside_validation_html5
