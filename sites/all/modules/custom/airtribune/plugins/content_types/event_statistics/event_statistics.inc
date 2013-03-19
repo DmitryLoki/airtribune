@@ -35,18 +35,17 @@ function airtribune_event_statistics_content_type_render($subtype, $conf, $panel
   );
 
   try {
-    // Count contest pilots.
-    $query = db_select('users', 'u');
-    $query->join('og_membership', 'ogm', 'u.uid = ogm.etid');
-    $query->join('field_data_' . AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD, 'pc_status', 'pc_status.entity_id = ogm.id');
-    $query
-      ->condition('u.status', 0, '<>')
-      ->condition('ogm.gid', $node->nid);
-    $total_pilots = $query->countQuery()->execute()->fetchField();
-    $query->condition('pc_status.' . AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value', AIRTRIBUNE_PG_CONTESTANT_CONFIRMED);
 
-    $content['pilots_confirmed'] = $query->countQuery()->execute()->fetchField();
-    $content['pilots_waiting'] = $total_pilots - $content['pilots_confirmed'];
+    $view = views_get_view('paragliding_pilots_list');
+    $view->set_arguments(array($node->nid));
+    $view->execute();
+    $content['pilots_waiting'] = count($view->result);
+
+    $view = views_get_view('paragliding_pilots_list');
+    $view->set_arguments(array($node->nid));
+    $view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']['value'] = array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED);
+    $view->execute();
+    $content['pilots_confirmed'] = count($view->result);
 
     $wrapper = entity_metadata_wrapper('node', $node);
     $location = $wrapper->{AIRTRIBUNE_HQ_LOCATION_FIELD}->value();

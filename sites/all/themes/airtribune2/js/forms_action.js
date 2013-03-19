@@ -5,7 +5,7 @@ function updateForm(container) {
     $('.select .items_inner', container).each(function () {
         $(this).parent().show();
         $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
-        handleKeyPressInSelect($(this).parent(),true);
+        handleKeyPressInSelect($(this).parent(), true);
         $(this).addClass('items_padding');
         $(this).parent().hide();
 
@@ -13,11 +13,11 @@ function updateForm(container) {
     var select_z_index = 1000;
     $('select', container).each(function () {
         //if(!$(this).parents('.form-item').parents('.form-wrapper')){
-            $(this).parents('.form-wrapper, .form-item').css({'z-index':select_z_index, 'position':'relative'})
+        $(this).parents('.form-wrapper, .form-item').css({'z-index':select_z_index, 'position':'relative'})
         /*}
-        else {
-            $(this).parents('.form-wrapper').css({'z-index':select_z_index, 'position':'relative'})
-        }*/
+         else {
+         $(this).parents('.form-wrapper').css({'z-index':select_z_index, 'position':'relative'})
+         }*/
         select_z_index--;
     });
 
@@ -58,7 +58,7 @@ function updateForm(container) {
         }
 
         function scrollToOption() {
-            if(searchString.length === 0) {
+            if (searchString.length === 0) {
                 return;
             }
             for (var i = 0, option, l = options.length; i < l; i++) {
@@ -80,6 +80,9 @@ jQuery(function ($) {
         $('#event_register').show();
         Drupal.disableTabKey($('#event_register'));
         $(this).parent().hide();
+        var form = $(this).closest('form');
+        form.data('all-elements-valid', false);
+        Drupal.checkAllElementsValid(form.validate());
         return false;
     });
 });

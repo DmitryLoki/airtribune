@@ -1,0 +1,4 @@
+name = Airtribune messages
+description = Airtribune email & site messages.
+package = Airtribune
+core = 7.x

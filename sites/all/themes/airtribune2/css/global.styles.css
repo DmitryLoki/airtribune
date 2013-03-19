@@ -910,7 +910,7 @@ div.messages ul {
 /* Normal priority messages */
 div.status {
   color: #ffffff;
-  background: #ff555a url(../images/maessage.png) no-repeat 11px 11px;
+  background: #aee36a url(../images/maessage.png) no-repeat 11px 11px;
 }
 
 div.error { background: #ff676c url(../images/maessage_error.png) no-repeat 11px 11px; color: #ffffff;}

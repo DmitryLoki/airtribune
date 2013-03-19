@@ -67,11 +67,10 @@ function at_user_form_user_profile_form_alter(&$form, &$form_state) {
  */
 function at_user_form_alter(&$form, $form_state, $form_id) {
   global $user;
+
   if ($form_id == 'user_profile_form') {
-  // make upload & delete (user_picture / avatar imagefield) without form_submit
-  // see #2764
-//    if (isset($form_state['triggering_element']['#id']) &&
-//      $form_state['triggering_element']['#id'] == 'edit-field-avatar-und-0-remove-button') {
+    // make upload & delete (user_picture / avatar imagefield) without form_submit
+    // see #2764
     if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
         $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove") {
       at_user_photo_ajax_remove($form, $form_state, $form_id);
@@ -133,30 +132,6 @@ function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
   }
 }
 
-function at_user_init() {
-  $hide_messages = array (
-    'You have already registered this identity.'
-  );
-  $replace_messages = array (
-    //'Some string' => 'Replaced string',
-    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>'
-  );
-  if ($messages = drupal_get_messages()) {
-    foreach($messages  as $type => $messages_by_type) {
-      foreach($messages_by_type as $key => $message) {
-        if (array_key_exists(t($message), $replace_messages)){
-          $message = t($replace_messages[$message]);
-        }
-        // if current message not in message list, which we want to hide,
-        // then again add this msg to drupal msg stack
-        if (!in_array(t($message), $hide_messages)){
-          drupal_set_message($message, $type);
-        }
-      }
-    }
-  }
-}
-
 function at_user_file_validate_image_resolution(stdClass $file, $maximum_dimensions = 0, $minimum_dimensions = 0) {
   $errors = array();
 
@@ -215,6 +190,7 @@ function at_user_photo_ajax_upload(stdClass $file) {
     );
     $saved_user = user_save($account, $edit);
   }
+
   // it's form upload validator, so we need return empty array to avoid errors
   return array();
 }
@@ -230,16 +206,8 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
     drupal_mail('system', 'mail', $user->mail, $user->language,
       array(
         'context' => array(
-          'subject' => t('Airtribune.com - Your password was changed.'),
-          'message' => t('Dear, @fullname!
-
-Your password has been changed.
-If you did not initialize password change procedure, please contact support immediately.
-
-You may use support@airtribune.com, or simply reply to this email.
-
-Happy landings!
-Airtribune team', array('@fullname' => $fullname))
+          'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
+          'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
         )
       )
     );

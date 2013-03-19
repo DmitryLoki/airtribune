@@ -37,6 +37,9 @@ define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 
+// Views
+define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
