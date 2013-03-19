@@ -99,7 +99,10 @@ function at_messages_init() {
 }
 
 function at_messages_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'og_ui_confirm_subscribe') {
+  if ($form_id == 'user_register_form') {
+    $form['#submit'][] = 'at_messages_register_at_event_submit';
+  }
+  if (($form_id == 'og_ui_confirm_subscribe')) {
     $form['#submit'][] = 'at_messages_register_at_event_submit';
   }
 }
@@ -111,27 +114,32 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     ? TRUE
     : FALSE;
 
+  // prevent handling form on usual guest registration to site
+  if (!$is_guest && $form['#id'] == 'user-register-form') {
+    return;
+  }
+
+  // prevent duplicate handling form on guest registration at event (multiform submit)
+  if ($is_guest && $form['#id'] == 'og-ui-confirm-subscribe') {
+    return;
+  }
+
   $f = $form_state['values'];
 
-  $event = node_load($f['gid']);
+  if ($is_guest) {
+    $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
+  } else {
+    $event = node_load($f['gid']);
+  }
+
   $event_name = $event->title;
   $organiser = user_load($event->uid);
   $organiser_profile = profile2_load_by_user($organiser);
-
   $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
 
-  if ($is_guest) {
-    $user = $form_state['build_info']['args'][2];
-    $f = profile2_load_by_user($user->uid);
-    $profile_main = $f['main'];
-    $profile_pilot = $f['pilot'];
-  } else {
-    $user = $form_state['user'];
-    $profile_main = $f['profile_main'];
-    $profile_pilot = $f['profile_pilot'];
-  }
-
-  // need refactor from array f['profile_main'] to object $f->profile_main
+  $user = $form_state['user'];
+  $profile_main = $f['profile_main'];
+  $profile_pilot = $f['profile_pilot'];
 
   $gender_list = array('male', 'female');
   $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
@@ -170,14 +178,6 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@blood_type' => $profile_pilot['field_blood_type']['und'][0]['value'],
   );
 
-//  dpm($form_state, 'form_state');
-//  dpm($full_info, 'full');
-//  dpm($user, 'user');
-//  dpm($profile_main, 'profile_main');
-//  dpm($profile_pilot, 'profile_pilot');
-//  dpm($organiser, 'organiser');
-//  dpm($organiser_profile, 'organiser_profile');
-
   if ($is_guest) {
     drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT, $full_info));
   } else {
@@ -202,7 +202,15 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     )
   );
 
-//  dpm($mail_pilot);
-//  dpm($mail_org);
+  dpm($form, 'form');
+  dpm($form_state, 'form_state');
+  dpm($user, 'user');
+  dpm($profile_main, 'profile_main');
+  dpm($profile_pilot, 'profile_pilot');
+  dpm($organiser, 'organiser');
+  dpm($organiser_profile, 'organiser_profile');
+  dpm($full_info, 'full_info');
+  dpm($mail_pilot, 'mail_pilot');
+  dpm($mail_org, 'mail_org');
 
 }
