@@ -352,3 +352,34 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
   panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
 
 }
+
+/**
+ * Geo distance sorting
+ * Implementation of hook_views_query_alter
+ * @param type $view
+ * @param type $query 
+ */
+function airtribune_views_query_alter(&$view, &$query) {
+  if ($view->name == 'next_events') {
+    global $_SESSION;
+    $_SESSION['ip'] = true;
+    // FAI1 first
+    $view->query->orderby[0]['field'] = "CASE field_fai_category_value WHEN 1 THEN 0 ELSE 1 END";
+    if (isset($_SESSION['ip']) && $_SESSION['ip']) {
+      $lat = 42;
+      $lng = 74;
+      // create temporary temporary table with distances
+      $distance_table = db_query_temporary('SELECT entity_id,
+      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance 
+      FROM {field_data_field_hq_location}
+      ORDER BY distance;', array(":lat" => $lat, ":lng" => $lng));
+      $join = new views_join;
+      $join->construct($distance_table, 'node', 'nid', 'entity_id');
+      $query->add_relationship('distance', $join, $distance_table);
+      $query->add_orderby('distance', 'distance');
+      $tmp = $view->query->orderby[1];
+      $view->query->orderby[1] = $view->query->orderby[2];
+      $view->query->orderby[2] = $tmp; 
+    }
+  }
+}
