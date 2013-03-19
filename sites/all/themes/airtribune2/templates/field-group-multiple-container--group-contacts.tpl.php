@@ -8,7 +8,6 @@
 ?>
 <div class="clearfix">
   <?php foreach($entries as $delta => $entry): ?>
-  <hr/>
   <div class="clearfix">
     <?php foreach($entry as $field_name => $field): ?>
       <?php if (!empty($field[0]['#markup'])): ?>

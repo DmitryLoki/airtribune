@@ -286,6 +286,7 @@ function _at_helper_user_register_form_after_build($element, $form_state) {
   $element['#attached']['js'][1]['data']['password']['fair'] = t('Fair password.');
   $element['#attached']['js'][1]['data']['password']['good'] = t('Good password.');
   $element['#attached']['js'][1]['data']['password']['strong'] = t('Strong password.');
+  $element['#attached']['js'][1]['data']['password']['required'] = t('Password is required.');
   $element['pass1']['#description'] = t('Minimum 6 characters.');
   $element['pass2']['#description'] = t('Type a new password in both fields.');
   unset($element['#description']);
