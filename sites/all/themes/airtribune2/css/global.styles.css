@@ -2661,8 +2661,8 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-field-group { width:50%; float:left; clear:both; color: #525c66; font: 14px/20px Arial, Helvetica, sans-serif;}
 /*.page-event-info .pane-field-group .pane-inner { margin-right:10px}*/
 .page-event-info .pane-field-group .pane-content { padding-top: 9px; margin: 0 8px;}
-.pane-field-group h3 { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
-.pane-field-group .field-label { font-weight: normal; display: inline;}
+.pane-field-group .field-item-field_position { font: bold 14px/16px Arial, Helvetica, sans-serif; margin: 0; padding: 12px 0 2px;}
+.pane-field-group .field-label { font-weight: normal; display: inline; text-transform: lowercase;}
 .pane-field-group .field-items { display: inline;}
 .pane-field-group .field-name-field-contacts-email .field-items,
 .pane-field-group .field-name-field-name-email .field-items { width: 170px;}
@@ -3183,6 +3183,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .image-widget .delete-photo:active .delete-photo-plus { background-position: 0 -1000px}
 /*.image-widget span.emulate-click input { margin-top: 1000px !important;}*/
 
+.node-form .image-widget .image-widget-data { position: relative;}
+.node-form .image-widget span.file { height: auto; width: auto;}
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
 .inline_login_errors a { color: #00aeef; font: 14px/16px Arial, Helvetica, sans-serif;}
