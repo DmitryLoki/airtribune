@@ -1449,7 +1449,7 @@ function pages_feature_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'Come soon',
       'title' => 'Come soon!',
-      'body' => '<p style="font-size: 20px">Sorry, this page under construction.</p>
+      'body' => '<p style="font-size: 20px">Sorry, this page is under construction.</p>
 <pre style="margin: 0 auto">
                              ___
                      /======/
