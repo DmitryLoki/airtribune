@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Default site template feature.
- */
-
-include_once 'panels_default_template.features.inc';
