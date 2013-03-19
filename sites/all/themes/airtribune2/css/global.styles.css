@@ -3118,6 +3118,9 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 .page-user .pane-page-content form .field-type-phone-number .field-prefix { position: absolute; margin: 4px 0 0 6px;}
 
+form .street-block { clear: both; padding-top: 1px;}
+.page-user .pane-page-content form  .street-block .form-item:first-child { margin-top: 15px;}
+
 /* User account form */
 /*.page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
 .page-user-edit #edit-field-user-avatar div.image-widget-data { display: inline; float: none;}*/
