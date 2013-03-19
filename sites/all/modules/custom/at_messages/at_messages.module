@@ -50,7 +50,7 @@ Paraglider color: <b>@paraglider_color</b>
 Sponsors: <b>@sponsors</b>
 Insurance company: <b>@insurance_company</b>
 Insurance policy number: <b>@insurance_policy_number</b>
-Your full name in national alphabet: <b>@name_in_national_alphabet</b>
+Full name in national alphabet: <b>@name_in_national_alphabet</b>
 Person to contact in case of emergency: <b>@person_emergency</b>
 Contact phone number in case of emergency: <b>@phone_emergency</b>
 Blood type: <b>@blood_type</b>');
@@ -78,7 +78,7 @@ function at_messages_init() {
   $replace_messages = array (
     //'Some string' => 'Replaced string',
     'New identity added.' => 'Your Facebook account has added successfully.', // hybridauth
-    'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions has been sent to your email.', // guest register
+    'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions have been sent to your email.', // guest register
     'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.', // guest activate account by email link
     'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>' // user pass recovery
   );
@@ -99,7 +99,10 @@ function at_messages_init() {
 }
 
 function at_messages_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'og_ui_confirm_subscribe') {
+  if ($form_id == 'user_register_form') {
+    $form['#submit'][] = 'at_messages_register_at_event_submit';
+  }
+  if (($form_id == 'og_ui_confirm_subscribe')) {
     $form['#submit'][] = 'at_messages_register_at_event_submit';
   }
 }
@@ -111,37 +114,50 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     ? TRUE
     : FALSE;
 
+  // prevent handling form on usual guest registration to site
+  if (!$is_guest && $form['#id'] == 'user-register-form') {
+    return;
+  }
+
+  // prevent duplicate handling form on guest registration at event (multiform submit)
+  if ($is_guest && $form['#id'] == 'og-ui-confirm-subscribe') {
+    return;
+  }
+
   $f = $form_state['values'];
 
-  $gender = array('male', 'female');
-  $event = node_load($f['gid']);
+  if ($is_guest) {
+    $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
+  } else {
+    $event = node_load($f['gid']);
+  }
+
   $event_name = $event->title;
   $organiser = user_load($event->uid);
-  $organiser_profile_main = profile2_load_by_user($organiser, 'main');
-  //$organiser_full_name = $organiser_profile_main['field_full_name']['und'][0]['given'] . ' ' . $organiser_profile_main['field_full_name']['und'][0]['family'];
+  $organiser_profile = profile2_load_by_user($organiser);
+  $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
 
-  if ($is_guest) {
-    $user = $form_state['build_info']['args'][2];
-    $profile_main = profile2_load_by_user($user, 'profile_main');
-    $profile_pilot = profile2_load_by_user($user, 'profile_pilot');
-  } else {
-    $user = $form_state['user'];
-    $profile_main = $f['profile_main'];
-    $profile_pilot = $f['profile_pilot'];
-  }
+  $user = $form_state['user'];
+  $profile_main = $f['profile_main'];
+  $profile_pilot = $f['profile_pilot'];
+
+  $gender_list = array('male', 'female');
+  $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
+  $birthday = format_date(strtotime($profile_main['field_birthdate']['und'][0]['value']), 'custom', 'd/m/Y');
+  $nation = country_load($profile_pilot['field_address']['und'][0]['country'])->name;
+  $pilot_full_name = $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'];
 
   $full_info = array(
     '@event_name' => $event_name,
     '@org_email' => $organiser->mail,
-    //'@org_full_name' => $organiser_full_name,
-    '@org_full_name' => 'org name',
+    '@org_full_name' => $organiser_full_name,
     '@pilot_email' => $user->mail,
-    '@pilot_full_name' => $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'],
+    '@pilot_full_name' => $pilot_full_name,
     '@pilot_name' => $profile_main['field_full_name']['und'][0]['given'],
     '@pilot_surname' => $profile_main['field_full_name']['und'][0]['family'],
-    '@gender' => $gender[$profile_main['field_gender']['und'][0]['value']],
-    '@birthdate' => format_date(strtotime($profile_main['field_birthdate']['und'][0]['value']), 'custom', 'd/m/Y'),
-    '@nation' => $profile_pilot['field_address']['und'][0]['country'],
+    '@gender' => $gender,
+    '@birthdate' => $birthday,
+    '@nation' => $nation,
     '@city' => $profile_pilot['field_address']['und'][0]['locality'],
     '@postal_code' => $profile_pilot['field_address']['und'][0]['postal_code'],
     '@address' => $profile_pilot['field_address']['und'][0]['thoroughfare'],
@@ -162,34 +178,39 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@blood_type' => $profile_pilot['field_blood_type']['und'][0]['value'],
   );
 
-//  dpm($full_info);
-//  dpm($form_state);
-//  dpm($user);
-//  dpm($organiser);
-//  dpm($profile_main);
-//  dpm($profile_pilot);
-
   if ($is_guest) {
     drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT, $full_info));
   } else {
     drupal_set_message(t(AT_MSG_SITE_PILOT_REG_ON_EVENT, $full_info));
   }
 
-  drupal_mail('system', 'mail', $user->mail, $user->language,
+  $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language,
     array(
       'context' => array(
-        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_PILOT),
+        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_PILOT, $full_info),
         'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
       )
     )
   );
-//  drupal_mail('system', 'mail', $organiser->mail, $organiser->language,
-//    array(
-//      'context' => array(
-//        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG),
-//        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
-//      )
-//    )
-//  );
+
+  $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language,
+    array(
+      'context' => array(
+        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG, $full_info),
+        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
+      )
+    )
+  );
+
+  dpm($form, 'form');
+  dpm($form_state, 'form_state');
+  dpm($user, 'user');
+  dpm($profile_main, 'profile_main');
+  dpm($profile_pilot, 'profile_pilot');
+  dpm($organiser, 'organiser');
+  dpm($organiser_profile, 'organiser_profile');
+  dpm($full_info, 'full_info');
+  dpm($mail_pilot, 'mail_pilot');
+  dpm($mail_org, 'mail_org');
 
 }
