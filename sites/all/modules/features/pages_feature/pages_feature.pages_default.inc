@@ -905,14 +905,13 @@ event/*/map/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        1 => array(
-          'name' => 'node_type',
+        0 => array(
+          'name' => 'path_visibility',
           'settings' => array(
-            'type' => array(
-              'newsblog' => 'newsblog',
-            ),
+            'visibility_setting' => '0',
+            'paths' => 'event/*/register',
           ),
-          'context' => 'node',
+          'context' => 'empty',
           'not' => FALSE,
         ),
       ),
@@ -924,6 +923,7 @@ event/*/map/*',
       'body' => '<script type="text/javascript">var __st_loadLate=true;</script><script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher: "77e50a8c-2e6c-4d8c-883f-2ab1460a9f2c", nativeCount: true});</script><span class=\'st_facebook_hcount\' displayText=\'Facebook\'></span><span class=\'st_twitter_hcount\' displayText=\'Tweet\'></span><span class=\'st_googleplus_hcount\' displayText=\'+1\'></span></span><span class=\'st_sharethis_hcount\' displayText=\'Share\'></span>',
       'format' => 'full_html',
       'substitute' => 0,
+      'name' => 'small_share_links',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1022,26 +1022,6 @@ event/*/map/*',
     $display->panels['right'][3] = 'new-25';
     $pane = new stdClass();
     $pane->pid = 'new-26';
-    $pane->panel = 'right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'advert_list-panel_pane_4';
-    $pane->shown = FALSE;
-    $pane->access = array(
-      'plugins' => array(),
-    );
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 4;
-    $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['right'][4] = 'new-26';
-    $pane = new stdClass();
-    $pane->pid = 'new-27';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -1056,8 +1036,8 @@ event/*/map/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['top'][0] = 'new-27';
+    $display->content['new-26'] = $pane;
+    $display->panels['top'][0] = 'new-26';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1078,7 +1058,10 @@ function pages_feature_default_page_manager_pages() {
   $page->admin_title = 'Event accommoditions';
   $page->admin_description = '';
   $page->path = 'event/%event/map/accommodations';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'default tab',
     'title' => '',
@@ -1182,7 +1165,10 @@ function pages_feature_default_page_manager_pages() {
   $page->admin_title = 'Event acivities';
   $page->admin_description = '';
   $page->path = 'event/%event/map/activities';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'event' => array(
@@ -1378,7 +1364,10 @@ function pages_feature_default_page_manager_pages() {
   $page->admin_title = 'Event basic';
   $page->admin_description = '';
   $page->path = 'event/%event/map/basic';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'event' => array(
@@ -3133,19 +3122,26 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane = new stdClass();
     $pane->pid = 'new-43';
     $pane->panel = 'event_brick_right_bottom';
-    $pane->type = 'panels_mini';
-    $pane->subtype = 'share_links';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'admin_title' => '',
+      'title' => '',
+      'body' => '',
+      'format' => 'filtered_html',
+      'substitute' => TRUE,
+      'name' => 'share_links',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
