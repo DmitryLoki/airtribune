@@ -399,7 +399,7 @@ Thank you for registering at [site:name]. Your application for an account is cur
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_status_activated_body';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
 
 Your email is confirmed and registration is completed.
 
@@ -552,7 +552,7 @@ Your account on [site:name] has been canceled.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_registrationpassword_register_body';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
 
 Thank you for signing up for Airtribune.com
 There\'s just one more step, click on this link to verify your email address:
@@ -583,7 +583,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_registrationpassword_user_mail_status_activated_body_original';
-  $strongarm->value = 'Dear [user:profile-main:field_full_name]!,
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
 
 Your email is confirmed and registration is completed.
 
