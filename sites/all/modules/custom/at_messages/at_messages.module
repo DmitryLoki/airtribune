@@ -202,15 +202,15 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     )
   );
 
-  dpm($form, 'form');
-  dpm($form_state, 'form_state');
-  dpm($user, 'user');
-  dpm($profile_main, 'profile_main');
-  dpm($profile_pilot, 'profile_pilot');
-  dpm($organiser, 'organiser');
-  dpm($organiser_profile, 'organiser_profile');
-  dpm($full_info, 'full_info');
-  dpm($mail_pilot, 'mail_pilot');
-  dpm($mail_org, 'mail_org');
+//  dpm($form, 'form');
+//  dpm($form_state, 'form_state');
+//  dpm($user, 'user');
+//  dpm($profile_main, 'profile_main');
+//  dpm($profile_pilot, 'profile_pilot');
+//  dpm($organiser, 'organiser');
+//  dpm($organiser_profile, 'organiser_profile');
+//  dpm($full_info, 'full_info');
+//  dpm($mail_pilot, 'mail_pilot');
+//  dpm($mail_org, 'mail_org');
 
 }
