@@ -30,7 +30,8 @@ jQuery(function ($) {
             } else {
                 passFields.val('');
                 passFields.removeClass('error').siblings('.form_booble').css('display', 'none');
-                passFields.parent().removeClass('field_error field_weak field_good field_excellent');
+                passFields.parents('.form-item').removeClass('field_error field_weak field_good field_excellent');
+                form.data('validate-elements', []);
                 Drupal.checkAllElementsValid(formValidator);
             }
         }, 500);
@@ -39,6 +40,7 @@ jQuery(function ($) {
                 find('input.form-submit')
                 .addClass('disabled')
                 .data('all-elements-valid', false);
+            form.data('validate-elements', []);
         }
     })
 });

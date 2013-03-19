@@ -35,13 +35,19 @@
     var checkAllElementsValid = Drupal.checkAllElementsValid = function (formValidator) {
         var form = $(formValidator.currentForm),
             submitButton = form.find('input.form-submit'),
-            allElementsValid = form.data('all-elements-valid');
+            allElementsValid = form.data('all-elements-valid'),
+            allElements = form.data('validate-elements');
         if (allElementsValid) {
             submitButton.removeClass('disabled');
             return;
         }
-        var allElements = formValidator.elements(),
-            successList = formValidator.successList.slice(0);
+
+        if (!allElements || allElements.length == 0) {
+            allElements = formValidator.elements();
+            form.data('validate-elements', allElements);
+        }
+
+        var successList = formValidator.successList.slice(0);
         allElementsValid = true;
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
@@ -71,9 +77,11 @@
         Drupal.settings.clientsideValidation.updateValidationSettings = function (formValidator) {
 
             formValidator.settings.success = $.proxy(function (error) {
-                var successElements = $(this.successList);
-                successElements.each(function (i, element) {
-                    var currentElement = $(element),
+                var successElements = $(this.successList),
+                    form = $(this.currentForm);
+
+                for (var i = 0, l = successElements.length; i < l; ++i) {
+                    var currentElement = successElements.eq(i),
                         errorElement = currentElement.data('error-element');
                     currentElement.closest('div.form-item').removeClass('field_error');
 
@@ -87,8 +95,7 @@
                     if (errorElement) {
                         errorElement.remove();
                     }
-                });
-
+                }
                 checkAllElementsValid(formValidator);
             }, formValidator);
 
@@ -119,16 +126,18 @@
         };
 
         for (var f in Drupal.settings.clientsideValidation.forms) {
-            var form = $('#' + f),
-                validator = form.validate();
-            Drupal.settings.clientsideValidation.updateValidationSettings(validator);
-            checkAllElementsValid(validator);
-            form.find('select').bind('change', function () {
-                var $this = $(this);
-                if ($this.rules()) {
-                    validator.element(this);
-                }
-            })
+            (function (f) {
+                var form = $('#' + f),
+                    validator = form.validate();
+                Drupal.settings.clientsideValidation.updateValidationSettings(validator);
+                checkAllElementsValid(validator);
+                form.find('select').bind('change', function () {
+                    var $this = $(this);
+                    if ($this.rules()) {
+                        validator.element(this);
+                    }
+                });
+            })(f);
         }
 
         Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
@@ -154,6 +163,14 @@
             }
             formItem.addClass('field_error').removeClass('field_excellent');
             element.closest('form').find('input.form-submit').addClass('disabled');
+            element.once(function () {
+                element.bind('keyup', function () {
+                    var validator = form.validate();
+                    form.data('all-elements-valid', false);
+                    validator.element(this);
+                    checkAllElementsValid(validator);
+                })
+            });
         };
 
         var createBubble = Drupal.createErrorBubble = function (html) {
@@ -225,16 +242,18 @@
         }
         ajaxBeforeSend.apply(this, arguments);
 
-        $(this.element).attr('disabled', false).attr('readonly',true).css('backgroundColor','#f0f0f0');
+        $(this.element).attr('disabled', false).attr('readonly', true).css('backgroundColor', '#f0f0f0');
     };
 
     Drupal.ajax.prototype.success = function () {
         ajaxSuccess.apply(this, arguments);
-        var formValidator = $(activeField).parents('form').validate();
+        var form = $(activeField).parents('form'),
+            formValidator = form.validate();
         if (formValidator) {
+            form.data('validate-elements', []);
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
         }
-        $(this.element).attr('readonly',false).css('backgroundColor','');
+        $(this.element).attr('readonly', false).css('backgroundColor', '');
     };
 
     Drupal.ajax.prototype.beforeSerialize = function (element, options) {
