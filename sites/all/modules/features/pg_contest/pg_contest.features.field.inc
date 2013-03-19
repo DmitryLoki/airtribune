@@ -680,11 +680,11 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -889,7 +889,7 @@ function pg_contest_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -1344,7 +1344,7 @@ Teams',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
-          'weight' => '51',
+          'weight' => '52',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1491,7 +1491,7 @@ Prof.',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'name',
           'settings' => array(
             'format' => 'default',
@@ -1505,7 +1505,7 @@ Prof.',
             'output' => 'default',
           ),
           'type' => 'name_formatter',
-          'weight' => '48',
+          'weight' => '50',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1611,7 +1611,7 @@ Prof.',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => '50',
+          'weight' => '51',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1629,7 +1629,7 @@ Prof.',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_contacts_phone',
-      'label' => 'Phone',
+      'label' => 'Tel',
       'required' => 0,
       'settings' => array(
         'all_country_codes' => 1,
@@ -3342,7 +3342,7 @@ Prof.',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -4258,7 +4258,6 @@ Prof.',
   t('Organizer logo ');
   t('Organizer name');
   t('Organizers');
-  t('Phone');
   t('Photos');
   t('Photos pertaining to the general description of the contest');
   t('Plane');
@@ -4282,6 +4281,7 @@ Teams');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Taxi');
+  t('Tel');
   t('Time zone');
   t('Title');
   t('Train');
