@@ -680,11 +680,11 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -889,7 +889,7 @@ function pg_contest_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -1344,7 +1344,7 @@ Teams',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
-          'weight' => '47',
+          'weight' => '52',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1374,7 +1374,206 @@ Teams',
         'module' => 'html5_tools',
         'settings' => array(),
         'type' => 'emailwidget',
-        'weight' => '39',
+        'weight' => '45',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_contacts_name'.
+  $fields['node-pg_contest-field_contacts_name'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '6',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contacts_name',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'family' => array(
+          0 => 'family',
+        ),
+        'given' => array(
+          0 => 'given',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'name',
+      'settings' => array(
+        'autocomplete_separator' => array(
+          'credentials' => ', ',
+          'family' => ' -',
+          'generational' => ' ',
+          'given' => ' -',
+          'middle' => ' -',
+          'title' => ' ',
+        ),
+        'autocomplete_source' => array(
+          'credentials' => array(),
+          'family' => array(),
+          'generational' => array(
+            'generational' => 0,
+          ),
+          'given' => array(),
+          'middle' => array(),
+          'title' => array(
+            'title' => 'title',
+          ),
+        ),
+        'components' => array(
+          'credentials' => 0,
+          'family' => 'family',
+          'generational' => 0,
+          'given' => 'given',
+          'middle' => 0,
+          'title' => 0,
+        ),
+        'entity_translation_sync' => FALSE,
+        'generational_options' => '-- --
+Jr.
+Sr.
+I
+II
+III
+IV
+V
+VI
+VII
+VIII
+IX
+X',
+        'labels' => array(
+          'credentials' => 'Credentials',
+          'family' => 'Surname',
+          'generational' => 'Generational',
+          'given' => 'Name',
+          'middle' => 'Middle name(s)',
+          'title' => 'Title',
+        ),
+        'max_length' => array(
+          'credentials' => '255',
+          'family' => '63',
+          'generational' => '15',
+          'given' => '63',
+          'middle' => '127',
+          'title' => '31',
+        ),
+        'minimum_components' => array(
+          'credentials' => 0,
+          'family' => 'family',
+          'generational' => 0,
+          'given' => 'given',
+          'middle' => 0,
+          'title' => 0,
+        ),
+        'profile2_private' => FALSE,
+        'sort_options' => array(
+          'generational' => 0,
+          'title' => 'title',
+        ),
+        'title_options' => '-- --
+Mr.
+Mrs.
+Miss
+Ms.
+Dr.
+Prof.',
+      ),
+      'translatable' => '0',
+      'type' => 'name',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'name',
+          'settings' => array(
+            'format' => 'default',
+            'markup' => 0,
+            'multiple' => 'default',
+            'multiple_and' => 'text',
+            'multiple_delimiter' => ', ',
+            'multiple_delimiter_precedes_last' => 'never',
+            'multiple_el_al_first' => 1,
+            'multiple_el_al_min' => 3,
+            'output' => 'default',
+          ),
+          'type' => 'name_formatter',
+          'weight' => '50',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_contacts_name',
+      'label' => 'Name',
+      'required' => 0,
+      'settings' => array(
+        'component_css' => '',
+        'component_layout' => 'default',
+        'credentials_inline' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'field_type' => array(
+          'credentials' => 'text',
+          'family' => 'text',
+          'generational' => 'select',
+          'given' => 'text',
+          'middle' => 'text',
+          'title' => 'select',
+        ),
+        'generational_field' => 'select',
+        'inline_css' => array(
+          'credentials' => '',
+          'family' => '',
+          'generational' => '',
+          'given' => '',
+          'middle' => '',
+          'title' => '',
+        ),
+        'override_format' => 'default',
+        'size' => array(
+          'credentials' => '35',
+          'family' => '20',
+          'generational' => '5',
+          'given' => '20',
+          'middle' => '20',
+          'title' => '6',
+        ),
+        'title_display' => array(
+          'credentials' => 'description',
+          'family' => 'description',
+          'generational' => 'description',
+          'given' => 'description',
+          'middle' => 'description',
+          'title' => 'description',
+        ),
+        'title_field' => 'select',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'name',
+        'settings' => array(),
+        'type' => 'name_widget',
+        'weight' => '42',
       ),
     ),
   );
@@ -1412,7 +1611,7 @@ Teams',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => '46',
+          'weight' => '51',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1430,7 +1629,7 @@ Teams',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_contacts_phone',
-      'label' => 'Phone',
+      'label' => 'Tel',
       'required' => 0,
       'settings' => array(
         'all_country_codes' => 1,
@@ -1686,7 +1885,7 @@ Teams',
           'size' => 15,
         ),
         'type' => 'phone_number',
-        'weight' => '38',
+        'weight' => '44',
       ),
     ),
   );
@@ -2460,205 +2659,6 @@ Teams',
     ),
   );
 
-  // Exported field: 'node-pg_contest-field_full_name'.
-  $fields['node-pg_contest-field_full_name'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '6',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_full_name',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(),
-      'indexes' => array(
-        'family' => array(
-          0 => 'family',
-        ),
-        'given' => array(
-          0 => 'given',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'name',
-      'settings' => array(
-        'autocomplete_separator' => array(
-          'credentials' => ', ',
-          'family' => ' -',
-          'generational' => ' ',
-          'given' => ' -',
-          'middle' => ' -',
-          'title' => ' ',
-        ),
-        'autocomplete_source' => array(
-          'credentials' => array(),
-          'family' => array(),
-          'generational' => array(
-            'generational' => 0,
-          ),
-          'given' => array(),
-          'middle' => array(),
-          'title' => array(
-            'title' => 0,
-          ),
-        ),
-        'components' => array(
-          'credentials' => 0,
-          'family' => 'family',
-          'generational' => 0,
-          'given' => 'given',
-          'middle' => 0,
-          'title' => 0,
-        ),
-        'entity_translation_sync' => FALSE,
-        'generational_options' => '-- --
-Jr.
-Sr.
-I
-II
-III
-IV
-V
-VI
-VII
-VIII
-IX
-X',
-        'labels' => array(
-          'credentials' => 'Credentials',
-          'family' => 'Surname',
-          'generational' => 'Generational',
-          'given' => 'Name',
-          'middle' => 'Middle name(s)',
-          'title' => 'Title',
-        ),
-        'max_length' => array(
-          'credentials' => '255',
-          'family' => '63',
-          'generational' => '15',
-          'given' => '63',
-          'middle' => '127',
-          'title' => '31',
-        ),
-        'minimum_components' => array(
-          'credentials' => 0,
-          'family' => 'family',
-          'generational' => 0,
-          'given' => 'given',
-          'middle' => 0,
-          'title' => 0,
-        ),
-        'profile2_private' => FALSE,
-        'sort_options' => array(
-          'generational' => 0,
-          'title' => 0,
-        ),
-        'title_options' => '-- --
-Mr.
-Mrs.
-Miss
-Ms.
-Dr.
-Prof.',
-      ),
-      'translatable' => '0',
-      'type' => 'name',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'inline',
-          'module' => 'name',
-          'settings' => array(
-            'format' => 'default',
-            'markup' => 0,
-            'multiple' => 'default',
-            'multiple_and' => 'text',
-            'multiple_delimiter' => ', ',
-            'multiple_delimiter_precedes_last' => 'never',
-            'multiple_el_al_first' => 1,
-            'multiple_el_al_min' => 3,
-            'output' => 'default',
-          ),
-          'type' => 'name_formatter',
-          'weight' => '44',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_full_name',
-      'label' => 'Name',
-      'required' => 0,
-      'settings' => array(
-        'component_css' => '',
-        'component_layout' => 'default',
-        'credentials_inline' => 0,
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'field_type' => array(
-          'credentials' => 'text',
-          'family' => 'text',
-          'generational' => 'select',
-          'given' => 'text',
-          'middle' => 'text',
-          'title' => 'select',
-        ),
-        'generational_field' => 'select',
-        'inline_css' => array(
-          'credentials' => '',
-          'family' => '',
-          'generational' => '',
-          'given' => '',
-          'middle' => '',
-          'title' => '',
-        ),
-        'override_format' => 'default',
-        'size' => array(
-          'credentials' => '35',
-          'family' => '20',
-          'generational' => '5',
-          'given' => '20',
-          'middle' => '20',
-          'title' => '6',
-        ),
-        'title_display' => array(
-          'credentials' => 'description',
-          'family' => 'description',
-          'generational' => 'description',
-          'given' => 'description',
-          'middle' => 'description',
-          'title' => 'description',
-        ),
-        'title_field' => 'select',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'name',
-        'settings' => array(),
-        'type' => 'name_widget',
-        'weight' => '36',
-      ),
-    ),
-  );
-
   // Exported field: 'node-pg_contest-field_header_image'.
   $fields['node-pg_contest-field_header_image'] = array(
     'field_config' => array(
@@ -3342,11 +3342,11 @@ Prof.',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '45',
+          'weight' => '49',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -3383,7 +3383,7 @@ Prof.',
           'size' => '30',
         ),
         'type' => 'autocomplete_widgets_flddata',
-        'weight' => '37',
+        'weight' => '43',
       ),
     ),
   );
@@ -4258,7 +4258,6 @@ Prof.',
   t('Organizer logo ');
   t('Organizer name');
   t('Organizers');
-  t('Phone');
   t('Photos');
   t('Photos pertaining to the general description of the contest');
   t('Plane');
@@ -4282,6 +4281,7 @@ Teams');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
   t('Taxi');
+  t('Tel');
   t('Time zone');
   t('Title');
   t('Train');
