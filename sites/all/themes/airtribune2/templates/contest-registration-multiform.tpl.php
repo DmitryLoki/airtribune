@@ -50,6 +50,7 @@ print drupal_render($reg_form['profile_main']['field_gender']);
 
 
 $lang = $reg_form['profile_main']['field_birthdate']['#language'];
+$reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $reg_form['profile_main']['field_birthdate'][$lang][0]['#title']);
 $reg_form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'];
 $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
 print drupal_render($reg_form['profile_main']['field_birthdate']);
