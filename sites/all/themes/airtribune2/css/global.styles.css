@@ -2985,7 +2985,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 }
 .page-user .pane-page-content form .form_booble_inner { min-width:120px; padding:7px 10px 9px 17px; max-width:200px; font:italic 12px/14px Arial, Helvetica, sans-serif; display:inline-block; margin-left:-7px}
-.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff; top: 0; left: 185px;}
+.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff; top: 0; /*comment because of #2857 left: 185px;*/}
 .page-user .pane-page-content form .field_error .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
 .page-user .pane-page-content form .field_weak .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
 .page-user .pane-page-content form .field_weak .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
