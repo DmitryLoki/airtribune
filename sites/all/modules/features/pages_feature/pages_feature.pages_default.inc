@@ -1069,7 +1069,7 @@ function pages_feature_default_page_manager_pages() {
     'weight' => '0',
     'parent' => array(
       'type' => 'tab',
-      'title' => 'Map',
+      'title' => 'Event map',
       'name' => 'navigation',
       'weight' => '0',
     ),
