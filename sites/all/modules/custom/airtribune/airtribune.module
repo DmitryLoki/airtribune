@@ -184,6 +184,12 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   $configuration = $vars['pane']->configuration;
 
+  // Translate overriden titles.
+  if ($configuration['override_title'] && $configuration['override_title_text']) {
+    $vars['title'] = t($configuration['override_title_text']);
+  }
+
+
   // Add 'view more' links to panes.
   if (isset($configuration['more'], $vars['display']->args[0])) {
     $options = array();
@@ -197,7 +203,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
     }
 
     if (isset($configuration['more']['title'])) {
-      $vars['more'] = l($configuration['more']['title'], $url, $options);
+      $vars['more'] = l(t($configuration['more']['title']), $url, $options);
     }
 
     $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
