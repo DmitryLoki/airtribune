@@ -2613,7 +2613,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info #page .pane-node-field-collection-getting-there.no-title { width: 50%; float: left;}
 .page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
 .page-event-info #page .pane-node-field-collection-getting-there.no-title .more-link { margin-top: 5px;}
-.panel_info .pane-node-field-collection-getting-there .pane-content { margin:18px 0 0 11px; padding-top: 5px;}
+.panel_info .pane-node-field-hq-location .pane-content { margin:18px 0 0 11px; padding-top: 5px;}
 .pane-node-field-collection-getting-there .links { padding:8px 0 0;}
 .pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
 .pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
