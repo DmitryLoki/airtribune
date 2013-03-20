@@ -47,7 +47,9 @@ if (!empty($form['profile_main'])) {
   //$form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
   $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
   $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
-
+  // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+  $form['profile_main']['field_full_name'][$lang][0]['given']['#title'] = t('Name');
+  $form['profile_main']['field_full_name'][$lang][0]['family']['#title'] = t('Surname');
   print drupal_render($form['profile_main']['field_full_name'][$lang][0]['given']);
   print drupal_render($form['profile_main']['field_full_name'][$lang][0]['family']);
   drupal_render($form['profile_main']['field_full_name']);
