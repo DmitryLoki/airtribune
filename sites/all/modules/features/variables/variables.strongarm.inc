@@ -1,4 +1,4 @@
-<?php
+m<?php
 /**
  * @file
  * variables.strongarm.inc
@@ -9,6 +9,13 @@
  */
 function variables_strongarm() {
   $export = array();
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geoip_data_file';
+  $strongarm->value = 'sites/all/libraries/geoip/GeoLiteCity.dat';
+  $export['geoip_data_file'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
