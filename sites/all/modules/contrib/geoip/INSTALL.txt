@@ -1,0 +1,28 @@
+Database Files
+--------------------
+Before using this module, you will need to:
+
+1. Download one of the GeoLite database files:
+   GeoLite Country binary format database
+   - Information: http://www.maxmind.com/app/geolitecountry
+   - Download: http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+                 OR
+   GeoLite City binary format database
+   - Information: http://www.maxmind.com/app/geolitecity
+   - Download: http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+
+2. Use gunzip to uncompress the file:
+     gunzip GeoIP.dat.gz
+
+3. Create a 'sites/all/libraries/geoip' directory.
+
+4. Move the uncompressed database to the 'sites/all/libraries/geoip' directory. 
+
+5. Profit!
+
+Updates
+--------------------
+Both of the Lite databases are updated monthly. The module will prompt 
+administrators to update if the timestamp on the data file is older than one
+month. Simply replace the database file(s) with the latest one from the MaxMind
+site.

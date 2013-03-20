@@ -1,0 +1,309 @@
+<?php
+
+/**
+ * @file
+ * Language negotiation based on GeoIP detection.
+ */
+
+/**
+ * Language negotiation option for GeoIP detection.
+ *
+ * @var integer
+ */
+define('GEOIP_LANGUAGE_NEGOTIATION_PATH', 8);
+
+/**
+ * Implements hook_help().
+ *
+ * @return string
+ */
+function geoip_language_help($path, $arg) {
+  switch ($path) {
+    case 'admin/settings/language/geoip':
+      $help = t('<p>This page provides an overview of your site\'s IP detection and language negotiation settings. You may configure which language is chosen when each country is detected from the user\'s IP, using the form below. All detectable languages are listed in the <em>Detected country</em> drop-down list, and all installed languages are listed in t the <em>Language</em> drop-down list. If a country is detected but doesn\'t have an entry in this list, the default language will be used.</p>');
+      return $help;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * @return array
+ */
+function geoip_language_menu() {
+  $items = array();
+
+  $items['admin/settings/language/geoip'] = array(
+    'title' => 'GeoIP',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5,
+    'page callback' => 'geoip_language_settings_overview',
+    'access arguments' => array('administer languages'),
+    'file' => 'geoip_language.admin.inc',
+  );
+  $items['admin/settings/language/geoip/delete/%'] = array(
+    'title' => 'Delete GeoIP mapping',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('geoip_admin_delete_mapping', 5),
+    'access arguments' => array('administer languages'),
+    'type' => MENU_CALLBACK,
+    'file' => 'geoip_language.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_language_negotiation_info().
+ *
+ * @return array
+ */
+function geoip_language_init() {
+  // Configured presentation language mode.
+  $mode = variable_get('language_negotiation', LANGUAGE_NEGOTIATION_NONE);
+
+  $drush = (function_exists('drush_verify_cli') && drush_verify_cli());
+
+  // Only take action if language negotiation is set to GeoIP and there is more
+  // than 1 enabled language.
+  if (!$drush && ($mode == GEOIP_LANGUAGE_NEGOTIATION_PATH) && ((int)variable_get('language_count', 1) > 1)) {
+    geoip_language_negotiation();
+  }
+}
+
+/**
+ * Identify language via URL prefix or domain excluding administrative paths.
+ * Try to keep as light weight as possible
+ *
+ * @return string
+ *   Language as ISO 639-1 Code
+ */
+function geoip_language_negotiation() {
+  // Get a list of enabled languages.
+  $languages = language_list('enabled');
+  $languages = $languages[1];
+
+  // Get the original q, as it is before path un-aliasing.  This is important
+  // because a path alias which is the same as a language prefix will have been
+  // improperly un-aliased and the language prefix will be lost.
+  $query = array();
+  parse_str($_SERVER['QUERY_STRING'], $query);
+  $q = $query['q'];
+
+  // Mostly copied from language_initialize(). Do a basic path prefix lookup to
+  // determine the language.
+  $args = explode('/', $q);
+  $prefix = array_shift($args);
+  // Search prefix within enabled languages.
+  foreach ($languages as $language) {
+    if (!empty($language->prefix) && $language->prefix == $prefix) {
+      // Set the global language object.
+      $GLOBALS['language'] = $language;
+      // Rebuild $_GET['q'] with the language removed.
+      $_GET['q'] = implode('/', $args);
+      // Re-initialize the path.
+      drupal_init_path();
+      // Make PressFlow happy by only storing the language code if there's an
+      // existing session.
+      if (count($_SESSION)) {
+        $_SESSION['geoip_language'] = $language->language;
+      }
+      return;
+    }
+  }
+
+  // Begin fallbacks. At this point, we know that there is not a valid path
+  // prefix, so we must first determine a language, and then do a redirect to
+  // the current path, in that language.
+
+  global $user;
+  // First check to see if a language was previously determined.
+  if (isset($_SESSION['geoip_language']) && isset($languages[$_SESSION['geoip_language']])) {
+    $language = $languages[$_SESSION['geoip_language']];
+  }
+  // Fallback for user-preferred language.
+  elseif ($user->uid && isset($languages[$user->language])) {
+    $language = $languages[$user->language];
+  }
+  // If all else fails, do a GeoIP lookup and redirect.
+  else {
+    $language = geoip_language_detect_language();
+  }
+
+
+  // Set the global language object.
+  $GLOBALS['language'] = $language;
+
+  global $base_path;
+  // Abort the redirect if bootstrap happened outside of index.php or if the
+  // requested path is inside the files directory
+  if (($_SERVER['SCRIPT_NAME'] != $base_path .'index.php')
+    || (strpos($_GET['q'], file_directory_path()) === 0)
+    || ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+    return;
+  }
+
+  // Now that the language is detected, do an absolute redirect to avoid page
+  // caching in the wrong language.
+  $url = url($_GET['q'], array('language' => $language, 'absolute' => TRUE, 'query' => drupal_query_string_encode($_GET, array('q'))));
+  drupal_goto($url, NULL, NULL, 301);
+  exit();
+}
+
+/**
+ * Implements custom_url_rewrite_outbound().
+ * language_url_rewrite() doesn't add the path prefix for the default language,
+ * so we are doing it here.  This lessens the amount of redirection that
+ * would occur because of a missing path prefix.
+ */
+if (!function_exists('custom_url_rewrite_outbound')) {
+  function custom_url_rewrite_outbound(&$path, &$options, $original_path) {
+    global $language;
+
+    if (variable_get('language_negotiation', LANGUAGE_NEGOTIATION_NONE) == GEOIP_LANGUAGE_NEGOTIATION_PATH
+      && ((int)variable_get('language_count', 1) > 1)) {
+      // Only modify relative (insite) URLs.
+      if (!$options['external']) {
+
+        // Allow links to bypass the language prefixing.  Helpful for simpletest.
+        // Breaking forms as of 2009-06-22
+//        if (isset($options['geoip_language_no_prefix']) && ($options['geoip_language_no_prefix'] === TRUE)) {
+//          return;
+//        }
+
+        // Language can be passed as an option, or we go for current language.
+        if (!isset($options['language'])) {
+          $options['language'] = $language;
+        }
+
+        if (!empty($options['language']->prefix)) {
+          $options['prefix'] = $options['language']->prefix .'/';
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_locale_languages_configure_form_alter().
+ */
+function geoip_language_form_locale_languages_configure_form_alter(&$form, $form_state) {
+  $form['language_negotiation']['#options'][GEOIP_LANGUAGE_NEGOTIATION_PATH] = t('Path prefix with GeoIP detection fallback.');
+}
+
+/**
+ * API function to create a new mapping.
+ *
+ * @return array
+ */
+function geoip_language_mapping_create($country, $language) {
+  $data = array(
+    'country' => $country,
+    'language' => $language,
+  );
+  drupal_write_record('geoip_language', $data);
+  geoip_language_mappings(TRUE);
+
+  $countries = geoip_country_values();
+  watchdog('geoip_language', 'GeoIP mapping created for %country', array('%country' => $countries[$country]));
+
+  return $data;
+}
+
+/**
+ * API function to delete a mapping.
+ *
+ * @return boolean
+ */
+function geoip_language_mapping_delete($country) {
+  db_query('DELETE FROM {geoip_language} WHERE country="%s"', $country);
+  geoip_language_mappings(TRUE);
+
+  $countries = geoip_country_values();
+  watchdog('geoip_language', 'GeoIP mapping deleted for %country', array('%country' => $countries[$country]));
+}
+
+/**
+ * API function to return the country-language mapping.
+ *
+ * TODO: Serializing to a text file is insane. This should go into the cache
+ * table instead.
+ *
+ * @return array
+ *  Associative array key=countrycode, value= Language as ISO 639-1 Code
+ */
+function geoip_language_mappings($reset = FALSE) {
+  static $mapping = NULL;
+
+  if ($reset || !isset($mapping)) {
+    $file = file_directory_path() .'/geoip_language.txt';
+    if (file_exists($file)) {
+      $data = unserialize(file_get_contents($file));
+      $mapping = isset($data['geoip']) ? $data['geoip'] : NULL;
+    }
+
+    // Build the mapping array and cache it to the filesystem.
+    if ($reset || !$mapping) {
+      $mapping = array();
+      $data = array(
+        'geoip' => array(),
+        'default' => language_default('prefix'),
+      );
+      $result = db_query('SELECT g.*, l.prefix FROM {geoip_language} g INNER JOIN {languages} l on g.language = l.language ORDER BY g.country ASC');
+      while ($row = db_fetch_object($result)) {
+        $mapping[$row->country] = $row->language;
+        $data['geoip'][$row->country] = $row;
+      }
+
+      // Add default
+      $file = file_save_data(serialize($data), 'geoip_language.txt', FILE_EXISTS_REPLACE);
+    }
+  }
+
+  return $mapping;
+}
+
+/**
+ * Return the language object mapped to the current GeoIP detected country.
+ *
+ * @return string
+ *  Language as ISO 639-1 Code
+ *  @link http://de.wikipedia.org/wiki/ISO_639#ISO_639-1  @endlink
+ */
+function geoip_language_detect_language($reset = FALSE) {
+  static $geoip_language = NULL;
+
+  if ($reset || !isset($geoip_language)) {
+    // Get a list of enabled languages.
+    $languages = language_list('enabled');
+    $languages = $languages[1];
+    // Get a list of country->language mappings.
+    $mappings = geoip_language_mappings();
+    // GeoIP detect the current country.
+    $country_code = geoip_country_code();
+
+    // Make sure country_code, the mapping for that country_code, and the enabled
+    // language for that mapping, all exist.
+    if ($country_code && $mappings[$country_code] && $languages[$mappings[$country_code]->language]) {
+      $geoip_language = $languages[$mappings[$country_code]->language];
+    }
+    else {
+      $geoip_language = language_default();
+    }
+  }
+
+  return $geoip_language;
+}
+
+/**
+ * Implements hook_flush_caches().
+ *
+ * @return array
+ *  Return an empty array - we do the flush ourselfes
+ */
+function geoip_language_flush_caches() {
+  // Reload the geoip cache file.
+  geoip_language_mappings(TRUE);
+
+  return array();
+}

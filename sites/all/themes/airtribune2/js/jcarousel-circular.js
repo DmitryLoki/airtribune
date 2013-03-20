@@ -20,7 +20,8 @@
 
                 var jcarousel = $carouselContainer.data('jcarousel'),
                     prevButton = jcarousel.buttonPrev,
-                    nextButton = jcarousel.buttonNext;
+                    nextButton = jcarousel.buttonNext,
+                    currentIndex = options.start;
 
                 $carouselContainer.once(function () {
                     prevButton.unbind('click').bind('click', prevClick);
@@ -28,6 +29,9 @@
 
                     //if there are only 2 photos in list, duplicate them
                     var li = jcarousel.list.find('li');
+                    li.bind('click', function(){
+                        currentIndex = this.getAttribute('jcarouselindex')
+                    });
                     if (li.length === 2) {
                         var newLI = li.clone(),
                             oldWidth = jcarousel.list.width();
@@ -40,6 +44,7 @@
                         last.css({width:'0px'});
                         jcarousel.list.prepend(last);
                         last.animate({width:last.find('img').width()}, 200);
+                        currentIndex = currentIndex == 1 ? li.length : currentIndex - 1;
                         event.stopImmediatePropagation();
                     }
 
@@ -49,11 +54,13 @@
                             jcarousel.list.append(first);
                             first.animate({width:first.find('img').width()}, 200);
                         }});
+                        currentIndex = currentIndex % li.length  + 1;
                         event.stopImmediatePropagation();
                     }
 
                     //fix for #2818
-                    var $document = $(document);
+                    var $document = $(document),
+                        cboxCurrent = $('#cboxCurrent');
 
                     $document.bind('cbox_open', function () {
 
@@ -65,6 +72,7 @@
                             nextClickElements.bind('click', nextClick);
                             prevClickElements.bind('click', prevClick);
 
+                            cboxCurrent.html(currentIndex + ' of '+li.length);
                             $document.unbind('cbox_closed').bind('cbox_closed', function () {
                                 nextClickElements.unbind('click', nextClick);
                                 prevClickElements.unbind('click', prevClick);

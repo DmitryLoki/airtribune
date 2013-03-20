@@ -898,6 +898,7 @@ div.messages .close_messages { position: absolute; top: 3px; right: 3px; width: 
 div.messages .close_messages:hover { background-position: 0 -14px}
 div.messages span { display: inline-block; vertical-align: middle;}
 div.messages span.valign { width: 1px; height: 40px; overflow: hidden; margin-right: -1px;}
+div.messages a { color: #ffffff;}
 
 
 /* Multiple message of the same type are output as a list */
@@ -2984,7 +2985,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 }
 .page-user .pane-page-content form .form_booble_inner { min-width:120px; padding:7px 10px 9px 17px; max-width:200px; font:italic 12px/14px Arial, Helvetica, sans-serif; display:inline-block; margin-left:-7px}
-.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
+.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff; top: 0; left: 185px;}
 .page-user .pane-page-content form .field_error .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
 .page-user .pane-page-content form .field_weak .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
 .page-user .pane-page-content form .field_weak .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
@@ -3185,6 +3186,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 
 .node-form .image-widget .image-widget-data { position: relative;}
 .node-form .image-widget span.file { height: auto; width: auto;}
+.node-form .image-widget .form-submit { position: static; top: auto;}
+
 
 .inline_login_errors { text-align: center; color: #ff5a61; font: 18px/20px Arial, Helvetica, sans-serif; padding: 21px 0 30px;}
 .inline_login_errors a { color: #00aeef; font: 14px/16px Arial, Helvetica, sans-serif;}
@@ -3213,18 +3216,20 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 
 
 /* table design */
-table { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; position: relative; border-collapse: separate; border-top: none; color: #525d66; font: 14px/16px Arial, Helvetica, sans-serif;
+table,
+.page-event-map .pane-page-content .pane-views-panes .pane-content { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; position: relative; border-collapse: separate; border-top: none; color: #525d66; font: 14px/16px Arial, Helvetica, sans-serif;
 
   -webkit-border-radius: 0 0 3px 3px;
   -moz-border-radius: 0 0 3px 3px;
   border-radius: 0 0 3px 3px;
 
 }
-table caption { position: relative; background: #f1f4f6; color: #758594; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px;
+table caption,
+.page-event-map .pane-page-content .pane-views-panes h2 { position: relative; background: #f1f4f6; color: #758594; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px;
 
-  -webkit-border-radius: 3px 3px 0 0 ;
-  -moz-border-radius: 3px 3px 0 0 ;
-  border-radius: 3px 3px 0 0 ;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
 
 }
 table thead tr { background: #f7f8f9}
@@ -3427,8 +3432,7 @@ table tr td.:first-child { border-left: none;}
   border-radius: 3px 3px 0 0 ;
 
 }
-.pane-event-accommodations-panel-event-map-pane h2 { background-position: 8px -167px;}
-.pane-event-activities-panel-event-map-pane h2 { background-position: 8px -267px;}
+
 .event-map-pane h2 span,
 .event-map-pane h2 a { display: block; float: right; cursor: pointer; margin: 2px -1px 0 5px; background: url(../images/table_action.png) no-repeat 0 0;}
 .event-map-pane h2 span { overflow: hidden; text-indent: -9999px; width: 25px; height: 25px;}
@@ -3473,6 +3477,47 @@ table tr td.:first-child { border-left: none;}
 .event-map-pane .pane-inner { margin: 0;}
 .event-map-pane span.currency-EUR:before { content: "€ "}
 .event-map-pane span.currency-USD:before { content: "$ "}
+
+.page-event-map .pane-page-content .pane-views-panes { margin-top: 18px;}
+.page-event-map .pane-page-content .pane-views-panes .pane-content { margin-top: 0; width: auto; padding-top: 9px;}
+.page-event-map .pane-page-content .pane-views-panes .pane-inner { margin: 0;}
+.page-event-map .pane-page-content .pane-views-panes h2 { padding-left: 51px; background: #f1f4f6 url(../images/table_action.png) no-repeat 0 -10000px;}
+.page-event-map .pane-page-content .pane-event-accommodations-panel-event-map-pane h2 { background-position: 8px -167px;}
+.page-event-map .pane-page-content .pane-event-activities-panel-event-map-pane h2 { background-position: 8px -267px;}
+
+.page-event-map .pane-page-content .pane-views-panes .views-row { padding: 10px 0 9px; border-bottom: 1px solid #f5f5f5; margin: 0 10px;}
+.page-event-map .pane-page-content .pane-views-panes .views-row:last-child { border-bottom: none;}
+.page-event-map .pane-page-content .pane-views-panes .views-row:after { content: "."; visibility: hidden; height: 0; display: block; clear: both;}
+
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-photo { width: 230px; float: left; padding-right: 8px; position: relative;}
+.page-event-map .pane-page-content .pane-views-panes .other_fields { margin-left: -238px; float: right; width: 100%;}
+.page-event-map .pane-page-content .pane-views-panes .other_fields .other_fields_inner { margin-left: 238px;}
+
+.page-event-map .pane-page-content .pane-views-panes .views-field-title { margin-top: -2px; margin-left: 1px; padding-bottom: 20px;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-title a { color: #464d53; font: bold 18px/20px Arial, Helvetica, sans-serif; text-decoration: none;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-title a:hover { color: #00aeef}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-geofield-distance,
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-hotel-wifi,
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-single,
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-double { float: left; padding: 2px 21px 6px 29px; background: url(../images/table_action.png) no-repeat 0 -10000px; font: bold 16px/18px Arial,Helvetica,sans-serif; color: #55caf6}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-geofield-distance { background-position: 0 -1475px;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-hotel-wifi { background-position: 0 -1575px; color: #d3db64}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-single { background-position: 0 -1675px; color: #f6cc54}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-double { background-position: 0 -1775px; color: #e59e50}
+
+.page-event-map .pane-page-content .pane-views-panes span.currency-EUR:after { content: " EUR"}
+.page-event-map .pane-page-content .pane-views-panes span.currency-USD:after { content: " USD"}
+
+.page-event-map .pane-page-content .pane-views-panes .views-field-body { clear: both; padding-bottom: 4px; font: 12px/15px Arial, Helvetica, sans-serif; margin-left: 2px;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-body p { padding-top: 7px;}
+
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-phone,
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-email { display: inline; margin-left: 1px;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-phone { margin-right: 16px;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-phone .views-label,
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-email .views-label { display: inline; font-weight: bold;}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-phone .field-content,
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-email .field-content { display: inline;}
 
 #disqus_thread { padding-top: 35px;}
 
