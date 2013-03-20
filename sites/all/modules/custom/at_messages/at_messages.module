@@ -68,10 +68,14 @@ You may use support@airtribune.com, or simply reply to this email.');
 // define('AT_MSG_EMAIL_SUBJ_', '');
 // define('AT_MSG_EMAIL_BODY_', '');
 
+function at_messages_init() {
+  at_messages_msg_changer();
+}
+
 /*
  * Hide drupal messages or replace messages to our values
  */
-function at_messages_init() {
+function at_messages_msg_changer() {
   $hide_messages = array (
     'You have already registered this identity.' // hybridauth
   );
