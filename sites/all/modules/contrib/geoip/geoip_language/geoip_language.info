@@ -1,0 +1,15 @@
+name = GeoIP Language
+description = Language negotiation based on GeoIP detection.
+core = 7.x
+dependencies[] = locale
+dependencies[] = geoip
+files[] = geoip_language.admin.inc
+files[] = geoip_language.fastpath.inc
+files[] = geoip_language.install
+
+; Information added by drupal.org packaging script on 2011-03-10
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "geoip"
+datestamp = "1299715604"
+

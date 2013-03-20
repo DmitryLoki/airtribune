@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * file_description
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array
+ */
+function geoip_language_schema() {
+  $schema['geoip_language'] = array(
+    'description' => 'Table to store geoip country to language mappings.',
+    'fields' => array(
+      'country' => array(
+        'type' => 'char',
+        'length' => 2,
+        'not null' => TRUE,
+        'description' => 'Country code, as defined in http://www.maxmind.com/app/iso3166.',
+      ),
+      'language' => array(
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Language code, as defined in the languages table.',
+      ),
+    ),
+    'primary key' => array('country'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_disable().
+ */
+function geoip_language_install() {
+  drupal_install_schema('geoip_language');
+  // Make sure this module loads before most "normal" modules.  This allows the
+  // language negotiation to happen in hook_init() rather than hook_boot().
+  db_query("UPDATE {system} SET weight = -1 WHERE name = 'geoip_language'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function geoip_language_uninstall() {
+  drupal_uninstall_schema('geoip_language');
+}
