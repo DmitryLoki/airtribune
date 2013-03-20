@@ -2829,6 +2829,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'next_event';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Sort criterion: Content: FAI category (field_fai_category) */
+  $handler->display->display_options['sorts']['field_fai_category_value']['id'] = 'field_fai_category_value';
+  $handler->display->display_options['sorts']['field_fai_category_value']['table'] = 'field_data_field_fai_category';
+  $handler->display->display_options['sorts']['field_fai_category_value']['field'] = 'field_fai_category_value';
   /* Sort criterion: Start date */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';

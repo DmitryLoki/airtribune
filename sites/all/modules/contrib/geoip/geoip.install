@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Installation and update functions.
+ */
+
+/**
+ * We're changing the default path. If it's been working for them make sure
+ * it is set and not relying on the default value.
+ *
+ * @return array
+ */
+function geoip_update_6000() {
+  $previous_path = variable_get('geoip_data_file', drupal_get_path('module', 'geoip') . '/data/GeoIP.dat');
+  if (isset($previous_path) && file_exists($previous_path)) {
+    variable_set('geoip_data_file', $previous_path);
+  }
+  return array();
+}
