@@ -63,7 +63,7 @@ function jcarousel_formatter_field_formatter_view($entity_type, $entity, $field,
       $items[$delta] = l($thumbnail, $path, array(
         'html' => TRUE,
         'attributes' => array(
-          'title' => check_plain($entity->title),
+          'title' =>  !empty($item['title']) ? check_plain($item['title']) : check_plain($entity->title),
           'rel' => 'gallery-' . $entity->nid,
           'class' => (!empty($display['settings']['full_image_modal'])) ? $display['settings']['full_image_modal'] : 'no-modal'),
         )
