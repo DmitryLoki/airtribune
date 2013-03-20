@@ -2638,7 +2638,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
 .addressfield-container-inline { display:inline;}
 .addressfield-container-inline:after { display:none}
-.addressfield-container-inline + .country:before { content:", "}
+.addressfield-container-inline + .country:before { content:","; margin-right: 5px;}
 
 .page-event-info #page .pane-field-collection-item-field-gt-general { margin-bottom:16px; width:50%; float:right;}
 .page-event-info #page .pane-field-collection-item-field-gt-general p { padding:0}
