@@ -185,7 +185,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
   $configuration = $vars['pane']->configuration;
 
   // Translate overriden titles.
-  if ($configuration['override_title'] && $configuration['override_title_text']) {
+  if (!empty($configuration['override_title']) && $configuration['override_title_text']) {
     $vars['title'] = t($configuration['override_title_text']);
   }
 
