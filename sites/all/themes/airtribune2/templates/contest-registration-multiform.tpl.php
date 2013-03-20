@@ -18,7 +18,7 @@ unset($reg_form['#theme']);
 //------------------
 
 drupal_render($og_form['actions']['cancel']);
-$form['buttons']['Join']['#value'] = t('Register to this event!');
+$form['buttons']['Join']['#value'] = t('Register');
 
 // Email
 $reg_form['account']['mail']['#title'] = t('Email');
