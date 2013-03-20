@@ -1185,7 +1185,7 @@ Teams',
         'path' => '',
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'field_collection',
     ),
     'field_instance' => array(
