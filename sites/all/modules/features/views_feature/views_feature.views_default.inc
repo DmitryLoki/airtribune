@@ -976,7 +976,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: NID - excluded */
@@ -996,7 +995,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_photo']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_photo']['settings'] = array(
-    'image_style' => 'medium',
+    'image_style' => 'event_map_picture_preview',
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['field_photo']['delta_limit'] = '1';
@@ -1014,6 +1013,33 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Distance to HQ */
+  $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['fields']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
+  $handler->display->display_options['fields']['field_geofield_distance']['label'] = '';
+  $handler->display->display_options['fields']['field_geofield_distance']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_geofield_distance']['set_precision'] = TRUE;
+  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '1';
+  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
+    'lat' => '',
+    'lon' => '',
+  );
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_track';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
+  $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
+  /* Field: WiFi */
+  $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['field'] = 'field_hotel_wifi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['ui_name'] = 'WiFi';
+  $handler->display->display_options['fields']['field_hotel_wifi']['label'] = '';
+  $handler->display->display_options['fields']['field_hotel_wifi']['element_label_colon'] = FALSE;
   /* Field: Currency - excluded */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
@@ -1048,33 +1074,6 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Field: WiFi */
-  $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
-  $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
-  $handler->display->display_options['fields']['field_hotel_wifi']['field'] = 'field_hotel_wifi';
-  $handler->display->display_options['fields']['field_hotel_wifi']['ui_name'] = 'WiFi';
-  $handler->display->display_options['fields']['field_hotel_wifi']['label'] = '';
-  $handler->display->display_options['fields']['field_hotel_wifi']['element_label_colon'] = FALSE;
-  /* Field: Distance to HQ */
-  $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['fields']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
-  $handler->display->display_options['fields']['field_geofield_distance']['label'] = '';
-  $handler->display->display_options['fields']['field_geofield_distance']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_geofield_distance']['set_precision'] = TRUE;
-  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '1';
-  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
-    'lat' => '',
-    'lon' => '',
-  );
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_track';
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
-  $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
   /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
@@ -1098,6 +1097,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
+  $handler->display->display_options['fields']['field_email']['label'] = 'Email:';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_email']['type'] = 'email_plain';
   /* Sort criterion: Distance to HQ */
@@ -1186,12 +1186,12 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
-    t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
     t('.'),
     t(','),
+    t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
+    t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
     t('Tel'),
-    t('Email'),
+    t('Email:'),
     t('All'),
     t('Content pane'),
     t('View panes'),
@@ -1238,7 +1238,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_photo']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_photo']['settings'] = array(
-    'image_style' => 'medium',
+    'image_style' => 'event_map_picture_preview',
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['field_photo']['delta_limit'] = '1';
@@ -1256,15 +1256,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Description */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['alter']['max_length'] = '230';
-  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
   /* Field: Distance to HQ */
   $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1285,6 +1276,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
+  /* Field: Description */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '230';
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
   /* Field: Phone */
   $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
   $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
