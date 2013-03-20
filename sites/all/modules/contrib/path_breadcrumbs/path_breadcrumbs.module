@@ -133,7 +133,7 @@ function _path_breadcrumbs_build_breadcrumbs($path_breadcrumb, $contexts = array
   // Prepend HOME link to breadcrumbs navigation.
   if ($path_breadcrumb->home == TRUE) {
     $home = variable_get('path_breadcrumbs_home_link_title', 'Home');
-    $breadcrumb[] = l($home, '<front>');
+    $breadcrumb[] = l(t($home), '<front>');
   }
 
   // Convert breadcrumb titles and paths to string.
