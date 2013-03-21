@@ -1064,7 +1064,7 @@ function pages_feature_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'default tab',
-    'title' => '',
+    'title' => 'Accommodation',
     'name' => 'navigation',
     'weight' => '0',
     'parent' => array(
@@ -1169,7 +1169,18 @@ function pages_feature_default_page_manager_pages() {
     'type' => 'none',
     'settings' => NULL,
   );
-  $page->menu = array();
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'Activities',
+    'name' => 'navigation',
+    'weight' => '10',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
   $page->arguments = array(
     'event' => array(
       'id' => 1,
@@ -1368,7 +1379,18 @@ function pages_feature_default_page_manager_pages() {
     'type' => 'none',
     'settings' => NULL,
   );
-  $page->menu = array();
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'Basic',
+    'name' => 'navigation',
+    'weight' => '20',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
   $page->arguments = array(
     'event' => array(
       'id' => 1,
