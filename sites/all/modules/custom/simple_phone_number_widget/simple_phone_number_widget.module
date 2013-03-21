@@ -74,10 +74,11 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
 
 
 function _simple_phonenumber_element_validate(&$element, &$form_state) {
-  $field_name = $element['#parents'][1];
-  $language = $element['#parents'][2];
-  $delta = $element['#parents'][3];
-  $element_name = $element['#parents'][4];
+  $pdelta = count($element['#parents']) - 4;
+  $field_name = $element['#parents'][$pdelta];
+  $language = $element['#parents'][$pdelta + 1];
+  $delta = $element['#parents'][$pdelta + 2];
+  $element_name = $element['#parents'][$pdelta + 3];
   if (isset($form_state['values'][$field_name])) {
     $element_value = $form_state['values'][$field_name][$language][$delta][$element_name];
     $element['#value'] = $element_value;
@@ -91,12 +92,17 @@ function _simple_phonenumber_element_validate(&$element, &$form_state) {
  *
  */
 function _simple_phonenumber_validate($element, &$form_state) {
-  $field_name = $element['#parents'][1];
-  $language = $element['#parents'][2];
-  $delta = $element['#parents'][3];
+  $pdelta = count($element['#parents']) - 4;
+  $field_name = $element['#parents'][$pdelta];
+  $language = $element['#parents'][$pdelta + 1];
+  $delta = $element['#parents'][$pdelta + 2];
   
   //Prepare element for validation
-  $element['#field_parents'][0] = $element['#parents'][0];
+  if ($pdelta) {
+    $element['#field_parents'][0] = $element['#parents'][$pdelta - 1];
+  } else {
+    $element['#field_parents'][0] = FALSE;
+  }
   $element['#field_name'] = $field_name;
   $element['#language'] = $language;
   $element['#delta'] = $delta;
