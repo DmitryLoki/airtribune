@@ -1091,6 +1091,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
   $handler->display->display_options['fields']['field_phone']['ui_name'] = 'Phone';
   $handler->display->display_options['fields']['field_phone']['label'] = 'Tel';
+  $handler->display->display_options['fields']['field_phone']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
@@ -1099,6 +1100,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
   $handler->display->display_options['fields']['field_email']['label'] = 'Email:';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_email']['type'] = 'email_plain';
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
@@ -1292,6 +1294,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_phone']['ui_name'] = 'Phone';
   $handler->display->display_options['fields']['field_phone']['label'] = 'Tel';
   $handler->display->display_options['fields']['field_phone']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_phone']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
@@ -1299,6 +1302,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';

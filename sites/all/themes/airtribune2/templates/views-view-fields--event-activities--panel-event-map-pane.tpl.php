@@ -24,6 +24,7 @@
  * @ingroup views_templates
  */
 ?>
+<div class="row-inner">
 <?php foreach ($fields as $id => $field): ?>
   <?php if (!empty($field->separator)): ?>
     <?php print $field->separator; ?>
@@ -38,3 +39,4 @@
   }?>
 <?php endforeach; ?>
 </div></div>
+</div>
