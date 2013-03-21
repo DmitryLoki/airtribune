@@ -1,37 +1,14 @@
 
-Entity Translation 7.x-1.x, xxxx-xx-xx
+Entity translation 7.x-1.x, xxxx-xx-xx
 --------------------------------------
-#1903024 by fabsor | dimitrileonidas: Fixed SQL error in Views when adding an
-  entity translation relationship that is not using the base entity of the view.
-#1890346 by plach: Fixed Entity language change not handled on non-translatable
-  entities with translatable fields.
-#1883584 by grndlvl: Added Allow for link 'destination' on overview page.
-#1888324 by plach: Fixed Wrong form language set when only one language is
-  enabled and the entity has LANGUAGE_NONE language.
-#1888192 by plach: Fixed Field widgets hidden when no #access key is defined.
-#1885370 by grndlvl: Fixed 'View' title blank on translation overview when using
-  optional title replacement field.
-#1881872 by plach | Demoshane: Added an explict dependecy on Drupal core 7.15.
-#1876750 by David_Rothstein: Fixed Fatal error when creating an entity as an
-  anonymous user.
-#1760270 by plach | Berdir: Fixed Comment translation broken?.
-#1870236 by plach: Fixed Field translatability migration fails when translation
-  for the entity type is disabled.
-#1865176 by bforchhammer: Implement hook_entity_translation_delete() on behalf
-  of path module.
-#1862882 by Cottser: Fixed Typo: accross = across.
-#1851118 by peximo | impleri: Fixed Incorrect ET Handler set in node/add form
-  when inserting new taxonomy term.
-#1842540 by peximo, bforchhammer | plach: Added Pathauto core entity types
-  integration.
 
 
-Entity Translation 7.x-1.0-beta2, 2012-11-21
+Entity translation 7.x-1.0-beta2, 2012-11-21
 --------------------------------------------
 #1846104 by David_Rothstein, plach: Fixed Entity Translation shouldn't assume
   $form['#entity_type()'] is a string.
 #1845896 by plach, peximo: Fixed Validate translation authoring info on submit.
-#1835578 by farse, plach: Fixed Entity Translation metadata should be stored
+#1835578 by farse, plach: Fixed Entity translation metadata should be stored
   only if the entity bundle is translatable.
 #1437976 by plach | Wolfgang Reszel: Fixed Invalid node translation menu
   callback set when entity translation for nodes is disabled.
@@ -46,7 +23,7 @@ Entity Translation 7.x-1.0-beta2, 2012-11-21
   constraint violation: 1048 Column 'module' cannot be null'.
 
 
-Entity Translation 7.x-1.0-beta1, 2012-11-02
+Entity translation 7.x-1.0-beta1, 2012-11-02
 --------------------------------------------
 #1828794 by plach: Make translation workflow permissions optional.
 #1829666 by bforchhammer: Fixed Fatal error caused by menu translation when node
@@ -67,7 +44,7 @@ Entity Translation 7.x-1.0-beta1, 2012-11-02
   language.
 #1770748 by bforchhammer, plach: Option to display shared fields only when
   editing the original values.
-#1811672 by joelrosen: Fixed Entity Translation stuff showing on content types
+#1811672 by joelrosen: Fixed Entity translation stuff showing on content types
   with multilingual support disabled.
 #1810322 by Dave Reid: Fixed Fatal error when using the translate link field
   handler in Views.
@@ -152,7 +129,7 @@ Entity Translation 7.x-1.0-beta1, 2012-11-02
   form in favor of a language-aware edit form.
 
 
-Entity Translation 7.x-1.0-alpha2, 2012-06-16
+Entity translation 7.x-1.0-alpha2, 2012-06-16
 ---------------------------------------------
 #1587108 by plach | divined: Error: The entities of type Taxonomy term do not
   define a valid base path: it will not be possible to translate them.
@@ -166,7 +143,7 @@ Entity Translation 7.x-1.0-alpha2, 2012-06-16
   update.
 #1519906 by plach: Migrate aliases when upgrading nodes.
 #1519898 by plach: Fixed The upgrade process may freeze.
-#1519894 by plach: Fixed Entity Translation upgrade migration incomplete.
+#1519894 by plach: Fixed Entity translation upgrade migration incomplete.
 #1432206 by bforchhammer: Fixed Loss of field content during translatability
   switch operation.
 #1279372 by getgood, loganfsmyth, evolvingweb, plach, Kristen Pol: Enable bulk
@@ -192,7 +169,7 @@ Entity Translation 7.x-1.0-alpha2, 2012-06-16
   constraint violation.
 
 
-Entity Translation 7.x-1.0-alpha1, 2011-09-07
+Entity translation 7.x-1.0-alpha1, 2011-09-07
 ---------------------------------------------
 #1045196 by plach: Fixed Image field translation broken.
 #1003876 by plach: (follow-up) Fixed labels not replaced by Title.
