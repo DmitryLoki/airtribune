@@ -251,16 +251,17 @@ function maps_openlayers_maps() {
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
           'event_map_overlay_accommodations' => 'event_map_overlay_accommodations',
-          'event_map_overlay_activities' => 'event_map_overlay_activities',
+          'event_map_overlay_activities' => 0,
+          'event_map_overlay_hq' => 0,
           'google_hybrid_at_edition' => 0,
           'google_normal_at_edition' => 0,
           'google_satellite' => 0,
           'google_physical' => 0,
-          'event_map_openlayers_1' => 0,
-          'event_map_overlay_hq' => 0,
+          'event_map_openlayers_1' => 'event_map_openlayers_1',
+          
         ),
-        'point_zoom_level' => '5',
-        'zoomtolayer_scale' => '1',
+        'point_zoom_level' => '15',
+        'zoomtolayer_scale' => '5',
       ),
     ),
     'default_layer' => 'google_normal_at_edition',
