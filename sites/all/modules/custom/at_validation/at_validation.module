@@ -594,11 +594,30 @@ function at_validation_js_alter(&$javascript) {
         }
       }
       
+      // Replace "field required" message.
+      _at_validation_required_message($setting['clientsideValidation']['forms']);
       $javascript['settings']['data'][$k] = $setting;
       break;
     }
   }
   
+}
+
+
+/**
+ * Replace clientside_validation "required" messages text.
+ */
+function _at_validation_required_message(&$forms) {
+  foreach ($forms as $k => $data) {
+    if (isset($data['rules'])) {
+      foreach ($data['rules'] as $k2 => $rule) {
+        if (isset($rule['messages']['required'])) {
+          $forms[$k]['rules'][$k2]['messages']['required'] = t('This field is required');
+          $forms[$k]['rules'][$k2]['messages']['blacklist'] = t('This field is required');
+        }
+      }
+    }
+  }
 }
 
 /**

@@ -1,0 +1,133 @@
+<?php
+
+/**
+ * @file
+ * Test suite for geoip_language.module
+ */
+
+class geoipLanguageTestCase extends DrupalWebTestCase {
+  /**
+   * Implementation of getInfo().
+   */
+  function getInfo() {
+    return array(
+      'name' => t('GeoIP Language'),
+      'description' => t('Test suite for the geoip_language module.'),
+      'group' => t('GeoIP'),
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp('locale', 'geoip', 'geoip_language');
+
+    $this->admin_user = $this->drupalCreateUser(array('administer languages', 'administer site configuration', 'access administration pages'));
+    $this->visitor = $this->drupalCreateUser(array('access content'));
+    $this->drupalLogin($this->admin_user);
+
+    // Make sure default language has a prefix.
+    $this->drupalPost('admin/settings/language/edit/en', array('prefix' => 'global'), t('Save language'));
+    // Add and map french/france
+    $this->addLanguage('fr');
+    geoip_language_mapping_create('FR', 'fr');
+    // Add and map german/germany
+    $this->addLanguage('de');
+    geoip_language_mapping_create('DE', 'de');
+
+    // reset language in the testing thread so url's get formatted properly.
+    $GLOBALS['language'] = language_default();
+
+    variable_set('geoip_debug', TRUE);
+    variable_set('language_negotiation', GEOIP_LANGUAGE_NEGOTIATION_PATH);
+  }
+
+  /**
+   * Enable the specified language if it has not been already.
+   *
+   * @param string $language_code
+   *   The language code to enable.
+   */
+  function addLanguage($language_code) {
+    // Check to make sure that language has not already been installed.
+    $this->drupalGet('admin/settings/language');
+
+    if (strpos($this->drupalGetContent(), 'enabled[' . $language_code . ']') === FALSE) {
+      // Doesn't have language installed so add it.
+      $edit = array();
+      $edit['langcode'] = $language_code;
+      $this->drupalPost('admin/settings/language/add', $edit, t('Add language'));
+
+      $languages = language_list('language', TRUE); // Make sure not using cached version.
+      $this->assertTrue(array_key_exists($language_code, $languages), t('%language language was installed successfully.', array('%language' => $languages[$language_code]->name)));
+
+      if (array_key_exists($language_code, $languages)) {
+        $this->assertRaw(t('The language %language has been created and can now be used.', array('%language' => $languages[$language_code]->name)), t('Language has been created.'));
+      }
+    }
+    else {
+      // Ensure that it is enabled.0
+      $this->drupalPost(NULL, array('enabled[' . $language_code . ']' => TRUE), t('Save configuration'));
+
+      $this->assertRaw(t('Configuration saved.'), t('Language successfully enabled.'));
+    }
+  }
+
+  function dsm($object) {
+    $this->error('<pre>'.check_plain(print_r($object,1)).'</pre>');
+  }
+
+  function testMappingCrud() {
+    $mappings = geoip_language_mappings(TRUE);
+    $this->assertFalse(array_key_exists('US', $mappings), t('No mapping for US'));
+    $this->drupalPost('admin/settings/language/geoip', array('country' => 'US', 'language' => 'en'), t('Add mapping'), array('language' => $GLOBALS['language']));
+
+    $mappings = geoip_language_mappings(TRUE);
+    $this->assertEqual($mappings['US'], 'en', t('Mapping created for US => en'));
+
+    $this->drupalPost('admin/settings/language/geoip/delete/US', array(), t('Delete'));
+    $mappings = geoip_language_mappings(TRUE);
+    $this->assertFalse(array_key_exists('US', $mappings), t('US mapping deleted.'));
+  }
+
+  function testDefaultLanguageNegotiation() {
+    global $base_url, $base_path;
+    $languages = language_list('language', TRUE);
+
+    // US ip address, should map to en language and force a redirect. Not using
+    // url() or any of its derivatives, so as not to taint this url.
+    $this->drupalGet($base_url . $base_path .'node?geoip_debug=140.211.166.6');
+    $url = url('node', array('absolute' => TRUE, 'language' => $languages['en']));
+    $this->assertEqual($this->getUrl(), $url, t('Redirect to default language (%url).', array('%url' => $this->getUrl())));
+
+    // Browse directly to a french page.  No redirect should happen.
+    $this->drupalGet('node', array('language' => $languages['fr']));
+    $url = url('node', array('absolute' => TRUE, 'language' => $languages['fr']));
+    $this->assertEqual($this->getUrl(), $url, t('No redirect for non-default language (%url).', array('%url' => $this->getUrl())));
+
+    // Now french should be in the session.  Browsing directly to a page without
+    // a prefix should redirect me to the french version.
+    $this->drupalGet($base_url . $base_path .'node');
+    $url = url('node', array('absolute' => TRUE, 'language' => $languages['fr']));
+    $this->assertEqual($this->getUrl(), $url, t('Redirect to the language stored in the session (%url).', array('%url' => $this->getUrl())));
+
+    // Now just for good measure make sure that nothing weird happens when
+    // browsing directly to the a page with the default langauge's prefix.
+    $this->drupalGet('node', array('language' => $languages['en']));
+    $url = url('node', array('absolute' => TRUE, 'language' => $languages['en']));
+    $this->assertEqual($this->getUrl(), $url, t('No redirect for default language prefix (%url).', array('%url' => $this->getUrl())));
+  }
+
+  function testFrenchLanguageNegotiation() {
+    global $base_url, $base_path;
+    $languages = language_list('language', TRUE);
+
+    // FR ip address, should map to fr language and force a redirect. Not using
+    // url() or any of its derivatives, so as not to taint this url.
+    $this->drupalGet($base_url . $base_path .'node?geoip_debug=81.255.22.101');
+    $url = url('node', array('absolute' => TRUE, 'language' => $languages['fr']));
+    $this->assertEqual($this->getUrl(), $url, t('Redirect to french path (%url).', array('%url' => $this->getUrl())));
+  }
+
+}

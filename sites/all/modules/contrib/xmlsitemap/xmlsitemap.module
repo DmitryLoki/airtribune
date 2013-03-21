@@ -1396,7 +1396,7 @@ function xmlsitemap_language_load($language = LANGUAGE_NONE) {
 
   if (!isset($languages)) {
     $languages = language_list();
-    $languages[LANGUAGE_NONE] = NULL;
+    $languages[LANGUAGE_NONE] = language_default();
   }
 
   return isset($languages[$language]) ? $languages[$language] : NULL;
