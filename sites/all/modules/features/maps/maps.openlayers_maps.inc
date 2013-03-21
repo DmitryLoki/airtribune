@@ -250,7 +250,7 @@ function maps_openlayers_maps() {
       'openlayers_behavior_zoompanel' => array(),
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
-          'event_map_overlay_accommodations' => 'event_map_overlay_accommodations',
+          'event_map_overlay_accommodations' => 0,
           'event_map_overlay_activities' => 0,
           'event_map_overlay_hq' => 0,
           'google_hybrid_at_edition' => 0,
