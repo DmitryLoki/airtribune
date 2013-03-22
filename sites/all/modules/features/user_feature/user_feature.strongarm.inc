@@ -569,7 +569,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_registrationpassword_register_subject';
-  $strongarm->value = 'Airtribune.com - Your account has been created';
+  $strongarm->value = 'Airtribune.com - Email confirmation';
   $export['user_registrationpassword_register_subject'] = $strongarm;
 
   $strongarm = new stdClass();
