@@ -1,6 +1,5 @@
 <?php
 
-
 print drupal_render($form['account']['mail']);
 
 

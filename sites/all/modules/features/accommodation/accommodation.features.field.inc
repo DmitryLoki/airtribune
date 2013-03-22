@@ -115,7 +115,7 @@ function accommodation_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -137,7 +137,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -193,7 +193,7 @@ function accommodation_field_default_fields() {
   $fields['node-accommodation-field_email'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '2',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_email',
@@ -218,14 +218,14 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'invisimail',
           'settings' => array(
             'encoder' => 'html_entities',
             'link' => 1,
           ),
           'type' => 'invisimail_html_entities',
-          'weight' => '7',
+          'weight' => '6',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -241,6 +241,7 @@ function accommodation_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_email',
       'label' => 'Email',
       'required' => 0,
@@ -254,7 +255,7 @@ function accommodation_field_default_fields() {
         'module' => 'html5_tools',
         'settings' => array(),
         'type' => 'emailwidget',
-        'weight' => '9',
+        'weight' => '8',
       ),
     ),
   );
@@ -449,41 +450,60 @@ function accommodation_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-accommodation-field_phone'.
-  $fields['node-accommodation-field_phone'] = array(
+  // Exported field: 'node-accommodation-field_photo'.
+  $fields['node-accommodation-field_photo'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '10',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_phone',
+      'field_name' => 'field_photo',
       'field_permissions' => array(
         'type' => '0',
       ),
-      'foreign keys' => array(),
-      'indexes' => array(),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
       'locked' => '0',
-      'module' => 'cck_phone',
+      'module' => 'image',
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
-        'size' => '15',
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
       ),
       'translatable' => '0',
-      'type' => 'phone_number',
+      'type' => 'image',
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
-          'module' => 'cck_phone',
-          'settings' => array(),
-          'type' => 'global_phone_number',
-          'weight' => '6',
+          'label' => 'hidden',
+          'module' => 'jcarousel_formatter',
+          'settings' => array(
+            'full_image_modal' => 'nolink',
+            'full_image_style' => '',
+            'jcarousel_formatter_orientation' => 'horizontal',
+            'jcarousel_formatter_skin' => 'default',
+            'jcarousel_image_style' => 'hotel_preview',
+          ),
+          'type' => 'jcarousel_formatter',
+          'weight' => '3',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -499,7 +519,114 @@ function accommodation_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_phone',
+      'field_name' => 'field_photo',
+      'label' => 'Photo',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hotels/[node:nid]-[node:title]',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '5M',
+        'max_resolution' => '2000x2000',
+        'min_resolution' => '300x300',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'media',
+        'settings' => array(
+          'allowed_schemes' => array(
+            'public' => 'public',
+          ),
+          'allowed_types' => array(
+            'audio' => 0,
+            'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
+          ),
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'media_generic',
+        'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-accommodation-field_place_phone'.
+  $fields['node-accommodation-field_place_phone'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '4',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_place_phone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'cck_phone',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'size' => '15',
+      ),
+      'translatable' => '0',
+      'type' => 'phone_number',
+    ),
+    'field_instance' => array(
+      'bundle' => 'accommodation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'cck_phone',
+          'settings' => array(),
+          'type' => 'global_phone_number',
+          'weight' => '7',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_place_phone',
       'label' => 'Phone',
       'required' => 0,
       'settings' => array(
@@ -752,136 +879,9 @@ function accommodation_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'simple_phone_number_widget',
-        'settings' => array(
-          'size' => 15,
-        ),
+        'settings' => array(),
         'type' => 'simple_phone_number_widget',
-        'weight' => '7',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-accommodation-field_photo'.
-  $fields['node-accommodation-field_photo'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '10',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_photo',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
-        ),
-        'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
-      ),
-      'translatable' => '0',
-      'type' => 'image',
-    ),
-    'field_instance' => array(
-      'bundle' => 'accommodation',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'jcarousel_formatter',
-          'settings' => array(
-            'full_image_modal' => 'nolink',
-            'full_image_style' => '',
-            'jcarousel_formatter_orientation' => 'horizontal',
-            'jcarousel_formatter_skin' => 'default',
-            'jcarousel_image_style' => 'hotel_preview',
-          ),
-          'type' => 'jcarousel_formatter',
-          'weight' => '3',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_photo',
-      'label' => 'Photo',
-      'required' => 0,
-      'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 1,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => 'hotels/[node:nid]-[node:title]',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'max_filesize' => '5M',
-        'max_resolution' => '2000x2000',
-        'min_resolution' => '300x300',
-        'title_field' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'media',
-        'settings' => array(
-          'allowed_schemes' => array(
-            'public' => 'public',
-          ),
-          'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
-            'audio' => 0,
-            'default' => 0,
-          ),
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'media_generic',
-        'weight' => '8',
+        'weight' => '9',
       ),
     ),
   );

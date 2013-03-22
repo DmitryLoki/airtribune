@@ -1,4 +1,4 @@
-m<?php
+<?php
 /**
  * @file
  * variables.strongarm.inc
