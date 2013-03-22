@@ -383,3 +383,38 @@ function at_user_get_full_name($user) {
 
   return $name;
 }
+
+/**
+ * Get contestant number of this user on this event
+ *
+ * @param $uid
+ *   user uid
+ * @param $event_nid
+ *   event nid
+ *
+ * @return
+ *   NULL if number not found
+ *   Contestant number of this user on this event
+ */
+function at_user_get_contestant_number($uid, $event_nid) {
+  $og_id = db_select('og_membership', 'm')
+    ->fields('m', array('id'))
+    ->condition('m.type', 'pg_contestant')
+    ->condition('m.etid', $uid)
+    ->condition('m.gid', $event_nid)
+    ->condition('m.state', 1)
+    ->execute()
+    ->fetchField();
+
+  $number = db_select('field_data_field_contestant_number', 'n')
+    ->fields('n', array('field_contestant_number_value'))
+    ->condition('n.bundle', 'pg_contestant')
+    ->condition('n.entity_id', $og_id)
+    ->condition('n.deleted', 0)
+    ->execute()
+    ->fetchField();
+
+  $contestant_number = $number ? $number : NULL;
+
+  return $contestant_number;
+}
