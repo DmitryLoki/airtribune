@@ -1,5 +1,8 @@
 <?php
 
+$pilot_uid = arg(1);
+drupal_set_title(at_user_get_full_name($pilot_uid));
+
 drupal_add_js(drupal_get_path('module', 'at_validation') . '/js/user-event-registration.js');
 // Pilot profile
 // =====================
