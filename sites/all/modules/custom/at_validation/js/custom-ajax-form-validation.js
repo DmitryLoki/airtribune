@@ -257,7 +257,7 @@
     };
 
     Drupal.ajax.prototype.beforeSerialize = function (element, options) {
-        if (options.url === '/at-validation/ajax') {
+        if (options.url.indexOf('/at-validation/ajax') > -1) {
             var formValidator = element.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
             var validationResult = formValidator.element(activeField);
