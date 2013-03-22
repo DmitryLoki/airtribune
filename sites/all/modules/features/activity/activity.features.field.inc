@@ -115,7 +115,7 @@ function activity_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -193,7 +193,7 @@ function activity_field_default_fields() {
   $fields['node-activity-field_email'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '2',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_email',
@@ -218,7 +218,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
@@ -368,14 +368,138 @@ function activity_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-activity-field_phone'.
-  $fields['node-activity-field_phone'] = array(
+  // Exported field: 'node-activity-field_photo'.
+  $fields['node-activity-field_photo'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '10',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_phone',
+      'field_name' => 'field_photo',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'activity',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'jcarousel_formatter',
+          'settings' => array(
+            'full_image_modal' => 'nolink',
+            'full_image_style' => '',
+            'jcarousel_formatter_orientation' => 'horizontal',
+            'jcarousel_formatter_skin' => 'default',
+            'jcarousel_image_style' => 'hotel_preview',
+          ),
+          'type' => 'jcarousel_formatter',
+          'weight' => '0',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_photo',
+      'label' => 'Photo',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 0,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'media',
+        'settings' => array(
+          'allowed_schemes' => array(
+            'public' => 'public',
+          ),
+          'allowed_types' => array(
+            'audio' => 0,
+            'default' => 0,
+            'image' => 'image',
+            'video' => 0,
+          ),
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'media_generic',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-activity-field_place_phone'.
+  $fields['node-activity-field_place_phone'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '4',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_place_phone',
       'field_permissions' => array(
         'type' => '0',
       ),
@@ -385,7 +509,7 @@ function activity_field_default_fields() {
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
         'size' => '15',
       ),
       'translatable' => '0',
@@ -393,12 +517,12 @@ function activity_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'activity',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
@@ -418,12 +542,13 @@ function activity_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_phone',
-      'label' => 'Phone number',
+      'exclude_cv' => 0,
+      'field_name' => 'field_place_phone',
+      'label' => 'Phone',
       'required' => 0,
       'settings' => array(
         'all_country_codes' => 1,
-        'country_code_position' => 'after',
+        'country_code_position' => 'before',
         'country_codes' => array(
           'country_selection' => array(
             'ad' => 0,
@@ -660,7 +785,7 @@ function activity_field_default_fields() {
           ),
           'hide_single_cc' => 0,
         ),
-        'default_country' => 'af',
+        'default_country' => 'us',
         'enable_country_level_validation' => 1,
         'enable_default_country' => 1,
         'enable_extension' => 0,
@@ -671,135 +796,9 @@ function activity_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'simple_phone_number_widget',
-        'settings' => array(
-          'size' => 15,
-        ),
+        'settings' => array(),
         'type' => 'simple_phone_number_widget',
         'weight' => '8',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-activity-field_photo'.
-  $fields['node-activity-field_photo'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '10',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_photo',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
-        ),
-        'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
-      ),
-      'translatable' => '0',
-      'type' => 'image',
-    ),
-    'field_instance' => array(
-      'bundle' => 'activity',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'jcarousel_formatter',
-          'settings' => array(
-            'full_image_modal' => 'nolink',
-            'full_image_style' => '',
-            'jcarousel_formatter_orientation' => 'horizontal',
-            'jcarousel_formatter_skin' => 'default',
-            'jcarousel_image_style' => 'hotel_preview',
-          ),
-          'type' => 'jcarousel_formatter',
-          'weight' => '0',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_photo',
-      'label' => 'Photo',
-      'required' => 0,
-      'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 0,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
-            ),
-            'value' => '',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'max_filesize' => '',
-        'max_resolution' => '',
-        'min_resolution' => '',
-        'title_field' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'media',
-        'settings' => array(
-          'allowed_schemes' => array(
-            'public' => 'public',
-          ),
-          'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            'image' => 'image',
-            'video' => 0,
-          ),
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'media_generic',
-        'weight' => '6',
       ),
     ),
   );
@@ -895,7 +894,7 @@ function activity_field_default_fields() {
         'module' => 'html5_tools',
         'settings' => array(),
         'type' => 'urlwidget',
-        'weight' => '9',
+        'weight' => '10',
       ),
     ),
   );
@@ -906,7 +905,7 @@ function activity_field_default_fields() {
   t('Description');
   t('Email');
   t('Location');
-  t('Phone number');
+  t('Phone');
   t('Photo');
   t('Web site');
 

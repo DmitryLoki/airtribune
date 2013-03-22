@@ -34,7 +34,7 @@
         <?php print $accommodation; ?>
       </div>
       <div class="es-label">
-        <?php print l(t('Accommodations'), $map_url, array('fragment' => 'event-accommodations')); ?><br/>
+        <?php print l(t('Accommodation'), $map_url, array('fragment' => 'event-accommodations')); ?><br/>
         <span><?php print t('places'); ?></span>
       </div>
     </div>

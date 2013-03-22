@@ -13,6 +13,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'geoip_data_file';
+  $strongarm->value = 'sites/all/libraries/geoip/GeoLiteCity.dat';
+  $export['geoip_data_file'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_accommodation';
   $strongarm->value = 'edit-xmlsitemap';
   $export['additional_settings__active_tab_accommodation'] = $strongarm;
@@ -976,6 +983,97 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_element_name';
+  $strongarm->value = 'url';
+  $export['honeypot_element_name'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_accommodation_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_accommodation_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_activity_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_activity_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_advert_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_advert_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_newsblog_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_newsblog_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_page_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_page_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_pg_contest_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_pg_contest_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_pg_race_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_pg_race_node_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_user_pass';
+  $strongarm->value = 0;
+  $export['honeypot_form_user_pass'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_user_register_form';
+  $strongarm->value = 1;
+  $export['honeypot_form_user_register_form'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_log';
+  $strongarm->value = 0;
+  $export['honeypot_log'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_protect_all_forms';
+  $strongarm->value = 0;
+  $export['honeypot_protect_all_forms'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_time_limit';
+  $strongarm->value = '0';
+  $export['honeypot_time_limit'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'html5_tools_add_chrome_frame_header';
   $strongarm->value = 1;
   $export['html5_tools_add_chrome_frame_header'] = $strongarm;
@@ -1207,26 +1305,27 @@ function variables_strongarm() {
     31 => 30,
     32 => 29,
     33 => 28,
-    34 => 26,
-    35 => 24,
-    36 => 23,
-    37 => 22,
-    38 => 21,
-    39 => 19,
-    40 => 15,
-    41 => 14,
-    42 => 13,
-    43 => 12,
-    44 => 11,
-    45 => 10,
-    46 => 9,
-    47 => 8,
-    48 => 7,
-    49 => 6,
-    50 => 5,
-    51 => 3,
-    52 => 2,
-    53 => 1,
+    34 => 27,
+    35 => 26,
+    36 => 24,
+    37 => 23,
+    38 => 22,
+    39 => 21,
+    40 => 19,
+    41 => 15,
+    42 => 14,
+    43 => 13,
+    44 => 12,
+    45 => 11,
+    46 => 10,
+    47 => 9,
+    48 => 8,
+    49 => 7,
+    50 => 6,
+    51 => 5,
+    52 => 3,
+    53 => 2,
+    54 => 1,
   );
   $export['menu_masks'] = $strongarm;
 
@@ -1278,27 +1377,6 @@ function variables_strongarm() {
   $strongarm->name = 'site_default_country';
   $strongarm->value = 'US';
   $export['site_default_country'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'site_mail';
-  $strongarm->value = 'support@airtribune.com';
-  $export['site_mail'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'site_name';
-  $strongarm->value = 'Airtribune.com';
-  $export['site_name'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'site_slogan';
-  $strongarm->value = 'Paragliding competition GPS live tracking';
-  $export['site_slogan'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

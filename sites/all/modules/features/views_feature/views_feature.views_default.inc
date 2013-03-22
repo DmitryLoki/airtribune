@@ -1085,13 +1085,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['settings'] = array(
     'trim_length' => '300',
   );
-  /* Field: Phone */
-  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
-  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_phone']['label'] = 'Tel';
-  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
@@ -1099,7 +1092,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
   $handler->display->display_options['fields']['field_email']['label'] = 'Email:';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_email']['type'] = 'email_plain';
+  $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1190,7 +1186,6 @@ function views_feature_views_default_views() {
     t(','),
     t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
     t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
-    t('Tel'),
     t('Email:'),
     t('All'),
     t('Content pane'),
@@ -1285,20 +1280,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '230';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Field: Phone */
-  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
-  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_phone']['label'] = 'Tel';
-  $handler->display->display_options['fields']['field_phone']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1387,7 +1377,6 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('.'),
     t(','),
-    t('Tel'),
     t('Email'),
     t('All'),
     t('Content pane'),
@@ -3215,12 +3204,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Global: View result counter */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['label'] = '#';
-  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
@@ -3437,12 +3420,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Global: View result counter */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['label'] = '#';
-  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
@@ -3568,7 +3545,6 @@ function views_feature_views_default_views() {
     t('All'),
     t('%1 members'),
     t('Standard'),
-    t('#'),
     t('[field_full_name] ([field_contestant_number])'),
     t('Nation'),
     t('Sponsor'),
