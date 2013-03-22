@@ -115,7 +115,7 @@ function accommodation_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -137,7 +137,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -193,7 +193,7 @@ function accommodation_field_default_fields() {
   $fields['node-accommodation-field_email'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '2',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_email',
@@ -218,7 +218,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'invisimail',
           'settings' => array(
             'encoder' => 'html_entities',
@@ -241,7 +241,6 @@ function accommodation_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'exclude_cv' => 0,
       'field_name' => 'field_email',
       'label' => 'Email',
       'required' => 0,
@@ -454,7 +453,7 @@ function accommodation_field_default_fields() {
   $fields['node-accommodation-field_phone'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '4',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_phone',
@@ -467,7 +466,7 @@ function accommodation_field_default_fields() {
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
         'size' => '15',
       ),
       'translatable' => '0',
@@ -475,12 +474,12 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
@@ -500,7 +499,6 @@ function accommodation_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'exclude_cv' => 0,
       'field_name' => 'field_phone',
       'label' => 'Phone',
       'required' => 0,
@@ -754,7 +752,9 @@ function accommodation_field_default_fields() {
       'widget' => array(
         'active' => 0,
         'module' => 'simple_phone_number_widget',
-        'settings' => array(),
+        'settings' => array(
+          'size' => 15,
+        ),
         'type' => 'simple_phone_number_widget',
         'weight' => '7',
       ),
@@ -872,11 +872,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
