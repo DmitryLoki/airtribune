@@ -250,3 +250,35 @@ function at_user_preprocess_page(&$variables) {
     }
   }
 }
+
+/**
+ * Get full name of user
+ *
+ * @param $user
+ *   uid or user object
+ *
+ * @return
+ *   NULL if user not found
+ *   Name & Surname from main profile (if filled), otherwise user->name
+ */
+function at_user_get_full_name($user) {
+  // if $user not object
+  if (!is_object($user)) {
+    $user = user_load($user);
+  }
+
+  // user not found
+  if (!$user) {
+    return NULL;
+  }
+
+  $user_profile = profile2_load_by_user($user);
+  if (!empty($user_profile['main']->field_full_name['und'][0]['given'])) {
+    $name = $user_profile['main']->field_full_name['und'][0]['given'] . ' ' . $user_profile['main']->field_full_name['und'][0]['family'];
+  }
+  else {
+    $name = $user->name;
+  }
+
+  return $name;
+}
