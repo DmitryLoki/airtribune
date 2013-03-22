@@ -115,7 +115,7 @@ function activity_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -137,7 +137,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -193,7 +193,7 @@ function activity_field_default_fields() {
   $fields['node-activity-field_email'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '2',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_email',
@@ -218,7 +218,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
@@ -372,7 +372,7 @@ function activity_field_default_fields() {
   $fields['node-activity-field_phone'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '4',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_phone',
@@ -385,7 +385,7 @@ function activity_field_default_fields() {
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
         'size' => '15',
       ),
       'translatable' => '0',
@@ -398,7 +398,7 @@ function activity_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',

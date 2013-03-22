@@ -479,7 +479,7 @@ function pilot_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '3',
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'profile2',
@@ -1084,14 +1084,14 @@ function pilot_field_default_fields() {
     ),
   );
 
-  // Exported field: 'profile2-pilot-field_phone'.
-  $fields['profile2-pilot-field_phone'] = array(
+  // Exported field: 'profile2-pilot-field_pilot_phone'.
+  $fields['profile2-pilot-field_pilot_phone'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_phone',
+      'field_name' => 'field_pilot_phone',
       'field_permissions' => array(
         'type' => '0',
       ),
@@ -1109,7 +1109,7 @@ function pilot_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pilot',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => 'Your phone number including international code.',
       'display' => array(
@@ -1118,12 +1118,12 @@ function pilot_field_default_fields() {
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => '5',
+          'weight' => '4',
         ),
       ),
       'entity_type' => 'profile2',
       'exclude_cv' => 0,
-      'field_name' => 'field_phone',
+      'field_name' => 'field_pilot_phone',
       'label' => 'Mobile phone number',
       'required' => 1,
       'settings' => array(
@@ -1378,7 +1378,7 @@ function pilot_field_default_fields() {
         'module' => 'simple_phone_number_widget',
         'settings' => array(),
         'type' => 'simple_phone_number_widget',
-        'weight' => '5',
+        'weight' => '4',
       ),
     ),
   );
@@ -1501,7 +1501,7 @@ function pilot_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '6',
+          'weight' => '5',
         ),
       ),
       'entity_type' => 'profile2',
@@ -1519,7 +1519,7 @@ function pilot_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '6',
+        'weight' => '5',
       ),
     ),
   );
