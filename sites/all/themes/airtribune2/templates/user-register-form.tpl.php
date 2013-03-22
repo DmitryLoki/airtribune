@@ -1,8 +1,5 @@
 <?php
 
-$pilot_uid = arg(1);
-drupal_set_title(at_user_get_full_name($pilot_uid));
-
 print drupal_render($form['account']['mail']);
 
 
