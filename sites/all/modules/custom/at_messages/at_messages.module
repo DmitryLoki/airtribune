@@ -8,8 +8,8 @@ Happy landings!
 Airtribune team");
 
 // guest reg on event
-define('AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE', 'Thank you! Your registration for @event_name as well as on Airtribune is almost finished. Please, check your email for further instructions.');
-define('AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE', 'Congratulations! Your Airtribune account has been created and your registration for @event_name is completed.');
+define('AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE', 'Your registration for @event_name is almost finished.');
+define('AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE', 'Your registration for @event_name is completed. Follow your status on this page.');
 
 // pilot reg on event
 define('AT_MSG_SITE_PILOT_REG_ON_EVENT', 'You have been successfully registered for @event_name! Follow your status on this page.');
@@ -117,23 +117,23 @@ function at_messages_form_alter(&$form, &$form_state, $form_id) {
 function at_messages_register_at_event_submit($form, &$form_state) {
   // TRUE if guest
   // FALSE if already registered & logged user
-  $is_guest = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+  $guest_registration_at_event = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
     ? TRUE
     : FALSE;
 
   // prevent handling form on usual guest registration to site
-  if (!$is_guest && $form['#id'] == 'user-register-form') {
+  if (!$guest_registration_at_event && $form['#id'] == 'user-register-form') {
     return;
   }
 
   // prevent duplicate handling form on guest registration at event (multiform submit)
-  if ($is_guest && $form['#id'] == 'og-ui-confirm-subscribe') {
+  if ($guest_registration_at_event && $form['#id'] == 'og-ui-confirm-subscribe') {
     return;
   }
 
   $f = $form_state['values'];
 
-  if ($is_guest) {
+  if ($guest_registration_at_event) {
     $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
   } else {
     $event = node_load($f['gid']);
@@ -154,6 +154,11 @@ function at_messages_register_at_event_submit($form, &$form_state) {
   $birthday = format_date(strtotime($profile_main['field_birthdate']['und'][0]['value']), 'custom', 'd/m/Y');
   $nation = country_load($profile_pilot['field_address']['und'][0]['country'])->name;
   $pilot_full_name = $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'];
+  if (!empty($f['field_contestant_number']['und'][0]['value'])) {
+    $contestant_number = $f['field_contestant_number']['und'][0]['value'];
+  } else {
+    $contestant_number = at_user_get_contestant_number($user->uid, $event->nid);
+  }
 
   $full_info = array(
     '@event_name' => $event_name,
@@ -173,7 +178,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@pilot_phone' => $profile_pilot['field_phone']['und'][0]['full_number'],
     '@fai_license_number' => $profile_pilot['field_fai_license_number']['und'][0]['value'],
     '@civl_id' => $profile_pilot['field_civl_id']['und'][0]['value'],
-    '@contestant_number' => $f['field_contestant_number']['und'][0]['value'],
+    '@contestant_number' => $contestant_number,
     '@t_shirt_size' => $profile_pilot['field_t_shirt_size']['und'][0]['value'],
     '@paraglider_manufacturer' => $profile_pilot['field_paraglider_manufacturer']['und'][0]['value'],
     '@paraglider_model' => $profile_pilot['field_paraglider_model']['und'][0]['value'],
@@ -196,7 +201,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
   );
 
-  if ($is_guest) {
+  if ($guest_registration_at_event) {
     // hide messages about successful registration at site
     drupal_set_message();
     // show message 'registration is almost finished, check mail'
