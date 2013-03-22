@@ -1325,3 +1325,27 @@ function airtribune2_jcarousel_formatter_element_alter(&$element) {
   $element[0]['#options']['wrap'] = 'circular';
   $element[0]['#options']['start'] = 2;
 }
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ *
+ * @see #2851
+ */
+function airtribune2_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if (isset($data['tabs'][1]['output'])) {
+    // Hide tabs on map nodes.
+    if ($root_path == 'event/%/map/%') {
+      unset($data['tabs'][1]);
+    }
+    // Add unique CSS ID to each tab.
+    else {
+      $tabs = array('accommodations', 'activities', 'basic');
+      foreach ($data['tabs'][1]['output'] as $index => $tab) {
+        $id = arg(3, $tab['#link']['path']);
+        if (in_array($id, $tabs)) {
+          $data['tabs'][1]['output'][$index]['#link']['localized_options']['attributes']['id'] = $id . '-tab';
+        }
+      }
+    }
+  }
+}
