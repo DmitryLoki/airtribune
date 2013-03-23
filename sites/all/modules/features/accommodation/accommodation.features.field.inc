@@ -931,7 +931,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '10',
+          'weight' => '9',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
