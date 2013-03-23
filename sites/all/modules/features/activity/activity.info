@@ -25,6 +25,7 @@ features[field][] = node-activity-body
 features[field][] = node-activity-field_address
 features[field][] = node-activity-field_email
 features[field][] = node-activity-field_location
+features[field][] = node-activity-field_phone
 features[field][] = node-activity-field_photo
 features[field][] = node-activity-field_place_phone
 features[field][] = node-activity-field_url

@@ -137,7 +137,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -218,14 +218,14 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'invisimail',
           'settings' => array(
             'encoder' => 'html_entities',
             'link' => 1,
           ),
           'type' => 'invisimail_html_entities',
-          'weight' => '6',
+          'weight' => '7',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -399,7 +399,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '11',
+          'weight' => '12',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -561,11 +561,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -605,11 +605,11 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
-          'weight' => '7',
+          'weight' => '6',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -931,7 +931,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '9',
+          'weight' => '10',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -1258,7 +1258,7 @@ function accommodation_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '10',
+          'weight' => '11',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
