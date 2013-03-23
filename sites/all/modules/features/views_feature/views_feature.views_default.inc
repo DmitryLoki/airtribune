@@ -1225,7 +1225,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: NID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -1291,15 +1291,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '230';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Field: Email */
-  $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
-  $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
-  $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
-  $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
-  $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
-  $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
   /* Field: Phone */
   $handler->display->display_options['fields']['field_place_phone']['id'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
@@ -1309,6 +1300,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
   $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_place_phone']['delta_offset'] = '0';
+  /* Field: Email */
+  $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
+  $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
+  $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1397,8 +1397,8 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('.'),
     t(','),
-    t('Email'),
     t('Tel'),
+    t('Email'),
     t('All'),
     t('Content pane'),
     t('View panes'),
