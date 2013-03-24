@@ -199,7 +199,9 @@ function _multiform_get_form(&$element, &$buttons, $form_id) {
   // is changed. This way the buttons belong to the top form and their values
   // can be handed to each form.
   if (isset($element['#button_type'])) {
-    $buttons[$element['#value']] = $element;
+    // The key must be other than #value. It breaks translation.
+    //$buttons[$element['#value']] = $element;
+    $buttons[$form_id . '_' . implode('_', $element['#array_parents'])] = $element;
     $element['#access'] = FALSE;
   }
   // By only changing $element['#name'] form API is not affected but the

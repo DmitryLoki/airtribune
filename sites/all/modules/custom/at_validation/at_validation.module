@@ -600,7 +600,7 @@ function at_validation_js_alter(&$javascript) {
       break;
     }
   }
-  
+  $javascript['settings']['data'][] = array('requiredMessage' => t('This field is required.'));
 }
 
 

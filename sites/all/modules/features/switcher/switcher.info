@@ -78,6 +78,7 @@ dependencies[] = image_styles_feature
 dependencies[] = invisimail
 dependencies[] = jcarousel
 dependencies[] = jcarousel_formatter
+dependencies[] = l10n_client
 dependencies[] = l10n_update
 dependencies[] = languages
 dependencies[] = libraries

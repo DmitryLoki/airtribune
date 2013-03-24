@@ -135,6 +135,7 @@ function menu_feature_menu_default_menu_links() {
       'attributes' => array(
         'title' => 'The project is aimed at uniting paragliding community, viewers and sponsors.',
       ),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -151,6 +152,7 @@ function menu_feature_menu_default_menu_links() {
     'link_title' => 'For organizers',
     'options' => array(
       'attributes' => array(),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -167,6 +169,7 @@ function menu_feature_menu_default_menu_links() {
     'link_title' => 'For pilots',
     'options' => array(
       'attributes' => array(),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -183,6 +186,7 @@ function menu_feature_menu_default_menu_links() {
     'link_title' => 'For the viewers',
     'options' => array(
       'attributes' => array(),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -199,6 +203,7 @@ function menu_feature_menu_default_menu_links() {
     'link_title' => 'For sponsors',
     'options' => array(
       'attributes' => array(),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
