@@ -89,14 +89,14 @@ function user_feature_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_provider_Facebook_keys_id';
-  $strongarm->value = '220193031439173';
+  $strongarm->value = '492059327506337';
   $export['hybridauth_provider_Facebook_keys_id'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_provider_Facebook_keys_secret';
-  $strongarm->value = '32504968a9407ff077a4d7a62b83ef6e';
+  $strongarm->value = '9c4b96cfa08d3bcd02f597320ef0ce0e';
   $export['hybridauth_provider_Facebook_keys_secret'] = $strongarm;
 
   $strongarm = new stdClass();
