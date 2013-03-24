@@ -27,6 +27,11 @@
 if (empty($row->field_field_hotel_wifi[0]['raw']['value'])) {
   unset($fields['field_hotel_wifi']);
 }
+else {
+  // See #2884.
+  $fields['field_hotel_wifi']->content = 'WiFi';
+}
+
 ?>
 <div class="row-inner">
 <?php foreach ($fields as $id => $field): ?>

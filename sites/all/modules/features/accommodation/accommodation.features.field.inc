@@ -281,8 +281,8 @@ function accommodation_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => '',
-          1 => 'Wi-Fi',
+          0 => 'No',
+          1 => 'Yes',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
@@ -565,11 +565,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
