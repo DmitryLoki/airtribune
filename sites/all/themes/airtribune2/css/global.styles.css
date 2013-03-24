@@ -2637,7 +2637,7 @@ p { margin:0; padding:9px 0 11px}
 /*.page-event-info .pane-node-field-collection-getting-there .field-item .field { width:50%; float:right;}
 .page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
 .addressfield-container-inline { display:inline;}
-.addressfield-container-inline:after { display:none}
+.field .addressfield-container-inline:after { display:none}
 .street-block, .street-block .thoroughfare { display: inline;}
 .street-block + .addressfield-container-inline:before,
 .addressfield-container-inline + .country:before { content:","; margin-right: 5px;}
