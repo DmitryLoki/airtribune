@@ -29,7 +29,7 @@ if (empty($row->field_field_hotel_wifi[0]['raw']['value'])) {
 }
 else {
   // See #2884.
-  $fields['field_hotel_wifi']->content = 'WiFi';
+  $fields['field_hotel_wifi']->content = 'Wi-Fi';
 }
 
 ?>
