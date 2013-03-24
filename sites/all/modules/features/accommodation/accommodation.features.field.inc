@@ -268,6 +268,9 @@ function accommodation_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_hotel_wifi',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -278,8 +281,8 @@ function accommodation_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => 'No',
-          1 => 'Yes',
+          0 => '',
+          1 => 'Wi-Fi',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
@@ -290,7 +293,7 @@ function accommodation_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'accommodation',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -315,6 +318,7 @@ function accommodation_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_hotel_wifi',
       'label' => 'Wi-Fi',
       'required' => 1,
