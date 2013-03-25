@@ -147,7 +147,7 @@ function clientside_validation_regular($form_id, $element, &$js_rules, $form_sta
         if ($element['#required']) {
           // @see http://drupal.org/node/1585554
           $error = isset($js_rules[$el_name]['messages']['required']) ? $js_rules[$el_name]['messages']['required'] : NULL;
-          _clientside_validation_set_blacklist($el_name, $el_title, array('_none'), $js_rules, $error);
+          _clientside_validation_set_blacklist($el_name, $el_title, array('_none'), $js_rules, $error, TRUE);
         }
         break;
       case 'radio':

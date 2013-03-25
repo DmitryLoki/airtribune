@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default simple view template to all the fields as a row.
+ * Airtribune simple view template to all the fields as a row.
  *
  * - $view: The view in use.
  * - $fields: an array of $field objects. Each one contains:
@@ -23,7 +23,17 @@
  *
  * @ingroup views_templates
  */
+// Hide WiFi if empty.
+if (empty($row->field_field_hotel_wifi[0]['raw']['value'])) {
+  unset($fields['field_hotel_wifi']);
+}
+else {
+  // See #2884.
+  $fields['field_hotel_wifi']->content = 'Wi-Fi';
+}
+
 ?>
+<div class="row-inner">
 <?php foreach ($fields as $id => $field): ?>
   <?php if (!empty($field->separator)): ?>
     <?php print $field->separator; ?>
@@ -38,3 +48,4 @@
   }?>
 <?php endforeach; ?>
 </div></div>
+</div>

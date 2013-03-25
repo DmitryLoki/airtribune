@@ -47,8 +47,8 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
       
       $element['full_number'] = array(
         '#type' => 'textfield',
-        '#title' => check_plain($instance['label']),
-        '#description' => check_plain($instance['description']),
+        '#title' => t(check_plain($instance['label'])),
+        '#description' => t(check_plain($instance['description'])),
         '#default_value' => '+' . $full_number,
         '#required' => $instance['required'],
         '#attributes' => array('class' => array('simple-phone-full-number')),

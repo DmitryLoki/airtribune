@@ -135,7 +135,6 @@ function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
 
       $button_keys = array_keys($form['buttons']);
       $form['buttons'][array_pop($button_keys)]['#printed'] = TRUE;
-      //dsm($form);
     }
 
     drupal_set_title(check_plain($entity->title));

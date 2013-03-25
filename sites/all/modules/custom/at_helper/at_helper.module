@@ -225,7 +225,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'user_register_form' :
       $form['#validate'][] = 'at_helper_user_reg_form_validate';
-      $form['actions']['submit']['#value'] = t('Register new user');
+      $form['actions']['submit']['#value'] = t('Register');
       $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
       // TODO: Add after_build only when performing ajax validation.
       $form['#after_build'][] = '_at_helper_user_register_extra_after_build';

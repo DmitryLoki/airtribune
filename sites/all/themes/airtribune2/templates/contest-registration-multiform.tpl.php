@@ -18,7 +18,8 @@ unset($reg_form['#theme']);
 //------------------
 
 drupal_render($og_form['actions']['cancel']);
-$form['buttons']['Join']['#value'] = t('Register to this event!');
+//$form['buttons']['Join']['#value'] = t('Register');
+$form['buttons']['og_ui_confirm_subscribe_0_actions_submit']['#value'] = t('Register');
 
 // Email
 $reg_form['account']['mail']['#title'] = t('Email');
@@ -36,6 +37,9 @@ $reg_form['profile_main']['field_full_name'][$lang][0]['given']['#title_display'
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#title_display'] = 'before';
 $reg_form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
 $reg_form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
+// Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+$reg_form['profile_main']['field_full_name'][$lang][0]['given']['#title'] = t('Name');
+$reg_form['profile_main']['field_full_name'][$lang][0]['family']['#title'] = t('Surname');
 // Print components.
 print drupal_render($reg_form['profile_main']['field_full_name'][$lang][0]['given']);
 print drupal_render($reg_form['profile_main']['field_full_name'][$lang][0]['family']);
@@ -47,6 +51,7 @@ print drupal_render($reg_form['profile_main']['field_gender']);
 
 
 $lang = $reg_form['profile_main']['field_birthdate']['#language'];
+$reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $reg_form['profile_main']['field_birthdate'][$lang][0]['#title']);
 $reg_form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'];
 $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
 print drupal_render($reg_form['profile_main']['field_birthdate']);
@@ -122,8 +127,8 @@ drupal_render($reg_form['profile_pilot']);
 
 
 
-print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
-
+//print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
+print '<div class="form-actions">' . drupal_render($form['buttons']['og_ui_confirm_subscribe_0_actions_submit']) . '</div>';
 // Render everything else.
 print drupal_render_children($form);
 ?>

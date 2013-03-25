@@ -1,0 +1,440 @@
+From 85d3bf9d8ef2e6960ceaf968b587e81dccc9fe90 Mon Sep 17 00:00:00 2001
+From: Morne Alberts <morne@malberts.net>
+Date: Sun, 10 Mar 2013 14:24:57 +0200
+Subject: [PATCH] Issue #1344672 by malberts: Preliminary entity_translation
+ support.
+
+---
+ field_collection.info                              |    1 +
+ field_collection.module                            |  215 +++++++++++++++++++-
+ field_collection.pages.inc                         |   12 +-
+ .../translation.handler.field_collection_item.inc  |   23 ++
+ 4 files changed, 238 insertions(+), 13 deletions(-)
+ create mode 100644 includes/translation.handler.field_collection_item.inc
+
+diff --git a/field_collection.info b/field_collection.info
+index 494eb27..8e2f533 100644
+--- a/field_collection.info
++++ b/field_collection.info
+@@ -4,6 +4,7 @@ core = 7.x
+ dependencies[] = entity
+ files[] = field_collection.test
+ files[] = field_collection.info.inc
++files[] = includes/translation.handler.field_collection_item.inc
+ files[] = views/field_collection_handler_relationship.inc
+ configure = admin/structure/field-collections
+ package = Fields
+diff --git a/field_collection.module b/field_collection.module
+index bf6a005..ae2da43 100644
+--- a/field_collection.module
++++ b/field_collection.module
+@@ -46,6 +46,17 @@ function field_collection_entity_info() {
+         'custom settings' => FALSE,
+        ),
+     ),
++    'translation' => array(
++      'entity_translation' => array(
++        'class' => 'EntityTranslationFieldCollectionItemHandler',
++        'base path' => 'field-collection-item/%field_collection_item',
++        'path wildcard' => '%field_collection_item',
++        'path schemes' => array(
++          // Inherit default values above.
++          // Set per-bundle values below.
++        ),
++      ),
++    ),
+     'access callback' => 'field_collection_item_access',
+     'metadata controller class' => 'FieldCollectionItemMetadataController'
+   );
+@@ -63,6 +74,13 @@ function field_collection_entity_info() {
+         'access arguments' => array('administer field collections'),
+       ),
+     );
++
++    $path = field_collection_field_get_path($field);
++
++    $return['field_collection_item']['translation']['entity_translation']['path schemes'][$field_name] = array(
++      'base path' => $path . '/%field_collection_item',
++      'path wildcard' => '%field_collection_item',
++    );
+   }
+ 
+   return $return;
+@@ -679,9 +697,124 @@ function field_collection_menu() {
+         'access arguments' => array('view', $count + 2),
+         'file' => 'field_collection.pages.inc',
+       );
++      
++      // Paths for Devel.
++      if (module_exists('devel')) {
++        $devel_path = drupal_get_path('module', 'devel');
++        $items[$path . '/%field_collection_item/devel'] = array(
++          'title' => 'Devel',
++          'page callback' => 'devel_load_object',
++          'page arguments' => array('field_collection_item', $count),
++          'access callback' => 'field_collection_item_access',
++          'access arguments' => array('view', $count),
++          'type' => MENU_LOCAL_TASK,
++          'file' => 'devel.pages.inc',
++          'file path' => $devel_path,
++          'weight' => 100,
++        );
++        $items[$path . '/%field_collection_item/devel/load'] = array(
++          'title' => 'Load',
++          'type' => MENU_DEFAULT_LOCAL_TASK,
++        );
++        $items[$path . '/%field_collection_item/devel/render'] = array(
++          'title' => 'Render',
++          'page callback' => 'devel_render_object',
++          'page arguments' => array('field_collection_item', $count),
++          'access callback' => 'field_collection_item_access',
++          'access arguments' => array('view', $count),
++          'file' => 'devel.pages.inc',
++          'file path' => $devel_path,
++          'type' => MENU_LOCAL_TASK,
++          'weight' => 100,
++        );
++      }
+     }
+   }
+ 
++  // Add default paths.
++  $path = 'field-collection-item';
++  $count = count(explode('/', $path));
++
++  $items[$path . '/%field_collection_item'] = array(
++    'page callback' => 'field_collection_item_page_view',
++    'page arguments' => array($count),
++    'access callback' => 'field_collection_item_access',
++    'access arguments' => array('view', $count),
++    'file' => 'field_collection.pages.inc',
++  );
++  $items[$path . '/%field_collection_item/view'] = array(
++    'title' => 'View',
++    'type' => MENU_DEFAULT_LOCAL_TASK,
++    'weight' => -10,
++  );
++  $items[$path . '/%field_collection_item/edit'] = array(
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('field_collection_item_form', $count),
++    'access callback' => 'field_collection_item_access',
++    'access arguments' => array('update', $count),
++    'title' => 'Edit',
++    'type' => MENU_LOCAL_TASK,
++    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
++    'file' => 'field_collection.pages.inc',
++  );
++  $items[$path . '/%field_collection_item/delete'] = array(
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('field_collection_item_delete_confirm', $count),
++    'access callback' => 'field_collection_item_access',
++    'access arguments' => array('delete', $count),
++    'title' => 'Delete',
++    'type' => MENU_LOCAL_TASK,
++    'context' => MENU_CONTEXT_INLINE,
++    'file' => 'field_collection.pages.inc',
++  );
++  // Add entity type and the entity id as additional arguments.
++  $items[$path . '/add/%/%'] = array(
++    'page callback' => 'field_collection_item_add',
++    'page arguments' => array($field['field_name'], $count + 1, $count + 2),
++    // The pace callback takes care of checking access itself.
++    'access callback' => TRUE,
++    'file' => 'field_collection.pages.inc',
++  );
++  // Add menu items for dealing with revisions.
++  $items[$path . '/%field_collection_item/revisions/%field_collection_item_revision'] = array(
++    'page callback' => 'field_collection_item_page_view',
++    'page arguments' => array($count + 2),
++    'access callback' => 'field_collection_item_access',
++    'access arguments' => array('view', $count + 2),
++    'file' => 'field_collection.pages.inc',
++  );
++
++  // Default paths for Devel.
++  if (module_exists('devel')) {
++    $devel_path = drupal_get_path('module', 'devel');
++    $items[$path . '/%field_collection_item/devel'] = array(
++      'title' => 'Devel',
++      'page callback' => 'devel_load_object',
++      'page arguments' => array('field_collection_item', $count),
++      'access callback' => 'field_collection_item_access',
++      'access arguments' => array('view', $count),
++      'type' => MENU_LOCAL_TASK,
++      'file' => 'devel.pages.inc',
++      'file path' => $devel_path,
++      'weight' => 100,
++    );
++    $items[$path . '/%field_collection_item/devel/load'] = array(
++      'title' => 'Load',
++      'type' => MENU_DEFAULT_LOCAL_TASK,
++    );
++    $items[$path . '/%field_collection_item/devel/render'] = array(
++      'title' => 'Render',
++      'page callback' => 'devel_render_object',
++      'page arguments' => array('field_collection_item', $count),
++      'access callback' => 'field_collection_item_access',
++      'access arguments' => array('view', $count),
++      'file' => 'devel.pages.inc',
++      'file path' => $devel_path,
++      'type' => MENU_LOCAL_TASK,
++      'weight' => 100,
++    );
++  }
++
+   $items['field_collection/ajax'] = array(
+     'title' => 'Remove item callback',
+     'page callback' => 'field_collection_remove_js',
+@@ -895,7 +1028,7 @@ function field_collection_field_presave($host_entity_type, $host_entity, $field,
+       if ($entity = field_collection_field_get_entity($item)) {
+ 
+         if (!empty($entity->is_new)) {
+-          $entity->setHostEntity($host_entity_type, $host_entity, LANGUAGE_NONE, FALSE);
++          $entity->setHostEntity($host_entity_type, $host_entity, $langcode, FALSE);
+         }
+ 
+         // If the host entity is saved as new revision, do the same for the item.
+@@ -1065,6 +1198,7 @@ function field_collection_field_formatter_info() {
+       'field types' => array('field_collection'),
+       'settings' =>  array(
+         'edit' => t('Edit'),
++        'translate' => t('Translate'),
+         'delete' => t('Delete'),
+         'add' => t('Add'),
+         'description' => TRUE,
+@@ -1075,6 +1209,7 @@ function field_collection_field_formatter_info() {
+       'field types' => array('field_collection'),
+       'settings' =>  array(
+         'edit' => t('Edit'),
++        'translate' => t('Translate'),
+         'delete' => t('Delete'),
+         'add' => t('Add'),
+         'description' => TRUE,
+@@ -1106,6 +1241,19 @@ function field_collection_field_formatter_settings_form($field, $instance, $view
+       '#default_value' => $settings['edit'],
+       '#description' => t('Leave the title empty, to hide the link.'),
+     );
++    $elements['translate'] = array(
++      '#type' => 'textfield',
++      '#title' => t('Edit translate title'),
++      '#default_value' => $settings['translate'],
++      '#description' => t('Leave the title empty, to hide the link.'),
++    );
++
++    // Hide the translation field if it is not applicable.
++    if (!field_collection_item_can_translate()) {
++      $elements['translate']['#type'] = 'value';
++      $elements['translate']['#value'] = $settings['translate'];
++    }
++  
+     $elements['delete'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Delete link title'),
+@@ -1156,7 +1304,13 @@ function field_collection_field_formatter_settings_summary($field, $instance, $v
+   $output = array();
+ 
+   if ($display['type'] !== 'field_collection_fields') {
+-    $links = array_filter(array_intersect_key($settings, array_flip(array('add', 'edit', 'delete'))));
++    if (field_collection_item_can_translate()) {
++      $ops = array('add', 'edit', 'translate', 'delete');
++    }
++    else {
++      $ops = array('add', 'edit', 'delete');
++    }
++    $links = array_filter(array_intersect_key($settings, array_flip($ops)));
+     if ($links) {
+       $output[] = t('Links: @links', array('@links' => check_plain(implode(', ', $links))));
+     }
+@@ -1189,7 +1343,15 @@ function field_collection_field_formatter_view($entity_type, $entity, $field, $i
+         if ($field_collection = field_collection_field_get_entity($item)) {
+           $output = l($field_collection->label(), $field_collection->path());
+           $links = array();
+-          foreach (array('edit', 'delete') as $op) {
++          
++          if (field_collection_item_can_translate()) {
++            $ops = array('edit', 'translate', 'delete');
++          }
++          else {
++            $ops = array('edit', 'delete');
++          }
++          
++          foreach ($ops as $op) {
+             if ($settings[$op] && field_collection_item_access($op == 'edit' ? 'update' : $op, $field_collection)) {
+               $title = entity_i18n_string("field:{$field['field_name']}:{$instance['bundle']}:setting_$op", $settings[$op]);
+               $links[] = l($title, $field_collection->path() . '/' . $op, array('query' => drupal_get_destination()));
+@@ -1220,7 +1382,15 @@ function field_collection_field_formatter_view($entity_type, $entity, $field, $i
+             '#theme' => 'links__field_collection_view',
+           );
+           $links['#attributes']['class'][] = 'field-collection-view-links';
+-          foreach (array('edit', 'delete') as $op) {
++          
++          if (field_collection_item_can_translate()) {
++            $ops = array('edit', 'translate', 'delete');
++          }
++          else {
++            $ops = array('edit', 'delete');
++          }
++          
++          foreach ($ops as $op) {
+             if ($settings[$op] && field_collection_item_access($op == 'edit' ? 'update' : $op, $field_collection)) {
+               $links['#links'][$op] = array(
+                 'title' => entity_i18n_string("field:{$field['field_name']}:{$instance['bundle']}:setting_$op", $settings[$op]),
+@@ -1258,7 +1428,7 @@ function field_collection_field_formatter_links(&$element, $entity_type, $entity
+   if ($settings['add'] && ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || count($items) < $field['cardinality'])) {
+     // Check whether the current is allowed to create a new item.
+     $field_collection_item = entity_create('field_collection_item', array('field_name' => $field['field_name']));
+-    $field_collection_item->setHostEntity($entity_type, $entity, LANGUAGE_NONE, FALSE);
++    $field_collection_item->setHostEntity($entity_type, $entity, $langcode, FALSE);
+ 
+     if (field_collection_item_access('create', $field_collection_item)) {
+       $path = field_collection_field_get_path($field);
+@@ -1386,6 +1556,7 @@ function field_collection_field_widget_form(&$form, &$form_state, $field, $insta
+       }
+ 
+       field_form_set_state($field_parents, $field_name, $language, $form_state, $field_state);
++      $language = entity_language('field_collection_item', $field_collection_item);
+       field_attach_form('field_collection_item', $field_collection_item, $element, $form_state, $language);
+ 
+       if (empty($element['#required'])) {
+@@ -1586,7 +1757,7 @@ function field_collection_field_get_entity(&$item, $field_name = NULL) {
+   elseif (isset($item['value'])) {
+     // By default always load the default revision, so caches get used.
+     $entity = field_collection_item_load($item['value']);
+-    if ($entity->revision_id != $item['revision_id']) {
++    if ($entity && $entity->revision_id != $item['revision_id']) {
+       // A non-default revision is a referenced, so load this one.
+       $entity = field_collection_item_revision_load($item['revision_id']);
+     }
+@@ -1646,7 +1817,19 @@ function field_collection_field_widget_embed_validate($element, &$form_state, $c
+   $language = $element['#language'];
+ 
+   $field_state = field_form_get_state($field_parents, $field_name, $language, $form_state);
+-  $field_collection_item = $field_state['entity'][$element['#delta']];
++
++  //We have to populate the field_collection_item before we can attach it to the form.
++  if (isset($field_state['entity'][$element['#delta']])) {
++    $field_collection_item = $field_state['entity'][$element['#delta']];
++  }
++  elseif ($form_state['input'][$field_state['array_parents'][0]][$field_state['array_parents'][1]][$element['#delta']]) {
++    $field_collection_item = clone $field_state['entity'][0];
++    foreach ($form_state['input'][$field_state['array_parents'][0]][$field_state['array_parents'][1]][$element['#delta']] as $key => $value) {
++      if (property_exists($field_collection_item, $key)) {
++        $field_collection_item->{$key} = $value;
++      }
++    }
++  }
+ 
+   // Attach field API validation of the embedded form.
+   field_attach_form_validate('field_collection_item', $field_collection_item, $element, $form_state);
+@@ -1739,12 +1922,16 @@ function field_collection_i18n_string_list_field_alter(&$properties, $type, $ins
+ 
+       foreach ($instance['display'] as $view_mode => $display) {
+         if ($display['type'] != 'field_collection_fields') {
+-          $display['settings'] += array('edit' => 'edit', 'delete' => 'delete', 'add' => 'add');
++          $display['settings'] += array('edit' => 'edit', 'translate' => 'translate', 'delete' => 'delete', 'add' => 'add');
+ 
+           $properties['field'][$instance['field_name']][$instance['bundle']]['setting_edit'] = array(
+             'title' => t('Edit link title'),
+             'string' => $display['settings']['edit'],
+           );
++          $properties['field'][$instance['field_name']][$instance['bundle']]['setting_translate'] = array(
++            'title' => t('Edit translate title'),
++            'string' => $display['settings']['translate'],
++          );
+           $properties['field'][$instance['field_name']][$instance['bundle']]['setting_delete'] = array(
+             'title' => t('Delete link title'),
+             'string' => $display['settings']['delete'],
+@@ -1809,7 +1996,7 @@ function field_collection_item_set_host_entity($item, $property_name, $wrapper)
+   if (!isset($wrapper->{$item->field_name})) {
+     throw new EntityMetadataWrapperException('The specified entity has no such field collection field.');
+   }
+-  $item->setHostEntity($wrapper->type(), $wrapper->value());
++  $item->setHostEntity($wrapper->type(), $wrapper->value(), entity_language($wrapper->type(), $wrapper->value()));
+ }
+ 
+ /**
+@@ -1862,3 +2049,13 @@ function field_collection_devel_generate($object, $field, $instance, $bundle) {
+ 
+   return array('value' => $field_collection->item_id);
+ }
++
++/**
++ * Determine if field collection items can be translated.
++ *
++ * @return
++ *   Boolean indicating whether field collection items can be translated.
++ */
++function field_collection_item_can_translate() {
++  return module_exists('entity_translation') && entity_translation_enabled('field_collection_item');
++}
+diff --git a/field_collection.pages.inc b/field_collection.pages.inc
+index 6e69266..ebe96aa 100644
+--- a/field_collection.pages.inc
++++ b/field_collection.pages.inc
+@@ -30,7 +30,8 @@ function field_collection_item_form($form, &$form_state, $field_collection_item)
+   // @todo: Fix core and remove the hack.
+   $form['field_name'] = array('#type' => 'value', '#value' => $field_collection_item->field_name);
+ 
+-  field_attach_form('field_collection_item', $field_collection_item, $form, $form_state);
++  $langcode = entity_language('field_collection_item', $field_collection_item);
++  field_attach_form('field_collection_item', $field_collection_item, $form, $form_state, $langcode);
+ 
+   $form['actions'] = array('#type' => 'actions', '#weight' => 50);
+   $form['actions']['submit'] = array(
+@@ -114,18 +115,21 @@ function field_collection_item_add($field_name, $entity_type, $entity_id, $revis
+ 
+   // Check field cardinality.
+   $field = field_info_field($field_name);
+-  $langcode = LANGUAGE_NONE;
++
++  if (empty($langcode)) {
++    $langcode = entity_language($entity_type, $entity);
++  }
++
+   if (!($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || !isset($entity->{$field_name}[$langcode]) || count($entity->{$field_name}[$langcode]) < $field['cardinality'])) {
+     drupal_set_message(t('Too many items.'), 'error');
+     return '';
+   }
+-
+   $field_collection_item = entity_create('field_collection_item', array('field_name' => $field_name));
+   // Do not link the field collection item with the host entity at this point,
+   // as during the form-workflow we have multiple field collection item entity
+   // instances, which we don't want link all with the host.
+   // That way the link is going to be created when the item is saved.
+-  $field_collection_item->setHostEntity($entity_type, $entity, LANGUAGE_NONE, FALSE);
++  $field_collection_item->setHostEntity($entity_type, $entity, $langcode, FALSE);
+ 
+   $title = ($field['cardinality'] == 1) ? $instance['label'] : t('Add new !instance_label', array('!instance_label' => $field_collection_item->translatedInstanceLabel()));
+   drupal_set_title($title);
+diff --git a/includes/translation.handler.field_collection_item.inc b/includes/translation.handler.field_collection_item.inc
+new file mode 100644
+index 0000000..a91f143
+--- /dev/null
++++ b/includes/translation.handler.field_collection_item.inc
+@@ -0,0 +1,23 @@
++<?php
++
++/**
++ * @file
++ * Field Collection Item translation handler for the translation module.
++ */
++
++
++/**
++ * Field Collection Item translation handler.
++ *
++ * Overrides default behaviours for Field Collection Item properties.
++ */
++class EntityTranslationFieldCollectionItemHandler extends EntityTranslationDefaultHandler {
++
++  public function __construct($entity_type, $entity_info, $entity) {
++    parent::__construct('field_collection_item', $entity_info, $entity);
++  }
++
++  public function getAccess($op) {
++    return field_collection_item_access($op, $this->entity);
++  }
++}
+-- 
+1.7.5.4
+
