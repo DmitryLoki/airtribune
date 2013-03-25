@@ -3313,7 +3313,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'link' => 0,
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
-      'override_title_text' => '<none>',
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -3357,8 +3357,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->configuration = array(
       'links' => 1,
       'no_extras' => 1,
-      'override_title' => 1,
-      'override_title_text' => '<none>',
+      'override_title' => 0,
+      'override_title_text' => '',
       'identifier' => '',
       'link' => 1,
       'leave_node_title' => 0,

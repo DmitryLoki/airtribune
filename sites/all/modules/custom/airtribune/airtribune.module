@@ -184,10 +184,15 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   $configuration = $vars['pane']->configuration;
 
+
   // Translate overriden titles.
   if (!empty($configuration['override_title']) && $configuration['override_title_text']) {
     $vars['title'] = t($configuration['override_title_text']);
   }
+  elseif ($vars['pane']->type == 'custom' && $vars['title']) {
+    $vars['title'] = t($configuration['title']);
+  }
+
 
 
   // Add 'view more' links to panes.
@@ -356,7 +361,6 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
   $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
   panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
-
 }
 
 /**
