@@ -2641,7 +2641,7 @@ p { margin:0; padding:9px 0 11px}
 .street-block, .street-block div { display: inline;}
 .street-block + .addressfield-container-inline:before,
 .addressfield-container-inline + .country:before,
-.field-name-field-address span + span:before { content:",";} 
+.field-name-field-address .field-item span + span:before { content:",";} 
 
 .page-event-info #page .pane-field-collection-item-field-gt-general { margin-bottom:16px; width:50%; float:right;}
 .page-event-info #page .pane-field-collection-item-field-gt-general p { padding:0}
