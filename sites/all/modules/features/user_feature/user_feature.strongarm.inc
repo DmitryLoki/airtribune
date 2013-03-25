@@ -315,7 +315,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_password_reset_subject';
-  $strongarm->value = 'Airtribune.com - Replacement login information for [user:name]';
+  $strongarm->value = 'Airtribune.com - Password recovery link';
   $export['user_mail_password_reset_subject'] = $strongarm;
 
   $strongarm = new stdClass();
