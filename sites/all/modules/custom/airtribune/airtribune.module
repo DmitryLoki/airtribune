@@ -298,14 +298,14 @@ function airtribune_field_widget_process($element, &$form_state, $form) {
  */
 function airtribune_get_awards_prize_categories($category = FALSE) {
   $categories = array(
-    'overall' => t('Overall'),
-    'women' => t('Women'),
-    'serial_class' => t('Serial Class'),
-    'open_class' => t('Open Class'),
-    'sport_class' => t('Sport Class'),
-    'nations' => t('Nations'),
-    'clubs' => t('Clubs'),
-    'teams' => t('Teams'),
+    'overall' => 'Overall',
+    'women' => 'Women',
+    'serial_class' => 'Serial Class',
+    'open_class' => 'Open Class',
+    'sport_class' => 'Sport Class',
+    'nations' => 'Nations',
+    'clubs' => 'Clubs',
+    'teams' => 'Teams',
   );
   return $category ? $categories[$category] : $categories;
 }
