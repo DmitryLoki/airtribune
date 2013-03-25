@@ -71,7 +71,7 @@ You may use support@airtribune.com, or simply reply to this email.');
 // define('AT_MSG_EMAIL_SUBJ_', '');
 // define('AT_MSG_EMAIL_BODY_', '');
 
-function at_messages_init() {
+function at_messages_exit() {
   at_messages_msg_changer();
 }
 
@@ -126,17 +126,28 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     return;
   }
 
-  // prevent duplicate handling form on guest registration at event (multiform submit)
-  if ($guest_registration_at_event && $form['#id'] == 'og-ui-confirm-subscribe') {
-    return;
-  }
-
-  $f = $form_state['values'];
-
   if ($guest_registration_at_event) {
-    $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
+    // some magic & dirty code
+    // at guest registration with multiform, at user-register we have all info about user, but haven't contestant_number
+    // at og-ui-confirm-subscribe we have contestant_number, but haven't
+    // so we need to combine values from two form_states
+    if ($form['#id'] == 'user-register-form') {
+      global $form_state_guest_reg_on_event;
+      $form_state_guest_reg_on_event = $form_state;
+    }
+    elseif ($form['#id'] == 'og-ui-confirm-subscribe') {
+      global $form_state_guest_reg_on_event;
+      $f = $form_state_guest_reg_on_event['values'];
+      $user = $form_state_guest_reg_on_event['user'];
+      $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
+      $contestant_number = $form_state['values']['field_contestant_number']['und'][0]['value'];
+    }
   } else {
+    // already registered user/pilot try to reg on event
+    $f = $form_state['values'];
+    $user = $form_state['user'];
     $event = node_load($f['gid']);
+    $contestant_number = $f['field_contestant_number']['und'][0]['value'];
   }
 
   $event_name = trim($event->title);
@@ -145,7 +156,6 @@ function at_messages_register_at_event_submit($form, &$form_state) {
   $organiser_profile = profile2_load_by_user($organiser);
   $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
 
-  $user = $form_state['user'];
   $profile_main = $f['profile_main'];
   $profile_pilot = $f['profile_pilot'];
 
@@ -154,11 +164,6 @@ function at_messages_register_at_event_submit($form, &$form_state) {
   $birthday = format_date(strtotime($profile_main['field_birthdate']['und'][0]['value']), 'custom', 'd/m/Y');
   $nation = country_load($profile_pilot['field_address']['und'][0]['country'])->name;
   $pilot_full_name = $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'];
-  if (!empty($f['field_contestant_number']['und'][0]['value'])) {
-    $contestant_number = $f['field_contestant_number']['und'][0]['value'];
-  } else {
-    $contestant_number = at_user_get_contestant_number($user->uid, $event->nid);
-  }
 
   $full_info = array(
     '@event_name' => $event_name,
@@ -202,19 +207,21 @@ function at_messages_register_at_event_submit($form, &$form_state) {
   );
 
   if ($guest_registration_at_event) {
-    // hide messages about successful registration at site
-    drupal_set_message();
-    // show message 'registration is almost finished, check mail'
-    drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE, $full_info));
-    // try to save mails about pilot registration
-    $mail_dir = drupal_realpath('public://') . '/mail';
-    if (!realpath($mail_dir)) {
-      drupal_mkdir($mail_dir);
+    if (!empty($contestant_number)) {
+      // hide messages about successful registration at site
+      drupal_set_message();
+      // show message 'registration is almost finished, check mail'
+      drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE, $full_info));
+      // try to save mails about pilot registration
+      $mail_dir = drupal_realpath('public://') . '/mail';
+      if (!realpath($mail_dir)) {
+        drupal_mkdir($mail_dir);
+      }
+      file_put_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
+      file_put_contents($mail_dir . '/' . $user->uid . '_to_org.mail', serialize($mail_to_org));
+      // after form sending drupal generate one-time password reset link, which will be sended to user by email
+      // when user click this link & activate account, we send
     }
-    file_put_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
-    file_put_contents($mail_dir . '/' . $user->uid . '_to_org.mail', serialize($mail_to_org));
-    // after form sending drupal generate one-time password reset link, which will be sended to user by email
-    // when user click this link & activate account, we send
   } else {
     drupal_set_message(t(AT_MSG_SITE_PILOT_REG_ON_EVENT, $full_info));
     $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));

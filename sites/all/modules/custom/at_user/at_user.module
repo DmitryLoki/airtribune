@@ -310,33 +310,38 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
           ->condition('m.etid', $user->uid)
           ->execute()
           ->fetchField();
-        // load info about event & organiser of this event
-        $event = node_load($event_nid);
-        $event_title = trim($event->title);
-        $organiser = user_load($event->uid);
-        // show welcome-message 'your registered to [event-name]' to pilot
-        drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE, array('@event_name' => $event_title)));
-        // try to load pre-saved mails about pilot registration to event
-        $mail_dir = drupal_realpath('public://') . '/mail';
-        $mail_to_pilot = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail'));
-        $mail_to_org = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_org.mail'));
-        // if mails loaded, then send them to pilot & organiser
-        if ($mail_to_pilot && $mail_to_org) {
-          $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));
-          $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language, array('context' => $mail_to_org));
-          unlink($mail_dir . '/' . $user->uid . '_to_pilot.mail');
-          unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
-        } else {
-          watchdog(WATCHDOG_ERROR, 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid));
-        }
+        // if pilot registered on some event
+        if ($event_nid) {
+          // load info about event & organiser of this event
+          $event = node_load($event_nid);
+          $event_title = trim($event->title);
+          $organiser = user_load($event->uid);
+          // show welcome-message 'your registered to [event-name]' to pilot
+          drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE, array('@event_name' => $event_title)));
+          // try to load pre-saved mails about pilot registration to event
+          $mail_dir = drupal_realpath('public://') . '/mail';
+          $mail_to_pilot = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail'));
+          $mail_to_org = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_org.mail'));
+          // if mails loaded, then send them to pilot & organiser
+          if ($mail_to_pilot && $mail_to_org) {
+            $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));
+            $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language, array('context' => $mail_to_org));
+            unlink($mail_dir . '/' . $user->uid . '_to_pilot.mail');
+            unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
+          } else {
+            watchdog(WATCHDOG_ERROR, 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid));
+          }
 //        dpm($mail_dir, 'mail_dir');
 //        dpm($event, 'event');
 //        dpm($user, 'user');
 //        dpm($organiser, 'organiser');
 //        dpm($mail_pilot, 'mail_pilot');
 //        dpm($mail_org, 'mail_org');
-        // redirect to pilot list
-        drupal_goto('event/' . $event->nid . '/pilots');
+          // redirect to pilot list
+          drupal_goto('event/' . $event->nid . '/pilots');
+        } else {
+          drupal_goto('user');
+        }
         // AIRTRIBUNE SECTION END
       }
       else {
