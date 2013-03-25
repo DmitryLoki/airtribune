@@ -991,6 +991,26 @@ function airtribune2_field__field_full_name($variables) {
 
   return $output;
 }
+
+/**
+ * Render a container for a set of address fields.
+ */
+function airtribune2_addressfield_container($variables) {
+  $element = $variables['element'];
+
+  $element['#children'] = trim($element['#children']);
+  if (strlen($element['#children']) > 0) {
+    $element['#tag'] = 'span';
+    $output = '<' . $element['#tag'] . drupal_attributes($element['#attributes']) . '> ';
+    $output .= $element['#children'];
+    $output .= '</' . $element['#tag'] . ">";
+    return str_replace('  ', ' ', $output);
+  }
+  else {
+    return '';
+  }
+}
+
 /**
  * Implements theme_field__field_full_name.
  */
@@ -1023,6 +1043,7 @@ function airtribune2_field($variables) {
       break;
     case 'field_address':
       $variables['label'] = t('Address');
+      $variables['items'][0]['locality_block']['locality']['#prefix'] = '';
     case 'field_email':
     case 'field_phone':
     case 'field_url':
