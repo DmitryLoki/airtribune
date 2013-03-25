@@ -90,6 +90,7 @@ hide($form['locale']);
 hide($form['og_user_node']);
 hide($form['xmlsitemap']);
 hide($form['metatags']);
+hide($form['mimemail']);
 
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
