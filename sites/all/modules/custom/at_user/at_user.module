@@ -223,7 +223,9 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
   // manual redirect to user/edit page, to avoid '/edit?pass-reset-token=' in URI
   // if this token exists in URI, we hide with jQuery all, except password fields
   // see form_alter / user_profile_form
-  drupal_goto('user/' . $user->uid . '/edit');
+  if (!empty($_GET['pass-reset-token'])) {
+    drupal_goto('user/' . $user->uid . '/edit');
+  }
 }
 
 function at_user_login_error_msg($form, &$form_state) {
