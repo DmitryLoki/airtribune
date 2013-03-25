@@ -4,11 +4,6 @@ $pilot_uid = arg(1);
 drupal_set_title(at_user_get_full_name($pilot_uid));
 
 global $user;
-// if user initiate procedure of password reset, then hide main div with avatar, name, and birthday
-// and show only password change form
-if (!empty($_GET['pass-reset-token'])) {
-  drupal_get_path('module', 'at_user') . '/js/pass_reset.js';
-}
 
 print "<div id='name_and_birthday'>"; // #name_and_birthday start
 

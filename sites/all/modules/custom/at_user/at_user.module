@@ -86,6 +86,12 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
 
+    // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
+    // and show only password change form
+    if (!empty($_GET['pass-reset-token'])) {
+      drupal_add_js(drupal_get_path('module', 'at_user') . '/js/pass_reset.js');
+    }
+
     // see #2817
     // send mail to user on password change
     $form['#submit'][] = 'at_user_notify_user_at_password_change';
@@ -214,6 +220,10 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
       )
     );
   }
+  // manual redirect to user/edit page, to avoid '/edit?pass-reset-token=' in URI
+  // if this token exists in URI, we hide with jQuery all, except password fields
+  // see form_alter / user_profile_form
+  drupal_goto('user/' . $user->uid . '/edit');
 }
 
 function at_user_login_error_msg($form, &$form_state) {
