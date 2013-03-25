@@ -15,12 +15,16 @@ function menu_feature_menu_default_menu_custom() {
     'menu_name' => 'account',
     'title' => 'Account',
     'description' => 'The <em>Account</em> menu contains links related to the user\'s account, as well as the \'Log out\' link.',
+    'language' => 'und',
+    'i18n_mode' => '0',
   );
   // Exported menu: footer-menu.
   $menus['footer-menu'] = array(
     'menu_name' => 'footer-menu',
     'title' => 'Footer menu',
-    'description' => NULL,
+    'description' => '',
+    'language' => 'und',
+    'i18n_mode' => '5',
   );
   // Translatables
   // Included for use with string extractors like potx.

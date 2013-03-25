@@ -18,7 +18,8 @@ unset($reg_form['#theme']);
 //------------------
 
 drupal_render($og_form['actions']['cancel']);
-$form['buttons']['Join']['#value'] = t('Register');
+//$form['buttons']['Join']['#value'] = t('Register');
+$form['buttons']['og_ui_confirm_subscribe_0_actions_submit']['#value'] = t('Register');
 
 // Email
 $reg_form['account']['mail']['#title'] = t('Email');
@@ -126,8 +127,8 @@ drupal_render($reg_form['profile_pilot']);
 
 
 
-print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
-
+//print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
+print '<div class="form-actions">' . drupal_render($form['buttons']['og_ui_confirm_subscribe_0_actions_submit']) . '</div>';
 // Render everything else.
 print drupal_render_children($form);
 ?>

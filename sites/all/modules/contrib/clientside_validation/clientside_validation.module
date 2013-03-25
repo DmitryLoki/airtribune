@@ -1039,7 +1039,7 @@ function _clientside_validation_set_specific_values($name, $title, $values, &$js
 /**
  * Set validation rule for fields that can not consist of one or more specific values
  */
-function _clientside_validation_set_blacklist($name, $title, $values, &$js_rules, $message='') {
+function _clientside_validation_set_blacklist($name, $title, $values, &$js_rules, $message='', $translated = FALSE) {
   $js_rules[$name]['blacklist'] = $values;
   $title = _clientside_validation_set_title($title);
   if (empty($message)) {
@@ -1057,6 +1057,7 @@ function _clientside_validation_set_blacklist($name, $title, $values, &$js_rules
       'element_name' => $name
     );
   }
+  $variables['translated'] = $translated;
   $message = theme('clientside_error', $variables);
   $js_rules[$name]['messages']['blacklist'] = $message;
 }
@@ -1333,7 +1334,13 @@ function clientside_validation_theme($existing, $type, $theme, $path) {
  * @return string
  */
 function theme_clientside_error($variables) {
-  return t($variables['message'], $variables['placeholders']);
+  // Avoid translating twice. I.g. required select list (see _clientside_validation_set_blacklist()).
+  if (empty($variables['translated'])) {
+    return t($variables['message'], $variables['placeholders']);
+  }
+  else {
+    return $variables['message'];
+  }
 }
 
 function clientside_validation_settings_delete($cvs_type, $cvs_formid) {

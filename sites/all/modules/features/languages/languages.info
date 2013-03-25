@@ -7,3 +7,4 @@ dependencies[] = locale
 features[features_api][] = api:1
 features[language][] = en
 features[language][] = ru
+features[language][] = sr

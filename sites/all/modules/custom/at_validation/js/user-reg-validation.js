@@ -28,7 +28,7 @@ jQuery(document).ready(function () {
 
     jQuery.validator.addMethod('birthDateFilled', function () {
         return month.val() && day.val() && year.val();
-    }, 'Date of birth field is required.');
+    }, Drupal.settings.requiredMessage);
 
     var previousCustomErrorPlacement = Drupal.clientsideValidation.prototype.customErrorPlacement;
     Drupal.clientsideValidation.prototype.customErrorPlacement = function (error, element) {
