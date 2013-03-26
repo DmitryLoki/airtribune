@@ -300,15 +300,12 @@ This link expires in one day and nothing will happen if it is not used.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_password_reset_body';
-  $strongarm->value = 'Dear [user:name]!
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
 
-A request to reset the password for your account has been made at [site:name].
-
-You may now log in by clicking this link or copying and pasting it to your browser:
-
+To reset your password, please click the link below.
 [user:one-time-login-url]/login
 
-This link can only be used once to log in and will lead you to a page where you can set your password. It expires after one day and nothing will happen if it\'s not used.
+If you do not want to reset your password, just ignore this email.
 
 Happy landings!
 Airtribune team';
@@ -318,7 +315,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_password_reset_subject';
-  $strongarm->value = 'Airtribune.com - Replacement login information for [user:name]';
+  $strongarm->value = 'Airtribune.com - Password recovery link';
   $export['user_mail_password_reset_subject'] = $strongarm;
 
   $strongarm = new stdClass();
