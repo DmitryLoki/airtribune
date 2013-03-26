@@ -84,7 +84,7 @@ function at_messages_msg_changer() {
   );
   $replace_messages = array (
     //'Some string' => 'Replaced string',
-    'New identity added.' => 'Your Facebook account has added successfully.', // hybridauth
+    'New identity added.' => 'Your Facebook account has been added successfully.', // hybridauth
     'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions have been sent to your email.', // guest register
     'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.', // guest activate account by email link
     'You have just used your one-time login link. It is no longer necessary to use this link to log in. Please change your password.' => 'You just used one-time login-in link. You may reset your password now.', // user pass reset one-time link
