@@ -107,7 +107,7 @@ function airtribune_user_links_content_type_edit_form_submit($form, &$form_state
  * Callback to provide administrative info.
  */
 function airtribune_user_links_content_type_admin_info($subtype, $conf) {
-  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user';
+  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/user_links';
   $block = new stdClass();
   $block->title = theme('image', array('path' => $plugin_path . '/images/admin-title.png'));
   $items[] = t('User login form');

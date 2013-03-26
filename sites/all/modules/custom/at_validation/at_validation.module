@@ -287,18 +287,18 @@ function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $con
  * After build for field_t_shirt_size field widget.
  */
 function _t_shirt_size_after_build($element, $form_state) {
-  if (isset($element['#options']['_none'])) {
-    $element['#options']['_none'] = t('Select your size');
-  }
+  $options = array('_none' => t('Select your size'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
   return $element;
 }
 /**
  * After build for field_blood_type field widget.
  */
 function _blood_type_after_build($element, $form_state) {
-  if (isset($element['#options']['_none'])) {
-    $element['#options']['_none'] = t('Select your type');
-  }
+  $options = array('_none' => t('Select your type'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
   return $element;
 }
 /**

@@ -71,7 +71,7 @@ You may use support@airtribune.com, or simply reply to this email.');
 // define('AT_MSG_EMAIL_SUBJ_', '');
 // define('AT_MSG_EMAIL_BODY_', '');
 
-function at_messages_exit() {
+function at_messages_init() {
   at_messages_msg_changer();
 }
 
@@ -135,6 +135,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     if ($form['#id'] == 'user-register-form') {
       global $form_state_guest_reg_on_event;
       $form_state_guest_reg_on_event = $form_state;
+      return;
     }
     elseif ($form['#id'] == 'og-ui-confirm-subscribe') {
       global $form_state_guest_reg_on_event;
@@ -152,7 +153,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
   }
 
   $event_name = trim($event->title);
-  $event_pilot_list_url = base_path() . drupal_get_path_alias('event/' . $event->nid . '/pilots');
+  $event_pilot_list_url = drupal_get_path_alias('event/' . $event->nid . '/pilots');
   $organiser = user_load($event->uid);
   $organiser_profile = profile2_load_by_user($organiser);
   $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
