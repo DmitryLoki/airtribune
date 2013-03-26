@@ -9,7 +9,7 @@
 
 // Plugin definition.
 $plugin = array(
-  'title' => t('Airtrubune user'),
+  'title' => t('Airtrubune user links'),
   'single' => TRUE,
   'category' => array('Airtribune'),
 );
@@ -17,15 +17,15 @@ $plugin = array(
 /**
  * Render airtribune user panel.
  */
-function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_args, $context) {
+function airtribune_user_links_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user, $language;
-  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user';
+  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/user_links';
 
   $content = array(
-    '#theme' => 'airtribune_user_pane',
+    '#theme' => 'airtribune_user_links',
     '#attached' => array(
-      'js' => array($plugin_path . '/script.js'),
-      'css' => array($plugin_path . '/style.css'),
+      'js' => array($plugin_path . '/user_links.js'),
+      'css' => array($plugin_path . '/user_links.css'),
     ),
   );
 
@@ -76,7 +76,6 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
 
   return (object) array(
     'module' => 'airtribune',
-    'title' => t('Airtribune user'),
     'content' => $content,
     'delta' => 1,
   );
@@ -85,7 +84,7 @@ function airtribune_airtribune_user_content_type_render($subtype, $conf, $panel_
 /**
  * Returns an edit form for content type settings.
  */
-function airtribune_airtribune_user_content_type_edit_form($form, &$form_state) {
+function airtribune_user_links_content_type_edit_form($form, &$form_state) {
   $form['menu'] = array(
     '#type' => 'select',
     '#title' => t('Menu'),
@@ -100,14 +99,14 @@ function airtribune_airtribune_user_content_type_edit_form($form, &$form_state) 
 /**
  * Submit handler for content type settings from.
  */
-function airtribune_airtribune_user_content_type_edit_form_submit($form, &$form_state) {
+function airtribune_user_links_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['menu'] = $form_state['values']['menu'];
 }
 
 /**
  * Callback to provide administrative info.
  */
-function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
+function airtribune_user_links_content_type_admin_info($subtype, $conf) {
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_user';
   $block = new stdClass();
   $block->title = theme('image', array('path' => $plugin_path . '/images/admin-title.png'));
@@ -118,23 +117,4 @@ function airtribune_airtribune_user_content_type_admin_info($subtype, $conf) {
   $items[] = t('Language selector');
   $block->content = theme('item_list', array('items' => $items));
   return $block;
-}
-
-/**
- * Process variables for airtribune-user-pane.tpl.php.
- *
- * The $vars array contains the following arguments:
- * - $element
- *
- * @see airtribune-user-pane.tpl.php
- */
-function template_preprocess_airtribune_user_pane(&$vars) {
-  foreach (element_children($vars['elements']) as $key) {
-    $vars[$key] = render($vars['elements'][$key]);
-  }
-  if ($vars['logged_in']) {
-    $vars['user_name'] = airtrubune_format_username($vars['user']);
-    $vars['user_profile_link'] = url('user/' . $vars['user']->uid);
-    $vars['user_picture'] = theme('user_picture', array('account' => $vars['user']));
-  }
 }
