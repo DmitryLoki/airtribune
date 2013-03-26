@@ -353,14 +353,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_accommodation';
-  $path_breadcrumb->name = 'Paragliding contest Current Accommodation';
-  $path_breadcrumb->path = 'event/%node/map/%accommodnode';
+  $path_breadcrumb->name = 'Paragliding contest Current Accommodation Entry';
+  $path_breadcrumb->path = 'event/%node/map/accommodation/%accommodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Accommodation',
       4 => '%accommodnode:title',
     ),
     'paths' => array(
@@ -368,7 +368,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'events/current',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%accommodnode:nid',
+      4 => 'event/%node:nid/map/accommodation/%accommodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -428,22 +428,22 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_activity';
-  $path_breadcrumb->name = 'Paragliding contest Current Activity';
-  $path_breadcrumb->path = 'event/%node/map/%activitynode';
+  $path_breadcrumb->name = 'Paragliding contest Current Activities Entry';
+  $path_breadcrumb->path = 'event/%node/map/activities/%activitynode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Activities',
       4 => '%activitynode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/current',
       2 => 'event/%node:nid',
-      3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%activitynode:nid',
+      3 => 'event/%node:nid/map/activities',
+      4 => 'event/%node:nid/map/activities/%activitynode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -737,14 +737,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_map';
-  $path_breadcrumb->name = 'Paragliding contest Current Map';
+  $path_breadcrumb->name = 'Paragliding contest Current Accommodation';
   $path_breadcrumb->path = 'event/%node/map';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Current',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Accommodation',
     ),
     'paths' => array(
       0 => 'events',
@@ -1077,14 +1077,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_accommodation';
-  $path_breadcrumb->name = 'Paragliding contest Next Accommodation';
-  $path_breadcrumb->path = 'event/%node/map/%accommodnode';
+  $path_breadcrumb->name = 'Paragliding contest Next Accommodation Entry';
+  $path_breadcrumb->path = 'event/%node/map/accommodation/%accommodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Accommodation',
       4 => '%accommodnode:title',
     ),
     'paths' => array(
@@ -1092,7 +1092,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'events/next',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%accommodnode:nid',
+      4 => 'event/%node:nid/map/accommodation/%accommodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1152,22 +1152,22 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_activity';
-  $path_breadcrumb->name = 'Paragliding contest Next Activity';
-  $path_breadcrumb->path = 'event/%node/map/%activitynode';
+  $path_breadcrumb->name = 'Paragliding contest Next Activities Entry';
+  $path_breadcrumb->path = 'event/%node/map/activities/%activitynode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Activities',
       4 => '%activitynode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
       2 => 'event/%node:nid',
-      3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%activitynode:nid',
+      3 => 'event/%node:nid/map/activities',
+      4 => 'event/%node:nid/map/activities/%activitynode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1461,14 +1461,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_map';
-  $path_breadcrumb->name = 'Paragliding contest Next Map';
+  $path_breadcrumb->name = 'Paragliding contest Next Accommodation';
   $path_breadcrumb->path = 'event/%node/map';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Accommodation',
     ),
     'paths' => array(
       0 => 'events',
@@ -1801,14 +1801,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_accommodation';
-  $path_breadcrumb->name = 'Paragliding contest Past Accommodation';
-  $path_breadcrumb->path = 'event/%node/map/%accommodnode';
+  $path_breadcrumb->name = 'Paragliding contest Past Accommodation Entry';
+  $path_breadcrumb->path = 'event/%node/map/accommodation/%accommodnode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Accommodation',
       4 => '%accommodnode:title',
     ),
     'paths' => array(
@@ -1816,7 +1816,7 @@ function seo_path_breadcrumbs_settings_info() {
       1 => 'events/past',
       2 => 'event/%node:nid',
       3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%accommodnode:nid',
+      4 => 'event/%node:nid/map/accommodation/%accommodnode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -1876,22 +1876,22 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_activity';
-  $path_breadcrumb->name = 'Paragliding contest Past Activity';
-  $path_breadcrumb->path = 'event/%node/map/%activitynode';
+  $path_breadcrumb->name = 'Paragliding contest Past Activities Entry';
+  $path_breadcrumb->path = 'event/%node/map/activities/%activitynode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Activities',
       4 => '%activitynode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/past',
       2 => 'event/%node:nid',
-      3 => 'event/%node:nid/map',
-      4 => 'event/%node:nid/map/%activitynode:nid',
+      3 => 'event/%node:nid/map/activities',
+      4 => 'event/%node:nid/map/activities/%activitynode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -2185,14 +2185,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_map';
-  $path_breadcrumb->name = 'Paragliding contest Past Map';
+  $path_breadcrumb->name = 'Paragliding contest Past Accommodation';
   $path_breadcrumb->path = 'event/%node/map';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Past',
       2 => '%node:title',
-      3 => 'Event map',
+      3 => 'Accommodation',
     ),
     'paths' => array(
       0 => 'events',
