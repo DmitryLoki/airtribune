@@ -35,7 +35,7 @@
       </div>
       <div class="es-label">
         <?php print l(t('Accommodation', array(), array('context' => 'event-statistics')), $map_url, array('fragment' => 'event-accommodations')); ?><br/>
-        <span><?php print t('places'); ?></span>
+        <span><?php print t('places', array(), array('context' => 'event-statistics-accommodation')); ?></span>
       </div>
     </div>
     <div class="es-activities">
@@ -44,7 +44,7 @@
       </div>
       <div class="es-label">
         <?php print l(t('Activities', array(), array('context' => 'event-statistics')), $map_url, array('fragment' => 'event-activities')); ?><br/>
-        <span><?php print t('places'); ?></span>
+        <span><?php print t('places', array(), array('context' => 'event-statistics-activities')); ?></span>
       </div>
     </div>
     <div class="more-link">
