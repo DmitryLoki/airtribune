@@ -3048,8 +3048,9 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 }
 
 .page-user .pane-page-content form .reg_choice { text-align: center;}
-.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 56px; line-height: 20px; padding-top: 12px; overflow: hidden; vertical-align: top;}
-.page-user .pane-page-content form .reg_choice a.form_show { padding-top: 2px; height: 66px;}
+.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 66px; line-height: 20px; padding-bottom: 2px; overflow: hidden; vertical-align: top; cursor: pointer;}
+.page-user .pane-page-content form .reg_choice a span { display: inline-block; vertical-align: middle;}
+.page-user .pane-page-content form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
 #event_register { display: none;}
 
 .page-user .pane-page-content form .form-actions input.disabled, .page-user .pane-page-content form .form-actions input.disabled:hover, .page-user .pane-page-content form .form-actions input.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;

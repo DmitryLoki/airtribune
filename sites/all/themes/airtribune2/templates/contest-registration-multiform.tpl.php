@@ -1,6 +1,6 @@
 <div class="reg_choice">
-	<?php print l(t('I have an Airtribune account.'), 'user/login', array('query' => array('destination' => $_GET['q'])));?>
-	<a href="#" class="form_show"><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></a>
+	<?php print l('<span>'.t('I have an Airtribune account.').'</span><span class="valign"></span>', 'user/login', array('html' => true, 'query' => array('destination' => $_GET['q'])));?>
+	<a href="#" class="form_show"><span><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></span><span class="valign"></span></a>
 </div>
 <div id="event_register">
 <?php
