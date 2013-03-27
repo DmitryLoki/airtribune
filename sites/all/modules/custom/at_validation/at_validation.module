@@ -30,6 +30,9 @@ function at_validation_ajax() {
     // Maybe this should be moved to multiform
     module_load_include('inc', 'multiform', 'multiform.ajax');
     // We need to set this flag for at_validation_ajax_defaults().
+    // TODO: Instead we can define multiform according to $form_state (a flag should be added).
+    // Validation plugins would pass it into at_validation_ajax_defaults().
+    // Revert change ("if") in multiform ajax.
     is_multiform_page(TRUE);
     
     // TODO: Get _multiform_index
