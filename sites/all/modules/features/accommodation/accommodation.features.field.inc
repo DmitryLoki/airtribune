@@ -137,7 +137,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -218,7 +218,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'invisimail',
           'settings' => array(
             'encoder' => 'html_entities',
@@ -565,11 +565,11 @@ function accommodation_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -609,7 +609,7 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'cck_phone',
           'settings' => array(),
           'type' => 'global_phone_number',
