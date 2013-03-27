@@ -86,8 +86,15 @@ function _at_validation_ajax($form, $form_state) {
       // Current triggering_element cardinality (this is only for fields).
       // Not every widget has cardinality. I.e. options_select
       if (isset($element['#cardinality'])) {
-        $cardinality = $array_parents[$k+1];
-        $element = $element[$cardinality];
+        $current = $element;
+        // Data could be deeper in the array (e.g. [0][value]).
+        for ($i = $k+1; $i <= count($array_parents); $i++) {
+          $current = $current[$array_parents[$i]];
+          if (!empty($current['#field_name'])) {
+            $element = $current;
+            break;
+          }
+        }
       }
       $field_name = $element['#field_name'];
       $entity_type = $element['#entity_type'];

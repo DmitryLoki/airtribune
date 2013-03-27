@@ -101,8 +101,11 @@ function multiform_multiform_ajax_alter(&$element, $key, $form_state) {
         $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url'] = str_replace('/system/ajax', '/multiform/ajax', $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['url']);
         // Add multiform_index in order to define triggering element's subform when triggered.
         if (isset($setting['data']['ajax'][$element['#id']]['submit']) && is_array($setting['data']['ajax'][$element['#id']]['submit'])) {
-          $multiform_index = $form_state['multiform_index'];
-          $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['submit']['_multiform_index'] = $multiform_index;
+          // TODO: $form_state['multiform_index'] should be always set. But sometimes it is not present (see at_validation_ajax() for multiform).
+          if (isset($form_state['multiform_index'])) {
+            $multiform_index = $form_state['multiform_index'];
+            $element['#attached']['js'][$key]['data']['ajax'][$element['#id']]['submit']['_multiform_index'] = $multiform_index;
+          }
         }
       }  
 }
