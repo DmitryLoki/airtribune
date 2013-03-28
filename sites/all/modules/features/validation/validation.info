@@ -15,6 +15,7 @@ features[field_validation_rule][] = insurance_alphanumeric
 features[field_validation_rule][] = latin
 features[field_validation_rule][] = name
 features[field_validation_rule][] = og_paraglider_color
+features[field_validation_rule][] = og_paraglider_manufacturer
 features[field_validation_rule][] = og_paraglider_model
 features[field_validation_rule][] = paraglider_color_latin
 features[field_validation_rule][] = person_phone_digits

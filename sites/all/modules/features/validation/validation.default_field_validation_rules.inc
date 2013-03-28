@@ -151,7 +151,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-.,)(/\\\\& ]*$',
+    'data' => '^[a-zA-Z0-9\\-\\.,)(/\\\\\\\\&\' ]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
@@ -217,6 +217,32 @@ function validation_default_field_validation_rule() {
   );
   $rule->error_message = 'This field may contain only English letters.';
   $export['og_paraglider_color'] = $rule;
+
+  $rule = new stdClass();
+  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
+  $rule->api_version = 2;
+  $rule->rulename = 'og_paraglider_manufacturer';
+  $rule->name = 'og_paraglider_manufacturer';
+  $rule->field_name = 'field_paraglider_manufacturer';
+  $rule->col = 'value';
+  $rule->entity_type = 'og_membership';
+  $rule->bundle = 'pg_contestant';
+  $rule->validator = 'field_validation_regex_validator';
+  $rule->settings = array(
+    'data' => '^[a-zA-Z0-9\\-\\.,)(/\\\\\\\\&\' ]*$',
+    'bypass' => 0,
+    'roles' => array(
+      2 => 0,
+      3 => 0,
+      6 => 0,
+      5 => 0,
+      4 => 0,
+      7 => 0,
+    ),
+    'errors' => 0,
+  );
+  $rule->error_message = 'This field may contain only English letters.';
+  $export['og_paraglider_manufacturer'] = $rule;
 
   $rule = new stdClass();
   $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
