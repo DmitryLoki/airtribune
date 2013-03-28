@@ -2638,7 +2638,7 @@ p { margin:0; padding:9px 0 11px}
 .page-event-info .pane-node-field-collection-getting-there .field-item .links { width:50%; float:left;}*/
 .addressfield-container-inline { display:inline;}
 .field .addressfield-container-inline:after { display:none}
-.street-block, .street-block div { display: inline;}
+.field-name-field-address .field-item .street-block, .field-name-field-address .field-item .street-block div { display: inline;}
 .street-block + .addressfield-container-inline:before,
 .addressfield-container-inline + .country:before,
 .field-name-field-address .field-item span + span:before { content:",";} 
@@ -3048,8 +3048,9 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 }
 
 .page-user .pane-page-content form .reg_choice { text-align: center;}
-.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 56px; line-height: 20px; padding-top: 12px; overflow: hidden; vertical-align: top;}
-.page-user .pane-page-content form .reg_choice a.form_show { padding-top: 2px; height: 66px;}
+.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 66px; line-height: 20px; padding-bottom: 2px; overflow: hidden; vertical-align: top; cursor: pointer;}
+.page-user .pane-page-content form .reg_choice a span { display: inline-block; vertical-align: middle;}
+.page-user .pane-page-content form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
 #event_register { display: none;}
 
 .page-user .pane-page-content form .form-actions input.disabled, .page-user .pane-page-content form .form-actions input.disabled:hover, .page-user .pane-page-content form .form-actions input.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
@@ -3123,7 +3124,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 
 .page-user .pane-page-content form .field-type-phone-number .field-prefix { position: absolute; margin: 4px 0 0 6px;}
 
-form .street-block { clear: both; padding-top: 1px;}
+form .street-block { clear: both; padding-top: 1px; display: block;}
 .page-user .pane-page-content form  .street-block .form-item:first-child { margin-top: 15px;}
 
 /* User account form */
