@@ -32,6 +32,14 @@ else {
   $fields['field_hotel_wifi']->content = 'Wi-Fi';
 }
 
+// Mark headquater hotel.
+if ($fields['nid_1']) {
+  // $fields['field_geofield_distance']->wrapper_prefix = '<div class="hq-hotel">';
+  // $fields['field_geofield_distance']->wrapper_suffix = '</div>';
+  $fields['field_geofield_distance']->content = t('Headquarter');
+  unset($fields['nid_1']);
+}
+
 ?>
 <div class="row-inner">
 <?php foreach ($fields as $id => $field): ?>
