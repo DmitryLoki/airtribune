@@ -91,32 +91,6 @@ function validation_default_field_validation_rule() {
   $rule = new stdClass();
   $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
   $rule->api_version = 2;
-  $rule->rulename = 'Alphanumeric';
-  $rule->name = 'alphanumeric_sponsors';
-  $rule->field_name = 'field_sponsors';
-  $rule->col = 'value';
-  $rule->entity_type = 'profile2';
-  $rule->bundle = 'pilot';
-  $rule->validator = 'field_validation_regex_validator';
-  $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-,.]*$',
-    'bypass' => 0,
-    'roles' => array(
-      2 => 0,
-      3 => 0,
-      6 => 0,
-      5 => 0,
-      4 => 0,
-      7 => 0,
-    ),
-    'errors' => 0,
-  );
-  $rule->error_message = 'This field may contain only English letters.';
-  $export['alphanumeric_sponsors'] = $rule;
-
-  $rule = new stdClass();
-  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
-  $rule->api_version = 2;
   $rule->rulename = 'City Latin';
   $rule->name = 'city_latin';
   $rule->field_name = 'field_address';
