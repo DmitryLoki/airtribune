@@ -30,6 +30,9 @@ function at_validation_ajax() {
     // Maybe this should be moved to multiform
     module_load_include('inc', 'multiform', 'multiform.ajax');
     // We need to set this flag for at_validation_ajax_defaults().
+    // TODO: Instead we can define multiform according to $form_state (a flag should be added).
+    // Validation plugins would pass it into at_validation_ajax_defaults().
+    // Revert change ("if") in multiform ajax.
     is_multiform_page(TRUE);
     
     // TODO: Get _multiform_index
@@ -86,8 +89,15 @@ function _at_validation_ajax($form, $form_state) {
       // Current triggering_element cardinality (this is only for fields).
       // Not every widget has cardinality. I.e. options_select
       if (isset($element['#cardinality'])) {
-        $cardinality = $array_parents[$k+1];
-        $element = $element[$cardinality];
+        $current = $element;
+        // Data could be deeper in the array (e.g. [0][value]).
+        for ($i = $k+1; $i <= count($array_parents); $i++) {
+          $current = $current[$array_parents[$i]];
+          if (!empty($current['#field_name'])) {
+            $element = $current;
+            break;
+          }
+        }
       }
       $field_name = $element['#field_name'];
       $entity_type = $element['#entity_type'];

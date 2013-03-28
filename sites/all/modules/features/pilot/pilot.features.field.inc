@@ -100,6 +100,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_blood_type',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -110,6 +113,7 @@ function pilot_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
+          'unknown' => 'I don\'t know',
           '1-' => 'O(I)-',
           '1+' => 'O(I)+',
           '2-' => 'A(II)−',
@@ -141,6 +145,7 @@ function pilot_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
+      'exclude_cv' => 0,
       'field_name' => 'field_blood_type',
       'label' => 'Blood type',
       'required' => 1,
