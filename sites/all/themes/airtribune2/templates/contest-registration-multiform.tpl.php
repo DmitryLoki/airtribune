@@ -1,6 +1,6 @@
 <div class="reg_choice">
-	<?php print l(t('I have an Airtribune account.'), 'user/login', array('query' => array('destination' => $_GET['q'])));?>
-	<a href="#" class="form_show"><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></a>
+	<?php print l('<span>'.t('I have an Airtribune account.').'</span><span class="valign"></span>', 'user/login', array('html' => true, 'query' => array('destination' => $_GET['q'])));?>
+	<a href="#" class="form_show"><span><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></span><span class="valign"></span></a>
 </div>
 <div id="event_register">
 <?php
@@ -18,7 +18,8 @@ unset($reg_form['#theme']);
 //------------------
 
 drupal_render($og_form['actions']['cancel']);
-$form['buttons']['Join']['#value'] = t('Register');
+//$form['buttons']['Join']['#value'] = t('Register');
+$form['buttons']['og_ui_confirm_subscribe_0_actions_submit']['#value'] = t('Register');
 
 // Email
 $reg_form['account']['mail']['#title'] = t('Email');
@@ -126,8 +127,8 @@ drupal_render($reg_form['profile_pilot']);
 
 
 
-print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
-
+//print '<div class="form-actions">' . drupal_render($form['buttons']['Join']) . '</div>';
+print '<div class="form-actions">' . drupal_render($form['buttons']['og_ui_confirm_subscribe_0_actions_submit']) . '</div>';
 // Render everything else.
 print drupal_render_children($form);
 ?>

@@ -107,9 +107,13 @@ function airtribune_event_statistics_content_type_edit_form($form, &$form_state)
  * @see airtribune-event-statistics-pane.tpl.php
  */
 function template_preprocess_airtribune_event_statistics_pane(&$vars) {
-  $vars['pilots_url'] = 'event/' . $vars['elements']['#event_id'] . '/pilots';
-  $vars['map_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
   foreach (element_children($vars['elements']) as $key) {
     $vars[$key] = render($vars['elements'][$key]);
   }
+
+  $vars['pilots_url'] = 'event/' . $vars['elements']['#event_id'] . '/pilots';
+  $vars['map_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
+  $vars['pilots_confirmed_link'] = l(ltrim(format_plural($vars['pilots_confirmed'], 'Pilot', '@count Pilots'), $vars['pilots_confirmed']), $vars['pilots_url']);
+  $vars['pilots_waiting_link'] = l(ltrim(format_plural($vars['pilots_waiting'], 'Pilot', '@count Pilots'), $vars['pilots_waiting']), $vars['pilots_url']);
+
 }

@@ -991,6 +991,26 @@ function airtribune2_field__field_full_name($variables) {
 
   return $output;
 }
+
+/**
+ * Render a container for a set of address fields.
+ */
+function airtribune2_addressfield_container($variables) {
+  $element = $variables['element'];
+
+  $element['#children'] = trim($element['#children']);
+  if (strlen($element['#children']) > 0) {
+    $element['#tag'] = 'span';
+    $output = '<' . $element['#tag'] . drupal_attributes($element['#attributes']) . '> ';
+    $output .= $element['#children'];
+    $output .= '</' . $element['#tag'] . ">";
+    return str_replace('  ', ' ', $output);
+  }
+  else {
+    return '';
+  }
+}
+
 /**
  * Implements theme_field__field_full_name.
  */
@@ -1023,6 +1043,7 @@ function airtribune2_field($variables) {
       break;
     case 'field_address':
       $variables['label'] = t('Address');
+      $variables['items'][0]['locality_block']['locality']['#prefix'] = '';
     case 'field_email':
     case 'field_phone':
     case 'field_url':
@@ -1324,4 +1345,28 @@ function airtribune2_jcarousel_formatter_element_alter(&$element) {
   $element['#attached']['js'][] = drupal_get_path('theme', 'airtribune2') . '/js/jcarousel-circular.js';
   $element[0]['#options']['wrap'] = 'circular';
   $element[0]['#options']['start'] = 2;
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ *
+ * @see #2851
+ */
+function airtribune2_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if (isset($data['tabs'][1]['output'])) {
+    // Hide tabs on map nodes.
+    if ($root_path == 'event/%/map/%') {
+      unset($data['tabs'][1]);
+    }
+    // Add unique CSS ID to each tab.
+    else {
+      $tabs = array('accommodations', 'activities', 'basic');
+      foreach ($data['tabs'][1]['output'] as $index => $tab) {
+        $id = arg(3, $tab['#link']['path']);
+        if (in_array($id, $tabs)) {
+          $data['tabs'][1]['output'][$index]['#link']['localized_options']['attributes']['id'] = $id . '-tab';
+        }
+      }
+    }
+  }
 }

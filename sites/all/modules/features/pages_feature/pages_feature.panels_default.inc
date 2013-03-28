@@ -257,13 +257,13 @@ e-mail: info@airtribune.com</p>',
     $pane = new stdClass();
     $pane->pid = 'new-8';
     $pane->panel = 'one_main';
-    $pane->type = 'airtribune_user';
-    $pane->subtype = 'airtribune_user';
+    $pane->type = 'user_links';
+    $pane->subtype = 'user_links';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'menu' => 'account',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
