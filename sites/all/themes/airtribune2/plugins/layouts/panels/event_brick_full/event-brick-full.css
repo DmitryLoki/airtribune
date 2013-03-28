@@ -1,0 +1,44 @@
+/* 
+    Document   : event-brick-full
+    Created on : 18.03.2013, 17:03:30
+    Author     : gease
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+/* CSS file for the 30 70 stacked layout */
+@import url('../../../../css/base-grid.css');
+
+.panel-col-thirty {
+  width: 30%;
+}
+.panel-col-seventy {
+  width: 70%;
+}
+
+.panel-header, .panel-top, .panel-footer {
+  width: 100%;
+}
+
+/* Margins taken from the Panels module plugins */
+.lastUnit .inside {
+  margin: 0 0 1em .5em;
+}
+.firstUnit .inside {
+  margin: 0 .5em 1em 0;
+}
+.unit .inside {
+  margin: 0 .5em 1em .5em;
+}
+
+.panel-pane .two-brick > .panel-row > .region-two-big-brick-left-below, .panel-row .region-two-big-brick-left-below { width:460px; float:left}
+.panel-pane .two-brick > .panel-row > .region-two-small-brick-right-below, .panel-row .region-two-small-brick-right-below  { width:220px; float:right}
+
+.panel_info .region-two-brick-left-above .region-inner,
+.panel_info .region-two-brick-left-below .region-inner { margin-right:10px}
+.panel_info .region-two-brick-right-above .region-inner,
+.panel_info .region-two-brick-right-below .region-inner { margin-left:10px;}
+
+.panel-pane .at-panel .pane-inner { margin:0}
+#mini-panel-footer_four_blocks .pane-inner { margin-right: 10px; margin-left: 10px;}
