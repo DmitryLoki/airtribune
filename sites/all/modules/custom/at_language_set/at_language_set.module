@@ -24,7 +24,6 @@ function at_language_set_language_negotiation_info() {
 function at_language_set_language_url_default($languages) {
   global $language;
   global $_COOKIE;
-  drupal_set_message("url default");
   $language_url = FALSE;
 
   list($language, $_GET['q']) = language_url_split_prefix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
@@ -37,7 +36,6 @@ function at_language_set_language_url_default($languages) {
 
   setcookie("language", $prefix, time() + 3600, '/');
   if (isset($_COOKIE['language'])) {
-    drupal_set_message("From default URL:" . $language_url);
     return $prefix;
   }
   else {
