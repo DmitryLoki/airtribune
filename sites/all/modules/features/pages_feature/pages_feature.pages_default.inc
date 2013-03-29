@@ -3630,10 +3630,17 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-49';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
-    $pane->subtype = 'events_map-events_pane';
+    $pane->subtype = 'event_map-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_entity_id:node_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
