@@ -7,7 +7,7 @@
             ajaxValidationAfterSubmit = form.data('ajax-validation-after-submit-clicked'),
             formValidator = form.validate();
         form.find('input.form-submit').unbind('click.disable-events-while-ajax');
-        if(ajaxValidationAfterSubmit) {
+        if (ajaxValidationAfterSubmit) {
             form.data('ajax-validation-after-submit-clicked', false);
         }
         formValidator.errorsFor(that[0]).remove();
@@ -25,7 +25,7 @@
             }
             Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod] = true;
 
-            if(ajaxValidationAfterSubmit) {
+            if (ajaxValidationAfterSubmit) {
                 $(document.body).scrollTo(that);
             }
 
@@ -107,7 +107,9 @@
                 checkAllElementsValid(formValidator);
             }, formValidator);
 
-            if ($('#edit-pass-pass1').length > 0) {
+            if ($('#edit-pass-pass1').length > 0
+                && formValidator.settings.rules["pass[pass1]"]
+                && formValidator.settings.rules["pass[pass1]"].required) {
                 var passField = $('#edit-pass-pass1'),
                     passMatchField = $('#edit-pass-pass2'),
                     passCheckFunction = Drupal.behaviors.password.passCheck;
@@ -195,11 +197,11 @@
             });
             var currentBindings = f.data('events')[event];
             currentBindings.unshift(currentBindings.pop());
-            if(f[0].tagName != 'SELECT') {
-                f.bind('focusout', function() {
+            if (f[0].tagName != 'SELECT') {
+                f.bind('focusout', function () {
                     var form = f.closest('form'),
                         submitButton = form.find('input.form-submit');
-                    submitButton.bind('click.disable-events-while-ajax', function(event) {
+                    submitButton.bind('click.disable-events-while-ajax', function (event) {
                         form.data('ajax-validation-after-submit-clicked', true);
                         event.stopPropagation();
                         event.preventDefault();
