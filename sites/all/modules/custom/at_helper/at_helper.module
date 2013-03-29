@@ -358,6 +358,11 @@ function _at_helper_addressfield_pre_render($element) {
 function at_helper_user_reg_form_validate($form, &$form_state) {
   global $user;
   
+  // Do nothing for authorized user.
+  if ($user->uid) {
+    return;
+  }
+  
   $profile_type = 'profile_' . MAIN_PROFILE_TYPE;
   if (empty($form_state['values'][$profile_type])) {
     return;
@@ -394,14 +399,6 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
     //if ($name_exists && $birthdate_exists) {
     
     if ($name_exists) {
-      // Check if data belongs to current user.
-      if ($user->uid) {
-        $result = $orig_query->execute();
-        $profile = profile2_load_by_user($user, MAIN_PROFILE_TYPE);
-        if (isset($profile->pid) && ($profile->pid == array_shift(array_keys($result['profile2'])))) {
-          return;
-        }
-      }
       $element = isset($form[$profile_type]) ? $form[$profile_type]['field_full_name'] : $form;
       //form_error($form[$profile_type]['field_full_name'], 'These name, surname and date of birth already exist. ' . l('Forgot your password?', 'user/password'));
       form_error($element, 'This name, surname and date of birth combination already exist. ' . l('Forgot your password?', 'user/password'));
