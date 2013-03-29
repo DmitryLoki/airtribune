@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Installation file for the Coder module.
+ */
+
+/**
+ * Implements hook_language_negotiation_info().
+ */
+function at_language_set_language_negotiation_info() {
+  return array(
+    'locale-cookie' => array(
+      'callbacks' => array(
+        'language' => 'at_language_set_language_url_default',
+      ),
+      'file' => drupal_get_path('module', 'at_language_set') . '/at_language_set.module',
+      'name' => t('Cookie Detection'),
+      'description' => t('Determine default language from URL without prefix and write cookie.'),
+    ),
+  );
+}
+
+function at_language_set_language_url_default($languages) {
+  global $language;
+  global $_COOKIE;
+  drupal_set_message("url default");
+  $language_url = FALSE;
+
+  list($language, $_GET['q']) = language_url_split_prefix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
+  if ($language !== FALSE) {
+    $prefix = $language->language;
+  } else {
+    $prefix = "en";
+  }
+
+  setcookie ("language", $prefix, time()+3600, '/');
+  if (isset($_COOKIE['language'])) {
+    drupal_set_message("From default URL:" . $language_url);
+    return $prefix;    
+  } else {
+    return $prefix == "en" ? FALSE : $prefix;    
+  }
+}

@@ -1,0 +1,5 @@
+name = Airtribune language detector
+description = Provides language detection functionality for Airtribune.
+package = Airtribune
+core = 7.x
+dependencies[] = locale
