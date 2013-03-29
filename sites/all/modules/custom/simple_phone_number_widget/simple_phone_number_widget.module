@@ -36,6 +36,7 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
 
   switch ($widget['type']) {
     case 'simple_phone_number_widget':
+      drupal_add_js(drupal_get_path('module', 'simple_phone_number_widget') . '/jquery.maskedinput.min.js');
       drupal_add_js(drupal_get_path('module', 'simple_phone_number_widget') . '/simple_phone_number_widget.js');
       $number = (isset($items[$delta])) ? $items[$delta]['number'] : FALSE;
       $countrycode = (isset($items[$delta])) ? $items[$delta]['country_codes'] : FALSE;
