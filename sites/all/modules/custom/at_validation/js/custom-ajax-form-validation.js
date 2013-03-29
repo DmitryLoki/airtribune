@@ -107,9 +107,7 @@
                 checkAllElementsValid(formValidator);
             }, formValidator);
 
-            if ($('#edit-pass-pass1').length > 0
-                && formValidator.settings.rules["pass[pass1]"]
-                && formValidator.settings.rules["pass[pass1]"].required) {
+            if ($('#edit-pass-pass1').length > 0 && $('#edit-pass-pass1').rules().required) {
                 var passField = $('#edit-pass-pass1'),
                     passMatchField = $('#edit-pass-pass2'),
                     passCheckFunction = Drupal.behaviors.password.passCheck;
@@ -210,7 +208,6 @@
 
                     var clickHandlers = submitButton.data('events').click;
                     clickHandlers.unshift(clickHandlers.pop());
-                    console.log(clickHandlers);
                 });
             }
 
@@ -274,17 +271,19 @@
 
     Drupal.ajax.prototype.success = function () {
         ajaxSuccess.apply(this, arguments);
-        var form = $(activeField).parents('form'),
+        var form = $(this.form),
             formValidator = form.validate();
         if (formValidator) {
             form.data('validate-elements', []);
+            form.data('all-elements-valid', false);
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
+            checkAllElementsValid(formValidator);
         }
         $(this.element).attr('readonly', false).css('backgroundColor', '');
     };
 
     Drupal.ajax.prototype.beforeSerialize = function (element, options) {
-        if (options.url.indexOf('/at-validation/ajax') > -1) {
+        if (element.data('validator')) {
             var formValidator = element.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
             var validationResult = formValidator.element(activeField);
