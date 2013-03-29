@@ -94,14 +94,14 @@ function _at_validation_ajax($form, $form_state) {
         for ($i = $k+1; $i <= count($array_parents); $i++) {
           $current = $current[$array_parents[$i]];
           if (!empty($current['#field_name'])) {
-            $element = $current;
             break;
           }
         }
       }
-      $field_name = $element['#field_name'];
-      $entity_type = $element['#entity_type'];
-      $bundle = $element['#bundle'];
+      $field_name = $current['#field_name'];
+      $entity_type = $current['#entity_type'];
+      $bundle = $current['#bundle'];
+      
       $field_info = field_info_field($field_name);
       $instance_info = field_info_instance($entity_type, $field_name, $bundle);
       
