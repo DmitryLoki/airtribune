@@ -519,8 +519,8 @@ function at_validation_js_alter(&$javascript) {
           $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = t('This field may contain only English letters.');
           
           // Address components regex
-          $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-          $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+          $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[\x20-\x7F]+$';
+          $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[\x20-\x7F]+$';
           $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
           // CIVL ID
           $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
@@ -562,8 +562,8 @@ function at_validation_js_alter(&$javascript) {
               $rules['profile_pilot[field_address][und][0][thoroughfare]']['messages']['regexMatch'] = 'This field may contain only English letters.';
               $rules['profile_pilot[field_address][und][0][premise]']['messages']['regexMatch'] = 'This field may contain only English letters.';
               // Address components regex
-              $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-              $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+              $rules['profile_pilot[field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[\x20-\x7F]+$';
+              $rules['profile_pilot[field_address][und][0][premise]']['regexMatch'][0] = '^[\x20-\x7F]+$';
               $rules['profile_pilot[field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
               // CIVL ID
               $rules['profile_pilot[field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
@@ -683,8 +683,8 @@ function _at_validation_js_alter(&$setting) {
   unset($rules['multiform[user_register_form_1][profile_pilot][field_person_phone][und][0][country_codes]']);
 
   // Address components regex
-  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
-  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['regexMatch'][0] = '^[a-zA-Z0-9-.,)(/\\\\& ]*$';
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][thoroughfare]']['regexMatch'][0] = '^[\x20-\x7F]+$';
+  $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][premise]']['regexMatch'][0] = '^[\x20-\x7F]+$';
   $rules['multiform[user_register_form_1][profile_pilot][field_address][und][0][locality]']['regexMatch'][0] = '^[A-Za-z -]+$';
   // CIVL ID
   $rules['multiform[user_register_form_1][profile_pilot][field_civl_id][und][0][value]']['messages']['digits_negative'] = t('CIVL ID may contain only digits.');
