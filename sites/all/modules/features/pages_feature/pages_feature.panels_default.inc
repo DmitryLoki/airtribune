@@ -313,6 +313,9 @@ e-mail: info@airtribune.com</p>',
       'three_inset_left_bottom' => NULL,
       'one_main' => NULL,
     ),
+    'one_main' => array(
+      'style' => 'default',
+    ),
   );
   $display->cache = array();
   $display->title = '';
@@ -336,7 +339,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -411,7 +417,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'next_events',
+    );
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();

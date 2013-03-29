@@ -1,11 +1,11 @@
 <?php
-
 /**
  * @file Combination of event-brick and twocolfourrow
  * @author Vadim Valuev <gease@mail.ru>
  */
 ?>
-<div class="panel-display" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
+<div class="panel-display" <?php
+if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
     <div id="page">
       <div class="region_inner">
 
@@ -101,3 +101,4 @@
       </div>
     </div>
 </div>
+

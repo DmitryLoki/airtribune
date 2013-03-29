@@ -3488,7 +3488,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'title' => 'Panel',
     'no_blocks' => 0,
     'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
+    'body_classes_to_remove' => 'page-event-map',
     'body_classes_to_add' => 'page-event-map-activity-accommodation',
     'css_id' => '',
     'css' => '',

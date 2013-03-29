@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file   twocol_70_30_stacked.inc
  * @author António P. P. Almeida <appa@perusio.net>
@@ -23,13 +24,13 @@ $plugin = array(
     'top' => t('Top'),
     'left' => t('Left'),
     'right' => t('Right'),
-    'event_brick_top'         => t('Top'),
-    'event_brick_left_above'  => t('Left above'),
+    'event_brick_top' => t('Top'),
+    'event_brick_left_above' => t('Left above'),
     'event_brick_right_above' => t('Right above'),
-    'event_brick_middle'      => t('Middle'),
-    'event_brick_left_below'  => t('Left below'),
+    'event_brick_middle' => t('Middle'),
+    'event_brick_left_below' => t('Left below'),
     'event_brick_right_below' => t('Right below'),
-    'event_brick_left_bottom'  => t('Left bottom'),
+    'event_brick_left_bottom' => t('Left bottom'),
     'event_brick_right_bottom' => t('Right bottom'),
   ),
 );
