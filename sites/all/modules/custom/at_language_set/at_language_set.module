@@ -30,15 +30,18 @@ function at_language_set_language_url_default($languages) {
   list($language, $_GET['q']) = language_url_split_prefix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
   if ($language !== FALSE) {
     $prefix = $language->language;
-  } else {
+  }
+  else {
     $prefix = "en";
   }
 
-  setcookie ("language", $prefix, time()+3600, '/');
+  setcookie("language", $prefix, time() + 3600, '/');
   if (isset($_COOKIE['language'])) {
     drupal_set_message("From default URL:" . $language_url);
-    return $prefix;    
-  } else {
-    return $prefix == "en" ? FALSE : $prefix;    
+    return $prefix;
+  }
+  else {
+    return $prefix == "en" ? FALSE : $prefix;
   }
 }
+
