@@ -49,7 +49,7 @@ function pages_feature_default_page_manager_handlers() {
   $handler->task = 'site_template';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -28;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Default',
     'no_blocks' => 1,
@@ -549,7 +549,7 @@ user',
   $handler->task = 'site_template';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -29;
+  $handler->weight = -30;
   $handler->conf = array(
     'title' => 'Event',
     'no_blocks' => 1,
@@ -1050,7 +1050,7 @@ event/*/map/*',
   $handler->task = 'site_template';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -30;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Event map',
     'no_blocks' => 1,
@@ -1069,25 +1069,7 @@ event/*/map/*',
     'contexts' => array(),
     'relationships' => array(),
     'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'context_exists',
-          'settings' => array(
-            'exists' => '1',
-          ),
-          'context' => 'event',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*/map/*',
-          ),
-          'context' => 'argument_string_1',
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
       'logic' => 'and',
     ),
     'pipeline' => 'standard',
@@ -3505,6 +3487,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
         ),
       ),
     ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_4',
   );
   $display = new panels_display();
   $display->layout = 'event-brick-full';
