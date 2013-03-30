@@ -3,3 +3,4 @@ description = Provides alias generation.
 package = Airtribune
 core = 7.x
 dependencies[] = pathauto
+dependencies[] = entity

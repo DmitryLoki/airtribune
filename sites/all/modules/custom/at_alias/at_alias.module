@@ -251,8 +251,8 @@ function _at_alias_create_event_objects_aliases($node) {
           return;
         }
         
-        // TODO: remove '1111-' prefix. It is fot test purposes only.
-        $alias = "11111-{$alias_base}/map/{$subalias}/{$clear_title}";
+        
+        $alias = "{$alias_base}/map/{$subalias}/{$clear_title}";
         // Save object alias for given event.
         $path = array('source' => $source, 'alias' => $alias);
         path_save($path);
@@ -318,8 +318,8 @@ function _al_alias_create_object_aliases($node) {
     if (!$clear_title) {
       return;
     }
-    // TODO: remove '111-' prefix. It is fot test purposes only.
-    $alias = "111-{$alias_base}/map/{$subalias}/{$clear_title}";
+    
+    $alias = "{$alias_base}/map/{$subalias}/{$clear_title}";
     
     // Save object alias for given event.
     $source = "event/{$event_nid}/map/{$subalias}/{$node->nid}";
