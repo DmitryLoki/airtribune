@@ -42,6 +42,8 @@ function at_user_redirect_to_user($nid) {
 function at_user_menu_alter(&$items) {
   // hide the tab on the user account page
   $items['user/%user_category/edit/main']['access callback'] = FALSE;
+  // override to our
+  $items['user/registrationpassword/%/%/%']['page arguments'] = array('at_user_registrationpassword_confirm_account', 2, 3, 4);
 }
 
 /**
@@ -84,6 +86,12 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
 
+    // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
+    // and show only password change form
+    if (!empty($_GET['pass-reset-token'])) {
+      drupal_add_js(drupal_get_path('module', 'at_user') . '/js/pass_reset.js');
+    }
+
     // see #2817
     // send mail to user on password change
     $form['#submit'][] = 'at_user_notify_user_at_password_change';
@@ -100,8 +108,8 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
     $form['inline_errors']['#markup'] = '';
     $form['inline_errors']['#weight'] = -10;
-    $form['#validate'][] = 'at_user_change_login_error_msg_validate';
-    $form['#validate'][] = 'at_user_change_login_error_inline_validate';
+    $form['#validate'][] = 'at_user_login_error_msg';
+    $form['#validate'][] = 'at_user_login_error_redirect_to_form';
   }
 }
 
@@ -212,15 +220,19 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
       )
     );
   }
-}
-
-function at_user_change_login_error_msg_validate($form, &$form_state) {
-  if (empty($_SESSION['messages'])) {
-    return;
+  // manual redirect to user/edit page, to avoid '/edit?pass-reset-token=' in URI
+  // if this token exists in URI, we hide with jQuery all, except password fields
+  // see form_alter / user_profile_form
+  if (!empty($_GET['pass-reset-token'])) {
+    drupal_goto('user/' . $user->uid . '/edit');
   }
 }
 
-function at_user_change_login_error_inline_validate($form, &$form_state) {
+function at_user_login_error_msg($form, &$form_state) {
+  at_messages_msg_changer();
+}
+
+function at_user_login_error_redirect_to_form($form, &$form_state) {
   // user type wrong password / name
   if (empty($form_state['uid'])) {
     // at user login block
@@ -228,17 +240,6 @@ function at_user_change_login_error_inline_validate($form, &$form_state) {
       // $form_state['redirect'] = "user/login";
       // drupal_goto('user/login?mail='.$form_state['values']['name']);
       drupal_goto('user/login');
-    }
-    // at login form at user/login
-    if (form_get_errors()) {
-      $form_errors = form_get_errors();
-      $drupal_errors = drupal_get_messages('error');
-      //form_clear_error();
-      $form_state['complete form']['inline_errors']['#markup'] = '<div class="inline_login_errors">';
-      foreach($drupal_errors['error'] as $key => $error) {
-          $form_state['complete form']['inline_errors']['#markup'] .= $error . "<br/>";
-      }
-      $form_state['complete form']['inline_errors']['#markup'] .= '</div>';
     }
     // update form, need for form-redirect and markup update
     $form_state['rebuild'] = TRUE;
@@ -262,4 +263,175 @@ function at_user_preprocess_page(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Menu callback; process one time login link and redirects to the user page on success.
+ * Overridden function of user_registrationpassword_confirm_account at user_registrationpassword.pages.inc
+ */
+function at_user_registrationpassword_confirm_account($form, &$form_state, $uid, $timestamp, $hashed_pass) {
+  global $user;
+  // When processing the one-time login link, we have to make sure that a user
+  // isn't already logged in.
+  if ($user->uid) {
+    // The existing user is already logged in.
+    if ($user->uid == $uid) {
+      drupal_set_message(t('You are logged in as %user. <a href="!user_edit">Change your password.</a>', array('%user' => $user->name, '!user_edit' => url("user/$user->uid/edit"))));
+    }
+    // A different user is already logged in on the computer.
+    else {
+      $reset_link_account = user_load($uid);
+      if (!empty($reset_link_account)) {
+        drupal_set_message(t('Another user (%other_user) is already logged into the site on this computer, but you tried to use a one-time link for user %resetting_user. Please <a href="!logout">logout</a> and try using the link again.',
+          array('%other_user' => $user->name, '%resetting_user' => $reset_link_account->name, '!logout' => url('user/logout'))));
+      }
+      else {
+        // Invalid one-time link specifies an unknown user.
+        drupal_set_message(t('The one-time login link you clicked is invalid.'));
+      }
+    }
+    drupal_goto();
+  }
+  else {
+    // Time out, in seconds, until login URL expires. 24 hours = 86400 seconds.
+    $timeout = 86400;
+    $current = REQUEST_TIME;
+    // Some redundant checks for extra security ?
+    $users = user_load_multiple(array($uid), array('status' => '0'));
+    if ($timestamp <= $current && $account = reset($users)) {
+      // No time out for first time login.
+      if ($account->login && $current - $timestamp > $timeout) {
+        drupal_set_message(t('You have tried to use a one-time login link that has expired. Please request a new one using the form below.'));
+        drupal_goto('user/password');
+      }
+      elseif ($account->uid && $timestamp >= $account->login && $timestamp <= $current && $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login)) {
+        watchdog('user', 'User %name used one-time login link at time %timestamp.', array('%name' => $account->name, '%timestamp' => $timestamp));
+        // Activate the user.
+        $account = user_save($account, array('status' => 1));
+        // Set the new user.
+        $user = $account;
+        // user_login_finalize() also updates the login timestamp of the
+        // user, which invalidates further use of the one-time login link.
+        user_login_finalize();
+        drupal_set_message(t('You have just used your one-time login link. Your account is now active.'));
+        // AIRTRIBUNE SECTION
+        // we must know, at which event pilot registered
+        $event_nid = db_select('og_membership', 'm')
+          ->fields('m', array('gid'))
+          ->condition('m.type', 'pg_contestant')
+          ->condition('m.etid', $user->uid)
+          ->execute()
+          ->fetchField();
+        // if pilot registered on some event
+        if ($event_nid) {
+          // load info about event & organiser of this event
+          $event = node_load($event_nid);
+          $event_title = trim($event->title);
+          $organiser = user_load($event->uid);
+          // show welcome-message 'your registered to [event-name]' to pilot
+          drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE, array('@event_name' => $event_title)));
+          // try to load pre-saved mails about pilot registration to event
+          $mail_dir = drupal_realpath('public://') . '/mail';
+          $mail_to_pilot = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail'));
+          $mail_to_org = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_org.mail'));
+          // if mails loaded, then send them to pilot & organiser
+          if ($mail_to_pilot && $mail_to_org) {
+            $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));
+            $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language, array('context' => $mail_to_org));
+            unlink($mail_dir . '/' . $user->uid . '_to_pilot.mail');
+            unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
+          } else {
+            watchdog(WATCHDOG_ERROR, 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid));
+          }
+//        dpm($mail_dir, 'mail_dir');
+//        dpm($event, 'event');
+//        dpm($user, 'user');
+//        dpm($organiser, 'organiser');
+//        dpm($mail_pilot, 'mail_pilot');
+//        dpm($mail_org, 'mail_org');
+          // redirect to pilot list
+          drupal_goto('event/' . $event->nid . '/pilots');
+        } else {
+          drupal_goto('user');
+        }
+        // AIRTRIBUNE SECTION END
+      }
+      else {
+        drupal_set_message(t('You have tried to use a one-time login link that has either been used or is no longer valid. Please request a new one using the form below.'));
+        drupal_goto('user/password');
+      }
+    }
+    else {
+      // Deny access, no more clues.
+      // Everything will be in the watchdog's URL for the administrator to check.
+      drupal_access_denied();
+    }
+  }
+}
+
+/**
+ * Get full name of user
+ *
+ * @param $user
+ *   uid or user object
+ *
+ * @return
+ *   NULL if user not found
+ *   Name & Surname from main profile (if filled), otherwise user->name
+ */
+function at_user_get_full_name($user) {
+  // if $user not object
+  if (!is_object($user)) {
+    $user = user_load($user);
+  }
+
+  // user not found
+  if (!$user) {
+    return NULL;
+  }
+
+  $user_profile = profile2_load_by_user($user);
+  if (!empty($user_profile['main']->field_full_name['und'][0]['given'])) {
+    $name = $user_profile['main']->field_full_name['und'][0]['given'] . ' ' . $user_profile['main']->field_full_name['und'][0]['family'];
+  }
+  else {
+    $name = $user->name;
+  }
+
+  return $name;
+}
+
+/**
+ * Get contestant number of this user on this event
+ *
+ * @param $uid
+ *   user uid
+ * @param $event_nid
+ *   event nid
+ *
+ * @return
+ *   NULL if number not found
+ *   Contestant number of this user on this event
+ */
+function at_user_get_contestant_number($uid, $event_nid) {
+  $og_id = db_select('og_membership', 'm')
+    ->fields('m', array('id'))
+    ->condition('m.type', 'pg_contestant')
+    ->condition('m.etid', $uid)
+    ->condition('m.gid', $event_nid)
+    ->condition('m.state', 1)
+    ->execute()
+    ->fetchField();
+
+  $number = db_select('field_data_field_contestant_number', 'n')
+    ->fields('n', array('field_contestant_number_value'))
+    ->condition('n.bundle', 'pg_contestant')
+    ->condition('n.entity_id', $og_id)
+    ->condition('n.deleted', 0)
+    ->execute()
+    ->fetchField();
+
+  $contestant_number = $number ? $number : NULL;
+
+  return $contestant_number;
 }

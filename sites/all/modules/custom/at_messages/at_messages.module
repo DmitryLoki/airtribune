@@ -2,11 +2,14 @@
 
 // Email templates
 define('AT_MSG_EMAIL_SUBJ_PREFIX', 'Airtribune.com - ');
-define('AT_MSG_EMAIL_BODY_SIGNATURE', "\r\n\r\nHappy landings!\r\nAirtribune team");
+define('AT_MSG_EMAIL_BODY_SIGNATURE', "
+
+Happy landings!
+Airtribune team");
 
 // guest reg on event
-define('AT_MSG_SITE_GUEST_REG_ON_EVENT', 'Thank you! Your registration for @event_name as well as on Airtribune is almost finished. Please, check your email for further instructions.');
-
+define('AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE', 'Your registration for @event_name is almost finished.');
+define('AT_MSG_SITE_GUEST_REG_ON_EVENT_AFTER_ACCOUNT_ACTIVE', 'Your registration for @event_name is completed. Follow your status on this page.');
 
 // pilot reg on event
 define('AT_MSG_SITE_PILOT_REG_ON_EVENT', 'You have been successfully registered for @event_name! Follow your status on this page.');
@@ -15,7 +18,7 @@ define('AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT', 'Dear @pilot_full_n
 
 You have been successfully registered for @event_name.
 
-Follow your status changes on the pilots list.
+Follow your status changes on the <a href="@event_pilot_list_url">pilots list</a>.
 
 For any questions related to @event_name, please contact directly the organizer:
 
@@ -39,7 +42,7 @@ Nation: <b>@nation</b>
 City: <b>@city</b>
 Postal code: <b>@postal_code</b>
 Address: <b>@address</b>
-Mobile phone: <b>@mobile_phone</b>
+Mobile phone: <b>@pilot_phone</b>
 FAI License number: <b>@fai_license_number</b>
 CIVL ID: <b>@civl_id</b>
 Pilot\'s number: <b>@contestant_number</b>
@@ -68,19 +71,24 @@ You may use support@airtribune.com, or simply reply to this email.');
 // define('AT_MSG_EMAIL_SUBJ_', '');
 // define('AT_MSG_EMAIL_BODY_', '');
 
+function at_messages_init() {
+  at_messages_msg_changer();
+}
+
 /*
  * Hide drupal messages or replace messages to our values
  */
-function at_messages_init() {
+function at_messages_msg_changer() {
   $hide_messages = array (
     'You have already registered this identity.' // hybridauth
   );
   $replace_messages = array (
     //'Some string' => 'Replaced string',
-    'New identity added.' => 'Your Facebook account has added successfully.', // hybridauth
+    'New identity added.' => 'Your Facebook account has been added successfully.', // hybridauth
     'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions have been sent to your email.', // guest register
     'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.', // guest activate account by email link
-    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect.<br/><a href="/user/password">Forgot your password?</a>' // user pass recovery
+    'You have just used your one-time login link. It is no longer necessary to use this link to log in. Please change your password.' => 'You just used one-time login-in link. You may reset your password now.', // user pass reset one-time link
+    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect. <a href="/user/password">Forgot your password?</a>' // user pass recovery
   );
   if ($messages = drupal_get_messages()) {
     foreach($messages  as $type => $messages_by_type) {
@@ -110,34 +118,46 @@ function at_messages_form_alter(&$form, &$form_state, $form_id) {
 function at_messages_register_at_event_submit($form, &$form_state) {
   // TRUE if guest
   // FALSE if already registered & logged user
-  $is_guest = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
+  $guest_registration_at_event = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
     ? TRUE
     : FALSE;
 
   // prevent handling form on usual guest registration to site
-  if (!$is_guest && $form['#id'] == 'user-register-form') {
+  if (!$guest_registration_at_event && $form['#id'] == 'user-register-form') {
     return;
   }
 
-  // prevent duplicate handling form on guest registration at event (multiform submit)
-  if ($is_guest && $form['#id'] == 'og-ui-confirm-subscribe') {
-    return;
-  }
-
-  $f = $form_state['values'];
-
-  if ($is_guest) {
-    $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
+  if ($guest_registration_at_event) {
+    // some magic & dirty code
+    // at guest registration with multiform, at user-register we have all info about user, but haven't contestant_number
+    // at og-ui-confirm-subscribe we have contestant_number, but haven't
+    // so we need to combine values from two form_states
+    if ($form['#id'] == 'user-register-form') {
+      global $form_state_guest_reg_on_event;
+      $form_state_guest_reg_on_event = $form_state;
+      return;
+    }
+    elseif ($form['#id'] == 'og-ui-confirm-subscribe') {
+      global $form_state_guest_reg_on_event;
+      $f = $form_state_guest_reg_on_event['values'];
+      $user = $form_state_guest_reg_on_event['user'];
+      $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
+      $contestant_number = $form_state['values']['field_contestant_number']['und'][0]['value'];
+    }
   } else {
+    // already registered user/pilot try to reg on event
+    $f = $form_state['values'];
+    $user = $form_state['user'];
     $event = node_load($f['gid']);
+    $contestant_number = $f['field_contestant_number']['und'][0]['value'];
   }
 
-  $event_name = $event->title;
+  $event_name = trim($event->title);
+  $event_pilot_list_url = drupal_get_path_alias('event/' . $event->nid . '/pilots');
   $organiser = user_load($event->uid);
   $organiser_profile = profile2_load_by_user($organiser);
   $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
 
-  $user = $form_state['user'];
   $profile_main = $f['profile_main'];
   $profile_pilot = $f['profile_pilot'];
 
@@ -149,6 +169,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
 
   $full_info = array(
     '@event_name' => $event_name,
+    '@event_pilot_list_url' => $event_pilot_list_url,
     '@org_email' => $organiser->mail,
     '@org_full_name' => $organiser_full_name,
     '@pilot_email' => $user->mail,
@@ -161,10 +182,10 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@city' => $profile_pilot['field_address']['und'][0]['locality'],
     '@postal_code' => $profile_pilot['field_address']['und'][0]['postal_code'],
     '@address' => $profile_pilot['field_address']['und'][0]['thoroughfare'],
-    '@mobile_phone' => $profile_pilot['field_phone']['und'][0]['full_number'],
+    '@pilot_phone' => $profile_pilot['field_phone']['und'][0]['full_number'],
     '@fai_license_number' => $profile_pilot['field_fai_license_number']['und'][0]['value'],
     '@civl_id' => $profile_pilot['field_civl_id']['und'][0]['value'],
-    '@contestant_number' => $f['field_contestant_number']['und'][0]['value'],
+    '@contestant_number' => $contestant_number,
     '@t_shirt_size' => $profile_pilot['field_t_shirt_size']['und'][0]['value'],
     '@paraglider_manufacturer' => $profile_pilot['field_paraglider_manufacturer']['und'][0]['value'],
     '@paraglider_model' => $profile_pilot['field_paraglider_model']['und'][0]['value'],
@@ -178,32 +199,41 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@blood_type' => $profile_pilot['field_blood_type']['und'][0]['value'],
   );
 
-  if ($is_guest) {
-    drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT, $full_info));
+  $mail_to_pilot = array(
+    'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_PILOT, $full_info),
+    'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
+  );
+  $mail_to_org = array(
+    'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG, $full_info),
+    'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
+  );
+
+  if ($guest_registration_at_event) {
+    if (!empty($contestant_number)) {
+      // hide messages about successful registration at site
+      drupal_set_message();
+      // show message 'registration is almost finished, check mail'
+      drupal_set_message(t(AT_MSG_SITE_GUEST_REG_ON_EVENT_BEFORE_ACCOUNT_ACTIVE, $full_info));
+      // try to save mails about pilot registration
+      $mail_dir = drupal_realpath('public://') . '/mail';
+      if (!realpath($mail_dir)) {
+        drupal_mkdir($mail_dir);
+      }
+      file_put_contents($mail_dir . '/' . $user->uid . '_to_pilot.mail', serialize($mail_to_pilot));
+      file_put_contents($mail_dir . '/' . $user->uid . '_to_org.mail', serialize($mail_to_org));
+      // after form sending drupal generate one-time password reset link, which will be sended to user by email
+      // when user click this link & activate account, we send
+    }
   } else {
     drupal_set_message(t(AT_MSG_SITE_PILOT_REG_ON_EVENT, $full_info));
+    $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));
+    $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language, array('context' => $mail_to_org));
+    $form_state['redirect'] = $event_pilot_list_url;
   }
-
-  $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language,
-    array(
-      'context' => array(
-        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_PILOT, $full_info),
-        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
-      )
-    )
-  );
-
-  $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language,
-    array(
-      'context' => array(
-        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_PILOT_REG_AT_EVENT_MAIL_TO_ORG, $full_info),
-        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_ORG . AT_MSG_EMAIL_BODY_SIGNATURE, $full_info)
-      )
-    )
-  );
 
 //  dpm($form, 'form');
 //  dpm($form_state, 'form_state');
+//  dpm($event, 'event');
 //  dpm($user, 'user');
 //  dpm($profile_main, 'profile_main');
 //  dpm($profile_pilot, 'profile_pilot');

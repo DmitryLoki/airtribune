@@ -1,0 +1,27 @@
+From 7df47365ae27397f8e42e828d7a1ad5d882e4a7c Mon Sep 17 00:00:00 2001
+From: Jorrit Schippers <jorrit@161217.no-reply.drupal.org>
+Date: Mon, 24 Sep 2012 11:25:39 +0200
+Subject: [PATCH] Issue #1480366 by Jorrit: Fixed notice: Trying to get
+ property of non-object in function panels_mini_block_info()
+
+---
+ panels_mini/panels_mini.module |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/panels_mini/panels_mini.module b/panels_mini/panels_mini.module
+index a0aa662..67ce5d0 100644
+--- a/panels_mini/panels_mini.module
++++ b/panels_mini/panels_mini.module
+@@ -285,7 +285,8 @@ function panels_mini_load_all($reset = FALSE) {
+     }
+   }
+ 
+-  return $cache;
++  // Strip out NULL entries that may have been added by panels_mini_load().
++  return array_filter($cache);
+ }
+ 
+ /**
+-- 
+1.7.9.5
+

@@ -1,0 +1,26 @@
+diff --git a/xmlsitemap.generate.inc b/xmlsitemap.generate.inc
+index ab9c9fb..8feb6f5 100644
+--- a/xmlsitemap.generate.inc
++++ b/xmlsitemap.generate.inc
+@@ -164,7 +164,7 @@ function xmlsitemap_generate_chunk(stdClass $sitemap, XMLSitemapWriter $writer,
+   $links = $query->execute();
+ 
+   while ($link = $links->fetchAssoc()) {
+-    $link['language'] = $link['language'] != LANGUAGE_NONE ? xmlsitemap_language_load($link['language']) : $url_options['language'];
++    $link['language'] = xmlsitemap_language_load($link['language']);
+     if ($url_options['alias']) {
+       $link['loc'] = xmlsitemap_get_path_alias($link['loc'], $link['language']->language);
+     }
+diff --git a/xmlsitemap.module b/xmlsitemap.module
+index 34f3f8c..87e49b7 100644
+--- a/xmlsitemap.module
++++ b/xmlsitemap.module
+@@ -1396,7 +1396,7 @@ function xmlsitemap_language_load($language = LANGUAGE_NONE) {
+ 
+   if (!isset($languages)) {
+     $languages = language_list();
+-    $languages[LANGUAGE_NONE] = NULL;
++    $languages[LANGUAGE_NONE] = language_default();
+   }
+ 
+   return isset($languages[$language]) ? $languages[$language] : NULL;

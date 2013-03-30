@@ -1,11 +1,9 @@
 <?php
 
+$pilot_uid = arg(1);
+drupal_set_title(at_user_get_full_name($pilot_uid));
+
 global $user;
-// if user initiate procedure of password reset, then hide main div with avatar, name, and birthday
-// and show only password change form
-if (!empty($_GET['pass-reset-token'])) {
-  drupal_get_path('module', 'at_user') . '/js/pass_reset.js';
-}
 
 print "<div id='name_and_birthday'>"; // #name_and_birthday start
 
@@ -47,13 +45,16 @@ if (!empty($form['profile_main'])) {
   //$form['profile_main']['field_full_name'][$lang][0]['family']['#description'] = t('Your surname in English transcription.');
   $form['profile_main']['field_full_name'][$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
   $form['profile_main']['field_full_name'][$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
-
+  // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+  $form['profile_main']['field_full_name'][$lang][0]['given']['#title'] = t('Name');
+  $form['profile_main']['field_full_name'][$lang][0]['family']['#title'] = t('Surname');
   print drupal_render($form['profile_main']['field_full_name'][$lang][0]['given']);
   print drupal_render($form['profile_main']['field_full_name'][$lang][0]['family']);
   drupal_render($form['profile_main']['field_full_name']);
   print drupal_render($form['profile_main']['field_gender']);
 
   $lang = $form['profile_main']['field_birthdate']['#language'];
+  $form['profile_main']['field_birthdate'][$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $form['profile_main']['field_birthdate'][$lang][0]['#title']);
   $form['profile_main']['field_birthdate'][$lang][0]['value']['day']['#title'] = $form['profile_main']['field_birthdate'][$lang][0]['#title'];
   $form['profile_main']['field_birthdate'][$lang][0]['#title'] = '';
   print drupal_render($form['profile_main']['field_birthdate']);
@@ -84,6 +85,7 @@ hide($form['locale']);
 hide($form['og_user_node']);
 hide($form['xmlsitemap']);
 hide($form['metatags']);
+hide($form['mimemail']);
 
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);

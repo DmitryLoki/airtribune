@@ -978,6 +978,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: HQ contest */
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['id'] = 'reverse_field_headquarter_hotel_node';
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['field'] = 'reverse_field_headquarter_hotel_node';
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['ui_name'] = 'HQ contest';
+  $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['label'] = 'HQ contest';
   /* Field: NID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -1022,6 +1028,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_geofield_distance']['set_precision'] = TRUE;
   $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '1';
+  $handler->display->display_options['fields']['field_geofield_distance']['suffix'] = ' km';
   $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
     'lat' => '',
@@ -1086,12 +1093,15 @@ function views_feature_views_default_views() {
     'trim_length' => '300',
   );
   /* Field: Phone */
-  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
-  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_phone']['label'] = 'Tel';
-  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_place_phone']['id'] = 'field_place_phone';
+  $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
+  $handler->display->display_options['fields']['field_place_phone']['field'] = 'field_place_phone';
+  $handler->display->display_options['fields']['field_place_phone']['ui_name'] = 'Phone';
+  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Tel';
+  $handler->display->display_options['fields']['field_place_phone']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_place_phone']['delta_offset'] = '0';
   /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
@@ -1099,7 +1109,19 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
   $handler->display->display_options['fields']['field_email']['label'] = 'Email:';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_email']['type'] = 'email_plain';
+  $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
+  /* Field: Contest ID - hidden in template */
+  $handler->display->display_options['fields']['nid_1']['id'] = 'nid_1';
+  $handler->display->display_options['fields']['nid_1']['table'] = 'node';
+  $handler->display->display_options['fields']['nid_1']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid_1']['relationship'] = 'reverse_field_headquarter_hotel_node';
+  $handler->display->display_options['fields']['nid_1']['ui_name'] = 'Contest ID - hidden in template';
+  $handler->display->display_options['fields']['nid_1']['label'] = '';
+  $handler->display->display_options['fields']['nid_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nid_1']['hide_empty'] = TRUE;
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1186,8 +1208,10 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('HQ contest'),
     t('.'),
     t(','),
+    t(' km'),
     t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
     t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
     t('Tel'),
@@ -1219,7 +1243,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: NID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -1265,6 +1289,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_geofield_distance']['set_precision'] = TRUE;
   $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '1';
+  $handler->display->display_options['fields']['field_geofield_distance']['suffix'] = ' km';
   $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
     'lat' => '',
@@ -1286,19 +1311,24 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
   /* Field: Phone */
-  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
-  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_phone']['label'] = 'Tel';
-  $handler->display->display_options['fields']['field_phone']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_place_phone']['id'] = 'field_place_phone';
+  $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
+  $handler->display->display_options['fields']['field_place_phone']['field'] = 'field_place_phone';
+  $handler->display->display_options['fields']['field_place_phone']['ui_name'] = 'Phone';
+  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Tel';
+  $handler->display->display_options['fields']['field_place_phone']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_place_phone']['delta_offset'] = '0';
   /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
   $handler->display->display_options['fields']['field_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
   /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
@@ -1387,6 +1417,7 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('.'),
     t(','),
+    t(' km'),
     t('Tel'),
     t('Email'),
     t('All'),
@@ -3215,12 +3246,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Global: View result counter */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['label'] = '#';
-  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
@@ -3437,12 +3462,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Global: View result counter */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['label'] = '#';
-  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
@@ -3568,7 +3587,6 @@ function views_feature_views_default_views() {
     t('All'),
     t('%1 members'),
     t('Standard'),
-    t('#'),
     t('[field_full_name] ([field_contestant_number])'),
     t('Nation'),
     t('Sponsor'),

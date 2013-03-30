@@ -30,7 +30,8 @@ function field_collection_item_form($form, &$form_state, $field_collection_item)
   // @todo: Fix core and remove the hack.
   $form['field_name'] = array('#type' => 'value', '#value' => $field_collection_item->field_name);
 
-  field_attach_form('field_collection_item', $field_collection_item, $form, $form_state);
+  $langcode = entity_language('field_collection_item', $field_collection_item);
+  field_attach_form('field_collection_item', $field_collection_item, $form, $form_state, $langcode);
 
   $form['actions'] = array('#type' => 'actions', '#weight' => 50);
   $form['actions']['submit'] = array(
@@ -114,18 +115,21 @@ function field_collection_item_add($field_name, $entity_type, $entity_id, $revis
 
   // Check field cardinality.
   $field = field_info_field($field_name);
-  $langcode = LANGUAGE_NONE;
+
+  if (empty($langcode)) {
+    $langcode = entity_language($entity_type, $entity);
+  }
+
   if (!($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || !isset($entity->{$field_name}[$langcode]) || count($entity->{$field_name}[$langcode]) < $field['cardinality'])) {
     drupal_set_message(t('Too many items.'), 'error');
     return '';
   }
-
   $field_collection_item = entity_create('field_collection_item', array('field_name' => $field_name));
   // Do not link the field collection item with the host entity at this point,
   // as during the form-workflow we have multiple field collection item entity
   // instances, which we don't want link all with the host.
   // That way the link is going to be created when the item is saved.
-  $field_collection_item->setHostEntity($entity_type, $entity, LANGUAGE_NONE, FALSE);
+  $field_collection_item->setHostEntity($entity_type, $entity, $langcode, FALSE);
 
   $title = ($field['cardinality'] == 1) ? $instance['label'] : t('Add new !instance_label', array('!instance_label' => $field_collection_item->translatedInstanceLabel()));
   drupal_set_title($title);

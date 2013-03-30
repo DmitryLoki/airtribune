@@ -30,6 +30,9 @@ function at_validation_ajax() {
     // Maybe this should be moved to multiform
     module_load_include('inc', 'multiform', 'multiform.ajax');
     // We need to set this flag for at_validation_ajax_defaults().
+    // TODO: Instead we can define multiform according to $form_state (a flag should be added).
+    // Validation plugins would pass it into at_validation_ajax_defaults().
+    // Revert change ("if") in multiform ajax.
     is_multiform_page(TRUE);
     
     // TODO: Get _multiform_index
@@ -86,8 +89,15 @@ function _at_validation_ajax($form, $form_state) {
       // Current triggering_element cardinality (this is only for fields).
       // Not every widget has cardinality. I.e. options_select
       if (isset($element['#cardinality'])) {
-        $cardinality = $array_parents[$k+1];
-        $element = $element[$cardinality];
+        $current = $element;
+        // Data could be deeper in the array (e.g. [0][value]).
+        for ($i = $k+1; $i <= count($array_parents); $i++) {
+          $current = $current[$array_parents[$i]];
+          if (!empty($current['#field_name'])) {
+            $element = $current;
+            break;
+          }
+        }
       }
       $field_name = $element['#field_name'];
       $entity_type = $element['#entity_type'];
@@ -287,18 +297,18 @@ function at_validation_field_widget_form_alter_tmp(&$element, &$form_state, $con
  * After build for field_t_shirt_size field widget.
  */
 function _t_shirt_size_after_build($element, $form_state) {
-  if (isset($element['#options']['_none'])) {
-    $element['#options']['_none'] = t('Select your size');
-  }
+  $options = array('_none' => t('Select your size'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
   return $element;
 }
 /**
  * After build for field_blood_type field widget.
  */
 function _blood_type_after_build($element, $form_state) {
-  if (isset($element['#options']['_none'])) {
-    $element['#options']['_none'] = t('Select your type');
-  }
+  $options = array('_none' => t('Select your type'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
   return $element;
 }
 /**
@@ -600,7 +610,7 @@ function at_validation_js_alter(&$javascript) {
       break;
     }
   }
-  
+  $javascript['settings']['data'][] = array('requiredMessage' => t('This field is required.'));
 }
 
 

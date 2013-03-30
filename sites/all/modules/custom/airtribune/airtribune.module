@@ -55,10 +55,10 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
 function airtribune_theme() {
   $content_plugins_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types';
   return array(
-    'airtribune_user_pane' => array(
-      'template' => 'airtribune-user-pane',
-      'path' => $content_plugins_path . '/airtribune_user',
-      'file' => 'airtribune_user.inc',
+    'airtribune_user_links' => array(
+      'template' => 'airtribune-user-links',
+      'path' => $content_plugins_path . '/user_links',
+      'file' => 'user_links.theme.inc',
       'render element' => 'elements',
     ),
     'airtribune_event_statistics_pane' => array(
@@ -184,10 +184,15 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   $configuration = $vars['pane']->configuration;
 
+
   // Translate overriden titles.
   if (!empty($configuration['override_title']) && $configuration['override_title_text']) {
     $vars['title'] = t($configuration['override_title_text']);
   }
+  elseif ($vars['pane']->type == 'custom' && $vars['title']) {
+    $vars['title'] = t($configuration['title']);
+  }
+
 
 
   // Add 'view more' links to panes.
@@ -298,14 +303,14 @@ function airtribune_field_widget_process($element, &$form_state, $form) {
  */
 function airtribune_get_awards_prize_categories($category = FALSE) {
   $categories = array(
-    'overall' => t('Overall'),
-    'women' => t('Women'),
-    'serial_class' => t('Serial Class'),
-    'open_class' => t('Open Class'),
-    'sport_class' => t('Sport Class'),
-    'nations' => t('Nations'),
-    'clubs' => t('Clubs'),
-    'teams' => t('Teams'),
+    'overall' => 'Overall',
+    'women' => 'Women',
+    'serial_class' => 'Serial Class',
+    'open_class' => 'Open Class',
+    'sport_class' => 'Sport Class',
+    'nations' => 'Nations',
+    'clubs' => 'Clubs',
+    'teams' => 'Teams',
   );
   return $category ? $categories[$category] : $categories;
 }
@@ -356,7 +361,6 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
   $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
   panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
-
 }
 
 /**

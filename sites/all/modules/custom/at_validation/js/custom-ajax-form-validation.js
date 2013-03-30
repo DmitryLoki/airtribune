@@ -4,8 +4,12 @@
     $.fn.checkValidationResult = function (errorText) {
         var that = this.length ? this : $(activeField),
             form = that.parents('form'),
+            ajaxValidationAfterSubmit = form.data('ajax-validation-after-submit-clicked'),
             formValidator = form.validate();
-
+        form.find('input.form-submit').unbind('click.disable-events-while-ajax');
+        if(ajaxValidationAfterSubmit) {
+            form.data('ajax-validation-after-submit-clicked', false);
+        }
         formValidator.errorsFor(that[0]).remove();
         Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
         var validationMethod = 'failed-ajax-validation-' + that.attr('name');
@@ -20,6 +24,10 @@
                 Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')] = {};
             }
             Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')][validationMethod] = true;
+
+            if(ajaxValidationAfterSubmit) {
+                $(document.body).scrollTo(that);
+            }
 
         } else {
             if (Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[that.attr('name')]) {
@@ -51,7 +59,7 @@
         allElementsValid = true;
         for (var i = 0, l = allElements.length; i < l; ++i) {
             var element = allElements.get(i);
-            if (!formValidator.check(element) && ($(element).rules().required || $(element).attr('type') === 'password')) {
+            if (element.form && !formValidator.check(element) && ($(element).rules().required || $(element).attr('type') === 'password')) {
                 allElementsValid = false;
                 break;
             }
@@ -187,6 +195,23 @@
             });
             var currentBindings = f.data('events')[event];
             currentBindings.unshift(currentBindings.pop());
+            if(f[0].tagName != 'SELECT') {
+                f.bind('focusout', function() {
+                    var form = f.closest('form'),
+                        submitButton = form.find('input.form-submit');
+                    submitButton.bind('click.disable-events-while-ajax', function(event) {
+                        form.data('ajax-validation-after-submit-clicked', true);
+                        event.stopPropagation();
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                    });
+
+                    var clickHandlers = submitButton.data('events').click;
+                    clickHandlers.unshift(clickHandlers.pop());
+                    console.log(clickHandlers);
+                });
+            }
+
         }
 
         setTimeout(function () {
@@ -257,7 +282,7 @@
     };
 
     Drupal.ajax.prototype.beforeSerialize = function (element, options) {
-        if (options.url === '/at-validation/ajax') {
+        if (options.url.indexOf('/at-validation/ajax') > -1) {
             var formValidator = element.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
             var validationResult = formValidator.element(activeField);

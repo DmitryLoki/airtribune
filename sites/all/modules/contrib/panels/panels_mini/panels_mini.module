@@ -285,7 +285,8 @@ function panels_mini_load_all($reset = FALSE) {
     }
   }
 
-  return $cache;
+  // Strip out NULL entries that may have been added by panels_mini_load().
+  return array_filter($cache);
 }
 
 /**
