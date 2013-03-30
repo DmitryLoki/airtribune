@@ -2793,23 +2793,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Image */
-  $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
-  $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
-  $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
-  $handler->display->display_options['fields']['field_header_image']['label'] = '';
-  $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_header_image']['settings'] = array(
-    'image_style' => 'header',
-    'image_link' => '',
-  );
-  /* Field: Featured header: Author link */
-  $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
