@@ -3720,134 +3720,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'event_map';
-  $page->task = 'page';
-  $page->admin_title = 'Event map';
-  $page->admin_description = '';
-  $page->path = 'event/%node/map';
-  $page->access = array(
-    'logic' => 'and',
-    'type' => 'none',
-    'settings' => NULL,
-  );
-  $page->menu = array(
-    'type' => 'tab',
-    'title' => 'Event map',
-    'name' => 'navigation',
-    'weight' => '40',
-    'parent' => array(
-      'type' => 'none',
-      'title' => '',
-      'name' => 'navigation',
-      'weight' => '0',
-    ),
-  );
-  $page->arguments = array(
-    'node' => array(
-      'id' => 1,
-      'identifier' => 'Content: ID',
-      'name' => 'entity_id:node',
-      'settings' => array(),
-    ),
-  );
-  $page->conf = array(
-    'admin_paths' => FALSE,
-  );
-  $page->default_handlers = array();
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_event_map_panel_context';
-  $handler->task = 'page';
-  $handler->subtask = 'event_map';
-  $handler->handler = 'panel_context';
-  $handler->weight = 0;
-  $handler->conf = array(
-    'title' => 'Event map (Cooming soon)',
-    'no_blocks' => 1,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => 'page-event-map',
-    'body_classes_to_add' => 'page-event-map',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'logic' => 'and',
-    ),
-    'metatag_panels' => array(
-      'enabled' => 1,
-      'metatags' => array(
-        'title' => array(
-          'value' => 'Event map | [node:title] | [site:slogan]',
-        ),
-      ),
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'one';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'one_main' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-53';
-    $pane->panel = 'one_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'event_accommodations-panel_event_map_pane';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'map' => 'accommodations',
-      'anchor' => 'event-accommodations',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-53'] = $pane;
-    $display->panels['one_main'][0] = 'new-53';
-    $pane = new stdClass();
-    $pane->pid = 'new-54';
-    $pane->panel = 'one_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'event_activities-panel_event_map_pane';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'map' => 'activities',
-      'anchor' => 'event-activities',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-54'] = $pane;
-    $display->panels['one_main'][1] = 'new-54';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['event_map'] = $page;
-
-  $page = new stdClass();
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
   $page->name = 'event_pilots';
   $page->task = 'page';
   $page->admin_title = 'Event pilots';
@@ -3966,7 +3838,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-55';
+    $pane->pid = 'new-53';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -3999,10 +3871,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-55'] = $pane;
-    $display->panels['middle'][0] = 'new-55';
+    $display->content['new-53'] = $pane;
+    $display->panels['middle'][0] = 'new-53';
     $pane = new stdClass();
-    $pane->pid = 'new-56';
+    $pane->pid = 'new-54';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -4035,8 +3907,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-56'] = $pane;
-    $display->panels['middle'][1] = 'new-56';
+    $display->content['new-54'] = $pane;
+    $display->panels['middle'][1] = 'new-54';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4121,7 +3993,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-57';
+    $pane->pid = 'new-55';
     $pane->panel = 'one_main';
     $pane->type = 'custom';
     $pane->subtype = 'coming_soon';
@@ -4142,8 +4014,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-57'] = $pane;
-    $display->panels['one_main'][0] = 'new-57';
+    $display->content['new-55'] = $pane;
+    $display->panels['one_main'][0] = 'new-55';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4232,7 +4104,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-58';
+    $pane->pid = 'new-56';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -4265,10 +4137,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-58'] = $pane;
-    $display->panels['middle'][0] = 'new-58';
+    $display->content['new-56'] = $pane;
+    $display->panels['middle'][0] = 'new-56';
     $pane = new stdClass();
-    $pane->pid = 'new-59';
+    $pane->pid = 'new-57';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -4301,8 +4173,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-59'] = $pane;
-    $display->panels['middle'][1] = 'new-59';
+    $display->content['new-57'] = $pane;
+    $display->panels['middle'][1] = 'new-57';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4400,7 +4272,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-60';
+    $pane->pid = 'new-58';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -4419,8 +4291,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-60'] = $pane;
-    $display->panels['middle'][0] = 'new-60';
+    $display->content['new-58'] = $pane;
+    $display->panels['middle'][0] = 'new-58';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
