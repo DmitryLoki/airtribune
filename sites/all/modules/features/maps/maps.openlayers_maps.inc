@@ -258,7 +258,6 @@ function maps_openlayers_maps() {
           'google_satellite' => 0,
           'google_physical' => 0,
           'event_map_openlayers_1' => 'event_map_openlayers_1',
-          
         ),
         'point_zoom_level' => '15',
         'zoomtolayer_scale' => '5',

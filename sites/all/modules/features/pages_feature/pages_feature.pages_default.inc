@@ -1043,6 +1043,205 @@ event/*/map/*',
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_3'] = $handler;
 
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'site_template_panel_context_4';
+  $handler->task = 'site_template';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -28;
+  $handler->conf = array(
+    'title' => 'Event map',
+    'no_blocks' => 1,
+    'css_id' => 'page-wrapper',
+    'css' => '/* set a fixed overall width */
+  #page-wrapper > .panel-flexible-inside {
+    width: 1020px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Add some margin to the main content row. This class was set in the layout designer. */
+  #page-wrapper .main-content {
+    padding: 0 10px;
+  }',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array(
+    'items' => array(
+      'canvas' => array(
+        'type' => 'row',
+        'contains' => 'column',
+        'children' => array(
+          0 => 'main',
+        ),
+        'parent' => NULL,
+        'class' => '',
+        'column_class' => '',
+        'row_class' => '',
+        'region_class' => '',
+        'no_scale' => FALSE,
+        'fixed_width' => '',
+        'column_separation' => '0.5em',
+        'region_separation' => '0.5em',
+        'row_separation' => '0.5em',
+      ),
+      'main' => array(
+        'type' => 'column',
+        'width' => 100,
+        'width_type' => '%',
+        'children' => array(
+          0 => 1,
+          1 => 'main-row',
+        ),
+        'parent' => 'canvas',
+      ),
+      'main-row' => array(
+        'type' => 'row',
+        'contains' => 'region',
+        'children' => array(
+          0 => 'content',
+          1 => 'sidebar',
+        ),
+        'parent' => 'main',
+        'class' => 'main-content',
+      ),
+      'content' => array(
+        'type' => 'region',
+        'title' => 'Content',
+        'width' => '100',
+        'width_type' => '%',
+        'parent' => 'main-row',
+        'class' => '',
+      ),
+      'sidebar' => array(
+        'type' => 'region',
+        'title' => 'Sidebar',
+        'width' => '200',
+        'width_type' => 'px',
+        'parent' => 'main-row',
+      ),
+      1 => array(
+        'type' => 'row',
+        'contains' => 'region',
+        'children' => array(
+          0 => 'header',
+        ),
+        'parent' => 'main',
+        'class' => 'header',
+      ),
+      'header' => array(
+        'type' => 'region',
+        'title' => 'Header',
+        'width' => 100,
+        'width_type' => '%',
+        'parent' => '1',
+      ),
+    ),
+  );
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'content' => NULL,
+      'sidebar' => NULL,
+      'header' => NULL,
+      'two_66_33_top' => NULL,
+      'two_66_33_first' => NULL,
+      'two_66_33_second' => NULL,
+      'two_66_33_bottom' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'footer' => NULL,
+      'featured_header_title' => NULL,
+      'featured_header_padding' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-27';
+    $pane->panel = 'footer';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'footer_blocks';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-27'] = $pane;
+    $display->panels['footer'][0] = 'new-27';
+    $pane = new stdClass();
+    $pane->pid = 'new-28';
+    $pane->panel = 'header';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'header_blocks';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-28'] = $pane;
+    $display->panels['header'][0] = 'new-28';
+    $pane = new stdClass();
+    $pane->pid = 'new-29';
+    $pane->panel = 'middle';
+    $pane->type = 'page_content';
+    $pane->subtype = 'page_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_page_content_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = '';
+    $display->content['new-29'] = $pane;
+    $display->panels['middle'][0] = 'new-29';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $export['site_template_panel_context_4'] = $handler;
+
   return $export;
 }
 
@@ -3284,7 +3483,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'title' => 'Panel',
     'no_blocks' => 0,
     'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
+    'body_classes_to_remove' => 'page-event-map',
     'body_classes_to_add' => 'page-event-map-activity-accommodation',
     'css_id' => '',
     'css' => '',
@@ -3301,14 +3500,30 @@ ____(CCCCCCCCCCCCCC)____________;;;
         ),
       ),
     ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_4',
   );
   $display = new panels_display();
-  $display->layout = 'onecol';
+  $display->layout = 'event-brick-full';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
       'middle' => NULL,
+      'header' => NULL,
+      'featured_header_title' => NULL,
+      'featured_header_padding' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'footer' => NULL,
+      'event_brick_top' => NULL,
+      'event_brick_left_above' => NULL,
+      'event_brick_right_above' => NULL,
+      'event_brick_middle' => NULL,
+      'event_brick_left_below' => NULL,
+      'event_brick_right_below' => NULL,
+      'event_brick_left_bottom' => NULL,
+      'event_brick_right_bottom' => NULL,
     ),
   );
   $display->cache = array();
@@ -3317,30 +3532,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-45';
-    $pane->panel = 'middle';
-    $pane->type = 'node_title';
-    $pane->subtype = 'node_title';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'link' => 0,
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-45'] = $pane;
-    $display->panels['middle'][0] = 'new-45';
-    $pane = new stdClass();
-    $pane->pid = 'new-46';
-    $pane->panel = 'middle';
+    $pane->panel = 'event_brick_middle';
     $pane->type = 'hq_distance';
     $pane->subtype = 'hq_distance';
     $pane->shown = TRUE;
@@ -3356,13 +3548,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-46'] = $pane;
-    $display->panels['middle'][1] = 'new-46';
+    $display->content['new-45'] = $pane;
+    $display->panels['event_brick_middle'][0] = 'new-45';
     $pane = new stdClass();
-    $pane->pid = 'new-47';
-    $pane->panel = 'middle';
+    $pane->pid = 'new-46';
+    $pane->panel = 'event_brick_middle';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
     $pane->shown = TRUE;
@@ -3370,8 +3562,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->configuration = array(
       'links' => 1,
       'no_extras' => 1,
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
       'identifier' => '',
       'link' => 1,
       'leave_node_title' => 0,
@@ -3384,15 +3576,274 @@ ____(CCCCCCCCCCCCCC)____________;;;
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-46'] = $pane;
+    $display->panels['event_brick_middle'][1] = 'new-46';
+    $pane = new stdClass();
+    $pane->pid = 'new-47';
+    $pane->panel = 'event_brick_top';
+    $pane->type = 'pane_messages';
+    $pane->subtype = 'pane_messages';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
     $pane->locks = array();
     $display->content['new-47'] = $pane;
-    $display->panels['middle'][2] = 'new-47';
+    $display->panels['event_brick_top'][0] = 'new-47';
+    $pane = new stdClass();
+    $pane->pid = 'new-48';
+    $pane->panel = 'event_brick_top';
+    $pane->type = 'page_title';
+    $pane->subtype = 'page_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'markup' => 'h1',
+      'class' => '',
+      'id' => '',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-48'] = $pane;
+    $display->panels['event_brick_top'][1] = 'new-48';
+    $pane = new stdClass();
+    $pane->pid = 'new-49';
+    $pane->panel = 'featured_header_padding';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_map-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_entity_id:node_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-49'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-49';
+    $pane = new stdClass();
+    $pane->pid = 'new-50';
+    $pane->panel = 'featured_header_title';
+    $pane->type = 'event_title';
+    $pane->subtype = 'event_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-50'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-50';
+    $pane = new stdClass();
+    $pane->pid = 'new-51';
+    $pane->panel = 'right';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'sidebar';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-51'] = $pane;
+    $display->panels['right'][0] = 'new-51';
+    $pane = new stdClass();
+    $pane->pid = 'new-52';
+    $pane->panel = 'top';
+    $pane->type = 'page_breadcrumb';
+    $pane->subtype = 'page_breadcrumb';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-52'] = $pane;
+    $display->panels['top'][0] = 'new-52';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['event_item'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'event_map';
+  $page->task = 'page';
+  $page->admin_title = 'Event map';
+  $page->admin_description = '';
+  $page->path = 'event/%node/map';
+  $page->access = array(
+    'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'Event map',
+    'name' => 'navigation',
+    'weight' => '40',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'node' => array(
+      'id' => 1,
+      'identifier' => 'Content: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_map_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'event_map';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Event map (Cooming soon)',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => 'page-event-map',
+    'body_classes_to_add' => 'page-event-map',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Event map | [node:title] | [site:slogan]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'one';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'one_main' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-53';
+    $pane->panel = 'one_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_accommodations-panel_event_map_pane';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'map' => 'accommodations',
+      'anchor' => 'event-accommodations',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-53'] = $pane;
+    $display->panels['one_main'][0] = 'new-53';
+    $pane = new stdClass();
+    $pane->pid = 'new-54';
+    $pane->panel = 'one_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_activities-panel_event_map_pane';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'map' => 'activities',
+      'anchor' => 'event-activities',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-54'] = $pane;
+    $display->panels['one_main'][1] = 'new-54';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['event_map'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -3515,7 +3966,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-48';
+    $pane->pid = 'new-55';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -3548,10 +3999,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-48'] = $pane;
-    $display->panels['middle'][0] = 'new-48';
+    $display->content['new-55'] = $pane;
+    $display->panels['middle'][0] = 'new-55';
     $pane = new stdClass();
-    $pane->pid = 'new-49';
+    $pane->pid = 'new-56';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -3584,8 +4035,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-49'] = $pane;
-    $display->panels['middle'][1] = 'new-49';
+    $display->content['new-56'] = $pane;
+    $display->panels['middle'][1] = 'new-56';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3670,7 +4121,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-50';
+    $pane->pid = 'new-57';
     $pane->panel = 'one_main';
     $pane->type = 'custom';
     $pane->subtype = 'coming_soon';
@@ -3691,8 +4142,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-50'] = $pane;
-    $display->panels['one_main'][0] = 'new-50';
+    $display->content['new-57'] = $pane;
+    $display->panels['one_main'][0] = 'new-57';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3781,7 +4232,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-51';
+    $pane->pid = 'new-58';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -3814,10 +4265,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-51'] = $pane;
-    $display->panels['middle'][0] = 'new-51';
+    $display->content['new-58'] = $pane;
+    $display->panels['middle'][0] = 'new-58';
     $pane = new stdClass();
-    $pane->pid = 'new-52';
+    $pane->pid = 'new-59';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -3850,8 +4301,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-52'] = $pane;
-    $display->panels['middle'][1] = 'new-52';
+    $display->content['new-59'] = $pane;
+    $display->panels['middle'][1] = 'new-59';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3949,7 +4400,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-53';
+    $pane->pid = 'new-60';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -3968,8 +4419,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-53'] = $pane;
-    $display->panels['middle'][0] = 'new-53';
+    $display->content['new-60'] = $pane;
+    $display->panels['middle'][0] = 'new-60';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

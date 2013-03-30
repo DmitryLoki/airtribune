@@ -1517,6 +1517,20 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
+    'accommodation' => 'accommodation',
+    'activity' => 'activity',
+  );
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -1581,6 +1595,53 @@ function views_feature_views_default_views() {
       'fixed' => '56',
       'label' => 'Global: Null',
     ),
+    'nid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Nid',
+    ),
+  );
+
+  /* Display: Active accommodation pane */
+  $handler = $view->new_display('panel_pane', 'Active accommodation pane', 'panel_pane_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'openlayers_map';
+  $handler->display->display_options['style_options']['map'] = 'accommodation_map';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'null' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '56',
+      'label' => 'Global: Null',
+    ),
+    'nid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Nid',
+    ),
   );
 
   /* Display: Overlay accommodations */
@@ -1589,6 +1650,21 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -1664,6 +1740,31 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+
+  /* Display: Overlay active accommodation */
+  $handler = $view->new_display('openlayers', 'Overlay active accommodation', 'accommodation_active');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Node is published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Node type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'accommodation' => 'accommodation',
+  );
 
   /* Display: Overlay HQ */
   $handler = $view->new_display('openlayers', 'Overlay HQ', 'overlay_hq');
@@ -1857,8 +1958,10 @@ function views_feature_views_default_views() {
     t('All'),
     t('Pane'),
     t('View panes'),
+    t('Active accommodation pane'),
     t('Overlay accommodations'),
     t('Overlay activities'),
+    t('Overlay active accommodation'),
     t('Overlay HQ'),
     t('Overlay HQ location'),
     t('Headquarter location'),
@@ -3038,7 +3141,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -3240,7 +3343,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -3456,7 +3559,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';

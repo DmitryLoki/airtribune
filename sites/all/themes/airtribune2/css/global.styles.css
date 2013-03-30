@@ -2352,6 +2352,15 @@ p { margin:0; padding:9px 0 11px}
 	border-radius: 2px 2px 0 0;
 
 }
+
+.second_sidebar .pane-panels-mini {
+   background: none;
+   border: none;
+   margin: 0;
+   padding: 0;
+   position: inherit;
+}
+
 .second_sidebar .block .pane-content { margin:9px 9px 0; padding-bottom:1px}
 .second_sidebar .next_events .pane-content { margin:9px 10px 13px;}
 .next_events .view-content { padding-bottom:4px;}
