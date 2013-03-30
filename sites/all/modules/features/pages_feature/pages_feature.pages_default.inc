@@ -1077,7 +1077,7 @@ event/*/map/*',
     'body_classes_to_add' => '',
   );
   $display = new panels_display();
-  $display->layout = 'onecol';
+  $display->layout = 'onecolthreerow';
   $display->layout_settings = array(
     'items' => array(
       'canvas' => array(

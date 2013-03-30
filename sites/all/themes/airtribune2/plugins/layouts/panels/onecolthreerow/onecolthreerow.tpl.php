@@ -1,6 +1,6 @@
 <!-- -*-html-helper-*- -->
 
-<div class="panel-display panel-twocol-fourrow clear-block" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>  
+<div class="panel-display panel-onecol-threerow clear-block" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>  
   <div id="super">
     <header id="header" class="clearfix" role="banner">
       <div id="header_inner"><div class="region_inner">
