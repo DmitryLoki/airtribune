@@ -57,6 +57,7 @@ Person to contact in case of emergency: <b>@person_emergency</b>
 Contact phone number in case of emergency: <b>@phone_emergency</b>
 Blood type: <b>@blood_type</b>');
 
+
 // notify user about password change
 define('AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE', 'Your password was changed.');
 define('AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE', 'Dear @fullname!
@@ -65,6 +66,37 @@ Your password has been changed.
 If you did not initialize password change procedure, please contact support immediately.
 
 You may use support@airtribune.com, or simply reply to this email.');
+
+
+// messages in profile about mail change
+define('AT_MSG_SITE_USER_MAIL_CHANGE_INFO', 'Your email is your login in the system. To change email you must enter your new email and password. Your email will be changed after confirmation.');
+define('AT_MSG_SITE_USER_MAIL_CHANGE_CONFIRM_AT_24H', 'The change email procedure has been initialized. You have 24 hours to finish it. Further instructions have been sent to your new email address. Until you confirm your new email the old email address will be valid as your login in the system.');
+define('AT_MSG_SITE_USER_MAIL_CHANGE_CONFIRMED', 'Your new email address is confirmed. This is your new login.');
+
+// mail change link confirmation
+define('AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_LINK_CONFIRM', 'Change email confirmation');
+define('AT_MSG_EMAIL_BODY_USER_MAIL_CHANGE_LINK_CONFIRM', 'Dear %fullname!
+
+To complete change email procedure please follow the link below.
+@user_changemail_url
+
+If this link is not used during 24 hours your current email will not be changed.');
+
+// notify old mail address about mail change
+define('AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_NOTIFY_OLD_MAIL', 'Your email has been changed');
+define('AT_MSG_EMAIL_BODY_USER_MAIL_CHANGE_NOTIFY_OLD_MAIL', 'Dear %fullname!
+
+Your email is confirmed and you may use it as your login now.');
+
+// notify new mail address about successfully change
+define('AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_NOTIFY_NEW_MAIL', 'Your email has been changed');
+define('AT_MSG_EMAIL_BODY_USER_MAIL_CHANGE_NOTIFY_NEW_MAIL', 'Dear %fullname!
+
+You have started change email procedure for your acсount using this email address:
+
+%new_mail
+
+If you haven’t, that means that some one else knows your password. Change your password immediately or contact the support service: support@airtribune.com');
 
 // define('AT_MSG_SITE_', '');
 // define('AT_MSG_EMAIL_SUBJ_', '');
