@@ -23,8 +23,8 @@ function variables_strongarm() {
     'language-default' => '-4',
     'locale-cookie' => '0',
   );
-
   $export['locale_language_providers_weight_language_content'] = $strongarm;
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
