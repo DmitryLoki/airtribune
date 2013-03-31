@@ -1164,7 +1164,7 @@ function airtribune2_preprocess_field(&$vars) {
     $settings = array(
       'full_image_modal' => 'colorbox',
       'jcarousel_image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE,
-      'full_image_style' => 'large',
+      'full_image_style' => '',
     );
     $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
 
