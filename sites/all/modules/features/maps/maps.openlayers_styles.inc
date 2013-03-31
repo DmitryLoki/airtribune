@@ -184,7 +184,7 @@ function maps_openlayers_styles() {
     'labelAlign' => 'cm',
   );
   $export['marker_landing_zone'] = $openlayers_styles;
-
+  
   $openlayers_styles = new stdClass();
   $openlayers_styles->disabled = FALSE; /* Edit this to true to make a default openlayers_styles disabled initially */
   $openlayers_styles->api_version = 1;
@@ -284,6 +284,6 @@ function maps_openlayers_styles() {
     'labelAlign' => 'cm',
   );
   $export['marker_hqacc_hover'] = $openlayers_styles;
-
+  
   return $export;
 }
