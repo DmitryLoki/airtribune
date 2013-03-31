@@ -315,7 +315,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_password_reset_subject';
-  $strongarm->value = 'Airtribune.com - Password recovery link';
+  $strongarm->value = 'Password recovery link';
   $export['user_mail_password_reset_subject'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -363,7 +363,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_register_no_approval_required_subject';
-  $strongarm->value = 'Airtribune.com - Email confirmation';
+  $strongarm->value = 'Email confirmation';
   $export['user_mail_register_no_approval_required_subject'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -415,7 +415,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_status_activated_subject';
-  $strongarm->value = 'Airtribune.com - Your account has been created';
+  $strongarm->value = 'Your account has been created';
   $export['user_mail_status_activated_subject'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -566,7 +566,7 @@ Airtribune team';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'user_registrationpassword_register_subject';
-  $strongarm->value = 'Airtribune.com - Email confirmation';
+  $strongarm->value = 'Email confirmation';
   $export['user_registrationpassword_register_subject'] = $strongarm;
 
   $strongarm = new stdClass();
