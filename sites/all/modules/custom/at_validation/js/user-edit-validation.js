@@ -2,7 +2,7 @@ jQuery(function ($) {
     var passwordFieldset = $('#password-fieldset'),
         passwordFieldsetWrapper = passwordFieldset.find('.fieldset-wrapper'),
         passFields = $('#edit-current-pass,#edit-pass-pass1,#edit-pass-pass2'),
-        passField = passFields.filter('#edit-pass-pass2'),
+        passField = passFields.filter('#edit-pass-pass1'),
         passConfirm = passFields.filter('#edit-pass-pass2'),
         form = passwordFieldset.closest('form'),
         formValidator = form.validate();
@@ -22,13 +22,17 @@ jQuery(function ($) {
                 passConfirm[0].visited = false;
                 passFields.bind('keyup', function () {
                     if (passConfirm.val() == "" || passField.val() == "") {
-                        disableForm()
+                        disableForm();
+                        passField.rules('add',{required:true});
+                        Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
                     }
                     passFields.unbind('keyup', arguments.callee);
                 });
 
             } else {
                 passFields.val('');
+                passField.rules('remove','required');
+                Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
                 passFields.removeClass('error').siblings('.form_booble').css('display', 'none');
                 passFields.parents('.form-item').removeClass('field_error field_weak field_good field_excellent');
                 form.data('validate-elements', []);
