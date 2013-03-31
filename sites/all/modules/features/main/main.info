@@ -12,6 +12,7 @@ dependencies[] = list
 dependencies[] = name
 dependencies[] = options
 dependencies[] = profile2
+dependencies[] = at_language_set
 features[ctools][] = field_group:field_group:1
 features[ctools][] = field_validation:default_field_validation_rules:2
 features[features_api][] = api:1

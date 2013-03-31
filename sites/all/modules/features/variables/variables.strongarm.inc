@@ -13,6 +13,21 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'locale_language_providers_weight_language_content';
+  $strongarm->value = array(
+    'locale-url' => '-10',
+    'locale-session' => '-8',
+    'locale-user' => '-7',
+    'locale-browser' => '-6',
+    'locale-interface' => '-5',
+    'language-default' => '-4',
+    'locale-cookie' => '0',
+  );
+
+  $export['locale_language_providers_weight_language_content'] = $strongarm;
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'geoip_data_file';
   $strongarm->value = 'sites/all/libraries/geoip/GeoLiteCity.dat';
   $export['geoip_data_file'] = $strongarm;
