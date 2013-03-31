@@ -275,6 +275,9 @@ function _pg_contest_urls_init($nid) {
         '/pilots/status',
         '/pilots/nation',
         '/map',
+        '/map/accommodations',
+        '/map/activities',
+        '/map/basic',
         '/register',
     );
     return $result;
