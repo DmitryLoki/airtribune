@@ -45,7 +45,7 @@ function at_validation_validator__name__name_widget_id($element, $triggering_ele
   $patterns = array();
   
   
-  $blank = t('%name also requires the following parts: %components.', array('%name' => $field_label, '%components' => '_blank_'));
+  $blank = t('%name also requires the following parts: %components.', array('%name' => t($field_label), '%components' => '_blank_'));
   $blank = explode('_blank_', $blank);
   $patterns['components_blank'] = $blank[0];
   $patterns['components_check'] = t('%name also requires the following parts: %components.', array('%name' => $field_label, '%components' => $triggering_title));
@@ -61,11 +61,15 @@ function at_validation_validator__name__name_widget_id($element, $triggering_ele
       // Else if message is common for a number of elements, choose the most appropriate element
       // and return the message.
       if (strpos($error, $patterns['components_blank']) !== FALSE) {
+        unset($errors[$k]);
+        break;
+        /*
         if ($error != $patterns['components_check']) {
           //$component = ($component == 'given') ? 'family' : 'given';
           unset($errors[$k]);
           break;
         }
+        */
       }
       // Else if 'Name is required' message.
       elseif ($error == $patterns['field_required']) {
