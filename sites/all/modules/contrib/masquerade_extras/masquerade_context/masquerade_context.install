@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ *  Installation tasks for masquerade_context.
+ */
+
+/**
+ * Implements hook_enable().
+ *
+ * @see hook_enable()
+ */
+function masquerade_context_enable() {
+  // @todo: This cache clearing approach is pretty wonky.
+  //  What is the right way to ensure these plugins are instantly available?
+  context_invalidate_cache();
+  context_conditions(TRUE);
+  cache_clear_all('*', 'cache', TRUE);
+  cache_clear_all('*', 'cache_bootstrap', TRUE);
+}
+
+/**
+ * Implements hook_disable().
+ *
+ * @see hook_disable()
+ */
+function masquerade_context_disable() {
+  // Flush context's plugin caches.
+  masquerade_context_enable();
+}
