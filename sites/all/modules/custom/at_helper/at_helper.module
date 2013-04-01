@@ -472,7 +472,7 @@ function at_helper_page_manager_contexts_alter(&$contexts, $placeholders) {
 
 function at_helper_init() {
   //if (arg(0) == 'events') {
-    drupal_add_js( drupal_get_path('module', 'at_helper') . '/js/event_map_title_helper.js' );
+  
   //}
 }
 
