@@ -379,11 +379,12 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Events';
+  $handler->display->display_options['title'] = 'Pilot events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
     3 => '3',
+    7 => '7',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -434,6 +435,13 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'Empty result.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Relationship: OG membership: User from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_user']['id'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
@@ -489,8 +497,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['uid']['table'] = 'users';
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'og_membership_related_user';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'empty';
   $handler->display->display_options['arguments']['uid']['title_enable'] = TRUE;
-  $handler->display->display_options['arguments']['uid']['title'] = 'Events: %1';
+  $handler->display->display_options['arguments']['uid']['title'] = 'Pilot events: %1';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
@@ -506,10 +515,14 @@ function views_feature_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'admin/events';
+  $handler->display->display_options['path'] = 'admin/people/pilots/events';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Pilot events';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
   $translatables['admin_events'] = array(
     t('Master'),
-    t('Events'),
+    t('Pilot events'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -523,6 +536,7 @@ function views_feature_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('Empty result.'),
     t('user from OG membership'),
     t('Group node from OG membership'),
     t('Title'),
@@ -531,7 +545,7 @@ function views_feature_views_default_views() {
     t('Payment status'),
     t('Membership edit'),
     t('All'),
-    t('Events: %1'),
+    t('Pilot events: %1'),
     t('Page'),
   );
   $export['admin_events'] = $view;
@@ -553,12 +567,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
     3 => '3',
+    7 => '7',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
-  $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -646,7 +660,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['label'] = 'User events';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = 'events';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['alter']['path'] = 'admin/events/[uid]';
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = 'admin/people/pilots/events/[uid]';
   /* Field: User: Masquerade As */
   $handler->display->display_options['fields']['masquerade_as']['id'] = 'masquerade_as';
   $handler->display->display_options['fields']['masquerade_as']['table'] = 'users';
@@ -674,6 +688,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['filters']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['filters']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['filters']['field_full_name']['operator'] = 'allwords';
   $handler->display->display_options['filters']['field_full_name']['group'] = 1;
   $handler->display->display_options['filters']['field_full_name']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_full_name']['expose']['operator_id'] = 'field_full_name_op';
@@ -732,7 +747,11 @@ function views_feature_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'admin/pilots';
+  $handler->display->display_options['path'] = 'admin/people/pilots';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Pilots';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
   $translatables['admin_pilots'] = array(
     t('Master'),
     t('Pilots'),
@@ -3144,6 +3163,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Field: Groups audience (og_group_ref) */
+  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
@@ -3917,10 +3941,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_address']['ui_name'] = 'Country (excluded)';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
+  $handler->display->display_options['fields']['field_address']['label'] = '';
   $handler->display->display_options['fields']['field_address']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
+  $handler->display->display_options['fields']['field_address']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
   $handler->display->display_options['fields']['field_address']['settings'] = array(
     'use_widget_handlers' => 1,
