@@ -1,0 +1,10 @@
+name = Masquerade Drush Commands
+core = 7.x
+description = Provides Drush commands for masquerade.
+
+; Information added by drupal.org packaging script on 2012-07-26
+version = "7.x-2.0-beta4"
+core = "7.x"
+project = "masquerade_extras"
+datestamp = "1343339861"
+

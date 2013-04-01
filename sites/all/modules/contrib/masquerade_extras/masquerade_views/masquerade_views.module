@@ -1,0 +1,38 @@
+<?php
+/**
+ * @file
+ *  Provides Views support to Masquerade.
+ */
+
+/**
+ * Implements hook_views_api().
+ *
+ * @see hook_views_api()
+ */
+function masquerade_views_views_api() {
+  return array(
+    'api' => '3',
+    'path' => drupal_get_path('module', 'masquerade_views'),
+  );
+}
+
+/**
+ * Implements hook_views_handlers().
+ *
+ * Use hook_views_handlers() to avoid forcing our handler to be loaded
+ * on every page call with files[] in the .info file.
+ *
+ * @see hook_views_handlers()
+ */
+function masquerade_views_views_handlers() {
+  return array(
+    'info' => array(
+      'path' => drupal_get_path('module', 'masquerade_views') . '/handlers',
+    ),
+    'handlers' => array(
+      'masquerade_handler_field_user' => array(
+        'parent' => 'views_handler_field_user_link'
+      ),
+    ),
+  );
+}

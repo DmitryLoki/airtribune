@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ *  Adds Context module support for masquerade.
+ */
+
+/**
+ * @note
+ *  Context's hooks need to be defined here because the context module
+ *  is not using hook_hook_info() yet. We can remove this line once the
+ *  following patch is committed to context.
+ * @link http://drupal.org/node/1674032
+ */
+module_load_include('inc', 'masquerade_context', 'masquerade_context.context');
+
+/**
+ * Implements hook_user().
+ *
+ * @see hook_user()
+ */
+function masquerade_context_user_view($account, $view_mode) {
+  if ('full' == $view_mode
+    && $plugin = context_get_plugin('condition', 'masquerade_context')) {
+    // Evaluates this plugin.
+    $plugin->execute($account);
+  }
+}
