@@ -3550,7 +3550,7 @@ table tr td.:first-child { border-left: none;}
 .page-event-map .pane-page-content .pane-views-panes .views-field-field-geofield-distance { background-position: 0 -1475px;}
 .page-event-map .pane-page-content .pane-views-panes .views-field-field-hotel-wifi { background-position: 0 -1575px; color: #d3db64}
 .page-event-map .pane-page-content .pane-views-panes .views-field-field-price-single { background-position: 0 -1675px; color: #f6cc54}
-.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-double { background-position: 0 -1775px; color: #e59e50}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-double { background-position: 0 -1775px; color: #e59e50; padding-right: 0; }
 
 .page-event-map .pane-page-content .pane-views-panes span.currency-EUR:after { content: " EUR"}
 .page-event-map .pane-page-content .pane-views-panes span.currency-USD:after { content: " USD"}
