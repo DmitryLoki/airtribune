@@ -3522,10 +3522,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_address']['ui_name'] = 'Country (excluded)';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
+  $handler->display->display_options['fields']['field_address']['label'] = '';
   $handler->display->display_options['fields']['field_address']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
+  $handler->display->display_options['fields']['field_address']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
   $handler->display->display_options['fields']['field_address']['settings'] = array(
     'use_widget_handlers' => 1,
