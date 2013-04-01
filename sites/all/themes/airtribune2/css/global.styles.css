@@ -3162,6 +3162,7 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .form-item .date-padding .ajax-progress { display: inline; float: none; margin-left: 3px; }
 .form-item .ajax-progress .throbber { display: inline-block !important; float: none; position: absolute; margin-top: 7px;}
 .form-item .ajax-progress .message { margin-top: 4px;}
+.page-user .pane-page-content form .form-type-date-select div.message { display: inline-block; line-height: 12px; margin-top: 0; vertical-align: middle; width: 140px;}
 
 /* user avatar */
 .page-user-edit .pane-page-content form .field-type-image .description { margin-bottom: -23px;}
