@@ -481,10 +481,11 @@ table {
 #main-content,
 .block-inner,
 .pane-inner,
+.pane-panels-mini .at-panel .pane-inner,
 .menu-wrapper,
 .branding-elements,
 .breadcrumb-wrapper,
-.attribution,
+.attribution, 
 .at-panel .rounded-corner,
 .block-panels-mini > .block-title,
 div.messages {
