@@ -3359,6 +3359,22 @@ table tr td.:first-child { border-left: none;}
 .field-name-field-photo .jcarousel-next:hover { background-position: 50% -790px}
 .field-name-field-photo .jcarousel-next:active { background-position: 50% -170px}
 
+
+/* Pilots statistics */
+.pane-pilots-statistics { float: left; padding-top: 9px;}
+.pane-pilots-statistics .pane-inner { margin: 0;}
+.pane-pilots-statistics .pane-content div { float: left;}
+.pane-pilots-statistics .pilots-result { width: 68px; height: 38px; text-align: center; border: 1px solid #cad541; background: #d3dc3f; color: #ffffff; font: bold 26px/38px Arial, Helvetica, sans-serif;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.pane-pilots-statistics .pilots-total .pilots-result { background-color: #b6c8d7; border-color: #afc2d2;}
+.pane-pilots-statistics .pilots-text { padding:0 10px; color: #c2c94e; width: 80px; font: bold 14px/20px Arial, Helvetica, sans-serif; margin-top: -1px;}
+.pane-pilots-statistics .pilots-total .pilots-text { color: #a2b1c0;}
+
 	/* Footer */
 
 #footer h2.block-title { color:#004b66; font-size:14px; margin:0; padding:0; font-weight:bold;}
