@@ -21,7 +21,7 @@
       <div class="es-count"><?php print $pilots_waiting; ?></div>
       <div class="es-label">
         <?php print $pilots_waiting_link; ?><br/>
-        <span><?php print t('in waiting list'); ?></span>
+        <span><?php print t('total registered'); ?></span>
       </div>
     </div>
     <div class="more-link">
