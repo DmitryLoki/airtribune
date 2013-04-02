@@ -48,7 +48,9 @@ drupal_render($reg_form['profile_main']['field_full_name']);
 
 
 print drupal_render($reg_form['profile_main']['field_gender']);
-
+$lang = $og_form['field_contestant_number']['#language'];
+$og_form['field_contestant_number'][$lang][0]['value']['#title'] = t('Pilot\'s number');
+$og_form['field_contestant_number'][$lang][0]['value']['#description'] = t($og_form['field_contestant_number'][$lang][0]['value']['#description']);
 
 $lang = $reg_form['profile_main']['field_birthdate']['#language'];
 $reg_form['profile_main']['field_birthdate'][$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $reg_form['profile_main']['field_birthdate'][$lang][0]['#title']);

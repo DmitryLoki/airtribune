@@ -58,7 +58,7 @@ function image_styles_feature_image_default_styles() {
   $styles['contest_thumbnail'] = array(
     'name' => 'contest_thumbnail',
     'effects' => array(
-      2 => array(
+      10 => array(
         'label' => 'Resize',
         'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
         'effect callback' => 'image_resize_effect',
@@ -68,8 +68,8 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_resize',
         'data' => array(
-          'width' => '160',
-          'height' => '100',
+          'width' => '173',
+          'height' => '110',
         ),
         'weight' => '1',
       ),

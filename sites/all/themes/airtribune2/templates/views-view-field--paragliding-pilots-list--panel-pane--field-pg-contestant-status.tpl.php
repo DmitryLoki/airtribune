@@ -4,6 +4,8 @@
  * @file
  * This template is used to print a single field in a view.
  *
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ *
  * It is not actually used in default Views, as this is registered as a theme
  * function which has better performance. For single overrides, the template is
  * perfectly okay.
@@ -22,4 +24,13 @@
  * the view is modified.
  */
 ?>
-<?php print '<span class="'.str_replace(' ','-',trim($field->original_value)).'">'.str_replace(trim($field->original_value),t(trim($field->original_value)),$output).'</span>'; ?>
+<?php
+  // Get allowed values for field. This values used for class definition
+  $f_values = $field->field_info['settings']['allowed_values'];
+  $values = array();
+  foreach ($f_values as $value) {
+    $values[t($value)] = $value;
+  }
+?>
+
+<?php print '<span class="'.str_replace(' ','-',$values[trim($field->original_value)]).'">'.str_replace(trim($field->original_value),t(trim($field->original_value)),$output).'</span>'; ?>
