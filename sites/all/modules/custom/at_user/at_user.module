@@ -25,6 +25,14 @@ function at_user_menu() {
     'weight' => 10,
   );
 
+  $items['user/changemail/%/%/%/%'] = array(
+    'title' => 'Confirm account',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('at_user_changemail_confirm', 2, 3, 4, 5),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -214,7 +222,7 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
     drupal_mail('system', 'mail', $user->mail, $user->language,
       array(
         'context' => array(
-          'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
+          'subject' => t(AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
           'message' => t(AT_MSG_EMAIL_BODY_USER_PASSWORD_CHANGE . AT_MSG_EMAIL_BODY_SIGNATURE, array('@fullname' => $fullname))
         )
       )
@@ -366,6 +374,61 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
       // Everything will be in the watchdog's URL for the administrator to check.
       drupal_access_denied();
     }
+  }
+}
+
+
+function at_user_changemail_confirm($form, &$form_state, $old_mail, $new_mail, $timestamp, $hashed_pass) {
+  global $user;
+
+  // Time out, in seconds, until login URL expires. 24 hours = 86400 seconds.
+  $timeout = 86400;
+  $current = REQUEST_TIME;
+
+  $old_mail = base64_decode($old_mail);
+  $new_mail = base64_decode($new_mail);
+
+  if ($timestamp <= $current && $account = user_load_by_mail($old_mail)) {
+    // No time out for first time login.
+    if ($account->login && $current - $timestamp > $timeout) {
+      drupal_set_message(t('You have tried to mail change link that has expired. Please request a new from your profile.'));
+      drupal_goto('user');
+    }
+    elseif ($account->uid && $timestamp >= $account->login && $timestamp <= $current && $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login)) {
+      $change_info = array(
+        '%fullname' => at_user_get_full_name($account),
+        '%uid' => $account->uid,
+        '%timestamp' => $timestamp,
+        '%old_mail' => $old_mail,
+        '%new_mail' => $new_mail,
+      );
+      $msg_to_old_mail = array(
+        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_NOTIFY_OLD_MAIL),
+        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT . AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_NOTIFY_OLD_MAIL, $change_info)
+      );
+      $msg_to_new_mail = array(
+        'subject' => t(AT_MSG_EMAIL_SUBJ_PREFIX . AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_NOTIFY_NEW_MAIL),
+        'message' => t(AT_MSG_EMAIL_BODY_PILOT_REG_AT_EVENT_MAIL_TO_PILOT . AT_MSG_EMAIL_SUBJ_USER_MAIL_CHANGE_NOTIFY_NEW_MAIL, $change_info)
+      );
+
+      watchdog('user', 'User %name(%uid) change own mail from %old_mail to %new_mail at time %timestamp.', $change_info);
+
+      // change mail
+      user_save($account, array('mail' => $new_mail));
+      // show message
+      drupal_set_message(t(AT_MSG_SITE_USER_MAIL_CHANGE_CONFIRMED));
+      // notify about mail change
+      drupal_mail('system', 'mail', $old_mail, $user->language, array('context' => $msg_to_old_mail));
+      drupal_mail('system', 'mail', $new_mail, $user->language, array('context' => $msg_to_new_mail));
+    }
+    else {
+      drupal_set_message(t('You have already use this link to change mail'));
+    }
+
+    drupal_goto('user');
+  }
+  else {
+    drupal_access_denied();
   }
 }
 

@@ -23,9 +23,9 @@
     <caption>
         <?php
           switch ($title) {
-            case t('Male'): print '<div class="male">' .t('Men') .'</div>'; 
+            case 'Male': print '<div class="male">' . t('Men') .'</div>';
               break;
-            case t('Female'): print '<div class="female">' .t('Women') .'</div>'; 
+            case 'Female': print '<div class="female">' . t('Women') .'</div>';
               break;
           }
         ?>

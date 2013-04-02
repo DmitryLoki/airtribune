@@ -22,9 +22,8 @@
   <?php if (!empty($title)) : ?>
     <caption>
         <?php
-          $country_code = ltrim($title,'Nation: ');
           if (isset($title)) {
-            $country = country_load($country_code);
+            $country = country_load($title);
             if (isset($country->iso3)) {
               $country_icon = theme(
                 'countryicons_icon_sprite',

@@ -1,0 +1,66 @@
+diff --git a/field_collection.module b/field_collection.module
+index bf6a005..589d965 100644
+--- a/field_collection.module
++++ b/field_collection.module
+@@ -886,17 +886,35 @@ function field_collection_field_settings_form($field, $instance) {
+  * creation or to save changes to the host entity and its collections at once.
+  */
+ function field_collection_field_presave($host_entity_type, $host_entity, $field, $instance, $langcode, &$items) {
+-  foreach ($items as &$item) {
++  foreach ($items as $key => &$item) {
+     // In case the entity has been changed / created, save it and set the id.
+     // If the host entity creates a new revision, save new item-revisions as
+     // well.
+     if (isset($item['entity']) || !empty($host_entity->revision)) {
+-
+       if ($entity = field_collection_field_get_entity($item)) {
+-
+         if (!empty($entity->is_new)) {
+           $entity->setHostEntity($host_entity_type, $host_entity, LANGUAGE_NONE, FALSE);
+         }
++        else {
++          if (($host_entity_type == 'node' || $host_entity_type == 'field_collection_item') && isset($item['entity'])) {
++            // Reset item_id when it's a new translation.
++            if (isset($host_entity->nid) && !$host_entity->nid) {
++              $item['entity']->item_id = '';
++            }
++            else {
++              $query = new EntityFieldQuery();
++              $query->fieldCondition($item['entity']->field_name, 'value', $item['entity']->item_id, '=');
++              if (isset($host_entity->nid)) {
++                $query->entityCondition('entity_id', $host_entity->nid, '!=');
++              }
++              $result = $query->execute();
++              // Reset item_id if another node with the same instance exists.
++              if (!empty($result) && empty($host_entity->revision)) {
++                $item['entity']->item_id = '';
++              }
++            }
++          }
++        }
+ 
+         // If the host entity is saved as new revision, do the same for the item.
+         if (!empty($host_entity->revision)) {
+@@ -917,6 +935,13 @@ function field_collection_field_presave($host_entity_type, $host_entity, $field,
+         );
+       }
+     }
++    else {
++      // Prevent collections from being attached to newly translated content
++      // when the field collection widget is set to hidden.
++      if ($host_entity_type == 'node' && isset($entity->translation_source)) {
++        unset($items[$key]);
++      }
++    }
+   }
+ }
+ 
+@@ -1586,7 +1611,7 @@ function field_collection_field_get_entity(&$item, $field_name = NULL) {
+   elseif (isset($item['value'])) {
+     // By default always load the default revision, so caches get used.
+     $entity = field_collection_item_load($item['value']);
+-    if ($entity->revision_id != $item['revision_id']) {
++    if ($entity !== FALSE && $entity->revision_id != $item['revision_id']) {
+       // A non-default revision is a referenced, so load this one.
+       $entity = field_collection_item_revision_load($item['revision_id']);
+     }

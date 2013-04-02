@@ -1202,6 +1202,7 @@ Teams',
             'delete' => 'Delete',
             'description' => TRUE,
             'edit' => 'Edit',
+            'translate' => 'Translate',
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
@@ -1247,13 +1248,16 @@ Teams',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_collection_organizers',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'hide_blank_items' => TRUE,
+        'hide_blank_items' => 1,
         'path' => '',
         'profile2_private' => FALSE,
       ),
@@ -1274,6 +1278,7 @@ Teams',
             'delete' => 'Delete',
             'description' => TRUE,
             'edit' => 'Edit',
+            'translate' => 'Translate',
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
@@ -2462,6 +2467,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_flying_info',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -2511,6 +2519,7 @@ Prof.',
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_flying_info',
       'label' => 'Flying site',
       'required' => 1,
@@ -3039,6 +3048,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_info',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -3088,6 +3100,7 @@ Prof.',
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_info',
       'label' => 'Event info',
       'required' => 1,
@@ -3384,6 +3397,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_prizes',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -3433,6 +3449,7 @@ Prof.',
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_prizes',
       'label' => 'Prize fund and scoring categories',
       'required' => 0,
@@ -3697,6 +3714,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_selection',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -3934,6 +3954,89 @@ Prof.',
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_tiny_path'.
+  $fields['node-pg_contest-field_tiny_path'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_tiny_path',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Internal path containing letters, numbers, hyphens, and underscores',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 53,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_tiny_path',
+      'label' => 'Tiny path',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '46',
       ),
     ),
   );
@@ -4238,6 +4341,7 @@ Prof.',
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
   t('How to get here');
+  t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
   t('Local rules');
@@ -4271,6 +4375,7 @@ Teams');
   t('Taxi');
   t('Tel');
   t('Time zone');
+  t('Tiny path');
   t('Title');
   t('Train');
   t('Web site');

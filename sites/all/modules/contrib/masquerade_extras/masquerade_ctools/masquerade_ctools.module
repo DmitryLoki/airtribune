@@ -1,0 +1,80 @@
+<?php
+/**
+ * @file
+ *  Allows Ctools to look for masquerade plugins.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * Tell ctools where to look for plugins.
+ *
+ * @see hook_ctools_plugin_directory()
+ */
+function masquerade_ctools_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools') {
+    return "plugins/$plugin_type";
+  }
+
+  return '';
+}
+
+/**
+ * Evaluate if the account provided is posing as another user.
+ * @param int|stdClass $account
+ *  The user account (or id) to evaluate.
+ * @returns
+ *  TRUE if the account provided is masquerading.
+ *  FALSE otherwise.
+ * @retval bool
+ */
+function masquerade_ctools_is_masquerading($account) {
+  global $user;
+  if (is_object($account)) {
+    $account = $account->uid;
+  }
+
+  // Check if the account provided is the current user.
+  if ($user->uid == $account) {
+    return (isset($_SESSION['masquerading']) && is_numeric($_SESSION['masquerading']));
+  }
+
+  // You can override this database query with:
+  // hook_query_masquerade_ctools_is_masquerading_alter().
+  // @see hook_query_TAG_alter()
+  $query = db_select('masquerade', 'm')
+    ->addTag('masquerade_ctools_is_masquerading')
+    ->fields('m', array('uid_as'))
+    ->condition('uid_from', $account, '=')
+    ->range(0,1)
+    ->execute();
+  $result = $query->fetchCol();
+  return !empty($result);
+}
+
+/**
+ * Evaluate if the account provided is in use by another user.
+ * @param int|stdClass $account
+ *  The user account (or id) to evaluate.
+ * @returns
+ *  TRUE if the account provided is being masqueraded.
+ *  FALSE otherwise.
+ * @retval bool
+ */
+function masquerade_ctools_is_being_masqueraded($account) {
+  if (is_object($account)) {
+    $account = $account->uid;
+  }
+
+  // You can override this database query with:
+  // hook_query_masquerade_ctools_is_masquerading_alter().
+  // @see hook_query_TAG_alter()
+  $query = db_select('masquerade', 'm')
+    ->addTag('masquerade_ctools_is_being_masqueraded')
+    ->fields('m', array('uid_from'))
+    ->condition('uid_as', $account, '=')
+    ->range(0,1)
+    ->execute();
+  $result = $query->fetchCol();
+  return !empty($result);
+}

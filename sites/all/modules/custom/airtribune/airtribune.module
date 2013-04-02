@@ -30,6 +30,7 @@ define('AIRTRIBUNE_FAI_CATEGORY_FIELD', 'field_fai_category');
 define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
+define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -192,8 +193,6 @@ function airtribune_preprocess_panels_pane(&$vars) {
   elseif ($vars['pane']->type == 'custom' && $vars['title']) {
     $vars['title'] = t($configuration['title']);
   }
-
-
 
   // Add 'view more' links to panes.
   if (isset($configuration['more'], $vars['display']->args[0])) {

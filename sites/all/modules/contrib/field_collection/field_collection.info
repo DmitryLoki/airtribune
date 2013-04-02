@@ -4,7 +4,6 @@ core = 7.x
 dependencies[] = entity
 files[] = field_collection.test
 files[] = field_collection.info.inc
-files[] = includes/translation.handler.field_collection_item.inc
 files[] = views/field_collection_handler_relationship.inc
 configure = admin/structure/field-collections
 package = Fields
