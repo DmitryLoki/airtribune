@@ -54,6 +54,7 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
   $content['pilots_confirmed'] = array(
     '#theme_wrappers' => array('container'),
     '#attributes' => array('class' => array('pilots-confirmed')),
+    '#weight' => -1,
   );
   $content['pilots_confirmed']['result'] = array(
     '#theme' => 'container',
