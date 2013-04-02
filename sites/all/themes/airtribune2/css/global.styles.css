@@ -2987,7 +2987,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio .valign { display: none;}
 .page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
 .page-user .pane-page-content form .form-type-date-select .form-item { display: inline; position: static;}
-.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline;}
+.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline; position: relative;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
 .page-user .pane-page-content form .date-padding  { padding:0; float: none;}
 .page-user .pane-page-content form .date-padding .form-item { margin-top:6px; float: none; vertical-align: top;}
@@ -3165,7 +3165,9 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .form-item .date-padding .ajax-progress { display: inline; float: none; margin-left: 3px; }
 .form-item .ajax-progress .throbber { display: inline-block !important; float: none; position: absolute; margin-top: 7px;}
 .form-item .ajax-progress .message { margin-top: 4px;}
-.page-user .pane-page-content form .form-type-date-select div.message { display: inline-block; line-height: 12px; margin-top: 0; vertical-align: middle; width: 140px;}
+.i18n-ru.page-user .pane-page-content form .form-type-date-select div.message,
+.i18n-ru.page-user .pane-page-content form .form-type-emailfield div.message { display: inline-block; line-height: 12px; margin-top: 0; vertical-align: middle; width: 130px;}
+.form-item .ajax-progress div.throbber { position: absolute !important;}
 
 /* user avatar */
 .page-user-edit .pane-page-content form .field-type-image .description { margin-bottom: -23px;}
