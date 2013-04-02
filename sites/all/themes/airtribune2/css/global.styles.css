@@ -2780,7 +2780,7 @@ p { margin:0; padding:9px 0 11px}
 
 /* Feed photos */
 .page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:0}
-.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:2px; float:left; width: 173px; height: 110px; padding-left: 2px; margin-left: 0;}
+.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:2px; float:left; padding-left: 2px; margin-left: 0;}
 .page-event-details .pane-node-field-photos, 
 .page-event-details .pane-node-field-contest-photos,
 .page-event-details .pane-node-field-flying-site-photos { margin-left: -2px;}
