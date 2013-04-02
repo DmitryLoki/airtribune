@@ -2604,7 +2604,7 @@ p { margin:0; padding:9px 0 11px}
 .panel_info .pane-node-field-awards-photos .pane-content { margin:20px 0 0}
 .pane-node-field-awards-photos .field-items { margin:0 -5px 0 -10px;}
 .pane-node-field-awards-photos .field { margin-bottom:0}
-.pane-node-field-awards-photos .field-items .field-item { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px}
+.pane-node-field-awards-photos .field-items .field-item { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px; height: 82px;}
 /*.pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:both;}*/
 .pane-node-field-awards-photos .field-items .field-item a { color:#525c66}
 .pane-node-field-awards-photos .field-items .field-item img { vertical-align:middle; position:relative; display:inline-block; margin-bottom:2px;
@@ -2615,7 +2615,7 @@ p { margin:0; padding:9px 0 11px}
 
 }
 .pane-node-field-awards-photos .more-link { clear:both; padding-top:10px}
-.page-event-info .pane-node-field-awards-photos .more-link { padding-top:26px}
+.page-event-info .pane-node-field-awards-photos .more-link { padding-top:6px}
 
 /* How to get here */
 .page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px;}
@@ -2780,7 +2780,10 @@ p { margin:0; padding:9px 0 11px}
 
 /* Feed photos */
 .page-event-details .pane-node-field-flying-site-photos, .page-event-details .pane-node-field-contest-photos { padding-bottom:0}
-.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:20px; float:left; }
+.page-event-details .pane-node-field-flying-site-photos .field-item, .page-event-details .pane-node-field-contest-photos .field-item { padding-bottom:2px; float:left; width: 173px; height: 110px; padding-left: 2px; margin-left: 0;}
+.page-event-details .pane-node-field-photos, 
+.page-event-details .pane-node-field-contest-photos,
+.page-event-details .pane-node-field-flying-site-photos { margin-left: -2px;}
 
 .page-event-details .pane-node-field-flying-info { margin-right:0}
 
@@ -2984,7 +2987,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio .valign { display: none;}
 .page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
 .page-user .pane-page-content form .form-type-date-select .form-item { display: inline; position: static;}
-.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline;}
+.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline; position: relative;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
 .page-user .pane-page-content form .date-padding  { padding:0; float: none;}
 .page-user .pane-page-content form .date-padding .form-item { margin-top:6px; float: none; vertical-align: top;}
@@ -3162,6 +3165,9 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .form-item .date-padding .ajax-progress { display: inline; float: none; margin-left: 3px; }
 .form-item .ajax-progress .throbber { display: inline-block !important; float: none; position: absolute; margin-top: 7px;}
 .form-item .ajax-progress .message { margin-top: 4px;}
+.i18n-ru.page-user .pane-page-content form .form-type-date-select div.message,
+.i18n-ru.page-user .pane-page-content form .form-type-emailfield div.message { display: inline-block; line-height: 12px; margin-top: 0; vertical-align: middle; width: 130px;}
+.form-item .ajax-progress div.throbber { position: absolute !important;}
 
 /* user avatar */
 .page-user-edit .pane-page-content form .field-type-image .description { margin-bottom: -23px;}
@@ -3550,7 +3556,7 @@ table tr td.:first-child { border-left: none;}
 .page-event-map .pane-page-content .pane-views-panes .views-field-field-geofield-distance { background-position: 0 -1475px;}
 .page-event-map .pane-page-content .pane-views-panes .views-field-field-hotel-wifi { background-position: 0 -1575px; color: #d3db64}
 .page-event-map .pane-page-content .pane-views-panes .views-field-field-price-single { background-position: 0 -1675px; color: #f6cc54}
-.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-double { background-position: 0 -1775px; color: #e59e50}
+.page-event-map .pane-page-content .pane-views-panes .views-field-field-price-double { background-position: 0 -1775px; color: #e59e50; padding-right: 0; }
 
 .page-event-map .pane-page-content .pane-views-panes span.currency-EUR:after { content: " EUR"}
 .page-event-map .pane-page-content .pane-views-panes span.currency-USD:after { content: " USD"}
