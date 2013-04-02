@@ -125,7 +125,7 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z0-9-.,)(/\\\\& ]*$',
+    'data' => '^[\\x20-\\x7F]+$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
