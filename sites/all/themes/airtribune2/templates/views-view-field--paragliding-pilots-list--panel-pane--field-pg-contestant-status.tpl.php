@@ -28,9 +28,9 @@
   // Get allowed values for field. This values used for class definition
   $f_values = $field->field_info['settings']['allowed_values'];
   $values = array();
-  foreach ($f_values as $value) {
+  foreach ($f_values as $delta => $value) {
     $values[t($value)] = $value;
   }
 ?>
 
-<?php print '<span class="'.str_replace(' ','-',$values[trim($field->original_value)]).'">'.str_replace(trim($field->original_value),t(trim($field->original_value)),$output).'</span>'; ?>
+<?php print '<span class="' . str_replace(' ','-',$values[trim($field->original_value)]) . '">' . $output . '</span>'; ?>
