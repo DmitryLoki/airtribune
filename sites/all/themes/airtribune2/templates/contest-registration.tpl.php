@@ -48,6 +48,10 @@ if (!empty($form['profile_main'])) {
   drupal_render($form['profile_main']);
 }
 
+$lang = $form['field_contestant_number']['#language'];
+$form['field_contestant_number'][$lang][0]['value']['#title'] = t('Pilot\'s number');
+$form['field_contestant_number'][$lang][0]['value']['#description'] = t($form['field_contestant_number'][$lang][0]['value']['#description']);
+
 // Pilot profile
 // =====================
 // Address field

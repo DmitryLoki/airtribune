@@ -1210,10 +1210,111 @@ function airtribune2_tablesort_indicator($variables) {
 }
 
 /**
+ * Implements theme_colorbox_image_formatter().
+ */
+function airtribune2_colorbox_image_formatter($variables) {
+
+  $item = $variables['item'];
+  $entity_type = $variables['entity_type'];
+  $entity = $variables['entity'];
+  $field = $variables['field'];
+  $settings = $variables['display_settings'];
+  $items_obj = $entity->$field['field_name'];
+
+  $image = array(
+    'path' => $item['uri'], 
+    'alt' => $item['alt'], 
+    'title' => $item['title'], 
+    'style_name' => $settings['colorbox_node_style'],
+  );
+
+  if (isset($item['width']) && isset($item['height'])) {
+    $image['width'] = $item['width'];
+    $image['height'] = $item['height'];
+  }
+
+  $entity_title = entity_label($entity_type, $entity);
+
+  switch ($settings['colorbox_caption']) {
+    case 'auto':
+      // If the title is empty use alt or the entity title in that order.
+      if (!empty($image['title'])) {
+        $caption = $image['title'];
+      }
+      elseif (!empty($image['alt'])) {
+        $caption = $image['alt'];
+      }
+      elseif (!empty($entity_title)) {
+        $caption = $entity_title;
+      }
+      else {
+        $caption = '';
+      }
+      break;
+    case 'title':
+      $caption = $image['title'];
+      break;
+    case 'alt':
+      $caption = $image['alt'];
+      break;
+    case 'node_title':
+      $caption = $entity_title;
+      break;
+    case 'custom':
+      $caption = token_replace($settings['colorbox_caption_custom'], array($entity_type => $entity, 'file' => (object) $item), array('clear' => TRUE));
+      break;
+    default:
+      $caption = '';
+  }
+
+  // Shorten the caption for the example styles or when caption shortening is active.
+  $colorbox_style = variable_get('colorbox_style', 'default');
+  $trim_length = variable_get('colorbox_caption_trim_length', 75);
+  if (((strpos($colorbox_style, 'colorbox/example') !== FALSE) || variable_get('colorbox_caption_trim', 0)) && (drupal_strlen($caption) > $trim_length)) {
+    $caption = drupal_substr($caption, 0, $trim_length - 5) . '...';
+  }
+
+  // Build the gallery id.
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $entity_id = !empty($id) ? $entity_type . '-' . $id : 'entity-id';
+  switch ($settings['colorbox_gallery']) {
+    case 'post':
+      $gallery_id = 'gallery-' . $entity_id;
+      break;
+    case 'page':
+      $gallery_id = 'gallery-all';
+      break;
+    case 'field_post':
+      $gallery_id = 'gallery-' . $entity_id . '-' . $field['field_name'];
+      break;
+    case 'field_page':
+      $gallery_id = 'gallery-' . $field['field_name'];
+      break;
+    case 'custom':
+      $gallery_id = $settings['colorbox_gallery_custom'];
+      break;
+    default:
+      $gallery_id = '';
+  }
+
+  if ($style_name = $settings['colorbox_image_style']) {
+    $path = image_style_url($style_name, $image['path']);
+  }
+  else {
+    $path = file_create_url($image['path']);
+  }
+
+  $count = count($items_obj['und']);
+
+  return theme('colorbox_imagefield', array('image' => $image, 'path' => $path, 'title' => $caption, 'gid' => $gallery_id, 'count' => $count));
+}
+
+/**
  * Implements theme_colorbox_image_field().
  */
 function airtribune2_colorbox_imagefield($variables) {
 
+  $count = $variables['count'];
   static $counter;
   $gid = $variables['gid'];
 
@@ -1224,11 +1325,21 @@ function airtribune2_colorbox_imagefield($variables) {
 
   if (isset($counter[$gid])) {
     $counter[$gid]++;
-    if ($gid == 'contest_photos_details') {
-      $hidden = $counter[$gid] > 4;
+    // if ($gid == 'contest_photos_details') {
+    //   $hidden = $counter[$gid] > 4;
+    // }
+    // elseif ($gid == 'flying_site_photos_details') {
+    //   $hidden = $counter[$gid] > 8;
+    // }
+    if (
+        $count < 4 ||
+        ($count < 8 && $counter[$gid] > 4) ||
+        $counter[$gid] > 8
+      ) {
+      $hidden = true;
     }
-    elseif ($gid == 'flying_site_photos_details') {
-      $hidden = $counter[$gid] > 8;
+    else {
+      $hidden = false;
     }
     $gid = 'contest-gallery';
   }
