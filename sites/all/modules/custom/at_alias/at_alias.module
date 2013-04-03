@@ -50,11 +50,14 @@ function _at_alias_delete_alias($node) {
       $subalias = 'accommodations';
     case AIRTRIBUNE_ACTIVITY_TYPE :
       $subalias = empty($subalias) ? 'activities' : $subalias;
-      $pattern = "event/%/map/{$subalias}/{$node->nid}";
+      //$pattern = "event/%/map/{$subalias}/{$node->nid}";
+      $source = "event/%/map/{$node->nid}";
+      $alias = "%/map/{$subalias}/%";
       
       // Delete accomodation aliases.
       db_delete('url_alias')
-        ->condition('source', $pattern, 'LIKE')
+        ->condition('source', $source, 'LIKE')
+        ->condition('alias', $alias, 'LIKE')
         ->execute();
       // TODO:
       break;
@@ -63,6 +66,7 @@ function _at_alias_delete_alias($node) {
     // pg_contest alias
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       // type => subalias
+      /*
       $object_types = array('accommodations' => 'accommodations', 'activities' => 'activities');
       foreach ($object_types as $object_type => $subalias) {
         $source = "event/{$node->nid}/map/{$subalias}/%";
@@ -70,6 +74,11 @@ function _at_alias_delete_alias($node) {
           ->condition('source', $source, 'LIKE')
           ->execute();
       }
+      */
+      $source = "event/{$node->nid}/map/%";
+      db_delete('url_alias')
+        ->condition('source', $source, 'LIKE')
+        ->execute();
       // TODO: Move alias generation from pg_contest feature
       break;
   }
@@ -243,7 +252,8 @@ function _at_alias_create_event_objects_aliases($node) {
           ->execute();
         */
         
-        $source = "event/{$node->nid}/map/{$subalias}/{$object_node->nid}";
+        //$source = "event/{$node->nid}/map/{$subalias}/{$object_node->nid}";
+        $source = "event/{$node->nid}/map/{$object_node->nid}";
         // Create object new alias.
         // Clear title string to use as alias element.
         $clear_title = _at_alias_clear_string($object_node->title);
@@ -287,8 +297,10 @@ function _al_alias_create_object_aliases($node) {
   
   // If it is a newly created object, process further.
   if (!$node->is_new) {
-    // Check if there exist already any aliases ("event/%/map/{$subalias}/{$node->nid}") for object.
-    $pattern = "event/%/map/{$subalias}/{$node->nid}";
+    // -- Check if there exist already any aliases ("event/%/map/{$subalias}/{$node->nid}") for object.
+    // Check if there exist already any aliases ("event/%/map/{$node->nid}") for object.
+    //$pattern = "event/%/map/{$subalias}/{$node->nid}";
+    $pattern = "event/%/map/{$node->nid}";
     $alias_exist = _at_alias_exists($pattern);
     $title_updated = ($node->title != $node->original->title);
     // If title wasn't updated and some aliases found, do nothing.
@@ -322,7 +334,8 @@ function _al_alias_create_object_aliases($node) {
     $alias = "{$alias_base}/map/{$subalias}/{$clear_title}";
     
     // Save object alias for given event.
-    $source = "event/{$event_nid}/map/{$subalias}/{$node->nid}";
+    //$source = "event/{$event_nid}/map/{$subalias}/{$node->nid}";
+    $source = "event/{$event_nid}/map/{$node->nid}";
     $path = array('source' => $source, 'alias' => $alias);
     path_save($path);
   }
