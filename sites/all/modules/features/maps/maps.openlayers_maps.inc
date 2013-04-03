@@ -14,8 +14,8 @@ function maps_openlayers_maps() {
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
   $openlayers_maps->api_version = 1;
   $openlayers_maps->name = 'accommodation_map';
-  $openlayers_maps->title = 'Accommodation/activity map';
-  $openlayers_maps->description = 'Map used to show accommodations and activities in context of events.';
+  $openlayers_maps->title = 'Accommodation map';
+  $openlayers_maps->description = 'Map used to show accommodations in context of events.';
   $openlayers_maps->data = array(
     'width' => 'auto',
     'height' => '380px',
@@ -85,7 +85,6 @@ function maps_openlayers_maps() {
       'google_satellite' => 'google_satellite',
       'google_physical' => 'google_physical',
       'event_map_overlay_accommodations' => 'event_map_overlay_accommodations',
-      'event_map_overlay_activities' => 'event_map_overlay_activities',
       'event_map_accommodation_active' => 'event_map_accommodation_active',
       'event_map_openlayers_1' => 'event_map_openlayers_1',
       'event_map_overlay_hq' => 'event_map_overlay_hq',
@@ -125,10 +124,10 @@ function maps_openlayers_maps() {
     ),
     'layer_activated' => array(
       'event_map_overlay_accommodations' => 'event_map_overlay_accommodations',
-      'event_map_overlay_activities' => 'event_map_overlay_activities',
       'event_map_accommodation_active' => 'event_map_accommodation_active',
       'event_map_openlayers_1' => 'event_map_openlayers_1',
       'event_map_overlay_hq' => 'event_map_overlay_hq',
+      'event_map_overlay_activities' => 0,
       'geofield_formatter' => 0,
       'openlayers_kml_example' => 0,
       'openlayers_geojson_picture_this' => 0,
@@ -154,6 +153,153 @@ function maps_openlayers_maps() {
     ),
   );
   $export['accommodation_map'] = $openlayers_maps;
+
+  $openlayers_maps = new stdClass();
+  $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
+  $openlayers_maps->api_version = 1;
+  $openlayers_maps->name = 'activity_map';
+  $openlayers_maps->title = 'Activity map';
+  $openlayers_maps->description = 'Map used to show activities in context of events.';
+  $openlayers_maps->data = array(
+    'width' => 'auto',
+    'height' => '380px',
+    'image_path' => 'sites/all/themes/airtribune2/plugins/openlayers/tribune/img/',
+    'css_path' => 'sites/all/themes/airtribune2/plugins/openlayers/tribune/style.css',
+    'proxy_host' => '',
+    'hide_empty_map' => 0,
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '0,0',
+        'zoom' => '2',
+      ),
+      'restrict' => array(
+        'restrictextent' => 0,
+        'restrictedExtent' => '',
+      ),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_keyboarddefaults' => array(),
+      'openlayers_behavior_attribution' => array(
+        'seperator' => '',
+      ),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
+      'openlayers_behavior_navigation' => array(
+        'zoomWheelEnabled' => 1,
+        'zoomBoxEnabled' => 1,
+        'documentDrag' => 0,
+      ),
+      'openlayers_behavior_popup' => array(
+        'layers' => array(
+          'event_map_overlay_activities' => 'event_map_overlay_activities',
+          'event_map_active_activity' => 'event_map_active_activity',
+          'event_map_openlayers_1' => 'event_map_openlayers_1',
+          'event_map_overlay_hq' => 'event_map_overlay_hq',
+        ),
+        'panMapIfOutOfView' => 1,
+        'keepInMap' => 1,
+      ),
+      'openlayers_behavior_zoompanel' => array(),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => array(
+          'event_map_active_activity' => 'event_map_active_activity',
+          'google_hybrid_at_edition' => 0,
+          'google_normal_at_edition' => 0,
+          'google_satellite' => 0,
+          'google_physical' => 0,
+          'event_map_overlay_activities' => 0,
+          'event_map_openlayers_1' => 0,
+          'event_map_overlay_hq' => 0,
+        ),
+        'point_zoom_level' => '15',
+        'zoomtolayer_scale' => '1',
+      ),
+    ),
+    'default_layer' => 'google_normal_at_edition',
+    'layers' => array(
+      'google_hybrid_at_edition' => 'google_hybrid_at_edition',
+      'google_normal_at_edition' => 'google_normal_at_edition',
+      'google_satellite' => 'google_satellite',
+      'google_physical' => 'google_physical',
+      'event_map_overlay_activities' => 'event_map_overlay_activities',
+      'event_map_active_activity' => 'event_map_active_activity',
+      'event_map_openlayers_1' => 'event_map_openlayers_1',
+      'event_map_overlay_hq' => 'event_map_overlay_hq',
+    ),
+    'layer_weight' => array(
+      'event_map_overlay_accommodations' => '-5',
+      'event_map_overlay_activities' => '-1',
+      'event_map_active_activity' => '0',
+      'openlayers_kml_example' => '0',
+      'events_map_overlay' => '0',
+      'geofield_formatter' => '0',
+      'openlayers_geojson_picture_this' => '0',
+      'event_map_accommodation_active' => '2',
+      'event_map_openlayers_1' => '6',
+      'event_map_overlay_hq' => '10',
+    ),
+    'layer_styles' => array(
+      'geofield_formatter' => 'marker_events',
+      'openlayers_kml_example' => '0',
+      'openlayers_geojson_picture_this' => 'marker_events',
+      'event_map_accommodation_active' => 'marker_accommodations_hover',
+      'event_map_overlay_accommodations' => 'marker_accommodations',
+      'events_map_overlay' => 'marker_events',
+      'event_map_overlay_activities' => 'marker_activity',
+      'event_map_active_activity' => 'marker_activity_hover',
+      'event_map_openlayers_1' => 'marker_headquarters',
+      'event_map_overlay_hq' => 'marker_hqacc',
+    ),
+    'layer_styles_select' => array(
+      'geofield_formatter' => 'clone_of_marker_events',
+      'openlayers_kml_example' => '0',
+      'openlayers_geojson_picture_this' => 'clone_of_marker_events',
+      'event_map_accommodation_active' => 'marker_accommodations_hover',
+      'event_map_overlay_accommodations' => 'marker_accommodations_hover',
+      'events_map_overlay' => 'clone_of_marker_events',
+      'event_map_overlay_activities' => 'marker_activity_hover',
+      'event_map_active_activity' => 'marker_activity_hover',
+      'event_map_openlayers_1' => 'marker_headquarters_hover',
+      'event_map_overlay_hq' => 'marker_hqacc_hover',
+    ),
+    'layer_activated' => array(
+      'event_map_overlay_activities' => 'event_map_overlay_activities',
+      'event_map_active_activity' => 'event_map_active_activity',
+      'event_map_openlayers_1' => 'event_map_openlayers_1',
+      'event_map_overlay_hq' => 'event_map_overlay_hq',
+      'geofield_formatter' => 0,
+      'openlayers_kml_example' => 0,
+      'openlayers_geojson_picture_this' => 0,
+      'event_map_accommodation_active' => 0,
+      'event_map_overlay_accommodations' => 0,
+      'events_map_overlay' => 0,
+    ),
+    'layer_switcher' => array(
+      'event_map_overlay_activities' => 0,
+      'event_map_active_activity' => 0,
+      'event_map_openlayers_1' => 0,
+      'event_map_overlay_hq' => 0,
+      'geofield_formatter' => 0,
+      'openlayers_kml_example' => 0,
+      'openlayers_geojson_picture_this' => 0,
+      'event_map_accommodation_active' => 0,
+      'event_map_overlay_accommodations' => 0,
+      'events_map_overlay' => 0,
+    ),
+    'projection' => '900913',
+    'displayProjection' => '4326',
+    'styles' => array(
+      'default' => 'marker_events',
+      'select' => 'clone_of_marker_events',
+      'temporary' => 'marker_events',
+    ),
+  );
+  $export['activity_map'] = $openlayers_maps;
 
   $openlayers_maps = new stdClass();
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
@@ -346,7 +492,7 @@ function maps_openlayers_maps() {
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
   $openlayers_maps->api_version = 1;
   $openlayers_maps->name = 'event_map';
-  $openlayers_maps->title = 'Event map';
+  $openlayers_maps->title = 'Event accommodations map';
   $openlayers_maps->description = 'Map used to display events places';
   $openlayers_maps->data = array(
     'width' => 'auto',
@@ -395,14 +541,14 @@ function maps_openlayers_maps() {
       'openlayers_behavior_zoompanel' => array(),
       'openlayers_behavior_zoomtolayer' => array(
         'zoomtolayer' => array(
-          'event_map_overlay_accommodations' => 0,
-          'event_map_overlay_activities' => 0,
-          'event_map_overlay_hq' => 0,
+          'event_map_openlayers_1' => 'event_map_openlayers_1',
           'google_hybrid_at_edition' => 0,
           'google_normal_at_edition' => 0,
           'google_satellite' => 0,
           'google_physical' => 0,
-          'event_map_openlayers_1' => 'event_map_openlayers_1',
+          'event_map_overlay_accommodations' => 0,
+          'event_map_overlay_activities' => 0,
+          'event_map_overlay_hq' => 0,
         ),
         'point_zoom_level' => '15',
         'zoomtolayer_scale' => '5',
@@ -415,7 +561,6 @@ function maps_openlayers_maps() {
       'google_satellite' => 'google_satellite',
       'google_physical' => 'google_physical',
       'event_map_overlay_accommodations' => 'event_map_overlay_accommodations',
-      'event_map_overlay_activities' => 'event_map_overlay_activities',
       'event_map_openlayers_1' => 'event_map_openlayers_1',
       'event_map_overlay_hq' => 'event_map_overlay_hq',
     ),
@@ -423,20 +568,20 @@ function maps_openlayers_maps() {
       'event_map_overlay_accommodations' => '-5',
       'event_map_overlay_activities' => '-1',
       'events_map_overlay' => '0',
-      'test_geo_openlayers_1' => '0',
-      'test_geo_openlayers_2' => '0',
-      'openlayers_geojson_picture_this' => '0',
       'geofield_formatter' => '0',
+      'event_map_active_activity' => '0',
+      'event_map_accommodation_active' => '0',
       'openlayers_kml_example' => '0',
+      'openlayers_geojson_picture_this' => '0',
       'event_map_openlayers_1' => '5',
       'event_map_overlay_hq' => '10',
     ),
     'layer_styles' => array(
-      'test_geo_openlayers_1' => '0',
       'geofield_formatter' => 'marker_events',
       'openlayers_kml_example' => '0',
       'openlayers_geojson_picture_this' => 'marker_events',
-      'test_geo_openlayers_2' => '0',
+      'event_map_accommodation_active' => '0',
+      'event_map_active_activity' => '0',
       'events_map_overlay' => 'marker_events',
       'event_map_overlay_accommodations' => 'marker_accommodations',
       'event_map_overlay_activities' => 'marker_activity',
@@ -444,11 +589,11 @@ function maps_openlayers_maps() {
       'event_map_overlay_hq' => 'marker_hqacc',
     ),
     'layer_styles_select' => array(
-      'test_geo_openlayers_1' => '0',
       'geofield_formatter' => 'clone_of_marker_events',
       'openlayers_kml_example' => '0',
       'openlayers_geojson_picture_this' => 'clone_of_marker_events',
-      'test_geo_openlayers_2' => '0',
+      'event_map_accommodation_active' => '0',
+      'event_map_active_activity' => '0',
       'events_map_overlay' => 'clone_of_marker_events',
       'event_map_overlay_accommodations' => 'marker_accommodations_hover',
       'event_map_overlay_activities' => 'marker_activity_hover',
@@ -457,14 +602,14 @@ function maps_openlayers_maps() {
     ),
     'layer_activated' => array(
       'event_map_overlay_accommodations' => 'event_map_overlay_accommodations',
-      'event_map_overlay_activities' => 'event_map_overlay_activities',
       'event_map_openlayers_1' => 'event_map_openlayers_1',
       'event_map_overlay_hq' => 'event_map_overlay_hq',
-      'test_geo_openlayers_1' => 0,
+      'event_map_overlay_activities' => 0,
       'geofield_formatter' => 0,
       'openlayers_kml_example' => 0,
       'openlayers_geojson_picture_this' => 0,
-      'test_geo_openlayers_2' => 0,
+      'event_map_accommodation_active' => 0,
+      'event_map_active_activity' => 0,
       'events_map_overlay' => 0,
     ),
     'layer_switcher' => array(
@@ -472,11 +617,11 @@ function maps_openlayers_maps() {
       'event_map_overlay_activities' => 0,
       'event_map_openlayers_1' => 0,
       'event_map_overlay_hq' => 0,
-      'test_geo_openlayers_1' => 0,
       'geofield_formatter' => 0,
       'openlayers_kml_example' => 0,
       'openlayers_geojson_picture_this' => 0,
-      'test_geo_openlayers_2' => 0,
+      'event_map_accommodation_active' => 0,
+      'event_map_active_activity' => 0,
       'events_map_overlay' => 0,
     ),
     'projection' => '900913',
@@ -488,6 +633,149 @@ function maps_openlayers_maps() {
     ),
   );
   $export['event_map'] = $openlayers_maps;
+
+  $openlayers_maps = new stdClass();
+  $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
+  $openlayers_maps->api_version = 1;
+  $openlayers_maps->name = 'eventactivities_map';
+  $openlayers_maps->title = 'Event activities map';
+  $openlayers_maps->description = 'Map used to display events places';
+  $openlayers_maps->data = array(
+    'width' => 'auto',
+    'height' => '380px',
+    'image_path' => 'sites/all/themes/airtribune2/plugins/openlayers/tribune/img/',
+    'css_path' => 'sites/all/themes/airtribune2/plugins/openlayers/tribune/style.css',
+    'proxy_host' => '',
+    'hide_empty_map' => 0,
+    'center' => array(
+      'initial' => array(
+        'centerpoint' => '0,0',
+        'zoom' => '2',
+      ),
+      'restrict' => array(
+        'restrictextent' => 0,
+        'restrictedExtent' => '',
+      ),
+    ),
+    'behaviors' => array(
+      'openlayers_behavior_attribution' => array(
+        'seperator' => '',
+      ),
+      'openlayers_behavior_layerswitcher' => array(
+        'ascending' => 1,
+        'sortBaseLayer' => '0',
+        'roundedCorner' => 1,
+        'roundedCornerColor' => '#222222',
+        'maximizeDefault' => 0,
+      ),
+      'openlayers_behavior_navigation' => array(
+        'zoomWheelEnabled' => 1,
+        'zoomBoxEnabled' => 1,
+        'documentDrag' => 0,
+      ),
+      'openlayers_behavior_popup' => array(
+        'layers' => array(
+          'event_map_overlay_activities' => 'event_map_overlay_activities',
+          'event_map_openlayers_1' => 'event_map_openlayers_1',
+          'event_map_overlay_hq' => 'event_map_overlay_hq',
+        ),
+        'panMapIfOutOfView' => 1,
+        'keepInMap' => 1,
+      ),
+      'openlayers_behavior_zoompanel' => array(),
+      'openlayers_behavior_zoomtolayer' => array(
+        'zoomtolayer' => array(
+          'event_map_overlay_activities' => 'event_map_overlay_activities',
+          'google_hybrid_at_edition' => 0,
+          'google_normal_at_edition' => 0,
+          'google_satellite' => 0,
+          'google_physical' => 0,
+          'event_map_openlayers_1' => 0,
+          'event_map_overlay_hq' => 0,
+        ),
+        'point_zoom_level' => '15',
+        'zoomtolayer_scale' => '5',
+      ),
+    ),
+    'default_layer' => 'google_normal_at_edition',
+    'layers' => array(
+      'google_hybrid_at_edition' => 'google_hybrid_at_edition',
+      'google_normal_at_edition' => 'google_normal_at_edition',
+      'google_satellite' => 'google_satellite',
+      'google_physical' => 'google_physical',
+      'event_map_overlay_activities' => 'event_map_overlay_activities',
+      'event_map_openlayers_1' => 'event_map_openlayers_1',
+      'event_map_overlay_hq' => 'event_map_overlay_hq',
+    ),
+    'layer_weight' => array(
+      'event_map_overlay_accommodations' => '-5',
+      'event_map_overlay_activities' => '-1',
+      'geofield_formatter' => '0',
+      'events_map_overlay' => '0',
+      'event_map_active_activity' => '0',
+      'event_map_accommodation_active' => '0',
+      'openlayers_kml_example' => '0',
+      'openlayers_geojson_picture_this' => '0',
+      'event_map_openlayers_1' => '5',
+      'event_map_overlay_hq' => '10',
+    ),
+    'layer_styles' => array(
+      'geofield_formatter' => 'marker_events',
+      'openlayers_kml_example' => '0',
+      'openlayers_geojson_picture_this' => 'marker_events',
+      'event_map_accommodation_active' => '0',
+      'event_map_active_activity' => '0',
+      'event_map_overlay_accommodations' => 'marker_accommodations',
+      'events_map_overlay' => 'marker_events',
+      'event_map_overlay_activities' => 'marker_activity',
+      'event_map_openlayers_1' => 'marker_headquarters',
+      'event_map_overlay_hq' => 'marker_hqacc',
+    ),
+    'layer_styles_select' => array(
+      'geofield_formatter' => 'clone_of_marker_events',
+      'openlayers_kml_example' => '0',
+      'openlayers_geojson_picture_this' => 'clone_of_marker_events',
+      'event_map_accommodation_active' => '0',
+      'event_map_active_activity' => '0',
+      'event_map_overlay_accommodations' => 'marker_accommodations_hover',
+      'events_map_overlay' => 'clone_of_marker_events',
+      'event_map_overlay_activities' => 'marker_activity_hover',
+      'event_map_openlayers_1' => 'marker_headquarters_hover',
+      'event_map_overlay_hq' => 'marker_hqacc_hover',
+    ),
+    'layer_activated' => array(
+      'event_map_overlay_activities' => 'event_map_overlay_activities',
+      'event_map_openlayers_1' => 'event_map_openlayers_1',
+      'event_map_overlay_hq' => 'event_map_overlay_hq',
+      'geofield_formatter' => 0,
+      'openlayers_kml_example' => 0,
+      'openlayers_geojson_picture_this' => 0,
+      'event_map_accommodation_active' => 0,
+      'event_map_active_activity' => 0,
+      'event_map_overlay_accommodations' => 0,
+      'events_map_overlay' => 0,
+    ),
+    'layer_switcher' => array(
+      'event_map_overlay_activities' => 0,
+      'event_map_openlayers_1' => 0,
+      'event_map_overlay_hq' => 0,
+      'geofield_formatter' => 0,
+      'openlayers_kml_example' => 0,
+      'openlayers_geojson_picture_this' => 0,
+      'event_map_accommodation_active' => 0,
+      'event_map_active_activity' => 0,
+      'event_map_overlay_accommodations' => 0,
+      'events_map_overlay' => 0,
+    ),
+    'projection' => '900913',
+    'displayProjection' => '4326',
+    'styles' => array(
+      'default' => 'marker_events',
+      'select' => 'clone_of_marker_events',
+      'temporary' => 'marker_events',
+    ),
+  );
+  $export['eventactivities_map'] = $openlayers_maps;
 
   $openlayers_maps = new stdClass();
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
