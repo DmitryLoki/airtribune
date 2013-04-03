@@ -48,7 +48,7 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
 
   $view = views_get_view('paragliding_pilots_list');
   $view->set_arguments(array($node->nid));
-  $view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']['value'] = array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED);
+  unset($view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']);
   $view->execute();
   $pilots_confirmed = count($view->result);
   $content['pilots_confirmed'] = array(
@@ -63,7 +63,7 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
   );
   $content['pilots_confirmed']['text'] = array(
     '#theme' => 'container',
-    '#markup' => str_replace($pilots_total, '', format_plural($pilots_confirmed, 'Confirmed pilot', '@count Confirmed pilots')),
+    '#markup' => str_replace($pilots_confirmed, '', format_plural($pilots_confirmed, 'Confirmed pilot', '@count Confirmed pilots')),
     '#attributes' => array('class' => array('pilots-text')),
   );
 
