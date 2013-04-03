@@ -16,6 +16,7 @@ features[ctools_custom_content][] = share_links
 features[ctools_custom_content][] = small_share_links
 features[features_api][] = api:1
 features[page_manager_handlers][] = node_view_http_response
+features[page_manager_handlers][] = node_view_http_response_2
 features[page_manager_handlers][] = site_template_panel_context_2
 features[page_manager_handlers][] = site_template_panel_context_3
 features[page_manager_handlers][] = site_template_panel_context_4
