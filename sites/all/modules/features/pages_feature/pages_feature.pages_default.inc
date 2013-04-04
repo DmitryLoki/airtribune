@@ -2074,7 +2074,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = '%node:title | %event:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
