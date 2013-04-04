@@ -65,6 +65,7 @@
   scripts[] = js/disqus_comments_count.js
   scripts[] = js/event_map_features_toggle.js
   scripts[] = js/to_top.js
+  scripts[] = js/header-collapser.js
 
 
 ;----------// Panels
