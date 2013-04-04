@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Traker model feature.
+ */
+
+include_once 'traker_model.features.inc';
