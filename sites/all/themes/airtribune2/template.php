@@ -68,6 +68,11 @@ function airtribune2_preprocess_html(&$vars) {
   if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
     $vars['classes_array'][] = 'page-event-pilots-status';
   }
+
+    /* if node event blog */
+  if (in_array('page-event-blog', $vars['classes_array'])) {
+    $vars['classes_array'][] = 'page-node';
+  }
 }
 
 /**
@@ -228,7 +233,7 @@ function airtribune2_preprocess_pane_messages(&$vars) {
  * @autor Vyacheslav "ValiDoll" Malchik <info@vkey.biz>
  */
 function airtribune2_preprocess_panels_pane(&$variables) {
-  $base = 'panels_pane';
+  $base = 'panels_pane'; //
   $delimiter = '__';
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
   global $user;
@@ -260,6 +265,9 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   }
   if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
     $variables['classes_array'][] = 'wrapper-with-link';
+  }
+  if ($variables['pane']->type == 'node_content' && $variables['content']['#node']->type == 'newsblog') {
+    $variables['title'] = '';
   }
 }
 
@@ -392,10 +400,17 @@ function airtribune2_process_node(&$vars) {
     if(!empty($vars['content']['field_image'])){
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
+    if ($vars['type'] == 'newsblog') {
+      $vars['page'] = true;
+    }
   }
-
   if(!$vars['notitle'] && empty($vars['title'])){
-    $vars['title'] = 'Верните заголовки емае';
+    if (!empty($vars['title_original'])) {
+      $vars['title'] = $vars['title_original'];
+    }
+    else{
+      $vars['title'] = 'Верните заголовки емае';
+    }
   }
   $vars['classes'] .= ' node_view_mode_' . $vars['view_mode'];
 }
