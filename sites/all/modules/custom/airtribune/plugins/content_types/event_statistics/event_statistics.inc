@@ -38,12 +38,12 @@ function airtribune_event_statistics_content_type_render($subtype, $conf, $panel
 
     $view = views_get_view('paragliding_pilots_list');
     $view->set_arguments(array($node->nid));
+    unset($view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']);
     $view->execute();
     $content['pilots_waiting'] = count($view->result);
 
     $view = views_get_view('paragliding_pilots_list');
     $view->set_arguments(array($node->nid));
-    $view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']['value'] = array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED);
     $view->execute();
     $content['pilots_confirmed'] = count($view->result);
 
@@ -113,7 +113,8 @@ function template_preprocess_airtribune_event_statistics_pane(&$vars) {
 
   $vars['pilots_url'] = 'event/' . $vars['elements']['#event_id'] . '/pilots';
   $vars['map_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
-  $vars['pilots_confirmed_link'] = l(ltrim(format_plural($vars['pilots_confirmed'], 'Pilot', '@count Pilots'), $vars['pilots_confirmed']), $vars['pilots_url']);
-  $vars['pilots_waiting_link'] = l(ltrim(format_plural($vars['pilots_waiting'], 'Pilot', '@count Pilots'), $vars['pilots_waiting']), $vars['pilots_url']);
+
+  $vars['pilots_confirmed_link'] = l(str_replace($vars['pilots_confirmed'], '', format_plural($vars['pilots_confirmed'], 'Pilot', '@count Pilots')), $vars['pilots_url']);
+  $vars['pilots_waiting_link'] = l(str_replace($vars['pilots_waiting'], '', format_plural($vars['pilots_waiting'], 'Pilot', '@count Pilots')), $vars['pilots_url']);
 
 }
