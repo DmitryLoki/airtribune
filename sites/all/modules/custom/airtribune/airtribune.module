@@ -397,4 +397,15 @@ function airtribune_views_query_alter(&$view, &$query) {
       $view->query->orderby[2] = $tmp; 
     }
   }
+  // Prevent HQ duplication.
+  // See #2976.
+  if ($view->name == 'event_accommodations') {
+    $view->query->add_where(
+      $view->options['group'],
+      db_or()
+        ->condition('field_headquarter_hotel_node.nid', (int) $view->args[0], '=')
+        ->condition('field_headquarter_hotel_node.nid', NULL, 'IS NULL')
+    );
+  }
+
 }
