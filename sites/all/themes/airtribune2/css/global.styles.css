@@ -2987,7 +2987,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio .valign { display: none;}
 .page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
 .page-user .pane-page-content form .form-type-date-select .form-item { display: inline; position: static;}
-.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline; position: relative;}
+.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline; /*position: relative;*/}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
 .page-user .pane-page-content form .date-padding  { padding:0; float: none;}
 .page-user .pane-page-content form .date-padding .form-item { margin-top:6px; float: none; vertical-align: top;}
