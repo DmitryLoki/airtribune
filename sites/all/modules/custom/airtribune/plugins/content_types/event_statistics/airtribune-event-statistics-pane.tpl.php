@@ -34,7 +34,7 @@
         <?php print $accommodation; ?>
       </div>
       <div class="es-label">
-        <?php print l(t('Accommodation', array(), array('context' => 'event-statistics')), $map_url, array('fragment' => 'event-accommodations')); ?><br/>
+        <?php print l(t('Accommodation', array(), array('context' => 'event-statistics')), $accommodations_url); ?><br/>
         <span><?php print t('places', array(), array('context' => 'event-statistics-accommodation')); ?></span>
       </div>
     </div>
@@ -43,12 +43,12 @@
         <?php print $activities; ?>
       </div>
       <div class="es-label">
-        <?php print l(t('Activities', array(), array('context' => 'event-statistics')), $map_url, array('fragment' => 'event-activities')); ?><br/>
+        <?php print l(t('Activities', array(), array('context' => 'event-statistics')), $activities_url); ?><br/>
         <span><?php print t('places', array(), array('context' => 'event-statistics-activities')); ?></span>
       </div>
     </div>
     <div class="more-link">
-      <?php print l(t('View event map'), $map_url); ?><br/>
+      <?php print l(t('View event map'), $accommodations_url); ?><br/>
     </div>
   </div>
 </div>
