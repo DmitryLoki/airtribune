@@ -283,7 +283,7 @@
     };
 
     Drupal.ajax.prototype.beforeSerialize = function (element, options) {
-        if (element.data('validator')) {
+        if (element.data('validator') && options.url.indexOf('/file/') === -1) {
             var formValidator = element.validate();
             Drupal.settings.clientsideValidation.updateValidationSettings(formValidator);
             var validationResult = formValidator.element(activeField);
