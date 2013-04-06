@@ -33,15 +33,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -181,7 +181,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
   $handler->display->display_options['fields']['field_price_double']['field'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['ui_name'] = 'Double price';
-  $handler->display->display_options['fields']['field_price_double']['label'] = 'Double';
+  $handler->display->display_options['fields']['field_price_double']['label'] = 'Double price';
   $handler->display->display_options['fields']['field_price_double']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
@@ -214,7 +214,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['ui_name'] = 'Edit link';
-  $handler->display->display_options['fields']['edit_node']['label'] = 'Edit';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
   /* Field: Delete link */
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
@@ -266,13 +266,13 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('Displaying @start - @end of @total'),
@@ -315,8 +315,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '7';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -326,7 +326,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -364,7 +364,7 @@ function views_feature_views_default_views() {
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Activity feed';
+  $handler->display->display_options['title'] = 'Front page feed';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'rss';
@@ -381,19 +381,19 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('Page'),
     t('more'),
     t('Feed'),
-    t('Activity feed'),
+    t('Front page feed'),
   );
   $export['activity'] = $view;
 
@@ -423,15 +423,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -504,7 +504,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['relationship'] = 'og_membership_related_node_group';
-  $handler->display->display_options['fields']['field_dates']['label'] = 'Дата начала';
+  $handler->display->display_options['fields']['field_dates']['label'] = 'Start date';
   $handler->display->display_options['fields']['field_dates']['settings'] = array(
     'format_type' => 'dmy',
     'fromto' => 'value',
@@ -516,7 +516,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
-  $handler->display->display_options['fields']['field_contestant_number']['label'] = 'Номер пилота';
+  $handler->display->display_options['fields']['field_contestant_number']['label'] = 'Pilot\'s number';
   $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
@@ -525,7 +525,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Payment status';
   /* Field: OG membership: OG membership edit link */
   $handler->display->display_options['fields']['edit_og_membership']['id'] = 'edit_og_membership';
   $handler->display->display_options['fields']['edit_og_membership']['table'] = 'views_entity_og_membership';
@@ -543,7 +543,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'og_membership_related_user';
   $handler->display->display_options['arguments']['uid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['uid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['uid']['title'] = 'Pilot events: %1';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
@@ -573,24 +573,24 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('Empty result.'),
     t('user from OG membership'),
     t('Group node from OG membership'),
     t('Title'),
-    t('Дата начала'),
-    t('Номер пилота'),
-    t('Статус оплаты'),
+    t('Start date'),
+    t('Pilot\'s number'),
+    t('Payment status'),
     t('Membership edit'),
-    t('Все'),
+    t('All'),
     t('Pilot events: %1'),
     t('Page'),
     t('more'),
@@ -623,8 +623,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -634,7 +634,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -815,13 +815,13 @@ function views_feature_views_default_views() {
     t('Search'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('Empty result.'),
@@ -850,7 +850,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Партнеры';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -860,8 +860,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '0';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -871,7 +871,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -914,7 +914,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = 'Изображение';
+  $handler->display->display_options['fields']['field_image']['label'] = 'Image';
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
     'image_style' => '',
@@ -947,7 +947,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -988,7 +988,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'There are no partners added yet for the current event.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -1061,7 +1061,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['weight']['field'] = 'weight';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'advert_list:panel_pane_1';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -1076,7 +1076,7 @@ function views_feature_views_default_views() {
   /* Display: Site Partners */
   $handler = $view->new_display('page', 'Site Partners', 'page_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Партнеры';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
@@ -1130,7 +1130,7 @@ function views_feature_views_default_views() {
   /* Display: Site banners */
   $handler = $view->new_display('panel_pane', 'Site banners', 'panel_pane_4');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Партнеры';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1195,36 +1195,36 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['field'] = 'id';
   $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $translatables['advert_list'] = array(
     t('Master'),
-    t('Партнеры'),
+    t('Partners'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Изображение'),
+    t('Image'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
-    t('Все'),
+    t('All'),
     t('Event Sponsors'),
     t('more'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
     t('There are no partners added yet for the current event.'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('Event Banners'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>'),
@@ -1257,8 +1257,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -1309,7 +1309,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -1378,7 +1378,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'View more link (Excluded)';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Read more';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'View more';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
   /* Field: Content: Path */
@@ -1390,7 +1390,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['path']['alter']['text'] = '<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>';
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
@@ -1415,7 +1415,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -1425,7 +1425,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'event_blog_teaser';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
@@ -1442,22 +1442,22 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('OG membership from node'),
-    t('Read more'),
-    t('Все'),
+    t('View more'),
+    t('All'),
     t('Contest pane'),
     t('This pane will be shown at the event info page.'),
     t('more'),
     t('<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('Contest full pane'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
   );
@@ -1475,7 +1475,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Размещение';
+  $handler->display->display_options['title'] = 'Accommodation';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -1486,8 +1486,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1615,7 +1615,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['field'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Тел';
+  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Tel';
   $handler->display->display_options['fields']['field_place_phone']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
   $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
@@ -1660,7 +1660,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -1708,7 +1708,7 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
       'type' => 'panel',
@@ -1721,25 +1721,25 @@ function views_feature_views_default_views() {
   );
   $translatables['event_accommodations'] = array(
     t('Master'),
-    t('Размещение'),
+    t('Accommodation'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('HQ contest'),
     t('.'),
     t(','),
     t(' km'),
     t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
     t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
-    t('Тел'),
+    t('Tel'),
     t('Email:'),
-    t('Все'),
+    t('All'),
     t('Content pane'),
     t('more'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['event_accommodations'] = $view;
 
@@ -1755,7 +1755,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Отдых';
+  $handler->display->display_options['title'] = 'Activities';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -1765,8 +1765,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1845,7 +1845,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['field'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Тел';
+  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Tel';
   $handler->display->display_options['fields']['field_place_phone']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
   $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
@@ -1879,7 +1879,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -1927,7 +1927,7 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
       'type' => 'panel',
@@ -1940,22 +1940,22 @@ function views_feature_views_default_views() {
   );
   $translatables['event_activities'] = array(
     t('Master'),
-    t('Отдых'),
+    t('Activities'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('.'),
     t(','),
     t(' km'),
-    t('Тел'),
+    t('Tel'),
     t('Email'),
-    t('Все'),
+    t('All'),
     t('Content pane'),
     t('more'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['event_activities'] = $view;
 
@@ -1980,8 +1980,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -2047,7 +2047,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2061,7 +2061,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2120,7 +2120,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2135,7 +2135,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2242,7 +2242,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2345,7 +2345,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2385,7 +2385,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -2425,7 +2425,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -2466,7 +2466,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2523,7 +2523,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2579,7 +2579,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -2619,7 +2619,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -2653,10 +2653,10 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Content referencing Content from field_headquarter_hotel'),
-    t('Все'),
+    t('All'),
     t('Overlay active accommodation'),
     t('more'),
     t('Overlay active activity'),
@@ -2664,7 +2664,7 @@ function views_feature_views_default_views() {
     t('Overlay HQ location'),
     t('Headquarter location'),
     t('Accommodations pane'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('Active activity pane'),
     t('Overlay activities'),
     t('Overlay accommodations'),
@@ -2685,7 +2685,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Соревнования';
+  $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -2696,14 +2696,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -2836,7 +2836,7 @@ function views_feature_views_default_views() {
   /* Display: Past */
   $handler = $view->new_display('page', 'Past', 'page_events_past');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Прошедшие соревнования';
+  $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -2889,7 +2889,7 @@ function views_feature_views_default_views() {
   /* Display: Next */
   $handler = $view->new_display('page', 'Next', 'page_events_next');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Соревнования';
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -2938,7 +2938,7 @@ function views_feature_views_default_views() {
   /* Display: Current */
   $handler = $view->new_display('page', 'Current', 'page_events_current');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Текущие соревнования';
+  $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -2976,28 +2976,28 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['events_list'] = array(
     t('Master'),
-    t('Соревнования'),
+    t('Next events'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('event/[nid]'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Past'),
-    t('Прошедшие соревнования'),
+    t('Past events'),
     t('more'),
     t('Next'),
     t('Current'),
-    t('Текущие соревнования'),
+    t('Current events'),
   );
   $export['events_list'] = $view;
 
@@ -3022,8 +3022,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -3171,22 +3171,22 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $translatables['events_map'] = array(
     t('Master'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Nid'),
     t('Headquarter location'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Events overlay'),
     t('more'),
     t('Events pane'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['events_map'] = $view;
 
@@ -3212,8 +3212,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -3223,7 +3223,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -3318,14 +3318,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['ui_name'] = 'Slogan';
-  $handler->display->display_options['fields']['field_header_slogan']['label'] = 'Слоган';
+  $handler->display->display_options['fields']['field_header_slogan']['label'] = 'Slogan';
   $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
   /* Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['ui_name'] = 'Image';
-  $handler->display->display_options['fields']['field_header_image']['label'] = 'Изображение';
+  $handler->display->display_options['fields']['field_header_image']['label'] = 'Image';
   $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_header_image']['settings'] = array(
@@ -3337,7 +3337,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['ui_name'] = 'Author link';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Автор';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Author';
   $handler->display->display_options['fields']['field_header_author']['element_label_colon'] = FALSE;
   /* Field: Events from OG ref */
   $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
@@ -3354,7 +3354,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link';
-  $handler->display->display_options['fields']['edit_link']['label'] = 'Действия';
+  $handler->display->display_options['fields']['edit_link']['label'] = 'Operations';
   /* Field: Delete link */
   $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
   $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_featured_header';
@@ -3377,13 +3377,13 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
     t('« first'),
-    t('‹ prev'),
+    t('‹ previous'),
     t('next ›'),
     t('last »'),
     t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
@@ -3393,11 +3393,11 @@ function views_feature_views_default_views() {
     t('.'),
     t(','),
     t('Title'),
-    t('Слоган'),
-    t('Изображение'),
-    t('Автор'),
+    t('Slogan'),
+    t('Image'),
+    t('Author'),
     t('Events'),
-    t('Действия'),
+    t('Operations'),
     t('Page'),
     t('more'),
   );
@@ -3424,8 +3424,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'slideshow';
@@ -3485,7 +3485,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Автор фото';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
 
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
@@ -3497,7 +3497,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
@@ -3518,7 +3518,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Автор фото';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
   /* Field: Featured header: Slogan */
   $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
@@ -3532,7 +3532,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
 
   /* Display: Event header */
   $handler = $view->new_display('panel_pane', 'Event header', 'event_header');
@@ -3549,7 +3549,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -3559,7 +3559,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -3576,16 +3576,16 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
-    t('Автор фото'),
+    t('Asc'),
+    t('Desc'),
+    t('Photo by'),
     t('Default header'),
     t('more'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('Front page header'),
     t('Event header'),
     t('OG membership from ent_featured_header'),
-    t('Все'),
+    t('All'),
   );
   $export['header_slideshow'] = $view;
 
@@ -3601,10 +3601,10 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Соревнования';
+  $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
-  $handler->display->display_options['use_more_text'] = 'Показать все';
+  $handler->display->display_options['use_more_text'] = 'All events';
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -3613,8 +3613,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -3741,21 +3741,21 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Content pane', 'sidebar_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['link_url'] = 'events';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $translatables['next_events'] = array(
     t('Master'),
-    t('Соревнования'),
-    t('Показать все'),
+    t('Events'),
+    t('All events'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('event/[nid]'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Content pane'),
     t('more'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['next_events'] = $view;
 
@@ -3781,8 +3781,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -3873,25 +3873,25 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_paraglider_color']['table'] = 'field_data_field_paraglider_color';
   $handler->display->display_options['fields']['field_paraglider_color']['field'] = 'field_paraglider_color';
   $handler->display->display_options['fields']['field_paraglider_color']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_color']['label'] = 'Цвет параплана';
+  $handler->display->display_options['fields']['field_paraglider_color']['label'] = 'Paraglider color';
   /* Field: Field: Paraglider manufacturer */
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['id'] = 'field_paraglider_manufacturer';
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['table'] = 'field_data_field_paraglider_manufacturer';
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['field'] = 'field_paraglider_manufacturer';
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_manufacturer']['label'] = 'Производитель параплана';
+  $handler->display->display_options['fields']['field_paraglider_manufacturer']['label'] = 'Paraglider manufacture';
   /* Field: Field: Paraglider model */
   $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Модель параплана';
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Paraglider model';
   /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Payment status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
@@ -3916,13 +3916,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_gender']['label'] = 'Пол';
+  $handler->display->display_options['fields']['field_gender']['label'] = 'Gender';
   /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Адрес';
+  $handler->display->display_options['fields']['field_address']['label'] = 'Address';
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
@@ -3955,7 +3955,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = '%1 members';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -4124,7 +4124,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Страна';
+  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
@@ -4137,19 +4137,19 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_sponsors']['table'] = 'field_data_field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['field'] = 'field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Спонсор';
+  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Sponsor';
   /* Field: Field: Paraglider model */
   $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Крыло';
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
   /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Payment status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
@@ -4193,7 +4193,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
   $handler->display->display_options['pane_title'] = 'Standard event pilots';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -4317,7 +4317,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_address']['ui_name'] = 'Country (excluded)';
-  $handler->display->display_options['fields']['field_address']['label'] = '';
+  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
   $handler->display->display_options['fields']['field_address']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
@@ -4363,19 +4363,19 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_sponsors']['table'] = 'field_data_field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['field'] = 'field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Спонсор';
+  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Sponsor';
   /* Field: Field: Paraglider model */
   $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Крыло';
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
   /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Payment status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Country */
@@ -4421,7 +4421,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
   $handler->display->display_options['pane_title'] = 'FAI event pilots';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -4447,30 +4447,30 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
+    t('Asc'),
+    t('Desc'),
     t('OG membership from user'),
     t('MainProfile'),
     t('PilotProfile'),
-    t('Цвет параплана'),
-    t('Производитель параплана'),
-    t('Модель параплана'),
-    t('Статус оплаты'),
+    t('Paraglider color'),
+    t('Paraglider manufacturer'),
+    t('Paraglider model'),
+    t('Payment status'),
     t('Name'),
-    t('Пол'),
-    t('Адрес'),
+    t('Gender'),
+    t('Address'),
     t('[field_address-country]'),
     t('Link to Tracker'),
-    t('Все'),
+    t('All'),
     t('%1 members'),
     t('Standard'),
     t('more'),
     t('[field_full_name] ([field_contestant_number])'),
-    t('Страна'),
-    t('Спонсор'),
-    t('Крыло'),
+    t('Nation'),
+    t('Sponsor'),
+    t('Glider'),
     t('Standard event pilots'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('FAI'),
     t('<span class="gender-[field_gender-value]"></span>'),
     t('[field_full_name] ([field_contestant_number])[field_gender]'),
@@ -4499,8 +4499,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'jcarousel';
@@ -4536,7 +4536,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -4552,7 +4552,7 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'accommodation');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
+  $handler->display->display_options['pane_category']['name'] = 'View panes';
   $handler->display->display_options['argument_input'] = array(
     'nid' => array(
       'type' => 'panel',
@@ -4569,12 +4569,12 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('Ascending'),
-    t('Descending'),
-    t('Все'),
+    t('Asc'),
+    t('Desc'),
+    t('All'),
     t('Content pane'),
     t('more'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['photos_carousel'] = $view;
 
