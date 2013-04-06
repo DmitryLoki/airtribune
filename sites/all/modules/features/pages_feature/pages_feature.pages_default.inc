@@ -3536,6 +3536,18 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'title' => array(
           'value' => '[node:title] | [site:slogan]',
         ),
+        'robots' => array(
+          'value' => array(
+            'noindex' => 'noindex',
+            'index' => 0,
+            'follow' => 0,
+            'nofollow' => 0,
+            'noarchive' => 1,
+            'nosnippet' => 0,
+            'noodp' => 0,
+            'noydir' => 0,
+          ),
+        ),
       ),
     ),
     'panels_everywhere_site_template' => 'site_template_panel_context_4',
