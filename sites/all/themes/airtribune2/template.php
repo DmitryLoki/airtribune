@@ -1481,3 +1481,43 @@ function airtribune2_menu_local_tasks_alter(&$data, $router_item, $root_path) {
     }
   }
 }
+
+/**
+ * Change canonical url for accommodation, activities, blog, from /event/123/map/456 to /node/456
+ * Remove shortlink tag
+ *
+ * This allow:
+ * 1. avoid duplicate content in search engines
+ * 2. disqus module attach comment form, basics on canonical-url
+ *
+ * @autor Vasily Kraev
+ * @see #2986
+ */
+function airtribune2_html_head_alter(&$head_elements) {
+  global $base_url;
+  if (arg(0) != 'event') {
+    return;
+  }
+  $event_nid = arg(1);
+  $node_nid = arg(3);
+  if ( (arg(2) == 'map' || arg(2) == 'blog') && $node_nid ) {
+    foreach ($head_elements as $key => $element) {
+      // Metatag module canonical & shortlink links
+      if ($element['#name'] == 'canonical') {
+        $head_elements[$key]['#value'] = $base_url . '/' . drupal_get_path_alias('node/' . $node_nid);
+      } 
+      if ($element['#name'] == 'shortlink') {
+        unset($head_elements[$key]);
+      }
+      // core canonical & shortlink links, uncomment if 
+      // if (isset($element['#attributes']['rel'])) {
+      //   if ($element['#attributes']['rel'] == 'canonical') {
+      //     $head_elements[$key]['#attributes']['href'] = $base_url . '/' . drupal_get_path_alias('node/' . $node_nid);
+      //   }
+      //   if ($element['#attributes']['rel'] == 'shortlink') {
+      //     unset($head_elements[$key]);
+      //   }
+      // }
+    }
+  }
+}
