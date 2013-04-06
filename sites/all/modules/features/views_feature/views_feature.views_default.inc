@@ -22,7 +22,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Размещение';
+  $handler->display->display_options['title'] = 'Accommodations';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -33,13 +33,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -181,7 +181,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
   $handler->display->display_options['fields']['field_price_double']['field'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['ui_name'] = 'Double price';
-  $handler->display->display_options['fields']['field_price_double']['label'] = 'Двойная';
+  $handler->display->display_options['fields']['field_price_double']['label'] = 'Double';
   $handler->display->display_options['fields']['field_price_double']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
@@ -191,7 +191,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['field'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['ui_name'] = 'Currency';
-  $handler->display->display_options['fields']['field_price_currency']['label'] = 'Валюта';
+  $handler->display->display_options['fields']['field_price_currency']['label'] = 'Currency';
   /* Field: Wi-Fi */
   $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
@@ -214,7 +214,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['ui_name'] = 'Edit link';
-  $handler->display->display_options['fields']['edit_node']['label'] = 'Действия';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Edit';
   /* Field: Delete link */
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
@@ -261,16 +261,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['accommodations'] = array(
     t('Master'),
-    t('Размещение'),
+    t('Accommodations'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -281,12 +281,12 @@ function views_feature_views_default_views() {
     t('Title'),
     t('Published'),
     t('Single'),
-    t('Двойная'),
-    t('Валюта'),
+    t('Double'),
+    t('Currency'),
     t('Wi-Fi'),
     t('Email'),
     t('Updated'),
-    t('Действия'),
+    t('Actions'),
     t('Search by title'),
     t('Page'),
     t('more'),
@@ -315,16 +315,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '7';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -364,7 +364,7 @@ function views_feature_views_default_views() {
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Лента главной страницы';
+  $handler->display->display_options['title'] = 'Activity feed';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'rss';
@@ -381,11 +381,11 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -393,7 +393,7 @@ function views_feature_views_default_views() {
     t('Page'),
     t('more'),
     t('Feed'),
-    t('Лента главной страницы'),
+    t('Activity feed'),
   );
   $export['activity'] = $view;
 
@@ -423,13 +423,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -573,11 +573,11 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -623,16 +623,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -815,11 +815,11 @@ function views_feature_views_default_views() {
     t('Search'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -860,16 +860,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '0';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -1203,11 +1203,11 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -1257,8 +1257,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -1411,9 +1411,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -1442,8 +1442,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('OG membership from node'),
     t('Read more'),
     t('Все'),
@@ -1453,9 +1453,9 @@ function views_feature_views_default_views() {
     t('<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>'),
     t('Представления-Фрагменты'),
     t('Contest full pane'),
-    t('Элементов на страницу'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -1486,8 +1486,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1726,8 +1726,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('HQ contest'),
     t('.'),
     t(','),
@@ -1765,8 +1765,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1945,8 +1945,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('.'),
     t(','),
     t(' km'),
@@ -1980,8 +1980,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -2653,8 +2653,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('Content referencing Content from field_headquarter_hotel'),
     t('Все'),
     t('Overlay active accommodation'),
@@ -2696,12 +2696,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -2981,11 +2981,11 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -3022,8 +3022,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -3178,8 +3178,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('Nid'),
     t('Headquarter location'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
@@ -3212,16 +3212,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ prev';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
@@ -3377,11 +3377,11 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
+    t('Ascending'),
+    t('Descending'),
+    t('Items per page'),
     t('- All -'),
-    t('Пропустить'),
+    t('Offset'),
     t('« first'),
     t('‹ prev'),
     t('next ›'),
@@ -3424,8 +3424,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'slideshow';
@@ -3576,8 +3576,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('Автор фото'),
     t('Default header'),
     t('more'),
@@ -3613,8 +3613,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -3749,8 +3749,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('event/[nid]'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Content pane'),
@@ -3781,8 +3781,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -4447,8 +4447,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('OG membership from user'),
     t('MainProfile'),
     t('PilotProfile'),
@@ -4499,8 +4499,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'jcarousel';
@@ -4569,8 +4569,8 @@ function views_feature_views_default_views() {
     t('Apply'),
     t('Reset'),
     t('Sort by'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Ascending'),
+    t('Descending'),
     t('Все'),
     t('Content pane'),
     t('more'),
