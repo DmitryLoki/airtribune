@@ -2248,7 +2248,7 @@ p { margin:0; padding:9px 0 11px}
 .clear_right {clear:right}
 
 
-#header {position:relative; padding:0; z-index:10; margin-bottom:16px; background:url(../images/header_bgr_1.png) repeat 0 0;}
+#header {position:relative; padding:0; z-index:100; margin-bottom:16px; background:url(../images/header_bgr_1.png) repeat 0 0;}
 #main {/*height:100%;*/ margin:0; padding:0; position:relative;}
 #footer {position:absolute; /*margin:-312px auto 0*/ ; padding:0; z-index:1; overflow:hidden; min-width:1000px; border-top:1px solid #e9ebec; background:#aeb7ba; padding-top:1px; width:100%; left:0; bottom:0}
 
