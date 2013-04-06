@@ -3444,7 +3444,7 @@ table tr td.:first-child { border-left: none;}
 .featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 100; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
 .featured-header-collapsible .featured-header .collapse-control:hover { background-position: -80px 35px; background-color: rgba(255, 255, 255, 0.5);}
-.featured-header-collapsible .featured-header-collapsed { height: 110px;}
+.featured-header-collapsible .featured-header-collapsed { /*height: 110px;*/}
 .featured-header-collapsible .featured-header-collapsed .collapse-control { background-position:  -40px 35px}
 .featured-header-collapsible .featured-header-collapsed .collapse-control:hover { background-position: 0 35px}
 
