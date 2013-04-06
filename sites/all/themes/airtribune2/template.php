@@ -305,7 +305,9 @@ function airtribune2_process_node(&$vars) {
   /* If view mode is event_blog_teaser */
   if($vars['view_mode'] == 'event_blog_teaser'){
     $vars['event_blog'] = true;
-    $vars['title'] = '<a href="' . $vars['node_url'] . '" rel="bookmark">' . $vars['title'] . '</a>';
+    $og_items = field_get_items('node', $vars['node'], 'og_group_ref');
+    $node_path = 'event/' . $og_items[0]['target_id'] . '/blog/' . $vars['node']->nid;
+    $vars['title'] = l($vars['title'], $node_path);
 
     /* Changing the style of the output image */
     if(!empty($vars['content']['field_image'])){
@@ -317,7 +319,7 @@ function airtribune2_process_node(&$vars) {
       '#theme' => 'links__node__node',
       '#links' => array(
         'node-readmore' => array(
-          'title' => l(t('View more'), 'node/' . $vars['node']->nid),
+          'title' => l(t('View more'), $node_path),
           'html' => true
         )
       )
