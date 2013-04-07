@@ -13,10 +13,26 @@ function at_membership_form($form, &$form_state, $og_membership = FALSE) {
   if (!$og_membership || $og_membership->entity_type != 'user') {
     drupal_not_found();
   }
-  
+
   at_membership_set_breadcrumb($og_membership);
   field_attach_form('og_membership', $og_membership, $form, $form_state);
-  
+
+  // Markup some info about pilot.
+  $membership = $form['#entity'];
+  if ($membership->type == 'pg_contestant' && $membership->entity_type == 'user') {
+    $user = user_load($membership->etid);
+
+    $profile2 = profile2_load_by_user($membership->etid, 'main');
+    $field = field_get_items('profile2', $profile2, 'field_full_name');
+    $name = field_view_value('profile2', $profile2, 'field_full_name', $field[0]);
+
+    $form['og_membership_info'] = array(
+      '#type' => 'markup',
+      '#markup' => '<p><strong>' . render($name) . '</strong> ' . $user->mail . '</p>',
+      '#weight' => -1,
+    );
+  }
+
   $form['og_membership'] = array(
     '#type' => 'value',
     '#value' => $og_membership,
@@ -27,6 +43,7 @@ function at_membership_form($form, &$form_state, $og_membership = FALSE) {
     '#type' => 'submit',
     '#value' => t('Save'),
   );
+
   return $form;
 }
 
