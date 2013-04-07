@@ -398,3 +398,13 @@ function airtribune_views_query_alter(&$view, &$query) {
     }
   }
 }
+
+/**
+ * Implements hook_init().
+ */
+function airtribune_init() {
+  // Set breadcrumbs for current page if it exists.
+  if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
+    drupal_set_breadcrumb($breadcrumbs);
+  }
+}

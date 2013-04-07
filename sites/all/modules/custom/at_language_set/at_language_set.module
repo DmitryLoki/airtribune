@@ -15,31 +15,84 @@ function at_language_set_language_negotiation_info() {
         'language' => 'at_language_set_language_url_default',
       ),
       'file' => drupal_get_path('module', 'at_language_set') . '/at_language_set.module',
-      'name' => t('Cookie Detection'),
+      'name' => t('Airtribune Custom Detection'),
       'description' => t('Determine default language from URL without prefix and write cookie.'),
     ),
   );
 }
 
+/**
+ * Language negotiation callback
+ */
 function at_language_set_language_url_default($languages) {
-  global $language;
+
+  // Force drush output always be in English.
+  if (drupal_is_cli()) {
+    return 'en';
+  }
+
   global $_COOKIE;
-  $language_url = FALSE;
-
-  list($language, $_GET['q']) = language_url_split_prefix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
-  if ($language !== FALSE) {
-    $prefix = $language->language;
-  }
-  else {
-    $prefix = "en";
-  }
-
-  setcookie("language", $prefix, time() + 3600, '/');
-  if (isset($_COOKIE['language'])) {
+  $prefix = locale_language_from_url($languages);
+  if($prefix){
+    setcookie("language", $prefix, time() + 3600, '/');
     return $prefix;
   }
-  else {
-    return $prefix == "en" ? FALSE : $prefix;
+
+  if (!empty($_COOKIE['language'])) {
+    $prefix = (!$prefix) ? "en" : $_COOKIE['language'];
+    setcookie("language", $prefix, time() + 3600, '/');
+    if($prefix!="en"){
+      header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
+    }
+  } else {
+    $prefix = "ru"; //locale_language_from_browser($languages);
+    // Temp, uk as russsian 
+    if($prefix=="uk") {
+      $prefix = "ru";
+    }
+    setcookie("language", $prefix, time() + 3600, '/');
+    if($prefix!="en"){
+      header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
+    }
   }
+  return $prefix;
 }
 
+function at_language_set_flush_caches(){
+  $value = array(
+    'locale-url' => array(
+      'callbacks' => array(
+        'language' => 'locale_language_from_url',
+        'switcher' => 'locale_language_switcher_url',
+        'url_rewrite' => 'locale_language_url_rewrite_url',
+      ),
+      'file' => 'includes/locale.inc',
+    ),
+    'locale-cookie' => array(
+      'callbacks' => array(
+        'language' => 'at_language_set_language_url_default',
+      ),
+      'file' => 'sites/all/modules/custom/at_language_set/at_language_set.module',
+    ),
+    'locale-default' => array(
+      'callbacks' => array(
+        'language' => 'language_from_default',
+      ),
+    ),
+  );
+  variable_set('language_negotiation_language_content', $value);
+  variable_set('language_negotiation_language', $value);
+
+  $value = array(
+    'locale-url' => '-10',
+    'locale-cookie' => '-9',
+    'locale-session' => '-8',
+    'locale-user' => '-7',
+    'locale-browser' => '-6',
+    'locale-interface' => '-5',
+    'language-default' => '-4',
+  );
+  variable_set('locale_language_providers_weight_language_content', $value);
+  variable_set('locale_language_providers_weight_language', $value);
+  return array();
+}

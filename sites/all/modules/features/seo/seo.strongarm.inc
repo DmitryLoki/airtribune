@@ -756,7 +756,8 @@ Crawl-delay: 10
 # CUSTOM
 Disallow: /*sort=
 Disallow: /*/node/*/translate
-Disallow: /*/node/*/
+Disallow: /*/node/*
+Disallow: /*/event/*/map/*
 Disallow: /*/node/*/group
 Disallow: /*/group/node/*
 Disallow: /*/event/*
@@ -764,6 +765,7 @@ Disallow: /*/taxonomy/term/*
 #
 Disallow: /node/*/translate
 Disallow: /node/*
+Disallow: /event/*/map/*
 Disallow: /node/*/group
 Disallow: /group/node/*
 Disallow: /event/*
@@ -771,6 +773,7 @@ Disallow: /taxonomy/term/*
 #
 Disallow: /?q=node/*/translate
 Disallow: /?q=node/*
+Disallow: /?q=event/*/map/*
 Disallow: /?q=node/*/group
 Disallow: /?q=group/node/*
 Disallow: /?q=event/*

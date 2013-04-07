@@ -33,7 +33,7 @@ else {
 }
 
 // Mark headquater hotel.
-if ($fields['nid_1']) {
+if (isset($fields['nid_1'])) {
   // $fields['field_geofield_distance']->wrapper_prefix = '<div class="hq-hotel">';
   // $fields['field_geofield_distance']->wrapper_suffix = '</div>';
   $fields['field_geofield_distance']->content = t('Headquarter');
