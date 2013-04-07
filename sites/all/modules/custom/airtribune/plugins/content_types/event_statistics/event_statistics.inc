@@ -112,7 +112,8 @@ function template_preprocess_airtribune_event_statistics_pane(&$vars) {
   }
 
   $vars['pilots_url'] = 'event/' . $vars['elements']['#event_id'] . '/pilots';
-  $vars['map_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
+  $vars['accommodations_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
+  $vars['activities_url'] = 'event/' . $vars['elements']['#event_id'] . '/map/activities';
 
   $vars['pilots_confirmed_link'] = l(str_replace($vars['pilots_confirmed'], '', format_plural($vars['pilots_confirmed'], 'Pilot', '@count Pilots')), $vars['pilots_url']);
   $vars['pilots_waiting_link'] = l(str_replace($vars['pilots_waiting'], '', format_plural($vars['pilots_waiting'], 'Pilot', '@count Pilots')), $vars['pilots_url']);

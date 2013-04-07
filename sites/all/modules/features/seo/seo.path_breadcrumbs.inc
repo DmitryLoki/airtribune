@@ -616,45 +616,42 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_blog_entry';
   $path_breadcrumb->name = 'Paragliding contest Current Blog entry';
-  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->path = 'event/%eventnode/blog/%blognode';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => '%node:title',
-      1 => 'Blog',
-      2 => '%node:og-group-ref:0:title',
-      3 => 'Current',
-      4 => 'Events',
+      0 => 'Events',
+      1 => 'Next',
+      2 => '%blognode:og-group-ref:0:title',
+      3 => 'Blog',
+      4 => '%blognode:title',
     ),
     'paths' => array(
-      0 => 'node/%node:nid',
-      1 => 'event/%node:og-group-ref:0:nid/blog',
-      2 => 'event/%node:og-group-ref:0:nid',
-      3 => 'events/current',
-      4 => 'events',
+      0 => 'events',
+      1 => 'events/next',
+      2 => 'event/%blognode:og-group-ref:0:nid',
+      3 => 'event/%blognode:og-group-ref:0:nid/blog',
+      4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
     'arguments' => array(
-      'node' => array(
+      'eventnode' => array(
         'position' => 1,
         'argument' => 'entity_id:node',
         'settings' => array(
-          'identifier' => 'Content: ID',
+          'identifier' => 'Content: ID event',
+        ),
+      ),
+      'blognode' => array(
+        'position' => 3,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID blog',
         ),
       ),
     ),
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'newsblog' => 'newsblog',
-            ),
-          ),
-          'context' => 'node',
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'event_dates',
           'settings' => array(
@@ -666,7 +663,27 @@ function seo_path_breadcrumbs_settings_info() {
         2 => array(
           'name' => 'og_is_node_group_content',
           'settings' => NULL,
-          'context' => 'node',
+          'context' => 'blognode',
+          'not' => FALSE,
+        ),
+        3 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'blognode',
+          'not' => FALSE,
+        ),
+        4 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'eventnode',
           'not' => FALSE,
         ),
       ),
@@ -1396,45 +1413,42 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_blog_entry';
   $path_breadcrumb->name = 'Paragliding contest Next Blog entry';
-  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->path = 'event/%eventnode/blog/%blognode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
       1 => 'Next',
-      2 => '%node:og-group-ref:0:title',
+      2 => '%blognode:og-group-ref:0:title',
       3 => 'Blog',
-      4 => '%node:title',
+      4 => '%blognode:title',
     ),
     'paths' => array(
       0 => 'events',
       1 => 'events/next',
-      2 => 'event/%node:og-group-ref:0:nid',
-      3 => 'event/%node:og-group-ref:0:nid/blog',
-      4 => 'node/%node:nid',
+      2 => 'event/%blognode:og-group-ref:0:nid',
+      3 => 'event/%blognode:og-group-ref:0:nid/blog',
+      4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
     'arguments' => array(
-      'node' => array(
+      'eventnode' => array(
         'position' => 1,
         'argument' => 'entity_id:node',
         'settings' => array(
-          'identifier' => 'Content: ID',
+          'identifier' => 'Content: ID event',
+        ),
+      ),
+      'blognode' => array(
+        'position' => 3,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID blog',
         ),
       ),
     ),
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'newsblog' => 'newsblog',
-            ),
-          ),
-          'context' => 'node',
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'event_dates',
           'settings' => array(
@@ -1446,7 +1460,27 @@ function seo_path_breadcrumbs_settings_info() {
         2 => array(
           'name' => 'og_is_node_group_content',
           'settings' => NULL,
-          'context' => 'node',
+          'context' => 'blognode',
+          'not' => FALSE,
+        ),
+        3 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'blognode',
+          'not' => FALSE,
+        ),
+        4 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'eventnode',
           'not' => FALSE,
         ),
       ),
@@ -2176,45 +2210,42 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_blog_entry';
   $path_breadcrumb->name = 'Paragliding contest Past Blog entry';
-  $path_breadcrumb->path = 'node/%node';
+  $path_breadcrumb->path = 'event/%eventnode/blog/%blognode';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Past',
-      2 => '%node:og-group-ref:0:title',
+      1 => 'Next',
+      2 => '%blognode:og-group-ref:0:title',
       3 => 'Blog',
-      4 => '%node:title',
+      4 => '%blognode:title',
     ),
     'paths' => array(
       0 => 'events',
-      1 => 'events/past',
-      2 => 'event/%node:og-group-ref:0:nid',
-      3 => 'event/%node:og-group-ref:0:nid/blog',
-      4 => 'node/%node:nid',
+      1 => 'events/next',
+      2 => 'event/%blognode:og-group-ref:0:nid',
+      3 => 'event/%blognode:og-group-ref:0:nid/blog',
+      4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',
     ),
     'home' => 1,
     'translatable' => 1,
     'arguments' => array(
-      'node' => array(
+      'eventnode' => array(
         'position' => 1,
         'argument' => 'entity_id:node',
         'settings' => array(
-          'identifier' => 'Content: ID',
+          'identifier' => 'Content: ID event',
+        ),
+      ),
+      'blognode' => array(
+        'position' => 3,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID blog',
         ),
       ),
     ),
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'newsblog' => 'newsblog',
-            ),
-          ),
-          'context' => 'node',
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'event_dates',
           'settings' => array(
@@ -2226,7 +2257,27 @@ function seo_path_breadcrumbs_settings_info() {
         2 => array(
           'name' => 'og_is_node_group_content',
           'settings' => NULL,
-          'context' => 'node',
+          'context' => 'blognode',
+          'not' => FALSE,
+        ),
+        3 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'newsblog' => 'newsblog',
+            ),
+          ),
+          'context' => 'blognode',
+          'not' => FALSE,
+        ),
+        4 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'eventnode',
           'not' => FALSE,
         ),
       ),

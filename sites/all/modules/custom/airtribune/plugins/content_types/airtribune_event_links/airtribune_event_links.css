@@ -7,7 +7,7 @@
 #airtribune-event-links li span.open-class-allowed { background-position:0 -86px}
 
 #airtribune-event-links li.event-rules { float: left;}
-#airtribune-event-links li.event-rules-file { float: right; clear: none; padding-top: 14px;}
+#airtribune-event-links li.event-rules-file { float: right; clear: none; padding-top: 14px; text-align: center; text-indent: 0;}
 #airtribune-event-links li.event-rules-file a, #airtribune-event-links li.event-rules-file a:hover { background-position: 0 -120px; background-color: #7ed5f6; position: relative; font: 13px/15px Arial, Helvetica, sans-serif; color: #fffeff; height: 16px; padding: 0 15px 0 20px; min-width: 63px; display: block; text-align: center;
   
   -webkit-border-radius: 8px;
