@@ -82,3 +82,16 @@ function at_membership_set_breadcrumb($og_membership) {
   }
   drupal_set_breadcrumb($breadcrumb);
 }
+
+/**
+ * Delete og_membership entity.
+ */
+function at_membership_delete($og_membership) {
+  if (!empty($_POST['js']) && at_membership_access($og_membership, 'delete')) {
+    $node = node_load($og_membership->gid);
+    og_membership_delete($og_membership->id);
+    drupal_json_output(array('message' => t('You have successfully signed out from the event "%title".', array('%title' => $node->title))));
+  } else {
+    drupal_access_denied();
+  }
+}

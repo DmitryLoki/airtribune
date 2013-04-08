@@ -10,6 +10,7 @@
  */
 function at_membership_menu() {
   $items = array();
+
   $items['group-membership/%at_membership/edit'] = array(
     'type' => MENU_CALLBACK,
     'file' => 'at_membership.pages.inc',
@@ -20,7 +21,27 @@ function at_membership_menu() {
     'title callback' => 'at_membership_title',
     'title arguments' => array(1),
   );
+
+  $items['group-membership/%at_membership/delete'] = array(
+    'type' => MENU_CALLBACK,
+    'file' => 'at_membership.pages.inc',
+    'page callback' => 'at_membership_delete',
+    'page arguments' => array(1),
+    'access callback' => 'at_membership_access',
+    'access arguments' => array(1, 'delete'),
+    'title' => 'Delete membership',
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function at_membership_init() {
+  if (drupal_match_path($_GET['q'], 'user/*/events')) {
+    drupal_add_js(drupal_get_path('module', 'at_membership') . '/js/at_membership_delete.js');
+  }
 }
 
 /**
@@ -41,21 +62,21 @@ function at_membership_title($og_membership) {
 }
 
 /**
- * Determine whether the current user may edit OG membership data.
+ * Determine whether the current user may edit/delete OG membership data.
  */
-function at_membership_access($og_membership) {
+function at_membership_access($og_membership, $op = 'edit') {
   global $user;
   
   $type = $og_membership->type;
   $access = FALSE;
   if ($og_membership->entity_type == 'user' && $og_membership->group_type == 'node') {
-    if (user_access('edit any og membership') || user_access("edit any $type og membership")) {
+    if (user_access("$op any og membership") || user_access("$op any $type og membership")) {
       $access = TRUE;
     }
-    elseif ((user_access('edit own group og membership') || user_access("edit own group $type og membership"))  && ($node = node_load($og_membership->gid)) && $node->uid == $user->uid) {
+    elseif ((user_access("$op own group og membership") || user_access("$op own group $type og membership"))  && ($node = node_load($og_membership->gid)) && $node->uid == $user->uid) {
       $access = TRUE;
     }
-    elseif ((user_access('edit own og membership') || user_access("edit own $type og membership")) && $og_membership->etid == $user->uid) {
+    elseif ((user_access("$op own og membership") || user_access("$op own $type og membership")) && $og_membership->etid == $user->uid) {
       $access = TRUE;
     }
   }
@@ -79,6 +100,18 @@ function at_membership_permission() {
   $items['edit any og membership'] = array(
     'title' => t('Edit ANY OG membership'),
     'description' => t('Allow users to edit any memberships.'),
+  );
+  $items['delete own og membership'] = array(
+    'title' => t('Delete OWN OG membership'),
+    'description' => t('Allow users to delete own memberships.'),
+  );
+  $items['delete own group og membership'] = array(
+    'title' => t('Delete OWN GROUP OG membership'),
+    'description' => t('Allow users to delete memberships that belong to their group.'),
+  );
+  $items['delete any og membership'] = array(
+    'title' => t('Delete ANY OG membership'),
+    'description' => t('Allow users to delete any memberships.'),
   );
    // Generate standard node permissions for all OG membership types.
   foreach (at_membership_permissions_get_configured_types() as $type) {
@@ -145,7 +178,16 @@ function at_membership_list_permissions($type) {
     ),
     "edit any $type og membership" => array(
       'title' => t('%type_name: Edit ANY OG membership', array('%type_name' => $info->description)),
-    ), 
+    ),
+    "delete own $type og membership" => array(
+      'title' => t('%type_name: Delete OWN OG membership', array('%type_name' => $info->description)),
+    ),
+    "delete own group $type og membership" => array(
+      'title' => t('%type_name: Delete OWN GROUP OG membership', array('%type_name' => $info->description)),
+    ),
+    "delete any $type og membership" => array(
+      'title' => t('%type_name: Delete ANY OG membership', array('%type_name' => $info->description)),
+    ),
   );
 
   return $perms;
