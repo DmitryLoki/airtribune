@@ -10,67 +10,6 @@
 function seo_metatag_export_default() {
   $config = array();
 
-  // Exported Metatag config instance: node:pg_contest.
-  $config['node:pg_contest'] = array(
-    'instance' => 'node:pg_contest',
-    'config' => array(
-      'og:type' => array(
-        'value' => 'sport',
-      ),
-      'title' => array(
-        'value' => '[node:title] | [site:slogan]',
-      ),
-      'description' => array(
-        'value' => 'Watch [node:title] on-line in 2D and 3D, photo and video. [node:summary]',
-      ),
-      'keywords' => array(
-        'value' => '[node:title], paragliding, [node:field_location]',
-      ),
-    ),
-  );
-
-  // Exported Metatag config instance: node:pg_race.
-  $config['node:pg_race'] = array(
-    'instance' => 'node:pg_race',
-    'config' => array(
-      'og:type' => array(
-        'value' => 'sport',
-      ),
-      'title' => array(
-        'value' => '[node:title] | [node:og-group-ref:0:title] | [site:slogan]',
-      ),
-      'description' => array(
-        'value' => 'Latest news from [node:og-group-ref:0:title] on [node:title]. Paragliding. [node:summary]',
-      ),
-      'keywords' => array(
-        'value' => '[node:og-group-ref:0:title], paragliding, [node:field_location], live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
-      ),
-    ),
-  );
-
-  // Exported Metatag config instance: node:accommodation.
-  $config['node:accommodation'] = array(
-    'instance' => 'node:accommodation',
-    'config' => array(
-      'og:type' => array(
-        'value' => 'hotel',
-      ),
-      'title' => array(
-        'value' => '[node:title] | [site:slogan]',
-      ),
-    ),
-  );
-
-  // Exported Metatag config instance: node:newsblog.
-  $config['node:newsblog'] = array(
-    'instance' => 'node:newsblog',
-    'config' => array(
-      'title' => array(
-        'value' => '[node:title]. [node:og-group-ref:0:title] | [site:slogan]',
-      ),
-    ),
-  );
-
   // Exported Metatag config instance: global.
   $config['global'] = array(
     'instance' => 'global',
@@ -101,22 +40,6 @@ function seo_metatag_export_default() {
       ),
       'og:url' => array(
         'value' => '[current-page:url:absolute]',
-      ),
-    ),
-  );
-
-  // Exported Metatag config instance: user.
-  $config['user'] = array(
-    'instance' => 'user',
-    'config' => array(
-      'title' => array(
-        'value' => '[user:profile-pilot:field_name_in_national_alphabet] | [site:slogan]',
-      ),
-      'og:title' => array(
-        'value' => '[user:profile-pilot:field_name_in_national_alphabet]',
-      ),
-      'og:type' => array(
-        'value' => 'profile',
       ),
     ),
   );
@@ -167,6 +90,83 @@ function seo_metatag_export_default() {
       ),
       'og:description' => array(
         'value' => '[node:summary]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:accommodation.
+  $config['node:accommodation'] = array(
+    'instance' => 'node:accommodation',
+    'config' => array(
+      'og:type' => array(
+        'value' => 'hotel',
+      ),
+      'title' => array(
+        'value' => '[node:title] | [site:slogan]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:newsblog.
+  $config['node:newsblog'] = array(
+    'instance' => 'node:newsblog',
+    'config' => array(
+      'title' => array(
+        'value' => '[node:title]. [node:og-group-ref:0:title] | [site:slogan]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:pg_contest.
+  $config['node:pg_contest'] = array(
+    'instance' => 'node:pg_contest',
+    'config' => array(
+      'og:type' => array(
+        'value' => 'sport',
+      ),
+      'title' => array(
+        'value' => '[node:title] | [site:slogan]',
+      ),
+      'description' => array(
+        'value' => 'Watch [node:title] on-line in 2D and 3D, photo and video. [node:summary]',
+      ),
+      'keywords' => array(
+        'value' => '[node:title], paragliding, [node:field_location]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:pg_race.
+  $config['node:pg_race'] = array(
+    'instance' => 'node:pg_race',
+    'config' => array(
+      'og:type' => array(
+        'value' => 'sport',
+      ),
+      'title' => array(
+        'value' => '[node:title] | [node:og-group-ref:0:title] | [site:slogan]',
+      ),
+      'description' => array(
+        'value' => 'Latest news from [node:og-group-ref:0:title] on [node:title]. Paragliding. [node:summary]',
+      ),
+      'keywords' => array(
+        'value' => '[node:og-group-ref:0:title], paragliding, [node:field_location], live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: user.
+  $config['user'] = array(
+    'instance' => 'user',
+    'config' => array(
+      'title' => array(
+        'value' => '[user:profile-pilot:field_name_in_national_alphabet] | [site:slogan]',
+      ),
+      'og:title' => array(
+        'value' => '[user:profile-pilot:field_name_in_national_alphabet]',
+      ),
+      'og:type' => array(
+        'value' => 'profile',
       ),
     ),
   );
