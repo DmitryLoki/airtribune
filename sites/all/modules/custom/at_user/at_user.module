@@ -109,15 +109,14 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['#validate'] = array_diff($form['#validate'], array('user_validate_current_pass'));
   }
   // see #2633
-  if ($form_id == 'user_login_block') {
-    $form['#action'] = '/' . variable_get('site_frontpage', '') . '?destination=user';
-  }
-  // see #2633
   if ($form_id == 'user_login_block' || $form_id == 'user_login') {
     $form['inline_errors']['#markup'] = '';
     $form['inline_errors']['#weight'] = -10;
     $form['#validate'][] = 'at_user_login_error_msg';
     $form['#validate'][] = 'at_user_login_error_redirect_to_form';
+  }
+  if ($form_id == 'user_login_block') {
+    $form['#action'] = '/' . variable_get('site_frontpage', '');
   }
 }
 
@@ -244,10 +243,11 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
   // user type wrong password / name
   if (empty($form_state['uid'])) {
     // at user login block
-    if ($form['#form_id'] == 'user_login_block') {
-      // $form_state['redirect'] = "user/login";
-      // drupal_goto('user/login?mail='.$form_state['values']['name']);
-      drupal_goto('user/login');
+    if ($form_state['values']['form_id'] == 'user_login_block') {
+      // A destination in $_GET always overrides the drupal_goto function arguments
+      $_GET['destination'] = "user/login";
+      // go to destination
+      drupal_goto();
     }
     // update form, need for form-redirect and markup update
     $form_state['rebuild'] = TRUE;
