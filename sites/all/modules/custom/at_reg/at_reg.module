@@ -540,6 +540,13 @@ function at_reg_user_register_after_execute(&$multiform, $index) {
   $uid = $form_state['values']['uid'];
   $user = user_load($uid);
   
+  if (!$user->uid) {
+    if (empty($multiform['errors'])) {
+      $multiform['errors'] = array();
+    }
+    $multiform['errors']['after_register_execute'] = t('Unexpected error occured. Please try again or contact admistrator.');
+  }
+  
   // Changed data used for og_ui_confirm_subscribe() subscription
   // as if newly added user's $uid was passed into arguments.
   $og_ui_confirm_subscribe_index = multiform_get_index_by_tag($multiform, 'og_ui_confirm_subscribe');
