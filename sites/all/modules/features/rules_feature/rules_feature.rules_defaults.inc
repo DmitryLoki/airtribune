@@ -56,7 +56,7 @@ function rules_feature_default_rules_configuration() {
         },
         { "path_alias" : { "source" : "node\\/[node:nid]" } },
         { "path_alias" : {
-            "source" : "node\\/[node:nid]",
+            "source" : "event\\/[entity-fetched:nid]\\/blog\\/[node:nid]",
             "alias" : "[entity-fetched:title]\\/blog\\/[node:title]"
           }
         }

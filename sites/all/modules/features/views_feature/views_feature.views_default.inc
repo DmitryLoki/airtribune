@@ -22,28 +22,15 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Размещение';
+  $handler->display->display_options['title'] = 'Accommodations';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'administer nodes';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['columns'] = array(
@@ -135,12 +122,12 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Подвал: Result summary */
+  /* Footer: Result summary */
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
   $handler->display->display_options['footer']['result']['field'] = 'result';
   $handler->display->display_options['footer']['result']['ui_name'] = 'Result summary';
-  /* Поведение при отсутствии результатов: No accommodations */
+  /* No results behavior: No accommodations */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
@@ -148,26 +135,26 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Sorry, no accommodations were found to display.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Поле: Node ID */
+  /* Field: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['ui_name'] = 'Node ID';
   $handler->display->display_options['fields']['nid']['label'] = 'ID';
-  /* Поле: Title */
+  /* Field: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Поле: Published */
+  /* Field: Published */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'node';
   $handler->display->display_options['fields']['status']['field'] = 'status';
   $handler->display->display_options['fields']['status']['ui_name'] = 'Published';
   $handler->display->display_options['fields']['status']['not'] = 0;
-  /* Поле: Single price */
+  /* Field: Single price */
   $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
   $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
   $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
@@ -176,53 +163,51 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: Double price */
+  /* Field: Double price */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
   $handler->display->display_options['fields']['field_price_double']['field'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['ui_name'] = 'Double price';
-  $handler->display->display_options['fields']['field_price_double']['label'] = 'Двойная';
   $handler->display->display_options['fields']['field_price_double']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: Currency */
+  /* Field: Currency */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['field'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['ui_name'] = 'Currency';
-  $handler->display->display_options['fields']['field_price_currency']['label'] = 'Валюта';
-  /* Поле: Wi-Fi */
+  /* Field: Wi-Fi */
   $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['field'] = 'field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['ui_name'] = 'Wi-Fi';
-  /* Поле: Email */
+  /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['ui_name'] = 'Email';
-  /* Поле: Updated */
+  /* Field: Updated */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
   $handler->display->display_options['fields']['changed']['ui_name'] = 'Updated';
-  $handler->display->display_options['fields']['changed']['label'] = 'Обновлено';
+  $handler->display->display_options['fields']['changed']['label'] = 'Updated';
   $handler->display->display_options['fields']['changed']['date_format'] = 'dmy';
-  /* Поле: Edit link */
+  /* Field: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['ui_name'] = 'Edit link';
-  $handler->display->display_options['fields']['edit_node']['label'] = 'Действия';
-  /* Поле: Delete link */
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
+  /* Field: Delete link */
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['ui_name'] = 'Delete link';
   $handler->display->display_options['fields']['delete_node']['label'] = '';
   $handler->display->display_options['fields']['delete_node']['element_label_colon'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -230,7 +215,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Критерий фильтра: Title */
+  /* Filter criterion: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
   $handler->display->display_options['filters']['title']['field'] = 'title';
@@ -261,32 +246,32 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['accommodations'] = array(
     t('Master'),
-    t('Размещение'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('Accommodations'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('Displaying @start - @end of @total'),
     t('Sorry, no accommodations were found to display.'),
     t('ID'),
-    t('Заголовок'),
-    t('Опубликовано'),
+    t('Title'),
+    t('Published'),
     t('Single'),
-    t('Двойная'),
-    t('Валюта'),
+    t('Double'),
+    t('Currency'),
     t('Wi-Fi'),
     t('Email'),
-    t('Обновлено'),
-    t('Действия'),
+    t('Updated'),
+    t('Operations'),
     t('Search by title'),
     t('Page'),
   );
@@ -305,49 +290,36 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '7';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Критерий сортировки: Содержимое: Прикреплено */
+  /* Sort criterion: Content: Sticky */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'node';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
-  /* Критерий сортировки: Содержимое: Дата публикации */
+  /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Критерий фильтра: Содержимое: Помещено на главную страницу */
+  /* Filter criterion: Content: Promoted to front page */
   $handler->display->display_options['filters']['promote']['id'] = 'promote';
   $handler->display->display_options['filters']['promote']['table'] = 'node';
   $handler->display->display_options['filters']['promote']['field'] = 'promote';
   $handler->display->display_options['filters']['promote']['value'] = '1';
   $handler->display->display_options['filters']['promote']['group'] = 0;
   $handler->display->display_options['filters']['promote']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -363,7 +335,7 @@ function views_feature_views_default_views() {
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Лента главной страницы';
+  $handler->display->display_options['title'] = 'Front page feed';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'rss';
@@ -376,22 +348,22 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sitename_title'] = '1';
   $translatables['activity'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('Page'),
     t('Feed'),
-    t('Лента главной страницы'),
+    t('Front page feed'),
   );
   $export['activity'] = $view;
 
@@ -409,7 +381,6 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Pilot events';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
     3 => '3',
@@ -418,20 +389,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
@@ -476,33 +435,33 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Поведение при отсутствии результатов: Глобальный: Текстовое поле */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Empty result.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Связь: OG membership: Пользователь from OG membership */
+  /* Relationship: OG membership: User from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_user']['id'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Связь: OG membership: Group Содержимое from OG membership */
+  /* Relationship: OG membership: Group Content from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
-  /* Поле: Содержимое: Заголовок */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['relationship'] = 'og_membership_related_node_group';
-  /* Поле: Содержимое: Dates */
+  /* Field: Content: Dates */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['relationship'] = 'og_membership_related_node_group';
-  $handler->display->display_options['fields']['field_dates']['label'] = 'Дата начала';
+  $handler->display->display_options['fields']['field_dates']['label'] = 'Start date';
   $handler->display->display_options['fields']['field_dates']['settings'] = array(
     'format_type' => 'dmy',
     'fromto' => 'value',
@@ -510,45 +469,42 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Поле: OG membership: Pilot's number */
+  /* Field: OG membership: Pilot's number */
   $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
-  $handler->display->display_options['fields']['field_contestant_number']['label'] = 'Номер пилота';
   $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: OG membership: Payment status */
+  /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
-  /* Поле: OG membership: OG membership edit link */
+  /* Field: OG membership: OG membership edit link */
   $handler->display->display_options['fields']['edit_og_membership']['id'] = 'edit_og_membership';
   $handler->display->display_options['fields']['edit_og_membership']['table'] = 'views_entity_og_membership';
   $handler->display->display_options['fields']['edit_og_membership']['field'] = 'edit_og_membership';
   $handler->display->display_options['fields']['edit_og_membership']['label'] = 'Membership edit';
-  /* Критерий сортировки: Содержимое: Dates -  дата начала (field_dates) */
+  /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['relationship'] = 'og_membership_related_node_group';
   $handler->display->display_options['sorts']['field_dates_value']['order'] = 'DESC';
-  /* Контекстный фильтр: Пользователь: Uid */
+  /* Contextual filter: User: Uid */
   $handler->display->display_options['arguments']['uid']['id'] = 'uid';
   $handler->display->display_options['arguments']['uid']['table'] = 'users';
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'og_membership_related_user';
   $handler->display->display_options['arguments']['uid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['uid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['uid']['title'] = 'Pilot events: %1';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
-  /* Критерий фильтра: OG membership: Type */
+  /* Filter criterion: OG membership: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'og_membership';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -567,28 +523,28 @@ function views_feature_views_default_views() {
   $translatables['admin_events'] = array(
     t('Master'),
     t('Pilot events'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('Empty result.'),
     t('user from OG membership'),
     t('Group node from OG membership'),
-    t('Заголовок'),
-    t('Дата начала'),
-    t('Номер пилота'),
-    t('Статус оплаты'),
+    t('Title'),
+    t('Start date'),
+    t('Pilot\'s number'),
+    t('Payment status'),
     t('Membership edit'),
-    t('Все'),
+    t('All'),
     t('Pilot events: %1'),
     t('Page'),
   );
@@ -606,9 +562,8 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Пилоты';
+  $handler->display->display_options['title'] = 'Pilots';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
     3 => '3',
@@ -617,23 +572,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Поиск';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'uid' => 'uid',
@@ -665,14 +609,14 @@ function views_feature_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['sticky'] = TRUE;
-  /* Поведение при отсутствии результатов: Глобальный: Текстовое поле */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Empty result.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Связь: Пользователь: Профиль */
+  /* Relationship: User: Profile */
   $handler->display->display_options['relationships']['profile']['id'] = 'profile';
   $handler->display->display_options['relationships']['profile']['table'] = 'users';
   $handler->display->display_options['relationships']['profile']['field'] = 'profile';
@@ -680,17 +624,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['profile']['bundle_types'] = array(
     'main' => 'main',
   );
-  /* Поле: Пользователь: Uid */
+  /* Field: User: Uid */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
   $handler->display->display_options['fields']['uid']['table'] = 'users';
   $handler->display->display_options['fields']['uid']['field'] = 'uid';
   $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  /* Поле: Профиль: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_full_name']['label'] = 'Имя';
   $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'user/[uid]';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
@@ -705,12 +648,12 @@ function views_feature_views_default_views() {
     'multiple_el_al_min' => '3',
     'multiple_el_al_first' => '1',
   );
-  /* Поле: Пользователь: Электронная почта */
+  /* Field: User: E-mail */
   $handler->display->display_options['fields']['mail']['id'] = 'mail';
   $handler->display->display_options['fields']['mail']['table'] = 'users';
   $handler->display->display_options['fields']['mail']['field'] = 'mail';
   $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
-  /* Поле: Глобальный: Пользовательский текст */
+  /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
@@ -718,21 +661,21 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['text'] = 'events';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = 'admin/people/pilots/events/[uid]';
-  /* Поле: Пользователь: Masquerade As */
+  /* Field: User: Masquerade As */
   $handler->display->display_options['fields']['masquerade_as']['id'] = 'masquerade_as';
   $handler->display->display_options['fields']['masquerade_as']['table'] = 'users';
   $handler->display->display_options['fields']['masquerade_as']['field'] = 'masquerade_as';
-  $handler->display->display_options['fields']['masquerade_as']['label'] = 'Маскировка';
+  $handler->display->display_options['fields']['masquerade_as']['label'] = 'Masquerade';
   $handler->display->display_options['fields']['masquerade_as']['masquerade_views'] = array(
     'custom_destination' => 0,
     'destination' => '',
   );
-  /* Критерий сортировки: Пользователь: Дата создания */
+  /* Sort criterion: User: Created date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'users';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Критерий фильтра: Пользователь: Роли */
+  /* Filter criterion: User: Roles */
   $handler->display->display_options['filters']['rid']['id'] = 'rid';
   $handler->display->display_options['filters']['rid']['table'] = 'users_roles';
   $handler->display->display_options['filters']['rid']['field'] = 'rid';
@@ -740,7 +683,7 @@ function views_feature_views_default_views() {
     6 => '6',
   );
   $handler->display->display_options['filters']['rid']['group'] = 1;
-  /* Критерий фильтра: Профиль: Name */
+  /* Filter criterion: Profile: Name */
   $handler->display->display_options['filters']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['filters']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['filters']['field_full_name']['field'] = 'field_full_name';
@@ -749,7 +692,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_full_name']['group'] = 1;
   $handler->display->display_options['filters']['field_full_name']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_full_name']['expose']['operator_id'] = 'field_full_name_op';
-  $handler->display->display_options['filters']['field_full_name']['expose']['label'] = 'Имя';
+  $handler->display->display_options['filters']['field_full_name']['expose']['label'] = 'Name';
   $handler->display->display_options['filters']['field_full_name']['expose']['operator'] = 'field_full_name_op';
   $handler->display->display_options['filters']['field_full_name']['expose']['identifier'] = 'field_full_name';
   $handler->display->display_options['filters']['field_full_name']['expose']['remember_roles'] = array(
@@ -761,7 +704,7 @@ function views_feature_views_default_views() {
     4 => 0,
     7 => 0,
   );
-  $handler->display->display_options['filters']['field_full_name']['group_info']['label'] = 'Имя';
+  $handler->display->display_options['filters']['field_full_name']['group_info']['label'] = 'Name';
   $handler->display->display_options['filters']['field_full_name']['group_info']['identifier'] = 'field_full_name';
   $handler->display->display_options['filters']['field_full_name']['group_info']['group_items'] = array(
     1 => array(
@@ -780,7 +723,7 @@ function views_feature_views_default_views() {
       'value' => '',
     ),
   );
-  /* Критерий фильтра: Пользователь: Электронная почта */
+  /* Filter criterion: User: E-mail */
   $handler->display->display_options['filters']['mail']['id'] = 'mail';
   $handler->display->display_options['filters']['mail']['table'] = 'users';
   $handler->display->display_options['filters']['mail']['field'] = 'mail';
@@ -788,7 +731,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['mail']['group'] = 1;
   $handler->display->display_options['filters']['mail']['exposed'] = TRUE;
   $handler->display->display_options['filters']['mail']['expose']['operator_id'] = 'mail_op';
-  $handler->display->display_options['filters']['mail']['expose']['label'] = 'Электронная почта';
+  $handler->display->display_options['filters']['mail']['expose']['label'] = 'E-mail';
   $handler->display->display_options['filters']['mail']['expose']['operator'] = 'mail_op';
   $handler->display->display_options['filters']['mail']['expose']['identifier'] = 'mail';
   $handler->display->display_options['filters']['mail']['expose']['remember_roles'] = array(
@@ -811,28 +754,28 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['admin_pilots'] = array(
     t('Master'),
-    t('Пилоты'),
-    t('ещё'),
-    t('Поиск'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('Pilots'),
+    t('more'),
+    t('Search'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('Empty result.'),
-    t('Профиль'),
+    t('Profile'),
     t('Uid'),
-    t('Имя'),
-    t('Электронная почта'),
+    t('Name'),
+    t('E-mail'),
     t('User events'),
     t('events'),
-    t('Маскировка'),
+    t('Masquerade'),
     t('masquerade'),
     t('Page'),
   );
@@ -850,30 +793,17 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Партнеры';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '0';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'field_link' => 'field_link',
@@ -894,73 +824,69 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Связь: OG membership: OG membership from Содержимое */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Поле: Draggableviews: Содержимое */
+  /* Field: Draggableviews: Content */
   $handler->display->display_options['fields']['draggableviews']['id'] = 'draggableviews';
   $handler->display->display_options['fields']['draggableviews']['table'] = 'node';
   $handler->display->display_options['fields']['draggableviews']['field'] = 'draggableviews';
   $handler->display->display_options['fields']['draggableviews']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['draggableviews']['hide_alter_empty'] = FALSE;
-  /* Поле: Содержимое: Title */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
-  $handler->display->display_options['fields']['title_field']['label'] = 'Заголовок';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Поле: Содержимое: Image */
+  /* Field: Content: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = 'Изображение';
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
     'image_style' => '',
     'image_link' => '',
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
-  /* Поле: Содержимое: Link */
+  /* Field: Content: Link */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
-  $handler->display->display_options['fields']['field_link']['label'] = 'Ссылка';
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Поле: Содержимое: Ссылка на редактирование */
+  /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  /* Поле: Содержимое: Ссылка на удаление */
+  /* Field: Content: Delete link */
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
-  /* Критерий сортировки: Draggableviews: Вес */
+  /* Sort criterion: Draggableviews: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
   $handler->display->display_options['sorts']['weight']['field'] = 'weight';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'self';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
-  /* Контекстный фильтр: OG membership: Номер группы */
+  /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -972,7 +898,7 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Event Sponsors', 'panel_pane_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Шапка: Глобальный: Текстовое поле */
+  /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
@@ -981,14 +907,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['header']['area']['format'] = 'php_code';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* Поведение при отсутствии результатов: Глобальный: Текстовое поле */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'There are no partners added yet for the current event.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -1010,7 +935,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* Поведение при отсутствии результатов: Banner blank 200x140 */
+  /* No results behavior: Banner blank 200x140 */
   $handler->display->display_options['empty']['area_1']['id'] = 'area_1';
   $handler->display->display_options['empty']['area_1']['table'] = 'views';
   $handler->display->display_options['empty']['area_1']['field'] = 'area';
@@ -1018,7 +943,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area_1']['empty'] = TRUE;
   $handler->display->display_options['empty']['area_1']['content'] = '<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>';
   $handler->display->display_options['empty']['area_1']['format'] = 'full_html';
-  /* Поведение при отсутствии результатов: Banner blank 200x200 */
+  /* No results behavior: Banner blank 200x200 */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
@@ -1027,7 +952,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['content'] = '<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>';
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Link (excluded) */
+  /* Field: Link (excluded) */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
@@ -1036,7 +961,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Поле: Содержимое: Image */
+  /* Field: Content: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1055,13 +980,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_image']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Draggableviews: Вес */
+  /* Sort criterion: Draggableviews: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
   $handler->display->display_options['sorts']['weight']['field'] = 'weight';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'advert_list:panel_pane_1';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -1076,7 +1000,7 @@ function views_feature_views_default_views() {
   /* Display: Site Partners */
   $handler = $view->new_display('page', 'Site Partners', 'page_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Партнеры';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
@@ -1085,7 +1009,7 @@ function views_feature_views_default_views() {
     3 => '3',
   );
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Шапка: Глобальный: Текстовое поле */
+  /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
@@ -1093,7 +1017,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add partner\'), \'node/add/advert\');?>';
   $handler->display->display_options['header']['area']['format'] = 'php_code';
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* Поведение при отсутствии результатов: Глобальный: Текстовое поле */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
@@ -1103,14 +1027,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -1118,7 +1042,7 @@ function views_feature_views_default_views() {
     'advert' => 'advert',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Критерий фильтра: OG membership: Идентификатор Og membership */
+  /* Filter criterion: OG membership: Og membership ID */
   $handler->display->display_options['filters']['id']['id'] = 'id';
   $handler->display->display_options['filters']['id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['id']['field'] = 'id';
@@ -1130,7 +1054,7 @@ function views_feature_views_default_views() {
   /* Display: Site banners */
   $handler = $view->new_display('panel_pane', 'Site banners', 'panel_pane_4');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Партнеры';
+  $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -1139,7 +1063,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Link (excluded) */
+  /* Field: Link (excluded) */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
@@ -1148,7 +1072,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Поле: Содержимое: Image */
+  /* Field: Content: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1166,7 +1090,7 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Draggableviews: Вес */
+  /* Sort criterion: Draggableviews: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
   $handler->display->display_options['sorts']['weight']['field'] = 'weight';
@@ -1175,55 +1099,54 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'advert' => 'advert',
   );
-  /* Критерий фильтра: OG membership: Идентификатор Og membership */
+  /* Filter criterion: OG membership: Og membership ID */
   $handler->display->display_options['filters']['id']['id'] = 'id';
   $handler->display->display_options['filters']['id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['id']['field'] = 'id';
   $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $translatables['advert_list'] = array(
     t('Master'),
-    t('Партнеры'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('Partners'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('OG membership from node'),
-    t('Содержимое'),
-    t('Заголовок'),
-    t('Изображение'),
-    t('Ссылка'),
-    t('Ссылка на редактирование'),
-    t('Ссылка на удаление'),
-    t('Все'),
+    t('Content'),
+    t('Title'),
+    t('Image'),
+    t('Link'),
+    t('Edit link'),
+    t('Delete link'),
+    t('All'),
     t('Event Sponsors'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
     t('There are no partners added yet for the current event.'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('Event Banners'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>'),
@@ -1248,26 +1171,20 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Связь: OG membership: OG membership from Содержимое */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Поле: Post date */
+  /* Field: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
@@ -1277,7 +1194,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'race_date';
-  /* Поле: Tile */
+  /* Field: Tile */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -1289,20 +1206,20 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: View more link */
+  /* Field: View more link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['ui_name'] = 'View more link';
   $handler->display->display_options['fields']['view_node']['label'] = '';
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Читать далее';
-  /* Критерий сортировки: Содержимое: Дата публикации */
+  $handler->display->display_options['fields']['view_node']['text'] = 'View more';
+  /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Контекстный фильтр: OG membership: Номер группы */
+  /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
@@ -1315,14 +1232,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -1344,52 +1261,41 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Post date (Excluded) */
+  /* Field: Blog ID - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Blog ID - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Post date - excluded */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['ui_name'] = 'Post date (Excluded)';
+  $handler->display->display_options['fields']['created']['ui_name'] = 'Post date - excluded';
   $handler->display->display_options['fields']['created']['label'] = '';
   $handler->display->display_options['fields']['created']['exclude'] = TRUE;
   $handler->display->display_options['fields']['created']['element_type'] = 'strong';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'race_date';
-  /* Поле: Tile (Excluded) */
+  /* Field: Tile - rewrited */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Tile (Excluded)';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Tile - rewrited';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['text'] = '<strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span>';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/!1/blog/[nid]';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['preserve_tags'] = '<a> <span> <strong> <i> <u> <b>';
   $handler->display->display_options['fields']['title']['element_type'] = 'p';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: View more link (Excluded) */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['ui_name'] = 'View more link (Excluded)';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Читать далее';
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
-  /* Поле: Содержимое: Путь */
-  $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'node';
-  $handler->display->display_options['fields']['path']['field'] = 'path';
-  $handler->display->display_options['fields']['path']['label'] = '';
-  $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['path']['alter']['text'] = '<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>';
-  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
@@ -1410,13 +1316,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1424,7 +1323,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'event_blog_teaser';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
@@ -1437,27 +1335,27 @@ function views_feature_views_default_views() {
   );
   $translatables['contest_blog'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('OG membership from node'),
-    t('Читать далее'),
+    t('View more'),
     t('Все'),
     t('Contest pane'),
     t('This pane will be shown at the event info page.'),
-    t('<a href="[path]"><strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span></a>'),
-    t('Представления-Фрагменты'),
+    t('<strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span>'),
+    t('View panes'),
     t('Contest full pane'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
   );
   $export['contest_blog'] = $view;
 
@@ -1473,31 +1371,25 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Размещение';
+  $handler->display->display_options['title'] = 'Accommodation';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['disable_sql_rewrite'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Связь: HQ contest */
+  /* Relationship: HQ contest */
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['id'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['field'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['ui_name'] = 'HQ contest';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['label'] = 'HQ contest';
-  /* Поле: NID - excluded */
+  /* Field: NID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -1505,7 +1397,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: First photo - overriden */
+  /* Field: First photo - overriden */
   $handler->display->display_options['fields']['field_photo']['id'] = 'field_photo';
   $handler->display->display_options['fields']['field_photo']['table'] = 'field_data_field_photo';
   $handler->display->display_options['fields']['field_photo']['field'] = 'field_photo';
@@ -1522,7 +1414,7 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['fields']['field_photo']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_photo']['delta_offset'] = '0';
-  /* Поле: Title - overriden */
+  /* Field: Title - overriden */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -1535,7 +1427,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Distance to HQ */
+  /* Field: Distance to HQ */
   $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -1556,14 +1448,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
-  /* Поле: WiFi */
+  /* Field: WiFi */
   $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['table'] = 'field_data_field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['field'] = 'field_hotel_wifi';
   $handler->display->display_options['fields']['field_hotel_wifi']['ui_name'] = 'WiFi';
   $handler->display->display_options['fields']['field_hotel_wifi']['label'] = '';
   $handler->display->display_options['fields']['field_hotel_wifi']['element_label_colon'] = FALSE;
-  /* Поле: Currency - excluded */
+  /* Field: Currency - excluded */
   $handler->display->display_options['fields']['field_price_currency']['id'] = 'field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['table'] = 'field_data_field_price_currency';
   $handler->display->display_options['fields']['field_price_currency']['field'] = 'field_price_currency';
@@ -1571,7 +1463,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_price_currency']['label'] = '';
   $handler->display->display_options['fields']['field_price_currency']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_price_currency']['element_label_colon'] = FALSE;
-  /* Поле: Single price - overridden */
+  /* Field: Single price - overridden */
   $handler->display->display_options['fields']['field_price_single']['id'] = 'field_price_single';
   $handler->display->display_options['fields']['field_price_single']['table'] = 'field_data_field_price_single';
   $handler->display->display_options['fields']['field_price_single']['field'] = 'field_price_single';
@@ -1584,7 +1476,7 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: Double price - overridden */
+  /* Field: Double price - overridden */
   $handler->display->display_options['fields']['field_price_double']['id'] = 'field_price_double';
   $handler->display->display_options['fields']['field_price_double']['table'] = 'field_data_field_price_double';
   $handler->display->display_options['fields']['field_price_double']['field'] = 'field_price_double';
@@ -1597,7 +1489,7 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: Description */
+  /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
@@ -1608,17 +1500,17 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['settings'] = array(
     'trim_length' => '300',
   );
-  /* Поле: Phone */
+  /* Field: Phone */
   $handler->display->display_options['fields']['field_place_phone']['id'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['field'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Тел';
+  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Tel';
   $handler->display->display_options['fields']['field_place_phone']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
   $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_place_phone']['delta_offset'] = '0';
-  /* Поле: Email */
+  /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
@@ -1629,7 +1521,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['type'] = 'email_plain';
   $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
-  /* Поле: Contest ID - hidden in template */
+  /* Field: Contest ID - hidden in template */
   $handler->display->display_options['fields']['nid_1']['id'] = 'nid_1';
   $handler->display->display_options['fields']['nid_1']['table'] = 'node';
   $handler->display->display_options['fields']['nid_1']['field'] = 'nid';
@@ -1638,7 +1530,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid_1']['label'] = '';
   $handler->display->display_options['fields']['nid_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nid_1']['hide_empty'] = TRUE;
-  /* Критерий сортировки: Distance to HQ */
+  /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['sorts']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -1653,12 +1545,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
-  /* Контекстный фильтр: Глобальный: Ноль */
+  /* Contextual filter: Global: Null */
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -1668,7 +1559,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -1676,7 +1567,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -1684,7 +1575,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Критерий фильтра: Distance to HQ */
+  /* Filter criterion: Distance to HQ */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -1706,7 +1597,6 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
       'type' => 'panel',
@@ -1719,24 +1609,24 @@ function views_feature_views_default_views() {
   );
   $translatables['event_accommodations'] = array(
     t('Master'),
-    t('Размещение'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Accommodation'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('HQ contest'),
     t('.'),
     t(','),
     t(' km'),
     t('<span class="currency-[field_price_currency]">[field_price_single]</span>'),
     t('<span class="currency-[field_price_currency]">[field_price_double]</span>'),
-    t('Тел'),
+    t('Tel'),
     t('Email:'),
-    t('Все'),
+    t('All'),
     t('Content pane'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['event_accommodations'] = $view;
 
@@ -1752,24 +1642,18 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Отдых';
+  $handler->display->display_options['title'] = 'Activities';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Поле: NID - excluded */
+  /* Field: NID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -1777,7 +1661,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: First photo - overriden */
+  /* Field: First photo - overriden */
   $handler->display->display_options['fields']['field_photo']['id'] = 'field_photo';
   $handler->display->display_options['fields']['field_photo']['table'] = 'field_data_field_photo';
   $handler->display->display_options['fields']['field_photo']['field'] = 'field_photo';
@@ -1794,7 +1678,7 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['fields']['field_photo']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_photo']['delta_offset'] = '0';
-  /* Поле: Title - overriden */
+  /* Field: Title - overriden */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -1807,7 +1691,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Distance to HQ */
+  /* Field: Distance to HQ */
   $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -1828,7 +1712,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
-  /* Поле: Description */
+  /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
@@ -1837,17 +1721,17 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '230';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Поле: Phone */
+  /* Field: Phone */
   $handler->display->display_options['fields']['field_place_phone']['id'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['table'] = 'field_data_field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['field'] = 'field_place_phone';
   $handler->display->display_options['fields']['field_place_phone']['ui_name'] = 'Phone';
-  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Тел';
+  $handler->display->display_options['fields']['field_place_phone']['label'] = 'Tel';
   $handler->display->display_options['fields']['field_place_phone']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_place_phone']['click_sort_column'] = 'number';
   $handler->display->display_options['fields']['field_place_phone']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_place_phone']['delta_offset'] = '0';
-  /* Поле: Email */
+  /* Field: Email */
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
@@ -1856,7 +1740,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_email']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_email']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_email']['delta_offset'] = '0';
-  /* Критерий сортировки: Distance to HQ */
+  /* Sort criterion: Distance to HQ */
   $handler->display->display_options['sorts']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['sorts']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['sorts']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -1871,12 +1755,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
-  /* Контекстный фильтр: Глобальный: Ноль */
+  /* Contextual filter: Global: Null */
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -1886,7 +1769,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -1894,7 +1777,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -1902,7 +1785,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
   );
-  /* Критерий фильтра: Distance to HQ */
+  /* Filter criterion: Distance to HQ */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -1924,7 +1807,6 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'null' => array(
       'type' => 'panel',
@@ -1937,21 +1819,21 @@ function views_feature_views_default_views() {
   );
   $translatables['event_activities'] = array(
     t('Master'),
-    t('Отдых'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Activities'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('.'),
     t(','),
     t(' km'),
-    t('Тел'),
+    t('Tel'),
     t('Email'),
-    t('Все'),
+    t('All'),
     t('Content pane'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['event_activities'] = $view;
 
@@ -1968,16 +1850,10 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -1996,11 +1872,11 @@ function views_feature_views_default_views() {
     'style_field' => '',
   );
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Связь: Entity Reference: Referencing entity */
+  /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['id'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_headquarter_hotel_node']['field'] = 'reverse_field_headquarter_hotel_node';
-  /* Поле: Node ID - excluded */
+  /* Field: Node ID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -2008,7 +1884,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: Title - overrided */
+  /* Field: Title - overrided */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -2020,7 +1896,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Location */
+  /* Field: Location */
   $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
   $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
   $handler->display->display_options['fields']['field_location']['field'] = 'field_location';
@@ -2031,19 +1907,18 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_location']['settings'] = array(
     'data' => 'full',
   );
-  /* Поле: Description */
+  /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
   $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Контекстный фильтр: Глобальный: Ноль */
+  /* Contextual filter: Global: Null */
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2053,11 +1928,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Контекстный фильтр: Содержимое: Nid */
+  /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2068,8 +1942,7 @@ function views_feature_views_default_views() {
     'accommodation' => 'accommodation',
     'activity' => 'activity',
   );
-  $handler->display->display_options['arguments']['nid']['validate']['fail'] = 'ignore';
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -2077,7 +1950,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -2086,7 +1959,7 @@ function views_feature_views_default_views() {
     'accommodation' => 'accommodation',
     'activity' => 'activity',
   );
-  /* Критерий фильтра: Содержимое: Location - proximity */
+  /* Filter criterion: Content: Location - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -2104,19 +1977,96 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
 
-  /* Display: Overlay active accommodation */
-  $handler = $view->new_display('openlayers', 'Overlay active accommodation', 'accommodation_active');
+  /* Display: Pane */
+  $handler = $view->new_display('panel_pane', 'Pane', 'event_map');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'openlayers_map';
+  $handler->display->display_options['style_options']['map'] = 'event_map';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'null' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '56',
+      'label' => 'Global: Null',
+    ),
+    'nid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Nid',
+    ),
+  );
+
+  /* Display: Active accommodation pane */
+  $handler = $view->new_display('panel_pane', 'Active accommodation pane', 'panel_pane_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'openlayers_map';
+  $handler->display->display_options['style_options']['map'] = 'accommodation_map';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'null' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '56',
+      'label' => 'Global: Null',
+    ),
+    'nid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Nid',
+    ),
+  );
+
+  /* Display: Overlay accommodations */
+  $handler = $view->new_display('openlayers', 'Overlay accommodations', 'overlay_accommodations');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Глобальный: Ноль */
+  /* Contextual filter: Global: Null */
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -2126,26 +2076,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Контекстный фильтр: Содержимое: Nid */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
-    'accommodation' => 'accommodation',
-    'activity' => 'activity',
-  );
-  $handler->display->display_options['arguments']['nid']['validate']['fail'] = 'ignore';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -2153,7 +2086,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -2161,16 +2094,32 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
+  /* Filter criterion: Content: Location - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '30',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
 
-  /* Display: Overlay active activity */
-  $handler = $view->new_display('openlayers', 'Overlay active activity', 'active_activity');
+  /* Display: Overlay activities */
+  $handler = $view->new_display('openlayers', 'Overlay activities', 'overlay_activities');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -2178,13 +2127,54 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
+  );
+  /* Filter criterion: Content: Location - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '100',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+
+  /* Display: Overlay active accommodation */
+  $handler = $view->new_display('openlayers', 'Overlay active accommodation', 'accommodation_active');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Node is published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Node type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'accommodation' => 'accommodation',
   );
 
   /* Display: Overlay HQ */
@@ -2193,7 +2183,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Node ID - excluded */
+  /* Field: Node ID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -2201,7 +2191,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: Title - overriden */
+  /* Field: Title - overriden */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -2213,7 +2203,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Location */
+  /* Field: Location */
   $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
   $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
   $handler->display->display_options['fields']['field_location']['field'] = 'field_location';
@@ -2224,7 +2214,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_location']['settings'] = array(
     'data' => 'full',
   );
-  /* Поле: Description */
+  /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
@@ -2232,13 +2222,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Содержимое: Nid */
+  /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2250,7 +2239,7 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -2258,7 +2247,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -2292,7 +2281,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Node ID - excluded */
+  /* Field: Node ID - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -2300,7 +2289,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: Title - overriden */
+  /* Field: Title - overriden */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -2312,14 +2301,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Description */
+  /* Field: Description */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
   $handler->display->display_options['fields']['body']['ui_name'] = 'Description';
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  /* Поле: Содержимое: Headquarter location */
+  /* Field: Content: Headquarter location */
   $handler->display->display_options['fields']['field_hq_location']['id'] = 'field_hq_location';
   $handler->display->display_options['fields']['field_hq_location']['table'] = 'field_data_field_hq_location';
   $handler->display->display_options['fields']['field_hq_location']['field'] = 'field_hq_location';
@@ -2328,20 +2317,19 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_hq_location']['settings'] = array(
     'data' => 'full',
   );
-  /* Поле: Содержимое: Headquarter info */
+  /* Field: Content: Headquarter info */
   $handler->display->display_options['fields']['field_headquarter_info']['id'] = 'field_headquarter_info';
   $handler->display->display_options['fields']['field_headquarter_info']['table'] = 'field_data_field_headquarter_info';
   $handler->display->display_options['fields']['field_headquarter_info']['field'] = 'field_headquarter_info';
   $handler->display->display_options['fields']['field_headquarter_info']['label'] = '';
   $handler->display->display_options['fields']['field_headquarter_info']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Содержимое: Nid */
+  /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -2353,7 +2341,7 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Node is published */
+  /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -2361,310 +2349,33 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
-  );
-
-  /* Display: Accommodations pane */
-  $handler = $view->new_display('panel_pane', 'Accommodations pane', 'event_map');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'openlayers_map';
-  $handler->display->display_options['style_options']['map'] = 'event_map';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
-  $handler->display->display_options['allow']['use_pager'] = 0;
-  $handler->display->display_options['allow']['items_per_page'] = 0;
-  $handler->display->display_options['allow']['offset'] = 0;
-  $handler->display->display_options['allow']['link_to_view'] = 0;
-  $handler->display->display_options['allow']['more_link'] = 0;
-  $handler->display->display_options['allow']['path_override'] = 0;
-  $handler->display->display_options['allow']['title_override'] = 'title_override';
-  $handler->display->display_options['allow']['exposed_form'] = 0;
-  $handler->display->display_options['allow']['fields_override'] = 0;
-  $handler->display->display_options['argument_input'] = array(
-    'null' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '56',
-      'label' => 'Global: Null',
-    ),
-    'nid' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 1,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Nid',
-    ),
-  );
-
-  /* Display: Active activity pane */
-  $handler = $view->new_display('panel_pane', 'Active activity pane', 'active_activity_pane');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'openlayers_map';
-  $handler->display->display_options['style_options']['map'] = 'activity_map';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
-  $handler->display->display_options['allow']['use_pager'] = 0;
-  $handler->display->display_options['allow']['items_per_page'] = 0;
-  $handler->display->display_options['allow']['offset'] = 0;
-  $handler->display->display_options['allow']['link_to_view'] = 0;
-  $handler->display->display_options['allow']['more_link'] = 0;
-  $handler->display->display_options['allow']['path_override'] = 0;
-  $handler->display->display_options['allow']['title_override'] = 'title_override';
-  $handler->display->display_options['allow']['exposed_form'] = 0;
-  $handler->display->display_options['allow']['fields_override'] = 0;
-  $handler->display->display_options['argument_input'] = array(
-    'null' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '56',
-      'label' => 'Global: Null',
-    ),
-    'nid' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 1,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Nid',
-    ),
-  );
-
-  /* Display: Overlay activities */
-  $handler = $view->new_display('openlayers', 'Overlay activities', 'overlay_activities');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Глобальный: Ноль */
-  $handler->display->display_options['arguments']['null']['id'] = 'null';
-  $handler->display->display_options['arguments']['null']['table'] = 'views';
-  $handler->display->display_options['arguments']['null']['field'] = 'null';
-  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
-  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
-    'pg_contest' => 'pg_contest',
-  );
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Node is published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
-  $handler->display->display_options['filters']['status']['value'] = '1';
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'activity' => 'activity',
-  );
-  /* Критерий фильтра: Содержимое: Location - proximity */
-  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
-  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '100',
-    'distance2' => 200,
-    'unit' => '6371',
-    'origin' => '',
-  );
-  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-
-  /* Display: Overlay accommodations */
-  $handler = $view->new_display('openlayers', 'Overlay accommodations', 'overlay_accommodations');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Глобальный: Ноль */
-  $handler->display->display_options['arguments']['null']['id'] = 'null';
-  $handler->display->display_options['arguments']['null']['table'] = 'views';
-  $handler->display->display_options['arguments']['null']['field'] = 'null';
-  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'Все';
-  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
-    'pg_contest' => 'pg_contest',
-  );
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Node is published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
-  $handler->display->display_options['filters']['status']['value'] = '1';
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'accommodation' => 'accommodation',
-  );
-  /* Критерий фильтра: Содержимое: Location - proximity */
-  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
-  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '30',
-    'distance2' => 200,
-    'unit' => '6371',
-    'origin' => '',
-  );
-  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-
-  /* Display: Active accommodation pane */
-  $handler = $view->new_display('panel_pane', 'Active accommodation pane', 'panel_pane_1');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'openlayers_map';
-  $handler->display->display_options['style_options']['map'] = 'accommodation_map';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
-  $handler->display->display_options['allow']['use_pager'] = 0;
-  $handler->display->display_options['allow']['items_per_page'] = 0;
-  $handler->display->display_options['allow']['offset'] = 0;
-  $handler->display->display_options['allow']['link_to_view'] = 0;
-  $handler->display->display_options['allow']['more_link'] = 0;
-  $handler->display->display_options['allow']['path_override'] = 0;
-  $handler->display->display_options['allow']['title_override'] = 'title_override';
-  $handler->display->display_options['allow']['exposed_form'] = 0;
-  $handler->display->display_options['allow']['fields_override'] = 0;
-  $handler->display->display_options['argument_input'] = array(
-    'null' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '56',
-      'label' => 'Global: Null',
-    ),
-    'nid' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 1,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Nid',
-    ),
-  );
-
-  /* Display: Activities pane */
-  $handler = $view->new_display('panel_pane', 'Activities pane', 'activities_pane');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'openlayers_map';
-  $handler->display->display_options['style_options']['map'] = 'eventactivities_map';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
-  $handler->display->display_options['allow']['use_pager'] = 0;
-  $handler->display->display_options['allow']['items_per_page'] = 0;
-  $handler->display->display_options['allow']['offset'] = 0;
-  $handler->display->display_options['allow']['link_to_view'] = 0;
-  $handler->display->display_options['allow']['more_link'] = 0;
-  $handler->display->display_options['allow']['path_override'] = 0;
-  $handler->display->display_options['allow']['title_override'] = 'title_override';
-  $handler->display->display_options['allow']['exposed_form'] = 0;
-  $handler->display->display_options['allow']['fields_override'] = 0;
-  $handler->display->display_options['argument_input'] = array(
-    'null' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '56',
-      'label' => 'Global: Null',
-    ),
-    'nid' => array(
-      'type' => 'context',
-      'context' => 'entity:node.nid',
-      'context_optional' => 1,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Nid',
-    ),
   );
   $translatables['event_map'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Содержимое referencing Содержимое from field_headquarter_hotel'),
-    t('Все'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Content referencing Content from field_headquarter_hotel'),
+    t('All'),
+    t('Pane'),
+    t('View panes'),
+    t('Active accommodation pane'),
+    t('Overlay accommodations'),
+    t('Overlay activities'),
     t('Overlay active accommodation'),
-    t('Overlay active activity'),
     t('Overlay HQ'),
     t('Overlay HQ location'),
     t('Headquarter location'),
-    t('Accommodations pane'),
-    t('Представления-Фрагменты'),
-    t('Active activity pane'),
-    t('Overlay activities'),
-    t('Overlay accommodations'),
-    t('Active accommodation pane'),
-    t('Activities pane'),
   );
   $export['event_map'] = $view;
 
@@ -2680,30 +2391,17 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Соревнования';
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Поле: NID (excluded) */
+  /* Field: NID (excluded) */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -2711,7 +2409,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: Path (excluded) */
+  /* Field: Path (excluded) */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
   $handler->display->display_options['fields']['path']['field'] = 'path';
@@ -2725,7 +2423,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
-  /* Поле: Dates (excluded) */
+  /* Field: Dates (excluded) */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
@@ -2741,7 +2439,7 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Поле: Title (excluded) */
+  /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -2755,7 +2453,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Country (excluded) */
+  /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
@@ -2763,7 +2461,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_country']['label'] = '';
   $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Поле: City (excluded) */
+  /* Field: City (excluded) */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
@@ -2771,7 +2469,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_city']['label'] = '';
   $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
-  /* Поле: All fields */
+  /* Field: All fields */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
@@ -2783,7 +2481,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'next_event';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Поле: Содержимое: Dates */
+  /* Field: Content: Dates */
   $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
   $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
@@ -2797,31 +2495,31 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Критерий сортировки: Содержимое: Dates -  дата начала (field_dates) */
+  /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Содержимое: Dates -  дата начала (field_dates) */
+  /* Filter criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['operator'] = '>=';
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
-  /* Критерий фильтра: Содержимое: Dates - дата окончания (field_dates:value2) */
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
   $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
   $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
@@ -2831,7 +2529,7 @@ function views_feature_views_default_views() {
   /* Display: Past */
   $handler = $view->new_display('page', 'Past', 'page_events_past');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Прошедшие соревнования';
+  $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -2846,29 +2544,124 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: NID (excluded) */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'NID (excluded)';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Path (excluded) */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['ui_name'] = 'Path (excluded)';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['path']['alter']['text'] = 'event/[nid]';
+  $handler->display->display_options['fields']['path']['element_type'] = '0';
+  $handler->display->display_options['fields']['path']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['path']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
+  /* Field: Dates (excluded) */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Dates (excluded)';
+  $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'long',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Title (excluded) */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_type'] = 'span';
+  $handler->display->display_options['fields']['title']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Country (excluded) */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  /* Field: City (excluded) */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (excluded)';
+  $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
+  /* Field: All fields */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = 'under-construction';
+  $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'next_event';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
+  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['label'] = '';
+  $handler->display->display_options['fields']['field_dates_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
+    'format_type' => 'year',
+    'fromto' => 'value',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Содержимое: Dates -  дата начала (field_dates) */
+  /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Содержимое: Dates - дата окончания (field_dates:value2) */
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
   $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
   $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
@@ -2884,7 +2677,7 @@ function views_feature_views_default_views() {
   /* Display: Next */
   $handler = $view->new_display('page', 'Next', 'page_events_next');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Соревнования';
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -2901,21 +2694,21 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Содержимое: Dates -  дата начала (field_dates) */
+  /* Filter criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
@@ -2933,31 +2726,31 @@ function views_feature_views_default_views() {
   /* Display: Current */
   $handler = $view->new_display('page', 'Current', 'page_events_current');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Текущие соревнования';
+  $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Содержимое: Dates -  дата начала (field_dates) */
+  /* Filter criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['operator'] = '<=';
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
-  /* Критерий фильтра: Содержимое: Dates - дата окончания (field_dates:value2) */
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
   $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
   $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
@@ -2971,27 +2764,27 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['events_list'] = array(
     t('Master'),
-    t('Соревнования'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('Next events'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('event/[nid]'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Past'),
-    t('Прошедшие соревнования'),
+    t('Past events'),
     t('Next'),
     t('Current'),
-    t('Текущие соревнования'),
+    t('Current events'),
   );
   $export['events_list'] = $view;
 
@@ -3008,16 +2801,10 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'openlayers_data';
@@ -3035,12 +2822,12 @@ function views_feature_views_default_views() {
     'view_mode' => 'full',
   );
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Поле: Содержимое: Nid */
+  /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
-  /* Поле: Title (excluded) */
+  /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -3052,7 +2839,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Содержимое: Headquarter location */
+  /* Field: Content: Headquarter location */
   $handler->display->display_options['fields']['field_hq_location']['id'] = 'field_hq_location';
   $handler->display->display_options['fields']['field_hq_location']['table'] = 'field_data_field_hq_location';
   $handler->display->display_options['fields']['field_hq_location']['field'] = 'field_hq_location';
@@ -3060,7 +2847,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_hq_location']['settings'] = array(
     'data' => 'full',
   );
-  /* Поле: Country (excluded) */
+  /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
@@ -3068,7 +2855,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_country']['label'] = '';
   $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Поле: City (excluded) */
+  /* Field: City (excluded) */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
@@ -3076,7 +2863,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_city']['label'] = '';
   $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
-  /* Поле: Dates (excluded) */
+  /* Field: Dates (excluded) */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
@@ -3092,7 +2879,7 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Поле: All fields for popup */
+  /* Field: All fields for popup */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
@@ -3102,47 +2889,47 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = 'event/[nid]';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Критерий сортировки: Содержимое: Дата публикации */
+  /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Содержимое: Тип */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Next:start */
+  /* Filter criterion: Next:start */
   $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Next:start';
   $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
-  /* Критерий фильтра: Past:finish */
+  /* Filter criterion: Past:finish */
   $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
   $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
   $handler->display->display_options['filters']['field_dates_value2']['ui_name'] = 'Past:finish';
   $handler->display->display_options['filters']['field_dates_value2']['operator'] = '<';
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
-  /* Критерий фильтра: Current:start */
+  /* Filter criterion: Current:start */
   $handler->display->display_options['filters']['field_dates_value_1']['id'] = 'field_dates_value_1';
   $handler->display->display_options['filters']['field_dates_value_1']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value_1']['field'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value_1']['ui_name'] = 'Current:start';
   $handler->display->display_options['filters']['field_dates_value_1']['operator'] = '<=';
   $handler->display->display_options['filters']['field_dates_value_1']['default_date'] = 'now';
-  /* Критерий фильтра: Current:finish */
+  /* Filter criterion: Current:finish */
   $handler->display->display_options['filters']['field_dates_value2_1']['id'] = 'field_dates_value2_1';
   $handler->display->display_options['filters']['field_dates_value2_1']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value2_1']['field'] = 'field_dates_value2';
@@ -3165,21 +2952,20 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $translatables['events_map'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('Nid'),
     t('Headquarter location'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Events overlay'),
     t('Events pane'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['events_map'] = $view;
 
@@ -3196,29 +2982,16 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'eck administer ent_featured_header ent_featured_header entities';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['columns'] = array(
@@ -3278,17 +3051,17 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Шапка: Add header link */
+  /* Header: Add header link */
   $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
   $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['header']['area_text_custom']['ui_name'] = 'Add header link';
   $handler->display->display_options['header']['area_text_custom']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>';
-  /* Подвал: Глобальный: Сводка результатов */
+  /* Footer: Global: Result summary */
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
   $handler->display->display_options['footer']['result']['field'] = 'result';
-  /* Поведение при отсутствии результатов: Sorry, no any entries were found. */
+  /* No results behavior: Sorry, no any entries were found. */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
@@ -3296,43 +3069,40 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Sorry, no any entries were found.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Поле: Featured header: Id */
+  /* Field: Featured header: Id */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['id']['field'] = 'id';
-  /* Поле: Featured header: Title */
+  /* Field: Featured header: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Заголовок';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Поле: Slogan */
+  /* Field: Slogan */
   $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['ui_name'] = 'Slogan';
-  $handler->display->display_options['fields']['field_header_slogan']['label'] = 'Слоган';
   $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
-  /* Поле: Image */
+  /* Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['ui_name'] = 'Image';
-  $handler->display->display_options['fields']['field_header_image']['label'] = 'Изображение';
   $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_header_image']['settings'] = array(
     'image_style' => 'header_thumbnail',
     'image_link' => 'file',
   );
-  /* Поле: Author link */
+  /* Field: Author link */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['ui_name'] = 'Author link';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Автор';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Author';
   $handler->display->display_options['fields']['field_header_author']['element_label_colon'] = FALSE;
-  /* Поле: Events from OG ref */
+  /* Field: Events from OG ref */
   $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
   $handler->display->display_options['fields']['og_group_ref']['table'] = 'og_membership';
   $handler->display->display_options['fields']['og_group_ref']['field'] = 'og_group_ref';
@@ -3342,13 +3112,13 @@ function views_feature_views_default_views() {
     'link' => 1,
   );
   $handler->display->display_options['fields']['og_group_ref']['delta_offset'] = '0';
-  /* Поле: Edit link */
+  /* Field: Edit link */
   $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link';
-  $handler->display->display_options['fields']['edit_link']['label'] = 'Действия';
-  /* Поле: Delete link */
+  $handler->display->display_options['fields']['edit_link']['label'] = 'Operations';
+  /* Field: Delete link */
   $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
   $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
@@ -3366,31 +3136,31 @@ function views_feature_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $translatables['featured_headers'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
     t('Displaying @start - @end of @total'),
     t('Sorry, no any entries were found.'),
     t('Id'),
     t('.'),
     t(','),
-    t('Заголовок'),
-    t('Слоган'),
-    t('Изображение'),
-    t('Автор'),
+    t('Title'),
+    t('Slogan'),
+    t('Image'),
+    t('Author'),
     t('Events'),
-    t('Действия'),
+    t('Operations'),
     t('Page'),
   );
   $export['featured_headers'] = $view;
@@ -3408,16 +3178,10 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'slideshow';
@@ -3462,7 +3226,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartypenobg'] = 0;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
-  /* Поле: Поле: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -3473,29 +3237,28 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Поле: Featured header: Author link */
+  /* Field: Featured header: Author link */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Автор фото';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
 
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Поле: Groups audience (og_group_ref) */
+  /* Filter criterion: Field: Groups audience (og_group_ref) */
   $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Поле: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -3506,12 +3269,12 @@ function views_feature_views_default_views() {
     'image_style' => 'header',
     'image_link' => '',
   );
-  /* Поле: Featured header: Author link */
+  /* Field: Featured header: Author link */
   $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
   $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
   $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
-  $handler->display->display_options['fields']['field_header_author']['label'] = 'Автор фото';
-  /* Поле: Featured header: Slogan */
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
+  /* Field: Featured header: Slogan */
   $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
   $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
@@ -3519,29 +3282,27 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Поле: Groups audience (og_group_ref) */
+  /* Filter criterion: Field: Groups audience (og_group_ref) */
   $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
 
   /* Display: Event header */
   $handler = $view->new_display('panel_pane', 'Event header', 'event_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Связь: OG membership: OG membership from Featured header */
+  /* Relationship: OG membership: OG membership from Featured header */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: OG membership: Номер группы */
+  /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -3551,7 +3312,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -3564,19 +3324,19 @@ function views_feature_views_default_views() {
   );
   $translatables['header_slideshow'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Автор фото'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Photo by'),
     t('Default header'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('Front page header'),
     t('Event header'),
     t('OG membership from ent_featured_header'),
-    t('Все'),
+    t('All'),
   );
   $export['header_slideshow'] = $view;
 
@@ -3592,20 +3352,15 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Соревнования';
+  $handler->display->display_options['title'] = 'Next events';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
-  $handler->display->display_options['use_more_text'] = 'Показать все';
+  $handler->display->display_options['use_more_text'] = 'All events';
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -3614,7 +3369,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  /* Поле: NID (excluded) */
+  /* Field: NID (excluded) */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -3622,7 +3377,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Поле: Path (excluded) */
+  /* Field: Path (excluded) */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
   $handler->display->display_options['fields']['path']['field'] = 'path';
@@ -3636,7 +3391,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['path']['element_default_classes'] = FALSE;
-  /* Поле: Title (excluded) */
+  /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -3650,7 +3405,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Поле: Dates (excluded) */
+  /* Field: Dates (excluded) */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
@@ -3666,7 +3421,7 @@ function views_feature_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Поле: Country (excluded) */
+  /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
@@ -3674,7 +3429,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_country']['label'] = '';
   $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Поле: City (excluded) */
+  /* Field: City (excluded) */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
@@ -3683,7 +3438,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_city']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_city']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
-  /* Поле: All fields with markup */
+  /* Field: All fields with markup */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
@@ -3695,16 +3450,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'next_event';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Критерий сортировки: Содержимое: FAI category (field_fai_category) */
+  /* Sort criterion: Content: FAI category (field_fai_category) */
   $handler->display->display_options['sorts']['field_fai_category_value']['id'] = 'field_fai_category_value';
   $handler->display->display_options['sorts']['field_fai_category_value']['table'] = 'field_data_field_fai_category';
   $handler->display->display_options['sorts']['field_fai_category_value']['field'] = 'field_fai_category_value';
-  /* Критерий сортировки: Start date */
+  /* Sort criterion: Start date */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['sorts']['field_dates_value']['ui_name'] = 'Start date';
-  /* Критерий фильтра: Node should be published */
+  /* Filter criterion: Node should be published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -3712,7 +3467,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Критерий фильтра: Node type */
+  /* Filter criterion: Node type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -3720,7 +3475,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Критерий фильтра: Start date is greater than */
+  /* Filter criterion: Start date is greater than */
   $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
@@ -3732,21 +3487,20 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Content pane', 'sidebar_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['link_url'] = 'events';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $translatables['next_events'] = array(
     t('Master'),
-    t('Соревнования'),
-    t('Показать все'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('Next events'),
+    t('All events'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('event/[nid]'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Content pane'),
-    t('ещё'),
-    t('Представления-Фрагменты'),
+    t('more'),
+    t('View panes'),
   );
   $export['next_events'] = $view;
 
@@ -3763,17 +3517,11 @@ function views_feature_views_default_views() {
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -3834,11 +3582,11 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Связь: OG membership: OG membership from Пользователь */
+  /* Relationship: OG membership: OG membership from User */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'users';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Связь: Пользователь: Профиль */
+  /* Relationship: User: Profile */
   $handler->display->display_options['relationships']['profile']['id'] = 'profile';
   $handler->display->display_options['relationships']['profile']['table'] = 'users';
   $handler->display->display_options['relationships']['profile']['field'] = 'profile';
@@ -3846,7 +3594,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['profile']['bundle_types'] = array(
     'main' => 'main',
   );
-  /* Связь: Пользователь: Профиль */
+  /* Relationship: User: Profile */
   $handler->display->display_options['relationships']['profile_1']['id'] = 'profile_1';
   $handler->display->display_options['relationships']['profile_1']['table'] = 'users';
   $handler->display->display_options['relationships']['profile_1']['field'] = 'profile';
@@ -3854,42 +3602,37 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['profile_1']['bundle_types'] = array(
     'pilot' => 'pilot',
   );
-  /* Поле: Пользователь: Имя */
+  /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['label'] = '';
-  /* Поле: Поле: Paraglider color */
+  /* Field: Field: Paraglider color */
   $handler->display->display_options['fields']['field_paraglider_color']['id'] = 'field_paraglider_color';
   $handler->display->display_options['fields']['field_paraglider_color']['table'] = 'field_data_field_paraglider_color';
   $handler->display->display_options['fields']['field_paraglider_color']['field'] = 'field_paraglider_color';
   $handler->display->display_options['fields']['field_paraglider_color']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_color']['label'] = 'Цвет параплана';
-  /* Поле: Поле: Paraglider manufacturer */
+  /* Field: Field: Paraglider manufacturer */
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['id'] = 'field_paraglider_manufacturer';
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['table'] = 'field_data_field_paraglider_manufacturer';
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['field'] = 'field_paraglider_manufacturer';
   $handler->display->display_options['fields']['field_paraglider_manufacturer']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_manufacturer']['label'] = 'Производитель параплана';
-  /* Поле: Поле: Paraglider model */
+  /* Field: Field: Paraglider model */
   $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Модель параплана';
-  /* Поле: OG membership: Payment status */
+  /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Поле: Профиль: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_full_name']['label'] = 'Имя';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
     'format' => 'default',
@@ -3902,18 +3645,16 @@ function views_feature_views_default_views() {
     'multiple_el_al_min' => '3',
     'multiple_el_al_first' => '1',
   );
-  /* Поле: Профиль: Gender */
+  /* Field: Profile: Gender */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_gender']['label'] = 'Пол';
-  /* Поле: Поле: Address */
+  /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Адрес';
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
@@ -3921,7 +3662,7 @@ function views_feature_views_default_views() {
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Поле: OG membership: Link to Tracker */
+  /* Field: OG membership: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -3929,24 +3670,23 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_tracker']['settings'] = array(
     'link' => 0,
   );
-  /* Критерий сортировки: Профиль: Gender (field_gender) */
+  /* Sort criterion: Profile: Gender (field_gender) */
   $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
   $handler->display->display_options['sorts']['field_gender_value']['table'] = 'field_data_field_gender';
   $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
   $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
   $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
-  /* Критерий сортировки: OG membership: Created */
+  /* Sort criterion: OG membership: Created */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'og_membership';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['relationship'] = 'og_membership_rel';
-  /* Контекстный фильтр: OG membership: Номер группы */
+  /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = '%1 members';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -3955,12 +3695,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
-  /* Критерий фильтра: Пользователь: Активен */
+  /* Filter criterion: User: Active */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  /* Критерий фильтра: OG membership: State */
+  /* Filter criterion: OG membership: State */
   $handler->display->display_options['filters']['state']['id'] = 'state';
   $handler->display->display_options['filters']['state']['table'] = 'og_membership';
   $handler->display->display_options['filters']['state']['field'] = 'state';
@@ -3968,14 +3708,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['state']['value'] = array(
     1 => '1',
   );
-  /* Критерий фильтра: Pilots number */
+  /* Filter criterion: Pilots number */
   $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
   $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
   $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
-  /* Критерий фильтра: OG membership: Payment status (field_pg_contestant_status) */
+  /* Filter criterion: OG membership: Payment status (field_pg_contestant_status) */
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
@@ -4067,7 +3807,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Pilot`s number (excluded) */
+  /* Field: Pilot`s number (excluded) */
   $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
@@ -4076,12 +3816,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_contestant_number']['label'] = '';
   $handler->display->display_options['fields']['field_contestant_number']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_contestant_number']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_contestant_number']['type'] = 'number_unformatted';
   $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: Gender (excluded) */
+  /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
@@ -4090,12 +3829,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Поле: Профиль: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_full_name']['label'] = 'Имя';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
@@ -4110,12 +3848,12 @@ function views_feature_views_default_views() {
     'multiple_el_al_min' => '3',
     'multiple_el_al_first' => '1',
   );
-  /* Поле: Поле: Address */
+  /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Страна';
+  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
@@ -4123,52 +3861,32 @@ function views_feature_views_default_views() {
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Поле: Профиль: Sponsors */
+  /* Field: Profile: Sponsors */
   $handler->display->display_options['fields']['field_sponsors']['id'] = 'field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['table'] = 'field_data_field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['field'] = 'field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Спонсор';
-  /* Поле: Поле: Paraglider model */
+  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Sponsor';
+  /* Field: Field: Paraglider model */
   $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Крыло';
-  /* Поле: OG membership: Payment status */
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
+  /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Профиль: Gender (field_gender) */
-  $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
-  $handler->display->display_options['sorts']['field_gender_value']['table'] = 'field_data_field_gender';
-  $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
-  $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
-  $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
-  /* Критерий сортировки: Payment status */
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['ui_name'] = 'Payment status';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['order'] = 'DESC';
-  /* Критерий сортировки: OG membership: Created */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'og_membership';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Пользователь: Активен */
+  /* Filter criterion: User: Active */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  /* Критерий фильтра: OG membership: State */
+  /* Filter criterion: OG membership: State */
   $handler->display->display_options['filters']['state']['id'] = 'state';
   $handler->display->display_options['filters']['state']['table'] = 'og_membership';
   $handler->display->display_options['filters']['state']['field'] = 'state';
@@ -4176,7 +3894,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['state']['value'] = array(
     1 => '1',
   );
-  /* Критерий фильтра: Pilots number */
+  /* Filter criterion: Pilots number */
   $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
   $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
@@ -4184,7 +3902,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
   $handler->display->display_options['pane_title'] = 'Standard event pilots';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -4288,7 +4005,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Pilot`s number (excluded) */
+  /* Field: Pilot`s number (excluded) */
   $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
@@ -4302,7 +4019,7 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
-  /* Поле: Country (excluded) */
+  /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
@@ -4318,7 +4035,7 @@ function views_feature_views_default_views() {
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Поле: Gender (excluded) */
+  /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
   $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
@@ -4329,12 +4046,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Поле: Профиль: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_full_name']['label'] = 'Имя';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])[field_gender]';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
@@ -4349,54 +4065,53 @@ function views_feature_views_default_views() {
     'multiple_el_al_min' => '3',
     'multiple_el_al_first' => '1',
   );
-  /* Поле: Профиль: Sponsors */
+  /* Field: Profile: Sponsors */
   $handler->display->display_options['fields']['field_sponsors']['id'] = 'field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['table'] = 'field_data_field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['field'] = 'field_sponsors';
   $handler->display->display_options['fields']['field_sponsors']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Спонсор';
-  /* Поле: Поле: Paraglider model */
+  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Sponsor';
+  /* Field: Field: Paraglider model */
   $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Крыло';
-  /* Поле: OG membership: Payment status */
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
+  /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Статус оплаты';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Country */
+  /* Sort criterion: Country */
   $handler->display->display_options['sorts']['field_address_country']['id'] = 'field_address_country';
   $handler->display->display_options['sorts']['field_address_country']['table'] = 'field_data_field_address';
   $handler->display->display_options['sorts']['field_address_country']['field'] = 'field_address_country';
   $handler->display->display_options['sorts']['field_address_country']['relationship'] = 'profile_1';
   $handler->display->display_options['sorts']['field_address_country']['ui_name'] = 'Country';
-  /* Критерий сортировки: Payment status */
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['ui_name'] = 'Payment status';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['order'] = 'DESC';
-  /* Критерий сортировки: Gender */
+  /* Sort criterion: Gender */
   $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
   $handler->display->display_options['sorts']['field_gender_value']['table'] = 'field_data_field_gender';
   $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
   $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
   $handler->display->display_options['sorts']['field_gender_value']['ui_name'] = 'Gender';
   $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
+  /* Sort criterion: Payment status */
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['ui_name'] = 'Payment status';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Пользователь: Активен */
+  /* Filter criterion: User: Active */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  /* Критерий фильтра: OG membership: State */
+  /* Filter criterion: OG membership: State */
   $handler->display->display_options['filters']['state']['id'] = 'state';
   $handler->display->display_options['filters']['state']['table'] = 'og_membership';
   $handler->display->display_options['filters']['state']['field'] = 'state';
@@ -4404,7 +4119,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['state']['value'] = array(
     1 => '1',
   );
-  /* Критерий фильтра: Pilots number */
+  /* Filter criterion: Pilots number */
   $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
   $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
@@ -4412,7 +4127,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
   $handler->display->display_options['pane_title'] = 'FAI event pilots';
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -4434,33 +4148,33 @@ function views_feature_views_default_views() {
   );
   $translatables['paragliding_pilots_list'] = array(
     t('Defaults'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('OG membership from user'),
     t('MainProfile'),
     t('PilotProfile'),
-    t('Цвет параплана'),
-    t('Производитель параплана'),
-    t('Модель параплана'),
-    t('Статус оплаты'),
-    t('Имя'),
-    t('Пол'),
-    t('Адрес'),
+    t('Paraglider color'),
+    t('Paraglider manufacturer'),
+    t('Paraglider model'),
+    t('Payment status'),
+    t('Name'),
+    t('Gender'),
+    t('Address'),
     t('[field_address-country]'),
     t('Link to Tracker'),
-    t('Все'),
+    t('All'),
     t('%1 members'),
     t('Standard'),
     t('[field_full_name] ([field_contestant_number])'),
-    t('Страна'),
-    t('Спонсор'),
-    t('Крыло'),
+    t('Nation'),
+    t('Sponsor'),
+    t('Glider'),
     t('Standard event pilots'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
     t('FAI'),
     t('<span class="gender-[field_gender-value]"></span>'),
     t('[field_full_name] ([field_contestant_number])[field_gender]'),
@@ -4481,16 +4195,10 @@ function views_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'jcarousel';
@@ -4502,7 +4210,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['easing'] = '';
   $handler->display->display_options['style_options']['vertical'] = 0;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Поле: Содержимое: Photo */
+  /* Field: Content: Photo */
   $handler->display->display_options['fields']['field_photo']['id'] = 'field_photo';
   $handler->display->display_options['fields']['field_photo']['table'] = 'field_data_field_photo';
   $handler->display->display_options['fields']['field_photo']['field'] = 'field_photo';
@@ -4521,17 +4229,16 @@ function views_feature_views_default_views() {
   );
   $handler->display->display_options['fields']['field_photo']['group_rows'] = FALSE;
   $handler->display->display_options['fields']['field_photo']['delta_offset'] = '0';
-  /* Контекстный фильтр: Содержимое: Nid */
+  /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Все';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  /* Критерий фильтра: Содержимое: Опубликовано */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -4542,7 +4249,6 @@ function views_feature_views_default_views() {
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'accommodation');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'nid' => array(
       'type' => 'panel',
@@ -4555,15 +4261,15 @@ function views_feature_views_default_views() {
   );
   $translatables['photos_carousel'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Все'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('All'),
     t('Content pane'),
-    t('Представления-Фрагменты'),
+    t('View panes'),
   );
   $export['photos_carousel'] = $view;
 

@@ -1,50 +1,30 @@
 jQuery(function ($) {
     var hasPageCollapseClass = $(document.body).hasClass('featured-header-collapsible');
+    $('.page-event-pilots, .page-user').find('.featured-header').addClass('featured-header-collapsed');
 
     if (!hasPageCollapseClass) {
         return;
     }
 
     var headerContainer = $('.featured-header'),
-        collapseCookieName = 'header-collapse-state',
-        headerCollapseState = readCookie(collapseCookieName),
+        headerTitle = $('.featured-header-title'),
+        headerContainerHeight = headerContainer.height(),
+        headerTitleHeight = headerTitle.outerHeight() || 100,
         collapsedClass = 'featured-header-collapsed',
         collapseControl = $('<div class="collapse-control">');
-
-    if (headerCollapseState == "collapsed") {
-        headerContainer.addClass(collapsedClass);
-    }
 
     headerContainer.append(collapseControl);
 
     collapseControl.bind('click', function () {
         headerContainer.toggleClass(collapsedClass);
-
-        if (headerContainer.hasClass(collapsedClass)) {
-            writeCookie(collapseCookieName, 'collapsed', 30);
-        } else {
-            writeCookie(collapseCookieName, '', -1);
-        }
+        toggleHeight();
     });
-
-    function readCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    toggleHeight();
+    function toggleHeight() {
+        if(headerContainer.hasClass(collapsedClass)) {
+            headerContainer.height(headerTitleHeight)
+        } else {
+            headerContainer.height(headerContainerHeight);
         }
-        return null;
-    }
-
-    function writeCookie(name, value, days) {
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = "; expires=" + date.toGMTString();
-        }
-        else var expires = "";
-        document.cookie = name + "=" + value + expires + "; path=/";
     }
 });
