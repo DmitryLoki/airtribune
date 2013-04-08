@@ -115,9 +115,6 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     $form['#validate'][] = 'at_user_login_error_msg';
     $form['#validate'][] = 'at_user_login_error_redirect_to_form';
   }
-  if ($form_id == 'user_login_block') {
-    $form['#action'] = '/' . variable_get('site_frontpage', '');
-  }
 }
 
 function at_user_password_title_change($element) {
