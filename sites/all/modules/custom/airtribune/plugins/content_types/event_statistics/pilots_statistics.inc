@@ -43,7 +43,7 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
   );
   $content['pilots_total']['text'] = array(
     '#theme' => 'container',
-    '#markup' => t('Total registred'),
+    '#markup' => t('Total registered'),
     '#attributes' => array('class' => array('pilots-text')),
   );
 

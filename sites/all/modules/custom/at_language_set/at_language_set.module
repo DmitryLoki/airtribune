@@ -25,6 +25,12 @@ function at_language_set_language_negotiation_info() {
  * Language negotiation callback
  */
 function at_language_set_language_url_default($languages) {
+
+  // Force drush output always be in English.
+  if (drupal_is_cli()) {
+    return 'en';
+  }
+
   global $_COOKIE;
   $prefix = locale_language_from_url($languages);
   if($prefix){
