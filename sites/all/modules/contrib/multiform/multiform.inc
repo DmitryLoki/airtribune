@@ -194,10 +194,10 @@ function multiform_delayed_submit_execute(&$multiform) {
         }
       }
       
-      // Stop executing if unexpected errors happend.
+      // Stop executing if unexpected errors happened.
       if (!empty($multiform['errors'])) {
         foreach ($multiform['errors'] as $k => $message) {
-          drupal_set_message($message, $type = 'error');
+          drupal_set_message($message, 'error');
         }
         break;
       }
