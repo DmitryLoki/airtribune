@@ -202,14 +202,14 @@ function device_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_tracker-device-field_type'.
-  $fields['ent_tracker-device-field_type'] = array(
+  // Exported field: 'ent_tracker-device-field_traker_type_ref'.
+  $fields['ent_tracker-device-field_traker_type_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_type',
+      'field_name' => 'field_traker_type_ref',
       'field_permissions' => array(
         'type' => '0',
       ),
@@ -238,11 +238,11 @@ function device_field_default_fields() {
             ),
           ),
           'sort' => array(
-            'direction' => 'ASC',
-            'property' => 'id',
-            'type' => 'property',
+            'type' => 'none',
           ),
-          'target_bundles' => array(),
+          'target_bundles' => array(
+            'ent_traker_type' => 'ent_traker_type',
+          ),
         ),
         'profile2_private' => FALSE,
         'target_type' => 'ent_traker_type',
@@ -275,8 +275,13 @@ function device_field_default_fields() {
       ),
       'entity_type' => 'ent_tracker',
       'exclude_cv' => 0,
-      'field_name' => 'field_type',
+      'field_name' => 'field_traker_type_ref',
       'label' => 'Type',
+      'options_limit' => 1,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_traker_ref' => 'field_traker_ref',
+      ),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
