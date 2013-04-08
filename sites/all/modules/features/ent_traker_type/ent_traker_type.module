@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Traker type feature.
- */
-
-include_once 'ent_traker_type.features.inc';

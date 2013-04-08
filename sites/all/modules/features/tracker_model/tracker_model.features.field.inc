@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * traker_model.features.field.inc
+ * tracker_model.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function traker_model_field_default_fields() {
+function tracker_model_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'ent_traker_model-ent_traker_model-field_model_description'.
-  $fields['ent_traker_model-ent_traker_model-field_model_description'] = array(
+  // Exported field: 'ent_tracker_model-ent_tracker_model-field_model_description'.
+  $fields['ent_tracker_model-ent_tracker_model-field_model_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -44,7 +44,7 @@ function traker_model_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'ent_traker_model',
+      'bundle' => 'ent_tracker_model',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -63,7 +63,7 @@ function traker_model_field_default_fields() {
           'weight' => 0,
         ),
       ),
-      'entity_type' => 'ent_traker_model',
+      'entity_type' => 'ent_tracker_model',
       'exclude_cv' => 0,
       'field_name' => 'field_model_description',
       'label' => 'Description',
@@ -81,13 +81,13 @@ function traker_model_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '41',
+        'weight' => '2',
       ),
     ),
   );
 
-  // Exported field: 'ent_traker_model-ent_traker_model-field_model_image'.
-  $fields['ent_traker_model-ent_traker_model-field_model_image'] = array(
+  // Exported field: 'ent_tracker_model-ent_tracker_model-field_model_image'.
+  $fields['ent_tracker_model-ent_tracker_model-field_model_image'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -124,7 +124,7 @@ function traker_model_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'ent_traker_model',
+      'bundle' => 'ent_tracker_model',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -145,7 +145,7 @@ function traker_model_field_default_fields() {
           'weight' => 0,
         ),
       ),
-      'entity_type' => 'ent_traker_model',
+      'entity_type' => 'ent_tracker_model',
       'exclude_cv' => 0,
       'field_name' => 'field_model_image',
       'label' => 'Image',
@@ -171,7 +171,7 @@ function traker_model_field_default_fields() {
               'pathauto' => 0,
               'transliterate' => 0,
             ),
-            'value' => '',
+            'value' => 'tracker/model',
           ),
           'retroactive_update' => 0,
         ),
@@ -189,7 +189,7 @@ function traker_model_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '42',
+        'weight' => '1',
       ),
     ),
   );

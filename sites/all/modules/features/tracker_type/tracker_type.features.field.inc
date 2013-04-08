@@ -1,23 +1,23 @@
 <?php
 /**
  * @file
- * traker_type.features.field.inc
+ * tracker_type.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function traker_type_field_default_fields() {
+function tracker_type_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'ent_traker_type-ent_traker_type-field_traker_ref'.
-  $fields['ent_traker_type-ent_traker_type-field_traker_ref'] = array(
+  // Exported field: 'ent_tracker_type-ent_tracker_type-field_tracker_model'.
+  $fields['ent_tracker_type-ent_tracker_type-field_tracker_model'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_traker_ref',
+      'field_name' => 'field_tracker_model',
       'field_permissions' => array(
         'type' => '0',
       ),
@@ -46,22 +46,20 @@ function traker_type_field_default_fields() {
             ),
           ),
           'sort' => array(
-            'direction' => 'ASC',
-            'property' => 'id',
-            'type' => 'property',
+            'type' => 'none',
           ),
           'target_bundles' => array(
-            'ent_traker_model' => 'ent_traker_model',
+            'ent_tracker_model' => 'ent_tracker_model',
           ),
         ),
         'profile2_private' => FALSE,
-        'target_type' => 'ent_traker_model',
+        'target_type' => 'ent_tracker_model',
       ),
       'translatable' => '0',
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'ent_traker_type',
+      'bundle' => 'ent_tracker_type',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
@@ -83,10 +81,13 @@ function traker_type_field_default_fields() {
           'weight' => 0,
         ),
       ),
-      'entity_type' => 'ent_traker_type',
+      'entity_type' => 'ent_tracker_type',
       'exclude_cv' => 0,
-      'field_name' => 'field_traker_ref',
+      'field_name' => 'field_tracker_model',
       'label' => 'Model',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
       'required' => 1,
       'settings' => array(
         'behaviors' => array(
