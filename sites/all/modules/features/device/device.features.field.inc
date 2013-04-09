@@ -49,7 +49,7 @@ function device_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
-            'ent_tracker_model' => 'ent_tracker_model',
+            'tracker_model' => 'tracker_model',
           ),
         ),
         'profile2_private' => FALSE,
@@ -148,7 +148,7 @@ function device_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
-            'ent_tracker_type' => 'ent_tracker_type',
+            'tracker_type' => 'tracker_type',
           ),
         ),
         'profile2_private' => FALSE,
