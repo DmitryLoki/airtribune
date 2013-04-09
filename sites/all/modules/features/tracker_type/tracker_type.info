@@ -1,11 +1,12 @@
 name = Tracker type
 core = 7.x
 package = Custom bundles
+php = 5.2.4
 dependencies[] = eck
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_sql_storage
 dependencies[] = options
-features[eck_bundle][] = ent_tracker_type_ent_tracker_type
+features[eck_bundle][] = ent_tracker_type_tracker_type
 features[features_api][] = api:1
-features[field][] = ent_tracker_type-ent_tracker_type-field_tracker_model
+features[field][] = ent_tracker_type-tracker_type-field_tracker_model

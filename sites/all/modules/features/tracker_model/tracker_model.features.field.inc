@@ -10,8 +10,8 @@
 function tracker_model_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'ent_tracker_model-ent_tracker_model-field_model_description'.
-  $fields['ent_tracker_model-ent_tracker_model-field_model_description'] = array(
+  // Exported field: 'ent_tracker_model-tracker_model-field_model_description'.
+  $fields['ent_tracker_model-tracker_model-field_model_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -44,7 +44,7 @@ function tracker_model_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'ent_tracker_model',
+      'bundle' => 'tracker_model',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -86,8 +86,8 @@ function tracker_model_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_tracker_model-ent_tracker_model-field_model_image'.
-  $fields['ent_tracker_model-ent_tracker_model-field_model_image'] = array(
+  // Exported field: 'tracker_model-tracker_model-field_model_image'.
+  $fields['ent_tracker_model-tracker_model-field_model_image'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -124,7 +124,7 @@ function tracker_model_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'ent_tracker_model',
+      'bundle' => 'tracker_model',
       'deleted' => '0',
       'description' => '',
       'display' => array(

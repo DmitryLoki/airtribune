@@ -10,8 +10,8 @@
 function tracker_type_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'ent_tracker_type-ent_tracker_type-field_tracker_model'.
-  $fields['ent_tracker_type-ent_tracker_type-field_tracker_model'] = array(
+  // Exported field: 'ent_tracker_type-tracker_type-field_tracker_model'.
+  $fields['ent_tracker_type-tracker_type-field_tracker_model'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -49,7 +49,7 @@ function tracker_type_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
-            'ent_tracker_model' => 'ent_tracker_model',
+            'tracker_model' => 'tracker_model',
           ),
         ),
         'profile2_private' => FALSE,
@@ -59,7 +59,7 @@ function tracker_type_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'ent_tracker_type',
+      'bundle' => 'tracker_type',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',

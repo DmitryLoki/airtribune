@@ -9,10 +9,10 @@
  */
 function tracker_type_eck_bundle_info() {
   $items = array(
-  'ent_tracker_type_ent_tracker_type' => array(
-  'machine_name' => 'ent_tracker_type_ent_tracker_type',
+  'ent_tracker_type_tracker_type' => array(
+  'machine_name' => 'ent_tracker_type_tracker_type',
   'entity_type' => 'ent_tracker_type',
-  'name' => 'ent_tracker_type',
+  'name' => 'tracker_type',
   'label' => 'Tracker type',
 ),
   );
