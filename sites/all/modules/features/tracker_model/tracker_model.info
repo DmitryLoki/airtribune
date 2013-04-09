@@ -1,0 +1,13 @@
+name = Tracker model
+core = 7.x
+package = Custom bundles
+dependencies[] = eck
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = filefield_paths
+dependencies[] = image
+dependencies[] = text
+features[eck_bundle][] = ent_tracker_model_tracker_model
+features[features_api][] = api:1
+features[field][] = ent_tracker_model-tracker_model-field_model_description
+features[field][] = ent_tracker_model-tracker_model-field_model_image
