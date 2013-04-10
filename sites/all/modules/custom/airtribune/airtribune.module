@@ -87,7 +87,6 @@ function airtribune_field_formatter_info() {
  * Implements hook_field_formatter_view().
  *
  * @see #2367
- * @see #2732
  */
 function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
 
@@ -293,14 +292,14 @@ function airtribune_field_widget_process($element, &$form_state, $form) {
   $element['title']['#title'] = 'Category';
   $element['title']['#type'] = 'select';
   $element['title']['#description'] = t('Select scoring category');
-  $element['title']['#options'] = airtribune_get_awards_prize_categories();
+  $element['title']['#options'] = airtribune_prize_categories();
   return $element;
 }
 
 /**
  * Get awards prize categories.
  */
-function airtribune_get_awards_prize_categories($category = FALSE) {
+function airtribune_prize_categories($category = FALSE) {
   $categories = array(
     'overall' => 'Overall',
     'women' => 'Women',

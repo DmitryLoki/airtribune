@@ -1168,7 +1168,7 @@ function airtribune2_preprocess_field(&$vars) {
 
   $element = $vars['element'];
   if ($element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
-    $categories = airtribune_get_awards_prize_categories();
+    $categories = airtribune_prize_categories();
     foreach ($vars['items'] as $delta => $item) {
       if (isset($categories[$item['#item']['title']])) {
         $vars['items'][$delta]['#item']['title'] = $categories[$item['#item']['title']];
