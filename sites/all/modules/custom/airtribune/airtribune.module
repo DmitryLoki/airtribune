@@ -31,6 +31,8 @@ define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
 define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
+define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
+define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -278,7 +280,7 @@ function airtribune_field_collection_item_view_alter(&$build) {
 function airtribune_field_widget_image_image_form_alter(&$element, &$form_state, $context) {
   if (isset($element['#field_name']) && $element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
     foreach (element_children($element) as $delta) {
-      $element[$delta]['#process'][] = 'airtribune_field_widget_process';
+      $element[$delta]['#process'][] = 'airtribune_field_image_widget_process';
     }
   }
 }
@@ -288,13 +290,44 @@ function airtribune_field_widget_image_image_form_alter(&$element, &$form_state,
  *
  * @see airtribune_field_widget_image_image_form_alter()
  */
-function airtribune_field_widget_process($element, &$form_state, $form) {
-  $element['title']['#title'] = 'Category';
-  $element['title']['#type'] = 'select';
-  $element['title']['#description'] = t('Select scoring category');
-  $element['title']['#options'] = airtribune_prize_categories();
+function airtribune_field_image_widget_process($element, &$form_state, $form) {
+  if (isset($element['title'])) {
+    $element['title']['#title'] = 'Category';
+    $element['title']['#type'] = 'select';
+    $element['title']['#description'] = t('Select scoring category');
+    $element['title']['#options'] = airtribune_prize_categories();
+  }
   return $element;
 }
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * @see #3028
+ */
+function airtribune_field_widget_file_generic_form_alter(&$element, &$form_state, $context) {
+  if (isset($element['#field_name']) && in_array($element['#field_name'], array(AIRTRIBUNE_DAY_RESULTS_FIELD, AIRTRIBUNE_COMPETITION_RESULTS_FIELD))) {
+    foreach (element_children($element) as $delta) {
+      $element[$delta]['#process'][] = 'airtribune_field_file_widget_process';
+    }
+  }
+}
+
+/**
+ * Element proccess callback.
+ *
+ * @see airtribune_field_widget_image_image_form_alter()
+ */
+function airtribune_field_file_widget_process($element, &$form_state, $form) {
+  if (isset($element['description'])) {
+    $element['description']['#title'] = 'Category';
+    $element['description']['#type'] = 'select';
+    $element['description']['#description'] = t('Select scoring category');
+    $element['description']['#options'] = airtribune_prize_categories();
+  }
+  return $element;
+}
+
 
 /**
  * Get awards prize categories.
