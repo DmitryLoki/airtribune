@@ -694,7 +694,7 @@ function maps_openlayers_maps() {
           'event_map_overlay_hq' => 0,
         ),
         'point_zoom_level' => '15',
-        'zoomtolayer_scale' => '5',
+        'zoomtolayer_scale' => '1',
       ),
     ),
     'default_layer' => 'google_normal_at_edition',
