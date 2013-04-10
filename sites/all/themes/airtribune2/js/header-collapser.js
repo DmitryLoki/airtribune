@@ -1,5 +1,6 @@
 jQuery(function ($) {
     var hasPageCollapseClass = $(document.body).hasClass('featured-header-collapsible');
+    $('.page-event-pilots, .page-user').find('.featured-header').addClass('featured-header-collapsed');
 
     if (!hasPageCollapseClass) {
         return;
