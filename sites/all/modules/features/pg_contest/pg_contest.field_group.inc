@@ -23,9 +23,9 @@ function pg_contest_field_group_info() {
     'label' => 'Contacts',
     'weight' => '33',
     'children' => array(
-      0 => 'field_position',
-      1 => 'field_contacts_email',
-      2 => 'field_contacts_name',
+      0 => 'field_contacts_name',
+      1 => 'field_position',
+      2 => 'field_contacts_email',
       3 => 'field_contacts_phone',
     ),
     'format_type' => 'field_group_multiple_table',
