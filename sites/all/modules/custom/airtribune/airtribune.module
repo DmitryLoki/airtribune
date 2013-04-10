@@ -31,6 +31,7 @@ define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
 define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
+define('AIRTRIBUNE_REGISTRATION_SW_FIELD', 'field_registration_sw');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
