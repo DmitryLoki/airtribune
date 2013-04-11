@@ -2475,6 +2475,28 @@ p { margin:0; padding:9px 0 11px}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
+#page .view-my-registrations .views-row { position: relative; }
+#page .view-my-registrations .views-row .views-field { background: url(../images/teaser_border.png) repeat-x 0 100%; padding: 18px 0 11px; }
+#page .view-my-registrations .views-row-first .views-field { padding-top: 2px; }
+#page .view-my-registrations .views-field-nothing .field-content,
+#page .view-my-registrations .views-field-nothing-1 .field-content { display: block; padding: 0 0 0 31px; }
+#page .view-my-registrations a.next_event { margin-right: 80px; color: #525d66; font: bold 18px/20px Arial, Helvetica, sans-serif; text-decoration: none; cursor: pointer; display: block; overflow: hidden; }
+#page .view-my-registrations a.next_event:hover { color: #00aeef; }
+#page .view-my-registrations a.next_event .event-header { display: block; padding-bottom: 11px; }
+#page .view-my-registrations a.next_event .title { font-weight: bold; margin-right: 10px; }
+#page .view-my-registrations a.next_event .status { color: #8cc6f4; font: 14px/20px Arial,Helvetica,sans-serif; }
+#page .view-my-registrations a.next_event .status-4 { color: #c4d709; }
+#page .view-my-registrations a.next_event .dates, #page .view-my-registrations a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
+#page .view-my-registrations a.next_event:hover .dates, #page .view-my-registrations a.next_event:hover .place { color:#616569}
+#page .view-my-registrations a.next_event .dates { background-position:-220px -13px; float:left; padding-right:27px}
+#page .view-my-registrations a.next_event .place { background-position:-660px -45px; float:left}
+#page .view-my-registrations a.next_event:hover .dates { background-position:0 3px}
+#page .view-my-registrations a.next_event:hover .place { background-position:-440px -29px;}
+#page .view-my-registrations .views-row .cancel-participation,
+#page .view-my-registrations .views-row .cancel-participation-process { position: absolute; right: 20px; top: 15px; }
+#page .view-my-registrations .views-row-first .cancel-participation,
+#page .view-my-registrations .views-row-first .cancel-participation-process { top: 1px; }
+
 .breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
@@ -3375,8 +3397,6 @@ table tr td.:first-child { border-left: none;}
 .pane-pilots-statistics .pilots-text { padding:0 10px; color: #c2c94e; width: 80px; font: bold 14px/20px Arial, Helvetica, sans-serif; margin-top: -1px;}
 .pane-pilots-statistics .pilots-total .pilots-text { color: #a2b1c0;}
 
-.pane-page-content .pane-node-content .pane-inner { margin: 0;}
-
 	/* Footer */
 
 #footer h2.block-title { color:#004b66; font-size:14px; margin:0; padding:0; font-weight:bold;}
@@ -3446,7 +3466,7 @@ table tr td.:first-child { border-left: none;}
 .featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 100; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
 .featured-header-collapsible .featured-header .collapse-control:hover { background-position: -80px 35px; background-color: rgba(255, 255, 255, 0.5);}
-.featured-header-collapsible .featured-header-collapsed { /*height: 110px;*/}
+.featured-header-collapsible .featured-header-collapsed { height: 110px;}
 .featured-header-collapsible .featured-header-collapsed .collapse-control { background-position:  -40px 35px}
 .featured-header-collapsible .featured-header-collapsed .collapse-control:hover { background-position: 0 35px}
 
@@ -3596,10 +3616,8 @@ table tr td.:first-child { border-left: none;}
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
 .page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
-.page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center; word-wrap: break-word;}
-.page-event-pilots td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center; word-wrap: break-word;}
-.page-event-pilots td.views-field-field-sponsors .td_inner { width: 116px;}
+.page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center;}
+.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center;}
 .page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 1px; vertical-align: top;}
 .page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
 

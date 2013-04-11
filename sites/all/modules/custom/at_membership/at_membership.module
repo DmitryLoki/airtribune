@@ -39,8 +39,17 @@ function at_membership_menu() {
  * Implements hook_init().
  */
 function at_membership_init() {
-  if (drupal_match_path($_GET['q'], 'user/*/events')) {
+  if (drupal_match_path($_GET['q'], 'user/*/registrations')) {
     drupal_add_js(drupal_get_path('module', 'at_membership') . '/js/at_membership_delete.js');
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_membership_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return 'plugins/' . $plugin;
   }
 }
 
@@ -89,6 +98,14 @@ function at_membership_access($og_membership, $op = 'edit') {
  */
 function at_membership_permission() {
   $items = array();
+  $items['view own og memberships'] = array(
+    'title' => t('View OWN OG memberships'),
+    'description' => t('Allow users to view own memberships.'),
+  );
+  $items['view any og memberships'] = array(
+    'title' => t('View ANY OG memberships'),
+    'description' => t('Allow users to view any memberships.'),
+  );
   $items['edit own og membership'] = array(
     'title' => t('Edit OWN OG membership'),
     'description' => t('Allow users to edit own memberships.'),

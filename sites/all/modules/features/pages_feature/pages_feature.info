@@ -30,6 +30,7 @@ features[page_manager_pages][] = event_info
 features[page_manager_pages][] = event_item
 features[page_manager_pages][] = event_pilots
 features[page_manager_pages][] = event_sponsors
+features[page_manager_pages][] = my_registrations
 features[panels_mini][] = footer_blocks
 features[panels_mini][] = header_blocks
 features[panels_mini][] = sidebar
