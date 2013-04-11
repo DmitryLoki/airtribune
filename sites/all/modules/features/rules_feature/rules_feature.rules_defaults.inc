@@ -129,7 +129,12 @@ function rules_feature_default_rules_configuration() {
       "REQUIRES" : [ "rules" ],
       "ON" : [ "user_view" ],
       "IF" : [
-        { "data_is" : { "data" : [ "account:uid" ], "value" : [ "site:current-user:uid" ] } }
+        { "data_is" : { "data" : [ "account:uid" ], "value" : [ "site:current-user:uid" ] } },
+        { "NOT data_is" : {
+            "data" : [ "site:current-page:path" ],
+            "value" : "user\\/[account:uid]\\/registrations"
+          }
+        }
       ],
       "DO" : [ { "redirect" : { "url" : "[account:edit-url]" } } ]
     }
