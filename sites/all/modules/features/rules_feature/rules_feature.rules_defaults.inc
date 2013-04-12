@@ -63,6 +63,31 @@ function rules_feature_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_notify_organizer_about_cancel_participation'] = entity_import('rules_config', '{ "rules_notify_organizer_about_cancel_participation" : {
+      "LABEL" : "Notify the organizer about cancel participation on the event",
+      "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
+      "REQUIRES" : [ "rules", "og" ],
+      "ON" : [ "og_user_delete" ],
+      "IF" : [
+        { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
+      ],
+      "DO" : [
+        { "variable_add" : {
+            "USING" : { "type" : "node", "value" : [ "og-membership:group" ] },
+            "PROVIDE" : { "variable_added" : { "group" : "Added variable" } }
+          }
+        },
+        { "mail" : {
+            "to" : [ "group:author:mail" ],
+            "subject" : "[group:title] - [account:profile-main:field-full-name:given] [account:profile-main:field-full-name:family] - registration cancellation",
+            "message" : "Dear [group:author:profile-main:field-full-name:given]!\\r\\n\\r\\nPilot [account:profile-main:field-full-name:given] [account:profile-main:field-full-name:family] has cancelled the registration for \\u0022[group:title]\\u0022.\\r\\n\\r\\nRegards,\\r\\nAirtribune team",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_og_pilot_subscribe'] = entity_import('rules_config', '{ "rules_og_pilot_subscribe" : {
       "LABEL" : "OG pilot subscribe",
       "PLUGIN" : "reaction rule",
