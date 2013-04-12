@@ -73,7 +73,7 @@
 
 }
 #sign-in .drop-item.user-login {height: 255px;display:none;}
-#sign-in .drop-item.flags {height: 85px;display:none;}
+#sign-in .drop-item.flags {display:none;}
 
 .user-login .pane-inner, .flags .pane-inner { margin:0; border:1px solid #edf7f8; background:url(images/login_bgr.png) repeat 0 0; position:absolute; padding:21px 9px 14px; text-align:right; width:180px; bottom:0; left:0; 
 
@@ -243,7 +243,7 @@ a:hover .hybridauth-facebook {
 
 .flags .pane-inner { padding:12px 0 13px 6px; width:200px}
 .flags ul.links { margin:0; padding:0; text-align:left}
-.flags ul.links li { display:block; margin:0 0 6px; padding:0; float:left; width:50px;}
+.flags ul.links li { display:block; margin:0 0 6px; padding:0; float:left; width:50px; height: 24px}
 .flags ul.links li a {  color:#4a7990; font:12px/20px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.8); text-decoration:none;}
 .flags ul.links li a:hover { text-decoration:underline}
 .flags ul.links li img, .flags ul li span { display:inline-block; border:1px solid #ccd2a8; position:relative; outline:1px solid #dee3b8; vertical-align:middle;}
