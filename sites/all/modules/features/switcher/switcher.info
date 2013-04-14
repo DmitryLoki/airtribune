@@ -160,6 +160,7 @@ dependencies[] = variables
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = views_content
+dependencies[] = views_data_export
 dependencies[] = views_feature
 dependencies[] = views_slideshow
 dependencies[] = views_slideshow_cycle
