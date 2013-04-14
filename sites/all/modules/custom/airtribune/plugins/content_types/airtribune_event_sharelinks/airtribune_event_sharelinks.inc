@@ -33,8 +33,11 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-sharelinks'));
   $content['#theme_wrappers'] = array('container');
 
-  // event/nid/map/nid - link to accomodation / activities
-  if (arg(2) == 'map' && arg(3)) {
+  //  link to accomodation / activities
+  if ( 
+    (arg(2) == 'map' && arg(3)) || // without lang prefix, like event/nid/map/nid
+    (arg(3) == 'map' && arg(4))    // with lang prefix, like /ru/event/nid/map/nid
+  ) {
     $alias = drupal_get_path_alias('node/' . arg(3));
   }
   // event/nid/* - link to event
