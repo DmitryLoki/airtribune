@@ -425,6 +425,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: create field_core_id.
+  $permissions['create field_core_id'] = array(
+    'name' => 'create field_core_id',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: create field_pg_contestant_status.
   $permissions['create field_pg_contestant_status'] = array(
     'name' => 'create field_pg_contestant_status',
@@ -1084,6 +1093,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
+  // Exported permission: edit field_core_id.
+  $permissions['edit field_core_id'] = array(
+    'name' => 'edit field_core_id',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit field_pg_contestant_status.
   $permissions['edit field_pg_contestant_status'] = array(
     'name' => 'edit field_pg_contestant_status',
@@ -1171,6 +1189,15 @@ function roles_and_permissions_user_default_permissions() {
       1 => 'organizer',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit own field_core_id.
+  $permissions['edit own field_core_id'] = array(
+    'name' => 'edit own field_core_id',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
   );
 
   // Exported permission: edit own field_pg_contestant_status.
@@ -1560,6 +1587,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
+  // Exported permission: view field_core_id.
+  $permissions['view field_core_id'] = array(
+    'name' => 'view field_core_id',
+    'roles' => array(
+      0 => 'admin',
+      1 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: view field_pg_contestant_status.
   $permissions['view field_pg_contestant_status'] = array(
     'name' => 'view field_pg_contestant_status',
@@ -1601,6 +1638,15 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: view og_roles_permissions.
   $permissions['view og_roles_permissions'] = array(
     'name' => 'view og_roles_permissions',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view own field_core_id.
+  $permissions['view own field_core_id'] = array(
+    'name' => 'view own field_core_id',
     'roles' => array(
       0 => 'administrator',
     ),
