@@ -21,7 +21,7 @@ function _get_class_by_entity($entity, $type) {
     'node:pg_contest' => 'ContestSync',
     'user' => 'UserSync',
   );
-  drupal_set_message($tmp);
+
   if(!empty($classes[$tmp])) {
     $class = $classes[$tmp];
     return new $class($entity, $entity->type);
