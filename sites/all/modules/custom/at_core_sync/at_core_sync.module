@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Installation file for the Airtribune Core API module.
+ */
+
+/**
+ * Implements hook_entity_update().
+ */
+function at_core_sync_entity_update($entity, $type) {
+  $entities = array(
+    'node:pg_contest' => array(
+      'file' => 'inc/node.pg_contest.inc',
+    ),
+    'user' => array(
+      'file' => 'inc/user.inc',
+    ),
+  );
+  
+  include(drupal_get_path('module', 'at_core_sync') . '/' . 'inc/user.inc');
+  drupal_set_message(print_r(extract_data($entity), TRUE));
+  
+  drupal_set_message($type . ' updated');
+ //drupal_set_message(print_r($entity, TRUE));
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function at_core_sync_entity_insert($entity, $type) {
+  drupal_set_message($type . ' inserted');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function at_core_sync_menu() {
+  $items = array();
+
+  $items['admin/config/core_api'] = array(
+    'title' => 'Core API',
+    'description' => 'Airtribune Core API',
+    'file' => 'at_core_sync.admin.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('at_core_sync_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
