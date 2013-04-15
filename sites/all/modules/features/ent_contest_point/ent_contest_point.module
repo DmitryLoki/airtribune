@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Contest point feature.
+ */
+
+include_once 'ent_contest_point.features.inc';
