@@ -31,6 +31,7 @@ define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
 define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
+define('AIRTRIBUNE_POINTS_FILE_FIELD', 'field_points_file');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -418,4 +419,27 @@ function airtribune_init() {
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
   }
+
+}
+
+
+
+
+/**
+ * Implements hook_node_update().
+ */
+function airtribune_node_update($node) {
+  $items = field_get_items('node', $node, AIRTRIBUNE_POINTS_FILE_FIELD);
+  if (!empty($items[0])) {
+
+    $file = file_load($items[0]['fid']);
+    foreach (file($file->uri) as $line) {
+      if ($line[0] == 'W') {
+        $elements = explode(' ', trim($line, 'W '));
+        $lon = (substr($elements[2], -1) == 'E') ? (float) $elements[2] : -(float) $elements[2];
+        $lat = (substr($elements[3], -1) == 'N') ? (float) $elements[3] : -(float) $elements[3];
+      }
+    }
+  }
+
 }
