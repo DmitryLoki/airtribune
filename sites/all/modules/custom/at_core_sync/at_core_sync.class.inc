@@ -5,7 +5,8 @@ abstract class ATSync {
     public $entity_type;
     public $id = FALSE;
     public $address = FALSE;
-    public $port;
+    public $domain = "http://airtribune.com/";
+    public $port = 8085;
     public function __construct($entity, $entity_type) {
         $this->entity = $entity;
         $this->entity_type = $entity_type;
@@ -19,14 +20,13 @@ abstract class ATSync {
       $result = drupal_http_request("http://airtribune.com:8085/contest", $options);
       return json_decode($result->data);*/
       $handle = curl_init();
-      $url = "http://airtribune.com/contest";
+      $url = $this->domain . $this->address;
       curl_setopt($handle, CURLOPT_URL, $url);
-      curl_setopt($handle, CURLOPT_PORT, 8085);
-      //curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($handle, CURLOPT_PORT, $this->port);
       curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
       curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
-      
+
       switch($method)
       {      
         case 'GET':
@@ -62,9 +62,23 @@ abstract class ATSync {
 }
 
 class ContestSync extends ATSync {
-  public $address = "/contest";
+  public $address = "contest";
   public function onInsert(){
-    //drupal_set_message("contest inserted");
+    $node = $this->entity;
+    drupal_set_message(print_r($node->field_timezone, TRUE));
+    $data = array(
+      'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
+      'title' => $node->title,
+      'start_time' => strtotime($node->field_dates['und'][0]['value']),
+      'end_time' => strtotime ($node->field_dates['und'][0]['value2']),
+      'place' => $node->field_city['und'][0]['value'],
+      'country' => $node->field_country['und'][0]['iso2'],
+      'timezone' => $node->field_dates['und'][0]['timezone'],
+    );
+    $response = $this->request($data);
+    $id = $response->id;    
+    drupal_set_message(print_r($response, TRUE));
+    $this->updateCoreID($id);
   }
   public function onUpdate(){
     $node = $this->entity;
@@ -89,7 +103,7 @@ class ContestSync extends ATSync {
 }
 
 class UserSync extends ATSync {
-  public $address = "/person";
+  public $address = "person";
   public function onInsert(){
     // insert code
   }
@@ -102,7 +116,7 @@ class UserSync extends ATSync {
 }
 
 class PersonSync extends ATSync {
-  public $address = "/person";
+  public $address = "person";
   public function onInsert(){
     // insert code
   }
