@@ -10,6 +10,85 @@
 function day_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'node-day-field_day_status'.
+  $fields['node-day-field_day_status'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_day_status',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Registration day',
+          1 => 'Training day',
+          2 => 'Rest day',
+          3 => 'Race',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'day',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 6,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_day_status',
+      'label' => 'Day status',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'node-day-field_dayblog_ref'.
   $fields['node-day-field_dayblog_ref'] = array(
     'field_config' => array(
@@ -111,7 +190,7 @@ function day_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '8',
+        'weight' => '7',
       ),
     ),
   );
@@ -217,7 +296,7 @@ function day_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '11',
+        'weight' => '9',
       ),
     ),
   );
@@ -323,88 +402,7 @@ function day_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '10',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-day-field_pg_race_status'.
-  $fields['node-day-field_pg_race_status'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_pg_race_status',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'Ok',
-          1 => 'Stopped',
-          2 => 'Cancelled',
-          3 => 'Rest day',
-          4 => 'Registration day',
-          5 => 'Training day',
-        ),
-        'allowed_values_function' => '',
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'list_integer',
-    ),
-    'field_instance' => array(
-      'bundle' => 'day',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 2,
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_pg_race_status',
-      'label' => 'Status',
-      'required' => 1,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '6',
+        'weight' => '8',
       ),
     ),
   );
@@ -526,7 +524,7 @@ function day_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '7',
+        'weight' => '6',
       ),
     ),
   );
@@ -534,10 +532,10 @@ function day_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Day blog');
+  t('Day status');
   t('Paragliding Contest reference');
   t('Paragliding Race reference');
   t('Photos');
-  t('Status');
 
   return $fields;
 }
