@@ -37,7 +37,7 @@ abstract class ATSync {
           break;        
         case 'PUT':
           curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PUT');
-          curl_setopt($handle, CURLOPT_POSTFIELDS, http_build_query($data));
+          curl_setopt($handle, CURLOPT_POSTFIELDS, json_encode($data));
           break;        
         case 'DELETE':
           curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
@@ -65,7 +65,6 @@ class ContestSync extends ATSync {
   public $address = "contest";
   public function onInsert(){
     $node = $this->entity;
-    drupal_set_message(print_r($node->field_timezone, TRUE));
     $data = array(
       'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
       'title' => $node->title,
@@ -82,7 +81,13 @@ class ContestSync extends ATSync {
   }
   public function onUpdate(){
     $node = $this->entity;
-    drupal_set_message(print_r($node->field_timezone, TRUE));
+    
+    if(empty($node->field_core_id['und'][0]['value'])) {
+      return $this->onInsert();
+    }
+    
+    $id = $node->field_core_id['und'][0]['value'];
+    $this->address .= '/' . $id;
     $data = array(
       'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
       'title' => $node->title,
@@ -92,10 +97,9 @@ class ContestSync extends ATSync {
       'country' => $node->field_country['und'][0]['iso2'],
       'timezone' => $node->field_dates['und'][0]['timezone'],
     );
-    $response = $this->request($data);
-    $id = $response->id;    
+    
+    $response = $this->request($data, "PUT");
     drupal_set_message(print_r($response, TRUE));
-    $this->updateCoreID($id);
   }
   public function onDelete(){
     // delete code
