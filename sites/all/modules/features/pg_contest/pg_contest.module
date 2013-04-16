@@ -438,3 +438,27 @@ function pg_contest_cron() {
   }
 }
 
+/** 
+ * Implementation of hook_field_access
+ * Hide Registration switch field.
+ * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
+ */
+function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
+  
+  if ($op == 'edit' && $field['field_name'] == AIRTRIBUNE_REGISTRATION_SW_FIELD && !empty($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']) && ($entity->type == AIRTRIBUNE_PG_CONTEST_TYPE)) {
+    global $user;
+    
+    $date = time() - 2 * 24 * 3600;
+    // Event start date.
+    $value = strtotime($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
+    
+    // For allowed roles switch is always shown.
+    $allowed_roles = array('admin');
+    $intersect = array_intersect($user->roles, $allowed_roles);
+    
+    // Hide registration switch
+    if ($value < $date && empty($intersect)) {
+      return FALSE;
+    }
+  }
+}
