@@ -55,6 +55,7 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
  * Implements hook_menu_alter().
  */
 function airtribune_menu_alter(&$items) {
+/*
   $items['event/%pm_arg'] = array(
     'access arguments' => array('access content'),
     'page callback' => 'airtribune_pages_callback',
@@ -65,6 +66,7 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+*/
 }
 
 /**
@@ -432,6 +434,7 @@ function airtribune_views_query_alter(&$view, &$query) {
  *
  * @see #3024
  */
+/*
 function airtribune_pages_callback($context) {
   // Be sure the inc file containing page_manager_page_execute is loaded
 //  ctools_include('page', 'page_manager', 'plugins/tasks');
@@ -461,6 +464,7 @@ function airtribune_pages_callback($context) {
 //    return page_manager_page_execute('event_results', $context);
   }
 }
+*/
 
 /**
  * Implements hook_init().

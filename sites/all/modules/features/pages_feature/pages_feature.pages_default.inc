@@ -1345,48 +1345,89 @@ function pages_feature_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_panel_context';
+  $handler->name = 'page_event_http_response_2';
   $handler->task = 'page';
   $handler->subtask = 'event';
-  $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->handler = 'http_response';
+  $handler->weight = 2;
   $handler->conf = array(
-    'title' => 'Panel',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
+    'title' => 'Current Event',
     'contexts' => array(),
     'relationships' => array(),
+    'code' => '301',
+    'destination' => 'event/%node:nid/blog',
     'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'current',
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
       'logic' => 'and',
     ),
   );
-  $display = new panels_display();
-  $display->layout = 'event_brick';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'event_brick_top' => NULL,
-      'event_brick_left_above' => NULL,
-      'event_brick_right_above' => NULL,
-      'event_brick_middle' => NULL,
-      'event_brick_left_below' => NULL,
-      'event_brick_right_below' => NULL,
-      'event_brick_left_bottom' => NULL,
-      'event_brick_right_bottom' => NULL,
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'event';
+  $handler->handler = 'http_response';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => 'Past Event',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '301',
+    'destination' => 'event/%node:nid/results',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'past',
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
     ),
   );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_http_response_3';
+  $handler->task = 'page';
+  $handler->subtask = 'event';
+  $handler->handler = 'http_response';
+  $handler->weight = 3;
+  $handler->conf = array(
+    'title' => 'Next Event',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '301',
+    'destination' => 'event/%node:nid/info',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'next',
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
   $page->default_handlers[$handler->name] = $handler;
   $pages['event'] = $page;
 
@@ -2251,7 +2292,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'default tab',
+    'type' => 'tab',
     'title' => 'Info',
     'name' => 'navigation',
     'weight' => '0',
