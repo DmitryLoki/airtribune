@@ -1000,7 +1000,10 @@ event/*/map/accommodations',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -2693,19 +2696,24 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane = new stdClass();
     $pane->pid = 'new-20';
     $pane->panel = 'event_brick_right_below';
-    $pane->type = 'panels_mini';
-    $pane->subtype = 'share_links';
+    $pane->type = 'airtribune_event_sharelinks';
+    $pane->subtype = 'airtribune_event_sharelinks';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'balloon_type' => 'v',
+      'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
-      'override_title_text' => '',
+      'override_title_text' => '<none>',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
@@ -3486,7 +3494,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -3572,7 +3583,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -3595,7 +3609,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
