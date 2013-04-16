@@ -1,12 +1,13 @@
 name = Contest point
 core = 7.x
 package = Custom bundles
+php = 5.2.4
 dependencies[] = eck
 dependencies[] = features
-dependencies[] = field_sql_storage
 dependencies[] = geofield
-dependencies[] = text
+dependencies[] = og
 features[eck_bundle][] = ent_contest_point_contest_point
 features[features_api][] = api:1
 features[field][] = ent_contest_point-contest_point-field_point_description
 features[field][] = ent_contest_point-contest_point-field_point_location
+features[field][] = ent_contest_point-contest_point-og_group_ref
