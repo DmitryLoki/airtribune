@@ -60,7 +60,7 @@ function airtribune_menu_alter(&$items) {
     'page callback' => 'airtribune_pages_callback',
     'page arguments' => array(1),
     'load arguments' => array(
-      'event_info',
+      'event',
       '%index',
       '%map',
     ),
