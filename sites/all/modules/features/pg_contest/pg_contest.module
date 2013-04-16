@@ -242,7 +242,7 @@ function pg_contest_create_points($fid, $nid) {
       ),
       'field_point_description' => array(
         LANGUAGE_NONE  => array(
-          0 => array('value' => isset($elements[8]) ? $elements[8] : '')
+          0 => array('value' => isset($elements[8]) ? implode(' ', array_slice($elements, 8)) : '')
         ),
       ),
     );
