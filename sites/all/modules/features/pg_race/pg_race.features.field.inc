@@ -57,6 +57,12 @@ function pg_race_field_default_fields() {
           'type' => 'file_default',
           'weight' => '8',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -71,6 +77,7 @@ function pg_race_field_default_fields() {
       'settings' => array(
         'description_field' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'doc pdf xls odt ods htm html',
         'filefield_paths' => array(
@@ -102,79 +109,6 @@ function pg_race_field_default_fields() {
         ),
         'type' => 'file_generic',
         'weight' => '12',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_race-field_day_blog'.
-  $fields['node-pg_race-field_day_blog'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_day_blog',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_with_summary',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_race',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '9',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_day_blog',
-      'label' => 'Day blog',
-      'required' => 0,
-      'settings' => array(
-        'display_summary' => 0,
-        'entity_translation_sync' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '20',
-          'summary_rows' => 5,
-        ),
-        'type' => 'text_textarea_with_summary',
-        'weight' => '3',
       ),
     ),
   );
@@ -226,6 +160,12 @@ function pg_race_field_default_fields() {
           'type' => 'file_default',
           'weight' => '7',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -240,6 +180,7 @@ function pg_race_field_default_fields() {
       'settings' => array(
         'description_field' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'doc pdf xls odt ods htm html',
         'filefield_paths' => array(
@@ -325,6 +266,12 @@ function pg_race_field_default_fields() {
           'type' => 'date_default',
           'weight' => '3',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'settings' => array(),
@@ -342,6 +289,7 @@ function pg_race_field_default_fields() {
         'default_value_code' => '',
         'default_value_code2' => '',
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -357,7 +305,203 @@ function pg_race_field_default_fields() {
           'year_range' => '-0:+3',
         ),
         'type' => 'date_select',
+        'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_race-field_pg_race_finish'.
+  $fields['node-pg_race-field_pg_race_finish'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_pg_race_finish',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 'hour',
+          'minute' => 'minute',
+          'month' => 0,
+          'second' => 'second',
+          'year' => 'year',
+        ),
+        'profile2_private' => FALSE,
+        'timezone_db' => 'UTC',
+        'todate' => '',
+        'tz_handling' => 'site',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => 13,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_race_finish',
+      'label' => 'Race finish',
+      'required' => 1,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_select',
         'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_race-field_pg_race_start'.
+  $fields['node-pg_race-field_pg_race_start'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_pg_race_start',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 'hour',
+          'minute' => 'minute',
+          'month' => 0,
+          'second' => 'second',
+          'year' => 'year',
+        ),
+        'profile2_private' => FALSE,
+        'timezone_db' => 'UTC',
+        'todate' => '',
+        'tz_handling' => 'site',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => 12,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_race_start',
+      'label' => 'Race start',
+      'required' => 1,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_select',
+        'weight' => '6',
       ),
     ),
   );
@@ -370,6 +514,9 @@ function pg_race_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_pg_race_status',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
@@ -407,6 +554,12 @@ function pg_race_field_default_fields() {
           'type' => 'i18n_list_default',
           'weight' => '4',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -420,6 +573,7 @@ function pg_race_field_default_fields() {
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -427,44 +581,45 @@ function pg_race_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '8',
+        'weight' => '10',
       ),
     ),
   );
 
-  // Exported field: 'node-pg_race-field_photos'.
-  $fields['node-pg_race-field_photos'] = array(
+  // Exported field: 'node-pg_race-field_pg_race_takeoff'.
+  $fields['node-pg_race-field_pg_race_takeoff'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '10',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_photos',
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
+      'field_name' => 'field_pg_race_takeoff',
+      'field_permissions' => array(
+        'type' => '0',
       ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
       'locked' => '0',
-      'module' => 'image',
+      'module' => 'date',
       'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 'hour',
+          'minute' => 'minute',
+          'month' => 0,
+          'second' => 'second',
+          'year' => 'year',
         ),
         'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
+        'timezone_db' => 'UTC',
+        'todate' => '',
+        'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'image',
+      'type' => 'datetime',
     ),
     'field_instance' => array(
       'bundle' => 'pg_race',
@@ -473,89 +628,171 @@ function pg_race_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'date',
           'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
           ),
-          'type' => 'image',
-          'weight' => '5',
+          'type' => 'date_default',
+          'weight' => 14,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
-          'label' => 'hidden',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => 'content',
-            'image_style' => 'race_teaser',
-          ),
-          'type' => 'image',
-          'weight' => '0',
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_photos',
-      'label' => 'Photos',
-      'required' => 0,
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_race_takeoff',
+      'label' => 'Race Take Off',
+      'required' => 1,
       'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
         'entity_translation_sync' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 1,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:field-pg-race-date:dmy]',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'max_filesize' => '5M',
-        'max_resolution' => '2000x2000',
-        'min_resolution' => '300x300',
-        'title_field' => 0,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'media',
+        'module' => 'date',
         'settings' => array(
-          'allowed_schemes' => array(
-            'private' => 'private',
-            'public' => 'public',
-          ),
-          'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            'image' => 'image',
-            'video' => 0,
-          ),
-          'progress_indicator' => 'throbber',
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
         ),
-        'type' => 'media_generic',
+        'type' => 'date_select',
+        'weight' => '8',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_race-field_pg_race_takeoff_close'.
+  $fields['node-pg_race-field_pg_race_takeoff_close'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_pg_race_takeoff_close',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 'hour',
+          'minute' => 'minute',
+          'month' => 0,
+          'second' => 'second',
+          'year' => 'year',
+        ),
+        'profile2_private' => FALSE,
+        'timezone_db' => 'UTC',
+        'todate' => '',
+        'tz_handling' => 'site',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => 15,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_race_takeoff_close',
+      'label' => 'Race Take Off Close',
+      'required' => 1,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_select',
         'weight' => '9',
       ),
     ),
   );
 
-  // Exported field: 'node-pg_race-og_group_ref'.
-  $fields['node-pg_race-og_group_ref'] = array(
+  // Exported field: 'node-pg_race-field_pg_racetype_ref'.
+  $fields['node-pg_race-field_pg_racetype_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'og_group_ref',
+      'field_name' => 'field_pg_racetype_ref',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -573,89 +810,82 @@ function pg_race_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'og',
+        'handler' => 'base',
         'handler_settings' => array(
           'behaviors' => array(
-            'og_behavior' => array(
-              'status' => TRUE,
-            ),
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'membership_type' => 'og_membership_type_default',
           'sort' => array(
             'type' => 'none',
           ),
           'target_bundles' => array(
-            'pg_contest' => 'pg_contest',
+            'pg_racetype_od' => 'pg_racetype_od',
+            'pg_racetype_rg' => 'pg_racetype_rg',
+            'pg_racetype_sr' => 'pg_racetype_sr',
           ),
         ),
-        'handler_submit' => 'Change handler',
         'profile2_private' => FALSE,
         'target_type' => 'node',
       ),
-      'target_type' => 'node',
       'translatable' => '0',
       'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'pg_race',
       'default_value' => NULL,
+      'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og_ui',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 11,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
           'settings' => array(),
-          'type' => 'og_list_default',
-          'weight' => '1',
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '3',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'og_group_ref',
-      'label' => 'Groups audience',
-      'required' => 0,
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_racetype_ref',
+      'label' => 'Paragliding Race Type reference',
+      'required' => 1,
       'settings' => array(
         'behaviors' => array(
-          'og_widget' => array(
-            'admin' => array(
-              'widget_type' => 'entityreference_autocomplete',
-            ),
-            'default' => array(
-              'widget_type' => 'options_select',
-            ),
-            'status' => TRUE,
+          'prepopulate' => array(
+            'status' => 0,
           ),
         ),
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
-      'view modes' => array(
-        'full' => array(
-          'custom settings' => FALSE,
-          'label' => 'Full',
-          'type' => 'og_list_default',
-        ),
-        'teaser' => array(
-          'custom settings' => FALSE,
-          'label' => 'Teaser',
-          'type' => 'og_list_default',
-        ),
-      ),
       'widget' => array(
-        'active' => 0,
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_complex',
-        'weight' => '1',
+        'active' => 1,
+        'module' => 'entityreference',
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'path' => '',
+          'size' => '60',
+        ),
+        'type' => 'entityreference_autocomplete',
+        'weight' => '3',
       ),
     ),
   );
@@ -668,6 +898,9 @@ function pg_race_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'title_field',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -686,6 +919,7 @@ function pg_race_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => 255,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -702,6 +936,12 @@ function pg_race_field_default_fields() {
           'type' => 'hidden',
           'weight' => '10',
         ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -715,6 +955,7 @@ function pg_race_field_default_fields() {
       'required' => TRUE,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => 0,
         'user_register_form' => FALSE,
       ),
@@ -724,7 +965,7 @@ function pg_race_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => -5,
+        'weight' => '0',
       ),
     ),
   );
@@ -734,10 +975,12 @@ function pg_race_field_default_fields() {
   t('A field replacing node title.');
   t('Competition results');
   t('Date');
-  t('Day blog');
   t('Day results');
-  t('Groups audience');
-  t('Photos');
+  t('Paragliding Race Type reference');
+  t('Race Take Off');
+  t('Race Take Off Close');
+  t('Race finish');
+  t('Race start');
   t('Status');
   t('Title');
 
