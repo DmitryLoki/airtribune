@@ -485,26 +485,26 @@ function day_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:field-pg-race-date:dmy]',
           ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '',
-        'max_resolution' => '',
-        'min_resolution' => '',
+        'max_filesize' => '5M',
+        'max_resolution' => '2000x2000',
+        'min_resolution' => '300x300',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
@@ -516,6 +516,7 @@ function day_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
+            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
