@@ -73,30 +73,30 @@ function pg_race_field_default_fields() {
       'label' => 'Competition results',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
+        'description_field' => 1,
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'file_directory' => '',
-        'file_extensions' => 'txt',
+        'file_extensions' => 'doc pdf xls odt ods htm html',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'pg_contests/[ent_race:og-group-ref:0:nid]-[ent_race:og-group-ref:0:title]/[ent_race:created:dmy]',
           ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '',
+        'max_filesize' => '3M',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -205,7 +205,7 @@ function pg_race_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '1',
+        'weight' => '0',
       ),
     ),
   );
@@ -273,30 +273,30 @@ function pg_race_field_default_fields() {
       'label' => 'Day results',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
+        'description_field' => 1,
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'file_directory' => '',
-        'file_extensions' => 'txt',
+        'file_extensions' => 'doc pdf xls odt ods htm html',
         'filefield_paths' => array(
-          'active_updating' => 0,
+          'active_updating' => 1,
           'file_name' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
             'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
           ),
           'file_path' => array(
             'options' => array(
-              'pathauto' => 0,
-              'transliterate' => 0,
+              'pathauto' => 1,
+              'transliterate' => 1,
             ),
-            'value' => '',
+            'value' => 'pg_contests/[ent_race:og-group-ref:0:nid]-[ent_race:og-group-ref:0:title]/[ent_race:created:dmy]',
           ),
           'retroactive_update' => 0,
         ),
-        'max_filesize' => '',
+        'max_filesize' => '3M',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -306,7 +306,7 @@ function pg_race_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '4',
+        'weight' => '1',
       ),
     ),
   );
