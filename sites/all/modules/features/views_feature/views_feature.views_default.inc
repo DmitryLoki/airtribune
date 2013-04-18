@@ -2701,7 +2701,7 @@ function views_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Next events';
+  $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -3025,9 +3025,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/next';
-  $handler->display->display_options['menu']['type'] = 'default tab';
+  $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'Next';
   $handler->display->display_options['menu']['weight'] = '1';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['tab_options']['type'] = 'normal';
   $handler->display->display_options['tab_options']['title'] = 'Next';
@@ -3067,11 +3068,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_dates_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'events/current';
-  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['type'] = 'default tab';
   $handler->display->display_options['menu']['title'] = 'Current';
   $handler->display->display_options['menu']['weight'] = '2';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['tab_options']['type'] = 'normal';
+  $handler->display->display_options['tab_options']['title'] = 'Current';
+  $handler->display->display_options['tab_options']['weight'] = '0';
   $translatables['events_list'] = array(
     t('Master'),
     t('Next events'),
