@@ -4,6 +4,7 @@
  * @file
  * Event days fields.
  */
+
 ?>
 <h3>
 <?php print $fields['title']->content; ?> — <?php print $fields['field_day_status']->content; ?>
@@ -14,3 +15,5 @@
 </h3>
 <?php print $fields['field_day_blog']->content; ?>
 <?php print $fields['field_photos']->content; ?>
+<?php print $fields['field_day_results']->content; ?>
+<?php print $fields['field_pg_race_tracks']->content; ?>
