@@ -62,18 +62,18 @@ if($row->field_field_photos){
 
 ?>
 <h3>
-<?php if ($fields['field_pg_race_ref']->content): ?>
+<?php if ($fields['title_1']->content): ?>
 <span><?php print $fields['created']->content; ?></span>
 <?php endif; ?>
 <?php print $fields['title']->content; ?> — <?php print $fields['field_day_status']->content; ?>
-<?php if ($fields['field_pg_race_ref']->content): ?>
-  — <?php print $fields['field_pg_race_ref']->content; ?>
+<?php if ($fields['title_1']->content): ?>
+  — <?php print $fields['title_1']->content; ?>
 <?php endif; ?>
 </h3>
 <div class="day-content">
+  <?php print $fields['field_day_results']->content; ?>
+  <?php print $fields['field_pg_race_tracks']->content; ?>
   <?php print $fields['field_day_blog']->content; ?>
 
   <?php print render($photos); ?>
 </div>
-
-
