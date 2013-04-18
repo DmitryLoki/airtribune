@@ -1863,12 +1863,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: pg_contest */
-  $handler->display->display_options['relationships']['field_pg_contest_ref_target_id']['id'] = 'field_pg_contest_ref_target_id';
-  $handler->display->display_options['relationships']['field_pg_contest_ref_target_id']['table'] = 'field_data_field_pg_contest_ref';
-  $handler->display->display_options['relationships']['field_pg_contest_ref_target_id']['field'] = 'field_pg_contest_ref_target_id';
-  $handler->display->display_options['relationships']['field_pg_contest_ref_target_id']['ui_name'] = 'pg_contest';
-  $handler->display->display_options['relationships']['field_pg_contest_ref_target_id']['label'] = 'pg_contest';
-  $handler->display->display_options['relationships']['field_pg_contest_ref_target_id']['required'] = TRUE;
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'pg_contest';
+  $handler->display->display_options['relationships']['og_membership_rel']['label'] = 'pg_contest';
   /* Field: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -1934,17 +1933,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['ui_name'] = 'Post date';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Content ID */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['relationship'] = 'field_pg_contest_ref_target_id';
-  $handler->display->display_options['arguments']['nid']['ui_name'] = 'Content ID';
-  $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -1967,13 +1965,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
-    'nid' => array(
+    'gid' => array(
       'type' => 'panel',
       'context' => 'entity:node.members--1',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content ID',
+      'label' => 'OG membership: Group ID',
     ),
   );
   $translatables['event_days'] = array(
