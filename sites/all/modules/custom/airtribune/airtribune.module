@@ -55,6 +55,22 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function airtribune_menu_alter(&$items) {
+  $items['event/%pm_arg'] = array(
+    'access arguments' => array('access content'),
+    'page callback' => 'airtribune_pages_callback',
+    'page arguments' => array(1),
+    'load arguments' => array(
+      'event',
+      '%index',
+      '%map',
+    ),
+  );
+}
+
+/**
  * Implements hook_theme().
  */
 function airtribune_theme() {
@@ -445,6 +461,42 @@ function airtribune_views_query_alter(&$view, &$query) {
 }
 
 /**
+ * Dynamically load pages on event/%nid based by event dates
+ *
+ * @see #3024
+ */
+function airtribune_pages_callback($context) {
+  // TODO change to module_load_include()
+  // Be sure the inc file containing page_manager_page_execute is loaded
+//  ctools_include('page', 'page_manager', 'plugins/tasks');
+  include_once(drupal_get_path('module', 'ctools') .'/page_manager/plugins/tasks/page.inc');
+  include_once(drupal_get_path('module', 'path_breadcrumbs') .'/path_breadcrumbs.module');
+
+  $node = $context->data;
+
+  $start = strtotime($node->field_dates['und'][0]['value']);
+  $end = strtotime($node->field_dates['und'][0]['value2']);
+
+  $event_date_status = airtribune_event_check_date_status($start, $end);
+  if ($event_date_status == 'next') {
+    menu_set_active_item('event/'.$node->nid.'/info');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
+    return page_manager_page_execute('event_info', $context);
+  }
+  elseif ($event_date_status == 'current') {
+    menu_set_active_item('event/'.$node->nid.'/blog');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/blog'));
+    return page_manager_page_execute('event_blog', $context);
+  }
+  elseif ($event_date_status == 'past') {
+  // at this moment we haven't results menu/page/breadcrumbs
+//    menu_set_active_item('event/'.$node->nid.'/results');
+//    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
+//    return page_manager_page_execute('event_results', $context);
+  }
+}
+
+/**
  * Implements hook_init().
  */
 function airtribune_init() {
@@ -454,3 +506,20 @@ function airtribune_init() {
   }
 }
 
+/**
+ * Check event dates status
+ * @param $start_date unix_stamp
+ * @param $end_date unix_stamp
+ *
+ * @return event_date_status NULL|string
+ *   NULL or 'past' or 'current' or 'next'
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_event_check_date_status($start_date, $end_date) {
+  $now = REQUEST_TIME;
+  if (empty($start_date) || empty($end_date)) return NULL;
+  elseif ($now < $start_date) return 'next';
+  elseif ($now >= $start_date && $now <= $end_date) return 'current';
+  elseif ($now > $end_date) return 'past';
+}
