@@ -490,6 +490,10 @@ function airtribune_pages_callback($context) {
   }
   elseif ($event_date_status == 'past') {
   // at this moment we haven't results menu/page/breadcrumbs
+    // use 'next event' strategy
+    menu_set_active_item('event/'.$node->nid.'/info');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
+    return page_manager_page_execute('event_info', $context);
 //    menu_set_active_item('event/'.$node->nid.'/results');
 //    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
 //    return page_manager_page_execute('event_results', $context);
