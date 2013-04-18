@@ -272,19 +272,19 @@ function day_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '8',
+        'weight' => '9',
       ),
     ),
   );
 
-  // Exported field: 'node-day-field_photos'.
-  $fields['node-day-field_photos'] = array(
+  // Exported field: 'node-day-field_image'.
+  $fields['node-day-field_image'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '10',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_photos',
+      'field_name' => 'field_image',
       'field_permissions' => array(
         'type' => '0',
       ),
@@ -327,7 +327,7 @@ function day_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 3,
+          'weight' => 9,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -344,11 +344,11 @@ function day_field_default_fields() {
       ),
       'entity_type' => 'node',
       'exclude_cv' => 0,
-      'field_name' => 'field_photos',
-      'label' => 'Photos',
+      'field_name' => 'field_image',
+      'label' => 'Image',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'alt_field' => 1,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
@@ -368,34 +368,25 @@ function day_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:field-pg-race-date:dmy]',
+            'value' => 'pg_contests/[node:og-group-ref:0:nid]-[node:og-group-ref:0:title]/[node:created:dmy]',
           ),
           'retroactive_update' => 0,
         ),
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
         'min_resolution' => '300x300',
-        'title_field' => 0,
+        'title_field' => 1,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'media',
+        'module' => 'image',
         'settings' => array(
-          'allowed_schemes' => array(
-            'public' => 'public',
-          ),
-          'allowed_types' => array(
-            0 => 0,
-            'audio' => 0,
-            'default' => 0,
-            'image' => 'image',
-            'video' => 0,
-          ),
+          'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
-        'type' => 'media_generic',
-        'weight' => '7',
+        'type' => 'image_image',
+        'weight' => '8',
       ),
     ),
   );
@@ -516,7 +507,7 @@ function day_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '9',
+        'weight' => '10',
       ),
     ),
   );
@@ -527,7 +518,7 @@ function day_field_default_fields() {
   t('Day blog text');
   t('Day status');
   t('Groups audience');
-  t('Photos');
+  t('Image');
 
   return $fields;
 }
