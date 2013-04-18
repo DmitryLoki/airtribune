@@ -506,7 +506,7 @@ function day_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'og_group_ref',
-      'label' => 'Участие в группах',
+      'label' => 'Groups audience',
       'required' => FALSE,
       'settings' => array(
         'behaviors' => array(
@@ -551,7 +551,7 @@ function day_field_default_fields() {
   t('Day status');
   t('Paragliding Race reference');
   t('Photos');
-  t('Участие в группах');
+  t('Groups audience');
 
   return $fields;
 }
