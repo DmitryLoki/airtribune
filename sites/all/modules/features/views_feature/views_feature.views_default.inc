@@ -1859,7 +1859,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_plugin'] = 'views_accordion';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_options']['collapsible'] = 1;
+  $handler->display->display_options['style_options']['row-start-open'] = 'none';
+  $handler->display->display_options['style_options']['autoheight'] = 0;
+  $handler->display->display_options['style_options']['navigation'] = 1;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: pg_contest */
@@ -1874,31 +1880,34 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
-  /* Field: Title */
+  /* Field: Title - excluded */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title - excluded';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Day status */
+  /* Field: Day status - excluded */
   $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
-  $handler->display->display_options['fields']['field_day_status']['ui_name'] = 'Day status';
+  $handler->display->display_options['fields']['field_day_status']['ui_name'] = 'Day status - excluded';
   $handler->display->display_options['fields']['field_day_status']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
-  /* Field: Title */
+  /* Field: Title - excluded */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'eck_ent_race';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
   $handler->display->display_options['fields']['title_1']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Title - excluded';
   $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   /* Field: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
@@ -1906,7 +1915,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['field'] = 'created';
   $handler->display->display_options['fields']['created']['ui_name'] = 'Post date';
   $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['created']['alter']['text'] = '[title] — [field_day_status] — [title_1] — [created]';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
   /* Field: Results */
   $handler->display->display_options['fields']['field_day_results']['id'] = 'field_day_results';
@@ -2007,6 +2019,7 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('pg_contest'),
     t('pg_race'),
+    t('[title] — [field_day_status] — [title_1] — [created]'),
     t('All'),
     t('Content pane'),
     t('View panes'),
