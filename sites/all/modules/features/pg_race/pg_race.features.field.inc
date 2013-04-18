@@ -386,6 +386,107 @@ function pg_race_field_default_fields() {
     ),
   );
 
+  // Exported field: 'ent_race-pg_race-field_pg_race_tracks'.
+  $fields['ent_race-pg_race-field_pg_race_tracks'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_pg_race_tracks',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'file',
+      'settings' => array(
+        'display_default' => 0,
+        'display_field' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'file',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'file',
+          'settings' => array(),
+          'type' => 'file_default',
+          'weight' => 7,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_race',
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_race_tracks',
+      'label' => 'Race Tracks',
+      'required' => 0,
+      'settings' => array(
+        'description_field' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'zip',
+        'filefield_paths' => array(
+          'active_updating' => 0,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 0,
+              'transliterate' => 0,
+            ),
+            'value' => '',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'file',
+        'settings' => array(
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'file_generic',
+        'weight' => '7',
+      ),
+    ),
+  );
+
   // Exported field: 'ent_race-pg_race-field_pg_racetype_ref'.
   $fields['ent_race-pg_race-field_pg_racetype_ref'] = array(
     'field_config' => array(
@@ -729,6 +830,7 @@ function pg_race_field_default_fields() {
   t('Groups audience');
   t('Paragliding Race Type reference');
   t('Photos');
+  t('Race Tracks');
   t('Status');
 
   return $fields;

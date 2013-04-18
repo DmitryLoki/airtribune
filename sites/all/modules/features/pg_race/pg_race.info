@@ -17,6 +17,7 @@ features[field][] = ent_race-pg_race-field_competition_results
 features[field][] = ent_race-pg_race-field_day_ref
 features[field][] = ent_race-pg_race-field_day_results
 features[field][] = ent_race-pg_race-field_pg_race_status
+features[field][] = ent_race-pg_race-field_pg_race_tracks
 features[field][] = ent_race-pg_race-field_pg_racetype_ref
 features[field][] = ent_race-pg_race-field_photos
 features[field][] = ent_race-pg_race-og_group_ref
