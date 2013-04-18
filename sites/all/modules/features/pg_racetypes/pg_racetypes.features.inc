@@ -5,44 +5,28 @@
  */
 
 /**
- * Implements hook_ctools_plugin_api().
+ * Implements hook_eck_bundle_info().
  */
-function pg_racetypes_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "strongarm" && $api == "strongarm") {
-    return array("version" => "1");
-  }
-}
-
-/**
- * Implements hook_node_info().
- */
-function pg_racetypes_node_info() {
+function pg_racetypes_eck_bundle_info() {
   $items = array(
-    'pg_racetype_od' => array(
-      'name' => t('Paragliding Race (Open Distance)'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-    'pg_racetype_rg' => array(
-      'name' => t('Paragliding Race (Race To Goal)'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-    'pg_racetype_sr' => array(
-      'name' => t('Paragliding Race (Speed Run)'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
+  'ent_racetype_pg_racetype_od' => array(
+  'machine_name' => 'ent_racetype_pg_racetype_od',
+  'entity_type' => 'ent_racetype',
+  'name' => 'pg_racetype_od',
+  'label' => 'Paragliding race (Open Distance)',
+),
+  'ent_racetype_pg_racetype_rtg' => array(
+  'machine_name' => 'ent_racetype_pg_racetype_rtg',
+  'entity_type' => 'ent_racetype',
+  'name' => 'pg_racetype_rtg',
+  'label' => 'Paragliding race (Race to Goal)',
+),
+  'ent_racetype_pg_racetype_sr' => array(
+  'machine_name' => 'ent_racetype_pg_racetype_sr',
+  'entity_type' => 'ent_racetype',
+  'name' => 'pg_racetype_sr',
+  'label' => 'Paragliding race (Speed Run)',
+),
   );
   return $items;
 }
