@@ -360,6 +360,8 @@ function airtribune_prize_categories($category = FALSE) {
     'nations' => 'Nations',
     'clubs' => 'Clubs',
     'teams' => 'Teams',
+    'fun' => 'Fun',
+    'junior' => 'Junior',
   );
   return $category ? $categories[$category] : $categories;
 }
