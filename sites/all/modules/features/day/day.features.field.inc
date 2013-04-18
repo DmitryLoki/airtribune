@@ -14,7 +14,7 @@ function day_field_default_fields() {
   $fields['node-day-field_day_blog'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_day_blog',
@@ -77,7 +77,7 @@ function day_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -113,10 +113,12 @@ function day_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => 'Registration day',
-          1 => 'Training day',
-          2 => 'Rest day',
-          3 => 'Race',
+          0 => 'Ok',
+          1 => 'Stopped',
+          2 => 'Cancelled',
+          3 => 'Rest day',
+          4 => 'Registration day',
+          5 => 'Training day',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
