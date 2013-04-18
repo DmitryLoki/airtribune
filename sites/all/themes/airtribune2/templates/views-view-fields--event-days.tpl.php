@@ -75,5 +75,5 @@ if($row->field_field_photos){
   <?php print $fields['field_pg_race_tracks']->content; ?>
   <?php print $fields['field_day_blog']->content; ?>
 
-  <?php print render($photos); ?>
+  <?php if(!empty($photos)) { print '<div class="field-name-field-image">' . render($photos) . '</div>';}?>
 </div>

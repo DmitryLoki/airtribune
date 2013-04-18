@@ -2355,6 +2355,10 @@ p { margin:0; padding:9px 0 11px}
 
 }
 
+.pane-event-days-panel-pane-1 .field-name-field-image { margin:0 -3px 30px -2px; width:auto;}
+.pane-event-days-panel-pane-1 .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+.pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
+
 
 
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
