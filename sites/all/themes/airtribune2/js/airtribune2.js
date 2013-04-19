@@ -25,11 +25,6 @@ Drupal.behaviors.airtribune2 = {
 
 jQuery(function($) {
 
-  $('.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label').click(function(){
-    $('.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content').hide();
-    $(this).next().toggle();
-  })
-
   jQuery('body').bind('click', {parent:this},bodyClick);
   function bodyClick(e) {
     //If e.target is not a child of el.handle then hide list
@@ -37,6 +32,18 @@ jQuery(function($) {
       $('.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content').hide();
     }
   }
+
+  $('.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label').click(function(){
+    el = $(this).next();
+    $('.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content').each(function(){
+      if($(this)[0] != el[0]) {
+        $(this).hide();
+      }
+    });
+    $(this).next().toggle();
+  })
+
+  
 
   $('.pane-contest-blog-contest-full-pane h2.pane-title').click(function(){
     $(this).next().slideToggle()
