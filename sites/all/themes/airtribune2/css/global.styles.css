@@ -2318,7 +2318,7 @@ p { margin:0; padding:9px 0 11px}
 .node .node-content h2 { margin:0 0 -2px; padding:7px 0 0; font:24px/26px Arial, Helvetica, sans-serif;}
 .node .node-content p + h2 { padding-top:36px}
 
-.pane-contest-blog-contest-full-pane .pane-inner { margin:0}
+.pane-contest-blog-contest-full-pane .pane-inner { margin:0;}
 .node_view_mode_event_blog_teaser { margin:0 0 24px; padding:0 0 9px}
 .node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
 .node_view_mode_event_blog_teaser > .clearfix { margin-left:0;}
@@ -2331,6 +2331,85 @@ p { margin:0; padding:9px 0 11px}
 .node_view_mode_event_blog_teaser .disqus_comments_num { padding-right: 0; padding-top: 36px; right: -1px;}
 /*.node_view_mode_event_blog_teaser .disqus_comments_num a { background-position: 0 -28px; font: 18px/20px Arial, Helvetica, sans-serif; color: #ffffff; height: 25px}*/
 
+
+.pane-event-days-panel-pane-1 { padding-top: 5px;}
+.pane-event-days-panel-pane-1 .pane-inner { margin: 0;}
+.pane-event-days-panel-pane-1 .views-accordion-header { padding-top: 10px; background: none; border: none; 
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+
+}
+.pane-event-days-panel-pane-1 .views-accordion-header .ui-icon { display: none;}
+.pane-event-days-panel-pane-1 .views-accordion-header a, 
+.pane-contest-blog-contest-full-pane h2.pane-title { background: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.pane-event-days-panel-pane-1 .views-accordion-header a:hover, 
+.pane-contest-blog-contest-full-pane h2.pane-title:hover { border-color: #3cbbeb; background: rgba(0,174,239,0.75); color: #ffffff; text-shadow: none; }
+.pane-event-days-panel-pane-1 .views-accordion-header a span.posted { float: right; padding-left: 15px;}
+.pane-event-days-panel-pane-1 .views-accordion-header a span.mdash:before { content: "—"; margin: 0 11px}
+.pane-event-days-panel-pane-1 .ui-accordion-content { background: none; border: none; padding: 0; overflow: hidden; text-align: center;
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+
+}
+.pane-event-days-panel-pane-1 .ui-accordion-content .item-list { margin: 0 10px; text-align: left;}
+.pane-event-days-panel-pane-1 .ui-accordion-content .item-list ul { margin: 0; padding: 0 0 30px;}
+.pane-event-days-panel-pane-1 .ui-accordion-content .item-list ul li { margin: 0 0 0 60px; padding: 10px 0 0; list-style: none; list-style-image: none; color: #656f77; font: 14px/20px Arial, Helvetica, sans-serif;}
+.pane-event-days-panel-pane-1 .ui-accordion-content .item-list ul li p { padding: 0; margin: 0;}
+.pane-event-days-panel-pane-1 .ui-accordion-content .item-list ul li span.posted { border: 1px solid #3cbbeb; background: rgba(0,174,239,0.75); display: inline-block; color: #ffffff; width: 48px; text-align: center; margin: -1px 0 0 -60px; float: left; font: bold 14px/16px Arial, Helvetica, sans-serif; padding: 3px 0;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+
+.pane-event-days-panel-pane-1 .field-name-field-image { margin:0 -3px 30px -2px; width:auto; text-align: left;}
+.pane-event-days-panel-pane-1 .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+.pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
+
+.pane-event-days-panel-pane-1 .views-field-field-day-results,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: inline-block; position: relative; margin: 31px 10px 10px;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label,
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { min-width: 98px; display: inline-block; background: rgba(0,135,239,1); border: 1px solid #0083e7;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label:hover,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
+
+.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label,
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content { background-color: rgba(173,193,210,1); border-color: #adc1d2}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .views-label:hover { background-color: rgba(173,193,210,0.5); border-color: #adc1d2}
+
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 3px 11px 7px; min-width: 76px; display: none;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { font: bold 14px/20px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a:hover,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a:hover { text-decoration: underline;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results img,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks img { display: none;}
+
+.pane-contest-blog-contest-full-pane .node_view_mode_event_blog_teaser { padding-left: 10px; padding-right: 10px;}
+.pane-contest-blog-contest-full-pane h2.pane-title { margin-top: 40px; margin-bottom: 12px;}
+.pane-contest-blog-contest-full-pane h2.pane-title + .pane-content { display: none;}
 
 
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
@@ -2717,61 +2796,6 @@ p { margin:0; padding:9px 0 11px}
 .pane-node-field-social-links .field-item a.google-icon { background-position:-64px 0}
 .pane-node-field-social-links .field-item a.youtube-icon { background-position:-96px 0}
 .pane-node-field-social-links .field-item a.vimeo-icon { background-position:-128px 0}
-
-/* Shares */
-.pane-share-links { padding-top:15px}
-.panel_info .pane-share-links .pane-content { margin:0}
-.pane-share-links p { margin:0 -2px 0 -5px; padding:0}
-.pane-share-links p > br { display:none}
-.pane-share-links p > span { display:inline-block; padding:0 0 0 5px; float:left}
-.pane-share-links p > span span.stButton { margin:0}
-.pane-share-links .stMainServices, .pane-share-links .stButton_gradient { background:url(../images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; margin-top:4px; border:none !important; width:50px !important; min-width:0 !important;
-
-	-webkit-border-radius: 0 !important; 
-	-moz-border-radius: 0 !important;
-	border-radius: 0 !important;
-
-
-}
-.pane-share-links .st_facebook_vcount .stMainServices { background-position:0 -96px !important; width:45px !important;}
-.pane-share-links .stButton .stBubble { height:37px !important; margin:0 !important; background-position:10px 33px; width:50px !important; background-image:url(http://w.sharethis.com/share4x/images/bubble_arrow_below.png)}
-.pane-share-links .stButton .stBubble_count { height:25px !important; font-size:14px !important; padding-top:7px !important; width:48px !important; background:#ffffff !important; border-color:#bbbbbb; color:#333333 !important}
-.pane-share-links .st_facebook_vcount .stBubble { width:45px !important}
-.pane-share-links .st_facebook_vcount .stBubble_count { width:43px !important}
-.pane-share-links .st_twitter_vcount .stMainServices { background-position:-45px -96px !important; width:59px !important}
-.pane-share-links .st_twitter_vcount .stBubble { width:59px !important}
-.pane-share-links .st_twitter_vcount .stBubble_count { width:57px !important}
-.pane-share-links .stButton_gradient span { display:none}
-.pane-share-links .st_googleplus_vcount .stButton .stButton_gradient { background-position:-104px -96px !important;}
-.pane-share-links .st_sharethis_vcount .stButton .stMainServices { background-position:-154px -96px !important; }
-
-/* Shares */
-.second_sidebar .small-pane-share-links { position:absolute; top:-40px; right:5px; background:none; border:none}
-.second_sidebar .small-pane-share-links .pane-content { margin:0}
-.second_sidebar .small-pane-share-links p { padding:0}
-.second_sidebar .small-pane-share-links p > span { vertical-align:top; display:inline-block; padding-right:5px;}
-.second_sidebar .small-pane-share-links p > span > span, .second_sidebar .small-pane-share-links p > span > div { vertical-align:top !important;}
-.small-pane-share-links .stButton { margin:0}
-.small-pane-share-links .stButton span { display:inline-block; vertical-align:top;}
-.small-pane-share-links .stButton .stArrow { background:url(http://w.sharethis.com/share4x/images/bubble_arrow.png) no-repeat 3px 7px !important;}
-.small-pane-share-links .stButton .stHBubble { margin-right:0 !important; height:14px; line-height:14px; border-color:#c1c1c1 !important; background:#ffffff !important}
-.small-pane-share-links .stButton .stBubble_hcount { height:14px; line-height:12px;}
-.small-pane-share-links .stMainServices, .small-pane-share-links .stButton > span > .stButton_gradient { background:url(../images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; border:none !important; width:50px !important; min-width:0 !important;
-
-	-webkit-border-radius: 0 !important; 
-	-moz-border-radius: 0 !important;
-	border-radius: 0 !important;
-
-
-}
-
-.small-pane-share-links .st_fblike_hcount > span { margin:0 !important}
-.small-pane-share-links .st_facebook_hcount .stMainServices { background-position:0 -96px !important; width:45px !important}
-.small-pane-share-links .st_twitter_hcount .stMainServices { background-position:-45px -96px !important; width:59px !important; vertical-align:top}
-.small-pane-share-links .st_sharethis_hcount .stMainServices { background-position:-154px -96px !important; }
-.small-pane-share-links .st_googleplus_hcount .stButton > span > .stButton_gradient  { background-position:-104px -96px !important;}
-.small-pane-share-links .stButton > span > .stButton_gradient span { display:none}
-
 
 
 	/* Details */
@@ -3625,6 +3649,11 @@ table tr td.:first-child { border-left: none;}
 .page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
 .page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}
 
+.view-paragliding-pilots-list-export {}
+.view-paragliding-pilots-list-export ul { margin: 0; padding: 0;}
+.view-paragliding-pilots-list-export ul li { margin: 0; padding: 0; list-style-type: none; list-style-image: none; border-top: 1px solid #e1e6e9}
+.view-paragliding-pilots-list-export .views-field { border-bottom: 1px solid #e1e6e9; border-left: 1px solid #e1e6e9; clear: both; overflow: hidden;}
+.view-paragliding-pilots-list-export .views-field > * { border-right: 1px solid #e1e6e9; display: block; float: left; padding: 3px 1% 4px; width: 48%; margin-right: -1px; line-height: 20px; min-height: 20px}
 
 /* Krumo */
 .krumo-root {

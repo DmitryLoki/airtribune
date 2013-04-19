@@ -68,7 +68,7 @@ class airtribune_unique_values_validator extends field_validation_validator {
     }
     if ($flag) {
       // See #2615#note-9.
-      $this->value = airtribune_get_awards_prize_categories($this->value);
+      $this->value = airtribune_prize_categories($this->value);
       $this->set_error();
     }
 

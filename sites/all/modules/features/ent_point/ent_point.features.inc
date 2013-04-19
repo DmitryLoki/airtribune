@@ -12,28 +12,7 @@ $items = array(
        'ent_point' => array(
   'name' => 'ent_point',
   'label' => 'point',
-  'properties' => array(
-    'title' => array(
-      'label' => 'Title',
-      'type' => 'text',
-      'behavior' => 'title',
-    ),
-    'uid' => array(
-      'label' => 'Author',
-      'type' => 'integer',
-      'behavior' => 'author',
-    ),
-    'created' => array(
-      'label' => 'Created',
-      'type' => 'integer',
-      'behavior' => 'created',
-    ),
-    'changed' => array(
-      'label' => 'Changed',
-      'type' => 'integer',
-      'behavior' => 'changed',
-    ),
-  ),
+  'properties' => array(),
 ),
   );
   return $items;

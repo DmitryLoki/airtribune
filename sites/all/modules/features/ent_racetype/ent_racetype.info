@@ -1,0 +1,8 @@
+name = Race type
+description = Race type entity
+core = 7.x
+package = Custom entities
+dependencies[] = eck
+dependencies[] = features
+features[eck_entity_type][] = ent_racetype
+features[features_api][] = api:1
