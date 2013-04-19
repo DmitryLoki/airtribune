@@ -1305,7 +1305,7 @@ function views_feature_views_default_views() {
   /* Display: Contest full pane */
   $handler = $view->new_display('panel_pane', 'Contest full pane', 'contest_full_pane');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Archive';
+  $handler->display->display_options['title'] = 'Preparation blog archive';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
@@ -1346,7 +1346,7 @@ function views_feature_views_default_views() {
     t('<strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title]</span><span class="view-more"><span>[nothing]</span></span></span>'),
     t('View panes'),
     t('Contest full pane'),
-    t('Archive'),
+    t('Preparation blog archive'),
     t('Items per page'),
     t('- All -'),
     t('Offset'),
@@ -1910,7 +1910,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['ui_name'] = 'Post date';
   $handler->display->display_options['fields']['created']['label'] = '';
   $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['created']['alter']['text'] = '[title] — [field_day_status] — [title_1] — [created]';
+  $handler->display->display_options['fields']['created']['alter']['text'] = '[title] — [title_1] — [created]';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
@@ -2036,7 +2036,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['ui_name'] = 'Post date';
   $handler->display->display_options['fields']['created']['label'] = '';
   $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['created']['alter']['text'] = '<span class="posted">[created]</span>[title][field_day_status][title_1]';
+  $handler->display->display_options['fields']['created']['alter']['text'] = '<span class="posted">[created]</span>[title][title_1]';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
@@ -2119,12 +2119,12 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('pg_contest'),
     t('pg_race'),
-    t('[title] — [field_day_status] — [title_1] — [created]'),
+    t('[title] — [title_1] — [created]'),
     t('All'),
     t('Content pane'),
     t('<span class="mdash">[field_day_status]</span>'),
     t('<span class="mdash">[title_1]</span>'),
-    t('<span class="posted">[created]</span>[title][field_day_status][title_1]'),
+    t('<span class="posted">[created]</span>[title][title_1]'),
     t('Results'),
     t('Tracks'),
     t('View panes'),
