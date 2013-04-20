@@ -45,8 +45,10 @@ jQuery(function($) {
     $(this).next().toggle().parents('.ui-accordion-content').toggleClass('files_list_down');
   })
 
-  
 
+  if(jQuery('.view-event-days .event-day').length < 2) {
+    $('.pane-contest-blog-contest-full-pane h2.pane-title').next().show();
+  }
   $('.pane-contest-blog-contest-full-pane h2.pane-title').click(function(){
     $(this).toggleClass('expanded').next().slideToggle()
   })
