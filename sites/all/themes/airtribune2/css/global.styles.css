@@ -2405,7 +2405,7 @@ p { margin:0; padding:9px 0 11px}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 3px 11px 7px; min-width: 76px; display: none;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content span,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span { display: block; text-transform: capitalize; }
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span { display: block; text-transform: capitalize;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { font: bold 14px/20px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a:hover,
