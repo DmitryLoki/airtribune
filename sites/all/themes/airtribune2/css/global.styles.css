@@ -2413,12 +2413,13 @@ p { margin:0; padding:9px 0 11px}
 .pane-event-days-panel-pane-1 .views-field-field-day-results img,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks img { display: none;}
 
-.pane-contest-blog-contest-full-pane .node_view_mode_event_blog_teaser { padding-left: 10px; padding-right: 10px;}
+/*.pane-contest-blog-contest-full-pane .node_view_mode_event_blog_teaser { padding-left: 10px; padding-right: 10px;}*/
 .pane-contest-blog-contest-full-pane h2.pane-title,
 .pane-contest-blog-contest-full-pane h2.pane-title.expanded:hover { margin-top: 0; margin-bottom: 12px; background-image: url(../images/archive_arrows.png); background-repeat: no-repeat; background-position: 100% -37px;}
 .pane-contest-blog-contest-full-pane h2.pane-title:hover,
 .pane-contest-blog-contest-full-pane h2.pane-title.expanded { background-position: 100% 13px}
 .pane-contest-blog-contest-full-pane h2.pane-title + .pane-content { display: none;}
+.pane-contest-blog-contest-full-pane h2.pane-title + .pane-content .field-name-field-image { margin-bottom: 15px;}
 
 
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
