@@ -2332,9 +2332,9 @@ p { margin:0; padding:9px 0 11px}
 /*.node_view_mode_event_blog_teaser .disqus_comments_num a { background-position: 0 -28px; font: 18px/20px Arial, Helvetica, sans-serif; color: #ffffff; height: 25px}*/
 
 
-.pane-event-days-panel-pane-1 { padding-top: 5px;}
+.pane-event-days-panel-pane-1 { margin-top: -1px; padding-bottom: 40px;}
 .pane-event-days-panel-pane-1 .pane-inner { margin: 0;}
-.pane-event-days-panel-pane-1 .views-accordion-header { padding-top: 10px; background: none; border: none; 
+.pane-event-days-panel-pane-1 .views-accordion-header { padding-top: 10px; background: none; border: none; margin-top: 0;
 
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2343,7 +2343,7 @@ p { margin:0; padding:9px 0 11px}
 }
 .pane-event-days-panel-pane-1 .views-accordion-header .ui-icon { display: none;}
 .pane-event-days-panel-pane-1 .views-accordion-header a, 
-.pane-contest-blog-contest-full-pane h2.pane-title { background: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer;
+.pane-contest-blog-contest-full-pane h2.pane-title { background-color: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer; color: #677581;
 
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -2351,7 +2351,7 @@ p { margin:0; padding:9px 0 11px}
 
 }
 .pane-event-days-panel-pane-1 .views-accordion-header a:hover, 
-.pane-contest-blog-contest-full-pane h2.pane-title:hover { border-color: #3cbbeb; background: rgba(0,174,239,0.75); color: #ffffff; text-shadow: none; }
+.pane-contest-blog-contest-full-pane h2.pane-title:hover { border-color: #3cbbeb; background-color: rgba(0,174,239,0.75); color: #ffffff; text-shadow: none; }
 .pane-event-days-panel-pane-1 .views-accordion-header a span.posted { float: right; padding-left: 15px;}
 .pane-event-days-panel-pane-1 .views-accordion-header a span.mdash:before { content: "—"; margin: 0 11px}
 .pane-event-days-panel-pane-1 .ui-accordion-content { background: none; border: none; padding: 0; overflow: hidden; text-align: center;
@@ -2361,6 +2361,9 @@ p { margin:0; padding:9px 0 11px}
   border-radius: 0;
 
 }
+.pane-event-days-panel-pane-1 .ui-accordion-content.files_list_down { overflow: visible !important;}
+
+.pane-event-days-panel-pane-1 .ui-accordion-content-inner { padding-top: 20px;}
 .pane-event-days-panel-pane-1 .ui-accordion-content .item-list { margin: 0 10px; text-align: left;}
 .pane-event-days-panel-pane-1 .ui-accordion-content .item-list ul { margin: 0; padding: 0 0 30px;}
 .pane-event-days-panel-pane-1 .ui-accordion-content .item-list ul li { margin: 0 0 0 60px; padding: 10px 0 0; list-style: none; list-style-image: none; color: #656f77; font: 14px/20px Arial, Helvetica, sans-serif;}
@@ -2373,12 +2376,13 @@ p { margin:0; padding:9px 0 11px}
 
 }
 
-.pane-event-days-panel-pane-1 .field-name-field-image { margin:0 -3px 30px -2px; width:auto; text-align: left;}
+.pane-event-days-panel-pane-1 .field-name-field-image { margin:0 -3px 27px -2px; width:auto; text-align: left; padding-top: 1px;}
+.pane-event-days-panel-pane-1 .view-content > div:last-child .field-name-field-image { margin-bottom: -2px;}
 .pane-event-days-panel-pane-1 .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
 
 .pane-event-days-panel-pane-1 .views-field-field-day-results,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: inline-block; position: relative; margin: 31px 10px 10px;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: inline-block; position: relative; margin: 11px 10px 9px;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .views-label,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label,
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content,
@@ -2400,6 +2404,8 @@ p { margin:0; padding:9px 0 11px}
 
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 3px 11px 7px; min-width: 76px; display: none;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content span,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span { display: block; text-transform: capitalize;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { font: bold 14px/20px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a:hover,
@@ -2408,9 +2414,10 @@ p { margin:0; padding:9px 0 11px}
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks img { display: none;}
 
 .pane-contest-blog-contest-full-pane .node_view_mode_event_blog_teaser { padding-left: 10px; padding-right: 10px;}
-.pane-contest-blog-contest-full-pane h2.pane-title { margin-top: 40px; margin-bottom: 12px;}
-.pane-contest-blog-contest-full-pane h2.pane-title + .pane-content { display: none;}
-
+.pane-contest-blog-contest-full-pane h2.pane-title,
+.pane-contest-blog-contest-full-pane h2.pane-title.expanded:hover { margin-top: 0; margin-bottom: 12px; background-image: url(../images/archive_arrows.png); background-repeat: no-repeat; background-position: 100% -37px;}
+.pane-contest-blog-contest-full-pane h2.pane-title:hover,
+.pane-contest-blog-contest-full-pane h2.pane-title.expanded { background-position: 100% 13px}
 
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
 

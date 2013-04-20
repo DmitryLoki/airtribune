@@ -60,6 +60,17 @@ if($row->field_field_image){
 
 }
 
+if ($fields['field_day_status']->content != t('Ok')) {
+  $fields['title']->content .= ' — ' . $fields['field_day_status']->content;
+}
+if ($fields['title_1']->content) {
+  $fields['title']->content .= ' — ' . $fields['title_1']->content;
+}
+if (date('Ymd') == date('Ymd', $fields['created']->raw)) {
+  $fields['created']->content = '<span class="posted">' . t('Today') . '</span>';
+}
+$fields['title']->content .= $fields['created']->content;
+unset($fields['field_day_status'], $fields['title_1'], $fields['created']);
 ?>
 
 <?php foreach ($fields as $id => $field): ?>
