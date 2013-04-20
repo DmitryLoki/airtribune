@@ -2418,8 +2418,6 @@ p { margin:0; padding:9px 0 11px}
 .pane-contest-blog-contest-full-pane h2.pane-title.expanded:hover { margin-top: 0; margin-bottom: 12px; background-image: url(../images/archive_arrows.png); background-repeat: no-repeat; background-position: 100% -37px;}
 .pane-contest-blog-contest-full-pane h2.pane-title:hover,
 .pane-contest-blog-contest-full-pane h2.pane-title.expanded { background-position: 100% 13px}
-.pane-contest-blog-contest-full-pane h2.pane-title + .pane-content { display: none;}
-
 
 .second_sidebar .block { position:relative; background:#fafbfc; border:1px solid #e1e6e9;
 
