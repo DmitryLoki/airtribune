@@ -2320,7 +2320,7 @@ p { margin:0; padding:9px 0 11px}
 
 .pane-contest-blog-contest-full-pane .pane-inner,
 .pane-contest-blog-next-contest .pane-inner { margin:0;}
-.node_view_mode_event_blog_teaser { margin:0 0 24px; padding:0 0 9px}
+.node_view_mode_event_blog_teaser { margin:0 0 10px; padding:0 0 9px}
 .node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
 .node_view_mode_event_blog_teaser > .clearfix { margin-left:0;}
 .node_view_mode_event_blog_teaser h1.node-title { font:24px/26px Arial, Helvetica, sans-serif; padding-bottom:8px; margin-right: 50px;}
