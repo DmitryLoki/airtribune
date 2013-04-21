@@ -2403,11 +2403,13 @@ p { margin:0; padding:9px 0 11px}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .views-label:hover { background-color: rgba(173,193,210,0.5); border-color: #adc1d2}
 
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 3px 11px 7px; min-width: 76px; display: none; z-index: 100;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content span,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span { display: block; text-transform: capitalize;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span { display: block; text-transform: capitalize; color: #677581; font: bold 14px/15px Arial, Helvetica, sans-serif; padding: 10px 0 5px;}
+.pane-event-days-panel-pane-1 .views-field-field-day-results .field-content span.file,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span.file { padding: 0;} 
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { font: bold 14px/20px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { color: #ffffff; text-decoration: none;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results .field-content a:hover,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a:hover { text-decoration: underline;}
 .pane-event-days-panel-pane-1 .views-field-field-day-results img,
