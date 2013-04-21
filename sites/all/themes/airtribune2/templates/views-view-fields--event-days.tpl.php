@@ -60,38 +60,43 @@ if($row->field_field_image){
 
 }
 
-
-if ($fields['field_day_status']->content != t('Ok')) {
-  $fields['title']->content .= ' — ' . $fields['field_day_status']->content;
-}
-if ($fields['title_1']->content) {
-  $fields['title']->content .= ' — ' . $fields['title_1']->content;
-}
-if (date('Ymd') == date('Ymd', $fields['created']->raw)) {
-  $fields['created']->content = '<span class="posted">' . t('Today') . '</span>';
-}
-$fields['title']->content .= $fields['created']->content;
-
-
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
+<?php if ($fields['field_day_status']->content != t('Ok')): ?>
+  <?php print ' — ' . $fields['field_day_status']->content; ?>
+<?php endif; ?>
+<?php if ($fields['title_1']->content): ?>
+  <?php print ' — ' . $fields['title_1']->content; ?>
+<?php endif; ?>
+<?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
+  <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
+<?php endif; ?>
+<?php print $fields['created']->content; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
-<span class="views-field views-field-field-day-results">
-  <span class="views-label"><?php print t('Results'); ?></span>
-  <span class="field-content">
-    <span><?php print t('Task results') ?></span>
-    <?php print $fields['field_day_results']->content; ?>
-    <span><?php print t('Competition results') ?></span>
-    <?php print $fields['field_competition_results']->content; ?>
+<?php if ($fields['field_day_results']->content || $fields['field_competition_results']->content): ?>
+  <span class="views-field views-field-field-day-results">
+    <span class="views-label"><?php print t('Results'); ?></span>
+    <span class="field-content">
+      <?php if ($fields['field_day_results']->content): ?>
+        <span><?php print t('Task results') ?></span>
+        <?php print $fields['field_day_results']->content; ?>
+      <?php endif; ?>
+      <?php if ($fields['field_competition_results']->content): ?>
+        <span><?php print t('Competition results') ?></span>
+        <?php print $fields['field_competition_results']->content; ?>
+      <?php endif; ?>
+    </span>
   </span>
-</span>
+<?php endif; ?>
 
-<?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
-<?php print $fields['field_pg_race_tracks']->label_html; ?>
-<?php print $fields['field_pg_race_tracks']->content; ?>
-<?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
+<?php if ($fields['field_pg_race_tracks']->raw): ?>
+  <?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
+  <?php print $fields['field_pg_race_tracks']->label_html; ?>
+  <?php print $fields['field_pg_race_tracks']->content; ?>
+  <?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
+<?php endif; ?>
 
 <?php print $fields['field_day_blog']->wrapper_prefix; ?>
 <?php print $fields['field_day_blog']->content; ?>
