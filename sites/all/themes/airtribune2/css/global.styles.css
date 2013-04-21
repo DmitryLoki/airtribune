@@ -2318,13 +2318,14 @@ p { margin:0; padding:9px 0 11px}
 .node .node-content h2 { margin:0 0 -2px; padding:7px 0 0; font:24px/26px Arial, Helvetica, sans-serif;}
 .node .node-content p + h2 { padding-top:36px}
 
-.pane-contest-blog-contest-full-pane .pane-inner { margin:0;}
+.pane-contest-blog-contest-full-pane .pane-inner,
+.pane-contest-blog-next-contest .pane-inner { margin:0;}
 .node_view_mode_event_blog_teaser { margin:0 0 24px; padding:0 0 9px}
 .node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
 .node_view_mode_event_blog_teaser > .clearfix { margin-left:0;}
 .node_view_mode_event_blog_teaser h1.node-title { font:24px/26px Arial, Helvetica, sans-serif; padding-bottom:8px; margin-right: 50px;}
 .node_view_mode_event_blog_teaser .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
-.node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
+body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
 .node_view_mode_event_blog_teaser .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item img { vertical-align:middle; border:none}
@@ -2362,6 +2363,7 @@ p { margin:0; padding:9px 0 11px}
 
 }
 .pane-event-days-panel-pane-1 .ui-accordion-content.files_list_down { overflow: visible !important;}
+.pane-event-days-panel-pane-1 .ui-accordion-content.files_list_down:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 
 .pane-event-days-panel-pane-1 .ui-accordion-content-inner { padding-top: 20px;}
 .pane-event-days-panel-pane-1 .ui-accordion-content .item-list { margin: 0 10px; text-align: left;}
@@ -2421,7 +2423,7 @@ p { margin:0; padding:9px 0 11px}
 .pane-contest-blog-contest-full-pane h2.pane-title:hover,
 .pane-contest-blog-contest-full-pane h2.pane-title.expanded { background-position: 100% 13px}
 
-.pane-contest-blog-contest-full-pane h2.pane-title + .pane-content .field-name-field-image { margin-bottom: 15px;}
+/*.pane-contest-blog-contest-full-pane h2.pane-title + .pane-content .field-name-field-image { margin-bottom: 15px;}*/
 
 
 
