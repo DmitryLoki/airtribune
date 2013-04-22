@@ -502,6 +502,34 @@ function airtribune_pages_callback($context) {
   }
 }
 
+
+function airtribune_node_save($node) {
+  airtribune_modify_event_date_include_last_day($node);
+}
+
+function airtribune_node_update($node) {
+  airtribune_modify_event_date_include_last_day($node);
+}
+
+/**
+ * Add one day (24h) to last date of event
+ *
+ * We have bad event save widget, without hours time ending, so after event save we have last
+ * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
+ * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ */
+function airtribune_modify_event_date_include_last_day(&$node) {
+  $dates_items = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
+  $end = strtotime($dates_items[0]['value2']);
+  if (date('H:i:s', $end) == '00:00:00') {
+    //$new_end = date_create($end, $dates_items[0]['timezone']);
+    //date_modify($new_end, '+1 day');
+    //date_modify($new_end, '-1 sec');
+    $end = $end + (3600 * 24 - 1); // 23:59:59
+  }
+  $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
+}
+
 function airtribune_views_post_execute(&$view) {
   if ($view->name == 'events_list' && $view->total_rows == 0) {
     if ($view->current_display == 'page_events_current') {
