@@ -3026,6 +3026,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
 .page-user .pane-page-content form .form-type-date-select .form-item { display: inline; position: static;}
 .page-user .pane-page-content form .form-type-date-select .form-item div { display: inline; /*position: relative;*/}
+.page-user .pane-page-content form .form-type-date-select .form-item > div { position: relative;}
 .page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
 .page-user .pane-page-content form .date-padding  { padding:0; float: none;}
 .page-user .pane-page-content form .date-padding .form-item { margin-top:6px; float: none; vertical-align: top;}
@@ -3055,6 +3056,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item-pass .password-strength,
 .page-user .pane-page-content form .form-type-password-confirm .password-strength { margin:0; width:auto; float:none; /*border:2px solid #95db3a;*/ }
 .page-user .pane-page-content form .form-item-pass .password-strength .password-strength-text { }
+.page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
 .page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
 .page-user .pane-page-content form .form-actions input, 
@@ -3125,7 +3127,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
 .page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 20px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
 .page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
 .page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option, .page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
 .page-user .pane-page-content form .date-month .checked_option { min-width:99px}
@@ -3204,7 +3206,7 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .form-item .ajax-progress .throbber { display: inline-block !important; float: none; position: absolute; margin-top: 7px;}
 .form-item .ajax-progress .message { margin-top: 4px;}
 .i18n-ru.page-user .pane-page-content form .form-type-date-select div.message,
-.i18n-ru.page-user .pane-page-content form .form-type-emailfield div.message { display: inline-block; line-height: 12px; margin-top: 0; vertical-align: middle; width: 130px;}
+.i18n-ru.page-user .pane-page-content form .form-type-emailfield div.message { display: inline-block; line-height: 12px; margin-top: 0; vertical-align: middle; width: 115px;}
 .form-item .ajax-progress div.throbber { position: absolute !important;}
 
 /* user avatar */
