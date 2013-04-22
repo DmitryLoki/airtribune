@@ -629,7 +629,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['uid']['table'] = 'users';
   $handler->display->display_options['fields']['uid']['field'] = 'uid';
   $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -679,7 +679,7 @@ function views_feature_views_default_views() {
     6 => '6',
   );
   $handler->display->display_options['filters']['rid']['group'] = 1;
-  /* Filter criterion: Profile: Name */
+  /* Filter criterion: Field: Name */
   $handler->display->display_options['filters']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['filters']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['filters']['field_full_name']['field'] = 'field_full_name';
@@ -3620,6 +3620,10 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartypenobg'] = 0;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  /* Relationship: OG membership: OG membership from Featured header */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
@@ -3642,11 +3646,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Field: Groups audience (og_group_ref) */
-  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
-  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
-  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
-  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+  /* Filter criterion: OG membership: Group ID */
+  $handler->display->display_options['filters']['gid']['id'] = 'gid';
+  $handler->display->display_options['filters']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['gid']['field'] = 'gid';
+  $handler->display->display_options['filters']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['gid']['operator'] = 'empty';
 
   /* Display: Front page header */
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
@@ -3680,6 +3685,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
 
   /* Display: Event header */
@@ -3696,6 +3702,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
@@ -3724,12 +3731,12 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('OG membership from ent_featured_header'),
     t('Photo by'),
     t('Default header'),
     t('View panes'),
     t('Front page header'),
     t('Event header'),
-    t('OG membership from ent_featured_header'),
     t('All'),
   );
   $export['header_slideshow'] = $view;
@@ -4022,7 +4029,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -4223,7 +4230,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -4458,7 +4465,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -4771,7 +4778,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -5135,7 +5142,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -5397,7 +5404,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Profile: Name */
+  /* Field: Field: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
