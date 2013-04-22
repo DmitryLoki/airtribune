@@ -63,7 +63,7 @@ if($row->field_field_image){
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
-<?php if ($fields['field_day_status']->content != t('Ok')): ?>
+<?php if ($fields['field_day_status']->content != 'Ok'): ?>
   <?php print ' — ' . $fields['field_day_status']->content; ?>
 <?php endif; ?>
 <?php if ($fields['title_1']->content): ?>
