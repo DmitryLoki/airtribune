@@ -25,7 +25,7 @@ function pg_racetypes_eck_bundle_info() {
   'machine_name' => 'ent_racetype_pg_racetype_sr',
   'entity_type' => 'ent_racetype',
   'name' => 'pg_racetype_sr',
-  'label' => 'Paragliding race (Speed Run)',
+  'label' => 'Paragliding race (Elapsed Time)',
 ),
   );
   return $items;
