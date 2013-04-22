@@ -91,7 +91,7 @@ if($row->field_field_image){
   </span>
 <?php endif; ?>
 
-<?php if ($fields['field_pg_race_tracks']->raw): ?>
+<?php if (!empty($fields['field_pg_race_tracks'])): ?>
   <?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
   <?php print $fields['field_pg_race_tracks']->label_html; ?>
   <?php print $fields['field_pg_race_tracks']->content; ?>
