@@ -502,23 +502,19 @@ function airtribune_pages_callback($context) {
   }
 }
 
-
-function airtribune_node_save($node) {
-  airtribune_modify_event_date_include_last_day($node);
-}
-
-function airtribune_node_update($node) {
-  airtribune_modify_event_date_include_last_day($node);
-}
-
 /**
- * Add one day (24h) to last date of event
+ * Add 24h to last day of event
  *
- * We have bad event save widget, without hours time ending, so after event save we have last
+ * We have bad event datetime widget, without hours time ending, so after event save we have last
  * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
  * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ *
+ * @see #3077
  */
-function airtribune_modify_event_date_include_last_day(&$node) {
+function airtribune_node_presave($node) {
+  if ($node->type != 'pg_contest') {
+    return;
+  }
   $dates_items = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
   $end = strtotime($dates_items[0]['value2']);
   if (date('H:i:s', $end) == '00:00:00') {
