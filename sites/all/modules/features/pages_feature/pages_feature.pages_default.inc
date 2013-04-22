@@ -1916,8 +1916,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'php',
           'settings' => array(
             'description' => 'Temporary lock past events',
-            'php' => 'if (isset($contexts[\'context_airtribune_event_1\']->data)) {
-  $node = $contexts[\'context_airtribune_event_1\']->data;
+            'php' => 'if (isset($contexts[\'argument_entity_id:node_1\']->data)) {
+  $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
   if (($start - $end) < 0) {
@@ -2404,8 +2404,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'php',
           'settings' => array(
             'description' => 'Temporary lock past events',
-            'php' => 'if (isset($contexts[\'context_airtribune_event_1\']->data)) {
-  $node = $contexts[\'context_airtribune_event_1\']->data;
+            'php' => 'if (isset($contexts[\'argument_entity_id:node_1\']->data)) {
+  $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
   if (($start - $end) < 0) {
@@ -4429,8 +4429,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'php',
           'settings' => array(
             'description' => '',
-            'php' => 'if (isset($contexts[\'context_airtribune_event_1\']->data)) {
-  $node = $contexts[\'context_airtribune_event_1\']->data;
+            'php' => 'if (isset($contexts[\'argument_entity_id:node_1\']->data)) {
+  $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
   if (($start - $end) < 0) {
