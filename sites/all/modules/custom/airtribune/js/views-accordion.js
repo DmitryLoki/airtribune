@@ -22,7 +22,7 @@ Drupal.behaviors.views_accordion = {
             // if the header is not already using an anchor tag, add one
             if ($link.length == 0) {
               // setup anchor tag for navigation
-              $this.wrapInner('<a href="' + hash + '"></a>');
+              $this.wrapInner('<a href="' + hash + '" rel="nofollow"></a>');
             }
             // if there are already, they wont be clickable with js enabled, we'll use them for accordion navigation
             else {
