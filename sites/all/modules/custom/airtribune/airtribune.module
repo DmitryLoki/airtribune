@@ -576,3 +576,15 @@ function airtribune_event_check_date_status($start_date, $end_date) {
   elseif ($now >= $start_date && $now <= $end_date) return 'current';
   elseif ($now > $end_date) return 'past';
 }
+
+
+/**
+ * Implements hook_js_alter().
+ */
+function airtribune_js_alter(&$javascript) {
+  // See #3098-1.
+  $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
+  if (isset($javascript[$accodion_js])) {
+    $javascript[$accodion_js]['data'] = drupal_get_path('module', 'airtribune') . '/js/views-accordion.js';
+  }
+}
