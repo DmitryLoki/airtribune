@@ -629,7 +629,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['uid']['table'] = 'users';
   $handler->display->display_options['fields']['uid']['field'] = 'uid';
   $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -679,7 +679,7 @@ function views_feature_views_default_views() {
     6 => '6',
   );
   $handler->display->display_options['filters']['rid']['group'] = 1;
-  /* Filter criterion: Field: Name */
+  /* Filter criterion: Profile: Name */
   $handler->display->display_options['filters']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['filters']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['filters']['field_full_name']['field'] = 'field_full_name';
@@ -1984,6 +1984,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_label_type'] = 'span';
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_wrapper_type'] = 'span';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_race_tracks']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_pg_race_tracks']['click_sort_column'] = 'fid';
   /* Field: Images */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
@@ -2788,9 +2790,17 @@ function views_feature_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No events found';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Field: NID (excluded) */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -3165,13 +3175,7 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
+    t('No events found'),
     t('event/[nid]'),
     t('<span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Past'),
@@ -4029,7 +4033,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -4230,7 +4234,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -4465,7 +4469,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -4778,7 +4782,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -5142,7 +5146,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
@@ -5404,7 +5408,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Field: Name */
+  /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
