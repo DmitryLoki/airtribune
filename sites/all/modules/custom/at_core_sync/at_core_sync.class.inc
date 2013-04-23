@@ -1,5 +1,8 @@
 <?
 
+/**
+ * Abstract class with commin synchronisation functions
+ */
 abstract class ATSync {
     public $entity;
     public $entity_type;
@@ -61,7 +64,10 @@ abstract class ATSync {
     abstract public function onDelete();
 }
 
-class ContestSync extends ATSync {
+/**
+ * Class for synchronization pg_contest
+ */
+class ATSyncContest extends ATSync {
   public $address = "contest";
   public function onInsert(){
     $node = $this->entity;
@@ -81,11 +87,11 @@ class ContestSync extends ATSync {
   }
   public function onUpdate(){
     $node = $this->entity;
-    
+
     if(empty($node->field_core_id['und'][0]['value'])) {
       return $this->onInsert();
     }
-    
+
     $id = $node->field_core_id['und'][0]['value'];
     $this->address .= '/' . $id;
     $data = array(
@@ -97,7 +103,7 @@ class ContestSync extends ATSync {
       'country' => $node->field_country['und'][0]['iso2'],
       'timezone' => $node->field_dates['und'][0]['timezone'],
     );
-    
+
     $response = $this->request($data, "PUT");
     drupal_set_message(print_r($response, TRUE));
   }
@@ -106,20 +112,10 @@ class ContestSync extends ATSync {
   }
 }
 
-class UserSync extends ATSync {
-  public $address = "person";
-  public function onInsert(){
-    // insert code
-  }
-  public function onUpdate(){
-    // update code
-  }
-  public function onDelete(){
-    // delete code
-  }
-}
-
-class PersonSync extends ATSync {
+/**
+ * Returns synchronization class
+ */
+class ATSyncPilot extends ATSync {
   public $address = "person";
   public function onInsert(){
     // insert code
