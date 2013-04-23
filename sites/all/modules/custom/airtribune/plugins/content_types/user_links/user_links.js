@@ -29,8 +29,8 @@ jQuery(function ($) {
         var li = flagDropItem.find('li'),
             languagesPerRow = 4,
             liHeight = li.outerHeight() + parseInt(li.css('margin-bottom'), 10),
-            rowsOfLanguagesCount = Math.floor(li.length / languagesPerRow) + 1,
-            height = liHeight * rowsOfLanguagesCount + topOffset;
+            rowsOfLanguagesCount = Math.ceil(li.length / languagesPerRow),
+            height = liHeight * rowsOfLanguagesCount + 50;
         flagDropItem.height(height);
     }
 

@@ -136,7 +136,7 @@ hide($content['disqus']);
 
   <?php if(!$event_blog && (!empty($user_picture) || $display_submitted)): ?>
     <footer<?php print $footer_attributes; ?>>
-      <?php print '<div class="author">'.t('by !name', array('!name' => $name)).'</div>';?>
+      <?php print '<div class="author">'.t('by !name', array('!name' => $full_name)).'</div>';?>
       <?php print $user_picture; ?>
       <!--p class="author-datetime"><?php print $submitted; ?></p-->
     </footer>
