@@ -37,7 +37,7 @@ Drupal.behaviors.views_accordion = {
               $this.siblings().wrapAll('<div></div>');
             }
           });
-          var activePane = getDayFromHash() || this.rowstartopen;
+          var activePane = Drupal.behaviors.views_accordion.getDayFromHash() || this.rowstartopen;
           /* jQuery UI accordion call */
           var accordionElement = $(displaySelector + ':not(.ui-accordion)');
           accordionElement.accordion({
@@ -51,32 +51,29 @@ Drupal.behaviors.views_accordion = {
             navigation: this.navigation,
             clearstyle: this.clearstyle,
             change: function() {
-             updateHash($(this).data('accordion'));
+              Drupal.behaviors.views_accordion.updateHash($(this).data('accordion'));
             }
           });
-          updateHash(accordionElement.data('accordion'));
+          Drupal.behaviors.views_accordion.updateHash(accordionElement.data('accordion'));
         });
       })(jQuery);
-
-      function updateHash(accordion) {
-        //if there is active page - set hash with its
-        if(accordion.active.length !== 0) {
-          location.hash = accordion.active.find('a').attr('href');
-        } else {
-          location.hash = '#!';
-        }
-      }
-
-      //get day number from url hash
-      function getDayFromHash() {
-        var hash = location.hash.match(/day_\d+$/);
-        if(hash !== null) {
-          return parseInt(hash, 10);
-        } else if(location.hash === '#!') {
-          return -1;
-        }
-        return undefined;
-      }
+    }
+  },
+  getDayFromHash: function() {
+    var hash = location.hash.match(/day_\d+$/);
+    if(hash !== null) {
+      return parseInt(hash, 10);
+    } else if(location.hash === '#!') {
+      return -1;
+    }
+    return undefined;
+  },
+  updateHash: function(accordion) {
+    //if there is active page - set hash with its
+    if(accordion.active.length !== 0) {
+      location.hash = accordion.active.find('a').attr('href');
+    } else {
+      location.hash = '#!';
     }
   }
 };
