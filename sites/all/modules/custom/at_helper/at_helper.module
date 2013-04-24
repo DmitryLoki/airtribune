@@ -309,6 +309,34 @@ function at_helper_field_widget_form_alter(&$element, &$form_state, $context) {
         break;
     }
   }
+  
+  if (!empty($element['#field_name'])) {
+    switch ($element['#field_name']) {
+      case AIRTRIBUNE_RACE_START_END_FIELD :
+      case AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD :
+        $element['#after_build'] = array('_at_helper_race_time_after_build');
+        break;
+    }
+  }
+}
+
+/**
+ * Change date components labels.
+ */
+function _at_helper_race_time_after_build($element, $form_state) {
+  $labels = array(
+    AIRTRIBUNE_RACE_START_END_FIELD => array(
+      'value' => t('Start time'),
+      'value2' => t('Task deadline time'),
+    ),
+    AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD => array(
+      'value' => t('Window open time'),
+      'value2' => t('Window close time'),
+    ),
+  );
+  $element['value']['#title'] = $labels[$element['#field_name']]['value'];
+  $element['value2']['#title'] = $labels[$element['#field_name']]['value2'];
+  return $element;
 }
 
 /**
@@ -346,6 +374,7 @@ function _at_helper_datefield_after_build($element, $form_state) {
   );
   return $element;
 }
+
 
 /**
  * Add #required asterisk to name field components.

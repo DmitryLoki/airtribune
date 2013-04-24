@@ -35,6 +35,8 @@ define('AIRTRIBUNE_POINTS_FILE_FIELD', 'field_points_file');
 define('AIRTRIBUNE_REGISTRATION_SW_FIELD', 'field_registration_sw');
 define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
+define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
+define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -531,31 +533,26 @@ function airtribune_modify_event_date_include_last_day(&$node) {
 }
 
 /**
- * Redirect on from /events to needed page
- * 
- * @see #3067
- */
-function airtribune_views_post_execute(&$view) {
-  if ($view->name == 'events_list' && empty($view->result)) {
-    if ($view->current_display == 'page_events_current') {
-      drupal_goto('events/next');
-    }
-    elseif ($view->current_display == 'page_events_next') {
-      drupal_goto('events/past');
-    }
-    elseif ($view->current_display == 'page_events_past') {
-      // show 'no results behavior' self by view
-    }
-  }
-}
-
-/**
  * Implements hook_init().
  */
 function airtribune_init() {
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
+  }
+  // Redirect on from /events to needed page, based on next/current events count
+  // see #3067
+  if (arg(0) == 'events' && arg(1) == null) {
+    $events = airtribune_get_events_nids_with_date_status();
+    if (count($events['current']) > 0) {
+      drupal_goto('events/current');
+    }
+    elseif (count($events['next']) > 0) {
+      drupal_goto('events/next');
+    }
+    else {
+      drupal_goto('events/past');
+    }
   }
 }
 
@@ -576,3 +573,44 @@ function airtribune_event_check_date_status($start_date, $end_date) {
   elseif ($now >= $start_date && $now <= $end_date) return 'current';
   elseif ($now > $end_date) return 'past';
 }
+
+/**
+ * Get all events nids with date status
+ *
+ * @return array with [ past | current | next ] events nids without checking on publish status
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_get_events_nids_with_date_status() {
+  $now = date('d.m.Y', REQUEST_TIME);
+
+  $result = array();
+
+  $past_events = db_select('field_data_field_dates', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.field_dates_value2', $now, '<')
+    ->execute();
+  foreach ($past_events as $item) {
+    $result['past'][] = $item->entity_id;
+  }
+
+  $current_events = db_select('field_data_field_dates', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.field_dates_value', $now, '<=')
+    ->condition('d.field_dates_value2', $now, '>=')
+    ->execute();
+  foreach ($current_events as $item) {
+    $result['current'][] = $item->entity_id;
+  }
+
+  $next_events = db_select('field_data_field_dates', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.field_dates_value', $now, '>')
+    ->execute();
+  foreach ($next_events as $item) {
+    $result['next'][] = $item->entity_id;
+  }
+
+  return $result;
+}
+
