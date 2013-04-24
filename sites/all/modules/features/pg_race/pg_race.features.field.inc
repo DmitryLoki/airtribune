@@ -476,7 +476,7 @@ function pg_race_field_default_fields() {
       'entity_type' => 'ent_race',
       'exclude_cv' => 0,
       'field_name' => 'field_pg_race_window_open_close',
-      'label' => 'Race window open-close',
+      'label' => 'Take-off time period',
       'required' => 1,
       'settings' => array(
         'default_value' => 'now',
@@ -674,7 +674,7 @@ function pg_race_field_default_fields() {
       'entity_type' => 'ent_race',
       'exclude_cv' => 0,
       'field_name' => 'field_race_start_end',
-      'label' => 'Race start-finish',
+      'label' => 'Race time period',
       'required' => 1,
       'settings' => array(
         'default_value' => 'now',
@@ -825,8 +825,8 @@ function pg_race_field_default_fields() {
   t('Groups audience');
   t('Paragliding Race Type reference');
   t('Race Tracks');
-  t('Race start-finish');
-  t('Race window open-close');
+  t('Race time period');
+  t('Take-off time period');
 
   return $fields;
 }
