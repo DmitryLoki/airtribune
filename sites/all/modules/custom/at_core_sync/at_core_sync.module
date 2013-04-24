@@ -20,8 +20,9 @@ function _get_class_by_entity($entity, $type) {
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
     'user' => 'ATSyncPilot',
+    'ent_race:pg_race' => 'ATSyncRace',
   );
-
+  drupal_set_message($tmp);
   if(!empty($classes[$tmp])) {
     $class = $classes[$tmp];
     return new $class($entity, $entity->type);

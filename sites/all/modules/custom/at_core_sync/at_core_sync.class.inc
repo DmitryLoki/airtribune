@@ -8,20 +8,13 @@ abstract class ATSync {
     public $entity_type;
     public $id = FALSE;
     public $address = FALSE;
-    public $domain = "http://airtribune.com/";
+    public $domain = "http://api.airtribune.com/v0.1/";
     public $port = 8085;
     public function __construct($entity, $entity_type) {
         $this->entity = $entity;
         $this->entity_type = $entity_type;
     }
     public function request($data, $method = "POST"){
-      /*$options = array(
-        "method" => $method,
-        "data" => http_build_query($data),
-      );
-      drupal_set_message(print_r($options, TRUE));
-      $result = drupal_http_request("http://airtribune.com:8085/contest", $options);
-      return json_decode($result->data);*/
       $handle = curl_init();
       $url = $this->domain . $this->address;
       curl_setopt($handle, CURLOPT_URL, $url);
@@ -61,7 +54,6 @@ abstract class ATSync {
     }
     abstract public function onInsert();
     abstract public function onUpdate();
-    abstract public function onDelete();
 }
 
 /**
@@ -81,8 +73,7 @@ class ATSyncContest extends ATSync {
       'timezone' => $node->field_dates['und'][0]['timezone'],
     );
     $response = $this->request($data);
-    $id = $response->id;    
-    drupal_set_message(print_r($response, TRUE));
+    $id = $response->id;
     $this->updateCoreID($id);
   }
   public function onUpdate(){
@@ -107,13 +98,10 @@ class ATSyncContest extends ATSync {
     $response = $this->request($data, "PUT");
     drupal_set_message(print_r($response, TRUE));
   }
-  public function onDelete(){
-    // delete code
-  }
 }
 
 /**
- * Returns synchronization class
+ * Class for synchronization pilot
  */
 class ATSyncPilot extends ATSync {
   public $address = "person";
@@ -123,7 +111,17 @@ class ATSyncPilot extends ATSync {
   public function onUpdate(){
     // update code
   }
-  public function onDelete(){
-    // delete code
+}
+
+/**
+ * Class for synchronization race
+ */
+class ATSyncRace extends ATSync {
+  public $address = "contest/";
+  public function onInsert(){
+    // insert code
+  }
+  public function onUpdate(){
+    // update code
   }
 }
