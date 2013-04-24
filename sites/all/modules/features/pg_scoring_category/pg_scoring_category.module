@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Scoring category feature.
+ */
+
+include_once 'pg_scoring_category.features.inc';
