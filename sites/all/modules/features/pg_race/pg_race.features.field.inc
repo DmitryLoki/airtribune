@@ -412,6 +412,99 @@ function pg_race_field_default_fields() {
     ),
   );
 
+  // Exported field: 'ent_race-pg_race-field_pg_race_window_open_close'.
+  $fields['ent_race-pg_race-field_pg_race_window_open_close'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_pg_race_window_open_close',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 'hour',
+          'minute' => 'minute',
+          'month' => 0,
+          'second' => 'second',
+          'year' => 'year',
+        ),
+        'profile2_private' => FALSE,
+        'timezone_db' => 'UTC',
+        'todate' => 'optional',
+        'tz_handling' => 'site',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'default_value' => array(),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => 9,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_race',
+      'exclude_cv' => 0,
+      'field_name' => 'field_pg_race_window_open_close',
+      'label' => 'Race window open-close',
+      'required' => 1,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'custom',
+          'input_format_custom' => 'H:i:s',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_text',
+        'weight' => '9',
+      ),
+    ),
+  );
+
   // Exported field: 'ent_race-pg_race-field_pg_racetype_ref'.
   $fields['ent_race-pg_race-field_pg_racetype_ref'] = array(
     'field_config' => array(
@@ -513,6 +606,99 @@ function pg_race_field_default_fields() {
         ),
         'type' => 'entityreference_autocomplete',
         'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'ent_race-pg_race-field_race_start_end'.
+  $fields['ent_race-pg_race-field_race_start_end'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_race_start_end',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 'hour',
+          'minute' => 'minute',
+          'month' => 0,
+          'second' => 'second',
+          'year' => 'year',
+        ),
+        'profile2_private' => FALSE,
+        'timezone_db' => 'UTC',
+        'todate' => 'optional',
+        'tz_handling' => 'site',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'default_value' => array(),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => 8,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_race',
+      'exclude_cv' => 0,
+      'field_name' => 'field_race_start_end',
+      'label' => 'Race start-finish',
+      'required' => 1,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'custom',
+          'input_format_custom' => 'H:i:s',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_text',
+        'weight' => '8',
       ),
     ),
   );
@@ -639,6 +825,8 @@ function pg_race_field_default_fields() {
   t('Groups audience');
   t('Paragliding Race Type reference');
   t('Race Tracks');
+  t('Race start-finish');
+  t('Race window open-close');
 
   return $fields;
 }
