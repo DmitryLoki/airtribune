@@ -1,0 +1,6 @@
+name = Airtribune Paragliding Race
+description = Provides points widget. To be refactored.
+package = Airtribune
+core = 7.x
+
+dependencies[] = entity
