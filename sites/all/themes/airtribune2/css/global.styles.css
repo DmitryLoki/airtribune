@@ -3675,3 +3675,12 @@ table tr td.:first-child { border-left: none;}
 .krumo-root {
   color: #000; text-align: left;
 }
+
+.view-contest-scoring-categories .views-row-odd .views-field-field-single-image {
+  float: left;
+  margin-right: 2em;
+}
+.view-contest-scoring-categories .views-row-even .views-field-field-single-image {
+  float: right;
+  margin-left: 2em;
+}

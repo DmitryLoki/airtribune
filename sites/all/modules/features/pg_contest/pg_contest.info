@@ -74,6 +74,7 @@ features[field][] = node-pg_contest-field_points_file
 features[field][] = node-pg_contest-field_position
 features[field][] = node-pg_contest-field_prizes
 features[field][] = node-pg_contest-field_registration_sw
+features[field][] = node-pg_contest-field_results_summary
 features[field][] = node-pg_contest-field_sample_schedule
 features[field][] = node-pg_contest-field_schedule
 features[field][] = node-pg_contest-field_selection
