@@ -25,6 +25,7 @@ features[variable][] = ant_pattern_pg_contest
 features[variable][] = ant_pattern_pg_race
 features[variable][] = ant_pattern_pg_scoring_category
 features[variable][] = ant_pg_race
+features[variable][] = ant_pg_scoring_category
 features[variable][] = ant_php_accommodation
 features[variable][] = ant_php_advert
 features[variable][] = ant_php_newsblog
