@@ -1387,6 +1387,153 @@ function views_feature_views_default_views() {
   $export['contest_blog'] = $view;
 
   $view = new view();
+  $view->name = 'contest_scoring_categories';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Contest scoring categories';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['distinct'] = TRUE;
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: OG membership from node */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'OG membership from node';
+  /* Relationship: Results file */
+  $handler->display->display_options['relationships']['field_results_ref_target_id']['id'] = 'field_results_ref_target_id';
+  $handler->display->display_options['relationships']['field_results_ref_target_id']['table'] = 'field_data_field_results_ref';
+  $handler->display->display_options['relationships']['field_results_ref_target_id']['field'] = 'field_results_ref_target_id';
+  $handler->display->display_options['relationships']['field_results_ref_target_id']['ui_name'] = 'Results file';
+  $handler->display->display_options['relationships']['field_results_ref_target_id']['label'] = 'Results file';
+  /* Field: Content: Winners photo */
+  $handler->display->display_options['fields']['field_single_image']['id'] = 'field_single_image';
+  $handler->display->display_options['fields']['field_single_image']['table'] = 'field_data_field_single_image';
+  $handler->display->display_options['fields']['field_single_image']['field'] = 'field_single_image';
+  $handler->display->display_options['fields']['field_single_image']['label'] = '';
+  $handler->display->display_options['fields']['field_single_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_single_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_single_image']['type'] = 'colorbox';
+  $handler->display->display_options['fields']['field_single_image']['settings'] = array(
+    'colorbox_node_style' => 'medium',
+    'colorbox_image_style' => 'large',
+    'colorbox_gallery' => 'field_page',
+    'colorbox_gallery_custom' => '',
+    'colorbox_caption' => 'auto',
+    'colorbox_caption_custom' => '',
+  );
+  $handler->display->display_options['fields']['field_single_image']['group_column'] = 'entity_id';
+  $handler->display->display_options['fields']['field_single_image']['group_columns'] = array(
+    'fid' => 'fid',
+  );
+  /* Field: Content: Scoring category */
+  $handler->display->display_options['fields']['field_pg_scoring_category']['id'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['table'] = 'field_data_field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['field'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['label'] = '';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_pg_scoring_category']['element_default_classes'] = FALSE;
+  /* Field: Content: Results winners */
+  $handler->display->display_options['fields']['field_results_winners']['id'] = 'field_results_winners';
+  $handler->display->display_options['fields']['field_results_winners']['table'] = 'field_data_field_results_winners';
+  $handler->display->display_options['fields']['field_results_winners']['field'] = 'field_results_winners';
+  $handler->display->display_options['fields']['field_results_winners']['label'] = '';
+  $handler->display->display_options['fields']['field_results_winners']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_results_winners']['settings'] = array(
+    'link' => 0,
+  );
+  $handler->display->display_options['fields']['field_results_winners']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_results_winners']['multi_type'] = 'ol';
+  /* Field: Content: Results story */
+  $handler->display->display_options['fields']['field_results_story']['id'] = 'field_results_story';
+  $handler->display->display_options['fields']['field_results_story']['table'] = 'field_data_field_results_story';
+  $handler->display->display_options['fields']['field_results_story']['field'] = 'field_results_story';
+  $handler->display->display_options['fields']['field_results_story']['label'] = '';
+  $handler->display->display_options['fields']['field_results_story']['element_label_colon'] = FALSE;
+  /* Field: File: Name */
+  $handler->display->display_options['fields']['filename']['id'] = 'filename';
+  $handler->display->display_options['fields']['filename']['table'] = 'file_managed';
+  $handler->display->display_options['fields']['filename']['field'] = 'filename';
+  $handler->display->display_options['fields']['filename']['relationship'] = 'field_results_ref_target_id';
+  $handler->display->display_options['fields']['filename']['label'] = '';
+  $handler->display->display_options['fields']['filename']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['filename']['link_to_file'] = TRUE;
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_scoring_category' => 'pg_scoring_category',
+  );
+
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'results_pane');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'panel',
+      'context' => 'entity:node.members--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'OG membership: Group ID',
+    ),
+  );
+  $translatables['contest_scoring_categories'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('OG membership from node'),
+    t('Results file'),
+    t('All'),
+    t('Content pane'),
+    t('View panes'),
+  );
+  $export['contest_scoring_categories'] = $view;
+
+  $view = new view();
   $view->name = 'event_accommodations';
   $view->description = '';
   $view->tag = 'default';
