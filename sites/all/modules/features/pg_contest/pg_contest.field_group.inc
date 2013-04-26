@@ -23,10 +23,10 @@ function pg_contest_field_group_info() {
     'label' => 'Contacts',
     'weight' => '33',
     'children' => array(
-      0 => 'field_position',
+      0 => 'field_contacts_name',
       1 => 'field_contacts_email',
-      2 => 'field_contacts_name',
-      3 => 'field_contacts_phone',
+      2 => 'field_contacts_phone',
+      3 => 'field_position',
     ),
     'format_type' => 'field_group_multiple_table',
     'format_settings' => array(
@@ -81,6 +81,35 @@ function pg_contest_field_group_info() {
     ),
   );
   $export['group_contacts|node|pg_contest|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_results|node|pg_contest|form';
+  $field_group->group_name = 'group_results';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'pg_contest';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Results',
+    'weight' => '35',
+    'children' => array(
+      0 => 'field_results_summary',
+      1 => 'field_results_title',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Results',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'classes' => 'group-results field-group-fieldset ',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_results|node|pg_contest|form'] = $field_group;
 
   return $export;
 }
