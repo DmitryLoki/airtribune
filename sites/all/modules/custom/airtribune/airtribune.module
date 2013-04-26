@@ -420,7 +420,7 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
  * Geo distance sorting
  * Implementation of hook_views_query_alter
  * @param type $view
- * @param type $query 
+ * @param type $query
  */
 function airtribune_views_query_alter(&$view, &$query) {
   if ($view->name == 'next_events') {
@@ -448,7 +448,7 @@ function airtribune_views_query_alter(&$view, &$query) {
       $query->add_orderby('distance', 'distance');
       $tmp = $view->query->orderby[1];
       $view->query->orderby[1] = $view->query->orderby[2];
-      $view->query->orderby[2] = $tmp; 
+      $view->query->orderby[2] = $tmp;
     }
   }
   // Prevent HQ duplication.
@@ -478,10 +478,7 @@ function airtribune_pages_callback($context) {
 
   $node = $context->data;
 
-  $start = strtotime($node->field_dates['und'][0]['value']);
-  $end = strtotime($node->field_dates['und'][0]['value2']);
-
-  $event_date_status = airtribune_event_check_date_status($start, $end);
+  $event_date_status = airtribune_event_status_check_by_date($node);
   if ($event_date_status == 'next') {
     menu_set_active_item('event/'.$node->nid.'/info');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
@@ -493,7 +490,7 @@ function airtribune_pages_callback($context) {
     return page_manager_page_execute('event_blog', $context);
   }
   elseif ($event_date_status == 'past') {
-  // at this moment we haven't results menu/page/breadcrumbs
+    // at this moment we haven't results menu/page/breadcrumbs
     // use 'next event' strategy
     menu_set_active_item('event/'.$node->nid.'/info');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
@@ -542,7 +539,7 @@ function airtribune_init() {
   }
   // Redirect on from /events to needed page, based on next/current events count
   // see #3067
-  if (arg(0) == 'events' && arg(1) == null) {
+  if (arg(0) == 'events' && arg(1) == NULL) {
     $events = airtribune_get_events_nids_with_date_status();
     if (count($events['current']) > 0) {
       drupal_goto('events/current');
@@ -557,18 +554,60 @@ function airtribune_init() {
 }
 
 /**
- * Check event dates status
- * @param $start_date unix_stamp
- * @param $end_date unix_stamp
+ * Check event for dates status
+ * @param $node object
  *
- * @return event_date_status NULL|string
- *   NULL or 'past' or 'current' or 'next'
+ * @return event_date_status FALSE|string
+ *   FALSE or 'past' or 'current' or 'next'
  *
  * @author Kraev Vasily
  */
-function airtribune_event_check_date_status($start_date, $end_date) {
+function airtribune_event_status_check_by_date($node) {
+  // if we get node->nid instead node object
+  if (!is_object($node)) {
+    $node = node_load($node);
+  }
+
+  if (!$node) {
+    return FALSE;
+  }
+
+  // we use tzfield module for timezone, because we need city of event,
+  // in datefiled stored the default UTC timezone, so we load timezone from tzfield
+  $tz_field = field_get_items('node', $node, AIRTRIBUNE_TIMEZONE_FIELD);
+  $dates_field = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
+
+  $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
+  $tz = new DateTimeZone($tz);
+  // get offset of event timezone from UTC
+  $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+
+  $start_date = strtotime($dates_field[0]['value']);
+  $end_date   = strtotime($dates_field[0]['value2']);
+
+  return airtribune_compare_dates($start_date, $end_date, $offset);
+}
+
+/**
+ * Compare dates with 'now' moment, using timezone offset
+ * Helper function to airtribune_event_status_check_by_date()
+ *
+ * @param $start_date unix_stamp
+ * @param $end_date unix_stamp
+ * @param $offset int seconds
+ *
+ * @return event_date_status FALSE|string
+ *   FALSE or 'past' or 'current' or 'next'
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
   $now = REQUEST_TIME;
-  if (empty($start_date) || empty($end_date)) return NULL;
+  if ($offset) {
+    $start_date += $offset;
+    $end_date   += $offset;
+  }
+  if (empty($start_date) || empty($end_date)) return FALSE;
   elseif ($now < $start_date) return 'next';
   elseif ($now >= $start_date && $now <= $end_date) return 'current';
   elseif ($now > $end_date) return 'past';
@@ -582,33 +621,38 @@ function airtribune_event_check_date_status($start_date, $end_date) {
  * @author Kraev Vasily
  */
 function airtribune_get_events_nids_with_date_status() {
-  $now = date('d.m.Y', REQUEST_TIME);
-
   $result = array();
 
-  $past_events = db_select('field_data_field_dates', 'd')
-    ->fields('d', array('entity_id'))
-    ->condition('d.field_dates_value2', $now, '<')
-    ->execute();
-  foreach ($past_events as $item) {
-    $result['past'][] = $item->entity_id;
-  }
+  // get all published events
+  $events = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('n.type', AIRTRIBUNE_PG_CONTEST_TYPE)
+      ->condition('n.status', 1)
+      ->execute();
 
-  $current_events = db_select('field_data_field_dates', 'd')
-    ->fields('d', array('entity_id'))
-    ->condition('d.field_dates_value', $now, '<=')
-    ->condition('d.field_dates_value2', $now, '>=')
-    ->execute();
-  foreach ($current_events as $item) {
-    $result['current'][] = $item->entity_id;
-  }
+  foreach ($events as $event) {
+    // drupal way, with caching
+    $node = node_load($event->nid);
+    $status = airtribune_event_status_check_by_date($node);
 
-  $next_events = db_select('field_data_field_dates', 'd')
-    ->fields('d', array('entity_id'))
-    ->condition('d.field_dates_value', $now, '>')
-    ->execute();
-  foreach ($next_events as $item) {
-    $result['next'][] = $item->entity_id;
+    // probably more fast, based on sql
+//    $event_dates = db_select('field_data_field_dates', 'd')
+//      ->fields('d', array('field_dates_value', 'field_dates_value2'))
+//      ->condition('d.entity_id', $event->nid)
+//      ->execute()
+//      ->fetchObject();
+//    $event_offset = db_select('field_data_field_time_zone', 't')
+//      ->fields('t', array('field_time_zone_value'))
+//      ->condition('t.entity_id', $event->nid)
+//      ->execute()
+//      ->fetchField();
+//    $start = strtotime($event_dates->field_dates_value);
+//    $end = strtotime($event_dates->field_dates_value2);
+//    $tz = new DateTimeZone($event_offset);
+//    $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+//    $status = airtribune_compare_dates($start, $end, $offset);
+
+    $result[$status][] = $event->nid;
   }
 
   return $result;
