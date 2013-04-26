@@ -490,14 +490,9 @@ function airtribune_pages_callback($context) {
     return page_manager_page_execute('event_blog', $context);
   }
   elseif ($event_date_status == 'past') {
-    // at this moment we haven't results menu/page/breadcrumbs
-    // use 'next event' strategy
-    menu_set_active_item('event/'.$node->nid.'/info');
-    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
-    return page_manager_page_execute('event_info', $context);
-//    menu_set_active_item('event/'.$node->nid.'/results');
-//    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
-//    return page_manager_page_execute('event_results', $context);
+    menu_set_active_item('event/'.$node->nid.'/results');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
+    return page_manager_page_execute('event_results', $context);
   }
 }
 
@@ -616,7 +611,7 @@ function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
 /**
  * Get all events nids with date status
  *
- * @return array with [ past | current | next ] events nids without checking on publish status
+ * @return array with [ past | current | next ] events nids
  *
  * @author Kraev Vasily
  */
