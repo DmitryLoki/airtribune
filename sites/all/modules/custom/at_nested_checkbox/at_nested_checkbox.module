@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file Nested checkoxes form element module
+ * @author Vadim Valuev <gease@mail.ru>
+ */
+
+/**
+ * Implementation of hook_element_info()
+ */
+function at_nested_checkbox_element_info() {
+  $types['nested checkboxes'] = array(
+    '#tree' => TRUE,
+    '#input' => TRUE,
+    '#process' => array('at_nested_checkbox_process'),
+    '#theme' => 'nested_checkboxes'
+  );
+  return $types;
+}
+
+function at_nested_checkbox_process($element, &$form_state, $complete_form) {
+  //dpm($element);
+  dpm($form_state);
+  //dpm($complete_form);
+  return $element; 
+}
+
+/**
+ * Impementation of hook_element_theme()
+ */
+function at_nested_checkbox_theme($existing, $type, $theme, $path) {
+  return array(
+    'nested_checkboxes' => array(
+      'render element' => 'element'
+    )
+  );
+}
+
+function theme_nested_checkboxes($variables) {
+  //dpm($variables);
+  $options = $variables['element']['#options'];
+ 
+  return _theme_nested_checkboxes($options, $variables['element']);
+}
+
+function _theme_nested_checkboxes($options, $element) {
+  $output = '<ul>';
+  foreach ($options as $key => $value) {
+    if (is_array($value)) {
+      $output .= '<li>Next level</li>';
+      $output .= _theme_nested_checkboxes($value, $element);
+    }
+    else {
+      $element['#type'] = 'checkbox';
+      $element['#title'] = $value;
+      $output .= '<li>' . theme('checkbox', $options) . '</li>';
+    }
+  }
+  $output .= '</ul>';
+  return $output;
+}

@@ -5,6 +5,8 @@
  * Administrative page callbacks for the Airtribune Core API module.
  */
 
+define('CORE_ID_FIELD', 'field_core_id');
+
 /**
  * General configuration form for controlling the Airtribune Core API synchronization behaviour.
  */
@@ -34,6 +36,27 @@ function at_core_sync_admin_settings() {
     '#size' => 30,
     '#description' => t('For example: 8085'),
   );
-
+  $entities = entity_get_info();
+  $options = array();
+  foreach ($entities as $name => $info) {
+    foreach ($info['bundles'] as $bname => $bundle) {
+      $options[$name][$bname] = $bundle['label'];
+    }
+  }
+  
+  $form['at_core_sync_custom_settings']['at_core_bundles'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $options,
+    '#title' => t('Bundles that need sync'),
+    '#default_value' => variable_get('at_core_bundles'),
+  );
+  
+  $form['#submit'] = array('at_core_sync_field');
   return system_settings_form($form);
+}
+
+function at_core_sync_field($form, &$form_state) {
+  dpm(field_info_field(CORE_ID_FIELD));
+  dpm($form);
+  dpm($form_state);
 }
