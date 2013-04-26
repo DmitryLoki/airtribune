@@ -60,7 +60,7 @@ function airtribune_event_dates_access_check($conf, $context) {
     }
   }
 
-  $access = airtribune_event_check_date_status($node);
+  $access = airtribune_event_status_check_by_date($node);
 
   return $access;
 }
