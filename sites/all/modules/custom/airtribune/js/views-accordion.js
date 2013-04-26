@@ -40,6 +40,9 @@ Drupal.behaviors.views_accordion = {
           var activePane = Drupal.behaviors.views_accordion.getDayFromHash() || this.rowstartopen;
           /* jQuery UI accordion call */
           var accordionElement = $(displaySelector + ':not(.ui-accordion)');
+          if(accordionElement.length === 0) {
+            return;
+          }
           accordionElement.accordion({
             header: headerSelector,
             animated: this.animated,
