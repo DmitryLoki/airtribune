@@ -3675,6 +3675,9 @@ table tr td.:first-child { border-left: none;}
 .krumo-root {
   color: #000; text-align: left;
 }
+.krumo-root a {
+  color: #000 !important;
+}
 
 .view-contest-scoring-categories .views-row-odd .views-field-field-single-image {
   float: left;
