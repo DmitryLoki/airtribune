@@ -1511,8 +1511,8 @@ function views_feature_views_default_views() {
     'pg_scoring_category' => 'pg_scoring_category',
   );
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'results_pane');
+  /* Display: Results pane */
+  $handler = $view->new_display('panel_pane', 'Results pane', 'results_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
@@ -1522,6 +1522,58 @@ function views_feature_views_default_views() {
       'panel' => '0',
       'fixed' => '',
       'label' => 'OG membership: Group ID',
+    ),
+  );
+
+  /* Display: Awards pane */
+  $handler = $view->new_display('panel_pane', 'Awards pane', 'awards_pane');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Prize fund and scoring categories';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Awards photos */
+  $handler->display->display_options['fields']['field_awards_photos']['id'] = 'field_awards_photos';
+  $handler->display->display_options['fields']['field_awards_photos']['table'] = 'field_data_field_awards_photos';
+  $handler->display->display_options['fields']['field_awards_photos']['field'] = 'field_awards_photos';
+  $handler->display->display_options['fields']['field_awards_photos']['ui_name'] = 'Awards photos';
+  $handler->display->display_options['fields']['field_awards_photos']['label'] = '';
+  $handler->display->display_options['fields']['field_awards_photos']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_awards_photos']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_awards_photos']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_awards_photos']['type'] = 'colorbox';
+  $handler->display->display_options['fields']['field_awards_photos']['settings'] = array(
+    'colorbox_node_style' => 'award',
+    'colorbox_image_style' => 'large',
+    'colorbox_gallery' => 'field_post',
+    'colorbox_gallery_custom' => '',
+    'colorbox_caption' => 'auto',
+    'colorbox_caption_custom' => '',
+  );
+  $handler->display->display_options['fields']['field_awards_photos']['delta_offset'] = '0';
+  /* Field: Scoring category */
+  $handler->display->display_options['fields']['field_pg_scoring_category']['id'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['table'] = 'field_data_field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['field'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['ui_name'] = 'Scoring category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['label'] = '';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['element_label_colon'] = FALSE;
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'panel',
+      'context' => 'entity:node.members--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Group ID',
     ),
   );
   $translatables['contest_scoring_categories'] = array(
@@ -1535,8 +1587,10 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Results field collection'),
     t('All'),
-    t('Content pane'),
+    t('Results pane'),
     t('View panes'),
+    t('Awards pane'),
+    t('Prize fund and scoring categories'),
   );
   $export['contest_scoring_categories'] = $view;
 
