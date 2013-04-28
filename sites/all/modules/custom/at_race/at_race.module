@@ -33,6 +33,7 @@ function at_race_theme() {
 }
 
 function at_race_ajax_callback($form, $form_state) {
+  
   return $form['field_pg_race_points'];
 }
 
@@ -77,15 +78,34 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
     array_pop($items);
   }
   */
-  $field_state = field_form_get_state($element['#field_parents'], $field['field_name'], $langcode, $form_state);
+  $field_state = field_form_get_state($element['#field_parents'], $field['field_name'], $langcode, $form_state);//dsm($form_state);
+  /*
   if (isset($field_state['items'])) {
     $items = $field_state['items'];
     //watchdog('items', count($items));
   }
+  */
   
+  $items_count = $field_state['items_count'];
+  
+  if (count($items) < $items_count) {
+    $vals = $form_state['values']['field_pg_race_points']['und'];
+    unset($vals['add_new_point']);
+    $items = $vals;
+    //dsm($items);
+  }
+  
+  
+  $add_new = count($items) < $items_count ? TRUE : FALSE;
+  
+  /*
   if (isset($form_state['triggering_element'])) {
   //if (isset($form_state['#add_new'])) {
-    //watchdog('widget', 'add new');
+    watchdog('widget', 'add new');
+    $items[] = $new_item_defaults;
+  }
+  */
+  if ($add_new) {
     $items[] = $new_item_defaults;
   }
   
@@ -106,8 +126,9 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
         //if (!empty($item['target_id'])) {
           $elements[$delta]['#default_value'] += _at_race_get_waypoint_data($item['target_id']);
         //}
-        $elements[$delta]['#components'] = _at_race_widget_components();
+        //$elements[$delta]['#components'] = _at_race_widget_components();
       }
+      $elements[$delta]['#components'] = _at_race_widget_components();
       
       $elements[$delta]['#weight'] = $delta;
       $delta++;
@@ -115,10 +136,12 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
     if (($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || $delta < $field['cardinality']) && empty($form_state['programmed'])) {
       
       // TODO:
+      /*
       $elements[$delta] = $element;
       $elements[$delta]['#default_value'] = $defaults;
       $elements[$delta]['#weight'] = $delta;
       $elements[$delta]['#required'] = ($element['#required'] && $delta == 0);
+      */
       
     }
     // TODO: Add defaults for new point
@@ -172,9 +195,10 @@ function theme_at_waypoints_entityreference_widget_multiple($variables) {
       continue;
     }
     */
-    
+    //dsm($widget);
     // Save the uploading row for last.
-    if ($widget['#default_value']['target_id'] == 0) {
+    if (isset($widget['#type']) && $widget['#type'] == 'submit') {
+    //if ($widget['#default_value']['target_id'] == 0) {
       continue;
     }
     
@@ -263,9 +287,12 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
     // TODO: Comment #limit_validation_errors to avoid eck error (eck.entity.inc line 477)
     '#limit_validation_errors' => array($element['#parents']),
     '#ajax' => $ajax_settings,
+    '#submit' => array('at_race_add_button_submit'),
     '#weight' => -5,
   );
+  
   //dsm($element);
+  /*
   $element['add_button'] = array(
     '#name' => implode('_', $element['#parents']) . '_add_button',
     '#type' => 'submit',
@@ -278,6 +305,7 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
     '#submit' => array('at_race_add_button_submit'),
     '#arg' => 'add_point',
   );
+  */
   // TODO:
   // TODO: Rewrite "Add new" check
   //if ($element['#default_value']['target_id']){
@@ -303,6 +331,10 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
       '#options' => $element['#components']['check'],
       '#default_value' => $element['#default_value']['check'],
     );
+    $element['target_id'] = array(
+      '#type' => 'hidden',
+      '#value' => $element['#default_value']['target_id'],
+    );
   }
   
   return $element;
@@ -311,11 +343,30 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
 function at_race_add_button_submit($form, &$form_state) {
   $parents = $form_state['triggering_element']['#array_parents'];
   $button_key = array_pop($parents);
+  
   $element = drupal_array_get_nested_value($form, $parents);
-  //if ($button_key == 'remove_button') {
-    // TODO:
-  //}
-  //watchdog('key', $button_key);
+  
+  $field_name = $element['#field_name'];
+  $langcode = $element['#language'];
+  $parents = $element['#field_parents'];
+  
+  
+  if ($button_key == 'remove_button') {
+    $elem_parents = $element['#parents'];
+    $delta = array_pop($elem_parents);
+  }
+  elseif ($button_key == 'add_new_point') {
+    
+    $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
+    $field_state['items_count']++;
+    field_form_set_state($parents, $field_name, $langcode, $form_state, $field_state);
+    
+    /*
+    $parents = array_slice($form_state['triggering_element']['#parents'], 0, -2);
+    drupal_array_set_nested_value($form_state['input'], $parents, NULL);
+    */
+  }
+  
   $form_state['rebuild'] = TRUE;
 }
 
@@ -338,6 +389,7 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
     //dsm($element);
     // TODO: Add check for "Add new point" button"
     //if ($key != $element['#file_upload_delta']) {
+    
     if ($element[$key]['#default_value']['point_id'] != 0) {
       //$description = _file_field_get_description_from_element($element[$key]);
       $element[$key]['_weight'] = array(
@@ -365,6 +417,32 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
   // Add a new wrapper around all the elements for Ajax replacement.
   //$element['#prefix'] = '<div id="' . $element['#id'] . '-ajax-wrapper">';
   // TODO:
+  /*
+    '#name' => implode('_', $element['#parents']) . '_add_button',
+    '#type' => 'submit',
+    '#value' => t('Add'),
+    '#validate' => array(),
+    //'#submit' => array('file_managed_file_submit'),
+    '#limit_validation_errors' => array($element['#parents']),
+    '#ajax' => $ajax_settings,
+    '#weight' => -5,
+    '#submit' => array('at_race_add_button_submit'),
+    '#arg' => 'add_point', 
+  */
+  
+  $element['add_new_point'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add new point'),
+    '#submit' => array('at_race_add_button_submit'),
+    '#limit_validation_errors' => array($element['#parents']),
+    '#ajax' => array(
+      'callback' => 'at_race_ajax_callback',
+      'wrapper' => 'pg-race-points-custom-ajax-wrapper',
+      'effect' => 'fade',
+    ),
+    //'#arg' => 'add_point', 
+  );
+  
   $element['#prefix'] = '<div id="pg-race-points-custom-ajax-wrapper">';
   
   $element['#suffix'] = '</div>';
