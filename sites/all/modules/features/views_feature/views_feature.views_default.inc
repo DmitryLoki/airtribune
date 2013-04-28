@@ -1414,12 +1414,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'OG membership from node';
-  /* Relationship: Results file */
-  $handler->display->display_options['relationships']['field_results_ref_target_id']['id'] = 'field_results_ref_target_id';
-  $handler->display->display_options['relationships']['field_results_ref_target_id']['table'] = 'field_data_field_results_ref';
-  $handler->display->display_options['relationships']['field_results_ref_target_id']['field'] = 'field_results_ref_target_id';
-  $handler->display->display_options['relationships']['field_results_ref_target_id']['ui_name'] = 'Results file';
-  $handler->display->display_options['relationships']['field_results_ref_target_id']['label'] = 'Results file';
+  /* Relationship: Results field collection */
+  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['id'] = 'reverse_field_scoring_category_ref_field_collection_item';
+  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['field'] = 'reverse_field_scoring_category_ref_field_collection_item';
+  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['ui_name'] = 'Results field collection';
+  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['label'] = 'Results field collection';
   /* Field: Nid - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -1474,14 +1474,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_results_story']['ui_name'] = 'Results story';
   $handler->display->display_options['fields']['field_results_story']['label'] = '';
   $handler->display->display_options['fields']['field_results_story']['element_label_colon'] = FALSE;
-  /* Field: File: Name */
-  $handler->display->display_options['fields']['filename']['id'] = 'filename';
-  $handler->display->display_options['fields']['filename']['table'] = 'file_managed';
-  $handler->display->display_options['fields']['filename']['field'] = 'filename';
-  $handler->display->display_options['fields']['filename']['relationship'] = 'field_results_ref_target_id';
-  $handler->display->display_options['fields']['filename']['label'] = '';
-  $handler->display->display_options['fields']['filename']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['filename']['link_to_file'] = TRUE;
+  /* Field: Results file */
+  $handler->display->display_options['fields']['field_results_file']['id'] = 'field_results_file';
+  $handler->display->display_options['fields']['field_results_file']['table'] = 'field_data_field_results_file';
+  $handler->display->display_options['fields']['field_results_file']['field'] = 'field_results_file';
+  $handler->display->display_options['fields']['field_results_file']['relationship'] = 'reverse_field_scoring_category_ref_field_collection_item';
+  $handler->display->display_options['fields']['field_results_file']['ui_name'] = 'Results file';
+  $handler->display->display_options['fields']['field_results_file']['label'] = '';
+  $handler->display->display_options['fields']['field_results_file']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_results_file']['click_sort_column'] = 'fid';
   /* Contextual filter: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
@@ -1510,8 +1511,8 @@ function views_feature_views_default_views() {
     'pg_scoring_category' => 'pg_scoring_category',
   );
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'results_pane');
+  /* Display: Results pane */
+  $handler = $view->new_display('panel_pane', 'Results pane', 'results_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
@@ -1523,6 +1524,58 @@ function views_feature_views_default_views() {
       'label' => 'OG membership: Group ID',
     ),
   );
+
+  /* Display: Awards pane */
+  $handler = $view->new_display('panel_pane', 'Awards pane', 'awards_pane');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Prize fund and scoring categories';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Awards photos */
+  $handler->display->display_options['fields']['field_awards_photos']['id'] = 'field_awards_photos';
+  $handler->display->display_options['fields']['field_awards_photos']['table'] = 'field_data_field_awards_photos';
+  $handler->display->display_options['fields']['field_awards_photos']['field'] = 'field_awards_photos';
+  $handler->display->display_options['fields']['field_awards_photos']['ui_name'] = 'Awards photos';
+  $handler->display->display_options['fields']['field_awards_photos']['label'] = '';
+  $handler->display->display_options['fields']['field_awards_photos']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_awards_photos']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_awards_photos']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_awards_photos']['type'] = 'colorbox';
+  $handler->display->display_options['fields']['field_awards_photos']['settings'] = array(
+    'colorbox_node_style' => 'award',
+    'colorbox_image_style' => 'large',
+    'colorbox_gallery' => 'field_post',
+    'colorbox_gallery_custom' => '',
+    'colorbox_caption' => 'auto',
+    'colorbox_caption_custom' => '',
+  );
+  $handler->display->display_options['fields']['field_awards_photos']['delta_offset'] = '0';
+  /* Field: Scoring category */
+  $handler->display->display_options['fields']['field_pg_scoring_category']['id'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['table'] = 'field_data_field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['field'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['ui_name'] = 'Scoring category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['label'] = '';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['element_label_colon'] = FALSE;
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'panel',
+      'context' => 'entity:node.members--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Group ID',
+    ),
+  );
   $translatables['contest_scoring_categories'] = array(
     t('Master'),
     t('more'),
@@ -1532,10 +1585,12 @@ function views_feature_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('OG membership from node'),
-    t('Results file'),
+    t('Results field collection'),
     t('All'),
-    t('Content pane'),
+    t('Results pane'),
     t('View panes'),
+    t('Awards pane'),
+    t('Prize fund and scoring categories'),
   );
   $export['contest_scoring_categories'] = $view;
 
@@ -2250,29 +2305,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'j M, Y';
-  /* Field: Day results */
-  $handler->display->display_options['fields']['field_day_results']['id'] = 'field_day_results';
-  $handler->display->display_options['fields']['field_day_results']['table'] = 'field_data_field_day_results';
-  $handler->display->display_options['fields']['field_day_results']['field'] = 'field_day_results';
-  $handler->display->display_options['fields']['field_day_results']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_day_results']['ui_name'] = 'Day results';
-  $handler->display->display_options['fields']['field_day_results']['label'] = 'Results';
-  $handler->display->display_options['fields']['field_day_results']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_day_results']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_day_results']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_day_results']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_day_results']['separator'] = '';
-  /* Field: Competition results */
-  $handler->display->display_options['fields']['field_competition_results']['id'] = 'field_competition_results';
-  $handler->display->display_options['fields']['field_competition_results']['table'] = 'field_data_field_competition_results';
-  $handler->display->display_options['fields']['field_competition_results']['field'] = 'field_competition_results';
-  $handler->display->display_options['fields']['field_competition_results']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_competition_results']['ui_name'] = 'Competition results';
-  $handler->display->display_options['fields']['field_competition_results']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_competition_results']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_competition_results']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_competition_results']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_competition_results']['separator'] = '';
   /* Field: Tracks */
   $handler->display->display_options['fields']['field_pg_race_tracks']['id'] = 'field_pg_race_tracks';
   $handler->display->display_options['fields']['field_pg_race_tracks']['table'] = 'field_data_field_pg_race_tracks';
@@ -2315,6 +2347,38 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_day_blog']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_day_blog']['multi_type'] = 'ul';
   $handler->display->display_options['fields']['field_day_blog']['separator'] = '';
+  /* Field: Competition results */
+  $handler->display->display_options['fields']['field_competition_results']['id'] = 'field_competition_results';
+  $handler->display->display_options['fields']['field_competition_results']['table'] = 'field_data_field_competition_results';
+  $handler->display->display_options['fields']['field_competition_results']['field'] = 'field_competition_results';
+  $handler->display->display_options['fields']['field_competition_results']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_competition_results']['ui_name'] = 'Competition results';
+  $handler->display->display_options['fields']['field_competition_results']['label'] = '';
+  $handler->display->display_options['fields']['field_competition_results']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_competition_results']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_competition_results']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_competition_results']['type'] = 'field_collection_fields';
+  $handler->display->display_options['fields']['field_competition_results']['settings'] = array(
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_competition_results']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_competition_results']['multi_type'] = 'ul';
+  /* Field: Day results */
+  $handler->display->display_options['fields']['field_day_results']['id'] = 'field_day_results';
+  $handler->display->display_options['fields']['field_day_results']['table'] = 'field_data_field_day_results';
+  $handler->display->display_options['fields']['field_day_results']['field'] = 'field_day_results';
+  $handler->display->display_options['fields']['field_day_results']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_day_results']['ui_name'] = 'Day results';
+  $handler->display->display_options['fields']['field_day_results']['label'] = '';
+  $handler->display->display_options['fields']['field_day_results']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_day_results']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_results']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_day_results']['type'] = 'field_collection_fields';
+  $handler->display->display_options['fields']['field_day_results']['settings'] = array(
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_day_results']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_day_results']['multi_type'] = 'ul';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -2372,8 +2436,6 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('pg_contest'),
     t('pg_race'),
-    t('Results'),
-    t('Competition results'),
     t('Tracks'),
     t('All'),
     t('Content pane'),
@@ -5694,255 +5756,6 @@ function views_feature_views_default_views() {
 
   /* Display: All pilots export (csv) */
   $handler = $view->new_display('views_data_export', 'All pilots export (csv)', 'views_data_export_1');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['style_options']['grouping'] = array(
-    0 => array(
-      'field' => 'field_gender',
-      'rendered' => 1,
-      'rendered_strip' => 0,
-    ),
-  );
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: OG membership: Entity id */
-  $handler->display->display_options['fields']['etid']['id'] = 'etid';
-  $handler->display->display_options['fields']['etid']['table'] = 'og_membership';
-  $handler->display->display_options['fields']['etid']['field'] = 'etid';
-  $handler->display->display_options['fields']['etid']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['etid']['separator'] = '';
-  /* Field: Profile: Name */
-  $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
-  $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
-  $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
-  $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])';
-  $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
-  $handler->display->display_options['fields']['field_full_name']['settings'] = array(
-    'format' => 'default',
-    'markup' => 0,
-    'output' => 'default',
-    'multiple' => 'default',
-    'multiple_delimiter' => ', ',
-    'multiple_and' => 'text',
-    'multiple_delimiter_precedes_last' => 'never',
-    'multiple_el_al_min' => '3',
-    'multiple_el_al_first' => '1',
-  );
-  /* Field: Gender */
-  $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
-  $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
-  $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
-  $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_gender']['ui_name'] = 'Gender';
-  /* Field: User: E-mail */
-  $handler->display->display_options['fields']['mail']['id'] = 'mail';
-  $handler->display->display_options['fields']['mail']['table'] = 'users';
-  $handler->display->display_options['fields']['mail']['field'] = 'mail';
-  $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
-  /* Field: Pilot`s number */
-  $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
-  $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
-  $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
-  $handler->display->display_options['fields']['field_contestant_number']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_contestant_number']['ui_name'] = 'Pilot`s number';
-  $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
-    'thousand_separator' => '',
-    'prefix_suffix' => 1,
-  );
-  /* Field: Profile: Date of birth */
-  $handler->display->display_options['fields']['field_birthdate']['id'] = 'field_birthdate';
-  $handler->display->display_options['fields']['field_birthdate']['table'] = 'field_data_field_birthdate';
-  $handler->display->display_options['fields']['field_birthdate']['field'] = 'field_birthdate';
-  $handler->display->display_options['fields']['field_birthdate']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_birthdate']['settings'] = array(
-    'format_type' => 'dmy_dot',
-    'fromto' => '',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
-  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
-  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(),
-  );
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address_1']['id'] = 'field_address_1';
-  $handler->display->display_options['fields']['field_address_1']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address_1']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address_1']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address_1']['label'] = 'City';
-  $handler->display->display_options['fields']['field_address_1']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address_1']['alter']['text'] = '[field_address_1-locality]';
-  $handler->display->display_options['fields']['field_address_1']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address_1']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(
-      'address' => 'address',
-    ),
-  );
-  /* Field: Field: Address */
-  $handler->display->display_options['fields']['field_address_2']['id'] = 'field_address_2';
-  $handler->display->display_options['fields']['field_address_2']['table'] = 'field_data_field_address';
-  $handler->display->display_options['fields']['field_address_2']['field'] = 'field_address';
-  $handler->display->display_options['fields']['field_address_2']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address_2']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_address_2']['alter']['text'] = '[field_address_2-thoroughfare]';
-  $handler->display->display_options['fields']['field_address_2']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_address_2']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(
-      'address' => 'address',
-    ),
-  );
-  /* Field: Field: Mobile phone number */
-  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
-  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
-  /* Field: Profile: FAI license number */
-  $handler->display->display_options['fields']['field_fai_license_number']['id'] = 'field_fai_license_number';
-  $handler->display->display_options['fields']['field_fai_license_number']['table'] = 'field_data_field_fai_license_number';
-  $handler->display->display_options['fields']['field_fai_license_number']['field'] = 'field_fai_license_number';
-  $handler->display->display_options['fields']['field_fai_license_number']['relationship'] = 'profile_1';
-  /* Field: Profile: CIVL ID */
-  $handler->display->display_options['fields']['field_civl_id']['id'] = 'field_civl_id';
-  $handler->display->display_options['fields']['field_civl_id']['table'] = 'field_data_field_civl_id';
-  $handler->display->display_options['fields']['field_civl_id']['field'] = 'field_civl_id';
-  $handler->display->display_options['fields']['field_civl_id']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_civl_id']['settings'] = array(
-    'thousand_separator' => '',
-    'prefix_suffix' => 1,
-  );
-  /* Field: Profile: T-shirt size */
-  $handler->display->display_options['fields']['field_t_shirt_size']['id'] = 'field_t_shirt_size';
-  $handler->display->display_options['fields']['field_t_shirt_size']['table'] = 'field_data_field_t_shirt_size';
-  $handler->display->display_options['fields']['field_t_shirt_size']['field'] = 'field_t_shirt_size';
-  $handler->display->display_options['fields']['field_t_shirt_size']['relationship'] = 'profile_1';
-  /* Field: Field: Paraglider manufacturer */
-  $handler->display->display_options['fields']['field_paraglider_manufacturer']['id'] = 'field_paraglider_manufacturer';
-  $handler->display->display_options['fields']['field_paraglider_manufacturer']['table'] = 'field_data_field_paraglider_manufacturer';
-  $handler->display->display_options['fields']['field_paraglider_manufacturer']['field'] = 'field_paraglider_manufacturer';
-  $handler->display->display_options['fields']['field_paraglider_manufacturer']['relationship'] = 'og_membership_rel';
-  /* Field: Field: Paraglider model */
-  $handler->display->display_options['fields']['field_paraglider_model']['id'] = 'field_paraglider_model';
-  $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
-  $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
-  $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
-  /* Field: Field: Paraglider color */
-  $handler->display->display_options['fields']['field_paraglider_color']['id'] = 'field_paraglider_color';
-  $handler->display->display_options['fields']['field_paraglider_color']['table'] = 'field_data_field_paraglider_color';
-  $handler->display->display_options['fields']['field_paraglider_color']['field'] = 'field_paraglider_color';
-  $handler->display->display_options['fields']['field_paraglider_color']['relationship'] = 'og_membership_rel';
-  /* Field: Profile: Sponsors */
-  $handler->display->display_options['fields']['field_sponsors']['id'] = 'field_sponsors';
-  $handler->display->display_options['fields']['field_sponsors']['table'] = 'field_data_field_sponsors';
-  $handler->display->display_options['fields']['field_sponsors']['field'] = 'field_sponsors';
-  $handler->display->display_options['fields']['field_sponsors']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_sponsors']['label'] = 'Sponsor';
-  /* Field: Profile: Insurance company */
-  $handler->display->display_options['fields']['field_insurance_company']['id'] = 'field_insurance_company';
-  $handler->display->display_options['fields']['field_insurance_company']['table'] = 'field_data_field_insurance_company';
-  $handler->display->display_options['fields']['field_insurance_company']['field'] = 'field_insurance_company';
-  $handler->display->display_options['fields']['field_insurance_company']['relationship'] = 'profile_1';
-  /* Field: Profile: Insurance policy number */
-  $handler->display->display_options['fields']['field_insurance_policy_number']['id'] = 'field_insurance_policy_number';
-  $handler->display->display_options['fields']['field_insurance_policy_number']['table'] = 'field_data_field_insurance_policy_number';
-  $handler->display->display_options['fields']['field_insurance_policy_number']['field'] = 'field_insurance_policy_number';
-  $handler->display->display_options['fields']['field_insurance_policy_number']['relationship'] = 'profile_1';
-  /* Field: Profile: Your full name in national alphabet */
-  $handler->display->display_options['fields']['field_name_in_national_alphabet']['id'] = 'field_name_in_national_alphabet';
-  $handler->display->display_options['fields']['field_name_in_national_alphabet']['table'] = 'field_data_field_name_in_national_alphabet';
-  $handler->display->display_options['fields']['field_name_in_national_alphabet']['field'] = 'field_name_in_national_alphabet';
-  $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
-  /* Field: Profile: Person to contact in case of emergency */
-  $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['relationship'] = 'profile_1';
-  /* Field: Profile: Contact phone number in case of emergency */
-  $handler->display->display_options['fields']['field_person_phone']['id'] = 'field_person_phone';
-  $handler->display->display_options['fields']['field_person_phone']['table'] = 'field_data_field_person_phone';
-  $handler->display->display_options['fields']['field_person_phone']['field'] = 'field_person_phone';
-  $handler->display->display_options['fields']['field_person_phone']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_person_phone']['click_sort_column'] = 'number';
-  /* Field: Profile: Blood type */
-  $handler->display->display_options['fields']['field_blood_type']['id'] = 'field_blood_type';
-  $handler->display->display_options['fields']['field_blood_type']['table'] = 'field_data_field_blood_type';
-  $handler->display->display_options['fields']['field_blood_type']['field'] = 'field_blood_type';
-  $handler->display->display_options['fields']['field_blood_type']['relationship'] = 'profile_1';
-  /* Field: OG membership: Payment status */
-  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: OG membership: Link to Tracker */
-  $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_tracker']['label'] = 'Tracker';
-  $handler->display->display_options['fields']['field_tracker']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_tracker']['alter']['text'] = '[field_tracker-target_id]';
-  $handler->display->display_options['fields']['field_tracker']['settings'] = array(
-    'link' => 0,
-  );
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Profile: Gender (field_gender) */
-  $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
-  $handler->display->display_options['sorts']['field_gender_value']['table'] = 'field_data_field_gender';
-  $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
-  $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
-  $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
-  /* Sort criterion: OG membership: Payment status (field_pg_contestant_status) */
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['order'] = 'DESC';
-  /* Sort criterion: OG membership: Created */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'og_membership';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: User: Active */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'users';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = '1';
-  /* Filter criterion: OG membership: State */
-  $handler->display->display_options['filters']['state']['id'] = 'state';
-  $handler->display->display_options['filters']['state']['table'] = 'og_membership';
-  $handler->display->display_options['filters']['state']['field'] = 'state';
-  $handler->display->display_options['filters']['state']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['filters']['state']['value'] = array(
-    1 => '1',
-  );
-  /* Filter criterion: Pilots number */
-  $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
-  $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
-  $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
-  $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
-  $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
-  $handler->display->display_options['path'] = 'export_pilots/%';
 
   /* Display: Pilot export */
   $handler = $view->new_display('page', 'Pilot export', 'page_1');

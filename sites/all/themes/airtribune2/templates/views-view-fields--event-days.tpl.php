@@ -59,6 +59,8 @@ if($row->field_field_image){
   }
 
 }
+
+//d::dump($fields);
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
