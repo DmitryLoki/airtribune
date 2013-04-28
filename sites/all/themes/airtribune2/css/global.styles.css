@@ -2607,8 +2607,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a { background-position:0 0} /* Event info */
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a { background-position:0 -150px} /* Flying site info */
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title, 
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title, 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a { background-position:0 -450px} /* Organizers */
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title, 
@@ -2622,7 +2622,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a:hover { background-position:0 -1200px} /* Event info */ 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a:hover { background-position:0 -1350px} /* Flying site info */ 
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a:hover { background-position:0 -1650px} /* Organizers */ 
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a:hover { background-position:0 -1800px} /* How to get here */ 
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a:hover { background-position:0 -1950px} /* Twitter */ 
@@ -2693,22 +2693,22 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .field-name-field-contest-photos .jcarousel-next:active { background-position: 50% -250px}
 
 /* Awards photos */
-.pane-node-field-awards-photos { padding-top:13px; padding-bottom:31px}
-.panel_info .pane-node-field-awards-photos .pane-content { margin:20px 0 0}
-.pane-node-field-awards-photos .field-items { margin:0 -5px 0 -10px;}
-.pane-node-field-awards-photos .field { margin-bottom:0}
-.pane-node-field-awards-photos .field-items .field-item { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px; height: 82px;}
+.pane-contest-scoring-categories-awards-pane { padding-top:13px; padding-bottom:31px}
+.panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:20px 0 0}
+.pane-contest-scoring-categories-awards-pane .view-content { margin:0 -5px 0 -10px;}
+.pane-contest-scoring-categories-awards-pane .view-content > div { margin-bottom:0}
+.pane-contest-scoring-categories-awards-pane .view-content > div { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px; height: 82px;}
 /*.pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:both;}*/
-.pane-node-field-awards-photos .field-items .field-item a { color:#525c66}
-.pane-node-field-awards-photos .field-items .field-item img { vertical-align:middle; position:relative; display:inline-block; margin-bottom:2px;
+.pane-contest-scoring-categories-awards-pane .view-content > div a { color:#525c66}
+.pane-contest-scoring-categories-awards-pane .view-content > div img { vertical-align:middle; position:relative; display:inline-block; margin-bottom:2px;
 
 	-webkit-border-radius: 3px; 
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 
 }
-.pane-node-field-awards-photos .more-link { clear:both; padding-top:10px}
-.page-event-info .pane-node-field-awards-photos .more-link { padding-top:6px}
+.pane-contest-scoring-categories-awards-pane .more-link { clear:both; padding-top:10px}
+.page-event-info .pane-contest-scoring-categories-awards-pane .more-link { padding-top:6px}
 
 /* How to get here */
 .page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px;}
@@ -2852,11 +2852,11 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 #page .panel_info .pane-node-field-prizes { margin-bottom:9px}
 
 /* Awards photos */
-.page-event-details .pane-node-field-awards-photos { margin-top:0; padding-top:0; padding-bottom:13px;}
-.page-event-details .panel_info .pane-node-field-awards-photos .pane-content { margin:0 11px 0}
-.page-event-details .panel_info .pane-node-field-awards-photos .field { padding-top:1px}
-.page-event-details .pane-node-field-awards-photos .field-items .field-item:nth-child(9n+1) { clear:both;}
-.page-event-details .pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:none;}
+.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
+.page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:0 11px 0}
+.page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .view-content > div { padding-top:1px}
+.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(9n+1) { clear:both;}
+.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}
 
 /* Daily schedule */
 .pane-node-field-sample-schedule {}
@@ -3676,16 +3676,16 @@ table tr td.:first-child { border-left: none;}
 .pane-node-field-results-title { font: bold 25px/27px Arial, Helvetica, sans-serif; padding: 13px 0 8px;}
 
 .pane-contest-scoring-categories-results-pane {}
-.view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
-.view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
-.view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
-.view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
+.page-event-results .view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
+.page-event-results .view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
 
-.view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
-.view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
 
-.view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
-.view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
+.page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
+.page-event-results .view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
 
 /* Krumo */
 .krumo-root {
