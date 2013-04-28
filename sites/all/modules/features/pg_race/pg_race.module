@@ -14,13 +14,14 @@ function pg_race_entity_presave($entity, $type) {
   
   // Check race type.
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    // Get entity "created" time components
-    $created = getdate($entity->created);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+    $day_node = $wrapper->{AIRTRIBUNE_DAY_REF_FIELD}->value();
+    // Get day "created" time components
+    $created = getdate($day_node->created);
     // List field names to change.
     $field_names = array(AIRTRIBUNE_RACE_START_END_FIELD, AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD);
     // Change each field's value.
     foreach ($field_names as $field_name) {
-      $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
       $field_value = $wrapper->{$field_name}->value();
       // Change start and finish components' values.
       foreach (array('value', 'value2') as $k) {
