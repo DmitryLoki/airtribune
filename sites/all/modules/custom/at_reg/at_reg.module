@@ -94,7 +94,7 @@ function at_reg_preprocess_link(&$vars) {
     $event_nid = arg(1);
     // days, round fractions down, so 36 or 40 hours (after event start) = 1 day
     $days = airtribune_how_time_after_event_start($event_nid, 'day');
-    if ($days < 2) {
+    if ($days && $days < 2) {
       $vars['text'] = t('Late Registration');
       $vars['options']['html'] = TRUE;
       $vars['options']['attributes']['class'][0] = 'late-registration';
