@@ -5,6 +5,7 @@
  * Common functions that many Airtribune plugins will need to reference.
  */
 
+define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -38,6 +39,7 @@ define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');

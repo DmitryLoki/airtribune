@@ -1348,8 +1348,30 @@ event/*/map/accommodations',
   $display->title = '';
   $display->content = array();
   $display->panels = array();
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
+    $pane = new stdClass();
+    $pane->pid = 'new-31';
+    $pane->panel = 'middle';
+    $pane->type = 'page_content';
+    $pane->subtype = 'page_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_page_content_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-31'] = $pane;
+    $display->panels['middle'][0] = 'new-31';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-31';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_5'] = $handler;
 
@@ -4883,7 +4905,16 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
+        'keyword' => 'event',
+        'name' => 'entity_from_field:og_group_ref-ent_race-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'logic' => 'and',
     ),
@@ -4899,10 +4930,32 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = '%event:title';
   $display->content = array();
   $display->panels = array();
-  $display->hide_title = PANELS_TITLE_NONE;
+    $pane = new stdClass();
+    $pane->pid = 'new-66';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_player';
+    $pane->subtype = 'airtribune_player';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:ent_race_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-66'] = $pane;
+    $display->panels['middle'][0] = 'new-66';
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
