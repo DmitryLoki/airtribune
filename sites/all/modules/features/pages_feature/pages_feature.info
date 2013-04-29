@@ -31,6 +31,7 @@ features[page_manager_pages][] = event_blog_node
 features[page_manager_pages][] = event_info
 features[page_manager_pages][] = event_item
 features[page_manager_pages][] = event_pilots
+features[page_manager_pages][] = event_results
 features[page_manager_pages][] = event_sponsors
 features[page_manager_pages][] = player
 features[panels_mini][] = footer_blocks

@@ -60,6 +60,7 @@ if($row->field_field_image){
 
 }
 
+//d::dump($fields);
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
@@ -77,7 +78,7 @@ if($row->field_field_image){
 
 <?php if ($fields['field_day_results']->content || $fields['field_competition_results']->content): ?>
   <span class="views-field views-field-field-day-results">
-    <span class="views-label"><?php print t('Results'); ?></span>
+    <span class="views-label"><?php print t('Results tables'); ?></span>
     <span class="field-content">
       <?php if ($fields['field_day_results']->content): ?>
         <span><?php print t('Task results') ?></span>

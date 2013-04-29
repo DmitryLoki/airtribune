@@ -550,6 +550,29 @@ function image_styles_feature_image_default_styles() {
     ),
   );
 
+  // Exported image style: scoring_winner.
+  $styles['scoring_winner'] = array(
+    'name' => 'scoring_winner',
+    'effects' => array(
+      10 => array(
+        'label' => 'Масштабирование',
+        'help' => 'Масштабирование позволяет изменить размеры изображения с сохранением пропорций. Если введён размер только одной стороны, то размер другой будет вычислен автоматически. Если введены два размера, то каждое будет определять максимальный размер по своему направлению и применяться в зависимости от формата изображения.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '300',
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: user_picture.
   $styles['user_picture'] = array(
     'name' => 'user_picture',
