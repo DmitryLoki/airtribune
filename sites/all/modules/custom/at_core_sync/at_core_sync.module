@@ -5,6 +5,15 @@
  * Installation file for the Airtribune Core API module.
  */
 
+function get_id_from_entity($entity) {
+  $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;    
+  }
+}
+
 /**
  * Returns synchronization class
  */

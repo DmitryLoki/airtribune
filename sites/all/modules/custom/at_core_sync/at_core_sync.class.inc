@@ -73,7 +73,7 @@ abstract class ATSync {
         case 502:
         case 504:
         case 0:
-          drupal_set_message("Core API is unreachable.",'error');
+          drupal_set_message(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))),'error');
           break;
       }
       return json_decode($response);      
@@ -181,8 +181,7 @@ class ATSyncRace extends ATSync {
       drupal_set_message(t('ATSyncRace: Unable to get contest core id'),'error');
       return false;
     }
-    $this->address = implode('/', array('contest', $contest_core_id, 'race'));
-    _d($this->address . " address");
+    $this->address = implode('/', array('contest', $contest_core_id, 'race'));    
 
     $checkpoints = array(
       "type" => "FeatureCollection",
@@ -214,7 +213,7 @@ class ATSyncRace extends ATSync {
     );
     $url = http_build_query($data);
     $url .= '&checkpoints='.json_encode($checkpoints);
-    _d($url);
+    
     $response = $this->request($url, "POST");
     _d($response);
     return !empty($response->id) ? $response->id : FALSE;
