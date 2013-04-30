@@ -869,7 +869,10 @@ event/*/map/accommodations',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => 'race-preview-map',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
