@@ -60,17 +60,8 @@ function airtribune_event_dates_access_check($conf, $context) {
     }
   }
 
-  $dates_items = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
-  if (isset($dates_items[0]['value'], $dates_items[0]['value2'])) {
-    $value_1 = strtotime($dates_items[0]['value']);
-    $value_2 = strtotime($dates_items[0]['value2']);
-    $status = $value_2 < REQUEST_TIME ? 'past' : ($value_1 > REQUEST_TIME ? 'next' : 'current');
-    $access = $status == $conf['status'];
-  }
-  else {
-    // Event node without dates?
-    $access = FALSE;
-  }
+  $status = airtribune_event_status_check_by_date($node);
+  $access = $status == $conf['status'];
 
   return $access;
 }
