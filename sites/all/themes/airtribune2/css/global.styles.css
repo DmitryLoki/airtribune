@@ -2917,14 +2917,16 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
-.page-node .node h1.node-title { color:#333a40; font:24px/26px Arial, Helvetica, sans-serif; float:left; width:540px; padding:7px 0 8px}
+.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:540px; padding:0 0 6px; margin-top: -2px;}
 .page-node .node .node-content { clear:both;}
-.page-node .node .submitted, .page-node .node .with-user-picture { float:right; margin-top:-9px}
-.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 100px; display: inline-block; text-align: right;}
+.page-node .node .submitted, .page-node .node .with-user-picture { float:right; margin-top:-17px}
+.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 100px; display: inline-block; text-align: right; padding-bottom: 1px;}
 .page-node .node .author a, .page-node .node .links a { color:#616569; text-decoration:none;}
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node ul { padding-left:15px}
 .page-node .node .links { padding-left:0; padding-bottom: 20px;}
+.page-node .node .user-picture { display: inline-block; vertical-align: bottom;}
+.page-node .node .user-picture img { vertical-align: middle;}
 
 .page-node .node .field-name-field-image { margin:0 -2px 70px -3px; padding-top:10px}
 .page-node .node .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
