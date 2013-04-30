@@ -9,7 +9,6 @@ function at_race_element_info() {
   $types['pg_race_waypoint'] = array(
     '#input' => TRUE,
     '#process' => array('at_race_pg_race_waypoint_process'),
-    '#value_callback' => 'at_race_pg_race_waypoint_value',
     //'#element_validate' => array('at_race_pg_race_waypoint_validate'),
     '#pre_render' => array('at_race_pg_race_waypoint_pre_render'),
     /*
@@ -61,14 +60,15 @@ function at_race_field_widget_info() {
 function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   // TODO:
   $element['#type'] = 'pg_race_waypoint';
-    
+  
   $defaults = array(
     'target_id' => 0,
     'point_id' => 0,
   );
   
+  // TODO: Set default here instead of _at_race_get_waypoint_data()
   $new_item_defaults = array(
-    'target_id' => 1,
+    'target_id' => 0,
     //'point_id' => -1,
   );
   
@@ -122,18 +122,21 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
       // set corresponding point_id
       
       // TODO: Add check for target_id
+      /*
       if (empty($item['point_id'])) {
         //if (!empty($item['target_id'])) {
           $elements[$delta]['#default_value'] += _at_race_get_waypoint_data($item['target_id']);
         //}
         //$elements[$delta]['#components'] = _at_race_widget_components();
       }
+      */
+      $elements[$delta]['#default_value'] += _at_race_get_waypoint_data($item['target_id']);
       $elements[$delta]['#components'] = _at_race_widget_components();
       
       $elements[$delta]['#weight'] = $delta;
       $delta++;
     }
-    if (($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || $delta < $field['cardinality']) && empty($form_state['programmed'])) {
+    //if (($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || $delta < $field['cardinality']) && empty($form_state['programmed'])) {
       
       // TODO:
       /*
@@ -143,7 +146,7 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
       $elements[$delta]['#required'] = ($element['#required'] && $delta == 0);
       */
       
-    }
+    //}
     // TODO: Add defaults for new point
     
     $elements['#theme'] = 'at_waypoints_entityreference_widget_multiple';
@@ -285,7 +288,8 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
     '#validate' => array(),
     //'#submit' => array('file_managed_file_submit'),
     // TODO: Comment #limit_validation_errors to avoid eck error (eck.entity.inc line 477)
-    '#limit_validation_errors' => array($element['#parents']),
+    //'#limit_validation_errors' => array($element['#parents']),
+    '#limit_validation_errors' => array(),
     '#ajax' => $ajax_settings,
     '#submit' => array('at_race_add_button_submit'),
     '#weight' => -5,
@@ -309,7 +313,7 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
   // TODO:
   // TODO: Rewrite "Add new" check
   //if ($element['#default_value']['target_id']){
-  if ($element['#default_value']['point_id'] != 0){
+  //if ($element['#default_value']['point_id'] != 0){
     $element['point_id'] = array(
       '#type' => 'select',
       '#options' => $element['#components']['points'],
@@ -335,7 +339,7 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
       '#type' => 'hidden',
       '#value' => $element['#default_value']['target_id'],
     );
-  }
+  //}
   
   return $element;
 }
@@ -371,12 +375,79 @@ function at_race_add_button_submit($form, &$form_state) {
 }
 
 /**
- * Value callback
+ * Implements hook_field_attach_validate().
  */
-function at_race_pg_race_waypoint_value($element, $input = FALSE, $form_state = array()) {
+function at_race_field_attach_validate($entity_type, $entity, &$errors) {
   // TODO:
-  return 1;
+  dsm($errors);
+  
+  // TODO:
+  // Remove errors for target_id = 0
+  $errors = array();
+  dsm('hook validate');
 }
+
+/**
+ * Implements hook_field_attach_submit().
+ */
+function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state) {
+  
+  // Get waypoint data
+  $entity_wrapper = entity_metadata_wrapper('ent_racetype', $entity);
+  $items = field_get_items('ent_racetype', $entity, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
+  
+  // TODO: Delete removed waypoints. Use $original property
+  
+  $field_value = $entity_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->value();
+  
+  foreach ($items as $delta => $item) {
+    $waypoint_id = $item['target_id'];dsm($waypoint_id);
+    if ($waypoint_id == 0) {
+      // Create new waypoint
+      // http://drupal.org/node/1377614
+      $waypoint_entity = entity_create('ent_point', array(
+        'type' => 'waypoint',
+      ));
+      
+      $wrapper = entity_metadata_wrapper('ent_point', $waypoint_entity);
+      
+      // Set new values
+      $wrapper->{AIRTRIBUNE_POINT_RADIUS_FIELD}->set($item['radius']);
+      $wrapper->{AIRTRIBUNE_POINT_TYPE_FIELD}->set($item['check']);
+      $wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD}->set($item['ss_es']);
+      // Set contest point value
+      $entities = entity_load('ent_contest_point', array($item['point_id']));
+      $point_entity = array_shift($entities);
+      $wrapper->{AIRTRIBUNE_POINT_REF_FIELD}->set($point_entity);
+      // Save new waypoint.
+      $waypoint_entity->save();
+      
+      // Add newly created waypoint instead of empty one (with target_id = 0)
+      $field_value[$delta] = $waypoint_entity;
+      $entity_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->set($field_value);
+    }
+    else {
+      // Modify existing waypoint
+      // Load waypoint entity
+      $entities = entity_load('ent_point', array($waypoint_id));
+      $waypoint_entity = array_shift($entities);
+      $wrapper = entity_metadata_wrapper('ent_point', $waypoint_entity);
+      
+      // Set new values
+      $wrapper->{AIRTRIBUNE_POINT_RADIUS_FIELD}->set($item['radius']);
+      $wrapper->{AIRTRIBUNE_POINT_TYPE_FIELD}->set($item['check']);
+      $wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD}->set($item['ss_es']);
+      // Contest point value
+      $entities = entity_load('ent_contest_point', array($item['point_id']));
+      $point_entity = array_shift($entities);
+      $wrapper->{AIRTRIBUNE_POINT_REF_FIELD}->set($point_entity);
+      
+      // Save waypoint data
+      entity_save('ent_point', $waypoint_entity);
+    }
+  }
+}
+
 
 function at_race_field_widget_process_multiple($element, &$form_state, $form) {
   // TODO:
@@ -390,7 +461,7 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
     // TODO: Add check for "Add new point" button"
     //if ($key != $element['#file_upload_delta']) {
     
-    if ($element[$key]['#default_value']['point_id'] != 0) {
+    //if ($element[$key]['#default_value']['point_id'] != 0) {
       //$description = _file_field_get_description_from_element($element[$key]);
       $element[$key]['_weight'] = array(
         '#type' => 'weight',
@@ -399,7 +470,8 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
         '#delta' => $count,
         '#default_value' => $delta,
       );
-    }
+    //}
+    
         
     /*
     else {
@@ -434,7 +506,7 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
     '#type' => 'submit',
     '#value' => t('Add new point'),
     '#submit' => array('at_race_add_button_submit'),
-    '#limit_validation_errors' => array($element['#parents']),
+    //'#limit_validation_errors' => array($element['#parents']),
     '#ajax' => array(
       'callback' => 'at_race_ajax_callback',
       'wrapper' => 'pg-race-points-custom-ajax-wrapper',
@@ -477,9 +549,6 @@ function at_race_pg_race_waypoint_pre_render($element) {
  * Get point id by waypoint entity_reference target_id
  */
 function _at_race_get_waypoint_data($waypoint_id) {
-  if (empty($waypoint_id)) {
-    $waypoint_id = 1;
-  }
   if (!empty($waypoint_id)) {
     // TODO: move to constants
     $entities = entity_load('ent_point', array($waypoint_id));
@@ -497,10 +566,10 @@ function _at_race_get_waypoint_data($waypoint_id) {
   }
   else {
     $data = array(
-      'radius' => '0',
-      'check' => -1,
-      'ss_es' => -1,
-      'point_id' => -1,
+      'radius' => '',
+      'check' => '',
+      'ss_es' => '',
+      'point_id' => 0,
     );
   }
   
@@ -509,17 +578,20 @@ function _at_race_get_waypoint_data($waypoint_id) {
 
 // TODO: Maybe this part could be optimized.
 function _at_race_widget_components() {
+  
+  static $components;
+  
   // Waypoint components
   //$abc = field_info_instance($entity_type, $field_name, $bundle_name);
-  
-  // SS/ES
-  $field_point_ss_es = field_info_field('field_point_ss_es');
-  $field_point_type = field_info_field('field_point_type');
-  
-  $components['ss_es'] = $field_point_ss_es['settings']['allowed_values'];
-  $components['check'] = $field_point_type['settings']['allowed_values'];
-  
-  $components['points'] = _at_race_get_contest_points();
+  if (empty($components)) {
+    // SS/ES
+    $field_point_ss_es = field_info_field('field_point_ss_es');
+    $field_point_type = field_info_field('field_point_type');
+    
+    $components['ss_es'] = $field_point_ss_es['settings']['allowed_values'];
+    $components['check'] = $field_point_type['settings']['allowed_values'];    
+    $components['points'] = _at_race_get_contest_points();
+  }
   return $components;
 }
 
@@ -566,6 +638,15 @@ function at_race_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function at_race_after_build($form, $form_state) {
-  //dsm($form_state);
+  dsm($form);
   return $form;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_race_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'entityreference') {
+    return 'plugins/entityreference_' . $plugin;
+  }
 }

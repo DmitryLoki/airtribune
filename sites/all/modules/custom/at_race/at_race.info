@@ -4,3 +4,6 @@ package = Airtribune
 core = 7.x
 
 dependencies[] = entity
+
+files[] = plugins/entityreference_behavior/at_race_behavior_plugin.inc
+files[] = plugins/entityreference_behavior/AtRaceBehaviorPlugin.class.php
