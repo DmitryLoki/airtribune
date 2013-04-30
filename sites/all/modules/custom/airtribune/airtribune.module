@@ -49,7 +49,6 @@ define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
-define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
