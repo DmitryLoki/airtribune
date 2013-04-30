@@ -11,6 +11,7 @@ dependencies[] = panels_mini
 features[ctools][] = ctools_custom_content:ctools_content:1
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = panels_mini:panels_default:1
+features[ctools_custom_content][] = airtribune_race_preview
 features[ctools_custom_content][] = coming_soon
 features[ctools_custom_content][] = share_links
 features[ctools_custom_content][] = small_share_links

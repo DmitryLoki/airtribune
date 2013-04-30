@@ -103,6 +103,10 @@ if($row->field_field_image){
 <?php print $fields['field_day_blog']->content; ?>
 <?php print $fields['field_day_blog']->wrapper_suffix; ?>
 
+<?php print $fields['nothing']->wrapper_prefix; ?>
+<?php print $fields['nothing']->content; ?>
+<?php print $fields['nothing']->wrapper_suffix; ?>
+
 <?php if ($photos): ?>
 <div class="field-name-field-image">
   <?php print render($photos); ?>
