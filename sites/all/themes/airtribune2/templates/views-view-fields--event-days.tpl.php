@@ -99,9 +99,9 @@ if($row->field_field_image){
   <?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
 <?php endif; ?>
 
-<?php print $fields['field_day_blog']->wrapper_prefix; ?>
-<?php print $fields['field_day_blog']->content; ?>
-<?php print $fields['field_day_blog']->wrapper_suffix; ?>
+<?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
+<?php print $fields['field_dayblog_ref']->content; ?>
+<?php print $fields['field_dayblog_ref']->wrapper_suffix; ?>
 
 <?php if ($photos): ?>
 <div class="field-name-field-image">

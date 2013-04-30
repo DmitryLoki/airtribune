@@ -444,7 +444,7 @@ function airtribune_views_query_alter(&$view, &$query) {
       $lng = $_SESSION['geoip']['lng'];
       // create temporary temporary table with distances
       $distance_table = db_query_temporary('SELECT entity_id,
-      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance 
+      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance
       FROM {field_data_field_hq_location}
       ORDER BY distance;', array(":lat" => $lat, ":lng" => $lng));
       $join = new views_join;
@@ -533,6 +533,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
  * Implements hook_init().
  */
 function airtribune_init() {
+
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
@@ -666,5 +667,27 @@ function airtribune_js_alter(&$javascript) {
   $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
   if (isset($javascript[$accodion_js])) {
     $javascript[$accodion_js]['data'] = drupal_get_path('module', 'airtribune') . '/js/views-accordion.js';
+  }
+}
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ *
+ * @see #3025-29
+ * @see http://drupal.org/node/1719948
+ */
+function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if ($entity_form['#entity_type'] == 'node') {
+    $setting = auto_nodetitle_get_setting($entity_form['#entity']->type);
+    if ($setting == AUTO_NODETITLE_ENABLED) {
+      // We will autogenerate the title later, just hide the title field in the
+      // meanwhile.
+      $entity_form['title']['#value'] = 'ant';
+      $entity_form['title']['#type'] = 'value';
+      $entity_form['title']['#required'] = FALSE;
+    }
+    elseif ($setting == AUTO_NODETITLE_OPTIONAL) {
+      $entity_form['title']['#required'] = FALSE;
+    }
   }
 }

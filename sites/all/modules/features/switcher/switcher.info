@@ -85,6 +85,7 @@ dependencies[] = i18n_string
 dependencies[] = i18n_variable
 dependencies[] = image
 dependencies[] = image_styles_feature
+dependencies[] = inline_entity_form
 dependencies[] = invisimail
 dependencies[] = jcarousel
 dependencies[] = jcarousel_formatter
