@@ -3512,7 +3512,7 @@ table tr td.:first-child { border-left: none;}
 
 /* OpenLayers */
 .featured-header-padding .olControlZoomPanel { top:150px}
-.featured-header-padding .olControlLayerSwitcher .maximizeDiv, .featured-header-padding .olControlLayerSwitcher .minimizeDiv { top:-18px}
+.featured-header-padding .olControlLayerSwitcher .maximizeDiv, .featured-header-padding .olControlLayerSwitcher .minimizeDiv { top:-18px; right: 20px;}
 .featured-header-padding .olControlLayerSwitcher { top:165px;}
 #super .olLayerGoogleV3.olLayerGoogleCopyright { left:auto; right:0 !important}
 #super .olLayerGoogleV3.olLayerGooglePoweredBy { bottom:-3px !important;}
