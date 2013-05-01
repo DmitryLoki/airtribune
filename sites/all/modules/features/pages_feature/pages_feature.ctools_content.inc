@@ -20,8 +20,9 @@ function pages_feature_default_ctools_custom_content() {
   $content->settings = array(
     'admin_title' => '',
     'title' => 'Race preview',
-    'body' => '<script data-main="http://vis.airtribune.com/js/initSimple" src="http://vis.airtribune.com/js/require.js"></script>
-<!-- ko widget: { data: page, contestId: "", raceId: "", width: "940px", height: "380px", callback: window.airvisPageLoadedCallback } --><!-- /ko -->',
+    'body' => '<script src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
+      <script data-main="http://vis.airtribune.com/js/initSimple" src="http://vis.airtribune.com/js/require.js"></script>
+<!-- ko widget: { data: page, contestId: "", raceId: "", width: "940px", height: "380px" } --><!-- /ko -->',
     'format' => 'full_html',
     'substitute' => 1,
   );
