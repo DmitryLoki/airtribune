@@ -1182,14 +1182,34 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['field_competition_results_ent_race']['field'] = 'field_competition_results_ent_race';
   $handler->display->display_options['relationships']['field_competition_results_ent_race']['ui_name'] = 'Race';
   $handler->display->display_options['relationships']['field_competition_results_ent_race']['label'] = 'Race';
-  /* Field: Results file */
+  /* Relationship: Scoring category */
+  $handler->display->display_options['relationships']['field_scoring_category_ref_target_id']['id'] = 'field_scoring_category_ref_target_id';
+  $handler->display->display_options['relationships']['field_scoring_category_ref_target_id']['table'] = 'field_data_field_scoring_category_ref';
+  $handler->display->display_options['relationships']['field_scoring_category_ref_target_id']['field'] = 'field_scoring_category_ref_target_id';
+  $handler->display->display_options['relationships']['field_scoring_category_ref_target_id']['ui_name'] = 'Scoring category';
+  $handler->display->display_options['relationships']['field_scoring_category_ref_target_id']['label'] = 'Scoring category';
+  /* Field: Scoring category - excluded */
+  $handler->display->display_options['fields']['field_pg_scoring_category']['id'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['table'] = 'field_data_field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['field'] = 'field_pg_scoring_category';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['relationship'] = 'field_scoring_category_ref_target_id';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['ui_name'] = 'Scoring category - excluded';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['label'] = '';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_scoring_category']['element_label_colon'] = FALSE;
+  /* Field: Results file - overriden */
   $handler->display->display_options['fields']['field_results_file']['id'] = 'field_results_file';
   $handler->display->display_options['fields']['field_results_file']['table'] = 'field_data_field_results_file';
   $handler->display->display_options['fields']['field_results_file']['field'] = 'field_results_file';
-  $handler->display->display_options['fields']['field_results_file']['ui_name'] = 'Results file';
+  $handler->display->display_options['fields']['field_results_file']['ui_name'] = 'Results file - overriden';
   $handler->display->display_options['fields']['field_results_file']['label'] = '';
+  $handler->display->display_options['fields']['field_results_file']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_results_file']['alter']['text'] = '[field_pg_scoring_category] results';
+  $handler->display->display_options['fields']['field_results_file']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_results_file']['alter']['path'] = '[field_results_file]';
   $handler->display->display_options['fields']['field_results_file']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_results_file']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_results_file']['type'] = 'file_url_plain';
   /* Sort criterion: Post day */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'eck_ent_race';
@@ -1229,6 +1249,8 @@ function views_feature_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Race'),
+    t('Scoring category'),
+    t('[field_pg_scoring_category] results'),
     t('All'),
   );
   $export['category_results'] = $view;
