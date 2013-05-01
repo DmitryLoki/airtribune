@@ -18,7 +18,7 @@
   float: left;
 }
 .es-pilots,
-.es-places { height: 194px;}
+.es-places { height: 217px;}
 .es-label span {
   font-size: 14px;
   font-weight: normal;
@@ -75,4 +75,4 @@
   color: #9f7a23;
 }
 
-.es-pane .more-link { margin-left: -12px; margin-top: -3px;}
+.panel_info .es-pane .more-link { margin-left: -12px; margin-top: -3px;}
