@@ -60,7 +60,6 @@ if($row->field_field_image){
 
 }
 
-//d::dump($fields);
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
@@ -72,8 +71,9 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
+<?php else: ?>
+  <?php print $fields['created']->content; ?>
 <?php endif; ?>
-<?php print $fields['created']->content; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
 <?php if ($fields['field_day_results']->content || $fields['field_competition_results']->content): ?>
