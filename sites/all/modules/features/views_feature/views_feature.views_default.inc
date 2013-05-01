@@ -2443,8 +2443,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['view']['table'] = 'views';
   $handler->display->display_options['fields']['view']['field'] = 'view';
   $handler->display->display_options['fields']['view']['ui_name'] = 'Results view';
-  $handler->display->display_options['fields']['view']['label'] = '';
+  $handler->display->display_options['fields']['view']['label'] = 'Results';
   $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['view']['view'] = 'day_results';
   $handler->display->display_options['fields']['view']['arguments'] = '[!id]/[!id]';
   /* Field: Tracks */
@@ -2551,6 +2552,7 @@ function views_feature_views_default_views() {
     t('pg_contest'),
     t('pg_race'),
     t('.'),
+    t('Results'),
     t('Tracks'),
     t('All'),
     t('Content pane'),
