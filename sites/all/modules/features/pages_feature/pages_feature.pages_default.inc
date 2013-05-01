@@ -2306,9 +2306,14 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->configuration = array(
       'admin_title' => 'Disqus comments',
       'title' => '',
-      'body' => '<div id="disqus_thread"></div>
+      'body' => '<?php
+    global $base_url;
+    $node_url = $base_url . \'/\' . drupal_get_path_alias(\'node/\' . arg(3));
+?>
+<div id="disqus_thread"></div>
     <script type="text/javascript">
         var disqus_shortname = \'airtribune\';
+        var disqus_url = \'<?=$node_url?>\';
         (function() {
             var dsq = document.createElement(\'script\'); dsq.type = \'text/javascript\'; dsq.async = true;
             dsq.src = \'//\' + disqus_shortname + \'.disqus.com/embed.js\';
@@ -2316,7 +2321,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
         })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>',
-      'format' => 'full_html',
+      'format' => 'php_code',
       'substitute' => 1,
     );
     $pane->cache = array();
