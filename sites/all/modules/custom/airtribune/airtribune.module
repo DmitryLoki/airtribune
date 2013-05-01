@@ -467,6 +467,11 @@ function airtribune_views_query_alter(&$view, &$query) {
     );
   }
 
+  // See http://drupal.org/node/1451218#comment-6136692
+  if ($view->name == 'day_results') {
+    $view->query->where[0]['type'] = 'OR';
+  }
+
 }
 
 /**

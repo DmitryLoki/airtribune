@@ -2259,6 +2259,16 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
+  /* Field: Race ID - excluded */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['id']['ui_name'] = 'Race ID - excluded';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
   /* Field: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -2305,6 +2315,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'j M, Y';
+  /* Field: Results view */
+  $handler->display->display_options['fields']['view']['id'] = 'view';
+  $handler->display->display_options['fields']['view']['table'] = 'views';
+  $handler->display->display_options['fields']['view']['field'] = 'view';
+  $handler->display->display_options['fields']['view']['ui_name'] = 'Results view';
+  $handler->display->display_options['fields']['view']['label'] = '';
+  $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view']['view'] = 'day_results';
+  $handler->display->display_options['fields']['view']['arguments'] = '[!id]/[!id]';
   /* Field: Tracks */
   $handler->display->display_options['fields']['field_pg_race_tracks']['id'] = 'field_pg_race_tracks';
   $handler->display->display_options['fields']['field_pg_race_tracks']['table'] = 'field_data_field_pg_race_tracks';
@@ -2337,38 +2356,6 @@ function views_feature_views_default_views() {
     'colorbox_caption_custom' => '',
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
-  /* Field: Competition results */
-  $handler->display->display_options['fields']['field_competition_results']['id'] = 'field_competition_results';
-  $handler->display->display_options['fields']['field_competition_results']['table'] = 'field_data_field_competition_results';
-  $handler->display->display_options['fields']['field_competition_results']['field'] = 'field_competition_results';
-  $handler->display->display_options['fields']['field_competition_results']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_competition_results']['ui_name'] = 'Competition results';
-  $handler->display->display_options['fields']['field_competition_results']['label'] = '';
-  $handler->display->display_options['fields']['field_competition_results']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_competition_results']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_competition_results']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_competition_results']['type'] = 'field_collection_fields';
-  $handler->display->display_options['fields']['field_competition_results']['settings'] = array(
-    'view_mode' => 'full',
-  );
-  $handler->display->display_options['fields']['field_competition_results']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_competition_results']['multi_type'] = 'ul';
-  /* Field: Day results */
-  $handler->display->display_options['fields']['field_day_results']['id'] = 'field_day_results';
-  $handler->display->display_options['fields']['field_day_results']['table'] = 'field_data_field_day_results';
-  $handler->display->display_options['fields']['field_day_results']['field'] = 'field_day_results';
-  $handler->display->display_options['fields']['field_day_results']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_day_results']['ui_name'] = 'Day results';
-  $handler->display->display_options['fields']['field_day_results']['label'] = '';
-  $handler->display->display_options['fields']['field_day_results']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_day_results']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_day_results']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_day_results']['type'] = 'field_collection_fields';
-  $handler->display->display_options['fields']['field_day_results']['settings'] = array(
-    'view_mode' => 'full',
-  );
-  $handler->display->display_options['fields']['field_day_results']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_day_results']['multi_type'] = 'ul';
   /* Field: Day blog */
   $handler->display->display_options['fields']['field_dayblog_ref']['id'] = 'field_dayblog_ref';
   $handler->display->display_options['fields']['field_dayblog_ref']['table'] = 'field_data_field_dayblog_ref';
@@ -2440,6 +2427,7 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('pg_contest'),
     t('pg_race'),
+    t('.'),
     t('Tracks'),
     t('All'),
     t('Content pane'),
