@@ -76,6 +76,13 @@ if($row->field_field_image){
 <?php print $fields['created']->content; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
+<?php if (!empty($fields['view'])): ?>
+  <?php print $fields['view']->wrapper_prefix; ?>
+  <?php print $fields['view']->label_html; ?>
+  <?php print $fields['view']->content; ?>
+  <?php print $fields['view']->wrapper_suffix; ?>
+<?php endif; ?>
+
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
   <?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
   <?php print $fields['field_pg_race_tracks']->label_html; ?>
@@ -86,10 +93,6 @@ if($row->field_field_image){
 <?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
 <?php print $fields['field_dayblog_ref']->content; ?>
 <?php print $fields['field_dayblog_ref']->wrapper_suffix; ?>
-
-<?php print $fields['view']->wrapper_prefix; ?>
-<?php print $fields['view']->content; ?>
-<?php print $fields['view']->wrapper_suffix; ?>
 
 <?php if ($photos): ?>
 <div class="field-name-field-image">

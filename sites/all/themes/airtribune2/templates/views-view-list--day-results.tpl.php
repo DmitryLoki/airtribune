@@ -11,11 +11,9 @@
 ?>
 <?php print $wrapper_prefix; ?>
   <?php if (!empty($title)) : ?>
-    <h3><?php print $title == 'Field collection field_day_results' ? t('Task results') : t('Competition results'); ?></h3>
+    <span><?php print $title == 'Field collection field_day_results' ? t('Task results') : t('Competition results'); ?></span>
   <?php endif; ?>
-  <?php print $list_type_prefix; ?>
     <?php foreach ($rows as $id => $row): ?>
-      <li class="<?php print $classes_array[$id]; ?>"><?php print $row; ?></li>
+      <span class="file"><?php print $row; ?></span>
     <?php endforeach; ?>
-  <?php print $list_type_suffix; ?>
 <?php print $wrapper_suffix; ?>

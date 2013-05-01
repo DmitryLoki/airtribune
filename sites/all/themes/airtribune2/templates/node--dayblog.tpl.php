@@ -4,11 +4,11 @@
  * Airtribune2 implementation to display a node.
  */
 ?>
-<article class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <div>
+<div class="item">
+  <div class="posted">
     <?php print render($content['time']); ?>
   </div>
   <div>
-    <?php print render($content['field_plain_body']); ?>
+    <?php print render($content); ?>
   </div>
-</article>
+</div>
