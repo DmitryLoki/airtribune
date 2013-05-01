@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Installation file for the Airtribune Core API module.
+ */
+
+/**
+ * Returns synchronization class
+ */
+function _get_class_by_entity($entity, $type) {
+  require_once drupal_get_path("module", "at_core_sync") . "/at_core_sync.class.inc";
+
+  $class = FALSE;
+  $tmp = $type;
+
+  if(!empty($entity->type))
+    $tmp .= ':' . $entity->type;
+
+  $classes = array(
+    'node:pg_contest' => 'ATSyncContest',
+    'user' => 'ATSyncPilot',
+    'ent_race:pg_race' => 'ATSyncRace',
+  );
+  drupal_set_message($tmp);
+  if(!empty($classes[$tmp])) {
+    $class = $classes[$tmp];
+    return new $class($entity, $entity->type);
+  } else {
+    return FALSE;
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function at_core_sync_entity_update($entity, $type) {
+  if($sync = _get_class_by_entity($entity, $type)) {
+    $sync->onUpdate();
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function at_core_sync_entity_insert($entity, $type) {
+  if($sync = _get_class_by_entity($entity, $type)) {
+    $sync->onInsert();
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function at_core_sync_menu() {
+  $items = array();
+
+  $items['admin/config/core_api'] = array(
+    'title' => 'Core API',
+    'description' => 'Airtribune Core API',
+    'file' => 'at_core_sync.admin.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('at_core_sync_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
