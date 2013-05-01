@@ -3,6 +3,12 @@ jQuery(function ($) {
   var airvisWidget,
     accordion;
 
+  var headerPictureContainer = $('.pane-header-slideshow-event-header'),
+    raceInfo = $('<div class="field field-name-field-race-info">Race 1 - 105 km</div>'),
+    faiCategory = $('.field-name-field-fai-category');
+
+  faiCategory.after(raceInfo.hide());
+
   //Need to get accordion instance
   $.each(Drupal.settings.views_accordion, function (id) {
     var viewname = this.viewname;
@@ -27,17 +33,24 @@ jQuery(function ($) {
     });
 
     //if loading successful - hide picture to display airvis widget
-    airvisWidget.on('loaded', function () {
+    airvisWidget.on('loaded', function (raceData) {
       headerPictureContainer.hide();
+      faiCategory.hide();
+      raceInfo.text(raceData.titles.taskTitle).show();
     });
 
     //if loading failed - show picture in header
     airvisWidget.on('loadingError', function () {
       headerPictureContainer.show();
+      showHeaderPicture();
     });
   };
 
-  var headerPictureContainer = $('.pane-header-slideshow-event-header');
+  function showHeaderPicture() {
+    headerPictureContainer.show();
+    faiCategory.show();
+    raceInfo.hide();
+  }
 
   //Rebuild airvis widget with new params. Events 'loaded' or 'loadingError' of airvisWidget will be fired after rebuild
   function rebuildRacePreview(contestId, raceId) {
@@ -45,6 +58,7 @@ jQuery(function ($) {
     airvisWidget.setOption('raceId', raceId);
     airvisWidget.rebuild();
   }
+
 
   //Toggle between header picture and airvis widget
   function toggleHeader(activeDayBlock) {
@@ -58,10 +72,10 @@ jQuery(function ($) {
       if(contestId !== '' && raceId !== '') {
         rebuildRacePreview(contestId, raceId);
       } else {
-        headerPictureContainer.show();
+        showHeaderPicture();
       }
     } else {
-      headerPictureContainer.show();
+      showHeaderPicture();
     }
 
   }
