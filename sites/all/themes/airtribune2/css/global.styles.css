@@ -2324,7 +2324,8 @@ p { margin:0; padding:9px 0 11px}
 .node_view_mode_event_blog_teaser .node-header, .node_view_mode_event_blog_teaser .node-content { margin-left:0}
 .node_view_mode_event_blog_teaser > .clearfix { margin-left:0;}
 .node_view_mode_event_blog_teaser h1.node-title { font:24px/26px Arial, Helvetica, sans-serif; padding-bottom:8px; margin-right: 50px;}
-.node_view_mode_event_blog_teaser .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
+.node_view_mode_event_blog_teaser .posted,
+.node .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
 body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
 .node_view_mode_event_blog_teaser .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
@@ -2549,6 +2550,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 #page ul.tabs.primary li.active a, #page ul.tabs.primary li.active a:hover { background:#ffffff; border-color:#dce2e5; padding-bottom:1px; color:#677581}
 #page ul.tabs.primary li.active a.registration, #page ul.tabs.primary li.active a.registration:hover { color: #8f733b;}
 #page ul.tabs.primary li.event_add { float: right;}
+#page ul.primary_suffix { text-align: center; margin: 0; padding: 0;}
+#page ul.primary_suffix li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
 
 #page .view-events-list {}
 #page .view-events-list h3 { float:left; width:90px; background:url(../images/hide_year.png) no-repeat 100% 4px; position:relative; z-index:10; font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; clear:both; margin:0 -11px 0 0;}
@@ -2607,8 +2610,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a { background-position:0 0} /* Event info */
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a { background-position:0 -150px} /* Flying site info */
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title, 
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title, 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a { background-position:0 -450px} /* Organizers */
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title, 
@@ -2622,7 +2625,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a:hover { background-position:0 -1200px} /* Event info */ 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a:hover { background-position:0 -1350px} /* Flying site info */ 
-.page-event-info .panel_info .pane-node-field-awards-photos h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a:hover { background-position:0 -1650px} /* Organizers */ 
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a:hover { background-position:0 -1800px} /* How to get here */ 
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a:hover { background-position:0 -1950px} /* Twitter */ 
@@ -2693,22 +2696,22 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .field-name-field-contest-photos .jcarousel-next:active { background-position: 50% -250px}
 
 /* Awards photos */
-.pane-node-field-awards-photos { padding-top:13px; padding-bottom:31px}
-.panel_info .pane-node-field-awards-photos .pane-content { margin:20px 0 0}
-.pane-node-field-awards-photos .field-items { margin:0 -5px 0 -10px;}
-.pane-node-field-awards-photos .field { margin-bottom:0}
-.pane-node-field-awards-photos .field-items .field-item { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px; height: 82px;}
+.pane-contest-scoring-categories-awards-pane { padding-top:13px; padding-bottom:31px}
+.panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:20px 0 0}
+.pane-contest-scoring-categories-awards-pane .view-content { margin:0 -5px 0 -10px;}
+.pane-contest-scoring-categories-awards-pane .view-content > div { margin-bottom:0}
+.pane-contest-scoring-categories-awards-pane .view-content > div { float:left; width: 50px; padding-left:5px; text-align:center; color:#525c66; font:12px/15px Arial, Helvetica, sans-serif; padding-bottom:10px; height: 82px;}
 /*.pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:both;}*/
-.pane-node-field-awards-photos .field-items .field-item a { color:#525c66}
-.pane-node-field-awards-photos .field-items .field-item img { vertical-align:middle; position:relative; display:inline-block; margin-bottom:2px;
+.pane-contest-scoring-categories-awards-pane .view-content > div a { color:#525c66}
+.pane-contest-scoring-categories-awards-pane .view-content > div img { vertical-align:middle; position:relative; display:inline-block; margin-bottom:2px;
 
 	-webkit-border-radius: 3px; 
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 
 }
-.pane-node-field-awards-photos .more-link { clear:both; padding-top:10px}
-.page-event-info .pane-node-field-awards-photos .more-link { padding-top:6px}
+.pane-contest-scoring-categories-awards-pane .more-link { clear:both; padding-top:10px}
+.page-event-info .pane-contest-scoring-categories-awards-pane .more-link { padding-top:6px}
 
 /* How to get here */
 .page-event-info #page .pane-node-field-collection-getting-there { padding-bottom:35px; margin-bottom:9px;}
@@ -2852,11 +2855,11 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 #page .panel_info .pane-node-field-prizes { margin-bottom:9px}
 
 /* Awards photos */
-.page-event-details .pane-node-field-awards-photos { margin-top:0; padding-top:0; padding-bottom:13px;}
-.page-event-details .panel_info .pane-node-field-awards-photos .pane-content { margin:0 11px 0}
-.page-event-details .panel_info .pane-node-field-awards-photos .field { padding-top:1px}
-.page-event-details .pane-node-field-awards-photos .field-items .field-item:nth-child(9n+1) { clear:both;}
-.page-event-details .pane-node-field-awards-photos .field-items .field-item:nth-child(6n+1) { clear:none;}
+.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
+.page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:0 11px 0}
+.page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .view-content > div { padding-top:1px}
+.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(9n+1) { clear:both;}
+.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}
 
 /* Daily schedule */
 .pane-node-field-sample-schedule {}
@@ -2917,10 +2920,9 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .page-node .node h1.node-title { color:#333a40; font:24px/26px Arial, Helvetica, sans-serif; float:left; width:540px; padding:7px 0 8px}
 .page-node .node .node-content { clear:both;}
 .page-node .node .submitted, .page-node .node .with-user-picture { float:right; margin-top:-9px}
-.page-node .node .author { float:left; color:#616569; font-size:14px; padding-right:9px; padding-top:19px}
+.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 100px; display: inline-block; text-align: right;}
 .page-node .node .author a, .page-node .node .links a { color:#616569; text-decoration:none;}
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
-.page-node .node .user-picture { float:left;}
 .page-node .node ul { padding-left:15px}
 .page-node .node .links { padding-left:0; padding-bottom: 20px;}
 
@@ -3510,7 +3512,7 @@ table tr td.:first-child { border-left: none;}
 
 /* OpenLayers */
 .featured-header-padding .olControlZoomPanel { top:150px}
-.featured-header-padding .olControlLayerSwitcher .maximizeDiv, .featured-header-padding .olControlLayerSwitcher .minimizeDiv { top:-18px}
+.featured-header-padding .olControlLayerSwitcher .maximizeDiv, .featured-header-padding .olControlLayerSwitcher .minimizeDiv { top:-18px; right: 20px;}
 .featured-header-padding .olControlLayerSwitcher { top:165px;}
 #super .olLayerGoogleV3.olLayerGoogleCopyright { left:auto; right:0 !important}
 #super .olLayerGoogleV3.olLayerGooglePoweredBy { bottom:-3px !important;}
@@ -3654,7 +3656,7 @@ table tr td.:first-child { border-left: none;}
 .page-event-pilots .view-paragliding-pilots-list .views-table + .views-table th { display: none;}
 .page-event-pilots .view-paragliding-pilots-list .views-table + .views-table tr:first-child td { border-top: none;}
 
-.page-event-pilots .pane-views-panes { margin: 0 -1px;}
+.page-event-pilots .pane-page-content .pane-views-panes { margin: 0 -1px;}
 
 .page-event-pilots-status td.views-field-field-full-name { width: 181px;}
 .page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
@@ -3676,16 +3678,16 @@ table tr td.:first-child { border-left: none;}
 .pane-node-field-results-title { font: bold 25px/27px Arial, Helvetica, sans-serif; padding: 13px 0 8px;}
 
 .pane-contest-scoring-categories-results-pane {}
-.view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
-.view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
-.view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
-.view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
+.page-event-results .view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
+.page-event-results .view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
 
-.view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
-.view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
 
-.view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
-.view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
+.page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
+.page-event-results .view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
 
 /* Krumo */
 .krumo-root {
