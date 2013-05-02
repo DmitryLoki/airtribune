@@ -3,7 +3,6 @@ description = Provides points widget. To be refactored.
 package = Airtribune
 core = 7.x
 
+dependencies[] = ctools
 dependencies[] = entity
 
-files[] = plugins/entityreference_behavior/at_race_behavior_plugin.inc
-files[] = plugins/entityreference_behavior/AtRaceBehaviorPlugin.class.php
