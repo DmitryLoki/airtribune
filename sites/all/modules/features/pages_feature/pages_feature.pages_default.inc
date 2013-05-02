@@ -4762,6 +4762,14 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'logic' => 'and',
     'type' => 'none',
     'settings' => NULL,
+    'plugins' => array(
+      0 => array(
+        'name' => 'event_results',
+        'settings' => NULL,
+        'context' => 'argument_entity_id:node_1',
+        'not' => FALSE,
+      ),
+    ),
   );
   $page->menu = array(
     'type' => 'tab',
