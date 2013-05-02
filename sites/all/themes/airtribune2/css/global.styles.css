@@ -2297,22 +2297,29 @@ p { margin:0; padding:9px 0 11px}
 /*.node .disqus_comments_num a { background: url(../images/coments_count.png) no-repeat 0 0; font: 14px/16px Arial, Helvetica, sans-serif; color: #9aafc1; text-decoration: none; width: 37px; height: 22px; overflow: hidden; padding: 2px 2px 4px; text-align: center; display: none;}*/
 .node .disqus_comments_num a { background: url(../images/coments_count.png) no-repeat 0 -28px; font: 18px/20px Arial, Helvetica, sans-serif; color: #ffffff; height: 25px; width: 37px; overflow: hidden; padding: 2px 2px 4px; text-align: center; display: none; text-decoration: none;}
 
-.node-teaser { position:relative; font:14px/20px Arial, Helvetica, sans-serif; background:url(../images/teaser_border.png) repeat-x 0 100%; margin:0 -10px 24px; padding:0 10px 15px;}
+.node-teaser { position:relative; font:14px/20px Arial, Helvetica, sans-serif; margin: -5px -6px 34px; padding:5px 6px 6px;}
 .node-teaser .node-header, .node-teaser .node-content { margin-left:240px; }
-.node-teaser > .clearfix { margin-left:240px; clear:both;}
+.node-teaser > .clearfix { margin-left:240px; clear:both; position: relative; top: -1px; margin-bottom: -1px;}
 .node-teaser .node-readmore { float:left; /*margin-top:-20px;*/}
 .node-pg-contest.node-teaser .node-readmore { margin-top:0}
 .node-teaser .node-readmore a { font-size:12px; color:#667480; text-decoration:none; background:url(../images/more.png) no-repeat 0 2px; padding-left:10px}
 .node-teaser .node-readmore a:hover { text-decoration:underline;}
 .node-teaser .field { width:100%; float:right;}
-.node-teaser .field-name-field-image { float:left; width:220px; margin:-24px 0 -22px -240px;}
-.node-teaser .field-name-field-image img { border:1px solid #c1cacf; vertical-align:middle;}
-.node-teaser h1.node-title { margin:0 50px 0 0; padding:0 0 4px; font:18px/20px Arial, Helvetica, sans-serif;}
+.node-teaser .field-name-field-image { float:left; width:220px; margin:-20px 0 -20px -240px;}
+.node-teaser .field-name-field-image img { vertical-align:middle;}
+.node-teaser h1.node-title { margin:0 50px 0 0; padding:0 0 1px; font:18px/20px Arial, Helvetica, sans-serif;}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
 .node-teaser h1.node-title a:hover { color:#00aeef}
-.node-teaser.node-sticky h1.node-title { background:url(../images/star.png) no-repeat 0 2px; padding-left:25px;}
+.node-teaser.node-sticky h1.node-title { background:url(../images/pin.png) no-repeat 0 2px; padding-left:25px;}
 .node-teaser .field-name-field-race-date, .node-teaser .node-create { text-align:right; font-size:12px; color:#f2aaac;}
 .node-teaser .node-create { float:right; padding:0}
+.node-teaser.node-sticky { border: 1px solid #eee6d1; background: rgba(242,206,109, .15); padding: 4px 5px;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
 
 .node {position: relative;}
 .node .node-content h2 { margin:0 0 -2px; padding:7px 0 0; font:24px/26px Arial, Helvetica, sans-serif;}
