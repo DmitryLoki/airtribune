@@ -5,3 +5,42 @@
  */
 
 include_once 'dayblog.features.inc';
+
+
+/**
+ * Implements hook_node_info().
+ */
+function dayblog_node_info() {
+  $items = array(
+    'dayblog' => array(
+      'name' => t('Day blog'),
+      'base' => 'dayblog',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_view().
+ */
+function dayblog_view($node) {
+  $record = db_query('SELECT entity_id FROM {field_data_field_dayblog_ref} WHERE field_dayblog_ref_target_id = ?', array($node->nid));
+  if ($day_id = $record->fetchField()) {
+    // Time zone field doesn't support Entity API.
+    // See http://drupal.org/node/1824306.
+    $wrapper = entity_metadata_wrapper('node', $day_id);
+    $time_zone = $wrapper->og_group_ref[0]->value()->field_time_zone[LANGUAGE_NONE][0]['value'];
+
+    $date = new DateTime(null, new DateTimeZone($time_zone));
+    $timestamp =  $node->created + $date->getOffset();
+    $node->content['time'] = array(
+      '#markup' => format_date($timestamp, 'custom', 'H:i'),
+    );
+  }
+  return $node;
+}
