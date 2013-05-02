@@ -16,7 +16,6 @@ features[metatag][] = node
 features[metatag][] = node:accommodation
 features[metatag][] = node:newsblog
 features[metatag][] = node:pg_contest
-features[metatag][] = node:pg_race
 features[metatag][] = user
 features[path_breadcrumbs][] = breadcrumb_accommodation
 features[path_breadcrumbs][] = breadcrumb_activities

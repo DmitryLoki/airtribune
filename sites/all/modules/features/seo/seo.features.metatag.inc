@@ -136,25 +136,6 @@ function seo_metatag_export_default() {
     ),
   );
 
-  // Exported Metatag config instance: node:pg_race.
-  $config['node:pg_race'] = array(
-    'instance' => 'node:pg_race',
-    'config' => array(
-      'og:type' => array(
-        'value' => 'sport',
-      ),
-      'title' => array(
-        'value' => '[node:title] | [node:og-group-ref:0:title] | [site:slogan]',
-      ),
-      'description' => array(
-        'value' => 'Latest news from [node:og-group-ref:0:title] on [node:title]. Paragliding. [node:summary]',
-      ),
-      'keywords' => array(
-        'value' => '[node:og-group-ref:0:title], paragliding, [node:field_location], live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
-      ),
-    ),
-  );
-
   // Exported Metatag config instance: user.
   $config['user'] = array(
     'instance' => 'user',

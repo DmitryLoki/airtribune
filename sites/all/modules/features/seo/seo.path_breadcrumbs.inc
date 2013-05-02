@@ -744,8 +744,8 @@ function seo_path_breadcrumbs_settings_info() {
           'context' => 'node',
           'not' => FALSE,
         ),
-        'logic' => 'and',
       ),
+      'logic' => 'and',
     ),
   );
   $path_breadcrumb->weight = -77;

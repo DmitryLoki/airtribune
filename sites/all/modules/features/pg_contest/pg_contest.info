@@ -58,6 +58,7 @@ features[field][] = node-pg_contest-field_contacts_name
 features[field][] = node-pg_contest-field_contacts_phone
 features[field][] = node-pg_contest-field_contest_photos
 features[field][] = node-pg_contest-field_contest_rules
+features[field][] = node-pg_contest-field_core_id
 features[field][] = node-pg_contest-field_country
 features[field][] = node-pg_contest-field_dates
 features[field][] = node-pg_contest-field_downloads

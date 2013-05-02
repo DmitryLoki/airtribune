@@ -60,7 +60,6 @@ if($row->field_field_image){
 
 }
 
-//d::dump($fields);
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
@@ -72,8 +71,9 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
+<?php else: ?>
+  <?php print $fields['created']->content; ?>
 <?php endif; ?>
-<?php print $fields['created']->content; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
 <?php if (!empty($fields['view'])): ?>
@@ -93,6 +93,10 @@ if($row->field_field_image){
 <?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
 <?php print $fields['field_dayblog_ref']->content; ?>
 <?php print $fields['field_dayblog_ref']->wrapper_suffix; ?>
+
+<?php print $fields['nothing']->wrapper_prefix; ?>
+<?php print $fields['nothing']->content; ?>
+<?php print $fields['nothing']->wrapper_suffix; ?>
 
 <?php if ($photos): ?>
 <div class="field-name-field-image">
