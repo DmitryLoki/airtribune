@@ -5,6 +5,46 @@
  * Installation file for the Airtribune Core API module.
  */
 
+ /**
+ * Returns Core ID from entity
+ */
+function get_id_from_contest($entity) {
+  $field_core_id = field_get_items('node', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;    
+  }
+}
+
+ /**
+ * Returns Contest Core ID from race entity
+ */
+function get_contest_id_from_race($entity) {
+  $contest_id = $this->entity->og_group_ref['und'][0]['target_id'];
+  $contest = node_load($contest_id);
+  $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;
+  }
+}
+
+
+ /**
+ * Returns Contest Core ID from race entity
+ */
+function get_race_id_from_race($entity) {
+  $field_core_id = field_get_items('enty_race', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;
+  }
+}
+
+
 /**
  * Returns synchronization class
  */
@@ -22,7 +62,7 @@ function _get_class_by_entity($entity, $type) {
     'user' => 'ATSyncPilot',
     'ent_race:pg_race' => 'ATSyncRace',
   );
-  drupal_set_message($tmp);
+
   if(!empty($classes[$tmp])) {
     $class = $classes[$tmp];
     return new $class($entity, $entity->type);
