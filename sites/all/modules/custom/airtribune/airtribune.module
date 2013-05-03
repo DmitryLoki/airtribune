@@ -507,7 +507,9 @@ function airtribune_pages_callback($context) {
  *
  * We have bad event datetime widget, without hours time ending, so after event save we have last
  * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
- * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ * Need to add 24h, but we don't need in day change, so add only 23:50:00
+ * Attention! If add more time, for example, 23:55:00 - at next node editing datetime widget change
+ * date to next day.
  *
  * @see #3077
  */
@@ -525,7 +527,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     //$new_end = date_create($end, $dates_items[0]['timezone']);
     //date_modify($new_end, '+1 day');
     //date_modify($new_end, '-1 sec');
-    $end = $end + (3600 * 24 - 1); // 23:59:59
+    $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
 }
