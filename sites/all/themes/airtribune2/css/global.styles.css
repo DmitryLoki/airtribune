@@ -2716,19 +2716,20 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
 .page-event-info #page .pane-node-field-collection-getting-there.no-title .more-link { margin-top: 5px;}
 .panel_info .pane-node-field-hq-location .pane-content { margin:18px 0 0 11px; padding-top: 5px;}
-.pane-node-field-collection-getting-there .links { padding:8px 0 0;}
-.pane-node-field-collection-getting-there .links li { margin:0; padding:0 10px 0 0; float:left; display:block}
-.pane-node-field-collection-getting-there .links a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
-.pane-node-field-collection-getting-there .links a.plane { background-position:0 0}
-.pane-node-field-collection-getting-there .links a.plane:hover { background-position:-26px 0}
-.pane-node-field-collection-getting-there .links a.train { background-position:0 -300px}
-.pane-node-field-collection-getting-there .links a.train:hover { background-position:-26px -300px}
-.pane-node-field-collection-getting-there .links a.car { background-position:0 -400px}
-.pane-node-field-collection-getting-there .links a.car:hover { background-position:-26px -400px}
-.pane-node-field-collection-getting-there .links a.bus { background-position:0 -100px}
-.pane-node-field-collection-getting-there .links a.bus:hover { background-position:-26px -100px}
-.pane-node-field-collection-getting-there .links a.taxi { background-position:0 -200px}
-.pane-node-field-collection-getting-there .links a.taxi:hover { background-position:-26px -200px}
+.page-event-info #page .panel_info .transport-icon { margin:0 -1px 0 0; padding:8px 0 9px 11px; float:left; display:block}
+.page-event-info .transport-icon:first-child { padding-left: 11px;}
+.page-event-info .panel_info .transport-icon .pane-content { margin: 0;}
+.page-event-info .transport-icon a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
+.page-event-info .transport-icon a.plane { background-position:0 0}
+.page-event-info .transport-icon a.plane:hover { background-position:-26px 0}
+.page-event-info .transport-icon a.train { background-position:0 -300px}
+.page-event-info .transport-icon a.train:hover { background-position:-26px -300px}
+.page-event-info .transport-icon a.car { background-position:0 -400px}
+.page-event-info .transport-icon a.car:hover { background-position:-26px -400px}
+.page-event-info .transport-icon a.bus { background-position:0 -100px}
+.page-event-info .transport-icon a.bus:hover { background-position:-26px -100px}
+.page-event-info .transport-icon a.taxi { background-position:0 -200px}
+.page-event-info .transport-icon a.taxi:hover { background-position:-26px -200px}
 
 
 .page-event-info #page .panel_info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
@@ -2745,9 +2746,6 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .addressfield-container-inline + .country:before,
 .field-name-field-address .field-item span + span:before { content:",";} 
 
-.page-event-info #page .pane-field-collection-item-field-gt-general { margin-bottom:16px; width:50%; float:right;}
-.page-event-info #page .pane-field-collection-item-field-gt-general p { padding:0}
-.page-event-info #page .pane-field-collection-item-field-gt-general .pane-content { margin-left:0}
 
 /* Downloads */
 .page-event-info .pane-node-field-downloads { width:50%; float:left;}
@@ -2863,31 +2861,22 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 /*.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}*/
 
 /* How to get here */
-.page-event-details .pane-node-field-collection-getting-there { clear:both; padding-top: 10px;}
-.page-event-details .panel_info .pane-node-field-collection-getting-there .pane-content { margin:0 11px;}
-.pane-node-field-collection-getting-there .field-item .field { width:50%; padding:21px 0 11px}
-.pane-node-field-collection-getting-there .field-item .field-name-field-gt-col-left { float:left; padding:0}
-.pane-node-field-collection-getting-there .field-item .field-name-field-gt-col-right { float:left; padding:0}
-.pane-node-field-collection-getting-there .field-item .field .field { width:auto}
-.pane-node-field-collection-getting-there .field-label { padding:5px 0 27px 50px; background:url(../images/icons_transport.png) no-repeat 2px -500px; color:#333a40; font:24px/26px Arial, Helvetica, sans-serif;}
-.pane-node-field-collection-getting-there .field-item .field_odd .field-label,
-.pane-node-field-collection-getting-there .field-item .field_odd .field-items { margin-right:10px}
-.pane-node-field-collection-getting-there .field-item .field_even .field-label,
-.pane-node-field-collection-getting-there .field-item .field_even .field-items { margin-left:10px}
-.pane-node-field-collection-getting-there .field-item .field-name-field-gt-general { padding:9px 0 11px; width:auto; float:none;}
-.pane-node-field-collection-getting-there .field-item .field-name-field-gt-general .field-label,
-.pane-node-field-collection-getting-there .field-item .field-name-field-gt-general .field-items { margin-left:0}
-.pane-node-field-collection-getting-there .field-name-field-gt-plane .field-label { background-position:2px -500px}
-.pane-node-field-collection-getting-there .field-name-field-gt-train .field-label { background-position:2px -600px}
-.pane-node-field-collection-getting-there .field-name-field-gt-car .field-label { background-position:2px -700px}
-.pane-node-field-collection-getting-there .field-name-field-gt-bus .field-label { background-position:2px -800px}
-.pane-node-field-collection-getting-there .field-name-field-gt-taxi .field-label { background-position:2px -900px}
+.page-event-details .transport-icon  {padding:21px 0 11px; margin-bottom: 0;}
+.page-event-details .transport-icon > .pane-inner > h2 { padding:5px 0 27px 50px; background:url(../images/icons_transport.png) no-repeat 2px -500px; color:#333a40; font:24px/26px Arial, Helvetica, sans-serif; margin-left: 8px;}
+
+
+.page-event-details .pane-node-field-gt-plane > .pane-inner > h2 { background-position:2px -500px}
+.page-event-details .pane-node-field-gt-train > .pane-inner > h2 { background-position:2px -600px}
+.page-event-details .pane-node-field-gt-car > .pane-inner > h2 { background-position:2px -700px}
+.page-event-details .pane-node-field-gt-bus > .pane-inner > h2 { background-position:2px -800px}
+.page-event-details .pane-node-field-gt-taxi > .pane-inner > h2 { background-position:2px -900px}
 
 .page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
 /*.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}*/
+.page-event-details .field-name-field-hq-location { margin-top: 0;}
 .page-event-details .pane-node-field-hq-location .clearfix:after { clear:none;}
-.page-event-details #page .pane-node-field-hq-location { margin-bottom: 0; padding-top: 5px;}
-.page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 -4px; width:200px; padding-top: 5px;}
+.page-event-details #page .pane-node-field-hq-location { margin-bottom: 10px; padding-top: 2px; float: left;}
+.page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 7px; width:200px; padding-top: 23px;}
 .page-event-details #page .pane-node-field-address .field-label { font-weight: normal;}
 
 .page-event-details #page .pane-field-collection-item-field-gt-general { margin-bottom:0}

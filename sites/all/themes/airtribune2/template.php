@@ -232,7 +232,7 @@ function airtribune2_preprocess_pane_messages(&$vars) {
  * @param array $variables
  * @autor Vyacheslav "ValiDoll" Malchik <info@vkey.biz>
  */
-function airtribune2_preprocess_panels_pane(&$variables) {
+function airtribune2_preprocess_panels_pane(&$variables) { 
   $base = 'panels_pane'; //
   $delimiter = '__';
   $variables['theme_hook_suggestions'][] = $base . $delimiter . $variables['pane']->type; 
@@ -268,6 +268,18 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   }
   if ($variables['pane']->type == 'node_content' && $variables['content']['#node']->type == 'newsblog') {
     $variables['title'] = '';
+  }
+
+  $transport = array(
+    'node:field_gt_car',
+    'node:field_gt_bus',
+    'node:field_gt_taxi',
+    'node:field_gt_plane',
+    'node:field_gt_train',
+  );
+
+  if(in_array($variables['pane']->subtype, $transport)){
+    $variables['classes_array'][] = 'transport-icon';
   }
 }
 
