@@ -16,6 +16,7 @@ dependencies[] = at_user
 dependencies[] = at_validation
 dependencies[] = auto_nodetitle
 dependencies[] = autocomplete_widgets
+dependencies[] = better_formats
 dependencies[] = block
 dependencies[] = cck_phone
 dependencies[] = clientside_validation
