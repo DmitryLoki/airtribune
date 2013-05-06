@@ -33,5 +33,5 @@ function airtribune_event_results_access_check($conf, $context) {
     return FALSE;
   }
 
-  return strtotime($dates_items[0]['value2']) < REQUEST_TIME;
+  return strtotime($dates_items[0]['value2']) - 86400 < REQUEST_TIME;
 }
