@@ -921,6 +921,7 @@ function airtribune2_addressfield_container($variables) {
 function airtribune2_field($variables) {
   $element = $variables['element'];
   //print $variables['element']['#field_name'];
+  $variables['suffix'] = $variables['prefix'] = '';
   $colon = ':&nbsp;';
   switch ($variables['element']['#field_name']) {
     case 'field_price_single':
@@ -973,6 +974,11 @@ function airtribune2_field($variables) {
           )
         );
       }
+      else if (arg(3)) {
+        $variables['prefix'] = '<a id="' . str_replace('field_', '', $variables['element']['#field_name']) . '"></a>';
+        $colon = '';
+        $variables['classes'] .= ' transport-icon';
+      }
       break;
 
 
@@ -997,7 +1003,7 @@ function airtribune2_field($variables) {
   $output .= '</div>';
 
   // Render the top-level DIV.
-  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+  $output = $variables['prefix'] . '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>' . $variables['suffix'];
 
   return $output;
 }

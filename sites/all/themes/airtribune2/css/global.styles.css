@@ -2861,15 +2861,21 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 /*.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}*/
 
 /* How to get here */
+.page-event-details .group_how_to_get_here {}
+.page-event-details .group_how_to_get_here #gt-left,
+.page-event-details .group_how_to_get_here #gt-right { width: 50%; float: left;}
+.page-event-details .group_how_to_get_here #gt-right { float: right;}
 .page-event-details .transport-icon  {padding:21px 0 11px; margin-bottom: 0;}
-.page-event-details .transport-icon > .pane-inner > h2 { padding:5px 0 27px 50px; background:url(../images/icons_transport.png) no-repeat 2px -500px; color:#333a40; font:24px/26px Arial, Helvetica, sans-serif; margin-left: 8px;}
+.page-event-details .transport-icon .field-label { padding:5px 0 27px 50px; background:url(../images/icons_transport.png) no-repeat 2px -500px; color:#333a40; font:24px/26px Arial, Helvetica, sans-serif; margin-left: 3px; display: block;}
+.page-event-details .transport-icon .field-items { display: block; margin: 0 5px;}
+.page-event-details #gt-right .field-items { margin-left: 10px;}
 
 
-.page-event-details .pane-node-field-gt-plane > .pane-inner > h2 { background-position:2px -500px}
-.page-event-details .pane-node-field-gt-train > .pane-inner > h2 { background-position:2px -600px}
-.page-event-details .pane-node-field-gt-car > .pane-inner > h2 { background-position:2px -700px}
-.page-event-details .pane-node-field-gt-bus > .pane-inner > h2 { background-position:2px -800px}
-.page-event-details .pane-node-field-gt-taxi > .pane-inner > h2 { background-position:2px -900px}
+.page-event-details .field-name-field-gt-plane .field-label { background-position:2px -500px}
+.page-event-details .field-name-field-gt-train .field-label { background-position:2px -600px}
+.page-event-details .field-name-field-gt-car .field-label { background-position:2px -700px}
+.page-event-details .field-name-field-gt-bus .field-label { background-position:2px -800px}
+.page-event-details .field-name-field-gt-taxi .field-label { background-position:2px -900px}
 
 .page-event-details .pane-node-field-hq-location .pane-content { width:460px; float:left;}
 /*.page-event-details .pane-node-field-hq-location .openlayers-map, .page-event-details .pane-node-field-hq-location .olMapViewport { width:460px !important}*/
