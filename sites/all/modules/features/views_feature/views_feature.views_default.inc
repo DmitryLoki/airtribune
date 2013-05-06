@@ -1207,6 +1207,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_results_file']['alter']['text'] = '[field_pg_scoring_category] results';
   $handler->display->display_options['fields']['field_results_file']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_results_file']['alter']['path'] = '[field_results_file]';
+  $handler->display->display_options['fields']['field_results_file']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['field_results_file']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_results_file']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_results_file']['type'] = 'file_url_plain';
@@ -1251,6 +1252,7 @@ function views_feature_views_default_views() {
     t('Race'),
     t('Scoring category'),
     t('[field_pg_scoring_category] results'),
+    t('_blank'),
     t('All'),
   );
   $export['category_results'] = $view;
