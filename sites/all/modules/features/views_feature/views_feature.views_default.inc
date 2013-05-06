@@ -1516,12 +1516,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'OG membership from node';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['id'] = 'reverse_field_scoring_category_ref_field_collection_item';
-  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['table'] = 'node';
-  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['field'] = 'reverse_field_scoring_category_ref_field_collection_item';
-  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['ui_name'] = 'Results field collection';
-  $handler->display->display_options['relationships']['reverse_field_scoring_category_ref_field_collection_item']['label'] = 'Results field collection';
   /* Field: Nid - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -1585,14 +1579,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['view_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_1']['view'] = 'category_results';
   $handler->display->display_options['fields']['view_1']['arguments'] = '[!nid]';
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['field_results_file']['id'] = 'field_results_file';
-  $handler->display->display_options['fields']['field_results_file']['table'] = 'field_data_field_results_file';
-  $handler->display->display_options['fields']['field_results_file']['field'] = 'field_results_file';
-  $handler->display->display_options['fields']['field_results_file']['relationship'] = 'reverse_field_scoring_category_ref_field_collection_item';
-  $handler->display->display_options['fields']['field_results_file']['ui_name'] = 'Results file';
-  $handler->display->display_options['fields']['field_results_file']['label'] = '';
-  $handler->display->display_options['fields']['field_results_file']['element_label_colon'] = FALSE;
   /* Contextual filter: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
@@ -2491,6 +2477,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
+  /* Relationship: OG membership: Group Content from OG membership */
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'pg_contest node';
   /* Field: Race ID - excluded */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -2501,12 +2493,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['id']['exclude'] = TRUE;
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['id']['separator'] = '';
-  /* Relationship: OG membership: Group Content from OG membership */
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'pg_contest node';
   /* Field: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -2723,9 +2709,9 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('pg_contest'),
     t('pg_race'),
+    t('pg_contest node'),
     t('.'),
     t('Results'),
-    t('pg_contest node'),
     t('Tracks'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('All'),
