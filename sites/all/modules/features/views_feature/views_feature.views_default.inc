@@ -1914,6 +1914,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_scoring_category']['label'] = '';
   $handler->display->display_options['fields']['field_pg_scoring_category']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_pg_scoring_category']['alter']['path'] = '[field_results_file]';
+  $handler->display->display_options['fields']['field_pg_scoring_category']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['field_pg_scoring_category']['element_label_colon'] = FALSE;
   /* Contextual filter: Race ID */
   $handler->display->display_options['arguments']['id']['id'] = 'id';
@@ -1957,6 +1958,7 @@ function views_feature_views_default_views() {
     t('Competition results'),
     t('Day results'),
     t('Scoring category'),
+    t('_blank'),
     t('All'),
   );
   $export['day_results'] = $view;
