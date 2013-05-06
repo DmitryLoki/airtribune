@@ -5,6 +5,7 @@
  * Common functions that many Airtribune plugins will need to reference.
  */
 
+define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -34,13 +35,20 @@ define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
 define('AIRTRIBUNE_POINTS_FILE_FIELD', 'field_points_file');
 define('AIRTRIBUNE_REGISTRATION_SW_FIELD', 'field_registration_sw');
 define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
+define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
+define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
+define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
+
+// Entity types.
+define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
@@ -418,7 +426,7 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
  * Geo distance sorting
  * Implementation of hook_views_query_alter
  * @param type $view
- * @param type $query 
+ * @param type $query
  */
 function airtribune_views_query_alter(&$view, &$query) {
   if ($view->name == 'next_events') {
@@ -437,7 +445,7 @@ function airtribune_views_query_alter(&$view, &$query) {
       $lng = $_SESSION['geoip']['lng'];
       // create temporary temporary table with distances
       $distance_table = db_query_temporary('SELECT entity_id,
-      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance 
+      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance
       FROM {field_data_field_hq_location}
       ORDER BY distance;', array(":lat" => $lat, ":lng" => $lng));
       $join = new views_join;
@@ -446,7 +454,7 @@ function airtribune_views_query_alter(&$view, &$query) {
       $query->add_orderby('distance', 'distance');
       $tmp = $view->query->orderby[1];
       $view->query->orderby[1] = $view->query->orderby[2];
-      $view->query->orderby[2] = $tmp; 
+      $view->query->orderby[2] = $tmp;
     }
   }
   // Prevent HQ duplication.
@@ -458,6 +466,11 @@ function airtribune_views_query_alter(&$view, &$query) {
         ->condition('field_headquarter_hotel_node.nid', (int) $view->args[0], '=')
         ->condition('field_headquarter_hotel_node.nid', NULL, 'IS NULL')
     );
+  }
+
+  // See http://drupal.org/node/1451218#comment-6136692
+  if ($view->name == 'day_results') {
+    $view->query->where[0]['type'] = 'OR';
   }
 
 }
@@ -476,10 +489,7 @@ function airtribune_pages_callback($context) {
 
   $node = $context->data;
 
-  $start = strtotime($node->field_dates['und'][0]['value']);
-  $end = strtotime($node->field_dates['und'][0]['value2']);
-
-  $event_date_status = airtribune_event_check_date_status($start, $end);
+  $event_date_status = airtribune_event_status_check_by_date($node);
   if ($event_date_status == 'next') {
     menu_set_active_item('event/'.$node->nid.'/info');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
@@ -491,14 +501,9 @@ function airtribune_pages_callback($context) {
     return page_manager_page_execute('event_blog', $context);
   }
   elseif ($event_date_status == 'past') {
-  // at this moment we haven't results menu/page/breadcrumbs
-    // use 'next event' strategy
-    menu_set_active_item('event/'.$node->nid.'/info');
-    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
-    return page_manager_page_execute('event_info', $context);
-//    menu_set_active_item('event/'.$node->nid.'/results');
-//    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
-//    return page_manager_page_execute('event_results', $context);
+    menu_set_active_item('event/'.$node->nid.'/results');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
+    return page_manager_page_execute('event_results', $context);
   }
 }
 
@@ -507,7 +512,9 @@ function airtribune_pages_callback($context) {
  *
  * We have bad event datetime widget, without hours time ending, so after event save we have last
  * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
- * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ * Need to add 24h, but we don't need in day change, so add only 23:50:00
+ * Attention! If add more time, for example, 23:55:00 - at next node editing datetime widget change
+ * date to next day.
  *
  * @see #3077
  */
@@ -525,7 +532,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     //$new_end = date_create($end, $dates_items[0]['timezone']);
     //date_modify($new_end, '+1 day');
     //date_modify($new_end, '-1 sec');
-    $end = $end + (3600 * 24 - 1); // 23:59:59
+    $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
 }
@@ -534,13 +541,14 @@ function airtribune_modify_event_date_include_last_day(&$node) {
  * Implements hook_init().
  */
 function airtribune_init() {
+
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
   }
   // Redirect on from /events to needed page, based on next/current events count
   // see #3067
-  if (arg(0) == 'events' && arg(1) == null) {
+  if (arg(0) == 'events' && arg(1) == NULL) {
     $events = airtribune_get_events_nids_with_date_status();
     if (count($events['current']) > 0) {
       drupal_goto('events/current');
@@ -555,18 +563,76 @@ function airtribune_init() {
 }
 
 /**
- * Check event dates status
- * @param $start_date unix_stamp
- * @param $end_date unix_stamp
+ * Check event for dates status
+ * @param $node object
  *
- * @return event_date_status NULL|string
- *   NULL or 'past' or 'current' or 'next'
+ * @return event_date_status FALSE|string
+ *   FALSE or 'past' or 'current' or 'next'
  *
  * @author Kraev Vasily
  */
-function airtribune_event_check_date_status($start_date, $end_date) {
+function airtribune_event_status_check_by_date($node) {
+  $result = airtribune_extract_time_from_event($node);
+  if (!$result) return FALSE;
+  return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
+}
+
+/**
+ * Helper function, load node & extract time and offset from fields
+ *
+ * @param $node object
+ *
+ * @return $result array
+ *   with 'start', 'end' & 'offset'. FALSE if event not found
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_extract_time_from_event($node) {
+  // if we get node->nid instead node object
+  if (!is_object($node)) {
+    $node = node_load($node);
+  }
+
+  if (!$node) {
+    return FALSE;
+  }
+
+  // we use tzfield module for timezone, because we need city of event,
+  // in datefiled stored the default UTC timezone, so we load timezone from tzfield
+  $tz_field = field_get_items('node', $node, AIRTRIBUNE_TIMEZONE_FIELD);
+  $dates_field = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
+
+  $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
+  $tz = new DateTimeZone($tz);
+  // get offset of event timezone from UTC
+  $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+
+  $result['start'] = strtotime($dates_field[0]['value']);
+  $result['end']   = strtotime($dates_field[0]['value2']);
+
+  return $result;
+}
+
+/**
+ * Compare dates with 'now' moment, using timezone offset
+ * Helper function to airtribune_event_status_check_by_date()
+ *
+ * @param $start_date unix_stamp
+ * @param $end_date unix_stamp
+ * @param $offset int seconds
+ *
+ * @return event_date_status FALSE|string
+ *   FALSE or 'past' or 'current' or 'next'
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
   $now = REQUEST_TIME;
-  if (empty($start_date) || empty($end_date)) return NULL;
+  if ($offset) {
+    $start_date += $offset;
+    $end_date   += $offset;
+  }
+  if (empty($start_date) || empty($end_date)) return FALSE;
   elseif ($now < $start_date) return 'next';
   elseif ($now >= $start_date && $now <= $end_date) return 'current';
   elseif ($now > $end_date) return 'past';
@@ -575,41 +641,67 @@ function airtribune_event_check_date_status($start_date, $end_date) {
 /**
  * Get all events nids with date status
  *
- * @return array with [ past | current | next ] events nids without checking on publish status
+ * @return array with [ past | current | next ] events nids
  *
  * @author Kraev Vasily
  */
 function airtribune_get_events_nids_with_date_status() {
-  $now = date('d.m.Y', REQUEST_TIME);
-
   $result = array();
 
-  $past_events = db_select('field_data_field_dates', 'd')
-    ->fields('d', array('entity_id'))
-    ->condition('d.field_dates_value2', $now, '<')
-    ->execute();
-  foreach ($past_events as $item) {
-    $result['past'][] = $item->entity_id;
-  }
+  // get all published events
+  $events = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('n.type', AIRTRIBUNE_PG_CONTEST_TYPE)
+      ->condition('n.status', 1)
+      ->execute();
 
-  $current_events = db_select('field_data_field_dates', 'd')
-    ->fields('d', array('entity_id'))
-    ->condition('d.field_dates_value', $now, '<=')
-    ->condition('d.field_dates_value2', $now, '>=')
-    ->execute();
-  foreach ($current_events as $item) {
-    $result['current'][] = $item->entity_id;
-  }
+  foreach ($events as $event) {
+    // drupal way, with caching
+    $node = node_load($event->nid);
+    $status = airtribune_event_status_check_by_date($node);
 
-  $next_events = db_select('field_data_field_dates', 'd')
-    ->fields('d', array('entity_id'))
-    ->condition('d.field_dates_value', $now, '>')
-    ->execute();
-  foreach ($next_events as $item) {
-    $result['next'][] = $item->entity_id;
+    // probably more fast, based on sql
+//    $event_dates = db_select('field_data_field_dates', 'd')
+//      ->fields('d', array('field_dates_value', 'field_dates_value2'))
+//      ->condition('d.entity_id', $event->nid)
+//      ->execute()
+//      ->fetchObject();
+//    $event_offset = db_select('field_data_field_time_zone', 't')
+//      ->fields('t', array('field_time_zone_value'))
+//      ->condition('t.entity_id', $event->nid)
+//      ->execute()
+//      ->fetchField();
+//    $start = strtotime($event_dates->field_dates_value);
+//    $end = strtotime($event_dates->field_dates_value2);
+//    $tz = new DateTimeZone($event_offset);
+//    $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+//    $status = airtribune_compare_dates($start, $end, $offset);
+
+    $result[$status][] = $event->nid;
   }
 
   return $result;
+}
+
+/**
+ * How much time has passed since the beginning of the event
+ *
+ * @param object $node
+ * @param string $granularity sec/hour/day
+ *
+ * @return int|float seconds, hours or days
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_how_time_after_event_start($node, $granularity = 'day') {
+  $result = airtribune_extract_time_from_event($node);
+  if ($result && airtribune_event_status_check_by_date($node) == 'current') {
+    $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
+    if ($granularity == 'day') return ($seconds/3600/24);
+    elseif ($granularity == 'hour') return ($seconds/3600);
+    else return $seconds;
+  }
+  return FALSE;
 }
 
 /**
@@ -620,5 +712,27 @@ function airtribune_js_alter(&$javascript) {
   $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
   if (isset($javascript[$accodion_js])) {
     $javascript[$accodion_js]['data'] = drupal_get_path('module', 'airtribune') . '/js/views-accordion.js';
+  }
+}
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ *
+ * @see #3025-29
+ * @see http://drupal.org/node/1719948
+ */
+function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if ($entity_form['#entity_type'] == 'node') {
+    $setting = auto_nodetitle_get_setting($entity_form['#entity']->type);
+    if ($setting == AUTO_NODETITLE_ENABLED) {
+      // We will autogenerate the title later, just hide the title field in the
+      // meanwhile.
+      $entity_form['title']['#value'] = 'ant';
+      $entity_form['title']['#type'] = 'value';
+      $entity_form['title']['#required'] = FALSE;
+    }
+    elseif ($setting == AUTO_NODETITLE_OPTIONAL) {
+      $entity_form['title']['#required'] = FALSE;
+    }
   }
 }
