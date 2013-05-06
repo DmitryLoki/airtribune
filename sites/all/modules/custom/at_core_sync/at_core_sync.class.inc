@@ -1,5 +1,6 @@
 <?
 define(AIRTRIBUNE_CORE_ID_FIELD, 'field_core_id');
+define(LANGUAGE_UNDEFINED, 'und');
 /**
  * Abstract class with commin synchronisation functions
  */
@@ -44,36 +45,39 @@ abstract class ATSync {
       $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
       switch($code){
         case 200:
-          drupal_set_message(t("Request completed."));
+          drupal_set_message(t("Core API: Request completed."));
           break;
         case 201:
-          drupal_set_message(t("Resource is successfully created."));
+          drupal_set_message(t("Core API: Resource is successfully created."));
           break;
         case 202:
-          drupal_set_message(t("Request accepted."));
+          drupal_set_message(t("Core API: Request accepted."));
           break;        
         case 400:
-          drupal_set_message(t("Request has error. Check fields and send again."),'error');
+          drupal_set_message(t("Core API[400]: Request has error. Check fields and send again."),'error');
           break;
         case 401:
-          drupal_set_message(t("You need to auth before send this request."),'error');
+          drupal_set_message(t("Core API[401]: You need to auth before send this request."),'error');
           break;
         case 403:
-          drupal_set_message(t("Requested operation not avaible."),'error');
+          drupal_set_message(t("Core API[403]: Requested operation not avaible."),'error');
           break;
         case 404:
-          drupal_set_message(t("Resource not found"),'error');
+          drupal_set_message(t("Core API[404]: Resource not found"),'error');
           break;
         case 409:
-          drupal_set_message(t("Conflict happened. See server response for details."),'error');
+          drupal_set_message(t("Core API[409]: Conflict happened. See server response for details."),'error');
+          drupal_set_message($response,'error');
           break;
         case 500:
-          drupal_set_message(t("Format error or server restrictions."),'error');
+          drupal_set_message(t("Core API[500]: Format error or server restrictions."),'error');
+          drupal_set_message($response,'error');
           break;
         case 502:
         case 504:
         case 0:
           drupal_set_message(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))),'error');
+          watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
           break;
       }
       return json_decode($response);      
@@ -86,10 +90,9 @@ abstract class ATSync {
           ),
         ),
       );
-      entity_save($this->entity_type, $this->entity);
+      field_attach_update($this->entity_type, $this->entity);
     }
-    abstract public function onInsert();
-    abstract public function onUpdate();
+    abstract public function synchronize();
 }
 
 /**
@@ -97,32 +100,13 @@ abstract class ATSync {
  */
 class ATSyncContest extends ATSync {
   public $address = "contest";
-  
-  public function onInsert(){
+  public function synchronize(){
     $node = $this->entity;
-    $data = array(
-      'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
-      'title' => $node->title,
-      'start_time' => strtotime($node->field_dates['und'][0]['value']),
-      'end_time' => strtotime ($node->field_dates['und'][0]['value2']),
-      'place' => $node->field_city['und'][0]['value'],
-      'country' => $node->field_country['und'][0]['iso2'],
-      'timezone' => $node->field_dates['und'][0]['timezone'],
-    );
-    $response = $this->request(http_build_query($data));
-    $id = $response->id;
-    $this->updateCoreID($id);
-    return $id;
-  }
-  public function onUpdate(){
-    $node = $this->entity;
-
-    if(empty($node->field_core_id['und'][0]['value'])) {
-      return $this->onInsert();
+    $core_id = get_id_from_contest($node);
+    // change address if contest already in Core
+    if ($core_id) {
+      $this->address .= '/' . $core_id;
     }
-
-    $id = $node->field_core_id['und'][0]['value'];
-    $this->address .= '/' . $id;
     $data = array(
       'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
       'title' => $node->title,
@@ -132,10 +116,48 @@ class ATSyncContest extends ATSync {
       'country' => $node->field_country['und'][0]['iso2'],
       'timezone' => $node->field_dates['und'][0]['timezone'],
     );
+    // Choose PUT or POST - depends exist contest in Core or not
+    if ($core_id) {
+      $response = $this->request(json_encode($data), "PUT");  
+    } else {
+      $response = $this->request(http_build_query($data));
+      $this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
+  }
+}
 
-    $response = $this->request(json_encode($data), "PUT");
-    drupal_set_message(print_r($response, TRUE));
-    return $response->id;
+ /**
+ * Class for synchronization person
+ */
+class ATSyncPerson extends ATSync {
+  public $address = "person";
+  public function synchronize(){    
+    $name = $this->entity->profile_main['field_full_name'][LANGUAGE_UNDEFINED][0];
+    $profile2 = profile2_load_by_user($this->entity);
+    if (!isset($profile2['pilot'])) {
+      drupal_set_message("Core API: User is not a pilot, no need to synchronize");
+      return FALSE;
+    }
+    $core_id = get_id_from_user($this->entity);
+    if ($core_id) {
+      $this->address =  implode('/', array('person', $core_id));
+    }
+    $data = array(
+      'name' => $profile2['main']->field_full_name[LANGUAGE_UNDEFINED][0]['given'],
+      'surname' => $profile2['main']->field_full_name[LANGUAGE_UNDEFINED][0]['family'], 
+      'country' => $profile2['pilot']->field_address[LANGUAGE_UNDEFINED][0]['country'],
+      'email' => $this->entity->mail,
+      'reg_date' => date("Y,m,d", $this->entity->created),
+    );
+    // Choose PUT or POST - depends exist contest in Core or not
+    if ($core_id) {
+      $response = $this->request(json_encode($data), "PUT");  
+    } else {
+      $response = $this->request(http_build_query($data));
+      $this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
   }
 }
 
@@ -143,12 +165,40 @@ class ATSyncContest extends ATSync {
  * Class for synchronization pilot
  */
 class ATSyncPilot extends ATSync {
-  public $address = "person";
-  public function onInsert(){
-    // insert code
-  }
-  public function onUpdate(){
-    // update code
+  public $address = "contest/";
+  public function synchronize(){
+    // Send only if status is confirmed
+    if ($this->entity->field_pg_contestant_status[LANGUAGE_UNDEFINED][0]['value'] != 4 ) {
+      return false;
+    }
+    $contest = node_load($this->entity->gid);
+    $contest_core_id = get_id_from_contest($contest);
+    if (!$contest_id) {
+      // Synchronize contest if not synchronized
+      $sync = _get_class_by_entity($contest, 'node');
+      $contest_core_id = $sync->synchronize();
+    }
+    $person = user_load($this->entity->etid);
+    $person_id = get_id_from_user($person);
+    if (!$person_id) {
+      // Synchronize pilot if not synchronized
+      $sync = _get_class_by_entity($person, 'user');
+      $person_id = $sync->synchronize();
+    }
+    $this->address = implode('/', array('contest', $contest_core_id, 'paraglider'));
+    $data = array(
+      'person_id' => $person_id,
+      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_UNDEFINED][0]['value'],
+      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_UNDEFINED][0]['value'],
+    );
+    $core_id = FALSE;
+    if ($core_id) {
+      $response = $this->request(json_encode($data), "PUT");  
+    } else {
+      $response = $this->request(http_build_query($data));
+      //$this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
   }
 }
 
@@ -157,31 +207,25 @@ class ATSyncPilot extends ATSync {
  */
 class ATSyncRace extends ATSync {
   public $address = "contest/";
-  public function onInsert(){
-    // insert code
-  }
-  public function onUpdate(){
+  public function synchronize(){
     $day_id = $this->entity->field_day_ref['und'][0]['target_id'];
-    $contest_id = $this->entity->og_group_ref['und'][0]['target_id'];
-    $contest = node_load($contest_id);
+    $contest_nid = $this->entity->og_group_ref['und'][0]['target_id'];
+    $contest = node_load($contest_nid);
     if (!$contest) {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
       return false;
     }
-    $contest_core_id = FALSE;
-    $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
-    if (empty($field_core_id[0]['value'])){
-      if($sync = _get_class_by_entity($contest, "node")){
-        $contest_core_id = $sync->onInsert();
-      }
-    } else {
-      $contest_core_id = $field_core_id[0]['value'];
-    }
+
+    $contest_core_id = get_id_from_contest($contest);
     if (!$contest_core_id) {
-      drupal_set_message(t('ATSyncRace: Unable to get contest core id'),'error');
-      return false;
+      drupal_set_message("Core API: Contest not synchronized yet.");
+      return FALSE;
     }
-    $this->address = implode('/', array('contest', $contest_core_id, 'race'));    
+
+    $this->address = implode('/', array('contest', $contest_core_id, 'race'));
+    if ($race_core_id = get_race_id_from_race($this->entity)) {
+      $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id));
+    }
 
     $checkpoints = array(
       "type" => "FeatureCollection",
@@ -213,14 +257,23 @@ class ATSyncRace extends ATSync {
     );
     $url = http_build_query($data);
     $url .= '&checkpoints='.json_encode($checkpoints);
-    
-    $response = $this->request($url, "POST");
-    _d($response);
+    if ($race_core_id) {
+      $data = array(
+        'title' => $this->entity->title,
+      );
+      _d($data);
+      //$data['checkpoints'] = $checkpoints;
+      $response = $this->request(json_encode($data), "PUT");
+      _d($response);
+    } else {
+      $response = $this->request($url);
+      $this->updateCoreID($response->id);
+    }
     return !empty($response->id) ? $response->id : FALSE;
-    // update code
   }
 }
 
+// Debug function
 function _d($var) {
   drupal_set_message(print_r($var, TRUE));
 }
