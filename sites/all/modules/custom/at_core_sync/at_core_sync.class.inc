@@ -1,5 +1,5 @@
 <?
-
+define(AIRTRIBUNE_CORE_ID_FIELD, 'field_core_id');
 /**
  * Abstract class with commin synchronisation functions
  */
@@ -19,6 +19,7 @@ abstract class ATSync {
       $url = $this->domain . $this->address;
       curl_setopt($handle, CURLOPT_URL, $url);
       curl_setopt($handle, CURLOPT_PORT, $this->port);
+      curl_setopt($handle, CURLOPT_TIMEOUT , 5);
       curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
       curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
@@ -40,9 +41,42 @@ abstract class ATSync {
           break;
       }
       $response = curl_exec($handle);
-      _d('code:');
-      _d(curl_getinfo($handle, CURLINFO_HTTP_CODE));
-      return json_decode($response);
+      $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+      switch($code){
+        case 200:
+          drupal_set_message(t("Request completed."));
+          break;
+        case 201:
+          drupal_set_message(t("Resource is successfully created."));
+          break;
+        case 202:
+          drupal_set_message(t("Request accepted."));
+          break;        
+        case 400:
+          drupal_set_message(t("Request has error. Check fields and send again."),'error');
+          break;
+        case 401:
+          drupal_set_message(t("You need to auth before send this request."),'error');
+          break;
+        case 403:
+          drupal_set_message(t("Requested operation not avaible."),'error');
+          break;
+        case 404:
+          drupal_set_message(t("Resource not found"),'error');
+          break;
+        case 409:
+          drupal_set_message(t("Conflict happened. See server response for details."),'error');
+          break;
+        case 500:
+          drupal_set_message(t("Format error or server restrictions."),'error');
+          break;
+        case 502:
+        case 504:
+        case 0:
+          drupal_set_message(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))),'error');
+          break;
+      }
+      return json_decode($response);      
     }
     public function updateCoreID($id){
       $this->entity->field_core_id = array(
@@ -63,6 +97,7 @@ abstract class ATSync {
  */
 class ATSyncContest extends ATSync {
   public $address = "contest";
+  
   public function onInsert(){
     $node = $this->entity;
     $data = array(
@@ -134,20 +169,20 @@ class ATSyncRace extends ATSync {
       return false;
     }
     $contest_core_id = FALSE;
-    if (empty($contest->field_core_id['und'][0]['value'])){
+    $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
+    if (empty($field_core_id[0]['value'])){
       if($sync = _get_class_by_entity($contest, "node")){
         $contest_core_id = $sync->onInsert();
       }
     } else {
-      $contest_core_id = $contest->field_core_id['und'][0]['value'];
+      $contest_core_id = $field_core_id[0]['value'];
     }
     if (!$contest_core_id) {
-      drupal_set_message(t('ATSyncRace: Unable to get contest core id'));
+      drupal_set_message(t('ATSyncRace: Unable to get contest core id'),'error');
       return false;
     }
-    $this->address = implode('/', array('contest', $contest_core_id, 'race'));
-    _d($this->address . " address");
-    
+    $this->address = implode('/', array('contest', $contest_core_id, 'race'));    
+
     $checkpoints = array(
       "type" => "FeatureCollection",
       "features" => array(
@@ -178,10 +213,10 @@ class ATSyncRace extends ATSync {
     );
     $url = http_build_query($data);
     $url .= '&checkpoints='.json_encode($checkpoints);
-    _d($url);
+    
     $response = $this->request($url, "POST");
     _d($response);
-    return $response->id;
+    return !empty($response->id) ? $response->id : FALSE;
     // update code
   }
 }
