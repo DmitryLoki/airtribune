@@ -15,7 +15,7 @@ print drupal_render($form['field_user_avatar']);
 
 $form['account']['mail']['#title'] = t('Email');
 $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
-unset($form['account']['mail']['#description']);
+$form['account']['mail']['#description'] = t('Your email is your login in the system. To change email you must enter your new email. Your email will be changed after confirmation.');
 $form['account']['current_pass']['#title'] = t('Current password');
 $form['account']['current_pass']['#description'] = t('Your current password. If your forgot your password, you can reset it <a href="/user/password">here</a>.');
 $form['account']['pass']['pass1']['#title'] = t("New password");
@@ -78,9 +78,13 @@ $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
 $form['pass_fieldset']['pass']         = $form['account']['pass'];
 print drupal_render($form['pass_fieldset']);
 
+print "<div id='mail-change'>";
+print drupal_render($form['account']['mail']);
+print drupal_render($form['account']['current_pass']);
+print "</div>";
+
 // hide elements
 hide($form['account']['pass']);
-hide($form['account']['current_pass']);
 hide($form['timezone']);
 hide($form['locale']);
 

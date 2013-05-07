@@ -5,7 +5,7 @@
         //$('#mail-dummy').hide();
         $('#name_and_birthday').hide();
         $('#password-fieldset').hide();
-        $('#edit-account').show();
+        $('#mail-change').show();
         $('html, body').animate({ scrollTop: $('#edit-account').offset().top }, 'slow');
       });
     }
