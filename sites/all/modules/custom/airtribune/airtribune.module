@@ -5,6 +5,7 @@
  * Common functions that many Airtribune plugins will need to reference.
  */
 
+define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -41,13 +42,13 @@ define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
-define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
@@ -511,7 +512,9 @@ function airtribune_pages_callback($context) {
  *
  * We have bad event datetime widget, without hours time ending, so after event save we have last
  * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
- * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ * Need to add 24h, but we don't need in day change, so add only 23:50:00
+ * Attention! If add more time, for example, 23:55:00 - at next node editing datetime widget change
+ * date to next day.
  *
  * @see #3077
  */
@@ -529,7 +532,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     //$new_end = date_create($end, $dates_items[0]['timezone']);
     //date_modify($new_end, '+1 day');
     //date_modify($new_end, '-1 sec');
-    $end = $end + (3600 * 24 - 1); // 23:59:59
+    $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
 }
@@ -569,6 +572,22 @@ function airtribune_init() {
  * @author Kraev Vasily
  */
 function airtribune_event_status_check_by_date($node) {
+  $result = airtribune_extract_time_from_event($node);
+  if (!$result) return FALSE;
+  return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
+}
+
+/**
+ * Helper function, load node & extract time and offset from fields
+ *
+ * @param $node object
+ *
+ * @return $result array
+ *   with 'start', 'end' & 'offset'. FALSE if event not found
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_extract_time_from_event($node) {
   // if we get node->nid instead node object
   if (!is_object($node)) {
     $node = node_load($node);
@@ -586,12 +605,12 @@ function airtribune_event_status_check_by_date($node) {
   $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
   $tz = new DateTimeZone($tz);
   // get offset of event timezone from UTC
-  $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+  $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
 
-  $start_date = strtotime($dates_field[0]['value']);
-  $end_date   = strtotime($dates_field[0]['value2']);
+  $result['start'] = strtotime($dates_field[0]['value']);
+  $result['end']   = strtotime($dates_field[0]['value2']);
 
-  return airtribune_compare_dates($start_date, $end_date, $offset);
+  return $result;
 }
 
 /**
@@ -662,6 +681,27 @@ function airtribune_get_events_nids_with_date_status() {
   }
 
   return $result;
+}
+
+/**
+ * How much time has passed since the beginning of the event
+ *
+ * @param object $node
+ * @param string $granularity sec/hour/day
+ *
+ * @return int|float seconds, hours or days
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_how_time_after_event_start($node, $granularity = 'day') {
+  $result = airtribune_extract_time_from_event($node);
+  if ($result && airtribune_event_status_check_by_date($node) == 'current') {
+    $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
+    if ($granularity == 'day') return ($seconds/3600/24);
+    elseif ($granularity == 'hour') return ($seconds/3600);
+    else return $seconds;
+  }
+  return FALSE;
 }
 
 /**

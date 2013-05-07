@@ -273,7 +273,7 @@ Junior',
     ),
     'field_instance' => array(
       'bundle' => 'pg_scoring_category',
-      'default_value' => NULL,
+      'default_value' => array(),
       'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
@@ -322,9 +322,11 @@ Junior',
         'active' => 1,
         'module' => 'entityreference',
         'settings' => array(
+          'fields' => array(),
           'match_operator' => 'CONTAINS',
           'path' => '',
           'size' => '60',
+          'type_settings' => array(),
         ),
         'type' => 'entityreference_autocomplete',
         'weight' => '6',
@@ -397,9 +399,35 @@ Junior',
       'label' => 'Results story',
       'required' => 0,
       'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 0,
+            'full_html' => 0,
+            'php_code' => 0,
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 1,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -590,7 +618,7 @@ Junior',
       'exclude_cv' => 0,
       'field_name' => 'field_single_image',
       'label' => 'Winners photo',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,

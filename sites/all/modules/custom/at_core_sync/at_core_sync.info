@@ -1,0 +1,6 @@
+name = Airtribune Core API Integration
+description = Provides integration with Core API
+package = Airtribune
+core = 7.x
+
+files[] = at_core_sync.class.inc

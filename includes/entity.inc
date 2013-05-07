@@ -160,6 +160,17 @@ class DrupalDefaultEntityController implements DrupalEntityControllerInterface {
   public function load($ids = array(), $conditions = array()) {
     $entities = array();
 
+    // Clean the $ids array to remove non-integer values that can be passed
+    // in from various sources, including menu callbacks.
+    if (is_array($ids)) {
+      foreach ($ids as $key => $id) {
+        $id = (string) $id;
+        if ((empty($id) && $id !== '0') || ($id !== (string) (int) $id)) {
+          unset($ids[$key]);
+        }
+      }
+    }
+
     // Revisions are not statically cached, and require a different query to
     // other conditions, so separate the revision id into its own variable.
     if ($this->revisionKey && isset($conditions[$this->revisionKey])) {
