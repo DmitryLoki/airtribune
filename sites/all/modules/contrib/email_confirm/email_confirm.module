@@ -307,7 +307,7 @@ function email_confirm_user_change_mail($uid = NULL, $timestamp = NULL, $new_mai
       }
       drupal_set_message(t('Your e-mail address is now %mail.', array('%mail' => $new_mail)));
 
-      if (variable_get('email_confirm_confirmation_send_mails_after_change', 0)) {
+      if (variable_get('email_confirm_confirmation_send_mails_after_change', FALSE)) {
         $params = array();
         $params['account'] = $user;
         drupal_mail('email_confirm', 'confirmation_after_change_original_email', $old_mail, user_preferred_language($user), $params);
@@ -449,7 +449,7 @@ within 24 hours.
         break;
 
       case 'confirmation_after_change_email_subject':
-        $text = t('Your email has been changed.', array(), array('langcode' => $langcode));
+        $text = t('Your email has been changed', array(), array('langcode' => $langcode));
         break;
 
       case 'confirmation_after_change_email_body':
@@ -491,7 +491,7 @@ function email_confirm_mail_tokens(&$replacements, $data, $options) {
   if (isset($data['email_confirm'])) {
     $replacements['[email_confirm:email_url]'] = $data['email_confirm']->url;
     $replacements['[email_confirm:email_old]'] = $data['user']->mail;
-    $replacements['[email_confirm:email_new]'] = $_REQUEST['mail'];
+    $replacements['[email_confirm:email_new]'] = (!empty($_REQUEST['mail']) ? $_REQUEST['mail'] : $data['user']->data['email_confirm']['pending_email']);
   }
 }
 
