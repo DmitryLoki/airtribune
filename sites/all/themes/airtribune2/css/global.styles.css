@@ -2565,6 +2565,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 #page .view-events-list {}
 #page .view-events-list h3 { float:left; width:90px; background:url(../images/hide_year.png) no-repeat 100% 4px; position:relative; z-index:10; font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; clear:both; margin:0 -11px 0 0;}
 #page .view-events-list .views-row { float:right; margin-left:-90px; width:100%;}
+#page .view-events-list .views-row-last { margin-bottom: 56px;}
 #page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
 #page .view-events-list .views-row-first .views-field { padding-top:2px;}
 #page .view-events-list .views-field-nothing .field-content, #page .view-events-list .views-field-nothing-1 .field-content { display:block; padding:0 0 0 31px}
