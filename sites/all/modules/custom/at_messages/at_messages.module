@@ -257,8 +257,8 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     }
   } else {
     drupal_set_message(t(AT_MSG_SITE_PILOT_REG_ON_EVENT, $full_info));
-    $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));
-    $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language, array('context' => $mail_to_org));
+    $mail_pilot = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail_to_pilot));
+    $mail_org = drupal_mail('system', 'mail', $organiser->mail, user_preferred_language($organiser), array('context' => $mail_to_org));
     $form_state['redirect'] = $event_pilot_list_url;
   }
 
