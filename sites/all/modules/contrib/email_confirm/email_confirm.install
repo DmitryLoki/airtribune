@@ -40,4 +40,8 @@ function email_confirm_uninstall() {
   variable_del('email_confirm_confirmation_email_bcc');
   variable_del('email_confirm_confirmation_email_body');
   variable_del('email_confirm_confirmation_original_email_body');
+  variable_del('email_confirm_confirmation_send_mails_after_change');
+  variable_del('email_confirm_confirmation_after_change_email_subject');
+  variable_del('email_confirm_confirmation_after_change_email_body');
+  variable_del('email_confirm_confirmation_after_change_original_email_body');
 }

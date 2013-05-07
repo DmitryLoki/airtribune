@@ -88,6 +88,40 @@ function email_confirm_admin_settings() {
     '#default_value' => email_confirm_mail_text('confirmation_original_email_body', NULL, array(), FALSE),
     '#cols' => 80,
     '#rows' => 10,
+    '#required' => FALSE,
+  );
+
+  $form['email_confirm_confirmation_send_mails_after_change'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Email body for new mail after successful change'),
+    '#description' => t("Send confirming  messages (to original & new) after successfully changing email."),
+    '#default_value' => variable_get('email_confirm_confirmation_send_mails_after_change', FALSE),
+    '#required' => FALSE,
+  );
+
+  $form['email_confirm_confirmation_after_change_email_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email subject for mail after successful change'),
+    '#default_value' => email_confirm_mail_text('confirmation_after_change_email_subject', NULL, array(), FALSE),
+    '#size' => 60,
+    '#required' => FALSE,
+  );
+
+  $form['email_confirm_confirmation_after_change_email_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Email body for new mail after successful change'),
+    '#default_value' => email_confirm_mail_text('confirmation_after_change_email_body', NULL, array(), FALSE),
+    '#cols' => 80,
+    '#rows' => 10,
+    '#required' => FALSE,
+  );
+
+  $form['email_confirm_confirmation_after_change_original_email_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Email body for original mail after successful change'),
+    '#default_value' => email_confirm_mail_text('confirmation_after_change_original_email_body', NULL, array(), FALSE),
+    '#cols' => 80,
+    '#rows' => 10,
     '#required' => TRUE,
   );
 
@@ -160,6 +194,20 @@ function email_confirm_variable_info($options) {
     'title' => t('Email address change request email body (Original)', array(), $options),
     'default' => email_confirm_mail_text('confirmation_original_email_body', NULL, array(), FALSE),
     'description' => t("The above text will be the body for the email sent to a user that is attempting to update their email address. The text here will be sent to the user's original email address. The placeholders [user:name] and [site:name] will be replaced by the username and the site name.", array(), $options),
+    'localize' => TRUE,
+  );
+
+  $type['email_confirm_confirmation_after_change_email_body'] = array(
+    'type' => 'string',
+    'title' => t('Email body for new mail after successful change', array(), $options),
+    'default' => email_confirm_mail_text('confirmation_after_change_email_body', NULL, array(), FALSE),
+    'localize' => TRUE,
+  );
+
+  $type['email_confirm_confirmation_after_change_original_email_body'] = array(
+    'type' => 'string',
+    'title' => t('Email body for original mail after successful change', array(), $options),
+    'default' => email_confirm_mail_text('confirmation_after_change_original_email_body', NULL, array(), FALSE),
     'localize' => TRUE,
   );
 
@@ -258,6 +306,14 @@ function email_confirm_user_change_mail($uid = NULL, $timestamp = NULL, $new_mai
         rules_invoke_event('email_confirm_email_change_confirmation', $account, $old_mail, $new_mail);
       }
       drupal_set_message(t('Your e-mail address is now %mail.', array('%mail' => $new_mail)));
+
+      if (variable_get('email_confirm_confirmation_send_mails_after_change', 0)) {
+        $params = array();
+        $params['account'] = $user;
+        drupal_mail('email_confirm', 'confirmation_after_change_original_email', $old_mail, user_preferred_language($user), $params);
+        drupal_mail('email_confirm', 'confirmation_after_change_email', $new_mail, user_preferred_language($user), $params);
+      }
+
       if ($user->uid) {
         drupal_goto('user/' . $user->uid);
       }
@@ -299,6 +355,9 @@ function email_confirm_mail($key, &$message, $params) {
   );
 
   $message['subject'] = email_confirm_mail_text('confirmation_email_subject', $language, $variables);
+  if ($key == 'confirmation_after_change_original_email' || $key == 'confirmation_after_change_email') {
+    $message['subject'] = email_confirm_mail_text('confirmation_after_change_email_subject', $language, $variables);
+  }
   $message['body'][] = email_confirm_mail_text($key . '_body', $language, $variables);
 
   if (isset($params['headers']['Bcc'])) {
@@ -334,7 +393,7 @@ function email_confirm_build_mail($edit) {
 
   if ($message['result'] = drupal_mail('email_confirm', 'confirmation_email', $edit['mail'], user_preferred_language($user), $params, $from)) {
     drupal_mail('email_confirm', 'confirmation_original_email', $user->mail, user_preferred_language($user), $params, $from);
-    drupal_set_message(t('A confirmation email has been sent to your new email address. You must follow the link provided in that email within 24 hours in order to confirm the change to your account email address.'));
+    drupal_set_message(t('A confirmation email has been sent to your new email address. You must follow the link provided in that email within 24 hours in order to confirm the change to your account email address.'), 'warning');
   }
 }
 
@@ -388,6 +447,28 @@ need to follow the instructions sent to your new email address
 within 24 hours.
 ", array(), array('langcode' => $langcode));
         break;
+
+      case 'confirmation_after_change_email_subject':
+        $text = t('Your email has been changed.', array(), array('langcode' => $langcode));
+        break;
+
+      case 'confirmation_after_change_email_body':
+        $text = t("Hello [user:name],
+
+Your e-mail address is now [email_confirm:email_new], and you may use it as your login now.
+", array(), array('langcode' => $langcode));
+        break;
+
+      case 'confirmation_after_change_original_email_body':
+        $text = t("Hello [user:name],
+
+You have finished change email procedure for your account using this email address:
+[email_confirm:email_new]
+
+If you don't changed your email, that means that some one else knows your password.
+Change your password immediately or contact the support service: [site:mail]
+", array(), array('langcode' => $langcode));
+        break;
     }
   }
 
@@ -409,6 +490,8 @@ function email_confirm_mail_tokens(&$replacements, $data, $options) {
 
   if (isset($data['email_confirm'])) {
     $replacements['[email_confirm:email_url]'] = $data['email_confirm']->url;
+    $replacements['[email_confirm:email_old]'] = $data['user']->mail;
+    $replacements['[email_confirm:email_new]'] = $_REQUEST['mail'];
   }
 }
 
