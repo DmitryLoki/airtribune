@@ -57,7 +57,7 @@ define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' || $owner == 'field_validation') {
+  if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
     return 'plugins/' . $plugin_type;
   }
 }
