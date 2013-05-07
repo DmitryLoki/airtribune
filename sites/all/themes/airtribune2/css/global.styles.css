@@ -3428,6 +3428,8 @@ table tr td.:first-child { border-left: none;}
 .pane-pilots-statistics .pilots-total .pilots-result { background-color: #b6c8d7; border-color: #afc2d2;}
 .pane-pilots-statistics .pilots-text { padding:0 10px; color: #c2c94e; width: 80px; font: bold 14px/20px Arial, Helvetica, sans-serif; margin-top: -1px;}
 .pane-pilots-statistics .pilots-total .pilots-text { color: #a2b1c0;}
+.pane-pilots-statistics .pilots-allowed .pilots-result { background-color: #f1b71c; border-color: #e7b11f;}
+.pane-pilots-statistics .pilots-allowed .pilots-text { color: #f1b71c;}
 
 .pane-page-content .pane-node-content .pane-inner { margin: 0;}
 
