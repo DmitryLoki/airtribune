@@ -2726,21 +2726,23 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .page-event-info #page .pane-node-field-hq-location.pane-node-field-collection-getting-there { padding-bottom:0}
 .page-event-info #page .pane-node-field-collection-getting-there.no-title .more-link { margin-top: 5px;}
 .panel_info .pane-node-field-hq-location .pane-content { margin:18px 0 0 11px; padding-top: 5px;}
-.page-event-info #page .panel_info .transport-icon { margin:0 -1px 0 0; padding:8px 0 9px 11px; float:left; display:block}
+.page-event-info #page .panel_info .group_how_to_get_here .field { margin:0 -1px 0 0; padding:8px 0 0px 11px; float:left; display:block}
+.page-event-info #page .panel_info .group_how_to_get_here .field-label {display: none;}
+.page-event-info #page .panel_info .transport-icon {clear: none;}
 .page-event-info .transport-icon:first-child { padding-left: 11px;}
-.page-event-info .panel_info .transport-icon .pane-content { margin: 0;}
-.page-event-info .transport-icon a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
-.page-event-info .transport-icon a.plane { background-position:0 0}
-.page-event-info .transport-icon a.plane:hover { background-position:-26px 0}
-.page-event-info .transport-icon a.train { background-position:0 -300px}
-.page-event-info .transport-icon a.train:hover { background-position:-26px -300px}
-.page-event-info .transport-icon a.car { background-position:0 -400px}
-.page-event-info .transport-icon a.car:hover { background-position:-26px -400px}
-.page-event-info .transport-icon a.bus { background-position:0 -100px}
-.page-event-info .transport-icon a.bus:hover { background-position:-26px -100px}
-.page-event-info .transport-icon a.taxi { background-position:0 -200px}
-.page-event-info .transport-icon a.taxi:hover { background-position:-26px -200px}
-
+.page-event-info .panel_info .transport-icon .pane-content { margin: 0; padding-top: 0;}
+.page-event-info .transport-icon .field-item a { display:block; width:26px; height:26px; overflow:hidden; text-indent:-100000px; background:url(../images/icons_transport.png) no-repeat 0 0;}
+.page-event-info .transport-icon .field-item a.plane { background-position:0 0}
+.page-event-info .transport-icon .field-item a.plane:hover { background-position:-26px 0}
+.page-event-info .transport-icon .field-item a.train { background-position:0 -300px}
+.page-event-info .transport-icon .field-item a.train:hover { background-position:-26px -300px}
+.page-event-info .transport-icon .field-item a.car { background-position:0 -400px}
+.page-event-info .transport-icon .field-item a.car:hover { background-position:-26px -400px}
+.page-event-info .transport-icon .field-item a.bus { background-position:0 -100px}
+.page-event-info .transport-icon .field-item a.bus:hover { background-position:-26px -100px}
+.page-event-info .transport-icon .field-item a.taxi { background-position:0 -200px}
+.page-event-info .transport-icon .field-item a.taxi:hover { background-position:-26px -200px}
+.page-event-info #page .pane-node-field-gt-general .pane-content {margin-left: 0;}
 
 .page-event-info #page .panel_info .pane-node-field-address { width:50%; float:left; margin-bottom:0;}
 .page-event-info .pane-node-field-address .pane-content { margin:0 10px 0 11px;}
