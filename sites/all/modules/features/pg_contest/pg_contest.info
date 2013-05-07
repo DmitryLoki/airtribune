@@ -69,6 +69,7 @@ features[field][] = node-pg_contest-field_headquarter_hotel
 features[field][] = node-pg_contest-field_headquarter_info
 features[field][] = node-pg_contest-field_hq_location
 features[field][] = node-pg_contest-field_info
+features[field][] = node-pg_contest-field_max_number_contestants
 features[field][] = node-pg_contest-field_open_class
 features[field][] = node-pg_contest-field_points_file
 features[field][] = node-pg_contest-field_position

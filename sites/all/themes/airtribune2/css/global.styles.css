@@ -2403,6 +2403,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
   border-radius: 2px;
 
 }
+.pane-event-days-panel-pane-1 .views-field-view .field-content .field-content,
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content .field-content { min-width: 0;}
 .pane-event-days-panel-pane-1 .views-field-view .views-label,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px;}
 .pane-event-days-panel-pane-1 .views-field-view .views-label:hover,
@@ -2421,7 +2423,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .views-field-view .field-content a,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
 .pane-event-days-panel-pane-1 .views-field-view .field-content a:hover,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a:hover { text-decoration: underline;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a:hover { text-decoration: none;} 
 .pane-event-days-panel-pane-1 .views-field-view img,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks img { display: none;}
 
@@ -2563,6 +2565,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 #page .view-events-list {}
 #page .view-events-list h3 { float:left; width:90px; background:url(../images/hide_year.png) no-repeat 100% 4px; position:relative; z-index:10; font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; clear:both; margin:0 -11px 0 0;}
 #page .view-events-list .views-row { float:right; margin-left:-90px; width:100%;}
+#page .view-events-list .views-row-last { margin-bottom: 56px;}
 #page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
 #page .view-events-list .views-row-first .views-field { padding-top:2px;}
 #page .view-events-list .views-field-nothing .field-content, #page .view-events-list .views-field-nothing-1 .field-content { display:block; padding:0 0 0 31px}
@@ -3425,6 +3428,8 @@ table tr td.:first-child { border-left: none;}
 .pane-pilots-statistics .pilots-total .pilots-result { background-color: #b6c8d7; border-color: #afc2d2;}
 .pane-pilots-statistics .pilots-text { padding:0 10px; color: #c2c94e; width: 80px; font: bold 14px/20px Arial, Helvetica, sans-serif; margin-top: -1px;}
 .pane-pilots-statistics .pilots-total .pilots-text { color: #a2b1c0;}
+.pane-pilots-statistics .pilots-allowed .pilots-result { background-color: #f1b71c; border-color: #e7b11f;}
+.pane-pilots-statistics .pilots-allowed .pilots-text { color: #f1b71c;}
 
 .pane-page-content .pane-node-content .pane-inner { margin: 0;}
 
