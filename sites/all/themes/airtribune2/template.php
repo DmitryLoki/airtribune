@@ -205,7 +205,20 @@ function airtribune2_preprocess_pane_messages(&$vars) {
   if(!empty($vars['primary_local_tasks'])){
     foreach($vars['primary_local_tasks'] as $k => $v){
       if($v['#link']['path'] == 'event/%/register'){
-        $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
+        $event_nid = arg(1);
+        $days = airtribune_how_time_after_event_start($event_nid, 'day');
+        if ($days && $days < 2) {
+          $vars['primary_local_tasks'][$k]['#link']['title'] = t('Late Registration');
+          $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['html'] = TRUE;
+          $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][0] = 'late-registration';
+          $vars['suffix'] = array(
+            $vars['primary_local_tasks'][$k]
+          );
+          unset($vars['primary_local_tasks'][$k]);
+        }
+        else {
+          $vars['primary_local_tasks'][$k]['#link']['localized_options']['attributes']['class'][] = 'registration';
+        }
       }
       if($v['#link']['path'] == 'events/add'){
         $vars['primary_local_tasks'][$k] = array(
@@ -281,8 +294,10 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if(in_array($variables['pane']->subtype, $transport)){
     $variables['classes_array'][] = 'transport-icon';
   }
+  if ($variables['pane']->type == 'pane_messages') {
+      //print_r($variables);
+  }
 }
-
 /**
  * Implements preprocess_node().
  */
@@ -831,7 +846,6 @@ function airtribune2_preprocess_entity(&$variables) {
   */
 }
 
-
 /**
  * Implements theme_field__field_collection_organizers.
  */
@@ -864,6 +878,7 @@ function airtribune2_field__field_collection_organizers($variables) {
 
   return $output;
 }
+
 /**
  * Implements theme_field__field_full_name.
  */
