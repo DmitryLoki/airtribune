@@ -2871,6 +2871,9 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 /*.pane-node-field-sample-schedule .field-item { padding:9px 0 11px}*/
 
 /* How to get here */
+.page-event-info .pane-node-field-gt-general {float: right; width: 50%; margin-bottom: 16px;}
+.page-event-info .pane-node-field-gt-general p {padding: 0;}
+
 .page-event-details .group_how_to_get_here {}
 .page-event-details .group_how_to_get_here #gt-left,
 .page-event-details .group_how_to_get_here #gt-right { width: 50%; float: left;}
@@ -2895,8 +2898,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .page-event-details #page .pane-node-field-address { float:left; margin:-1px 0 0 7px; width:200px; padding-top: 23px;}
 .page-event-details #page .pane-node-field-address .field-label { font-weight: normal;}
 
-.page-event-details #page .pane-field-collection-item-field-gt-general { margin-bottom:0}
-.page-event-details #page .pane-field-collection-item-field-gt-general p { padding-top: 0;}
+.page-event-details #page .field-name-field-gt-general { margin-bottom:0}
+.page-event-details #page .field-name-field-gt-general p { padding-top: 0;}
 
 .page-event-details #page .pane-node-field-headquarter-info { clear:both; margin-bottom: 0;}
 .page-event-details #page .pane-node-field-headquarter-info p { padding-bottom: 0;}
@@ -3512,7 +3515,7 @@ table tr td.:first-child { border-left: none;}
 
 
 /* Temporary */
-.field-name-field-hq-location {margin-top: 15px;}
+/*.field-name-field-hq-location {margin-top: 15px;}*/
 
 /* OpenLayers */
 .featured-header-padding .olControlZoomPanel { top:150px}

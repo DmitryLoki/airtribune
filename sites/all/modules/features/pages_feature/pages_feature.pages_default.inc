@@ -3532,7 +3532,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-38';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'field_collection_item:field_gt_general';
+    $pane->subtype = 'node:field_gt_general';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -3542,7 +3542,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
       'formatter_settings' => array(),
-      'context' => 'relationship_field_collection_from_field:node:pg_contest:field_collection_getting_there_1',
+      'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
