@@ -48,28 +48,6 @@ function pg_contest_rdf_default_mappings() {
     ),
   );
 
-  // Exported RDF mapping: field_collection_getting_there
-  $schemaorg['field_collection_item']['field_collection_getting_there'] = array(
-    'field_gt_plane' => array(
-      'predicates' => array(),
-    ),
-    'field_gt_train' => array(
-      'predicates' => array(),
-    ),
-    'field_gt_car' => array(
-      'predicates' => array(),
-    ),
-    'field_gt_bus' => array(
-      'predicates' => array(),
-    ),
-    'field_gt_taxi' => array(
-      'predicates' => array(),
-    ),
-    'field_gt_general' => array(
-      'predicates' => array(),
-    ),
-  );
-
   // Exported RDF mapping: pg_contest
   $schemaorg['node']['pg_contest'] = array(
     'rdftype' => array(
