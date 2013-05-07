@@ -33,16 +33,25 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-sharelinks'));
   $content['#theme_wrappers'] = array('container');
 
-  //  link to accommodation / activities
-  if (
-    (arg(2) == 'map' && arg(3)) || // without lang prefix, like event/nid/map/nid
-    (arg(3) == 'map' && arg(4))    // with lang prefix, like /ru/event/nid/map/nid
-  ) {
-    $alias = drupal_get_path_alias('node/' . arg(3));
+  // link to single accommodation / activity
+  if (count($panel_args) == 2) {
+    $map_node = node_load($panel_args[1]);
+    if ($map_node->type == "accommodation" || $map_node->type == "activity") {
+      $alias = drupal_get_path_alias('node/' . $map_node->nid);      
+    }
   }
-  // event/nid/* - link to event
+  // event/nid/* - sharelink change by event tab
+  // @see #3141
   elseif ($node->type == 'pg_contest') {
-    $alias = drupal_get_path_alias('event/' . $node->nid);
+    // get inner path, like event/1234/pilots
+    $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
+    $end = "/";
+    if (strpos($path, "blog")) $end .= "blog";
+    if (strpos($path, "map")) $end .= "map";
+    if (strpos($path, "pilots")) $end .= "pilots";
+    if (strpos($path, "results")) $end .= "results";
+    if (strpos($path, "info") || strpos($path, "info/details") || strpos($path, "register"))  $end .= "info";
+    $alias = drupal_get_path_alias('event/' . $node->nid . $end);
   }
   // node/nid
   else {
