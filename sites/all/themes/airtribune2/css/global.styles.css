@@ -2305,8 +2305,8 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .node-readmore a { font-size:12px; color:#667480; text-decoration:none; background:url(../images/more.png) no-repeat 0 2px; padding-left:10px}
 .node-teaser .node-readmore a:hover { text-decoration:underline;}
 .node-teaser .field { width:100%; float:right;}
-.node-teaser .field-name-field-image { float:left; width:220px; margin:-20px 0 -20px -240px;}
-.node-teaser .field-name-field-image img { vertical-align:middle;}
+.node-teaser .field-name-field-image, .node-teaser .field-name-field-single-image { float:left; width:220px; margin:-20px 0 -20px -240px;}
+.node-teaser .field-name-field-image img, .node-teaser .field-name-field-single-image img { vertical-align:middle;}
 .node-teaser h1.node-title { margin:0 50px 0 0; padding:0 0 1px; font:18px/20px Arial, Helvetica, sans-serif;}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
 .node-teaser h1.node-title a:hover { color:#00aeef}

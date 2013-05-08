@@ -336,6 +336,7 @@ function airtribune2_process_node(&$vars) {
   } else {
     $full_name = $vars['name'];
   }
+  
   $vars['full_name'] = render($full_name);
   /* If view mode is event_blog_teaser */
   if($vars['view_mode'] == 'event_blog_teaser'){
@@ -413,7 +414,11 @@ function airtribune2_process_node(&$vars) {
         )
       )
     );
-    if(!empty($vars['content']['field_image']['#items'])){
+
+    if (!empty($vars['content']['field_single_image']['#items'])){
+      // If single image is set, then hide image field.
+      unset($vars['content']['field_image']);
+    } else if(!empty($vars['content']['field_image']['#items'])){
       $vars['content']['field_image']['#items'] = array($vars['content']['field_image']['#items'][0]);
     }
   }
