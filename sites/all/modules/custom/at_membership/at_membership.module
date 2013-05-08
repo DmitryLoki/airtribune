@@ -32,6 +32,13 @@ function at_membership_menu() {
     'title' => 'Delete membership',
   );
 
+  $items['user/registrations'] = array(
+    'title' => 'User registrations',
+    'page callback' => 'at_membership_redirect_to_registrations',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -228,4 +235,17 @@ function at_membership_type_get_types() {
 function at_membership_type_get_type($type) {
   $types = at_membership_type_get_types();
   return $types[$type];
+}
+
+/**
+ * Redirect to registration page for the events, based by user uid
+ */
+function at_membership_redirect_to_registrations() {
+  global $user;
+  if ($user->uid) {
+    drupal_goto('user/' . $user->uid . '/registrations');
+  }
+  else {
+    drupal_access_denied();
+  }
 }
