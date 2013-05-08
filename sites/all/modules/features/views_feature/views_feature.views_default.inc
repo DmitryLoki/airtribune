@@ -2666,6 +2666,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_race_tracks']['relationship'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['fields']['field_pg_race_tracks']['ui_name'] = 'Tracks';
   $handler->display->display_options['fields']['field_pg_race_tracks']['label'] = 'Tracks';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['text'] = 'IGC';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['path'] = '[field_pg_race_tracks]';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_type'] = 'span';
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_label_type'] = 'span';
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_label_colon'] = FALSE;
@@ -2673,6 +2678,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_race_tracks']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_pg_race_tracks']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_pg_race_tracks']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['type'] = 'file_url_plain';
   /* Field: Images */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
@@ -2823,6 +2829,8 @@ function views_feature_views_default_views() {
     t('.'),
     t('Results'),
     t('Tracks'),
+    t('IGC'),
+    t('_blank'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('All'),
     t('Content pane'),
