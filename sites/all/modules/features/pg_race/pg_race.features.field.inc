@@ -108,18 +108,19 @@ function pg_race_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'base',
+        'handler' => 'event_views',
         'handler_settings' => array(
           'behaviors' => array(
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'day' => 'day',
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+            ),
+            'display_name' => 'day_selection',
+            'view_name' => 'day_selection',
           ),
         ),
         'profile2_private' => FALSE,
@@ -570,7 +571,7 @@ function pg_race_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_race',
-      'default_value' => NULL,
+      'default_value' => array(),
       'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
