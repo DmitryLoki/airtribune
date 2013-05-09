@@ -2307,6 +2307,10 @@ p { margin:0; padding:9px 0 11px}
 .node-teaser .field { width:100%; float:right;}
 .node-teaser .field-name-field-image { float:left; width:220px; margin:-20px 0 -20px -240px;}
 .node-teaser .field-name-field-image img { vertical-align:middle;}
+
+.node-teaser .field-name-field-single-image { float:left; width:220px; margin:-20px 0 -20px -240px; position: relative;}
+.node-teaser .field-name-field-single-image img { vertical-align:middle;}
+
 .node-teaser h1.node-title { margin:0 50px 0 0; padding:0 0 1px; font:18px/20px Arial, Helvetica, sans-serif;}
 .node-teaser h1.node-title a { color:#394147; text-decoration:none}
 .node-teaser h1.node-title a:hover { color:#00aeef}
