@@ -1450,6 +1450,9 @@ function airtribune2_html_head_alter(&$head_elements) {
   if ( (arg(2) == 'map' || arg(2) == 'blog') && $node_nid ) {
     foreach ($head_elements as $key => $element) {
       // Metatag module canonical & shortlink links
+      if (empty($element['#name'])) {
+        return;
+      }
       if ($element['#name'] == 'canonical') {
         $head_elements[$key]['#value'] = $base_url . '/' . drupal_get_path_alias('node/' . $node_nid);
       } 
