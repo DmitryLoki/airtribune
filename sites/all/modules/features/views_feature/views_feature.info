@@ -19,6 +19,7 @@ features[views_view][] = contest_blog
 features[views_view][] = contest_scoring_categories
 features[views_view][] = contest_winners
 features[views_view][] = day_results
+features[views_view][] = day_selection
 features[views_view][] = event_accommodations
 features[views_view][] = event_activities
 features[views_view][] = event_days

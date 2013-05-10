@@ -57,7 +57,7 @@ define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' || $owner == 'field_validation') {
+  if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
     return 'plugins/' . $plugin_type;
   }
 }
@@ -712,6 +712,27 @@ function airtribune_js_alter(&$javascript) {
   $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
   if (isset($javascript[$accodion_js])) {
     $javascript[$accodion_js]['data'] = drupal_get_path('module', 'airtribune') . '/js/views-accordion.js';
+  }
+}
+
+/**
+ * Implements hook_airtribune__field_group_content_alter().
+ *
+ * Split divide how_to_got_there fields into two columns.
+ * @see #3112-13
+ */
+function airtribune_airtribune_field_group_content_alter(&$elements) {
+
+  if ($elements['#id'] == 'node_pg_contest_default_group_how_to_get_here') {
+    foreach (element_children($elements, TRUE) as $index => $key) {
+      $elements[$index % 2 ? 'gt_right' : 'gt_left'][$key] = $elements[$key];
+      unset($elements[$key]);
+    }
+
+    $elements['gt_left']['#theme_wrappers'] = $elements['gt_right']['#theme_wrappers'] = array('container');
+    $elements['gt_left']['#attributes'] = array('id' => 'gt-left');
+    $elements['gt_left']['#weight'] = -1 ;
+    $elements['gt_right']['#attributes'] = array('id' => 'gt-right');
   }
 }
 

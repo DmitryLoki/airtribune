@@ -215,7 +215,7 @@ function at_user_notify_user_at_password_change(&$form, $form_state) {
   if (!empty($form_state['input']['pass']['pass1'])) {
     $name = $form_state['profiles']['main']->field_full_name['und']['0']['safe'];
     $fullname = $name['given'] . ' ' . $name['family'];
-    drupal_mail('system', 'mail', $user->mail, $user->language,
+    drupal_mail('system', 'mail', $user->mail, user_preferred_language($user),
       array(
         'context' => array(
           'subject' => t(AT_MSG_EMAIL_SUBJ_USER_PASSWORD_CHANGE),
@@ -341,8 +341,8 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
           $mail_to_org = unserialize(@file_get_contents($mail_dir . '/' . $user->uid . '_to_org.mail'));
           // if mails loaded, then send them to pilot & organiser
           if ($mail_to_pilot && $mail_to_org) {
-            $mail_pilot = drupal_mail('system', 'mail', $user->mail, $user->language, array('context' => $mail_to_pilot));
-            $mail_org = drupal_mail('system', 'mail', $organiser->mail, $organiser->language, array('context' => $mail_to_org));
+            $mail_pilot = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail_to_pilot));
+            $mail_org = drupal_mail('system', 'mail', $organiser->mail, user_preferred_language($organiser), array('context' => $mail_to_org));
             unlink($mail_dir . '/' . $user->uid . '_to_pilot.mail');
             unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
           } else {
@@ -415,8 +415,8 @@ function at_user_changemail_confirm($form, &$form_state, $old_mail, $new_mail, $
       // show message
       drupal_set_message(t(AT_MSG_SITE_USER_MAIL_CHANGE_CONFIRMED));
       // notify about mail change
-      drupal_mail('system', 'mail', $old_mail, $user->language, array('context' => $msg_to_old_mail));
-      drupal_mail('system', 'mail', $new_mail, $user->language, array('context' => $msg_to_new_mail));
+      drupal_mail('system', 'mail', $old_mail, user_preferred_language($user), array('context' => $msg_to_old_mail));
+      drupal_mail('system', 'mail', $new_mail, user_preferred_language($user), array('context' => $msg_to_new_mail));
     }
     else {
       drupal_set_message(t('You have already use this link to change mail'));

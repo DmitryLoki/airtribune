@@ -45,6 +45,7 @@ dependencies[] = draggableviews
 dependencies[] = eck
 dependencies[] = elements
 dependencies[] = email
+dependencies[] = email_confirm
 dependencies[] = email_registration
 dependencies[] = ent_contest_point
 dependencies[] = ent_featured_header
