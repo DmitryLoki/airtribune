@@ -246,7 +246,6 @@ class ATSyncRace extends ATSync {
         ),
       ),
     );
-    
     $data = array(
       'title' => $this->entity->title,
       'race_type' => 'SpeedRun',
@@ -261,10 +260,8 @@ class ATSyncRace extends ATSync {
       $data = array(
         'title' => $this->entity->title,
       );
-      _d($data);
       //$data['checkpoints'] = $checkpoints;
       $response = $this->request(json_encode($data), "PUT");
-      _d($response);
     } else {
       $response = $this->request($url);
       $this->updateCoreID($response->id);
