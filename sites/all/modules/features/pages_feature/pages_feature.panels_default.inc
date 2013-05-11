@@ -324,16 +324,14 @@ e-mail: info@airtribune.com</p>',
     $pane = new stdClass();
     $pane->pid = 'new-9';
     $pane->panel = 'one_main';
-    $pane->type = 'custom';
-    $pane->subtype = 'small_share_links';
+    $pane->type = 'airtribune_event_sharelinks';
+    $pane->subtype = 'airtribune_event_sharelinks';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
+      'context' => 'requiredcontext_entity:node_1',
+      'override_title' => 1,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -427,7 +425,7 @@ e-mail: info@airtribune.com</p>',
     $display->content['new-12'] = $pane;
     $display->panels['one_main'][3] = 'new-12';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-9';
+  $display->title_pane = '0';
   $mini->display = $display;
   $export['sidebar'] = $mini;
 

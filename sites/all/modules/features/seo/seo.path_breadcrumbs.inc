@@ -203,7 +203,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -91;
+  $path_breadcrumb->weight = -92;
   $export['breadcrumb_events_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -225,7 +225,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -92;
+  $path_breadcrumb->weight = -91;
   $export['breadcrumb_events_list_2'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -620,14 +620,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Next',
+      1 => 'Current',
       2 => '%blognode:og-group-ref:0:title',
       3 => 'Blog',
       4 => '%blognode:title',
     ),
     'paths' => array(
       0 => 'events',
-      1 => 'events/next',
+      1 => 'events/current',
       2 => 'event/%blognode:og-group-ref:0:nid',
       3 => 'event/%blognode:og-group-ref:0:nid/blog',
       4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',
@@ -744,8 +744,8 @@ function seo_path_breadcrumbs_settings_info() {
           'context' => 'node',
           'not' => FALSE,
         ),
-        'logic' => 'and',
       ),
+      'logic' => 'and',
     ),
   );
   $path_breadcrumb->weight = -77;
@@ -1088,8 +1088,64 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -54;
+  $path_breadcrumb->weight = -52;
   $export['breadcrumb_pg_contest_current_register'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_current_results';
+  $path_breadcrumb->name = 'Paragliding contest Current Results';
+  $path_breadcrumb->path = 'event/%node/results';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Current',
+      2 => '%node:title',
+      3 => 'Results',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/current',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/results',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'current',
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -53;
+  $export['breadcrumb_pg_contest_current_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -1885,8 +1941,64 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -53;
+  $path_breadcrumb->weight = -51;
   $export['breadcrumb_pg_contest_next_register'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_next_results';
+  $path_breadcrumb->name = 'Paragliding contest Next Results';
+  $path_breadcrumb->path = 'event/%node/results';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Next',
+      2 => '%node:title',
+      3 => 'Results',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/next',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/results',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'next',
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -79;
+  $export['breadcrumb_pg_contest_next_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -2214,14 +2326,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Next',
+      1 => 'Past',
       2 => '%blognode:og-group-ref:0:title',
       3 => 'Blog',
       4 => '%blognode:title',
     ),
     'paths' => array(
       0 => 'events',
-      1 => 'events/next',
+      1 => 'events/past',
       2 => 'event/%blognode:og-group-ref:0:nid',
       3 => 'event/%blognode:og-group-ref:0:nid/blog',
       4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',
@@ -2631,6 +2743,62 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'breadcrumb_pg_contest_past_results';
+  $path_breadcrumb->name = 'Paragliding contest Past Results';
+  $path_breadcrumb->path = 'event/%node/results';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Events',
+      1 => 'Past',
+      2 => '%node:title',
+      3 => 'Results',
+    ),
+    'paths' => array(
+      0 => 'events',
+      1 => 'events/past',
+      2 => 'event/%node:nid',
+      3 => 'event/%node:nid/results',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'node' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Content: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'pg_contest' => 'pg_contest',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'past',
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -54;
+  $export['breadcrumb_pg_contest_past_results'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'breadcrumb_pg_race';
   $path_breadcrumb->name = 'Race';
   $path_breadcrumb->path = 'node/%node';
@@ -2714,7 +2882,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -49;
+  $path_breadcrumb->weight = -47;
   $export['user_edit'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2758,7 +2926,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -48;
+  $path_breadcrumb->weight = -46;
   $export['user_pilot_edit'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2792,7 +2960,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -51;
+  $path_breadcrumb->weight = -49;
   $export['user_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2826,7 +2994,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -50;
+  $path_breadcrumb->weight = -48;
   $export['user_request_new_password'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2860,7 +3028,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -52;
+  $path_breadcrumb->weight = -50;
   $export['user_sign_in'] = $path_breadcrumb;
 
   return $export;

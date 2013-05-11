@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Installation file for the Airtribune Core API module.
+ */
+
+ /**
+ * Returns Core ID from entity
+ */
+function get_id_from_user($entity) {
+  $field_core_id = field_get_items('user', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;    
+  }
+}
+
+/**
+ * Returns Core ID from entity
+ */
+function get_id_from_contest($entity) {
+  $field_core_id = field_get_items('node', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;    
+  }
+}
+
+ /**
+ * Returns Contest Core ID from race entity
+ */
+function get_contest_id_from_race($entity) {
+  $contest_id = $this->entity->og_group_ref['und'][0]['target_id'];
+  $contest = node_load($contest_id);
+  $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;
+  }
+}
+
+
+ /**
+ * Returns Contest Core ID from race entity
+ */
+function get_race_id_from_race($entity) {
+  $field_core_id = field_get_items('ent_race', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])){
+    return $field_core_id[0]['value'];
+  } else {
+    return FALSE;
+  }
+}
+
+
+/**
+ * Returns synchronization class
+ */
+function _get_class_by_entity($entity, $type) {
+  require_once drupal_get_path("module", "at_core_sync") . "/at_core_sync.class.inc";
+
+  $class = FALSE;
+  $tmp = $type;
+
+  if(!empty($entity->type))
+    $tmp .= ':' . $entity->type;
+
+  $classes = array(
+    'node:pg_contest' => 'ATSyncContest',
+    'user' => 'ATSyncPerson',
+    'og_membership:pg_contestant' => 'ATSyncPilot',
+    'ent_race:pg_race' => 'ATSyncRace',
+  );
+
+  if(!empty($classes[$tmp])) {
+    $class = $classes[$tmp];
+    return new $class($entity, $entity->type);
+  } else {
+    return FALSE;
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function at_core_sync_entity_update($entity, $type) {
+  if (!variable_get('at_core_sync_enabled', 0))
+    return false;
+  if ($sync = _get_class_by_entity($entity, $type)) {
+    $sync->synchronize();
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function at_core_sync_entity_insert($entity, $type) {
+  if (!variable_get('at_core_sync_enabled', 0))
+    return false;  
+  if($sync = _get_class_by_entity($entity, $type)) {
+    $sync->synchronize();
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function at_core_sync_menu() {
+  $items = array();
+
+  $items['admin/config/core_api'] = array(
+    'title' => 'Core API',
+    'description' => 'Airtribune Core API',
+    'file' => 'at_core_sync.admin.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('at_core_sync_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}

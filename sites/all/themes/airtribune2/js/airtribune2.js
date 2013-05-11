@@ -19,4 +19,43 @@ Drupal.behaviors.airtribune2 = {
   }
 
 }
+
+
 })(jQuery);
+
+jQuery(function($) {
+
+  jQuery('body').bind('click', {parent:this},bodyClick);
+  function bodyClick(e) {
+    //If e.target is not a child of el.handle then hide list
+    if (jQuery(e.target).parents('.views-field-view, .views-field-field-pg-race-tracks').size() == 0) {
+      $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content').hide();
+      $('.files_list_down').removeClass('files_list_down');
+    }
+  }
+
+  $('.pane-event-days-panel-pane-1 .views-field-view .views-label, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label').click(function(){
+    el = $(this).next();
+    $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content').each(function(){
+      if($(this)[0] != el[0]) {
+        $(this).hide();
+        //$('.files_list_down').removeClass('files_list_down');
+      }
+    });
+    $(this).next().toggle().parents('.ui-accordion-content').toggleClass('files_list_down');
+  })
+
+  if(jQuery('.view-event-days .event-day').length > 1) {
+    $('.pane-contest-blog-contest-full-pane h2.pane-title').toggleClass('expanded').next().hide()
+  }
+  $('.pane-contest-blog-contest-full-pane h2.pane-title').click(function(){
+    $(this).toggleClass('expanded').next().slideToggle()
+  })
+
+  $('.ui-accordion-content').each(function(){
+    el = $('<div class="ui-accordion-content-inner"></div>');
+    el.append($(this).children());
+    $(this).append(el);
+  });
+
+});

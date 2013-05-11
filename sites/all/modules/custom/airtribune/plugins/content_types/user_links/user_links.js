@@ -1,31 +1,42 @@
-jQuery(function($){
+jQuery(function ($) {
 
     var dropItems = $('#sign-in .drop-item'),
         flagDropItem = $('.flags'),
         flagDropItemHeader = $('#sign-in .lang-icon span'),
         userLoginDropItem = $('.user-login, .user-menu'),
+        topOffset = 50,
         userLoginDropItemHeader = $('#sign-in .user-button a, #sign-in .user-picture a');
-
     dropItems.hide();
 
-    //Dynamically set height of logged in user
+    //Dynamically set height of logged in user menu
     setUserMenuDropItemHeight();
-    function setUserMenuDropItemHeight(){
+    function setUserMenuDropItemHeight() {
         var userMenu = $('.user-menu'),
             menuItems = userMenu.find('li'),
             totalHeight = 0;
 
-        menuItems.each(function(i ,menuItem){
+        menuItems.each(function (i, menuItem) {
             totalHeight += $(menuItem).outerHeight();
         });
 
-        totalHeight += parseInt(userMenu.find('.pane-inner').css('padding-top'),10) + 50;
+        totalHeight += parseInt(userMenu.find('.pane-inner').css('padding-top'), 10) + topOffset;
         userMenu.height(totalHeight);
     }
 
-    userLoginDropItemHeader.click(function(event){
+    //Dynamically set height of flag menu
+    setFlagsMenuHeight();
+    function setFlagsMenuHeight() {
+        var li = flagDropItem.find('li'),
+            languagesPerRow = 4,
+            liHeight = li.outerHeight() + parseInt(li.css('margin-bottom'), 10),
+            rowsOfLanguagesCount = Math.ceil(li.length / languagesPerRow),
+            height = liHeight * rowsOfLanguagesCount + 50;
+        flagDropItem.height(height);
+    }
+
+    userLoginDropItemHeader.click(function (event) {
         var $that = $(this);
-        slideUp(flagDropItem, function onSlideComplete(){
+        slideUp(flagDropItem, function onSlideComplete() {
             flagDropItemHeader.removeClass('active');
             toggle($('.user-login, .user-menu'));
             $that.toggleClass('active');
@@ -34,9 +45,9 @@ jQuery(function($){
         event.preventDefault();
     }).removeClass('active');
 
-    flagDropItemHeader.click(function(event){
+    flagDropItemHeader.click(function (event) {
         var $that = $(this);
-        slideUp(userLoginDropItem, function onSlideComplete(){
+        slideUp(userLoginDropItem, function onSlideComplete() {
             userLoginDropItemHeader.removeClass('active');
             toggle($('.flags'));
             $that.toggleClass('active');
@@ -47,7 +58,7 @@ jQuery(function($){
 
     $('body').click(function (e) {
         if (!($(e.target).parents('#sign-in').length)) {
-            slideUp(dropItems, function onSlideUpComplete(){
+            slideUp(dropItems, function onSlideUpComplete() {
                 flagDropItemHeader.removeClass('active');
                 userLoginDropItemHeader.removeClass('active');
             });
@@ -56,26 +67,26 @@ jQuery(function($){
 
     setPlaceholder('.form-item input');
 
-    function toggle(item, cb){
-        if(item.is(':visible')){
-            slideUp(item,cb);
+    function toggle(item, cb) {
+        if (item.is(':visible')) {
+            slideUp(item, cb);
         } else {
-            item.slideDown({duration:600,easing:'easeOutCubic',complete:cb})
+            item.slideDown({duration: 600, easing: 'easeOutCubic', complete: cb})
         }
     }
 
     Drupal.toggle = toggle;
-    function slideUp(dropItems, cb){
-        dropItems.slideUp({duration:400,easing:'easeInCubic', complete:cb}).removeClass('active');
+    function slideUp(dropItems, cb) {
+        dropItems.slideUp({duration: 400, easing: 'easeInCubic', complete: cb}).removeClass('active');
     }
 });
 
-jQuery.extend( jQuery.easing,{
+jQuery.extend(jQuery.easing, {
     easeInCubic: function (x, t, b, c, d) {
-        return c*(t/=d)*t*t + b;
+        return c * (t /= d) * t * t + b;
     },
     easeOutCubic: function (x, t, b, c, d) {
-        return c*((t=t/d-1)*t*t + 1) + b;
+        return c * ((t = t / d - 1) * t * t + 1) + b;
     }
 });
 
@@ -92,11 +103,12 @@ function setPlaceholder(id, setRequiredMark) {
                 + '</span>');
             jQuery(this).parent().append(span);
             function hidePlaceholder() {
-                if (input.value.length > 0){
+                if (input.value.length > 0) {
                     span.hide();
                 }
             }
-            setTimeout(function(){
+
+            setTimeout(function () {
                 hidePlaceholder();
                 setTimeout(hidePlaceholder, 1000);
             }, 1000);

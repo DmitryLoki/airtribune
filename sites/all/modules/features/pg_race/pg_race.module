@@ -6,32 +6,42 @@
 
 include_once 'pg_race.features.inc';
 
-/**
- * Implements hook_node_info().
- */
-function pg_race_node_info() {
-  $items = array(
-    'pg_race' => array(
-      'name' => t('Paragliding Race'),
-      'base' => 'pg_race',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
 
 /**
- * Implementation of hook_form
- * Default base is 'node_content'
- * @param type $node
- * @param type $form_state
+ * Implements hook_entity_presave().
  */
-function pg_race_form($node, $form_state) {
-  //Default base is 'node_content'
-  //Title field is not attached otherwise
-  $form = node_content_form($node, $form_state);
-  return $form;
+function pg_race_entity_presave($entity, $type) {
+  
+  // Check race type.
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+    $day_node = $wrapper->{AIRTRIBUNE_DAY_REF_FIELD}->value();
+    // Get day "created" time components
+    $created = getdate($day_node->created);
+    // List field names to change.
+    $field_names = array(AIRTRIBUNE_RACE_START_END_FIELD, AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD);
+    // Change each field's value.
+    foreach ($field_names as $field_name) {
+      $field_value = $wrapper->{$field_name}->value();
+      // Change start and finish components' values.
+      foreach (array('value', 'value2') as $k) {
+        // Get field value time components
+        $value_time = getdate(strtotime($field_value[$k]));
+        // Prepare result time components
+        $args = array(
+          $value_time['hours'],
+          $value_time['minutes'],
+          $value_time['seconds'],
+          $created['mon'],
+          $created['mday'],
+          $created['year'],
+        );
+        $new_time = call_user_func_array('mktime', $args);
+        $new_time = date('Y-m-d H:i:s', $new_time);
+        $field_value[$k] = $new_time;
+      }
+      // Set new time value
+      getdate($wrapper->{$field_name}->set($field_value));
+    }
+  }
 }
