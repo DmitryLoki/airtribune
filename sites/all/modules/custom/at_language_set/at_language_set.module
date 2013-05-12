@@ -34,13 +34,13 @@ function at_language_set_language_url_default($languages) {
   global $_COOKIE;
   $prefix = locale_language_from_url($languages);
   if($prefix){
-    setcookie("language", $prefix, time() + 3600, '/');
+    setcookie("language", $prefix, time() + 86400, '/');
     return $prefix;
   }
 
   if (!empty($_COOKIE['language'])) {
     $prefix = (!$prefix) ? "en" : $_COOKIE['language'];
-    setcookie("language", $prefix, time() + 3600, '/');
+    setcookie("language", $prefix, time() + 86400, '/');
     if($prefix!="en"){
       header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
     }
@@ -53,7 +53,7 @@ function at_language_set_language_url_default($languages) {
     if(!$prefix || $prefix == "") {
       $prefix = "en"; 
     }
-    setcookie("language", $prefix, time() + 3600, '/');
+    setcookie("language", $prefix, time() + 86400, '/');
     if($prefix!="en"){
       header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
     }
