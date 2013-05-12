@@ -45,10 +45,13 @@ function at_language_set_language_url_default($languages) {
       header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
     }
   } else {
-    $prefix = "ru"; //locale_language_from_browser($languages);
+    $prefix = locale_language_from_browser($languages);
     // Temp, uk as russsian 
     if($prefix=="uk") {
       $prefix = "ru";
+    }
+    if(!$prefix || $prefix == "") {
+      $prefix = "en"; 
     }
     setcookie("language", $prefix, time() + 3600, '/');
     if($prefix!="en"){
