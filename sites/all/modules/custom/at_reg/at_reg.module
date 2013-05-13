@@ -309,6 +309,13 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
         }
         $form['#theme'] = 'og_ui_confirm_subscribe';
       }
+      else {
+        // TODO: This is a temoporary replacement. Should be removed after registration bug fixed. See issue #3146
+        $submit_keys = array_keys($form['#submit'], 'og_ui_confirm_subscribe_submit');
+        foreach($submit_keys as $key) {
+          $form['#submit'][$key] = 'at_og_ui_confirm_subscribe_submit';
+        }
+      }
       break;
     
     case 'user_register_form' :
@@ -624,4 +631,28 @@ function at_reg_multiform_crossfields($multiform) {
   }
   
   return $items;
+}
+
+
+/**
+ * Temporary og subscribe submit, while bug not resolved (see issue #3146).
+ */
+function at_og_ui_confirm_subscribe_submit($form, &$form_state) {
+  global $user;
+  
+  $og_membership = $form_state['og_membership'];
+  
+  if (empty($og_membership->etid)) {
+    watchdog('Airtribune event registration', t('Registration bug'));
+    return;
+  }
+  
+  field_attach_submit('og_membership', $og_membership, $form, $form_state);
+  $og_membership->save();
+
+  $group_type = $form_state['values']['group_type'];
+  $gid = $form_state['values']['gid'];
+  $group = entity_load_single($group_type, $gid);
+
+  $form_state['redirect'] = entity_uri($group_type, $group);
 }
