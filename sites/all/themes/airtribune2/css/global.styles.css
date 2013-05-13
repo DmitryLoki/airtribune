@@ -2582,6 +2582,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
+/* My registrations */
 #page .view-my-registrations .views-row { position: relative; }
 #page .view-my-registrations .views-row .views-field { background: url(../images/teaser_border.png) repeat-x 0 100%; padding: 18px 0 11px; }
 #page .view-my-registrations .views-row-first .views-field { padding-top: 2px; }
@@ -3454,6 +3455,8 @@ table tr td.:first-child { border-left: none;}
 .pane-pilots-statistics .pilots-allowed .pilots-result { background-color: #f1b71c; border-color: #e7b11f;}
 .pane-pilots-statistics .pilots-allowed .pilots-text { color: #f1b71c;}
 
+.pane-page-content .pane-node-content .pane-inner { margin: 0;}
+
 	/* Footer */
 
 #footer h2.block-title { color:#004b66; font-size:14px; margin:0; padding:0; font-weight:bold;}
@@ -3523,7 +3526,7 @@ table tr td.:first-child { border-left: none;}
 .featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 100; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
 .featured-header-collapsible .featured-header .collapse-control:hover { background-position: -80px 35px; background-color: rgba(255, 255, 255, 0.5);}
-.featured-header-collapsible .featured-header-collapsed { height: 110px;}
+.featured-header-collapsible .featured-header-collapsed { /*height: 110px;*/}
 .featured-header-collapsible .featured-header-collapsed .collapse-control { background-position:  -40px 35px}
 .featured-header-collapsible .featured-header-collapsed .collapse-control:hover { background-position: 0 35px}
 
@@ -3673,8 +3676,10 @@ table tr td.:first-child { border-left: none;}
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
 .page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
-.page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center;}
-.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center;}
+.page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center; word-wrap: break-word;}
+.page-event-pilots td.views-field-field-paraglider-model .td_inner { width: 86px;}
+.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center; word-wrap: break-word;}
+.page-event-pilots td.views-field-field-sponsors .td_inner { width: 116px;}
 .page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 1px; vertical-align: top;}
 .page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
 

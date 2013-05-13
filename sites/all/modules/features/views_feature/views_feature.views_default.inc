@@ -4534,10 +4534,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<?php
-  print t(\'You do not take part in any of the upcoming events.\');
-?>
-';
+  $handler->display->display_options['empty']['area']['content'] = 'You do not take part in any of the upcoming events.';
   $handler->display->display_options['empty']['area']['format'] = 'php_code';
   /* Relationship: OG membership: User from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_user']['id'] = 'og_membership_related_user';
@@ -4717,10 +4714,7 @@ function views_feature_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<?php
-  print t(\'You do not take part in any of the upcoming events.\');
-?>
-'),
+    t('You do not take part in any of the upcoming events.'),
     t('user from OG membership'),
     t('Group node from OG membership'),
     t('.'),
