@@ -337,7 +337,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
