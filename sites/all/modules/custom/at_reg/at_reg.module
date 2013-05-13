@@ -311,11 +311,9 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
       }
       else {
         // TODO: This is a temoporary replacement. Should be removed after registration bug fixed. See issue #3146
-        foreach ($form['#submit'] as $k => $f) {
-          if ($f == 'og_ui_confirm_subscribe_submit') {
-            $form['#submit'][$k] = 'at_og_ui_confirm_subscribe_submit';
-            break;
-          }
+        $submit_keys = array_keys($form['#submit'], 'og_ui_confirm_subscribe_submit');
+        foreach($submit_keys as $key) {
+          $form['#submit'][$key] = 'at_og_ui_confirm_subscribe_submit';
         }
       }
       break;
