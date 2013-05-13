@@ -390,10 +390,15 @@ function airtribune2_process_node(&$vars) {
 
   /* activity & accommodation */
   else if ($vars['node']->type == 'activity' || $vars['node']->type == 'accommodation') {
-    $vars['notitle'] = true;
-    $vars['title'] = '';
-    $vars['user_picture'] = '';
-    $vars['display_submitted'] = '';
+    // Display submitted only node page
+    if (!$vars['page']) {
+      $vars['notitle'] = true;
+      $vars['title'] = '';
+      $vars['user_picture'] = '';
+      $vars['display_submitted'] = '';
+    } else {
+      _airtribune2_add_created($vars);
+    }
     if (!empty($vars['content']['body'])) {
       $vars['content']['body']['#prefix'] = '<h2 class="field_title">' . $vars['content']['body']['#title'] . '</h2>';
     }
@@ -425,15 +430,7 @@ function airtribune2_process_node(&$vars) {
 
   /* Change of specific nodes */
   else if($vars['node']->nid != '5363' && $vars['node']->nid != '5362') {
-    $vars['content']['links']['created'] = array(
-      '#theme' => 'links__node__node',
-      '#links' => array(
-        'node-create' => array(
-          'title' => t('Posted by !user on !date', array('!user' => $vars['full_name'], '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
-          'html' => true
-        )
-      )
-    );
+    _airtribune2_add_created($vars);
     if(!empty($vars['content']['field_image'])){
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
@@ -452,6 +449,20 @@ function airtribune2_process_node(&$vars) {
   $vars['classes'] .= ' node_view_mode_' . $vars['view_mode'];
 }
 
+/**
+ * Add author and date to 'created' node links array
+ */
+function _airtribune2_add_created(&$vars) {
+  $vars['content']['links']['created'] = array(
+    '#theme' => 'links__node__node',
+    '#links' => array(
+      'node-create' => array(
+        'title' => t('Posted by !user on !date', array('!user' => $vars['full_name'], '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
+        'html' => true
+      )
+    )
+  );
+}
 
 /**
  * Implements theme_menu_link().

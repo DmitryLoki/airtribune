@@ -418,6 +418,8 @@ events/*',
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
+              'accommodation' => 'accommodation',
+              'activity' => 'activity',
               'advert' => 'advert',
               'newsblog' => 'newsblog',
               'pg_contest' => 'pg_contest',
