@@ -1497,11 +1497,11 @@ function pages_feature_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'event_accommoditions';
+  $page->name = 'event_accommodations';
   $page->task = 'page';
-  $page->admin_title = 'Event accommoditions';
+  $page->admin_title = 'Event accommodations';
   $page->admin_description = '';
-  $page->path = 'event/%event/map/accommodations';
+  $page->path = 'event/%node/map/accommodations';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -1519,7 +1519,7 @@ function pages_feature_default_page_manager_pages() {
     ),
   );
   $page->arguments = array(
-    'event' => array(
+    'node' => array(
       'id' => 1,
       'identifier' => 'Content: ID',
       'name' => 'entity_id:node',
@@ -1533,9 +1533,9 @@ function pages_feature_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_accommoditions_panel_context';
+  $handler->name = 'page_event_accommodations_panel_context';
   $handler->task = 'page';
-  $handler->subtask = 'event_accommoditions';
+  $handler->subtask = 'event_accommodations';
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
@@ -1599,16 +1599,16 @@ function pages_feature_default_page_manager_pages() {
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['event_accommoditions'] = $page;
+  $pages['event_accommodations'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'event_acivities';
+  $page->name = 'event_activities';
   $page->task = 'page';
-  $page->admin_title = 'Event acivities';
+  $page->admin_title = 'Event activities';
   $page->admin_description = '';
-  $page->path = 'event/%event/map/activities';
+  $page->path = 'event/%node/map/activities';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -1626,7 +1626,7 @@ function pages_feature_default_page_manager_pages() {
     ),
   );
   $page->arguments = array(
-    'event' => array(
+    'node' => array(
       'id' => 1,
       'identifier' => 'Content: ID',
       'name' => 'entity_id:node',
@@ -1640,9 +1640,9 @@ function pages_feature_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_acivities_panel_context';
+  $handler->name = 'page_event_activities_panel_context';
   $handler->task = 'page';
-  $handler->subtask = 'event_acivities';
+  $handler->subtask = 'event_activities';
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
@@ -1706,7 +1706,7 @@ function pages_feature_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['event_acivities'] = $page;
+  $pages['event_activities'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -1818,7 +1818,7 @@ function pages_feature_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Event basic';
   $page->admin_description = '';
-  $page->path = 'event/%event/map/basic';
+  $page->path = 'event/%node/map/basic';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -1849,7 +1849,7 @@ function pages_feature_default_page_manager_pages() {
     ),
   );
   $page->arguments = array(
-    'event' => array(
+    'node' => array(
       'id' => 1,
       'identifier' => 'Content: ID',
       'name' => 'entity_id:node',
