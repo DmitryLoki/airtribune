@@ -5,4 +5,4 @@ core = 7.x
 
 dependencies[] = ctools
 dependencies[] = entity
-
+dependencies[] = entityreference_prepopulate
