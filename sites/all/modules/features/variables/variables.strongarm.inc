@@ -13,13 +13,6 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'geoip_data_file';
-  $strongarm->value = 'sites/all/libraries/geoip/GeoLiteCity.dat';
-  $export['geoip_data_file'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_accommodation';
   $strongarm->value = 'edit-xmlsitemap';
   $export['additional_settings__active_tab_accommodation'] = $strongarm;
@@ -83,6 +76,13 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ant_dayblog';
+  $strongarm->value = '1';
+  $export['ant_dayblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'ant_pattern_accommodation';
   $strongarm->value = '';
   $export['ant_pattern_accommodation'] = $strongarm;
@@ -93,6 +93,13 @@ function variables_strongarm() {
   $strongarm->name = 'ant_pattern_advert';
   $strongarm->value = '';
   $export['ant_pattern_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_dayblog';
+  $strongarm->value = 'Day blog - [node:created] - [node:field_plain_body]';
+  $export['ant_pattern_dayblog'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -125,9 +132,23 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_pg_scoring_category';
+  $strongarm->value = '[node:og-group-ref] - [node:field-pg-scoring-category] category';
+  $export['ant_pattern_pg_scoring_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'ant_pg_race';
   $strongarm->value = '1';
   $export['ant_pg_race'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pg_scoring_category';
+  $strongarm->value = '1';
+  $export['ant_pg_scoring_category'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -142,6 +163,13 @@ function variables_strongarm() {
   $strongarm->name = 'ant_php_advert';
   $strongarm->value = 0;
   $export['ant_php_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_dayblog';
+  $strongarm->value = 0;
+  $export['ant_php_dayblog'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -170,6 +198,13 @@ function variables_strongarm() {
   $strongarm->name = 'ant_php_pg_race';
   $strongarm->value = 0;
   $export['ant_php_pg_race'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_pg_scoring_category';
+  $strongarm->value = 0;
+  $export['ant_php_pg_scoring_category'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -436,6 +471,110 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entityreference:base-tables';
+  $strongarm->value = array(
+    'node' => array(
+      0 => 'node',
+      1 => 'nid',
+    ),
+    'taxonomy_term' => array(
+      0 => 'taxonomy_term_data',
+      1 => 'tid',
+    ),
+    'country' => array(
+      0 => 'countries_country',
+      1 => 'cid',
+    ),
+    'ent_contest_point' => array(
+      0 => 'eck_ent_contest_point',
+      1 => 'id',
+    ),
+    'ent_featured_header' => array(
+      0 => 'eck_ent_featured_header',
+      1 => 'id',
+    ),
+    'ent_point' => array(
+      0 => 'eck_ent_point',
+      1 => 'id',
+    ),
+    'ent_race' => array(
+      0 => 'eck_ent_race',
+      1 => 'id',
+    ),
+    'ent_racetype' => array(
+      0 => 'eck_ent_racetype',
+      1 => 'id',
+    ),
+    'ent_track' => array(
+      0 => 'eck_ent_track',
+      1 => 'id',
+    ),
+    'ent_tracker' => array(
+      0 => 'eck_ent_tracker',
+      1 => 'id',
+    ),
+    'ent_tracker_model' => array(
+      0 => 'eck_ent_tracker_model',
+      1 => 'id',
+    ),
+    'ent_tracker_type' => array(
+      0 => 'eck_ent_tracker_type',
+      1 => 'id',
+    ),
+    'ent_trackerset' => array(
+      0 => 'eck_ent_trackerset',
+      1 => 'id',
+    ),
+    'field_collection_item' => array(
+      0 => 'field_collection_item',
+      1 => 'item_id',
+    ),
+    'i18n_translation' => array(
+      0 => 'i18n_translation_set',
+      1 => 'tsid',
+    ),
+    'og_membership_type' => array(
+      0 => 'og_membership_type',
+      1 => 'id',
+    ),
+    'og_membership' => array(
+      0 => 'og_membership',
+      1 => 'id',
+    ),
+    'profile2' => array(
+      0 => 'profile',
+      1 => 'pid',
+    ),
+    'profile2_type' => array(
+      0 => 'profile_type',
+      1 => 'id',
+    ),
+    'relation' => array(
+      0 => 'relation',
+      1 => 'rid',
+    ),
+    'file' => array(
+      0 => 'file_managed',
+      1 => 'fid',
+    ),
+    'taxonomy_vocabulary' => array(
+      0 => 'taxonomy_vocabulary',
+      1 => 'vid',
+    ),
+    'user' => array(
+      0 => 'users',
+      1 => 'uid',
+    ),
+    'rules_config' => array(
+      0 => 'rules_config',
+      1 => 'id',
+    ),
+  );
+  $export['entityreference:base-tables'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'entity_translation_entity_types';
   $strongarm->value = array(
     'node' => 'node',
@@ -647,86 +786,6 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entityreference:base-tables';
-  $strongarm->value = array(
-    'node' => array(
-      0 => 'node',
-      1 => 'nid',
-    ),
-    'taxonomy_term' => array(
-      0 => 'taxonomy_term_data',
-      1 => 'tid',
-    ),
-    'country' => array(
-      0 => 'countries_country',
-      1 => 'cid',
-    ),
-    'ent_featured_header' => array(
-      0 => 'eck_ent_featured_header',
-      1 => 'id',
-    ),
-    'ent_point' => array(
-      0 => 'eck_ent_point',
-      1 => 'id',
-    ),
-    'ent_track' => array(
-      0 => 'eck_ent_track',
-      1 => 'id',
-    ),
-    'ent_tracker' => array(
-      0 => 'eck_ent_tracker',
-      1 => 'id',
-    ),
-    'ent_trackerset' => array(
-      0 => 'eck_ent_trackerset',
-      1 => 'id',
-    ),
-    'field_collection_item' => array(
-      0 => 'field_collection_item',
-      1 => 'item_id',
-    ),
-    'og_membership_type' => array(
-      0 => 'og_membership_type',
-      1 => 'id',
-    ),
-    'og_membership' => array(
-      0 => 'og_membership',
-      1 => 'id',
-    ),
-    'profile2' => array(
-      0 => 'profile',
-      1 => 'pid',
-    ),
-    'profile2_type' => array(
-      0 => 'profile_type',
-      1 => 'id',
-    ),
-    'relation' => array(
-      0 => 'relation',
-      1 => 'rid',
-    ),
-    'file' => array(
-      0 => 'file_managed',
-      1 => 'fid',
-    ),
-    'taxonomy_vocabulary' => array(
-      0 => 'taxonomy_vocabulary',
-      1 => 'vid',
-    ),
-    'user' => array(
-      0 => 'users',
-      1 => 'uid',
-    ),
-    'rules_config' => array(
-      0 => 'rules_config',
-      1 => 'id',
-    ),
-  );
-  $export['entityreference:base-tables'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_featured_header__ent_featured_header';
   $strongarm->value = array(
     'view_modes' => array(
@@ -771,6 +830,19 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_track__track';
   $strongarm->value = array(
     'view_modes' => array(
@@ -784,19 +856,6 @@ function variables_strongarm() {
     ),
   );
   $export['field_bundle_settings_ent_track__track'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
-  $strongarm->value = array(
-    'view_modes' => array(),
-    'extra_fields' => array(
-      'form' => array(),
-      'display' => array(),
-    ),
-  );
-  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -1196,7 +1255,13 @@ function variables_strongarm() {
       ),
       'file' => 'includes/locale.inc',
     ),
-    'language-default' => array(
+    'locale-cookie' => array(
+      'callbacks' => array(
+        'language' => 'at_language_set_language_url_default',
+      ),
+      'file' => 'sites/all/modules/custom/at_language_set/at_language_set.module',
+    ),
+    'locale-default' => array(
       'callbacks' => array(
         'language' => 'language_from_default',
       ),
@@ -1209,11 +1274,24 @@ function variables_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'language_negotiation_language_content';
   $strongarm->value = array(
-    'locale-interface' => array(
+    'locale-url' => array(
       'callbacks' => array(
-        'language' => 'locale_language_from_interface',
+        'language' => 'locale_language_from_url',
+        'switcher' => 'locale_language_switcher_url',
+        'url_rewrite' => 'locale_language_url_rewrite_url',
       ),
       'file' => 'includes/locale.inc',
+    ),
+    'locale-cookie' => array(
+      'callbacks' => array(
+        'language' => 'at_language_set_language_url_default',
+      ),
+      'file' => 'sites/all/modules/custom/at_language_set/at_language_set.module',
+    ),
+    'locale-default' => array(
+      'callbacks' => array(
+        'language' => 'language_from_default',
+      ),
     ),
   );
   $export['language_negotiation_language_content'] = $strongarm;
@@ -1263,11 +1341,13 @@ function variables_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'locale_language_providers_weight_language';
   $strongarm->value = array(
-    'locale-url' => '-8',
-    'locale-session' => '-6',
-    'locale-user' => '-4',
-    'locale-browser' => '-2',
-    'language-default' => '10',
+    'locale-url' => '-10',
+    'locale-cookie' => '-9',
+    'locale-session' => '-8',
+    'locale-user' => '-7',
+    'locale-browser' => '-6',
+    'locale-interface' => '-5',
+    'language-default' => '-4',
   );
   $export['locale_language_providers_weight_language'] = $strongarm;
 

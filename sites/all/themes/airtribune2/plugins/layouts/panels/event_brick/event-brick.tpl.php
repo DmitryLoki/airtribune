@@ -52,6 +52,25 @@ $panel_suffix = isset($panel_suffix) ? $panel_suffix : '';
       </div>
     </div>
   <?php endif; ?>
+  <div class="panel-row row-1-2 clearfix">
+    <div class="region region-two-brick-left-middle">
+      <div class="region-inner clearfix">
+        <?php print $content['event_brick_left_middle']; ?>
+      </div>
+    </div>
+    <div class="region region-two-brick-right-middle">
+      <div class="region-inner clearfix">
+        <?php print $content['event_brick_right_middle']; ?>
+      </div>
+    </div>
+  </div>
+  <?php if ($content['event_brick_middle_second']): ?>
+    <div class="region region-two-brick-middle-second region-conditional-stack">
+      <div class="region-inner clearfix">
+        <?php print $content['event_brick_middle_second']; ?>
+      </div>
+    </div>
+  <?php endif; ?>
   <div class="panel-row row-2 clearfix">
     <div class="region region-two-big-brick-left-below">
       <div class="region-inner clearfix">

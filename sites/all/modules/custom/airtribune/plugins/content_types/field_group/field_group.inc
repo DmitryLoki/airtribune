@@ -7,7 +7,6 @@
  */
 $plugin = array(
   'title' => t('Field Group formatter'),
-  // Probably not the best category to find this?
   'category' => 'Airtribune',
   'content type' => 'airtribune_field_group_content_type',
   'required context' => new ctools_context_required(t('entity'), 'entity'),
@@ -241,6 +240,8 @@ function airtribune_field_group_content_type_render($subtype, $conf, $panel_args
     // Needs to be form to get a return value
     $element = field_group_build_entity_groups($element, 'form');
   }
+
+  drupal_alter('airtribune_field_group_content', $element[$group_name]);
 
   $block = new StdClass();
   $block->module = 'airtribune';

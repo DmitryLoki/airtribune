@@ -9,13 +9,13 @@ print "<div id='name_and_birthday'>"; // #name_and_birthday start
 
 $lang = $form['profile_main']['field_full_name']['#language'];
 $form['field_user_avatar'][$lang][0]['#title'] = '';
-$form['field_avatar']['#attached']['js'][0] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
+$form['field_avatar']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/auto_upload.js';
 
 print drupal_render($form['field_user_avatar']);
 
 $form['account']['mail']['#title'] = t('Email');
 $form['account']['mail']['#attributes']['rel'] = t('Enter your email');
-$form['account']['mail']['#description'] = t('This is you login. If you change it, you must enter your current password below as well.');
+$form['account']['mail']['#description'] = t('Your email is your login in the system. To change email you must enter your new email. Your email will be changed after confirmation.');
 $form['account']['current_pass']['#title'] = t('Current password');
 $form['account']['current_pass']['#description'] = t('Your current password. If your forgot your password, you can reset it <a href="/user/password">here</a>.');
 $form['account']['pass']['pass1']['#title'] = t("New password");
@@ -26,10 +26,12 @@ $form['account']['mail_dummy'] = array(
   '#type' => 'item',
   '#title' => t('Email'),
   '#markup' => $form['account']['mail']['#value'],
+  '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
+  '#suffix' => '<div id="mail-edit-pencil">✎ edit</div></div>',
 );
 
+$form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
 print drupal_render($form['account']['mail_dummy']);
-hide($form['account']['mail']);
 
 // Main profile Name field
 if (!empty($form['profile_main'])) {
@@ -76,9 +78,13 @@ $form['pass_fieldset']['current_pass'] = $form['account']['current_pass'];
 $form['pass_fieldset']['pass']         = $form['account']['pass'];
 print drupal_render($form['pass_fieldset']);
 
+print "<div id='mail-change'>";
+print drupal_render($form['account']['mail']);
+print drupal_render($form['account']['current_pass']);
+print "</div>";
+
 // hide elements
 hide($form['account']['pass']);
-hide($form['account']['current_pass']);
 hide($form['timezone']);
 hide($form['locale']);
 
