@@ -612,7 +612,7 @@ function _at_race_get_waypoint_data($waypoint_id) {
     $data = array(
       'radius' => '',
       'check' => '',
-      'ss_es' => '',
+      'ss_es' => '_none',
       'point_id' => 0,
     );
   }
@@ -632,6 +632,8 @@ function _at_race_widget_components($gid) {
     $field_point_type = field_info_field('field_point_type');
     
     $components['ss_es'] = $field_point_ss_es['settings']['allowed_values'];
+    $components['ss_es'] = array('_none' => t('None')) + $components['ss_es'];
+    
     $components['check'] = $field_point_type['settings']['allowed_values'];    
     $components['points'] = _at_race_get_contest_points($gid);
   }
