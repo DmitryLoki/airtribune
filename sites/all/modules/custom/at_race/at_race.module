@@ -475,9 +475,8 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
   
   // Get waypoint data
   $entity_wrapper = entity_metadata_wrapper('ent_racetype', $entity);
-  $items = field_get_items('ent_racetype', $entity, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
   
-  // TODO: Delete removed waypoints. Use $original property
+  $items = field_get_items('ent_racetype', $entity, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
   
   $field_value = $entity_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->value();
   
@@ -536,9 +535,44 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
       
       $entity_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->offsetSet($delta, $waypoint_entity);
     }
+    
   }
+  
+  // Delete removed waypoints if any.
+  if (!empty($entity->id)) {
+    // Get list of new target_ids
+    $new_items = field_get_items('ent_racetype', $entity, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
+    $new_items = _at_race_get_items_target_ids($new_items);
+    // Get list of original target_ids
+    $entities = entity_load('ent_racetype', array($entity->id));
+    $original = array_shift($entities);
+    $original_items = field_get_items('ent_racetype', $original, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
+    $original_items = _at_race_get_items_target_ids($original_items);
+    
+    // Get list of removed target_ids.
+    $removed_items = array_intersect($original_items, array_diff($original_items, $new_items));
+    // Remove waypoints.
+    foreach ($removed_items as $id) {
+      entity_delete('ent_point', $id);
+    }
+  }
+  
 }
 
+/**
+ * Helper function.
+ * Get target_id values.
+ */
+function _at_race_get_items_target_ids($items) {
+  $target_ids = array();
+  foreach ($items as $item) {
+    if ($item['target_id'] != 0) {
+      $target_ids[] = $item['target_id'];
+    }
+  }
+  
+  return array_unique($target_ids);
+}
 
 function at_race_field_widget_process_multiple($element, &$form_state, $form) {
   // TODO:
@@ -625,10 +659,12 @@ function _at_race_get_waypoint_data($waypoint_id) {
     $point_entity = $wrapper->field_point_ref->value();
     $point_id = $point_entity->id;
     
+    $ss_es = $wrapper->field_point_ss_es->value();
+    
     $data = array(
       'radius' => $wrapper->field_point_radius->value(),
       'check' => $wrapper->field_point_type->value(),
-      'ss_es' => $wrapper->field_point_ss_es->value(),
+      'ss_es' => !empty($ss_es) ? $ss_es : '_none',
       'point_id' => $point_entity->id,
     );
   }
