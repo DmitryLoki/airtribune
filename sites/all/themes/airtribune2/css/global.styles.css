@@ -2269,6 +2269,8 @@ p { margin:0; padding:9px 0 11px}
 
   /* Main */
 
+#top {min-height: 30px;}
+
 .region-sidebar-first, .region-sidebar-second { width:240px;}
 .panel-col-thirty { width:231px; float:right;}
 .panel-panel.line { position:relative}
