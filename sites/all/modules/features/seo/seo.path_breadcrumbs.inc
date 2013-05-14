@@ -17,14 +17,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Hotels',
+      0 => 'Accommodation',
       1 => '%node:title',
     ),
     'paths' => array(
-      0 => 'hotels',
+      0 => '<none>',
       1 => '%node:url',
     ),
-    'home' => 0,
+    'home' => 1,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
