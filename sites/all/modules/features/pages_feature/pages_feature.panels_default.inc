@@ -85,7 +85,7 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Copyright',
       'title' => '',
-      'body' => '© 2012 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
+      'body' => '© 2011-2013 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
