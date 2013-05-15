@@ -19,7 +19,6 @@
  */
  /*print $pane->type.'<br />';
  print $pane->subtype;*/
-?>
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>
@@ -43,7 +42,7 @@
     <?php endif; ?>
 
     <div class="pane-content">
-      <?php print render($content); ?>
+      <?php print preg_replace('/<\/span>[^<]*<span/', '</span><span', render($content)); ?>
     </div>
 
     <?php if ($links): ?>

@@ -939,7 +939,7 @@ function airtribune2_addressfield_container($variables) {
     $output = '<' . $element['#tag'] . drupal_attributes($element['#attributes']) . '> ';
     $output .= $element['#children'];
     $output .= '</' . $element['#tag'] . ">";
-    return str_replace('  ', ' ', $output);
+    return $output;
   }
   else {
     return '';
