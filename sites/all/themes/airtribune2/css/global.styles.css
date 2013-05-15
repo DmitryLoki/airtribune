@@ -2938,6 +2938,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node ul { padding-left:15px}
 .page-node .node .links { padding-left:0; padding-bottom: 20px;}
+.page-node .node .links .node-create { padding-top: 35px; clear: both; display: block;}
 .page-node .node .user-picture { display: inline-block; vertical-align: bottom;}
 .page-node .node .user-picture img { vertical-align: middle;}
 
