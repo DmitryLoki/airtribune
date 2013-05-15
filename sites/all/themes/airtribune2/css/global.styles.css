@@ -2269,6 +2269,8 @@ p { margin:0; padding:9px 0 11px}
 
   /* Main */
 
+#top {min-height: 30px;}
+
 .region-sidebar-first, .region-sidebar-second { width:240px;}
 .panel-col-thirty { width:231px; float:right;}
 .panel-panel.line { position:relative}
@@ -2959,6 +2961,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node ul { padding-left:15px}
 .page-node .node .links { padding-left:0; padding-bottom: 20px;}
+.page-node .node .links .node-create { padding-top: 35px; clear: both; display: block;}
 .page-node .node .user-picture { display: inline-block; vertical-align: bottom;}
 .page-node .node .user-picture img { vertical-align: middle;}
 
@@ -3515,6 +3518,10 @@ table tr td.:first-child { border-left: none;}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
 /* Header special pages */
+
+.featured-header-title .pane-page-title h1 { margin: 0; padding: 11px 0; font:bold 36px/40px Arial, Helvetica, sans-serif; background:none;}
+.featured-header-title .pane-page-title h1 a {color: #FFF; text-decoration: none;}
+.featured-header-title .pane-page-title h1 a:hover { color:rgba(255,255,255,.75)}
 
 .featured-header { width: 940px; height: 380px; background: #DEE6E9; position: relative; overflow: hidden; margin: 0 auto 20px;}
 .featured-header .panel-pane,

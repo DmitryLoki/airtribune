@@ -485,6 +485,32 @@ user',
     $pane = new stdClass();
     $pane->pid = 'new-10';
     $pane->panel = 'right';
+    $pane->type = 'airtribune_event_sharelinks';
+    $pane->subtype = 'airtribune_event_sharelinks';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'balloon_type' => 'h',
+      'context' => 'node',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-10'] = $pane;
+    $display->panels['right'][0] = 'new-10';
+    $pane = new stdClass();
+    $pane->pid = 'new-11';
+    $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
     $pane->shown = TRUE;
@@ -511,12 +537,12 @@ user',
       'css_class' => 'next_events',
     );
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['right'][0] = 'new-10';
+    $display->content['new-11'] = $pane;
+    $display->panels['right'][1] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-12';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_4';
@@ -529,12 +555,12 @@ user',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['right'][1] = 'new-11';
+    $display->content['new-12'] = $pane;
+    $display->panels['right'][2] = 'new-12';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-13';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -567,12 +593,12 @@ user',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['right'][2] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['right'][3] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-14';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -587,8 +613,8 @@ user',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['top'][0] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['top'][0] = 'new-14';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -733,7 +759,7 @@ user',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-15';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-event_header';
@@ -765,10 +791,10 @@ event/*/map/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-14';
+    $display->content['new-15'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-15';
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-16';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-event_map';
@@ -802,10 +828,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['featured_header_padding'][1] = 'new-15';
+    $display->content['new-16'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-16';
     $pane = new stdClass();
-    $pane->pid = 'new-16';
+    $pane->pid = 'new-17';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-activities_pane';
@@ -839,10 +865,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-16'] = $pane;
-    $display->panels['featured_header_padding'][2] = 'new-16';
+    $display->content['new-17'] = $pane;
+    $display->panels['featured_header_padding'][2] = 'new-17';
     $pane = new stdClass();
-    $pane->pid = 'new-17';
+    $pane->pid = 'new-18';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'custom';
     $pane->subtype = 'airtribune_race_preview';
@@ -878,10 +904,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['featured_header_padding'][3] = 'new-17';
+    $display->content['new-18'] = $pane;
+    $display->panels['featured_header_padding'][3] = 'new-18';
     $pane = new stdClass();
-    $pane->pid = 'new-18';
+    $pane->pid = 'new-19';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -900,10 +926,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-18'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-18';
+    $display->content['new-19'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-19';
     $pane = new stdClass();
-    $pane->pid = 'new-19';
+    $pane->pid = 'new-20';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -921,10 +947,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-19'] = $pane;
-    $display->panels['footer'][0] = 'new-19';
+    $display->content['new-20'] = $pane;
+    $display->panels['footer'][0] = 'new-20';
     $pane = new stdClass();
-    $pane->pid = 'new-20';
+    $pane->pid = 'new-21';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -942,10 +968,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-20'] = $pane;
-    $display->panels['header'][0] = 'new-20';
+    $display->content['new-21'] = $pane;
+    $display->panels['header'][0] = 'new-21';
     $pane = new stdClass();
-    $pane->pid = 'new-21';
+    $pane->pid = 'new-22';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -960,10 +986,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-21'] = $pane;
-    $display->panels['left'][0] = 'new-21';
+    $display->content['new-22'] = $pane;
+    $display->panels['left'][0] = 'new-22';
     $pane = new stdClass();
-    $pane->pid = 'new-22';
+    $pane->pid = 'new-23';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -1001,10 +1027,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-22'] = $pane;
-    $display->panels['left'][1] = 'new-22';
+    $display->content['new-23'] = $pane;
+    $display->panels['left'][1] = 'new-23';
     $pane = new stdClass();
-    $pane->pid = 'new-23';
+    $pane->pid = 'new-24';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1023,10 +1049,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-23'] = $pane;
-    $display->panels['left'][2] = 'new-23';
+    $display->content['new-24'] = $pane;
+    $display->panels['left'][2] = 'new-24';
     $pane = new stdClass();
-    $pane->pid = 'new-24';
+    $pane->pid = 'new-25';
     $pane->panel = 'right';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -1048,10 +1074,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-24'] = $pane;
-    $display->panels['right'][0] = 'new-24';
+    $display->content['new-25'] = $pane;
+    $display->panels['right'][0] = 'new-25';
     $pane = new stdClass();
-    $pane->pid = 'new-25';
+    $pane->pid = 'new-26';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
@@ -1072,10 +1098,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-25'] = $pane;
-    $display->panels['right'][1] = 'new-25';
+    $display->content['new-26'] = $pane;
+    $display->panels['right'][1] = 'new-26';
     $pane = new stdClass();
-    $pane->pid = 'new-26';
+    $pane->pid = 'new-27';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1107,10 +1133,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['right'][2] = 'new-26';
+    $display->content['new-27'] = $pane;
+    $display->panels['right'][2] = 'new-27';
     $pane = new stdClass();
-    $pane->pid = 'new-27';
+    $pane->pid = 'new-28';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -1130,10 +1156,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['right'][3] = 'new-27';
+    $display->content['new-28'] = $pane;
+    $display->panels['right'][3] = 'new-28';
     $pane = new stdClass();
-    $pane->pid = 'new-28';
+    $pane->pid = 'new-29';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -1148,8 +1174,8 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-28'] = $pane;
-    $display->panels['top'][0] = 'new-28';
+    $display->content['new-29'] = $pane;
+    $display->panels['top'][0] = 'new-29';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1286,7 +1312,7 @@ event/*/map/accommodations',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-29';
+    $pane->pid = 'new-30';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -1304,10 +1330,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-29'] = $pane;
-    $display->panels['footer'][0] = 'new-29';
+    $display->content['new-30'] = $pane;
+    $display->panels['footer'][0] = 'new-30';
     $pane = new stdClass();
-    $pane->pid = 'new-30';
+    $pane->pid = 'new-31';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -1325,10 +1351,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-30'] = $pane;
-    $display->panels['header'][0] = 'new-30';
+    $display->content['new-31'] = $pane;
+    $display->panels['header'][0] = 'new-31';
     $pane = new stdClass();
-    $pane->pid = 'new-31';
+    $pane->pid = 'new-32';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1347,8 +1373,8 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-31'] = $pane;
-    $display->panels['middle'][0] = 'new-31';
+    $display->content['new-32'] = $pane;
+    $display->panels['middle'][0] = 'new-32';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1390,7 +1416,7 @@ event/*/map/accommodations',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-32';
+    $pane->pid = 'new-33';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1409,10 +1435,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-32'] = $pane;
-    $display->panels['middle'][0] = 'new-32';
+    $display->content['new-33'] = $pane;
+    $display->panels['middle'][0] = 'new-33';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-32';
+  $display->title_pane = 'new-33';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_5'] = $handler;
 
@@ -1565,6 +1591,14 @@ function pages_feature_default_page_manager_pages() {
       ),
       'logic' => 'and',
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Accommodation | [node:title] | [site:slogan]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -1671,6 +1705,14 @@ function pages_feature_default_page_manager_pages() {
         ),
       ),
       'logic' => 'and',
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Activities | [node:title] | [site:slogan]',
+        ),
+      ),
     ),
   );
   $display = new panels_display();
@@ -2097,75 +2139,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_blog_panel_context_3';
-  $handler->task = 'page';
-  $handler->subtask = 'event_blog';
-  $handler->handler = 'panel_context';
-  $handler->weight = -28;
-  $handler->conf = array(
-    'title' => 'Blog',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'sidebar_first' => NULL,
-      'sidebar_second' => NULL,
-      'content' => NULL,
-      'highlighted' => NULL,
-      'content_aside' => NULL,
-      'secondary_content' => NULL,
-      'tertiary_content' => NULL,
-      'footer' => NULL,
-      'leaderboard' => NULL,
-      'header' => NULL,
-      'menu_bar' => NULL,
-      'help' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-6';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'contest_blog-next_contest';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['middle'][0] = 'new-6';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'page_event_blog_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'event_blog';
@@ -2240,7 +2213,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-6';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_days-panel_pane_1';
@@ -2255,10 +2228,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['middle'][0] = 'new-7';
+    $display->content['new-6'] = $pane;
+    $display->panels['middle'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-7';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_blog-contest_full_pane';
@@ -2273,9 +2246,86 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['middle'][1] = 'new-8';
+    $display->content['new-7'] = $pane;
+    $display->panels['middle'][1] = 'new-7';
   $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_blog_panel_context_3';
+  $handler->task = 'page';
+  $handler->subtask = 'event_blog';
+  $handler->handler = 'panel_context';
+  $handler->weight = -28;
+  $handler->conf = array(
+    'title' => 'Blog',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Blog | [node:title] | [site:slogan]',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'content' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
+      'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-8';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'contest_blog-next_contest';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['middle'][0] = 'new-8';
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -2604,16 +2654,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'How to get here field collection',
-        'keyword' => 'How to get here field collection',
-        'name' => 'field_collection_from_field:node:pg_contest:field_collection_getting_there',
-        'delta' => '0',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'logic' => 'and',
       'plugins' => array(
@@ -3209,16 +3250,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'How to get here field collection',
-        'keyword' => 'How to get here field collection',
-        'name' => 'field_collection_from_field:node:pg_contest:field_collection_getting_there',
-        'delta' => '0',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'logic' => 'and',
       'plugins' => array(
