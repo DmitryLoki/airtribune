@@ -2654,16 +2654,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'How to get here field collection',
-        'keyword' => 'How to get here field collection',
-        'name' => 'field_collection_from_field:node:pg_contest:field_collection_getting_there',
-        'delta' => '0',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'logic' => 'and',
       'plugins' => array(
@@ -3259,16 +3250,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'How to get here field collection',
-        'keyword' => 'How to get here field collection',
-        'name' => 'field_collection_from_field:node:pg_contest:field_collection_getting_there',
-        'delta' => '0',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'logic' => 'and',
       'plugins' => array(
