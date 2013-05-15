@@ -506,7 +506,7 @@ function newsblog_field_default_fields() {
         'max_length' => 255,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'text',
     ),
     'field_instance' => array(
