@@ -3734,6 +3734,8 @@ table tr td.:first-child { border-left: none;}
 .page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
 .page-event-results .view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
 
+#super .panel-pane .at-panel .pane-inner { margin: 0;}
+
 /* Krumo */
 .krumo-root {
   color: #000; text-align: left;
