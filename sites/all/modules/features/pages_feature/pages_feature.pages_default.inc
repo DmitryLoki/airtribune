@@ -2829,6 +2829,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'How to get here',
+      'more' => array(
+        'fragment' => 'how_to_get_here',
+        'page' => 'details',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
