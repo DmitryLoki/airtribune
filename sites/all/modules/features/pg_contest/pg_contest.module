@@ -355,11 +355,13 @@ function _pg_contest_create_alias($node) {
     }
 
     // Save tiny aliases.
-    // TODO: Check that $tiny_path_items is not empty
     $tiny_path_items = field_get_items('node', $node,  AIRTRIBUNE_TINY_PATH_FIELD);
-    foreach ($tiny_path_items as $tiny_path) {
-      $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
-      path_save($path);
+    // Check that $tiny_path_items is not empty
+    if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
+      foreach ($tiny_path_items as $tiny_path) {
+        $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
+        path_save($path);
+      }
     }
 
     // Save aliases.
