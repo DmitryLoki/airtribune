@@ -343,7 +343,7 @@ function airtribune2_process_node(&$vars) {
     $vars['event_blog'] = true;
     $og_items = field_get_items('node', $vars['node'], 'og_group_ref');
     $node_path = 'event/' . $og_items[0]['target_id'] . '/blog/' . $vars['node']->nid;
-    $vars['title'] = l($vars['title'], $node_path);
+    $vars['title'] = l($vars['title'], $node_path, array('html' => true));
 
     /* Changing the style of the output image */
     if(!empty($vars['content']['field_image'])){
