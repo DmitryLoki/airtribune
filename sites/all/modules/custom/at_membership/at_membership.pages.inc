@@ -37,7 +37,7 @@ function at_membership_form($form, &$form_state, $og_membership = FALSE) {
     '#type' => 'value',
     '#value' => $og_membership,
   );
-  
+
   $form['actions']['#weight'] = 99;
   $form['actions']['submit'] = array(
     '#type' => 'submit',
@@ -67,7 +67,7 @@ function at_membership_form_submit($form, &$form_state) {
 function at_membership_set_breadcrumb($og_membership) {
   $gid = $og_membership->gid;
   $group_type = $og_membership->group_type;
-  
+
   if ($group_type == 'node') {
     $node = node_load($gid);
     $breadcrumb = array(
@@ -81,4 +81,16 @@ function at_membership_set_breadcrumb($og_membership) {
     );
   }
   drupal_set_breadcrumb($breadcrumb);
+}
+
+/**
+ * Delete og_membership entity.
+ */
+function at_membership_delete($og_membership) {
+  if (!empty($_POST['js']) && at_membership_access($og_membership, 'delete')) {
+    og_membership_delete($og_membership->id);
+    drupal_json_output(array('message' => t('Your participation has been successfully canceled.')));
+  } else {
+    drupal_access_denied();
+  }
 }
