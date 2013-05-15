@@ -3495,6 +3495,10 @@ table tr td.:first-child { border-left: none;}
 
 /* Header special pages */
 
+.featured-header-title .pane-page-title h1 { margin: 0; padding: 11px 0; font:bold 36px/40px Arial, Helvetica, sans-serif; background:none;}
+.featured-header-title .pane-page-title h1 a {color: #FFF; text-decoration: none;}
+.featured-header-title .pane-page-title h1 a:hover { color:rgba(255,255,255,.75)}
+
 .featured-header { width: 940px; height: 380px; background: #DEE6E9; position: relative; overflow: hidden; margin: 0 auto 20px;}
 .featured-header .panel-pane,
 .featured-header .pane-inner { margin: 0;}
