@@ -466,7 +466,7 @@ function airtribune_views_query_alter(&$view, &$query) {
   }
   // Prevent HQ duplication.
   // See #2976.
-  if ($view->name == 'event_accommodations') {
+  if ($view->name == 'event_accommodations' && isset($view->options['group'])) {
     $view->query->add_where(
       $view->options['group'],
       db_or()
