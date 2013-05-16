@@ -45,3 +45,88 @@ function pg_race_entity_presave($entity, $type) {
     }
   }
 }
+
+/**
+ * Implements hook_field_extra_fields()
+ */
+function pg_race_field_extra_fields() {
+  
+  $extra['ent_race']['pg_race'] = array(
+    'form' => array(
+      'pg_race_play_link' => array(
+        'label' => t('Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+      ),
+    ),
+    'display' => array(
+      'pg_race_play_link' => array(
+        'label' => t('Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+      ),
+    ),
+  );
+  drupal_set_message('test extra hook');
+  return $extra;
+}
+
+/**
+ * Implements hook_entity_view()
+ */
+function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
+  
+  if ($type == 'ent_race' && $entity->type == 'pg_race') {
+    
+    // TODO:
+    $params = array(
+      'online' => TRUE, // change
+      'race_entity_id' => $entity->id,
+      'contest_core_id' => 5, // change
+      'race_core_id' => 10, // change
+    );
+    
+    
+    $markup = _pg_race_play_link($params);
+    
+    $title = $params['online'] ? t('Livetracking') : t('Replay');
+    
+    $entity->content['pg_race_play_link'] = array(
+        '#type' => 'item',
+        '#title' => $title,
+        '#markup' => $markup,
+      );
+    
+    drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
+  }
+}
+
+/**
+ * Prepare markup for play links
+ */
+function _pg_race_play_link($params) {
+  $class2d = array('race-link', '2d');
+  $class3d = array('race-link', '3d');
+  
+  if ($params['online']) {
+    $class2d[] = 'online';
+    $class3d[] = 'online';
+  }
+  
+  $href2d = l('2D', '#', array('attributes' => array('class' => $class2d)));
+  $href3d = l('3D', '#', array('attributes' => array('class' => $class3d)));
+  
+  //$title = $params['online'] ? t('Livetracking') : t('Replay');
+  //$output = '<span class="label">' . $title . '</span>';
+  $output = '<ul class="race-links" data-race-eid=' . $params['race_entity_id']
+          . ' data-contest-cid=' . $params['contest_core_id']
+          . ' data-race-cid=' . $params['race_core_id'];
+  
+  $output .= $params['online'] ? ' date-view-type="online">' : '>';
+  
+  $output .= '<li>' . $href2d . '</li>';
+  $output .= '<li>' . $href3d . '</li>';
+  $output .= '</ul>';
+  
+  return $output;
+}
