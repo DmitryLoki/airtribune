@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-.nid { 
+.nid, .views-field-nid { 
   display: none;
 }
 
