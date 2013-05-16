@@ -18,7 +18,7 @@ function seo_metatag_export_default() {
         'value' => '[current-page:title] | [site:slogan]',
       ),
       'description' => array(
-        'value' => 'Sports event on-line presentation. Full support with registrations, live tracking, 2D and 3D live view and replay.',
+        'value' => 'Developing solutions for paragliding. For safety, entertainment and community uniting.',
       ),
       'keywords' => array(
         'value' => 'live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
@@ -49,7 +49,7 @@ function seo_metatag_export_default() {
     'instance' => 'global:frontpage',
     'config' => array(
       'title' => array(
-        'value' => 'Paragliding competition GPS live tracking | [site:name]',
+        'value' => 'Competition hosting and live tracking | [site:name]',
       ),
       'description' => array(
         'value' => 'Create your competition site here! It\'s free! Full support with registrations, live tracking, 2D & 3D live view and replay.',
