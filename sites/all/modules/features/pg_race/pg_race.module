@@ -77,15 +77,28 @@ function pg_race_field_extra_fields() {
 function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
   
   if ($type == 'ent_race' && $entity->type == 'pg_race') {
+    $wrapper = entity_metadata_wrapper('ent_race', $entity);
+    $race_core_id = $wrapper->field_core_id->value();
+    
+    //$pg_contest_entities = $wrapper->og_group_ref->value();
+    $items = field_get_items('ent_race', $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+    
+    if (!empty($items) && is_array($items)) {
+      $item = array_shift($items);
+      $target_id = $item['target_id'];
+      $node = node_load($target_id);
+      $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
+      $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+    }
+    
     
     // TODO:
     $params = array(
       'online' => TRUE, // change
       'race_entity_id' => $entity->id,
-      'contest_core_id' => 5, // change
-      'race_core_id' => 10, // change
     );
-    
+    $params['race_core_id'] = !empty($race_core_id) ? $race_core_id : '';
+    $params['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : '';
     
     $markup = _pg_race_play_link($params);
     
