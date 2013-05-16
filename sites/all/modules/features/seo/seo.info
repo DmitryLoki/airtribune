@@ -71,6 +71,7 @@ features[path_breadcrumbs][] = breadcrumb_pg_race
 features[path_breadcrumbs][] = user_edit
 features[path_breadcrumbs][] = user_pilot_edit
 features[path_breadcrumbs][] = user_register
+features[path_breadcrumbs][] = user_registrations
 features[path_breadcrumbs][] = user_request_new_password
 features[path_breadcrumbs][] = user_sign_in
 features[variable][] = googleanalytics_account

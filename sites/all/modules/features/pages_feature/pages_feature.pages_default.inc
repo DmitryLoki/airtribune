@@ -1595,7 +1595,11 @@ function pages_feature_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Accommodation | [node:title] | [site:slogan]',
+          'value' => 'Accommodation | [node:title]',
+        ),
+        'description' => array(
+          'value' => 'Lodging in [node:field-city] for paragliding pilots.
+',
         ),
       ),
     ),
@@ -1710,7 +1714,10 @@ function pages_feature_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Activities | [node:title] | [site:slogan]',
+          'value' => 'Activities | [node:title]',
+        ),
+        'description' => array(
+          'value' => 'What to do in [node:field-city] on a non flying day?',
         ),
       ),
     ),
@@ -2829,6 +2836,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => 'How to get here',
+      'more' => array(
+        'fragment' => 'how_to_get_here',
+        'page' => 'details',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
