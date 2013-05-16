@@ -285,7 +285,7 @@ class ATSyncRace extends ATSync {
       //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_UNDEFINED][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
-      $point_data['properties']['ckeckpoint_type'] = $point->field_pg_race_points[LANGUAGE_UNDEFINED][0]['ss_es'];
+      $point_data['properties']['ckeckpoint_type'] = $contest_point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['ss_es'];
       $point_data['properties']['open_time'] = $data['start_time'];
       $point_data['properties']['close_time'] = $data['end_time'];
       $checkpoints['features'][] = $point_data;
