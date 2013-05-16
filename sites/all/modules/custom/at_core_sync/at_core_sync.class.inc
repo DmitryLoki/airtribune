@@ -1,7 +1,6 @@
 <?php
-define(AIRTRIBUNE_CORE_ID_FIELD, 'field_core_id');
-define(LANGUAGE_UNDEFINED, 'und');
-
+define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
+define('LANGUAGE_UNDEFINED', 'und');
 /**
  * Abstract class with commin synchronisation functions
  */
@@ -147,7 +146,6 @@ class ATSyncContest extends ATSync {
 class ATSyncPerson extends ATSync {
   public $address = "person";
   public function synchronize() {
-    $name = $this->entity->profile_main['field_full_name'][LANGUAGE_UNDEFINED][0];
     $profile2 = profile2_load_by_user($this->entity);
     if (!isset($profile2['pilot'])) {
       drupal_set_message("Core API: User is not a pilot, no need to synchronize");
@@ -164,7 +162,6 @@ class ATSyncPerson extends ATSync {
       'email' => $this->entity->mail,
       'reg_date' => date("Y,m,d", $this->entity->created),
     );
-    // Choose PUT or POST - depends exist contest in Core or not
     if ($core_id) {
       $response = $this->request(json_encode($data), "PUT");
     }
@@ -188,7 +185,7 @@ class ATSyncPilot extends ATSync {
     }
     $contest = node_load($this->entity->gid);
     $contest_core_id = get_id_from_contest($contest);
-    if (!$contest_id) {
+    if (!$contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity($contest, 'node');
       $contest_core_id = $sync->synchronize();
@@ -278,17 +275,20 @@ class ATSyncRace extends ATSync {
       $point_data = array();
       $point_data['type'] = 'Feature';
       $point_data['geometry'] = array();
-      $wkt = $point->field_point_center[LANGUAGE_UNDEFINED][0]['geom'];
+      $contest_point_ref = $point->field_point_ref[LANGUAGE_UNDEFINED][0]['target_id'];
+      $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref)));
+      $wkt = $contest_point->field_point_location[LANGUAGE_UNDEFINED][0]['geom'];
       $geom = geoPHP::load($wkt);
-      $coordinates = json_decode($geom->out('json'));
-      $point_data['geometry']['type'] = $point->field_point_center[LANGUAGE_UNDEFINED][0]['geo_type'];
-      $point_data['geometry']['coordinates'] = "Point";
+      $coordinates = json_decode($geom->out('json'), true);
+      $point_data['geometry']= $coordinates;
       $point_data['properties'] = array();
       //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_UNDEFINED][0]['value'];
-      $point_data['properties']['name'] = $point->id;
-      $point_data['properties']['type'] = $point->type;
-      $checkpoints['features'][] = array($point_data);
+      $point_data['properties']['name'] = $contest_point->title;
+      $point_data['properties']['ckeckpoint_type'] = $point->field_pg_race_points[LANGUAGE_UNDEFINED][0]['ss_es'];
+      $point_data['properties']['open_time'] = $data['start_time'];
+      $point_data['properties']['close_time'] = $data['end_time'];
+      $checkpoints['features'][] = $point_data;
     }
 
     /* working example
@@ -311,17 +311,17 @@ class ATSyncRace extends ATSync {
         ),
       ),
     );*/
-
-    $url = http_build_query($data);
-    $url .= '&checkpoints=' . json_encode($checkpoints);
+    $data_url = http_build_query($data);
+    $data_url .= '&checkpoints=' . json_encode($checkpoints);
     if ($race_core_id) {
       $data = array(
         'title' => $this->entity->title,
       );
       $response = $this->request(json_encode($data), "PUT");
-    }
+    }    
     else {
-      $response = $this->request($url);
+      $response = $this->request($data_url);
+      return FALSE;
       $this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
