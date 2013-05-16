@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Installation file for the Airtribune Core API module.
@@ -69,9 +68,7 @@ function _get_class_by_entity($entity, $type) {
   $tmp = $type;
 
   if (!empty($entity->type)) {
-
     $tmp .= ':' . $entity->type;
-
   }
 
   $classes = array(
@@ -83,7 +80,7 @@ function _get_class_by_entity($entity, $type) {
 
   if (!empty($classes[$tmp])) {
     $class = $classes[$tmp];
-    return new $class($entity, $entity->type);
+    return new $class($entity, !empty($entity->type) ? $entity->type : "user");
   }
   else {
     return FALSE;
