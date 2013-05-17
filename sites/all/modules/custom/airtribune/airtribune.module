@@ -589,10 +589,10 @@ function airtribune_init() {
   // see #3067
   if (arg(0) == 'events' && arg(1) == NULL) {
     $events = airtribune_get_events_nids_with_date_status();
-    if (count($events['current']) > 0) {
+    if (!empty($events['current']) && count($events['current']) > 0) {
       drupal_goto('events/current');
     }
-    elseif (count($events['next']) > 0) {
+    elseif (!empty($events['next']) && count($events['next']) > 0) {
       drupal_goto('events/next');
     }
     else {
