@@ -67,7 +67,7 @@ function pg_race_field_extra_fields() {
       ),
     ),
   );
-  drupal_set_message('test extra hook');
+  
   return $extra;
 }
 
