@@ -94,6 +94,7 @@ abstract class ATSync {
     }
     return json_decode($response);
   }
+
   public function updateCoreID($id) {
     $this->entity->field_core_id = array(
       "und" => array(
@@ -128,7 +129,6 @@ class ATSyncContest extends ATSync {
       'country' => $node->field_country['und'][0]['iso2'],
       'timezone' => $node->field_dates['und'][0]['timezone'],
     );
-    // Choose PUT or POST - depends exist contest in Core or not
     if ($core_id) {
       $response = $this->request(json_encode($data), "PUT");
     }
@@ -285,32 +285,13 @@ class ATSyncRace extends ATSync {
       //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_UNDEFINED][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
-      $point_data['properties']['ckeckpoint_type'] = $contest_point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['ss_es'];
+      if (!empty($point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['ss_es'])) {
+        $point_data['properties']['ckeckpoint_type'] = $point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['ss_es'];  
+      }
       $point_data['properties']['open_time'] = $data['start_time'];
       $point_data['properties']['close_time'] = $data['end_time'];
       $checkpoints['features'][] = $point_data;
     }
-
-    /* working example
-     * $checkpoints = array(
-      "type" => "FeatureCollection",
-      "features" => array(
-        array(
-          'type' => 'Feature',
-          'geometry' => array(
-            'type' => 'Point',
-            'coordinates' => array(12.4, -10.2)
-          ),
-          'properties' => array(
-            'radius' => 400,
-            'name' => 'A012300',
-            'checkpoint_type' => 'ordinal',
-            'open_time' => 12345678890,
-            'close_time' => 12345678898,
-          ),
-        ),
-      ),
-    );*/
     $data_url = http_build_query($data);
     $data_url .= '&checkpoints=' . json_encode($checkpoints);
     if ($race_core_id) {
@@ -321,7 +302,6 @@ class ATSyncRace extends ATSync {
     }    
     else {
       $response = $this->request($data_url);
-      return FALSE;
       $this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
