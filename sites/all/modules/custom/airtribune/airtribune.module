@@ -128,35 +128,67 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
   if (!$items) {
     return;
   }
+
   switch ($display['type']) {
 
     case 'adapitve_dates':
       foreach ($items as $delta => $item) {
-        $date1 = getdate($ts1 = strtotime($item['value']));
-        $date2 = getdate($ts2 = strtotime($item['value2']));
-
-        // 23 Dec, 2012 — 5 Jan, 2013
-        if ($date1['year'] != $date2['year']) {
-          $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        // 28 Aug — 3 Sep, 2012
-        elseif ($date1['mon'] != $date2['mon']) {
-          $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        // 24 — 26 Aug, 2012
-        else {
-          $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        $element[$delta] = array('#markup' => $dates);
+        $element[$delta] = array(
+          '#markup' => airtribune_format_date_interval($item['value'], $item['value2'])
+        );
       }
-
       break;
   }
 
   return $element;
 }
 
+/**
+ * Implements hook_token_info().
+ *
+ * @see #3217
+ */
+function airtribune_token_info() {
+  $info['tokens']['node']['event-dates'] = array(
+    'name' => t('Event dates'),
+    'description' => t('Event dates (adaptive format)'),
+  );
+  return $info;
+}
 
+/**
+ * Implements hook_tokens().
+ */
+function airtribune_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node']) && isset($tokens['event-dates'])) {
+    $date_items = field_get_items('node', $data['node'], 'field_dates');
+    $replacements['[node:event-dates]'] =  airtribune_format_date_interval($date_items[0]['value'], $date_items[0]['value2']);
+  }
+  return $replacements;
+}
+
+/**
+ * Format event dates.
+ */
+function airtribune_format_date_interval($start_date, $end_date) {
+  $start_date = getdate($ts1 = strtotime($start_date));
+  $end_date = getdate($ts2 = strtotime($end_date));
+
+  // 23 Dec, 2012 — 5 Jan, 2013
+  if ($start_date['year'] != $end_date['year']) {
+    $output = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  // 28 Aug — 3 Sep, 2012
+  elseif ($start_date['mon'] != $end_date['mon']) {
+    $output = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  // 24 — 26 Aug, 2012
+  else {
+    $output = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  return $output;
+}
 
 /**
  * Format user name.
