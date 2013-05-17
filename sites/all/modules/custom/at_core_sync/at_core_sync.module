@@ -116,7 +116,6 @@ function at_core_sync_entity_insert($entity, $type) {
  */
 function at_core_sync_menu() {
   $items = array();
-
   $items['admin/config/core_api'] = array(
     'title' => 'Core API',
     'description' => 'Airtribune Core API',

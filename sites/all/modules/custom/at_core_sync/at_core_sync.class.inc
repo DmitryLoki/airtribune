@@ -271,6 +271,7 @@ class ATSyncRace extends ATSync {
     $checkpoints = array();
     $checkpoints['type'] = "FeatureCollection";
     $checkpoints['features'] = array();
+    $delta = 0;
     foreach ($points as $point) {
       $point_data = array();
       $point_data['type'] = 'Feature';
@@ -285,9 +286,17 @@ class ATSyncRace extends ATSync {
       //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_UNDEFINED][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
-      if (!empty($point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['ss_es'])) {
-        $point_data['properties']['ckeckpoint_type'] = $point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['ss_es'];  
+      
+      if (!empty($point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['value'])) {
+        $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['value'];
       }
+      if ($delta == 0) {
+        $point_data['properties']['checkpoint_type'] = "to";
+      }
+      if ($delta == count($points) - 1) {
+        $point_data['properties']['checkpoint_type'] = "goal";
+      }
+      $delta++;
       $point_data['properties']['open_time'] = $data['start_time'];
       $point_data['properties']['close_time'] = $data['end_time'];
       $checkpoints['features'][] = $point_data;
