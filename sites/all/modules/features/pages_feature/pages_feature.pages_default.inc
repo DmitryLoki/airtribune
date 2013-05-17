@@ -2419,6 +2419,17 @@ ____(CCCCCCCCCCCCCC)____________;;;
         ),
       ),
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '[node:title] | [node:og-group-ref:0:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:body]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
