@@ -4029,7 +4029,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[node:title] | [site:slogan]',
+          'value' => '[node:title] | Accommodation and activities for paragliding pilots | [site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:body]',
         ),
       ),
     ),
