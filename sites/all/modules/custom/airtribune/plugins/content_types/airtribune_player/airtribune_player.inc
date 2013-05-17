@@ -83,7 +83,7 @@ function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $op
 
   $output = "<link rel=\"stylesheet\" href=\"{$baseUrl}/css/airvis.css\"/>
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/checkbox.css\"/>  
-    <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/require.js\"></script>
+    <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div>
     <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\", isOnline: {$isOnline}, mapWidget: \"{$mapWidget}\" } --><!-- /ko -->
     </div>";
