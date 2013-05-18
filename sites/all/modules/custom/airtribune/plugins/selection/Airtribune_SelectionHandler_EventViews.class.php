@@ -49,4 +49,24 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
     return $form;
   }
 
+  /**
+   * Implements EntityReferenceHandler::validateReferencableEntities().
+   */
+  function validateReferencableEntities(array $ids) {
+    $display_name = $this->field['settings']['handler_settings']['view']['display_name'];
+    $args = $this->field['settings']['handler_settings']['view']['args'];
+    foreach ($args as $key => $arg) {
+      if ($arg == 'gid') {
+        $args[$key] = $this->group_id;
+      }
+    }
+    $result = array();
+    if ($this->initializeView(NULL, 'CONTAINS', 0, $ids)) {
+      // Get the results.
+      $entities = $this->view->execute_display($display_name, $args);
+      $result = array_keys($entities);
+    }
+    return $result;
+  }
+
 }

@@ -2841,119 +2841,6 @@ Prof.',
     ),
   );
 
-  // Exported field: 'node-pg_contest-field_header_image'.
-  $fields['node-pg_contest-field_header_image'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_header_image',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
-        ),
-        'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
-      ),
-      'translatable' => '0',
-      'type' => 'image',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
-          ),
-          'type' => 'image',
-          'weight' => '25',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_header_image',
-      'label' => 'Header image',
-      'required' => 0,
-      'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 1,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => 'pg_contests/[node:nid]-[node:title]/img/header',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'max_filesize' => '',
-        'max_resolution' => '940x380',
-        'min_resolution' => '',
-        'title_field' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'image',
-        'settings' => array(
-          'preview_image_style' => 'header_thumbnail',
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'image_image',
-        'weight' => '1',
-      ),
-    ),
-  );
-
   // Exported field: 'node-pg_contest-field_headquarter_hotel'.
   $fields['node-pg_contest-field_headquarter_hotel'] = array(
     'field_config' => array(
@@ -2962,6 +2849,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_headquarter_hotel',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -2979,8 +2869,21 @@ Prof.',
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'base',
-        'handler_settings' => array(),
+        'handler' => 'geowidget',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'map' => 'hq_select_map',
+          'view' => array(
+            'args' => array(),
+            'display_name' => 'openlayers_2',
+            'view_name' => 'event_map',
+          ),
+        ),
+        'profile2_private' => FALSE,
         'target_type' => 'node',
       ),
       'translatable' => '0',
@@ -2988,7 +2891,8 @@ Prof.',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
+      'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -3015,18 +2919,36 @@ Prof.',
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_headquarter_hotel',
       'label' => 'Headquarter hotel',
-      'required' => FALSE,
+      'options_limit' => 0,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_awards_photos' => 0,
+      ),
+      'required' => 0,
       'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
+        'active' => 1,
+        'module' => 'at_entityreference_geowidget',
+        'settings' => array(
+          'map' => 'hq_select_map',
+          'view' => array(
+            'args' => '',
+            'view_and_display' => 'event_map:openlayers_2',
+          ),
+        ),
+        'type' => 'at_entityreference_geowidget',
         'weight' => '28',
       ),
     ),
@@ -4762,7 +4684,6 @@ Prof.',
   t('General schedule');
   t('Group');
   t('Group roles and permissions');
-  t('Header image');
   t('Headquarter hotel');
   t('Headquarter info');
   t('Headquarter location');
@@ -4772,6 +4693,7 @@ Prof.',
   t('Is registration for the event open.');
   t('List all awards here.');
   t('Local rules');
+  t('Maximum number of contestants');
   t('Name');
   t('Open class');
   t('Organizer logo ');
