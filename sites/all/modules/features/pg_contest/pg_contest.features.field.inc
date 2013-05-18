@@ -491,127 +491,6 @@ function pg_contest_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg_contest-field_awards_photos'.
-  $fields['node-pg_contest-field_awards_photos'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '8',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_awards_photos',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
-        ),
-        'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
-      ),
-      'translatable' => '0',
-      'type' => 'image',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'deleted' => '0',
-      'description' => 'Please attach photos of  awards (one photo for each) in the following order:
-Overall 
-Women
-Serial Class
-Open Class
-Sport Class
-Nations
-Clubs
-Teams',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
-          ),
-          'type' => 'image',
-          'weight' => '18',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_awards_photos',
-      'label' => 'Prize fund and scoring categories',
-      'required' => 0,
-      'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 1,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => 'pg-contests/[node:nid]-[node:title]/img/awards',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'max_filesize' => '1MB',
-        'max_resolution' => '',
-        'min_resolution' => '300x300',
-        'title_field' => 1,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'image',
-        'settings' => array(
-          'preview_image_style' => 'thumbnail',
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'image_image',
-        'weight' => '16',
-      ),
-    ),
-  );
-
   // Exported field: 'node-pg_contest-field_city'.
   $fields['node-pg_contest-field_city'] = array(
     'field_config' => array(
@@ -4577,89 +4456,8 @@ Prof.',
     ),
   );
 
-  // Exported field: 'node-pg_contest-title_field'.
-  $fields['node-pg_contest-title_field'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'title_field',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'max_length' => 255,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => 'A field replacing node title.',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '36',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'title_field',
-      'label' => 'Title',
-      'required' => TRUE,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'text',
-        'settings' => array(
-          'size' => 60,
-        ),
-        'type' => 'text_textfield',
-        'weight' => '0',
-      ),
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
-  t('A field replacing node title.');
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Bus');
@@ -4702,15 +4500,6 @@ Prof.',
   t('Photos');
   t('Photos pertaining to the general description of the contest');
   t('Plane');
-  t('Please attach photos of  awards (one photo for each) in the following order:
-Overall 
-Women
-Serial Class
-Open Class
-Sport Class
-Nations
-Clubs
-Teams');
   t('Points file');
   t('Prize fund and scoring categories');
   t('Registration switch');
@@ -4727,7 +4516,6 @@ Teams');
   t('Tel');
   t('Time zone');
   t('Tiny path');
-  t('Title');
   t('Train');
   t('Web site');
 

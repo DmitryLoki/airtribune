@@ -186,7 +186,7 @@ function pg_racetypes_field_default_fields() {
   $fields['ent_racetype-pg_racetype_od-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
@@ -245,11 +245,9 @@ function pg_racetypes_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
+          'module' => 'og_ui',
+          'settings' => array(),
+          'type' => 'og_list_default',
           'weight' => 2,
         ),
         'teaser' => array(
@@ -291,12 +289,24 @@ function pg_racetypes_field_default_fields() {
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
+      'view modes' => array(
+        'full' => array(
+          'custom settings' => FALSE,
+          'label' => 'Full',
+          'type' => 'og_list_default',
+        ),
+        'teaser' => array(
+          'custom settings' => FALSE,
+          'label' => 'Teaser',
+          'type' => 'og_list_default',
+        ),
+      ),
       'widget' => array(
         'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '6',
+        'weight' => 5,
       ),
     ),
   );
@@ -619,7 +629,7 @@ function pg_racetypes_field_default_fields() {
   $fields['ent_racetype-pg_racetype_rtg-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
@@ -678,11 +688,9 @@ function pg_racetypes_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
+          'module' => 'og_ui',
+          'settings' => array(),
+          'type' => 'og_list_default',
           'weight' => 4,
         ),
         'teaser' => array(
@@ -724,12 +732,24 @@ function pg_racetypes_field_default_fields() {
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
+      'view modes' => array(
+        'full' => array(
+          'custom settings' => FALSE,
+          'label' => 'Full',
+          'type' => 'og_list_default',
+        ),
+        'teaser' => array(
+          'custom settings' => FALSE,
+          'label' => 'Teaser',
+          'type' => 'og_list_default',
+        ),
+      ),
       'widget' => array(
         'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '10',
+        'weight' => 9,
       ),
     ),
   );
@@ -776,7 +796,7 @@ function pg_racetypes_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '0',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -910,7 +930,7 @@ function pg_racetypes_field_default_fields() {
   $fields['ent_racetype-pg_racetype_sr-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
@@ -969,11 +989,9 @@ function pg_racetypes_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
+          'module' => 'og_ui',
+          'settings' => array(),
+          'type' => 'og_list_default',
           'weight' => 2,
         ),
         'teaser' => array(
@@ -1004,7 +1022,7 @@ function pg_racetypes_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'none',
-            'action_on_edit' => 1,
+            'action_on_edit' => 0,
             'fallback' => 'none',
             'og_context' => 0,
             'skip_perm' => '0',
@@ -1015,12 +1033,24 @@ function pg_racetypes_field_default_fields() {
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
+      'view modes' => array(
+        'full' => array(
+          'custom settings' => FALSE,
+          'label' => 'Full',
+          'type' => 'og_list_default',
+        ),
+        'teaser' => array(
+          'custom settings' => FALSE,
+          'label' => 'Teaser',
+          'type' => 'og_list_default',
+        ),
+      ),
       'widget' => array(
         'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '6',
+        'weight' => 5,
       ),
     ),
   );
