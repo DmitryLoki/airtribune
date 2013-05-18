@@ -100,9 +100,24 @@ function seo_metatag_export_default() {
     'config' => array(
       'og:type' => array(
         'value' => 'hotel',
-      ),
       'title' => array(
-        'value' => '[node:title] | [site:slogan]',
+        'value' => '[node:title] | Accommodation for paragliding pilots | [site:name]',
+      ),
+      'description' => array(
+        'value' => '[node:body]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:activity.
+  $config['node:activity'] = array(
+    'instance' => 'node:activity',
+    'config' => array(
+      'title' => array(
+        'value' => '[node:title] | Activities for paragliding pilots | [site:name]',
+      ),
+      'description' => array(
+        'value' => '[node:body]',
       ),
     ),
   );
