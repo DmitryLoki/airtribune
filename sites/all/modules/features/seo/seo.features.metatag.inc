@@ -100,6 +100,7 @@ function seo_metatag_export_default() {
     'config' => array(
       'og:type' => array(
         'value' => 'hotel',
+      ),
       'title' => array(
         'value' => '[node:title] | Accommodation for paragliding pilots | [site:name]',
       ),
