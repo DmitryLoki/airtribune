@@ -2,13 +2,14 @@
 
 
 /**
-* Implements hook_menu();
+* Implements hook_menu()
 */
 function at_entityreference_geowidget_menu() {
   $items = array();
-  $items['at_entityreference_geowidget'] = array(
+  $items['at_entityreference_geowidget/%/%'] = array(
     'title' => 'Ajax callback',
     'page callback' => 'at_entityreference_geowidget_ajax',
+    'page arguments' => array(1, 2),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -17,7 +18,7 @@ function at_entityreference_geowidget_menu() {
 
 
 /**
-* Implements hook_field_widget_info();
+* Implements hook_field_widget_info()
 */
 function at_entityreference_geowidget_field_widget_info() {
   $widgets['at_entityreference_geowidget'] = array(
@@ -25,6 +26,11 @@ function at_entityreference_geowidget_field_widget_info() {
     'description' => t('An advanced geowidget.'),
     'field types' => array('entityreference'),
     'settings' => array(
+      'map' => NULL,
+      'view' => array(
+        'view_and_display' => NULL,
+        'args' => NULL
+      )
     ),
     'behaviors' => array(
       'multiple values' => FIELD_BEHAVIOR_CUSTOM,
@@ -36,15 +42,97 @@ function at_entityreference_geowidget_field_widget_info() {
 }
 
 /**
-* Implements hook_field_widget_form();
+ * Implementation of hook_field_widget_settings_form()
+ */
+function at_entityreference_geowidget_field_widget_settings_form($field, $instance) {
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+  $maps = openlayers_maps();
+  $default = !empty($settings['map']) ? $settings['map'] : NULL;
+    $options = array();
+    foreach ($maps as $key => $map) {
+      $options[$key] = $map->title;
+    }
+    $form['map'] = array(
+      '#type' => 'select',
+      '#title' => t('Map'),
+      '#options' => $options,
+      '#default_value' => $default
+    );
+
+    //following is rewrite of views_get_applicable_views()
+    //inspired by EntityReference_SelectionHandler_Views::settingsForm
+    $views = views_get_all_views();
+    $options = array();
+    foreach ($views as $view) {
+      // Skip disabled views.
+      if (!empty($view->disabled)) {
+        continue;
+      } 
+
+      if (empty($view->display)) {
+        // Skip this view as it is broken.
+        vsm(t("Skipping broken view @view", array('@view' => $view->name)));
+        continue;
+      }
+
+      // Loop on array keys because something seems to muck with $view->display
+      // a bit in PHP4.
+      foreach (array_keys($view->display) as $id) {
+        $plugin = views_fetch_plugin_data('display', $view->display[$id]->display_plugin);
+        if ($plugin['handler'] == 'openlayers_views_plugin_display_openlayers') {
+          $v = $view->clone_view();
+          if ($v->set_display($id) && $v->display_handler->get_option('enabled')) {
+            $options[$v->name . ':' . $id] = $v->name . ' - ' . $v->display[$id]->display_title;
+          }    
+        }
+      }
+    }
+    //$entity_info = entity_get_info($field['settings']['target_type']);
+    if ($options) {
+      $default = !empty($settings['view']['view_and_display']) ? $settings['view']['view_and_display'] : NULL;
+      $form['view']['view_and_display'] = array(
+        '#type' => 'select',
+        '#title' => t('View used to select the entities'),
+        '#required' => TRUE,
+        '#options' => $options,
+        '#default_value' => $default,
+        '#description' => '<p>' . t('Choose the view and display that select the entities that can be referenced.<br />Only views with a display of type "Entity Reference" are eligible.') . '</p>',
+      );
+    $default = !empty($view_settings['args']) ? implode(', ', $view_settings['args']) : '';
+      $form['view']['args'] = array(
+        '#type' => 'textfield',
+        '#title' => t('View arguments'),
+        '#default_value' => $default,
+        '#required' => FALSE,
+        '#description' => t('Provide a comma separated list of arguments to pass to the view.'),
+      );
+    }
+    else {
+      $form['view']['no_view_help'] = array(
+        '#markup' => '<p>' . t('No eligible views were found. <a href="@create">Create a view</a> with an <em>Entity Reference</em> display, or add such a display to an <a href="@existing">existing view</a>.', array(
+          '@create' => url('admin/structure/views/add'),
+          '@existing' => url('admin/structure/views'),
+        )) . '</p>',
+      );
+    }
+
+  return $form;
+}
+
+
+/**
+* Implements hook_field_widget_form()
 */
 function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $map = openlayers_map_load('events_map');
-  if(isset($items[$delta])) {
+  $cid = uniqid('geowidget-');
+  cache_set($cid, $instance['widget']['settings'], 'cache', time() + 600000);
+  $map = openlayers_map_load($instance['widget']['settings']['map']);
+  if (isset($items[$delta])) {
     $value = $items[$delta]['target_id'];
     $entityreference_node = node_load($value);
     $location = $entityreference_node->field_location['und'][0];
-    $map->data['center']['initial']['centerpoint'] = $location['lat'] . ',' . $location['lon'];
+    $map->data['center']['initial']['centerpoint'] = $location['lon'] . ', ' . $location['lat'];
     if (isset($map->data['behaviors']['openlayers_behavior_zoomtolayer'])) {
       unset($map->data['behaviors']['openlayers_behavior_zoomtolayer']);
     }
@@ -77,27 +165,21 @@ function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $f
     '#delta' => $delta
   );
   $element['#element_validate'] = array('at_entityreference_geowidget_validate');
-  drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'], 'value' => $value)), 'setting');
+  list($view, $display) = explode(':', $instance['widget']['settings']['view']['view_and_display']);
+  $drupal_id = $view . '_' . $display;
+  drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'], 'value' => $value, 'cid' => $cid, 'drupalID' => $drupal_id)), 'setting');
   return $element;
 }
 
-/**
- * Implements hook_openlayers_map_preprocess_alter
- * @param array $map
- */
-function at_entityreference_geowidget_openlayers_map_preprocess_alter(&$map = array()) {
-  $map['layers'][] = $map['layers_activated'][] = 'test_geo_openlayers_1';
-}
-
-function at_entityreference_geowidget_ajax(){
-  /*drupal_add_library('system', 'drupal.ajax');
-  drupal_add_library('system', 'jquery.form');*/
-  $bounds = $_GET['bbox'];
-  $bounds = explode(',', $bounds);
-  $view = views_get_view('test_geo');
+function at_entityreference_geowidget_ajax($bbox, $cid) {
+  $settings = cache_get($cid);
+  list($view_name, $display_name) = explode(':', $settings->data['view']['view_and_display']);
+  $bounds = explode(',', $bbox);
+  $view = views_get_view($view_name);
   if (is_null(drupal_get_http_header('Content-Type'))) {
     drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
   }
+  //We have to use exposed form here, because arguments do not suppport "between" operator
   $view->set_exposed_input(array(
     'field_location_lat' => array(
       'min' => $bounds[1],
@@ -108,7 +190,7 @@ function at_entityreference_geowidget_ajax(){
       'max' => $bounds[2],
     )
   ));
-  print drupal_json_encode($view->execute_display('openlayers_1'));
+  print drupal_json_encode($view->execute_display($display_name));
   ajax_footer();
 }
 
