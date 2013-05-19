@@ -3,6 +3,7 @@
 /**
  * @file Nested checkoxes form element module
  * @author Vadim Valuev <gease@mail.ru>
+ * @todo add validation
  */
 
 /**
@@ -20,12 +21,14 @@ function at_nested_checkbox_element_info() {
         drupal_get_path('module', 'at_nested_checkbox') . '/at_nested_checkbox.js',
       )
     ),
+    '#after_build' => array('at_nested_checkbox_cancel_validation'),
     '#level' => 0
   );
   return $types;
 }
 
-function at_nested_checkbox_process($element, &$form_state, $complete_form) {
+function at_nested_checkbox_process($element, &$form_state) {
+  if (empty($element['#options'])) return;
   $options = $element['#options'];
   $keys = element_children($options);
   foreach ($keys as $key ) {
@@ -37,10 +40,8 @@ function at_nested_checkbox_process($element, &$form_state, $complete_form) {
         '#title_display' => $element['#title_display'],
         '#title' => $value['#title'], 
         '#level' => $element['#level'] + 1, 
-        '#needs_validation' => FALSE
+        '#default_value' => $element['#default_value'][$key]
       );
-      unset($element['$key']['#attached']);
-      unset($element['$key']['#needs_validation']);
     }
     else {
       $element[$key] = array(
@@ -48,8 +49,9 @@ function at_nested_checkbox_process($element, &$form_state, $complete_form) {
         '#title' => $value,
         '#return_value' => $key,
         '#title_display' => $element['#title_display'],
-        '#theme_wrappers' => array(/*'nested_checkbox'*/ 'form_element'), 
-        '#post_render' => array('_at_nested_checkbox_post_render')
+        '#theme_wrappers' => array( 'form_element'), 
+        '#post_render' => array('_at_nested_checkbox_post_render'),
+        '#default_value' => (!empty($element['#value'][$key]) && $element['#value'][$key] == $key) ? $key  : NULL,
       );
     }
     
@@ -57,7 +59,10 @@ function at_nested_checkbox_process($element, &$form_state, $complete_form) {
   return $element; 
 }
 
-
+function at_nested_checkbox_cancel_validation($element) {
+  unset($element['#needs_validation']);
+  return $element;
+}
 
 /**
  * Impementation of hook_element_theme()
@@ -65,9 +70,6 @@ function at_nested_checkbox_process($element, &$form_state, $complete_form) {
 function at_nested_checkbox_theme($existing, $type, $theme, $path) {
   return array(
     'nested_checkboxes' => array(
-      'render element' => 'element'
-    ),
-    'nested_checkbox' => array(
       'render element' => 'element'
     )
   );
@@ -84,32 +86,11 @@ function theme_nested_checkboxes($variables) {
   $top_checkbox = preg_replace('/^<div/', '<li', $top_checkbox);
   $top_checkbox = preg_replace('/<\/div>$/', '', $top_checkbox);
   return '<ul ' . drupal_attributes($attributes) . '>' . $top_checkbox . '<ul class="nested_checkboxes inner">' . $variables['element']['#children'] . '</ul></li></ul>';
-  //return _theme_nested_checkboxes($options, $variables['element']);
 }
 
-function theme_nested_checkbox($variables) {
-  return '<li>' . $variables['element']['#children'] . '</li>';
-}
 
 function _at_nested_checkbox_post_render($element, $children) {
   $element = preg_replace('/^<div/', '<li', $element);
   $element = preg_replace('/\/div>$/', '/li>', $element);
   return $element;
-}
-
-function _theme_nested_checkboxes($options, $element) {
-  $output = '<ul>';
-  foreach ($options as $key => $value) {
-    if (is_array($value)) {
-      $output .= '<li>Next level</li>';
-      $output .= _theme_nested_checkboxes($value, $element);
-    }
-    else {
-      $element['#type'] = 'checkbox';
-      $element['#title'] = $value;
-      $output .= '<li>' . theme('checkbox', $options) . '</li>';
-    }
-  }
-  $output .= '</ul>';
-  return $output;
 }

@@ -58,7 +58,18 @@ function at_core_sync_admin_settings() {
 }
 
 function at_core_sync_field($form, &$form_state) {
-  //dpm(field_info_field(CORE_ID_FIELD));
-  dpm($form);
-  dpm($form_state);
+  $values = $form_state['values']['at_core_bundles'];
+  $field_info = field_info_field(CORE_ID_FIELD);
+  $attached = $field_info['bundles'];
+  foreach ($values as $entity => $bundles) {
+    if (!empty($bundles)) {
+      foreach ($bundles as $bundle => $value) {
+        if ((string)$value == $bundle) {
+          if (!in_array($value, $attached[$entity])) {
+            field_create_instance(array('field_name' => CORE_ID_FIELD, 'entity_type' => $entity, 'bundle' => $bundle));
+          }
+        }
+      }
+    }
+  }
 }
