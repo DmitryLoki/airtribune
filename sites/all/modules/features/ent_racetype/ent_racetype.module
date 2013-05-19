@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Race type feature.
+ */
+
+include_once 'ent_racetype.features.inc';

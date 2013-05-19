@@ -6,7 +6,7 @@
  */
 
 /**
- * Returns class
+ * Returns synchronization class
  */
 function _get_class_by_entity($entity, $type) {
   require_once drupal_get_path("module", "at_core_sync") . "/at_core_sync.class.inc";
@@ -18,11 +18,12 @@ function _get_class_by_entity($entity, $type) {
     $tmp .= ':' . $entity->type;
 
   $classes = array(
-    'node:pg_contest' => 'ContestSync',
-    'user' => 'UserSync',
+    'node:pg_contest' => 'ATSyncContest',
+    'user' => 'ATSyncPilot',
+    'ent_race:pg_race' => 'ATSyncRace',
   );
-
-  if (!empty($classes[$tmp])) {
+  drupal_set_message($tmp);
+  if(!empty($classes[$tmp])) {
     $class = $classes[$tmp];
     return new $class($entity, $entity->type);
   } 
@@ -46,7 +47,7 @@ function at_core_sync_entity_update($entity, $type) {
 function at_core_sync_entity_insert($entity, $type) {
   if ($sync = _get_class_by_entity($entity, $type)) {
     $sync->onInsert();
-  }  
+  }
 }
 
 /**

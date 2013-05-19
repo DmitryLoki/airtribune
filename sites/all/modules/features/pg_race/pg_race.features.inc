@@ -5,11 +5,16 @@
  */
 
 /**
- * Implements hook_ctools_plugin_api().
+ * Implements hook_eck_bundle_info().
  */
-function pg_race_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "strongarm" && $api == "strongarm") {
-    return array("version" => "1");
-  }
+function pg_race_eck_bundle_info() {
+  $items = array(
+  'ent_race_pg_race' => array(
+  'machine_name' => 'ent_race_pg_race',
+  'entity_type' => 'ent_race',
+  'name' => 'pg_race',
+  'label' => 'Paragliding race',
+),
+  );
+  return $items;
 }

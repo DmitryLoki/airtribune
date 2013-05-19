@@ -299,9 +299,17 @@ function airtribune2_preprocess_node(&$vars) {
 }
 
 function airtribune2_process_node(&$vars) {
+
+
   $vars['event_blog'] = false;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
 
+  if (isset($account->field_full_name)) {
+    $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
+  } else {
+    $full_name = $vars['name'];
+  }
+  $vars['full_name'] = render($full_name);
   /* If view mode is event_blog_teaser */
   if($vars['view_mode'] == 'event_blog_teaser'){
     $vars['event_blog'] = true;
@@ -385,16 +393,11 @@ function airtribune2_process_node(&$vars) {
 
   /* Change of specific nodes */
   else if($vars['node']->nid != '5363' && $vars['node']->nid != '5362') {
-    if (isset($account->field_full_name)) {
-      $vars['full_name'] = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
-    } else {
-      $vars['full_name'] = $vars['name'];
-    }
     $vars['content']['links']['created'] = array(
       '#theme' => 'links__node__node',
       '#links' => array(
         'node-create' => array(
-          'title' => t('Posted by !user on !date', array('!user' => render($vars['full_name']), '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
+          'title' => t('Posted by !user on !date', array('!user' => $vars['full_name'], '!date' => format_date($vars['created'], 'custom', 'd M, Y'))),
           'html' => true
         )
       )
@@ -1168,7 +1171,7 @@ function airtribune2_preprocess_field(&$vars) {
 
   $element = $vars['element'];
   if ($element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
-    $categories = airtribune_get_awards_prize_categories();
+    $categories = airtribune_prize_categories();
     foreach ($vars['items'] as $delta => $item) {
       if (isset($categories[$item['#item']['title']])) {
         $vars['items'][$delta]['#item']['title'] = $categories[$item['#item']['title']];

@@ -1,0 +1,61 @@
+
+	/* Info shares */
+.pane-share-links { padding-top:15px}
+.panel_info .pane-share-links .pane-content { margin:0}
+.pane-share-links p,
+.panel-col-seventy .pane-share-links .pane-content { margin:0 -2px 0 -5px; padding:0}
+.pane-share-links p > br { display:none}
+.pane-share-links p > span,
+.pane-share-links .pane-content > div > span { display:inline-block; padding:0 0 0 5px; float:left}
+.pane-share-links p > span span.stButton,
+.pane-share-links .pane-content > div > span span.stButton { margin:0}
+.pane-share-links .stMainServices, .pane-share-links .stButton_gradient { background:url(./images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; margin-top:4px; border:none !important; width:50px !important; min-width:0 !important;
+
+	-webkit-border-radius: 0 !important; 
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+
+
+}
+.pane-share-links .st_facebook_vcount .stMainServices { background-position:0 -96px !important; width:45px !important;}
+.pane-share-links .stButton .stBubble { height:37px !important; margin:0 !important; background-position:10px 33px; width:50px !important; background-image:url(http://w.sharethis.com/share4x/images/bubble_arrow_below.png)}
+.pane-share-links .stButton .stBubble_count { height:25px !important; font-size:14px !important; padding-top:7px !important; width:48px !important; background:#ffffff !important; border-color:#bbbbbb; color:#333333 !important}
+.pane-share-links .st_facebook_vcount .stBubble { width:45px !important}
+.pane-share-links .st_facebook_vcount .stBubble_count { width:43px !important}
+.pane-share-links .st_twitter_vcount .stMainServices { background-position:-45px -96px !important; width:59px !important}
+.pane-share-links .st_twitter_vcount .stBubble { width:59px !important}
+.pane-share-links .st_twitter_vcount .stBubble_count { width:57px !important}
+.pane-share-links .stButton_gradient span { display:none}
+.pane-share-links .st_googleplus_vcount .stButton .stButton_gradient { background-position:-104px -96px !important;}
+.pane-share-links .st_sharethis_vcount .stButton .stMainServices { background-position:-154px -96px !important; }
+
+/* Top shares */
+#super .second_sidebar .small-pane-share-links { position:absolute; top:-40px; right:5px; background:none; border:none}
+#super .second_sidebar .small-pane-share-links .pane-content { margin:0}
+.second_sidebar .small-pane-share-links p { padding:0}
+.second_sidebar .small-pane-share-links p > span,
+.second_sidebar .small-pane-share-links .pane-content > div > span { vertical-align:top; display:inline-block; padding-right:5px;}
+.second_sidebar .small-pane-share-links p > span > span,
+.second_sidebar .small-pane-share-links p > span > div,
+.second_sidebar .small-pane-share-links .pane-content > div > span > span, 
+.second_sidebar .small-pane-share-links .pane-content > div > span > div { vertical-align:top !important;}
+.small-pane-share-links .stButton { margin:0}
+.second_sidebar .small-pane-share-links .stButton span { display:inline-block; vertical-align:top;}
+.small-pane-share-links .stButton .stArrow { background:url(http://w.sharethis.com/share4x/images/bubble_arrow.png) no-repeat 3px 7px !important;}
+.small-pane-share-links .stButton .stHBubble { margin-right:0 !important; height:14px; line-height:14px; border-color:#c1c1c1 !important; background:#ffffff !important}
+.small-pane-share-links .stButton .stBubble_hcount { height:14px; line-height:12px;}
+.small-pane-share-links .stMainServices, .small-pane-share-links .stButton > span > .stButton_gradient { background:url(./images/socials.png) no-repeat !important; height:20px !important; padding:0 !important; border:none !important; width:50px !important; min-width:0 !important;
+
+	-webkit-border-radius: 0 !important; 
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+
+
+}
+
+.small-pane-share-links .st_fblike_hcount > span { margin:0 !important}
+.small-pane-share-links .st_facebook_hcount .stMainServices { background-position:0 -96px !important; width:45px !important}
+.small-pane-share-links .st_twitter_hcount .stMainServices { background-position:-45px -96px !important; width:59px !important; vertical-align:top}
+.small-pane-share-links .st_sharethis_hcount .stMainServices { background-position:-154px -96px !important; }
+.small-pane-share-links .st_googleplus_hcount .stButton > span > .stButton_gradient  { background-position:-104px -96px !important;}
+.small-pane-share-links .stButton > span > .stButton_gradient span { display:none}

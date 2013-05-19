@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Paragliding Race Types feature.
+ */
+
+include_once 'pg_racetypes.features.inc';

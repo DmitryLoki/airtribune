@@ -130,20 +130,20 @@ function pg_contest_update($node) {
       $query = new EntityFieldQuery();
       $result = $query
         ->entityCondition('entity_type', 'og_membership')
-        ->propertyCondition('entity_type', 'ent_point', '=')
+        ->propertyCondition('entity_type', 'ent_contest_point', '=')
         ->propertyCondition('group_type', 'node', '=')
         ->propertyCondition('gid', $node->nid, '=')
         ->execute();
       $query = new EntityFieldQuery();
       $result1 = $query 
-        ->entityCondition('entity_type', 'ent_point')
+        ->entityCondition('entity_type', 'ent_contest_point')
         ->fieldCondition('og_group_ref', 'target_id', $node->nid)
         ->execute();
       if (!empty($result['og_membership'])) {
         og_membership_delete_multiple(array_keys($result['og_membership']));
       }
-      if (!empty($result1['ent_point'])) {
-        entity_delete_multiple('ent_point', array_keys($result1['ent_point']));
+      if (!empty($result1['ent_contest_point'])) {
+        entity_delete_multiple('ent_contest_point', array_keys($result1['ent_contest_point']));
       }
     }
     if (isset($node->field_points_file[LANGUAGE_NONE])) {
@@ -232,18 +232,23 @@ function pg_contest_create_points($fid, $nid) {
     $coords = new Point($lon, $lat);
     //$values = geofield_get_values_from_geometry($coords);
     $values = array(
-      'type' => 'point',
+      'type' => 'contest_point',
       'language' => LANGUAGE_NONE,
       'title' => $elements[1],
-      'field_point_center' => array(
+      'field_point_location' => array(
         LANGUAGE_NONE  => array(
           0 => geofield_get_values_from_geometry($coords)
         )
-      )
+      ),
+      'field_point_description' => array(
+        LANGUAGE_NONE  => array(
+          0 => array('value' => isset($elements[8]) ? implode(' ', array_slice($elements, 8)) : '')
+        ),
+      ),
     );
-    $point = entity_create('ent_point', $values);
+    $point = entity_create('ent_contest_point', $values);
     $point->save();
-    og_group('node', $nid, array('entity_type' => 'ent_point', 'entity' => $point))->save();
+    og_group('node', $nid, array('entity_type' => 'ent_contest_point', 'entity' => $point))->save();
   }
 }
 
@@ -433,3 +438,27 @@ function pg_contest_cron() {
   }
 }
 
+/** 
+ * Implementation of hook_field_access
+ * Hide Registration switch field.
+ * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
+ */
+function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
+  
+  if ($op == 'edit' && $field['field_name'] == AIRTRIBUNE_REGISTRATION_SW_FIELD && !empty($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']) && ($entity->type == AIRTRIBUNE_PG_CONTEST_TYPE)) {
+    global $user;
+    
+    $date = time() - 2 * 24 * 3600;
+    // Event start date.
+    $value = strtotime($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
+    
+    // For allowed roles switch is always shown.
+    $allowed_roles = array('admin');
+    $intersect = array_intersect($user->roles, $allowed_roles);
+    
+    // Hide registration switch
+    if ($value < $date && empty($intersect)) {
+      return FALSE;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Dayblog feature.
+ */
+
+include_once 'dayblog.features.inc';

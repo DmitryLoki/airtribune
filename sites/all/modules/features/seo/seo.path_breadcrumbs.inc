@@ -203,7 +203,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -91;
+  $path_breadcrumb->weight = -92;
   $export['breadcrumb_events_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -225,7 +225,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -92;
+  $path_breadcrumb->weight = -91;
   $export['breadcrumb_events_list_2'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -620,14 +620,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Next',
+      1 => 'Current',
       2 => '%blognode:og-group-ref:0:title',
       3 => 'Blog',
       4 => '%blognode:title',
     ),
     'paths' => array(
       0 => 'events',
-      1 => 'events/next',
+      1 => 'events/current',
       2 => 'event/%blognode:og-group-ref:0:nid',
       3 => 'event/%blognode:og-group-ref:0:nid/blog',
       4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',
@@ -2214,14 +2214,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Events',
-      1 => 'Next',
+      1 => 'Past',
       2 => '%blognode:og-group-ref:0:title',
       3 => 'Blog',
       4 => '%blognode:title',
     ),
     'paths' => array(
       0 => 'events',
-      1 => 'events/next',
+      1 => 'events/past',
       2 => 'event/%blognode:og-group-ref:0:nid',
       3 => 'event/%blognode:og-group-ref:0:nid/blog',
       4 => 'event/%blognode:og-group-ref:0:nid/blog/%blognode:nid',

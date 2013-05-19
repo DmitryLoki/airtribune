@@ -31,6 +31,12 @@ define('AIRTRIBUNE_HQ_LOCATION_FIELD', 'field_hq_location');
 define('AIRTRIBUNE_LOCATION_FIELD', 'field_location');
 define('AIRTRIBUNE_RULES_FIELD', 'field_contest_rules');
 define('AIRTRIBUNE_TINY_PATH_FIELD', 'field_tiny_path');
+define('AIRTRIBUNE_POINTS_FILE_FIELD', 'field_points_file');
+define('AIRTRIBUNE_REGISTRATION_SW_FIELD', 'field_registration_sw');
+define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
+define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
+define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
+define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -48,6 +54,22 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'ctools' || $owner == 'field_validation') {
     return 'plugins/' . $plugin_type;
   }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function airtribune_menu_alter(&$items) {
+  $items['event/%pm_arg'] = array(
+    'access arguments' => array('access content'),
+    'page callback' => 'airtribune_pages_callback',
+    'page arguments' => array(1),
+    'load arguments' => array(
+      'event',
+      '%index',
+      '%map',
+    ),
+  );
 }
 
 /**
@@ -87,7 +109,6 @@ function airtribune_field_formatter_info() {
  * Implements hook_field_formatter_view().
  *
  * @see #2367
- * @see #2732
  */
 function airtribune_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
 
@@ -279,7 +300,7 @@ function airtribune_field_collection_item_view_alter(&$build) {
 function airtribune_field_widget_image_image_form_alter(&$element, &$form_state, $context) {
   if (isset($element['#field_name']) && $element['#field_name'] == AIRTRIBUNE_AWARDS_PHOTOS_FIELD) {
     foreach (element_children($element) as $delta) {
-      $element[$delta]['#process'][] = 'airtribune_field_widget_process';
+      $element[$delta]['#process'][] = 'airtribune_field_image_widget_process';
     }
   }
 }
@@ -289,18 +310,49 @@ function airtribune_field_widget_image_image_form_alter(&$element, &$form_state,
  *
  * @see airtribune_field_widget_image_image_form_alter()
  */
-function airtribune_field_widget_process($element, &$form_state, $form) {
-  $element['title']['#title'] = 'Category';
-  $element['title']['#type'] = 'select';
-  $element['title']['#description'] = t('Select scoring category');
-  $element['title']['#options'] = airtribune_get_awards_prize_categories();
+function airtribune_field_image_widget_process($element, &$form_state, $form) {
+  if (isset($element['title'])) {
+    $element['title']['#title'] = 'Category';
+    $element['title']['#type'] = 'select';
+    $element['title']['#description'] = t('Select scoring category');
+    $element['title']['#options'] = airtribune_prize_categories();
+  }
   return $element;
 }
 
 /**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * @see #3028
+ */
+function airtribune_field_widget_file_generic_form_alter(&$element, &$form_state, $context) {
+  if (isset($element['#field_name']) && in_array($element['#field_name'], array(AIRTRIBUNE_DAY_RESULTS_FIELD, AIRTRIBUNE_COMPETITION_RESULTS_FIELD))) {
+    foreach (element_children($element) as $delta) {
+      $element[$delta]['#process'][] = 'airtribune_field_file_widget_process';
+    }
+  }
+}
+
+/**
+ * Element proccess callback.
+ *
+ * @see airtribune_field_widget_image_image_form_alter()
+ */
+function airtribune_field_file_widget_process($element, &$form_state, $form) {
+  if (isset($element['description'])) {
+    $element['description']['#title'] = 'Category';
+    $element['description']['#type'] = 'select';
+    $element['description']['#description'] = t('Select scoring category');
+    $element['description']['#options'] = airtribune_prize_categories();
+  }
+  return $element;
+}
+
+
+/**
  * Get awards prize categories.
  */
-function airtribune_get_awards_prize_categories($category = FALSE) {
+function airtribune_prize_categories($category = FALSE) {
   $categories = array(
     'overall' => 'Overall',
     'women' => 'Women',
@@ -310,6 +362,8 @@ function airtribune_get_awards_prize_categories($category = FALSE) {
     'nations' => 'Nations',
     'clubs' => 'Clubs',
     'teams' => 'Teams',
+    'fun' => 'Fun',
+    'junior' => 'Junior',
   );
   return $category ? $categories[$category] : $categories;
 }
@@ -411,6 +465,74 @@ function airtribune_views_query_alter(&$view, &$query) {
 }
 
 /**
+ * Dynamically load pages on event/%nid based by event dates
+ *
+ * @see #3024
+ */
+function airtribune_pages_callback($context) {
+  // TODO change to module_load_include()
+  // Be sure the inc file containing page_manager_page_execute is loaded
+//  ctools_include('page', 'page_manager', 'plugins/tasks');
+  include_once(drupal_get_path('module', 'ctools') .'/page_manager/plugins/tasks/page.inc');
+  include_once(drupal_get_path('module', 'path_breadcrumbs') .'/path_breadcrumbs.module');
+
+  $node = $context->data;
+
+  $start = strtotime($node->field_dates['und'][0]['value']);
+  $end = strtotime($node->field_dates['und'][0]['value2']);
+
+  $event_date_status = airtribune_event_check_date_status($start, $end);
+  if ($event_date_status == 'next') {
+    menu_set_active_item('event/'.$node->nid.'/info');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
+    return page_manager_page_execute('event_info', $context);
+  }
+  elseif ($event_date_status == 'current') {
+    menu_set_active_item('event/'.$node->nid.'/blog');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/blog'));
+    return page_manager_page_execute('event_blog', $context);
+  }
+  elseif ($event_date_status == 'past') {
+  // at this moment we haven't results menu/page/breadcrumbs
+    // use 'next event' strategy
+    menu_set_active_item('event/'.$node->nid.'/info');
+    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
+    return page_manager_page_execute('event_info', $context);
+//    menu_set_active_item('event/'.$node->nid.'/results');
+//    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
+//    return page_manager_page_execute('event_results', $context);
+  }
+}
+
+/**
+ * Add 24h to last day of event
+ *
+ * We have bad event datetime widget, without hours time ending, so after event save we have last
+ * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
+ * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ *
+ * @see #3077
+ */
+function airtribune_node_presave($node) {
+  // need wrapper to avoid 'EntityMalformedException: Missing bundle property' error
+  airtribune_modify_event_date_include_last_day($node);
+}
+function airtribune_modify_event_date_include_last_day(&$node) {
+  if ($node->type != 'pg_contest') {
+    return;
+  }
+  $dates_items = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
+  $end = strtotime($dates_items[0]['value2']);
+  if (date('H:i:s', $end) == '00:00:00') {
+    //$new_end = date_create($end, $dates_items[0]['timezone']);
+    //date_modify($new_end, '+1 day');
+    //date_modify($new_end, '-1 sec');
+    $end = $end + (3600 * 24 - 1); // 23:59:59
+  }
+  $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
+}
+
+/**
  * Implements hook_init().
  */
 function airtribune_init() {
@@ -418,4 +540,77 @@ function airtribune_init() {
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
   }
+  // Redirect on from /events to needed page, based on next/current events count
+  // see #3067
+  if (arg(0) == 'events' && arg(1) == null) {
+    $events = airtribune_get_events_nids_with_date_status();
+    if (count($events['current']) > 0) {
+      drupal_goto('events/current');
+    }
+    elseif (count($events['next']) > 0) {
+      drupal_goto('events/next');
+    }
+    else {
+      drupal_goto('events/past');
+    }
+  }
 }
+
+/**
+ * Check event dates status
+ * @param $start_date unix_stamp
+ * @param $end_date unix_stamp
+ *
+ * @return event_date_status NULL|string
+ *   NULL or 'past' or 'current' or 'next'
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_event_check_date_status($start_date, $end_date) {
+  $now = REQUEST_TIME;
+  if (empty($start_date) || empty($end_date)) return NULL;
+  elseif ($now < $start_date) return 'next';
+  elseif ($now >= $start_date && $now <= $end_date) return 'current';
+  elseif ($now > $end_date) return 'past';
+}
+
+/**
+ * Get all events nids with date status
+ *
+ * @return array with [ past | current | next ] events nids without checking on publish status
+ *
+ * @author Kraev Vasily
+ */
+function airtribune_get_events_nids_with_date_status() {
+  $now = date('d.m.Y', REQUEST_TIME);
+
+  $result = array();
+
+  $past_events = db_select('field_data_field_dates', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.field_dates_value2', $now, '<')
+    ->execute();
+  foreach ($past_events as $item) {
+    $result['past'][] = $item->entity_id;
+  }
+
+  $current_events = db_select('field_data_field_dates', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.field_dates_value', $now, '<=')
+    ->condition('d.field_dates_value2', $now, '>=')
+    ->execute();
+  foreach ($current_events as $item) {
+    $result['current'][] = $item->entity_id;
+  }
+
+  $next_events = db_select('field_data_field_dates', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.field_dates_value', $now, '>')
+    ->execute();
+  foreach ($next_events as $item) {
+    $result['next'][] = $item->entity_id;
+  }
+
+  return $result;
+}
+
