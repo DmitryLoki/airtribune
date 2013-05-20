@@ -92,17 +92,21 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
     }
     
     
-    // TODO:
+    // Prepare link parameters
     $params = array(
-      'online' => TRUE, // change
+      'status' => _airtribune_pg_race_online_status($entity->id),
       'race_entity_id' => $entity->id,
     );
     $params['race_core_id'] = !empty($race_core_id) ? $race_core_id : '';
     $params['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : '';
     
+    if ($params['status'] == FALSE) {
+      return;
+    }
+    
     $markup = _pg_race_play_link($params);
     
-    $title = $params['online'] ? t('Livetracking') : t('Replay');
+    $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
     
     $entity->content['pg_race_play_link'] = array(
         '#type' => 'item',
@@ -121,25 +125,40 @@ function _pg_race_play_link($params) {
   $class2d = array('race-link', '2d');
   $class3d = array('race-link', '3d');
   
-  if ($params['online']) {
+  if ($params['status'] == 'online') {
     $class2d[] = 'online';
     $class3d[] = 'online';
   }
+    
+  $href2d = theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d))));
+  $href3d = theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d))));
   
-  $href2d = l('2D', '#', array('attributes' => array('class' => $class2d)));
-  $href3d = l('3D', '#', array('attributes' => array('class' => $class3d)));
   
-  //$title = $params['online'] ? t('Livetracking') : t('Replay');
-  //$output = '<span class="label">' . $title . '</span>';
-  $output = '<ul class="race-links" data-race-eid=' . $params['race_entity_id']
-          . ' data-contest-cid=' . $params['contest_core_id']
-          . ' data-race-cid=' . $params['race_core_id'];
+  // Generate list
+  $items = array($href2d, $href3d);
   
-  $output .= $params['online'] ? ' date-view-type="online">' : '>';
+  $ul_attribuntes = array(
+    'class' => array('race-links'),
+    'data-race-eid' => $params['race_entity_id'],
+    'data-contest-cid' => $params['contest_core_id'],
+    'data-race-cid' => $params['race_core_id'],
+  );
   
-  $output .= '<li>' . $href2d . '</li>';
-  $output .= '<li>' . $href3d . '</li>';
-  $output .= '</ul>';
+  // If online
+  if ($params['status'] == 'online') {
+    $ul_attribuntes['data-view-type'] = 'online';
+  }
+  
+  $variables = array(
+    'type' => 'ul',
+    'title' => '',
+    'items' => $items,
+    'attributes' => $ul_attribuntes,
+  );
+  $output = theme('item_list', $variables);
   
   return $output;
 }
+
+
+
