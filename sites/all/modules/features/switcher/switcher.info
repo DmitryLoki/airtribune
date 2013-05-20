@@ -10,6 +10,7 @@ dependencies[] = admin_menu
 dependencies[] = advert
 dependencies[] = airtribune
 dependencies[] = at_alias
+dependencies[] = at_entityreference_geowidget
 dependencies[] = at_messages
 dependencies[] = at_reg
 dependencies[] = at_user

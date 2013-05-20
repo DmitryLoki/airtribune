@@ -1598,8 +1598,7 @@ function pages_feature_default_page_manager_pages() {
           'value' => 'Accommodation | [node:title]',
         ),
         'description' => array(
-          'value' => 'Lodging in [node:field-city] for paragliding pilots.
-',
+          'value' => 'Lodging in [node:field-city] for paragliding pilots.',
         ),
       ),
     ),
@@ -2188,7 +2187,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'News | [node:title] | [site:slogan]',
+          'value' => 'News | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Competition latest news.',
         ),
       ),
     ),
@@ -2284,7 +2286,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Blog | [node:title] | [site:slogan]',
+          'value' => 'Blog | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Competition latest news.',
         ),
       ),
     ),
@@ -2411,6 +2416,17 @@ ____(CCCCCCCCCCCCCC)____________;;;
           ),
           'context' => 'argument_entity_id:node_2',
           'not' => FALSE,
+        ),
+      ),
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '[node:title] | [node:og-group-ref:0:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:body]',
         ),
       ),
     ),
@@ -2696,7 +2712,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'General Info | [node:title] | [site:slogan]',
+          'value' => '[node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:event-dates] | [node:field-city], [node:field_country]. Paragliding competition.',
         ),
       ),
     ),
@@ -3287,7 +3306,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Detailed Info | [node:title] | [site:slogan]',
+          'value' => '[node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:event-dates] | [node:field-city], [node:field_country]. Paragliding competition.',
         ),
       ),
     ),
@@ -4007,7 +4029,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[node:title] | [site:slogan]',
+          'value' => '[node:title] | Accommodation and activities for paragliding pilots | [site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:body]',
         ),
       ),
     ),
@@ -4368,7 +4393,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Pilots list | [node:title] | [site:slogan]',
+          'value' => 'Pilots | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Live paragliding races, results, media and tasks replay.',
         ),
       ),
     ),
@@ -4652,7 +4680,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Pilots list | [node:title] | [site:slogan]',
+          'value' => 'Pilots | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Live paragliding races, results, media and tasks replay.',
         ),
       ),
     ),
