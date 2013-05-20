@@ -40,6 +40,12 @@ define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 
+define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
+define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
+define('AIRTRIBUNE_POINT_TYPE_FIELD', 'field_point_type');
+define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
+define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
+
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
 define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
@@ -49,7 +55,7 @@ define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
-define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
+define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
@@ -58,7 +64,7 @@ define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' || $owner == 'field_validation') {
+  if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
     return 'plugins/' . $plugin_type;
   }
 }
@@ -122,35 +128,67 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
   if (!$items) {
     return;
   }
+
   switch ($display['type']) {
 
     case 'adapitve_dates':
       foreach ($items as $delta => $item) {
-        $date1 = getdate($ts1 = strtotime($item['value']));
-        $date2 = getdate($ts2 = strtotime($item['value2']));
-
-        // 23 Dec, 2012 — 5 Jan, 2013
-        if ($date1['year'] != $date2['year']) {
-          $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        // 28 Aug — 3 Sep, 2012
-        elseif ($date1['mon'] != $date2['mon']) {
-          $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        // 24 — 26 Aug, 2012
-        else {
-          $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        $element[$delta] = array('#markup' => $dates);
+        $element[$delta] = array(
+          '#markup' => airtribune_format_date_interval($item['value'], $item['value2'])
+        );
       }
-
       break;
   }
 
   return $element;
 }
 
+/**
+ * Implements hook_token_info().
+ *
+ * @see #3217
+ */
+function airtribune_token_info() {
+  $info['tokens']['node']['event-dates'] = array(
+    'name' => t('Event dates'),
+    'description' => t('Event dates (adaptive format)'),
+  );
+  return $info;
+}
 
+/**
+ * Implements hook_tokens().
+ */
+function airtribune_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node']) && isset($tokens['event-dates'])) {
+    $date_items = field_get_items('node', $data['node'], 'field_dates');
+    $replacements['[node:event-dates]'] =  airtribune_format_date_interval($date_items[0]['value'], $date_items[0]['value2']);
+  }
+  return $replacements;
+}
+
+/**
+ * Format event dates.
+ */
+function airtribune_format_date_interval($start_date, $end_date) {
+  $start_date = getdate($ts1 = strtotime($start_date));
+  $end_date = getdate($ts2 = strtotime($end_date));
+
+  // 23 Dec, 2012 — 5 Jan, 2013
+  if ($start_date['year'] != $end_date['year']) {
+    $output = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  // 28 Aug — 3 Sep, 2012
+  elseif ($start_date['mon'] != $end_date['mon']) {
+    $output = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  // 24 — 26 Aug, 2012
+  else {
+    $output = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  return $output;
+}
 
 /**
  * Format user name.
@@ -446,7 +484,7 @@ function airtribune_views_query_alter(&$view, &$query) {
       $lng = $_SESSION['geoip']['lng'];
       // create temporary temporary table with distances
       $distance_table = db_query_temporary('SELECT entity_id,
-      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance 
+      ( 3959 * acos( cos( radians(:lat) ) * cos( radians( field_hq_location_lat ) ) * cos( radians( field_hq_location_lon ) - radians(:lng) ) + sin( radians(:lat) ) * sin( radians( field_hq_location_lat ) ) ) ) AS distance
       FROM {field_data_field_hq_location}
       ORDER BY distance;', array(":lat" => $lat, ":lng" => $lng));
       $join = new views_join;
@@ -460,13 +498,18 @@ function airtribune_views_query_alter(&$view, &$query) {
   }
   // Prevent HQ duplication.
   // See #2976.
-  if ($view->name == 'event_accommodations') {
+  if ($view->name == 'event_accommodations' && isset($view->options['group'])) {
     $view->query->add_where(
       $view->options['group'],
       db_or()
         ->condition('field_headquarter_hotel_node.nid', (int) $view->args[0], '=')
         ->condition('field_headquarter_hotel_node.nid', NULL, 'IS NULL')
     );
+  }
+
+  // See http://drupal.org/node/1451218#comment-6136692
+  if ($view->name == 'day_results') {
+    $view->query->where[0]['type'] = 'OR';
   }
 
 }
@@ -508,7 +551,9 @@ function airtribune_pages_callback($context) {
  *
  * We have bad event datetime widget, without hours time ending, so after event save we have last
  * day with timestamp 00:00:00, so last day will be excluded from many datetime comparisons.
- * Need to add 24h, but we don't need in day change, so add only 23:59:59
+ * Need to add 24h, but we don't need in day change, so add only 23:50:00
+ * Attention! If add more time, for example, 23:55:00 - at next node editing datetime widget change
+ * date to next day.
  *
  * @see #3077
  */
@@ -526,7 +571,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     //$new_end = date_create($end, $dates_items[0]['timezone']);
     //date_modify($new_end, '+1 day');
     //date_modify($new_end, '-1 sec');
-    $end = $end + (3600 * 24 - 1); // 23:59:59
+    $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
 }
@@ -535,6 +580,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
  * Implements hook_init().
  */
 function airtribune_init() {
+
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
@@ -543,10 +589,10 @@ function airtribune_init() {
   // see #3067
   if (arg(0) == 'events' && arg(1) == NULL) {
     $events = airtribune_get_events_nids_with_date_status();
-    if (count($events['current']) > 0) {
+    if (!empty($events['current']) && count($events['current']) > 0) {
       drupal_goto('events/current');
     }
-    elseif (count($events['next']) > 0) {
+    elseif (!empty($events['next']) && count($events['next']) > 0) {
       drupal_goto('events/next');
     }
     else {
@@ -705,5 +751,48 @@ function airtribune_js_alter(&$javascript) {
   $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
   if (isset($javascript[$accodion_js])) {
     $javascript[$accodion_js]['data'] = drupal_get_path('module', 'airtribune') . '/js/views-accordion.js';
+  }
+}
+
+/**
+ * Implements hook_airtribune__field_group_content_alter().
+ *
+ * Split divide how_to_got_there fields into two columns.
+ * @see #3112-13
+ */
+function airtribune_airtribune_field_group_content_alter(&$elements) {
+
+  if ($elements['#id'] == 'node_pg_contest_default_group_how_to_get_here') {
+    foreach (element_children($elements, TRUE) as $index => $key) {
+      $elements[$index % 2 ? 'gt_right' : 'gt_left'][$key] = $elements[$key];
+      unset($elements[$key]);
+    }
+
+    $elements['gt_left']['#theme_wrappers'] = $elements['gt_right']['#theme_wrappers'] = array('container');
+    $elements['gt_left']['#attributes'] = array('id' => 'gt-left');
+    $elements['gt_left']['#weight'] = -1 ;
+    $elements['gt_right']['#attributes'] = array('id' => 'gt-right');
+  }
+}
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ *
+ * @see #3025-29
+ * @see http://drupal.org/node/1719948
+ */
+function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if ($entity_form['#entity_type'] == 'node') {
+    $setting = auto_nodetitle_get_setting($entity_form['#entity']->type);
+    if ($setting == AUTO_NODETITLE_ENABLED) {
+      // We will autogenerate the title later, just hide the title field in the
+      // meanwhile.
+      $entity_form['title']['#value'] = 'ant';
+      $entity_form['title']['#type'] = 'value';
+      $entity_form['title']['#required'] = FALSE;
+    }
+    elseif ($setting == AUTO_NODETITLE_OPTIONAL) {
+      $entity_form['title']['#required'] = FALSE;
+    }
   }
 }

@@ -90,7 +90,7 @@ function at_reg_subscribe_blank($entity_type, $etid) {
  * @see #3124
  */
 function at_reg_preprocess_link(&$vars) {
-  if ($vars['text'] == t('Registration')) {
+  /*if ($vars['text'] == t('Registration')) {
     $event_nid = arg(1);
     // days, round fractions down, so 36 or 40 hours (after event start) = 1 day
     $days = airtribune_how_time_after_event_start($event_nid, 'day');
@@ -99,7 +99,7 @@ function at_reg_preprocess_link(&$vars) {
       $vars['options']['html'] = TRUE;
       $vars['options']['attributes']['class'][0] = 'late-registration';
     }
-  }
+  }*/
 }
 
 /**
@@ -308,6 +308,13 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
           $form['#after_build'][] = 'at_reg_authorized_form_after_build';
         }
         $form['#theme'] = 'og_ui_confirm_subscribe';
+      }
+      else {
+        // TODO: This is a temoporary replacement. Should be removed after registration bug fixed. See issue #3146
+        $submit_keys = array_keys($form['#submit'], 'og_ui_confirm_subscribe_submit');
+        foreach($submit_keys as $key) {
+          $form['#submit'][$key] = 'at_og_ui_confirm_subscribe_submit';
+        }
       }
       break;
     
@@ -624,4 +631,28 @@ function at_reg_multiform_crossfields($multiform) {
   }
   
   return $items;
+}
+
+
+/**
+ * Temporary og subscribe submit, while bug not resolved (see issue #3146).
+ */
+function at_og_ui_confirm_subscribe_submit($form, &$form_state) {
+  global $user;
+  
+  $og_membership = $form_state['og_membership'];
+  
+  if (empty($og_membership->etid)) {
+    watchdog('Airtribune event registration', t('Registration bug'));
+    return;
+  }
+  
+  field_attach_submit('og_membership', $og_membership, $form, $form_state);
+  $og_membership->save();
+
+  $group_type = $form_state['values']['group_type'];
+  $gid = $form_state['values']['gid'];
+  $group = entity_load_single($group_type, $gid);
+
+  $form_state['redirect'] = entity_uri($group_type, $group);
 }

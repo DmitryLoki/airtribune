@@ -17,14 +17,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Hotels',
+      0 => 'Accommodation',
       1 => '%node:title',
     ),
     'paths' => array(
-      0 => 'hotels',
+      0 => '<none>',
       1 => '%node:url',
     ),
-    'home' => 0,
+    'home' => 1,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
@@ -744,8 +744,8 @@ function seo_path_breadcrumbs_settings_info() {
           'context' => 'node',
           'not' => FALSE,
         ),
-        'logic' => 'and',
       ),
+      'logic' => 'and',
     ),
   );
   $path_breadcrumb->weight = -77;
@@ -2962,6 +2962,50 @@ function seo_path_breadcrumbs_settings_info() {
   );
   $path_breadcrumb->weight = -49;
   $export['user_register'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_registrations';
+  $path_breadcrumb->name = 'User Registrations';
+  $path_breadcrumb->path = 'user/%uid/registrations';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'My profile',
+      1 => 'My registrations',
+    ),
+    'paths' => array(
+      0 => 'user',
+      1 => 'user/%uid:uid/registrations',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'uid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:user',
+        'settings' => array(
+          'identifier' => 'User: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 2,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -47;
+  $export['user_registrations'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;

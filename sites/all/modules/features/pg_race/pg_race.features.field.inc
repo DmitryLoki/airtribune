@@ -51,7 +51,7 @@ function pg_race_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 11,
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -76,6 +76,82 @@ function pg_race_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '11',
+      ),
+    ),
+  );
+
+  // Exported field: 'ent_race-pg_race-field_core_id'.
+  $fields['ent_race-pg_race-field_core_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_core_id',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_race',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '12',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_race',
+      'exclude_cv' => 0,
+      'field_name' => 'field_core_id',
+      'label' => 'Core ID',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '13',
       ),
     ),
   );
@@ -108,18 +184,19 @@ function pg_race_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'base',
+        'handler' => 'event_views',
         'handler_settings' => array(
           'behaviors' => array(
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'day' => 'day',
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+            ),
+            'display_name' => 'day_selection',
+            'view_name' => 'day_selection',
           ),
         ),
         'profile2_private' => FALSE,
@@ -142,7 +219,7 @@ function pg_race_field_default_fields() {
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 2,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -220,7 +297,7 @@ function pg_race_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 10,
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -245,81 +322,6 @@ function pg_race_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '10',
-      ),
-    ),
-  );
-
-  // Exported field: 'ent_race-pg_race-field_pg_race_status'.
-  $fields['ent_race-pg_race-field_pg_race_status'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_pg_race_status',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'Ok',
-          1 => 'Stopped',
-          2 => 'Cancelled',
-          3 => 'Rest day',
-          4 => 'Registration day',
-          5 => 'Training day',
-        ),
-        'allowed_values_function' => '',
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'list_integer',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_race',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 6,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'ent_race',
-      'exclude_cv' => 0,
-      'field_name' => 'field_pg_race_status',
-      'label' => 'Status',
-      'required' => 1,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
       ),
     ),
   );
@@ -372,7 +374,7 @@ function pg_race_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => 7,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -477,7 +479,7 @@ function pg_race_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => 9,
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -582,7 +584,7 @@ function pg_race_field_default_fields() {
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 3,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -619,122 +621,6 @@ function pg_race_field_default_fields() {
         ),
         'type' => 'entityreference_autocomplete',
         'weight' => '6',
-      ),
-    ),
-  );
-
-  // Exported field: 'ent_race-pg_race-field_photos'.
-  $fields['ent_race-pg_race-field_photos'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '10',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_photos',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
-        ),
-        'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
-      ),
-      'translatable' => '0',
-      'type' => 'image',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_race',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
-          ),
-          'type' => 'image',
-          'weight' => 4,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'ent_race',
-      'exclude_cv' => 0,
-      'field_name' => 'field_photos',
-      'label' => 'Photos',
-      'required' => 0,
-      'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 1,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'max_filesize' => '5M',
-        'max_resolution' => '2000x2000',
-        'min_resolution' => '300x300',
-        'title_field' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'media',
-        'settings' => array(
-          'allowed_schemes' => array(
-            'public' => 'public',
-          ),
-          'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            'image' => 'image',
-            'video' => 0,
-          ),
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'media_generic',
-        'weight' => '3',
       ),
     ),
   );
@@ -791,7 +677,7 @@ function pg_race_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => 8,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -836,7 +722,7 @@ function pg_race_field_default_fields() {
   $fields['ent_race-pg_race-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
@@ -900,7 +786,7 @@ function pg_race_field_default_fields() {
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 5,
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1375,16 +1261,15 @@ function pg_race_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Competition results');
+  t('Core ID');
   t('Day reference');
   t('Day results');
   t('Groups audience');
   t('Paragliding Race Type reference');
-  t('Photos');
   t('Race Tracks');
   t('Race time period');
   t('Results file');
   t('Scoring category');
-  t('Status');
   t('Take-off time period');
 
   return $fields;

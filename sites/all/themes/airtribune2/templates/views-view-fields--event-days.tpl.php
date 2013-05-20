@@ -60,7 +60,6 @@ if($row->field_field_image){
 
 }
 
-//d::dump($fields);
 ?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
@@ -72,24 +71,16 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
+<?php else: ?>
+  <?php print $fields['created']->content; ?>
 <?php endif; ?>
-<?php print $fields['created']->content; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
-<?php if ($fields['field_day_results']->content || $fields['field_competition_results']->content): ?>
-  <span class="views-field views-field-field-day-results">
-    <span class="views-label"><?php print t('Results tables'); ?></span>
-    <span class="field-content">
-      <?php if ($fields['field_day_results']->content): ?>
-        <span><?php print t('Task results') ?></span>
-        <?php print $fields['field_day_results']->content; ?>
-      <?php endif; ?>
-      <?php if ($fields['field_competition_results']->content): ?>
-        <span><?php print t('Competition results') ?></span>
-        <?php print $fields['field_competition_results']->content; ?>
-      <?php endif; ?>
-    </span>
-  </span>
+<?php if (!empty($fields['view'])): ?>
+  <?php print $fields['view']->wrapper_prefix; ?>
+  <?php print $fields['view']->label_html; ?>
+  <?php print $fields['view']->content; ?>
+  <?php print $fields['view']->wrapper_suffix; ?>
 <?php endif; ?>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
@@ -99,9 +90,13 @@ if($row->field_field_image){
   <?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
 <?php endif; ?>
 
-<?php print $fields['field_day_blog']->wrapper_prefix; ?>
-<?php print $fields['field_day_blog']->content; ?>
-<?php print $fields['field_day_blog']->wrapper_suffix; ?>
+<?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
+<?php print $fields['field_dayblog_ref']->content; ?>
+<?php print $fields['field_dayblog_ref']->wrapper_suffix; ?>
+
+<?php print $fields['nothing']->wrapper_prefix; ?>
+<?php print $fields['nothing']->content; ?>
+<?php print $fields['nothing']->wrapper_suffix; ?>
 
 <?php if ($photos): ?>
 <div class="field-name-field-image">

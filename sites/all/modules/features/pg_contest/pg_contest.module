@@ -42,11 +42,27 @@ function pg_contest_form($node, $form_state) {
  * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
  */
 function pg_contest_node_presave($node) {
-  // We don't want path module to create node alias.
-  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE && isset($node->path)) {
+  
+  // Pathauto and path modules should never execute for events by themselves
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // Note that $node->path is empty if node is loaded/saved programmatically
+    // since it is added in form_alter (see path.module)
     
-    // Store path alias settings.
-    $node->event_path = $node->path;
+    // In case node is processed programmatically
+    if (!empty($node->nid) && !isset($node->path)) {
+      $conditions = array('source' => 'event/' . $node->nid);
+      $path = pg_contest_path_load($conditions);
+      if (!empty($path)) {
+        $node->event_path = $path;
+      }
+    }
+    // In case node is edited through node form
+    elseif (isset($node->path)) {
+      // Store path alias settings for further processing.
+      $node->event_path = $node->path;
+    }
+    
+    // We don't want path and pathauto module take any action for event nodes, i.e. to create node alias.
     
     // Set pathauto to FALSE to avoid pathauto_node_update_alias() processing.
     // Clear $node->path['alias'] to avoid path_node_insert() processing.
@@ -284,6 +300,7 @@ function _pg_contest_urls_init($nid) {
         '/map/activities',
         '/map/basic',
         '/register',
+        '/results',
     );
     return $result;
 }
@@ -296,8 +313,6 @@ function _pg_contest_create_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
-    
-    $alias_base = !empty($node->event_path['alias']) ? $node->event_path['alias'] : pathauto_cleanstring($node->title);
     
     // Check if alias is set manually.
     if (!empty($node->event_path['alias'])) {
@@ -341,9 +356,12 @@ function _pg_contest_create_alias($node) {
 
     // Save tiny aliases.
     $tiny_path_items = field_get_items('node', $node,  AIRTRIBUNE_TINY_PATH_FIELD);
-    foreach ($tiny_path_items as $tiny_path) {
-      $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
-      path_save($path);
+    // Check that $tiny_path_items is not empty
+    if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
+      foreach ($tiny_path_items as $tiny_path) {
+        $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
+        path_save($path);
+      }
     }
 
     // Save aliases.
@@ -427,10 +445,12 @@ function pg_contest_cron() {
   $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now), '>=');
   $result = $query->execute();
   
+  // Close registration for selected events.
   if (!empty($result['node'])) {
     foreach ($result['node'] as $nid => $date) {
       $node = node_load($nid);
-      if ($node->nid) {
+      // if ($node->nid) {
+      if ($node->nid && isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] !== 0) {
         $node->field_registration_sw['und'][0]['value'] = 0;
         node_save($node);
       }

@@ -85,7 +85,7 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Copyright',
       'title' => '',
-      'body' => '© 2012 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
+      'body' => '© 2011-2013 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
@@ -337,7 +337,10 @@ e-mail: info@airtribune.com</p>',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();

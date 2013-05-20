@@ -67,9 +67,31 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
     '#attributes' => array('class' => array('pilots-text')),
   );
 
+
+  $pilots_allowed_items = field_get_items('node', $node, 'field_max_number_contestants');
+  if (isset($pilots_allowed_items[0]['value'])) {
+    $pilots_allowed = $pilots_allowed_items[0]['value'];
+    $content['pilots_allowed'] = array(
+      '#theme_wrappers' => array('container'),
+      '#attributes' => array('class' => array('pilots-allowed')),
+      '#weight' => 10,
+    );
+    $content['pilots_allowed']['result'] = array(
+      '#theme' => 'container',
+      '#markup' => $pilots_allowed,
+      '#attributes' => array('class' => array('pilots-result')),
+    );
+    $content['pilots_allowed']['text'] = array(
+      '#theme' => 'container',
+      '#markup' => str_replace($pilots_allowed, '', format_plural($pilots_allowed, 'Pilot allowed', '@count Allowed pilots')),
+      '#attributes' => array('class' => array('pilots-text')),
+    );
+  }
+
   return (object) array(
     'module' => 'airtribune',
     'content' => $content,
     'delta' => 1,
   );
+
 }

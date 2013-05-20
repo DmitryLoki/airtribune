@@ -361,30 +361,16 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_accommodation_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_accommodation_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_accommodation_pattern';
-  $strongarm->value = 'hotels/[node:title]';
+  $strongarm->value = 'hotel/[node:title]';
   $export['pathauto_node_accommodation_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_accommodation_ru_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_accommodation_ru_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_accommodation_und_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_accommodation_und_pattern'] = $strongarm;
+  $strongarm->name = 'pathauto_node_activity_pattern';
+  $strongarm->value = 'activity/[node:title]';
+  $export['pathauto_node_activity_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -417,13 +403,6 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_pg_contest_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_pg_contest_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_pg_contest_pattern';
   $strongarm->value = '[node:title]';
   $export['pathauto_node_pg_contest_pattern'] = $strongarm;
@@ -431,44 +410,9 @@ batch
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_pg_contest_ru_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_pg_contest_ru_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_pg_contest_und_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_pg_contest_und_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_pg_race_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_pg_race_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_pg_race_pattern';
   $strongarm->value = '[node:og-group-ref:0:title]/[node:title]';
   $export['pathauto_node_pg_race_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_pg_race_ru_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_pg_race_ru_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_pg_race_und_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_pg_race_und_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -865,7 +809,7 @@ Disallow: /?q=user/logout/';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'site_slogan';
-  $strongarm->value = 'Paragliding competition GPS live tracking';
+  $strongarm->value = 'Competition hosting and live tracking';
   $export['site_slogan'] = $strongarm;
 
   $strongarm = new stdClass();

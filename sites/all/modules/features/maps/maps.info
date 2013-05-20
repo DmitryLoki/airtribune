@@ -20,6 +20,7 @@ features[openlayers_maps][] = eventactivities_map
 features[openlayers_maps][] = events_map
 features[openlayers_maps][] = geofield_formatter_map2
 features[openlayers_maps][] = geofield_widget_map2
+features[openlayers_maps][] = hq_select_map
 features[openlayers_styles][] = clone_of_marker_events
 features[openlayers_styles][] = marker_accommodations
 features[openlayers_styles][] = marker_accommodations_hover
