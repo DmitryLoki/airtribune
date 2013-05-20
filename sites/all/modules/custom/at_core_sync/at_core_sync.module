@@ -14,7 +14,7 @@ function _get_class_by_entity($entity, $type) {
   $class = FALSE;
   $tmp = $type;
 
-  if(!empty($entity->type))
+  if (!empty($entity->type))
     $tmp .= ':' . $entity->type;
 
   $classes = array(
@@ -26,7 +26,8 @@ function _get_class_by_entity($entity, $type) {
   if(!empty($classes[$tmp])) {
     $class = $classes[$tmp];
     return new $class($entity, $entity->type);
-  } else {
+  } 
+  else {
     return FALSE;
   }
 }
@@ -35,7 +36,7 @@ function _get_class_by_entity($entity, $type) {
  * Implements hook_entity_update().
  */
 function at_core_sync_entity_update($entity, $type) {
-  if($sync = _get_class_by_entity($entity, $type)) {
+  if ($sync = _get_class_by_entity($entity, $type)) {
     $sync->onUpdate();
   }
 }
@@ -44,7 +45,7 @@ function at_core_sync_entity_update($entity, $type) {
  * Implements hook_entity_insert().
  */
 function at_core_sync_entity_insert($entity, $type) {
-  if($sync = _get_class_by_entity($entity, $type)) {
+  if ($sync = _get_class_by_entity($entity, $type)) {
     $sync->onInsert();
   }
 }
