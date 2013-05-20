@@ -1,0 +1,6 @@
+name = Nested checkboxes
+description = Nested checkboxes form element
+core = 7.x
+package = Other
+php = 5.3
+dependencies[] = jquery_update
