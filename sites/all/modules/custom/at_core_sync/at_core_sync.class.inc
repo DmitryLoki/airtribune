@@ -1,6 +1,5 @@
 <?php
 define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
-define('LANGUAGE_UNDEFINED', 'und');
 /**
  * Abstract class with commin synchronisation functions
  */
@@ -9,7 +8,6 @@ abstract class ATSync {
   public $entity_type;
   public $id = FALSE;
   public $address = FALSE;
-  public $domain = "http://api.airtribune.com/v0.1/";
   public $port = 80;
   public function __construct($entity, $entity_type) {
     $this->entity = $entity;
@@ -17,7 +15,7 @@ abstract class ATSync {
   }
   public function request($data, $method = "POST") {
     $handle = curl_init();
-    $url = $this->domain . $this->address;
+    $url = variable_get('at_core_sync_address', 'http://api.airtribune.com') . '/' . variable_get('at_core_sync_version', 'v0.1') . '/' . $this->address;
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_PORT, $this->port);
     curl_setopt($handle, CURLOPT_TIMEOUT, 5);
@@ -156,9 +154,9 @@ class ATSyncPerson extends ATSync {
       $this->address = implode('/', array('person', $core_id));
     }
     $data = array(
-      'name' => $profile2['main']->field_full_name[LANGUAGE_UNDEFINED][0]['given'],
-      'surname' => $profile2['main']->field_full_name[LANGUAGE_UNDEFINED][0]['family'],
-      'country' => $profile2['pilot']->field_address[LANGUAGE_UNDEFINED][0]['country'],
+      'name' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['given'],
+      'surname' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['family'],
+      'country' => $profile2['pilot']->field_address[LANGUAGE_NONE][0]['country'],
       'email' => $this->entity->mail,
       'reg_date' => date("Y,m,d", $this->entity->created),
     );
@@ -180,7 +178,7 @@ class ATSyncPilot extends ATSync {
   public $address = "contest/";
   public function synchronize() {
     // Send only if status is confirmed
-    if ($this->entity->field_pg_contestant_status[LANGUAGE_UNDEFINED][0]['value'] != 4) {
+    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
       return FALSE;
     }
     $contest = node_load($this->entity->gid);
@@ -200,8 +198,8 @@ class ATSyncPilot extends ATSync {
     $this->address = implode('/', array('contest', $contest_core_id, 'paraglider'));
     $data = array(
       'person_id' => $person_id,
-      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_UNDEFINED][0]['value'],
-      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_UNDEFINED][0]['value'],
+      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
+      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
     );
     $core_id = FALSE;
     if ($core_id) {
@@ -222,8 +220,8 @@ class ATSyncRace extends ATSync {
   public $address = "contest/";
   public function synchronize() {
     geophp_load();
-    $day_id = $this->entity->field_day_ref[LANGUAGE_UNDEFINED][0]['target_id'];
-    $contest_nid = $this->entity->og_group_ref[LANGUAGE_UNDEFINED][0]['target_id'];
+    $day_id = $this->entity->field_day_ref[LANGUAGE_NONE][0]['target_id'];
+    $contest_nid = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
     $contest = node_load($contest_nid);
     if (!$contest) {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
@@ -245,9 +243,9 @@ class ATSyncRace extends ATSync {
       'title' => $this->entity->title,
       'bearing' => 12,
     );
-    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_UNDEFINED][0]['value']);
-    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_UNDEFINED][0]['value2']);
-    $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_UNDEFINED][0]['target_id'];
+    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value']);
+    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2']);
+    $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
     //$racetype = entity_load('ent_racetype', $racetype_ref);
     $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
     switch ($racetype->type) {
@@ -264,7 +262,7 @@ class ATSyncRace extends ATSync {
         break;
     }
     $point_ref = array();
-    foreach ($racetype->field_pg_race_points[LANGUAGE_UNDEFINED] as $pref) {
+    foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
       $point_ref[] = $pref['target_id'];
     }
     $points = entity_load("ent_point", $point_ref);
@@ -276,19 +274,19 @@ class ATSyncRace extends ATSync {
       $point_data = array();
       $point_data['type'] = 'Feature';
       $point_data['geometry'] = array();
-      $contest_point_ref = $point->field_point_ref[LANGUAGE_UNDEFINED][0]['target_id'];
+      $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
       $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref)));
-      $wkt = $contest_point->field_point_location[LANGUAGE_UNDEFINED][0]['geom'];
+      $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), true);
       $point_data['geometry']= $coordinates;
       $point_data['properties'] = array();
       //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
-      $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_UNDEFINED][0]['value'];
+      $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
       
-      if (!empty($point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['value'])) {
-        $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_UNDEFINED][0]['value'];
+      if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
+        $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
         $point_data['properties']['checkpoint_type'] = "to";
