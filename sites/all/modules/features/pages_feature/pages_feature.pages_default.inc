@@ -870,7 +870,7 @@ event/*/map/accommodations',
     $pane = new stdClass();
     $pane->pid = 'new-18';
     $pane->panel = 'featured_header_padding';
-    $pane->type = 'custom';
+    $pane->type = 'airtribune_race_preview';
     $pane->subtype = 'airtribune_race_preview';
     $pane->shown = TRUE;
     $pane->access = array(
@@ -887,11 +887,11 @@ event/*/map/accommodations',
       ),
     );
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
+      'widgetWidth' => '940px',
+      'widgetHeight' => '380px',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'context' => 'empty',
     );
     $pane->cache = array();
     $pane->style = array(

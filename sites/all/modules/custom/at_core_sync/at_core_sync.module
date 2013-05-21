@@ -1,4 +1,7 @@
 <?php
+
+define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
+
 /**
  * @file
  * Installation file for the Airtribune Core API module.
@@ -127,3 +130,26 @@ function at_core_sync_menu() {
   return $items;
 }
 
+/**
+ * Get CoreAPI version.
+ * 
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @see #3115.
+ */
+function at_core_sync_get_api_version() {
+  $result = variable_get('at_core_sync_version', 'v0.1');
+  return $result;
+}
+
+/**
+ * Get CoreAPI url.
+ * 
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @see #3115.
+ */
+function at_core_sync_get_api_url() {
+  $address = variable_get('at_core_sync_address', 'http://api.airtribune.com')
+    . '/'
+    .at_core_sync_get_api_version();
+  return $address;
+}

@@ -36,7 +36,7 @@ jQuery(function ($) {
     airvisWidget.on('loaded', function (raceData) {
       headerPictureContainer.hide();
       faiCategory.hide();
-      raceInfo.text(raceData.titles.taskTitle).show();
+      raceInfo.text(raceData.titles.taskTitle).show().css('display', 'inline');
     });
 
     //if loading failed - show picture in header

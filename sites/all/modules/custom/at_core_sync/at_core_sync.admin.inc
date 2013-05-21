@@ -28,9 +28,21 @@ function at_core_sync_admin_settings() {
   $form['at_core_sync_custom_settings']['at_core_sync_address'] = array(
     '#type' => 'textfield',
     '#title' => t('Core API address'),
-    '#default_value' => variable_get('at_core_sync_address', 'http://api.airtribune.com/v0.1/'),
+    '#default_value' => variable_get('at_core_sync_address', 'http://api.airtribune.com'),
     '#size' => 30,
-    '#description' => t('For example: http://api.airtribune.com/v0.1/, with slash at end'),
+    '#description' => t('For example: http://api.airtribune.com'),
+  );
+
+  $form['at_core_sync_custom_settings']['at_core_sync_version'] = array(
+    '#type' => 'select',
+    '#title' => t('Core API version'),
+    '#multiple' => FALSE,
+    '#options' => array(
+      'v0.1' => 'v0.1',
+      'v0.1.2' => 'v0.1.2',
+    ),
+    '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
+    '#description' => t('For example: v0.1, v0.1.2'),
   );
 
   $entities = entity_get_info();
@@ -69,4 +81,8 @@ function at_core_sync_field($form, &$form_state) {
       }
     }
   }
+}
+
+function _at_core_page_manage() {
+  return '<p></p>';
 }
