@@ -891,6 +891,7 @@ event/*/map/accommodations',
       'widgetHeight' => '380px',
       'override_title' => 0,
       'override_title_text' => '',
+      'context' => 'empty',
     );
     $pane->cache = array();
     $pane->style = array(
