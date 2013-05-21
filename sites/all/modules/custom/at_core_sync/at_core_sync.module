@@ -81,8 +81,7 @@ function _get_class_by_entity($entity, $type) {
   if (!empty($classes[$tmp])) {
     $class = $classes[$tmp];
     return new $class($entity, !empty($entity->type) ? $entity->type : "user");
-  }
-  else {
+  } else {
     return FALSE;
   }
 }
