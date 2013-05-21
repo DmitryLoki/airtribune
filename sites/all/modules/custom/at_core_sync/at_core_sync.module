@@ -1,4 +1,7 @@
 <?php
+
+define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
+
 /**
  * @file
  * Installation file for the Airtribune Core API module.

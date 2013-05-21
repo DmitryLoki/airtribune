@@ -1,5 +1,5 @@
 <?php
-define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
+
 /**
  * Abstract class with commin synchronisation functions
  */
