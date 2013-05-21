@@ -13,45 +13,42 @@ $plugin = array(
   'title' => t('Airtrubune race preview'),
   'single' => TRUE,
   'category' => array('Airtribune'),
-  'optional context' => new ctools_context_optional(t('Race'), 'ent_race'),
+  'required context' => new ctools_context_optional(t('Race'), 'ent_race'),
 );
 
 /**
  * Render airtribune player pane.
  */
 function airtribune_airtribune_race_preview_content_type_render($subtype, $conf, $panel_args, $context) {
-
-  if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_RACE_TYPE) {
-    return;
-  }
-
+  $contestId = '';
+  $raceId = '';
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_race_preview';
-
-  // Race entity.
-  $race = $context->data;
-  $raceId = $race->field_core_id[0][LANGUAGE_NONE]['value'];
   
-  // Get groups
-  $groups = og_get_entity_groups($race->entityType(), $race);
+  if (!empty($context) && !empty($context->data) && $context->data->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    // Race entity.
+    $race = $context->data;
+    $raceId = $race->field_core_id[0][LANGUAGE_NONE]['value'];
 
-  $contest = node_load($groups['node']);
-  $contestId = $contest->field_core_id[0][LANGUAGE_NONE]['value'];
+    // Get groups
+    $groups = og_get_entity_groups($race->entityType(), $race);
 
-  // Chekh 3th argunent. Get online status.
-  $isOnline = (!empty($panel_args[2]) && $panel_args[2] == 'online') ? 'true' : 'false';
+    $contest = node_load($groups['node']);
+    $contestId = $contest->field_core_id[0][LANGUAGE_NONE]['value'];
+  }
 
   // Options for widget
   $options = array(
-    'isOnline' => $isOnline,
-    'mapWidget' => $panel_args[1],
+    'isOnline' => 'false',
+    'mapWidget' => '2d',
     'widgetHeight' => $conf['widgetHeight'],
     'widgetWidth' => $conf['widgetWidth'],
     'apiVersion' => at_core_sync_get_api_version(),
   );
   
-  $widget_html = _airtribune_airtribune_player_get_race_preview($contestId, $raceId, $options);
+  $widget_html = _airtribune_airtribune_race_preview_get_race_preview($contestId, $raceId, $options);
 
   $content['widget']['#markup'] = $widget_html;
+  $content['#attached']['js'] = array(drupal_get_path('module', 'airtribune') . '/js/day-blog-airvis-controller.js');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-player'));
   $content['#theme_wrappers'] = array('container');
 
