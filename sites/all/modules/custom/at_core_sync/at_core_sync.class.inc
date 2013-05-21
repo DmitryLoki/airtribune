@@ -15,7 +15,7 @@ abstract class ATSync {
   }
   public function request($data, $method = "POST") {
     $handle = curl_init();
-    $url = variable_get('at_core_sync_address', 'http://api.airtribune.com') . '/' . variable_get('at_core_sync_version', 'v0.1') . '/' . $this->address;
+    $url = at_core_sync_get_api_url() . '/' . $this->address;
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_PORT, $this->port);
     curl_setopt($handle, CURLOPT_TIMEOUT, 5);
