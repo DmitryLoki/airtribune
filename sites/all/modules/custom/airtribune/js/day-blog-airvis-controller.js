@@ -66,8 +66,8 @@ jQuery(function ($) {
     if (activeDayBlock.length !== 0) {
 
       var raceInfo = activeDayBlock.parent().find('.data-race').data(),
-        contestId = raceInfo['contest-id'],
-        raceId = raceInfo['race-id'];
+        contestId = raceInfo['contestId'],
+        raceId = raceInfo['raceId'];
 
       if(contestId !== '' && raceId !== '') {
         rebuildRacePreview(contestId, raceId);

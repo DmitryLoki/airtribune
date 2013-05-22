@@ -279,6 +279,11 @@ class ATSyncRace extends ATSync {
       $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), true);
+      /**
+       * Reverse lat an lon
+       * @see Issue #3031-48
+       */
+      $coordinates['coordinates'] = array_reverse($coordinates['coordinates']);
       $point_data['geometry']= $coordinates;
       $point_data['properties'] = array();
       //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
