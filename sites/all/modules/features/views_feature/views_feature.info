@@ -32,4 +32,5 @@ features[views_view][] = my_registrations
 features[views_view][] = next_events
 features[views_view][] = paragliding_pilots_list
 features[views_view][] = paragliding_pilots_list_export
+features[views_view][] = pg_scoring_categories
 features[views_view][] = photos_carousel
