@@ -23,7 +23,7 @@ function airtribune_airtribune_race_preview_content_type_render($subtype, $conf,
   $contestId = '';
   $raceId = '';
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_race_preview';
-  
+
   if (!empty($context) && !empty($context->data) && $context->data->type == AIRTRIBUNE_PG_RACE_TYPE) {
     // Race entity.
     $race = $context->data;
@@ -79,7 +79,7 @@ function _airtribune_airtribune_race_preview_get_race_preview ($contestId, $race
   
   $output = "<script  data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div>
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", contestId: \"{$contestId}\", raceId: \"{$raceId}\", width: \"{$widgetWidth}\", height: \"{$widgetHeight}\", callback: window.airvisPageLoadedCallback, mode: \"simple\", apiVersion: \"{$apiVersion}\"  } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", contestId: \"{$contestId}\", raceId: \"{$raceId}\", width: \"{$widgetWidth}\", height: \"{$widgetHeight}\", callback: window.airvisPageLoadedCallback, mode: \"simple\", apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false} } --><!-- /ko -->
     </div>";
   return $output;
 }
