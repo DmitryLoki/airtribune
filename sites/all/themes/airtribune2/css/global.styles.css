@@ -2454,6 +2454,9 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .page-user-edit .pane-page-content form .field-type-image .description br:first-child { display: none;}
 .page-user .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
 .page-user .pane-page-content form .form-type-item .inline-label { top: -10px;}
+.page-user-edit .pane-page-content form #mail-dummy .form-type-item { float: left;}
+.page-user-edit .pane-page-content form #mail-dummy #mail-edit-pencil { float: left; padding-top: 20px; padding-left: 10px; cursor: pointer;}
+.page-user-edit .pane-page-content form #mail-dummy + .form-item { clear: both;}
 .page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
 .page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
 .page-user-edit .pane-page-content form .field-type-list-text .form-type-radio { padding-bottom: 2px;}
