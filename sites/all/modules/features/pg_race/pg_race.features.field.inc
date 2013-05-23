@@ -722,7 +722,7 @@ function pg_race_field_default_fields() {
   $fields['ent_race-pg_race-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
