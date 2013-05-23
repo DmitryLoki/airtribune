@@ -63,14 +63,14 @@ function metatag_schema() {
         'length' => 32,
         'not null' => TRUE,
         'default' => '',
-        'description' => 'The entity type this data is attached to',
+        'description' => 'The entity type this data is attached to.',
       ),
       'entity_id' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
-        'description' => 'The entity id this data is attached to',
+        'description' => 'The entity id this data is attached to.',
       ),
       // @todo Enable revisionable meta tags.
       'data' => array(
@@ -181,8 +181,9 @@ function metatag_requirements($phase) {
 /**
  * Implements hook_install().
  */
-// function metatag_install() {
-// }
+function metatag_install() {
+  drupal_set_message(t("Thank you for installing the Metatag module. It is recommended to read the module's <a href=\"!url\" title=\"Read the Metatag module's documentation\">README.txt</a> file as there are some known issues that may afffect this site.", array('!url' => url(drupal_get_path('module', 'metatag') . '/README.txt'))));
+}
 
 /**
  * Implements hook_uninstall().
@@ -229,7 +230,9 @@ function metatag_update_7001() {
   );
   $keys = array('primary key' => array($field_name));
 
-  // Before making any changes, drop the existing primary key.
+  // Before making any changes, drop the existing primary key. Unforunately
+  // there is no API way to check if a primary key exists, so if it doesn't
+  // exist the db_drop_primary_key() call will fail.
   try {
     db_drop_primary_key($table_name);
   }
