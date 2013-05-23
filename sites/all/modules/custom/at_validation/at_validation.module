@@ -142,7 +142,9 @@ function _at_validation_ajax($form, $form_state) {
     $html = array_shift($errors);
     
     // TODO: This is a hack for Name+Birthday unique check
-    if (strpos($html, 'This name, surname') !== FALSE) {
+    $checksubstr = t('This name, surname and date of birth combination already exist. <a href="!path">Forgot your password?</a>', array('!path' => url('user/password')));
+    $checksubstr = substr($checksubstr, 0, 15);
+    if (strpos($html, $checksubstr) !== FALSE) {
       $selector = '#edit-profile-main-field-birthdate-und-0-value';
     }
     

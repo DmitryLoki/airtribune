@@ -67,7 +67,7 @@ function seo_metatag_export_default() {
         'value' => 'website',
       ),
       'og:title' => array(
-        'value' => 'On-line sports events presentation. | [site:slogan]',
+        'value' => 'Competition hosting and live tracking | [site:name]',
       ),
       'og:url' => array(
         'value' => '[site:url]',
@@ -105,7 +105,7 @@ function seo_metatag_export_default() {
         'value' => '[node:title] | Accommodation for paragliding pilots | [site:name]',
       ),
       'description' => array(
-        'value' => '[node:body]',
+        'value' => '[node:summary]',
       ),
     ),
   );
@@ -118,7 +118,7 @@ function seo_metatag_export_default() {
         'value' => '[node:title] | Activities for paragliding pilots | [site:name]',
       ),
       'description' => array(
-        'value' => '[node:body]',
+        'value' => '[node:summary]',
       ),
     ),
   );

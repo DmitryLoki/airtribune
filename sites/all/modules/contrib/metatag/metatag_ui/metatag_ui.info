@@ -1,14 +1,14 @@
 name = Meta tag UI
 description = "DEPRECATED admin interface for the Meta tag API, this functionality has be merged into the main module."
-package = Meta tags
+package = SEO
 core = 7.x
 dependencies[] = metatag
 dependencies[] = ctools
 hidden = TRUE
 
-; Information added by drupal.org packaging script on 2013-04-05
-version = "7.x-1.0-beta5+4-dev"
+; Information added by drupal.org packaging script on 2013-05-15
+version = "7.x-1.0-beta7+22-dev"
 core = "7.x"
 project = "metatag"
-datestamp = "1365124459"
+datestamp = "1368580510"
 
