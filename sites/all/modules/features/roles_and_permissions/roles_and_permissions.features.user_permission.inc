@@ -1190,9 +1190,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit field_pg_contestant_status'] = array(
     'name' => 'edit field_pg_contestant_status',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
+      0 => 'administrator',
+      1 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1201,9 +1200,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit field_tracker'] = array(
     'name' => 'edit field_tracker',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
+      0 => 'administrator',
+      1 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1734,8 +1732,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view field_core_id'] = array(
     'name' => 'view field_core_id',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'field_permissions',
   );
@@ -1744,11 +1743,10 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view field_pg_contestant_status'] = array(
     'name' => 'view field_pg_contestant_status',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'anonymous user',
-      3 => 'authenticated user',
-      4 => 'organizer',
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+      3 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1757,9 +1755,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view field_tracker'] = array(
     'name' => 'view field_tracker',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
+      0 => 'administrator',
+      1 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1768,12 +1765,11 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view media'] = array(
     'name' => 'view media',
     'roles' => array(
-      0 => 'admin',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-      3 => 'editor',
-      4 => 'organizer',
-      5 => 'pilot',
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+      2 => 'editor',
+      3 => 'organizer',
+      4 => 'pilot',
     ),
     'module' => 'media',
   );
@@ -1800,10 +1796,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own field_pg_contestant_status'] = array(
     'name' => 'view own field_pg_contestant_status',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
-      3 => 'pilot',
+      0 => 'administrator',
+      1 => 'organizer',
+      2 => 'pilot',
     ),
     'module' => 'field_permissions',
   );
