@@ -2928,9 +2928,11 @@ table tr td.:first-child { border-left: none;}
 .page-event-results .view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
 .page-event-results .view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd.hor_pic > div { margin-left: 421px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
 
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even.hor_pic > div { margin-right: 421px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
 
 .page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
