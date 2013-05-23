@@ -179,16 +179,18 @@ function _at_race_get_contest_id(&$form, &$form_state) {
   $og_ref_fieldname = AIRTRIBUNE_OG_GROUP_REF_FIELD;
   
   $entity = $form['entity']['#value'];
+  $bundle = $entity->type;
   if (empty($entity->is_new)) {
     // TODO: Check for another way of getting group id for existing entity
     $wrapper = entity_metadata_wrapper('ent_racetype', $entity);
     $pg_contest_entity = $wrapper->{$og_ref_fieldname}->value();
+    $pg_contest_entity = array_shift($pg_contest_entity);
     $nid = $pg_contest_entity->nid;
     $gid = $nid;
   }
   else {
     $field = field_info_field($og_ref_fieldname);
-    $instance = field_info_instance('ent_racetype', $og_ref_fieldname, 'pg_racetype_sr');
+    $instance = field_info_instance('ent_racetype', $og_ref_fieldname, $bundle);
     $items = entityreference_prepopulate_get_values($field, $instance);
     //$gid = !empty($items) ? $items[0]['target_id'] : -1;
     $gid = $items[0]['target_id'];
@@ -538,6 +540,7 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
     
   }
   
+  // TODO: Maybe this should be done in hook_field_attach_presave or other hook
   // Delete removed waypoints if any.
   if (!empty($entity->id)) {
     // Get list of new target_ids
@@ -701,11 +704,9 @@ function _at_race_widget_components($gid) {
 }
 
 /**
- * Get points
+ * Get points of the task
  */
 function _at_race_get_contest_points($contest_id) {
-  // TODO: Get points.
-  //$contest_id = 5364;
   $pointsQuery = new EntityFieldQuery();
   
   $query = $pointsQuery->entityCondition('entity_type', 'ent_contest_point')
@@ -754,12 +755,6 @@ function at_race_ctools_plugin_directory($module, $plugin) {
   if ($module == 'at_race' && $plugin == 'pg_racetype') {
     return 'plugins/pg_racetype';
   }
-  // TODO: Remove entityreference plugin
-  /*
-  if ($module == 'entityreference') {
-    return 'plugins/entityreference_' . $plugin;
-  }
-  */
 }
 
 /**

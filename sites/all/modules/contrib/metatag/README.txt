@@ -23,20 +23,35 @@ The primary features include:
 
 * Multi-lingual support using the Entity Translation module.
 
-* Per-path control over meta tags using the "Meta tags: Context" submodule
+* Translation support using the Internationalization (i18n) module.
+
+* Per-path control over meta tags using the "Metatag: Context" submodule
   (requires the Context module).
 
+* Integration with the Views module allowing meta tags to be controlled for
+  individual Views pages, with each display in the view able to have different
+  meta tags, by using the "Metatag: Views" submodule.
+
+* Integration with the Panels module allowing meta tags to be controlled for
+  individual Panels pages, by using the "Metatag: Panels" submodule.
+
 * The fifteen Dublin Core Basic Element Set 1.1 meta tags may be added by
-  enabling the "Meta tags: Dublin Core" submodule.
+  enabling the "Metatag: Dublin Core" submodule.
 
 * The Open Graph Protocol meta tags, as used by Facebook, may be added by
-  enabling the "Meta tags: Open Graph" submodule.
+  enabling the "Metatag: Open Graph" submodule.
 
-* The Twitter Cards meta tags may be added by enabling the "Meta tags: Twitter
+* The Twitter Cards meta tags may be added by enabling the "Metatag: Twitter
   Cards" submodule.
 
 * An API allowing for additional meta tags to be added, beyond what is provided
   by this module - see metatag.api.php for full details.
+
+* Support for the Migrate module for migrating data from another system - see
+  metatag.migrate.inc for full details.
+
+* Support for the Feeds module for importing data from external data sources or
+  file uploads.
 
 
 Configuration
@@ -69,6 +84,14 @@ Configuration
     admin/structure/types/manage/article/display/token
 
 
+Internationalization: i18n.module
+------------------------------------------------------------------------------
+All default configurations may be translated using the Internationalization
+(i18n) module. The custom strings that are assigned to e.g. the "Global: Front
+page" configuration will show up in the Translate Interface admin page
+(admin/config/regional/translate/translate) and may be customized per language.
+
+
 Fine Tuning
 ------------------------------------------------------------------------------
 * By default Metatag will load the global default values for all pages that do
@@ -80,6 +103,14 @@ Fine Tuning
   * Hardcode the value in the site's settings.php file:
     $conf['metatag_load_all_pages'] = FALSE;
   To re-enable this option simply set the value to TRUE.
+* By default users will be able to edit meta tags on forms based on the 'Edit
+  meta tags' permission. The 'metatag_extended_permissions' variable may be set
+  to TRUE to give each individual meta tag a separate permission. This allows
+  fine-tuning of the site's editorial control, and for rarely-used fields to be
+  hidden from most users. Note: The 'Edit meta tags' permission is still
+  required otherwise none of the meta tag fields will display at all. The
+  functionality may be disabled again by either removing the variable or
+  setting it to FALSE.
 
 
 Developers
@@ -119,6 +150,10 @@ Troubleshooting / Known Issues
     <title>"The page title | My cool site"</title>
   The solution is to remove the browser plugin - the page's actual output is not
   affected, it is just a problem in the browser.
+* The core RDF module is known to cause validation problems for Open Graph meta
+  tags output by the Metatag:OpenGraph module. Unless it is actually needed for
+  the site, it may be worthwhile to disable the RDF module to avoid any
+  possible problems for the Open Graph integration.
 
 
 Related modules
@@ -143,10 +178,11 @@ Some modules are available that extend Metatag with additional functionality:
 
 Credits / Contact
 ------------------------------------------------------------------------------
-Currently maintained by Dave Reid [1] and Damien McKenna [2].
+Currently maintained by Damien McKenna [1] and Dave Reid [2]; all initial
+development was by Dave Reid.
 
-All initial development was sponsored by Acquia [3] and Palantir [4];
-continued development sponsored by Palantir and Mediacurrent [5].
+Ongoing development is sponsored by Mediacurrent [3] and Palantir.net [4]. All
+initial development was sponsored by Acquia [5] and Palantir.net.
 
 The best way to contact the authors is to submit an issue, be it a support
 request, a feature request or a bug report, in the project issue queue:
@@ -155,8 +191,8 @@ request, a feature request or a bug report, in the project issue queue:
 
 References
 ------------------------------------------------------------------------------
-1: http://drupal.org/user/53892
-2: http://drupal.org/user/108450
-3: http://www.acquia.com/
+1: http://drupal.org/user/108450
+2: http://drupal.org/user/53892
+3: http://www.mediacurrent.com/
 4: http://www.palantir.net/
-5: http://www.mediacurrent.com/
+5: http://www.acquia.com/

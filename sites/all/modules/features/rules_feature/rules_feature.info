@@ -12,6 +12,7 @@ dependencies[] = rules
 features[features_api][] = api:1
 features[rules_config][] = rules_create_not_og_blog_alias
 features[rules_config][] = rules_create_og_blog_alias
+features[rules_config][] = rules_notify_organizer_about_cancel_participation
 features[rules_config][] = rules_og_pilot_subscribe
 features[rules_config][] = rules_on_empty_profile
 features[rules_config][] = rules_pg_contestant_active

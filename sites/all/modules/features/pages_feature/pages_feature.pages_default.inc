@@ -870,7 +870,7 @@ event/*/map/accommodations',
     $pane = new stdClass();
     $pane->pid = 'new-18';
     $pane->panel = 'featured_header_padding';
-    $pane->type = 'custom';
+    $pane->type = 'airtribune_race_preview';
     $pane->subtype = 'airtribune_race_preview';
     $pane->shown = TRUE;
     $pane->access = array(
@@ -887,11 +887,11 @@ event/*/map/accommodations',
       ),
     );
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
+      'widgetWidth' => '940px',
+      'widgetHeight' => '380px',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'context' => 'empty',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1595,7 +1595,7 @@ function pages_feature_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Accommodation | [node:title]',
+          'value' => 'Accommodation | [node:title] | [site:name]',
         ),
         'description' => array(
           'value' => 'Lodging in [node:field-city] for paragliding pilots.',
@@ -1713,7 +1713,7 @@ function pages_feature_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Activities | [node:title]',
+          'value' => 'Activities | [node:title] | [site:name]',
         ),
         'description' => array(
           'value' => 'What to do in [node:field-city] on a non flying day?',
@@ -2096,7 +2096,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'News | [node:title] | [site:slogan]',
+          'value' => 'Blog | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Competition latest news.',
         ),
       ),
     ),
@@ -2426,7 +2429,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'value' => '[node:title] | [node:og-group-ref:0:title] | [site:name]',
         ),
         'description' => array(
-          'value' => '[node:body]',
+          'value' => '[node:summary]',
         ),
       ),
     ),
@@ -4029,10 +4032,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[node:title] | Accommodation and activities for paragliding pilots | [site:name]',
+          'value' => '[node:title] | [node:map-entry-title] for paragliding pilots | [site:name]',
         ),
         'description' => array(
-          'value' => '[node:body]',
+          'value' => '[node:summary]',
         ),
       ),
     ),
@@ -4582,7 +4585,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Pilots list | [node:title] | [site:slogan]',
+          'value' => 'Pilots | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Live paragliding races, results, media and tasks replay.',
         ),
       ),
     ),

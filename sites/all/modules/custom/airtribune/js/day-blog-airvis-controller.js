@@ -4,10 +4,12 @@ jQuery(function ($) {
     accordion;
 
   var headerPictureContainer = $('.pane-header-slideshow-event-header'),
-    raceInfo = $('<div class="field field-name-field-race-info">Race 1 - 105 km</div>'),
+    raceDataTextBlock = $('.field-name-field-dates .field-item'),
+    raceInfo = $('<div class="field field-name-field-race-info"></div>'),
     faiCategory = $('.field-name-field-fai-category');
 
   faiCategory.after(raceInfo.hide());
+  raceDataTextBlock.data('contest-date-text', raceDataTextBlock.text());
 
   //Need to get accordion instance
   $.each(Drupal.settings.views_accordion, function (id) {
@@ -36,20 +38,39 @@ jQuery(function ($) {
     airvisWidget.on('loaded', function (raceData) {
       headerPictureContainer.hide();
       faiCategory.hide();
-      raceInfo.text(raceData.titles.taskTitle).show();
+      raceInfo.text(raceData.titles.taskTitle).css('display', 'inline').show();
+      toggleRaceDateText($(accordion.active));
     });
 
     //if loading failed - show picture in header
     airvisWidget.on('loadingError', function () {
       headerPictureContainer.show();
-      showHeaderPicture();
+      sedHeaderDefaultState();
     });
   };
 
-  function showHeaderPicture() {
+  function sedHeaderDefaultState() {
+    showContestHeaderPicture();
+    toggleRaceDateText([]);
+  }
+
+  function showContestHeaderPicture() {
     headerPictureContainer.show();
     faiCategory.show();
     raceInfo.hide();
+  }
+
+  //toggle between race and contest dates
+  function toggleRaceDateText(activeDayAccordionBlock) {
+    var dateText;
+    if (activeDayAccordionBlock.length !== 0) {
+      //show task date
+      dateText = activeDayAccordionBlock.find('.posted').text();
+    } else {
+      //show contest date
+      dateText = raceDataTextBlock.text(raceDataTextBlock.data('contest-date-text'));
+    }
+    raceDataTextBlock.text(dateText);
   }
 
   //Rebuild airvis widget with new params. Events 'loaded' or 'loadingError' of airvisWidget will be fired after rebuild
@@ -61,21 +82,21 @@ jQuery(function ($) {
 
 
   //Toggle between header picture and airvis widget
-  function toggleHeader(activeDayBlock) {
+  function toggleHeader(activeDayAccordionBlock) {
     //try to display widget, if any day opened
-    if (activeDayBlock.length !== 0) {
+    if (activeDayAccordionBlock.length !== 0) {
 
-      var raceInfo = activeDayBlock.parent().find('.data-race').data(),
-        contestId = raceInfo['contest-id'],
-        raceId = raceInfo['race-id'];
+      var raceInfo = activeDayAccordionBlock.parent().find('.data-race').data(),
+        contestId = raceInfo['contestId'],
+        raceId = raceInfo['raceId'];
 
-      if(contestId !== '' && raceId !== '') {
+      if (contestId !== '' && raceId !== '') {
         rebuildRacePreview(contestId, raceId);
       } else {
-        showHeaderPicture();
+        sedHeaderDefaultState();
       }
     } else {
-      showHeaderPicture();
+      sedHeaderDefaultState();
     }
 
   }

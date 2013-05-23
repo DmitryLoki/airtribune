@@ -1,5 +1,7 @@
 <?php
 
+define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
+
 /**
  * @file
  * Installation file for the Airtribune Core API module.
@@ -69,9 +71,7 @@ function _get_class_by_entity($entity, $type) {
   $tmp = $type;
 
   if (!empty($entity->type)) {
-
     $tmp .= ':' . $entity->type;
-
   }
 
   $classes = array(
@@ -83,9 +83,8 @@ function _get_class_by_entity($entity, $type) {
 
   if (!empty($classes[$tmp])) {
     $class = $classes[$tmp];
-    return new $class($entity, $entity->type);
-  }
-  else {
+    return new $class($entity, $type);
+  } else {
     return FALSE;
   }
 }
@@ -119,7 +118,6 @@ function at_core_sync_entity_insert($entity, $type) {
  */
 function at_core_sync_menu() {
   $items = array();
-
   $items['admin/config/core_api'] = array(
     'title' => 'Core API',
     'description' => 'Airtribune Core API',
@@ -128,7 +126,108 @@ function at_core_sync_menu() {
     'page arguments' => array('at_core_sync_admin_settings'),
     'access arguments' => array('administer site configuration'),
   );
-
+  $items['admin/config/core_api/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+    'access arguments' => array('administer site configuration'),
+  );
+  
+  $items['admin/config/core_api/manage'] = array(
+    'title' => 'Manage',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => '_at_core_page_manage',
+    'file' => 'at_core_sync.admin.inc',
+    'access arguments' => array('administer site configuration'),
+  );
+  
+  $items['admin/config/core_api/batch'] = array(
+    'title' => 'Core API Batch',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_at_core_page_batch',
+    'file' => 'at_core_sync.admin.inc',
+    'access arguments' => array('administer site configuration'),
+  );
   return $items;
 }
+/**
+ * Get CoreAPI version.
+ * 
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @see #3115.
+ */
+function at_core_sync_get_api_version() {
+  $result = variable_get('at_core_sync_version', 'v0.1');
+  return $result;
+}
 
+/**
+ * Get CoreAPI url.
+ * 
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @see #3115.
+ */
+function at_core_sync_get_api_url() {
+  $address = variable_get('at_core_sync_address', 'http://api.airtribune.com')
+    . '/'
+    .at_core_sync_get_api_version();
+  return $address;
+}
+
+/**
+ * Get all contests from Core.
+ */
+function get_contests_from_core() {
+  return request_to_core("contest");
+}
+
+/**
+ * Get all races from contest from Core.
+ */
+function get_races_from_contest_core($core_id) {
+  return request_to_core("contest/" . $core_id . "/race");
+}
+
+/**
+ * Get all paragliders from contest from Core.
+ */
+function get_paragliders_from_contest_core($core_id) {
+  return request_to_core("contest/" . $core_id . "/paraglider");
+}
+
+/**
+ * Request handler for GET queries
+ */
+function request_to_core($address) {
+  $handle = curl_init();
+  $url = at_core_sync_get_api_url() . '/' . $address;
+  curl_setopt($handle, CURLOPT_URL, $url);
+  curl_setopt($handle, CURLOPT_PORT, 80);
+  curl_setopt($handle, CURLOPT_TIMEOUT, 5);
+  curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+  curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
+  curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+  $response = curl_exec($handle);
+  $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+  switch ($code) {
+    case 200:
+      break;
+    case 404:
+      drupal_set_message(t("Core API[404]: Resource not found"), 'error');
+      break;
+    case 502:
+    case 504:
+    case 0:
+      drupal_set_message(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))), 'error');
+      watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+      break;
+    default:
+      drupal_set_message(t("Error (!url) happened", array('!code' => $code)), 'error');
+  }
+  return json_decode($response);
+}
+
+// Debug function
+function _d($var) {
+  drupal_set_message(print_r($var, TRUE));
+}
