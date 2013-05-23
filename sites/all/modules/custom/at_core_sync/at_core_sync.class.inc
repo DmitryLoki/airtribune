@@ -70,7 +70,7 @@ abstract class ATSync {
         break;
 
       case 404:
-        drupal_set_message(t("Core API[404]: Resource not found"), 'error');
+        drupal_set_message(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
         break;
 
       case 409:
@@ -104,6 +104,8 @@ abstract class ATSync {
     field_attach_update($this->entity_type, $this->entity);
   }
   abstract public function synchronize();
+  abstract public function check();
+  
 }
 
 /**
@@ -135,6 +137,9 @@ class ATSyncContest extends ATSync {
       $this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
+  }
+
+  public function check() {
   }
 }
 
@@ -168,6 +173,9 @@ class ATSyncPerson extends ATSync {
       $this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
+  }
+
+  public function check() {
   }
 }
 
@@ -210,6 +218,9 @@ class ATSyncPilot extends ATSync {
       //$this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
+    }
+
+  public function check() {
   }
 }
 
@@ -286,7 +297,6 @@ class ATSyncRace extends ATSync {
       $coordinates['coordinates'] = array_reverse($coordinates['coordinates']);
       $point_data['geometry']= $coordinates;
       $point_data['properties'] = array();
-      //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
       
@@ -318,9 +328,7 @@ class ATSyncRace extends ATSync {
     }
     return !empty($response->id) ? $response->id : FALSE;
   }
-}
 
-// Debug function
-function _d($var) {
-  drupal_set_message(print_r($var, TRUE));
+  public function check() {
+  }
 }
