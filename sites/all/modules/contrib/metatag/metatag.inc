@@ -19,6 +19,8 @@ interface DrupalMetaTagInterface {
   function getValue();
 
   function getElement();
+
+  function tidyValue($value);
 }
 
 class DrupalDefaultMetaTag implements DrupalMetaTagInterface {
@@ -38,7 +40,7 @@ class DrupalDefaultMetaTag implements DrupalMetaTagInterface {
   }
 
   public function getValue(array $options = array()) {
-    return $this->data['value'];
+    return tidyValue($this->data['value']);
   }
 
   public function getElement(array $options = array()) {
@@ -65,6 +67,31 @@ class DrupalDefaultMetaTag implements DrupalMetaTagInterface {
     return array(
       '#attached' => array('drupal_add_html_head' => array(array($element, $element['#id']))),
     );
+  }
+
+  /**
+   * Remove unwanted formatting from a meta tag.
+   *
+   * @param $value string
+   *   The meta tag value to be tidied up.
+   *
+   * @return string
+   *   The meta tag value after it has been tidied up.
+   */
+  public function tidyValue($value) {
+    // Convert any HTML entities into regular characters.
+    $value = decode_entities($value);
+
+    // Remove any HTML code that might have been included.
+    $value = strip_tags($value);
+
+    // Strip errant whitespace.
+    $value = str_replace(array("\r\n", "\n", "\r", "\t"), ' ', $value);
+    $value = str_replace('  ', ' ', $value);
+    $value = str_replace('  ', ' ', $value);
+    $value = trim($value);
+
+    return $value;
   }
 }
 
@@ -94,6 +121,10 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
   }
 
   public function getValue(array $options = array()) {
+    if (empty($options)) {
+      $options['instance'] = '';
+    }
+
     $name = "metatag:" . $options["instance"] . ":" . $this->info["name"];
 
     $options += array(
@@ -110,9 +141,7 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
       drupal_alter('metatag_pattern', $value, $options['token data']);
       $value = token_replace($value, $options['token data'], $options);
     }
-    $value = strip_tags(decode_entities($value));
-    $value = trim($value);
-    return $value;
+    return $this->tidyValue($value);
   }
 }
 
@@ -187,6 +216,7 @@ class DrupalListMetaTag extends DrupalDefaultMetaTag {
   public function getValue(array $options = array()) {
     $values = array_keys(array_filter($this->data['value']));
     sort($values);
-    return implode(', ', $values);
+    $value = implode(', ', $values);
+    return $this->tidyValue($value);
   }
 }
