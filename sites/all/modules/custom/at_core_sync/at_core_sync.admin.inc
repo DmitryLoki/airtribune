@@ -42,6 +42,7 @@ function at_core_sync_admin_settings() {
     '#options' => array(
       'v0.1' => 'v0.1',
       'v0.1.2' => 'v0.1.2',
+      'v0.2' => 'v0.2 (PRODUCTION)',
     ),
     '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
     '#description' => t('For example: v0.1, v0.1.2'),
