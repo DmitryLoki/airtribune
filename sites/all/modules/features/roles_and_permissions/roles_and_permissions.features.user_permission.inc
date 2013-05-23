@@ -509,6 +509,20 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete any og membership.
+  $permissions['delete any og membership'] = array(
+    'name' => 'delete any og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete any og_membership_type_default og membership.
+  $permissions['delete any og_membership_type_default og membership'] = array(
+    'name' => 'delete any og_membership_type_default og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: delete any pg_contest content.
   $permissions['delete any pg_contest content'] = array(
     'name' => 'delete any pg_contest content',
@@ -516,6 +530,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: delete any pg_contestant og membership.
+  $permissions['delete any pg_contestant og membership'] = array(
+    'name' => 'delete any pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: delete any pg_scoring_category content.
@@ -544,6 +565,29 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete own group og membership.
+  $permissions['delete own group og membership'] = array(
+    'name' => 'delete own group og membership',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete own group og_membership_type_default og membership.
+  $permissions['delete own group og_membership_type_default og membership'] = array(
+    'name' => 'delete own group og_membership_type_default og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete own group pg_contestant og membership.
+  $permissions['delete own group pg_contestant og membership'] = array(
+    'name' => 'delete own group pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: delete own newsblog content.
   $permissions['delete own newsblog content'] = array(
     'name' => 'delete own newsblog content',
@@ -553,6 +597,22 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete own og membership.
+  $permissions['delete own og membership'] = array(
+    'name' => 'delete own og membership',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete own og_membership_type_default og membership.
+  $permissions['delete own og_membership_type_default og membership'] = array(
+    'name' => 'delete own og_membership_type_default og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: delete own pg_contest content.
   $permissions['delete own pg_contest content'] = array(
     'name' => 'delete own pg_contest content',
@@ -560,6 +620,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: delete own pg_contestant og membership.
+  $permissions['delete own pg_contestant og membership'] = array(
+    'name' => 'delete own pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: delete own pg_scoring_category content.
@@ -1049,6 +1116,24 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit any og membership.
+  $permissions['edit any og membership'] = array(
+    'name' => 'edit any og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit any og_membership_type_default og membership.
+  $permissions['edit any og_membership_type_default og membership'] = array(
+    'name' => 'edit any og_membership_type_default og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: edit any organizer_profile profile.
   $permissions['edit any organizer_profile profile'] = array(
     'name' => 'edit any organizer_profile profile',
@@ -1066,6 +1151,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit any pg_contestant og membership.
+  $permissions['edit any pg_contestant og membership'] = array(
+    'name' => 'edit any pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: edit any pg_scoring_category content.
@@ -1201,6 +1293,32 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: edit own group og membership.
+  $permissions['edit own group og membership'] = array(
+    'name' => 'edit own group og membership',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit own group og_membership_type_default og membership.
+  $permissions['edit own group og_membership_type_default og membership'] = array(
+    'name' => 'edit own group og_membership_type_default og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit own group pg_contestant og membership.
+  $permissions['edit own group pg_contestant og membership'] = array(
+    'name' => 'edit own group pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: edit own main profile.
   $permissions['edit own main profile'] = array(
     'name' => 'edit own main profile',
@@ -1221,6 +1339,25 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own og membership.
+  $permissions['edit own og membership'] = array(
+    'name' => 'edit own og membership',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit own og_membership_type_default og membership.
+  $permissions['edit own og_membership_type_default og membership'] = array(
+    'name' => 'edit own og_membership_type_default og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: edit own organizer_profile profile.
   $permissions['edit own organizer_profile profile'] = array(
     'name' => 'edit own organizer_profile profile',
@@ -1239,6 +1376,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit own pg_contestant og membership.
+  $permissions['edit own pg_contestant og membership'] = array(
+    'name' => 'edit own pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: edit own pg_scoring_category content.
@@ -1557,6 +1701,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
+  // Exported permission: view any og memberships.
+  $permissions['view any og memberships'] = array(
+    'name' => 'view any og memberships',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: view any organizer_profile profile.
   $permissions['view any organizer_profile profile'] = array(
     'name' => 'view any organizer_profile profile',
@@ -1664,6 +1817,15 @@ function roles_and_permissions_user_default_permissions() {
       2 => 'editor',
     ),
     'module' => 'profile2',
+  );
+
+  // Exported permission: view own og memberships.
+  $permissions['view own og memberships'] = array(
+    'name' => 'view own og memberships',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
   );
 
   // Exported permission: view own organizer_profile profile.
