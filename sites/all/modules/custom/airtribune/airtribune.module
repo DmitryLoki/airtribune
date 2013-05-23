@@ -146,12 +146,16 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
 /**
  * Implements hook_token_info().
  *
- * @see #3217
+ * @see #3217 #3235
  */
 function airtribune_token_info() {
   $info['tokens']['node']['event-dates'] = array(
     'name' => t('Event dates'),
     'description' => t('Event dates (adaptive format)'),
+  );
+  $info['tokens']['node']['map-entry-title'] = array(
+    'name' => t('Map entry changing title'),
+    'description' => t('Insert activities or accommodation word in title, based on node type'),
   );
   return $info;
 }
@@ -161,9 +165,22 @@ function airtribune_token_info() {
  */
 function airtribune_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
-  if ($type == 'node' && !empty($data['node']) && isset($tokens['event-dates'])) {
-    $date_items = field_get_items('node', $data['node'], 'field_dates');
-    $replacements['[node:event-dates]'] =  airtribune_format_date_interval($date_items[0]['value'], $date_items[0]['value2']);
+  if ($type == 'node' && !empty($data['node'])) {
+    if (isset($tokens['event-dates'])) {
+      $date_items = field_get_items('node', $data['node'], 'field_dates');
+      $replacements['[node:event-dates]'] = airtribune_format_date_interval($date_items[0]['value'], $date_items[0]['value2']);
+    }
+    // used in Map Entry Item
+    // replace "[node:map-entry] in [node:city]" to "activities in Sopot" / "accommodation in Sopot"
+    // @see #3235
+    if (isset($tokens['map-entry-title'])) {
+      if ($data['node']->type == 'accommodation') {
+        $replacements['[node:map-entry-title]'] = 'Accommodation';
+      }
+      if ($data['node']->type == 'activity') {
+        $replacements['[node:map-entry-title]'] = 'Activities';
+      }
+    }
   }
   return $replacements;
 }
