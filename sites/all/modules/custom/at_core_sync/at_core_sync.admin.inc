@@ -34,6 +34,7 @@ function at_core_sync_admin_settings() {
     '#title' => t('Core API port'),
     '#default_value' => variable_get('at_core_sync_port', '8085'),
     '#size' => 30,
+    '#maxlength' => 4,
     '#description' => t('For example: 8085'),
   );
   $entities = entity_get_info();
