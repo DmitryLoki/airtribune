@@ -12,7 +12,7 @@
 <?php endif; ?>
 <?php foreach ($rows as $id => $row): ?>
   <?php 
-    if (strpos($row, 'width="400"') !== false) {
+    if (strpos($row, 'scoring-winner-horizontal') !== false) {
     	$classes_array[$id] .= ' hor_pic';
     }
   ?>
