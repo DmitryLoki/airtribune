@@ -13,6 +13,97 @@ function user_feature_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_after_change_email_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
+
+Your email [email_confirm:email_new] is confirmed and you may use it as your login now.
+
+Happy landings!
+Airtribune team';
+  $export['email_confirm_confirmation_after_change_email_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_after_change_email_subject';
+  $strongarm->value = 'Your email has been changed';
+  $export['email_confirm_confirmation_after_change_email_subject'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_after_change_original_email_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
+
+You have finished change email procedure for your account using this email address:
+[email_confirm:email_new]
+
+If you don\'t changed your email, that means that some one else knows your password.
+Change your password immediately or contact the support service: [site:mail]
+
+Happy landings!
+Airtribune team';
+  $export['email_confirm_confirmation_after_change_original_email_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_email_author';
+  $strongarm->value = '';
+  $export['email_confirm_confirmation_email_author'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_email_bcc';
+  $strongarm->value = '';
+  $export['email_confirm_confirmation_email_bcc'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_email_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
+
+To complete change email procedure please follow the link below.
+[email_confirm:email_url]
+
+If this link is not used during 24 hours your current email will not be changed.
+
+Happy landings!
+Airtribune team';
+  $export['email_confirm_confirmation_email_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_email_subject';
+  $strongarm->value = 'Change email confirmation';
+  $export['email_confirm_confirmation_email_subject'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_original_email_body';
+  $strongarm->value = 'Dear [user:profile-main:field_full_name]!
+
+A request to change your email address has been made.
+In order to confirm the update of your email address you will need to follow the instructions sent to your new email address within 24 hours.
+
+Happy landings!
+Airtribune team';
+  $export['email_confirm_confirmation_original_email_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'email_confirm_confirmation_send_mails_after_change';
+  $strongarm->value = 1;
+  $export['email_confirm_confirmation_send_mails_after_change'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'hybridauth_debug';
   $strongarm->value = 0;
   $export['hybridauth_debug'] = $strongarm;

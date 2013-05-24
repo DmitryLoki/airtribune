@@ -461,12 +461,10 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: create pg_race content.
-  $permissions['create pg_race content'] = array(
-    'name' => 'create pg_race content',
-    'roles' => array(
-      0 => 'editor',
-    ),
+  // Exported permission: create pg_scoring_category content.
+  $permissions['create pg_scoring_category content'] = array(
+    'name' => 'create pg_scoring_category content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -520,12 +518,10 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete any pg_race content.
-  $permissions['delete any pg_race content'] = array(
-    'name' => 'delete any pg_race content',
-    'roles' => array(
-      0 => 'editor',
-    ),
+  // Exported permission: delete any pg_scoring_category content.
+  $permissions['delete any pg_scoring_category content'] = array(
+    'name' => 'delete any pg_scoring_category content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -566,12 +562,10 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own pg_race content.
-  $permissions['delete own pg_race content'] = array(
-    'name' => 'delete own pg_race content',
-    'roles' => array(
-      0 => 'editor',
-    ),
+  // Exported permission: delete own pg_scoring_category content.
+  $permissions['delete own pg_scoring_category content'] = array(
+    'name' => 'delete own pg_scoring_category content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -1074,12 +1068,10 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit any pg_race content.
-  $permissions['edit any pg_race content'] = array(
-    'name' => 'edit any pg_race content',
-    'roles' => array(
-      0 => 'editor',
-    ),
+  // Exported permission: edit any pg_scoring_category content.
+  $permissions['edit any pg_scoring_category content'] = array(
+    'name' => 'edit any pg_scoring_category content',
+    'roles' => array(),
     'module' => 'node',
   );
 
@@ -1249,12 +1241,10 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own pg_race content.
-  $permissions['edit own pg_race content'] = array(
-    'name' => 'edit own pg_race content',
-    'roles' => array(
-      0 => 'editor',
-    ),
+  // Exported permission: edit own pg_scoring_category content.
+  $permissions['edit own pg_scoring_category content'] = array(
+    'name' => 'edit own pg_scoring_category content',
+    'roles' => array(),
     'module' => 'node',
   );
 

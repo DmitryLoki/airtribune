@@ -1,13 +1,15 @@
 .es-pane {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1; 
   color: #333a40;
+  padding-top: 22px;
 }
 .es-count {
-  font-size: 60px;
+  font-size: 50px;
   font-weight: bold;
   text-align: right;
-  min-width:66px;
+  min-width:86px;
+  margin-left: -13px;
 }
 .es-pilots,
 .es-places,
@@ -15,6 +17,8 @@
 .es-label {
   float: left;
 }
+.es-pilots,
+.es-places { height: 217px;}
 .es-label span {
   font-size: 14px;
   font-weight: normal;
@@ -23,7 +27,8 @@
   position:relative;
 }
 .es-label {
-  margin: 19px 0 0 12px;
+  margin: 14px 0 0 4px;
+  width: 130px;
 }
 .es-pilots-confirmed,
 .es-pilots-waiting,
@@ -69,3 +74,5 @@
 .es-activities .es-label span {
   color: #9f7a23;
 }
+
+.panel_info .es-pane .more-link { margin-left: -12px; margin-top: -3px;}

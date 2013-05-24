@@ -3,6 +3,7 @@
   <div id="tasks">
     <?php if ($primary_local_tasks): ?>
       <ul class="tabs primary clearfix"><?php print render($primary_local_tasks); ?></ul>
+      <?php if(isset($suffix)) { print '<ul class="primary_suffix clearfix">' . render($suffix) . '</ul>';} ?>
     <?php endif; ?>
     <?php if ($secondary_local_tasks): ?>
       <ul class="tabs secondary clearfix"><?php print render($secondary_local_tasks); ?></ul>

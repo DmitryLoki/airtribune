@@ -227,7 +227,7 @@
 
         $('.form-autocomplete')
             .bind('focusout', function () {
-                $('#autocomplete').remove();
+                Drupal.jsAC.prototype.hidePopup();
             })
             .bind('keydown', function (event) {
 
