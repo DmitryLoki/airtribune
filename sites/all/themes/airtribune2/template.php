@@ -1483,3 +1483,19 @@ function airtribune2_html_head_alter(&$head_elements) {
     }
   }
 }
+
+
+/**
+ * Preprocess theme_image_style().
+ * 
+ * Add corresponding classes for scoring winner images.
+ */
+function airtribune2_preprocess_image_style(&$variables) {
+  // Add extra classes for scoring_winner image_style images
+  if ($variables['style_name'] == 'scoring_winner') {
+    $variables['width'] >= $variables['height'];
+    $variables['attributes']['class'][] = $variables['width'] >= $variables['height']
+                                        ? 'scoring-winner-horizontal'
+                                        : 'scoring-winner-vertical';
+  }
+}
