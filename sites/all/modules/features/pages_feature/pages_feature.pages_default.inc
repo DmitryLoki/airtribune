@@ -2478,31 +2478,11 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane = new stdClass();
     $pane->pid = 'new-10';
     $pane->panel = 'middle';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'airtribune_disqus';
+    $pane->subtype = 'airtribune_disqus';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Disqus comments',
-      'title' => '',
-      'body' => '<?php
-    global $base_url;
-    $node_url = $base_url . \'/\' . drupal_get_path_alias(\'node/\' . arg(3));
-?>
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        var disqus_shortname = \'airtribune\';
-        var disqus_url = \'<?=$node_url?>\';
-        (function() {
-            var dsq = document.createElement(\'script\'); dsq.type = \'text/javascript\'; dsq.async = true;
-            dsq.src = \'//\' + disqus_shortname + \'.disqus.com/embed.js\';
-            (document.getElementsByTagName(\'head\')[0] || document.getElementsByTagName(\'body\')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>',
-      'format' => 'php_code',
-      'substitute' => 1,
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -4121,6 +4101,24 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $display->panels['event_brick_middle'][1] = 'new-50';
     $pane = new stdClass();
     $pane->pid = 'new-51';
+    $pane->panel = 'event_brick_middle';
+    $pane->type = 'airtribune_disqus';
+    $pane->subtype = 'airtribune_disqus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-51'] = $pane;
+    $display->panels['event_brick_middle'][2] = 'new-51';
+    $pane = new stdClass();
+    $pane->pid = 'new-52';
     $pane->panel = 'event_brick_top';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -4135,10 +4133,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-51'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-51';
+    $display->content['new-52'] = $pane;
+    $display->panels['event_brick_top'][0] = 'new-52';
     $pane = new stdClass();
-    $pane->pid = 'new-52';
+    $pane->pid = 'new-53';
     $pane->panel = 'event_brick_top';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -4159,10 +4157,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-52'] = $pane;
-    $display->panels['event_brick_top'][1] = 'new-52';
+    $display->content['new-53'] = $pane;
+    $display->panels['event_brick_top'][1] = 'new-53';
     $pane = new stdClass();
-    $pane->pid = 'new-53';
+    $pane->pid = 'new-54';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-panel_pane_1';
@@ -4197,10 +4195,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-53'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-53';
+    $display->content['new-54'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-54';
     $pane = new stdClass();
-    $pane->pid = 'new-54';
+    $pane->pid = 'new-55';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-active_activity_pane';
@@ -4235,10 +4233,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-54'] = $pane;
-    $display->panels['featured_header_padding'][1] = 'new-54';
+    $display->content['new-55'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-55';
     $pane = new stdClass();
-    $pane->pid = 'new-55';
+    $pane->pid = 'new-56';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -4257,10 +4255,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-55'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-55';
+    $display->content['new-56'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-56';
     $pane = new stdClass();
-    $pane->pid = 'new-56';
+    $pane->pid = 'new-57';
     $pane->panel = 'right';
     $pane->type = 'panels_mini';
     $pane->subtype = 'sidebar';
@@ -4281,10 +4279,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-56'] = $pane;
-    $display->panels['right'][0] = 'new-56';
+    $display->content['new-57'] = $pane;
+    $display->panels['right'][0] = 'new-57';
     $pane = new stdClass();
-    $pane->pid = 'new-57';
+    $pane->pid = 'new-58';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -4299,8 +4297,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-57'] = $pane;
-    $display->panels['top'][0] = 'new-57';
+    $display->content['new-58'] = $pane;
+    $display->panels['top'][0] = 'new-58';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4431,7 +4429,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-58';
+    $pane->pid = 'new-59';
     $pane->panel = 'middle';
     $pane->type = 'pilots_statistics';
     $pane->subtype = 'pilots_statistics';
@@ -4446,10 +4444,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-58'] = $pane;
-    $display->panels['middle'][0] = 'new-58';
+    $display->content['new-59'] = $pane;
+    $display->panels['middle'][0] = 'new-59';
     $pane = new stdClass();
-    $pane->pid = 'new-59';
+    $pane->pid = 'new-60';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -4482,10 +4480,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-59'] = $pane;
-    $display->panels['middle'][1] = 'new-59';
+    $display->content['new-60'] = $pane;
+    $display->panels['middle'][1] = 'new-60';
     $pane = new stdClass();
-    $pane->pid = 'new-60';
+    $pane->pid = 'new-61';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -4518,8 +4516,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-60'] = $pane;
-    $display->panels['middle'][2] = 'new-60';
+    $display->content['new-61'] = $pane;
+    $display->panels['middle'][2] = 'new-61';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4607,7 +4605,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-61';
+    $pane->pid = 'new-62';
     $pane->panel = 'one_main';
     $pane->type = 'custom';
     $pane->subtype = 'coming_soon';
@@ -4628,8 +4626,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-61'] = $pane;
-    $display->panels['one_main'][0] = 'new-61';
+    $display->content['new-62'] = $pane;
+    $display->panels['one_main'][0] = 'new-62';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4721,7 +4719,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-62';
+    $pane->pid = 'new-63';
     $pane->panel = 'middle';
     $pane->type = 'pilots_statistics';
     $pane->subtype = 'pilots_statistics';
@@ -4736,10 +4734,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-62'] = $pane;
-    $display->panels['middle'][0] = 'new-62';
+    $display->content['new-63'] = $pane;
+    $display->panels['middle'][0] = 'new-63';
     $pane = new stdClass();
-    $pane->pid = 'new-63';
+    $pane->pid = 'new-64';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -4772,10 +4770,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-63'] = $pane;
-    $display->panels['middle'][1] = 'new-63';
+    $display->content['new-64'] = $pane;
+    $display->panels['middle'][1] = 'new-64';
     $pane = new stdClass();
-    $pane->pid = 'new-64';
+    $pane->pid = 'new-65';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -4808,8 +4806,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-64'] = $pane;
-    $display->panels['middle'][2] = 'new-64';
+    $display->content['new-65'] = $pane;
+    $display->panels['middle'][2] = 'new-65';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4913,7 +4911,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-65';
+    $pane->pid = 'new-66';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_title';
@@ -4938,10 +4936,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-65'] = $pane;
-    $display->panels['middle'][0] = 'new-65';
+    $display->content['new-66'] = $pane;
+    $display->panels['middle'][0] = 'new-66';
     $pane = new stdClass();
-    $pane->pid = 'new-66';
+    $pane->pid = 'new-67';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_summary';
@@ -4966,10 +4964,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-66'] = $pane;
-    $display->panels['middle'][1] = 'new-66';
+    $display->content['new-67'] = $pane;
+    $display->panels['middle'][1] = 'new-67';
     $pane = new stdClass();
-    $pane->pid = 'new-67';
+    $pane->pid = 'new-68';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_scoring_categories-results_pane';
@@ -4984,8 +4982,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-67'] = $pane;
-    $display->panels['middle'][2] = 'new-67';
+    $display->content['new-68'] = $pane;
+    $display->panels['middle'][2] = 'new-68';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -5083,7 +5081,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-68';
+    $pane->pid = 'new-69';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -5102,13 +5100,121 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-68'] = $pane;
-    $display->panels['middle'][0] = 'new-68';
+    $display->content['new-69'] = $pane;
+    $display->panels['middle'][0] = 'new-69';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['event_sponsors'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'my_registrations';
+  $page->task = 'page';
+  $page->admin_title = 'My registrations';
+  $page->admin_description = 'Pilot\'s upcoming events.';
+  $page->path = 'user/%user/registrations';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_my_registrations_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'my_registrations';
+  $handler->handler = 'panel_context';
+  $handler->weight = -29;
+  $handler->conf = array(
+    'title' => 'My registrations',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'My registrations';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-70';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'my_registrations-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-70'] = $pane;
+    $display->panels['middle'][0] = 'new-70';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-70';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_my_registrations_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'my_registrations';
+  $handler->handler = 'http_response';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => '403',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'memberships_view',
+          'settings' => NULL,
+          'context' => 'argument_entity_id:user_1',
+          'not' => TRUE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['my_registrations'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -5193,7 +5299,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-70';
+    $pane->pid = 'new-71';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_player';
     $pane->subtype = 'airtribune_player';
@@ -5215,123 +5321,14 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-70'] = $pane;
-    $display->panels['middle'][0] = 'new-70';
+    $display->content['new-71'] = $pane;
+    $display->panels['middle'][0] = 'new-71';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['player'] = $page;
 
-  $page = new stdClass();
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'my_registrations';
-  $page->task = 'page';
-  $page->admin_title = 'My registrations';
-  $page->admin_description = 'Pilot\'s upcoming events.';
-  $page->path = 'user/%user/registrations';
-  $page->access = array();
-  $page->menu = array();
-  $page->arguments = array(
-    'user' => array(
-      'id' => 1,
-      'identifier' => 'User: ID',
-      'name' => 'entity_id:user',
-      'settings' => array(),
-    ),
-  );
-  $page->conf = array(
-    'admin_paths' => FALSE,
-  );
-  $page->default_handlers = array();
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_my_registrations_panel_context';
-  $handler->task = 'page';
-  $handler->subtask = 'my_registrations';
-  $handler->handler = 'panel_context';
-  $handler->weight = -29;
-  $handler->conf = array(
-    'title' => 'My registrations',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = 'My registrations';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-69';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'my_registrations-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-69'] = $pane;
-    $display->panels['middle'][0] = 'new-69';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-69';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_my_registrations_http_response';
-  $handler->task = 'page';
-  $handler->subtask = 'my_registrations';
-  $handler->handler = 'http_response';
-  $handler->weight = -30;
-  $handler->conf = array(
-    'title' => '403',
-    'contexts' => array(),
-    'relationships' => array(),
-    'code' => '403',
-    'destination' => '',
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'memberships_view',
-          'settings' => NULL,
-          'context' => 'argument_entity_id:user_1',
-          'not' => TRUE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['my_registrations'] = $page;
-  
-  
   return $pages;
 
 }
