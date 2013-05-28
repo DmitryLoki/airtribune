@@ -107,7 +107,7 @@ hide($content['links']);
 hide($content['field_url']);
 hide($content['field_collection_sponsors']);
 hide($content['sponsors']);
-if (!empty($content['sponsors'])) {
+if (!empty($content['sponsors'][0])) {
   // Add class for award with sponsors
   $classes .= ' with-sponsors';
 }

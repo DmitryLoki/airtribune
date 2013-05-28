@@ -14,9 +14,9 @@ function image_styles_feature_image_default_styles() {
   $styles['award'] = array(
     'name' => 'award',
     'effects' => array(
-      4 => array(
-        'label' => 'Resize',
-        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+      10 => array(
+        'label' => 'Изменение размера',
+        'help' => 'Изменение размера, делает изображение соответствующим введённым размерам, без соблюдения исходных пропорций. Это может привести к растягиванию или сплющиванию итогового изображения, если пропорции введённых размеров, не будут соответствовать пропорциям исходного изображения.',
         'effect callback' => 'image_resize_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
@@ -24,8 +24,74 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_resize',
         'data' => array(
-          'width' => '45',
-          'height' => '45',
+          'width' => '80',
+          'height' => '80',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award_details.
+  $styles['award_details'] = array(
+    'name' => 'award_details',
+    'effects' => array(
+      12 => array(
+        'label' => 'Масштабирование и обрезка',
+        'help' => '«Масштабирование и обрезка» сначала масштабирует изображение, а затем обрезает большее значение. Это наиболее эффективный способ создания миниатюр без искажения пропорций исходного изображения.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '140',
+          'height' => '140',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award_sponsor.
+  $styles['award_sponsor'] = array(
+    'name' => 'award_sponsor',
+    'effects' => array(
+      11 => array(
+        'label' => 'Масштабирование и обрезка',
+        'help' => '«Масштабирование и обрезка» сначала масштабирует изображение, а затем обрезает большее значение. Это наиболее эффективный способ создания миниатюр без искажения пропорций исходного изображения.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '140',
+          'height' => '80',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award_sponsor_details.
+  $styles['award_sponsor_details'] = array(
+    'name' => 'award_sponsor_details',
+    'effects' => array(
+      13 => array(
+        'label' => 'Масштабирование и обрезка',
+        'help' => '«Масштабирование и обрезка» сначала масштабирует изображение, а затем обрезает большее значение. Это наиболее эффективный способ создания миниатюр без искажения пропорций исходного изображения.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '240',
+          'height' => '140',
         ),
         'weight' => '1',
       ),

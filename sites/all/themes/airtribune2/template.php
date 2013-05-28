@@ -1010,6 +1010,7 @@ function airtribune2_field($variables) {
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' fields_contacts';
+      $colon = '';
       break;
 
     case 'field_gt_car':
