@@ -103,3 +103,7 @@ if($row->field_field_image){
   <?php print render($photos); ?>
 </div>
 <?php endif; ?>
+
+<?php if (!empty($fields['view_link']->content)): ?>
+  <a href="#map">Task</a>
+<?php endif; ?>
