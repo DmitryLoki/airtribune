@@ -406,6 +406,29 @@ function airtribune2_process_node(&$vars) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
   }
+  
+  /* paragliding scoring category */
+  else if ($vars['node']->type == 'pg_scoring_category') {
+    
+    // Unset body on info page
+    // @TODO: remove use arg()
+    if (arg(0) == 'event' && arg(2) == 'info') {
+      unset($vars['content']['field_plain_body']);
+    }
+    
+    if (isset($vars['content']['field_collection_sponsors'])) {
+      // Return to the node tpl array of field collection items
+      $fc = $vars['content']['field_collection_sponsors'];
+      $field_collection_items = array();
+      if (isset($fc[0])) {
+        foreach ($fc['#items'] as $delta => $data) {
+          $item = field_collection_field_get_entity($fc[$delta]);
+          $field_collection_items[] = $item['field_collection_item'][$data['value']];
+        }
+      }
+      $vars['content']['sponsors'] = $field_collection_items;
+    }
+  }
 
   /* If teaser */
   else if ($vars['teaser']){
