@@ -19,6 +19,10 @@ $plugin = array(
  * Render airtribune event sharelinks pane.
  */
 function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $conf, $panel_args, $context) {
+  // don't render share links pane on user profile pages
+  if (arg(0) == 'user' || strpos(arg(0), "profile-") !== FALSE) {
+    return;
+  }
 
   if (empty($context) || empty($context->data)) {
     return;
