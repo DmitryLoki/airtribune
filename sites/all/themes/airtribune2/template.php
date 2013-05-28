@@ -322,6 +322,9 @@ function airtribune2_preprocess_node(&$vars) {
     $vars['title'] = '';
     $vars['user_picture'] = '';
   }
+  if ($vars['node']->type == 'activity') {
+    drupal_set_title('Grandstand sporting events');
+  }
 
 }
 
