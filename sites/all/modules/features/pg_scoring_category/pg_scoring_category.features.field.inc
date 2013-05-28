@@ -49,6 +49,7 @@ function pg_scoring_category_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_scoring_category',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -219,117 +220,6 @@ Junior',
         ),
         'type' => 'select_or_other',
         'weight' => '1',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_scoring_category-field_results_ref'.
-  $fields['node-pg_scoring_category-field_results_ref'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_results_ref',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
-      'indexes' => array(
-        'target_id' => array(
-          0 => 'target_id',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'entityreference',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'handler' => 'base',
-        'handler_settings' => array(
-          'behaviors' => array(
-            'views-select-list' => array(
-              'status' => 0,
-            ),
-          ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'default' => 'default',
-          ),
-        ),
-        'profile2_private' => FALSE,
-        'target_type' => 'file',
-      ),
-      'translatable' => '0',
-      'type' => 'entityreference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_scoring_category',
-      'default_value' => array(),
-      'default_value_function' => '',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 6,
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 1,
-      'field_name' => 'field_results_ref',
-      'label' => 'Results',
-      'options_limit' => FALSE,
-      'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(),
-      'required' => 0,
-      'settings' => array(
-        'behaviors' => array(
-          'prepopulate' => array(
-            'status' => 0,
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'entityreference',
-        'settings' => array(
-          'fields' => array(),
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
-          'type_settings' => array(),
-        ),
-        'type' => 'entityreference_autocomplete',
-        'weight' => '6',
       ),
     ),
   );
@@ -797,7 +687,6 @@ Junior',
   // Included for use with string extractors like potx.
   t('Awards photos');
   t('Groups audience');
-  t('Results');
   t('Results story');
   t('Results winners');
   t('Scoring category');

@@ -16,7 +16,6 @@ features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[field][] = node-pg_scoring_category-field_awards_photos
 features[field][] = node-pg_scoring_category-field_pg_scoring_category
-features[field][] = node-pg_scoring_category-field_results_ref
 features[field][] = node-pg_scoring_category-field_results_story
 features[field][] = node-pg_scoring_category-field_results_winners
 features[field][] = node-pg_scoring_category-field_single_image
