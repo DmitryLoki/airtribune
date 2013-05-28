@@ -2083,7 +2083,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'role',
           'settings' => array(
             'rids' => array(
-              0 => 4,
+              0 => 3,
               1 => 7,
             ),
           ),
@@ -2604,7 +2604,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'role',
           'settings' => array(
             'rids' => array(
-              0 => 4,
+              0 => 3,
               1 => 7,
             ),
           ),
@@ -4555,7 +4555,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'role',
           'settings' => array(
             'rids' => array(
-              0 => 4,
+              0 => 3,
               1 => 7,
             ),
           ),
