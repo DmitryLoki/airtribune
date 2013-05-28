@@ -322,6 +322,10 @@ function airtribune2_preprocess_node(&$vars) {
     $vars['title'] = '';
     $vars['user_picture'] = '';
   }
+  if ($vars['node']->type == 'activity') {
+    $vars['notitle'] = true;
+    $vars['title'] = '';
+  }
 
 }
 
