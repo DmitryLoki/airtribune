@@ -12,68 +12,19 @@ $plugin = array(
   'title' => t('Airtrubune share links'),
   'single' => TRUE,
   'category' => array('Airtribune'),
-  'required context' => array (
-    new ctools_context_required(t('Event'), 'node'),
-    new ctools_context_required(t('Node'), 'node'),
-  ),
+  'required context' => new ctools_context_required(t('Node'), 'node'),
 );
 
 /**
  * Render airtribune sharelinks pane.
  */
 function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $conf, $panel_args, $context) {
-<<<<<<< HEAD
-  global $base_url;
-  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_event_sharelinks';
-
-  // get inner path, like event/1234/pilots
-  $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
-  $alias = "";
-
-  // <front>
-  if (empty($context) || empty($context->data)) {
-
-    if (arg(0) && arg(1)) {
-      $alias = drupal_get_path_alias($path);
-    }
-  }
-  // event / newsblog / other node
-  else {
-    $node = $context->data;
-    $content['widget']['#markup'] = '';
-    $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-sharelinks'));
-    $content['#theme_wrappers'] = array('container');
-
-    // if we have two args - event nid & accommodation/activity nid, like event/[nid]/map/[nid]
-    // make link to single accommodation / activity
-    if (count($panel_args) == 2 && $panel_args[1] != 'details') {
-      $map_node = node_load($panel_args[1]);
-      if ($map_node->type == "accommodation" || $map_node->type == "activity") {
-        $alias = drupal_get_path_alias('node/' . $map_node->nid);      
-      }
-    }
-    // event/nid/* - sharelink change by event tab
-    elseif ($node->type == 'pg_contest') {
-      $end = "/";
-      if (strpos($path, "map")) $end .= "map";
-      if (strpos($path, "pilots")) $end .= "pilots";
-      if (strpos($path, "results")) $end .= "results";
-      if (strpos($path, "info") || strpos($path, "info/details") || strpos($path, "register"))  $end .= "info";
-      $alias = drupal_get_path_alias('event/' . $node->nid . $end);
-      // every blog page must have own url
-      if (strpos($path, "blog")) $alias = drupal_get_path_alias($path);
-    }
-    // node/nid
-    else {
-      $alias = drupal_get_path_alias('node/' . $node->nid);
-    }
-  }
-=======
 //  dpm($context,'context');
 //  dpm($panel_args,'panels_args');
 //  dpm($conf,'conf');
 
   // don't render share links pane on user profile pages
+  // @see #3257
   if (arg(0) == 'user' || strpos(arg(0), "profile-") !== FALSE) {
     return;
   }
@@ -110,7 +61,6 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
   }
 
   global $base_url;
->>>>>>> ce1380bf6f7591c59899cbf2d03ba65590357d37
   $sharelinks_url = $base_url . '/' . $alias;
 
   // set by default horizontal balloon style
