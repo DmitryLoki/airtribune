@@ -2599,6 +2599,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'pg_contest node';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_pg_racetype_ref_target_id']['id'] = 'field_pg_racetype_ref_target_id';
+  $handler->display->display_options['relationships']['field_pg_racetype_ref_target_id']['table'] = 'field_data_field_pg_racetype_ref';
+  $handler->display->display_options['relationships']['field_pg_racetype_ref_target_id']['field'] = 'field_pg_racetype_ref_target_id';
+  $handler->display->display_options['relationships']['field_pg_racetype_ref_target_id']['relationship'] = 'reverse_field_day_ref_ent_race';
   /* Field: Race ID - excluded */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -2774,15 +2779,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Field: Race: Paragliding Race Type reference */
-  $handler->display->display_options['fields']['field_pg_racetype_ref']['id'] = 'field_pg_racetype_ref';
-  $handler->display->display_options['fields']['field_pg_racetype_ref']['table'] = 'field_data_field_pg_racetype_ref';
-  $handler->display->display_options['fields']['field_pg_racetype_ref']['field'] = 'field_pg_racetype_ref';
-  $handler->display->display_options['fields']['field_pg_racetype_ref']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_pg_racetype_ref']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['field_pg_racetype_ref']['settings'] = array(
-    'link' => 0,
-  );
+  /* Field: Race type: Id */
+  $handler->display->display_options['fields']['id_1']['id'] = 'id_1';
+  $handler->display->display_options['fields']['id_1']['table'] = 'eck_ent_racetype';
+  $handler->display->display_options['fields']['id_1']['field'] = 'id';
+  $handler->display->display_options['fields']['id_1']['relationship'] = 'field_pg_racetype_ref_target_id';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -2841,13 +2842,15 @@ function views_feature_views_default_views() {
     t('pg_contest'),
     t('pg_race'),
     t('pg_contest node'),
+    t('Race type entity referenced from field_pg_racetype_ref'),
     t('.'),
     t('Results'),
     t('Tracks'),
     t('IGC'),
     t('_blank'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
-    t('Paragliding Race Type reference'),
+    t('Id'),
+    t(','),
     t('All'),
     t('Content pane'),
     t('View panes'),
