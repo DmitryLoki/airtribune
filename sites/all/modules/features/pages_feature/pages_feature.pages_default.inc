@@ -5148,9 +5148,14 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->task = 'page';
   $page->admin_title = 'My registrations';
   $page->admin_description = 'Pilot\'s upcoming events.';
-  $page->path = 'user/%user/registrations';
+  $page->path = 'account/%user/registrations';
   $page->access = array();
-  $page->menu = array();
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'My registrations',
+    'name' => 'navigation',
+    'weight' => '0',
+  );
   $page->arguments = array(
     'user' => array(
       'id' => 1,
@@ -5180,7 +5185,16 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Profile2 from user',
+        'keyword' => 'profile2',
+        'name' => 'profile2',
+        'type' => 'main',
+        'context' => 'argument_entity_id:user_1',
+        'id' => 1,
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -5192,7 +5206,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = 'My registrations';
+  $display->title = '%profile2:field_full_name';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
