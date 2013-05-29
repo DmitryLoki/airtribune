@@ -76,6 +76,10 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
+<?php if (!empty($fields['view_link']->content)): ?>
+  <a href="#map" class="task_link"><span>Task</span></a>
+<?php endif; ?>
+
 <?php if (!empty($fields['view'])): ?>
   <?php print $fields['view']->wrapper_prefix; ?>
   <?php print $fields['view']->label_html; ?>
@@ -102,8 +106,4 @@ if($row->field_field_image){
 <div class="field-name-field-image">
   <?php print render($photos); ?>
 </div>
-<?php endif; ?>
-
-<?php if (!empty($fields['view_link']->content)): ?>
-  <a href="#map">Task</a>
 <?php endif; ?>

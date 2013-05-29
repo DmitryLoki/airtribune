@@ -13,7 +13,7 @@
     <div id="page">
       <div class="region_inner">
 
-        <div class="featured-header at-panel clearfix">
+        <div class="featured-header at-panel clearfix"><a id="map"></a>
 
           <?php if ($content['featured_header_title']): ?>
             <div class="featured-header-title">

@@ -1593,7 +1593,12 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
 
 .pane-event-days-panel-pane-1 .views-field-view,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: inline-block; position: relative; margin: 11px 10px 9px;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks,
+.pane-event-days-panel-pane-1 .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
+.pane-event-days-panel-pane-1 .task_link { width: 40px; height: 40px; background: url(../images/track.png) no-repeat 0 0; overflow: hidden;}
+.pane-event-days-panel-pane-1 .task_link:hover { background-position: 0 -40px;}
+.pane-event-days-panel-pane-1 .task_link:active { background-position: 0 -80px;}
+.pane-event-days-panel-pane-1 .task_link span { position: absolute; left: -9999px;}
 .pane-event-days-panel-pane-1 .views-field-view .views-label,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label,
 .pane-event-days-panel-pane-1 .views-field-view .field-content,
