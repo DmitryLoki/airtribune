@@ -2956,3 +2956,5 @@ table tr td.:first-child { border-left: none;}
 #airtribune-player .gmap {}
 #airtribune-player .gmap > div > .gmnoprint:nth-child(3n+1) { top: 121px !important; left: 37px !important;}
 #airtribune-player .gmap > div > .gmnoprint:last-child { top: 124px !important; right: 40px !important;}
+
+.setUserVisualMode { display: none;}

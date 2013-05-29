@@ -3,7 +3,8 @@ jQuery(function ($) {
   var airvisWidget,
     accordion;
 
-  var headerPictureContainer = $('.pane-header-slideshow-event-header'),
+  var
+    headerPictureContainer = $('.pane-header-slideshow-event-header'),
     raceDataTextBlock = $('.field-name-field-dates .field-item'),
     raceInfo = $('<div class="field field-name-field-race-info"></div>'),
     faiCategory = $('.field-name-field-fai-category');
@@ -100,4 +101,19 @@ jQuery(function ($) {
     }
 
   }
+
+  var setUserVisualModeLink = $('.setUserVisualMode'),
+    setProfVisualModeLink = $('.setProfVisualMode'),
+    bothLinks = $([setUserVisualModeLink,setProfVisualModeLink]);
+
+  setUserVisualModeLink.bind('click', function() {
+    airvisWidget.profVisualMode("user");
+    bothLinks.toggle();
+  });
+
+  setProfVisualModeLink.bind('click', function() {
+    airvisWidget.profVisualMode("prof");
+    bothLinks.toggle();
+  });
+
 });
