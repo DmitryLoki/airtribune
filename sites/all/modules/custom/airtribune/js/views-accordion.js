@@ -66,7 +66,7 @@
     scrollToActiveTab: function (accordion) {
       var $active = $(accordion.active);
       if ($active.length !== 0) {
-        $(document).scrollTop($active.offset().top);
+        $('body,html').animate({scrollTop:$active.offset().top}, 400);
       }
     },
     getDayFromHash: function () {

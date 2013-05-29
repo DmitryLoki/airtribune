@@ -76,7 +76,7 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
-<?php if (!empty($fields['view_link']->content)): ?>
+<?php if (!empty($fields['field_pg_racetype_ref']->content)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
 

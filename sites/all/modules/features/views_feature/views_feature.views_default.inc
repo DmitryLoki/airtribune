@@ -2774,11 +2774,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Field: Race: Link */
-  $handler->display->display_options['fields']['view_link']['id'] = 'view_link';
-  $handler->display->display_options['fields']['view_link']['table'] = 'eck_ent_race';
-  $handler->display->display_options['fields']['view_link']['field'] = 'view_link';
-  $handler->display->display_options['fields']['view_link']['relationship'] = 'reverse_field_day_ref_ent_race';
+  /* Field: Race: Paragliding Race Type reference */
+  $handler->display->display_options['fields']['field_pg_racetype_ref']['id'] = 'field_pg_racetype_ref';
+  $handler->display->display_options['fields']['field_pg_racetype_ref']['table'] = 'field_data_field_pg_racetype_ref';
+  $handler->display->display_options['fields']['field_pg_racetype_ref']['field'] = 'field_pg_racetype_ref';
+  $handler->display->display_options['fields']['field_pg_racetype_ref']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_pg_racetype_ref']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_racetype_ref']['settings'] = array(
+    'link' => 0,
+  );
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -2843,7 +2847,7 @@ function views_feature_views_default_views() {
     t('IGC'),
     t('_blank'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
-    t('Link'),
+    t('Paragliding Race Type reference'),
     t('All'),
     t('Content pane'),
     t('View panes'),
