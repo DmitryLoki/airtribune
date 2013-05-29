@@ -80,8 +80,6 @@ function _airtribune_airtribune_race_preview_get_race_preview ($contestId, $race
   $output = "<script  data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div role=\"main\" class=\"airvis-container\">
       <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", contestId: \"{$contestId}\", raceId: \"{$raceId}\", width: \"{$widgetWidth}\", height: \"{$widgetHeight}\", callback: window.airvisPageLoadedCallback, mode: \"simple\", apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,scrollwheel:false} } --><!-- /ko -->
-      <a href=\"#\" class=\"setUserVisualMode\">User Mode</a>
-      <a href=\"#\" class=\"setProfVisualMode\">Profi Mode</a>
     </div>";
   return $output;
 }

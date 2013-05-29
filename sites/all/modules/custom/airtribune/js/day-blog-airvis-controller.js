@@ -101,19 +101,4 @@ jQuery(function ($) {
     }
 
   }
-
-  var setUserVisualModeLink = $('.setUserVisualMode'),
-    setProfVisualModeLink = $('.setProfVisualMode'),
-    bothLinks = $([setUserVisualModeLink,setProfVisualModeLink]);
-
-  setUserVisualModeLink.bind('click', function() {
-    airvisWidget.profVisualMode("user");
-    bothLinks.toggle();
-  });
-
-  setProfVisualModeLink.bind('click', function() {
-    airvisWidget.profVisualMode("prof");
-    bothLinks.toggle();
-  });
-
 });
