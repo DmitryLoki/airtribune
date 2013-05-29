@@ -409,6 +409,35 @@ function airtribune2_process_node(&$vars) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
   }
+  
+  /**
+   *  paragliding scoring category 
+   * 
+   * @see #3265
+   * @author Vyacheslav Malchik <info@vkey.biz>
+   */
+  else if ($vars['node']->type == 'pg_scoring_category') {
+    $view_mode = 'event_details_page';
+    // @TODO: remove use arg()
+    if (arg(0) == 'event' && arg(2) == 'info' && arg(3) != 'details') {
+      // Change view mode on info page
+      $view_mode = 'event_info_page';
+    }
+    
+    if (isset($vars['content']['field_collection_sponsors'])) {
+      // Return to the node tpl array of field collection items
+      $fc = $vars['content']['field_collection_sponsors'];
+      $field_collection_items = array();
+      if (isset($fc[0])) {
+        foreach ($fc['#items'] as $delta => $data) {
+           // Render item with custom view mode
+          $item = entity_view('field_collection_item',array(field_collection_field_get_entity($fc['#items'][$delta])), $view_mode);
+          $field_collection_items[] = $item['field_collection_item'][$data['value']];
+        }
+      }
+      $vars['content']['sponsors'] = $field_collection_items;
+    }
+  }
 
   /* If teaser */
   else if ($vars['teaser']){
@@ -990,6 +1019,7 @@ function airtribune2_field($variables) {
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' fields_contacts';
+      $colon = '';
       break;
 
     case 'field_gt_car':

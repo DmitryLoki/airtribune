@@ -471,110 +471,6 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'entityreference:base-tables';
-  $strongarm->value = array(
-    'node' => array(
-      0 => 'node',
-      1 => 'nid',
-    ),
-    'taxonomy_term' => array(
-      0 => 'taxonomy_term_data',
-      1 => 'tid',
-    ),
-    'country' => array(
-      0 => 'countries_country',
-      1 => 'cid',
-    ),
-    'ent_contest_point' => array(
-      0 => 'eck_ent_contest_point',
-      1 => 'id',
-    ),
-    'ent_featured_header' => array(
-      0 => 'eck_ent_featured_header',
-      1 => 'id',
-    ),
-    'ent_point' => array(
-      0 => 'eck_ent_point',
-      1 => 'id',
-    ),
-    'ent_race' => array(
-      0 => 'eck_ent_race',
-      1 => 'id',
-    ),
-    'ent_racetype' => array(
-      0 => 'eck_ent_racetype',
-      1 => 'id',
-    ),
-    'ent_track' => array(
-      0 => 'eck_ent_track',
-      1 => 'id',
-    ),
-    'ent_tracker' => array(
-      0 => 'eck_ent_tracker',
-      1 => 'id',
-    ),
-    'ent_tracker_model' => array(
-      0 => 'eck_ent_tracker_model',
-      1 => 'id',
-    ),
-    'ent_tracker_type' => array(
-      0 => 'eck_ent_tracker_type',
-      1 => 'id',
-    ),
-    'ent_trackerset' => array(
-      0 => 'eck_ent_trackerset',
-      1 => 'id',
-    ),
-    'field_collection_item' => array(
-      0 => 'field_collection_item',
-      1 => 'item_id',
-    ),
-    'i18n_translation' => array(
-      0 => 'i18n_translation_set',
-      1 => 'tsid',
-    ),
-    'og_membership_type' => array(
-      0 => 'og_membership_type',
-      1 => 'id',
-    ),
-    'og_membership' => array(
-      0 => 'og_membership',
-      1 => 'id',
-    ),
-    'profile2' => array(
-      0 => 'profile',
-      1 => 'pid',
-    ),
-    'profile2_type' => array(
-      0 => 'profile_type',
-      1 => 'id',
-    ),
-    'relation' => array(
-      0 => 'relation',
-      1 => 'rid',
-    ),
-    'file' => array(
-      0 => 'file_managed',
-      1 => 'fid',
-    ),
-    'taxonomy_vocabulary' => array(
-      0 => 'taxonomy_vocabulary',
-      1 => 'vid',
-    ),
-    'user' => array(
-      0 => 'users',
-      1 => 'uid',
-    ),
-    'rules_config' => array(
-      0 => 'rules_config',
-      1 => 'id',
-    ),
-  );
-  $export['entityreference:base-tables'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'entity_translation_entity_types';
   $strongarm->value = array(
     'node' => 'node',
@@ -786,6 +682,110 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'entityreference:base-tables';
+  $strongarm->value = array(
+    'node' => array(
+      0 => 'node',
+      1 => 'nid',
+    ),
+    'taxonomy_term' => array(
+      0 => 'taxonomy_term_data',
+      1 => 'tid',
+    ),
+    'country' => array(
+      0 => 'countries_country',
+      1 => 'cid',
+    ),
+    'ent_contest_point' => array(
+      0 => 'eck_ent_contest_point',
+      1 => 'id',
+    ),
+    'ent_featured_header' => array(
+      0 => 'eck_ent_featured_header',
+      1 => 'id',
+    ),
+    'ent_point' => array(
+      0 => 'eck_ent_point',
+      1 => 'id',
+    ),
+    'ent_race' => array(
+      0 => 'eck_ent_race',
+      1 => 'id',
+    ),
+    'ent_racetype' => array(
+      0 => 'eck_ent_racetype',
+      1 => 'id',
+    ),
+    'ent_track' => array(
+      0 => 'eck_ent_track',
+      1 => 'id',
+    ),
+    'ent_tracker' => array(
+      0 => 'eck_ent_tracker',
+      1 => 'id',
+    ),
+    'ent_tracker_model' => array(
+      0 => 'eck_ent_tracker_model',
+      1 => 'id',
+    ),
+    'ent_tracker_type' => array(
+      0 => 'eck_ent_tracker_type',
+      1 => 'id',
+    ),
+    'ent_trackerset' => array(
+      0 => 'eck_ent_trackerset',
+      1 => 'id',
+    ),
+    'field_collection_item' => array(
+      0 => 'field_collection_item',
+      1 => 'item_id',
+    ),
+    'i18n_translation' => array(
+      0 => 'i18n_translation_set',
+      1 => 'tsid',
+    ),
+    'og_membership_type' => array(
+      0 => 'og_membership_type',
+      1 => 'id',
+    ),
+    'og_membership' => array(
+      0 => 'og_membership',
+      1 => 'id',
+    ),
+    'profile2' => array(
+      0 => 'profile',
+      1 => 'pid',
+    ),
+    'profile2_type' => array(
+      0 => 'profile_type',
+      1 => 'id',
+    ),
+    'relation' => array(
+      0 => 'relation',
+      1 => 'rid',
+    ),
+    'file' => array(
+      0 => 'file_managed',
+      1 => 'fid',
+    ),
+    'taxonomy_vocabulary' => array(
+      0 => 'taxonomy_vocabulary',
+      1 => 'vid',
+    ),
+    'user' => array(
+      0 => 'users',
+      1 => 'uid',
+    ),
+    'rules_config' => array(
+      0 => 'rules_config',
+      1 => 'id',
+    ),
+  );
+  $export['entityreference:base-tables'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_featured_header__ent_featured_header';
   $strongarm->value = array(
     'view_modes' => array(
@@ -830,19 +830,6 @@ function variables_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
-  $strongarm->value = array(
-    'view_modes' => array(),
-    'extra_fields' => array(
-      'form' => array(),
-      'display' => array(),
-    ),
-  );
-  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ent_track__track';
   $strongarm->value = array(
     'view_modes' => array(
@@ -856,6 +843,19 @@ function variables_strongarm() {
     ),
   );
   $export['field_bundle_settings_ent_track__track'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_ent_tracker__device';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_ent_tracker__device'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -1403,33 +1403,35 @@ function variables_strongarm() {
     25 => 59,
     26 => 58,
     27 => 56,
-    28 => 44,
-    29 => 39,
-    30 => 31,
-    31 => 30,
-    32 => 29,
-    33 => 28,
-    34 => 27,
-    35 => 26,
-    36 => 24,
-    37 => 23,
-    38 => 22,
-    39 => 21,
-    40 => 19,
-    41 => 15,
-    42 => 14,
-    43 => 13,
-    44 => 12,
-    45 => 11,
-    46 => 10,
-    47 => 9,
-    48 => 8,
-    49 => 7,
-    50 => 6,
-    51 => 5,
-    52 => 3,
-    53 => 2,
-    54 => 1,
+    28 => 48,
+    29 => 44,
+    30 => 39,
+    31 => 31,
+    32 => 30,
+    33 => 29,
+    34 => 28,
+    35 => 27,
+    36 => 26,
+    37 => 24,
+    38 => 23,
+    39 => 22,
+    40 => 21,
+    41 => 19,
+    42 => 15,
+    43 => 14,
+    44 => 13,
+    45 => 12,
+    46 => 11,
+    47 => 10,
+    48 => 9,
+    49 => 8,
+    50 => 7,
+    51 => 6,
+    52 => 5,
+    53 => 4,
+    54 => 3,
+    55 => 2,
+    56 => 1,
   );
   $export['menu_masks'] = $strongarm;
 

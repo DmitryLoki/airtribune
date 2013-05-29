@@ -2796,7 +2796,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-14';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'views_panes';
-    $pane->subtype = 'contest_scoring_categories-awards_pane';
+    $pane->subtype = 'contest_scoring_categories-awards_pane_with_sponsors';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -3898,7 +3898,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-48';
     $pane->panel = 'event_brick_top';
     $pane->type = 'views_panes';
-    $pane->subtype = 'contest_scoring_categories-awards_pane';
+    $pane->subtype = 'contest_scoring_categories-awards_pane_with_sponsors';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
