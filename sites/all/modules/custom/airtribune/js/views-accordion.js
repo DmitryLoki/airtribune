@@ -66,7 +66,7 @@
     scrollToActiveTab: function (accordion) {
       var $active = $(accordion.active);
       if ($active.length !== 0) {
-        $('body,html').animate({scrollTop:$active.offset().top}, 400);
+        $('body,html').animate({scrollTop: $active.offset().top}, 400);
       }
     },
     getDayFromHash: function () {
@@ -87,4 +87,17 @@
       }
     }
   };
+
+  $(function() {
+    //Scroll to map from day
+    var scrollBody = $('html,body')
+      mapTopOffset = $('#map').offset().top;
+
+    $('.task_link').bind('click', function (event) {
+      event.preventDefault();
+      scrollBody.animate({scrollTop: mapTopOffset}, 400);
+    });
+
+  });
+
 })(jQuery.noConflict());
