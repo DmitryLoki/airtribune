@@ -415,10 +415,9 @@ function airtribune2_process_node(&$vars) {
    */
   else if ($vars['node']->type == 'pg_scoring_category') {
     $view_mode = 'event_details_page';
-    // Unset body on info page
     // @TODO: remove use arg()
     if (arg(0) == 'event' && arg(2) == 'info' && arg(3) != 'details') {
-      unset($vars['content']['field_plain_body']);
+      // Change view mode on info page
       $view_mode = 'event_info_page';
     }
     
