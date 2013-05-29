@@ -104,7 +104,6 @@
 
 $classes = 'award-item';
 hide($content['links']);
-hide($content['field_url']);
 hide($content['field_collection_sponsors']);
 hide($content['sponsors']);
 if (!empty($content['sponsors'][0])) {
@@ -115,12 +114,12 @@ if (!empty($content['sponsors'][0])) {
 <div class="<?php print $classes; ?>">
     <?php print render($content['field_pg_scoring_category']); ?>
     <?php print render($content); ?>
-    <?php foreach($content['sponsors'] as $delta => $data) : dsm($data);?>
+    <?php foreach($content['sponsors'] as $delta => $data) : ?>
       <?php if (isset($data['field_url'][0])) : ?>
         <div class="sponsor-item">
           <span><?php print t('Prizes by'); ?></span>
           <?php print render($data['field_url']); ?>
-          <?php print render($data['field_awards_text']); ?>
+          <?php print render($data['field_plain_body']); ?>
           <?php print render($data['field_organizer_logo']); ?>
           <?php print render($data['field_awards_photos']); ?>
         </div>

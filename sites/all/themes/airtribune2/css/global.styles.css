@@ -2103,7 +2103,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .award-item .sponsor-item span { float: left; padding: 0 5px 7px 25px;}
 .award-item .field-name-field-url a { color: #00aeef; text-decoration: underline; float: left;}
 .award-item .field-name-field-url a:hover { text-decoration: none;}
-.award-item .field-name-field-awards-text { clear: both; color: #525c66; font: italic 14px/16px Arial, Helvetica, sans-serif; padding: 0 0 9px 25px; top: -3px; position: relative;}
+.award-item .field-name-field-plain-body { clear: both; color: #525c66; font: italic 14px/16px Arial, Helvetica, sans-serif; padding: 0 0 9px 25px; top: -3px; position: relative;}
 .award-item .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
 .award-item .field-name-field-awards-photos { float: left; margin-bottom: 9px; margin-right: -16px;}
 .award-item .field-name-field-awards-photos .field-item { float: left; padding-left: 8px;}
