@@ -1,7 +1,7 @@
-Drupal.behaviors.views_accordion = {
-  attach: function () {
-    if (Drupal.settings.views_accordion) {
-      (function ($) {
+(function ($) {
+  Drupal.behaviors.views_accordion = {
+    attach: function () {
+      if (Drupal.settings.views_accordion) {
         $.each(Drupal.settings.views_accordion, function (id) {
           /* Our view settings */
           var usegroupheader = this.usegroupheader;
@@ -40,7 +40,7 @@ Drupal.behaviors.views_accordion = {
           var activePane = Drupal.behaviors.views_accordion.getDayFromHash() || this.rowstartopen;
           /* jQuery UI accordion call */
           var accordionElement = $(displaySelector + ':not(.ui-accordion)');
-          if(accordionElement.length === 0) {
+          if (accordionElement.length === 0) {
             return;
           }
           accordionElement.accordion({
@@ -53,30 +53,38 @@ Drupal.behaviors.views_accordion = {
             fillSpace: this.fillspace,
             navigation: this.navigation,
             clearstyle: this.clearstyle,
-            change: function() {
-              Drupal.behaviors.views_accordion.updateHash($(this).data('accordion'));
+            change: function () {
+              var accordion = $(this).data('accordion');
+              Drupal.behaviors.views_accordion.updateHash(accordion);
+              Drupal.behaviors.views_accordion.scrollToActiveTab(accordion);
             }
           });
           Drupal.behaviors.views_accordion.updateHash(accordionElement.data('accordion'));
         });
-      })(jQuery);
+      }
+    },
+    scrollToActiveTab: function (accordion) {
+      var $active = $(accordion.active);
+      if ($active.length !== 0) {
+        $(document).scrollTop($active.offset().top);
+      }
+    },
+    getDayFromHash: function () {
+      var hash = location.hash.match(/day_\d+$/);
+      if (hash !== null) {
+        return parseInt(hash, 10);
+      } else if (location.hash === '#!') {
+        return -1;
+      }
+      return undefined;
+    },
+    updateHash: function (accordion) {
+      //if there is active page - set hash with its
+      if (accordion.active.length !== 0) {
+        location.hash = accordion.active.find('a').attr('href');
+      } else {
+        location.hash = '#!';
+      }
     }
-  },
-  getDayFromHash: function() {
-    var hash = location.hash.match(/day_\d+$/);
-    if(hash !== null) {
-      return parseInt(hash, 10);
-    } else if(location.hash === '#!') {
-      return -1;
-    }
-    return undefined;
-  },
-  updateHash: function(accordion) {
-    //if there is active page - set hash with its
-    if(accordion.active.length !== 0) {
-      location.hash = accordion.active.find('a').attr('href');
-    } else {
-      location.hash = '#!';
-    }
-  }
-};
+  };
+})(jQuery.noConflict());

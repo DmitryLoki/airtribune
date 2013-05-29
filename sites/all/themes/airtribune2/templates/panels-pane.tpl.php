@@ -17,6 +17,7 @@
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
  */
+//print $pane->type . '<br />' . $pane->subtype;
 ?>
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
