@@ -407,13 +407,19 @@ function airtribune2_process_node(&$vars) {
     }
   }
   
-  /* paragliding scoring category */
+  /**
+   *  paragliding scoring category 
+   * 
+   * @see #3265
+   * @author Vyacheslav Malchik <info@vkey.biz>
+   */
   else if ($vars['node']->type == 'pg_scoring_category') {
-    
+    $view_mode = 'event_details_page';
     // Unset body on info page
     // @TODO: remove use arg()
-    if (arg(0) == 'event' && arg(2) == 'info') {
+    if (arg(0) == 'event' && arg(2) == 'info' && arg(3) != 'details') {
       unset($vars['content']['field_plain_body']);
+      $view_mode = 'event_info_page';
     }
     
     if (isset($vars['content']['field_collection_sponsors'])) {
@@ -422,7 +428,8 @@ function airtribune2_process_node(&$vars) {
       $field_collection_items = array();
       if (isset($fc[0])) {
         foreach ($fc['#items'] as $delta => $data) {
-          $item = field_collection_field_get_entity($fc[$delta]);
+           // Render item with custom view mode
+          $item = entity_view('field_collection_item',array(field_collection_field_get_entity($fc['#items'][$delta])), $view_mode);
           $field_collection_items[] = $item['field_collection_item'][$data['value']];
         }
       }
