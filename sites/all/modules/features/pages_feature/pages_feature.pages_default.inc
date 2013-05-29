@@ -5115,9 +5115,14 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->task = 'page';
   $page->admin_title = 'My registrations';
   $page->admin_description = 'Pilot\'s upcoming events.';
-  $page->path = 'user/%user/registrations';
+  $page->path = 'account/%user/registrations';
   $page->access = array();
-  $page->menu = array();
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'My registrations',
+    'name' => 'navigation',
+    'weight' => '0',
+  );
   $page->arguments = array(
     'user' => array(
       'id' => 1,
@@ -5147,7 +5152,16 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Profile2 from user',
+        'keyword' => 'profile2',
+        'name' => 'profile2',
+        'type' => 'main',
+        'context' => 'argument_entity_id:user_1',
+        'id' => 1,
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -5159,7 +5173,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = 'My registrations';
+  $display->title = '%profile2:field_full_name';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -5221,7 +5235,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->api_version = 1;
   $page->name = 'player';
   $page->task = 'page';
-<<<<<<< HEAD
   $page->admin_title = 'Player';
   $page->admin_description = '';
   $page->path = 'play/%race';
@@ -5241,17 +5254,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'name' => 'navigation',
       'weight' => '0',
     ),
-=======
-  $page->admin_title = 'My registrations';
-  $page->admin_description = 'Pilot\'s upcoming events.';
-  $page->path = 'account/%user/registrations';
-  $page->access = array();
-  $page->menu = array(
-    'type' => 'tab',
-    'title' => 'My registrations',
-    'name' => 'navigation',
-    'weight' => '0',
->>>>>>> 92d20c6c197899189f08261fb360dae979bdeabc
   );
   $page->arguments = array(
     'race' => array(
@@ -5284,7 +5286,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'contexts' => array(),
     'relationships' => array(
       0 => array(
-<<<<<<< HEAD
         'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
         'keyword' => 'event',
         'name' => 'entity_from_field:og_group_ref-ent_race-node',
@@ -5297,16 +5298,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'logic' => 'and',
     ),
     'panels_everywhere_site_template' => 'site_template_panel_context_5',
-=======
-        'identifier' => 'Profile2 from user',
-        'keyword' => 'profile2',
-        'name' => 'profile2',
-        'type' => 'main',
-        'context' => 'argument_entity_id:user_1',
-        'id' => 1,
-      ),
-    ),
->>>>>>> 92d20c6c197899189f08261fb360dae979bdeabc
   );
   $display = new panels_display();
   $display->layout = 'onecol';
@@ -5318,11 +5309,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-<<<<<<< HEAD
   $display->title = '%event:title';
-=======
-  $display->title = '%profile2:field_full_name';
->>>>>>> 92d20c6c197899189f08261fb360dae979bdeabc
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
