@@ -117,7 +117,6 @@ if (!empty($content['sponsors'][0])) {
     <?php foreach($content['sponsors'] as $delta => $data) : ?>
       <?php if (isset($data['field_url'][0])) : ?>
         <div class="sponsor-item">
-          <span><?php print t('Prizes by'); ?></span>
           <?php print render($data['field_url']); ?>
           <?php print render($data['field_plain_body']); ?>
           <?php print render($data['field_organizer_logo']); ?>

@@ -979,6 +979,41 @@ function airtribune2_addressfield_container($variables) {
 }
 
 /**
+ * Implements theme_link_formatter_link_default.
+ */
+function airtribune2_link_formatter_link_default($vars) {
+  $link_options = $vars['element'];
+  unset($link_options['element']['title']);
+  unset($link_options['element']['url']);
+
+  /**
+   * Add prefix for sponsor's link
+   * @see #3265, #3269
+   */
+  $prefix = '';
+  if ($vars['field']['bundle'] == 'field_collection_sponsors' && $vars['field']['field_name'] == 'field_url') {
+    $prefix = '<span>' . t('Prizes by') . '</span>';
+  }
+
+  // Issue #1199806 by ss81: Fixes fatal error when the link URl is equal to page URL
+  if (isset($link_options['attributes']['class'])) {
+    $link_options['attributes']['class'] = array($link_options['attributes']['class']);
+  }
+
+  // Display a normal link if both title and URL are available.
+  if (!empty($vars['element']['title']) && !empty($vars['element']['url'])) {
+    return $prefix . l($vars['element']['title'], $vars['element']['url'], $link_options);
+  }
+  // If only a title, display the title.
+  elseif (!empty($vars['element']['title'])) {
+    return $prefix . check_plain($vars['element']['title']);
+  }
+  elseif (!empty($vars['element']['url'])) {
+    return $prefix . l($vars['element']['title'], $vars['element']['url'], $link_options);
+  }
+}
+
+/**
  * Implements theme_field__field_full_name.
  */
 function airtribune2_field($variables) {
