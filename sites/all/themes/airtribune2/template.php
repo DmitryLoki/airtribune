@@ -1043,11 +1043,12 @@ function airtribune2_field($variables) {
 
       break;
     case 'field_address':
-      $variables['label'] = t('Address').':&nbsp';
+      $variables['label'] = t('Address');
       $variables['items'][0]['locality_block']['locality']['#prefix'] = '';
     case 'field_email':
     case 'field_phone':
     case 'field_url':
+      $variables['label'] = $variables['label'] . ':&nbsp';
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' fields_contacts';
