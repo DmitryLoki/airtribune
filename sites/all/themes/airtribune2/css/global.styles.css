@@ -2101,6 +2101,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(9n+1) { clear:both;}
 .page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}*/
 .pane-contest-scoring-categories-awards-pane-with-sponsors .view-contest-scoring-categories { padding-top: 10px;}
+.pane-contest-scoring-categories-awards-pane-with-sponsors .more-link { padding-top: 10px;}
 .award-item { clear: both;}
 .award-item .field-name-field-pg-scoring-category { background: url(../images/prizes.png) no-repeat 0 10px; color: #495055; font: 16px/18px Arial, Helvetica, sans-serif; padding: 10px 0 2px 25px;}
 .with-sponsors .field-name-field-pg-scoring-category { background-position: -1100px 10px}
