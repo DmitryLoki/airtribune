@@ -238,7 +238,7 @@ function pages_feature_default_page_manager_handlers() {
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'activity' => 'activity',
+              'newsblog' => 'newsblog',
             ),
           ),
           'context' => 'node',
@@ -316,7 +316,7 @@ events/*',
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'activity' => 'activity',
+              'newsblog' => 'newsblog',
             ),
           ),
           'context' => 'node',
@@ -352,7 +352,7 @@ events/*',
           'name' => 'node_type',
           'settings' => array(
             'type' => array(
-              'activity' => 'activity',
+              'newsblog' => 'newsblog',
             ),
           ),
           'context' => 'node',
