@@ -234,7 +234,18 @@ function pages_feature_default_page_manager_handlers() {
           'settings' => NULL,
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'activity' => 'activity',
+            ),
+          ),
+          'context' => 'node',
+          'not' => FALSE,
+        ),
       ),
+      'logic' => 'or',
     );
     $pane->configuration = array();
     $pane->cache = array();
@@ -301,6 +312,16 @@ events/*',
           'context' => 'empty',
           'not' => FALSE,
         ),
+        2 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'activity' => 'activity',
+            ),
+          ),
+          'context' => 'node',
+          'not' => TRUE,
+        ),
       ),
     );
     $pane->configuration = array();
@@ -325,6 +346,16 @@ events/*',
         0 => array(
           'name' => 'front',
           'settings' => NULL,
+          'not' => TRUE,
+        ),
+        1 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'activity' => 'activity',
+            ),
+          ),
+          'context' => 'node',
           'not' => TRUE,
         ),
       ),
@@ -5115,7 +5146,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->admin_title = 'My registrations';
   $page->admin_description = 'Pilot\'s upcoming events.';
   $page->path = 'account/%user/registrations';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'My registrations',
