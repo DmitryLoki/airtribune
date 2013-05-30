@@ -2848,12 +2848,10 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'user/%uid/edit';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Account',
-      1 => 'Edit user',
+      0 => 'Edit user',
     ),
     'paths' => array(
-      0 => 'account',
-      1 => 'user/%uid:uid/edit',
+      0 => 'user/%uid:uid/edit',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -2892,12 +2890,10 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'profile-pilot/%uid/edit';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Account',
-      1 => 'Edit pilot profile',
+      0 => 'Edit pilot profile',
     ),
     'paths' => array(
-      0 => 'account',
-      1 => 'profile-pilot/%uid:uid/edit',
+      0 => 'profile-pilot/%uid:uid/edit',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -2970,12 +2966,10 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'account/%uid/registrations';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Account',
-      1 => 'My registrations',
+      0 => 'My registrations',
     ),
     'paths' => array(
-      0 => 'account',
-      1 => 'user/%uid:uid/registrations',
+      0 => 'user/%uid:uid/registrations',
     ),
     'home' => 1,
     'translatable' => 1,
