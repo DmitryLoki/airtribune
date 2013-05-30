@@ -27,7 +27,7 @@ $form['account']['mail_dummy'] = array(
   '#title' => t('Email'),
   '#markup' => $form['account']['mail']['#value'],
   '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
-  '#suffix' => '<div id="mail-edit-pencil">✎ edit</div></div>',
+  '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
 );
 
 $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';
@@ -96,3 +96,4 @@ hide($form['mimemail']);
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
 print drupal_render_children($form);
+print "<a id='mail-edit-cancel-link'>or Cancel</a>";
