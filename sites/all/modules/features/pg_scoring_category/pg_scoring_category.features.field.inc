@@ -54,17 +54,9 @@ function pg_scoring_category_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'colorbox',
-          'settings' => array(
-            'colorbox_caption' => 'auto',
-            'colorbox_caption_custom' => '',
-            'colorbox_gallery' => 'post',
-            'colorbox_gallery_custom' => '',
-            'colorbox_image_style' => 'large',
-            'colorbox_node_style' => 'award',
-          ),
-          'type' => 'colorbox',
-          'weight' => '0',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
         ),
         'event_details_page' => array(
           'label' => 'hidden',
@@ -336,10 +328,9 @@ function pg_scoring_category_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 3,
+          'type' => 'hidden',
+          'weight' => '3',
         ),
         'event_details_page' => array(
           'label' => 'hidden',
@@ -450,7 +441,7 @@ function pg_scoring_category_field_default_fields() {
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => '2',
+          'weight' => '0',
         ),
         'event_details_page' => array(
           'label' => 'hidden',

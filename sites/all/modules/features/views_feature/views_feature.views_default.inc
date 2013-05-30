@@ -1624,11 +1624,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'OG membership from node';
-  /* Relationship: Content: Sponsors (field_collection_sponsors) */
-  $handler->display->display_options['relationships']['field_collection_sponsors_value']['id'] = 'field_collection_sponsors_value';
-  $handler->display->display_options['relationships']['field_collection_sponsors_value']['table'] = 'field_data_field_collection_sponsors';
-  $handler->display->display_options['relationships']['field_collection_sponsors_value']['field'] = 'field_collection_sponsors_value';
-  $handler->display->display_options['relationships']['field_collection_sponsors_value']['delta'] = '-1';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Nid - excluded */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -1693,31 +1688,17 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['view_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_1']['view'] = 'category_results';
   $handler->display->display_options['fields']['view_1']['arguments'] = '[!nid]';
-  /* Field: Field: Web site */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['relationship'] = 'field_collection_sponsors_value';
-  $handler->display->display_options['fields']['field_url']['label'] = '';
-  $handler->display->display_options['fields']['field_url']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Field collection item: Sponsor's logo */
-  $handler->display->display_options['fields']['field_organizer_logo']['id'] = 'field_organizer_logo';
-  $handler->display->display_options['fields']['field_organizer_logo']['table'] = 'field_data_field_organizer_logo';
-  $handler->display->display_options['fields']['field_organizer_logo']['field'] = 'field_organizer_logo';
-  $handler->display->display_options['fields']['field_organizer_logo']['relationship'] = 'field_collection_sponsors_value';
-  $handler->display->display_options['fields']['field_organizer_logo']['label'] = '';
-  $handler->display->display_options['fields']['field_organizer_logo']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_organizer_logo']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_organizer_logo']['type'] = 'colorbox';
-  $handler->display->display_options['fields']['field_organizer_logo']['settings'] = array(
-    'colorbox_node_style' => 'award_sponsor',
-    'colorbox_image_style' => 'large',
-    'colorbox_gallery' => 'post',
-    'colorbox_gallery_custom' => '',
-    'colorbox_caption' => 'auto',
-    'colorbox_caption_custom' => '',
+  /* Field: Content: Sponsors */
+  $handler->display->display_options['fields']['field_collection_sponsors']['id'] = 'field_collection_sponsors';
+  $handler->display->display_options['fields']['field_collection_sponsors']['table'] = 'field_data_field_collection_sponsors';
+  $handler->display->display_options['fields']['field_collection_sponsors']['field'] = 'field_collection_sponsors';
+  $handler->display->display_options['fields']['field_collection_sponsors']['label'] = '';
+  $handler->display->display_options['fields']['field_collection_sponsors']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_collection_sponsors']['type'] = 'field_collection_fields';
+  $handler->display->display_options['fields']['field_collection_sponsors']['settings'] = array(
+    'view_mode' => 'full',
   );
+  $handler->display->display_options['fields']['field_collection_sponsors']['delta_offset'] = '0';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
@@ -1824,7 +1805,6 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('All'),
     t('Results pane'),
-    t('field collection item from field_collection_sponsors'),
     t('View panes'),
     t('Awards pane'),
     t('Prize fund and scoring categories'),
