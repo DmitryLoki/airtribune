@@ -1043,7 +1043,7 @@ function airtribune2_field($variables) {
 
       break;
     case 'field_address':
-      $variables['label'] = t('Address');
+      $variables['label'] = t('Address').':&nbsp';
       $variables['items'][0]['locality_block']['locality']['#prefix'] = '';
     case 'field_email':
     case 'field_phone':
