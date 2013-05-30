@@ -2967,7 +2967,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'user_registrations';
   $path_breadcrumb->name = 'User Registrations';
-  $path_breadcrumb->path = 'user/%uid/registrations';
+  $path_breadcrumb->path = 'account/%uid/registrations';
   $path_breadcrumb->data = array(
     'titles' => array(
       0 => 'Account',
