@@ -3,7 +3,8 @@ jQuery(function ($) {
   var airvisWidget,
     accordion;
 
-  var headerPictureContainer = $('.pane-header-slideshow-event-header'),
+  var
+    headerPictureContainer = $('.pane-header-slideshow-event-header'),
     raceDataTextBlock = $('.field-name-field-dates .field-item'),
     raceInfo = $('<div class="field field-name-field-race-info"></div>'),
     faiCategory = $('.field-name-field-fai-category');
