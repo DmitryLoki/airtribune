@@ -5143,6 +5143,33 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'page_my_registrations_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'my_registrations';
+  $handler->handler = 'http_response';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => '403',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'memberships_view',
+          'settings' => NULL,
+          'context' => 'argument_entity_id:user_1',
+          'not' => TRUE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'page_my_registrations_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'my_registrations';
@@ -5178,11 +5205,35 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = '%profile2:field_full_name - my registrations';
+  $display->title = '%profile2:field_full_name';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-70';
+    $pane->panel = 'middle';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Tempory tab for registration page',
+      'title' => '',
+      'body' => '<div id="tasks"><ul class="tabs primary clearfix"><li><a href="#" class="active"><?php print t(\'My registrations\');?></a></li></ul></div>',
+      'format' => 'php_code',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-70'] = $pane;
+    $display->panels['middle'][0] = 'new-70';
+    $pane = new stdClass();
+    $pane->pid = 'new-71';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'my_registrations-panel_pane_1';
@@ -5198,40 +5249,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-70'] = $pane;
-    $display->panels['middle'][0] = 'new-70';
+    $display->content['new-71'] = $pane;
+    $display->panels['middle'][1] = 'new-71';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-70';
+  $display->title_pane = 'new-71';
   $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_my_registrations_http_response';
-  $handler->task = 'page';
-  $handler->subtask = 'my_registrations';
-  $handler->handler = 'http_response';
-  $handler->weight = -30;
-  $handler->conf = array(
-    'title' => '403',
-    'contexts' => array(),
-    'relationships' => array(),
-    'code' => '403',
-    'destination' => '',
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'memberships_view',
-          'settings' => NULL,
-          'context' => 'argument_entity_id:user_1',
-          'not' => TRUE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
   $page->default_handlers[$handler->name] = $handler;
   $pages['my_registrations'] = $page;
 
@@ -5318,7 +5342,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-71';
+    $pane->pid = 'new-72';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_player';
     $pane->subtype = 'airtribune_player';
@@ -5340,8 +5364,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-71'] = $pane;
-    $display->panels['middle'][0] = 'new-71';
+    $display->content['new-72'] = $pane;
+    $display->panels['middle'][0] = 'new-72';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
