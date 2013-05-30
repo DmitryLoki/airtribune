@@ -32,7 +32,7 @@ function at_membership_menu() {
     'title' => 'Delete membership',
   );
 
-  $items['user/registrations'] = array(
+  $items['account/registrations'] = array(
     'title' => 'User registrations',
     'page callback' => 'at_membership_redirect_to_registrations',
     'access callback' => TRUE,
@@ -46,7 +46,7 @@ function at_membership_menu() {
  * Implements hook_init().
  */
 function at_membership_init() {
-  if (drupal_match_path($_GET['q'], 'user/*/registrations')) {
+  if (drupal_match_path($_GET['q'], 'account/*/registrations')) {
     drupal_add_js(drupal_get_path('module', 'at_membership') . '/js/at_membership_delete.js');
   }
 }
@@ -243,7 +243,7 @@ function at_membership_type_get_type($type) {
 function at_membership_redirect_to_registrations() {
   global $user;
   if ($user->uid) {
-    drupal_goto('user/' . $user->uid . '/registrations');
+    drupal_goto('account/' . $user->uid . '/registrations');
   }
   else {
     drupal_access_denied();

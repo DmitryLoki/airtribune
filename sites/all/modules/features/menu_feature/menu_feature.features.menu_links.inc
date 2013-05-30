@@ -13,8 +13,8 @@ function menu_feature_menu_default_menu_links() {
   // Exported menu link: account:<front>
   $menu_links['account:user/registrations'] = array(
     'menu_name' => 'account',
-    'link_path' => 'user/registrations',
-    'router_path' => 'user/registrations',
+    'link_path' => 'account/registrations',
+    'router_path' => 'account/registrations',
     'link_title' => 'My registrations',
     'options' => array(
       'attributes' => array(
