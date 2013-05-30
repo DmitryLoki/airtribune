@@ -2,7 +2,8 @@
   Drupal.behaviors.atMembershipDelete = {
     attach: function(context, settings) {
       $('.cancel-participation', context).click(function(){
-        if (confirm(Drupal.t('Are you sure to cancel your participation on this event?'))) {
+        var event_name = $(this).prev().find('span.title').text();
+        if (confirm(Drupal.t('Are you sure that you want to completely sign out from ') + $.trim(event_name) + '?')) {
           var
             a = $(this),
             row = a.parents('.views-row').eq(0);

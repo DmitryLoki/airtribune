@@ -1446,7 +1446,7 @@ p { margin:0; padding:9px 0 11px}
 .clear_right {clear:right}
 
 
-#header {position:relative; padding:0; z-index:100; margin-bottom:16px; background:url(../images/header_bgr_1.png) repeat 0 0;}
+#header {position:relative; padding:0; z-index:120; margin-bottom:16px; background:url(../images/header_bgr_1.png) repeat 0 0;}
 #main {/*height:100%;*/ margin:0; padding:0; position:relative;}
 #footer {position:absolute; /*margin:-312px auto 0*/ ; padding:0; z-index:1; overflow:hidden; min-width:1000px; border-top:1px solid #e9ebec; background:#aeb7ba; padding-top:1px; width:100%; left:0; bottom:0}
 
@@ -1593,7 +1593,12 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
 
 .pane-event-days-panel-pane-1 .views-field-view,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: inline-block; position: relative; margin: 11px 10px 9px;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks,
+.pane-event-days-panel-pane-1 .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
+.pane-event-days-panel-pane-1 .task_link { width: 40px; height: 40px; background: url(../images/track.png) no-repeat 0 0; overflow: hidden;}
+.pane-event-days-panel-pane-1 .task_link:hover { background-position: 0 -40px;}
+.pane-event-days-panel-pane-1 .task_link:active { background-position: 0 -80px;}
+.pane-event-days-panel-pane-1 .task_link span { position: absolute; left: -9999px;}
 .pane-event-days-panel-pane-1 .views-field-view .views-label,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label,
 .pane-event-days-panel-pane-1 .views-field-view .field-content,
@@ -2090,11 +2095,31 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 #page .panel_info .pane-node-field-prizes { margin-bottom:9px}
 
 /* Awards photos */
-.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
+/*.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
 .page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:0 11px 0}
 .page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .view-content > div { padding-top:1px}
 .page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(9n+1) { clear:both;}
-.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}
+.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}*/
+.pane-contest-scoring-categories-awards-pane-with-sponsors .view-contest-scoring-categories { padding-top: 10px;}
+.award-item { clear: both;}
+.award-item .field-name-field-pg-scoring-category { background: url(../images/prizes.png) no-repeat 0 10px; color: #495055; font: 16px/18px Arial, Helvetica, sans-serif; padding: 10px 0 2px 25px;}
+.with-sponsors .field-name-field-pg-scoring-category { background-position: -1100px 10px}
+.award-item .sponsor-item { color: #7d858c; font: 14px/16px Arial, Helvetica, sans-serif; clear: both; padding-top: 6px;}
+.award-item .sponsor-item span { float: left; padding: 0 5px 7px 25px;}
+.award-item .field-name-field-url a { color: #00aeef; text-decoration: underline; float: left;}
+.award-item .field-name-field-url a:hover { text-decoration: none;}
+.award-item .field-name-field-plain-body { clear: both; color: #525c66; font: italic 14px/16px Arial, Helvetica, sans-serif; padding: 0 0 9px 25px; top: -3px; position: relative;}
+.award-item .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
+.award-item .field-name-field-awards-photos { float: left; margin-bottom: 9px; margin-right: -16px;}
+.award-item .field-name-field-awards-photos .field-item { float: left; padding-left: 8px;}
+.award-item .field-name-field-organizer-logo img,
+.award-item .field-name-field-awards-photos img { border: 1px solid #f0f5f8; vertical-align: middle;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 /* Daily schedule */
 .pane-node-field-sample-schedule {}
@@ -2728,9 +2753,10 @@ table tr td.:first-child { border-left: none;}
 .featured-header { width: 940px; height: 380px; background: #DEE6E9; position: relative; overflow: hidden; margin: 0 auto 20px;}
 .featured-header .panel-pane,
 .featured-header .pane-inner { margin: 0;}
-.featured-header-title { top: 0; position: absolute; width: 900px; padding: 16px 20px 19px; /*background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15);*/  background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5); color: #FFF; z-index: 9;}
+.featured-header-title { top: 0; position: absolute; width: 900px; padding: 16px 20px 19px; /*background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15);*/  background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5); color: #FFF; z-index: 9; z-index: 110}
 .featured-header .featured-header-title h1 { color: #FFF;}
 .featured-header-padding { top: 0; position: absolute; width: 940px;}
+.pane-header-slideshow-event-header { position: relative; z-index: 10}
 
 .featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 100; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
@@ -2949,5 +2975,20 @@ table tr td.:first-child { border-left: none;}
 }
 
 #airtribune-player .gmap {}
-#airtribune-player .gmap > div > .gmnoprint:nth-child(3n+1),
-#airtribune-player .gmap > div > .gmnoprint:last-child { top: 120px !important;}
+#airtribune-player .gmap > div > .gmnoprint:nth-child(3n+1) { top: 117px !important; left: 12px !important;}
+#airtribune-player .gmap > div > .gmnoprint:last-child { top: 124px !important; right: 40px !important;}
+
+.setUserVisualMode,
+.setProfVisualMode { background: url(../images/prof.png) no-repeat 0 -30px; position: absolute; top: 129px; right: 35px; width: 30px; height: 30px; text-indent: -9999px; overflow: hidden;}
+.setUserVisualMode:hover,
+.setProfVisualMode:hover { 
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
+  -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: 0.8; /* Konqueror 3.1, Safari 1.1 */
+  opacity: 0.8; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+
+
+}
+.setUserVisualMode { background-position: 0 0; display: block;}
+.airvis-waypoint-title { white-space: nowrap; font-weight: bold; padding: 3px; }

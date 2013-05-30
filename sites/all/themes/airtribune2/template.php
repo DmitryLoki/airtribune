@@ -406,6 +406,35 @@ function airtribune2_process_node(&$vars) {
       $vars['content']['field_address']['#prefix'] = '<h2 class="field_title">' . t('Contacts') . '</h2>';
     }
   }
+  
+  /**
+   *  paragliding scoring category 
+   * 
+   * @see #3265
+   * @author Vyacheslav Malchik <info@vkey.biz>
+   */
+  else if ($vars['node']->type == 'pg_scoring_category') {
+    $view_mode = 'event_details_page';
+    // @TODO: remove use arg()
+    if (arg(0) == 'event' && arg(2) == 'info' && arg(3) != 'details') {
+      // Change view mode on info page
+      $view_mode = 'event_info_page';
+    }
+    
+    if (isset($vars['content']['field_collection_sponsors'])) {
+      // Return to the node tpl array of field collection items
+      $fc = $vars['content']['field_collection_sponsors'];
+      $field_collection_items = array();
+      if (isset($fc[0])) {
+        foreach ($fc['#items'] as $delta => $data) {
+           // Render item with custom view mode
+          $item = entity_view('field_collection_item',array(field_collection_field_get_entity($fc['#items'][$delta])), $view_mode);
+          $field_collection_items[] = $item['field_collection_item'][$data['value']];
+        }
+      }
+      $vars['content']['sponsors'] = $field_collection_items;
+    }
+  }
 
   /* If teaser */
   else if ($vars['teaser']){
@@ -947,6 +976,41 @@ function airtribune2_addressfield_container($variables) {
 }
 
 /**
+ * Implements theme_link_formatter_link_default.
+ */
+function airtribune2_link_formatter_link_default($vars) {
+  $link_options = $vars['element'];
+  unset($link_options['element']['title']);
+  unset($link_options['element']['url']);
+
+  /**
+   * Add prefix for sponsor's link
+   * @see #3265, #3269
+   */
+  $prefix = '';
+  if ($vars['field']['bundle'] == 'field_collection_sponsors' && $vars['field']['field_name'] == 'field_url') {
+    $prefix = '<span>' . t('Prizes by') . '</span>';
+  }
+
+  // Issue #1199806 by ss81: Fixes fatal error when the link URl is equal to page URL
+  if (isset($link_options['attributes']['class'])) {
+    $link_options['attributes']['class'] = array($link_options['attributes']['class']);
+  }
+
+  // Display a normal link if both title and URL are available.
+  if (!empty($vars['element']['title']) && !empty($vars['element']['url'])) {
+    return $prefix . l($vars['element']['title'], $vars['element']['url'], $link_options);
+  }
+  // If only a title, display the title.
+  elseif (!empty($vars['element']['title'])) {
+    return $prefix . check_plain($vars['element']['title']);
+  }
+  elseif (!empty($vars['element']['url'])) {
+    return $prefix . l($vars['element']['title'], $vars['element']['url'], $link_options);
+  }
+}
+
+/**
  * Implements theme_field__field_full_name.
  */
 function airtribune2_field($variables) {
@@ -987,6 +1051,7 @@ function airtribune2_field($variables) {
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' fields_contacts';
+      $colon = '';
       break;
 
     case 'field_gt_car':

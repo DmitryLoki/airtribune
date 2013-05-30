@@ -76,6 +76,11 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
+<?php if (!empty($fields['id_1']->raw)): ?>
+  <a href="#map" class="task_link"><span>Task</span></a>
+<?php endif; ?>
+
+
 <?php if (!empty($fields['view'])): ?>
   <?php print $fields['view']->wrapper_prefix; ?>
   <?php print $fields['view']->label_html; ?>
