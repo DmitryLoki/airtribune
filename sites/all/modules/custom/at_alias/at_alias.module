@@ -75,10 +75,14 @@ function _at_alias_delete_alias($node) {
           ->execute();
       }
       */
-      $source = "event/{$node->nid}/map/%";
-      db_delete('url_alias')
-        ->condition('source', $source, 'LIKE')
-        ->execute();
+      $subaliases = array('accommodations', 'activities');
+      foreach ($subaliases as $subalias) {
+        $source = "event/{$node->nid}/map/{$subalias}/%";
+        db_delete('url_alias')
+          ->condition('source', $source, 'LIKE')
+          ->execute();
+      }
+      
       // TODO: Move alias generation from pg_contest feature
       break;
   }
