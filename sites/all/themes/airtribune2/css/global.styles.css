@@ -2979,7 +2979,7 @@ table tr td.:first-child { border-left: none;}
 #airtribune-player .gmap > div > .gmnoprint:last-child { top: 124px !important; right: 40px !important; display: none;}
 
 .setUserVisualMode,
-.setProfVisualMode { background: url(../images/prof.png) no-repeat 0 0; position: absolute; top: 129px; right: 35px; width: 30px; height: 30px; text-indent: -9999px; overflow: hidden;}
+.setProfVisualMode { background: url(../images/prof.png) no-repeat 0 -30px; position: absolute; top: 129px; right: 35px; width: 30px; height: 30px; text-indent: -9999px; overflow: hidden;}
 .setUserVisualMode:hover,
 .setProfVisualMode:hover { 
 
@@ -2990,5 +2990,5 @@ table tr td.:first-child { border-left: none;}
 
 
 }
-.setProfVisualMode { background-position: 0 -30px; display: block;}
+.setUserVisualMode { background-position: 0 0; display: block;}
 .airvis-waypoint-title { white-space: nowrap; font-weight: bold; padding: 3px; }

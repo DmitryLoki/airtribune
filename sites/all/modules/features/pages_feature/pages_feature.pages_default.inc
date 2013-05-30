@@ -423,7 +423,6 @@ events/*',
               'advert' => 'advert',
               'newsblog' => 'newsblog',
               'pg_contest' => 'pg_contest',
-              'pg_race' => 'pg_race',
               'page' => 'page',
             ),
           ),
@@ -435,6 +434,7 @@ events/*',
           'settings' => array(
             'visibility_setting' => '0',
             'paths' => 'user/*
+account/*
 profile-pilot/*
 user',
           ),
@@ -1003,7 +1003,6 @@ event/*/map/accommodations',
               'advert' => 'advert',
               'newsblog' => 'newsblog',
               'pg_contest' => 'pg_contest',
-              'pg_race' => 'pg_race',
               'page' => 'page',
             ),
           ),
@@ -5122,6 +5121,12 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'title' => 'My registrations',
     'name' => 'navigation',
     'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'user-menu',
+      'weight' => '',
+    ),
   );
   $page->arguments = array(
     'user' => array(
@@ -5173,7 +5178,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = '%profile2:field_full_name';
+  $display->title = '%profile2:field_full_name - my registrations';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
