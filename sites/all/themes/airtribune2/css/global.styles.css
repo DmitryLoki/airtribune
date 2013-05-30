@@ -2953,13 +2953,31 @@ table tr td.:first-child { border-left: none;}
 .pane-contest-scoring-categories-results-pane {}
 .page-event-results .view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
 .page-event-results .view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd.hor_pic > div { margin-left: 421px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 309px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd.hor_pic > div { margin-left: 458px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
 
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even.hor_pic > div { margin-right: 421px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 309px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even.hor_pic > div { margin-right: 458px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
+.page-event-results .view-contest-scoring-categories .views-row-odd.hor_pic > div.views-field-field-collection-sponsors,
+.page-event-results .view-contest-scoring-categories .views-row-even.hor_pic > div.views-field-field-collection-sponsors { clear: both; width: 440px; float: left; padding-top: 6px;}
+.page-event-results .view-contest-scoring-categories .views-row-even.hor_pic > div.views-field-field-collection-sponsors { float: right;}
+
+.view-contest-scoring-categories .hor_pic .views-field-field-collection-sponsors { clear: both;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors { color: #525c66; font: 14px/16px Arial, Helvetica, sans-serif; padding-top: 10px; margin-left: 0 !important; margin-right: 0 !important; width: 371px; float: left;}
+.view-contest-scoring-categories .views-row-odd .views-field-field-collection-sponsors { float: right;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors span { float: left; padding: 0 5px 12px 0;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a { color: #00aeef; text-decoration: underline; float: left;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a:hover { text-decoration: none;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { border: 1px solid #f0f5f8; vertical-align: middle;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 .page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
 .page-event-results .view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
