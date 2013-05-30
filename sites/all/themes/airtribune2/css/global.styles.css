@@ -2276,6 +2276,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
   -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
 
 }
+.page-user .pane-page-content form .form-item-mail input.form-text { width: 292px;}
 html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
@@ -2324,6 +2325,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
 .page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
+#mail-edit-cancel-link { display: none; cursor: pointer;}
 .page-user .pane-page-content form .form-actions input, 
 .events-add a,
 .page-user .pane-page-content form .reg_choice a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
@@ -2480,7 +2482,9 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .page-user .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
 .page-user .pane-page-content form .form-type-item .inline-label { top: -10px;}
 .page-user-edit .pane-page-content form #mail-dummy .form-type-item { float: left;}
-.page-user-edit .pane-page-content form #mail-dummy #mail-edit-pencil { float: left; padding-top: 20px; padding-left: 10px; cursor: pointer;}
+.page-user-edit .pane-page-content form #mail-dummy #mail-edit-pencil { float: left; margin-top: 24px; margin-left: 11px;}
+#mail-edit-pencil { cursor: pointer; background: url(../images/pensil.png) no-repeat 0 0; width: 18px; height: 18px; overflow: hidden; text-indent: -9999px;}
+#mail-edit-pencil:hover { background-position: 0 -18px}
 .page-user-edit .pane-page-content form #mail-dummy + .form-item { clear: both;}
 .page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
 .page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
