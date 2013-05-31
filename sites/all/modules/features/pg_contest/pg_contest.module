@@ -142,24 +142,14 @@ function pg_contest_insert($node) {
 function pg_contest_update($node) {
   if (isset($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
     if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
-      //remove old points and og memberships
+      //remove old points 
       $query = new EntityFieldQuery();
-      $result = $query
-        ->entityCondition('entity_type', 'og_membership')
-        ->propertyCondition('entity_type', 'ent_contest_point', '=')
-        ->propertyCondition('group_type', 'node', '=')
-        ->propertyCondition('gid', $node->nid, '=')
-        ->execute();
-      $query = new EntityFieldQuery();
-      $result1 = $query 
+      $result = $query 
         ->entityCondition('entity_type', 'ent_contest_point')
         ->fieldCondition('og_group_ref', 'target_id', $node->nid)
         ->execute();
-      if (!empty($result['og_membership'])) {
-        og_membership_delete_multiple(array_keys($result['og_membership']));
-      }
-      if (!empty($result1['ent_contest_point'])) {
-        entity_delete_multiple('ent_contest_point', array_keys($result1['ent_contest_point']));
+      if (!empty($result['ent_contest_point'])) {
+        entity_delete_multiple('ent_contest_point', array_keys($result['ent_contest_point']));
       }
     }
     if (isset($node->field_points_file[LANGUAGE_NONE])) {
@@ -264,6 +254,7 @@ function pg_contest_create_points($fid, $nid) {
     );
     $point = entity_create('ent_contest_point', $values);
     $point->save();
+    //linking to og should go to EntContestPointController 
     og_group('node', $nid, array('entity_type' => 'ent_contest_point', 'entity' => $point))->save();
   }
 }
