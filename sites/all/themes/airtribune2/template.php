@@ -1048,6 +1048,7 @@ function airtribune2_field($variables) {
     case 'field_email':
     case 'field_phone':
     case 'field_url':
+      $variables['label'] = $variables['label'] . ':&nbsp'; // @TODO: this is hotfix for #3274
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' fields_contacts';
