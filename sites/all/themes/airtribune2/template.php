@@ -933,10 +933,6 @@ function airtribune2_field__field_full_name($variables) {
   }
   $output = '';
   $colon = ':&nbsp;';
-  if($variables['element']['#bundle'] == 'field_collection_getting_there') {
-   $colon = '';
-   $variables['classes'] .= ($variables['element']['#weight'] % 2 ? ' field_odd' : ' field_even');
-  }
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
     $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . $colon . '</div>';
@@ -1032,7 +1028,7 @@ function airtribune2_field($variables) {
 
       break;
     case 'field_hotel_wifi':
-      $colon = '&nbsp;';
+      $colon = ':&nbsp;';
       $variables['field_view_mode'] = '';
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' field_buttons';
@@ -1048,11 +1044,8 @@ function airtribune2_field($variables) {
     case 'field_email':
     case 'field_phone':
     case 'field_url':
-      $variables['label'] = $variables['label'] . ':&nbsp'; // @TODO: this is hotfix for #3274
       $variables['field_view_mode'] = '';
-      $variables['label_hidden'] = '';
       $variables['classes'] .= ' fields_contacts';
-      $colon = '';
       break;
 
     case 'field_gt_car':

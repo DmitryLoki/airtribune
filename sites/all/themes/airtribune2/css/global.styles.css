@@ -2284,6 +2284,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
   -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
 
 }
+.page-user .pane-page-content form .form-item-mail input.form-text { width: 292px;}
 html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
@@ -2332,6 +2333,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
 .page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
+#mail-edit-cancel-link { display: none; cursor: pointer;}
 .page-user .pane-page-content form .form-actions input, 
 .events-add a,
 .page-user .pane-page-content form .reg_choice a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
@@ -2488,7 +2490,9 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .page-user .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
 .page-user .pane-page-content form .form-type-item .inline-label { top: -10px;}
 .page-user-edit .pane-page-content form #mail-dummy .form-type-item { float: left;}
-.page-user-edit .pane-page-content form #mail-dummy #mail-edit-pencil { float: left; padding-top: 20px; padding-left: 10px; cursor: pointer;}
+.page-user-edit .pane-page-content form #mail-dummy #mail-edit-pencil { float: left; margin-top: 24px; margin-left: 11px;}
+#mail-edit-pencil { cursor: pointer; background: url(../images/pensil.png) no-repeat 0 0; width: 18px; height: 18px; overflow: hidden; text-indent: -9999px;}
+#mail-edit-pencil:hover { background-position: 0 -18px}
 .page-user-edit .pane-page-content form #mail-dummy + .form-item { clear: both;}
 .page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
 .page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
@@ -2966,13 +2970,31 @@ span.status-4 { background-position: 0 1px; color: #b6c32a;}
 .pane-contest-scoring-categories-results-pane {}
 .page-event-results .view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
 .page-event-results .view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd.hor_pic > div { margin-left: 421px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 309px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd.hor_pic > div { margin-left: 458px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
 
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even.hor_pic > div { margin-right: 421px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 309px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even.hor_pic > div { margin-right: 458px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
+.page-event-results .view-contest-scoring-categories .views-row-odd.hor_pic > div.views-field-field-collection-sponsors,
+.page-event-results .view-contest-scoring-categories .views-row-even.hor_pic > div.views-field-field-collection-sponsors { clear: both; width: 440px; float: left; padding-top: 6px;}
+.page-event-results .view-contest-scoring-categories .views-row-even.hor_pic > div.views-field-field-collection-sponsors { float: right;}
+
+.view-contest-scoring-categories .hor_pic .views-field-field-collection-sponsors { clear: both;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors { color: #525c66; font: 14px/16px Arial, Helvetica, sans-serif; padding-top: 10px; margin-left: 0 !important; margin-right: 0 !important; width: 371px; float: left;}
+.view-contest-scoring-categories .views-row-odd .views-field-field-collection-sponsors { float: right;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors span { float: left; padding: 0 5px 12px 0;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a { color: #00aeef; text-decoration: underline; float: left;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a:hover { text-decoration: none;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { border: 1px solid #f0f5f8; vertical-align: middle;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 .page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
 .page-event-results .view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}

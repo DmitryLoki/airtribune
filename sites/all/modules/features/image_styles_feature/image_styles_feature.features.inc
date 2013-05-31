@@ -643,7 +643,7 @@ function image_styles_feature_image_default_styles() {
   $styles['scoring_winner_horizontal'] = array(
     'name' => 'scoring_winner_horizontal',
     'effects' => array(
-      15 => array(
+      11 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -653,8 +653,8 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '400',
-          'height' => '260',
+          'width' => '440',
+          'height' => '290',
         ),
         'weight' => '1',
       ),
@@ -665,7 +665,7 @@ function image_styles_feature_image_default_styles() {
   $styles['scoring_winner_vertical'] = array(
     'name' => 'scoring_winner_vertical',
     'effects' => array(
-      16 => array(
+      10 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -675,8 +675,8 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '300',
-          'height' => '450',
+          'width' => '290',
+          'height' => '440',
         ),
         'weight' => '1',
       ),
