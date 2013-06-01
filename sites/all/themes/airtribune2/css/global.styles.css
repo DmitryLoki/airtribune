@@ -2254,6 +2254,8 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
   /* Forms */
 
+#mail-change { display: none;}
+
 .page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28px -1px 0;
 
   -webkit-border-radius: 3px;
@@ -2770,7 +2772,7 @@ table tr td.:first-child { border-left: none;}
 .featured-header-padding { top: 0; position: absolute; width: 940px;}
 .pane-header-slideshow-event-header { position: relative; z-index: 10}
 
-.featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 100; cursor: pointer;}
+.featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 115; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
 .featured-header-collapsible .featured-header .collapse-control:hover { background-position: -80px 35px; background-color: rgba(255, 255, 255, 0.5);}
 .featured-header-collapsible .featured-header-collapsed { /*height: 110px;*/}
