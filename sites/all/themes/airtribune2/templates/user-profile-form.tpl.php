@@ -5,6 +5,9 @@ drupal_set_title(at_user_get_full_name($pilot_uid));
 
 global $user;
 
+//print_r($form);
+$form['actions']['submit']['#suffix'] = '<a id="mail-edit-cancel-link">or Cancel</a>';
+
 print "<div id='name_and_birthday'>"; // #name_and_birthday start
 
 $lang = $form['profile_main']['field_full_name']['#language'];
@@ -96,4 +99,3 @@ hide($form['mimemail']);
 // Hide wrapping fieldsets.
 drupal_render($form['profile_main']);
 print drupal_render_children($form);
-print "<a id='mail-edit-cancel-link'>or Cancel</a>";
