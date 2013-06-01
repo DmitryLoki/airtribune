@@ -5287,7 +5287,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->configuration = array(
       'admin_title' => 'Tempory tab for registration page',
       'title' => '',
-      'body' => '<div id="tasks"><ul class="tabs primary clearfix"><li><a href="#" class="active"><?php print t(\'My registrations\');?></a></li></ul></div>',
+      'body' => '<div id="tasks"><ul class="tabs primary clearfix"><li class="active"><a href="#" class="active"><?php print t(\'My registrations\');?></a></li></ul></div>',
       'format' => 'php_code',
       'substitute' => 1,
     );
