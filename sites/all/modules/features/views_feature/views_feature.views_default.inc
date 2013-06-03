@@ -1135,7 +1135,6 @@ function views_feature_views_default_views() {
     t('Event Banners'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>'),
-    t('_blank'),
     t('Site Partners'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
     t('There are no sponsors added yet.'),
@@ -1242,7 +1241,6 @@ function views_feature_views_default_views() {
     t('Race'),
     t('Scoring category'),
     t('[field_pg_scoring_category] results'),
-    t('_blank'),
     t('All'),
   );
   $export['category_results'] = $view;
@@ -2079,7 +2077,6 @@ function views_feature_views_default_views() {
     t('Competition results'),
     t('Day results'),
     t('Scoring category'),
-    t('_blank'),
     t('All'),
   );
   $export['day_results'] = $view;
@@ -2962,7 +2959,6 @@ function views_feature_views_default_views() {
     t('Results'),
     t('Tracks'),
     t('IGC'),
-    t('_blank'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('Id'),
     t(','),
@@ -4651,7 +4647,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Field: Field: Image */
+  /* Field: Featured header: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -4684,7 +4680,7 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Image */
+  /* Field: Featured header: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -4869,20 +4865,21 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['id']['separator'] = '';
   /* Field: OG membership: Payment status */
-  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = '';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_pg_contestant_status']['element_label_colon'] = FALSE;
-  /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['id'] = 'field_pg_contestant_status_1';
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['label'] = '';
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_pg_contestant_status_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_pg_contestant_status_1']['type'] = 'list_key';
+  /* Field: OG membership: Payment status */
+  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = '';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -4937,10 +4934,11 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = '';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<span class="event-header"><span class="title">[title]</span><span class="status status-[field_pg_contestant_status_1]">[field_pg_contestant_status]</span></span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<span class="event-header"><span class="title">[title]</span><span class="status-value">[field_pg_contestant_status]</span></span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>';
   $handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing_1']['alter']['path'] = 'event/[nid]';
   $handler->display->display_options['fields']['nothing_1']['alter']['link_class'] = 'next_event';
+  $handler->display->display_options['fields']['nothing_1']['element_class'] = 'status-[field_pg_contestant_status_1]';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
@@ -5032,7 +5030,7 @@ function views_feature_views_default_views() {
     t('user from OG membership'),
     t('Group node from OG membership'),
     t('.'),
-    t('<span class="event-header"><span class="title">[title]</span><span class="status status-[field_pg_contestant_status_1]">[field_pg_contestant_status]</span></span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
+    t('<span class="event-header"><span class="title">[title]</span><span class="status-value">[field_pg_contestant_status]</span></span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span>'),
     t('Cancel'),
     t('All'),
     t('Content pane'),
@@ -5520,6 +5518,13 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
+  /* Field: Payment status (excluded) */
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['id'] = 'field_pg_contestant_status_1';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['field'] = 'field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['ui_name'] = 'Payment status (excluded)';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['exclude'] = TRUE;
   /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
@@ -5578,6 +5583,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
@@ -5737,6 +5745,13 @@ function views_feature_views_default_views() {
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
   );
+  /* Field: Payment status (excluded) */
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['id'] = 'field_pg_contestant_status_1';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['field'] = 'field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['ui_name'] = 'Payment status (excluded)';
+  $handler->display->display_options['fields']['field_pg_contestant_status_1']['exclude'] = TRUE;
   /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
@@ -5800,6 +5815,9 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Country */
@@ -6356,6 +6374,7 @@ function views_feature_views_default_views() {
     t('Nation'),
     t('Sponsor'),
     t('Glider'),
+    t('<span class="status-value">[field_pg_contestant_status]</span>'),
     t('Standard event pilots'),
     t('View panes'),
     t('FAI'),
