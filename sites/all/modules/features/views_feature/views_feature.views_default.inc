@@ -4757,6 +4757,16 @@ function views_feature_views_default_views() {
   /* Display: Event Results header */
   $handler = $view->new_display('panel_pane', 'Event Results header', 'event_results_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: View (Views field view) */
+  $handler->display->display_options['empty']['view_field']['id'] = 'view_field';
+  $handler->display->display_options['empty']['view_field']['table'] = 'views';
+  $handler->display->display_options['empty']['view_field']['field'] = 'view_field';
+  $handler->display->display_options['empty']['view_field']['label'] = '';
+  $handler->display->display_options['empty']['view_field']['element_label_colon'] = FALSE;
+  $handler->display->display_options['empty']['view_field']['view'] = 'header_slideshow';
+  $handler->display->display_options['empty']['view_field']['display'] = 'event_header';
+  $handler->display->display_options['empty']['view_field']['arguments'] = '!1';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: OG membership: OG membership from Featured header */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
