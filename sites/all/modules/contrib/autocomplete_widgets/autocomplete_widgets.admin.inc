@@ -66,7 +66,7 @@ function _autocomplete_widgets_field_widget_settings_form($field, $instance) {
   $form['autocomplete_xss'] = array(
     '#type' => 'radios',
     '#title' => t('Filter HTML'),
-    '#default_value' => (isset($widget['autocomplete_xss']) ? $widget['autocomplete_xss'] : 0),
+    '#default_value' => (isset($settings['autocomplete_xss']) ? $settings['autocomplete_xss'] : 0),
     '#options' => array(0 => t('Disabled'), 1 => t('Enabled')),
     '#description' => t('Enable this option to filter out HTML in display of values.'),
   );
@@ -90,7 +90,7 @@ function _autocomplete_widgets_field_widget_settings_form($field, $instance) {
     $settings['suggested_values'] = !isset($settings['suggested_values']) ? '' : $settings['suggested_values'];
     $form['suggested_values'] = array(
       '#type' => 'textarea',
-      '#title' => t('Suggeset values list'),
+      '#title' => t('Suggested values list'),
       '#default_value' => $settings['suggested_values'],
       '#rows' => 10,
       '#description' => t('Autocomplete requests will only respond with suggestions from this list. If a user enters a value not on this list, it will <em>not</em> be added to the autocomplete options in the future. Enter one suggestion per line.'),
@@ -113,6 +113,27 @@ function _autocomplete_widgets_field_widget_settings_form($field, $instance) {
     );
   }
 
-  return $form;
+  if ($widget['type'] == 'autocomplete_widgets_node_reference' || $widget['type'] == 'autocomplete_widgets_flddata') {
+    $form['obey_access_controls'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Only suggest nodes that the current user has permission to access.'),
+      '#default_value' => isset($settings['obey_access_controls']) ? $settings['obey_access_controls'] : 1,
+      '#description' => t('Unchecking this means that users might have nodes suggested to them to which they do not have access. Proceed with caution.'),
+    );
+  }
 
+  $settings['order'] = !isset($settings['order']) ? 'ASC' : $settings['order'];
+  $form['order'] = array(
+    '#type' => 'select',
+    '#title' => t('Order'),
+    '#options' => array(
+      'ASC' => t('Ascending'),
+      'DESC' => t('Descending'),
+    ),
+    '#empty_option' => t('Don\'t Sort'),
+    '#default_value' => $settings['order'],
+    '#description' => t('Choose in which order should autocomplete suggestions be displayed.'),
+  );
+
+  return $form;
 }

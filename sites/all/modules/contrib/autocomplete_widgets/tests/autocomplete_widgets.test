@@ -1,0 +1,288 @@
+<?php
+
+class autocompleteWidgetsBaseTest extends DrupalWebTestCase {
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    // Enable a couple modules.
+    parent::setUp('autocomplete_widgets');
+    menu_rebuild();
+
+    // Create an array of test values.
+    $this->test_values = array(
+      'fooBar',
+      'FooBar',
+      'foobar',
+      'foo<em>baz</em>',
+      'bazfoo',
+      'baz',
+    );
+
+    // Create an admin user with all the permissions needed to run tests.
+    $this->admin_user = $this->drupalCreateUser(array('access administration pages', 'bypass node access', 'administer nodes'));
+    $this->drupalLogin($this->admin_user);
+
+    // Set default instance settings for quick reference.
+    $this->settings = array(
+      'autocomplete_match' => 'contains',
+      'autocomplete_case' => '0',
+      'autocomplete_xss' => '0',
+      'suggested_values' => implode("\n", $this->test_values),
+      'order' => '',
+      'allowed_node_types' => array('article'),
+    );
+  }
+
+  /**
+   * Adds an instance of the given field to the article content type.
+   */
+  function createInstance($field, $widget_type, $settings) {
+    $instance = array(
+      'field_name' => $this->field['field_name'],
+      'entity_type' => 'node',
+      'bundle' => 'article',
+      'widget' => array(
+        'type' => $widget_type,
+        'settings' => $settings,
+      ),
+    );
+    return field_create_instance($instance);
+  }
+
+  /**
+   * Preforms the most basic tests that suggestions are returned.
+   */
+  function basicTest($instance) {
+    $instance['widget']['settings'] = $this->settings;
+    field_update_instance($instance);
+
+    $this->drupalGet($this->path . 'f');
+    $this->assertRaw('"foobar"', 'A suggestion was returned containing the search string.');
+    $this->assertRaw('"fooBar"', 'A suggestion was returned containing the search string.');
+    $this->assertRaw('"FooBar"', 'A suggestion was returned containing the search string.');
+    $this->assertRaw(drupal_json_encode('foo<em>baz</em>'), 'A suggestion was returned containing the search string.');
+    $this->assertRaw('"bazfoo"', 'A suggestion was returned containing the search string.');
+    $this->assertNoRaw('"baz"', 'Non-matching value was not returned.');
+  }
+
+  /**
+   * Tests the functionality of the "starts with" option.
+   */
+  function startsWithTest($instance) {
+    $settings = $this->settings;
+    $settings['autocomplete_match'] = 'starts_with';
+    $instance['widget']['settings'] = $settings;
+    field_update_instance($instance);
+
+    $this->drupalGet($this->path . 'foo');
+    $this->assertRaw('"foobar"', 'A suggestion was returned starting with the search string.');
+    $this->assertNoRaw('"bazfoo"', 'A suggestion containing but not starting with the search string was not returned.');
+  }
+
+  /**
+   * Tests the functionality of the "case sensitive" option.
+   */
+  function caseTest($instance) {
+    $settings = $this->settings;
+    $settings['autocomplete_case'] = '1';
+    $instance['widget']['settings'] = $settings;
+    field_update_instance($instance);
+
+    $this->drupalGet($this->path . 'F');
+    $this->assertRaw('"FooBar"', 'A case-sensitive suggestion was returned containing the search string.');
+    $this->assertNoRaw('"fooBar"', 'Non-matching case-sensitve value was not returned.');
+  }
+
+  /**
+   * Tests the functionality of the "xss filter" option.
+   */
+  function xssTest($instance) {
+    $settings = $this->settings;
+    $settings['autocomplete_xss'] = 1;
+    $instance['widget']['settings'] = $settings;
+    field_update_instance($instance);
+
+    $this->drupalGet($this->path . 'foo');
+    $this->assertRaw('"bazfoo"', 'A suggestion was returned with HTML stripped out.');
+  }
+}
+
+class autocompleteWidgetsAllowedValuesTest extends autocompleteWidgetsBaseTest {
+  /**
+   * Implements getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Allowed Values Widget'),
+      'description' => t('Tests for the allowed values autocomplete widget.'),
+      'group' => t('Autocomplete Widgets'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+
+    // Attach a list field to the article content type.
+    $this->field = array(
+      'field_name' => 'allowed_values',
+      'type' => 'list_text',
+      'cardinality' => 1,
+      'settings' => array(
+        'allowed_values' => $this->test_values,
+      ),
+    );
+    $this->field = field_create_field($this->field);
+
+    // Set the autocomplete_path for quick reference.
+    $this->path = 'autocomplete_widgets/node/article/' . $this->field['field_name'] . '/';
+
+  }
+
+  function testAllowedValues() {
+    $instance = $this->createInstance($this->field, 'autocomplete_widgets_allowvals', $this->settings);
+    $this->basicTest($instance);
+    $this->startsWithTest($instance);
+    $this->caseTest($instance);
+    $this->xssTest($instance);
+  }
+
+}
+
+class autocompleteWidgetsFieldDataTest extends autocompleteWidgetsBaseTest {
+  /**
+   * Implements getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Existing Field Data Widget'),
+      'description' => t('Tests for the existing field data autocomplete widget.'),
+      'group' => t('Autocomplete Widgets'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+
+    // Attach a text field to the article content type.
+    $this->field = array(
+      'field_name' => 'existing_data',
+      'type' => 'text',
+      'cardinality' => 1,
+      'settings' => array(),
+    );
+    $this->field = field_create_field($this->field);
+
+    // Set the autocomplete_path for quick reference.
+    $this->path = 'autocomplete_widgets/node/article/' . $this->field['field_name'] . '/';
+
+  }
+
+  function testFieldData() {
+    $instance = $this->createInstance($this->field, 'autocomplete_widgets_flddata', $this->settings);
+
+    // Create a bunch of article nodes.
+    foreach ($this->test_values as $value) {
+      $settings = array(
+        'type' => 'article',
+        $this->field['field_name'] => array(LANGUAGE_NONE => array(array('value' => $value))),
+      );
+      $node = $this->drupalCreateNode($settings);
+    }
+
+    $this->basicTest($instance);
+    $this->startsWithTest($instance);
+    $this->caseTest($instance);
+    $this->xssTest($instance);
+  }
+
+}
+
+class autocompleteWidgetsSuggestedValuesTest extends autocompleteWidgetsBaseTest {
+  /**
+   * Implements getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Suggested Values Widget'),
+      'description' => t('Tests for the suggested values autocomplete widget.'),
+      'group' => t('Autocomplete Widgets'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+
+    // Attach a text field to the article content type.
+    $this->field = array(
+      'field_name' => 'suggested_values',
+      'type' => 'text',
+      'cardinality' => 1,
+      'settings' => array(),
+    );
+    $this->field = field_create_field($this->field);
+
+    // Set the autocomplete_path for quick reference.
+    $this->path = 'autocomplete_widgets/node/article/' . $this->field['field_name'] . '/';
+
+  }
+
+  function testSuggestedValues() {
+    $instance = $this->createInstance($this->field, 'autocomplete_widgets_suggested', $this->settings);
+    $this->basicTest($instance);
+    $this->startsWithTest($instance);
+    $this->caseTest($instance);
+    $this->xssTest($instance);
+  }
+
+}
+
+class autocompleteWidgetsNodeReferenceTest extends autocompleteWidgetsBaseTest {
+  /**
+   * Implements getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Node Reference Values Widget'),
+      'description' => t('Tests for the node reference values autocomplete widget.'),
+      'group' => t('Autocomplete Widgets'),
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+
+    // Attach a text field to the article content type.
+    $this->field = array(
+      'field_name' => 'node_reference_data',
+      'type' => 'text',
+      'cardinality' => 1,
+      'settings' => array(),
+    );
+    $this->field = field_create_field($this->field);
+
+    // Set the autocomplete_path for quick reference.
+    $this->path = 'autocomplete_widgets/node/article/' . $this->field['field_name'] . '/';
+
+  }
+
+  function testNodeTitles() {
+    $instance = $this->createInstance($this->field, 'autocomplete_widgets_node_reference', $this->settings);
+
+    // Create a bunch of article nodes.
+    foreach ($this->test_values as $value) {
+      $settings = array(
+        'type' => 'article',
+        'title' => $value,
+        // $this->field['field_name'] => array(LANGUAGE_NONE => array(array('value' => $value))),
+      );
+      $node = $this->drupalCreateNode($settings);
+    }
+
+    $this->basicTest($instance);
+    $this->startsWithTest($instance);
+    $this->caseTest($instance);
+    $this->xssTest($instance);
+  }
+
+}

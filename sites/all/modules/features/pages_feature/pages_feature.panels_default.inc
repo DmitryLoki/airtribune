@@ -114,11 +114,11 @@ e-mail: info@airtribune.com</p>',
       'title' => 'Follow us',
       'body' => '<div id="social">
   <ul>
-    <li><a href="http://twitter.com/airtribune" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
-    <li><a href="http://vk.com/airtribune" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
-    <li><a href="#" class="lj" rel="nofollow" target="_blank"><span>Livejournal</span></a></li>
-    <li><a href="http://www.facebook.com/groups/300523859959914" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
-    <li><a href="#" class="yt" rel="nofollow" target="_blank"><span>Youtube</span></a></li>
+    <li style="display: none;"><a href="http://twitter.com/airtribune" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
+    <li style="display: none;"><a href="http://vk.com/airtribune" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
+    <li style="display: none;"><a href="#" class="lj" rel="nofollow" target="_blank"><span>Livejournal</span></a></li>
+    <li><a href="http://www.facebook.com/Airtribune" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
+    <li style="display: none;"><a href="#" class="yt" rel="nofollow" target="_blank"><span>Youtube</span></a></li>
   </ul>
 </div>',
       'format' => 'full_html',
