@@ -393,7 +393,7 @@ function featured_header_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'ent_featured_header',
       'default_value' => NULL,
-      'default_value_function' => '',
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -408,8 +408,14 @@ function featured_header_field_default_fields() {
         ),
       ),
       'entity_type' => 'ent_featured_header',
+      'exclude_cv' => 0,
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
+      'options_limit' => 0,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_header_image' => 0,
+      ),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
@@ -423,7 +429,12 @@ function featured_header_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'status' => 0,
+            'action' => 'disable',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 0,
+            'skip_perm' => '0',
+            'status' => 1,
           ),
         ),
         'entity_translation_sync' => FALSE,
