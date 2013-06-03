@@ -28,14 +28,48 @@ function autocomplete_widgets_menu() {
    );
  }
 
+// /**
+//  * Implementation of hook_views_api().
+//  */
+// function autocomplete_widgets_views_api() {
+//   return array(
+//     'api' => 3.0,
+//     'path' => drupal_get_path('module', 'autocomplete_widgets') . '/views',
+//   );
+// }
+
 /**
- * Implementation of hook_views_api().
+ * Implementation of hook_element_info().
+ *
+ * Autocomplete_path is not used by text_widget but other widgets can use it.
  */
-function autocomplete_widgets_views_api() {
+function autocomplete_widgets_element_info() {
   return array(
-    'api' => 3.0,
-    'path' => drupal_get_path('module', 'autocomplete_widgets') . '/views',
+    'autocomplete_widgets' => array(
+      '#input' => TRUE,
+      '#columns' => array('value'), '#delta' => 0,
+      '#process' => array('autocomplete_widgets_element_process'),
+      '#autocomplete_path' => FALSE,
+    ),
   );
+}
+
+/**
+ * Process an individual textfield autocomplete element.
+ */
+function autocomplete_widgets_element_process($element, &$form_state, $form) {
+  $instance = field_widget_instance($element, $form_state);
+
+  if ($instance['widget']['type'] == 'autocomplete_widgets_allowvals') {
+    module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.common');
+
+    $label = drupal_array_get_nested_value($form_state['values'], $element['#parents'], $exists);
+    $options = _autocomplete_widgets_get_options($instance, $label, 'equals', NULL, 1);
+    if ($options) {
+      drupal_array_set_nested_value($form_state['values'], $element['#parents'], key($options));
+    }
+  }
+  return $element;
 }
 
 /**
@@ -83,31 +117,6 @@ function autocomplete_widgets_field_widget_info() {
 }
 
 /**
- * Implementation of hook_element_info().
- *
- * Autocomplete_path is not used by text_widget but other widgets can use it
- * (see nodereference and userreference).
- */
-function autocomplete_widgets_element_info() {
-  return array(
-    'autocomplete_widgets' => array(
-      '#input' => TRUE,
-      '#columns' => array('value'), '#delta' => 0,
-      '#process' => array('autocomplete_widgets_process_element'),
-      '#autocomplete_path' => FALSE,
-    ),
-  );
-}
-
-/**
- * Implementation of hook_field_widget_settings_form().
- */
-function autocomplete_widgets_field_widget_settings_form($field, $instance) {
-  module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.admin');
-  return _autocomplete_widgets_field_widget_settings_form($field, $instance);
-}
-
-/**
  * Implementation of hook_field_widget_form().
  */
 function autocomplete_widgets_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
@@ -123,8 +132,10 @@ function autocomplete_widgets_field_widget_form(&$form, &$form_state, $field, $i
     '#delta' => $delta,
     '#title' => $element['#title'],
     '#size' => $instance['widget']['settings']['size'],
-    '#maxlength' => $field['settings']['max_length'],
   );
+  if (isset($field['settings']['max_length'])) {
+    $element['value']['#maxlength'] = $field['settings']['max_length'];
+  }
 
   switch($instance['widget']['type']) {
     case 'autocomplete_widgets_flddata':
@@ -132,17 +143,17 @@ function autocomplete_widgets_field_widget_form(&$form, &$form_state, $field, $i
     case 'autocomplete_widgets_node_reference':
       $element['value'] = array_merge($element['value'], array(
         '#type' => 'textfield',
-        '#autocomplete_path' => 'autocomplete_widgets/'. $instance['entity_type'] . '/' . $instance['bundle'] . '/' . $element['#field_name'],
+        '#autocomplete_path' => 'autocomplete_widgets/' . $instance['entity_type'] . '/' . $instance['bundle'] . '/' . $element['#field_name'],
       ));
       break;
     case 'autocomplete_widgets_allowvals':
-      // get the label for key in hidden text field
+      // Get the label for key in hidden text field.
       $keys = array($element['value']['#default_value']);
       module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.common');
       $options = ($keys[0] != '') ? _autocomplete_widgets_get_options($instance, '', '', $keys, 1) : NULL;
       $element['value'] = array_merge($element['value'], array(
         '#type' => 'textfield',
-        '#process' => array('autocomplete_widgets_process_element'),
+        '#process' => array('autocomplete_widgets_element_process'),
         '#title' => $element['#title'],
         '#field_name' => $element['#field_name'],
         '#field_parents' => $element['#field_parents'],
@@ -154,69 +165,21 @@ function autocomplete_widgets_field_widget_form(&$form, &$form_state, $field, $i
         '#required' => $element['#required'],
         '#weight' => isset($element['#weight']) ? $element['#weight'] : 0,
         '#delta' => $delta,
-        '#element_validate' => array('autocomplete_widgets_validate'),
+        '#file' => drupal_get_path('module', 'autocomplete_widgets') . '/autocomplete_widgets.common.inc',
+        '#element_validate' => array('_autocomplete_widgets_validate_allowvals'),
       ));
+      break;
   }
 
   return $element;
 }
 
 /**
- * Process an individual textfield autocomplete element.
+ * Implementation of hook_field_widget_settings_form().
  */
-function autocomplete_widgets_process_element($element, &$form_state, $form) {
-  $instance = field_widget_instance($element, $form_state);
-
-  if ($instance['widget']['type'] == 'autocomplete_widgets_allowvals') {
-    module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.common');
-
-    $label = drupal_array_get_nested_value($form_state['values'], $element['#parents'], $exists);
-    $options = _autocomplete_widgets_get_options($instance, $label, 'equals', NULL, 1);
-    if ($options) {
-      drupal_array_set_nested_value($form_state['values'], $element['#parents'], key($options));
-    }
-  }
-  return $element;
-}
-
-/**
- * Validate a list autocomplete element.
- */
-function autocomplete_widgets_validate($element, &$form_state) {
-  $instance = field_widget_instance($element, $form_state);
-  if ($instance['widget']['type'] == 'autocomplete_widgets_allowvals') {
-    $label = $element['#value'];
-    if ($label !== '') {
-      module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.common');
-      $options = _autocomplete_widgets_get_options($instance, $label, 'equals', NULL, 1);
-      if (empty($options)) {
-        form_error($element, t('%name: %label is not a valid option for this field.', array('%name' => $instance['label'], '%label' => $label)));
-      }
-    }
-  }
-}
-
-/**
- * Menu callback; Retrieve the autocomplete suggestions.
- */
-function autocomplete_widgets_json($entity_type, $bundle_name, $field_name, $string = '') {
-  module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.common');
-  $field = field_info_instance($entity_type, $field_name, $bundle_name);
-  $match = isset($field['widget']['settings']['autocomplete_match']) ? $field['widget']['settings']['autocomplete_match'] : 'contains';
-  $matches = array();
-  $options = _autocomplete_widgets_get_options($field, $string, $match, NULL, 10);
-  foreach ($options as $key => $label) {
-    // Add a class wrapper for a few required CSS overrides.
-    $matches[$label] = '<div class="reference-autocomplete">'. check_plain($label) .'</div>';
-  }
-  drupal_json_output($matches);
-}
-
-/**
- * Theme an individual textfield autocomplete element.
- */
-function theme_autocomplete_widgets($element) {
-  return $element['#children'];
+function autocomplete_widgets_field_widget_settings_form($field, $instance) {
+  module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.admin');
+  return _autocomplete_widgets_field_widget_settings_form($field, $instance);
 }
 
 /**
@@ -242,7 +205,7 @@ function autocomplete_widgets_field_formatter_view($entity_type, $entity, $field
     switch ($field['type']) {
       case 'text' :
 
-        if (isset($items[0]['value'])) {
+	if (isset($items[0]['value']) && isset($instance['widget']['settings']['allowed_node_types'])) {
           // If there exists a node with that title, display it as a link.
           $query = new EntityFieldQuery();
           $nodes = $query->entityCondition('entity_type', 'node')
@@ -278,4 +241,52 @@ function autocomplete_widgets_field_formatter_view($entity_type, $entity, $field
     break;
   }
   return $result;
+}
+
+/**
+ * Menu callback; Retrieve the autocomplete suggestions.
+ */
+function autocomplete_widgets_json($entity_type, $bundle_name, $field_name, $string = '') {
+  module_load_include('inc', 'autocomplete_widgets', 'autocomplete_widgets.common');
+  $instance = field_info_instance($entity_type, $field_name, $bundle_name);
+  $match = isset($instance['widget']['settings']['autocomplete_match']) ? $instance['widget']['settings']['autocomplete_match'] : 'contains';
+  $matches = array();
+  $options = _autocomplete_widgets_get_options($instance, $string, $match, NULL, 10);
+  foreach ($options as $key => $label) {
+    // Add a class wrapper for a few required CSS overrides.
+    $matches[$label] = '<div class="reference-autocomplete">'. check_plain($label) .'</div>';
+  }
+  drupal_json_output($matches);
+}
+
+/**
+ * Theme an individual textfield autocomplete element.
+ */
+function theme_autocomplete_widgets($element) {
+  return $element['#children'];
+}
+
+/**
+* Implements hook_content_migrate_field_alter().
+*/
+function autocomplete_widgets_content_migrate_field_alter(&$field_value, $instance_value) {
+  if (($field_value['type'] == 'text') && ($instance_value['widget']['type'] == 'autocomplete_widgets_flddata') && empty($field_value['settings']['max_length'])) {
+    $field_value['type'] = 'text';
+    $field_value['settings']['max_length'] = 255;
+    $field_value['messages'][] = t("Invalid field/widget combination: The field '@field' in the bundle '@bundle' is an unlimited length field using a '@widget' widget, not allowed in D7. The field length will be set to 255.", array('@field' => $field_value['field_name'], '@bundle' => $instance_value['bundle'], '@widget' => $instance_value['widget']['type']));
+  }
+  elseif (($field_value['type'] == 'text') && ($instance_value['widget']['type'] == 'autocomplete_widgets_allowvals') && empty($field_value['settings']['max_length'])) {
+    $field_value['messages'][] = t("Changed field type: The '@field' field uses a '@widget' widget. The field type will be changed from '@type' to 'list_text'.", array('@type' => $field_value['type'], '@field' => $field_value['field_name'], '@widget' => $instance_value['widget']['type']));
+    $field_value['type'] = 'list_text';
+    $field_value['module'] = 'list';
+    // Lists don't have a max_length setting.
+    if (isset($field_value['settings']['max_length'])) {
+      unset($field_value['settings']['max_length']);
+    }
+    $allowed_values = array();
+    if (!empty($field_value['settings']['allowed_values'])) {
+      $allowed_values = content_migrate_extract_allowed_values($field_value['settings']['allowed_values'], $field_value['type']);
+    }
+    $field_value['settings']['allowed_values'] = $allowed_values;
+  }
 }

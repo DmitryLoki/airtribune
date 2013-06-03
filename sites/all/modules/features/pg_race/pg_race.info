@@ -10,6 +10,7 @@ dependencies[] = features
 dependencies[] = field_collection
 dependencies[] = file
 dependencies[] = filefield_paths
+dependencies[] = inline_entity_form
 dependencies[] = media
 dependencies[] = og
 dependencies[] = options

@@ -23,6 +23,7 @@ features[field][] = node-newsblog-field_single_image
 features[field][] = node-newsblog-og_group_ref
 features[field][] = node-newsblog-title_field
 features[schemaorg][] = node-newsblog
+features[variable][] = entity_translation_hide_translation_links_newsblog
 features[variable][] = entity_translation_settings_node__newsblog
 features[variable][] = field_bundle_settings_node__newsblog
 features[variable][] = language_content_type_newsblog
