@@ -20,7 +20,6 @@ features[features_api][] = api:1
 features[field][] = ent_racetype-pg_racetype_od-field_pg_race_azimuth
 features[field][] = ent_racetype-pg_racetype_od-field_pg_race_points
 features[field][] = ent_racetype-pg_racetype_od-og_group_ref
-features[field][] = ent_racetype-pg_racetype_rtg-field_pg_race_cylinder_type
 features[field][] = ent_racetype-pg_racetype_rtg-field_pg_race_gates_interval
 features[field][] = ent_racetype-pg_racetype_rtg-field_pg_race_gates_number
 features[field][] = ent_racetype-pg_racetype_rtg-field_pg_race_points
