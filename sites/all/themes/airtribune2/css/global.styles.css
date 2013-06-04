@@ -1857,8 +1857,8 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a { background-position:0 0} /* Event info */
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a { background-position:0 -150px} /* Flying site info */
-.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title, 
-.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane-with-sponsors h2.pane-title, 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane-with-sponsors h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a { background-position:0 -450px} /* Organizers */
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title, 
