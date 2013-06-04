@@ -4625,11 +4625,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array(
-    'method' => 'simple',
-    'settings' => array(
-      'lifetime' => '3600',
-      'granularity' => 'context',
-    ),
+    'method' => '0',
+    'settings' => array(),
   );
   $display->title = '';
   $display->content = array();
@@ -4642,7 +4639,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -4678,7 +4681,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -4714,7 +4723,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -4921,11 +4936,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array(
-    'method' => 'simple',
-    'settings' => array(
-      'lifetime' => '3600',
-      'granularity' => 'context',
-    ),
+    'method' => '0',
+    'settings' => array(),
   );
   $display->title = '';
   $display->content = array();
@@ -4938,7 +4950,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -4974,7 +4992,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -5010,7 +5034,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
