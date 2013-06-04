@@ -815,7 +815,13 @@ event/*/results',
         0 => 'event',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -849,7 +855,13 @@ event/*/results',
         0 => 'event',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -984,7 +996,13 @@ event/*/map/accommodations',
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -1044,7 +1062,13 @@ event/*/map/accommodations',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -1155,7 +1179,13 @@ event/*/map/accommodations',
         0 => 'event',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -1210,7 +1240,13 @@ event/*/map/accommodations',
       'plugins' => array(),
     );
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -2825,7 +2861,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'page' => 'details',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -2847,7 +2889,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -2873,7 +2921,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'page' => 'details',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -2908,7 +2962,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'page' => 'details',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -2944,7 +3004,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3001,7 +3067,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'page' => 'details',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3034,7 +3106,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'page' => 'details',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3200,7 +3278,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
         'page' => 'details',
       ),
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3297,7 +3381,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3412,7 +3502,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => '',
       'anchor' => 'general-schedule',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3439,7 +3535,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => 'Contacts',
       'anchor' => 'event-contacts',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3468,7 +3570,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => 'How to get here',
       'anchor' => 'how_to_get_here',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3527,7 +3632,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3560,7 +3671,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3584,7 +3701,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'build_mode' => 'default',
       'field_group' => 'group_how_to_get_here',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '28800',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3862,7 +3985,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title_text' => '',
       'anchor' => 'organizers',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -3970,7 +4099,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '14400',
+        'granularity' => 'context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -4489,7 +4624,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'bottom' => NULL,
     ),
   );
-  $display->cache = array();
+  $display->cache = array(
+    'method' => 'simple',
+    'settings' => array(
+      'lifetime' => '3600',
+      'granularity' => 'context',
+    ),
+  );
   $display->title = '';
   $display->content = array();
   $display->panels = array();
@@ -4779,7 +4920,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'bottom' => NULL,
     ),
   );
-  $display->cache = array();
+  $display->cache = array(
+    'method' => 'simple',
+    'settings' => array(
+      'lifetime' => '3600',
+      'granularity' => 'context',
+    ),
+  );
   $display->title = '';
   $display->content = array();
   $display->panels = array();
