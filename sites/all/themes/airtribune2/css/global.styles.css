@@ -3027,3 +3027,6 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 }
 .setUserVisualMode { background-position: 0 0; display: block;}
 .airvis-waypoint-title { white-space: nowrap; font-weight: bold; padding: 3px; }
+
+.page-user .second_sidebar,
+.page-account .second_sidebar { position: relative; margin-top: -30px;}
