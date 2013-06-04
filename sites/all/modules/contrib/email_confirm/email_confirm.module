@@ -488,7 +488,11 @@ function email_confirm_mail_tokens(&$replacements, $data, $options) {
   if (isset($data['email_confirm'])) {
     $replacements['[email_confirm:email_url]'] = $data['email_confirm']->url;
     $replacements['[email_confirm:email_old]'] = $data['user']->mail;
-    $replacements['[email_confirm:email_new]'] = (!empty($_REQUEST['mail']) ? $_REQUEST['mail'] : $data['user']->data['email_confirm']['pending_email']);
+    $replacements['[email_confirm:email_new]'] = $_REQUEST['mail'];
+  }
+  elseif (isset($data['user']->data['email_confirm'])) {
+    $replacements['[email_confirm:email_old]'] = $data['user']->mail;
+    $replacements['[email_confirm:email_new]'] = $data['user']->data['email_confirm']['pending_email'];
   }
 }
 
