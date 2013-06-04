@@ -343,17 +343,14 @@ function email_confirm_user_change_mail($uid = NULL, $timestamp = NULL, $new_mai
  */
 function email_confirm_mail($key, &$message, $params) {
   $language = $message['language'];
-  $account = $params['account'];
-  $context = $params['context'];
+  $variables = array('user' => $params['account']);
 
-  $email_confirm = new stdClass();
-  $email_confirm->url = $context['url'];
-
-  $variables = array(
-    'email_confirm' => $email_confirm,
-    'user' => $account
-  );
-
+  if (!empty($params['context'])) {
+    $context = $params['context'];
+    $email_confirm = new stdClass();
+    $email_confirm->url = $context['url'];
+    $variables['email_confirm'] = $email_confirm;
+  }
   $message['subject'] = email_confirm_mail_text('confirmation_email_subject', $language, $variables);
   if ($key == 'confirmation_after_change_original_email' || $key == 'confirmation_after_change_email') {
     $message['subject'] = email_confirm_mail_text('confirmation_after_change_email_subject', $language, $variables);
