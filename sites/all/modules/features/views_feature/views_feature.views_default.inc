@@ -5226,7 +5226,11 @@ function views_feature_views_default_views() {
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '3600';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '3600';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -5568,7 +5572,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
   $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
-  $handler->display->display_options['fields']['field_address']['label'] = 'Nation';
+  $handler->display->display_options['fields']['field_address']['label'] = 'Country';
   $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
   $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
@@ -6381,7 +6385,7 @@ function views_feature_views_default_views() {
     t('%1 members'),
     t('Standard'),
     t('[field_full_name] ([field_contestant_number])'),
-    t('Nation'),
+    t('Country'),
     t('Sponsor'),
     t('Glider'),
     t('<span class="status-value">[field_pg_contestant_status]</span>'),
@@ -6397,6 +6401,7 @@ function views_feature_views_default_views() {
     t('E-mail'),
     t('Pilot\'s number'),
     t('Date of birth'),
+    t('Country'),
     t('City'),
     t('[field_address_1-locality]'),
     t('[field_address_2-thoroughfare]'),
@@ -6766,7 +6771,7 @@ function views_feature_views_default_views() {
     t('E-mail'),
     t('Pilot\'s number'),
     t('Date of birth'),
-    t('Nation'),
+    t('Country'),
     t('[field_address-country]'),
     t('City'),
     t('[field_address_1-locality]'),
