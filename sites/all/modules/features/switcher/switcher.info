@@ -45,6 +45,7 @@ dependencies[] = device
 dependencies[] = disqus
 dependencies[] = draggableviews
 dependencies[] = eck
+dependencies[] = eck_entitycache
 dependencies[] = elements
 dependencies[] = email
 dependencies[] = email_confirm

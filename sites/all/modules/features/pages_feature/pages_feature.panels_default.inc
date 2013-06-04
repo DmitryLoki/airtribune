@@ -38,7 +38,13 @@ function pages_feature_default_panels_mini() {
       'four_five' => NULL,
     ),
   );
-  $display->cache = array();
+  $display->cache = array(
+    'method' => 'simple',
+    'settings' => array(
+      'lifetime' => '604800',
+      'granularity' => 'none',
+    ),
+  );
   $display->title = '';
   $display->content = array();
   $display->panels = array();
@@ -226,7 +232,13 @@ e-mail: info@airtribune.com</p>',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -244,7 +256,13 @@ e-mail: info@airtribune.com</p>',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
