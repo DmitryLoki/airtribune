@@ -1063,11 +1063,8 @@ event/*/map/accommodations',
     $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '14400',
-        'granularity' => 'context',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
