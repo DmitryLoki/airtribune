@@ -218,7 +218,7 @@ function airtribune_format_date_interval($start_date, $end_date) {
  * @return string
  *   An sanitized string with the given name and family to display.
  */
-function airtrubune_format_username($account) {
+function airtrubune_format_username($account, $maxlength = 15) {
 
   // Put login as fallback user name.
   $user_name = $account->name;
@@ -230,16 +230,56 @@ function airtrubune_format_username($account) {
       $family = $name_items[0]['family'];
 
       $user_name = $given . ' ' . $family;
-      if (drupal_strlen($user_name) > 15) {
+      if (drupal_strlen($user_name) > $maxlength) {
         $user_name = $given . ' ' . truncate_utf8($family, 1) . '.';
       }
-      if (drupal_strlen($user_name) > 15) {
+      if (drupal_strlen($user_name) > $maxlength) {
         $user_name = truncate_utf8($given, 12, TRUE, TRUE);
       }
     }
   }
 
   return check_plain($user_name);
+}
+
+/**
+ * Get user country.
+ *
+ * @param object $account
+ *   The account object of the user
+ *
+ * @return object
+ *   The full country object, with ISO2, ISO3, and name
+ */
+function airtribune_get_user_country($account) {
+  if (!is_object($account)) {
+    $account = user_load($account);
+  }
+  if (!$account) {
+    return FALSE;
+  }
+
+  if ($profile = profile2_load_by_user($account, 'pilot')) {
+    $address = field_get_items('profile2', $profile, 'field_address');
+    if (isset($address[0]['country'])) {
+      return country_load($address[0]['country']);
+    }
+  }
+}
+
+function airtribune_draw_user_country_icon($account, $draw_country_name = TRUE) {
+  $result = FALSE;
+  $country = airtribune_get_user_country($account);
+  if (isset($country->iso3)) {
+    $result = theme(
+      'countryicons_icon_sprite',
+      array('code' => $country->iso2, 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
+    );
+    if ($draw_country_name) {
+      $result .= " <div class='country-name'>" . $country->name . "</div>";
+    }
+  }
+  return $result;
 }
 
 /**
