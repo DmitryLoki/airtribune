@@ -2800,7 +2800,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['view']['table'] = 'views';
   $handler->display->display_options['fields']['view']['field'] = 'view';
   $handler->display->display_options['fields']['view']['ui_name'] = 'Results view';
-  $handler->display->display_options['fields']['view']['label'] = 'Results';
+  $handler->display->display_options['fields']['view']['label'] = 'Results tables';
   $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['view']['view'] = 'day_results';
@@ -2979,7 +2979,7 @@ return array($event_id);';
     t('pg_contest node'),
     t('Race type entity referenced from field_pg_racetype_ref'),
     t('.'),
-    t('Results'),
+    t('Results tables'),
     t('Tracks'),
     t('IGC'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
