@@ -28,7 +28,6 @@ dependencies[] = path
 dependencies[] = pathauto
 dependencies[] = profile2
 dependencies[] = relation
-dependencies[] = robotstxt
 dependencies[] = views
 dependencies[] = xmlsitemap
 features[features_api][] = api:1
