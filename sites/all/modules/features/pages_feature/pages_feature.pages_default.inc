@@ -5131,7 +5131,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'News | [node:title] | [site:slogan]',
+          'value' => 'Results | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Competition results, scoring tables, races replay.',
         ),
       ),
     ),
