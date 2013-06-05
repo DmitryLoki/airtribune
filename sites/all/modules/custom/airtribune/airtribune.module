@@ -271,13 +271,13 @@ function airtribune_draw_user_country_icon($account, $draw_country_name = TRUE) 
   $result = FALSE;
   $country = airtribune_get_user_country($account);
   if (isset($country->iso3)) {
-    $result = theme(
+    $icons = theme(
       'countryicons_icon_sprite',
       array('code' => $country->iso2, 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
     );
     if ($draw_country_name) {
       //$result .= " <div class='country-name'>" . $country->name . "</div>";
-      $result .= " " . strtoupper($country->iso3);
+      $result = "&nbsp; " . $icons . " " . strtoupper($country->iso3);
     }
   }
   return $result;
