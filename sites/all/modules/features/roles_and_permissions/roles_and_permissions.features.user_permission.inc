@@ -100,13 +100,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'panels',
   );
 
-  // Exported permission: administer blocks.
-  $permissions['administer blocks'] = array(
-    'name' => 'administer blocks',
-    'roles' => array(),
-    'module' => 'block',
-  );
-
   // Exported permission: administer content types.
   $permissions['administer content types'] = array(
     'name' => 'administer content types',
@@ -307,15 +300,6 @@ function roles_and_permissions_user_default_permissions() {
     'name' => 'administer relations',
     'roles' => array(),
     'module' => 'relation',
-  );
-
-  // Exported permission: administer robots.txt.
-  $permissions['administer robots.txt'] = array(
-    'name' => 'administer robots.txt',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'robotstxt',
   );
 
   // Exported permission: administer site configuration.
