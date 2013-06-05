@@ -61,6 +61,7 @@ if($row->field_field_image){
 }
 
 ?>
+
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php print $fields['title']->content; ?>
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
@@ -76,7 +77,7 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
-<?php if (!empty($fields['id_1']->raw)): ?>
+<?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
 
