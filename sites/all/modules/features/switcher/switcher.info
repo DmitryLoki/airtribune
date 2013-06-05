@@ -145,6 +145,7 @@ dependencies[] = reference_option_limit
 dependencies[] = relation
 dependencies[] = relation_endpoint
 dependencies[] = reverse_geocode_widget
+dependencies[] = roles_and_permissions
 dependencies[] = rules
 dependencies[] = rules_feature
 dependencies[] = schemaorg
