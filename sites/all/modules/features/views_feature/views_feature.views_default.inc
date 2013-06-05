@@ -2919,6 +2919,16 @@ return array($event_id);';
   $handler->display->display_options['fields']['id_1']['table'] = 'eck_ent_racetype';
   $handler->display->display_options['fields']['id_1']['field'] = 'id';
   $handler->display->display_options['fields']['id_1']['relationship'] = 'field_pg_racetype_ref_target_id';
+  /* Field: Race type: Race points */
+  $handler->display->display_options['fields']['field_pg_race_points']['id'] = 'field_pg_race_points';
+  $handler->display->display_options['fields']['field_pg_race_points']['table'] = 'field_data_field_pg_race_points';
+  $handler->display->display_options['fields']['field_pg_race_points']['field'] = 'field_pg_race_points';
+  $handler->display->display_options['fields']['field_pg_race_points']['relationship'] = 'field_pg_racetype_ref_target_id';
+  $handler->display->display_options['fields']['field_pg_race_points']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_pg_race_points']['settings'] = array(
+    'link' => 0,
+  );
+  $handler->display->display_options['fields']['field_pg_race_points']['delta_offset'] = '0';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -2985,6 +2995,7 @@ return array($event_id);';
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('Id'),
     t(','),
+    t('Race points'),
     t('All'),
     t('Content pane'),
     t('View panes'),

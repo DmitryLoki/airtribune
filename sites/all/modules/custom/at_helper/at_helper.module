@@ -482,6 +482,40 @@ function at_helper_views_query_alter(&$view, &$query) {
   }
 }
 
+/**
+ * Implements hook_views_pre_render()
+ */
+function at_helper_views_pre_render(&$view) {
+  /*
+  if ($view->name == 'event_days') {
+    foreach ($view->result as $k => $v) {
+      if (empty($v->field_field_pg_race_points)) {
+        $view->result[$k]->field_field_core_id = array();
+        $view->result[$k]->field_field_core_id_1 = array();
+      }
+    }
+  }
+  */
+}
+
+
+/**
+ * Implements hook_views_post_execute()
+ */
+function at_helper_views_post_execute(&$view) {
+  if ($view->name == 'event_days') {
+    
+    foreach ($view->result as $k => $v) {
+      if (empty($v->field_field_pg_race_points)) {
+        $view->result[$k]->field_field_core_id = array();
+        $view->result[$k]->field_field_core_id_1 = array();
+      }
+    }
+    //dsm($view->display['panel_pane_1']);
+    //dsm($view);
+  }
+  
+}
 
 /**
  * Implements hook_page_manager_contexts_alter()
