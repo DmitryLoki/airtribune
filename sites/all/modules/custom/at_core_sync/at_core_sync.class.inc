@@ -8,16 +8,15 @@ abstract class ATSync {
   public $entity_type;
   public $id = FALSE;
   public $address = FALSE;
-  public $port = 80;
   public function __construct($entity, $entity_type) {
     $this->entity = $entity;
     $this->entity_type = $entity_type;
   }
-  public function request($data, $method = "POST") {
+  public static function requestToCore($address, $data = array(), $method = "POST") {
     $handle = curl_init();
-    $url = at_core_sync_get_api_url() . '/' . $this->address;
+    $url = at_core_sync_get_api_url() . '/' . $address;
     curl_setopt($handle, CURLOPT_URL, $url);
-    curl_setopt($handle, CURLOPT_PORT, $this->port);
+    curl_setopt($handle, CURLOPT_PORT, 80);
     curl_setopt($handle, CURLOPT_TIMEOUT, 5);
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -91,6 +90,10 @@ abstract class ATSync {
         break;
     }
     return json_decode($response);
+  }
+
+  public function request($data, $method = "POST") {
+    return ATSync::requestToCore($this->address, $data, $method);    
   }
 
   public function updateCoreID($id) {
