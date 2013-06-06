@@ -264,7 +264,7 @@ function pg_racetypes_field_default_fields() {
       'options_limit' => FALSE,
       'options_limit_empty_behaviour' => 0,
       'options_limit_fields' => array(),
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -277,9 +277,9 @@ function pg_racetypes_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'none',
+            'action' => 'hide',
             'action_on_edit' => 0,
-            'fallback' => 'none',
+            'fallback' => 'form_error',
             'og_context' => 0,
             'skip_perm' => '0',
             'status' => 1,
@@ -307,77 +307,6 @@ function pg_racetypes_field_default_fields() {
         'settings' => array(),
         'type' => 'og_complex',
         'weight' => 5,
-      ),
-    ),
-  );
-
-  // Exported field: 'ent_racetype-pg_racetype_rtg-field_pg_race_cylinder_type'.
-  $fields['ent_racetype-pg_racetype_rtg-field_pg_race_cylinder_type'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_pg_race_cylinder_type',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'cylinder' => 'Cylinder',
-          'line' => 'Line',
-        ),
-        'allowed_values_function' => '',
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_racetype_rtg',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'ent_racetype',
-      'exclude_cv' => 0,
-      'field_name' => 'field_pg_race_cylinder_type',
-      'label' => 'Race cylinder type',
-      'required' => 1,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
       ),
     ),
   );
@@ -707,7 +636,7 @@ function pg_racetypes_field_default_fields() {
       'options_limit' => FALSE,
       'options_limit_empty_behaviour' => 0,
       'options_limit_fields' => array(),
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -720,9 +649,9 @@ function pg_racetypes_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'none',
+            'action' => 'hide',
             'action_on_edit' => 0,
-            'fallback' => 'none',
+            'fallback' => 'form_error',
             'og_context' => 0,
             'skip_perm' => '0',
             'status' => 1,
@@ -1008,7 +937,7 @@ function pg_racetypes_field_default_fields() {
       'options_limit' => FALSE,
       'options_limit_empty_behaviour' => 0,
       'options_limit_fields' => array(),
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -1021,9 +950,9 @@ function pg_racetypes_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'none',
+            'action' => 'hide',
             'action_on_edit' => 0,
-            'fallback' => 'none',
+            'fallback' => 'form_error',
             'og_context' => 0,
             'skip_perm' => '0',
             'status' => 1,

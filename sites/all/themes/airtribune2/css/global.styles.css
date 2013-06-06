@@ -1446,7 +1446,7 @@ p { margin:0; padding:9px 0 11px}
 .clear_right {clear:right}
 
 
-#header {position:relative; padding:0; z-index:100; margin-bottom:16px; background:url(../images/header_bgr_1.png) repeat 0 0;}
+#header {position:relative; padding:0; z-index:120; margin-bottom:16px; background:url(../images/header_bgr_1.png) repeat 0 0;}
 #main {/*height:100%;*/ margin:0; padding:0; position:relative;}
 #footer {position:absolute; /*margin:-312px auto 0*/ ; padding:0; z-index:1; overflow:hidden; min-width:1000px; border-top:1px solid #e9ebec; background:#aeb7ba; padding-top:1px; width:100%; left:0; bottom:0}
 
@@ -1593,7 +1593,12 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
 
 .pane-event-days-panel-pane-1 .views-field-view,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: inline-block; position: relative; margin: 11px 10px 9px;}
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks,
+.pane-event-days-panel-pane-1 .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
+.pane-event-days-panel-pane-1 .task_link { width: 40px; height: 40px; background: url(../images/track.png) no-repeat 0 0; overflow: hidden;}
+.pane-event-days-panel-pane-1 .task_link:hover { background-position: 0 -40px;}
+.pane-event-days-panel-pane-1 .task_link:active { background-position: 0 -80px;}
+.pane-event-days-panel-pane-1 .task_link span { position: absolute; left: -9999px;}
 .pane-event-days-panel-pane-1 .views-field-view .views-label,
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label,
 .pane-event-days-panel-pane-1 .views-field-view .field-content,
@@ -1771,40 +1776,47 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 #page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
 #page .view-events-list .views-row-first .views-field { padding-top:2px;}
 #page .view-events-list .views-field-nothing .field-content, #page .view-events-list .views-field-nothing-1 .field-content { display:block; padding:0 0 0 31px}
-#page .view-events-list a.next_event { color:#525d66; font:bold 18px/20px Arial, Helvetica, sans-serif; text-decoration:none; cursor:pointer; display:block; overflow:hidden}
-#page .view-events-list a.next_event:hover { color:#00aeef}
-#page .view-events-list a.next_event .title { font-weight:bold; display:block; padding-bottom:11px}
-#page .view-events-list a.next_event .dates, #page .view-events-list a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
-#page .view-events-list a.next_event:hover .dates, #page .view-events-list a.next_event:hover .place { color:#616569}
-#page .view-events-list a.next_event .dates { background-position:-220px -13px; float:left; padding-right:27px}
-#page .view-events-list a.next_event .place { background-position:-660px -45px; float:left}
-#page .view-events-list a.next_event:hover .dates { background-position:0 3px}
-#page .view-events-list a.next_event:hover .place { background-position:-440px -29px;}
+a.next_event { color:#525d66; font:bold 18px/20px Arial, Helvetica, sans-serif; text-decoration:none; cursor:pointer; display:block; overflow:hidden}
+a.next_event:hover { color:#00aeef}
+a.next_event .title { font-weight:bold; display:block; padding-bottom:11px}
+a.next_event .dates, 
+a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
+a.next_event:hover .dates, 
+a.next_event:hover .place { color:#616569}
+a.next_event .dates { background-position:-220px -13px; float:left; padding-right:27px}
+a.next_event .place { background-position:-660px -45px; float:left}
+a.next_event:hover .dates { background-position:0 3px}
+a.next_event:hover .place { background-position:-440px -29px;}
 
 /*#next_events_pic { background:url(../images/next_events.png) no-repeat 0 0; width:220px; height:390px}*/
 
 /* My registrations */
-#page .view-my-registrations .views-row { position: relative; }
-#page .view-my-registrations .views-row .views-field { background: url(../images/teaser_border.png) repeat-x 0 100%; padding: 18px 0 11px; }
-#page .view-my-registrations .views-row-first .views-field { padding-top: 2px; }
-#page .view-my-registrations .views-field-nothing .field-content,
-#page .view-my-registrations .views-field-nothing-1 .field-content { display: block; padding: 0 0 0 31px; }
-#page .view-my-registrations a.next_event { margin-right: 80px; color: #525d66; font: bold 18px/20px Arial, Helvetica, sans-serif; text-decoration: none; cursor: pointer; display: block; overflow: hidden; }
-#page .view-my-registrations a.next_event:hover { color: #00aeef; }
-#page .view-my-registrations a.next_event .event-header { display: block; padding-bottom: 11px; }
-#page .view-my-registrations a.next_event .title { font-weight: bold; margin-right: 10px; }
-#page .view-my-registrations a.next_event .status { color: #8cc6f4; font: 14px/20px Arial,Helvetica,sans-serif; }
-#page .view-my-registrations a.next_event .status-4 { color: #c4d709; }
-#page .view-my-registrations a.next_event .dates, #page .view-my-registrations a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
-#page .view-my-registrations a.next_event:hover .dates, #page .view-my-registrations a.next_event:hover .place { color:#616569}
-#page .view-my-registrations a.next_event .dates { background-position:-220px -13px; float:left; padding-right:27px}
-#page .view-my-registrations a.next_event .place { background-position:-660px -45px; float:left}
-#page .view-my-registrations a.next_event:hover .dates { background-position:0 3px}
-#page .view-my-registrations a.next_event:hover .place { background-position:-440px -29px;}
-#page .view-my-registrations .views-row .cancel-participation,
-#page .view-my-registrations .views-row .cancel-participation-process { position: absolute; right: 20px; top: 15px; }
-#page .view-my-registrations .views-row-first .cancel-participation,
-#page .view-my-registrations .views-row-first .cancel-participation-process { top: 1px; }
+.view-my-registrations .views-row { position: relative; }
+.view-my-registrations .views-row .views-field { margin: 8px 0 0; }
+.view-my-registrations .views-row-first .views-field { margin-top: 28px; }
+.view-my-registrations .views-field-nothing .field-content,
+.view-my-registrations .views-field-nothing-1 .field-content { display: block;}
+.view-my-registrations a.next_event,
+.view-my-registrations a.next_event:hover { border: 1px solid #f4f4f4; padding: 8px 45px 11px 11px; color:#525d66;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+.view-my-registrations .views-row-even a.next_event { background: #f6f7f9; border-color: #f6f6f6}
+.view-my-registrations a.next_event .event-header { display: block; padding-bottom: 9px; }
+.view-my-registrations a.next_event .title { margin-right: 10px; display: inline; font-size: 17px; padding-bottom: 0;}
+.view-my-registrations a.next_event .status { font: 14px/18px Arial,Helvetica,sans-serif; }
+/*.view-my-registrations a.next_event .status-4 { color: #c4d709; }*/
+.view-my-registrations a.next_event .dates { background-position:0 3px; float:left; padding-right:27px; color: #515558}
+.view-my-registrations a.next_event .place { background-position:-440px -29px; float:left; color: #515558}
+
+.view-my-registrations .views-row .cancel-participation,
+.view-my-registrations .views-row .cancel-participation-process { position: absolute; right: 8px; top: 8px; width: 24px; height: 24px; background: url(../images/cancel.png) no-repeat 0 0; text-indent: -9999px; overflow: hidden; display: none;}
+.view-my-registrations .views-row:hover .cancel-participation,
+.view-my-registrations .views-row:hover .cancel-participation-process { display: block;}
+
 
 .breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
 .breadcrumb .inline { display:inline;}
@@ -1845,8 +1857,8 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a { background-position:0 0} /* Event info */
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a { background-position:0 -150px} /* Flying site info */
-.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title, 
-.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane-with-sponsors h2.pane-title, 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane-with-sponsors h2.pane-title a { background-position:0 -300px} /* Prize funds and scoring categories */
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a { background-position:0 -450px} /* Organizers */
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title, 
@@ -2090,11 +2102,32 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 #page .panel_info .pane-node-field-prizes { margin-bottom:9px}
 
 /* Awards photos */
-.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
+/*.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
 .page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:0 11px 0}
 .page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .view-content > div { padding-top:1px}
 .page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(9n+1) { clear:both;}
-.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}
+.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}*/
+.pane-contest-scoring-categories-awards-pane-with-sponsors .view-contest-scoring-categories { padding-top: 10px;}
+.pane-contest-scoring-categories-awards-pane-with-sponsors .more-link { padding-top: 10px;}
+.award-item { clear: both;}
+.award-item .field-name-field-pg-scoring-category { background: url(../images/prizes.png) no-repeat 0 10px; color: #495055; font: 16px/18px Arial, Helvetica, sans-serif; padding: 10px 0 2px 25px;}
+.with-sponsors .field-name-field-pg-scoring-category { background-position: -1100px 10px}
+.award-item .sponsor-item { color: #7d858c; font: 14px/16px Arial, Helvetica, sans-serif; clear: both; padding-top: 6px;}
+.award-item .sponsor-item span { float: left; padding: 0 5px 7px 25px;}
+.award-item .field-name-field-url a { color: #00aeef; text-decoration: underline; float: left;}
+.award-item .field-name-field-url a:hover { text-decoration: none;}
+.award-item .field-name-field-plain-body { clear: both; color: #525c66; font: italic 14px/16px Arial, Helvetica, sans-serif; padding: 0 0 9px 25px; top: -3px; position: relative;}
+.award-item .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
+.award-item .field-name-field-awards-photos { float: left; margin-bottom: 9px; margin-right: -16px;}
+.award-item .field-name-field-awards-photos .field-item { float: left; padding-left: 8px;}
+.award-item .field-name-field-organizer-logo img,
+.award-item .field-name-field-awards-photos img { border: 1px solid #f0f5f8; vertical-align: middle;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 /* Daily schedule */
 .pane-node-field-sample-schedule {}
@@ -2221,6 +2254,8 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 
   /* Forms */
 
+#mail-change { display: none;}
+
 .page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28px -1px 0;
 
   -webkit-border-radius: 3px;
@@ -2251,6 +2286,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
   -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
 
 }
+.page-user .pane-page-content form .form-item-mail input.form-text { width: 292px;}
 html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
@@ -2299,6 +2335,7 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
 .page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
+#mail-edit-cancel-link { display: none; cursor: pointer;}
 .page-user .pane-page-content form .form-actions input, 
 .events-add a,
 .page-user .pane-page-content form .reg_choice a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
@@ -2454,6 +2491,11 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .page-user-edit .pane-page-content form .field-type-image .description br:first-child { display: none;}
 .page-user .pane-page-content form .form-type-item { font:18px/20px Arial, Helvetica, sans-serif; color:#2d3033; padding-top: 6px; margin-bottom: -2px;}
 .page-user .pane-page-content form .form-type-item .inline-label { top: -10px;}
+.page-user-edit .pane-page-content form #mail-dummy .form-type-item { float: left;}
+.page-user-edit .pane-page-content form #mail-dummy #mail-edit-pencil { float: left; margin-top: 24px; margin-left: 11px;}
+#mail-edit-pencil { cursor: pointer; background: url(../images/pensil.png) no-repeat 0 0; width: 18px; height: 18px; overflow: hidden; text-indent: -9999px;}
+#mail-edit-pencil:hover { background-position: 0 -18px}
+.page-user-edit .pane-page-content form #mail-dummy + .form-item { clear: both;}
 .page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
 .page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
 .page-user-edit .pane-page-content form .field-type-list-text .form-type-radio { padding-bottom: 2px;}
@@ -2725,17 +2767,19 @@ table tr td.:first-child { border-left: none;}
 .featured-header { width: 940px; height: 380px; background: #DEE6E9; position: relative; overflow: hidden; margin: 0 auto 20px;}
 .featured-header .panel-pane,
 .featured-header .pane-inner { margin: 0;}
-.featured-header-title { top: 0; position: absolute; width: 900px; padding: 16px 20px 19px; /*background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15);*/  background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5); color: #FFF; z-index: 9;}
+.featured-header-title { top: 0; position: absolute; width: 900px; padding: 16px 20px 19px; /*background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15);*/  background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5); color: #FFF; z-index: 9; z-index: 110}
 .featured-header .featured-header-title h1 { color: #FFF;}
 .featured-header-padding { top: 0; position: absolute; width: 940px;}
+.pane-header-slideshow-event-header { position: relative; z-index: 10}
 
-.featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 100; cursor: pointer;}
+.featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 115; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
 .featured-header-collapsible .featured-header .collapse-control:hover { background-position: -80px 35px; background-color: rgba(255, 255, 255, 0.5);}
 .featured-header-collapsible .featured-header-collapsed { /*height: 110px;*/}
 .featured-header-collapsible .featured-header-collapsed .collapse-control { background-position:  -40px 35px}
 .featured-header-collapsible .featured-header-collapsed .collapse-control:hover { background-position: 0 35px}
 
+.page-account .featured-header-title,
 .logo_in_title .featured-header-title,
 .page-node-5362 .featured-header-title,
 .page-user.page-user-header-logo .featured-header-title,
@@ -2743,6 +2787,7 @@ table tr td.:first-child { border-left: none;}
 .page-events .featured-header-title, 
 .page-event-map .featured-header-title { background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5);}
 .page-user.page-event-register .featured-header-title .pane-airtribune-event-title { padding: 16px 20px 19px;}
+.page-account .featured-header-title h1,
 .logo_in_title .featured-header-title h1,
 .page-node-5362 .featured-header-title h1,
 .page-user.page-user-header-logo .featured-header-title h1,
@@ -2879,6 +2924,13 @@ table tr td.:first-child { border-left: none;}
 #disqus_thread { padding-top: 35px;}
 
 
+/* Contestant status */
+span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px; font: 14px/16px Arial,Helvetica,sans-serif}
+.status-Waiting-list span.status-value { background-position: 0 -99px; color: #c1c7cc;}
+.status-Waiting-for-payment span.status-value { background-position: 0 -149px; color: #97caf2;}
+.status-Payment-in-progress span.status-value { background-position: 0 -49px; color: #efae00;}
+.status-Confirmed span.status-value{ background-position: 0 1px; color: #b6c32a;}
+
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
 .page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
@@ -2888,12 +2940,6 @@ table tr td.:first-child { border-left: none;}
 .page-event-pilots td.views-field-field-sponsors .td_inner { width: 116px;}
 .page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 1px; vertical-align: top;}
 .page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
-
-.views-field-field-pg-contestant-status span { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px;}
-.views-field-field-pg-contestant-status span.Waiting-list { background-position: 0 -99px; color: #c1c7cc;}
-.views-field-field-pg-contestant-status span.Waiting-for-payment { background-position: 0 -149px; color: #97caf2;}
-.views-field-field-pg-contestant-status span.Payment-in-progress { background-position: 0 -49px; color: #efae00;}
-.views-field-field-pg-contestant-status span.Confirmed { background-position: 0 1px; color: #b6c32a;}
 
 .page-event-pilots .view-paragliding-pilots-list caption { background-image: url(../images/table_action.png); background-repeat: no-repeat; background-position: 8px -967px}
 .page-event-pilots .view-paragliding-pilots-list caption .countryicon-sprite { margin: 0 15px 2px 4px;}
@@ -2924,11 +2970,31 @@ table tr td.:first-child { border-left: none;}
 .pane-contest-scoring-categories-results-pane {}
 .page-event-results .view-contest-scoring-categories > .view-content > div { clear: both; padding-top: 50px;}
 .page-event-results .view-contest-scoring-categories > .view-content > div:first-child { padding-top: 41px;}
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div { margin-left: 309px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd.hor_pic > div { margin-left: 458px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-odd > div.views-field-field-single-image { margin-left: 0; float: left;}
 
-.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 321px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div { margin-right: 309px;}
+.page-event-results .view-contest-scoring-categories > .view-content > .views-row-even.hor_pic > div { margin-right: 458px;}
 .page-event-results .view-contest-scoring-categories > .view-content > .views-row-even > div.views-field-field-single-image { float: right; margin-right: 0;}
+.page-event-results .view-contest-scoring-categories .views-row-odd.hor_pic > div.views-field-field-collection-sponsors,
+.page-event-results .view-contest-scoring-categories .views-row-even.hor_pic > div.views-field-field-collection-sponsors { clear: both; width: 440px; float: left; padding-top: 6px;}
+.page-event-results .view-contest-scoring-categories .views-row-even.hor_pic > div.views-field-field-collection-sponsors { float: right;}
+
+.view-contest-scoring-categories .hor_pic .views-field-field-collection-sponsors { clear: both;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors { color: #525c66; font: 14px/16px Arial, Helvetica, sans-serif; padding-top: 10px; margin-left: 0 !important; margin-right: 0 !important; width: 371px; float: left;}
+.view-contest-scoring-categories .views-row-odd .views-field-field-collection-sponsors { float: right;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors span { float: left; padding: 0 5px 12px 0;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a { color: #00aeef; text-decoration: underline; float: left;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a:hover { text-decoration: none;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { border: 1px solid #f0f5f8; vertical-align: middle;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 .page-event-results .view-contest-scoring-categories h3 { font: 24px/26px Arial, Helvetica, sans-serif; color: #444444; margin: -4px 0 0;}
 .page-event-results .view-contest-scoring-categories ol { margin: 17px 0 29px 6px; font-size: 16px;}
@@ -2943,3 +3009,24 @@ table tr td.:first-child { border-left: none;}
   color: #000 !important;
 }
 
+#airtribune-player .gmap {}
+#airtribune-player .gmap > div > .gmnoprint:nth-child(3n+1) { top: 117px !important; left: 12px !important;}
+#airtribune-player .gmap > div > .gmnoprint:last-child { top: 124px !important; right: 40px !important;}
+
+.setUserVisualMode,
+.setProfVisualMode { background: url(../images/prof.png) no-repeat 0 -30px; position: absolute; top: 129px; right: 35px; width: 30px; height: 30px; text-indent: -9999px; overflow: hidden;}
+.setUserVisualMode:hover,
+.setProfVisualMode:hover { 
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
+  -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: 0.8; /* Konqueror 3.1, Safari 1.1 */
+  opacity: 0.8; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+
+
+}
+.setUserVisualMode { background-position: 0 0; display: block;}
+.airvis-waypoint-title { white-space: nowrap; font-weight: bold; padding: 3px; }
+
+.page-user .second_sidebar,
+.page-account .second_sidebar { position: relative; margin-top: -30px;}

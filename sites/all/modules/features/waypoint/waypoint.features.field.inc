@@ -278,6 +278,8 @@ function waypoint_field_default_fields() {
         'allowed_values' => array(
           'enter' => 'Enter',
           'exit' => 'Exit',
+          'cylinder' => 'Cylinder',
+          'line' => 'Line',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,

@@ -76,6 +76,7 @@ function featured_header_field_default_fields() {
         ),
         'enable_tokens' => 1,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'title' => 'optional',
         'title_maxlength' => '128',
         'title_value' => '',
@@ -155,6 +156,7 @@ function featured_header_field_default_fields() {
         'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
@@ -197,6 +199,70 @@ function featured_header_field_default_fields() {
         ),
         'type' => 'media_generic',
         'weight' => '48',
+      ),
+    ),
+  );
+
+  // Exported field: 'ent_featured_header-ent_featured_header-field_header_page'.
+  $fields['ent_featured_header-ent_featured_header-field_header_page'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_header_page',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'results' => 'Event results',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ent_featured_header',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 5,
+        ),
+      ),
+      'entity_type' => 'ent_featured_header',
+      'exclude_cv' => 0,
+      'field_name' => 'field_header_page',
+      'label' => 'Type',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '51',
       ),
     ),
   );
@@ -254,6 +320,7 @@ function featured_header_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
@@ -326,7 +393,7 @@ function featured_header_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'ent_featured_header',
       'default_value' => NULL,
-      'default_value_function' => '',
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -341,8 +408,14 @@ function featured_header_field_default_fields() {
         ),
       ),
       'entity_type' => 'ent_featured_header',
+      'exclude_cv' => 0,
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
+      'options_limit' => 0,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_header_image' => 0,
+      ),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
@@ -356,10 +429,16 @@ function featured_header_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'status' => 0,
+            'action' => 'disable',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 0,
+            'skip_perm' => '0',
+            'status' => 1,
           ),
         ),
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -380,6 +459,7 @@ function featured_header_field_default_fields() {
   t('Link to the image author website');
   t('Slogan');
   t('The text will be displayed at the top of the header slide.');
+  t('Type');
 
   return $fields;
 }

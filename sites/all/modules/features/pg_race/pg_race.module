@@ -41,7 +41,7 @@ function pg_race_entity_presave($entity, $type) {
         $field_value[$k] = $new_time;
       }
       // Set new time value
-      getdate($wrapper->{$field_name}->set($field_value));
+      $wrapper->{$field_name}->set($field_value);
     }
   }
 }

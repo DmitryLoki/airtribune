@@ -39,8 +39,22 @@ function at_race_theme() {
 }
 
 function at_race_ajax_callback($form, $form_state) {
+  $button = $form_state['clicked_button'];
+  $array_parents = $button['#array_parents'];
   
-  return $form['field_pg_race_points'];
+  $button_key = array_pop($array_parents);
+  switch ($button_key) {
+    case 'remove_button' :
+      $offset = -2;
+      break;
+    case 'add_new_point' :
+      $offset = -1;
+      break;
+  }
+  
+  $array_parents = array_slice($array_parents, 0, $offset);
+  
+  return drupal_array_get_nested_value($form, $array_parents);
 }
 
 

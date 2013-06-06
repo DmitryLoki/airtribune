@@ -44,14 +44,10 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
   $options = array(
     'isOnline' => $isOnline,
     'mapWidget' => $panel_args[1],
-    'widgetHeight' => $conf['widgetHeight'],
-    'widgetWidth' => $conf['widgetWidth'],
+    'apiVersion' => at_core_sync_get_api_version(),
   );
   
-  // Set finction for output widget.
-  $function = $conf['widget_is_preview'] ? '_airtribune_airtribune_player_get_race_preview' : '_airtribune_airtribune_player_get_race_widget';
-  
-  $widget_html = $function($contestId, $raceId, $options);
+  $widget_html = _airtribune_airtribune_player_get_race_widget($contestId, $raceId, $options);
 
   $content['widget']['#markup'] = $widget_html;
   $content['#attached']['css'] = array($plugin_path . '/airtribune_player.css');
@@ -73,6 +69,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
  *    mapWidget - type of widget (2d, 3d and etc.)
  *    isOnline - online mode
  *    baseUrl - url hosting visualisation
+ *    apiVersion - version of CoreAPI
  * @return string HTML-code widget.
  */
 function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $options = array()) {
@@ -80,69 +77,21 @@ function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $op
   $mapWidget = isset($options['mapWidget']) ? $options['mapWidget'] : '2d';
   $isOnline = isset($options['isOnline']) ? $options['isOnline'] : 'false';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
+  $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
 
   $output = "<link rel=\"stylesheet\" href=\"{$baseUrl}/css/airvis.css\"/>
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/checkbox.css\"/>  
-    <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/require.js\"></script>
+    <link rel=\"stylesheet\" href=\"{$baseUrl}/css/shiny-sprite.css\">
+    <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div>
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\", isOnline: {$isOnline}, mapWidget: \"{$mapWidget}\" } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\", isOnline: {$isOnline}, mapWidget: \"{$mapWidget}\", apiVersion: \"{$apiVersion}\"  } --><!-- /ko -->
     </div>";
   return $output;
 }
 
 /**
- * Returns an HTML-code to insert a race preview.
- * @contestId string
- * @raceId string
- * @options array Widget settings.
- *    widgetWidth
- *    widgetHeight
- *    baseUrl - url hosting visualisation
- * @return string HTML-code widget.
+ * Panels module needs this empty form.
  */
-function _airtribune_airtribune_player_get_race_preview ($contestId, $raceId, $options = array()) {
-  // Initialization
-  $widgetWidth = isset($options['widgetWidth']) ? $options['widgetWidth'] : '100%';
-  $widgetHeight = isset($options['widgetHeight']) ? $options['widgetHeight'] : '100%';
-  $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
-  
-  $output = "<script data-main=\"{$baseUrl}/js/initSimple\" src=\"{$baseUrl}/js/require.js\"></script>
-    <div>
-    <!-- ko widget: { data: page, contestId: \"{$contestId}\", raceId: \"{$raceId}\", width: \"{$widgetWidth}\", height: \"{$widgetHeight}\" } --><!-- /ko -->
-    </div>";
-  return $output;
-}
-
-/**
-* 'Edit form' callback for the content type.
-*/
-function airtribune_airtribune_player_content_type_edit_form($form, &$form_state) {
-  $conf = $form_state['conf'];
-  $form['widget_is_preview'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('View as preview'),
-    '#default_value' => !empty($conf['widget_is_preview']) ? $conf['widget_is_preview'] : false,
-  );
-  $form['widgetWidth'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Preview Width'),
-    '#size' => 4,
-    '#default_value' => !empty($conf['widgetWidth']) ? $conf['widgetWidth'] : '100%',
-  );
-  $form['widgetHeight'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Preview Height'),
-    '#size' => 4,
-    '#default_value' => !empty($conf['widgetHeight']) ? $conf['widgetHeight'] : '100%',
-  );
-  return $form;
-}
-
-/**
-* Submit function, note anything in the formstate[conf] automatically gets saved
-*/
 function airtribune_airtribune_player_content_type_edit_form_submit(&$form, &$form_state) {
-  $form_state['conf']['widget_is_preview'] = $form_state['values']['widget_is_preview'];
-  $form_state['conf']['widgetWidth'] = $form_state['values']['widgetWidth'];
-  $form_state['conf']['widgetHeight'] = $form_state['values']['widgetHeight'];
+  return $form;
 }

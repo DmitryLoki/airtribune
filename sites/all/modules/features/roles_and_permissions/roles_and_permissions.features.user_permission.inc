@@ -100,13 +100,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'panels',
   );
 
-  // Exported permission: administer blocks.
-  $permissions['administer blocks'] = array(
-    'name' => 'administer blocks',
-    'roles' => array(),
-    'module' => 'block',
-  );
-
   // Exported permission: administer content types.
   $permissions['administer content types'] = array(
     'name' => 'administer content types',
@@ -309,15 +302,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'relation',
   );
 
-  // Exported permission: administer robots.txt.
-  $permissions['administer robots.txt'] = array(
-    'name' => 'administer robots.txt',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'robotstxt',
-  );
-
   // Exported permission: administer site configuration.
   $permissions['administer site configuration'] = array(
     'name' => 'administer site configuration',
@@ -509,6 +493,20 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete any og membership.
+  $permissions['delete any og membership'] = array(
+    'name' => 'delete any og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete any og_membership_type_default og membership.
+  $permissions['delete any og_membership_type_default og membership'] = array(
+    'name' => 'delete any og_membership_type_default og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: delete any pg_contest content.
   $permissions['delete any pg_contest content'] = array(
     'name' => 'delete any pg_contest content',
@@ -516,6 +514,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: delete any pg_contestant og membership.
+  $permissions['delete any pg_contestant og membership'] = array(
+    'name' => 'delete any pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: delete any pg_scoring_category content.
@@ -544,6 +549,29 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete own group og membership.
+  $permissions['delete own group og membership'] = array(
+    'name' => 'delete own group og membership',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete own group og_membership_type_default og membership.
+  $permissions['delete own group og_membership_type_default og membership'] = array(
+    'name' => 'delete own group og_membership_type_default og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete own group pg_contestant og membership.
+  $permissions['delete own group pg_contestant og membership'] = array(
+    'name' => 'delete own group pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: delete own newsblog content.
   $permissions['delete own newsblog content'] = array(
     'name' => 'delete own newsblog content',
@@ -553,6 +581,22 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete own og membership.
+  $permissions['delete own og membership'] = array(
+    'name' => 'delete own og membership',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: delete own og_membership_type_default og membership.
+  $permissions['delete own og_membership_type_default og membership'] = array(
+    'name' => 'delete own og_membership_type_default og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: delete own pg_contest content.
   $permissions['delete own pg_contest content'] = array(
     'name' => 'delete own pg_contest content',
@@ -560,6 +604,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: delete own pg_contestant og membership.
+  $permissions['delete own pg_contestant og membership'] = array(
+    'name' => 'delete own pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: delete own pg_scoring_category content.
@@ -980,7 +1031,40 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: eck view ent_point waypoint entities.
   $permissions['eck view ent_point waypoint entities'] = array(
     'name' => 'eck view ent_point waypoint entities',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_racetype pg_racetype_od entities.
+  $permissions['eck view ent_racetype pg_racetype_od entities'] = array(
+    'name' => 'eck view ent_racetype pg_racetype_od entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_racetype pg_racetype_rtg entities.
+  $permissions['eck view ent_racetype pg_racetype_rtg entities'] = array(
+    'name' => 'eck view ent_racetype pg_racetype_rtg entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_racetype pg_racetype_sr entities.
+  $permissions['eck view ent_racetype pg_racetype_sr entities'] = array(
+    'name' => 'eck view ent_racetype pg_racetype_sr entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
     'module' => 'eck',
   );
 
@@ -1049,6 +1133,24 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit any og membership.
+  $permissions['edit any og membership'] = array(
+    'name' => 'edit any og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit any og_membership_type_default og membership.
+  $permissions['edit any og_membership_type_default og membership'] = array(
+    'name' => 'edit any og_membership_type_default og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: edit any organizer_profile profile.
   $permissions['edit any organizer_profile profile'] = array(
     'name' => 'edit any organizer_profile profile',
@@ -1066,6 +1168,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit any pg_contestant og membership.
+  $permissions['edit any pg_contestant og membership'] = array(
+    'name' => 'edit any pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: edit any pg_scoring_category content.
@@ -1098,9 +1207,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit field_pg_contestant_status'] = array(
     'name' => 'edit field_pg_contestant_status',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
+      0 => 'administrator',
+      1 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1109,9 +1217,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['edit field_tracker'] = array(
     'name' => 'edit field_tracker',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
+      0 => 'administrator',
+      1 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1201,6 +1308,32 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: edit own group og membership.
+  $permissions['edit own group og membership'] = array(
+    'name' => 'edit own group og membership',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit own group og_membership_type_default og membership.
+  $permissions['edit own group og_membership_type_default og membership'] = array(
+    'name' => 'edit own group og_membership_type_default og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit own group pg_contestant og membership.
+  $permissions['edit own group pg_contestant og membership'] = array(
+    'name' => 'edit own group pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: edit own main profile.
   $permissions['edit own main profile'] = array(
     'name' => 'edit own main profile',
@@ -1221,6 +1354,25 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: edit own og membership.
+  $permissions['edit own og membership'] = array(
+    'name' => 'edit own og membership',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
+  );
+
+  // Exported permission: edit own og_membership_type_default og membership.
+  $permissions['edit own og_membership_type_default og membership'] = array(
+    'name' => 'edit own og_membership_type_default og membership',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: edit own organizer_profile profile.
   $permissions['edit own organizer_profile profile'] = array(
     'name' => 'edit own organizer_profile profile',
@@ -1239,6 +1391,13 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: edit own pg_contestant og membership.
+  $permissions['edit own pg_contestant og membership'] = array(
+    'name' => 'edit own pg_contestant og membership',
+    'roles' => array(),
+    'module' => 'at_membership',
   );
 
   // Exported permission: edit own pg_scoring_category content.
@@ -1557,6 +1716,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'profile2',
   );
 
+  // Exported permission: view any og memberships.
+  $permissions['view any og memberships'] = array(
+    'name' => 'view any og memberships',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'at_membership',
+  );
+
   // Exported permission: view any organizer_profile profile.
   $permissions['view any organizer_profile profile'] = array(
     'name' => 'view any organizer_profile profile',
@@ -1581,8 +1749,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view field_core_id'] = array(
     'name' => 'view field_core_id',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'field_permissions',
   );
@@ -1591,11 +1760,10 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view field_pg_contestant_status'] = array(
     'name' => 'view field_pg_contestant_status',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'anonymous user',
-      3 => 'authenticated user',
-      4 => 'organizer',
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+      3 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1604,9 +1772,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view field_tracker'] = array(
     'name' => 'view field_tracker',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
+      0 => 'administrator',
+      1 => 'organizer',
     ),
     'module' => 'field_permissions',
   );
@@ -1615,12 +1782,11 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view media'] = array(
     'name' => 'view media',
     'roles' => array(
-      0 => 'admin',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-      3 => 'editor',
-      4 => 'organizer',
-      5 => 'pilot',
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+      2 => 'editor',
+      3 => 'organizer',
+      4 => 'pilot',
     ),
     'module' => 'media',
   );
@@ -1647,10 +1813,9 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['view own field_pg_contestant_status'] = array(
     'name' => 'view own field_pg_contestant_status',
     'roles' => array(
-      0 => 'admin',
-      1 => 'administrator',
-      2 => 'organizer',
-      3 => 'pilot',
+      0 => 'administrator',
+      1 => 'organizer',
+      2 => 'pilot',
     ),
     'module' => 'field_permissions',
   );
@@ -1664,6 +1829,15 @@ function roles_and_permissions_user_default_permissions() {
       2 => 'editor',
     ),
     'module' => 'profile2',
+  );
+
+  // Exported permission: view own og memberships.
+  $permissions['view own og memberships'] = array(
+    'name' => 'view own og memberships',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'at_membership',
   );
 
   // Exported permission: view own organizer_profile profile.

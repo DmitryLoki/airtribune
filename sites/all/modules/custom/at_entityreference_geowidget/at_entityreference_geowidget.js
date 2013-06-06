@@ -5,23 +5,21 @@
             div = $('#' + settings.atEntityreferenceGeowidget.mapId + ':not(.at-entityreference-geowidget-processed)', context);
             map = div.data('openlayers');
             if (map !== undefined) {
-
-                var selectControl = this.selectControl = map.openlayers.getControlsByClass('OpenLayers.Control.SelectFeature')[0],
+                //map.openlayers.addLayer(new OpenLayers.Layer.Vector('references'));
+                 var selectControl = this.selectControl = map.openlayers.getControlsByClass('OpenLayers.Control.SelectFeature')[0],
                     oldOnSelect = selectControl.onSelect;
-
                 selectControl.onSelect = function (feature) {
                     if (that.selectedFeature && that.selectedFeature.popup) {
                         that.selectedFeature.popup.destroy();
                         that.selectedFeature.popup = null;
                     }
                     that.selectedFeature = feature;
-                    oldOnSelect.call(that, feature);
+                    oldOnSelect.call(that, feature);                    
                     $("#popup .entityreference-select").click(function (event) {
                         //event.preventDefault();
                         entityReferenceWidget.processClick(event);
                         return false;
-                    });
-
+                    });                 
                     $("#popup_close").bind('mousedown', function () {
                         event.stopPropagation();
                         try {
@@ -41,6 +39,15 @@
                 map.openlayers.events.on({'moveend':$.proxy(entityReferenceWidget.moveEndListener, entityReferenceWidget)});
                 map.openlayers.events.triggerEvent('moveend');
                 div.addClass('at-entityreference-geowidget-processed');
+                
+                if (Drupal.settings.atEntityreferenceGeowidget.value) {
+                  var layer = map.openlayers.getLayersBy('drupalID', Drupal.settings.atEntityreferenceGeowidget.drupalID)[0];
+                  var val = Drupal.settings.atEntityreferenceGeowidget.value;
+                  var features = layer.getFeaturesByAttribute('nid', val);
+                  //map.setCenter(features[0].geometry.getCentroid());
+                  that.selectControl.select(features[0]);
+                  $("#popup .entityreference-select").click();
+                }
             }
         }
     };
@@ -48,11 +55,11 @@
     var entityReferenceWidget = {
         moveEndListener:function (event) {
             var request = event.object.getExtent().transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326')).toString();
-            $.get(Drupal.settings.basePath + 'at_entityreference_geowidget', {bbox:request}, $.proxy(this.parseResponse, event.object));
+            $.get(Drupal.settings.basePath + 'at_entityreference_geowidget/' + request + '/' + Drupal.settings.atEntityreferenceGeowidget.cid, {}, $.proxy(this.parseResponse, event.object));
         },
 
         parseResponse:function (response) {
-            var layer = this.layers[4],
+            var layer = this.getLayersBy('drupalID', Drupal.settings.atEntityreferenceGeowidget.drupalID)[0],
                 map = layer.map,
                 that = Drupal.behaviors.atEntityreferenceGeowidget;
 
@@ -77,17 +84,12 @@
                     }
                 }
             }
-            if (Drupal.settings.atEntityreferenceGeowidget.value) {
-              var val = Drupal.settings.atEntityreferenceGeowidget.value;
-              var features = map.layers[4].getFeaturesByAttribute('nid', val);
-              that.selectControl.select(features[0]);
-              $("#popup .entityreference-select").click();
-            }
         },
         
         processClick:function(event){
-          var nid = $(event.target).find('.nid');
-          $('.field-type-entityreference .selected input').val(nid.text());
+          //var nid = $(event.target).find('.nid');
+          var nid = $(event.target).siblings('.views-field-nid');
+          $('.field-type-entityreference .selected input').val($.trim(nid.text()));
           $('.entityreference-selected').html(nid.parents('.openlayers-tooltip-description').find('.views-field-title').html());
         }
     }

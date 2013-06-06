@@ -1,6 +1,4 @@
 <?php
-define(AIRTRIBUNE_CORE_ID_FIELD, 'field_core_id');
-define(LANGUAGE_UNDEFINED, 'und');
 
 /**
  * Abstract class with commin synchronisation functions
@@ -10,7 +8,6 @@ abstract class ATSync {
   public $entity_type;
   public $id = FALSE;
   public $address = FALSE;
-  public $domain = "http://api.airtribune.com/v0.1/";
   public $port = 80;
   public function __construct($entity, $entity_type) {
     $this->entity = $entity;
@@ -18,7 +15,7 @@ abstract class ATSync {
   }
   public function request($data, $method = "POST") {
     $handle = curl_init();
-    $url = $this->domain . $this->address;
+    $url = at_core_sync_get_api_url() . '/' . $this->address;
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_PORT, $this->port);
     curl_setopt($handle, CURLOPT_TIMEOUT, 5);
@@ -73,7 +70,7 @@ abstract class ATSync {
         break;
 
       case 404:
-        drupal_set_message(t("Core API[404]: Resource not found"), 'error');
+        drupal_set_message(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
         break;
 
       case 409:
@@ -95,6 +92,7 @@ abstract class ATSync {
     }
     return json_decode($response);
   }
+
   public function updateCoreID($id) {
     $this->entity->field_core_id = array(
       "und" => array(
@@ -106,6 +104,8 @@ abstract class ATSync {
     field_attach_update($this->entity_type, $this->entity);
   }
   abstract public function synchronize();
+  abstract public function check();
+  
 }
 
 /**
@@ -129,7 +129,6 @@ class ATSyncContest extends ATSync {
       'country' => $node->field_country['und'][0]['iso2'],
       'timezone' => $node->field_dates['und'][0]['timezone'],
     );
-    // Choose PUT or POST - depends exist contest in Core or not
     if ($core_id) {
       $response = $this->request(json_encode($data), "PUT");
     }
@@ -139,6 +138,9 @@ class ATSyncContest extends ATSync {
     }
     return !empty($response->id) ? $response->id : FALSE;
   }
+
+  public function check() {
+  }
 }
 
 /**
@@ -147,7 +149,6 @@ class ATSyncContest extends ATSync {
 class ATSyncPerson extends ATSync {
   public $address = "person";
   public function synchronize() {
-    $name = $this->entity->profile_main['field_full_name'][LANGUAGE_UNDEFINED][0];
     $profile2 = profile2_load_by_user($this->entity);
     if (!isset($profile2['pilot'])) {
       drupal_set_message("Core API: User is not a pilot, no need to synchronize");
@@ -158,13 +159,12 @@ class ATSyncPerson extends ATSync {
       $this->address = implode('/', array('person', $core_id));
     }
     $data = array(
-      'name' => $profile2['main']->field_full_name[LANGUAGE_UNDEFINED][0]['given'],
-      'surname' => $profile2['main']->field_full_name[LANGUAGE_UNDEFINED][0]['family'],
-      'country' => $profile2['pilot']->field_address[LANGUAGE_UNDEFINED][0]['country'],
+      'name' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['given'],
+      'surname' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['family'],
+      'country' => $profile2['pilot']->field_address[LANGUAGE_NONE][0]['country'],
       'email' => $this->entity->mail,
       'reg_date' => date("Y,m,d", $this->entity->created),
     );
-    // Choose PUT or POST - depends exist contest in Core or not
     if ($core_id) {
       $response = $this->request(json_encode($data), "PUT");
     }
@@ -173,6 +173,9 @@ class ATSyncPerson extends ATSync {
       $this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
+  }
+
+  public function check() {
   }
 }
 
@@ -183,12 +186,12 @@ class ATSyncPilot extends ATSync {
   public $address = "contest/";
   public function synchronize() {
     // Send only if status is confirmed
-    if ($this->entity->field_pg_contestant_status[LANGUAGE_UNDEFINED][0]['value'] != 4) {
+    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
       return FALSE;
     }
     $contest = node_load($this->entity->gid);
     $contest_core_id = get_id_from_contest($contest);
-    if (!$contest_id) {
+    if (!$contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity($contest, 'node');
       $contest_core_id = $sync->synchronize();
@@ -203,8 +206,8 @@ class ATSyncPilot extends ATSync {
     $this->address = implode('/', array('contest', $contest_core_id, 'paraglider'));
     $data = array(
       'person_id' => $person_id,
-      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_UNDEFINED][0]['value'],
-      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_UNDEFINED][0]['value'],
+      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
+      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
     );
     $core_id = FALSE;
     if ($core_id) {
@@ -215,6 +218,9 @@ class ATSyncPilot extends ATSync {
       //$this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
+    }
+
+  public function check() {
   }
 }
 
@@ -225,8 +231,8 @@ class ATSyncRace extends ATSync {
   public $address = "contest/";
   public function synchronize() {
     geophp_load();
-    $day_id = $this->entity->field_day_ref[LANGUAGE_UNDEFINED][0]['target_id'];
-    $contest_nid = $this->entity->og_group_ref[LANGUAGE_UNDEFINED][0]['target_id'];
+    $day_id = $this->entity->field_day_ref[LANGUAGE_NONE][0]['target_id'];
+    $contest_nid = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
     $contest = node_load($contest_nid);
     if (!$contest) {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
@@ -248,9 +254,9 @@ class ATSyncRace extends ATSync {
       'title' => $this->entity->title,
       'bearing' => 12,
     );
-    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_UNDEFINED][0]['value']);
-    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_UNDEFINED][0]['value2']);
-    $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_UNDEFINED][0]['target_id'];
+    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value']);
+    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2']);
+    $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
     //$racetype = entity_load('ent_racetype', $racetype_ref);
     $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
     switch ($racetype->type) {
@@ -267,68 +273,62 @@ class ATSyncRace extends ATSync {
         break;
     }
     $point_ref = array();
-    foreach ($racetype->field_pg_race_points[LANGUAGE_UNDEFINED] as $pref) {
+    foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
       $point_ref[] = $pref['target_id'];
     }
     $points = entity_load("ent_point", $point_ref);
     $checkpoints = array();
     $checkpoints['type'] = "FeatureCollection";
     $checkpoints['features'] = array();
+    $delta = 0;
     foreach ($points as $point) {
       $point_data = array();
       $point_data['type'] = 'Feature';
       $point_data['geometry'] = array();
-      $wkt = $point->field_point_center[LANGUAGE_UNDEFINED][0]['geom'];
+      $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
+      $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref)));
+      $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
-      $coordinates = json_decode($geom->out('json'));
-      $point_data['geometry']['type'] = $point->field_point_center[LANGUAGE_UNDEFINED][0]['geo_type'];
-      $point_data['geometry']['coordinates'] = "Point";
+      $coordinates = json_decode($geom->out('json'), true);
+      /**
+       * Reverse lat an lon
+       * @see Issue #3031-48
+       */
+      $coordinates['coordinates'] = array_reverse($coordinates['coordinates']);
+      $point_data['geometry']= $coordinates;
       $point_data['properties'] = array();
-      //_d(db_query("SELECT ST_GeomFromText('".$geom."');")->fetchRow());
-      $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_UNDEFINED][0]['value'];
-      $point_data['properties']['name'] = $point->id;
-      $point_data['properties']['type'] = $point->type;
-      $checkpoints['features'][] = array($point_data);
+      $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
+      $point_data['properties']['name'] = $contest_point->title;
+      
+      if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
+        $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
+      }
+      if ($delta == 0) {
+        $point_data['properties']['checkpoint_type'] = "to";
+      }
+      if ($delta == count($points) - 1) {
+        $point_data['properties']['checkpoint_type'] = "goal";
+      }
+      $delta++;
+      $point_data['properties']['open_time'] = $data['start_time'];
+      $point_data['properties']['close_time'] = $data['end_time'];
+      $checkpoints['features'][] = $point_data;
     }
-
-    /* working example
-     * $checkpoints = array(
-      "type" => "FeatureCollection",
-      "features" => array(
-        array(
-          'type' => 'Feature',
-          'geometry' => array(
-            'type' => 'Point',
-            'coordinates' => array(12.4, -10.2)
-          ),
-          'properties' => array(
-            'radius' => 400,
-            'name' => 'A012300',
-            'checkpoint_type' => 'ordinal',
-            'open_time' => 12345678890,
-            'close_time' => 12345678898,
-          ),
-        ),
-      ),
-    );*/
-
-    $url = http_build_query($data);
-    $url .= '&checkpoints=' . json_encode($checkpoints);
+    $data_url = http_build_query($data);
+    $data_url .= '&checkpoints=' . json_encode($checkpoints);
     if ($race_core_id) {
       $data = array(
         'title' => $this->entity->title,
       );
       $response = $this->request(json_encode($data), "PUT");
-    }
+    }    
     else {
-      $response = $this->request($url);
+      $response = $this->request($data_url);
       $this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
   }
-}
 
-// Debug function
-function _d($var) {
-  drupal_set_message(print_r($var, TRUE));
+  public function check() {
+  }
 }

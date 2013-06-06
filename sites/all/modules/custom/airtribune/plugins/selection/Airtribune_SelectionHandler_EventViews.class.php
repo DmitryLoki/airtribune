@@ -16,14 +16,24 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
 
   protected function __construct($field, $instance, $entity_type, $entity) {
     if (isset($entity_type, $entity)) {
-      $og_items = field_get_items($entity_type, $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
-      $this->group_id = isset($og_items[0]['target_id']) ? $og_items[0]['target_id'] : FALSE;
-    }
-    else {
-      $this->group_id = FALSE;
+      // Get group id from field value
+      $og_items = field_get_items($entity_type, $entity, OG_AUDIENCE_FIELD);
+      // If og reference is not set, then check entity prepopulate value
+      if (!isset($og_items[0]['target_id']) && module_exists('og')) {
+        $instance_og = field_info_instance($entity_type, OG_AUDIENCE_FIELD, $instance['bundle']);
+        $field_og = field_info_field(OG_AUDIENCE_FIELD);
+        $og_items = entityreference_prepopulate_get_values($field_og, $instance_og);
+      }
+      if (isset($og_items[0]['target_id'])) {
+        $this->group_id = $og_items[0]['target_id'];
+      } else {
+          $this->group_id = FALSE;
+      }
     }
     $this->field = $field;
     $this->instance = $instance;
+    
+    
   }
 
   /**

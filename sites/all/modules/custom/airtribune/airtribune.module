@@ -128,35 +128,84 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
   if (!$items) {
     return;
   }
+
   switch ($display['type']) {
 
     case 'adapitve_dates':
       foreach ($items as $delta => $item) {
-        $date1 = getdate($ts1 = strtotime($item['value']));
-        $date2 = getdate($ts2 = strtotime($item['value2']));
-
-        // 23 Dec, 2012 — 5 Jan, 2013
-        if ($date1['year'] != $date2['year']) {
-          $dates = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        // 28 Aug — 3 Sep, 2012
-        elseif ($date1['mon'] != $date2['mon']) {
-          $dates = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        // 24 — 26 Aug, 2012
-        else {
-          $dates = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
-        }
-        $element[$delta] = array('#markup' => $dates);
+        $element[$delta] = array(
+          '#markup' => airtribune_format_date_interval($item['value'], $item['value2'])
+        );
       }
-
       break;
   }
 
   return $element;
 }
 
+/**
+ * Implements hook_token_info().
+ *
+ * @see #3217 #3235
+ */
+function airtribune_token_info() {
+  $info['tokens']['node']['event-dates'] = array(
+    'name' => t('Event dates'),
+    'description' => t('Event dates (adaptive format)'),
+  );
+  $info['tokens']['node']['map-entry-title'] = array(
+    'name' => t('Map entry changing title'),
+    'description' => t('Insert activities or accommodation word in title, based on node type'),
+  );
+  return $info;
+}
 
+/**
+ * Implements hook_tokens().
+ */
+function airtribune_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    if (isset($tokens['event-dates'])) {
+      $date_items = field_get_items('node', $data['node'], 'field_dates');
+      $replacements['[node:event-dates]'] = airtribune_format_date_interval($date_items[0]['value'], $date_items[0]['value2']);
+    }
+    // used in Map Entry Item
+    // replace "[node:map-entry] in [node:city]" to "activities in Sopot" / "accommodation in Sopot"
+    // @see #3235
+    if (isset($tokens['map-entry-title'])) {
+      if ($data['node']->type == 'accommodation') {
+        $replacements['[node:map-entry-title]'] = 'Accommodation';
+      }
+      if ($data['node']->type == 'activity') {
+        $replacements['[node:map-entry-title]'] = 'Activities';
+      }
+    }
+  }
+  return $replacements;
+}
+
+/**
+ * Format event dates.
+ */
+function airtribune_format_date_interval($start_date, $end_date) {
+  $start_date = getdate($ts1 = strtotime($start_date));
+  $end_date = getdate($ts2 = strtotime($end_date));
+
+  // 23 Dec, 2012 — 5 Jan, 2013
+  if ($start_date['year'] != $end_date['year']) {
+    $output = date('d M, Y', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  // 28 Aug — 3 Sep, 2012
+  elseif ($start_date['mon'] != $end_date['mon']) {
+    $output = date('d M', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  // 24 — 26 Aug, 2012
+  else {
+    $output = date('d', $ts1) . ' — ' . date('d M, Y', $ts2);
+  }
+  return $output;
+}
 
 /**
  * Format user name.
@@ -169,7 +218,7 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
  * @return string
  *   An sanitized string with the given name and family to display.
  */
-function airtrubune_format_username($account) {
+function airtrubune_format_username($account, $maxlength = 15) {
 
   // Put login as fallback user name.
   $user_name = $account->name;
@@ -181,16 +230,57 @@ function airtrubune_format_username($account) {
       $family = $name_items[0]['family'];
 
       $user_name = $given . ' ' . $family;
-      if (drupal_strlen($user_name) > 15) {
+      if (drupal_strlen($user_name) > $maxlength) {
         $user_name = $given . ' ' . truncate_utf8($family, 1) . '.';
       }
-      if (drupal_strlen($user_name) > 15) {
+      if (drupal_strlen($user_name) > $maxlength) {
         $user_name = truncate_utf8($given, 12, TRUE, TRUE);
       }
     }
   }
 
   return check_plain($user_name);
+}
+
+/**
+ * Get user country.
+ *
+ * @param object $account
+ *   The account object of the user
+ *
+ * @return object
+ *   The full country object, with ISO2, ISO3, and name
+ */
+function airtribune_get_user_country($account) {
+  if (!is_object($account)) {
+    $account = user_load($account);
+  }
+  if (!$account) {
+    return FALSE;
+  }
+
+  if ($profile = profile2_load_by_user($account, 'pilot')) {
+    $address = field_get_items('profile2', $profile, 'field_address');
+    if (isset($address[0]['country'])) {
+      return country_load($address[0]['country']);
+    }
+  }
+}
+
+function airtribune_draw_user_country_icon($account, $draw_country_name = TRUE) {
+  $result = FALSE;
+  $country = airtribune_get_user_country($account);
+  if (isset($country->iso3)) {
+    $icons = theme(
+      'countryicons_icon_sprite',
+      array('code' => $country->iso2, 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
+    );
+    if ($draw_country_name) {
+      //$result .= " <div class='country-name'>" . $country->name . "</div>";
+      $result = "&nbsp; " . $icons . " " . strtoupper($country->iso3);
+    }
+  }
+  return $result;
 }
 
 /**
@@ -466,7 +556,7 @@ function airtribune_views_query_alter(&$view, &$query) {
   }
   // Prevent HQ duplication.
   // See #2976.
-  if ($view->name == 'event_accommodations') {
+  if ($view->name == 'event_accommodations' && isset($view->options['group'])) {
     $view->query->add_where(
       $view->options['group'],
       db_or()
@@ -548,7 +638,17 @@ function airtribune_modify_event_date_include_last_day(&$node) {
  * Implements hook_init().
  */
 function airtribune_init() {
-
+  // We need distinguish drupal pages, to get pinba statistics.
+  // Change name of script from 'index.php' to requested $q variable
+  // @see #3283
+  if (extension_loaded('pinba') && function_exists('pinba_script_name_set')) {
+    $request = $_SERVER['REQUEST_URI'];
+    // temp code, remove after moving files directory to /files
+    if (strpos($request, '/sites/default/files') !== FALSE) {
+      $request = substr($request, 15);
+    }
+    pinba_script_name_set($request);
+  }
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
@@ -557,10 +657,10 @@ function airtribune_init() {
   // see #3067
   if (arg(0) == 'events' && arg(1) == NULL) {
     $events = airtribune_get_events_nids_with_date_status();
-    if (count($events['current']) > 0) {
+    if (!empty($events['current']) && count($events['current']) > 0) {
       drupal_goto('events/current');
     }
-    elseif (count($events['next']) > 0) {
+    elseif (!empty($events['next']) && count($events['next']) > 0) {
       drupal_goto('events/next');
     }
     else {

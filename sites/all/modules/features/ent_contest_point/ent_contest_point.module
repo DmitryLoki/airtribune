@@ -2,6 +2,61 @@
 /**
  * @file
  * Code for the Contest point feature.
+ * @author Vadim Valuev<gease@mail.ru>
  */
-
 include_once 'ent_contest_point.features.inc';
+
+define('POINT_REFERENCE_FIELD', 'field_point_ref');
+
+/**
+ * Implements hook_entity_info_alter()
+ * @param array $entity_info
+ */
+function ent_contest_point_entity_info_alter(&$entity_info) {
+  $entity_info['ent_contest_point']['controller class'] = "EntContestPointController";
+}
+
+
+class EntContestPointController extends EntityAPIController {
+  
+  /**
+   * Implements EntityAPIControllerInterface.
+   * Overrides EntityAPIController::delete()
+   * @param type $ids
+   * @param DatabaseTransaction $transaction
+   */
+  public function delete($ids, DatabaseTransaction $transaction = NULL) {
+    //filter ids to sort out those that are already used in any contest
+    //there is no good way of finding which entityreference fields may target particular entity type
+    //for this sort of behavior (preventing deletion of referenced entities) we need to register them somehow
+    //by now, the point reference field is hardcoded.
+    //Another problem is to unlink it from particular storage engine (sql in this case)
+    //Here follows the really crippled code aimed at finding necessary table and field
+    $field_info = field_info_field('field_point_ref');
+    $keys = array_keys($field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT]);
+    $table_name = $keys[0];
+    $field_name = $field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT][$table_name]['target_id'];
+    $result = db_select($table_name, 'ref')->fields('ref', array($field_name))->condition($field_name, $ids)->distinct()->execute()->fetchAllAssoc($field_name);
+    $filtered_ids = array_keys($result);
+    if (!empty($filtered_ids)) {
+      drupal_set_message(t('@ids are already used and were not removed', array('@ids' => implode(',', $filtered_ids))));
+      watchdog('airtribune', '@ids are already used and were not removed', array('@ids' => implode(',', $filtered_ids)), WATCHDOG_INFO);
+      $ids = array_diff($ids, array_keys($result));
+    }
+    //unlink from og (contests)
+    if (empty($ids)) {
+      return;
+    }
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('entity_type', 'ent_contest_point', '=')
+      ->propertyCondition('etid', $ids)
+      ->execute();
+    if (!empty($result['og_membership'])) {
+      
+      og_membership_delete_multiple(array_keys($result['og_membership']));
+    }
+    parent::delete($ids, $transaction);
+  }
+}

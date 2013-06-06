@@ -572,7 +572,7 @@ function pg_race_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_race',
-      'default_value' => NULL,
+      'default_value' => array(),
       'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
@@ -596,10 +596,12 @@ function pg_race_field_default_fields() {
       'entity_type' => 'ent_race',
       'exclude_cv' => 0,
       'field_name' => 'field_pg_racetype_ref',
-      'label' => 'Paragliding Race Type reference',
-      'options_limit' => FALSE,
+      'label' => 'Race type settings',
+      'options_limit' => 0,
       'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(),
+      'options_limit_fields' => array(
+        'og_group_ref' => 0,
+      ),
       'required' => 1,
       'settings' => array(
         'behaviors' => array(
@@ -613,13 +615,16 @@ function pg_race_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
+        'module' => 'inline_entity_form',
         'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
+          'fields' => array(),
+          'type_settings' => array(
+            'allow_existing' => 0,
+            'delete_references' => 0,
+            'match_operator' => 'CONTAINS',
+          ),
         ),
-        'type' => 'entityreference_autocomplete',
+        'type' => 'inline_entity_form',
         'weight' => '6',
       ),
     ),
@@ -722,7 +727,7 @@ function pg_race_field_default_fields() {
   $fields['ent_race-pg_race-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_group_ref',
@@ -775,7 +780,7 @@ function pg_race_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'pg_race',
       'default_value' => NULL,
-      'default_value_function' => '',
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -799,9 +804,11 @@ function pg_race_field_default_fields() {
       'exclude_cv' => 0,
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'options_limit' => FALSE,
+      'options_limit' => 0,
       'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(),
+      'options_limit_fields' => array(
+        'field_core_id' => 0,
+      ),
       'required' => 1,
       'settings' => array(
         'behaviors' => array(
@@ -815,7 +822,12 @@ function pg_race_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'status' => 0,
+            'action' => 'hide',
+            'action_on_edit' => 0,
+            'fallback' => 'form_error',
+            'og_context' => 0,
+            'skip_perm' => '0',
+            'status' => 1,
           ),
         ),
         'entity_translation_sync' => FALSE,
@@ -827,7 +839,7 @@ function pg_race_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '0',
+        'weight' => 0,
       ),
     ),
   );
@@ -1265,9 +1277,9 @@ function pg_race_field_default_fields() {
   t('Day reference');
   t('Day results');
   t('Groups audience');
-  t('Paragliding Race Type reference');
   t('Race Tracks');
   t('Race time period');
+  t('Race type settings');
   t('Results file');
   t('Scoring category');
   t('Take-off time period');
