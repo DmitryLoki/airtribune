@@ -2048,7 +2048,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['sorts']['field_name']['id'] = 'field_name';
   $handler->display->display_options['sorts']['field_name']['table'] = 'field_collection_item';
   $handler->display->display_options['sorts']['field_name']['field'] = 'field_name';
-  $handler->display->display_options['sorts']['field_name']['order'] = 'DESC';
   /* Sort criterion: Draggableviews: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
