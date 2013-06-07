@@ -1038,6 +1038,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'eck',
   );
 
+  // Exported permission: eck view ent_race pg_race entities.
+  $permissions['eck view ent_race pg_race entities'] = array(
+    'name' => 'eck view ent_race pg_race entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
   // Exported permission: eck view ent_racetype pg_racetype_od entities.
   $permissions['eck view ent_racetype pg_racetype_od entities'] = array(
     'name' => 'eck view ent_racetype pg_racetype_od entities',
