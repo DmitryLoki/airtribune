@@ -2824,6 +2824,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['text'] = 'IGC';
   $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['path'] = '[field_pg_race_tracks]';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['prefix'] = '<span class="file">';
+  $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['suffix'] = '</span>';
   $handler->display->display_options['fields']['field_pg_race_tracks']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_type'] = 'span';
   $handler->display->display_options['fields']['field_pg_race_tracks']['element_label_type'] = 'span';
@@ -2942,6 +2944,11 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_race_play_link']['table'] = 'eck_ent_race';
   $handler->display->display_options['fields']['pg_race_play_link']['field'] = 'pg_race_play_link';
   $handler->display->display_options['fields']['pg_race_play_link']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['pg_race_play_link']['label'] = 'Replay';
+  $handler->display->display_options['fields']['pg_race_play_link']['element_type'] = 'span';
+  $handler->display->display_options['fields']['pg_race_play_link']['element_label_type'] = 'span';
+  $handler->display->display_options['fields']['pg_race_play_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['pg_race_play_link']['element_wrapper_type'] = 'span';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -3005,11 +3012,13 @@ return array($event_id);';
     t('Results tables'),
     t('Tracks'),
     t('IGC'),
+    t('<span class="file">'),
+    t('</span>'),
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('Id'),
     t(','),
     t('Race points'),
-    t('Extrafield Paragliding race link'),
+    t('Replay'),
     t('All'),
     t('Content pane'),
     t('View panes'),
@@ -4695,7 +4704,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Field: Field: Image */
+  /* Field: Featured header: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -4728,7 +4737,7 @@ return array($event_id);';
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Image */
+  /* Field: Featured header: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
