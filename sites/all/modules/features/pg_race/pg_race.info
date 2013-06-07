@@ -4,6 +4,7 @@ core = 7.x
 package = Custom bundles
 php = 5.2.4
 dependencies[] = airtribune
+dependencies[] = at_core_sync
 dependencies[] = date
 dependencies[] = eck
 dependencies[] = entityreference
