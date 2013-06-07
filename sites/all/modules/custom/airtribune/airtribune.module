@@ -891,7 +891,7 @@ function _airtribune_pg_race_online_status($etid) {
   
   // Get event time offset
   $event_time = airtribune_extract_time_from_event($node);
-  if (empty($event_time['offset'])) {
+  if (!isset($event_time['offset'])) {
     return;
   }
   $offset = $event_time['offset'];
