@@ -166,7 +166,7 @@ function _pg_race_play_link($params) {
   }
     
   $href2d = theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d))));
-  $href3d = theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d))));
+  $href3d = ''; //theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d))));
   
   
   // Generate list
