@@ -29,13 +29,16 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
 
   // Race entity.
   $race = $context->data;
-  $raceId = $race->field_core_id[0][LANGUAGE_NONE]['value'];
+  $items = field_get_items('ent_race', $race, AIRTRIBUNE_CORE_ID_FIELD);
+
+  $raceId = $items[0]['value'];
   
   // Get groups
   $groups = og_get_entity_groups($race->entityType(), $race);
 
-  $contest = node_load($groups['node']);
-  $contestId = $contest->field_core_id[0][LANGUAGE_NONE]['value'];
+  $contest = node_load(array_shift(array_values($groups['node'])));
+  $items = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
+  $contestId = $items[0]['value'];
 
   // Chekh 3th argunent. Get online status.
   $isOnline = (!empty($panel_args[2]) && $panel_args[2] == 'online') ? 'true' : 'false';
