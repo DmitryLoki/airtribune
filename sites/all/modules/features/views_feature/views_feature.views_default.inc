@@ -2937,6 +2937,11 @@ return array($event_id);';
     'link' => 0,
   );
   $handler->display->display_options['fields']['field_pg_race_points']['delta_offset'] = '0';
+  /* Field: Race: Extrafield Paragliding race link */
+  $handler->display->display_options['fields']['pg_race_play_link']['id'] = 'pg_race_play_link';
+  $handler->display->display_options['fields']['pg_race_play_link']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['pg_race_play_link']['field'] = 'pg_race_play_link';
+  $handler->display->display_options['fields']['pg_race_play_link']['relationship'] = 'reverse_field_day_ref_ent_race';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -3004,6 +3009,7 @@ return array($event_id);';
     t('Id'),
     t(','),
     t('Race points'),
+    t('Extrafield Paragliding race link'),
     t('All'),
     t('Content pane'),
     t('View panes'),
