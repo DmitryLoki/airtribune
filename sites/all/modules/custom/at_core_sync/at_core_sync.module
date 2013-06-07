@@ -6,6 +6,21 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  * @file
  * Installation file for the Airtribune Core API module.
  */
+ 
+ /**
+ * Returns Core ID from entity
+ */
+function get_id_from_entity($entity) {
+  //_d($entity->entityType);
+  return FALSE;  
+  $field_core_id = field_get_items('user', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  if (!empty($field_core_id[0]['value'])) {
+    return $field_core_id[0]['value'];
+  }
+  else {
+    return FALSE;
+  }
+}
 
 /**
  * Returns Core ID from entity
@@ -93,7 +108,6 @@ function _get_class_by_entity($entity, $type) {
  * Implements hook_entity_update().
  */
 function at_core_sync_entity_update($entity, $type) {
-  return FALSE;
   if (!variable_get('at_core_sync_enabled', 0)) {
     return FALSE;
   }

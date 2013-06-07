@@ -241,7 +241,7 @@ class ATSyncRace extends ATSync {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
       return FALSE;
     }
-
+    get_id_from_entity($this->entity);
     $contest_core_id = get_id_from_contest($contest);
     if (!$contest_core_id) {
       drupal_set_message(t("Core API: Contest not synchronized yet."));
@@ -255,12 +255,11 @@ class ATSyncRace extends ATSync {
 
     $data = array(
       'title' => $this->entity->title,
-      'bearing' => 12,
+      //'bearing' => 12,
     );
     $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value']);
     $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2']);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
-    //$racetype = entity_load('ent_racetype', $racetype_ref);
     $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
     switch ($racetype->type) {
       case "pg_racetype_rtg":
@@ -329,7 +328,20 @@ class ATSyncRace extends ATSync {
       $response = $this->request($data_url);
       $this->updateCoreID($response->id);
     }
-    return !empty($response->id) ? $response->id : FALSE;
+    $fid = !empty($this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid']) ? $this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid'] : FALSE;
+    if ($fid) {
+      $this->address .= "/track_archive";
+      _d('url='.file_create_url(file_load($fid)->uri));
+      $track = $this->request('url='.file_create_url(file_load($fid)->uri));
+      _d($track);  
+    }
+    if (!empty($response->id)) {
+      
+      //_d(file_create_url($this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['uri']));
+      return $response->id; 
+    } else {
+      return FALSE;
+    }
   }
 
   public function check() {
