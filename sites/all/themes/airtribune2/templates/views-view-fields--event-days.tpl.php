@@ -109,3 +109,7 @@ if($row->field_field_image){
   <?php print render($photos); ?>
 </div>
 <?php endif; ?>
+
+<?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
+<?php print $fields['pg_race_play_link']->content; ?>
+<?php print $fields['pg_race_play_link']->wrapper_suffix; ?>

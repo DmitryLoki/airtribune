@@ -1,0 +1,86 @@
+<?php
+/**
+ * @file
+ * Module file, implements needed hooks and helper functions.
+ *
+ * Created by JetBrains PhpStorm.
+ * User: das_ricardo
+ * Date: 02.12.12
+ * Time: 13:22
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function extrafield_views_integration_views_api() {
+  $path = drupal_get_path('module', 'extrafield_views_integration');
+  return array(
+    'api' => '3.0',
+    'path' => $path . '/views',
+  );
+}
+
+/**
+ * Helper function to get all registered extra fields with an existing callback.
+ * @return array
+ *   Return array with all valid extra fields.
+ */
+function _extrafield_views_integration_get_extra_fields() {
+  $extra_fields = array();
+  // Get an array with all modules that implement hook_field_extra_fields().
+  $entity_types = _extrafield_views_integration_get_all_entity_types();
+  foreach ($entity_types as $entity_type => $bundles) {
+    _extrafield_views_integration_get_extra_fields_for_entity_type($entity_type, $bundles, $extra_fields);
+  }
+  return $extra_fields;
+}
+
+/**
+ * Helper function to get an array with all entity types.
+ */
+function _extrafield_views_integration_get_all_entity_types() {
+  $entity_types = array();
+  $system_entity_types = entity_get_info();
+  if (!empty($system_entity_types)) {
+    foreach ($system_entity_types as $name => $type) {
+      $entity_types[$name] = array();
+      foreach ($type['bundles'] as $bundle_name => $bundle) {
+        $entity_types[$name][] = $bundle_name;
+      }
+    }
+  }
+  return $entity_types;
+}
+
+/**
+ * Helper function to get all extra field for an entity type.
+ *
+ * @param string $entity_type
+ *   Name of the entity.
+ * @param array $bundles
+ *   All bundles of the entity type.
+ * @param array $extra_fields
+ *   Reference for the extra fields array.
+ */
+function _extrafield_views_integration_get_extra_fields_for_entity_type($entity_type, $bundles, &$extra_fields) {
+  foreach ($bundles as $bundle) {
+    $temp_fields = field_info_extra_fields($entity_type, $bundle, 'display');
+    if (!empty($temp_fields)) {
+      foreach ($temp_fields as $field_name => $temp_field) {
+        if (isset($temp_field['callback'])) {
+          if (isset($temp_field['file']) && file_exists($temp_field['file'])) {
+            require_once($temp_field['file']);
+          }
+          if (function_exists($temp_field['callback'])) {
+            $extra_fields[$field_name] = array(
+              'entity_type' => $entity_type,
+              'label' => $temp_field['label'],
+              'description' => $temp_field['description'],
+              'callback' => $temp_field['callback'],
+            );
+          }
+        }
+      }
+    }
+  }
+}
