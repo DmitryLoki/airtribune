@@ -96,6 +96,10 @@ if($row->field_field_image){
   <?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
 <?php endif; ?>
 
+<?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
+<?php print $fields['pg_race_play_link']->content; ?>
+<?php print $fields['pg_race_play_link']->wrapper_suffix; ?>
+
 <?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
 <?php print $fields['field_dayblog_ref']->content; ?>
 <?php print $fields['field_dayblog_ref']->wrapper_suffix; ?>
@@ -109,7 +113,3 @@ if($row->field_field_image){
   <?php print render($photos); ?>
 </div>
 <?php endif; ?>
-
-<?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
-<?php print $fields['pg_race_play_link']->content; ?>
-<?php print $fields['pg_race_play_link']->wrapper_suffix; ?>
