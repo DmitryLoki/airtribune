@@ -85,7 +85,7 @@ function pg_race_play_link_callback($entity) {
       '#markup' => $markup,
     );
     
-    $output = '<span class="label">' . $title . '</span>' . $markup;
+    $output = $markup;
     return $output;
   }
   
@@ -165,8 +165,8 @@ function _pg_race_play_link($params) {
     $class3d[] = 'online';
   }
     
-  $href2d = theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d))));
-  $href3d = ''; //theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d))));
+  $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d)))) . '</span>';
+  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d)))) . '</span>';
   
   
   // Generate list
