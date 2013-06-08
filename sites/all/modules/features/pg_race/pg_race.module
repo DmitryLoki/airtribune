@@ -45,3 +45,155 @@ function pg_race_entity_presave($entity, $type) {
     }
   }
 }
+
+/**
+ * Implements hook_field_extra_fields()
+ */
+function pg_race_field_extra_fields() {
+  
+  $extra['ent_race']['pg_race'] = array(
+    'form' => array(
+      'pg_race_play_link' => array(
+        'label' => t('Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+      ),
+    ),
+    'display' => array(
+      'pg_race_play_link' => array(
+        'label' => t('Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+        'callback' => 'pg_race_play_link_callback',
+      ),
+    ),
+  );
+  
+  return $extra;
+}
+
+function pg_race_play_link_callback($entity) {
+  if ($entity->type == 'pg_race') {
+    
+    $preview = _pg_race_preview_markup($entity);
+    $markup = $preview['markup'];
+    $title = $preview['title'];
+    
+    $output = array(
+      '#type' => 'item',
+      '#title' => $title,
+      '#markup' => $markup,
+    );
+    
+    $output = $markup;
+    return $output;
+  }
+  
+}
+
+/**
+ * Implements hook_entity_view()
+ */
+function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
+  
+  if ($type == 'ent_race' && $entity->type == 'pg_race') {
+    $preview = _pg_race_preview_markup($entity);
+    $markup = $preview['markup'];
+    $title = $preview['title'];
+    
+    $entity->content['pg_race_play_link'] = array(
+      '#type' => 'item',
+      '#title' => $title,
+      '#markup' => $markup,
+    );
+  }
+  
+}
+
+function _pg_race_preview_markup($entity) {
+  $wrapper = entity_metadata_wrapper('ent_race', $entity);
+  $race_core_id = $wrapper->field_core_id->value();
+  
+  //$pg_contest_entities = $wrapper->og_group_ref->value();
+  $items = field_get_items('ent_race', $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+  
+  if (!empty($items) && is_array($items)) {
+    $item = array_shift($items);
+    $target_id = $item['target_id'];
+    $node = node_load($target_id);
+    $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
+    $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+  }
+  
+  
+  // Prepare link parameters
+  $params = array(
+    'status' => _airtribune_pg_race_online_status($entity->id),
+    'race_entity_id' => $entity->id,
+  );
+  $params['race_core_id'] = !empty($race_core_id) ? $race_core_id : '';
+  $params['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : '';
+  
+  if ($params['status'] == FALSE) {
+    return;
+  }
+  
+  $markup = _pg_race_play_link($params);
+  
+  $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
+  
+
+  
+  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
+  drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
+  
+  return array(
+    'title' => $title,
+    'markup' => $markup,
+  );
+}
+
+/**
+ * Prepare markup for play links
+ */
+function _pg_race_play_link($params) {
+  $class2d = array('race-link', '2d');
+  $class3d = array('race-link', '3d');
+  
+  if ($params['status'] == 'online') {
+    $class2d[] = 'online';
+    $class3d[] = 'online';
+  }
+    
+  $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d)))) . '</span>';
+  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d)))) . '</span>';
+  
+  
+  // Generate list
+  $items = array($href2d, $href3d);
+  
+  $ul_attribuntes = array(
+    'class' => array('race-links'),
+    'data-race-eid' => $params['race_entity_id'],
+    'data-contest-cid' => $params['contest_core_id'],
+    'data-race-cid' => $params['race_core_id'],
+  );
+  
+  // If online
+  if ($params['status'] == 'online') {
+    $ul_attribuntes['data-view-type'] = 'online';
+  }
+  
+  $variables = array(
+    'type' => 'ul',
+    'title' => '',
+    'items' => $items,
+    'attributes' => $ul_attribuntes,
+  );
+  $output = theme('item_list', $variables);
+  
+  return $output;
+}
+
+
+

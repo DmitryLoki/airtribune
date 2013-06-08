@@ -1031,7 +1031,50 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: eck view ent_point waypoint entities.
   $permissions['eck view ent_point waypoint entities'] = array(
     'name' => 'eck view ent_point waypoint entities',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_race pg_race entities.
+  $permissions['eck view ent_race pg_race entities'] = array(
+    'name' => 'eck view ent_race pg_race entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_racetype pg_racetype_od entities.
+  $permissions['eck view ent_racetype pg_racetype_od entities'] = array(
+    'name' => 'eck view ent_racetype pg_racetype_od entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_racetype pg_racetype_rtg entities.
+  $permissions['eck view ent_racetype pg_racetype_rtg entities'] = array(
+    'name' => 'eck view ent_racetype pg_racetype_rtg entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_racetype pg_racetype_sr entities.
+  $permissions['eck view ent_racetype pg_racetype_sr entities'] = array(
+    'name' => 'eck view ent_racetype pg_racetype_sr entities',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
     'module' => 'eck',
   );
 
