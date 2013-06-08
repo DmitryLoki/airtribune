@@ -527,3 +527,29 @@ function at_helper_ctools_plugin_directory($module, $plugin) {
     return 'plugins/' . $plugin;
   }
 }
+
+
+
+
+
+/**
+ * Implements hook_og_membership_insert().
+ * 
+ * Clean pilots list cache on new pilot registration
+ */
+function at_helper_og_membership_insert($og_membership) {
+  
+  // Check if it is user membership
+  if ($og_membership->entity_type == 'user' && $og_membership->group_type == 'node') {
+    // Get event id
+    $gid = $og_membership->gid;
+    $node = node_load($gid);
+    if ($node->nid && $node->type == 'pg_contest') {
+      $cid = 'paragliding_pilots_list';
+      
+      cache_clear_all($cid, 'cache_views_data', TRUE);
+    }
+  }
+  
+  
+}
