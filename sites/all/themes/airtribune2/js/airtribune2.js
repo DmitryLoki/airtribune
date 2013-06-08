@@ -28,15 +28,26 @@ jQuery(function($) {
   jQuery('body').bind('click', {parent:this},bodyClick);
   function bodyClick(e) {
     //If e.target is not a child of el.handle then hide list
-    if (jQuery(e.target).parents('.views-field-view, .views-field-field-pg-race-tracks').size() == 0) {
-      $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content').hide();
+    if (jQuery(e.target).parents('.views-field-view, '+
+        '.views-field-field-pg-race-tracks, '+
+        '.views-field-pg-race-play-link')
+    .size() == 0) {
+      $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, '+
+        '.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content, '+
+        '.pane-event-days-panel-pane-1 .views-field-pg-race-play-link > .field-content').hide();
       $('.files_list_down').removeClass('files_list_down');
     }
   }
 
-  $('.pane-event-days-panel-pane-1 .views-field-view .views-label, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label').click(function(){
+  $('.pane-event-days-panel-pane-1 .views-field-view .views-label, '+
+    '.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label, '+
+    '.pane-event-days-panel-pane-1 .views-field-pg-race-play-link .views-label')
+  .click(function(){
     el = $(this).next();
-    $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content').each(function(){
+    $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, '+
+      '.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content, '+
+      '.pane-event-days-panel-pane-1 .views-field-pg-race-play-link > .field-content')
+    .each(function(){
       if($(this)[0] != el[0]) {
         $(this).hide();
         //$('.files_list_down').removeClass('files_list_down');
