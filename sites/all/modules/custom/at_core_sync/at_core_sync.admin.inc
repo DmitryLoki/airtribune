@@ -119,8 +119,8 @@ function _at_core_page_manage() {
         if($tmp->id == $core_id) {
           unset($contests_from_core[$id]);
           $status = l("contest", at_core_sync_get_api_url(). '/contest/' . $core_id);
-          $status .= ' ' . l("pilots", at_core_sync_get_api_url(). '/contest/' . $core_id . '/paragliders');
-          $status .= ' ' . l("races", at_core_sync_get_api_url(). '/contest/' . $core_id . '/races');
+          $status .= ' ' . l("pilots", at_core_sync_get_api_url(). '/contest/' . $core_id . '/paraglider');
+          $status .= ' ' . l("races", at_core_sync_get_api_url(). '/contest/' . $core_id . '/race');
         }
       }
       if (!$status) {
