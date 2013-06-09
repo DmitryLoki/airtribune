@@ -101,5 +101,26 @@ function pg_scoring_category_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_pg_scoring_category'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_pg_scoring_category';
+  $strongarm->value = 0;
+  $export['ant_php_pg_scoring_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_pg_scoring_category';
+  $strongarm->value = '[node:og-group-ref] - [node:field-pg-scoring-category] category';
+  $export['ant_pattern_pg_scoring_category'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pg_scoring_category';
+  $strongarm->value = '1';
+  $export['ant_pg_scoring_category'] = $strongarm;
+
   return $export;
 }

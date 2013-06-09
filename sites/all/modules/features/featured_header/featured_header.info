@@ -16,3 +16,4 @@ features[field][] = ent_featured_header-ent_featured_header-field_header_image
 features[field][] = ent_featured_header-ent_featured_header-field_header_page
 features[field][] = ent_featured_header-ent_featured_header-field_header_slogan
 features[field][] = ent_featured_header-ent_featured_header-og_group_ref
+features[variable][] = field_bundle_settings_ent_featured_header__ent_featured_header
