@@ -130,7 +130,7 @@ class ATSyncContest extends ATSync {
       'end_time' => strtotime($node->field_dates['und'][0]['value2']),
       'place' => $node->field_city['und'][0]['value'],
       'country' => $node->field_country['und'][0]['iso2'],
-      'timezone' => $node->field_dates['und'][0]['timezone'],
+      'timezone' => $node->field_time_zone['und'][0]['value'],
     );
     if ($core_id) {
       $response = $this->request(json_encode($data), "PUT");
