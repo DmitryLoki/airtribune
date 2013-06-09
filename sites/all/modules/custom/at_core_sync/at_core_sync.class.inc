@@ -319,11 +319,16 @@ class ATSyncRace extends ATSync {
     $data_url = http_build_query($data);
     $data_url .= '&checkpoints=' . json_encode($checkpoints);
     if ($race_core_id) {
-      $response = $this->request($data_url, "PUT");
-    }
-    else {
+      $edit = array(
+        "title" => $this->entity->title,
+        "checkpoints" => $checkpoints,
+      );
+      $response = $this->request(json_encode($edit), "PUT");
+    } else {
       $response = $this->request($data_url);
-      $this->updateCoreID($response->id);
+      if (!empty($response->id)) {
+        $this->updateCoreID($response->id);
+      }
     }
     $fid = !empty($this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid']) ? $this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid'] : FALSE;
     if ($fid) {
