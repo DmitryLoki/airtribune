@@ -249,7 +249,7 @@ function _at_core_page_manage_contest($nid) {
       $status = get_race_id_from_race($entity);
       $table['rows'][] = array(
         '<input type="checkbox" class="form-checkbox">',
-        $entity->title,
+        l($entity->title, "admin/structure/entity-type/ent_race/pg_race/".$race."/edit"),
         $status,
         '<a class="button" href="#">Check</a><a class="button" href="#">Synchronize</a>',
       );
@@ -293,7 +293,7 @@ function _at_core_page_batch() {
   $batch = array(
     'operations' => array(),
     'finished' => 'batch_at_core_sync_finished',
-    'title' => t('Processing Example Batch'),
+    'title' => t('Processing Core Synchronizing'),
     'init_message' => t('Core synch is starting.'),
     'progress_message' => t('Synchronized @current out of @total.'),
     'error_message' => t('Example Batch has encountered an error.'),
