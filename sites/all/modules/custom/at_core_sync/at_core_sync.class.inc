@@ -241,6 +241,7 @@ class ATSyncRace extends ATSync {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
       return FALSE;
     }
+    $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
     get_id_from_entity($this->entity);
     $contest_core_id = get_id_from_contest($contest);
     if (!$contest_core_id) {
@@ -257,8 +258,10 @@ class ATSyncRace extends ATSync {
       'title' => $this->entity->title,
       //'bearing' => 12,
     );
-    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value']);
-    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2']);
+    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
+    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
+    $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
+    $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
     $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
     switch ($racetype->type) {
@@ -268,6 +271,7 @@ class ATSyncRace extends ATSync {
 
       case "pg_racetype_od":
         $data['race_type'] = 'opendistance';
+        $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
         break;
 
       case "pg_racetype_sr":
@@ -301,19 +305,34 @@ class ATSyncRace extends ATSync {
       $point_data['properties'] = array();
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
-      
+
+      $point_data['properties']['checkpoint_type'] = "ordinal";
       if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
         $point_data['properties']['checkpoint_type'] = "to";
+        $point_data['properties']['open_time'] = $window_time['open_time'];
+        $point_data['properties']['close_time'] = $window_time['close_time'];
       }
-      if ($delta == count($points) - 1) {
-        $point_data['properties']['checkpoint_type'] = "goal";
+      switch ($data['race_type']) {
+        case "speedrun":
+        case "racetogoal":
+          if ($delta == count($points) - 1) {
+            $point_data['properties']['checkpoint_type'] = "goal";
+          }
+          if (in_array($point_data['properties']['checkpoint_type'], array('ss', 'es', 'goal'))) {
+          $point_data['properties']['open_time'] = $data['start_time'];
+          $point_data['properties']['close_time'] = $data['end_time'];
+          }
+
+          break;
+
+        case "opendistance":
+          // @TODO: rules for open distance
+          break;
       }
       $delta++;
-      $point_data['properties']['open_time'] = $data['start_time'];
-      $point_data['properties']['close_time'] = $data['end_time'];
       $checkpoints['features'][] = $point_data;
     }
     $data_url = http_build_query($data);
