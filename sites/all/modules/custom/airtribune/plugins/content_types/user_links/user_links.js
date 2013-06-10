@@ -19,7 +19,7 @@ jQuery(function ($) {
             totalHeight += $(menuItem).outerHeight();
         });
 
-        totalHeight += parseInt(userMenu.find('.pane-inner').css('padding-top'), 10) + topOffset;
+        totalHeight += parseInt(userMenu.find('.pane-inner').css('padding-top'), 10) + topOffset - 8;
         userMenu.height(totalHeight);
     }
 
