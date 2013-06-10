@@ -261,7 +261,7 @@ class ATSyncRace extends ATSync {
     $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
     $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
-    $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
+    $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
     $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
     switch ($racetype->type) {
@@ -271,6 +271,7 @@ class ATSyncRace extends ATSync {
 
       case "pg_racetype_od":
         $data['race_type'] = 'opendistance';
+        $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
         break;
 
       case "pg_racetype_sr":
@@ -304,7 +305,8 @@ class ATSyncRace extends ATSync {
       $point_data['properties'] = array();
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
-      
+
+      $point_data['properties']['checkpoint_type'] = "ordinal";
       if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
@@ -323,7 +325,7 @@ class ATSyncRace extends ATSync {
           $point_data['properties']['open_time'] = $data['start_time'];
           $point_data['properties']['close_time'] = $data['end_time'];
           }
-          
+
           break;
 
         case "opendistance":
