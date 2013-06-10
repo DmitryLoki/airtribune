@@ -573,6 +573,35 @@ function airtribune_views_query_alter(&$view, &$query) {
 }
 
 /**
+ * Make normal, human sort in FAI pilot list (by nation)
+ * Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
+ * difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
+ *
+ * @see #3302
+ */
+function airtribune_views_pre_render(&$view) {
+  if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
+    // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
+    if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
+      $countries = $view->result['0']->field_field_address['0']['rendered']['country']['#options'];
+    }
+
+    foreach ($view->result as $k => $v) {
+      $current_country = $countries[$v->field_field_address[0]['raw']['country']];
+      $temp_country_list[$current_country][] = $v;
+    }
+    // sort using key sort, because $temp_country_list like array('Great Britain' => array (...))
+    ksort($temp_country_list);
+
+    $result = array();
+    foreach ($temp_country_list as $k => $v) {
+      $result = array_merge($result, $v);
+    }
+    $view->result = $result;
+  }
+}
+
+/**
  * Dynamically load pages on event/%nid based by event dates
  *
  * @see #3024
