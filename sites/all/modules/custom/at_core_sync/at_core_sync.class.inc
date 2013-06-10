@@ -241,6 +241,7 @@ class ATSyncRace extends ATSync {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
       return FALSE;
     }
+    $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
     get_id_from_entity($this->entity);
     $contest_core_id = get_id_from_contest($contest);
     if (!$contest_core_id) {
@@ -257,8 +258,8 @@ class ATSyncRace extends ATSync {
       'title' => $this->entity->title,
       //'bearing' => 12,
     );
-    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value']);
-    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2']);
+    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
+    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
     $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
     switch ($racetype->type) {
