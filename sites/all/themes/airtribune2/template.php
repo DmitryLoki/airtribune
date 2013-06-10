@@ -1433,6 +1433,16 @@ function airtribune2_css_alter(&$css) {
   // Remove defaults.css file.
   //unset($css[drupal_get_path('module', 'system') . '/defaults.css']);
   unset($css[drupal_get_path('module', 'date') . '/date_api/date.css']);
+  
+  if (arg(1) == 'play') {
+    foreach ($css as $key => $value) {
+        $path = drupal_get_path('module', 'admin_menu');
+        $v = strpos($key, $path);
+        if ($v) {
+	    dpm($key);
+	}
+    }
+  }
 }
 
 /**
