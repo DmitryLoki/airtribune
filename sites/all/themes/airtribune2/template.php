@@ -73,6 +73,7 @@ function airtribune2_preprocess_html(&$vars) {
   if (in_array('page-event-blog', $vars['classes_array'])) {
     $vars['classes_array'][] = 'page-node';
   }
+
 }
 
 /**
