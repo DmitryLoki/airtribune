@@ -78,7 +78,7 @@ function at_nested_checkbox_process($element, &$form_state) {
         '#title_display' => $element['#title_display'],
         '#title' => $value['#title'], 
         '#level' => $element['#level'] + 1, 
-        '#default_value' => $element['#default_value'][$key]
+        '#default_value' => isset($element['#default_value'][$key]) ? $element['#default_value'][$key] : 0 
       );
     }
     else {
