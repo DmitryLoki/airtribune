@@ -48,25 +48,6 @@ function at_core_sync_admin_settings() {
     '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
     '#description' => t('For example: v0.1, v0.1.2'),
   );
-
-  $entities = entity_get_info();
-  $options = array();
-  foreach ($entities as $name => $info) {
-    foreach ($info['bundles'] as $bname => $bundle) {
-      $options[$name][$bname] = $bundle['label'];
-    }
-    $options[$name]['#title'] = isset($info['plural label']) ? $info['plural label'] : $info['label'];
-  }
-
-  $form['at_core_sync_custom_settings']['at_core_bundles'] = array(
-    '#type' => 'nested_checkboxes',
-    '#options' => $options,
-    '#title' => t('Bundles that need sync'),
-    '#title_display' => 'after',
-    '#default_value' => variable_get('at_core_bundles'),
-  );
-
-  $form['#submit'] = array('at_core_sync_field');
   return system_settings_form($form);
 }
 
