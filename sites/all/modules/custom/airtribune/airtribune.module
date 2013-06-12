@@ -5,6 +5,8 @@
  * Common functions that many Airtribune plugins will need to reference.
  */
 
+include_once 'airtribune_nodes.inc';
+
 define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
