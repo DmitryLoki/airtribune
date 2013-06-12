@@ -16,6 +16,7 @@ Disallow: /*/node/*/group
 Disallow: /*/group/node/*
 Disallow: /*/event/*
 Disallow: /*/taxonomy/term/*
+Disallow: /*/play/*
 #
 Disallow: /node/*/translate
 Disallow: /node/*
@@ -24,6 +25,7 @@ Disallow: /node/*/group
 Disallow: /group/node/*
 Disallow: /event/*
 Disallow: /taxonomy/term/*
+Disallow: /play/*
 #
 Disallow: /?q=node/*/translate
 Disallow: /?q=node/*
@@ -32,6 +34,7 @@ Disallow: /?q=node/*/group
 Disallow: /?q=group/node/*
 Disallow: /?q=event/*
 Disallow: /?q=taxonomy/term/*
+Disallow: /?q=play/*
 # Other
 Disallow: /filter/tips/
 # Directories
