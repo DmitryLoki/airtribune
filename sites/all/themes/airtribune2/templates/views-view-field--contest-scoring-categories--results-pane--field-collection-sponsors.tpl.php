@@ -41,5 +41,7 @@ foreach ($raw_items as $delta => $raw_item) {
 
 $prefix = '<span>' . t('Prizes by') . '</span>';
 ?>
-<?php print $prefix . str_replace($prefix, '', $urls); ?>
+<?php if ($urls) :?>
+  <?php print $prefix . str_replace($prefix, '', $urls); ?>
+<?php endif; ?>
 <?php print $logos; ?>
