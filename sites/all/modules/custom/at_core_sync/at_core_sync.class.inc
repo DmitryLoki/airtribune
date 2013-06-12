@@ -70,6 +70,7 @@ abstract class ATSync {
 
       case 404:
         drupal_set_message(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
+        drupal_set_message(print_r($response, TRUE), 'error');
         break;
 
       case 409:

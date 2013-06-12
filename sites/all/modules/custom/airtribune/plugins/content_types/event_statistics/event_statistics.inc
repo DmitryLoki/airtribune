@@ -35,14 +35,13 @@ function airtribune_event_statistics_content_type_render($subtype, $conf, $panel
   );
 
   try {
-
-    $view = views_get_view('paragliding_pilots_list');
+    $view = views_get_view('paragliding_contest_pilots_stats');
     $view->set_arguments(array($node->nid));
     unset($view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']);
     $view->execute();
     $content['pilots_waiting'] = count($view->result);
 
-    $view = views_get_view('paragliding_pilots_list');
+    $view = views_get_view('paragliding_contest_pilots_stats');
     $view->set_arguments(array($node->nid));
     $view->execute();
     $content['pilots_confirmed'] = count($view->result);
