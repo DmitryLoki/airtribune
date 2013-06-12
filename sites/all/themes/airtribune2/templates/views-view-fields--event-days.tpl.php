@@ -59,13 +59,17 @@ if($row->field_field_image){
   }
 
 }
-
+$separator = '';
 ?>
-
 <?php print $fields['title']->wrapper_prefix; ?>
-<?php print $fields['title']->content; ?>
+<?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
+  <?php
+    print $fields['title']->content;
+    $separator = ' — ';
+  ?>
+<?php endif; ?>
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
-  <?php print ' — ' . $fields['field_day_status']->content; ?>
+  <?php print $separator . $fields['field_day_status']->content; ?>
 <?php endif; ?>
 <?php if ($fields['title_1']->content): ?>
   <?php print ' — ' . $fields['title_1']->content; ?>
