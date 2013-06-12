@@ -61,6 +61,13 @@ if($row->field_field_image){
 }
 $separator = '';
 ?>
+<?php 
+/**
+ *  Hide title if day is trainig or registration
+ *  @see #3332
+ *  @author Vyacheslav Malchik <info@vkey.biz>
+ */
+?>
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
   <?php
@@ -68,6 +75,7 @@ $separator = '';
     $separator = ' — ';
   ?>
 <?php endif; ?>
+
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
   <?php print $separator . $fields['field_day_status']->content; ?>
 <?php endif; ?>
