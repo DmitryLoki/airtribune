@@ -3004,9 +3004,13 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .view-contest-scoring-categories .views-field-field-collection-sponsors { color: #525c66; font: 14px/16px Arial, Helvetica, sans-serif; padding-top: 10px; margin-left: 0 !important; margin-right: 0 !important; width: 371px; float: left;}
 .view-contest-scoring-categories .views-row-odd .views-field-field-collection-sponsors { float: right;}
 .view-contest-scoring-categories .views-field-field-collection-sponsors span { float: left; padding: 0 5px 12px 0;}
-.view-contest-scoring-categories .views-field-field-collection-sponsors a { color: #00aeef; text-decoration: underline; float: left;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors a { color: #00aeef; text-decoration: underline; /*float: left;*/}
 .view-contest-scoring-categories .views-field-field-collection-sponsors a:hover { text-decoration: none;}
-.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { float: left; clear: both; margin-bottom: 9px;}
+.view-contest-scoring-categories .field-name-field-url,
+.view-contest-scoring-categories .field-name-field-url .field-items,
+.view-contest-scoring-categories .field-name-field-url .field-item { display: inline;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { float: left; margin-bottom: 9px; margin-left: 8px;}
+.view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-url + .field-name-field-organizer-logo { clear: both;}
 .view-contest-scoring-categories .views-field-field-collection-sponsors .field-name-field-organizer-logo { border: 1px solid #f0f5f8; vertical-align: middle;
 
   -webkit-border-radius: 3px;
