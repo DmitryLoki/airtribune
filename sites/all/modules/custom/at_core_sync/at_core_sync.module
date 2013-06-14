@@ -1,5 +1,7 @@
 <?php
 
+include_once 'at_core_sync.features.inc';
+
 define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
 
 /**
@@ -147,22 +149,7 @@ function at_core_sync_menu() {
     'weight' => -10,
     'access arguments' => array('administer site configuration'),
   );
-  
-  $items['admin/config/core_api/manage'] = array(
-    'title' => 'Manage',
-    'type' => MENU_LOCAL_TASK,
-    'page callback' => '_at_core_page_manage',
-    'file' => 'at_core_sync.admin.inc',
-    'access arguments' => array('administer site configuration'),
-  );
-  
-  $items['admin/config/core_api/batch'] = array(
-    'title' => 'Core API Batch',
-    'type' => MENU_CALLBACK,
-    'page callback' => '_at_core_page_batch',
-    'file' => 'at_core_sync.admin.inc',
-    'access arguments' => array('administer site configuration'),
-  );
+
   return $items;
 }
 /**
@@ -213,4 +200,77 @@ function get_paragliders_from_contest_core($core_id) {
 // Debug function
 function _d($var) {
   drupal_set_message(print_r($var, TRUE));
+}
+
+
+/**
+ * Implements hook_action_info()
+ */
+function at_core_sync_action_info() {
+  return array(
+    'at_core_sync_contests_action' => array(
+        'type' => 'node',
+        'label' => t('[Core API] Sync contests'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
+    'at_core_sync_contestants_action' => array(
+        'type' => 'og_membership',
+        'label' => t('[Core API] Sync contestants'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
+    'at_core_sync_races_action' => array(
+        'type' => 'ent_race',
+        'label' => t('[Core API] Sync races'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
+  );
+}
+
+function at_core_sync_entity_sync($entity_type, $entity) {
+  if ($sync = _get_class_by_entity($entity, $entity_type)) {
+    return $sync->synchronize();
+  }
+  return FALSE;
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_contests_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('node', $object);
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_contestants_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('og_membership', $object);
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_races_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('ent_race', $object);
 }
