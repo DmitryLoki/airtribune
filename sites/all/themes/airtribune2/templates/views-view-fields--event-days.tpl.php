@@ -2,8 +2,32 @@
 
 /**
  * @file
- * Event days fields.
+ * Event days fields template.
+ * 
+ * 
+ * - $view: The view in use.
+ * - $fields: an array of $field objects. Each one contains:
+ *   - $field->content: The output of the field.
+ *   - $field->raw: The raw data for the field, if it exists. This is NOT output safe.
+ *   - $field->class: The safe class id to use.
+ *   - $field->handler: The Views field handler object controlling this field. Do not use
+ *     var_export to dump this object, as it can't handle the recursion.
+ *   - $field->inline: Whether or not the field should be inline.
+ *   - $field->inline_html: either div or span based on the above flag.
+ *   - $field->wrapper_prefix: A complete wrapper containing the inline_html to use.
+ *   - $field->wrapper_suffix: The closing tag for the wrapper.
+ *   - $field->separator: an optional separator that may appear before a field.
+ *   - $field->label: The wrap label text to use.
+ *   - $field->label_html: The full HTML of the label to use including
+ *     configured element type.
+ * - $row: The raw result object from the query, with all data it fetched.
+ *
+ * @ingroup views_templates
  */
+?>
+
+<?php
+
 $photos = array();
 if($row->field_field_image){
     $count = count($row->field_field_image);
@@ -59,7 +83,25 @@ if($row->field_field_image){
   }
 
 }
+
 $separator = '';
+
+/*
+ * Calculate number of days
+ * @see #3339
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @TODO: removed after implementation of the calculation of the number of the day
+ */
+
+global $day_number;
+if (!$day_number && !($day_number === 0)) {
+  $day_number = 0;
+  foreach ($view->result as $key => $result) {
+    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(4,5))) {
+      $day_number++;
+    }
+  }
+}
 ?>
 <?php 
 /**
@@ -71,16 +113,23 @@ $separator = '';
 <?php print $fields['title']->wrapper_prefix; ?>
 <?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
   <?php
+    $day = $day_number--;
+    print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
     print $fields['title']->content;
     $separator = ' — ';
+  ?>
+  <?php if ($fields['title_1']->content): ?>
+    <?php print ' — ' . $fields['title_1']->content; ?>
+  <?php endif; ?>
+<?php else: ?>
+  <?php 
+    $anchor = str_replace(' day', '',$fields['field_day_status']->content);
+    print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
   ?>
 <?php endif; ?>
 
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
   <?php print $separator . $fields['field_day_status']->content; ?>
-<?php endif; ?>
-<?php if ($fields['title_1']->content): ?>
-  <?php print ' — ' . $fields['title_1']->content; ?>
 <?php endif; ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
