@@ -150,6 +150,16 @@ function at_core_sync_menu() {
     'access arguments' => array('administer site configuration'),
   );
 
+  $items['admin/config/core_api/fields'] = array(
+    'title' => 'Fields',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('at_core_sync_fields_form'),
+    'file' => 'at_core_sync.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => -5,
+    'access arguments' => array('administer site configuration'),
+  );
+
   return $items;
 }
 /**

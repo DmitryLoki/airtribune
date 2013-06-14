@@ -48,7 +48,10 @@ function at_core_sync_admin_settings() {
     '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
     '#description' => t('For example: v0.1, v0.1.2'),
   );
+  return system_settings_form($form);
+}
 
+function at_core_sync_fields_form() {
   $entities = entity_get_info();
   $options = array();
   foreach ($entities as $name => $info) {
@@ -58,7 +61,7 @@ function at_core_sync_admin_settings() {
     $options[$name]['#title'] = isset($info['plural label']) ? $info['plural label'] : $info['label'];
   }
 
-  $form['at_core_sync_custom_settings']['at_core_bundles'] = array(
+  $form['at_core_bundles'] = array(
     '#type' => 'nested_checkboxes',
     '#options' => $options,
     '#title' => t('Bundles that need sync'),
@@ -78,7 +81,7 @@ function at_core_sync_field($form, &$form_state) {
     if (!empty($bundles)) {
       foreach ($bundles as $bundle => $value) {
         if ((string)$value == $bundle) {
-          if (!in_array($value, $attached[$entity])) {
+          if (!isset($attached[$entity]) || !in_array($value, $attached[$entity])) {
             field_create_instance(array('field_name' => AIRTRIBUNE_CORE_ID_FIELD, 'entity_type' => $entity, 'bundle' => $bundle));
           }
         }

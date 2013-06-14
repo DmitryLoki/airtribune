@@ -6,6 +6,18 @@
  * @todo add validation
  */
 
+
+/**
+ * Implements hook_help()
+ */
+function at_nested_checkbox_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#at_nested_checkbox':
+      // Return a line-break version of the module README.txt
+      return check_markup(file_get_contents(dirname(__FILE__) . "/README.txt"));
+  }
+}
+
 /**
  * Implementation of hook_element_info()
  */
@@ -78,7 +90,7 @@ function at_nested_checkbox_process($element, &$form_state) {
         '#title_display' => $element['#title_display'],
         '#title' => $value['#title'], 
         '#level' => $element['#level'] + 1, 
-        '#default_value' => $element['#default_value'][$key]
+        '#default_value' => isset($element['#default_value'][$key]) ? $element['#default_value'][$key] : 0 
       );
     }
     else {
@@ -133,7 +145,7 @@ function theme_nested_checkboxes($variables) {
   $new_vars['element']['#children'] = theme('checkbox', $new_vars);
   //$attributes['class'][] = 'level-' . $variables['element']['#level'];
   //$attributes['class'][] = 'nested_checkboxes';
-  _form_set_class($variables['element'], array('nested_checkboxes', 'level-' . $variables['element']['#level']));
+  _form_set_class($variables['element'], array('nested-checkboxes', 'level-' . $variables['element']['#level']));
   $attributes = $variables['element']['#attributes'];
   $top_checkbox = theme('form_element', $new_vars);
   $top_checkbox = preg_replace('/^<div/', '<li', $top_checkbox);
