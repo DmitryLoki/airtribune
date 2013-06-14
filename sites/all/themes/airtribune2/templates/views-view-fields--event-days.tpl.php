@@ -118,6 +118,9 @@ if (!$day_number && !($day_number === 0)) {
     print $fields['title']->content;
     $separator = ' — ';
   ?>
+  <?php if ($fields['title_1']->content): ?>
+    <?php print ' — ' . $fields['title_1']->content; ?>
+  <?php endif; ?>
 <?php else: ?>
   <?php 
     $anchor = str_replace(' day', '',$fields['field_day_status']->content);
@@ -127,9 +130,6 @@ if (!$day_number && !($day_number === 0)) {
 
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
   <?php print $separator . $fields['field_day_status']->content; ?>
-<?php endif; ?>
-<?php if ($fields['title_1']->content): ?>
-  <?php print ' — ' . $fields['title_1']->content; ?>
 <?php endif; ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
