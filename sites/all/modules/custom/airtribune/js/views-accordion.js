@@ -16,8 +16,8 @@
           var headers = $(displaySelector + ' ' + headerSelector + ':not(.ui-accordion-header)'),
             headersLength = headers.length;
           headers.each(function (i) {
-            var hash = "#!day_" + (headersLength - i); // hash to use for accordion navigation option
             var $this = $(this);
+            var hash = '#!' + $this.find('div.day-number').data('href').substr(1); // hash to use for accordion navigation option
             var $link = $this.find('a');
             // if the header is not already using an anchor tag, add one
             if ($link.length == 0) {
