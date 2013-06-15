@@ -1,6 +1,12 @@
 name = Airtribune Core API Integration
 description = Provides integration with Core API
-package = Airtribune
 core = 7.x
-
+package = Airtribune
+php = 5.2.4
+dependencies[] = ctools
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[views_view][] = core_api_manage
+features[views_view][] = core_api_manage_races
 files[] = at_core_sync.class.inc
