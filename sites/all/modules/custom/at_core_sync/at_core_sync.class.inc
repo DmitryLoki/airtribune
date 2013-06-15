@@ -193,14 +193,14 @@ class ATSyncPilot extends ATSync {
     if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
       return FALSE;
     }
-    $contest = node_load($this->entity->gid);
+    $contest = node_load($this->entity->gid, NULL, TRUE);
     $contest_core_id = get_id_from_contest($contest);
     if (!$contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity($contest, 'node');
       $contest_core_id = $sync->synchronize();
     }
-    $person = user_load($this->entity->etid);
+    $person = user_load($this->entity->etid, TRUE);
     $person_id = get_id_from_user($person);
     if (!$person_id) {
       // Synchronize pilot if not synchronized
@@ -222,7 +222,7 @@ class ATSyncPilot extends ATSync {
       //$this->updateCoreID($response->id);
     }
     return !empty($response->id) ? $response->id : FALSE;
-    }
+  }
 
   public function check() {
   }
@@ -237,7 +237,7 @@ class ATSyncRace extends ATSync {
     geophp_load();
     $day_id = $this->entity->field_day_ref[LANGUAGE_NONE][0]['target_id'];
     $contest_nid = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-    $contest = node_load($contest_nid);
+    $contest = node_load($contest_nid, NULL, TRUE);
     if (!$contest) {
       drupal_set_message(t('ATSyncRace: Unable to load contest'));
       return FALSE;
@@ -264,7 +264,7 @@ class ATSyncRace extends ATSync {
     $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
     $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
-    $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref)));
+    $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref), array(), TRUE));
     switch ($racetype->type) {
       case "pg_racetype_rtg":
         $data['race_type'] = 'racetogoal';
@@ -283,7 +283,7 @@ class ATSyncRace extends ATSync {
     foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
       $point_ref[] = $pref['target_id'];
     }
-    $points = entity_load("ent_point", $point_ref);
+    $points = entity_load("ent_point", $point_ref, array(), TRUE);
     $checkpoints = array();
     $checkpoints['type'] = "FeatureCollection";
     $checkpoints['features'] = array();
@@ -293,7 +293,7 @@ class ATSyncRace extends ATSync {
       $point_data['type'] = 'Feature';
       $point_data['geometry'] = array();
       $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
-      $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref)));
+      $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref), array(), TRUE));
       $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), true);

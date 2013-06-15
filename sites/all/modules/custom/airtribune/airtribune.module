@@ -932,7 +932,7 @@ function _airtribune_pg_race_online_status($etid) {
   $end = strtotime($start_end['value2']);
   
   // TODO: Get local time
-  $localtime = time() - $offset;
+  $localtime = time() + $offset;
   
   // Compare dates to get status
   if ($start <= $localtime && $localtime < $end) {
