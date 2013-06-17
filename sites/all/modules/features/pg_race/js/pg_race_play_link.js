@@ -5,7 +5,7 @@ jQuery(function ($) {
 
     requestRaceState(raceData, function response(raceInfo) {
 
-      if (raceInfo && raceInfo.length>0) {
+      if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
         console.log('enable links in ', $raceBlock);
         //make links clickable
         setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', raceData.isOnline);
@@ -22,7 +22,12 @@ jQuery(function ($) {
 
   function requestRaceState(raceData, responseCallback) {
     /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
-    $.get(Drupal.settings.pgRace.coreApiAddress+'/contest/'+raceData.contestId+'/race/'+raceData.raceId+'/tracks',responseCallback);
+    $.ajax({
+      url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks',
+      success: responseCallback,
+      error: function () {
+        responseCallback(null);
+      }});
   }
 
   function getRaceDataFromRaceBlock($raceBlock) {
@@ -39,10 +44,3 @@ jQuery(function ($) {
   }
 
 });
-
-
-
-function generateAnswer(responseCallback) {
-  var result = Math.random() <= .3 ? 'OK' : 'NOPE';
-  responseCallback(result);
-}
