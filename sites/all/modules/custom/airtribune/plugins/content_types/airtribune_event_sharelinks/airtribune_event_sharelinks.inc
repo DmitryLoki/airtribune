@@ -59,7 +59,7 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
       $alias = drupal_get_path_alias('node/' . $node->nid);
     }
   }
-  if (arg(2) == 'blog' && isset($context) && $context->data->type =='pg_contest') {
+  if (arg(2) == 'blog' && !empty($context) && $context->data->type =='pg_contest') {
     $alias = drupal_get_path_alias('event/' . $context->data->nid . '/blog/' . arg(3));
   }
 
