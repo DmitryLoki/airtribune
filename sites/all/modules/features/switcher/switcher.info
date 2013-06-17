@@ -48,6 +48,7 @@ dependencies[] = email
 dependencies[] = email_confirm
 dependencies[] = email_registration
 dependencies[] = ent_contest_point
+dependencies[] = ent_custom_object
 dependencies[] = ent_featured_header
 dependencies[] = ent_point
 dependencies[] = ent_race
