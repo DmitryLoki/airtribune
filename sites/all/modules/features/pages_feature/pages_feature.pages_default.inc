@@ -996,13 +996,7 @@ event/*/map/accommodations',
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '28800',
-        'granularity' => 'context',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
