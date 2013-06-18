@@ -1,6 +1,7 @@
-name = custom_object
+name = Custom object
+description = Custom object (bundle of custom object)
 core = 7.x
-package = Custom entities
+package = Custom bundles
 dependencies[] = eck
 dependencies[] = entityreference
 dependencies[] = features
@@ -9,7 +10,6 @@ dependencies[] = list
 dependencies[] = options
 dependencies[] = text
 features[eck_bundle][] = custom_object_custom_object
-features[eck_entity_type][] = custom_object
 features[features_api][] = api:1
 features[field][] = custom_object-custom_object-field_customobject_description
 features[field][] = custom_object-custom_object-field_customobject_type

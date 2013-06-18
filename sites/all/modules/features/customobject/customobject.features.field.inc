@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ent_custom_object.features.field.inc
+ * customobject.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function ent_custom_object_field_default_fields() {
+function customobject_field_default_fields() {
   $fields = array();
 
   // Exported field: 'custom_object-custom_object-field_customobject_description'.
