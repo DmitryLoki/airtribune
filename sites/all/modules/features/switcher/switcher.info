@@ -11,6 +11,7 @@ dependencies[] = advert
 dependencies[] = airtribune
 dependencies[] = at_alias
 dependencies[] = at_entityreference_geowidget
+dependencies[] = at_inline
 dependencies[] = at_messages
 dependencies[] = at_nested_checkbox
 dependencies[] = at_reg

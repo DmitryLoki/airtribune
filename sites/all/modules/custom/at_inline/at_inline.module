@@ -1,0 +1,219 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function at_inline_menu() {
+  $items['at-inline-tmp'] = array(
+    'page callback' => 'at_inline_tmp',
+    'access callback' => TRUE,
+    
+    
+    'file' => 'eck.bundle.inc',
+    'file path' => drupal_get_path('module', 'eck'),
+  );
+  // TODO: nojs callback
+  
+  $items['at-inline/ajax/%'] = array(
+    'page callback' => 'at_inline_ajax',
+    'page arguments' => array(2),
+    'access callback' => TRUE, // TODO:
+    //'delivery callback'
+  );
+  return $items;
+}
+
+/**
+ * Ajax callback
+ */
+function at_inline_ajax($day_id) {
+  
+  
+  $selector = '#at-inline-' . $day_id;
+  //$html = 'some html';
+  $form = at_inline_get_form($day_id);
+  //dsm($form);
+  
+  //$form['title']['#access'] = FALSE;
+  $form['field_photos']['#access'] = FALSE;
+  $form['field_core_id']['#access'] = FALSE;
+  $form['field_competition_results']['#access'] = FALSE;
+  $form['field_day_results']['#access'] = FALSE;
+  //$form['field_pg_race_status']['#access'] = FALSE;
+  
+  $form['field_day_ref']['#access'] = FALSE;
+  $form['field_pg_race_tracks']['#access'] = FALSE;
+  
+  // OG_GROUP_REF is shown only on edit form
+  if (isset($form['og_group_ref'])) {
+    $form['og_group_ref']['#access'] = FALSE;
+  }
+  
+  $html = drupal_render($form);
+  $ajax_commands[] = ajax_command_html($selector, $html);
+  
+  ajax_deliver(array('#type' => 'ajax', '#commands' => $ajax_commands));
+}
+
+
+/*
+function at_inline_form_alter(&$form, &$form_state, $form_id) {
+  //dsm($form_state['build_info']['args']);
+  
+  //if (strpos($form_id, 'eck__entity__form') === 0) {
+    //watchdog('tmp2', serialize($form['#submit']));
+    //dsm('test');
+    //$form['submit_redirect'] = 'at-inline-tmp';
+    
+    //$form['#submit'][] = 'at_inline_form_submit';
+  //}
+}
+*/
+
+
+function at_inline_tmp() {
+  $day_id = 5497;
+  
+  drupal_add_library('system', 'drupal.ajax');
+  
+  //$output = l(t('AJAX link'), 'at-inline/nojs/1', array('attributes' => array('class' => array('use-ajax'))));
+  $output = l(t('AJAX link'), 'at-inline/nojs/' . $day_id, array('attributes' => array('class' => array('use-ajax'))));
+  //$output = '';
+  $output .= '<div id="at-inline-' . $day_id . '"></div>';
+  
+  
+  
+  
+  return $output;
+}
+
+
+/**
+ * Temporary callback.
+ * For testing purposes only.
+ */
+function at_inline_get_form($day_id) {
+  //dsm($_POST);
+  // TODO:
+  
+  
+  
+  _at_inline_set_og_ref($day_id);
+  
+  $entity_type = 'ent_race';
+  $bundle = 'pg_race';
+  
+  $race_id = _at_inline_race_exists($day_id);
+  
+  if ($race_id != FALSE) {
+    $form = eck__entity__edit($entity_type, $bundle, $race_id);
+  }
+  else {
+    // TODO: "Edit" case
+    //$form = eck__entity__add($entity_type, $bundle);
+    $form = _at_inline_eck__entity__add($entity_type, $bundle, $day_id);
+  }
+  
+  //dsm($form['submit_redirect']);
+  //watchdog('tmp2', serialize($form['#submit']));
+  //$form['submit_redirect'] = 'at-inline-tmp';
+  //$form['entity']['#value']->field_day_ref['und'][0]['target_id'] = 5497;
+  
+  //$form['#submit'][] = 'at_inline_form_submit';
+  
+  $hidden = array();
+  at_inline_prepare_form($form, $hidden);
+  return $form;
+}
+
+
+function at_inline_form_submit($form, &$form_state) {
+  $form_state['redirect'] = 'at-inline-tmp';
+}
+
+function at_inline_prepare_form(&$form, $hidden) {
+  foreach ($hidden as $k => $v) {
+    
+  }
+  //dsm($form);
+}
+
+function at_inline_entity_presave($entity, $type) {
+  if ($type == 'ent_race') {
+    //dsm($entity);
+  }
+}
+
+
+
+// TODO:
+function _at_inline_set_og_ref($day_id) {
+  // see entityreference_prepopulate() line 271 (!is_string($_GET[$field_name])
+  //5364
+  $day_node = node_load($day_id);
+  $og_group_ref = field_get_items('node', $day_node, 'og_group_ref');
+  //
+  
+  // TODO: Add checks
+  $group_id = $og_group_ref[0]['target_id'];
+  //dsm($og_group_ref);
+  //$group_id = 5438;
+  $_GET['og_group_ref'] = (string) $group_id;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Modified version of eck__entity__add().
+ */
+function _at_inline_eck__entity__add($entity_type_name, $bundle_name, $day_id) {
+  $entity_type = entity_type_load($entity_type_name);
+  $bundle = bundle_load($entity_type_name, $bundle_name);
+  
+  $entity = entity_create($entity_type->name, array('type' => $bundle->name));
+  
+  // Set day id, since it is hidden in add/edit form
+  //$wrapper = entity_metadata_wrapper('ent_race', $entity);
+  //$wrapper->field_day_ref->value();
+  $entity->field_day_ref['und'][0]['target_id'] = $day_id;
+  
+  return drupal_get_form("eck__entity__form_add_{$entity_type_name}_{$bundle_name}", $entity);
+}
+
+
+
+
+
+
+function _at_inline_race_exists($day_id) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'ent_race')
+        ->entityCondition('bundle', 'pg_race')
+        ->fieldCondition('field_day_ref', 'target_id', $day_id, '=');
+  $result = $query->execute();
+  if (!empty($result['ent_race'])) {
+    $entity = array_shift($result['ent_race']);
+    return $entity->id;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Implements hook_views_post_execute()
+ */
+function at_inline_views_post_execute(&$view) {
+  if ($view->name == 'event_days') {
+    drupal_add_library('system', 'drupal.ajax');
+  }
+}

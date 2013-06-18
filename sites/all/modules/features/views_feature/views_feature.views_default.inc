@@ -2949,6 +2949,16 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_race_play_link']['element_label_type'] = 'span';
   $handler->display->display_options['fields']['pg_race_play_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['pg_race_play_link']['element_wrapper_type'] = 'span';
+  /* Field: Set a task link */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Set a task link';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['text'] = '<a href="/at-inline/nojs/[nid]" class="use-ajax">Set a task</a>
+<div id="at-inline-[nid]"></div>';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -3019,6 +3029,8 @@ return array($event_id);';
     t(','),
     t('Race points'),
     t('Replay'),
+    t('<a href="/at-inline/nojs/[nid]" class="use-ajax">Set a task</a>
+<div id="at-inline-[nid]"></div>'),
     t('All'),
     t('Content pane'),
     t('View panes'),
@@ -4704,7 +4716,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Field: Featured header: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -4737,7 +4749,7 @@ return array($event_id);';
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Featured header: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
