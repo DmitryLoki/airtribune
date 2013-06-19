@@ -2053,6 +2053,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'entityreference_style';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entityreference_fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['day_blog'] = array(
     t('Master'),
     t('more'),
@@ -3000,10 +3006,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_dayblog_ref']['ui_name'] = 'Day blog';
   $handler->display->display_options['fields']['field_dayblog_ref']['label'] = '';
   $handler->display->display_options['fields']['field_dayblog_ref']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_dayblog_ref']['type'] = 'entityreference_views_formatter';
+  $handler->display->display_options['fields']['field_dayblog_ref']['type'] = 'entityreference_entity_view';
   $handler->display->display_options['fields']['field_dayblog_ref']['settings'] = array(
-    'view_name' => 'day_blog',
-    'view_display' => 'dayblog_formatter',
+    'view_mode' => 'full',
+    'links' => 0,
   );
   $handler->display->display_options['fields']['field_dayblog_ref']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_dayblog_ref']['multi_type'] = 'ul';
