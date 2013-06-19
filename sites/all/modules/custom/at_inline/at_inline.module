@@ -28,6 +28,7 @@ function at_inline_menu() {
  */
 function at_inline_ajax($day_id) {
   
+  //drupal_add_js('misc/collapse.js', 'file');
   
   $selector = '#at-inline-' . $day_id;
   //$html = 'some html';
@@ -215,5 +216,9 @@ function _at_inline_race_exists($day_id) {
 function at_inline_views_post_execute(&$view) {
   if ($view->name == 'event_days') {
     drupal_add_library('system', 'drupal.ajax');
+    
+    // Fix conflict with visualization jquery version on event blog page
+    drupal_add_js('misc/jquery.form.js', 'file');
+    drupal_add_js(drupal_get_path('module', 'at_inline') . '/at_inline.js', 'file');
   }
 }

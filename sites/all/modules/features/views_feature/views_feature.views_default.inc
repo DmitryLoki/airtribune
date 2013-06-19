@@ -2956,7 +2956,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nid']['ui_name'] = 'Set a task link';
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['nid']['alter']['text'] = '<a href="/at-inline/nojs/[nid]" class="use-ajax">Set a task</a>
+  $handler->display->display_options['fields']['nid']['alter']['text'] = '<a href="/at-inline/nojs/[nid]" class="use-ajax set-a-task-link">Set a task</a>
 <div id="at-inline-[nid]"></div>';
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Sort criterion: Post date */
@@ -3029,7 +3029,7 @@ return array($event_id);';
     t(','),
     t('Race points'),
     t('Replay'),
-    t('<a href="/at-inline/nojs/[nid]" class="use-ajax">Set a task</a>
+    t('<a href="/at-inline/nojs/[nid]" class="use-ajax set-a-task-link">Set a task</a>
 <div id="at-inline-[nid]"></div>'),
     t('All'),
     t('Content pane'),
