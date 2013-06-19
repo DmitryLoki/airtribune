@@ -35,10 +35,12 @@ function airtribune_airtribune_event_twitter_content_type_render($subtype, $conf
   }
 
   // Load username & widget id from html code by regex
-  $regex = '!(data-dnt="true" href="https://twitter.com/)([[:alnum:]]+)(" data-widget-id=")([0-9]+)!si';
-  preg_match($regex, $twitter_widget_code[0]['value'], $matches);
-  $twitter_user = $matches[2];
-  $twitter_widget_id = $matches[4];
+  if (preg_match('!(href="https://twitter.com/)([[:alnum:]]+)!si', $twitter_widget_code[0]['value'], $matches)) {
+     $twitter_user = $matches[2];
+  }
+  if (preg_match('!(data-widget-id=")([0-9]+)!si', $twitter_widget_code[0]['value'], $matches)) {
+     $twitter_widget_id = $matches[2];
+  }
 
   if (empty($twitter_user) || empty($twitter_widget_id)) {
     return;
