@@ -41,6 +41,7 @@ define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
+define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
