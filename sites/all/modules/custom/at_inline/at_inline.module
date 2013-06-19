@@ -71,6 +71,9 @@ function at_inline_form_alter(&$form, &$form_state, $form_id) {
   
   if (strpos($form_id, 'eck__entity__form') === 0) {
     // Redirect path in case validation failed
+    if (empty($_GET['og_group_ref'])) {
+      return;
+    }
     $nid = $_GET['og_group_ref'];
     // Get og_membership entities for the current (only nodes)
     $query = new EntityFieldQuery();
@@ -108,8 +111,8 @@ function at_inline_form_alter(&$form, &$form_state, $form_id) {
       }
     }
     
-    $form['#action'] = url('event/' . $nid . '/blog');
-    $form['#action'] .= !empty($anchor) ? $anchor : '';
+    //$form['#action'] = url('event/' . $nid . '/blog');
+    //$form['#action'] .= !empty($anchor) ? $anchor : '';
   }
 }
 
