@@ -1,4 +1,5 @@
-.twtr-ft { display: none; }
+#airtribune-event-twitter { max-height: 310px; overflow: hidden; }
+#airtribune-event-twitter .timeline-header, .twtr-ft { display: none; }
 .twtr-widget .twtr-tweet { border-bottom: none; }
 .twtr-widget, .twtr-widget h4 a { color:#333a40 !important}
 .twtr-widget .twtr-bd { padding:0 1px 1px}

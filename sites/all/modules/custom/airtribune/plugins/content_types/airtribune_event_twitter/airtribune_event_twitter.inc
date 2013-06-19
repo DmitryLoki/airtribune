@@ -4,7 +4,7 @@
  * @file
  * Airtribune event twitter pane plugin.
  *
- * @see #2578.
+ * @see #2578 #3362
  */
 
 // Plugin definition.
@@ -28,70 +28,26 @@ function airtribune_airtribune_event_twitter_content_type_render($subtype, $conf
 
   // Event node.
   $node = $context->data;
+  $twitter_widget_code = field_get_items('node', $node, AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD);
 
-  $content['widget']['#markup'] = '';
-  $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-twitter'));
-  $content['#theme_wrappers'] = array('container');
-
-  $return_obg = (object) array(
-    'module' => 'airtribune',
-    'content' => $content,
-    'delta' => 1,
-  );
-
-  if (empty($node->field_social_links)) {
-    return $return_obg;
+  if (empty($twitter_widget_code[0]['value'])) {
+    return;
   }
 
-  foreach ($node->field_social_links['und'] as $link) {
-    if (strpos($link['url'], 'twitter.com')) {
-      $twitter_url = $link['url'];
-    }
+  // Load username & widget id from html code by regex
+  $regex = '!(data-dnt="true" href="https://twitter.com/)([[:alnum:]]+)(" data-widget-id=")([0-9]+)!si';
+  preg_match($regex, $twitter_widget_code[0]['value'], $matches);
+  $twitter_user = $matches[2];
+  $twitter_widget_id = $matches[4];
+
+  if (empty($twitter_user) || empty($twitter_widget_id)) {
+    return;
   }
 
-  if (empty($twitter_url)) {
-    return $return_obg;
-  }
-
-  // remove trailing slash
-  $twitter_url = rtrim($twitter_url, '/');
-  // get username from url
-  $twitter_user = substr($twitter_url, strrpos($twitter_url, '/') + 1);
-
-  $widget_html = "<script src='http://widgets.twimg.com/j/2/widget.js'></script>
-<script>
-new TWTR.Widget({
-    version: 2,
-    type: 'profile',
-    rpp: 10,
-    interval: 5000,
-    width: 220,
-    height: 300,
-    theme: {
-        shell: {
-            background: '#eceff2',
-            color: '#333a40'
-        },
-        tweets: {
-            background: '#ffffff',
-            color: '#333a40',
-            links: '#00acee'
-        }
-    },
-    features: {
-        scrollbar: false,
-        loop: true,
-        live: true,
-        hashtags: true,
-        timestamp: true,
-        avatars: false,
-        behavior: 'default'
-    }
-}).render().setUser('@$twitter_user').start();
-</script>";
+  $widget_html = '<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' . $twitter_user . '" data-widget-id="' . $twitter_widget_id . '">' . t('Tweets by @twitter_user', array('@twitter_user' => $twitter_user)) . '</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
 
   $content['widget']['#markup'] = $widget_html;
-
   $content['#attached']['css'] = array($plugin_path . '/airtribune_event_twitter.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-twitter'));
   $content['#theme_wrappers'] = array('container');
