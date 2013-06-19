@@ -65,6 +65,7 @@ dependencies[] = entity_translation
 dependencies[] = entity_view_mode
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
+dependencies[] = entityreference_views_formatter
 dependencies[] = extrafield_views_integration
 dependencies[] = features
 dependencies[] = field_collection
