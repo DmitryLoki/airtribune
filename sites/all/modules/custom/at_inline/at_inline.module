@@ -57,7 +57,7 @@ function at_inline_ajax($day_id) {
 }
 
 
-/*
+
 function at_inline_form_alter(&$form, &$form_state, $form_id) {
   //dsm($form_state['build_info']['args']);
   
@@ -68,8 +68,51 @@ function at_inline_form_alter(&$form, &$form_state, $form_id) {
     
     //$form['#submit'][] = 'at_inline_form_submit';
   //}
+  
+  if (strpos($form_id, 'eck__entity__form') === 0) {
+    // Redirect path in case validation failed
+    $nid = $_GET['og_group_ref'];
+    // Get og_membership entities for the current (only nodes)
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('entity_type', 'node', '=')
+      ->propertyCondition('group_type', 'node', '=')
+      ->propertyCondition('gid', $nid, '=')
+      ->execute();
+    
+    if (!empty($result['og_membership'])) {
+      $og_membership_ids = array_keys($result['og_membership']);
+      $entities = entity_load('og_membership', $og_membership_ids);
+      $nids = array();
+      foreach ($entities as $entity) {
+        $nids[] = $entity->etid;
+      }
+      
+      // Get day nodes of the event.
+      $query = new EntityFieldQuery();
+      $result = $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'day')
+        ->propertyCondition('nid', $nids, 'IN')
+        ->propertyCondition('status', 1, '=')
+        ->propertyOrderBy('created')
+        ->execute();
+      
+      // Get day number and prepare anchor for url.
+      if (!empty($result['node'])) {
+        $day_nids = array_keys($result['node']);
+        $day_id = $form['entity']['#value']->field_day_ref['und'][0]['target_id'];
+        $key = array_search($day_id, $day_nids);
+        $anchor = $key !== FALSE ? '#!day_' . ($key+1) : '';
+      }
+    }
+    
+    $form['#action'] = url('event/' . $nid . '/blog');
+    $form['#action'] .= !empty($anchor) ? $anchor : '';
+  }
 }
-*/
+
 
 
 function at_inline_tmp() {
