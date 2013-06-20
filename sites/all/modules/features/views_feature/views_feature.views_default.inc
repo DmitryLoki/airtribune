@@ -2053,6 +2053,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'entityreference_style';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entityreference_fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['day_blog'] = array(
     t('Master'),
     t('more'),
@@ -3162,7 +3168,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing_1']['element_type'] = 'div';
   $handler->display->display_options['fields']['nothing_1']['element_class'] = 'race-preview-wrapper';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nothing_1']['element_default_classes'] = FALSE;
   /* Field: Content: Day status */
   $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';

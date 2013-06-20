@@ -60,34 +60,32 @@ if (!$day_number && !($day_number === 0)) {
 <?php print $fields['nothing_1']->content; ?>
 <?php print $fields['nothing_1']->wrapper_suffix; ?>
 
-
-<?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
-  <?php
-    $day = $day_number--;
-    print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-  ?>
-  <?php if ($fields['title_1']->content): ?>
-    <?php print $fields['title_1']->content; ?>
+<div class="views-field results_head">
+  <?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
+    
+    <?php if ($fields['title_1']->content): ?>
+      <div class="task_title"><?php print $fields['title_1']->content; ?></div>
+    <?php endif; ?>
+  <?php else: ?>
+    <?php 
+      $anchor = str_replace(' day', '',$fields['field_day_status']->content);
+      print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
+    ?>
   <?php endif; ?>
-<?php else: ?>
-  <?php 
-    $anchor = str_replace(' day', '',$fields['field_day_status']->content);
-    print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
-  ?>
-<?php endif; ?>
 
-<?php if ($fields['field_day_status']->content != 'Ok'): ?>
-  <?php print $separator . $fields['field_day_status']->content; ?>
-<?php endif; ?>
-<?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
-  <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
-<?php else: ?>
-  <?php print $fields['created']->content; ?>
-<?php endif; ?>
+  <?php if ($fields['field_day_status']->content != 'Ok'): ?>
+    <?php print $separator . $fields['field_day_status']->content; ?>
+  <?php endif; ?>
+  <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
+    <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
+  <?php else: ?>
+    <?php print $fields['created']->content; ?>
+  <?php endif; ?>
 
-<?php print $fields['type']->wrapper_prefix; ?>
-<?php print $fields['type']->content; ?>
-<?php print $fields['type']->wrapper_suffix; ?>
+  <?php print $fields['type']->wrapper_prefix; ?>
+  <?php print $fields['type']->content; ?>
+  <?php print $fields['type']->wrapper_suffix; ?>
+</div>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
   <?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
