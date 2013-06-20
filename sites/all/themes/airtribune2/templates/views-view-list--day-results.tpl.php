@@ -11,7 +11,7 @@
 ?>
 <?php print $wrapper_prefix; ?>
   <?php if (!empty($title)) : ?>
-    <span><?php print $title == 'Field collection field_day_results' ? t('Task results') : t('Competition results'); ?></span>
+    <span class="label"><?php print $title == 'Field collection field_day_results' ? t('Task results') : t('Competition results'); ?></span>
   <?php endif; ?>
     <?php foreach ($rows as $id => $row): ?>
       <span class="file"><?php print $row; ?></span>
