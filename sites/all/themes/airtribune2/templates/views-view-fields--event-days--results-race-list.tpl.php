@@ -85,18 +85,22 @@ if (!$day_number && !($day_number === 0)) {
   <?php print $fields['created']->content; ?>
 <?php endif; ?>
 
-<?php if (!empty($fields['view'])): ?>
-  <?php print $fields['view']->wrapper_prefix; ?>
-  <?php print $fields['view']->label_html; ?>
-  <?php print $fields['view']->content; ?>
-  <?php print $fields['view']->wrapper_suffix; ?>
-<?php endif; ?>
+<?php print $fields['type']->wrapper_prefix; ?>
+<?php print $fields['type']->content; ?>
+<?php print $fields['type']->wrapper_suffix; ?>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
   <?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
   <?php print $fields['pg_race_play_link']->label_html; ?>
   <?php print $fields['pg_race_play_link']->content; ?>
   <?php print $fields['pg_race_play_link']->wrapper_suffix; ?>
+<?php endif; ?>
+
+<?php if (!empty($fields['view'])): ?>
+  <?php print $fields['view']->wrapper_prefix; ?>
+  <?php print $fields['view']->label_html; ?>
+  <?php print $fields['view']->content; ?>
+  <?php print $fields['view']->wrapper_suffix; ?>
 <?php endif; ?>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
