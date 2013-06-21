@@ -1577,7 +1577,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .ui-accordion-content-inner { padding-top: 20px;}
 .pane-event-days-panel-pane-1 .ui-accordion-content .item-list { margin: 0 10px; text-align: left;}
 .pane-event-days-panel-pane-1 .views-field-field-dayblog-ref .item-list ul { margin: 0; padding: 0 0 30px;}
-.pane-event-days-panel-pane-1 .views-field-field-dayblog-ref .item-list ul li { margin: 0 0 0 60px; padding: 10px 0 0; list-style: none; list-style-image: none; color: #656f77; font: 14px/20px Arial, Helvetica, sans-serif; position: relative;}
+.pane-event-days-panel-pane-1 .views-field-field-dayblog-ref .item-list ul li { margin: 0 0 0 60px; padding: 0; list-style: none; list-style-image: none; color: #656f77; font: 14px/20px Arial, Helvetica, sans-serif; position: relative;}
+.pane-event-days-panel-pane-1 .views-field-field-dayblog-ref .item-list ul li > div { padding: 10px;}
 .pane-event-days-panel-pane-1 .views-field-field-dayblog-ref .item-list ul li p { padding: 0; margin: 0;}
 .pane-event-days-panel-pane-1 .views-field-field-dayblog-ref .item-list ul li .posted { border: 1px solid #3cbbeb; background: rgba(0,174,239,0.75); display: inline-block; color: #ffffff; width: 48px; text-align: center; margin: -1px 0 0 -60px; float: left; font: bold 14px/16px Arial, Helvetica, sans-serif; padding: 3px 0; position: absolute;
 
