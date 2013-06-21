@@ -10,8 +10,8 @@
 function customobject_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'custom_object-custom_object-field_customobject_description'.
-  $fields['custom_object-custom_object-field_customobject_description'] = array(
+  // Exported field: 'ent_customobject-customobject-field_customobject_description'.
+  $fields['ent_customobject-customobject-field_customobject_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -45,7 +45,7 @@ function customobject_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'custom_object',
+      'bundle' => 'customobject',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -64,7 +64,7 @@ function customobject_field_default_fields() {
           'weight' => 0,
         ),
       ),
-      'entity_type' => 'custom_object',
+      'entity_type' => 'ent_customobject',
       'exclude_cv' => 0,
       'field_name' => 'field_customobject_description',
       'label' => 'Description',
@@ -113,8 +113,8 @@ function customobject_field_default_fields() {
     ),
   );
 
-  // Exported field: 'custom_object-custom_object-field_customobject_type'.
-  $fields['custom_object-custom_object-field_customobject_type'] = array(
+  // Exported field: 'ent_customobject-customobject-field_customobject_type'.
+  $fields['ent_customobject-customobject-field_customobject_type'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -147,7 +147,7 @@ function customobject_field_default_fields() {
       'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'custom_object',
+      'bundle' => 'customobject',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -166,7 +166,7 @@ function customobject_field_default_fields() {
           'weight' => 0,
         ),
       ),
-      'entity_type' => 'custom_object',
+      'entity_type' => 'ent_customobject',
       'exclude_cv' => 0,
       'field_name' => 'field_customobject_type',
       'label' => 'Object type',
@@ -186,8 +186,8 @@ function customobject_field_default_fields() {
     ),
   );
 
-  // Exported field: 'custom_object-custom_object-field_tracker'.
-  $fields['custom_object-custom_object-field_tracker'] = array(
+  // Exported field: 'ent_customobject-customobject-field_tracker'.
+  $fields['ent_customobject-customobject-field_tracker'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -235,7 +235,7 @@ function customobject_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'custom_object',
+      'bundle' => 'customobject',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
@@ -257,7 +257,7 @@ function customobject_field_default_fields() {
           'weight' => 0,
         ),
       ),
-      'entity_type' => 'custom_object',
+      'entity_type' => 'ent_customobject',
       'exclude_cv' => 0,
       'field_name' => 'field_tracker',
       'label' => 'Link to Tracker',
