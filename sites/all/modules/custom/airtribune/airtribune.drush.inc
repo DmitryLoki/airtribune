@@ -137,8 +137,8 @@ function airtribune_get_modules($site_state) {
       'dblog',
       'update',
       'rules_ui',
-      'views_ui'
-      'field_validation_ui'
+      'views_ui',
+      'field_validation_ui',
     ),
   );
   return $modules[$site_state];
@@ -167,7 +167,7 @@ function airtribune_get_variables($site_state) {
       //'smtp_library' => drupal_get_filename('module', 'devel'),
       'at_core_sync_address' => 'http://api.airtribune.com',
       'at_core_sync_version' => 'v0.1.4',
-      'file_temporary_path' => '/home/devtribune/data/mod-tmp'
+      'file_temporary_path' => '/home/devtribune/data/mod-tmp',
     ),
   );
   return $variables[$site_state];
