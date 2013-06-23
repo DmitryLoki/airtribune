@@ -172,9 +172,9 @@ if (!$day_number && !($day_number === 0)) {
 <?php print $fields['nothing']->content; ?>
 <?php print $fields['nothing']->wrapper_suffix; ?>
 
-<?php print $fields['nid']->wrapper_prefix; ?>
-<?php print $fields['nid']->content; ?>
-<?php print $fields['nid']->wrapper_suffix; ?>
+<?php print $fields['day_set_a_task']->wrapper_prefix; ?>
+<?php print $fields['day_set_a_task']->content; ?>
+<?php print $fields['day_set_a_task']->wrapper_suffix; ?>
 
 <?php if ($photos): ?>
 <div class="field-name-field-image">

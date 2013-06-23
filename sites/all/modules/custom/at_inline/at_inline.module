@@ -1,6 +1,18 @@
 <?php
 
 /**
+ * Implements hook_permission().
+ */
+function at_inline_permission() {
+  return array(
+    'set a task' => array(
+      'title' => t('Set a task'),
+      'description' => t('Set paragliding task for event day.'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function at_inline_menu() {
@@ -17,7 +29,8 @@ function at_inline_menu() {
   $items['at-inline/ajax/%'] = array(
     'page callback' => 'at_inline_ajax',
     'page arguments' => array(2),
-    'access callback' => TRUE, // TODO:
+    //'access callback' => TRUE, // TODO:
+    'access arguments' => array('set a task'),
     //'delivery callback'
   );
   return $items;
@@ -293,14 +306,69 @@ function _at_inline_race_exists($day_id) {
 }
 
 /**
- * Implements hook_views_post_execute()
+ * Implements hook_field_extra_fields()
  */
-function at_inline_views_post_execute(&$view) {
-  if ($view->name == 'event_days') {
-    drupal_add_library('system', 'drupal.ajax');
-    
-    // Fix conflict with visualization jquery version on event blog page
-    drupal_add_js('misc/jquery.form.js', 'file');
-    drupal_add_js(drupal_get_path('module', 'at_inline') . '/at_inline.js', 'file');
-  }
+function at_inline_field_extra_fields() {
+  
+  $extra['node']['day'] = array(
+    /*
+    'form' => array(
+      'day_set_a_task' => array(
+        'label' => t('Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+      ),
+    ),
+    */
+    'display' => array(
+      'day_set_a_task' => array(
+        'label' => t('Set a task link'),
+        'description' => t('Link to add/edit day task'),
+        'weight' => -5,
+        'callback' => 'day_set_a_task',
+      ),
+    ),
+  );
+  
+  return $extra;
 }
+
+function day_set_a_task($entity) {
+  if (!user_access('set a task')) {
+    return;
+  }
+  $markup = _at_inline_set_a_task_link($entity);
+  return $markup;
+}
+
+/**
+ * Implements hook_entity_view()
+ */
+function at_inline_entity_view($entity, $type, $view_mode, $langcode) {
+  
+  if (!user_access('set a task')) {
+    return;
+  }
+  if ($type == 'node' && $entity->type == 'day') {
+    $markup = _at_inline_set_a_task_link($entity);
+    
+    $entity->content['day_set_a_task'] = array(
+      '#type' => 'item',
+      //'#title' => $title,
+      '#markup' => $markup,
+    );
+  }
+  
+}
+
+function _at_inline_set_a_task_link($node) {
+  drupal_add_library('system', 'drupal.ajax');
+  
+  // Fix conflict with visualization jquery version on event blog page
+  drupal_add_js('misc/jquery.form.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'at_inline') . '/at_inline.js', 'file');  
+  $output = t('<a href="/at-inline/nojs/' . $node->nid . '" class="use-ajax set-a-task-link">Set a task</a><div id="at-inline-' . $node->nid . '"></div>');
+  return $output;
+}
+
+

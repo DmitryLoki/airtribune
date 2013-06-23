@@ -2949,16 +2949,12 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_race_play_link']['element_label_type'] = 'span';
   $handler->display->display_options['fields']['pg_race_play_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['pg_race_play_link']['element_wrapper_type'] = 'span';
-  /* Field: Set a task link */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['ui_name'] = 'Set a task link';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['nid']['alter']['text'] = '<a href="/at-inline/nojs/[nid]" class="use-ajax set-a-task-link">Set a task</a>
-<div id="at-inline-[nid]"></div>';
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Extrafield Set a task link */
+  $handler->display->display_options['fields']['day_set_a_task']['id'] = 'day_set_a_task';
+  $handler->display->display_options['fields']['day_set_a_task']['table'] = 'node';
+  $handler->display->display_options['fields']['day_set_a_task']['field'] = 'day_set_a_task';
+  $handler->display->display_options['fields']['day_set_a_task']['label'] = '';
+  $handler->display->display_options['fields']['day_set_a_task']['element_label_colon'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -3029,8 +3025,6 @@ return array($event_id);';
     t(','),
     t('Race points'),
     t('Replay'),
-    t('<a href="/at-inline/nojs/[nid]" class="use-ajax set-a-task-link">Set a task</a>
-<div id="at-inline-[nid]"></div>'),
     t('All'),
     t('Content pane'),
     t('View panes'),
