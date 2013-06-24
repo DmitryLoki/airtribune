@@ -9,10 +9,10 @@
  */
 function customobject_eck_bundle_info() {
   $items = array(
-  'custom_object_custom_object' => array(
-  'machine_name' => 'custom_object_custom_object',
-  'entity_type' => 'custom_object',
-  'name' => 'custom_object',
+  'ent_customobject_customobject' => array(
+  'machine_name' => 'ent_customobject_customobject',
+  'entity_type' => 'ent_customobject',
+  'name' => 'customobject',
   'label' => 'Custom object',
 ),
   );
