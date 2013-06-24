@@ -44,49 +44,49 @@ abstract class ATSync {
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
     switch ($code) {
       case 200:
-        drupal_set_message(t("Core API: Request completed."));
+        ATSync::set_message(t("Core API: Request completed."));
         break;
 
       case 201:
-        drupal_set_message(t("Core API: Resource is successfully created."));
+        ATSync::set_message(t("Core API: Resource is successfully created."));
         break;
 
       case 202:
-        drupal_set_message(t("Core API: Request accepted."));
+        ATSync::set_message(t("Core API: Request accepted."));
         break;
 
       case 400:
-        drupal_set_message(t("Core API[400]: Request has error. Check fields and send again."), 'error');
-        drupal_set_message(print_r($response, TRUE), 'error');
+        ATSync::set_message(t("Core API[400]: Request has error. Check fields and send again."), 'error');
+        ATSync::set_message(print_r($response, TRUE), 'error');
         break;
 
       case 401:
-        drupal_set_message(t("Core API[401]: You need to auth before send this request."), 'error');
+        ATSync::set_message(t("Core API[401]: You need to auth before send this request."), 'error');
         break;
 
       case 403:
-        drupal_set_message(t("Core API[403]: Requested operation not avaible."), 'error');
+        ATSync::set_message(t("Core API[403]: Requested operation not avaible."), 'error');
         break;
 
       case 404:
-        drupal_set_message(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
-        drupal_set_message(print_r($response, TRUE), 'error');
+        ATSync::set_message(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
+        ATSync::set_message(print_r($response, TRUE), 'error');
         break;
 
       case 409:
-        drupal_set_message(t("Core API[409]: Conflict happened. See server response for details."), 'error');
-        drupal_set_message(print_r($response, TRUE), 'error');
+        ATSync::set_message(t("Core API[409]: Conflict happened. See server response for details."), 'error');
+        ATSync::set_message(print_r($response, TRUE), 'error');
         break;
 
       case 500:
-        drupal_set_message(t("Core API[500]: Format error or server restrictions."), 'error');
-        drupal_set_message(print_r($response, TRUE), 'error');
+        ATSync::set_message(t("Core API[500]: Format error or server restrictions."), 'error');
+        ATSync::set_message(print_r($response, TRUE), 'error');
         break;
 
       case 502:
       case 504:
       case 0:
-        drupal_set_message(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))), 'error');
+        ATSync::set_message(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))), 'error');
         watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
         break;
     }
@@ -107,6 +107,13 @@ abstract class ATSync {
     );
     field_attach_update($this->entity_type, $this->entity);
   }
+
+  public function set_message($message = NULL, $type = 'status', $repeat = TRUE) {
+    if (user_access('administer site configuration')) {
+      drupal_set_message($message, $type, $repeat);
+    }
+  }
+
   abstract public function synchronize();
   abstract public function check();
   
@@ -155,7 +162,7 @@ class ATSyncPerson extends ATSync {
   public function synchronize() {
     $profile2 = profile2_load_by_user($this->entity);
     if (!isset($profile2['pilot'])) {
-      drupal_set_message("Core API: User is not a pilot, no need to synchronize");
+      ATSync::set_message("Core API: User is not a pilot, no need to synchronize");
       return FALSE;
     }
     $core_id = get_id_from_user($this->entity);
@@ -239,14 +246,14 @@ class ATSyncRace extends ATSync {
     $contest_nid = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
     $contest = node_load($contest_nid, NULL, TRUE);
     if (!$contest) {
-      drupal_set_message(t('ATSyncRace: Unable to load contest'));
+      ATSync::set_message(t('ATSyncRace: Unable to load contest'));
       return FALSE;
     }
     $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
     get_id_from_entity($this->entity);
     $contest_core_id = get_id_from_contest($contest);
     if (!$contest_core_id) {
-      drupal_set_message(t("Core API: Contest not synchronized yet."));
+      ATSync::set_message(t("Core API: Contest not synchronized yet."));
       return FALSE;
     }
 
