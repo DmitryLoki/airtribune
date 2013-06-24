@@ -257,7 +257,6 @@ class ATSyncRace extends ATSync {
 
     $data = array(
       'title' => $this->entity->title,
-      //'bearing' => 12,
     );
     $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
     $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
@@ -306,6 +305,10 @@ class ATSyncRace extends ATSync {
       $point_data['properties'] = array();
       $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
       $point_data['properties']['name'] = $contest_point->title;
+
+      if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'exit') {
+        $point_data['properties']['checked_on'] = $point->field_point_type[LANGUAGE_NONE][0]['value'];
+      }
 
       $point_data['properties']['checkpoint_type'] = "ordinal";
       if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
