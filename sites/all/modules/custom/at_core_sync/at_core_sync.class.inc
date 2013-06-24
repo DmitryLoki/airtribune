@@ -307,7 +307,7 @@ class ATSyncRace extends ATSync {
       $point_data['properties']['name'] = $contest_point->title;
 
       if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'exit') {
-        $point_data['checked_on'] = $point->field_point_type[LANGUAGE_NONE][0]['value'];
+        $point_data['properties']['checked_on'] = $point->field_point_type[LANGUAGE_NONE][0]['value'];
       }
 
       $point_data['properties']['checkpoint_type'] = "ordinal";
