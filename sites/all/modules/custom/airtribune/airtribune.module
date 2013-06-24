@@ -523,6 +523,25 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 }
 
 /**
+ * Implementation of hook_views_query_alter
+ * @param type $view
+ */
+function airtribune_views_pre_build(&$view){
+  // Export pilots by parts, using second arg
+  // @see #3325
+  if ($view->name == 'paragliding_pilots_list_export' && $view->current_display == 'export_pilots_all_csv') {
+    // By default we have only one argument in view - event nid, and all pilots must be exported.
+    // But for performance purpose on big events(which have more, than 200 pilots), we need use second arg,
+    // which will be used for page offset (one page = 100 pilots to export).
+    if (count($view->args) == 2 && is_numeric($view->args[1])) {
+      $view->items_per_page = 100;
+      // page 1 = offset 0, 2 = 100, 3 = 200
+      $view->offset = ($view->items_per_page * $view->args[1]) - $view->items_per_page;
+    }
+  }
+}
+
+/**
  * Geo distance sorting
  * Implementation of hook_views_query_alter
  * @param type $view
