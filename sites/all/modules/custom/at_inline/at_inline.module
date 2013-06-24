@@ -59,11 +59,15 @@ function at_inline_ajax($day_id) {
 
 
 function at_inline_submit_ajax_callback($form, $form_state) {
-  //return 'test';
-  
-  $hidden = array('field_photos', 'field_core_id', 'field_competition_results', 'field_day_results', 'field_day_ref', 'field_pg_race_tracks', 'og_group_ref');
-  at_inline_prepare_form($form, $hidden);
-  return $form;
+  if (form_get_errors()) {
+    $hidden = array('field_photos', 'field_core_id', 'field_competition_results', 'field_day_results', 'field_day_ref', 'field_pg_race_tracks', 'og_group_ref');
+    at_inline_prepare_form($form, $hidden);
+    return $form;
+    
+  }
+  else {
+    return '';
+  }
 }
 
 
@@ -212,7 +216,7 @@ function at_inline_form_submit($form, &$form_state) {
 }
 
 function at_inline_prepare_form(&$form, $hidden) {
-  
+  $form['#prefix'] = '<a class="at-inline-close">' . t('Close') . '</a>';
   foreach ($hidden as $k => $v) {
     // Hide element only if it exists,
     // e.g. OG_GROUP_REF is shown only on edit form
@@ -364,10 +368,12 @@ function at_inline_entity_view($entity, $type, $view_mode, $langcode) {
 function _at_inline_set_a_task_link($node) {
   drupal_add_library('system', 'drupal.ajax');
   
-  // Fix conflict with visualization jquery version on event blog page
   drupal_add_js('misc/jquery.form.js', 'file');
+  // Fix conflict with visualization jquery version on event blog page
   drupal_add_js(drupal_get_path('module', 'at_inline') . '/at_inline.js', 'file');  
-  $output = t('<a href="/at-inline/nojs/' . $node->nid . '" class="use-ajax set-a-task-link">Set a task</a><div id="at-inline-' . $node->nid . '"></div>');
+  
+  $link_text = _at_inline_race_exists($node->nid) ? t('Edit task') : t('Set a task');
+  $output = t('<a href="/at-inline/nojs/' . $node->nid . '" class="use-ajax set-a-task-link">' . $link_text . '</a><div id="at-inline-' . $node->nid . '" class="at-inline-set-a-task-wrapper"></div>');
   return $output;
 }
 

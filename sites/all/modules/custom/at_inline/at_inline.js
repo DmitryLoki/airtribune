@@ -10,6 +10,10 @@
       window.jQuery.fn.once = window.onceFn;
       window.jQuery.fn.ajaxSubmit = window.ajaxSubmitFn ;
       })});
+      
+      $('.at-inline-close').click(function(){
+        $(this).closest('.at-inline-set-a-task-wrapper').html("");
+      });
     }
   }
 })(jQuery);
