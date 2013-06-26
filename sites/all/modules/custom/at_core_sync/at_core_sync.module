@@ -13,9 +13,7 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  * Returns Core ID from entity
  */
 function get_id_from_entity($entity) {
-  //_d($entity->entityType);
-  return FALSE;  
-  $field_core_id = field_get_items('user', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  $field_core_id = field_get_items($entity->entityType(), $entity, AIRTRIBUNE_CORE_ID_FIELD);
   if (!empty($field_core_id[0]['value'])) {
     return $field_core_id[0]['value'];
   }
@@ -96,6 +94,7 @@ function _get_class_by_entity($entity, $type) {
     'user' => 'ATSyncPerson',
     'og_membership:pg_contestant' => 'ATSyncPilot',
     'ent_race:pg_race' => 'ATSyncRace',
+    'ent_tracker:device' => 'ATSyncTracker',
   );
 
   if (!empty($classes[$tmp])) {
