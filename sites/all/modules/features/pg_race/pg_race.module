@@ -11,7 +11,6 @@ include_once 'pg_race.features.inc';
  * Implements hook_entity_presave().
  */
 function pg_race_entity_presave($entity, $type) {
-  
   // Check race type.
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
@@ -42,6 +41,61 @@ function pg_race_entity_presave($entity, $type) {
       }
       // Set new time value
       $wrapper->{$field_name}->set($field_value);
+    }
+    // race_recount_days($entity);
+  }
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function pg_race_entity_delete($entity, $type) {
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    // race_recount_days();
+  }
+}
+
+function race_recount_days($entity) {
+  $ch = curl_init();
+
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+
+  // TODO refactor, with using og functions
+  $og = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+  $og = node_load($og['0']['target_id']);
+  $contest_core_id = get_id_from_contest($og);
+  $races = db_select('og_membership', 'o')
+    ->fields('o', array('etid'))
+    ->condition('o.gid', $og->nid)
+    ->condition('o.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+    ->execute();
+
+  $day_counter = 0;
+  foreach ($races as $race) {
+  //  $current_race = array_pop(entity_load('ent_race', array((string)$race->etid), array(), TRUE));
+    $current_race = array_pop(entity_load('ent_race', array('1'), array(), TRUE));
+    $race_core_id = get_race_id_from_race($current_race);
+    $day_ref = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race, AIRTRIBUNE_DAY_REF_FIELD);
+    $day_node = node_load($day_ref['0']['value']);
+// for debug
+    $contest_core_id = 'cnts-130524-929732732';
+    $race_core_id = 'r-0bcd3bd9-1249-46c8-8bba-a2085c96f463';
+//0|Ok
+//1|Stopped
+//2|Cancelled
+//3|Rest day
+//4|Registration day
+//5|Training day
+    if ($day_node->field_day_status['und']['0']['target_id'] < 3) {
+      $day_counter++;
+      $url = at_core_sync_get_api_url() . "contest/" . $contest_core_id . "/race/" . $race_core_id;
+      curl_setopt_array($ch, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => TRUE,
+      ));
+      $core_race_data = curl_exec($ch);
+      $core_race_data = drupal_json_decode($core_race_data);
+      $optdistance = $core_race_data->optdistance;
     }
   }
 }
