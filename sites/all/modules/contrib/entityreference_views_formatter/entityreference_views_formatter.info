@@ -1,0 +1,12 @@
+name = Entity Reference Views Formatter
+description = Provides Views based entity reference field formatter.
+core = 7.x
+dependencies[] = entityreference
+dependencies[] = views
+
+; Information added by drupal.org packaging script on 2012-12-27
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "entityreference_views_formatter"
+datestamp = "1356569778"
+

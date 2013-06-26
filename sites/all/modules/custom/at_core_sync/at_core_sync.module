@@ -110,24 +110,16 @@ function _get_class_by_entity($entity, $type) {
  * Implements hook_entity_update().
  */
 function at_core_sync_entity_update($entity, $type) {
-  if (!variable_get('at_core_sync_enabled', 0)) {
-    return FALSE;
-  }
-  if ($sync = _get_class_by_entity($entity, $type)) {
-    $sync->synchronize();
-  }
+  at_core_sync_entity_sync($type, $entity);
+  at_core_sync_other_sync($type, $entity);
 }
 
 /**
  * Implements hook_entity_insert().
  */
 function at_core_sync_entity_insert($entity, $type) {
-  if (!variable_get('at_core_sync_enabled', 0)) {
-    return FALSE;
-  }
-  if ($sync = _get_class_by_entity($entity, $type)) {
-    $sync->synchronize();
-  }
+  at_core_sync_entity_sync($type, $entity);
+  at_core_sync_other_sync($type, $entity);
 }
 
 /**
@@ -245,12 +237,38 @@ function at_core_sync_action_info() {
                 'any' => TRUE,
         ),
     ),
+    'at_core_sync_races_tracks_action' => array(
+        'type' => 'ent_race',
+        'label' => t('[Core API] Send tracks'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
   );
 }
 
+function at_core_sync_other_sync($entity_type, $entity) {
+  if (variable_get('at_core_sync_enabled', 0)) {
+    if ($sync = _get_class_by_entity($entity, $entity_type)) {
+      //TODO: move custom actions to hooks
+      switch($entity_type) {
+        case 'ent_race':
+          return$sync->pushTracks();
+          break;
+      }
+    }
+  }
+  return FALSE;
+}
+
 function at_core_sync_entity_sync($entity_type, $entity) {
-  if ($sync = _get_class_by_entity($entity, $entity_type)) {
-    return $sync->synchronize();
+
+  if (variable_get('at_core_sync_enabled', 0)) {
+    if ($sync = _get_class_by_entity($entity, $entity_type)) {
+      return $sync->synchronize();
+    }
   }
   return FALSE;
 }
@@ -283,4 +301,14 @@ function at_core_sync_contestants_action(&$object, $context = array()) {
 */
 function at_core_sync_races_action(&$object, $context = array()) {
   at_core_sync_entity_sync('ent_race', $object);
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_races_tracks_action(&$object, $context = array()) {
+  at_core_sync_other_sync('ent_race', $object);
 }

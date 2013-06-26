@@ -41,6 +41,7 @@ define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
+define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
@@ -519,6 +520,25 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
   $node = empty($raw_node) ? ctools_context_create_empty('node') : ctools_context_create('node', $raw_node);
   panels_everywhere_site_template_add_context($contexts, $node, t('Event being viewed'), 'event', 'event');
+}
+
+/**
+ * Implementation of hook_views_query_alter
+ * @param type $view
+ */
+function airtribune_views_pre_build(&$view){
+  // Export pilots by parts, using second arg
+  // @see #3325
+  if ($view->name == 'paragliding_pilots_list_export' && $view->current_display == 'export_pilots_all_csv') {
+    // By default we have only one argument in view - event nid, and all pilots must be exported.
+    // But for performance purpose on big events(which have more, than 200 pilots), we need use second arg,
+    // which will be used for page offset (one page = 100 pilots to export).
+    if (count($view->args) == 2 && is_numeric($view->args[1])) {
+      $view->items_per_page = 100;
+      // page 1 = offset 0, 2 = 100, 3 = 200
+      $view->offset = ($view->items_per_page * $view->args[1]) - $view->items_per_page;
+    }
+  }
 }
 
 /**

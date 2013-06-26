@@ -21,7 +21,7 @@ function pg_contest_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contacts',
-    'weight' => '33',
+    'weight' => '31',
     'children' => array(
       0 => 'field_contacts_name',
       1 => 'field_position',
@@ -128,7 +128,7 @@ function pg_contest_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'How to get here',
-    'weight' => '57',
+    'weight' => '36',
     'children' => array(
       0 => 'field_gt_bus',
       1 => 'field_gt_train',
