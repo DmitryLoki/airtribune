@@ -245,6 +245,15 @@ function at_core_sync_action_info() {
                 'any' => TRUE,
         ),
     ),
+    'at_core_sync_trackers_action' => array(
+        'type' => 'ent_tracker',
+        'label' => t('[Core API] Sync trackers'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
   );
 }
 
@@ -310,4 +319,14 @@ function at_core_sync_races_action(&$object, $context = array()) {
 */
 function at_core_sync_races_tracks_action(&$object, $context = array()) {
   at_core_sync_other_sync('ent_race', $object);
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_trackers_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('ent_tracker', $object);
 }
