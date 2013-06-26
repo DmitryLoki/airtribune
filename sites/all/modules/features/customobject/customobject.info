@@ -1,0 +1,16 @@
+name = Custom object
+description = Custom object (bundle of custom object)
+core = 7.x
+package = Custom bundles
+dependencies[] = eck
+dependencies[] = entityreference
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = list
+dependencies[] = options
+dependencies[] = text
+features[eck_bundle][] = ent_customobject_customobject
+features[features_api][] = api:1
+features[field][] = ent_customobject-customobject-field_customobject_description
+features[field][] = ent_customobject-customobject-field_customobject_type
+features[field][] = ent_customobject-customobject-field_tracker
