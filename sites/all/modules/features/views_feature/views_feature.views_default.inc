@@ -3295,6 +3295,20 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Race: Day number */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['relationship'] = 'reverse_field_day_ref_ent_race';
+  /* Field: Race: Distance */
+  $handler->display->display_options['fields']['field_optdistance']['id'] = 'field_optdistance';
+  $handler->display->display_options['fields']['field_optdistance']['table'] = 'field_data_field_optdistance';
+  $handler->display->display_options['fields']['field_optdistance']['field'] = 'field_optdistance';
+  $handler->display->display_options['fields']['field_optdistance']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_optdistance']['label'] = '';
+  $handler->display->display_options['fields']['field_optdistance']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_optdistance']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_optdistance']['element_wrapper_type'] = '0';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';

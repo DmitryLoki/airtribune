@@ -82,9 +82,13 @@ if (!$day_number && !($day_number === 0)) {
     <?php print $fields['created']->content; ?>
   <?php endif; ?>
 
-  <?php print $fields['type']->wrapper_prefix; ?>
-  <?php print $fields['type']->content; ?>
-  <?php print $fields['type']->wrapper_suffix; ?>
+<?php
+print $fields['type']->wrapper_prefix;
+if (!empty($fields['field_optdistance']->content)) {
+  print "<b>" . $fields['field_optdistance']->content . "</b>" . $separator;
+}
+print $fields['type']->content;
+print $fields['type']->wrapper_suffix; ?>
 </div>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
