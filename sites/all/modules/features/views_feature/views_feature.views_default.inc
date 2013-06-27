@@ -2004,6 +2004,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['element_type'] = 'div';
   $handler->display->display_options['fields']['created']['element_class'] = 'field-item posted';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'H:m';
@@ -2016,6 +2017,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_plain_body']['element_type'] = 'div';
   $handler->display->display_options['fields']['field_plain_body']['element_class'] = 'field-item plain-body';
   $handler->display->display_options['fields']['field_plain_body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_plain_body']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_plain_body']['element_default_classes'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
@@ -2055,9 +2057,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'entityreference_style';
+  $handler->display->display_options['style_options']['search_fields'] = array(
+    'field_plain_body' => 'field_plain_body',
+    'created' => 0,
+  );
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entityreference_fields';
+  $handler->display->display_options['row_options']['separator'] = '';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['day_blog'] = array(
     t('Master'),
