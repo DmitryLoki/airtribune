@@ -220,11 +220,12 @@ function _pg_race_play_link($params) {
   }
     
   $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d, 'target' => '_blank')))) . '</span>';
-  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank')))) . '</span>';
+  $href3d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank')))) . '</span>';
   
   
   // Generate list
-  $items = array($href2d, $href3d);
+  //$items = array($href2d, $href3d);
+  $items = array($href2d);
   
   $ul_attribuntes = array(
     'class' => array('race-links'),
