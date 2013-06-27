@@ -853,7 +853,8 @@ function airtribune_get_events_nids_with_date_status() {
  */
 function airtribune_how_time_after_event_start($node, $granularity = 'day') {
   $result = airtribune_extract_time_from_event($node);
-  if ($result && airtribune_event_status_check_by_date($node) == 'current') {
+  $event_date_status = airtribune_event_status_check_by_date($node);
+  if ($result && ($event_date_status == 'current' || $event_date_status == 'past')) {
     $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
     if ($granularity == 'day') return ($seconds/3600/24);
     elseif ($granularity == 'hour') return ($seconds/3600);
