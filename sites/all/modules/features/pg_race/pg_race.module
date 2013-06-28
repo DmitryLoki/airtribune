@@ -131,14 +131,17 @@ function pg_race_play_link_callback($entity) {
     
     $preview = _pg_race_preview_markup($entity);
     $markup = $preview['markup'];
-    $title = $preview['title'];
     
+    
+    //$title = $preview['title'];
+    
+    /*
     $output = array(
       '#type' => 'item',
       '#title' => $title,
       '#markup' => $markup,
     );
-    
+    */
     $output = $markup;
     return $output;
   }
@@ -182,24 +185,31 @@ function _pg_race_preview_markup($entity) {
   
   // Prepare link parameters
   $params = array(
-    'status' => _airtribune_pg_race_online_status($entity->id),
+    //'status_data' => _airtribune_pg_race_online_status($entity->id),
     'race_entity_id' => $entity->id,
   );
+  dsm(_airtribune_pg_race_online_status($entity->id)); return;
+  // Get status and other data
+  $params =+ _airtribune_pg_race_online_status($entity->id);
+  
   $params['race_core_id'] = !empty($race_core_id) ? $race_core_id : '';
   $params['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : '';
   
+  /*
   if ($params['status'] == FALSE) {
     return;
   }
+  */
   
   $markup = _pg_race_play_link($params);
   
-  $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
+  //$title = $params['status'] == 'online' ? t('Watch now') : t('Replay');
+  $title = in_array($params['status'], array('online', 'awaiting')) ? t('Watch now') : t('Replay');
   
 
   
-  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
-  drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
+  //drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
+  //drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
   
   return array(
     'title' => $title,
@@ -211,6 +221,18 @@ function _pg_race_preview_markup($entity) {
  * Prepare markup for play links
  */
 function _pg_race_play_link($params) {
+  
+  $title = in_array($params['status'], array('online', 'awaiting')) ? t('Watch now') : t('Replay');
+  $wrapper_class = $params['status'];
+  
+  $class2d = array('race-link', '2d');
+  $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => $title, '#attributes' => array('class' => $class2d, 'target' => '_blank')))) . '</span>';
+  $text = '<span class="text">' . t('This is some text') . '</span>';
+  //$time = '<span>13:15:05</span>';
+  $time = $params['localtime'];
+  $output = '<span class="race-link-wrapper' . $wrapper_class . '">' . $href2d . $text . $time . '</span>';
+  
+  /*
   $class2d = array('race-link', '2d');
   $class3d = array('race-link', '3d');
   
@@ -245,7 +267,7 @@ function _pg_race_play_link($params) {
     'attributes' => $ul_attribuntes,
   );
   $output = theme('item_list', $variables);
-  
+  */
   return $output;
 }
 

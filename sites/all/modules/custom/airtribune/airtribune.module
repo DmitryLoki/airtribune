@@ -952,19 +952,26 @@ function _airtribune_pg_race_online_status($etid) {
   $end = strtotime($start_end['value2']);
   
   // TODO: Get local time
-  $localtime = time() + $offset;
+  $localtime = time() + $offset;dsm($localtime);
   
+  $data = array('start' => $start, 'localtime' => $localtime,);
   // Compare dates to get status
   if ($start <= $localtime && $localtime < $end) {
     // online
-    return 'online';
+    $data['status'] = 'online';
+    //return 'online';
   }
   elseif ($localtime >= $end) {
     // offline. race finished
-    return 'offline';
+    $data['status'] = 'offline';
+    //return 'offline';
   }
   else {
     // race haven't started yet
-    return FALSE;
+    $data['status'] = 'awaiting';
+    
+    //return FALSE;
   }
+  
+  return $data;
 }
