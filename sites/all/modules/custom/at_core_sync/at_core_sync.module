@@ -257,13 +257,36 @@ function at_core_sync_action_info() {
   );
 }
 
+/*
+ * Custom actions for entity sync with Core
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
 function at_core_sync_other_sync($entity_type, $entity) {
   if (variable_get('at_core_sync_enabled', 0)) {
     if ($sync = _get_class_by_entity($entity, $entity_type)) {
       //TODO: move custom actions to hooks
       switch($entity_type) {
         case 'ent_race':
-          return$sync->pushTracks();
+          return $sync->pushTracks();
+          break;
+        case 'og_membership':
+          $tracker_entity = $sync->tracker;
+          $person_core_id = $sync->person_core_id;
+          $contest_core_id = $sync->contest_core_id;
+
+          // Tracker erased
+          if (!isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
+            $tracker_eid = $entity->original->field_tracker[LANGUAGE_NONE][0]['target_id'];
+            if ($tracker_eid) {
+              $tracker_entity = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+              $person_core_id = '';
+            }
+          }
+          // Assignee tracker to person
+          if ($tracker_entity) {
+            $tracker = _get_class_by_entity($tracker_entity, 'ent_tracker');
+            return $tracker->assignee($person_core_id, $contest_core_id);
+          }
           break;
       }
     }
@@ -299,6 +322,7 @@ function at_core_sync_contests_action(&$object, $context = array()) {
 */
 function at_core_sync_contestants_action(&$object, $context = array()) {
   at_core_sync_entity_sync('og_membership', $object);
+  at_core_sync_other_sync('og_membership', $object);
 }
 
 /**
