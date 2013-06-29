@@ -361,6 +361,13 @@ class ATSyncRace extends ATSync {
         case "racetogoal":
           if ($delta == count($points) - 1) {
             $point_data['properties']['checkpoint_type'] = "goal";
+
+            // Goal as Line
+            if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'line') {
+              $point_data['geometry']['type'] = 'LineString';
+              $tmp = $point_data['geometry']['coordinates'];
+              $point_data['geometry']['coordinates'] = array($tmp, $tmp);
+            }
           }
           if (in_array($point_data['properties']['checkpoint_type'], array('ss', 'es', 'goal'))) {
           $point_data['properties']['open_time'] = $data['start_time'];
