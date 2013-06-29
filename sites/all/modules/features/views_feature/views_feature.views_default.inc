@@ -5905,7 +5905,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_tracker']['label'] = 'Tracker';
   $handler->display->display_options['fields']['field_tracker']['type'] = 'editable';
   $handler->display->display_options['fields']['field_tracker']['settings'] = array(
-    'click_to_edit' => 0,
+    'click_to_edit' => 1,
     'empty_text' => '',
     'fallback_format' => 'entityreference_label',
     'fallback_settings' => array(
