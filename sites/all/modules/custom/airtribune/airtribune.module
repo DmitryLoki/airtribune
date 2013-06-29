@@ -366,7 +366,12 @@ function airtribune_preprocess_panels_pane(&$vars) {
   }
 
   // Add links to switch view of pilots list
-  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE) {
+  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
+    $pilots_links[] = array(
+      'title' => 'Manage',
+      'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
+      'class' => 'by-status' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
+    );
     $pilots_links[] = array(
       'title' => 'Group by status',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
