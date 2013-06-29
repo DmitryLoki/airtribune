@@ -447,7 +447,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -816,7 +816,7 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -1267,7 +1267,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -2004,6 +2004,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['element_type'] = 'div';
   $handler->display->display_options['fields']['created']['element_class'] = 'field-item posted';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'H:m';
@@ -2016,6 +2017,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_plain_body']['element_type'] = 'div';
   $handler->display->display_options['fields']['field_plain_body']['element_class'] = 'field-item plain-body';
   $handler->display->display_options['fields']['field_plain_body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_plain_body']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_plain_body']['element_default_classes'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
@@ -2055,9 +2057,14 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'entityreference_style';
+  $handler->display->display_options['style_options']['search_fields'] = array(
+    'field_plain_body' => 'field_plain_body',
+    'created' => 0,
+  );
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entityreference_fields';
+  $handler->display->display_options['row_options']['separator'] = '';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['day_blog'] = array(
     t('Master'),
@@ -2850,7 +2857,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -3006,10 +3013,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_dayblog_ref']['ui_name'] = 'Day blog';
   $handler->display->display_options['fields']['field_dayblog_ref']['label'] = '';
   $handler->display->display_options['fields']['field_dayblog_ref']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_dayblog_ref']['type'] = 'entityreference_entity_view';
+  $handler->display->display_options['fields']['field_dayblog_ref']['type'] = 'entityreference_views_formatter';
   $handler->display->display_options['fields']['field_dayblog_ref']['settings'] = array(
-    'view_mode' => 'full',
-    'links' => 0,
+    'view_name' => 'day_blog',
+    'view_display' => 'dayblog_formatter',
   );
   $handler->display->display_options['fields']['field_dayblog_ref']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_dayblog_ref']['multi_type'] = 'ul';
@@ -3063,6 +3070,27 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_race_play_link']['element_label_type'] = 'span';
   $handler->display->display_options['fields']['pg_race_play_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['pg_race_play_link']['element_wrapper_type'] = 'span';
+  /* Field: Race: Distance */
+  $handler->display->display_options['fields']['field_optdistance']['id'] = 'field_optdistance';
+  $handler->display->display_options['fields']['field_optdistance']['table'] = 'field_data_field_optdistance';
+  $handler->display->display_options['fields']['field_optdistance']['field'] = 'field_optdistance';
+  $handler->display->display_options['fields']['field_optdistance']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_optdistance']['label'] = '';
+  $handler->display->display_options['fields']['field_optdistance']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_optdistance']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_optdistance']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_optdistance']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_optdistance']['type'] = 'text_plain';
+  /* Field: Race: Day number */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['field_day_number']['label'] = '';
+  $handler->display->display_options['fields']['field_day_number']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_number']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_day_number']['element_default_classes'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -5032,7 +5060,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -5658,7 +5686,7 @@ return array($event_id);';
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Field: Field: Link to Tracker */
+  /* Field: OG membership: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -6574,7 +6602,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Link to Tracker */
+  /* Field: OG membership: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -6937,7 +6965,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Link to Tracker */
+  /* Field: OG membership: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7003,7 +7031,8 @@ return array($event_id);';
   /* Display: All pilots export (csv) */
   $handler = $view->new_display('views_data_export', 'All pilots export (csv)', 'export_pilots_all_csv');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '9999';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
   $handler->display->display_options['path'] = 'export_pilots/%';
@@ -7123,7 +7152,7 @@ return array($event_id);';
       'empty_column' => 0,
     ),
   );
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';

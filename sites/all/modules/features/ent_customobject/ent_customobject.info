@@ -3,5 +3,5 @@ core = 7.x
 package = Custom entities
 dependencies[] = eck
 dependencies[] = features
-features[eck_entity_type][] = custom_object
+features[eck_entity_type][] = ent_customobject
 features[features_api][] = api:1
