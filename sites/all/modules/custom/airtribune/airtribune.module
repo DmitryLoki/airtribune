@@ -370,7 +370,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $pilots_links[] = array(
       'title' => 'Manage',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
-      'class' => 'by-status' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
+      'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
     );
     $pilots_links[] = array(
       'title' => 'Group by status',
@@ -593,7 +593,7 @@ function airtribune_views_query_alter(&$view, &$query) {
   }
 
   // See http://drupal.org/node/1451218#comment-6136692
-  if ($view->name == 'day_results') {
+  if ($view->name == 'day_results' || $view->name == 'contest_trackers') {
     $view->query->where[0]['type'] = 'OR';
   }
 
