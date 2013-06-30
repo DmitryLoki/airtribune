@@ -4951,7 +4951,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'events/*/pilots/manage',
+            'paths' => 'event/*/pilots/manage',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -5122,7 +5122,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-66';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'paragliding_contest_pilots_manage-standard';
+    $pane->subtype = 'paragliding_pilots_list-manage';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -5143,7 +5143,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $display->content['new-66'] = $pane;
     $display->panels['middle'][0] = 'new-66';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-66';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['event_pilots'] = $page;
