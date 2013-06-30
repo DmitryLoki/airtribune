@@ -13,9 +13,7 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  * Returns Core ID from entity
  */
 function get_id_from_entity($entity) {
-  //_d($entity->entityType);
-  return FALSE;  
-  $field_core_id = field_get_items('user', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+  $field_core_id = field_get_items($entity->entityType(), $entity, AIRTRIBUNE_CORE_ID_FIELD);
   if (!empty($field_core_id[0]['value'])) {
     return $field_core_id[0]['value'];
   }
@@ -96,6 +94,7 @@ function _get_class_by_entity($entity, $type) {
     'user' => 'ATSyncPerson',
     'og_membership:pg_contestant' => 'ATSyncPilot',
     'ent_race:pg_race' => 'ATSyncRace',
+    'ent_tracker:device' => 'ATSyncTracker',
   );
 
   if (!empty($classes[$tmp])) {
@@ -246,6 +245,15 @@ function at_core_sync_action_info() {
                 'any' => TRUE,
         ),
     ),
+    'at_core_sync_trackers_action' => array(
+        'type' => 'ent_tracker',
+        'label' => t('[Core API] Sync trackers'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
   );
 }
 
@@ -311,4 +319,14 @@ function at_core_sync_races_action(&$object, $context = array()) {
 */
 function at_core_sync_races_tracks_action(&$object, $context = array()) {
   at_core_sync_other_sync('ent_race', $object);
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_trackers_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('ent_tracker', $object);
 }

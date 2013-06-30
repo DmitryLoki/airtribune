@@ -84,49 +84,26 @@ if($row->field_field_image){
 
 }
 
-$separator = '';
-
-/*
- * Calculate number of days
- * @see #3339
- * @author Vyacheslav Malchik <info@vkey.biz>
- * @TODO: removed after implementation of the calculation of the number of the day
+/**
+ *  Theme race titles
+ *  @see #3400 #3365
+ *  @author Kraev Vasily
  */
-
-global $day_number;
-if (!$day_number && !($day_number === 0)) {
-  $day_number = 0;
-  foreach ($view->result as $key => $result) {
-    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(4,5))) {
-      $day_number++;
-    }
+print $fields['title']->wrapper_prefix;
+$separator = ' — ';
+$field_day_status = $fields['field_day_status']->content;
+if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
+  $day = $fields['field_day_number']->content;
+  if ($fields['title_1']->content) {
+    print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
+    print t('Day') . " $day" . $separator . $fields['title_1']->content . ' - ' . $fields['field_optdistance']->content;
+  } else {
+    $anchor = str_replace(' day', '',$fields['field_day_status']->content);
+    print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
+    print t('Day') . " $day";
   }
 }
 ?>
-<?php 
-/**
- *  Hide title if day is trainig or registration
- *  @see #3332
- *  @author Vyacheslav Malchik <info@vkey.biz>
- */
-?>
-<?php print $fields['title']->wrapper_prefix; ?>
-<?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
-  <?php
-    $day = $day_number--;
-    print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-    print $fields['title']->content;
-    $separator = ' — ';
-  ?>
-  <?php if ($fields['title_1']->content): ?>
-    <?php print ' — ' . $fields['title_1']->content; ?>
-  <?php endif; ?>
-<?php else: ?>
-  <?php 
-    $anchor = str_replace(' day', '',$fields['field_day_status']->content);
-    print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
-  ?>
-<?php endif; ?>
 
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
   <?php print $separator . $fields['field_day_status']->content; ?>

@@ -395,11 +395,42 @@ class ATSyncRace extends ATSync {
 
       $this->address = implode('/', array('contest', $contest_core_id, 'race'));
       if ($race_core_id = get_race_id_from_race($this->entity)) {
-        $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id));
+        $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id, '/track_archive'));
+        $response = $this->request('url='.file_create_url(file_load($fid)->uri));
+      } else {
+        ATSync::setMessage(t("Core API: Unable to send tracks. Race not synchronized yet."));
+        return FALSE;
       }
-      $this->address .= "/track_archive";
-      $response = $this->request('url='.file_create_url(file_load($fid)->uri));
     }
+  }
+
+  public function check() {
+  }
+}
+
+/**
+ * Class for synchronization person
+ */
+class ATSyncTracker extends ATSync {
+  public $address = "tracker";
+  public function synchronize() {
+    $wrapper = entity_metadata_wrapper('ent_tracker', $this->entity);
+    $field = $wrapper->field_tracker_type->value();
+    $device_type =  $field->title;
+    $data = array(
+      'device_id' => $this->entity->identifier,
+      'device_type' => $device_type,
+      'name' => $this->entity->title,
+    );
+
+    if ($core_id = get_id_from_entity($this->entity)) {
+      $this->address .= '/' . $core_id;
+      $response = $this->request(json_encode($data), 'PUT');
+    } else {
+      $response = $this->request(http_build_query($data));
+      $this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
   }
 
   public function check() {
