@@ -42,62 +42,150 @@ function pg_race_entity_presave($entity, $type) {
       // Set new time value
       $wrapper->{$field_name}->set($field_value);
     }
-    // race_recount_days($entity);
   }
 }
 
-/**
- * Implements hook_entity_presave().
- */
+function pg_race_entity_insert($entity, $type) {
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    recount_race_number($entity);
+  }
+}
+
 function pg_race_entity_delete($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    // race_recount_days();
+    recount_race_number($entity);
   }
 }
 
-function race_recount_days($entity) {
+function pg_race_node_insert($node) {
+  recount_day_number($node);
+}
+function pg_race_node_delete($node) {
+  recount_day_number($node);
+}
+
+function recount_day_number($node) {
+  if ($node->type == AIRTRIBUNE_DAY_TYPE) {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $og = array_pop($node_wrapper->og_group_ref->value());
+    $days = get_days_for_og($og);
+
+    $day_number = 0;
+    foreach ($days as $day) {
+      // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
+//      $current_day_node = node_load($day);
+//      if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
+//        $current_day_node->field_day_number['und']['0']['value'] = $day_number++;
+//        node_save($current_day_node);
+//      }
+      $current_day_node_wrapper = entity_metadata_wrapper('node', $day);
+      if ($current_day_node_wrapper->field_day_status->value() < 4) {
+        $day_number++;
+        $current_day_node_wrapper->field_day_number->set($day_number);
+        $current_day_node_wrapper->save();
+      }
+    }
+    // new added day
+    if ($node->nid == NULL && $node->field_day_status['und']['0']['value'] < 4) {
+      $node->field_day_number['und']['0']['value'] = $day_number + 1;
+    }
+  }
+}
+
+function recount_race_number(&$entity) {
   $ch = curl_init();
+  $race_counter = 0;
 
+  // update race count for new added race, by counting existing races
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  $og = array_pop($wrapper->og_group_ref->value());
+  $races = get_races_for_og($og);
+  $entity->field_race_number['und']['0']['value'] = count($races)+1;
+//  refactor - entity not yet saved, wrapper not best way
+//  $wrapper->{'field_race_number'}->set(count($races)+1);
+//  $wrapper->save();
 
-  // TODO refactor, with using og functions
-  $og = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
-  $og = node_load($og['0']['target_id']);
-  $contest_core_id = get_id_from_contest($og);
+//  $contest_core_id = get_id_from_contest($og);
+  $contest_core_id = $og->field_core_id['und']['0']['value'];
+
+  // update race numbers for old races
+  foreach ($races as $race) {
+    $race_counter++;
+    $need_update_entity = FALSE;
+
+    $current_race = array_pop(entity_load('ent_race', array((string)$race), array(), TRUE));
+    $current_race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
+    if ($current_race_wrapper->{'field_race_number'}->value() != $race_counter) {
+      $current_race_wrapper->{'field_race_number'}->set($race_counter);
+      $need_update_entity = TRUE;
+    }
+
+    // if race have not filled field with optimum distance, then try to get from CoreAPI
+    if (empty($current_race->field_optdistance['und']['0']['value'])) {
+      // get EntityMailform error of this
+      //$race_core_id = get_race_id_from_race($current_race);
+      $race_core_id = !empty($current_race->field_core_id['und']['0']['value']) ? $current_race->field_core_id['und']['0']['value'] : NULL;
+      curl_setopt_array($ch, array(
+        CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
+        CURLOPT_RETURNTRANSFER => TRUE,
+        CURLOPT_TIMEOUT => 10,
+      ));
+      $ch_exec = curl_exec($ch);
+      // if we get correct data from CoreAPI
+      if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
+        if ($optdistance = $core_race_data->optdistance) {
+          // write the optimum distance to field_optdistance & save(update) race entity
+          $current_race_wrapper->{'field_optdistance'}->set($optdistance);
+          $need_update_entity = TRUE;
+        }
+      }
+    }
+
+    if ($need_update_entity) {
+      $current_race->save();
+    }
+  }
+
+  curl_close($ch);
+}
+
+/*
+ * Return array of ids of ent_race for event
+ */
+function get_races_for_og($og) {
+  if (!is_object($og)) {
+    return FALSE;
+  }
   $races = db_select('og_membership', 'o')
     ->fields('o', array('etid'))
     ->condition('o.gid', $og->nid)
     ->condition('o.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
-    ->execute();
+    ->execute()
+    ->fetchCol();
+  return $races;
+}
 
-  $day_counter = 0;
-  foreach ($races as $race) {
-  //  $current_race = array_pop(entity_load('ent_race', array((string)$race->etid), array(), TRUE));
-    $current_race = array_pop(entity_load('ent_race', array('1'), array(), TRUE));
-    $race_core_id = get_race_id_from_race($current_race);
-    $day_ref = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race, AIRTRIBUNE_DAY_REF_FIELD);
-    $day_node = node_load($day_ref['0']['value']);
-// for debug
-    $contest_core_id = 'cnts-130524-929732732';
-    $race_core_id = 'r-0bcd3bd9-1249-46c8-8bba-a2085c96f463';
-//0|Ok
-//1|Stopped
-//2|Cancelled
-//3|Rest day
-//4|Registration day
-//5|Training day
-    if ($day_node->field_day_status['und']['0']['target_id'] < 3) {
-      $day_counter++;
-      $url = at_core_sync_get_api_url() . "contest/" . $contest_core_id . "/race/" . $race_core_id;
-      curl_setopt_array($ch, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => TRUE,
-      ));
-      $core_race_data = curl_exec($ch);
-      $core_race_data = drupal_json_decode($core_race_data);
-      $optdistance = $core_race_data->optdistance;
-    }
+/*
+ * Return array of nids of day for event
+ */
+function get_days_for_og($og) {
+  if (!is_object($og)) {
+    return FALSE;
   }
+  $relation_nids = db_select('og_membership', 'o')
+    ->fields('o', array('etid'))
+    ->condition('o.gid', $og->nid)
+    ->condition('o.entity_type', 'node')
+    ->condition('o.type', 'og_membership_type_default')
+    ->execute()
+    ->fetchCol();
+  $days = db_select('node', 'n')
+    ->fields('n')
+    ->condition('n.nid', $relation_nids, 'IN')
+    ->condition('n.type', 'day')
+    ->execute()
+    ->fetchCol();
+  return $days;
 }
 
 /**
