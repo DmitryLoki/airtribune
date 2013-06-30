@@ -47,13 +47,13 @@ function pg_race_entity_presave($entity, $type) {
 
 function pg_race_entity_insert($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    recount_race_number($entity);
+    recount_race_number($entity, 'insert');
   }
 }
 
 function pg_race_entity_delete($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    recount_race_number($entity);
+    recount_race_number($entity, 'delete');
   }
 }
 
@@ -109,38 +109,39 @@ function recount_day_number($node, $action) {
   }
 }
 
-function recount_race_number(&$entity) {
+function recount_race_number(&$entity, $action) {
   $ch = curl_init();
   $race_counter = 0;
 
   // update race count for new added race, by counting existing races
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $og = array_pop($wrapper->og_group_ref->value());
+  // load all created races for this contest
   $races = get_races_for_og($og);
-  $entity->field_race_number['und']['0']['value'] = count($races)+1;
-//  refactor - entity not yet saved, wrapper not best way
-//  $wrapper->{'field_race_number'}->set(count($races)+1);
-//  $wrapper->save();
 
-//  $contest_core_id = get_id_from_contest($og);
   $contest_core_id = $og->field_core_id['und']['0']['value'];
+
+  // if its new race
+  if ($action == 'insert') {
+    $entity->field_race_number['und']['0']['value'] = count($races) + 1;
+  }
+
+  // if race deleted, then we must remove this id from recount list
+  if ($action == 'delete' && ($key = array_search($entity->id, $races)) !== false) {
+    unset($races[$key]);
+  }
 
   // update race numbers for old races
   foreach ($races as $race) {
     $race_counter++;
-    $need_update_entity = FALSE;
 
+    // load race entity
     $current_race = array_pop(entity_load('ent_race', array((string)$race), array(), TRUE));
-    $current_race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
-    if ($current_race_wrapper->{'field_race_number'}->value() != $race_counter) {
-      $current_race_wrapper->{'field_race_number'}->set($race_counter);
-      $need_update_entity = TRUE;
-    }
+    // change race number field
+    $current_race->field_race_number['und']['0']['value'] = $race_counter;
 
     // if race have not filled field with optimum distance, then try to get from CoreAPI
     if (empty($current_race->field_optdistance['und']['0']['value'])) {
-      // get EntityMailform error of this
-      //$race_core_id = get_race_id_from_race($current_race);
       $race_core_id = !empty($current_race->field_core_id['und']['0']['value']) ? $current_race->field_core_id['und']['0']['value'] : NULL;
       curl_setopt_array($ch, array(
         CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
@@ -152,15 +153,13 @@ function recount_race_number(&$entity) {
       if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
         if ($optdistance = $core_race_data->optdistance) {
           // write the optimum distance to field_optdistance & save(update) race entity
-          $current_race_wrapper->{'field_optdistance'}->set($optdistance);
-          $need_update_entity = TRUE;
+          $current_race->field_optdistance['und']['0']['value'] = $optdistance;
         }
       }
     }
-
-    if ($need_update_entity) {
-      $current_race->save();
-    }
+    // save changed fields for race
+    field_attach_presave('ent_race', $current_race);
+    field_attach_update('ent_race', $current_race);
   }
 
   curl_close($ch);
@@ -168,15 +167,16 @@ function recount_race_number(&$entity) {
 
 /*
  * Return array of ids of ent_race for event
+ * Its dirty code, but in OG module code there is nothing like this functionality
  */
 function get_races_for_og($og) {
   if (!is_object($og)) {
     return FALSE;
   }
-  $races = db_select('og_membership', 'o')
-    ->fields('o', array('etid'))
-    ->condition('o.gid', $og->nid)
-    ->condition('o.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+  $races = db_select('og_membership', 'ogm')
+    ->fields('ogm', array('etid'))
+    ->condition('ogm.gid', $og->nid)
+    ->condition('ogm.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->execute()
     ->fetchCol();
   return $races;
