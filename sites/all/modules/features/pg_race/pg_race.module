@@ -57,37 +57,54 @@ function pg_race_entity_delete($entity, $type) {
   }
 }
 
+function pg_race_node_update($node) {
+  recount_day_number($node, 'update');
+}
 function pg_race_node_insert($node) {
-  recount_day_number($node);
+  recount_day_number($node, 'insert');
 }
 function pg_race_node_delete($node) {
-  recount_day_number($node);
+  recount_day_number($node, 'delete');
 }
 
-function recount_day_number($node) {
+function recount_day_number($node, $action) {
   if ($node->type == AIRTRIBUNE_DAY_TYPE) {
-    $node_wrapper = entity_metadata_wrapper('node', $node);
-    $og = array_pop($node_wrapper->og_group_ref->value());
+    $day_number = 0;
+    // load contest
+    $og = node_load($node->og_group_ref['und']['0']['target_id']);
+    // load all created days for this contest
     $days = get_days_for_og($og);
 
-    $day_number = 0;
+    // if node deleted, then we must remove this nid from recount list
+    if ($action == 'delete' && ($key = array_search($node->nid, $days)) !== false) {
+      unset($days[$key]);
+    }
+    // recount day number for all this days
     foreach ($days as $day) {
       // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
-//      $current_day_node = node_load($day);
-//      if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
-//        $current_day_node->field_day_number['und']['0']['value'] = $day_number++;
-//        node_save($current_day_node);
-//      }
-      $current_day_node_wrapper = entity_metadata_wrapper('node', $day);
-      if ($current_day_node_wrapper->field_day_status->value() < 4) {
+      $current_day_node = node_load($day);
+      if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
         $day_number++;
-        $current_day_node_wrapper->field_day_number->set($day_number);
-        $current_day_node_wrapper->save();
+        $current_day_node->field_day_number['und']['0']['value'] = $day_number;
+      } else {
+        $current_day_node->field_day_number['und']['0']['value'] = 0;
       }
+      // some special magic, remove fields, what we don't need to save (avoid saving whole node)
+      // !!! may be problem with removing og_group_ref !!!
+      //foreach (field_info_instances('node', 'day') as $field_name => $field_info) {
+      //  if ($field_name != 'field_day_number' || $field_name != AIRTRIBUNE_OG_GROUP_REF_FIELD) {
+      //    unset($current_day_node->{$field_name});
+      //  }
+      //}
+      // and save changed fields
+      field_attach_presave('node', $current_day_node);
+      field_attach_update('node', $current_day_node);
     }
-    // new added day
-    if ($node->nid == NULL && $node->field_day_status['und']['0']['value'] < 4) {
-      $node->field_day_number['und']['0']['value'] = $day_number + 1;
+
+    // if node is new added day, so not yet in database, and not was recounted upper
+    if ($action == 'insert' && $node->field_day_status['und']['0']['value'] < 4) {
+      $day_number++;
+      $node->field_day_number['und']['0']['value'] = $day_number;
     }
   }
 }
@@ -172,15 +189,15 @@ function get_days_for_og($og) {
   if (!is_object($og)) {
     return FALSE;
   }
-  $relation_nids = db_select('og_membership', 'o')
-    ->fields('o', array('etid'))
-    ->condition('o.gid', $og->nid)
-    ->condition('o.entity_type', 'node')
-    ->condition('o.type', 'og_membership_type_default')
+  $relation_nids = db_select('og_membership', 'ogm')
+    ->fields('ogm', array('etid'))
+    ->condition('ogm.gid', $og->nid)
+    ->condition('ogm.entity_type', 'node')
     ->execute()
     ->fetchCol();
   $days = db_select('node', 'n')
-    ->fields('n')
+    ->fields('n', array('nid'))
+    ->orderBy('nid', 'ASC')
     ->condition('n.nid', $relation_nids, 'IN')
     ->condition('n.type', 'day')
     ->execute()
