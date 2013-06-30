@@ -6927,7 +6927,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
   $handler->display->display_options['fields']['field_pg_contestant_status']['settings'] = array(
-    'click_to_edit' => 1,
+    'click_to_edit' => 0,
     'empty_text' => '',
     'fallback_format' => 'list_default',
   );
