@@ -147,20 +147,25 @@ function _day_pg_race_preview_markup($node) {
     $wrapper_attributes['class'][] = 'no-task';
   }
   
-  // Wrap link text
-  $link_text = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => $link_text, '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
-  // Wrap time and help-text if not empty.
-  $time = !empty($time) ? '<span id="time" class="time">'. $time . '</span>' : '';
-  $help_text = !empty($help_text) ? '<span class="help-text">'. $help_text . '</span>' : '';
-  
+  if ($status == 'offline') {
+    $output = _day_pg_race_preview_offline_markup($data);
+  }
+  else {
+    // Wrap link text
+    $link_text = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => $link_text, '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+    // Wrap time and help-text if not empty.
+    $time = !empty($time) ? '<span id="time" class="time">'. $time . '</span>' : '';
+    $help_text = !empty($help_text) ? '<span class="help-text">'. $help_text . '</span>' : '';
+    
+    // Prepare output
+    $output = $link_text . $help_text . $time;
+    $output = theme('html_tag', array('element' => array('#tag' => 'span', '#value' => $output, '#attributes' => $wrapper_attributes)));
+  }
   
   // Add js
   drupal_add_js(drupal_get_path('module', 'day') .'/js/day_pg_race_play_link.js', 'file');
   drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
-  
-  // Prepare output
-  $output = $link_text . $help_text . $time;
-  $output = theme('html_tag', array('element' => array('#tag' => 'span', '#value' => $output, '#attributes' => $wrapper_attributes)));
+
   return $output;
 }
 
@@ -180,18 +185,6 @@ function _day_pg_race_preview_data($node) {
     'contest_core_id' => NULL,
   );
   
-  /*
-  $data = array(
-    'status' => 'online',
-    'has_task' => FALSE,
-    'start_time' => 12345,
-    'countdown_time' => -1234564,
-    'race_entity_id' => 'race_entity_id',
-    'contest_core_id' => 'contest_core_id',
-    'race_core_id' => 'race_core_id',
-  );
-  */
-  
   // Get task and event data
   $task_data = _day_pg_race_task_set($node->nid);
   
@@ -208,10 +201,6 @@ function _day_pg_race_preview_data($node) {
   $data['race_entity_id'] = $task_data['race_entity_id'];
   $data['race_core_id'] = $task_data['race_core_id'];
   $data['contest_core_id'] = $task_data['contest_core_id'];
-  
-  //dsm($data);
-  
-  
   
   return $data;
 }
@@ -309,3 +298,50 @@ function _day_pg_race_task_set($day_id) {
   return $task_data;
 }
 
+/**
+ * Return markup in case Race is offline.
+ */
+// TODO:
+function _day_pg_race_preview_offline_markup($data) {
+  $class2d = array('race-link', '2d');
+  $class3d = array('race-link', '3d');
+  
+  // For online see Watch Live link
+  /*
+  if ($params['status'] == 'online') {
+    $class2d[] = 'online';
+    $class3d[] = 'online';
+  }
+  */
+  
+  $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+  
+  
+  // Generate list
+  $items = array($href2d, $href3d);
+  
+  $ul_attribuntes = array(
+    'class' => array('race-links'),
+    'data-race-eid' => $data['race_entity_id'],
+    'data-contest-cid' => $data['contest_core_id'],
+    'data-race-cid' => $data['race_core_id'],
+  );
+  
+  /*
+  // If online
+  if ($params['status'] == 'online') {
+    $ul_attribuntes['data-view-type'] = 'online';
+  }
+  */
+  
+  $variables = array(
+    'type' => 'ul',
+    'title' => '',
+    'items' => $items,
+    'attributes' => $ul_attribuntes,
+  );
+  $output = theme('item_list', $variables);
+  
+  return $output;
+}

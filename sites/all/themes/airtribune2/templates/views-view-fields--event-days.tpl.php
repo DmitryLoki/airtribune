@@ -150,12 +150,10 @@ if (!$day_number && !($day_number === 0)) {
   <?php print $fields['view']->wrapper_suffix; ?>
 <?php endif; ?>
 
-<?php //if (!empty($fields['field_pg_race_tracks'])): ?>
-  <?php //print $fields['pg_race_play_link']->wrapper_prefix; ?>
-  <?php //print $fields['pg_race_play_link']->label_html; ?>
-  <?php print $fields['day_pg_race_play_link']->content; ?>
-  <?php //print $fields['pg_race_play_link']->wrapper_suffix; ?>
-<?php //endif; ?>
+<?php print $fields['day_pg_race_play_link']->wrapper_prefix; ?>
+<?php print $fields['day_pg_race_play_link']->label_html; ?>
+<?php print $fields['day_pg_race_play_link']->content; ?>
+<?php print $fields['day_pg_race_play_link']->wrapper_suffix; ?>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
   <?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
