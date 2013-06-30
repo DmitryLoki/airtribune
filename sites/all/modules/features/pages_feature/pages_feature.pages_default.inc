@@ -5089,6 +5089,17 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'context' => 'empty',
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
       ),
       'logic' => 'and',
     ),
