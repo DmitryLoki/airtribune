@@ -1,4 +1,28 @@
 jQuery(function ($) {
+  
+
+  
+  
+  if (Drupal.settings.Day.countdown_time != 'undefined') {
+    var getTimeStr = function(h,m,s) {
+      h = Math.abs(h);
+      m = Math.abs(m);
+      s = Math.abs(s);
+      return (h<10?"0":"") + h + ":" + (m<10?"0":"") + m + ":" + (s<10?"0":"") + s;
+    }
+    
+    var setTime = function() {
+      // var d = Math.floor((self.raceKey()-new Date().getTime())/1000);
+      
+      var d = Math.floor((Drupal.settings.Day.start_time-new Date().getTime())/1000);
+      document.getElementById("time").innerHTML = (d>0?"-":"") + getTimeStr(Math.floor(d/3600),Math.floor(d%3600/60),d%60);
+      setTimeout(setTime,1000);
+    }
+    setTime();
+  }
+  
+
+
   $('ul.race-links').each(function (i, raceBlock) {
     var $raceBlock = $(raceBlock);
     var raceData = getRaceDataFromRaceBlock($raceBlock);
