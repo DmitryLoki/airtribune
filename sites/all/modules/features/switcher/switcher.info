@@ -8,6 +8,7 @@ dependencies[] = activity
 dependencies[] = addressfield
 dependencies[] = admin_menu
 dependencies[] = advert
+dependencies[] = advert_visualisation
 dependencies[] = airtribune
 dependencies[] = at_alias
 dependencies[] = at_entityreference_geowidget

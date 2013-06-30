@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Advertisement on visualisation page feature.
+ */
+
+include_once 'advert_visualisation.features.inc';
