@@ -33,7 +33,6 @@ features[views_view][] = featured_headers
 features[views_view][] = header_slideshow
 features[views_view][] = my_registrations
 features[views_view][] = next_events
-features[views_view][] = paragliding_contest_pilots_manage
 features[views_view][] = paragliding_contest_pilots_stats
 features[views_view][] = paragliding_pilots_list
 features[views_view][] = paragliding_pilots_list_export
