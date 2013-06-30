@@ -240,16 +240,17 @@ function at_core_sync_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'admin/config/airtribune/manage/contest';
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest';
   $handler->display->display_options['menu']['type'] = 'default tab';
   $handler->display->display_options['menu']['title'] = 'Contests';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $handler->display->display_options['tab_options']['type'] = 'tab';
+  $handler->display->display_options['tab_options']['type'] = 'normal';
   $handler->display->display_options['tab_options']['title'] = 'Airtribune manage';
   $handler->display->display_options['tab_options']['weight'] = '0';
+  $handler->display->display_options['tab_options']['name'] = 'management';
   $translatables['core_api_manage'] = array(
     t('Master'),
     t('Core API manage'),
@@ -473,7 +474,7 @@ function at_core_sync_views_default_views() {
 
   /* Display: List of contestants (manage) */
   $handler = $view->new_display('page', 'List of contestants (manage)', 'manage_list_contestants_page');
-  $handler->display->display_options['path'] = 'admin/config/airtribune/manage/contest/%/contestants';
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/contestants';
 
   /* Display: Contestants count (manage) */
   $handler = $view->new_display('panel_pane', 'Contestants count (manage)', 'manage_count_contestants_pane');
@@ -495,7 +496,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '&nbsp;<a id="view-list-contestants-!1" class="action view contestants-list" data-nid="!1" href="/admin/config/airtribune/manage/contest/!1/contestants">contestants</a>';
+  $handler->display->display_options['footer']['area_text_custom']['content'] = '&nbsp;<a id="view-list-contestants-!1" class="action view contestants-list" data-nid="!1" href="/admin/config/administration/at_manage/contest/!1/contestants">contestants</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: User: Uid */
@@ -532,7 +533,7 @@ function at_core_sync_views_default_views() {
     t('List of contestants (manage)'),
     t('Contestants count (manage)'),
     t('@total'),
-    t('&nbsp;<a id="view-list-contestants-!1" class="action view contestants-list" data-nid="!1" href="/admin/config/airtribune/manage/contest/!1/contestants">contestants</a>'),
+    t('&nbsp;<a id="view-list-contestants-!1" class="action view contestants-list" data-nid="!1" href="/admin/config/administration/at_manage/contest/!1/contestants">contestants</a>'),
     t(' '),
     t('View panes'),
   );
@@ -552,7 +553,8 @@ function at_core_sync_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Core API manage races';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'bypass node access';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -705,7 +707,7 @@ function at_core_sync_views_default_views() {
 
   /* Display: List of races (manage) */
   $handler = $view->new_display('page', 'List of races (manage)', 'manage_list_race_page');
-  $handler->display->display_options['path'] = 'admin/config/airtribune/manage/contest/%/races';
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/races';
 
   /* Display: Races count (manage) */
   $handler = $view->new_display('panel_pane', 'Races count (manage)', 'manage_count_race_pane');
@@ -730,7 +732,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '&nbsp;<a id="view-list-race-!1" class="action view race-list" data-nid="!1" href="/admin/config/airtribune/manage/contest/!1/races">races</a>';
+  $handler->display->display_options['footer']['area_text_custom']['content'] = '&nbsp;<a id="view-list-race-!1" class="action view race-list" data-nid="!1" href="/admin/config/administration/at_manage/contest/!1/races">races</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Race ID (excluded) */
@@ -761,7 +763,7 @@ function at_core_sync_views_default_views() {
     t('List of races (manage)'),
     t('Races count (manage)'),
     t('@total'),
-    t('&nbsp;<a id="view-list-race-!1" class="action view race-list" data-nid="!1" href="/admin/config/airtribune/manage/contest/!1/races">races</a>'),
+    t('&nbsp;<a id="view-list-race-!1" class="action view race-list" data-nid="!1" href="/admin/config/administration/at_manage/contest/!1/races">races</a>'),
     t(' '),
     t('View panes'),
   );
@@ -781,7 +783,8 @@ function at_core_sync_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Core API manage trackers';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'bypass node access';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -964,12 +967,14 @@ function at_core_sync_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'admin/config/airtribune/manage/tracker';
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/tracker';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'Trackers';
   $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $handler->display->display_options['tab_options']['weight'] = '0';
   $translatables['core_api_manage_trackers'] = array(
     t('Master'),
     t('Core API manage trackers'),
