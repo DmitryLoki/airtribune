@@ -42,62 +42,167 @@ function pg_race_entity_presave($entity, $type) {
       // Set new time value
       $wrapper->{$field_name}->set($field_value);
     }
-    // race_recount_days($entity);
   }
 }
 
-/**
- * Implements hook_entity_presave().
- */
+function pg_race_entity_insert($entity, $type) {
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    recount_race_number($entity, 'insert');
+  }
+}
+
 function pg_race_entity_delete($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    // race_recount_days();
+    recount_race_number($entity, 'delete');
   }
 }
 
-function race_recount_days($entity) {
-  $ch = curl_init();
+function pg_race_node_update($node) {
+  recount_day_number($node, 'update');
+}
+function pg_race_node_insert($node) {
+  recount_day_number($node, 'insert');
+}
+function pg_race_node_delete($node) {
+  recount_day_number($node, 'delete');
+}
 
-  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+function recount_day_number($node, $action) {
+  if ($node->type == AIRTRIBUNE_DAY_TYPE) {
+    $day_number = 0;
+    // load contest
+    $og = node_load($node->og_group_ref['und']['0']['target_id']);
+    // load all created days for this contest
+    $days = get_days_for_og($og);
 
-  // TODO refactor, with using og functions
-  $og = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
-  $og = node_load($og['0']['target_id']);
-  $contest_core_id = get_id_from_contest($og);
-  $races = db_select('og_membership', 'o')
-    ->fields('o', array('etid'))
-    ->condition('o.gid', $og->nid)
-    ->condition('o.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
-    ->execute();
+    // if node deleted, then we must remove this nid from recount list
+    if ($action == 'delete' && ($key = array_search($node->nid, $days)) !== false) {
+      unset($days[$key]);
+    }
+    // recount day number for all this days
+    foreach ($days as $day) {
+      // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
+      $current_day_node = node_load($day);
+      if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
+        $day_number++;
+        $current_day_node->field_day_number['und']['0']['value'] = $day_number;
+      } else {
+        $current_day_node->field_day_number['und']['0']['value'] = 0;
+      }
+      // some special magic, remove fields, what we don't need to save (avoid saving whole node)
+      // !!! may be problem with removing og_group_ref !!!
+      //foreach (field_info_instances('node', 'day') as $field_name => $field_info) {
+      //  if ($field_name != 'field_day_number' || $field_name != AIRTRIBUNE_OG_GROUP_REF_FIELD) {
+      //    unset($current_day_node->{$field_name});
+      //  }
+      //}
+      // and save changed fields
+      field_attach_presave('node', $current_day_node);
+      field_attach_update('node', $current_day_node);
+    }
 
-  $day_counter = 0;
-  foreach ($races as $race) {
-  //  $current_race = array_pop(entity_load('ent_race', array((string)$race->etid), array(), TRUE));
-    $current_race = array_pop(entity_load('ent_race', array('1'), array(), TRUE));
-    $race_core_id = get_race_id_from_race($current_race);
-    $day_ref = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race, AIRTRIBUNE_DAY_REF_FIELD);
-    $day_node = node_load($day_ref['0']['value']);
-// for debug
-    $contest_core_id = 'cnts-130524-929732732';
-    $race_core_id = 'r-0bcd3bd9-1249-46c8-8bba-a2085c96f463';
-//0|Ok
-//1|Stopped
-//2|Cancelled
-//3|Rest day
-//4|Registration day
-//5|Training day
-    if ($day_node->field_day_status['und']['0']['target_id'] < 3) {
-      $day_counter++;
-      $url = at_core_sync_get_api_url() . "contest/" . $contest_core_id . "/race/" . $race_core_id;
-      curl_setopt_array($ch, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => TRUE,
-      ));
-      $core_race_data = curl_exec($ch);
-      $core_race_data = drupal_json_decode($core_race_data);
-      $optdistance = $core_race_data->optdistance;
+    // if node is new added day, so not yet in database, and not was recounted upper
+    if ($action == 'insert' && $node->field_day_status['und']['0']['value'] < 4) {
+      $day_number++;
+      $node->field_day_number['und']['0']['value'] = $day_number;
     }
   }
+}
+
+function recount_race_number(&$entity, $action) {
+  $ch = curl_init();
+  $race_counter = 0;
+
+  // update race count for new added race, by counting existing races
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  $og = array_pop($wrapper->og_group_ref->value());
+  // load all created races for this contest
+  $races = get_races_for_og($og);
+
+  $contest_core_id = $og->field_core_id['und']['0']['value'];
+
+  // if its new race
+  if ($action == 'insert') {
+    $entity->field_race_number['und']['0']['value'] = count($races) + 1;
+  }
+
+  // if race deleted, then we must remove this id from recount list
+  if ($action == 'delete' && ($key = array_search($entity->id, $races)) !== false) {
+    unset($races[$key]);
+  }
+
+  // update race numbers for old races
+  foreach ($races as $race) {
+    $race_counter++;
+
+    // load race entity
+    $current_race = array_pop(entity_load('ent_race', array((string)$race), array(), TRUE));
+    // change race number field
+    $current_race->field_race_number['und']['0']['value'] = $race_counter;
+
+    // if race have not filled field with optimum distance, then try to get from CoreAPI
+    if (empty($current_race->field_optdistance['und']['0']['value'])) {
+      $race_core_id = !empty($current_race->field_core_id['und']['0']['value']) ? $current_race->field_core_id['und']['0']['value'] : NULL;
+      curl_setopt_array($ch, array(
+        CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
+        CURLOPT_RETURNTRANSFER => TRUE,
+        CURLOPT_TIMEOUT => 10,
+      ));
+      $ch_exec = curl_exec($ch);
+      // if we get correct data from CoreAPI
+      if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
+        if ($optdistance = $core_race_data->optdistance) {
+          // write the optimum distance to field_optdistance & save(update) race entity
+          $current_race->field_optdistance['und']['0']['value'] = $optdistance;
+        }
+      }
+    }
+    // save changed fields for race
+    field_attach_presave('ent_race', $current_race);
+    field_attach_update('ent_race', $current_race);
+  }
+
+  curl_close($ch);
+}
+
+/*
+ * Return array of ids of ent_race for event
+ * Its dirty code, but in OG module code there is nothing like this functionality
+ */
+function get_races_for_og($og) {
+  if (!is_object($og)) {
+    return FALSE;
+  }
+  $races = db_select('og_membership', 'ogm')
+    ->fields('ogm', array('etid'))
+    ->condition('ogm.gid', $og->nid)
+    ->condition('ogm.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+    ->execute()
+    ->fetchCol();
+  return $races;
+}
+
+/*
+ * Return array of nids of day for event
+ */
+function get_days_for_og($og) {
+  if (!is_object($og)) {
+    return FALSE;
+  }
+  $relation_nids = db_select('og_membership', 'ogm')
+    ->fields('ogm', array('etid'))
+    ->condition('ogm.gid', $og->nid)
+    ->condition('ogm.entity_type', 'node')
+    ->execute()
+    ->fetchCol();
+  $days = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->orderBy('nid', 'ASC')
+    ->condition('n.nid', $relation_nids, 'IN')
+    ->condition('n.type', 'day')
+    ->execute()
+    ->fetchCol();
+  return $days;
 }
 
 /**
@@ -220,11 +325,12 @@ function _pg_race_play_link($params) {
   }
     
   $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d, 'target' => '_blank')))) . '</span>';
-  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank')))) . '</span>';
+  $href3d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank')))) . '</span>';
   
   
   // Generate list
-  $items = array($href2d, $href3d);
+  //$items = array($href2d, $href3d);
+  $items = array($href2d);
   
   $ul_attribuntes = array(
     'class' => array('race-links'),
