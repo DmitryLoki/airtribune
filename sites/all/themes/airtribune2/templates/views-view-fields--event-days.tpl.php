@@ -137,6 +137,10 @@ if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
+<?php print $fields['day_set_a_task']->wrapper_prefix; ?>
+<?php print $fields['day_set_a_task']->content; ?>
+<?php print $fields['day_set_a_task']->wrapper_suffix; ?>
+
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
