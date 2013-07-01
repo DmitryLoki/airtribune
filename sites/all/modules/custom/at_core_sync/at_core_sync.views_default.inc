@@ -225,6 +225,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nothing']['label'] = 'Operations';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<ul>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/day">Manage days</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/ad_vis">Manage ad for vis</a></li>
 </ul>';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
@@ -278,10 +279,133 @@ function at_core_sync_views_default_views() {
     t('Operations'),
     t('<ul>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/day">Manage days</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/ad_vis">Manage ad for vis</a></li>
 </ul>'),
     t('Page'),
   );
   $export['core_api_manage'] = $view;
+
+  $view = new view();
+  $view->name = 'core_api_manage_ad_for_visualisations';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'eck_ent_advert';
+  $view->human_name = 'Core API manage ad for visualisations';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Manage ad for visualisations';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'bypass node access';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title' => 'title',
+    'edit_link' => 'edit_link',
+    'field_image' => 'field_image',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_link' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_image' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_advert/advert_visualisation/add?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/ad_vis">Add advert</a></li></ul>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Relationship: OG membership: OG membership from Advertisement */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_advert';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  /* Field: Advertisement: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_advert';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  /* Field: Advertisement: Edit link */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_advert';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = 'Banner';
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  /* Filter criterion: Advertisement: ent_advert type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'eck_ent_advert';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'advert_visualisation' => 'advert_visualisation',
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/ad_vis';
+  $translatables['core_api_manage_ad_for_visualisations'] = array(
+    t('Master'),
+    t('Manage ad for visualisations'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_advert/advert_visualisation/add?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/ad_vis">Add advert</a></li></ul>'),
+    t('OG membership from ent_advert'),
+    t('Title'),
+    t('Edit link'),
+    t('[title]'),
+    t('Banner'),
+    t('All'),
+    t('Page'),
+  );
+  $export['core_api_manage_ad_for_visualisations'] = $view;
 
   $view = new view();
   $view->name = 'core_api_manage_contestants';
@@ -1055,7 +1179,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/node/add/day?destination=admin/config/administration/at_manage/contest/%1/day">Add Day</a></li></ul>';
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/node/add/day?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/day">Add Day</a></li></ul>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* No results behavior: Global: Text area */
@@ -1143,7 +1267,7 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<ul class="action-links"><li><a href="/node/add/day?destination=admin/config/administration/at_manage/contest/%1/day">Add Day</a></li></ul>'),
+    t('<ul class="action-links"><li><a href="/node/add/day?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/day">Add Day</a></li></ul>'),
     t('Days was not created.'),
     t('OG membership from node'),
     t('Group ID'),
