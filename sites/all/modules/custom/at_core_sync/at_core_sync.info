@@ -11,4 +11,5 @@ features[views_view][] = core_api_manage
 features[views_view][] = core_api_manage_contestants
 features[views_view][] = core_api_manage_races
 features[views_view][] = core_api_manage_trackers
+features[views_view][] = day_admin
 files[] = at_core_sync.class.inc
