@@ -107,10 +107,11 @@ $field_day_status = $fields['field_day_status']->content;
 if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
   $spike_day = $day_number--; 
   $day = $fields['field_day_number']->content;
+  $task = $fields['field_race_number']->content;
   if ($fields['title_1']->content) {
     print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
     if (!empty($day)) { //--- fucking dirty kostyl'
-      print t('Day') . " $day" . $separator . $fields['title_1']->content . ' - ' . $fields['field_optdistance']->content;
+      print $fields['field_day_number']->label . " " . $day . $separator . $fields['field_race_number']->label . " " . $task . ' - ' . $fields['field_optdistance']->content . " km";
     } else {//---
       print t('Day') . " $spike_day " . $separator . $fields['title_1']->content; //---
       if (!empty($fields['field_optdistance']->content)) print ' - ' . $fields['field_optdistance']->content; //---
@@ -119,7 +120,7 @@ if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
     $anchor = str_replace(' day', '',$fields['field_day_status']->content);
     print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
     if (!empty($day)) //--- fucking dirty kostyl'
-      print t('Day') . " $day";
+      print $fields['field_day_number']->label . " " . $day;
     else //---
       print t('Day') . " $spike_day "; //---
   }

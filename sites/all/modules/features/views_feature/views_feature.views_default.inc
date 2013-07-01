@@ -2895,7 +2895,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['label'] = '';
+  $handler->display->display_options['fields']['field_day_number']['label'] = 'Day ';
   $handler->display->display_options['fields']['field_day_number']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_day_number']['element_wrapper_type'] = '0';
@@ -2905,7 +2905,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_race_number']['table'] = 'field_data_field_race_number';
   $handler->display->display_options['fields']['field_race_number']['field'] = 'field_race_number';
   $handler->display->display_options['fields']['field_race_number']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_race_number']['label'] = '';
+  $handler->display->display_options['fields']['field_race_number']['label'] = 'Task ';
   $handler->display->display_options['fields']['field_race_number']['element_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_race_number']['element_wrapper_type'] = '0';
@@ -3409,6 +3409,8 @@ return array($event_id);';
     t('pg_contest node'),
     t('Race type entity referenced from field_pg_racetype_ref'),
     t('.'),
+    t('Day '),
+    t('Task '),
     t('Results tables'),
     t('Tracks'),
     t('IGC'),
