@@ -5606,6 +5606,28 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->locks = array();
     $display->content['new-72'] = $pane;
     $display->panels['middle'][0] = 'new-72';
+    $pane = new stdClass();
+    $pane->pid = 'new-73';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_on_visualization-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-73'] = $pane;
+    $display->panels['middle'][1] = 'new-73';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
