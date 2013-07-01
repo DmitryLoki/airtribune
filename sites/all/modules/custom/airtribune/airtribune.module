@@ -309,7 +309,6 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
-  global $user;
   $configuration = $vars['pane']->configuration;
 
 
@@ -367,12 +366,13 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   // Add links to switch view of pilots list
   if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
-    dpm($user);
-    $pilots_links[] = array(
-      'title' => 'Manage',
-      'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
-      'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
-    );
+    if (!empty($vars['user']->roles[3]) || $vars['user']->uid == 1) {
+      $pilots_links[] = array(
+        'title' => 'Manage',
+        'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
+        'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-standard') ? ' active' : ''),
+      );
+    }
     $pilots_links[] = array(
       'title' => 'Group by status',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
