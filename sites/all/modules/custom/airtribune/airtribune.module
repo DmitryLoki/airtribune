@@ -309,7 +309,7 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
-
+  global $user;
   $configuration = $vars['pane']->configuration;
 
 
@@ -367,6 +367,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
 
   // Add links to switch view of pilots list
   if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
+    dpm($user);
     $pilots_links[] = array(
       'title' => 'Manage',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
@@ -593,10 +594,9 @@ function airtribune_views_query_alter(&$view, &$query) {
   }
 
   // See http://drupal.org/node/1451218#comment-6136692
-  if ($view->name == 'day_results' || $view->name == 'contest_trackers') {
+  if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
-
 }
 
 /**
@@ -973,4 +973,21 @@ function _airtribune_pg_race_online_status($etid) {
     // race haven't started yet
     return FALSE;
   }
+}
+
+function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
+  if (!$contest_id) return '_NONE';
+  $view = views_get_view('contest_trackers');
+  $view->set_arguments(array($contest_id, $contestant_id));
+  $view->query->where[0]['type'] = 'OR';
+  $view->execute();
+  $response = $view->result;
+  $ids = array();
+  foreach ($response as $tracker) {
+    $ids[] = $tracker->id;
+  }
+  if ($ids) {
+    return implode('+',$ids);
+  }
+  return '_NONE';
 }

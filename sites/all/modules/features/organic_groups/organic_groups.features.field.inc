@@ -460,7 +460,7 @@ function organic_groups_field_default_fields() {
               0 => 'gid',
               1 => '[og_membership:id]',
             ),
-            'display_name' => 'trackers_for_contest',
+            'display_name' => 'trackers_by_contest',
             'view_name' => 'contest_trackers',
           ),
         ),
