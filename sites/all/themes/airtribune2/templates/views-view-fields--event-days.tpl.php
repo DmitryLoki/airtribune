@@ -81,26 +81,47 @@ if($row->field_field_image){
     $is_count++;
     
   }
-
 }
+
+//--- TODO remove lines, marked this style //--- after 
+global $day_number;
+if (!$day_number && !($day_number === 0)) {
+  $day_number = 0;
+  foreach ($view->result as $key => $result) {
+    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(3,4,5))) {
+      $day_number++;
+    }
+  }
+}
+//---
 
 /**
  *  Theme race titles
  *  @see #3400 #3365
  *  @author Kraev Vasily
  */
+
 print $fields['title']->wrapper_prefix;
 $separator = ' — ';
 $field_day_status = $fields['field_day_status']->content;
 if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
+  $spike_day = $day_number--; 
   $day = $fields['field_day_number']->content;
   if ($fields['title_1']->content) {
     print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-    print t('Day') . " $day" . $separator . $fields['title_1']->content . ' - ' . $fields['field_optdistance']->content;
+    if (!empty($day)) { //--- fucking dirty kostyl'
+      print t('Day') . " $day" . $separator . $fields['title_1']->content . ' - ' . $fields['field_optdistance']->content;
+    } else {//---
+      print t('Day') . " $spike_day " . $separator . $fields['title_1']->content; //---
+      if (!empty($fields['field_optdistance']->content)) print ' - ' . $fields['field_optdistance']->content; //---
+    }
   } else {
     $anchor = str_replace(' day', '',$fields['field_day_status']->content);
     print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
-    print t('Day') . " $day";
+    if (!empty($day)) //--- fucking dirty kostyl'
+      print t('Day') . " $day";
+    else //---
+      print t('Day') . " $spike_day "; //---
   }
 }
 ?>
