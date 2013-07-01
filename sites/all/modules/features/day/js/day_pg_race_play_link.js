@@ -21,7 +21,7 @@
         setTime();
       }
 
-      $('ul.race-links').each(function (i, raceBlock) {
+      $('.race-links').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock);
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
@@ -31,9 +31,10 @@
             console.log('enable links in ', $raceBlock);
             //make links clickable
             setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', raceData.isOnline);
-            setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline)
+            setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline);
+
+            $raceBlock.addClass('race-block-activated');
           } else {
-            console.log('timeout for new request');
             setTimeout(function () {
               requestRaceState(raceData, response);
             }, 10000)
