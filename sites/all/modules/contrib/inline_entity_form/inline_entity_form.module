@@ -521,6 +521,7 @@ function inline_entity_form_field_widget_form(&$form, &$form_state, $field, $ins
       // Handle row weights.
       $element['entities'][$key]['#weight'] = $value['weight'];
 
+      $value['form'] = 'edit';
       // First check to see if this entity should be displayed as a form.
       if (!empty($value['form'])) {
         $element['entities'][$key]['delta'] = array(

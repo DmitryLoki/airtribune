@@ -15,6 +15,7 @@ features[views_view][] = activity
 features[views_view][] = admin_events
 features[views_view][] = admin_pilots
 features[views_view][] = advert_list
+features[views_view][] = advert_on_visualization
 features[views_view][] = category_results
 features[views_view][] = contest_blog
 features[views_view][] = contest_scoring_categories
