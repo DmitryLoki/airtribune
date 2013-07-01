@@ -138,6 +138,10 @@ if (!$day_number && !($day_number === 0)) {
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
+<?php print $fields['day_set_a_task']->wrapper_prefix; ?>
+<?php print $fields['day_set_a_task']->content; ?>
+<?php print $fields['day_set_a_task']->wrapper_suffix; ?>
+
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
@@ -171,10 +175,6 @@ if (!$day_number && !($day_number === 0)) {
 <?php print $fields['nothing']->wrapper_prefix; ?>
 <?php print $fields['nothing']->content; ?>
 <?php print $fields['nothing']->wrapper_suffix; ?>
-
-<?php print $fields['day_set_a_task']->wrapper_prefix; ?>
-<?php print $fields['day_set_a_task']->content; ?>
-<?php print $fields['day_set_a_task']->wrapper_suffix; ?>
 
 <?php if ($photos): ?>
 <div class="field-name-field-image">
