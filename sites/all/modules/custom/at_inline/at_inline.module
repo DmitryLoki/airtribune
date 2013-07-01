@@ -373,7 +373,7 @@ function _at_inline_set_a_task_link($node) {
   drupal_add_js(drupal_get_path('module', 'at_inline') . '/at_inline.js', 'file');  
   
   $link_text = _at_inline_race_exists($node->nid) ? t('Edit task') : t('Set a task');
-  $output = t('<a href="/at-inline/nojs/' . $node->nid . '" class="use-ajax set-a-task-link">' . $link_text . '</a><div id="at-inline-' . $node->nid . '" class="at-inline-set-a-task-wrapper"></div>');
+  $output = t('<a href="/at-inline/nojs/' . $node->nid . '" class="use-ajax set-a-task-link" rel="nofollow">' . $link_text . '</a><div id="at-inline-' . $node->nid . '" class="at-inline-set-a-task-wrapper"></div>');
   return $output;
 }
 
