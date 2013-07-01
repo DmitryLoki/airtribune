@@ -1,0 +1,16 @@
+name = Advertisement on visualisation page
+core = 7.x
+package = Custom bundles
+php = 5.2.4
+dependencies[] = eck
+dependencies[] = ent_advert
+dependencies[] = features
+dependencies[] = filefield_paths
+dependencies[] = image
+dependencies[] = link
+dependencies[] = og_ui
+features[eck_bundle][] = ent_advert_advert_visualisation
+features[features_api][] = api:1
+features[field][] = ent_advert-advert_visualisation-field_image
+features[field][] = ent_advert-advert_visualisation-field_link
+features[field][] = ent_advert-advert_visualisation-og_group_ref
