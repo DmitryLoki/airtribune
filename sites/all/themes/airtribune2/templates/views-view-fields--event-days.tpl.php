@@ -151,7 +151,7 @@ if (!$day_number && !($day_number === 0)) {
 <?php endif; ?>
 
 <?php 
-if (strpos($fields['day_pg_race_play_link']->content, 'Watch Live') !== false) {
+if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
   $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field views-field-day-pg-race-play-live-link">';
   $fields['day_pg_race_play_link']->wrapper_suffix = '</span>';
 }
