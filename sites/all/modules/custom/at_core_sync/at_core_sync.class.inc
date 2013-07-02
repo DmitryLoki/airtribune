@@ -212,9 +212,9 @@ class ATSyncPilot extends ATSync {
   public function __construct($entity, $entity_type) {
     parent::__construct($entity, $entity_type);
     $contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_contest($contest);
+    $this->contest_core_id = get_id_from_contest($this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
-    $this->person_core_id = get_id_from_user($person);
+    $this->person_core_id = get_id_from_user($this->person);
     $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
     if ($tracker_eid) {
       $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
