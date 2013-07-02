@@ -1593,35 +1593,26 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .pane-event-days-panel-pane-1 .field-name-field-image img { float:left; margin:0 0 2px 2px}
 
-.pane-event-days-panel-pane-1 .views-field-view,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks,
+.pane-event-days-panel-pane-1 .dropdown_list,
 .pane-event-days-panel-pane-1 .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
 .pane-event-days-panel-pane-1 .task_link { width: 40px; height: 40px; background: url(../images/track.png) no-repeat 0 0; overflow: hidden;}
 .pane-event-days-panel-pane-1 .task_link:hover { background-position: 0 -40px;}
 .pane-event-days-panel-pane-1 .task_link:active { background-position: 0 -80px;}
 .pane-event-days-panel-pane-1 .task_link span { position: absolute; left: -9999px;}
-.pane-event-days-panel-pane-1 .views-field-view .views-label,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .views-label,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label,
-.pane-event-days-panel-pane-1 .views-field-view .field-content,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content { min-width: 98px; display: inline-block; background: rgba(0,135,239,1); border: 1px solid #0083e7;
+.pane-event-days-panel-pane-1 .dropdown_list .views-label,
+.pane-event-days-panel-pane-1 .dropdown_list .field-content,
+.pane-event-days-panel-pane-1 .race-link,
+.pane-event-days-panel-pane-1 #time { min-width: 98px; display: inline-block; background: rgba(0,135,239,1); border: 1px solid #0083e7;
 
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
 
 }
-.pane-event-days-panel-pane-1 .views-field-view .field-content .field-content,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content .field-content,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content .field-content { min-width: 0;}
-.pane-event-days-panel-pane-1 .views-field-view .views-label,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .views-label,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px;}
-.pane-event-days-panel-pane-1 .views-field-view .views-label:hover,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .views-label:hover,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
+.pane-event-days-panel-pane-1 .dropdown_list .field-content .field-content { min-width: 0;}
+.pane-event-days-panel-pane-1 .dropdown_list .views-label,
+.pane-event-days-panel-pane-1 .race-link { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px;}
+.pane-event-days-panel-pane-1 .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
 .pane-event-days-panel-pane-1 .views-field-view .views-label,
 .pane-event-days-panel-pane-1 .views-field-view .field-content { background-color: rgba(173,193,210,1); border-color: #adc1d2}
@@ -1631,28 +1622,30 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content { background-color: rgba(238,175,0,1); border-color: #e4a605}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .views-label:hover { background-color: rgba(238,175,0,0.5); border-color: #e4a605}
 
-.pane-event-days-panel-pane-1 .views-field-view > .field-content,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link > .field-content,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
-.pane-event-days-panel-pane-1 .views-field-view .field-content span,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content span,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span { display: block; color: #ffffff; font: bold 14px/15px Arial, Helvetica, sans-serif; padding: 10px 0 5px;}
+.pane-event-days-panel-pane-1 .dropdown_list > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
+.pane-event-days-panel-pane-1 .dropdown_list .field-content span { display: block; color: #ffffff; font: bold 14px/15px Arial, Helvetica, sans-serif; padding: 10px 0 5px;}
 body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content > span:first-child { padding-top: 10px;}
 .pane-event-days-panel-pane-1 .views-field-view .field-content span.file { padding: 0 0 0 10px;} 
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span.file { padding: 0;} 
-.pane-event-days-panel-pane-1 .views-field-view .field-content a,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content a,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
-.pane-event-days-panel-pane-1 .views-field-view .field-content a:hover,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content a:hover,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content a:hover { text-decoration: none;} 
-.pane-event-days-panel-pane-1 .views-field-view img,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link img,
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks img { display: none;}
+.pane-event-days-panel-pane-1 .dropdown_list .field-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
+.pane-event-days-panel-pane-1 .dropdown_list .field-content a:hover { text-decoration: none;} 
+.pane-event-days-panel-pane-1 .dropdown_list img { display: none;}
 
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .item-list,
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link ul,
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link ul li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
+
+.pane-event-days-panel-pane-1 .race-links .file { display: inline-block; vertical-align: top; margin-right: 10px;}
+.pane-event-days-panel-pane-1 .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px;}
+.pane-event-days-panel-pane-1 .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px;}
+.pane-event-days-panel-pane-1 .race-awaiting .help-text,
+.pane-event-days-panel-pane-1 .race-online .help-text { width: 60px; text-align: right; color: #fdbd41; font-weight: bold; font-style: normal; padding-left: 20px;}
+.pane-event-days-panel-pane-1 .race-online .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
+.pane-event-days-panel-pane-1 .race-awaiting .race-link,
+.pane-event-days-panel-pane-1 .race-online .race-link,
+.pane-event-days-panel-pane-1 #time { background-color: #cfd827; border-color: #c2d32b;}
+.pane-event-days-panel-pane-1 #time { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
+.pane-event-days-panel-pane-1 .race-awaiting #time { background-color: #fbd72b; border-color: #f6d72e;}
 
 /*.pane-contest-blog-contest-full-pane .node_view_mode_event_blog_teaser { padding-left: 10px; padding-right: 10px;}*/
 .pane-contest-blog-contest-full-pane h2.pane-title { margin-top: 0; margin-bottom: 12px; background-image: url(../images/archive_arrows.png); background-repeat: no-repeat; background-position: 100% -37px;}
