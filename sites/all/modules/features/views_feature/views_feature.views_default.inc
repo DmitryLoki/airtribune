@@ -2018,6 +2018,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['id_1']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['id_1']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['id_1']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['id_1']['validate']['fail'] = 'ignore';
   $handler->display->display_options['arguments']['id_1']['break_phrase'] = TRUE;
   $handler->display->display_options['arguments']['id_1']['not'] = TRUE;
   $translatables['contest_trackers'] = array(
@@ -3468,7 +3469,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
-  $handler->display->display_options['fields']['field_day_status']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status']['label'] = 'Day ';
   $handler->display->display_options['fields']['field_day_status']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
@@ -3506,7 +3507,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_race_number']['table'] = 'field_data_field_race_number';
   $handler->display->display_options['fields']['field_race_number']['field'] = 'field_race_number';
   $handler->display->display_options['fields']['field_race_number']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_race_number']['label'] = '';
+  $handler->display->display_options['fields']['field_race_number']['label'] = 'Task ';
   $handler->display->display_options['fields']['field_race_number']['element_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_race_number']['element_wrapper_type'] = '0';
