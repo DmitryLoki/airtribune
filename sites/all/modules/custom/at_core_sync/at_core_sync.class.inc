@@ -207,12 +207,13 @@ class ATSyncPilot extends ATSync {
   public $person_core_id = '';
   public $contest_core_id = '';
   public $tracker = NULL;
+  public $person = NULL;
 
   public function __construct($entity, $entity_type) {
     parent::__construct($entity, $entity_type);
     $contest = node_load($this->entity->gid, NULL, TRUE);
     $this->contest_core_id = get_id_from_contest($contest);
-    $person = user_load($this->entity->etid, TRUE);
+    $this->person = user_load($this->entity->etid, TRUE);
     $this->person_core_id = get_id_from_user($person);
     $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
     if ($tracker_eid) {
@@ -225,28 +226,26 @@ class ATSyncPilot extends ATSync {
     if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
       return FALSE;
     }
-    $contest = node_load($this->entity->gid, NULL, TRUE);
-    $contest_core_id = $this->contest_core_id;
-    if (!$contest_core_id) {
+    if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity($contest, 'node');
-      $contest_core_id = $sync->synchronize();
+      $sync = _get_class_by_entity($this->contest, 'node');
+      $this->contest_core_id = $sync->synchronize();
     }
-    $person_core_id = $this->person_core_id;
-    if (!$person_core_id) {
+
+    if (!$this->person_core_id) {
       // Synchronize pilot if not synchronized
-      $sync = _get_class_by_entity($person, 'user');
-      $person_core_id = $sync->synchronize();
+      $sync = _get_class_by_entity($this->person, 'user');
+      $this->person_core_id = $sync->synchronize();
     } else {
-      $resp = ATSync::requestToCore('person/' . $person_core_id, '', 'GET');
+      $resp = ATSync::requestToCore('person/' . $this->person_core_id, '', 'GET');
       if (isset($resp->error)) {
         ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
         return FALSE;
       }
     }
-    $this->address = implode('/', array('contest', $contest_core_id, 'paraglider'));
+    $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
     $data = array(
-      'person_id' => $person_core_id,
+      'person_id' => $this->person_core_id,
       'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
       'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
     );
