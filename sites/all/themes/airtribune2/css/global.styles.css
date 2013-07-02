@@ -2567,6 +2567,8 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -475px}
 .switch-pilots-view a.by-nation { background-position: 0 -575px}
 .switch-pilots-view a.by-nation:hover, .switch-pilots-view a.by-nation.active { background-position: 0 -675px}
+.switch-pilots-view a.manage { background-position: -40px -575px; margin-right: 20px;}
+.switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: -40px -675px}
 
 #page ul.tabs.secondary { margin-top: 11px; padding-bottom: 0;}
 #page ul.tabs.secondary a { width: 41px; margin-left: 9px;}
@@ -2585,13 +2587,13 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 #page ul.tabs.secondary a#activities-tab.active { background-position: 0 -2075px}
 
 .pane-paragliding-pilots-list-fai {}
-.pane-paragliding-pilots-list-fai, .pane-paragliding-pilots-list-standard { clear: both;}
-.pane-paragliding-pilots-list-fai .pane-inner, .pane-paragliding-pilots-list-standard .pane-inner { margin: 0;}
+.pane-paragliding-pilots-list-fai, .pane-paragliding-pilots-list-standard, .pane-paragliding-pilots-list-manage .pane-content { clear: both;}
+.pane-paragliding-pilots-list-fai .pane-inner, .pane-paragliding-pilots-list-standard .pane-inner, .pane-paragliding-pilots-list-manage .pane-inner { margin: 0;}
 .page-event-pilots .views-field-counter { text-align: center;}
 
-.pane-paragliding-pilots-list-standard caption div { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
-.pane-paragliding-pilots-list-standard caption div.female { background-position: 0 -773px}
-.pane-paragliding-pilots-list-standard caption div.male { background-position: 0 -873px}
+.view-paragliding-pilots-list caption .sex { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
+.view-paragliding-pilots-list caption .female { background-position: 0 -773px}
+.view-paragliding-pilots-list caption .male { background-position: 0 -873px}
 
 
 
