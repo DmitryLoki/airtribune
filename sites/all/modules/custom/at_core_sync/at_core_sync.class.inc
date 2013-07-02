@@ -205,13 +205,14 @@ class ATSyncPerson extends ATSync {
 class ATSyncPilot extends ATSync {
   public $address = "contest/";
   public $person_core_id = '';
+  public $contest = NULL;
   public $contest_core_id = '';
   public $tracker = NULL;
   public $person = NULL;
 
   public function __construct($entity, $entity_type) {
     parent::__construct($entity, $entity_type);
-    $contest = node_load($this->entity->gid, NULL, TRUE);
+    $this->contest = node_load($this->entity->gid, NULL, TRUE);
     $this->contest_core_id = get_id_from_contest($this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
     $this->person_core_id = get_id_from_user($this->person);
