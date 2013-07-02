@@ -6,6 +6,10 @@ jQuery(document).ready(function () {
         form = month.closest('form'),
         formValidator = form.validate();
 
+    month.val = day.val = year.val = function() {
+        return $(this).find('option:selected').val();
+    };
+
     function setBlurBind(element) {
         var changeHandlers = element.data('events').change;
         element.bind('change', function (event) {

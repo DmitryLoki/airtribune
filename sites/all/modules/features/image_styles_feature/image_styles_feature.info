@@ -5,6 +5,7 @@ package = Other
 php = 5.2.4
 dependencies[] = image
 features[features_api][] = api:1
+features[image][] = advert_on_visualization
 features[image][] = award
 features[image][] = award_details
 features[image][] = award_sponsor

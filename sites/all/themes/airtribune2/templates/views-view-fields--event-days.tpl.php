@@ -81,52 +81,51 @@ if($row->field_field_image){
     $is_count++;
     
   }
-
 }
 
-$separator = '';
-
-/*
- * Calculate number of days
- * @see #3339
- * @author Vyacheslav Malchik <info@vkey.biz>
- * @TODO: removed after implementation of the calculation of the number of the day
- */
-
+//--- TODO remove lines, marked this style //--- after 
 global $day_number;
 if (!$day_number && !($day_number === 0)) {
   $day_number = 0;
   foreach ($view->result as $key => $result) {
-    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(4,5))) {
+    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(3,4,5))) {
       $day_number++;
     }
   }
 }
-?>
-<?php 
+//---
+
 /**
- *  Hide title if day is trainig or registration
- *  @see #3332
- *  @author Vyacheslav Malchik <info@vkey.biz>
+ *  Theme race titles
+ *  @see #3400 #3365
+ *  @author Kraev Vasily
  */
-?>
-<?php print $fields['title']->wrapper_prefix; ?>
-<?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>
-  <?php
-    $day = $day_number--;
+
+print $fields['title']->wrapper_prefix;
+$separator = ' — ';
+$field_day_status = $fields['field_day_status']->content;
+if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
+  $spike_day = $day_number--; 
+  $day = $fields['field_day_number']->content;
+  $task = $fields['field_race_number']->content;
+  if ($fields['title_1']->content) {
     print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-    print $fields['title']->content;
-    $separator = ' — ';
-  ?>
-  <?php if ($fields['title_1']->content): ?>
-    <?php print ' — ' . $fields['title_1']->content; ?>
-  <?php endif; ?>
-<?php else: ?>
-  <?php 
+    if (!empty($day)) { //--- fucking dirty kostyl'
+      print $fields['field_day_number']->label . " " . $day . $separator . $fields['field_race_number']->label . " " . $task . ' - ' . $fields['field_optdistance']->content . " km";
+    } else {//---
+      print t('Day') . " $spike_day " . $separator . $fields['title_1']->content; //---
+      if (!empty($fields['field_optdistance']->content)) print ' - ' . $fields['field_optdistance']->content; //---
+    }
+  } else {
     $anchor = str_replace(' day', '',$fields['field_day_status']->content);
     print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
-  ?>
-<?php endif; ?>
+    if (!empty($day)) //--- fucking dirty kostyl'
+      print $fields['field_day_number']->label . " " . $day;
+    else //---
+      print t('Day') . " $spike_day "; //---
+  }
+}
+?>
 
 <?php if ($fields['field_day_status']->content != 'Ok'): ?>
   <?php print $separator . $fields['field_day_status']->content; ?>
@@ -137,6 +136,10 @@ if (!$day_number && !($day_number === 0)) {
   <?php print $fields['created']->content; ?>
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
+
+<?php print $fields['day_set_a_task']->wrapper_prefix; ?>
+<?php print $fields['day_set_a_task']->content; ?>
+<?php print $fields['day_set_a_task']->wrapper_suffix; ?>
 
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>

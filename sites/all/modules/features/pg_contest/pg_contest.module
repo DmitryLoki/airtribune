@@ -268,6 +268,7 @@ function _pg_contest_urls_init($nid) {
         '/blog',
         '/pilots',
         '/pilots/status',
+        '/pilots/manage',
         '/pilots/nation',
         '/map',
         '/map/accommodations',
