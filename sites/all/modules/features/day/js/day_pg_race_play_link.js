@@ -3,7 +3,7 @@
   Drupal.behaviors.day_feature = {
     attach: function (context) {
     
-      if (Drupal.settings.Day && Drupal.settings.Day.countdown_time != undefined) {
+      if (Drupal.settings.Day && Drupal.settings.Day.countdown_time != 'undefined') {
         var getTimeStr = function(h,m,s) {
           h = Math.abs(h);
           m = Math.abs(m);
