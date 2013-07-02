@@ -979,7 +979,6 @@ function _airtribune_pg_race_online_status($etid) {
 }
 
 function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
-  if (!$contest_id) return '_NONE';
   $view = views_get_view('contest_trackers');
   $view->set_arguments(array($contest_id, $contestant_id));
   $view->query->where[0]['type'] = 'OR';
@@ -989,8 +988,5 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   foreach ($response as $tracker) {
     $ids[] = $tracker->id;
   }
-  if ($ids) {
-    return implode('+',$ids);
-  }
-  return '_NONE';
+  return implode('+',$ids);
 }
