@@ -5,3 +5,345 @@
  */
 
 include_once 'day.features.inc';
+
+
+/**
+ * Implements hook_field_extra_fields()
+ */
+function day_field_extra_fields() {
+  
+  $extra['node']['day'] = array(
+    'form' => array(
+      'day_pg_race_play_link' => array(
+        'label' => t('Day Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+      ),
+    ),
+    'display' => array(
+      'day_pg_race_play_link' => array(
+        'label' => t('Day Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+        'callback' => 'day_pg_race_play_link_callback',
+      ),
+    ),
+  );
+  
+  return $extra;
+}
+
+/**
+ * Views callback for visualization link extra field.
+ */
+function day_pg_race_play_link_callback($node) {
+  //dsm($node);
+  if ($node->type == 'day') {
+    return _day_pg_race_preview_markup($node);
+  }
+}
+
+/**
+ * Implements hook_node_view()
+ * 
+ * Add visualization link extra field content to Day node.
+ */
+function day_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'day') {
+    // Add content to day node extra field
+    $node->content['day_pg_race_play_link'] = array(
+      '#type' => 'item',
+      '#markup' => _day_pg_race_preview_markup($node),
+    );
+  }
+}
+
+/**
+ * Return markup for visualization link.
+ */
+// TODO:
+function _day_pg_race_preview_markup($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $day_status = $wrapper->field_day_status->value();
+  
+  // Hide markup if status is != 'Ok'.
+  if ($day_status !== '0') {
+    return '';
+  }
+  
+  // Get race status and core id data
+  $data = _day_pg_race_preview_data($node);
+  // Race status data
+  $status = $data['status'];
+  $has_task = $data['has_task'];
+  $start_time = $data['start_time'];
+  $countdown_time = $data['countdown_time'];
+  // Core id data
+  $race_entity_id = $data['race_entity_id'];
+  $contest_core_id = $data['contest_core_id'];
+  $race_core_id = $data['race_core_id'];
+  
+  
+  // Wrapper data
+  
+  
+  // span Wrapper attributes
+  $wrapper_attributes = array(
+    'class' => array('race-links'),
+    'data-race-eid' => $race_entity_id,
+    'data-contest-cid' => $contest_core_id,
+    'data-race-cid' => $race_core_id,
+  );
+  // Add wrapper Race status class
+  switch ($status) {
+    case 'awaiting' :
+      $wrapper_attributes['class'][] = 'race-awaiting';
+      break;
+    case 'online' :
+      $wrapper_attributes['class'][] = 'race-online';
+      $wrapper_attributes['data-view-type'] = 'online';
+      break;
+    case 'offline' :
+      $wrapper_attributes['class'][] = 'race-offline';
+      break;
+  }
+  
+  
+  // Content data
+  
+  $class2d = array('race-link', '2d');
+  
+  $help_text = '';
+  $time = '';
+  
+  
+  // Check if task exists
+  if ($has_task) {
+    switch ($status) {
+      case 'awaiting' :
+        $link_text = t('Watch Live');
+        $time = $countdown_time;
+        $time = date('H:i:s', $countdown_time);
+        $time = $countdown_time > 0 ? '-' . $time : $time;
+        $help_text = t('Race starts in');
+        drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+        break;
+      case 'online' :
+        $link_text = t('Watch Live');
+        $time = date('H:i:s', $start_time);
+        $help_text = t('Race starts on');
+        break;
+      case 'offline' :
+        $link_text = t('Replay');
+        break;
+    }
+  }
+  else {
+    // Default link and help text in case task isn't set.
+    $link_text = t('Watch Live');
+    $help_text = t('Button will be here as soon as task is set.');
+    // Do not output time/countdown
+    $time = '';
+    // Add wrapper attribute. Can be used in js
+    $wrapper_attributes['class'][] = 'no-task';
+  }
+  
+  if ($status == 'offline') {
+    $output = _day_pg_race_preview_offline_markup($data);
+  }
+  else {
+    // Wrap link text
+    $link_text = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => $link_text, '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+    // Wrap time and help-text if not empty.
+    $time = !empty($time) ? '<span id="time" class="time">'. $time . '</span>' : '';
+    $help_text = !empty($help_text) ? '<span class="help-text">'. $help_text . '</span>' : '';
+    
+    // Prepare output
+    $output = $link_text . $help_text . $time;
+    $output = theme('html_tag', array('element' => array('#tag' => 'span', '#value' => $output, '#attributes' => $wrapper_attributes)));
+  }
+  
+  // Add js
+  drupal_add_js(drupal_get_path('module', 'day') .'/js/day_pg_race_play_link.js', 'file');
+  drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here soon.'))), 'setting');
+  drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
+
+  return $output;
+}
+
+/**
+ * Return data for visualization link.
+ */
+// TODO:
+function _day_pg_race_preview_data($node) {
+  // Initialize values
+  $data = array(
+    'status' => NULL,
+    'has_task' => NULL,
+    'start_time' => NULL,
+    'countdown_time' => NULL,
+    'race_entity_id' => NULL,
+    'race_core_id' => NULL,
+    'contest_core_id' => NULL,
+  );
+  
+  // Get task and event data
+  $task_data = _day_pg_race_task_set($node->nid);
+  
+  if (empty($task_data['entity'])) {
+    $data['has_task'] = FALSE;
+    return $data;
+  }
+  $data['has_task'] = TRUE;
+  $data['status'] = $task_data['status'];
+  
+  $data['start_time'] = $task_data['start_time'];
+  $data['countdown_time'] = $task_data['countdown_time'];
+  
+  $data['race_entity_id'] = $task_data['race_entity_id'];
+  $data['race_core_id'] = $task_data['race_core_id'];
+  $data['contest_core_id'] = $task_data['contest_core_id'];
+  
+  return $data;
+}
+
+/**
+ * Get day task if exists and check if points exist.
+ */
+function _day_pg_race_task_set($day_id) {
+  $task_data = array(
+    'entity' => NULL,
+    'status' => NULL,
+    'start_time' => NULL,
+    //'has_points' => NULL,
+    //'has_tacks' => NULL,
+    'race_entity_id' => NULL,
+    'race_core_id' => NULL,
+    'contest_core_id' => NULL,
+  );
+  
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'ent_race')
+        ->entityCondition('bundle', 'pg_race')
+        ->fieldCondition('field_day_ref', 'target_id', $day_id, '=');
+  
+  $result = $query->execute();
+  if (!empty($result['ent_race'])) {
+    $entity = array_shift($result['ent_race']);
+    $entities = entity_load('ent_race', array($entity->id));
+    $entity = array_shift($entities);
+    $task_data['entity'] = $entity;
+    
+    
+    $wrapper = entity_metadata_wrapper('ent_race', $entity);
+    
+    // TODO: Check if points are set and track files exist
+    //$race_tracks = $wrapper->field_pg_race_tracks->value();
+    //$points = field_get_items('ent_race', $entity, 'field_dates');
+    
+    
+    
+    
+    // Get Race core_id and entity_id
+    $race_core_id = $wrapper->field_core_id->value();
+    $task_data['race_entity_id'] = $entity->id;
+    $task_data['race_core_id'] = !empty($race_core_id) ? $race_core_id : NULL;
+    
+    // Get Event core_id for a given Race.
+    $items = field_get_items('ent_race', $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+    if (empty($items) || !is_array($items)) {
+      watchdog('warning', t('Og reference not set for Race id = ' . $entity->id));
+      return;
+    }
+    
+    $item = array_shift($items);
+    $target_id = $item['target_id'];
+    $node = node_load($target_id);
+    $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
+    $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+    $task_data['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : NULL;
+      
+    // Get time data for a given race
+    // Get event time offset
+    $event_time = airtribune_extract_time_from_event($node);
+    if (!isset($event_time['offset'])) {
+      return;
+    }
+    $offset = $event_time['offset'];
+    
+    // Get Race Time data
+    $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
+    $start = strtotime($start_end['value']);
+    $end = strtotime($start_end['value2']);
+    
+    // TODO: Get local time
+    $localtime = time() + $offset;
+    
+    if ($start <= $localtime && $localtime < $end) {
+      // online
+      $status = 'online';
+    }
+    elseif ($localtime >= $end) {
+      // offline. race finished
+      $status = 'offline';
+    }
+    else {
+      // race haven't started yet
+      $status = 'awaiting';
+    }
+    $task_data['status'] = $status;
+    
+    $task_data['start_time'] = $start;
+    $task_data['countdown_time'] = $start - $localtime;
+  }
+  
+  return $task_data;
+}
+
+/**
+ * Return markup in case Race is offline.
+ */
+// TODO:
+function _day_pg_race_preview_offline_markup($data) {
+  $class2d = array('race-link', '2d');
+  $class3d = array('race-link', '3d');
+  
+  // For online see Watch Live link
+  /*
+  if ($params['status'] == 'online') {
+    $class2d[] = 'online';
+    $class3d[] = 'online';
+  }
+  */
+  
+  $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+  
+  
+  // Generate list
+  $items = array($href2d, $href3d);
+  
+  $ul_attribuntes = array(
+    'class' => array('race-links'),
+    'data-race-eid' => $data['race_entity_id'],
+    'data-contest-cid' => $data['contest_core_id'],
+    'data-race-cid' => $data['race_core_id'],
+  );
+  
+  /*
+  // If online
+  if ($params['status'] == 'online') {
+    $ul_attribuntes['data-view-type'] = 'online';
+  }
+  */
+  
+  $variables = array(
+    'type' => 'ul',
+    'title' => '',
+    'items' => $items,
+    'attributes' => $ul_attribuntes,
+  );
+  $output = theme('item_list', $variables);
+  
+  return $output;
+}
