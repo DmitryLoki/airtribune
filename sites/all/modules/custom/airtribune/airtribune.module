@@ -925,6 +925,7 @@ function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
   }
 }
 
+
 /**
  * Get paragliding race status
  * 
@@ -990,3 +991,4 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   }
   return implode('+',$ids);
 }
+

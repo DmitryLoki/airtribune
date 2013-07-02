@@ -147,24 +147,30 @@ if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
 
 
 <?php if (!empty($fields['view'])): ?>
-  <?php print $fields['view']->wrapper_prefix; ?>
+  <span class="views-field dropdown_list views-field-view">
   <?php print $fields['view']->label_html; ?>
   <?php print $fields['view']->content; ?>
-  <?php print $fields['view']->wrapper_suffix; ?>
+  </span>
 <?php endif; ?>
 
-<?php if (!empty($fields['field_pg_race_tracks'])): ?>
-  <?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
-  <?php print $fields['pg_race_play_link']->label_html; ?>
-  <?php print $fields['pg_race_play_link']->content; ?>
-  <?php print $fields['pg_race_play_link']->wrapper_suffix; ?>
-<?php endif; ?>
+<?php 
+if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field views-field-day-pg-race-play-live-link">';
+  $fields['day_pg_race_play_link']->wrapper_suffix = '</span>';
+}
+else {
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field dropdown_list views-field-day-pg-race-play-link">';
+}?>
+<?php print $fields['day_pg_race_play_link']->wrapper_prefix; ?>
+<?php print $fields['day_pg_race_play_link']->label_html; ?>
+<?php print $fields['day_pg_race_play_link']->content; ?>
+</span>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
-  <?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
+  <span class="views-field dropdown_list views-field-field-pg-race-tracks">
   <?php print $fields['field_pg_race_tracks']->label_html; ?>
   <?php print $fields['field_pg_race_tracks']->content; ?>
-  <?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
+  </span>
 <?php endif; ?>
 
 <?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
