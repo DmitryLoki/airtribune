@@ -40,6 +40,8 @@ define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
 define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
+define('AIRTRIBUNE_RACE_NUMBER', 'field_race_number');
+define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 
@@ -55,6 +57,7 @@ define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
+define('AIRTRIBUNE_DAY_TYPE', 'day');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
@@ -309,7 +312,6 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
-
   $configuration = $vars['pane']->configuration;
 
 
@@ -366,7 +368,14 @@ function airtribune_preprocess_panels_pane(&$vars) {
   }
 
   // Add links to switch view of pilots list
-  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE) {
+  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
+    if (!empty($vars['user']->roles[3]) || $vars['user']->uid == 1) {
+      $pilots_links[] = array(
+        'title' => 'Manage',
+        'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
+        'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-manage') ? ' active' : ''),
+      );
+    }
     $pilots_links[] = array(
       'title' => 'Group by status',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
@@ -591,7 +600,6 @@ function airtribune_views_query_alter(&$view, &$query) {
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
-
 }
 
 /**
@@ -853,7 +861,8 @@ function airtribune_get_events_nids_with_date_status() {
  */
 function airtribune_how_time_after_event_start($node, $granularity = 'day') {
   $result = airtribune_extract_time_from_event($node);
-  if ($result && airtribune_event_status_check_by_date($node) == 'current') {
+  $event_date_status = airtribune_event_status_check_by_date($node);
+  if ($result && ($event_date_status == 'current' || $event_date_status == 'past')) {
     $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
     if ($granularity == 'day') return ($seconds/3600/24);
     elseif ($granularity == 'hour') return ($seconds/3600);
@@ -967,4 +976,17 @@ function _airtribune_pg_race_online_status($etid) {
     // race haven't started yet
     return FALSE;
   }
+}
+
+function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
+  $view = views_get_view('contest_trackers');
+  $view->set_arguments(array($contest_id, $contestant_id));
+  $view->query->where[0]['type'] = 'OR';
+  $view->execute();
+  $response = $view->result;
+  $ids = array();
+  foreach ($response as $tracker) {
+    $ids[] = $tracker->id;
+  }
+  return implode('+',$ids);
 }
