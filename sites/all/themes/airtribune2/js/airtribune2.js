@@ -32,7 +32,7 @@
         .size() == 0) {
         $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, ' +
           '.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content, ' +
-          '.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link > .replay-link-content').hide();
+          '.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .replay-link-content').hide();
         $('.files_list_down').removeClass('files_list_down');
       }
     }
@@ -44,7 +44,7 @@
         el = $(this).next();
         $('.pane-event-days-panel-pane-1 .views-field-view > .field-content, ' +
           '.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks > .field-content, ' +
-          '.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link > .replay-link-content')
+          '.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .replay-link-content')
           .each(function () {
             if ($(this)[0] != el[0]) {
               $(this).hide();
