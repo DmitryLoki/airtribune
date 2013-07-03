@@ -17,7 +17,7 @@ abstract class ATSync {
     $url = at_core_sync_get_api_url() . '/' . $address;
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_PORT, 80);
-    curl_setopt($handle, CURLOPT_TIMEOUT, 5);
+    curl_setopt($handle, CURLOPT_TIMEOUT, 30);
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
