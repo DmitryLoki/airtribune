@@ -80,7 +80,11 @@ function _day_pg_race_preview_markup($node) {
   $contest = node_load($contest_nid, NULL, TRUE);
   $timezone = new DateTimeZone($contest->field_time_zone[LANGUAGE_NONE][0]['value']);
   $offset   = $timezone->getOffset(new DateTime);
-  $start_time = $data['start_time'] - $offset;
+  if (time() < ($data['start_time']-$offset)) {
+    $start_time = $data['start_time'] - $offset;
+  } else {
+    $start_time = $data['start_time'];
+  }
   $countdown_time = $data['countdown_time'];
   // Core id data
   $race_entity_id = $data['race_entity_id'];
