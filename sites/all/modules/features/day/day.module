@@ -344,6 +344,7 @@ function _day_pg_race_preview_offline_markup($data) {
     'attributes' => $ul_attribuntes,
   );
   $output = theme('item_list', $variables);
+  $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
   
   return $output;
 }
