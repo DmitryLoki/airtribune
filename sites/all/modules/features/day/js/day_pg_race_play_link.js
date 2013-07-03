@@ -3,7 +3,7 @@
   Drupal.behaviors.day_feature = {
     attach: function (context) {
 
-      var timeHelperText = $("#time"),
+      var timeHelperText = $("#time-counter"),
         helperText = $('.help-text'),
         d = '';
       if (typeof Drupal.settings.Day != 'undefined' && typeof Drupal.settings.Day.start_time != 'undefined') {
@@ -19,7 +19,10 @@
           
           d = Math.floor((Drupal.settings.Day.start_time-new Date().getTime())/1000);
           timeHelperText.html((d>0?"-":"") + getTimeStr(Math.floor(d/3600),Math.floor(d%3600/60),d%60));
-          setTimeout(setTime,1000);
+          if(d > 0){
+            setTimeout(setTime,1000);
+          }
+
         }
         setTime();
       }
@@ -35,13 +38,13 @@
             //make links clickable
             setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', raceData.isOnline);
             setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline);
-            if(typeof d == 'number' && d<0) {
+            if(typeof d == 'number' && d<=0) {
               timeHelperText.show();
               helperText.text('Race starts on');
             }
             $raceBlock.addClass('race-block-activated');
           } else {
-            if(typeof d == 'number' && d<0) {
+            if(typeof d == 'number' && d<=0) {
               timeHelperText.hide();
               helperText.text('Button will be here as soon as task is set.');
             }
