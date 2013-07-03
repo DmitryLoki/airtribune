@@ -3185,7 +3185,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'j M, Y';
-  /* Field: Content: Extrafield Set a task link */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['day_set_a_task']['id'] = 'day_set_a_task';
   $handler->display->display_options['fields']['day_set_a_task']['table'] = 'node';
   $handler->display->display_options['fields']['day_set_a_task']['field'] = 'day_set_a_task';
@@ -3334,6 +3334,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Day task visualization link';
   $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_default_classes'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -3662,6 +3663,7 @@ return array($event_id);';
     t('List of race (results)'),
     t('Tasks and results'),
     t('Race preview (coming soon)'),
+    t('Day '),
     t('Replay'),
   );
   $export['event_days'] = $view;

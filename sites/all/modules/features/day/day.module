@@ -98,6 +98,9 @@ function _day_pg_race_preview_markup($node) {
   switch ($status) {
     case 'awaiting' :
       $wrapper_attributes['class'][] = 'race-awaiting';
+      if ($has_task) {
+        $wrapper_attributes['data-view-type'] = 'online';
+      }
       break;
     case 'online' :
       $wrapper_attributes['class'][] = 'race-online';
