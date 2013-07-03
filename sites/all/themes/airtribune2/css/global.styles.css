@@ -1600,7 +1600,9 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-pane-1 .task_link:active { background-position: 0 -80px;}
 .pane-event-days-panel-pane-1 .task_link span { position: absolute; left: -9999px;}
 .pane-event-days-panel-pane-1 .dropdown_list .views-label,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-label,
 .pane-event-days-panel-pane-1 .dropdown_list .field-content,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-content,
 .pane-event-days-panel-pane-1 .race-link,
 .pane-event-days-panel-pane-1 #time { min-width: 98px; display: inline-block; background: rgba(0,135,239,1); border: 1px solid #0083e7;
 
@@ -1611,24 +1613,33 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 }
 .pane-event-days-panel-pane-1 .dropdown_list .field-content .field-content { min-width: 0;}
 .pane-event-days-panel-pane-1 .dropdown_list .views-label,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-label,
 .pane-event-days-panel-pane-1 .race-link { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; margin-top: 11px;}
-.pane-event-days-panel-pane-1 .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
+.pane-event-days-panel-pane-1 .dropdown_list .views-label:hover,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
 .pane-event-days-panel-pane-1 .views-field-view .views-label,
+.pane-event-days-panel-pane-1 .views-field-view .replay-link-label,
 .pane-event-days-panel-pane-1 .views-field-view .field-content { background-color: rgba(173,193,210,1); border-color: #adc1d2}
-.pane-event-days-panel-pane-1 .views-field-view .views-label:hover { background-color: rgba(173,193,210,0.5); border-color: #adc1d2}
+.pane-event-days-panel-pane-1 .views-field-view .views-label:hover,
+.pane-event-days-panel-pane-1 .views-field-view .replay-link-label:hover { background-color: rgba(173,193,210,0.5); border-color: #adc1d2}
 
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .views-label,
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .field-content { background-color: rgba(238,175,0,1); border-color: #e4a605}
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .views-label:hover { background-color: rgba(238,175,0,0.5); border-color: #e4a605}
+.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .replay-link-label,
+.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .replay-link-content { background-color: rgba(238,175,0,1); border-color: #e4a605}
+.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .replay-link-label:hover { background-color: rgba(238,175,0,0.5); border-color: #e4a605}
 
-.pane-event-days-panel-pane-1 .dropdown_list > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
-.pane-event-days-panel-pane-1 .dropdown_list .field-content span { display: block; color: #ffffff; font: bold 14px/15px Arial, Helvetica, sans-serif; padding: 10px 0 5px;}
+.pane-event-days-panel-pane-1 .dropdown_list > .field-content,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
+.pane-event-days-panel-pane-1 .dropdown_list .field-content span,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-content span { display: block; color: #ffffff; font: bold 14px/15px Arial, Helvetica, sans-serif; padding: 10px 0 5px;}
 body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content > span:first-child { padding-top: 10px;}
 .pane-event-days-panel-pane-1 .views-field-view .field-content span.file { padding: 0 0 0 10px;} 
+
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span.file { padding: 0;} 
-.pane-event-days-panel-pane-1 .dropdown_list .field-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
-.pane-event-days-panel-pane-1 .dropdown_list .field-content a:hover { text-decoration: none;} 
+.pane-event-days-panel-pane-1 .dropdown_list .field-content a,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
+.pane-event-days-panel-pane-1 .dropdown_list .field-content a:hover,
+.pane-event-days-panel-pane-1 .dropdown_list .replay-link-content a:hover { text-decoration: none;} 
 .pane-event-days-panel-pane-1 .dropdown_list img { display: none;}
 
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-link .item-list,
