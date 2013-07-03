@@ -132,6 +132,7 @@ if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
 else {
   $anchor = str_replace(' day', '',$fields['field_day_status']->content);
   print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";  
+  $separator = '';
 }
 
 if ($fields['field_day_status']->content != 'Ok') {
