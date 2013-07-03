@@ -76,7 +76,11 @@ function _day_pg_race_preview_markup($node) {
   // Race status data
   $status = $data['status'];
   $has_task = $data['has_task'];
-  $start_time = $data['start_time'];
+  $contest_nid = $node->og_group_ref[LANGUAGE_NONE][0]['target_id'];
+  $contest = node_load($contest_nid, NULL, TRUE);
+  $timezone = new DateTimeZone($contest->field_time_zone[LANGUAGE_NONE][0]['value']);
+  $offset   = $timezone->getOffset(new DateTime);
+  $start_time = $data['start_time'] - $offset;
   $countdown_time = $data['countdown_time'];
   // Core id data
   $race_entity_id = $data['race_entity_id'];
