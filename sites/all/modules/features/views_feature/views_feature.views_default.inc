@@ -3328,16 +3328,13 @@ return array($event_id);';
     'link' => 0,
   );
   $handler->display->display_options['fields']['field_pg_race_points']['delta_offset'] = '0';
-  /* Field: Race: Extrafield Paragliding race link */
-  $handler->display->display_options['fields']['pg_race_play_link']['id'] = 'pg_race_play_link';
-  $handler->display->display_options['fields']['pg_race_play_link']['table'] = 'eck_ent_race';
-  $handler->display->display_options['fields']['pg_race_play_link']['field'] = 'pg_race_play_link';
-  $handler->display->display_options['fields']['pg_race_play_link']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['pg_race_play_link']['label'] = 'Replay';
-  $handler->display->display_options['fields']['pg_race_play_link']['element_type'] = 'span';
-  $handler->display->display_options['fields']['pg_race_play_link']['element_label_type'] = 'span';
-  $handler->display->display_options['fields']['pg_race_play_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['pg_race_play_link']['element_wrapper_type'] = 'span';
+  /* Field: Day task visualization link */
+  $handler->display->display_options['fields']['day_pg_race_play_link']['id'] = 'day_pg_race_play_link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['table'] = 'node';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['field'] = 'day_pg_race_play_link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Day task visualization link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -3659,7 +3656,6 @@ return array($event_id);';
     t('Id'),
     t(','),
     t('Race points'),
-    t('Replay'),
     t('All'),
     t('List of day (accordion)'),
     t('View panes'),
@@ -5348,7 +5344,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_featured_header';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Field: Featured header: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
@@ -5381,7 +5377,7 @@ return array($event_id);';
   $handler = $view->new_display('panel_pane', 'Front page header', 'front_page_header');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Featured header: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
   $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
   $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
