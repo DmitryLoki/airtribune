@@ -158,7 +158,7 @@ function _day_pg_race_preview_markup($node) {
     // Wrap link text
     $link_text = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => $link_text, '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
     // Wrap time and help-text if not empty.
-    $time = !empty($time) ? '<span id="time" class="time">'. $time . '</span>' : '';
+    $time = !empty($time) ? '<span id="time-counter" class="time">'. $time . '</span>' : '';
     $help_text = !empty($help_text) ? '<span class="help-text">'. $help_text . '</span>' : '';
     
     // Prepare output
