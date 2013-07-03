@@ -135,8 +135,8 @@ else {
 }
 
 if ($fields['field_day_status']->content != 'Ok') {
-  print $separator . $fields['field_day_status']->content; ?>  
-}
+  print $separator . $fields['field_day_status']->content;
+} ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
 <?php else: ?>
