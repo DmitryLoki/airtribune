@@ -76,20 +76,13 @@ function _day_pg_race_preview_markup($node) {
   // Race status data
   $status = $data['status'];
   $has_task = $data['has_task'];
-  $contest_nid = $node->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-  $contest = node_load($contest_nid, NULL, TRUE);
-  $timezone = new DateTimeZone($contest->field_time_zone[LANGUAGE_NONE][0]['value']);
-  $offset   = $timezone->getOffset(new DateTime);
-  if (time() < ($data['start_time']-$offset)) {
-    $start_time = $data['start_time'] - $offset;
-  } else {
-    $start_time = $data['start_time'];
-  }
+  $start_time = $data['start_time'];
   $countdown_time = $data['countdown_time'];
   // Core id data
   $race_entity_id = $data['race_entity_id'];
   $contest_core_id = $data['contest_core_id'];
   $race_core_id = $data['race_core_id'];
+  $localtime = $data['localtime'];
   
   
   // Wrapper data
@@ -138,6 +131,7 @@ function _day_pg_race_preview_markup($node) {
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $help_text = t('Race starts in');
         drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+        drupal_add_js(array('Day' => array('localtime' => $localtime*1000)), 'setting');
         break;
       case 'online' :
         $link_text = t('Watch Live');
@@ -209,6 +203,7 @@ function _day_pg_race_preview_data($node) {
   $data['status'] = $task_data['status'];
   
   $data['start_time'] = $task_data['start_time'];
+  $data['localtime'] = $task_data['localtime'];
   $data['countdown_time'] = $task_data['countdown_time'];
   
   $data['race_entity_id'] = $task_data['race_entity_id'];
@@ -284,17 +279,16 @@ function _day_pg_race_task_set($day_id) {
     
     // Get Race Time data
     $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
-    $start = strtotime($start_end['value']);
-    $end = strtotime($start_end['value2']);
+    $start = strtotime($start_end['value']) - $offset;
+    $end = strtotime($start_end['value2']) - $offset;
     
-    // TODO: Get local time
-    $localtime = time() + $offset;
+    $current_time = time();
     
-    if ($start <= $localtime && $localtime < $end) {
+    if ($start <= $current_time && $current_time < $end) {
       // online
       $status = 'online';
     }
-    elseif ($localtime >= $end) {
+    elseif ($current_time >= $end) {
       // offline. race finished
       $status = 'offline';
     }
@@ -302,10 +296,19 @@ function _day_pg_race_task_set($day_id) {
       // race haven't started yet
       $status = 'awaiting';
     }
+    
+    
+    $countdown_time = $start - $current_time;
+    
+    // TODO: Get local time with offset
+    $localtime = $current_time + $offset;
+    
+    
     $task_data['status'] = $status;
     
     $task_data['start_time'] = $start;
-    $task_data['countdown_time'] = $start - $localtime;
+    $task_data['countdown_time'] = $countdown_time;
+    $task_data['localtime'] = $localtime;
   }
   
   return $task_data;
