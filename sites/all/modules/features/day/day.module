@@ -90,6 +90,7 @@ function _day_pg_race_preview_markup($node) {
   $race_entity_id = $data['race_entity_id'];
   $contest_core_id = $data['contest_core_id'];
   $race_core_id = $data['race_core_id'];
+  $localtime = $data['localtime'];
   
   
   // Wrapper data
@@ -138,6 +139,7 @@ function _day_pg_race_preview_markup($node) {
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $help_text = t('Race starts in');
         drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+        drupal_add_js(array('Day' => array('localtime' => $localtime*1000)), 'setting');
         break;
       case 'online' :
         $link_text = t('Watch Live');
@@ -209,6 +211,7 @@ function _day_pg_race_preview_data($node) {
   $data['status'] = $task_data['status'];
   
   $data['start_time'] = $task_data['start_time'];
+  $data['localtime'] = $task_data['localtime'];
   $data['countdown_time'] = $task_data['countdown_time'];
   
   $data['race_entity_id'] = $task_data['race_entity_id'];
@@ -306,6 +309,7 @@ function _day_pg_race_task_set($day_id) {
     
     $task_data['start_time'] = $start;
     $task_data['countdown_time'] = $start - $localtime;
+    $task_data['localtime'] = $localtime;
   }
   
   return $task_data;
