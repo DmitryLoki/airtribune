@@ -26,6 +26,7 @@
         var $raceBlock = $(raceBlock);
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
+        if(!raceData.raceId || !raceData.contestId) return;
         requestRaceState(raceData, function response(raceInfo) {
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             console.log('enable links in ', $raceBlock);
