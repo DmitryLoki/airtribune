@@ -137,7 +137,7 @@ function _day_pg_race_preview_markup($node) {
         break;
       case 'online' :
         $link_text = t('Watch Live');
-        $time = date('H:i:s', $start_time);
+        $time = date('H:i:s', $start_time + $offset);
         $help_text = t('Race starts on');
         break;
       case 'offline' :
