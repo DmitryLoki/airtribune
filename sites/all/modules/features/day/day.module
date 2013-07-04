@@ -279,17 +279,16 @@ function _day_pg_race_task_set($day_id) {
     
     // Get Race Time data
     $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
-    $start = strtotime($start_end['value']);
-    $end = strtotime($start_end['value2']);
+    $start = strtotime($start_end['value']) - $offset;
+    $end = strtotime($start_end['value2']) - $offset;
     
-    // TODO: Get local time
-    $localtime = time() + $offset;
+    $current_time = time();
     
-    if ($start <= $localtime && $localtime < $end) {
+    if ($start <= $current_time && $current_time < $end) {
       // online
       $status = 'online';
     }
-    elseif ($localtime >= $end) {
+    elseif ($current_time >= $end) {
       // offline. race finished
       $status = 'offline';
     }
@@ -297,10 +296,18 @@ function _day_pg_race_task_set($day_id) {
       // race haven't started yet
       $status = 'awaiting';
     }
+    
+    
+    $countdown_time = $start - $current_time;
+    
+    // TODO: Get local time with offset
+    $localtime = $current_time + $offset;
+    
+    
     $task_data['status'] = $status;
     
     $task_data['start_time'] = $start;
-    $task_data['countdown_time'] = $start - $localtime;
+    $task_data['countdown_time'] = $countdown_time;
     $task_data['localtime'] = $localtime;
   }
   
