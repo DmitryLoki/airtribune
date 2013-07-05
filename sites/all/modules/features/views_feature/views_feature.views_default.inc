@@ -2232,7 +2232,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['created']['custom_date_format'] = 'H:m';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'H:i';
   /* Field: Body */
   $handler->display->display_options['fields']['field_plain_body']['id'] = 'field_plain_body';
   $handler->display->display_options['fields']['field_plain_body']['table'] = 'field_data_field_plain_body';
@@ -3123,7 +3123,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Day number */
+  /* Field: Field: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3460,7 +3460,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
-  /* Field: Content: Day number */
+  /* Field: Field: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3663,7 +3663,6 @@ return array($event_id);';
     t('List of race (results)'),
     t('Tasks and results'),
     t('Race preview (coming soon)'),
-    t('Day '),
     t('Replay'),
   );
   $export['event_days'] = $view;
