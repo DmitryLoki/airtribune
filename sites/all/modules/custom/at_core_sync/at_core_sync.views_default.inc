@@ -39,6 +39,33 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Start date (exclude) */
+  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
+  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['ui_name'] = 'Start date (exclude)';
+  $handler->display->display_options['fields']['field_dates_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
+    'format_type' => 'dm',
+    'fromto' => 'value',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: End date (exclude) */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'End date (exclude)';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates']['click_sort_column'] = 'value2';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'dmy',
+    'fromto' => 'value2',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
   /* Field: Bulk operations: Content */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
@@ -187,7 +214,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = 'Contest';
   $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[title]';
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[title] ([field_dates_1] - [field_dates])';
   /* Field: Global: View */
   $handler->display->display_options['fields']['view_1']['id'] = 'view_1';
   $handler->display->display_options['fields']['view_1']['table'] = 'views';
@@ -206,9 +233,6 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['view']['field'] = 'view';
   $handler->display->display_options['fields']['view']['label'] = 'Races';
   $handler->display->display_options['fields']['view']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view']['empty'] = '0 races';
-  $handler->display->display_options['fields']['view']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['view']['empty_zero'] = TRUE;
   $handler->display->display_options['fields']['view']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['view']['view'] = 'core_api_manage_races';
   $handler->display->display_options['fields']['view']['display'] = 'manage_count_race_pane';
@@ -227,11 +251,11 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/day">Manage days</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/ad_vis">Manage ad for vis</a></li>
 </ul>';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Content: Dates -  start date (field_dates) */
+  $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['sorts']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['sorts']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['sorts']['field_dates_value']['order'] = 'DESC';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -269,12 +293,12 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Dates'),
     t('Contest'),
-    t('[title]'),
+    t('[title] ([field_dates_1] - [field_dates])'),
     t('Contestants'),
     t('0 contestants'),
     t('Races'),
-    t('0 races'),
     t('Core status'),
     t('Operations'),
     t('<ul>
@@ -821,8 +845,15 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'eck_ent_race';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = 'Race';
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = 'admin/structure/entity-type/ent_race/pg_race/[id]/edit';
+  /* Field: Race: Edit link */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['label'] = 'Race title';
+  $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
   /* Field: Field: Core ID */
   $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
@@ -843,6 +874,116 @@ function at_core_sync_views_default_views() {
 
   /* Display: List of races (manage) */
   $handler = $view->new_display('page', 'List of races (manage)', 'manage_list_race_page');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_race/pg_race/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/races">Add Race</a></li></ul>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Race ID (excluded) */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['ui_name'] = 'Race ID (excluded)';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  /* Field: Bulk operations: Race */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::at_core_sync_races_tracks_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::at_core_sync_races_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_item' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_script_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
+    ),
+    'action::views_bulk_operations_argument_selector_action' => array(
+      'selected' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'url' => '',
+      ),
+    ),
+    'action::system_send_email_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
+  /* Field: Race: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Race';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'admin/structure/entity-type/ent_race/pg_race/[id]/edit';
+  /* Field: Race: Edit link */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['label'] = 'Race title';
+  $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
+  /* Field: Field: Core ID */
+  $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Race: Race time period -  start date (field_race_start_end) */
+  $handler->display->display_options['sorts']['field_race_start_end_value']['id'] = 'field_race_start_end_value';
+  $handler->display->display_options['sorts']['field_race_start_end_value']['table'] = 'field_data_field_race_start_end';
+  $handler->display->display_options['sorts']['field_race_start_end_value']['field'] = 'field_race_start_end_value';
+  $handler->display->display_options['sorts']['field_race_start_end_value']['order'] = 'DESC';
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/races';
 
   /* Display: Races count (manage) */
@@ -870,6 +1011,15 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['content'] = '&nbsp;<a id="view-list-race-!1" class="action view race-list" data-nid="!1" href="/admin/config/administration/at_manage/contest/!1/races">races</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<a href="/admin/structure/entity-type/ent_race/pg_race/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/races">Add Race</a>';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['empty']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Race ID (excluded) */
   $handler->display->display_options['fields']['id']['id'] = 'id';
@@ -894,12 +1044,16 @@ function at_core_sync_views_default_views() {
     t('.'),
     t(','),
     t('Race'),
+    t('Race title'),
+    t('[title]'),
     t('Core status'),
     t('All'),
     t('List of races (manage)'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_race/pg_race/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/races">Add Race</a></li></ul>'),
     t('Races count (manage)'),
     t('@total'),
     t('&nbsp;<a id="view-list-race-!1" class="action view race-list" data-nid="!1" href="/admin/config/administration/at_manage/contest/!1/races">races</a>'),
+    t('<a href="/admin/structure/entity-type/ent_race/pg_race/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/races">Add Race</a>'),
     t(' '),
     t('View panes'),
   );

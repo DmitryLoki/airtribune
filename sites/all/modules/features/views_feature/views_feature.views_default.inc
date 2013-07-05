@@ -2556,6 +2556,15 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'day' => 'day',
   );
+  /* Filter criterion: Content: Day status (field_day_status) */
+  $handler->display->display_options['filters']['field_day_status_value']['id'] = 'field_day_status_value';
+  $handler->display->display_options['filters']['field_day_status_value']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['filters']['field_day_status_value']['field'] = 'field_day_status_value';
+  $handler->display->display_options['filters']['field_day_status_value']['operator'] = 'not';
+  $handler->display->display_options['filters']['field_day_status_value']['value'] = array(
+    4 => '4',
+    5 => '5',
+  );
 
   /* Display: Entity Reference */
   $handler = $view->new_display('entityreference', 'Entity Reference', 'day_selection');
