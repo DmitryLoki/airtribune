@@ -25,3 +25,51 @@ function dayblog_view($node) {
   }
   return $node;
 }
+
+/**
+ * Implements hook_views_pre_render().
+ * 
+ * Change dayblog rendered time according to event timezone.
+ */
+function dayblog_views_pre_render(&$view) {
+  static $offset = NULL;
+  
+  if ($view->name == AIRTRIBUNE_DAY_BLOG_VIEW && !empty($view->args[0])) {
+    if (!isset($offset)) {
+      $nid = $view->args[0];
+      
+      // Get og_membership entities for the referencing day
+      $query = new EntityFieldQuery();
+      $result = $query
+        ->entityCondition('entity_type', 'og_membership')
+        ->propertyCondition('entity_type', 'node', '=')
+        ->propertyCondition('group_type', 'node', '=')
+        ->propertyCondition('etid', $nid, '=')
+        ->execute();
+      
+      // Get day event offset
+      if (!empty($result['og_membership'])) {
+        $og_membership_ids = array_keys($result['og_membership']);
+        $entities = entity_load('og_membership', $og_membership_ids);
+        $entity = array_shift($entities);
+        // Get event nid
+        $gid = $entity->gid;
+        // Load event node
+        $node = node_load($gid);
+        // Get offset
+        $event_time = airtribune_extract_time_from_event($node);
+        if (!isset($event_time['offset'])) {
+          return;
+        }
+        // Set static offset
+        $offset = $event_time['offset'];
+      }
+    }
+    
+    if (!empty($view->result)) {
+      foreach ($view->result as $k => $v) {
+        $view->result[$k]->node_created += $offset;
+      }
+    }
+  }
+}

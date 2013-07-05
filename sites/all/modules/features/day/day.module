@@ -83,6 +83,7 @@ function _day_pg_race_preview_markup($node) {
   $contest_core_id = $data['contest_core_id'];
   $race_core_id = $data['race_core_id'];
   $localtime = $data['localtime'];
+  $offset = $data['offset'];
   
   
   // Wrapper data
@@ -132,10 +133,11 @@ function _day_pg_race_preview_markup($node) {
         $help_text = t('Race starts in');
         drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
         drupal_add_js(array('Day' => array('localtime' => $localtime*1000)), 'setting');
+        drupal_add_js(array('Day' => array('offset' => $offset*1000)), 'setting');
         break;
       case 'online' :
         $link_text = t('Watch Live');
-        $time = date('H:i:s', $start_time);
+        $time = date('H:i:s', $start_time + $offset);
         $help_text = t('Race starts on');
         break;
       case 'offline' :
@@ -209,6 +211,8 @@ function _day_pg_race_preview_data($node) {
   $data['race_entity_id'] = $task_data['race_entity_id'];
   $data['race_core_id'] = $task_data['race_core_id'];
   $data['contest_core_id'] = $task_data['contest_core_id'];
+  
+  $data['offset'] = $task_data['offset'];
   
   return $data;
 }
@@ -309,6 +313,7 @@ function _day_pg_race_task_set($day_id) {
     $task_data['start_time'] = $start;
     $task_data['countdown_time'] = $countdown_time;
     $task_data['localtime'] = $localtime;
+    $task_data['offset'] = $offset;
   }
   
   return $task_data;

@@ -52,8 +52,8 @@
             raceBlock.addClass('race-online');
             timeHelperText.show();
             helperText.text('Race starts on');
-            var localTime = new Date(Drupal.settings.Day.localtime);
-            timeHelperText.html(getTimeStr(localTime.getHours(), localTime.getMinutes(), localTime.getSeconds()));
+            var localTime = new Date(Drupal.settings.Day.start_time + Drupal.settings.Day.offset);
+            timeHelperText.html(getTimeStr(localTime.getUTCHours(), localTime.getUTCMinutes(), localTime.getUTCSeconds()));
           } else {
             timeHelperText.hide();
             helperText.text('Button will be here as soon as task is set.');
