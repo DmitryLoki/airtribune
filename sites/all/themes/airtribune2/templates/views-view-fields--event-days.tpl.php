@@ -150,6 +150,15 @@ if ($fields['field_day_status']->content != 'Ok') {
 <?php print $fields['day_set_a_task']->content; ?>
 <?php print $fields['day_set_a_task']->wrapper_suffix; ?>
 
+<?php
+// Temporary output retrieve link
+if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
+ print $fields['nothing_1']->wrapper_prefix;
+ print $fields['nothing_1']->content;
+ print $fields['nothing_1']->wrapper_suffix;
+}
+?>
+
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
