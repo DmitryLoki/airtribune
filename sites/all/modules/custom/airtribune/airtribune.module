@@ -65,6 +65,7 @@ define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
+define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
 
 /**
  * Implements hook_ctools_plugin_directory().
