@@ -73,7 +73,7 @@ function recount_day_number($node, $action) {
     // load contest
     $og = node_load($node->og_group_ref['und']['0']['target_id']);
     // load all created days for this contest
-    $days = get_days_for_og($og);
+    $days = get_days_ids_for_contest($og);
 
     // if node deleted, then we must remove this nid from recount list
     if ($action == 'delete' && ($key = array_search($node->nid, $days)) !== false) {
@@ -165,16 +165,20 @@ function recount_race_number(&$entity, $action) {
   curl_close($ch);
 }
 
-/*
- * Return array of ids of ent_race for event
+/**
+ * Get array with ids of ent_race for contest.
  * Its dirty code, but in OG module code there is nothing like this functionality
+ *
+ * @param $og organic group (node) object
+ * @return bool FALSE if wrong og node; otherwise array with ids of ent_race for contest
  */
-function get_tasks_for_event($og) {
+function get_races_ids_for_contest($og) {
   if (!is_object($og)) {
     return FALSE;
   }
   $races = db_select('og_membership', 'ogm')
     ->fields('ogm', array('etid'))
+    ->orderBy('etid', 'ASC')
     ->condition('ogm.gid', $og->nid)
     ->condition('ogm.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->execute()
@@ -182,10 +186,14 @@ function get_tasks_for_event($og) {
   return $races;
 }
 
-/*
- * Return array of nids of day for event
+/**
+ * Get array with nids of days for contest.
+ * Its dirty code, but in OG module code there is nothing like this functionality
+ *
+ * @param $og organic group (node) object
+ * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
  */
-function get_days_for_og($og) {
+function get_days_ids_for_contest($og) {
   if (!is_object($og)) {
     return FALSE;
   }
