@@ -117,7 +117,7 @@ function recount_race_number(&$entity, $action) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $og = array_pop($wrapper->og_group_ref->value());
   // load all created races for this contest
-  $races = get_races_for_og($og);
+  $races = get_tasks_for_event($og);
 
   $contest_core_id = $og->field_core_id['und']['0']['value'];
 
@@ -169,7 +169,7 @@ function recount_race_number(&$entity, $action) {
  * Return array of ids of ent_race for event
  * Its dirty code, but in OG module code there is nothing like this functionality
  */
-function get_races_for_og($og) {
+function get_tasks_for_event($og) {
   if (!is_object($og)) {
     return FALSE;
   }
