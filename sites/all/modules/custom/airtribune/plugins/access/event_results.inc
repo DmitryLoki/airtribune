@@ -32,7 +32,7 @@ function airtribune_event_results_access_check($conf, $context) {
   // 1) Сurrent time > date of event start.
   if ( REQUEST_TIME > strtotime($dates_items[0]['value']) &&
     // 2) We have at least one competition day & one task
-    $tasks = get_tasks_for_event($node) ) {
+    $tasks = get_races_ids_for_contest($node) ) {
     foreach ($tasks as $task) {
       $current_task = array_pop(entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array((string)$task), array(), TRUE));
       $track_item = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_task, 'field_pg_race_tracks');

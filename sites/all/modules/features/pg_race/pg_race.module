@@ -53,6 +53,12 @@ function pg_race_entity_insert($entity, $type) {
 
 function pg_race_entity_delete($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    // When entity success deleted, og_membership is still in database
+    // fix this by manual deletion the record
+    db_delete('og_membership')
+      ->condition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+      ->condition('etid', $entity->id)
+      ->execute();
     recount_race_number($entity, 'delete');
   }
 }
@@ -73,7 +79,7 @@ function recount_day_number($node, $action) {
     // load contest
     $og = node_load($node->og_group_ref['und']['0']['target_id']);
     // load all created days for this contest
-    $days = get_days_for_og($og);
+    $days = get_days_ids_for_contest($og);
 
     // if node deleted, then we must remove this nid from recount list
     if ($action == 'delete' && ($key = array_search($node->nid, $days)) !== false) {
@@ -83,98 +89,90 @@ function recount_day_number($node, $action) {
     foreach ($days as $day) {
       // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
       $current_day_node = node_load($day);
+      // handle new added node, which yet no data in database, because not all hooks are worked
+      if ($action == 'insert' && $current_day_node->nid == $node->nid) {
+        $current_day_node = $node;
+      }
       if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
         $day_number++;
         $current_day_node->field_day_number['und']['0']['value'] = $day_number;
       } else {
         $current_day_node->field_day_number['und']['0']['value'] = 0;
       }
-      // some special magic, remove fields, what we don't need to save (avoid saving whole node)
-      // !!! may be problem with removing og_group_ref !!!
-      //foreach (field_info_instances('node', 'day') as $field_name => $field_info) {
-      //  if ($field_name != 'field_day_number' || $field_name != AIRTRIBUNE_OG_GROUP_REF_FIELD) {
-      //    unset($current_day_node->{$field_name});
-      //  }
-      //}
       // and save changed fields
       field_attach_presave('node', $current_day_node);
       field_attach_update('node', $current_day_node);
     }
-
-    // if node is new added day, so not yet in database, and not was recounted upper
-    if ($action == 'insert' && $node->field_day_status['und']['0']['value'] < 4) {
-      $day_number++;
-      $node->field_day_number['und']['0']['value'] = $day_number;
-    }
   }
 }
 
-function recount_race_number(&$entity, $action) {
-  $ch = curl_init();
-  $race_counter = 0;
-
-  // update race count for new added race, by counting existing races
+function recount_race_number($entity, $action) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  // load contest (og node)
   $og = array_pop($wrapper->og_group_ref->value());
   // load all created races for this contest
-  $races = get_tasks_for_event($og);
-
+  $races = get_races_ids_for_contest($og);
+  // load core id for this contest
   $contest_core_id = $og->field_core_id['und']['0']['value'];
-
-  // if its new race
-  if ($action == 'insert') {
-    $entity->field_race_number['und']['0']['value'] = count($races) + 1;
-  }
 
   // if race deleted, then we must remove this id from recount list
   if ($action == 'delete' && ($key = array_search($entity->id, $races)) !== false) {
     unset($races[$key]);
   }
 
+  $ch = curl_init();
+  $race_counter = 0;
+
   // update race numbers for old races
   foreach ($races as $race) {
-    $race_counter++;
-
     // load race entity
-    $current_race = array_pop(entity_load('ent_race', array((string)$race), array(), TRUE));
-    // change race number field
-    $current_race->field_race_number['und']['0']['value'] = $race_counter;
+    if ($current_race = array_pop(entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array((string)$race), array(), TRUE))) {
+      $race_counter++;
+      // change race number field
+      $current_race->field_race_number['und']['0']['value'] = $race_counter;
 
-    // if race have not filled field with optimum distance, then try to get from CoreAPI
-    if (empty($current_race->field_optdistance['und']['0']['value'])) {
-      $race_core_id = !empty($current_race->field_core_id['und']['0']['value']) ? $current_race->field_core_id['und']['0']['value'] : NULL;
-      curl_setopt_array($ch, array(
-        CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
-        CURLOPT_RETURNTRANSFER => TRUE,
-        CURLOPT_TIMEOUT => 10,
-      ));
-      $ch_exec = curl_exec($ch);
-      // if we get correct data from CoreAPI
-      if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
-        if ($optdistance = $core_race_data->optdistance) {
-          // write the optimum distance to field_optdistance & save(update) race entity
-          $current_race->field_optdistance['und']['0']['value'] = $optdistance;
+      // if race have not filled field with optimum distance, then try to get from CoreAPI
+      if (empty($current_race->field_optdistance['und']['0']['value'])) {
+        // try to load core id for current race
+        $race_core_id = !empty($current_race->field_core_id['und']['0']['value']) ? $current_race->field_core_id['und']['0']['value'] : NULL;
+        // connect to CoreAPI & get info for current race (race start time, optimum distance, checkpoints, etc)
+        curl_setopt_array($ch, array(
+          CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
+          CURLOPT_RETURNTRANSFER => TRUE,
+          CURLOPT_TIMEOUT => 10,
+        ));
+        $ch_exec = curl_exec($ch);
+        // if we get correct data from CoreAPI
+        if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
+          if ($optdistance = $core_race_data->optdistance) {
+            // write the optimum distance to field_optdistance & save(update) race entity
+            $current_race->field_optdistance['und']['0']['value'] = $optdistance;
+          }
         }
       }
+      // save changed fields for race
+      field_attach_presave(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race);
+      field_attach_update(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race);
     }
-    // save changed fields for race
-    field_attach_presave('ent_race', $current_race);
-    field_attach_update('ent_race', $current_race);
   }
 
   curl_close($ch);
 }
 
-/*
- * Return array of ids of ent_race for event
+/**
+ * Get array with ids of ent_race for contest.
  * Its dirty code, but in OG module code there is nothing like this functionality
+ *
+ * @param $og organic group (node) object
+ * @return bool FALSE if wrong og node; otherwise array with ids of ent_race for contest
  */
-function get_tasks_for_event($og) {
+function get_races_ids_for_contest($og) {
   if (!is_object($og)) {
     return FALSE;
   }
   $races = db_select('og_membership', 'ogm')
     ->fields('ogm', array('etid'))
+    ->orderBy('etid', 'ASC')
     ->condition('ogm.gid', $og->nid)
     ->condition('ogm.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->execute()
@@ -182,10 +180,14 @@ function get_tasks_for_event($og) {
   return $races;
 }
 
-/*
- * Return array of nids of day for event
+/**
+ * Get array with nids of days for contest.
+ * Its dirty code, but in OG module code there is nothing like this functionality
+ *
+ * @param $og organic group (node) object
+ * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
  */
-function get_days_for_og($og) {
+function get_days_ids_for_contest($og) {
   if (!is_object($og)) {
     return FALSE;
   }
