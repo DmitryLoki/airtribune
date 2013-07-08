@@ -41,12 +41,15 @@ define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
+define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
+
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
 define('AIRTRIBUNE_POINT_TYPE_FIELD', 'field_point_type');
 define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
+define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -58,6 +61,8 @@ define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
 define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
+define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
+define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');

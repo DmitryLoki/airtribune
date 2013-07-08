@@ -14,20 +14,20 @@ function at_helper_draw($settings = array()) {
   
   // TODO: Check if GD is enabled
   
+  
   // Get canvas dimensions without offset.
   $offset = $settings['offset'];
   $canvas = $settings['canvas'];
-  $canvas_used['width'] = $canvas['width'] - ($offset['right'] + $offset['left']);
-  $canvas_used['hight'] = $canvas['hight'] - ($offset['top'] + $offset['bottom']);
+  
   
   $path = 'sites/default/files/my_new_image.png';
   
   // Create image
-  $img = imagecreatetruecolor($canvas['width'], $canvas['hight']);
+  $img = imagecreatetruecolor($canvas['width'], $canvas['height']);
   
   // Draw canvas background
   $back = imagecolorallocate($img, 255, 255, 255);
-  imagefilledrectangle($img, 0, 0, $canvas['width'] - 1, $canvas['hight'] - 1, $back);
+  imagefilledrectangle($img, 0, 0, $canvas['width'] - 1, $canvas['height'] - 1, $back);
   
   
   // Set circle inner and border colours
@@ -36,9 +36,12 @@ function at_helper_draw($settings = array()) {
   
   // Draw circles
   foreach ($waypoints as $waypoint) {
-    $x = $waypoint['x'];
-    $y = $waypoint['y'];
-    $radius = $waypoint['rad'];
+    
+    $x = $waypoint['x'] + $offset['left'];
+    $y = $waypoint['y'] + $offset['top'];
+    
+    $radius = $waypoint['radius_pixel'];
+    
     $diameter = 2 * $radius;
     imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color);
     imageellipse($img , $x , $y , $diameter , $diameter , $cylinder_border_color);
@@ -50,24 +53,28 @@ function at_helper_draw($settings = array()) {
   
   
   // Set line thickness
-  imagesetthickness ($img, 5);
+  imagesetthickness ($img, 1);
   
   $count = count($route_points);
-  //dsm($route_points);
+  
   // There should be at least two points to draw a line
   if ($count >= 2) {
     // Draw optimized route
     for ($i = 0; $i < $count - 1; $i++ ) {
-      imageline($img, $route_points[$i]['x'], $route_points[$i]['y'], $route_points[$i+1]['x'], $route_points[$i+1]['y'], $line_colour);
+      $x0 = $route_points[$i]['x'] + $offset['left'];
+      $y0 = $route_points[$i]['y'] + $offset['top'];
+      $x1 = $route_points[$i+1]['x'] + $offset['left'];
+      $y1 = $route_points[$i+1]['y'] + $offset['top'];
+      imageline($img, $x0, $y0, $x1, $y1, $line_colour);
     }
   }
   
   
   // Deallocate colors
-  imagecolordeallocate($back);
-  imagecolordeallocate($cylinder_inner_color);
-  imagecolordeallocate($cylinder_border_color);
-  imagecolordeallocate($line_colour);
+  imagecolordeallocate($img, $back);
+  imagecolordeallocate($img, $cylinder_inner_color);
+  imagecolordeallocate($img, $cylinder_border_color);
+  imagecolordeallocate($img, $line_colour);
   
   
   // Save image
@@ -79,26 +86,63 @@ function at_helper_draw($settings = array()) {
 
 
 
-function at_helper_prepare_settings() {
+function at_helper_prepare_settings($race_id = NULL) {
   $settings = array(
     'canvas' => array(
       'width' => 500,
-      'hight' => 400,
+      'height' => 400,
     ),
     'waypoints' => array(
-      array('lon' => 50, 'lat' => 100, 'rad' => 30),
-      array('lon' => 150, 'lat' => 150, 'rad' => 20),
-      array('lon' => 350, 'lat' => 350, 'rad' => 20),
+      array('lon' => 21.9237862, 'lat' => 43.324075, 'rad' => 1000),
+      array('lon' => 22.0048972, 'lat' => 43.1310528, 'rad' => 1000),
+      array('lon' => 21.9131333, 'lat' => 43.2568972, 'rad' => 1000),
     ),
+    
+     
+     
+     
     'offset' => array(
-      'top' => 10,
-      'bottom' => 10,
-      'right' => 10,
-      'left' => 10,
+      'top' => 30,
+      'bottom' => 30,
+      'right' => 30,
+      'left' => 30,
     ),
   );
+  $settings['waypoints'] = at_helper_get_waypoints(3);
   
   return $settings;
+}
+
+
+function at_helper_get_waypoints($race_id) {
+  $waypoints = array();
+  $entities = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($race_id));
+  
+  if (!empty($entities)) {
+    $entity = array_shift($entities);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+    
+    $pg_racetype_entity = $wrapper->{AIRTRIBUNE_PG_RACETYPE_REF_FIELD}->value();
+    $pg_racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $pg_racetype_entity);
+    
+    $waypoint_entities = $pg_racetype_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->value();
+    //dsm($waypoint_entities);
+    foreach ($waypoint_entities as $waypoint_entity) {
+      //$waypoint_entity
+      $waypoint_wrapper = entity_metadata_wrapper(AIRTRIBUNE_POINT_ENTITY_TYPE, $waypoint_entity);
+      $waypoint_radius = $waypoint_wrapper->{AIRTRIBUNE_POINT_RADIUS_FIELD}->value();
+      $point_entity = $waypoint_wrapper->{AIRTRIBUNE_POINT_REF_FIELD}->value();
+      $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point_entity);
+      $location = $point_wrapper->{AIRTRIBUNE_POINT_LOCATION_FIELD}->value();
+      $waypoints[] = array(
+        'lon' => $location['lon'],
+        'lat' => $location['lat'],
+        'rad' => $waypoint_radius,
+      );
+    }
+  }
+  
+  return $waypoints;
 }
 
 
@@ -108,56 +152,103 @@ function at_helper_prepare_settings() {
  */
 function at_helper_settings_process(&$settings) {
   
+  // Get canvas dimensions without offset.
+  $offset = $settings['offset'];
+  $canvas = $settings['canvas'];
+  $canvas_used['width'] = $canvas['width'] - ($offset['right'] + $offset['left']);
+  $canvas_used['height'] = $canvas['height'] - ($offset['top'] + $offset['bottom']);
+  $settings['canvas_used'] = $canvas_used;
+  
+  // Coefficients to translate radius (distance) into coordinates.
+  $d2coord = 360 / (40 * pow(10, 6));
+  
+  // Get optimized route points.
   $route_points = waypoint_get_optimized_waypoints($settings['waypoints']);
   $route_points = array_values($route_points);
-  //dsm($route_points);
-  foreach ($route_points as $k => $v) {
-    $route_points[$k]['x'] = (integer) $route_points[$k]['lon'];
-    $route_points[$k]['y'] = (integer) $route_points[$k]['lat'];
-  }
-  //dsm($route_points);
   
-  // Optimized route points
-  /*
-  $route_points = array(
-    array('x' => 10, 'y' => 150),
-    array('x' => 100, 'y' => 160),
-    array('x' => 310, 'y' => 350),
-    array('x' => 20, 'y' => 320),
-    array('x' => 200, 'y' => 50),
+  
+  // TODO:
+  // Convert radius for each point into lon/lat
+  // Find dimensions of the frame in lon/lat
+  // Find ratio pixel dimensions/coordinate dimensions
+  
+  
+  // Get all points' coordinates for the frame.
+  $frame_dim = array(
+    'lon_min' => NULL,
+    'lon_max' => NULL,
+    'lat_min' => NULL,
+    'lat_max' => NULL,
   );
-  */
-  
-  
-  
   
   foreach ($settings['waypoints'] as $k => $v) {
-    $settings['waypoints'][$k]['x'] = $settings['waypoints'][$k]['lon'];
-    $settings['waypoints'][$k]['y'] = $settings['waypoints'][$k]['lat'];
+    $radius = $settings['waypoints'][$k]['rad'];
+    // Get radius in degrees
+    $radius = $radius * $d2coord;
+    $settings['waypoints'][$k]['radius_degree'] = $radius;
+    
+    $waypoint = $settings['waypoints'][$k];
+    $waypoint += array(
+      'lon_min' => $waypoint['lon'] - $radius,
+      'lon_max' => $waypoint['lon'] + $radius,
+      'lat_min' => $waypoint['lat'] - $radius,
+      'lat_max' => $waypoint['lat'] + $radius,
+    );
+    
+    // Get frame dimensions in coordinates
+    foreach (array('lon_min', 'lon_max', 'lat_min', 'lat_max') as $key_name) {
+      if (!isset($frame_dim[$key_name])) {
+        $frame_dim[$key_name] = $waypoint[$key_name];
+      }
+      else {
+        if (in_array($key_name, array('lon_min', 'lat_min')) && $frame_dim[$key_name] > $waypoint[$key_name]) {
+          $frame_dim[$key_name] = $waypoint[$key_name];
+        }
+        elseif (in_array($key_name, array('lon_max', 'lat_max')) && $frame_dim[$key_name] < $waypoint[$key_name]) {
+          $frame_dim[$key_name] = $waypoint[$key_name];
+        }
+      }
+    }
+    
+    // TODO: Check semisphere
+    
+    
   }
   
   
+  $pdeg = $canvas_used['width']/$canvas_used['height'] > ($frame_dim['lon_max'] - $frame_dim['lon_min'])/($frame_dim['lat_max'] - $frame_dim['lat_min'])
+        ? $canvas_used['height'] / ($frame_dim['lat_max'] - $frame_dim['lat_min'])
+        : $canvas_used['width'] / ($frame_dim['lon_max'] - $frame_dim['lon_min']);
   
+  // Get pixels-for-degree ration for a given canvas_used and waypoints+radius
+  /*
+  $pixel_degree_ratio = array(
+    'width' => $canvas_used['width'] / ($frame_dim['lon_max'] - $frame_dim['lon_min']),
+    'height' => $canvas_used['height'] / ($frame_dim['lat_max'] - $frame_dim['lat_min']),
+  );
+  */
+  // Convert lon/lat coordinates into pixel coordinates
+  // Waypoints
+  foreach ($settings['waypoints'] as $k => $v) {
+    // Get coordinates relative to the frame boarders.
+    $settings['waypoints'][$k]['x'] = round(($settings['waypoints'][$k]['lon'] - $frame_dim['lon_min']) * $pdeg);
+    $settings['waypoints'][$k]['y'] = round(($settings['waypoints'][$k]['lat'] - $frame_dim['lat_min']) * $pdeg);
+    $settings['waypoints'][$k]['radius_pixel'] = round($settings['waypoints'][$k]['radius_degree'] * $pdeg);
+  }
+  // Optimale Waypoints (routepoints)
+  foreach ($route_points as $k => $v) {
+    // Get coordinates relative to the frame boarders.
+    $route_points[$k]['x'] = round(($route_points[$k]['lat'] - $frame_dim['lon_min']) * $pdeg);
+    $route_points[$k]['y'] = round(($route_points[$k]['lon'] - $frame_dim['lat_min']) * $pdeg);
+  }
+  
+  //$settings['pixel_degree_ratio'] = $pixel_degree_ratio;
   $settings['route_points'] = $route_points;
+  
+  //dsm($settings);
+  
   return $settings;
 }
-
-/**
- * Check if we need to redraw current image.
- * 
- */
-/*
-function at_helper_image_exists($etid) {
-  // Load task for $etid
-  $entities = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($etid));
-  if (!empty($entities)) {
-    $entity = array_shift($entities);
-  }
-  else {
-    return;
-  }
-}
-*/
 
 
 
@@ -190,6 +281,7 @@ function sd_abs($lon1, $lat1, $lon2, $lat2) {
   return ShortWayCalculator::distanceBetween($lon1, $lat1, $lon2, $lat2) / 1000;
 }
 
+/*
 $waypoints_opt = waypoint_get_optimized_waypoints($waypoints_sort);
 
 $distance = 0;
@@ -198,3 +290,4 @@ if ($waypoints_opt[$id -1]['lat'] == $waypoints_opt[$id]['lat'] && $waypoints_op
 } else {
   $distance += (int) 1000 * sd_abs($waypoints_opt[$id -1]['lat'], $waypoints_opt[$id -1]['lon'], $waypoints_opt[$id]['lat'], $waypoints_opt[$id]['lon']);
 }
+*/
