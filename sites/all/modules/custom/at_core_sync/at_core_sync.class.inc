@@ -448,10 +448,8 @@ class ATSyncTracker extends ATSync {
     if ($core_id = get_id_from_entity($this->entity)) {
       $this->address .= '/' . $core_id;
       $data_update['name'] = $data['name'];
-      dpm($data_update);
       $response = $this->request(json_encode($data_update), 'PUT');
     } else {
-      dpm($data);
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }
