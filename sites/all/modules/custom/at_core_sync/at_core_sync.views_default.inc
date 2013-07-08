@@ -920,7 +920,6 @@ function at_core_sync_views_default_views() {
     3 => '3',
     4 => '4',
   );
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator_id'] = 'field_pg_contestant_status_value_op';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['label'] = 'Payment status';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator'] = 'field_pg_contestant_status_value_op';
@@ -993,6 +992,58 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['uid']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: OG membership: Payment status (field_pg_contestant_status) */
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
+    4 => '4',
+  );
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator_id'] = 'field_pg_contestant_status_value_op';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['label'] = 'Payment status';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator'] = 'field_pg_contestant_status_value_op';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['identifier'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    6 => 0,
+    5 => 0,
+    7 => 0,
+  );
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['is_grouped'] = TRUE;
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['group_info']['label'] = 'Payment status';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['group_info']['identifier'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['group_info']['default_group'] = '1';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['group_info']['group_items'] = array(
+    1 => array(
+      'title' => 'Confirmed',
+      'operator' => 'or',
+      'value' => array(
+        4 => '4',
+      ),
+    ),
+    2 => array(
+      'title' => 'Not confirmed',
+      'operator' => 'or',
+      'value' => array(
+        1 => '1',
+        2 => '2',
+        3 => '3',
+      ),
+    ),
+  );
   $translatables['core_api_manage_contestants'] = array(
     t('Master'),
     t('Core API manage contestants'),
