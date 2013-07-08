@@ -272,7 +272,7 @@ function _day_pg_race_task_set($day_id) {
     $task_data['race_core_id'] = !empty($race_core_id) ? $race_core_id : NULL;
     
     // Get Event core_id for a given Race.
-    $items = field_get_items('ent_race', $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+    $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
     if (empty($items) || !is_array($items)) {
       watchdog('warning', t('Og reference not set for Race id = ' . $entity->id));
       return;
