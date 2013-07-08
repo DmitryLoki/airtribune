@@ -3040,10 +3040,11 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane-event-days-results-race-list .task_result .field-content,
 .pane-event-days-results-race-list .item-list,
 .pane-event-days-results-race-list .item-list ul,
-.pane-event-days-results-race-list .item-list li { display: inline; list-style: none; list-style-image: none; margin: 0; padding: 0;}
+.pane-event-days-results-race-list .item-list li { display: inline; list-style: none; list-style-image: none; margin: 0; padding: 0; white-space: normal;}
 .pane-event-days-results-race-list .views-field-pg-race-play-link { background: url(../images/results_bgr.png) no-repeat -5000px 100%, url(../images/results_bgr.png) no-repeat -4000px 0, url(../images/results_bgr.png) repeat-y -3000px 0;}
 .pane-event-days-results-race-list .views-field-field-pg-race-tracks { background: url(../images/results_bgr.png) no-repeat -8000px 100%, url(../images/results_bgr.png) no-repeat -7000px 0, url(../images/results_bgr.png) repeat-y -6000px 0;}
 .pane-event-days-results-race-list .file { margin-left: 3px;}
+.pane-event-days-results-race-list .file a { white-space: nowrap;}
 
 .view-contest-scoring-categories .hor_pic .views-field-field-collection-sponsors { clear: both;}
 .view-contest-scoring-categories .views-field-field-collection-sponsors { color: #525c66; font: 14px/16px Arial, Helvetica, sans-serif; padding-top: 10px; margin-left: 0 !important; margin-right: 0 !important; width: 371px; float: left;}
