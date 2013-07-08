@@ -694,6 +694,19 @@ function airtribune_modify_event_date_include_last_day(&$node) {
 }
 
 /**
+ * Implements hook_entity_delete().
+ */
+function airtribune_entity_delete($entity, $type) {
+  // When entity success deleted, og_membership is still in database
+  // fix this by manual deletion the record
+  // @see #3452
+  db_delete('og_membership')
+    ->condition('entity_type', $type)
+    ->condition('etid', $entity->id)
+    ->execute();
+}
+
+/**
  * Implements hook_init().
  */
 function airtribune_init() {
