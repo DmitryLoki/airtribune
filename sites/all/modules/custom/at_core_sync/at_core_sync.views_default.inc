@@ -1072,6 +1072,7 @@ function at_core_sync_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Core API manage trackers';
+  $handler->display->display_options['css_class'] = 'tablesorter';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'bypass node access';
@@ -1081,18 +1082,18 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
-    'id' => 'id',
-    'views_bulk_operations' => 'views_bulk_operations',
-    'field_core_id' => 'field_core_id',
-    'field_tracker_model' => 'field_tracker_model',
-    'edit_link' => 'edit_link',
     'identifier' => 'identifier',
-    'field_tracker_type' => 'field_tracker_type',
+    'views_bulk_operations' => 'views_bulk_operations',
+    'edit_link' => 'edit_link',
+    'field_core_id' => 'field_core_id',
     'title' => 'title',
+    'field_tracker_model' => 'field_tracker_model',
+    'field_tracker_type' => 'field_tracker_type',
+    'nothing' => 'nothing',
   );
-  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['default'] = 'title';
   $handler->display->display_options['style_options']['info'] = array(
-    'id' => array(
+    'identifier' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -1104,6 +1105,11 @@ function at_core_sync_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'edit_link' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_core_id' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
@@ -1111,19 +1117,14 @@ function at_core_sync_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_tracker_model' => array(
-      'sortable' => 0,
+    'title' => array(
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'edit_link' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'identifier' => array(
+    'field_tracker_model' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -1137,14 +1138,19 @@ function at_core_sync_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'title' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
+    'nothing' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
   );
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<script type="text/javascript" src="/sites/all/modules/custom/airtribune/js/trackers.js"></script>';
+  $handler->display->display_options['header']['area']['format'] = 'php_code';
   /* Field: Tracker: Identifier */
   $handler->display->display_options['fields']['identifier']['id'] = 'identifier';
   $handler->display->display_options['fields']['identifier']['table'] = 'eck_ent_tracker';
@@ -1243,6 +1249,12 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['field_tracker_type']['settings'] = array(
     'link' => 0,
   );
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Status';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]">No data</span>';
   /* Sort criterion: Tracker: Identifier */
   $handler->display->display_options['sorts']['identifier']['id'] = 'identifier';
   $handler->display->display_options['sorts']['identifier']['table'] = 'eck_ent_tracker';
@@ -1274,6 +1286,7 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('<script type="text/javascript" src="/sites/all/modules/custom/airtribune/js/trackers.js"></script>'),
     t('Identifier'),
     t('Tracker'),
     t('[identifier]'),
@@ -1281,6 +1294,8 @@ function at_core_sync_views_default_views() {
     t('Name'),
     t('Model'),
     t('Type'),
+    t('Status'),
+    t('<span class="tracker-status" id="[field_core_id]">No data</span>'),
     t('Page'),
   );
   $export['core_api_manage_trackers'] = $view;
