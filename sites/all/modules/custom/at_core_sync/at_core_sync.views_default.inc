@@ -920,18 +920,11 @@ function at_core_sync_views_default_views() {
     3 => '3',
     4 => '4',
   );
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator_id'] = 'field_pg_contestant_status_value_op';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['label'] = 'Payment status';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator'] = 'field_pg_contestant_status_value_op';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['identifier'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    3 => 0,
-    6 => 0,
-    5 => 0,
-    7 => 0,
-  );
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['is_grouped'] = TRUE;
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['group_info']['label'] = 'Payment status';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['group_info']['identifier'] = 'field_pg_contestant_status_value';
@@ -1067,6 +1060,7 @@ function at_core_sync_views_default_views() {
     t('Payment status'),
     t('Core status'),
     t('All'),
+    t('Payment status'),
     t('List of contestants (manage)'),
     t('Contestants count (manage)'),
     t('@total'),
