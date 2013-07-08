@@ -276,7 +276,7 @@ function _pg_race_preview_markup($entity) {
   $race_core_id = $wrapper->field_core_id->value();
   
   //$pg_contest_entities = $wrapper->og_group_ref->value();
-  $items = field_get_items('ent_race', $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+  $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
   
   if (!empty($items) && is_array($items)) {
     $item = array_shift($items);
