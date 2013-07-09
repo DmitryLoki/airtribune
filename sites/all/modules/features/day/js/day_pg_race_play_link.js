@@ -34,6 +34,7 @@
         if (!raceData.raceId || !raceData.contestId) {
           return;
         }
+
         requestRaceState(raceData, function response(raceInfo) {
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             console.log('enable links in ', $raceBlock);
@@ -42,9 +43,13 @@
             setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline);
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
-            setOnlineTimeView(true);
+            if(raceData.isOnline) {
+              setOnlineTimeView(true);
+            }
           } else {
-            setOnlineTimeView(false);
+            if(raceData.isOnline) {
+              setOnlineTimeView(false);
+            }
             setTimeout(function () {
               requestRaceState(raceData, response);
             }, 10000)
