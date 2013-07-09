@@ -24,7 +24,6 @@ define('AIRTRIBUNE_COUNTRY_FIELD', 'field_country');
 define('AIRTRIBUNE_CITY_FIELD', 'field_city');
 define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
-define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
 define('AIRTRIBUNE_CONTEST_PHOTOS_FIELD', 'field_contest_photos');
 define('AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD', 'field_flying_site_photos');
@@ -522,8 +521,8 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
     // Fetch event node from OG.
     else {
       $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
-      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
-        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{OG_AUDIENCE_FIELD}[0]->value();
       }
     }
   }
@@ -692,6 +691,19 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function airtribune_entity_delete($entity, $type) {
+  // When entity success deleted, og_membership is still in database
+  // fix this by manual deletion the record
+  // @see #3452
+  db_delete('og_membership')
+    ->condition('entity_type', $type)
+    ->condition('etid', $entity->id)
+    ->execute();
 }
 
 /**
@@ -945,7 +957,7 @@ function _airtribune_pg_race_online_status($etid) {
   
   // Get referenced pg_contest node
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-  $nodes = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}->value();
+  $nodes = $wrapper->{OG_AUDIENCE_FIELD}->value();
   if (empty($nodes)) {
     return;
   }

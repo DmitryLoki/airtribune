@@ -51,24 +51,26 @@ function pg_race_entity_insert($entity, $type) {
   }
 }
 
+function pg_race_entity_update($entity, $type) {
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    recount_race_number($entity, 'update');
+  }
+}
+
 function pg_race_entity_delete($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    // When entity success deleted, og_membership is still in database
-    // fix this by manual deletion the record
-    db_delete('og_membership')
-      ->condition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
-      ->condition('etid', $entity->id)
-      ->execute();
     recount_race_number($entity, 'delete');
   }
+}
+
+function pg_race_node_insert($node) {
+  recount_day_number($node, 'insert');
 }
 
 function pg_race_node_update($node) {
   recount_day_number($node, 'update');
 }
-function pg_race_node_insert($node) {
-  recount_day_number($node, 'insert');
-}
+
 function pg_race_node_delete($node) {
   recount_day_number($node, 'delete');
 }
@@ -170,6 +172,7 @@ function get_races_ids_for_contest($og) {
   if (!is_object($og)) {
     return FALSE;
   }
+/*
   $races = db_select('og_membership', 'ogm')
     ->fields('ogm', array('etid'))
     ->orderBy('etid', 'ASC')
@@ -177,6 +180,18 @@ function get_races_ids_for_contest($og) {
     ->condition('ogm.entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->execute()
     ->fetchCol();
+*/
+  $query = new EntityFieldQuery;
+  $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+    ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
+    ->fieldCondition('og_group_ref', 'target_id', $og->nid)
+    ->execute();
+  if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
+    foreach ($entities as $entity) {
+      $races[] = $entity->id;
+    }
+  }
+  sort($races);
   return $races;
 }
 
@@ -276,7 +291,7 @@ function _pg_race_preview_markup($entity) {
   $race_core_id = $wrapper->field_core_id->value();
   
   //$pg_contest_entities = $wrapper->og_group_ref->value();
-  $items = field_get_items('ent_race', $entity, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+  $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
   
   if (!empty($items) && is_array($items)) {
     $item = array_shift($items);
