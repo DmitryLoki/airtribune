@@ -520,6 +520,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/scoring_category">Manage scoring categories</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/featured-headers">Manage headers</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/points">Manage points</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/custom_object">Manage tracked objects</a></li>
 </ul>';
   /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
@@ -577,6 +578,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/scoring_category">Manage scoring categories</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/featured-headers">Manage headers</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/points">Manage points</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/custom_object">Manage tracked objects</a></li>
 </ul>'),
     t('Page'),
   );
@@ -2232,6 +2234,152 @@ function at_core_sync_views_default_views() {
     t('Page'),
   );
   $export['manage_contest_points'] = $view;
+
+  $view = new view();
+  $view->name = 'manage_custom_object';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'eck_ent_customobject';
+  $view->human_name = 'Manage custom object';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Manage tracked objects';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'bypass node access';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['style_plugin'] = 'table';
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Relationship: OG membership: OG membership from Custom object */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  /* Field: ID (exclude) */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['ui_name'] = 'ID (exclude)';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
+  /* Field: Delete link (exclude) */
+  $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['ui_name'] = 'Delete link (exclude)';
+  $handler->display->display_options['fields']['delete_link']['exclude'] = TRUE;
+  /* Field: Edit link (exclude) */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link (exclude)';
+  $handler->display->display_options['fields']['edit_link']['exclude'] = TRUE;
+  /* Field: Global: View result counter */
+  $handler->display->display_options['fields']['counter']['id'] = 'counter';
+  $handler->display->display_options['fields']['counter']['table'] = 'views';
+  $handler->display->display_options['fields']['counter']['field'] = 'counter';
+  $handler->display->display_options['fields']['counter']['label'] = '#';
+  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
+  /* Field: Custom object: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_customobject';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  /* Field: Description */
+  $handler->display->display_options['fields']['field_plain_body']['id'] = 'field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body']['table'] = 'field_data_field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body']['field'] = 'field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body']['ui_name'] = 'Description';
+  $handler->display->display_options['fields']['field_plain_body']['label'] = 'Description';
+  $handler->display->display_options['fields']['field_plain_body']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_plain_body']['settings'] = array(
+    'click_to_edit' => 1,
+    'empty_text' => '',
+    'fallback_format' => 'text_default',
+  );
+  /* Field: Field: Core ID */
+  $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
+  /* Field: Field: Link to Tracker */
+  $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_tracker']['settings'] = array(
+    'click_to_edit' => 1,
+    'empty_text' => '',
+    'fallback_format' => 'entityreference_label',
+    'fallback_settings' => array(
+      'link' => 0,
+    ),
+  );
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Operations';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<ul>
+<li>[edit_link]</li>
+<li>[delete_link]</li>
+</ul>';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'manage_list_tracked_objects');
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/custom_object';
+  $translatables['manage_custom_object'] = array(
+    t('Master'),
+    t('Manage tracked objects'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_customobject/customobject/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/custom_object">Add object</a></li></ul>'),
+    t('OG membership from ent_customobject'),
+    t('Id'),
+    t('.'),
+    t('Delete link'),
+    t('Edit link'),
+    t('#'),
+    t('Title'),
+    t('Description'),
+    t('Core status'),
+    t('Link to Tracker'),
+    t('Operations'),
+    t('<ul>
+<li>[edit_link]</li>
+<li>[delete_link]</li>
+</ul>'),
+    t('All'),
+    t('Page'),
+  );
+  $export['manage_custom_object'] = $view;
 
   $view = new view();
   $view->name = 'manage_day_blog';
