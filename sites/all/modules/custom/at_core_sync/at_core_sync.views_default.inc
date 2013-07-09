@@ -519,6 +519,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/ad_vis">Manage ad for vis</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/scoring_category">Manage scoring categories</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/featured-headers">Manage headers</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/points">Manage points</a></li>
 </ul>';
   /* Sort criterion: Content: Dates -  start date (field_dates) */
   $handler->display->display_options['sorts']['field_dates_value']['id'] = 'field_dates_value';
@@ -575,6 +576,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/ad_vis">Manage ad for vis</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/scoring_category">Manage scoring categories</a></li>
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/featured-headers">Manage headers</a></li>
+<li><a href="/admin/config/administration/at_manage/contest/[nid]/points">Manage points</a></li>
 </ul>'),
     t('Page'),
   );
@@ -1060,7 +1062,6 @@ function at_core_sync_views_default_views() {
     t('Payment status'),
     t('Core status'),
     t('All'),
-    t('Payment status'),
     t('List of contestants (manage)'),
     t('Contestants count (manage)'),
     t('@total'),
@@ -2051,6 +2052,163 @@ function at_core_sync_views_default_views() {
     t('Service headers (manage)'),
   );
   $export['featured_headers'] = $view;
+
+  $view = new view();
+  $view->name = 'manage_contest_points';
+  $view->description = '';
+  $view->tag = 'Core API manage';
+  $view->base_table = 'eck_ent_contest_point';
+  $view->human_name = 'Manage contest points';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Manage contest points';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['style_plugin'] = 'table';
+  /* Footer: Global: Result summary */
+  $handler->display->display_options['footer']['result']['id'] = 'result';
+  $handler->display->display_options['footer']['result']['table'] = 'views';
+  $handler->display->display_options['footer']['result']['field'] = 'result';
+  /* Relationship: OG membership: OG membership from Contest point */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_contest_point';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  /* Field: Contest point: Id */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_contest_point';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  /* Field: Contest point: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_contest_point';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  /* Field: Bulk operations: Contest point */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'eck_ent_contest_point';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::views_bulk_operations_delete_item' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_script_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
+    ),
+    'action::views_bulk_operations_argument_selector_action' => array(
+      'selected' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'url' => '',
+      ),
+    ),
+    'action::system_send_email_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
+  /* Field: Contest point: Edit link */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_contest_point';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
+  /* Field: Contest point: Location */
+  $handler->display->display_options['fields']['field_point_location']['id'] = 'field_point_location';
+  $handler->display->display_options['fields']['field_point_location']['table'] = 'field_data_field_point_location';
+  $handler->display->display_options['fields']['field_point_location']['field'] = 'field_point_location';
+  $handler->display->display_options['fields']['field_point_location']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_point_location']['type'] = 'geofield_latlon';
+  $handler->display->display_options['fields']['field_point_location']['settings'] = array(
+    'data' => 'full',
+    'format' => 'decimal_degrees',
+    'labels' => 1,
+  );
+  /* Field: Contest point: Description */
+  $handler->display->display_options['fields']['field_point_description']['id'] = 'field_point_description';
+  $handler->display->display_options['fields']['field_point_description']['table'] = 'field_data_field_point_description';
+  $handler->display->display_options['fields']['field_point_description']['field'] = 'field_point_description';
+  /* Field: Contest point: Delete link */
+  $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_contest_point';
+  $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/points';
+  $translatables['manage_contest_points'] = array(
+    t('Master'),
+    t('Manage contest points'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Displaying @start - @end of @total'),
+    t('OG membership from ent_contest_point'),
+    t('Id'),
+    t('.'),
+    t(','),
+    t('Title'),
+    t('Edit link'),
+    t('[title]'),
+    t('Location'),
+    t('Description'),
+    t('Delete link'),
+    t('All'),
+    t('Page'),
+  );
+  $export['manage_contest_points'] = $view;
 
   $view = new view();
   $view->name = 'pg_scoring_categories';
