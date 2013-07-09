@@ -80,6 +80,7 @@
         /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
         $.ajax({
           url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks' + (raceData.isOnline ? '?type=online' : ''),
+          dataType:"json",
           success: responseCallback,
           error: function () {
             responseCallback(null);
