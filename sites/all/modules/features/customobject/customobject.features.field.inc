@@ -10,16 +10,16 @@
 function customobject_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'ent_customobject-customobject-field_customobject_description'.
-  $fields['ent_customobject-customobject-field_customobject_description'] = array(
+  // Exported field: 'ent_customobject-customobject-field_core_id'.
+  $fields['ent_customobject-customobject-field_core_id'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_customobject_description',
+      'field_name' => 'field_core_id',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(
         'format' => array(
@@ -55,7 +55,7 @@ function customobject_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 2,
+          'weight' => 5,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -65,50 +65,22 @@ function customobject_field_default_fields() {
         ),
       ),
       'entity_type' => 'ent_customobject',
-      'exclude_cv' => 0,
-      'field_name' => 'field_customobject_description',
-      'label' => 'Description',
-      'required' => 0,
+      'field_name' => 'field_core_id',
+      'label' => 'field_core_id',
+      'required' => FALSE,
       'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 0,
-            'php_code' => 0,
-            'plain_text' => 0,
-          ),
-          'allowed_formats_toggle' => 1,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
-          ),
-        ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'text_processing' => '1',
+        'text_processing' => 0,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'size' => '60',
+          'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => '0',
+        'weight' => 4,
       ),
     ),
   );
@@ -182,6 +154,108 @@ function customobject_field_default_fields() {
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'ent_customobject-customobject-field_plain_body'.
+  $fields['ent_customobject-customobject-field_plain_body'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_plain_body',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'customobject',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 4,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_customobject',
+      'exclude_cv' => 0,
+      'field_name' => 'field_plain_body',
+      'label' => 'Description',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 0,
+            'full_html' => 0,
+            'php_code' => 0,
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 1,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '2',
       ),
     ),
   );
@@ -266,7 +340,7 @@ function customobject_field_default_fields() {
       'options_limit' => FALSE,
       'options_limit_empty_behaviour' => 0,
       'options_limit_fields' => array(),
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'prepopulate' => array(
@@ -279,14 +353,10 @@ function customobject_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
-        'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
-        ),
-        'type' => 'entityreference_autocomplete',
-        'weight' => '2',
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '0',
       ),
     ),
   );
@@ -415,7 +485,7 @@ function customobject_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => 3,
+        'weight' => '3',
       ),
     ),
   );
@@ -426,6 +496,7 @@ function customobject_field_default_fields() {
   t('Groups audience');
   t('Link to Tracker');
   t('Object type');
+  t('field_core_id');
 
   return $fields;
 }
