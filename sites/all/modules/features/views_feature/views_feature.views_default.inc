@@ -2896,7 +2896,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Field: Day number */
+  /* Field: Content: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3176,7 +3176,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Field: Day number */
+  /* Field: Content: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3394,7 +3394,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['ui_name'] = 'Link to retrieve';
   $handler->display->display_options['fields']['nothing_1']['label'] = '';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="http://retrieve.airtribune.com/index.php?contestID=[field_core_id_1]&raceID=[field_core_id]" >Retrieve table</a>';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="http://retrieve.airtribune.com/index.php?contestid=[field_core_id_1]&raceid=[field_core_id]" >Retrieve table</a>';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
@@ -3484,7 +3484,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
-  /* Field: Field: Day number */
+  /* Field: Content: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3683,7 +3683,7 @@ return array($event_id);';
     t('Race points'),
     t('All'),
     t('List of day (accordion)'),
-    t('<a href="http://retrieve.airtribune.com/index.php?contestID=[field_core_id_1]&raceID=[field_core_id]" >Retrieve table</a>'),
+    t('<a href="http://retrieve.airtribune.com/index.php?contestid=[field_core_id_1]&raceid=[field_core_id]" >Retrieve table</a>'),
     t('View panes'),
     t('List of race (results)'),
     t('Tasks and results'),
@@ -6015,7 +6015,7 @@ return array($event_id);';
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Field: OG membership: Link to Tracker */
+  /* Field: Field: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -6939,7 +6939,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: OG membership: Link to Tracker */
+  /* Field: Field: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7168,7 +7168,7 @@ return array($event_id);';
     'empty_text' => '',
     'fallback_format' => 'list_default',
   );
-  /* Field: OG membership: Link to Tracker */
+  /* Field: Field: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7538,7 +7538,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: OG membership: Link to Tracker */
+  /* Field: Field: Link to Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
