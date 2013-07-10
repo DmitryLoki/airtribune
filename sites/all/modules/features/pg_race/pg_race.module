@@ -66,10 +66,34 @@ function pg_race_field_extra_fields() {
         'weight' => -5,
         'callback' => 'pg_race_play_link_callback',
       ),
+      
+      'pg_race_preview_image' => array(
+        'label' => t('Paragliding preview image'),
+        'description' => t('Race preview image'),
+        'weight' => -5,
+        'callback' => 'pg_race_preview_image_callback',
+      ),
     ),
   );
   
   return $extra;
+}
+
+function pg_race_preview_image_callback($entity) {
+  if ($entity->type == 'pg_race') {
+    
+    module_load_include('inc', 'pg_race', 'pg_race.draw');
+    $race_id = $entity->id;
+    //$race_id = 3;
+    $path = _at_draw_get_image($race_id);
+    
+    $output = '';
+    if (!empty($path)) {
+      $output = theme('image', array('path' => $path));
+    }
+    
+    return $output;
+  }
 }
 
 function pg_race_play_link_callback($entity) {
@@ -105,6 +129,14 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       '#type' => 'item',
       '#title' => $title,
       '#markup' => $markup,
+    );
+    
+    
+    // Race preview image
+    $entity->content['pg_race_preview_image'] = array(
+      '#type' => 'item',
+      '#title' => t('Task preview'),
+      '#markup' => pg_race_preview_image_callback($entity),
     );
   }
   
