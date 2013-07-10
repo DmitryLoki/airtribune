@@ -25,10 +25,19 @@ function at_helper_draw($settings = array()) {
   // Create image
   $img = imagecreatetruecolor($canvas['width'], $canvas['height']);
   
+  
   // Draw canvas background
   $back = imagecolorallocate($img, 255, 255, 255);
   imagefilledrectangle($img, 0, 0, $canvas['width'] - 1, $canvas['height'] - 1, $back);
   
+  /*
+  // Tile image
+  $tile_img = imagecreatefromjpeg ('sites/default/files/tile.jpg');
+  // imagecopyresized imagecopyresampled
+  imagecopy ( $img , $tile_img , 0 , 0 , 0 , 0 , 256 , 256 );
+  */
+  
+  _at_helper_draw_tiles($img, $settings);
   
   // Set circle inner and border colours
   $cylinder_inner_color = imagecolorallocatealpha ($img , 127 , 127 , 127 , 75);
@@ -83,7 +92,100 @@ function at_helper_draw($settings = array()) {
   return $path;
 }
 
+function _at_helper_draw_tiles(&$img, &$settings) {
+  $frame_dim = $settings['frame_dim'];
+  
+  $lon_min = $frame_dim['lon_min'];
+  $lon_max = $frame_dim['lon_max'];
+  $lat_min = - $frame_dim['lat_min'];
+  $lat_max = - $frame_dim['lat_max'];
+  
+  $zoom = 12;
+  
+  
+  $corner_tiles = array(
+    'xtile_min' => NULL,
+    'xtile_max' => NULL,
+    'ytile_min' => NULL,
+    'ytile_max' => NULL,
+  );
+  
+  
+  $corner_tiles['xtile_min'] = floor((($lon_min + 180) / 360) * pow(2, $zoom));
+  $corner_tiles['xtile_max'] = floor((($lon_max + 180) / 360) * pow(2, $zoom));
+  $corner_tiles['ytile_min'] = floor((1 - log(tan(deg2rad($lat_min)) + 1 / cos(deg2rad($lat_min))) / pi()) /2 * pow(2, $zoom));
+  $corner_tiles['ytile_max'] = floor((1 - log(tan(deg2rad($lat_max)) + 1 / cos(deg2rad($lat_max))) / pi()) /2 * pow(2, $zoom));
+  
+  $corner_tiles['xtile_min'] --;
+  $corner_tiles['xtile_max'] ++;
+  $corner_tiles['ytile_min'] --;
+  $corner_tiles['ytile_max'] ++;
+  
+  $x_dst = 0;
+  $y_dst = 0;
+  for ($xtile = $corner_tiles['xtile_min']; $xtile <= $corner_tiles['xtile_max']; $xtile++) {
+    for ($ytile = $corner_tiles['ytile_min']; $ytile <= $corner_tiles['ytile_max']; $ytile++) {
+      $path = 'sites/default/files/tile_x' . $xtile . '_y' . $ytile . '_z' . $zoom . '.jpg';
+      
+      
+      
 
+      
+      // Check if file exists.
+      if (!file_exists ($path)) {
+        $url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';
+        
+        // http://stackoverflow.com/questions/2440729/php-curl-how-can-i-emulate-a-get-request-exactly-like-a-web-browser
+        $agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        curl_setopt($ch, CURLOPT_URL,$url);
+        $result=curl_exec($ch);
+        file_put_contents($path, $result);
+      }
+      
+      // Tile image
+      $tile_img = imagecreatefromjpeg($path);
+      // imagecopyresized imagecopyresampled
+      imagecopy ( $img , $tile_img , $x_dst , $y_dst , 0 , 0 , 256 , 256 );
+      $y_dst += 256;
+    }
+    $y_dst = 0;
+    $x_dst += 256;
+  }
+  
+  //dsm($corner_tiles);
+  /*
+  foreach ($settings['waypoints'] as $waypoint) {
+    $lon = $waypoint['lon'];
+    $lat = -$waypoint['lat'];
+    $zoom = 14;
+    $xtile = floor((($lon + 180) / 360) * pow(2, $zoom));
+    $ytile = floor((1 - log(tan(deg2rad($lat)) + 1 / cos(deg2rad($lat))) / pi()) /2 * pow(2, $zoom));
+    //dsm('x: ' . $xtile . ' y: ' . $ytile . ' z: ' . $zoom);
+    //dsm($lon . ' ' . $lat);
+    $url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';
+    
+    $agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+    curl_setopt($ch, CURLOPT_URL,$url);
+    $result=curl_exec($ch);
+    
+    $img = 'sites/default/files/tile4.jpg';
+    file_put_contents($img, $result);
+  }
+  */
+
+  
+}
 
 
 function at_helper_prepare_settings($race_id = NULL) {
@@ -92,12 +194,13 @@ function at_helper_prepare_settings($race_id = NULL) {
       'width' => 500,
       'height' => 400,
     ),
+    /*
     'waypoints' => array(
       array('lon' => 21.9237862, 'lat' => 43.324075, 'rad' => 1000),
       array('lon' => 22.0048972, 'lat' => 43.1310528, 'rad' => 1000),
       array('lon' => 21.9131333, 'lat' => 43.2568972, 'rad' => 1000),
     ),
-    
+    */
      
      
      
@@ -136,7 +239,7 @@ function at_helper_get_waypoints($race_id) {
       $location = $point_wrapper->{AIRTRIBUNE_POINT_LOCATION_FIELD}->value();
       $waypoints[] = array(
         'lon' => $location['lon'],
-        'lat' => $location['lat'],
+        'lat' => -$location['lat'],
         'rad' => $waypoint_radius,
       );
     }
@@ -235,7 +338,7 @@ function at_helper_settings_process(&$settings) {
     $settings['waypoints'][$k]['y'] = round(($settings['waypoints'][$k]['lat'] - $frame_dim['lat_min']) * $pdeg);
     $settings['waypoints'][$k]['radius_pixel'] = round($settings['waypoints'][$k]['radius_degree'] * $pdeg);
   }
-  // Optimale Waypoints (routepoints)
+  // Optimal Waypoints (routepoints)
   foreach ($route_points as $k => $v) {
     // Get coordinates relative to the frame boarders.
     $route_points[$k]['x'] = round(($route_points[$k]['lat'] - $frame_dim['lon_min']) * $pdeg);
@@ -245,7 +348,10 @@ function at_helper_settings_process(&$settings) {
   //$settings['pixel_degree_ratio'] = $pixel_degree_ratio;
   $settings['route_points'] = $route_points;
   
-  //dsm($settings);
+  
+  $settings['frame_dim'] = $frame_dim;
+  
+  dsm($settings);
   
   return $settings;
 }
