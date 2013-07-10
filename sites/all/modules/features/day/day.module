@@ -66,8 +66,8 @@ function _day_pg_race_preview_markup($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $day_status = $wrapper->field_day_status->value();
   
-  // Hide markup if status is != 'Ok'.
-  if ($day_status !== '0') {
+  // Hide markup if status is != 'Ok' or != 'Stopped'.
+  if (($day_status !== '0') || ($day_status !== '1')) {
     return '';
   }
   
