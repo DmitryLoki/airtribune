@@ -73,9 +73,6 @@ if (!$day_number && !($day_number === 0)) {
     ?>
   <?php endif; ?>
 
-  <?php if ($fields['field_day_status']->content != 'Ok'): ?>
-    <?php print $separator . $fields['field_day_status']->content; ?>
-  <?php endif; ?>
   <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
     <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
   <?php else: ?>
