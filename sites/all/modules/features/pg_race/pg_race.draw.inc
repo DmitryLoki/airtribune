@@ -5,17 +5,19 @@ function _at_draw_settings() {
   // TODO: Set settings in extra fields settings
   $settings = array(
     'canvas' => array(
-      'width' => 500,
-      'height' => 400,
+      'width' => 320,
+      'height' => 210,
     ),
     
     'offset' => array(
-      'top' => 30,
-      'bottom' => 30,
-      'right' => 30,
-      'left' => 30,
+      'top' => 20,
+      'bottom' => 20,
+      'right' => 20,
+      'left' => 20,
     ),
     'zoom' => 12,
+    //'zoom' => 11,
+    //https://mts1.google.com/vt/lyrs=t@131,r@223000000&hl=en&src=app&x=1149&y=734&z=11&s=Galil - z11
   );
   
   return $settings;
@@ -290,7 +292,7 @@ function _at_draw_draw_routepoints(&$img, $settings) {
       
       $line_length = round(abs(sqrt(($x1-$x0)*($x1-$x0) + ($y1-$y0)*($y1-$y0))));
       // Draw arrows only if length is greater than 100px.
-      if ($line_length > 100) {
+      if ($line_length > 70) {
         $x_m = round(abs(($x1 + $x0) / 2));
         $y_m = round(abs(($y1 + $y0) / 2));
         
@@ -454,6 +456,7 @@ function _at_draw_get_tiles($settings, $zoom) {
       // Check if file exists.
       if (!file_exists ($path)) {
         $url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';
+        //$url = 'http://mts1.google.com/vt/lyrs=t@131,r@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=Galil';
         
         // http://stackoverflow.com/questions/2440729/php-curl-how-can-i-emulate-a-get-request-exactly-like-a-web-browser
         $agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
