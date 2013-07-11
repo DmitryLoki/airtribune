@@ -187,6 +187,10 @@ function _at_draw_draw_image($settings) {
   }
   $path = $files_path . "/pg_race_{$settings['race_id']}.png";
   
+  if (file_exists($path)) {
+    return $path;
+  }
+  
   $canvas = $settings['canvas'];
   // Create image
   $img = imagecreatetruecolor($canvas['width'], $canvas['height']);

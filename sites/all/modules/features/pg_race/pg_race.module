@@ -234,6 +234,12 @@ function pg_race_field_extra_fields() {
         'description' => t('Link for visualization'),
         'weight' => -5,
       ),
+      
+      'pg_race_preview_image' => array(
+        'label' => t('Paragliding preview image'),
+        'description' => t('Race preview image'),
+        'weight' => -5,
+      ),
     ),
     'display' => array(
       'pg_race_play_link' => array(
