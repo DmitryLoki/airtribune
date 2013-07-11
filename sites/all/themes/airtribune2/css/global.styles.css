@@ -2623,6 +2623,7 @@ table thead tr { background: #f7f8f9}
 tr.odd { background: none}
 table tr.even { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
+table tr.odd .form-item, table tr.even .form-item { white-space: normal;}
 table tbody tr:hover { background: #cceffc;}
 table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
 table thead tr + tr th { font-weight: normal;}
