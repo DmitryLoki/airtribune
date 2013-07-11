@@ -3592,6 +3592,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_race_preview_image']['table'] = 'eck_ent_race';
   $handler->display->display_options['fields']['pg_race_preview_image']['field'] = 'pg_race_preview_image';
   $handler->display->display_options['fields']['pg_race_preview_image']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['pg_race_preview_image']['element_type'] = 'div';
+  $handler->display->display_options['fields']['pg_race_preview_image']['element_class'] = 'race-preview-wrapper';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
