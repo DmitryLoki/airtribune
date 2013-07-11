@@ -448,18 +448,20 @@ function organic_groups_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'base',
+        'handler' => 'event_views',
         'handler_settings' => array(
           'behaviors' => array(
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'device' => 'device',
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+              1 => '[og_membership:id]',
+            ),
+            'display_name' => 'trackers_by_contest',
+            'view_name' => 'contest_trackers',
           ),
         ),
         'profile2_private' => FALSE,
@@ -486,8 +488,12 @@ function organic_groups_field_default_fields() {
         ),
       ),
       'entity_type' => 'og_membership',
+      'exclude_cv' => 0,
       'field_name' => 'field_tracker',
       'label' => 'Link to Tracker',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
@@ -501,14 +507,10 @@ function organic_groups_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
-        'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
-        ),
-        'type' => 'entityreference_autocomplete',
-        'weight' => '0',
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => 0,
       ),
     ),
   );
@@ -615,7 +617,7 @@ function organic_groups_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => 7,
+        'weight' => '7',
       ),
     ),
   );

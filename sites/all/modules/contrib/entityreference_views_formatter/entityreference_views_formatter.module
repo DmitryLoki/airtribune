@@ -1,0 +1,164 @@
+<?php
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function entityreference_views_formatter_field_formatter_info() {
+  return array(
+    'entityreference_views_formatter' => array(
+      'label' => t('Views output'),
+      'field types' => array('entityreference'),
+      'settings' => array('view_name' => '', 'view_display' => ''),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function entityreference_views_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = isset($form_state['values']['fields'][$field['field_name']]['settings_edit_form']) ?
+    $form_state['values']['fields'][$field['field_name']]['settings_edit_form']['settings'] :
+    $display['settings'];
+
+  $element = array();
+  if ($display['type'] == 'entityreference_views_formatter') {
+    $views = array('' => t('-- Please select --')) + _entityreference_views_formatter_get_views();
+    $views_keys = array_keys($views);
+    $selected_view = (isset($settings['view_name']) ? $settings['view_name'] : (isset($views_keys[0]) ? $views_keys[0] : ''));
+    $element['view_name'] = array(
+      '#title' => t('Select a view'),
+      '#description' => t('The view must accept one argument which is the ID of the entity which contains Entity Reference field.'),
+      '#type' => 'select',
+      '#options' => $views,
+      '#default_value' => $selected_view,
+      '#ajax' => array(
+        'event' => 'change',
+        'callback' => '_entityreference_views_formatter_views_dropdown_callback',
+        'wrapper' => 'views-replace',
+      ),
+    );
+    $element['view_display'] = array(
+      '#prefix' => '<div id="views-replace">',
+      '#suffix' => '</div>',
+      '#type' => 'select',
+      '#title' => 'display',
+      '#options' => _entityreference_views_formatter_get_views_displays($selected_view),
+      '#default_value' => isset($settings['view_display']) ? $settings['view_display'] : '',
+    );
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function entityreference_views_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  if ($display['type'] == 'entityreference_views_formatter') {
+    return t('View name: @name', array('@name' => $instance['display']['default']['settings']['view_name'])) . "<br />" .
+      t('View display: @display', array('@display' => $instance['display']['default']['settings']['view_display']));
+  }
+  return '';
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function entityreference_views_formatter_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  foreach ($entities as $id => $entity) {
+    $output = '';
+    $is_empty = TRUE;
+    $view = views_get_view($displays[$id]['settings']['view_name']);
+    if ($view) {
+      $display = $displays[$id]['settings']['view_display'];
+      if ($view->access($display)) {
+        $view->set_display($display);
+        $view->set_arguments(array($id));
+        $output = $view->preview($display);
+        $is_empty = ((strlen($output) == 0) || ((empty($view->result))) && (count($view->display_handler->get_option('empty')) == 0));
+        $view->destroy();
+      }
+    }
+    // We discard the existing items array for this entity and replace it with an
+    // array of just one item, the rendered view output.
+    if (!$is_empty) {
+      $first_item = isset($items[$id][0]) ? $items[$id][0] : array();
+      $first_item['rendered'] = $output;
+      $items[$id] = array($first_item);
+    }
+    else {
+      $items[$id] = array();
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function entityreference_views_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $result = array();
+  if ($display['type'] == 'entityreference_views_formatter') {
+    if (isset($items[0]['rendered'])) {
+      $result[0] = array('#markup' => $items[0]['rendered']);
+    }
+  }
+  return $result;
+}
+
+/**
+ * Ajax callback, triggered when view is changed.
+ */
+function _entityreference_views_formatter_views_dropdown_callback($form, $form_state) {
+  $view_name = $form_state['triggering_element']['#value'];
+  $location = $form_state['triggering_element']['#array_parents'];
+  array_pop($location);
+  $location[] = 'view_display';
+  $item = drupal_array_get_nested_value($form, $location);
+  $item['#options'] = _entityreference_views_formatter_get_views_displays($view_name);
+  $item['#default_value'] = '';
+  return $item;
+}
+
+/**
+ * Helper function to get all views.
+ */
+function _entityreference_views_formatter_get_views() {
+  $enabled_views = array();
+  $views = views_get_enabled_views();
+
+  foreach ($views as $view) {
+    $enabled_views[$view->name] = $view->name;
+  }
+  ksort($enabled_views);
+  return $enabled_views;
+}
+
+/**
+ * Helper function to get all view displays.
+ */
+function _entityreference_views_formatter_get_views_displays($view_name) {
+
+  if (empty($view_name)) {
+    // No view.
+    return array();
+  }
+
+  $views = views_get_enabled_views();
+  if (!isset($views[$view_name])) {
+    return array();
+  }
+
+  $view = $views[$view_name];
+
+  if (empty($view->display)) {
+    // This view is broken.
+    return array();
+  }
+
+  foreach ($view->display as $id => $display) {
+    $displays[$id] = $id .': '. $display->display_title;
+  }
+  return $displays;
+}

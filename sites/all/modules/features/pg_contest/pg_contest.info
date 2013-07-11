@@ -84,6 +84,7 @@ features[field][] = node-pg_contest-field_selection
 features[field][] = node-pg_contest-field_social_links
 features[field][] = node-pg_contest-field_time_zone
 features[field][] = node-pg_contest-field_tiny_path
+features[field][] = node-pg_contest-field_twitter_widget_code
 features[field][] = node-pg_contest-group_group
 features[field][] = node-pg_contest-og_roles_permissions
 features[field_group][] = group_contacs|node|pg_contest|form

@@ -23,6 +23,8 @@ $plugin = array(
     'event_brick_middle_second'      => t('Second middle'), 
     'event_brick_left_below'  => t('Left below'),
     'event_brick_right_below' => t('Right below'),
+    'event_brick_left_below_2'  => t('Left below'),
+    'event_brick_right_below_2' => t('Right below'),
     'event_brick_left_bottom'  => t('Left bottom'),
     'event_brick_right_bottom' => t('Right bottom'),
   ),

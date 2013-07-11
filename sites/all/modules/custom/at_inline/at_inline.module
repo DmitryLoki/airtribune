@@ -1,0 +1,380 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function at_inline_permission() {
+  return array(
+    'set a task' => array(
+      'title' => t('Set a task'),
+      'description' => t('Set paragliding task for event day.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function at_inline_menu() {
+  $items['at-inline-tmp'] = array(
+    'page callback' => 'at_inline_tmp',
+    'access callback' => TRUE,
+    
+    
+    'file' => 'eck.bundle.inc',
+    'file path' => drupal_get_path('module', 'eck'),
+  );
+  // TODO: nojs callback
+  
+  $items['at-inline/ajax/%'] = array(
+    'page callback' => 'at_inline_ajax',
+    'page arguments' => array(2),
+    //'access callback' => TRUE, // TODO:
+    'access arguments' => array('set a task'),
+    //'delivery callback'
+  );
+  return $items;
+}
+
+/**
+ * Ajax callback
+ */
+function at_inline_ajax($day_id) {
+  
+  //drupal_add_js('misc/collapse.js', 'file');
+  
+  // Wrapper select to replace
+  $selector = '#at-inline-' . $day_id;
+  
+  // Get form
+  $form = at_inline_get_form($day_id);
+  
+  // Prepare html
+  $html = drupal_render($form);
+  
+  // Send ajax command
+  $ajax_commands[] = ajax_command_html($selector, $html);
+  ajax_deliver(array('#type' => 'ajax', '#commands' => $ajax_commands));
+}
+
+
+function at_inline_submit_ajax_callback($form, $form_state) {
+  if (form_get_errors()) {
+    $hidden = array('field_photos', 'field_core_id', 'field_competition_results', 'field_day_results', 'field_day_ref', 'field_pg_race_tracks', 'og_group_ref');
+    at_inline_prepare_form($form, $hidden);
+    return $form;
+    
+  }
+  else {
+    return '';
+  }
+}
+
+
+function at_inline_form_alter(&$form, &$form_state, $form_id) {
+    
+  
+  if (strpos($form_id, 'eck__entity__form') === 0) {
+
+    // Do nothing if it isn't an inline form (i.e. this form is shown on its default page).
+    if (!in_array('at_inline_form', $form_state['build_info']['args'])) {
+      return;
+    }
+    
+    $day_id = $form['entity']['#value']->field_day_ref['und'][0]['target_id'];
+    
+    $wrapper_id = 'at-inline-' . $day_id;
+    // Ajaxify submit
+    $form['submit']['#ajax'] = array(
+      'callback' => 'at_inline_submit_ajax_callback',
+      'wrapper' => $wrapper_id,
+      'method' => 'html',
+    );
+    
+    return;
+    
+    
+    
+    
+    // Add redirect to form
+    
+    //dsm($form_state['build_info']['args']);
+    //watchdog('tmp2', serialize($form['#submit']));
+    //$form['submit_redirect'] = 'at-inline-tmp';
+    //$form['#submit'][] = 'at_inline_form_submit';
+    
+    // Redirect path in case validation failed
+    if (empty($_GET['og_group_ref'])) {
+      return;
+    }
+    
+    $nid = $_GET['og_group_ref'];
+    // Get og_membership entities for the current (only nodes)
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('entity_type', 'node', '=')
+      ->propertyCondition('group_type', 'node', '=')
+      ->propertyCondition('gid', $nid, '=')
+      ->execute();
+    
+    if (!empty($result['og_membership'])) {
+      $og_membership_ids = array_keys($result['og_membership']);
+      $entities = entity_load('og_membership', $og_membership_ids);
+      $nids = array();
+      foreach ($entities as $entity) {
+        $nids[] = $entity->etid;
+      }
+      
+      // Get day nodes of the event.
+      $query = new EntityFieldQuery();
+      $result = $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'day')
+        ->propertyCondition('nid', $nids, 'IN')
+        ->propertyCondition('status', 1, '=')
+        ->propertyOrderBy('created')
+        ->execute();
+      
+      // Get day number and prepare anchor for url.
+      if (!empty($result['node'])) {
+        $day_nids = array_keys($result['node']);
+        $key = array_search($day_id, $day_nids);
+        $anchor = $key !== FALSE ? '#!day_' . ($key+1) : '';
+      }
+    }
+    
+
+    
+    //$form_state['redirect'] = url('event/' . $nid . '/blog');
+    //$form_state['redirect'] .= !empty($anchor) ? $anchor : '';
+  }
+}
+
+
+
+function at_inline_tmp() {
+  $day_id = 5497;
+  
+  drupal_add_library('system', 'drupal.ajax');
+  
+  //$output = l(t('AJAX link'), 'at-inline/nojs/1', array('attributes' => array('class' => array('use-ajax'))));
+  $output = l(t('AJAX link'), 'at-inline/nojs/' . $day_id, array('attributes' => array('class' => array('use-ajax'))));
+  //$output = '';
+  $output .= '<div id="at-inline-' . $day_id . '"></div>';
+  
+  
+  
+  
+  return $output;
+}
+
+
+/**
+ * Temporary callback.
+ * For testing purposes only.
+ */
+function at_inline_get_form($day_id) {
+  //dsm($_POST);
+  // TODO:
+  
+  
+  //$gid = _at_inline_set_og_ref($day_id);
+  _at_inline_set_og_ref($day_id);
+  
+  $entity_type = 'ent_race';
+  $bundle = 'pg_race';
+  
+  $race_id = _at_inline_race_exists($day_id);
+  
+  if ($race_id != FALSE) {
+    //$form = eck__entity__edit($entity_type, $bundle, $race_id);
+    $form = _at_inline_eck__entity__edit($entity_type, $bundle, $race_id);
+    
+  }
+  else {
+    // TODO: "Edit" case
+    //$form = eck__entity__add($entity_type, $bundle);
+    $form = _at_inline_eck__entity__add($entity_type, $bundle, $day_id);
+  }
+  
+  //dsm($form['submit_redirect']);
+  //watchdog('tmp2', serialize($form['#submit']));
+  //$form['submit_redirect'] = 'at-inline-tmp';
+  //$form['entity']['#value']->field_day_ref['und'][0]['target_id'] = 5497;
+  
+  //$form['#submit'][] = 'at_inline_form_submit';
+  
+  $hidden = array('field_photos', 'field_core_id', 'field_competition_results', 'field_day_results', 'field_day_ref', 'field_pg_race_tracks', 'og_group_ref');
+  at_inline_prepare_form($form, $hidden);
+  return $form;
+}
+
+
+function at_inline_form_submit($form, &$form_state) {
+  $form_state['redirect'] = 'at-inline-tmp';
+}
+
+function at_inline_prepare_form(&$form, $hidden) {
+  $form['#prefix'] = '<a class="at-inline-close">' . t('Close') . '</a>';
+  foreach ($hidden as $k => $v) {
+    // Hide element only if it exists,
+    // e.g. OG_GROUP_REF is shown only on edit form
+    if (isset($form[$v])) {
+      $form[$v]['#access'] = FALSE;
+    }
+  }
+}
+
+function at_inline_entity_presave($entity, $type) {
+  if ($type == 'ent_race') {
+    //dsm($entity);
+  }
+}
+
+
+
+// TODO:
+// Return $group_id
+function _at_inline_set_og_ref($day_id) {
+  // see entityreference_prepopulate() line 271 (!is_string($_GET[$field_name])
+  //5364
+  $day_node = node_load($day_id);
+  $og_group_ref = field_get_items('node', $day_node, 'og_group_ref');
+  //
+  
+  // TODO: Add checks
+  $group_id = $og_group_ref[0]['target_id'];
+  //dsm($og_group_ref);
+  //$group_id = 5438;
+  $_GET['og_group_ref'] = (string) $group_id;
+  return $group_id;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Modified version of eck__entity__add().
+ */
+function _at_inline_eck__entity__add($entity_type_name, $bundle_name, $day_id) {
+  $entity_type = entity_type_load($entity_type_name);
+  $bundle = bundle_load($entity_type_name, $bundle_name);
+  
+  $entity = entity_create($entity_type->name, array('type' => $bundle->name));
+  
+  // Set day id, since it is hidden in add/edit form
+  //$wrapper = entity_metadata_wrapper('ent_race', $entity);
+  //$wrapper->field_day_ref->value();
+  $entity->field_day_ref['und'][0]['target_id'] = $day_id;
+  
+  return drupal_get_form("eck__entity__form_add_{$entity_type_name}_{$bundle_name}", $entity, 'at_inline_form');
+}
+
+/**
+ * Modified version eck__entity__edit().
+ */
+function _at_inline_eck__entity__edit($entity_type_name, $bundle_name, $id) {
+  if (is_numeric($id)) {
+    $entities = entity_load($entity_type_name, array($id));
+    $entity = $entities[$id];
+  }
+
+  return drupal_get_form("eck__entity__form_edit_{$entity_type_name}_{$bundle_name}", $entity, 'at_inline_form');
+}
+
+
+
+
+function _at_inline_race_exists($day_id) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'ent_race')
+        ->entityCondition('bundle', 'pg_race')
+        ->fieldCondition('field_day_ref', 'target_id', $day_id, '=');
+  $result = $query->execute();
+  if (!empty($result['ent_race'])) {
+    $entity = array_shift($result['ent_race']);
+    return $entity->id;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Implements hook_field_extra_fields()
+ */
+function at_inline_field_extra_fields() {
+  
+  $extra['node']['day'] = array(
+    /*
+    'form' => array(
+      'day_set_a_task' => array(
+        'label' => t('Paragliding race link'),
+        'description' => t('Link for visualization'),
+        'weight' => -5,
+      ),
+    ),
+    */
+    'display' => array(
+      'day_set_a_task' => array(
+        'label' => t('Set a task link'),
+        'description' => t('Link to add/edit day task'),
+        'weight' => -5,
+        'callback' => 'day_set_a_task',
+      ),
+    ),
+  );
+  
+  return $extra;
+}
+
+function day_set_a_task($entity) {
+  if (!user_access('set a task')) {
+    return;
+  }
+  $markup = _at_inline_set_a_task_link($entity);
+  return $markup;
+}
+
+/**
+ * Implements hook_entity_view()
+ */
+function at_inline_entity_view($entity, $type, $view_mode, $langcode) {
+  
+  if (!user_access('set a task')) {
+    return;
+  }
+  if ($type == 'node' && $entity->type == 'day') {
+    $markup = _at_inline_set_a_task_link($entity);
+    
+    $entity->content['day_set_a_task'] = array(
+      '#type' => 'item',
+      //'#title' => $title,
+      '#markup' => $markup,
+    );
+  }
+  
+}
+
+function _at_inline_set_a_task_link($node) {
+  drupal_add_library('system', 'drupal.ajax');
+  
+  drupal_add_js('misc/jquery.form.js', 'file');
+  // Fix conflict with visualization jquery version on event blog page
+  drupal_add_js(drupal_get_path('module', 'at_inline') . '/at_inline.js', 'file');  
+  
+  $link_text = _at_inline_race_exists($node->nid) ? t('Edit task') : t('Set a task');
+  $output = t('<a href="/at-inline/nojs/' . $node->nid . '" class="use-ajax set-a-task-link" rel="nofollow">' . $link_text . '</a><div id="at-inline-' . $node->nid . '" class="at-inline-set-a-task-wrapper"></div>');
+  return $output;
+}
+
+

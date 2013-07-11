@@ -46,9 +46,9 @@ function airtribune_arg_event_context($arg = NULL, $conf = NULL, $empty = FALSE)
     $node = $wrapper->value();
   }
   // Fetch event node from OG.
-  elseif (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD})) {
-    if ($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
-      $node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+  elseif (isset($wrapper->{OG_AUDIENCE_FIELD})) {
+    if ($wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      $node = $wrapper->{OG_AUDIENCE_FIELD}[0]->value();
     }
   }
   if (!$node) {

@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the custom_object feature.
- */
-
-include_once 'ent_custom_object.features.inc';
