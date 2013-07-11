@@ -165,6 +165,38 @@ class ATSyncContest extends ATSync {
 }
 
 /**
+ * Class for synchronization custom_object (transport) see #3446
+ */
+class ATSyncCustom extends ATSync {
+  public $address = "transport";
+  public function synchronize() {
+    $core_id = get_id_from_entity($this->entity, 'custom_object');
+    // change address if contest already in Core
+    if ($core_id) {
+      $this->address .= '/' . $core_id;
+    }
+    $allowed_custom_types = list_allowed_values(field_info_field('field_customobject_type'));
+    $data = array(
+      'type' => $allowed_custom_types[$this->entity->field_customobject_type[LANGUAGE_NONE][0]['value']],
+      'title' => $this->entity->title,
+      'description' => $this->entity->field_customobject_description[LANGUAGE_NONE][0]['value'],
+    );
+    _d($data);
+    if ($core_id) {
+      $response = $this->request(json_encode($data), "PUT");
+    }
+    else {
+      $response = $this->request(http_build_query($data));
+      $this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
+  }
+
+  public function check() {
+  }
+}
+
+/**
  * Class for synchronization person
  */
 class ATSyncPerson extends ATSync {
