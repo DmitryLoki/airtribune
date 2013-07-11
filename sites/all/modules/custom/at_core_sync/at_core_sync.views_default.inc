@@ -888,6 +888,19 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
   $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
+  /* Field: Field: Mobile phone number */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
+  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_phone']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_phone']['settings'] = array(
+    'click_to_edit' => 0,
+    'empty_text' => '',
+    'fallback_format' => 'global_phone_number',
+  );
   /* Sort criterion: OG membership: Payment status (field_pg_contestant_status) */
   $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
@@ -1063,6 +1076,7 @@ function at_core_sync_views_default_views() {
     t('[field_full_name] '),
     t('Payment status'),
     t('Core status'),
+    t('Phone number'),
     t('All'),
     t('List of contestants (manage)'),
     t('Contestants count (manage)'),
