@@ -3018,7 +3018,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane-event-days-results-race-list .views-row:after { content:"."; clear:both; visibility:hidden; display:block; height:0}
 .pane-event-days-results-race-list .views-field { margin-left: 350px;}
 .pane-event-days-results-race-list .views-field .views-field { margin-left: 0;}
-.pane-event-days-results-race-list .views-field-nothing-1 { margin-left: 0; width: 320px; height: 210px; background: #f8f7f3; float: left; overflow: hidden; text-indent: -9999px; margin-top: 4px;}
+.pane-event-days-results-race-list .views-field-pg-race-preview-image { margin-left: 0; width: 320px; height: 210px; background: #f8f7f3; float: left; overflow: hidden; margin-top: 4px;}
 .pane-event-days-results-race-list .results_head { position: relative; margin-left: 346px; padding-left: 2px; background: url(../images/teaser_border.png) repeat-x 0 100%; font: 24px/26px Arial, Helvetica, sans-serif; padding-bottom: 12px; margin-bottom: 18px;}
 .pane-event-days-results-race-list .task_title { color: #333a40; padding-bottom: 8px; font-weight: bold;}
 .pane-event-days-results-race-list .posted { position: absolute; top: 0; right: 0; color: #87919b}
