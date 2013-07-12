@@ -216,6 +216,18 @@ class ATSyncPerson extends ATSync {
       'email' => $this->entity->mail,
       'reg_date' => date("Y,m,d", $this->entity->created),
     );
+
+    if (!empty($this->entity->field_phone[LANGUAGE_NONE][0]['number'])) {
+      $full_number = '';
+      $number = $this->entity->field_phone[LANGUAGE_NONE][0]['number'];
+      $countrycode = $this->entity->field_phone[LANGUAGE_NONE][0]['country_codes'];
+      $cc = cck_phone_countrycodes();
+        $full_number = '';
+        if ($countrycode && isset($cc[$countrycode])) {
+          $full_number = $cc[$countrycode]['code'] . $number;
+      }
+      $data['phone'] = $full_number;
+    }
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $response = $this->request(json_encode($data), "PUT");
@@ -264,9 +276,9 @@ class ATSyncPilot extends ATSync {
       $sync = _get_class_by_entity('node', $this->contest);
       $this->contest_core_id = $sync->synchronize();
     }
-
+    $this->person->field_phone = $this->entity->field_phone;
     if (!$this->person_core_id) {
-      // Synchronize pilot if not synchronized
+      // Synchronize person if not synchronized
       $sync = _get_class_by_entity('user', $this->person);
       $this->person_core_id = $sync->synchronize();
     } else {
@@ -275,6 +287,9 @@ class ATSyncPilot extends ATSync {
         ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
         return FALSE;
       }
+      // Synchronize person for save phone
+      $sync = _get_class_by_entity('user', $this->person);
+      $this->person_core_id = $sync->synchronize();
     }
     $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
     $data = array(
