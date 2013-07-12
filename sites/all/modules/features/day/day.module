@@ -143,7 +143,6 @@ function _day_pg_race_preview_markup($node) {
         $time = date('H:i:s', $countdown_time);
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $help_text = t('Race starts in');
-        drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
         drupal_add_js(array('Day' => array('localtime' => $localtime*1000)), 'setting');
         drupal_add_js(array('Day' => array('offset' => $offset*1000)), 'setting');
         break;
@@ -156,6 +155,8 @@ function _day_pg_race_preview_markup($node) {
         $link_text = t('Replay');
         break;
     }
+    
+    drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
   }
   else {
     // Default link and help text in case task isn't set.

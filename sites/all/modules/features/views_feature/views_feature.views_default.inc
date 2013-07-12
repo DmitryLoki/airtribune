@@ -3394,7 +3394,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['ui_name'] = 'Link to retrieve';
   $handler->display->display_options['fields']['nothing_1']['label'] = '';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="http://retrieve.airtribune.com/index.php?contestid=[field_core_id_1]&raceid=[field_core_id]" >Retrieve table</a>';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="http://retrieve.airtribune.com/table/index.php?contestid=[field_core_id_1]&raceid=[field_core_id]" >Retrieve table</a>';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
@@ -3469,6 +3469,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['label'] = 'Day ';
+  $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_status']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
@@ -3683,7 +3684,7 @@ return array($event_id);';
     t('Race points'),
     t('All'),
     t('List of day (accordion)'),
-    t('<a href="http://retrieve.airtribune.com/index.php?contestid=[field_core_id_1]&raceid=[field_core_id]" >Retrieve table</a>'),
+    t('<a href="http://retrieve.airtribune.com/table/index.php?contestid=[field_core_id_1]&raceid=[field_core_id]" >Retrieve table</a>'),
     t('View panes'),
     t('List of race (results)'),
     t('Tasks and results'),

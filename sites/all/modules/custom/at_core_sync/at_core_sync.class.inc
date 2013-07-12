@@ -90,8 +90,12 @@ abstract class ATSync {
 
       case 502:
       case 504:
+        ATSync::setMessage(t("Core API is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url))), 'error');
+        watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+        break;
+
       case 0:
-        ATSync::setMessage(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))), 'error');
+        ATSync::setMessage(t("Core API is unreachable at (!url) (timeout), request queued.", array('!url' => l($url, $url))), 'error');
         watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
         break;
 
