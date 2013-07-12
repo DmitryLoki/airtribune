@@ -807,6 +807,11 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
+  // Disable admin menu on visualisation page
+  if (arg(0) == 'play' & is_numeric(arg(1))) {
+    module_invoke('admin_menu', 'suppress');
+  }
+
   // We need distinguish drupal pages, to get pinba statistics.
   // Change name of script from 'index.php' to requested $q variable
   // @see #3283
