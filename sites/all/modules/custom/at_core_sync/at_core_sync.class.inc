@@ -366,6 +366,13 @@ class ATSyncRace extends ATSync {
         case "racetogoal":
           if ($delta == count($points) - 1) {
             $point_data['properties']['checkpoint_type'] = "goal";
+
+            // Goal as Line
+            if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'line') {
+              $point_data['geometry']['type'] = 'LineString';
+              $tmp = $point_data['geometry']['coordinates'];
+              $point_data['geometry']['coordinates'] = array($tmp, $tmp);
+            }
           }
           if (in_array($point_data['properties']['checkpoint_type'], array('ss', 'es', 'goal'))) {
           $point_data['properties']['open_time'] = $data['start_time'];
@@ -421,7 +428,7 @@ class ATSyncRace extends ATSync {
 
       $this->address = implode('/', array('contest', $contest_core_id, 'race'));
       if ($race_core_id = get_race_id_from_race($this->entity)) {
-        $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id, '/track_archive'));
+        $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id, 'track_archive'));
         $response = $this->request('url='.file_create_url(file_load($fid)->uri));
       } else {
         ATSync::setMessage(t("Core API: Unable to send tracks. Race not synchronized yet."));
