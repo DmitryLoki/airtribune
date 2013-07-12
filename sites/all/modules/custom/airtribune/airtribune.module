@@ -8,6 +8,7 @@
 include_once 'airtribune_nodes.inc';
 
 define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
+define('AIRTRIBUNE_RETRIEVE_URL','http://retrieve.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -808,7 +809,7 @@ function airtribune_entity_delete($entity, $type) {
  */
 function airtribune_init() {
   // Disable admin menu on visualisation page
-  if (arg(0) == 'play' & is_numeric(arg(1))) {
+  if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
   }
 

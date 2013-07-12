@@ -5797,6 +5797,115 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->default_handlers[$handler->name] = $handler;
   $pages['player'] = $page;
 
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'retrieve_map';
+  $page->task = 'page';
+  $page->admin_title = 'Retrieve map';
+  $page->admin_description = '';
+  $page->path = 'retrieve/%race';
+  $page->access = array(
+    'logic' => 'and',
+  );
+  $page->menu = array(
+    'type' => 'none',
+    'title' => '',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'race' => array(
+      'id' => 1,
+      'identifier' => 'Race: ID',
+      'name' => 'entity_id:ent_race',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_retrieve_map_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'retrieve_map';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Retrieve map',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
+        'keyword' => 'node',
+        'name' => 'entity_from_field:og_group_ref-ent_race-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+    ),
+    'access' => array(
+      'logic' => 'and',
+    ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_5',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-76';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_player';
+    $pane->subtype = 'airtribune_player';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:ent_race_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'widget_type' => 'retrieve',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-76'] = $pane;
+    $display->panels['middle'][0] = 'new-76';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-76';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['retrieve_map'] = $page;
+
   return $pages;
 
 }
