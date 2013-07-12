@@ -2599,7 +2599,6 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .views-field-field-phone .editablefield-item .field-type-phone-number input.simple-phone-full-number { width: 140px;}
 .views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number input {width: 40px;}
 .views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number .description { display: none;}
-#views-form-paragliding-pilots-list-manage .form-item { white-space: nowrap;}
 #views-form-paragliding-pilots-list-manage .inline-label { display: inline-block;}
 
 .view-paragliding-pilots-list caption .sex { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
@@ -2629,7 +2628,6 @@ table thead tr { background: #f7f8f9}
 tr.odd { background: none}
 table tr.even { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
-table tr.odd .form-item, table tr.even .form-item { white-space: normal;}
 table tbody tr:hover { background: #cceffc;}
 table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
 table thead tr + tr th { font-weight: normal;}
