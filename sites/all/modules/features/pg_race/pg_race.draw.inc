@@ -10,10 +10,10 @@ function _at_draw_settings() {
     ),
     
     'offset' => array(
-      'top' => 20,
-      'bottom' => 20,
-      'right' => 20,
-      'left' => 20,
+      'top' => 10,
+      'bottom' => 10,
+      'right' => 10,
+      'left' => 10,
     ),
     'zoom' => 12,
     //'zoom' => 11,
@@ -80,7 +80,7 @@ function _at_draw_get_image($race_id) {
       'lat_min' => $waypoint['lat'] - $rad_lat,
       'lat_max' => $waypoint['lat'] + $rad_lat,
     );
-    
+    /*
     // Get box dimensions in coordinates
     foreach (array('lon_min', 'lon_max', 'lat_min', 'lat_max') as $key_name) {
       if (!isset($box[$key_name])) {
@@ -95,10 +95,28 @@ function _at_draw_get_image($race_id) {
         }
       }
     }
-    
+    */
     $waypoints[$k] = $waypoint;
   }
   
+  foreach ($routepoints as $k => $routepoint) {
+    $routepoint['lon_min'] = $routepoint['lon_max'] = $routepoint['lon'];
+    $routepoint['lat_min'] = $routepoint['lat_max'] = $routepoint['lat'];
+    // Get box dimensions in coordinates
+    foreach (array('lon_min', 'lon_max', 'lat_min', 'lat_max') as $key_name) {
+      if (!isset($box[$key_name])) {
+        $box[$key_name] = $routepoint[$key_name];
+      }
+      else {
+        if (in_array($key_name, array('lon_min', 'lat_min')) && $box[$key_name] > $routepoint[$key_name]) {
+          $box[$key_name] = $routepoint[$key_name];
+        }
+        elseif (in_array($key_name, array('lon_max', 'lat_max')) && $box[$key_name] < $routepoint[$key_name]) {
+          $box[$key_name] = $routepoint[$key_name];
+        }
+      }
+    }
+  }
   
   
   // Calculate box center
