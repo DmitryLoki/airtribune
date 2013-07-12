@@ -9,7 +9,8 @@
         var setTime = function () {
 
           d = Math.floor((Drupal.settings.Day.start_time - new Date().getTime()) / 1000);
-          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(Math.floor(d / 3600), Math.floor(d % 3600 / 60), d % 60));
+          var absD = Math.abs(d);
+          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
 
           if (d < 0) {
             var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
@@ -40,9 +41,10 @@
             setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', raceData.isOnline);
             setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline);
             $raceButton.show();
-            $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
               setOnlineTimeView(true);
+            } else {
+              $raceBlock.addClass('race-block-activated');
             }
           } else {
             if(raceData.isOnline) {
@@ -58,8 +60,8 @@
       });
 
       function setOnlineTimeView(isRaceStateReady) {
+        var raceBlock = timeHelperText.parents('.race-links');
         if (d <= 0) {
-          var raceBlock = timeHelperText.parents('.race-links');
           raceBlock.removeClass('race-awaiting');
           if (isRaceStateReady) {
             raceBlock.addClass('race-online');
@@ -69,6 +71,8 @@
             timeHelperText.hide();
             helperText.text('Button will be here as soon as task is set.');
           }
+        } else if(isRaceStateReady) {
+          raceBlock.addClass('race-block-activated');
         }
       }
 
