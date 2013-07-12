@@ -51,7 +51,7 @@ function airtribune_event_dates_access_check($conf, $context) {
   else {
     // Path breadcrumbs doesn't support relationships.
     // So we have fetch event node from OG ref field.
-    $og_items = field_get_items('node', $context->data, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+    $og_items = field_get_items('node', $context->data, OG_AUDIENCE_FIELD);
     if (isset($og_items[0]['target_id'])) {
       $node = node_load($og_items[0]['target_id']);
     }

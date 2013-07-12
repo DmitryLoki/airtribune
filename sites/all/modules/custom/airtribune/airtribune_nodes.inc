@@ -9,7 +9,6 @@
  * @see #2860
  */
 
-
 /**
  * Implements hook_node_info().
  */
@@ -34,6 +33,14 @@ function airtribune_node_info() {
     'advert' => array(
       'name' => t('Advertisement'),
       'base' => 'advert',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'day' => array(
+      'name' => t('Day'),
+      'base' => 'day',
       'description' => '',
       'has_title' => '1',
       'title_label' => t('Title'),

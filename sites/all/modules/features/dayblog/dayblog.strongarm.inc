@@ -13,6 +13,27 @@ function dayblog_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ant_dayblog';
+  $strongarm->value = '1';
+  $export['ant_dayblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_dayblog';
+  $strongarm->value = 'Day blog - [node:created] - [node:field_plain_body]';
+  $export['ant_pattern_dayblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_dayblog';
+  $strongarm->value = 0;
+  $export['ant_php_dayblog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__dayblog';
   $strongarm->value = array(
     'view_modes' => array(
@@ -101,27 +122,6 @@ function dayblog_strongarm() {
   $strongarm->name = 'node_submitted_dayblog';
   $strongarm->value = 1;
   $export['node_submitted_dayblog'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_dayblog';
-  $strongarm->value = '1';
-  $export['ant_dayblog'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_pattern_dayblog';
-  $strongarm->value = 'Day blog - [node:created] - [node:field_plain_body]';
-  $export['ant_pattern_dayblog'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_php_dayblog';
-  $strongarm->value = 0;
-  $export['ant_php_dayblog'] = $strongarm;
 
   return $export;
 }

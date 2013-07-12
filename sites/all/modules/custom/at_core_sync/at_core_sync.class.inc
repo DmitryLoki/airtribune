@@ -17,10 +17,11 @@ abstract class ATSync {
     $url = at_core_sync_get_api_url() . '/' . $address;
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_PORT, 80);
-    curl_setopt($handle, CURLOPT_TIMEOUT, 5);
+    curl_setopt($handle, CURLOPT_TIMEOUT, 30);
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($handle, CURLOPT_HTTPHEADER, array('Expect:') );
 
     switch ($method) {
       case 'GET':
@@ -89,8 +90,12 @@ abstract class ATSync {
 
       case 502:
       case 504:
+        ATSync::setMessage(t("Core API is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url))), 'error');
+        watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+        break;
+
       case 0:
-        ATSync::setMessage(t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))), 'error');
+        ATSync::setMessage(t("Core API is unreachable at (!url) (timeout), request queued.", array('!url' => l($url, $url))), 'error');
         watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
         break;
 
@@ -205,15 +210,17 @@ class ATSyncPerson extends ATSync {
 class ATSyncPilot extends ATSync {
   public $address = "contest/";
   public $person_core_id = '';
+  public $contest = NULL;
   public $contest_core_id = '';
   public $tracker = NULL;
+  public $person = NULL;
 
   public function __construct($entity, $entity_type) {
     parent::__construct($entity, $entity_type);
-    $contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_contest($contest);
-    $person = user_load($this->entity->etid, TRUE);
-    $this->person_core_id = get_id_from_user($person);
+    $this->contest = node_load($this->entity->gid, NULL, TRUE);
+    $this->contest_core_id = get_id_from_contest($this->contest);
+    $this->person = user_load($this->entity->etid, TRUE);
+    $this->person_core_id = get_id_from_user($this->person);
     $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
     if ($tracker_eid) {
       $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
@@ -225,28 +232,26 @@ class ATSyncPilot extends ATSync {
     if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
       return FALSE;
     }
-    $contest = node_load($this->entity->gid, NULL, TRUE);
-    $contest_core_id = $this->contest_core_id;
-    if (!$contest_core_id) {
+    if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity($contest, 'node');
-      $contest_core_id = $sync->synchronize();
+      $sync = _get_class_by_entity($this->contest, 'node');
+      $this->contest_core_id = $sync->synchronize();
     }
-    $person_core_id = $this->person_core_id;
-    if (!$person_core_id) {
+
+    if (!$this->person_core_id) {
       // Synchronize pilot if not synchronized
-      $sync = _get_class_by_entity($person, 'user');
-      $person_core_id = $sync->synchronize();
+      $sync = _get_class_by_entity($this->person, 'user');
+      $this->person_core_id = $sync->synchronize();
     } else {
-      $resp = ATSync::requestToCore('person/' . $person_core_id, '', 'GET');
+      $resp = ATSync::requestToCore('person/' . $this->person_core_id, '', 'GET');
       if (isset($resp->error)) {
         ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
         return FALSE;
       }
     }
-    $this->address = implode('/', array('contest', $contest_core_id, 'paraglider'));
+    $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
     $data = array(
-      'person_id' => $person_core_id,
+      'person_id' => $this->person_core_id,
       'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
       'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
     );
@@ -454,10 +459,8 @@ class ATSyncTracker extends ATSync {
     if ($core_id = get_id_from_entity($this->entity)) {
       $this->address .= '/' . $core_id;
       $data_update['name'] = $data['name'];
-      dpm($data_update);
       $response = $this->request(json_encode($data_update), 'PUT');
     } else {
-      dpm($data);
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }

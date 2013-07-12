@@ -24,7 +24,6 @@ define('AIRTRIBUNE_COUNTRY_FIELD', 'field_country');
 define('AIRTRIBUNE_CITY_FIELD', 'field_city');
 define('AIRTRIBUNE_DATES_FIELD', 'field_dates');
 define('AIRTRIBUNE_TIMEZONE_FIELD', 'field_time_zone');
-define('AIRTRIBUNE_OG_GROUP_REF_FIELD', 'og_group_ref');
 define('AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD', 'field_pg_contestant_status');
 define('AIRTRIBUNE_CONTEST_PHOTOS_FIELD', 'field_contest_photos');
 define('AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD', 'field_flying_site_photos');
@@ -40,6 +39,8 @@ define('AIRTRIBUNE_DAY_RESULTS_FIELD', 'field_day_results');
 define('AIRTRIBUNE_DAY_REF_FIELD', 'field_day_ref');
 define('AIRTRIBUNE_COMPETITION_RESULTS_FIELD', 'field_competition_results');
 define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
+define('AIRTRIBUNE_RACE_NUMBER', 'field_race_number');
+define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 
@@ -55,6 +56,7 @@ define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
+define('AIRTRIBUNE_DAY_TYPE', 'day');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
@@ -62,6 +64,11 @@ define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
+define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
+
+// Memberships
+define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
+define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -86,6 +93,95 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function airtribune_form_alter(&$form, &$form_state, $form_id) {
+  // Add functional of selection of the membership to OG member adding form.
+  if ($form_id == 'og_ui_add_users') {
+    // Remove membership fields, loaded to og_ui_add_users form by default.
+    // This default membership set in people account settings
+    // at /admin/config/people/accounts/fields/og_user_node
+    unset($form['membership_fields']);
+
+    // load all available memberships
+    $query = new EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'og_membership_type')->execute();
+    if (!empty($result['og_membership_type'])) {
+      $membership_type_ids = array_keys($result['og_membership_type']);
+      $membership_types = entity_load('og_membership_type', $membership_type_ids);
+    }
+
+    // Remove OG_MEMBERSHIP_TYPE_DEFAULT, which have ID=1 in database,
+    // and also have key=1 in $membership_types array.
+    unset($membership_types[1]);
+
+    // Set default loaded membership for this form to usual 'contestant'
+    $values['type'] = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+
+    // TODO refactor to ajax loading form
+    // Can we load membership_type from $_GET ?
+    $type_from_get = !empty($_GET['type']) ? $_GET['type'] : AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+    $links = '';
+    foreach ($membership_types as $v) {
+      if ($type_from_get == $v->name) {
+        // membership_type from GET parameter is correct and in database?
+        $values['type'] = $type_from_get;
+        $links .= "<b>&#9658;{$v->description}</b><br>";
+      }
+      else {
+        $links .= "<a href='?type={$v->name}'>{$v->description}</a><br>";
+      }
+    }
+    // links to select membership
+    $form['og_user']['membership_type_select'] = array(
+      '#markup' => $links,
+      '#prefix' => '<div><div><b>'. t('Type') .'</b></div>',
+      '#suffix' => '</div>',
+    );
+
+    // Add group membership form.
+    $gid = $form['gid']['#value'];
+    $group_type = $form['group_type']['#value'];
+    $og_membership = airtribune_og_membership_create($group_type, $gid, 'user', 0, 'og_user_node', $values);
+    $form_state['og_membership'] = $og_membership;
+
+    $form['membership_fields'] = array(
+      '#prefix' => '<div id="og-ui-field-name">',
+      '#suffix' => '</div>',
+      '#tree' => TRUE,
+      '#parents' => array('membership_fields'),
+    );
+    field_attach_form('og_membership', $og_membership, $form['membership_fields'], $form_state);
+  }
+}
+
+/**
+ * Overridden og_membership_create()
+ * Create membership using predefined $values['type'], not using default membership from og_user_node
+ */
+function airtribune_og_membership_create($group_type, $gid, $entity_type, $etid, $field_name, $values = array()) {
+  global $language;
+
+  $values += array(
+    'group_type' => $group_type,
+    'gid' => $gid,
+    'entity_type' => $entity_type,
+    'etid' => $etid,
+    'state' => OG_STATE_ACTIVE,
+    'created' => time(),
+    'field_name' => $field_name,
+    'language' => $language->language,
+  );
+
+  if (!og_is_group_audience_field($field_name)) {
+    throw new OgException(format_string('%field-name is not a valid group-audience field.', array('%field-name' => $field_name)));
+  }
+
+  $wrapper = entity_property_values_create_entity('og_membership', $values);
+  return $wrapper->value();
 }
 
 /**
@@ -309,7 +405,6 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
-
   $configuration = $vars['pane']->configuration;
 
 
@@ -366,7 +461,14 @@ function airtribune_preprocess_panels_pane(&$vars) {
   }
 
   // Add links to switch view of pilots list
-  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE) {
+  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
+    if (!empty($vars['user']->roles[3]) || $vars['user']->uid == 1) {
+      $pilots_links[] = array(
+        'title' => 'Manage',
+        'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
+        'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-manage') ? ' active' : ''),
+      );
+    }
     $pilots_links[] = array(
       'title' => 'Group by status',
       'link' => url('event/' . $vars['display']->args[0] . '/pilots/status'),
@@ -512,8 +614,8 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
     // Fetch event node from OG.
     else {
       $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
-      if (isset($wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}) && $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
-        $raw_node = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}[0]->value();
+      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        $raw_node = $wrapper->{OG_AUDIENCE_FIELD}[0]->value();
       }
     }
   }
@@ -591,7 +693,6 @@ function airtribune_views_query_alter(&$view, &$query) {
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
-
 }
 
 /**
@@ -683,6 +784,19 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function airtribune_entity_delete($entity, $type) {
+  // When entity success deleted, og_membership is still in database
+  // fix this by manual deletion the record
+  // @see #3452
+  db_delete('og_membership')
+    ->condition('entity_type', $type)
+    ->condition('etid', $entity->id)
+    ->execute();
 }
 
 /**
@@ -917,6 +1031,7 @@ function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
   }
 }
 
+
 /**
  * Get paragliding race status
  * 
@@ -935,7 +1050,7 @@ function _airtribune_pg_race_online_status($etid) {
   
   // Get referenced pg_contest node
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
-  $nodes = $wrapper->{AIRTRIBUNE_OG_GROUP_REF_FIELD}->value();
+  $nodes = $wrapper->{OG_AUDIENCE_FIELD}->value();
   if (empty($nodes)) {
     return;
   }
@@ -969,3 +1084,17 @@ function _airtribune_pg_race_online_status($etid) {
     return FALSE;
   }
 }
+
+function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
+  $view = views_get_view('contest_trackers');
+  $view->set_arguments(array($contest_id, $contestant_id));
+  $view->query->where[0]['type'] = 'OR';
+  $view->execute();
+  $response = $view->result;
+  $ids = array();
+  foreach ($response as $tracker) {
+    $ids[] = $tracker->id;
+  }
+  return implode('+',$ids);
+}
+
