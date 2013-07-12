@@ -7140,6 +7140,19 @@ return array($event_id);';
       'prefix_suffix' => 1,
     ),
   );
+  /* Field: Field: Mobile phone number */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
+  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_phone']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_phone']['settings'] = array(
+    'click_to_edit' => 0,
+    'empty_text' => '',
+    'fallback_format' => 'global_phone_number',
+  );
   /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
@@ -7299,6 +7312,7 @@ return array($event_id);';
     t('[field_tracker-target_id]'),
     t('Manage'),
     t('[field_full_name]'),
+    t('Phone number'),
     t('Manage event pilots'),
   );
   $export['paragliding_pilots_list'] = $view;

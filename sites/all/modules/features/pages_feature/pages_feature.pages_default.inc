@@ -1143,7 +1143,19 @@ event/*/map/accommodations',
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/pilots/manage',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'context' => 'node',
       'override_title' => 1,
@@ -1169,7 +1181,17 @@ event/*/map/accommodations',
     $pane->subtype = 'advert_list-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(),
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/pilots/manage',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
     );
     $pane->configuration = array(
       'context' => array(
@@ -1208,6 +1230,15 @@ event/*/map/accommodations',
           'context' => 'logged-in-user',
           'not' => FALSE,
         ),
+        3 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/pilots/manage',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array(
@@ -1234,7 +1265,17 @@ event/*/map/accommodations',
     $pane->subtype = 'next_events-sidebar_pane';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(),
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/pilots/manage',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
     );
     $pane->configuration = array();
     $pane->cache = array(
@@ -4855,6 +4896,103 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'page_event_pilots_panel_context_4';
+  $handler->task = 'page';
+  $handler->subtask = 'event_pilots';
+  $handler->handler = 'panel_context';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => 'Pilots (Manage)',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/pilots/manage',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'content' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
+      'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-63';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-manage';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-63'] = $pane;
+    $display->panels['middle'][0] = 'new-63';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'page_event_pilots_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
@@ -4942,23 +5080,13 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-63';
+    $pane->pid = 'new-64';
     $pane->panel = 'middle';
     $pane->type = 'pilots_statistics';
     $pane->subtype = 'pilots_statistics';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*/pilots/manage',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
     );
     $pane->configuration = array();
     $pane->cache = array(
@@ -4975,10 +5103,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-63'] = $pane;
-    $display->panels['middle'][0] = 'new-63';
+    $display->content['new-64'] = $pane;
+    $display->panels['middle'][0] = 'new-64';
     $pane = new stdClass();
-    $pane->pid = 'new-64';
+    $pane->pid = 'new-65';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -5014,10 +5142,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-64'] = $pane;
-    $display->panels['middle'][1] = 'new-64';
+    $display->content['new-65'] = $pane;
+    $display->panels['middle'][1] = 'new-65';
     $pane = new stdClass();
-    $pane->pid = 'new-65';
+    $pane->pid = 'new-66';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -5056,106 +5184,9 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-65'] = $pane;
-    $display->panels['middle'][2] = 'new-65';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_event_pilots_panel_context_4';
-  $handler->task = 'page';
-  $handler->subtask = 'event_pilots';
-  $handler->handler = 'panel_context';
-  $handler->weight = -30;
-  $handler->conf = array(
-    'title' => 'Pilots (Manage)',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*/pilots/manage',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'og_perm',
-          'settings' => array(
-            'perm' => 'administer group',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:node_1',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'sidebar_first' => NULL,
-      'sidebar_second' => NULL,
-      'content' => NULL,
-      'highlighted' => NULL,
-      'content_aside' => NULL,
-      'secondary_content' => NULL,
-      'tertiary_content' => NULL,
-      'footer' => NULL,
-      'leaderboard' => NULL,
-      'header' => NULL,
-      'menu_bar' => NULL,
-      'help' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-66';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'paragliding_pilots_list-manage';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
     $display->content['new-66'] = $pane;
-    $display->panels['middle'][0] = 'new-66';
-  $display->hide_title = PANELS_TITLE_PANE;
+    $display->panels['middle'][2] = 'new-66';
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

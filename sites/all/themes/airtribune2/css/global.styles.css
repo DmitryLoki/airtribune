@@ -2595,6 +2595,11 @@ html.js .page-user-edit form legend .fieldset-legend a { color: #1b53ff}
 .pane-paragliding-pilots-list-fai, .pane-paragliding-pilots-list-standard, .pane-paragliding-pilots-list-manage .pane-content { clear: both;}
 .pane-paragliding-pilots-list-fai .pane-inner, .pane-paragliding-pilots-list-standard .pane-inner, .pane-paragliding-pilots-list-manage .pane-inner { margin: 0;}
 .page-event-pilots .views-field-counter { text-align: center;}
+.page-event-pilots-manage .panel-col-seventy .inside { margin-right: 0;}
+.views-field-field-phone .editablefield-item .field-type-phone-number input.simple-phone-full-number { width: 140px;}
+.views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number input {width: 40px;}
+.views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number .description { display: none;}
+#views-form-paragliding-pilots-list-manage .inline-label { display: inline-block;}
 
 .view-paragliding-pilots-list caption .sex { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
 .view-paragliding-pilots-list caption .female { background-position: 0 -773px}
