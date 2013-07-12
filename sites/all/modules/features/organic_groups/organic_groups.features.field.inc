@@ -461,7 +461,7 @@ function organic_groups_field_default_fields() {
       'exclude_cv' => 0,
       'field_name' => 'field_phone',
       'label' => 'Mobile phone number',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'all_country_codes' => 1,
         'country_code_position' => 'after',
@@ -771,7 +771,7 @@ function organic_groups_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_contestant',
-      'default_value' => NULL,
+      'default_value' => array(),
       'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
@@ -809,7 +809,7 @@ function organic_groups_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '0',
+        'weight' => 0,
       ),
     ),
   );
