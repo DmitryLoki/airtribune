@@ -41,10 +41,9 @@
             setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', raceData.isOnline);
             setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline);
             $raceButton.show();
+            $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
               setOnlineTimeView(true);
-            } else {
-              $raceBlock.addClass('race-block-activated');
             }
           } else {
             if(raceData.isOnline) {
@@ -71,8 +70,6 @@
             timeHelperText.hide();
             helperText.text('Button will be here as soon as task is set.');
           }
-        } else if(isRaceStateReady) {
-          raceBlock.addClass('race-block-activated');
         }
       }
 
