@@ -165,7 +165,7 @@ function airtribune_get_variables($site_state) {
       'preprocess_css' =>  0,
       'error_level' => 1,
       //'smtp_library' => drupal_get_filename('module', 'devel'),
-      'at_core_sync_address' => 'http://api.airtribune.com',
+      'at_core_sync_address' => 'http://apidev.airtribune.com',
       'at_core_sync_version' => 'v0.1.4',
       'file_temporary_path' => '/home/devtribune/data/mod-tmp',
     ),
