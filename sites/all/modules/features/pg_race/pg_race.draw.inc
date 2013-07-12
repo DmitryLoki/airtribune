@@ -1,5 +1,6 @@
 <?php
 
+define('PG_RACE_TILES_PERMISSIONS_MODE', 0775);
 
 function _at_draw_settings() {
   // TODO: Set settings in extra fields settings
@@ -202,6 +203,7 @@ function _at_draw_draw_image($settings) {
   $files_path .= '/pg_race_preview';
   if (!file_exists($files_path)) {
     mkdir($files_path);
+    chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
   }
   $path = $files_path . "/pg_race_{$settings['race_id']}.png";
   
@@ -231,6 +233,7 @@ function _at_draw_draw_image($settings) {
   
   // Save image
   imagepng($img, $path);
+  chmod($path, PG_RACE_TILES_PERMISSIONS_MODE);
   
   return $path;
 }
@@ -464,10 +467,12 @@ function _at_draw_get_tiles($settings, $zoom) {
       $files_path .= '/pg_race_preview';
       if (!file_exists($files_path)) {
         mkdir($files_path);
+        chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
       }
       $files_path .= '/tiles';
       if (!file_exists($files_path)) {
         mkdir($files_path);
+        chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
       }
       $path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.jpg";
       
@@ -491,6 +496,7 @@ function _at_draw_get_tiles($settings, $zoom) {
         curl_setopt($ch, CURLOPT_URL,$url);
         $result=curl_exec($ch);
         file_put_contents($path, $result);
+        chmod($path, PG_RACE_TILES_PERMISSIONS_MODE);
       }
       
       // Tile image
@@ -502,8 +508,9 @@ function _at_draw_get_tiles($settings, $zoom) {
     $x_dst += 256;
   }
   
-  $path_tiles = 'sites/default/files/tiles_image2.png';
-  imagepng($img_tiles, $path_tiles);
+  //$path_tiles = 'sites/default/files/tiles_image2.png';
+  //imagepng($img_tiles, $path_tiles);
+  //chmod($path_tiles, PG_RACE_TILES_PERMISSIONS_MODE);
   
   return $img_tiles;
 }
