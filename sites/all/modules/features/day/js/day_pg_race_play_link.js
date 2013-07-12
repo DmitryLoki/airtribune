@@ -8,9 +8,8 @@
       if (typeof Drupal.settings.Day != 'undefined' && typeof Drupal.settings.Day.start_time != 'undefined') {
         var setTime = function () {
 
-          d = Drupal.settings.Day.start_time - new Date().getTime();
-          var date = new Date(Math.abs(d));
-          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()));
+          d = Math.floor((Drupal.settings.Day.start_time - new Date().getTime()) / 1000);
+          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(Math.floor(d / 3600), Math.floor(d % 3600 / 60), d % 60));
 
           if (d < 0) {
             var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
