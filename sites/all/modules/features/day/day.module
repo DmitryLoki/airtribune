@@ -94,8 +94,8 @@ function _day_pg_race_preview_markup($node) {
   $race_entity_id = $data['race_entity_id'];
   $contest_core_id = $data['contest_core_id'];
   $race_core_id = $data['race_core_id'];
-  $localtime = $data['localtime'];
-  $offset = $data['offset'];
+  $localtime = !empty($data['localtime']) ? $data['localtime'] : 0;
+  $offset = !empty($data['offset']) ? $data['offset'] : 0;
   
   
   // Wrapper data

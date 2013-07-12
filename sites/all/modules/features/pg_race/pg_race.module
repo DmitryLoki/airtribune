@@ -192,7 +192,9 @@ function get_races_ids_for_contest($og) {
       $races[] = $entity->id;
     }
   }
-  sort($races);
+  if (!empty($races)) {
+    sort($races);
+  }
   return $races;
 }
 
