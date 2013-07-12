@@ -140,7 +140,7 @@ class ATSyncContest extends ATSync {
   public $address = "contest";
   public function synchronize() {
     $node = $this->entity;
-    $core_id = get_id_from_contest($node);
+    $core_id = get_id_from_entity('node', $node);
     // change address if contest already in Core
     if ($core_id) {
       $this->address .= '/' . $core_id;
@@ -169,6 +169,38 @@ class ATSyncContest extends ATSync {
 }
 
 /**
+ * Class for synchronization custom_object (transport) see #3446
+ */
+class ATSyncCustom extends ATSync {
+  public $address = "transport";
+  public function synchronize() {
+    $core_id = get_id_from_entity($this->entity, 'custom_object');
+    // change address if contest already in Core
+    if ($core_id) {
+      $this->address .= '/' . $core_id;
+    }
+    $allowed_custom_types = list_allowed_values(field_info_field('field_customobject_type'));
+    $data = array(
+      'type' => $allowed_custom_types[$this->entity->field_customobject_type[LANGUAGE_NONE][0]['value']],
+      'title' => $this->entity->title,
+      'description' => $this->entity->field_customobject_description[LANGUAGE_NONE][0]['value'],
+    );
+    _d($data);
+    if ($core_id) {
+      $response = $this->request(json_encode($data), "PUT");
+    }
+    else {
+      $response = $this->request(http_build_query($data));
+      $this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
+  }
+
+  public function check() {
+  }
+}
+
+/**
  * Class for synchronization person
  */
 class ATSyncPerson extends ATSync {
@@ -179,7 +211,7 @@ class ATSyncPerson extends ATSync {
       ATSync::setMessage("Core API: User is not a pilot, no need to synchronize");
       return FALSE;
     }
-    $core_id = get_id_from_user($this->entity);
+    $core_id = get_id_from_entity('user', $this->entity);
     if ($core_id) {
       $this->address = implode('/', array('person', $core_id));
     }
@@ -218,9 +250,9 @@ class ATSyncPilot extends ATSync {
   public function __construct($entity, $entity_type) {
     parent::__construct($entity, $entity_type);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_contest($this->contest);
+    $this->contest_core_id = get_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
-    $this->person_core_id = get_id_from_user($this->person);
+    $this->person_core_id = get_id_from_entity('user', $this->person);
     $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
     if ($tracker_eid) {
       $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
@@ -234,13 +266,13 @@ class ATSyncPilot extends ATSync {
     }
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity($this->contest, 'node');
+      $sync = _get_class_by_entity('node', $this->contest);
       $this->contest_core_id = $sync->synchronize();
     }
 
     if (!$this->person_core_id) {
       // Synchronize pilot if not synchronized
-      $sync = _get_class_by_entity($this->person, 'user');
+      $sync = _get_class_by_entity('user', $this->person);
       $this->person_core_id = $sync->synchronize();
     } else {
       $resp = ATSync::requestToCore('person/' . $this->person_core_id, '', 'GET');
@@ -286,14 +318,14 @@ class ATSyncRace extends ATSync {
     }
     $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
     get_id_from_entity($this->entity);
-    $contest_core_id = get_id_from_contest($contest);
+    $contest_core_id = get_id_from_entity('node', $contest);
     if (!$contest_core_id) {
       ATSync::setMessage(t("Core API: Contest not synchronized yet."));
       return FALSE;
     }
 
     $this->address = implode('/', array('contest', $contest_core_id, 'race'));
-    if ($race_core_id = get_race_id_from_race($this->entity)) {
+    if ($race_core_id = get_id_from_entity('ent_race', $this->entity)) {
       $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id));
     }
 
@@ -420,14 +452,14 @@ class ATSyncRace extends ATSync {
       }
       $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
       get_id_from_entity($this->entity);
-      $contest_core_id = get_id_from_contest($contest);
+      $contest_core_id = get_id_from_entity('node', $contest);
       if (!$contest_core_id) {
         ATSync::setMessage(t("Core API: Contest not synchronized yet."));
         return FALSE;
       }
 
       $this->address = implode('/', array('contest', $contest_core_id, 'race'));
-      if ($race_core_id = get_race_id_from_race($this->entity)) {
+      if ($race_core_id = get_id_from_entity('ent_race', $this->entity)) {
         $this->address = implode('/', array('contest', $contest_core_id, 'race', $race_core_id, 'track_archive'));
         $response = $this->request('url='.file_create_url(file_load($fid)->uri));
       } else {
