@@ -3460,7 +3460,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['label'] = 'Day ';
-  $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_status']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;

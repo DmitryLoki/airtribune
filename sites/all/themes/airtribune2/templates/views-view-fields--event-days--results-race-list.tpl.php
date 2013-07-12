@@ -68,10 +68,8 @@ if (!$day_number && !($day_number === 0)) {
     <?php endif; ?>
   <?php else: ?>
     <?php 
-      if (!empty($fields['field_day_status'])) {
-        $anchor = str_replace(' day', '',$fields['field_day_status']->content);
-        print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
-      }
+      $anchor = str_replace(' day', '',$fields['field_day_status']->content);
+      print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";
     ?>
   <?php endif; ?>
 
