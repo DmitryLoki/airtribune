@@ -7,17 +7,16 @@
         d;
       if (typeof Drupal.settings.Day != 'undefined' && typeof Drupal.settings.Day.start_time != 'undefined') {
         var setTime = function () {
-          // var d = Math.floor((self.raceKey()-new Date().getTime())/1000);
 
-          d = Math.floor((Drupal.settings.Day.start_time - new Date().getTime()) / 1000);
-          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(Math.floor(d / 3600), Math.floor(d % 3600 / 60), d % 60));
+          d = Drupal.settings.Day.start_time - new Date().getTime();
+          var date = new Date(Math.abs(d));
+          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()));
 
-          if (d > 0) {
-            setTimeout(setTime, 1000);
-          } else {
+          if (d < 0) {
             var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
             setOnlineTimeView(isRaceStateReady);
           }
+          setTimeout(setTime, 1000);
         };
         setTime();
       }
@@ -49,6 +48,8 @@
           } else {
             if(raceData.isOnline) {
               setOnlineTimeView(false);
+            } else {
+              raceData.requestType = 'online';
             }
             setTimeout(function () {
               requestRaceState(raceData, response);
@@ -58,15 +59,13 @@
       });
 
       function setOnlineTimeView(isRaceStateReady) {
-        if (typeof d == 'number' && d <= 0) {
+        if (d <= 0) {
           var raceBlock = timeHelperText.parents('.race-links');
           raceBlock.removeClass('race-awaiting');
           if (isRaceStateReady) {
             raceBlock.addClass('race-online');
+            helperText.text('Race is on');
             timeHelperText.show();
-            helperText.text('Race starts on');
-            var localTime = new Date(Drupal.settings.Day.start_time + Drupal.settings.Day.offset);
-            timeHelperText.html(getTimeStr(localTime.getUTCHours(), localTime.getUTCMinutes(), localTime.getUTCSeconds()));
           } else {
             timeHelperText.hide();
             helperText.text('Button will be here as soon as task is set.');
@@ -84,7 +83,7 @@
       function requestRaceState(raceData, responseCallback) {
         /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
         $.ajax({
-          url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks' + (raceData.isOnline ? '?type=online' : ''),
+          url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,
           dataType:"json",
           success: responseCallback,
           error: function () {
@@ -93,12 +92,20 @@
       }
 
       function getRaceDataFromRaceBlock($raceBlock) {
-        return {
+        var raceData = {
           contestId: $raceBlock.data('contest-cid'),
           raceId: $raceBlock.data('race-cid'),
           raceEid: $raceBlock.data('race-eid'),
           isOnline: $raceBlock.data('view-type') != undefined
         }
+
+        raceData.requestType = raceData.isOnline || !hasTracksLoaded($raceBlock) ? 'online' : 'competition_aftertask';
+
+        return raceData;
+      }
+
+      function hasTracksLoaded($raceBlock) {
+        return $raceBlock.parents('div.event-day').find('.views-field-field-pg-race-tracks').length>0;
       }
 
       function setHrefAttr(link, raceEid, mode, isOnline) {
