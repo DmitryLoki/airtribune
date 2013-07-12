@@ -317,7 +317,7 @@ function pg_scoring_category_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'text_long',
     ),
     'field_instance' => array(
