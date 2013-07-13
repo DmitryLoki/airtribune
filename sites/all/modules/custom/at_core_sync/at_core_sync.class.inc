@@ -175,7 +175,8 @@ class ATSyncCustom extends ATSync {
   public $address = "transport";
   public function synchronize() {
     $allowed_custom_types = list_allowed_values(field_info_field('field_customobject_type'));
-    $description_field = array_pop($this->entity->field_plain_body);
+    $description_field = $this->entity->field_plain_body;
+    $description_field = array_pop($description_field);
     $description = isset($description_field[0]['value']) ? $description_field[0]['value'] : FALSE;
     $data = array(
       'type' => $allowed_custom_types[$this->entity->field_customobject_type[LANGUAGE_NONE][0]['value']],
