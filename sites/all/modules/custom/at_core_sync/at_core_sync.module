@@ -231,13 +231,14 @@ function at_core_sync_other_sync($entity_type, $entity) {
         case 'ent_race':
           return $sync->pushTracks();
           break;
+        case 'tracked_object':
         case 'og_membership':
           $tracker_entity = $sync->tracker;
           $tracked_core_id = $sync->tracked_core_id;
           $contest_core_id = $sync->contest_core_id;
 
           // Tracker erased
-          if (!isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
+          if (isset($entity->original) && !isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
             $tracker_eid = $entity->original->field_tracker[LANGUAGE_NONE][0]['target_id'];
             if ($tracker_eid) {
               $tracker_entity = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));

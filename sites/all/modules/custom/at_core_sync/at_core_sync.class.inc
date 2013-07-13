@@ -213,9 +213,12 @@ class ATSyncTrackedObject extends ATSync {
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
     $this->transport = array_pop(entity_load('ent_customobject', array($this->entity->etid), array(), TRUE));
     $this->tracked_core_id = get_id_from_entity('ent_customobject', $this->transport);
-    $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
-    if ($tracker_eid) {
-      $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+    $tracker_eid = FALSE;
+    if(isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
+      $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
+      if ($tracker_eid) {
+        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+      }
     }
   }
 
@@ -238,7 +241,7 @@ class ATSyncTrackedObject extends ATSync {
     }
     $this->address = implode('/', array('contest', $this->contest_core_id, 'transport'));
     $data = array(
-      'transport_id ' => $this->tracked_core_id,
+      'transport_id' => $this->tracked_core_id,
     );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
