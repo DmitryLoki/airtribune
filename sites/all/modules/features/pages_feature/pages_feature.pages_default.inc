@@ -5851,8 +5851,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'contexts' => array(),
     'relationships' => array(
       0 => array(
-        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
-        'keyword' => 'node',
+        'identifier' => 'Contest',
+        'keyword' => 'contest',
         'name' => 'entity_from_field:og_group_ref-ent_race-node',
         'delta' => '0',
         'context' => 'argument_entity_id:ent_race_1',
@@ -5861,6 +5861,19 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
     'access' => array(
       'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
     ),
     'panels_everywhere_site_template' => 'site_template_panel_context_5',
   );
