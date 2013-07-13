@@ -1108,3 +1108,15 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   return implode('+',$ids);
 }
 
+/**
+ * hook_og_membership_presave implementation. see #3446
+ * 
+ * @author Khegai Sergei
+ */
+function airtribune_og_membership_presave(OgMembership $og_membership) {
+  switch ($og_membership->entity_type) {
+    case "ent_customobject":
+      $og_membership->type = "og_transport";
+      break;
+  }
+}
