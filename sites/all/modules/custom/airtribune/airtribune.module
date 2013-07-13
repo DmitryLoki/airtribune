@@ -8,6 +8,7 @@
 include_once 'airtribune_nodes.inc';
 
 define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
+define('AIRTRIBUNE_RETRIEVE_URL','http://retrieve.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -42,6 +43,7 @@ define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_RACE_NUMBER', 'field_race_number');
 define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
+define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
@@ -49,6 +51,7 @@ define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
 define('AIRTRIBUNE_POINT_TYPE_FIELD', 'field_point_type');
 define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
+define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -61,10 +64,16 @@ define('AIRTRIBUNE_DAY_TYPE', 'day');
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
 define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
+define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
+define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
 define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
+
+// Memberships
+define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
+define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -89,6 +98,95 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function airtribune_form_alter(&$form, &$form_state, $form_id) {
+  // Add functional of selection of the membership to OG member adding form.
+  if ($form_id == 'og_ui_add_users') {
+    // Remove membership fields, loaded to og_ui_add_users form by default.
+    // This default membership set in people account settings
+    // at /admin/config/people/accounts/fields/og_user_node
+    unset($form['membership_fields']);
+
+    // load all available memberships
+    $query = new EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'og_membership_type')->execute();
+    if (!empty($result['og_membership_type'])) {
+      $membership_type_ids = array_keys($result['og_membership_type']);
+      $membership_types = entity_load('og_membership_type', $membership_type_ids);
+    }
+
+    // Remove OG_MEMBERSHIP_TYPE_DEFAULT, which have ID=1 in database,
+    // and also have key=1 in $membership_types array.
+    unset($membership_types[1]);
+
+    // Set default loaded membership for this form to usual 'contestant'
+    $values['type'] = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+
+    // TODO refactor to ajax loading form
+    // Can we load membership_type from $_GET ?
+    $type_from_get = !empty($_GET['type']) ? $_GET['type'] : AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+    $links = '';
+    foreach ($membership_types as $v) {
+      if ($type_from_get == $v->name) {
+        // membership_type from GET parameter is correct and in database?
+        $values['type'] = $type_from_get;
+        $links .= "<b>&#9658;{$v->description}</b><br>";
+      }
+      else {
+        $links .= "<a href='?type={$v->name}'>{$v->description}</a><br>";
+      }
+    }
+    // links to select membership
+    $form['og_user']['membership_type_select'] = array(
+      '#markup' => $links,
+      '#prefix' => '<div><div><b>'. t('Type') .'</b></div>',
+      '#suffix' => '</div>',
+    );
+
+    // Add group membership form.
+    $gid = $form['gid']['#value'];
+    $group_type = $form['group_type']['#value'];
+    $og_membership = airtribune_og_membership_create($group_type, $gid, 'user', 0, 'og_user_node', $values);
+    $form_state['og_membership'] = $og_membership;
+
+    $form['membership_fields'] = array(
+      '#prefix' => '<div id="og-ui-field-name">',
+      '#suffix' => '</div>',
+      '#tree' => TRUE,
+      '#parents' => array('membership_fields'),
+    );
+    field_attach_form('og_membership', $og_membership, $form['membership_fields'], $form_state);
+  }
+}
+
+/**
+ * Overridden og_membership_create()
+ * Create membership using predefined $values['type'], not using default membership from og_user_node
+ */
+function airtribune_og_membership_create($group_type, $gid, $entity_type, $etid, $field_name, $values = array()) {
+  global $language;
+
+  $values += array(
+    'group_type' => $group_type,
+    'gid' => $gid,
+    'entity_type' => $entity_type,
+    'etid' => $etid,
+    'state' => OG_STATE_ACTIVE,
+    'created' => time(),
+    'field_name' => $field_name,
+    'language' => $language->language,
+  );
+
+  if (!og_is_group_audience_field($field_name)) {
+    throw new OgException(format_string('%field-name is not a valid group-audience field.', array('%field-name' => $field_name)));
+  }
+
+  $wrapper = entity_property_values_create_entity('og_membership', $values);
+  return $wrapper->value();
 }
 
 /**
@@ -710,6 +808,11 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
+  // Disable admin menu on visualisation page
+  if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
+    module_invoke('admin_menu', 'suppress');
+  }
+
   // We need distinguish drupal pages, to get pinba statistics.
   // Change name of script from 'index.php' to requested $q variable
   // @see #3283
@@ -1005,3 +1108,15 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   return implode('+',$ids);
 }
 
+/**
+ * hook_og_membership_presave implementation. see #3446
+ * 
+ * @author Khegai Sergei
+ */
+function airtribune_og_membership_presave(OgMembership $og_membership) {
+  switch ($og_membership->entity_type) {
+    case "ent_customobject":
+      $og_membership->type = "tracked_object";
+      break;
+  }
+}

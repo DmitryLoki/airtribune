@@ -123,13 +123,18 @@ function pg_contest_insert($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_update($node) {
-  if (isset($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
-    if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
+  // Points file check
+  if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
+    // Check for update file
+    if (!empty($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && 
+          $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $node->original->field_points_file[LANGUAGE_NONE][0]['fid']) {
+      // Do nothing
+    } else {
       //remove old points 
       $query = new EntityFieldQuery();
       $result = $query 
         ->entityCondition('entity_type', 'ent_contest_point')
-        ->fieldCondition('og_group_ref', 'target_id', $node->nid)
+        ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $node->nid)
         ->execute();
       if (!empty($result['ent_contest_point'])) {
         entity_delete_multiple('ent_contest_point', array_keys($result['ent_contest_point']));
@@ -162,33 +167,40 @@ function pg_contest_delete($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_validate($node, $form, &$form_state) {
-  if (isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
-    $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
-    $file_string = file_get_contents($file->uri);
-    $strings = preg_split('/\v/', $file_string);
-    foreach ($strings as $string) {
-      $elements = preg_split('/\s+/', $string);
-      if ($elements[0] == 'G') {
-        array_shift($elements);
-        $datum = strtoupper(implode($elements));
-        if ($datum != 'WGS84') {
-          form_set_error('field_points_file', t('Incorrect datum'));
+  // Points file check
+  if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
+    // Check for update file
+    if (!empty($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && 
+          $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
+      // Do nothing
+    } else {
+      $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
+      $file_string = file_get_contents($file->uri);
+      $strings = preg_split('/\v/', $file_string);
+      foreach ($strings as $string) {
+        $elements = preg_split('/\s+/', $string);
+        if ($elements[0] == 'G') {
+          array_shift($elements);
+          $datum = strtoupper(implode($elements));
+          if ($datum != 'WGS84') {
+            form_set_error('field_points_file', t('Incorrect datum'));
+          }
+        }
+        if ($elements[0] == 'U') {
+          if ($elements[1] != 1) {
+            form_set_error('field_points_file', t('Cordinates should be Lat/Lon'));
+          }
+          else {
+            $u = TRUE;
+          }
         }
       }
-      if ($elements[0] == 'U') {
-        if ($elements[1] != 1) {
-          form_set_error('field_points_file', t('Cordinates should be Lat/Lon'));
-        }
-        else {
-          $u = TRUE;
-        }
+      if (!isset($datum)) {
+        form_set_error('field_points_file', t('Datum not set'));
       }
-    }
-    if (!isset($datum)) {
-      form_set_error('field_points_file', t('Datum not set'));
-    }
-    if (!isset($u)) {
-      form_set_error('field_points_file', t('Coordinate system not set'));
+      if (!isset($u)) {
+        form_set_error('field_points_file', t('Coordinate system not set'));
+      }
     }
   }
 }
@@ -237,7 +249,7 @@ function pg_contest_create_points($fid, $nid) {
     );
     $point = entity_create('ent_contest_point', $values);
     $point->save();
-    //linking to og should go to EntContestPointController 
+    // linking to og should go to EntContestPointController 
     og_group('node', $nid, array('entity_type' => 'ent_contest_point', 'entity' => $point))->save();
   }
 }

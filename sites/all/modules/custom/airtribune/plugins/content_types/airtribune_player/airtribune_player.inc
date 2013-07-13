@@ -49,7 +49,14 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
     'mapWidget' => $panel_args[1],
     'apiVersion' => at_core_sync_get_api_version(),
   );
-  
+
+  $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
+  if (isset($widget_type) && $widget_type != 'default') {
+    $options['baseUrl'] = constant('AIRTRIBUNE_' . strtoupper($widget_type) .'_URL');
+    $options['mode'] = $widget_type;
+    unset($options['isOnline']);
+  }
+
   $widget_html = _airtribune_airtribune_player_get_race_widget($contestId, $raceId, $options);
 
   $content['widget']['#markup'] = $widget_html;
@@ -73,28 +80,49 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
  *    isOnline - online mode
  *    baseUrl - url hosting visualisation
  *    apiVersion - version of CoreAPI
+ *    mode - widget mode (retrieve)
  * @return string HTML-code widget.
  */
 function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $options = array()) {
   // Initialization
-  $mapWidget = isset($options['mapWidget']) ? $options['mapWidget'] : '2d';
-  $isOnline = isset($options['isOnline']) ? $options['isOnline'] : 'false';
+  $mapWidget = isset($options['mapWidget']) ? 'mapWidget: "' . $options['mapWidget'] . '",' : '';
+  $isOnline = isset($options['isOnline']) ? ' isOnline: ' . $options['isOnline'] . ',' : '';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
   $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
+  $mode = isset($options['mode']) ? ' mode: "' . $options['mode'] . '",' : '';
 
   $output = "<link rel=\"stylesheet\" href=\"{$baseUrl}/css/airvis.css\"/>
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/checkbox.css\"/>  
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/shiny-sprite.css\">
     <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div role=\"main\" class=\"airvis-container\">
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\", isOnline: {$isOnline}, mapWidget: \"{$mapWidget}\", apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline} {$mapWidget} apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true} } --><!-- /ko -->
     </div>";
   return $output;
 }
 
 /**
+ * 'Edit form' callback for the content type.
+ */
+function airtribune_airtribune_player_content_type_edit_form($form, &$form_state) {
+  $conf = $form_state['conf'];
+  $types = array('default' => 'Race', 'retrieve' => 'Retrieve');
+
+  $form['widget_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Widget type'),
+    '#options' => $types,
+    '#default_value' => !empty($conf['widget_type']) ? $conf['widget_type'] : 'default',
+   );
+   return $form;
+ }
+
+
+
+/**
  * Panels module needs this empty form.
  */
 function airtribune_airtribune_player_content_type_edit_form_submit(&$form, &$form_state) {
+  $form_state['conf']['widget_type'] = $form_state['values']['widget_type'];
   return $form;
 }

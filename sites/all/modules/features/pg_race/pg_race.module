@@ -54,6 +54,14 @@ function pg_race_entity_insert($entity, $type) {
 function pg_race_entity_update($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
     recount_race_number($entity, 'update');
+    
+    $race_id = $entity->id;
+    $files_path = variable_get('file_public_path', conf_path() . '/files');
+    $files_path .= '/pg_race_preview';
+    $path = $files_path . "/pg_race_{$race_id}.png";
+    if (file_exists($path)) {
+      unlink($path);
+    }
   }
 }
 
@@ -186,12 +194,15 @@ function get_races_ids_for_contest($og) {
     ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
     ->fieldCondition('og_group_ref', 'target_id', $og->nid)
     ->execute();
+  $races = array();
   if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
     foreach ($entities as $entity) {
       $races[] = $entity->id;
     }
   }
-  sort($races);
+  if (!empty($races)) {
+    sort($races);
+  }
   return $races;
 }
 
@@ -234,6 +245,12 @@ function pg_race_field_extra_fields() {
         'description' => t('Link for visualization'),
         'weight' => -5,
       ),
+      
+      'pg_race_preview_image' => array(
+        'label' => t('Paragliding preview image'),
+        'description' => t('Race preview image'),
+        'weight' => -5,
+      ),
     ),
     'display' => array(
       'pg_race_play_link' => array(
@@ -242,10 +259,34 @@ function pg_race_field_extra_fields() {
         'weight' => -5,
         'callback' => 'pg_race_play_link_callback',
       ),
+      
+      'pg_race_preview_image' => array(
+        'label' => t('Paragliding preview image'),
+        'description' => t('Race preview image'),
+        'weight' => -5,
+        'callback' => 'pg_race_preview_image_callback',
+      ),
     ),
   );
   
   return $extra;
+}
+
+function pg_race_preview_image_callback($entity) {
+  if ($entity->type == 'pg_race') {
+    
+    module_load_include('inc', 'pg_race', 'pg_race.draw');
+    $race_id = $entity->id;
+    //$race_id = 3;
+    $path = _at_draw_get_image($race_id);
+    
+    $output = '';
+    if (!empty($path)) {
+      $output = theme('image', array('path' => $path));
+    }
+    
+    return $output;
+  }
 }
 
 function pg_race_play_link_callback($entity) {
@@ -281,6 +322,14 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       '#type' => 'item',
       '#title' => $title,
       '#markup' => $markup,
+    );
+    
+    
+    // Race preview image
+    $entity->content['pg_race_preview_image'] = array(
+      '#type' => 'item',
+      '#title' => t('Task preview'),
+      '#markup' => pg_race_preview_image_callback($entity),
     );
   }
   

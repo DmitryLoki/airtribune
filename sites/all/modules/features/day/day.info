@@ -22,7 +22,6 @@ features[field][] = node-day-field_dayblog_ref
 features[field][] = node-day-field_image
 features[field][] = node-day-field_pg_race_ref
 features[field][] = node-day-og_group_ref
-features[node][] = day
 features[variable][] = field_bundle_settings_node__day
 features[variable][] = language_content_type_day
 features[variable][] = menu_options_day
