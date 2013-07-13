@@ -247,6 +247,7 @@ class ATSyncTrackedObject extends ATSync {
     else {
       $response = $this->request(http_build_query($data));
     }
+    _d($this->address);
     return !empty($response->id) ? $response->id : FALSE;
   }
 

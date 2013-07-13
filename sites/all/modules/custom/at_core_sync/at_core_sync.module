@@ -49,7 +49,6 @@ function _get_class_by_entity($entity_type, $entity) {
   if (!empty($entity->type)) {
     $tmp .= ':' . $entity->type;
   }
-  _d($tmp);
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
     'user' => 'ATSyncPerson',
