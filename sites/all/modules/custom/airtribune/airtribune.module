@@ -1116,7 +1116,7 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
 function airtribune_og_membership_presave(OgMembership $og_membership) {
   switch ($og_membership->entity_type) {
     case "ent_customobject":
-      $og_membership->type = "og_transport";
+      $og_membership->type = "tracked_object";
       break;
   }
 }

@@ -53,6 +53,6 @@ features[og_features_permission][] = node:pg_contest:update own advert content
 features[og_features_permission][] = node:pg_contest:update own day content
 features[og_features_permission][] = node:pg_contest:update own newsblog content
 features[og_features_permission][] = node:pg_contest:update own pg_scoring_category content
-features[og_membership_type][] = og_transport
+features[og_membership_type][] = tracked_object
 features[og_membership_type][] = pg_contestant
 features[og_membership_type][] = pg_organizer

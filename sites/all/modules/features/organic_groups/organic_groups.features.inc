@@ -9,9 +9,9 @@
  */
 function organic_groups_default_og_membership_type() {
   $items = array();
-  $items['og_transport'] = entity_import('og_membership_type', '{
-    "name" : "og_transport",
-    "description" : "Transport",
+  $items['tracked_object'] = entity_import('og_membership_type', '{
+    "name" : "tracked_object",
+    "description" : "Tracked object",
     "language" : "",
     "rdf_mapping" : []
   }');

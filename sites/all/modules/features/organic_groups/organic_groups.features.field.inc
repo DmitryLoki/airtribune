@@ -76,8 +76,8 @@ function organic_groups_field_default_fields() {
     ),
   );
 
-  // Exported field: 'og_membership-og_transport-field_tracker'.
-  $fields['og_membership-og_transport-field_tracker'] = array(
+  // Exported field: 'og_membership-tracked_object-field_tracker'.
+  $fields['og_membership-tracked_object-field_tracker'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -127,7 +127,7 @@ function organic_groups_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'og_transport',
+      'bundle' => 'tracked_object',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
