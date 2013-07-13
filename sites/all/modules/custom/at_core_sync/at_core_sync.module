@@ -49,13 +49,15 @@ function _get_class_by_entity($entity_type, $entity) {
   if (!empty($entity->type)) {
     $tmp .= ':' . $entity->type;
   }
+  _d($tmp);
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
     'user' => 'ATSyncPerson',
     'og_membership:pg_contestant' => 'ATSyncPilot',
+    'og_membership:tracked_object' => 'ATSyncTrackedObject',
     'ent_race:pg_race' => 'ATSyncRace',
     'ent_tracker:device' => 'ATSyncTracker',
-    'custom_object:custom_object' => 'ATSyncCustom',
+    'ent_customobject:customobject' => 'ATSyncCustom',
   );
 
   if (!empty($classes[$tmp])) {
@@ -232,7 +234,7 @@ function at_core_sync_other_sync($entity_type, $entity) {
           break;
         case 'og_membership':
           $tracker_entity = $sync->tracker;
-          $person_core_id = $sync->person_core_id;
+          $tracked_core_id = $sync->tracked_core_id;
           $contest_core_id = $sync->contest_core_id;
 
           // Tracker erased
@@ -240,13 +242,13 @@ function at_core_sync_other_sync($entity_type, $entity) {
             $tracker_eid = $entity->original->field_tracker[LANGUAGE_NONE][0]['target_id'];
             if ($tracker_eid) {
               $tracker_entity = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
-              $person_core_id = '';
+              $tracked_core_id = '';
             }
           }
           // Assignee tracker to person
           if ($tracker_entity) {
             $tracker = _get_class_by_entity('ent_tracker', $tracker_entity);
-            return $tracker->assignee($person_core_id, $contest_core_id);
+            return $tracker->assignee($tracked_core_id, $contest_core_id);
           }
           break;
       }
