@@ -5835,6 +5835,27 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'page_retrieve_map_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'retrieve_map';
+  $handler->handler = 'http_response';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => 'Access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'panels_everywhere_site_template' => 'site_template_panel_context_2',
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
+  );
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'page_retrieve_map_panel_context';
   $handler->task = 'page';
   $handler->subtask = 'retrieve_map';
@@ -5845,7 +5866,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
+    'body_classes_to_add' => 'view-retrieve-map',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -5887,7 +5908,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Retrieve map | Task %race:field-race-number | %contest:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();

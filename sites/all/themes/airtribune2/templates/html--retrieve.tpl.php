@@ -60,7 +60,10 @@
 <head>
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
-  <?php print $scripts; ?>
+  <?php if (strpos($classes, 'view-retrieve-map') === false) : ?>
+    <?php print $styles; ?>
+    <?php print $scripts; ?>
+  <?php endif; ?>
 </head>
 <body class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <?php print $page_top; ?>
