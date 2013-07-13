@@ -175,10 +175,12 @@ class ATSyncCustom extends ATSync {
   public $address = "transport";
   public function synchronize() {
     $allowed_custom_types = list_allowed_values(field_info_field('field_customobject_type'));
+    $description_field = array_pop($this->entity->field_plain_body);
+    $description = isset($description_field[0]['value']) ? $description_field[0]['value'] : FALSE;
     $data = array(
       'type' => $allowed_custom_types[$this->entity->field_customobject_type[LANGUAGE_NONE][0]['value']],
       'title' => $this->entity->title,
-      'description' => $this->entity->field_customobject_description[LANGUAGE_NONE][0]['value'],
+      'description' => $description,
     );
 
     if ($this->core_id) {
@@ -189,6 +191,65 @@ class ATSyncCustom extends ATSync {
     else {
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
+    }
+    return !empty($response->id) ? $response->id : FALSE;
+  }
+
+  public function check() {
+  }
+}
+
+class ATSyncTrackedObject extends ATSync {
+  public $address = "contest/";
+  public $tracked_core_id = '';
+  public $contest = NULL;
+  public $contest_core_id = '';
+  public $tracker = NULL;
+  public $person = NULL;
+
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $this->contest = node_load($this->entity->gid, NULL, TRUE);
+    $this->core_id = get_id_from_entity('tracked_object', $this->entity);
+    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+    $this->transport = array_pop(entity_load('ent_customobject', array($this->entity->etid), array(), TRUE));
+    $this->tracked_core_id = get_id_from_entity('ent_customobject', $this->transport);
+    $tracker_eid = FALSE;
+    if(isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
+      $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
+      if ($tracker_eid) {
+        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+      }
+    }
+  }
+
+  public function synchronize() {
+    if (!$this->contest_core_id) {
+      // Synchronize contest if not synchronized
+      $sync = _get_class_by_entity('node', $this->contest);
+      $this->contest_core_id = $sync->synchronize();
+    }
+    if (!$this->tracked_core_id) {
+      // Synchronize person if not synchronized
+      $sync = _get_class_by_entity('ent_customobject', $this->transport);
+      $this->tracked_core_id = $sync->synchronize();
+    } else {
+      $resp = ATSync::requestToCore('transport/' . $this->tracked_core_id, '', 'GET');
+      if (isset($resp->error)) {
+        ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
+        return FALSE;
+      }
+    }
+    $this->address = implode('/', array('contest', $this->contest_core_id, 'transport'));
+    $data = array(
+      'transport_id' => $this->tracked_core_id,
+    );
+    if ($this->core_id) {
+      $this->address .= '/' . $this->core_id;
+      $response = $this->request(json_encode($data), "PUT");
+    }
+    else {
+      $response = $this->request(http_build_query($data));
     }
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -259,7 +320,7 @@ class ATSyncPilot extends ATSync {
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
-    $this->person_core_id = get_id_from_entity('user', $this->person);
+    $this->tracked_core_id = get_id_from_entity('user', $this->person);
     $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
     if ($tracker_eid) {
       $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
@@ -277,23 +338,23 @@ class ATSyncPilot extends ATSync {
       $this->contest_core_id = $sync->synchronize();
     }
     $this->person->field_phone = $this->entity->field_phone;
-    if (!$this->person_core_id) {
+    if (!$this->tracked_core_id) {
       // Synchronize person if not synchronized
       $sync = _get_class_by_entity('user', $this->person);
-      $this->person_core_id = $sync->synchronize();
+      $this->tracked_core_id = $sync->synchronize();
     } else {
-      $resp = ATSync::requestToCore('person/' . $this->person_core_id, '', 'GET');
+      $resp = ATSync::requestToCore('person/' . $this->tracked_core_id, '', 'GET');
       if (isset($resp->error)) {
         ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
         return FALSE;
       }
       // Synchronize person for save phone
       $sync = _get_class_by_entity('user', $this->person);
-      $this->person_core_id = $sync->synchronize();
+      $this->tracked_core_id = $sync->synchronize();
     }
     $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
     $data = array(
-      'person_id' => $this->person_core_id,
+      'person_id' => $this->tracked_core_id,
       'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
       'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
     );
