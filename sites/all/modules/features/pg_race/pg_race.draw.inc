@@ -474,7 +474,10 @@ function _at_draw_get_tiles($settings, $zoom) {
         mkdir($files_path);
         chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
       }
-      $path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.jpg";
+      
+      // TODO: Add file detection
+      //$path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.jpg";
+      $path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.png";
       
       
       
@@ -482,8 +485,8 @@ function _at_draw_get_tiles($settings, $zoom) {
       
       // Check if file exists.
       if (!file_exists ($path)) {
-        $url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';  // terrain, zoom 12
-        //$url = 'http://mts0.google.com/vt/lyrs=m@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=';  // normal, zoom 12
+        //$url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';  // terrain, zoom 12
+        $url = 'http://mts0.google.com/vt/lyrs=m@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=';  // normal, zoom 12
         //$url = 'http://mts1.google.com/vt/lyrs=t@131,r@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=Galil'; // terrain, zoom 10
         
         // http://stackoverflow.com/questions/2440729/php-curl-how-can-i-emulate-a-get-request-exactly-like-a-web-browser
@@ -500,7 +503,8 @@ function _at_draw_get_tiles($settings, $zoom) {
       }
       
       // Tile image
-      $tile_img = imagecreatefromjpeg($path);
+      //$tile_img = imagecreatefromjpeg($path);
+      $tile_img = imagecreatefrompng($path);
       imagecopy ($img_tiles, $tile_img, $x_dst, $y_dst, 0, 0, 256, 256);
       $y_dst += 256;
     }

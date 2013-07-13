@@ -54,6 +54,14 @@ function pg_race_entity_insert($entity, $type) {
 function pg_race_entity_update($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
     recount_race_number($entity, 'update');
+    
+    $race_id = $entity->id;
+    $files_path = variable_get('file_public_path', conf_path() . '/files');
+    $files_path .= '/pg_race_preview';
+    $path = $files_path . "/pg_race_{$race_id}.png";
+    if (file_exists($path)) {
+      unlink($path);
+    }
   }
 }
 
