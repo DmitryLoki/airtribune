@@ -239,6 +239,30 @@ class ShortWayStruct {
           ($prev->getRadius() > $curr->getRadius())
         );
       }
+      
+      if ($skip) {
+        $counter--;
+      }
+      //$skip = FALSE;
+      $ref = new ShortWayStruct();
+      $ref->order = $counter;
+      $ref->circle = $curr;
+      $ref->approximationPoint = $curr->getCenter();
+      if ($skip) {
+        array_pop($coords);
+        $coords[] = $ref;
+        
+        //dsm($coords);
+        //dsm($counter);
+      }
+      else {
+        $coords[] = $ref;
+        $counter++;
+      }
+      
+      
+      
+      /*
       if (!$skip) {
         $ref = new ShortWayStruct();
         $ref->order = $counter;
@@ -251,7 +275,10 @@ class ShortWayStruct {
         $coords[] = $coords[count($coords) - 1];
         $counter++;
       }
+      */
     }
+    
+    dsm($coords);
 
     $curr = NULL;
     $next = NULL;
