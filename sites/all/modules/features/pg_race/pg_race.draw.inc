@@ -425,10 +425,10 @@ function _at_draw_draw_waypoints(&$img, $settings) {
     $y = $p['y'];
     
     switch ($k) {
-      case 1 :
+      case 2 :
         imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_start);
         break;
-      case $count-1 :
+      case $count :
         imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_finish);
         break;
       default :
