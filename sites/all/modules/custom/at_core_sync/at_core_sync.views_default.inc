@@ -888,6 +888,19 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
   $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
+  /* Field: Field: Mobile phone number */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
+  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_phone']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_phone']['settings'] = array(
+    'click_to_edit' => 0,
+    'empty_text' => '',
+    'fallback_format' => 'global_phone_number',
+  );
   /* Sort criterion: OG membership: Payment status (field_pg_contestant_status) */
   $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
@@ -1063,6 +1076,7 @@ function at_core_sync_views_default_views() {
     t('[field_full_name] '),
     t('Payment status'),
     t('Core status'),
+    t('Phone number'),
     t('All'),
     t('List of contestants (manage)'),
     t('Contestants count (manage)'),
@@ -1744,7 +1758,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Days was not created.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -2287,6 +2301,97 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link (exclude)';
   $handler->display->display_options['fields']['edit_link']['exclude'] = TRUE;
+  /* Field: Bulk operations: OG membership */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::at_core_sync_contestants_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::at_core_sync_tracked_objects_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_item' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_script_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
+    ),
+    'action::og_set_state_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::og_user_roles_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_argument_selector_action' => array(
+      'selected' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'url' => '',
+      ),
+    ),
+    'action::og_membership_delete_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::system_send_email_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
   /* Field: Global: View result counter */
   $handler->display->display_options['fields']['counter']['id'] = 'counter';
   $handler->display->display_options['fields']['counter']['table'] = 'views';
@@ -2314,10 +2419,11 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
   $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
-  /* Field: Field: Link to Tracker */
+  /* Field: Field: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_tracker']['type'] = 'editable';
   $handler->display->display_options['fields']['field_tracker']['settings'] = array(
     'click_to_edit' => 1,
@@ -2370,7 +2476,7 @@ function at_core_sync_views_default_views() {
     t('Title'),
     t('Description'),
     t('Core status'),
-    t('Link to Tracker'),
+    t('Tracker'),
     t('Operations'),
     t('<ul>
 <li>[edit_link]</li>
@@ -2524,7 +2630,7 @@ function at_core_sync_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership: OG membership from Content */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';

@@ -611,6 +611,7 @@ function at_validation_js_alter(&$javascript) {
                 $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
                 $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
                 $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
+                $rules['profile_pilot[field_phone][und][0][full_number]'] = $rules['field_phone[und][0][full_number]'];
               }
             }
           }

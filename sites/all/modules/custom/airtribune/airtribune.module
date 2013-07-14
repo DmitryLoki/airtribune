@@ -8,6 +8,7 @@
 include_once 'airtribune_nodes.inc';
 
 define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
+define('AIRTRIBUNE_RETRIEVE_URL','http://retrieve.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -42,6 +43,7 @@ define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_RACE_NUMBER', 'field_race_number');
 define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
+define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
@@ -49,6 +51,7 @@ define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
 define('AIRTRIBUNE_POINT_TYPE_FIELD', 'field_point_type');
 define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
+define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -61,6 +64,8 @@ define('AIRTRIBUNE_DAY_TYPE', 'day');
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
 define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
+define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
+define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
@@ -803,6 +808,11 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
+  // Disable admin menu on visualisation page
+  if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
+    module_invoke('admin_menu', 'suppress');
+  }
+
   // We need distinguish drupal pages, to get pinba statistics.
   // Change name of script from 'index.php' to requested $q variable
   // @see #3283
@@ -1098,3 +1108,15 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   return implode('+',$ids);
 }
 
+/**
+ * hook_og_membership_presave implementation. see #3446
+ * 
+ * @author Khegai Sergei
+ */
+function airtribune_og_membership_presave(OgMembership $og_membership) {
+  switch ($og_membership->entity_type) {
+    case "ent_customobject":
+      $og_membership->type = "tracked_object";
+      break;
+  }
+}
