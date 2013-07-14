@@ -556,7 +556,7 @@ function organic_groups_field_default_fields() {
       'exclude_cv' => 0,
       'field_name' => 'field_phone',
       'label' => 'Mobile phone number',
-      'required' => 1,
+      'required' => 0,
       'settings' => array(
         'all_country_codes' => 1,
         'country_code_position' => 'after',
