@@ -117,7 +117,7 @@ function customobject_field_default_fields() {
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'list_integer',
+      'type' => 'list_text',
     ),
     'field_instance' => array(
       'bundle' => 'customobject',
@@ -130,7 +130,7 @@ function customobject_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 0,
+          'weight' => 6,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -154,7 +154,7 @@ function customobject_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '1',
+        'weight' => '0',
       ),
     ),
   );
@@ -256,7 +256,7 @@ function customobject_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '2',
+        'weight' => '1',
       ),
     ),
   );
@@ -385,7 +385,7 @@ function customobject_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );
