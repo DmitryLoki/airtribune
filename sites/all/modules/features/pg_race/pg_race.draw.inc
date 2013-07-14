@@ -1,6 +1,8 @@
 <?php
 
 define('PG_RACE_TILES_PERMISSIONS_MODE', 0775);
+define('AT_DRAW_PIXELS_PER_TILE', 256);
+
 
 function _at_draw_settings() {
   // TODO: Set settings in extra fields settings
@@ -63,42 +65,6 @@ function _at_draw_get_image($race_id) {
     'lat_max' => NULL,
   );
   
-  // TODO: Take box center instead of $waypoints[0]
-  // http://stackoverflow.com/questions/1253499/simple-calculations-for-working-with-lat-lon-km-distance
-  $d2lon = (1 / 1000) / (111.320 * cos($waypoints[0]['lat']));
-  $d2lat = (1 / 1000) / 110.54; // 1 deg = 110.54 km
-  foreach ($waypoints as $k => $waypoint) {
-    $rad = $waypoint['rad'];
-    $rad_lon = $rad * $d2lon;
-    $rad_lat = $rad * $d2lat;
-    
-    $waypoint['radius']['rad_lon'] = $rad_lon;
-    $waypoint['radius']['rad_lat'] = $rad_lat;
-    
-    $waypoint += array(
-      'lon_min' => $waypoint['lon'] - $rad_lon,
-      'lon_max' => $waypoint['lon'] + $rad_lon,
-      'lat_min' => $waypoint['lat'] - $rad_lat,
-      'lat_max' => $waypoint['lat'] + $rad_lat,
-    );
-    /*
-    // Get box dimensions in coordinates
-    foreach (array('lon_min', 'lon_max', 'lat_min', 'lat_max') as $key_name) {
-      if (!isset($box[$key_name])) {
-        $box[$key_name] = $waypoint[$key_name];
-      }
-      else {
-        if (in_array($key_name, array('lon_min', 'lat_min')) && $box[$key_name] > $waypoint[$key_name]) {
-          $box[$key_name] = $waypoint[$key_name];
-        }
-        elseif (in_array($key_name, array('lon_max', 'lat_max')) && $box[$key_name] < $waypoint[$key_name]) {
-          $box[$key_name] = $waypoint[$key_name];
-        }
-      }
-    }
-    */
-    $waypoints[$k] = $waypoint;
-  }
   
   foreach ($routepoints as $k => $routepoint) {
     $routepoint['lon_min'] = $routepoint['lon_max'] = $routepoint['lon'];
@@ -120,436 +86,17 @@ function _at_draw_get_image($race_id) {
   }
   
   
-  // Calculate box center
-  $box['center']['lon'] = $box['lon_min'] + ($box['lon_max'] - $box['lon_min']) / 2;
-  $box['center']['lat'] = $box['lat_min'] + ($box['lat_max'] - $box['lat_min']) / 2;
-  
-  
-  // Get info for the central tile of the box (pixel2degree ratio)
-  $zoom = $settings['zoom'];
-  
-  $box['center']['xtile'] = _at_draw_get_tile_num($box['center']['lon'], $zoom, 'xtile');
-  $box['center']['ytile'] = _at_draw_get_tile_num($box['center']['lat'], $zoom, 'ytile');
-  
-  // Number of pixels in one tile
-  $tile_px_num = 256;
-  
-  // Central tile edge coordinates
-  $central_tile = array(
-    'lon_min' => _at_draw_get_tile_coord($box['center']['xtile'], $zoom, 'lon'),
-    'lon_max' => _at_draw_get_tile_coord($box['center']['xtile']+1, $zoom, 'lon'),
-    'lat_min' => _at_draw_get_tile_coord($box['center']['ytile'], $zoom, 'lat'),
-    'lat_max' => _at_draw_get_tile_coord($box['center']['ytile']+1, $zoom, 'lat'),
-  );
-  // Number of pixels per one degree (lon and lat)
-  $central_tile['pdeg_lon'] = abs($tile_px_num / ($central_tile['lon_max'] - $central_tile['lon_min']));
-  $central_tile['pdeg_lat'] = abs($tile_px_num / ($central_tile['lat_max'] - $central_tile['lat_min']));
-  // Normal pdeg lat/lon ratio for a given location.
-  $central_tile['ratio'] = $central_tile['pdeg_lat']/$central_tile['pdeg_lon'];
-  
-  // Normalize canvas pdeg according to central_tile pdeg
-  $box['pdeg_lon'] = $canvas_used['width'] / ($box['lon_max'] - $box['lon_min']);
-  $box['pdeg_lat'] = $canvas_used['height'] / ($box['lat_max'] - $box['lat_min']);
-  // pdeg can only decrease in a direction, since we have limited number of pixels
-  // and fixed number of degrees
-  if ($box['pdeg_lat']/$box['pdeg_lon'] > $central_tile['ratio']) {
-    $box['pdeg_lat'] = $central_tile['ratio'] * $box['pdeg_lon'];
-  }
-  else {
-    $box['pdeg_lon'] = $central_tile['ratio'] * $box['pdeg_lat'];
-  }
-  
-  $box['height'] = round($box['pdeg_lat'] * ($box['lat_max'] - $box['lat_min']));
-  $box['width'] = round($box['pdeg_lon'] * ($box['lon_max'] - $box['lon_min']));
-  $box['offset'] = array(
-    'top' => floor(($canvas_used['height'] - $box['height']) / 2 + $offset['top']),
-    'left' => floor(($canvas_used['width'] - $box['width']) / 2 + $offset['left']),
-  );
-  
-  
-  foreach ($waypoints as $k => $waypoint) {
-    $waypoints[$k] += array(
-      'x' => round(($waypoint['lon'] - $box['lon_min']) * $box['pdeg_lon'] + $box['offset']['left']),
-      'y' => round(($waypoint['lat'] - $box['lat_min']) * $box['pdeg_lat'] + $box['offset']['top']),
-    );
-    
-    $radius = $waypoints[$k]['radius'];
-    $waypoints[$k]['radius']['pixel'] = round(($radius['rad_lon'] * $box['pdeg_lon'] + $radius['rad_lat'] * $box['pdeg_lat']) / 2);
-  }
-  
-  
-  foreach ($routepoints as $k => $routepoint) {
-    $routepoints[$k] += array(
-      'x' => round(($routepoint['lon'] - $box['lon_min']) * $box['pdeg_lon'] + $box['offset']['left']),
-      'y' => round(($routepoint['lat'] - $box['lat_min']) * $box['pdeg_lat'] + $box['offset']['top']),
-    );
-  }
-  
   $settings['waypoints'] = $waypoints;
   $settings['routepoints'] = $routepoints;
-  $settings['central_tile'] = $central_tile;
   $settings['box'] = $box;
   
-  $path = _at_draw_draw_image($settings);
   
+  $path = _at_draw_draw_gmap($settings);
   return $path;
 }
 
 
-function _at_draw_draw_image($settings) {
-  //$path = 'sites/default/files/my_new_image2.png';
-  
-  $files_path = variable_get('file_public_path', conf_path() . '/files');
-  $files_path .= '/pg_race_preview';
-  if (!file_exists($files_path)) {
-    mkdir($files_path);
-    chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
-  }
-  $path = $files_path . "/pg_race_{$settings['race_id']}.png";
-  
-  if (file_exists($path)) {
-    return $path;
-  }
-  
-  $canvas = $settings['canvas'];
-  // Create image
-  $img = imagecreatetruecolor($canvas['width'], $canvas['height']);
-  
-  
-  // Draw canvas background
-  $back = imagecolorallocate($img, 255, 255, 255);
-  imagefilledrectangle($img, 0, 0, $canvas['width'] - 1, $canvas['height'] - 1, $back);
-  imagecolordeallocate($img, $back);
-  
-  
-  // Draw map
-  _at_draw_draw_map($img, $settings);
-  
-  imageantialias($img, TRUE);
-  // Draw waypoints
-  _at_draw_draw_waypoints($img, $settings);
-  // Draw routepoints
-  _at_draw_draw_routepoints($img, $settings);
-  
-  // Save image
-  imagepng($img, $path);
-  chmod($path, PG_RACE_TILES_PERMISSIONS_MODE);
-  
-  return $path;
-}
-
-
-// TODO: Check semisphere
-
-
-function _at_draw_draw_waypoints(&$img, $settings) {
-  // Set circle inner and border colours
-  $cylinder_inner_color = imagecolorallocatealpha ($img , 142 , 142 , 142 , 70); // #8e8e8e
-  $cylinder_border_color = imagecolorallocate($img, 51, 51, 51); // #333333
-  $cylinder_inner_color_start = imagecolorallocatealpha ($img, 142, 217, 12, 70);  // #8ed90c
-  $cylinder_inner_color_finish = imagecolorallocatealpha ($img, 186, 7, 192, 70);  // #ba07d4
-  
-  $waypoints = $settings['waypoints'];
-  $box = $settings['box'];
-  $box_offset = $box['offset'];
-  
-  $count = count($waypoints);
-  // Draw circles
-  foreach ($waypoints as $k => $waypoint) {
-    $x = $waypoint['x'];
-    $y = $waypoint['y'];
-    $y = $settings['canvas']['height'] - $y;
-    
-    // TODO: radius
-    $radius = $waypoint['radius']['pixel'];
-    
-    $diameter = 2 * $radius;
-    //dsm($k . ' ' . $radius);
-    switch ($k) {
-      case 1 :
-        imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_start);
-        break;
-      case $count-1 :
-        imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_finish);
-        break;
-      default :
-        imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color);
-        break;
-    }
-    /*
-    if ($k == $count-1) {
-      imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_finish);
-    }
-    else {
-      imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color);
-    }
-    */
-    imageellipse($img , $x , $y , $diameter , $diameter , $cylinder_border_color);
-  }
-  imagecolordeallocate($img, $cylinder_inner_color);
-  imagecolordeallocate($img, $cylinder_border_color);
-  imagecolordeallocate($img, $cylinder_inner_color_start);
-  imagecolordeallocate($img, $cylinder_inner_color_finish);
-}
-
-function _at_draw_draw_routepoints(&$img, $settings) {
-  // Draw a line
-  $line_colour = imagecolorallocate($img, 51, 51, 51);  // #333333
-  // Set line thickness
-  imagesetthickness ($img, 2);
-  
-  $routepoints = $settings['routepoints'];
-  $count = count($routepoints);
-  
-  // There should be at least two points to draw a line
-  if ($count >= 2) {
-    // Draw optimized route
-    for ($i = 1; $i < $count - 1; $i++ ) {
-      $x0 = $routepoints[$i]['x'];
-      $y0 = $routepoints[$i]['y'];
-      $y0 = $settings['canvas']['height'] - $y0;  // TODO: Convert upside down
-      
-      $x1 = $routepoints[$i+1]['x'];
-      $y1 = $routepoints[$i+1]['y'];
-      $y1 = $settings['canvas']['height'] - $y1;
-      
-      imageline($img, $x0, $y0, $x1, $y1, $line_colour);
-      
-      $line_length = round(abs(sqrt(($x1-$x0)*($x1-$x0) + ($y1-$y0)*($y1-$y0))));
-      // Draw arrows only if length is greater than 100px.
-      if ($line_length > 70) {
-        $x_m = round(abs(($x1 + $x0) / 2));
-        $y_m = round(abs(($y1 + $y0) / 2));
-        
-        
-        $arrow_length = 10;  // px
-        
-        $atan = atan(($y1 - $y0)/($x1 - $x0));
-        $k = min(0, ($x1 - $x0)/abs($x1 - $x0));
-        $k = abs($k);
-        
-        $a1 = $atan + 5/6 * M_PI + $k * M_PI;
-        $a2 = $atan - 5/6 * M_PI + $k * M_PI;
-        
-        $p1 = array(
-          'x' => round($arrow_length * cos($a1)),
-          'y' => round($arrow_length * sin($a1)),
-        );
-        
-        $p2 = array(
-          'x' => round($arrow_length * cos($a2)),
-          'y' => round($arrow_length * sin($a2)),
-        );
-        
-        //imageline($img, $x_m, $y_m, $x_m + $p1['x'], $y_m + $p1['y'], $line_colour);
-        //imageline($img, $x_m, $y_m, $x_m + $p2['x'], $y_m + $p2['y'], $line_colour);
-        
-        $points = array(
-          $x_m, $y_m,
-          $x_m + $p1['x'], $y_m + $p1['y'],
-          $x_m + $p2['x'], $y_m + $p2['y'],
-        );
-        
-        //dsm($points);
-        imagefilledpolygon($img , $points , 3 , $line_colour);
-      }
-    }
-  }
-  
-  imagecolordeallocate($img, $line_colour);
-}
-
-
-
-
-
-function _at_draw_draw_map(&$img, $settings) {
-  // Get zoom from settings
-  $zoom = $settings['zoom'];
-  $box = $settings['box'];
-  $canvas = $settings['canvas'];
-  $central_tile = $settings['central_tile'];
-  
-  // Canvas box center
-  $x = round($box['width'] / 2 + $box['offset']['left']);
-  $y = round($box['height'] / 2 + $box['offset']['top']);
-  
-  $canvas += array(
-    'lon_min' => $box['center']['lon'] - ($x - 1) / $box['pdeg_lon'],
-    'lon_max' => $box['center']['lon'] + ($canvas['width'] - $x) / $box['pdeg_lon'],
-    'lat_min' => $box['center']['lat'] - ($y - 1) / $box['pdeg_lat'],
-    'lat_max' => $box['center']['lat'] + ($canvas['height'] - $y) / $box['pdeg_lat'],
-  );
-  
-  
-  $corner_tiles = array(
-    'xtile_min' => NULL,
-    'xtile_max' => NULL,
-    'ytile_min' => NULL,
-    'ytile_max' => NULL,
-  );
-  
-  // http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-  $corner_tiles['xtile_min'] = _at_draw_get_tile_num($canvas['lon_min'], $zoom, 'xtile');
-  $corner_tiles['xtile_max'] = _at_draw_get_tile_num($canvas['lon_max'], $zoom, 'xtile');
-  // TODO: min and max changed
-  $ytile_min = _at_draw_get_tile_num($canvas['lat_min'], $zoom, 'ytile');
-  $ytile_max = _at_draw_get_tile_num($canvas['lat_max'], $zoom, 'ytile');
-  $corner_tiles['ytile_min'] = min($ytile_min, $ytile_max);
-  $corner_tiles['ytile_max'] = max($ytile_min, $ytile_max);
-  
-  $settings['corner_tiles'] = $corner_tiles;
-  
-  // Download tiles. Get image resource.
-  $img_tiles_res = _at_draw_get_tiles($settings, $zoom);
-  
-  
-  // TODO: Check semisphere
-  // Get top left $img_tiles offset
-  //$img_tiles['offset']['left'] = round(($canvas['lon_min'] - _at_draw_get_tile_coord($corner_tiles['xtile_min'], $zoom, 'lon')) * $central_tile['pdeg_lon']);
-  //$img_tiles['offset']['top'] = - round(($canvas['lat_min'] - _at_draw_get_tile_coord($corner_tiles['ytile_min'], $zoom, 'lat')) * $central_tile['pdeg_lat']);
-  $img_tiles['offset']['left'] = round(($canvas['lon_min'] - _at_draw_get_tile_coord($corner_tiles['xtile_min'], $zoom, 'lon')) * $central_tile['pdeg_lon']);
-  $img_tiles['offset']['top'] = - round(($canvas['lat_max'] - _at_draw_get_tile_coord($corner_tiles['ytile_min'], $zoom, 'lat')) * $central_tile['pdeg_lat']);
-  // Get bottom right $img_tiles offset
-  //$img_tiles['offset']['right'] = round(($canvas['lon_max'] - _at_draw_get_tile_coord($corner_tiles['xtile_max'], $zoom, 'lon')) * $central_tile['pdeg_lon']);
-  //$img_tiles['offset']['bottom'] = round(($canvas['lat_max'] - _at_draw_get_tile_coord($corner_tiles['ytile_max'], $zoom, 'lat')) * $central_tile['pdeg_lat']);
-  $img_tiles['offset']['right'] = round(($canvas['lon_max'] - _at_draw_get_tile_coord($corner_tiles['xtile_max'], $zoom, 'lon')) * $central_tile['pdeg_lon']);
-  $img_tiles['offset']['bottom'] = - round(($canvas['lat_min'] - _at_draw_get_tile_coord($corner_tiles['ytile_max'], $zoom, 'lat')) * $central_tile['pdeg_lat']);
-  
-  /*
-  dsm(_at_draw_get_tile_coord($corner_tiles['ytile_min'], $zoom, 'lat') . ' ' . _at_draw_get_tile_coord($corner_tiles['xtile_min'], $zoom, 'lon'));
-  dsm(_at_draw_get_tile_coord($corner_tiles['ytile_max'], $zoom, 'lat') . ' ' . _at_draw_get_tile_coord($corner_tiles['xtile_max'], $zoom, 'lon'));
-  dsm($canvas['lat_min'] . ' ' . $canvas['lon_min']);
-  dsm($canvas['lat_max'] . ' ' . $canvas['lon_max']);
-  */
-  
-  $img_tiles['width'] = ($corner_tiles['xtile_max'] - $corner_tiles['xtile_min'] + 1) * 256;
-  $img_tiles['height'] = ($corner_tiles['ytile_max'] - $corner_tiles['ytile_min'] + 1) * 256;
-  
-  $img_tiles += array(
-    'xmin' => $img_tiles['offset']['left'],
-    'xmax' => $img_tiles['width'] - $img_tiles['offset']['right'] - 1,
-    // TODO:
-    'ymin' => $img_tiles['offset']['top'],
-    'ymax' => $img_tiles['height'] - $img_tiles['offset']['bottom'] - 1,
-  );
-  
-  $dst_image = $img;
-  $src_image = $img_tiles_res;
-  $dst_x = 0;
-  $dst_y = 0;
-  $src_x = $img_tiles['xmin'];
-  $src_y = $img_tiles['ymin'];
-  $dst_w = $canvas['width'] - 1;
-  $dst_h = $canvas['height'] - 1;
-  $src_w = $img_tiles['xmax'] - $img_tiles['xmin'];
-  $src_h = $img_tiles['ymax'] - $img_tiles['ymin'];
-  
-  //imagecopyresized($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
-  imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
-}
-
-
-function _at_draw_get_tiles($settings, $zoom) {
-  $central_tile = $settings['central_tile'];
-  $corner_tiles = $settings['corner_tiles'];
-  
-  // Create image
-  $xtile_count = $corner_tiles['xtile_max'] - $corner_tiles['xtile_min'] + 1;
-  $ytile_count = $corner_tiles['ytile_max'] - $corner_tiles['ytile_min'] + 1;
-  $img_tiles = imagecreatetruecolor($xtile_count * 256, $ytile_count * 256);
-  
-  $x_dst = 0;
-  $y_dst = 0;
-  for ($xtile = $corner_tiles['xtile_min']; $xtile <= $corner_tiles['xtile_max']; $xtile++) {
-    for ($ytile = $corner_tiles['ytile_min']; $ytile <= $corner_tiles['ytile_max']; $ytile++) {
-      $files_path = variable_get('file_public_path', conf_path() . '/files');
-      $files_path .= '/pg_race_preview';
-      if (!file_exists($files_path)) {
-        mkdir($files_path);
-        chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
-      }
-      $files_path .= '/tiles';
-      if (!file_exists($files_path)) {
-        mkdir($files_path);
-        chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
-      }
-      
-      // TODO: Add file detection
-      //$path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.jpg";
-      $path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.png";
-      
-      
-      
-
-      
-      // Check if file exists.
-      if (!file_exists ($path)) {
-        //$url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';  // terrain, zoom 12
-        $url = 'http://mts0.google.com/vt/lyrs=m@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=';  // normal, zoom 12
-        //$url = 'http://mts1.google.com/vt/lyrs=t@131,r@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=Galil'; // terrain, zoom 10
-        
-        // http://stackoverflow.com/questions/2440729/php-curl-how-can-i-emulate-a-get-request-exactly-like-a-web-browser
-        $agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-        curl_setopt($ch, CURLOPT_URL,$url);
-        $result=curl_exec($ch);
-        file_put_contents($path, $result);
-        chmod($path, PG_RACE_TILES_PERMISSIONS_MODE);
-      }
-      
-      // Tile image
-      //$tile_img = imagecreatefromjpeg($path);
-      $tile_img = imagecreatefrompng($path);
-      imagecopy ($img_tiles, $tile_img, $x_dst, $y_dst, 0, 0, 256, 256);
-      $y_dst += 256;
-    }
-    $y_dst = 0;
-    $x_dst += 256;
-  }
-  
-  //$path_tiles = 'sites/default/files/tiles_image2.png';
-  //imagepng($img_tiles, $path_tiles);
-  //chmod($path_tiles, PG_RACE_TILES_PERMISSIONS_MODE);
-  
-  return $img_tiles;
-}
-
-
-function _at_draw_get_max_zoom() {
-  //
-}
-
-
-
-function _at_draw_get_tile_num($lonlat, $zoom, $type) {
-  switch ($type) {
-    case 'xtile' :
-      $return = floor((($lonlat + 180) / 360) * pow(2, $zoom));
-      break;
-    case 'ytile' :
-      $return = floor((1 - log(tan(deg2rad($lonlat)) + 1 / cos(deg2rad($lonlat))) / pi()) /2 * pow(2, $zoom));
-      break;
-  }
-  return $return;
-}
-
-function _at_draw_get_tile_coord($tile_number, $zoom, $type) {
-  $n = pow(2, $zoom);
-  switch ($type) {
-    case 'lon' :
-      $return = $tile_number / $n * 360.0 - 180.0;
-      break;
-    case 'lat' :
-      $return = rad2deg(atan(sinh(pi() * (1 - 2 * $tile_number / $n))));
-      break;
-  }
-  return $return;
-}
+// TODO: Check semisphere if needed
 
 
 
@@ -628,5 +175,620 @@ if ($waypoints_opt[$id -1]['lat'] == $waypoints_opt[$id]['lat'] && $waypoints_op
   $distance += (int) abs($waypoints_sort[$id -1]['rad'] - $waypoints_sort[$id]['rad']);
 } else {
   $distance += (int) 1000 * sd_abs($waypoints_opt[$id -1]['lat'], $waypoints_opt[$id -1]['lon'], $waypoints_opt[$id]['lat'], $waypoints_opt[$id]['lon']);
+}
+*/
+
+/* ============================================================================================= */
+
+
+function _at_draw_get_tiles($zoom_box) {
+  
+  $edges = $zoom_box['edges'];
+  $corners = $zoom_box['corners'];
+  $extra_tiles = $zoom_box['extended']['extra_tiles'];
+  $zoom = $zoom_box['zoom'];
+  
+  // Get zoom_box edge tiles (extended)
+  
+  // TODO: Check Semisphere bug
+  $xtile_min = $corners[$edges['left']]['xtile'] - $extra_tiles['left'];
+  $xtile_max = $corners[$edges['right']]['xtile'] + $extra_tiles['right'];
+  $ytile_min = $corners[$edges['top']]['ytile'] - $extra_tiles['top'];
+  $ytile_max = $corners[$edges['bottom']]['ytile'] + $extra_tiles['bottom'];
+  //$ytile_max = $corners[$edges['top']]['ytile'] - $extra_tiles['top'];
+  //$ytile_min = $corners[$edges['bottom']]['ytile'] + $extra_tiles['bottom'];
+  
+  // Create image
+  $xtile_count = $xtile_max - $xtile_min + 1;
+  $ytile_count = $ytile_max - $ytile_min + 1;
+  $img_tiles = imagecreatetruecolor($xtile_count * AT_DRAW_PIXELS_PER_TILE, $ytile_count * AT_DRAW_PIXELS_PER_TILE);
+  
+  $x_dst = 0;
+  $y_dst = 0;
+  for ($xtile = $xtile_min; $xtile <= $xtile_max; $xtile++) {
+    for ($ytile = $ytile_min; $ytile <= $ytile_max; $ytile++) {
+      $files_path = variable_get('file_public_path', conf_path() . '/files');
+      $files_path .= '/pg_race_preview';
+      if (!file_exists($files_path)) {
+        mkdir($files_path);
+        chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
+      }
+      $files_path .= '/tiles';
+      if (!file_exists($files_path)) {
+        mkdir($files_path);
+        chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
+      }
+      
+      // TODO: Add filetype detection
+      //$path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.jpg";
+      $path = $files_path . "/tile_x{$xtile}_y{$ytile}_z{$zoom}.png";
+      
+      
+      // Check if file exists.
+      if (!file_exists ($path)) {
+        // TODO: Move into settings
+        //$url = 'http://mts0.google.com/vt/lyrs=t@131,r@221010232&hl=x-local&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=G';  // terrain, zoom 12
+        $url = 'http://mts0.google.com/vt/lyrs=m@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=';  // normal, zoom 12
+        //$url = 'http://mts1.google.com/vt/lyrs=t@131,r@223000000&hl=en&src=app&x=' . $xtile . '&y=' . $ytile . '&z=' . $zoom . '&s=Galil'; // terrain, zoom 10
+        
+        // http://stackoverflow.com/questions/2440729/php-curl-how-can-i-emulate-a-get-request-exactly-like-a-web-browser
+        $agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        curl_setopt($ch, CURLOPT_URL,$url);
+        $result=curl_exec($ch);
+        file_put_contents($path, $result);
+        chmod($path, PG_RACE_TILES_PERMISSIONS_MODE);
+      }
+      
+      // Tile image
+      //$tile_img = imagecreatefromjpeg($path);
+      $tile_img = imagecreatefrompng($path);
+      // TODO: Check source and destination coordinates (why not -1)
+      imagecopy ($img_tiles, $tile_img, $x_dst, $y_dst, 0, 0, AT_DRAW_PIXELS_PER_TILE, AT_DRAW_PIXELS_PER_TILE);
+      $y_dst += AT_DRAW_PIXELS_PER_TILE;
+    }
+    $y_dst = 0;
+    $x_dst += AT_DRAW_PIXELS_PER_TILE;
+  }
+  
+  // TODO: Comment 3 lines
+  $path_tiles = 'sites/default/files/tiles_image' . rand(1, 10) . '.png';
+  imagepng($img_tiles, $path_tiles);
+  chmod($path_tiles, PG_RACE_TILES_PERMISSIONS_MODE);
+  
+  return $img_tiles;
+}
+
+function _at_draw_draw_gmap($settings) {
+  
+  $canvas = $settings['canvas'];
+  $canvas_used = $settings['canvas_used'];
+  $offset = $settings['offset'];
+  
+  
+  $files_path = variable_get('file_public_path', conf_path() . '/files');
+  $files_path .= '/pg_race_preview';
+  if (!file_exists($files_path)) {
+    mkdir($files_path);
+    chmod($files_path, PG_RACE_TILES_PERMISSIONS_MODE);
+  }
+  $path = $files_path . "/pg_race_{$settings['race_id']}.png";
+  
+  if (file_exists($path)) {
+    return $path;
+  }
+  
+  
+  // Create image
+  $img = imagecreatetruecolor($canvas['width'], $canvas['height']);
+  
+  
+  
+  $zoom_box = _at_draw_get_gmap($settings);
+  
+  
+  $img_tiles = _at_draw_get_tiles($zoom_box);
+  
+  
+  $extra_tiles = $zoom_box['extended']['extra_tiles'];
+  $centre = $zoom_box['centre'];
+  $corners = $zoom_box['corners'];
+  $edges = $zoom_box['edges'];
+  $ratio = $zoom_box['ratio'];
+  
+  // Get zoom_box edge tiles
+  $xtile_min = $corners[$edges['left']]['xtile'];
+  $xtile_max = $corners[$edges['right']]['xtile'];
+  $ytile_min = $corners[$edges['top']]['ytile'];
+  $ytile_max = $corners[$edges['bottom']]['ytile'];
+  
+  
+   
+  // Copy resampled image.
+  
+  $dst_image = $img;
+  $src_image = $img_tiles;
+  $dst_x = 0;
+  $dst_y = 0;
+  
+  
+  // TODO: Check $src_x + $src_w (Same for $src_y)
+  // TODO: Check ceil. Expecially for case $ratio = 1
+  $src_x = $centre['xPixel'] + ($centre['xtile'] - $xtile_min + $extra_tiles['left']) * AT_DRAW_PIXELS_PER_TILE - ceil(($canvas_used['width'] + $offset['left'])/2/$ratio);
+  $src_y = $centre['yPixel'] + ($centre['ytile'] - $ytile_min + $extra_tiles['top']) * AT_DRAW_PIXELS_PER_TILE - ceil(($canvas_used['height'] + $offset['top'])/2/$ratio);
+  // TODO: Check -1 for $dst_w and $dst_h
+  $dst_w = $canvas['width'];
+  $dst_h = $canvas['height'];
+  $src_w = $canvas['width'] / $ratio;
+  $src_h = $canvas['height'] / $ratio;
+  
+  imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+  
+  $zoom_box['resampling'] = array(
+    'src_x' => $src_x,
+    'src_y' => $src_y,
+  );
+  
+  $settings['zoom_box'] = $zoom_box;
+  
+  imageantialias($img, TRUE);
+  // Draw Routepoints
+  _at_draw_draw_routepoints($img, $settings);
+  // Draw Waypoints
+  _at_draw_draw_waypoints($img, $settings);
+  
+  // Save image
+  imagepng($img, $path);
+  chmod($path, PG_RACE_TILES_PERMISSIONS_MODE);
+  
+  return $path;
+}
+
+function _at_draw_get_canvas_coords($zoom_box, $point) {
+  // TODO: Add static cache
+  
+  $zoom = $zoom_box['zoom'];
+  $corners = $zoom_box['corners'];
+  $edges = $zoom_box['edges'];
+  $ratio = $zoom_box['ratio'];
+  $centre = $zoom_box['centre'];
+  $extra_tiles = $zoom_box['extended']['extra_tiles'];
+  $resampling = $zoom_box['resampling'];
+  
+  
+  $lon = $point['lon'];
+  $lat = $point['lat'];
+  
+  $tile_num = _at_draw_coord_to_gmap_tile($lat, $lon, $zoom);
+  $xtile = $tile_num['x'];
+  $ytile = $tile_num['y'];
+  
+  $tile_pixel_coords = _at_draw_coord_to_gmap_tile_pixels($tile_num);
+  $xPixel = $tile_pixel_coords['x'];
+  $yPixel = $tile_pixel_coords['y'];
+  
+  $xtile = floor($xtile);
+  $ytile = floor($ytile);
+  
+  // Taken from _at_draw_draw_gmap().
+  $src_x = $resampling['src_x'];
+  $src_y = $resampling['src_y'];
+  
+  $xtile_min = $corners[$edges['left']]['xtile'];
+  $ytile_min = $corners[$edges['top']]['ytile'];
+  
+  $coords = array(
+    'x' => floor(($xPixel + ($xtile - $xtile_min + $extra_tiles['left']) * AT_DRAW_PIXELS_PER_TILE - $src_x) * $ratio),
+    'y' => floor(($yPixel + ($ytile - $ytile_min + $extra_tiles['top']) * AT_DRAW_PIXELS_PER_TILE - $src_y) * $ratio),
+  );
+  
+  return $coords;
+}
+
+
+function _at_draw_draw_waypoints(&$img, $settings) {
+  
+  $zoom_box = $settings['zoom_box'];
+  $waypoints = $settings['waypoints'];
+  
+  // Set circle inner and border colours
+  $cylinder_inner_color = imagecolorallocatealpha ($img , 142 , 142 , 142 , 70); // #8e8e8e
+  $cylinder_border_color = imagecolorallocate($img, 51, 51, 51); // #333333
+  $cylinder_inner_color_start = imagecolorallocatealpha ($img, 142, 217, 12, 70);  // #8ed90c
+  $cylinder_inner_color_finish = imagecolorallocatealpha ($img, 186, 7, 192, 70);  // #ba07d4
+  
+  
+  
+  $count = count($waypoints);
+  
+  // Draw circles
+  foreach ($waypoints as $k => $waypoint) {
+    $p = _at_draw_get_canvas_coords($zoom_box, $waypoint);
+    
+    // http://stackoverflow.com/questions/1253499/simple-calculations-for-working-with-lat-lon-km-distance
+    //$d2lon = (1 / 1000) / (111.320 * cos($waypoint['lat']));
+    $d2lat = (1 / 1000) / 110.54; // 1 deg = 110.54 km
+    $rad = array(
+      'lon' => $waypoint['lon'],
+      'lat' => $waypoint['lat'] + $waypoint['rad'] * $d2lat,
+    );
+    $r = _at_draw_get_canvas_coords($zoom_box, $rad);
+    
+    $radius = abs($p['y'] - $r['y']);
+    $diameter = 2 * $radius;
+    
+    $x = $p['x'];
+    $y = $p['y'];
+    
+    switch ($k) {
+      case 1 :
+        imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_start);
+        break;
+      case $count-1 :
+        imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_finish);
+        break;
+      default :
+        imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color);
+        break;
+    }
+    
+    imageellipse($img , $x , $y , $diameter , $diameter , $cylinder_border_color);
+  }
+  
+  imagecolordeallocate($img, $cylinder_inner_color);
+  imagecolordeallocate($img, $cylinder_border_color);
+  imagecolordeallocate($img, $cylinder_inner_color_start);
+  imagecolordeallocate($img, $cylinder_inner_color_finish);
+}
+
+// TODO:
+function _at_draw_draw_routepoints(&$img, $settings) {
+  
+  $zoom_box = $settings['zoom_box'];
+  $routepoints = $settings['routepoints'];
+  
+  // Draw a line
+  $line_colour = imagecolorallocate($img, 51, 51, 51);  // #333333
+  
+  $count = count($routepoints);
+  
+  // There should be at least two points to draw a line
+  if ($count >= 2) {
+    // Draw optimized route
+    for ($i = 1; $i < $count - 1; $i++ ) {
+      //$routepoints[$i]['lat']
+      //$routepoints[$i]['lon']
+      
+      //$coords = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i]);
+      //dsm($coords);
+      $p0 = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i]);
+      $p1 = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i+1]);
+      
+      $x0 = $p0['x'];
+      $y0 = $p0['y'];
+      $x1 = $p1['x'];
+      $y1 = $p1['y'];
+      
+      // Set line thickness
+      imagesetthickness ($img, 2);
+      //imageline($img, $p0['x'], $p0['y'], $p1['x'], $p1['y'], $line_colour);
+      imageline($img, $x0, $y0, $x1, $y1, $line_colour);
+      
+      
+      $line_length = round(abs(sqrt(($x1-$x0)*($x1-$x0) + ($y1-$y0)*($y1-$y0))));
+      // Draw arrows only if length is greater than 100px.
+      if ($line_length > 70) {
+        $x_m = round(abs(($x1 + $x0) / 2));
+        $y_m = round(abs(($y1 + $y0) / 2));
+        
+        
+        $arrow_length = 10;  // px
+        
+        $atan = atan(($y1 - $y0)/($x1 - $x0));
+        $k = min(0, ($x1 - $x0)/abs($x1 - $x0));
+        $k = abs($k);
+        
+        $a1 = $atan + 5/6 * M_PI + $k * M_PI;
+        $a2 = $atan - 5/6 * M_PI + $k * M_PI;
+        
+        $d1 = array(
+          'x' => round($arrow_length * cos($a1)),
+          'y' => round($arrow_length * sin($a1)),
+        );
+        
+        $d2 = array(
+          'x' => round($arrow_length * cos($a2)),
+          'y' => round($arrow_length * sin($a2)),
+        );
+        
+        //imageline($img, $x_m, $y_m, $x_m + $d1['x'], $y_m + $d1['y'], $line_colour);
+        //imageline($img, $x_m, $y_m, $x_m + $d2['x'], $y_m + $d2['y'], $line_colour);
+        
+        $points = array(
+          $x_m, $y_m,
+          $x_m + $d1['x'], $y_m + $d1['y'],
+          $x_m + $d2['x'], $y_m + $d2['y'],
+        );
+        
+        // Set line thickness
+        imagesetthickness ($img, 1);
+        //dsm($points);
+        imagefilledpolygon($img , $points , 3 , $line_colour);
+      }
+      
+    }
+  }
+  
+  imagecolordeallocate($img, $line_colour);
+}
+
+// TODO:
+function _at_draw_get_gmap($settings) {
+  $canvas_used = $settings['canvas_used'];
+  
+  // TODO: Check if zoom is fixed, or get optimal
+  $optimal_zoom_settings = _at_draw_get_optimal_zoom_settings($settings);
+  
+  // Get $zoom_box for zoom used.
+  
+  $zoom_optimal = $optimal_zoom_settings['zoom_optimal'];
+  $zoom_box = $optimal_zoom_settings['zoom_boxes'][$zoom_optimal];
+  
+  // Get ratio for $canvas_used / $zoom_box dimensions
+  $ratio = min($canvas_used['width'] / $zoom_box['width'], $canvas_used['height'] / $zoom_box['height']);
+  
+  $ratio = $ratio < 1 ? $ratio : 1;
+  
+  $zoom_box['ratio'] = $ratio;
+  //dsm($zoom_box);
+  $zoom_box['extended'] = _at_draw_extend_zoom_box($settings, $zoom_box);
+  return $zoom_box;
+}
+
+// TODO:
+function _at_draw_extend_zoom_box($settings, $zoom_box) {
+  $canvas_used = $settings['canvas_used'];
+  $offset = $settings['offset'];
+  $ratio = $zoom_box['ratio'];
+  $edges = $zoom_box['edges'];
+  $corners = $zoom_box['corners'];
+  $centre = $zoom_box['centre'];
+  
+  // Get zoom_box edge tiles
+  $xtile_min = $corners[$edges['left']]['xtile'];
+  $xtile_max = $corners[$edges['right']]['xtile'];
+  $ytile_min = $corners[$edges['top']]['ytile'];
+  $ytile_max = $corners[$edges['bottom']]['ytile'];
+  
+  $xtiles_count = $xtile_max - $xtile_min + 1;
+  $ytiles_count = $ytile_max - $ytile_min + 1;
+  
+  // Get dimensions of zoom_box tiles
+  // TODO: get from get_zoom_box
+  $full_width = $xtiles_count * AT_DRAW_PIXELS_PER_TILE;
+  $full_height = $ytiles_count * AT_DRAW_PIXELS_PER_TILE;
+  
+  // Get zoom_box pixels outside canvas_used
+  // TODO:
+  $left = $corners[$edges['left']]['xPixel'];
+  $right = AT_DRAW_PIXELS_PER_TILE - $corners[$edges['right']]['xPixel'];
+  $top = $corners[$edges['top']]['yPixel'];
+  $bottom = AT_DRAW_PIXELS_PER_TILE - $corners[$edges['bottom']]['yPixel'];
+  
+  // Get extra number of tiles if needed
+  // Pixels for offset minus Pixels in tiles (considering $ratio)
+  $pixels_to_add = array(
+    'left' => ceil((($canvas_used['width'] + $offset['left']) / 2) / $ratio) - (($centre['xtile'] - $xtile_min) * AT_DRAW_PIXELS_PER_TILE + $centre['xPixel']),
+    'right' => ceil((($canvas_used['width'] + $offset['right']) / 2) / $ratio) - (($xtile_max - $centre['xtile'] + 1) * AT_DRAW_PIXELS_PER_TILE - $centre['xPixel']),
+    'top' => ceil((($canvas_used['height'] + $offset['top']) / 2) / $ratio) - (($centre['ytile'] - $ytile_min) * AT_DRAW_PIXELS_PER_TILE + $centre['yPixel']),
+    'bottom' => ceil((($canvas_used['width'] + $offset['bottom']) / 2) / $ratio) - (($ytile_max - $centre['ytile'] + 1) * AT_DRAW_PIXELS_PER_TILE - $centre['yPixel']),
+    //'left' => ceil($offset['left'] / $ratio) - $left,
+    //'right' => ceil($offset['right'] / $ratio) - $right,
+    //'top' => ceil($offset['top'] / $ratio) - $top,
+    //'bottom' => ceil($offset['bottom'] / $ratio) - $bottom,
+  );
+  
+  /*
+  $tiles_extended = array(
+    'xtile_min' => $pixels_to_add['left'] > 0 ? $xtile_min - (floor($pixels_to_add['left'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $xtile_min,
+    'xtile_max' => $pixels_to_add['right'] > 0 ? $xtile_max + (floor($pixels_to_add['right'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $xtile_max,
+    'ytile_min' => $pixels_to_add['top'] > 0 ? $ytile_min - (floor($pixels_to_add['top'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $ytile_min,
+    'ytile_max' => $pixels_to_add['bottom'] > 0 ? $ytile_max + (floor($pixels_to_add['bottom'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $ytile_max,
+  );
+  */
+  
+  // Here floor() is used to get integer number of tiles
+  $extra_tiles = array(
+    'left' => $pixels_to_add['left']   > 0 ? floor($pixels_to_add['left']    / AT_DRAW_PIXELS_PER_TILE) + 1 : 0,
+    'right' => $pixels_to_add['right']  > 0 ? floor($pixels_to_add['right']   / AT_DRAW_PIXELS_PER_TILE) + 1 : 0,
+    'top' => $pixels_to_add['top']    > 0 ? floor($pixels_to_add['top']     / AT_DRAW_PIXELS_PER_TILE) + 1 : 0,
+    'bottom' => $pixels_to_add['bottom'] > 0 ? floor($pixels_to_add['bottom']  / AT_DRAW_PIXELS_PER_TILE) + 1 : 0,
+  );
+  
+  $extended['extra_tiles'] = $extra_tiles;
+  return $extended;
+}
+
+
+
+// TODO: Add option to set optimal zoom to zoom_optimal+1 or more advanced settings (i.e. zoom not greater than or zoom between that and that)
+// Zoom must not be lower than optimal in any case.
+
+
+
+
+// TODO: Check if this returns right values.
+function _at_draw_get_optimal_zoom_settings($settings) {
+  // TODO: Take zoom_min from settings
+  $zoom_min = 8;
+  $box = $settings['box'];
+  $canvas_used = $settings['canvas_used'];
+  //dsm($canvas_used);
+  
+  $zoom_boxes = array();
+  
+  $zoom_optimal = $zoom_min - 1;
+  do {
+    $zoom_optimal ++;
+    $zoom_box = _at_draw_get_zoom_box($box, $zoom_optimal);
+    $zoom_boxes[$zoom_optimal] = $zoom_box;
+  } while ($zoom_box['width'] <= $canvas_used['width'] && $zoom_box['height'] <= $canvas_used['height']);
+  
+  // Roll back last increament.
+  // Since we need $zoom_optimal+1, this line is commented.
+  //$zoom_optimal --;
+  
+  return array(
+    'zoom_optimal' => $zoom_optimal,
+    'zoom_boxes' => $zoom_boxes,
+  );
+}
+
+
+// TODO: Check if this returns right values.
+/**
+ * Get dimensions of box in pixels for a given zoom.
+ */
+function _at_draw_get_zoom_box($box, $zoom) {
+  // NOTE: Actually, box isn't a square when drawn on tiles (because of latitude).
+  
+  // Points' box edge coordinates
+  $lon_min = $box['lon_min'];
+  $lon_max = $box['lon_max'];
+  $lat_min = $box['lat_min'];
+  $lat_max = $box['lat_max'];
+  
+  // Zoom-box corner points
+  // Actually, it is a prism. Use $edges for box.
+  // NOTE: $lat_max is at the top of GMap, i.e. coordinates decrease from the Noth Pole to the South Pole
+  $corners = array(
+    'left_top' => array('lon' => $lon_min, 'lat' => $lat_max),
+    'left_bottom' => array('lon' => $lon_min, 'lat' => $lat_min),
+    'right_top' => array('lon' => $lon_max, 'lat' => $lat_max),
+    'right_bottom' => array('lon' => $lon_max, 'lat' => $lat_min),
+  );
+  
+  // Corner tile Numbers and Pixel coordinates
+  foreach ($corners as $k => $corner) {
+    $tile_num = _at_draw_coord_to_gmap_tile($corner['lat'], $corner['lon'], $zoom);
+    $corners[$k]['xtile'] = floor($tile_num['x']);
+    $corners[$k]['ytile'] = floor($tile_num['y']);
+    
+    $tile_pixel_coords = _at_draw_coord_to_gmap_tile_pixels($tile_num);
+    $corners[$k]['xPixel'] = $tile_pixel_coords['x'];
+    $corners[$k]['yPixel'] = $tile_pixel_coords['y'];
+  }
+  
+  // Since two points with the same longitude (but different longitude) can have different xtile numbers (aha!),
+  // do additional checks before calculating zoom_box dimensions
+  $edges = array();
+  
+  $edges['left'] = ($corners['left_top']['xtile'] < $corners['left_bottom']['xtile']
+                    || ($corners['left_top']['xtile'] == $corners['left_bottom']['xtile']
+                        && $corners['left_top']['xPixel'] < $corners['left_bottom']['xPixel']))
+                 ? 'left_top'
+                 : 'left_bottom';
+  
+  $edges['right'] = ($corners['right_top']['xtile'] > $corners['right_bottom']['xtile']
+                    || ($corners['right_top']['xtile'] == $corners['right_bottom']['xtile']
+                        && $corners['right_top']['xPixel'] > $corners['right_bottom']['xPixel']))
+                 ? 'right_top'
+                 : 'right_bottom';
+  
+  // For top and bottom edges we can take either left or right corners.
+  $edges['top'] = 'left_top';
+  $edges['bottom'] = 'left_bottom';
+  
+  // Calculate Zoom-box centre
+  $centre = array(
+    'lon' => $corners[$edges['left']]['lon'] + ($corners[$edges['right']]['lon'] - $corners[$edges['left']]['lon']) / 2,
+    'lat' => $corners[$edges['top']]['lat'] + ($corners[$edges['bottom']]['lat'] - $corners[$edges['top']]['lat']) / 2,
+  );
+  $centre_tile = _at_draw_coord_to_gmap_tile($centre['lat'], $centre['lon'], $zoom);
+  $centre_tile_pixel_coords = _at_draw_coord_to_gmap_tile_pixels($centre_tile);
+  $centre += array(
+    'xtile' => floor($centre_tile['x']),
+    'ytile' => floor($centre_tile['y']),
+    'xPixel' => $centre_tile_pixel_coords['x'],
+    'yPixel' => $centre_tile_pixel_coords['y'],
+  );
+  
+  // Zoom-box
+  $zoom_box = array(
+    'zoom' => $zoom,
+    'corners' => $corners,
+    'edges' => $edges,
+    'width' => $corners[$edges['right']]['xPixel'] - $corners[$edges['left']]['xPixel'] + ($corners[$edges['right']]['xtile'] - $corners[$edges['left']]['xtile']) * AT_DRAW_PIXELS_PER_TILE,
+    'height' => $corners[$edges['bottom']]['yPixel'] - $corners[$edges['top']]['yPixel'] + ($corners[$edges['bottom']]['ytile'] - $corners[$edges['top']]['ytile']) * AT_DRAW_PIXELS_PER_TILE,
+    'centre' => $centre,
+  );
+  
+  // TODO: Add semisphere check
+  $zoom_box['height'] = $zoom_box['height'];
+  
+  return $zoom_box;
+}
+
+
+// TODO: Add check for calculations error in _at_draw_coord_to_gmap_tile() + _at_draw_coord_to_gmap_tile()
+// since because of calculation error (inaccuracy) we can get pixels for a tile different from _at_draw_coord_to_gmap_tile() one.
+
+
+// TODO: Check if this returns right values.
+// TODO: Change returned value keys to 'xtile', 'ytile'
+
+/**
+ * Get tile numbers for lat/lon
+ * 
+ * see https://metacpan.org/module/Geo::Coordinates::GMap#___pod
+ */
+function _at_draw_coord_to_gmap_tile($lat, $lon, $zoom) {
+  $sin_phi = sin( $lat * M_PI / 180 );
+  
+  $norm_x = $lon / 180;
+  $norm_y = (0.5 * log((1 + $sin_phi) / (1 - $sin_phi))) / M_PI;
+  
+  $tile_x = pow(2, $zoom) * (($norm_x + 1) / 2);
+  $tile_y = pow(2, $zoom) * ((1 - $norm_y) / 2);
+  
+  return array(
+    'x' => $tile_x,
+    'y' => $tile_y,
+  );
+}
+
+function _at_draw_coord_to_gmap_tile_pixels($tile_num) {
+  $tile_x = $tile_num['x'];
+  $tile_y = $tile_num['y'];
+  return array(
+    'x' => round(($tile_x - floor($tile_x)) * AT_DRAW_PIXELS_PER_TILE),
+    'y' => round(($tile_y - floor($tile_y)) * AT_DRAW_PIXELS_PER_TILE),
+  );
+}
+
+
+/*
+sub coord_to_gmap_tile {
+    my ($lat, $lon, $zoom) = @_;
+
+    # The C# code did this, but I don't know why, so I'm not going to enable it.
+    #return if abs($lat) > 85.0511287798066;
+
+    my $sin_phi = sin( $lat * pi / 180 );
+
+    my $norm_x = $lon / 180;
+    my $norm_y = (0.5 * log((1 + $sin_phi) / (1 - $sin_phi))) / pi;
+
+    my $tile_x = (2 ** $zoom) * (($norm_x + 1) / 2);
+    my $tile_y = (2 ** $zoom) * ((1 - $norm_y) / 2);
+
+    return(
+        $tile_x,
+        $tile_y,
+    );
 }
 */
