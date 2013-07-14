@@ -255,7 +255,7 @@ function _day_pg_race_task_set($day_node) {
   // TODO: Remove duplicated operations (see if() case)
   // Check if it is current day
   $created = $day_node->created;
-  $items = field_get_items('node', $day_node, AIRTRIBUNE_OG_GROUP_REF_FIELD);
+  $items = field_get_items('node', $day_node, OG_AUDIENCE_FIELD);
   $item = array_shift($items);
   $target_id = $item['target_id'];
   $node = node_load($target_id);
