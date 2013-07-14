@@ -48,7 +48,6 @@ function _at_draw_get_image($race_id) {
   
   // Get routepoints
   $routepoints = waypoint_get_optimized_waypoints($waypoints);
-  $routepoints = array_values($routepoints);
   // TODO: There is a bug in optimal poins: lon and lat changed places
   foreach ($routepoints as $k => $v) {
     $tmp = $routepoints[$k]['lon'];
@@ -101,7 +100,7 @@ function _at_draw_get_image($race_id) {
 
 
 function _at_draw_get_waypoints($race_id) {
-  $waypoints = array();
+  $waypoints = array(0 => NULL);
   $entities = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($race_id));
   
   if (!empty($entities)) {
@@ -132,6 +131,7 @@ function _at_draw_get_waypoints($race_id) {
     }
   }
   
+  unset($waypoints[0]);
   return $waypoints;
 }
 
@@ -425,10 +425,10 @@ function _at_draw_draw_waypoints(&$img, $settings) {
     $y = $p['y'];
     
     switch ($k) {
-      case 1 :
+      case 2 :
         imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_start);
         break;
-      case $count-1 :
+      case $count :
         imagefilledellipse($img , $x , $y , $diameter , $diameter , $cylinder_inner_color_finish);
         break;
       default :
@@ -459,12 +459,7 @@ function _at_draw_draw_routepoints(&$img, $settings) {
   // There should be at least two points to draw a line
   if ($count >= 2) {
     // Draw optimized route
-    for ($i = 1; $i < $count - 1; $i++ ) {
-      //$routepoints[$i]['lat']
-      //$routepoints[$i]['lon']
-      
-      //$coords = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i]);
-      //dsm($coords);
+    for ($i = 1; $i <= $count - 1; $i++ ) {
       $p0 = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i]);
       $p1 = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i+1]);
       
@@ -475,7 +470,6 @@ function _at_draw_draw_routepoints(&$img, $settings) {
       
       // Set line thickness
       imagesetthickness ($img, 2);
-      //imageline($img, $p0['x'], $p0['y'], $p1['x'], $p1['y'], $line_colour);
       imageline($img, $x0, $y0, $x1, $y1, $line_colour);
       
       
