@@ -177,7 +177,7 @@ class ATSyncCustom extends ATSync {
   public function synchronize() {
     $description_field = $this->entity->field_plain_body;
     $description_field = array_pop($description_field);
-    $description = isset($description_field[0]['value']) ? $description_field[0]['value'] : FALSE;
+    $description = isset($description_field[0]['value']) ? $description_field[0]['value'] : '';
     $data = array(
       'type' => $this->entity->field_customobject_type[LANGUAGE_NONE][0]['value'],
       'title' => $this->entity->title,
