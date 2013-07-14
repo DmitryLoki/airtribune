@@ -106,10 +106,11 @@ function customobject_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          1 => 'bus',
-          2 => 'car',
-          3 => 'motorcycle',
-          4 => 'helicopter',
+          'bus' => 'bus',
+          'car' => 'car',
+          'motorcycle' => 'motorcycle',
+          'helicopter' => 'helicopter',
+          'van' => 'van',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
