@@ -278,7 +278,7 @@ class ShortWayStruct {
       */
     }
     
-    dsm($coords);
+    //dsm($coords);
 
     $curr = NULL;
     $next = NULL;
