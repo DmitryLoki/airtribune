@@ -66,6 +66,7 @@ define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
 define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
 define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
 define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
+define('AIRTRIBUNE_CUSTOMOBJECT_TYPE', 'ent_customobject');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
@@ -74,6 +75,7 @@ define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
 // Memberships
 define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
 define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
+define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -1115,8 +1117,8 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
  */
 function airtribune_og_membership_presave(OgMembership $og_membership) {
   switch ($og_membership->entity_type) {
-    case "ent_customobject":
-      $og_membership->type = "tracked_object";
+    case AIRTRIBUNE_CUSTOMOBJECT_TYPE:
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT;
       break;
   }
 }
