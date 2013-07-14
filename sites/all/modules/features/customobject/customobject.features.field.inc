@@ -261,107 +261,6 @@ function customobject_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_customobject-customobject-field_tracker'.
-  $fields['ent_customobject-customobject-field_tracker'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_tracker',
-      'field_permissions' => array(
-        'type' => '2',
-      ),
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
-      'indexes' => array(
-        'target_id' => array(
-          0 => 'target_id',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'entityreference',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'handler' => 'event_views',
-        'handler_settings' => array(
-          'behaviors' => array(
-            'views-select-list' => array(
-              'status' => 0,
-            ),
-          ),
-          'view' => array(
-            'args' => array(
-              0 => 'gid',
-              1 => '[og_membership:id]',
-            ),
-            'display_name' => 'trackers_by_contest',
-            'view_name' => 'contest_trackers',
-          ),
-        ),
-        'profile2_private' => FALSE,
-        'target_type' => 'ent_tracker',
-      ),
-      'translatable' => '0',
-      'type' => 'entityreference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'customobject',
-      'default_value' => NULL,
-      'default_value_function' => '',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 1,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'ent_customobject',
-      'exclude_cv' => 0,
-      'field_name' => 'field_tracker',
-      'label' => 'Link to Tracker',
-      'options_limit' => FALSE,
-      'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(),
-      'required' => 0,
-      'settings' => array(
-        'behaviors' => array(
-          'prepopulate' => array(
-            'status' => 0,
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '0',
-      ),
-    ),
-  );
-
   // Exported field: 'ent_customobject-customobject-og_group_ref'.
   $fields['ent_customobject-customobject-og_group_ref'] = array(
     'field_config' => array(
@@ -495,7 +394,6 @@ function customobject_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Description');
   t('Groups audience');
-  t('Link to Tracker');
   t('Object type');
   t('field_core_id');
 
