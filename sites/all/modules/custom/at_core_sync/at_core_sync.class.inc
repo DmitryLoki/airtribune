@@ -538,7 +538,7 @@ class ATSyncRace extends ATSync {
 
       $this->address = implode('/', array('contest', $contest_core_id, 'race'));
       if ($this->core_id) {
-        $this->address = implode('/', array('contest', $contest_core_id, 'race', $this->reques, 'track_archive'));
+        $this->address = implode('/', array('contest', $contest_core_id, 'race', $this->core_id, 'track_archive'));
         $response = $this->request('url='.file_create_url(file_load($fid)->uri));
       } else {
         ATSync::setMessage(t("Core API: Unable to send tracks. Race not synchronized yet."));
