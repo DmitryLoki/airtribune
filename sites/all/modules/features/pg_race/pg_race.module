@@ -4,6 +4,8 @@
  * Code for the Paragliding Race feature.
  */
 
+define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.php');
+
 include_once 'pg_race.features.inc';
 
 
@@ -265,9 +267,14 @@ function pg_race_field_extra_fields() {
         'weight' => -5,
         'callback' => 'pg_race_preview_image_callback',
       ),
-      'pg_race_retreave_link' => array(
-        'label' => t('Paragliding race retreave link'),
-        'description' => t('Retreave link'),
+      'pg_race_retrieve_link' => array(
+        'label' => t('Paragliding race retrieve link'),
+        'description' => t('Retrieve link'),
+        'weight' => -5,
+      ),
+      'pg_race_retrieve_table_link' => array(
+        'label' => t('Paragliding race retrieve table link'),
+        'description' => t('Retrieve table link'),
         'weight' => -5,
       ),
     ),
@@ -328,15 +335,45 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       '#markup' => $markup,
     );
 
-    $entity->content['pg_race_retreave_link'] = array(
-      '#theme' => 'link',
-      '#text' => t('Retrive'),
-      '#path' => 'retrieve/' . $entity->id,
-      '#options' => array(
-        'attributes' => array('class' => array('retrieve-link')),
-      ),
-    );
-    
+    $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+    if (!empty($og_ref_items[0])) {
+      $gid = $og_ref_items[0]['target_id'];
+      global $user;
+      $entity->content['pg_race_retrieve_link'] = array(
+        '#theme' => 'link',
+        '#text' => t('Retrieve'),
+        '#path' => 'retrieve/' . $entity->id,
+        '#options' => array(
+          'attributes' => array('class' => array('retrieve-link')),
+          'html' => FALSE,
+        ),
+        '#access' => og_user_access('node', $gid, 'administer-group', $user),
+      );
+      $core_id_items = field_get_items('ent_race', $entity, 'field_core_id');
+      $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
+      if (!empty($core_id_items[0]) && !empty($race_date_items[0])) {
+        $event_date = airtribune_extract_time_from_event($gid);
+        $offset = $event_date['offset'];
+        $start_limit = strtotime($race_date_items[0]['value']);
+        $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
+
+        $entity->content['pg_race_retrieve_table_link'] = array(
+          '#theme' => 'link',
+          '#text' => t('Retrieve table'),
+          '#path' => PG_RACE_RETREIVE_URL,
+          '#options' => array(
+            'attributes' => array('class' => array('retrieve-table-link')),
+            'html' => FALSE,
+            'query' => array(
+              'contestid' => $gid,
+              'raceid' => $core_id_items[0]['value'],
+            )
+          ),
+          '#access' => $start_limit < REQUEST_TIME && REQUEST_TIME < ($end_limit + $offset),
+        );
+      }
+    }
+
     // Race preview image
     $entity->content['pg_race_preview_image'] = array(
       '#type' => 'item',
