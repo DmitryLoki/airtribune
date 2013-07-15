@@ -322,22 +322,29 @@ function pg_race_play_link_callback($entity) {
 }
 
 function pg_race_retrive_callback($entity) {
+  global $user;
+  $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+  $gid = $og_ref_items[0]['target_id'];
+
   $link =  array(
     '#theme' => 'link',
-    '#text' => t('Retrieve'),
+    '#text' => t('Retrieve map'),
     '#path' => 'retrieve/' . $entity->id,
     '#options' => array(
       'attributes' => array('class' => array('retrieve-link'),'target' => '_blank'),
       'html' => FALSE,
     ),
+    '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
   );
 
   return render($link);
 }
 
 function pg_race_retrive_table_callback($entity) {
+
   $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
   $gid = $og_ref_items[0]['target_id'];
+
   $node = node_load($gid);
   $core_id_items = field_get_items('node', $node, 'field_core_id');
   $race_id_items = field_get_items('ent_race', $entity, 'field_core_id');
@@ -354,16 +361,28 @@ function pg_race_retrive_table_callback($entity) {
         'raceid' => $race_id_items[0]['value'],
       )
     ),
+    '#access' => pg_race_retrive_access($entity, $gid),
   );
 
   return render($link);
 }
 
+
+function pg_race_retrive_access($entity, $gid) {return 1;
+  $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
+  $event_date = airtribune_extract_time_from_event($gid);
+  $offset = $event_date['offset'];
+  $start_limit = strtotime($race_date_items[0]['value']);
+  $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
+  $now = REQUEST_TIME + $offset;
+  return  $start_limit < $now && $now < $end_limit;
+}
+
+
 /**
  * Implements hook_entity_view()
  */
 function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
-  global $user;
 
   if ($type == 'ent_race' && $entity->type == 'pg_race') {
     $preview = _pg_race_preview_markup($entity);
@@ -376,28 +395,13 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       '#markup' => $markup,
     );
 
-    $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
-    $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
-    if (!empty($og_ref_items[0]) && !empty($race_date_items[0])) {
-      $gid = $og_ref_items[0]['target_id'];
-      $event_date = airtribune_extract_time_from_event($gid);
-      $offset = $event_date['offset'];
-      $start_limit = strtotime($race_date_items[0]['value']);
-      $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
-      $now = REQUEST_TIME + $offset;
-      $time_access = $start_limit < $now && $now < $end_limit;
-
       $entity->content['pg_race_retrieve_link'] = array(
         '#markup' => pg_race_retrive_callback($entity),
-        '#access' => $time_access && og_user_access('node', $gid, 'administer-group', $user),
       );
 
       $entity->content['pg_race_retrieve_table_link'] = array(
         '#markup' => pg_race_retrive_table_callback($entity),
-        '#access' => $time_access,
       );
-
-    }
 
     // Race preview image
     $entity->content['pg_race_preview_image'] = array(
