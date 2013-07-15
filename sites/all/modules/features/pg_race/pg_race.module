@@ -369,7 +369,7 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
               'raceid' => $core_id_items[0]['value'],
             )
           ),
-          '#access' => ($start_limit + $offset) < REQUEST_TIME && REQUEST_TIME < ($end_limit + $offset),
+          '#access' => $start_limit < REQUEST_TIME && REQUEST_TIME < ($end_limit + $offset),
         );
       }
     }
