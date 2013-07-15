@@ -227,8 +227,13 @@ function at_inline_prepare_form(&$form, $hidden) {
 }
 
 function at_inline_entity_presave($entity, $type) {
-  if ($type == 'ent_race') {
-    //dsm($entity);
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
+    // Set og_group_ref if inline Race form is edited
+    // Check that form is inline
+    if (isset($entity->original) && !empty($entity->is_inline)) {
+      $gid = $entity->original->{OG_AUDIENCE_FIELD}['und'][0]['target_id'];
+      $entity->{OG_AUDIENCE_FIELD}['und'][0]['target_id'] = $gid;
+    }
   }
 }
 
@@ -284,8 +289,10 @@ function _at_inline_eck__entity__add($entity_type_name, $bundle_name, $day_id) {
  */
 function _at_inline_eck__entity__edit($entity_type_name, $bundle_name, $id) {
   if (is_numeric($id)) {
+    // Set inline flag for presave hook
     $entities = entity_load($entity_type_name, array($id));
     $entity = $entities[$id];
+    $entity->is_inline = TRUE;
   }
 
   return drupal_get_form("eck__entity__form_edit_{$entity_type_name}_{$bundle_name}", $entity, 'at_inline_form');
