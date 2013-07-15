@@ -328,15 +328,21 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       '#markup' => $markup,
     );
 
-    $entity->content['pg_race_retreave_link'] = array(
-      '#theme' => 'link',
-      '#text' => t('Retrive'),
-      '#path' => 'retrieve/' . $entity->id,
-      '#options' => array(
-        'attributes' => array('class' => array('retrieve-link')),
-      ),
-    );
-    
+    $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+    if (!empty($og_ref_items[0])) {
+      global $user;
+      $entity->content['pg_race_retreave_link'] = array(
+        '#theme' => 'link',
+        '#text' => t('Retrive'),
+        '#path' => 'retrieve/' . $entity->id,
+        '#options' => array(
+          'attributes' => array('class' => array('retrieve-link')),
+          'html' => FALSE,
+        ),
+        '#access' => og_user_access('node', $og_ref_items[0]['target_id'], 'administer-group', $user),
+      );
+    }
+
     // Race preview image
     $entity->content['pg_race_preview_image'] = array(
       '#type' => 'item',
