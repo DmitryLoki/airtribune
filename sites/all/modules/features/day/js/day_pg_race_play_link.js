@@ -67,6 +67,7 @@
             helperText.text('Race is on');
             timeHelperText.show();
           } else {
+            raceBlock.removeClass('race-online');
             timeHelperText.hide();
             helperText.text('Button will be here as soon as task is set.');
           }
