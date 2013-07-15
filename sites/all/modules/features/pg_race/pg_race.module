@@ -350,7 +350,13 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
         '#access' => og_user_access('node', $gid, 'administer-group', $user),
       );
       $core_id_items = field_get_items('ent_race', $entity, 'field_core_id');
-      if (!empty($core_id_items[0])) {
+      $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
+      if (!empty($core_id_items[0]) && !empty($race_date_items[0])) {
+        $event_date = airtribune_extract_time_from_event($gid);
+        $offset = $event_date['offset'];
+        $start_limit = strtotime($race_date_items[0]['value']);
+        $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
+
         $entity->content['pg_race_retrieve_table_link'] = array(
           '#theme' => 'link',
           '#text' => t('Retrieve table'),
@@ -363,6 +369,7 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
               'raceid' => $core_id_items[0]['value'],
             )
           ),
+          '#access' => ($start_limit + $offset) < REQUEST_TIME && REQUEST_TIME < ($end_limit + $offset),
         );
       }
     }
