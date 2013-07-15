@@ -511,6 +511,11 @@ function at_helper_page_manager_contexts_alter(&$contexts, $placeholders) {
       panels_everywhere_site_template_add_context($contexts, $node, t('Node being viewed'), 'node', 'node');
     }
   }
+  
+  // Attach js file to change event local time.
+  if(!empty($contexts['event']->data)) {
+    drupal_add_js(drupal_get_path('module', 'at_helper') . '/js/at_helper.js', 'file');
+  }
 }
 
 function at_helper_init() {
