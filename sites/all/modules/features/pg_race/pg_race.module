@@ -4,6 +4,8 @@
  * Code for the Paragliding Race feature.
  */
 
+define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.php');
+
 include_once 'pg_race.features.inc';
 
 
@@ -265,9 +267,14 @@ function pg_race_field_extra_fields() {
         'weight' => -5,
         'callback' => 'pg_race_preview_image_callback',
       ),
-      'pg_race_retreave_link' => array(
-        'label' => t('Paragliding race retreave link'),
-        'description' => t('Retreave link'),
+      'pg_race_retrieve_link' => array(
+        'label' => t('Paragliding race retrieve link'),
+        'description' => t('Retrieve link'),
+        'weight' => -5,
+      ),
+      'pg_race_retrieve_table_link' => array(
+        'label' => t('Paragliding race retrieve table link'),
+        'description' => t('Retrieve table link'),
         'weight' => -5,
       ),
     ),
@@ -330,17 +337,34 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
 
     $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
     if (!empty($og_ref_items[0])) {
+      $gid = $og_ref_items[0]['target_id'];
       global $user;
-      $entity->content['pg_race_retreave_link'] = array(
+      $entity->content['pg_race_retrieve_link'] = array(
         '#theme' => 'link',
-        '#text' => t('Retrive'),
+        '#text' => t('Retrieve'),
         '#path' => 'retrieve/' . $entity->id,
         '#options' => array(
           'attributes' => array('class' => array('retrieve-link')),
           'html' => FALSE,
         ),
-        '#access' => og_user_access('node', $og_ref_items[0]['target_id'], 'administer-group', $user),
+        '#access' => og_user_access('node', $gid, 'administer-group', $user),
       );
+      $core_id_items = field_get_items('ent_race', $entity, 'field_core_id');
+      if (!empty($core_id_items[0])) {
+        $entity->content['pg_race_retrieve_table_link'] = array(
+          '#theme' => 'link',
+          '#text' => t('Retrieve table'),
+          '#path' => PG_RACE_RETREIVE_URL,
+          '#options' => array(
+            'attributes' => array('class' => array('retrieve-table-link')),
+            'html' => FALSE,
+            'query' => array(
+              'contestid' => $gid,
+              'raceid' => $core_id_items[0]['value'],
+            )
+          ),
+        );
+      }
     }
 
     // Race preview image
