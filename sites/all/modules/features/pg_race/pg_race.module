@@ -350,7 +350,8 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       $offset = $event_date['offset'];
       $start_limit = strtotime($race_date_items[0]['value']);
       $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
-      $time_access = $start_limit < REQUEST_TIME && REQUEST_TIME < ($end_limit + $offset);
+      $now = REQUEST_TIME + $offset;
+      $time_access = $start_limit < $now && $now < $end_limit;
 
       $entity->content['pg_race_retrieve_link'] = array(
         '#theme' => 'link',
