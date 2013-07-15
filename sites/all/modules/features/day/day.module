@@ -156,7 +156,9 @@ function _day_pg_race_preview_markup($node) {
         break;
     }
     
-    drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+    if ($is_current_day) {
+      drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+    }
   }
   else {
     if (!$is_current_day) {
@@ -214,6 +216,7 @@ function _day_pg_race_preview_data($node) {
   // Get task and event data
   $task_data = _day_pg_race_task_set($node);
   
+  $data['is_current_day'] = $task_data['is_current_day'];
   if (empty($task_data['entity'])) {
     $data['has_task'] = FALSE;
     return $data;
@@ -230,7 +233,6 @@ function _day_pg_race_preview_data($node) {
   $data['contest_core_id'] = $task_data['contest_core_id'];
   
   $data['offset'] = $task_data['offset'];
-  $data['is_current_day'] = $task_data['is_current_day'];
   
   return $data;
 }
