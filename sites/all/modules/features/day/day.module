@@ -145,17 +145,19 @@ function _day_pg_race_preview_markup($node) {
         $help_text = t('Race starts in');
         drupal_add_js(array('Day' => array('localtime' => $localtime*1000)), 'setting');
         drupal_add_js(array('Day' => array('offset' => $offset*1000)), 'setting');
-        drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
         break;
       case 'online' :
         $link_text = t('Watch Live');
         $time = date('H:i:s', $start_time + $offset);
         $help_text = t('Race starts on');
-        drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
         break;
       case 'offline' :
         $link_text = t('Replay');
         break;
+    }
+    
+    if ($is_current_day) {
+      drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
     }
   }
   else {
