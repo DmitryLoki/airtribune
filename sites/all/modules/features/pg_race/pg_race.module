@@ -323,7 +323,8 @@ function pg_race_play_link_callback($entity) {
  * Implements hook_entity_view()
  */
 function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
-  
+  global $user;
+
   if ($type == 'ent_race' && $entity->type == 'pg_race') {
     $preview = _pg_race_preview_markup($entity);
     $markup = $preview['markup'];
@@ -337,16 +338,20 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
 
     $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
     $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
+
     if (!empty($og_ref_items[0]) && !empty($race_date_items[0])) {
       $gid = $og_ref_items[0]['target_id'];
-      global $user;
+
+      $node = node_load($gid);
+      $core_id_items = field_get_items('node', $node, 'field_core_id');
+      $core_id = $core_id_items[0]['value'];
 
       $event_date = airtribune_extract_time_from_event($gid);
       $offset = $event_date['offset'];
       $start_limit = strtotime($race_date_items[0]['value']);
       $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
       $time_access = $start_limit < REQUEST_TIME && REQUEST_TIME < ($end_limit + $offset);
-$time_access = TRUE;
+
       $entity->content['pg_race_retrieve_link'] = array(
         '#theme' => 'link',
         '#text' => t('Retrieve'),
@@ -358,7 +363,7 @@ $time_access = TRUE;
         '#access' => $time_access && og_user_access('node', $gid, 'administer-group', $user),
       );
 
-      $core_id_items = field_get_items('ent_race', $entity, 'field_core_id');
+      $race_id_items = field_get_items('ent_race', $entity, 'field_core_id');
       if (!empty($core_id_items[0])) {
         $entity->content['pg_race_retrieve_table_link'] = array(
           '#theme' => 'link',
@@ -368,8 +373,8 @@ $time_access = TRUE;
             'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
             'html' => FALSE,
             'query' => array(
-              'contestid' => $gid,
-              'raceid' => $core_id_items[0]['value'],
+              'contestid' => $core_id,
+              'raceid' => $race_id_items[0]['value'],
             )
           ),
           '#access' => $time_access,
