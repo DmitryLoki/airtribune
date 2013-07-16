@@ -13,7 +13,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'accommodations';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'node';
   $view->human_name = 'Manage accommodations';
   $view->core = 7;
@@ -280,16 +280,16 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'core_api_manage';
   $view->description = 'Main page';
-  $view->tag = 'Core API  manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'node';
-  $view->human_name = 'Core API manage';
+  $view->human_name = 'Airtribune manage';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Core API manage';
+  $handler->display->display_options['title'] = 'Airtribune manage';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'bypass node access';
@@ -555,9 +555,249 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['tab_options']['title'] = 'Airtribune manage';
   $handler->display->display_options['tab_options']['weight'] = '0';
   $handler->display->display_options['tab_options']['name'] = 'management';
+
+  /* Display: Manage contest */
+  $handler = $view->new_display('page', 'Manage contest', 'page_1');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Manage contest';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Start date (exclude) */
+  $handler->display->display_options['fields']['field_dates_1']['id'] = 'field_dates_1';
+  $handler->display->display_options['fields']['field_dates_1']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates_1']['ui_name'] = 'Start date (exclude)';
+  $handler->display->display_options['fields']['field_dates_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates_1']['settings'] = array(
+    'format_type' => 'dm',
+    'fromto' => 'value',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: End date (exclude) */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'End date (exclude)';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates']['click_sort_column'] = 'value2';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'dmy',
+    'fromto' => 'value2',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Bulk operations: Content */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '1';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::at_core_sync_contests_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_assign_owner_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_item' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_script_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_make_sticky_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_make_unsticky_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
+    ),
+    'action::views_bulk_operations_argument_selector_action' => array(
+      'selected' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'url' => '',
+      ),
+    ),
+    'action::node_promote_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_publish_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_unpromote_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_save_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::system_send_email_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_unpublish_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::node_unpublish_by_keyword_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::pathauto_node_update_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Contest';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = 'node/[nid]/edit';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Contest';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[title] ([field_dates_1] - [field_dates])';
+  /* Field: Content: Points file */
+  $handler->display->display_options['fields']['field_points_file']['id'] = 'field_points_file';
+  $handler->display->display_options['fields']['field_points_file']['table'] = 'field_data_field_points_file';
+  $handler->display->display_options['fields']['field_points_file']['field'] = 'field_points_file';
+  $handler->display->display_options['fields']['field_points_file']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_points_file']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_points_file']['settings'] = array(
+    'click_to_edit' => 0,
+    'empty_text' => '',
+    'fallback_format' => 'file_default',
+  );
+  /* Field: Field: Core ID */
+  $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
+  $handler->display->display_options['fields']['field_core_id']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_core_id']['settings'] = array(
+    'click_to_edit' => 0,
+    'empty_text' => '',
+    'fallback_format' => 'text_default',
+  );
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['nid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['title'] = 'Manage %1';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/manage';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage contest';
+  $handler->display->display_options['menu']['weight'] = '-100';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $handler->display->display_options['tab_options']['weight'] = '0';
   $translatables['core_api_manage'] = array(
     t('Master'),
-    t('Core API manage'),
+    t('Airtribune manage'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -581,15 +821,20 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[nid]/custom_object">Manage tracked objects</a></li>
 </ul>'),
     t('Page'),
+    t('Manage contest'),
+    t('Points file'),
+    t('Core ID'),
+    t('All'),
+    t('Manage %1'),
   );
   $export['core_api_manage'] = $view;
 
   $view = new view();
   $view->name = 'core_api_manage_ad_for_visualisations';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'eck_ent_advert';
-  $view->human_name = 'Core API manage ad for visualisations';
+  $view->human_name = 'Manage ad for visualisations';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -670,11 +915,17 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Ad for visualisations of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
   /* Filter criterion: Advertisement: ent_advert type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'eck_ent_advert';
@@ -686,6 +937,11 @@ function at_core_sync_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/ad_vis';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage ad for visualizations';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['core_api_manage_ad_for_visualisations'] = array(
     t('Master'),
     t('Manage ad for visualisations'),
@@ -702,6 +958,7 @@ function at_core_sync_views_default_views() {
     t('[title]'),
     t('Banner'),
     t('All'),
+    t('Ad for visualisations of %1'),
     t('Page'),
   );
   $export['core_api_manage_ad_for_visualisations'] = $view;
@@ -709,16 +966,16 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'core_api_manage_contestants';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'users';
-  $view->human_name = 'Core API manage contestants';
+  $view->human_name = 'Manage contestants';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Core API manage contestants';
+  $handler->display->display_options['title'] = 'Manage contestants';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'bypass node access';
@@ -913,6 +1170,8 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Contestants of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -968,6 +1227,11 @@ function at_core_sync_views_default_views() {
   /* Display: List of contestants (manage) */
   $handler = $view->new_display('page', 'List of contestants (manage)', 'manage_list_contestants_page');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/contestants';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage contestants';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
 
   /* Display: Contestants count (manage) */
   $handler = $view->new_display('panel_pane', 'Contestants count (manage)', 'manage_count_contestants_pane');
@@ -1056,7 +1320,7 @@ function at_core_sync_views_default_views() {
   );
   $translatables['core_api_manage_contestants'] = array(
     t('Master'),
-    t('Core API manage contestants'),
+    t('Manage contestants'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -1078,6 +1342,7 @@ function at_core_sync_views_default_views() {
     t('Core status'),
     t('Phone number'),
     t('All'),
+    t('Contestants of %1'),
     t('List of contestants (manage)'),
     t('Contestants count (manage)'),
     t('@total'),
@@ -1090,16 +1355,16 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'core_api_manage_races';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'eck_ent_race';
-  $view->human_name = 'Core API manage races';
+  $view->human_name = 'Manage races';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Core API manage races';
+  $handler->display->display_options['title'] = 'Manage races';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'bypass node access';
@@ -1253,6 +1518,8 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Races of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -1373,6 +1640,11 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['sorts']['field_race_start_end_value']['field'] = 'field_race_start_end_value';
   $handler->display->display_options['sorts']['field_race_start_end_value']['order'] = 'DESC';
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/races';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage races';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
 
   /* Display: Races count (manage) */
   $handler = $view->new_display('panel_pane', 'Races count (manage)', 'manage_count_race_pane');
@@ -1420,7 +1692,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
   $translatables['core_api_manage_races'] = array(
     t('Master'),
-    t('Core API manage races'),
+    t('Manage races'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -1436,6 +1708,7 @@ function at_core_sync_views_default_views() {
     t('[title]'),
     t('Core status'),
     t('All'),
+    t('Races of %1'),
     t('List of races (manage)'),
     t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_race/pg_race/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/races">Add Race</a></li></ul>'),
     t('Races count (manage)'),
@@ -1450,17 +1723,16 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'core_api_manage_trackers';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'eck_ent_tracker';
-  $view->human_name = 'Core API manage trackers';
+  $view->human_name = 'Manage trackers';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Core API manage trackers';
-  $handler->display->display_options['css_class'] = 'tablesorter';
+  $handler->display->display_options['title'] = 'Manage trackers';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'bypass node access';
@@ -1677,7 +1949,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['tab_options']['weight'] = '0';
   $translatables['core_api_manage_trackers'] = array(
     t('Master'),
-    t('Core API manage trackers'),
+    t('Manage trackers'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -1703,7 +1975,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'day_admin';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'node';
   $view->human_name = 'Manage days';
   $view->core = 7;
@@ -1822,11 +2094,17 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Days of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -1845,6 +2123,11 @@ function at_core_sync_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'manage_list_days_page');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/day';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage days';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['day_admin'] = array(
     t('Master'),
     t('List of Days'),
@@ -1868,6 +2151,7 @@ function at_core_sync_views_default_views() {
 <li><a href="/admin/config/administration/at_manage/contest/[gid]/day/[nid]/blog">Manage blogs</a></li>
 </ul>'),
     t('All'),
+    t('Days of %1'),
     t('Page'),
   );
   $export['day_admin'] = $view;
@@ -1875,7 +2159,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'featured_headers';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'eck_ent_featured_header';
   $view->human_name = 'Featured headers';
   $view->core = 7;
@@ -2028,10 +2312,17 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Headers of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
 
   /* Display: Contest headers (manage) */
   $handler = $view->new_display('page', 'Contest headers (manage)', 'admin_page');
@@ -2087,6 +2378,7 @@ function at_core_sync_views_default_views() {
     t('Author'),
     t('Operations'),
     t('All'),
+    t('Headers of %1'),
     t('Contest headers (manage)'),
     t('Service headers (manage)'),
   );
@@ -2095,7 +2387,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'manage_contest_points';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'eck_ent_contest_point';
   $view->human_name = 'Manage contest points';
   $view->core = 7;
@@ -2215,15 +2507,26 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Points of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/points';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage points';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['manage_contest_points'] = array(
     t('Master'),
     t('Manage contest points'),
@@ -2245,6 +2548,7 @@ function at_core_sync_views_default_views() {
     t('Description'),
     t('Delete link'),
     t('All'),
+    t('Points of %1'),
     t('Page'),
   );
   $export['manage_contest_points'] = $view;
@@ -2252,7 +2556,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'manage_custom_object';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'eck_ent_customobject';
   $view->human_name = 'Manage custom object';
   $view->core = 7;
@@ -2448,15 +2752,26 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Tracked objects of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'manage_list_tracked_objects');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/custom_object';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manaje custom objects';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['manage_custom_object'] = array(
     t('Master'),
     t('Manage tracked objects'),
@@ -2483,6 +2798,7 @@ function at_core_sync_views_default_views() {
 <li>[delete_link]</li>
 </ul>'),
     t('All'),
+    t('Tracked objects of %1'),
     t('Page'),
   );
   $export['manage_custom_object'] = $view;
@@ -2490,7 +2806,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'manage_day_blog';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'node';
   $view->human_name = 'Manage day blog';
   $view->core = 7;
@@ -2546,16 +2862,28 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_dayblog_ref_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['nid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['title'] = '%1: Dayblog of %2';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
+    'day' => 'day',
+  );
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -2574,6 +2902,11 @@ function at_core_sync_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/day/%/blog';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage day blog';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['manage_day_blog'] = array(
     t('Master'),
     t('Manage day blog'),
@@ -2588,6 +2921,7 @@ function at_core_sync_views_default_views() {
     t('Date'),
     t('[title]'),
     t('All'),
+    t('%1: Dayblog of %2'),
     t('Page'),
   );
   $export['manage_day_blog'] = $view;
@@ -2595,7 +2929,7 @@ function at_core_sync_views_default_views() {
   $view = new view();
   $view->name = 'pg_scoring_categories';
   $view->description = '';
-  $view->tag = 'Core API manage';
+  $view->tag = 'Airtribune manage';
   $view->base_table = 'node';
   $view->human_name = 'Manage scoring categories';
   $view->core = 7;
@@ -2670,10 +3004,17 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = 'Scoring categories of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'pg_contest' => 'pg_contest',
+  );
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -2693,6 +3034,11 @@ function at_core_sync_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/scoring_category';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Manage scoring categories';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['pg_scoring_categories'] = array(
     t('Master'),
     t('Scoring categories'),
@@ -2707,6 +3053,7 @@ function at_core_sync_views_default_views() {
     t('Scoring category'),
     t('[title]'),
     t('All'),
+    t('Scoring categories of %1'),
     t('Page'),
   );
   $export['pg_scoring_categories'] = $view;
