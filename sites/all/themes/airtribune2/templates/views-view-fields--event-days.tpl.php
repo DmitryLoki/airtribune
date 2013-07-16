@@ -151,12 +151,17 @@ if ($fields['field_day_status']->content != 'Ok') {
 <?php print $fields['day_set_a_task']->wrapper_suffix; ?>
 
 <?php
-// Temporary output retrieve link
-if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
- print $fields['nothing_1']->wrapper_prefix;
- print $fields['nothing_1']->content;
- print $fields['nothing_1']->wrapper_suffix;
-}
+// output retrieve map link
+ print $fields['pg_race_retrieve_link']->wrapper_prefix;
+ print $fields['pg_race_retrieve_link']->content;
+ print $fields['pg_race_retrieve_link']->wrapper_suffix;
+?>
+
+<?php
+// output retrieve table link
+ print $fields['pg_race_retrieve_table_link']->wrapper_prefix;
+ print $fields['pg_race_retrieve_table_link']->content;
+ print $fields['pg_race_retrieve_table_link']->wrapper_suffix;
 ?>
 
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
