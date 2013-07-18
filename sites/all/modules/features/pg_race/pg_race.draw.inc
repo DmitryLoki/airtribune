@@ -603,6 +603,13 @@ function _at_draw_extend_zoom_box($settings, $zoom_box) {
     'bottom' => $pixels_to_add['bottom'] > 0 ? floor($pixels_to_add['bottom']  / AT_DRAW_PIXELS_PER_TILE) + 1 : 0,
   );
   
+  
+  // TODO: This is a temporary solution for found bugs (black edges on final images).
+  // Add extra extra_tile to each side if something goes wrong.
+  foreach ($extra_tiles as $k => $v) {
+    $extra_tiles[$k] ++;
+  }
+  
   $extended['extra_tiles'] = $extra_tiles;
   return $extended;
 }
