@@ -20,6 +20,7 @@ $plugin = array(
  * Render airtribune player pane.
  */
 function airtribune_airtribune_player_content_type_render($subtype, $conf, $panel_args, $context) {
+  global $base_url;
 
   if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_RACE_TYPE) {
     return;
@@ -43,11 +44,14 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
   // Chekh 3th argunent. Get online status.
   $isOnline = (!empty($panel_args[2]) && $panel_args[2] == 'online') ? 'true' : 'false';
 
+  $titleUrl = $base_url . url('event/' . $contest->nid);
+
   // Options for widget
   $options = array(
     'isOnline' => $isOnline,
     'mapWidget' => $panel_args[1],
     'apiVersion' => at_core_sync_get_api_version(),
+    'titleUrl' => $titleUrl,
   );
 
   $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
@@ -81,6 +85,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
  *    baseUrl - url hosting visualisation
  *    apiVersion - version of CoreAPI
  *    mode - widget mode (retrieve)
+ *    titleUrl - URL for title link
  * @return string HTML-code widget.
  */
 function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $options = array()) {
@@ -90,13 +95,14 @@ function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $op
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
   $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
   $mode = isset($options['mode']) ? ' mode: "' . $options['mode'] . '",' : '';
+  $titleUrl = isset($options['titleUrl']) ? ' titleUrl: "' . $options['titleUrl'] . '",' : '';
 
   $output = "<link rel=\"stylesheet\" href=\"{$baseUrl}/css/airvis.css\"/>
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/checkbox.css\"/>  
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/shiny-sprite.css\">
     <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div role=\"main\" class=\"airvis-container\">
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline} {$mapWidget} apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline}{$titleUrl} {$mapWidget} apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true} } --><!-- /ko -->
     </div>";
   return $output;
 }
