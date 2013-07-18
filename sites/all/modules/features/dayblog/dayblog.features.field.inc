@@ -66,9 +66,9 @@ function dayblog_field_default_fields() {
         'better_formats' => array(
           'allowed_formats' => array(
             'filtered_html' => 0,
-            'full_html' => 0,
+            'full_html' => 'full_html',
             'php_code' => 0,
-            'plain_text' => 'plain_text',
+            'plain_text' => 0,
           ),
           'allowed_formats_toggle' => 1,
           'default_order_toggle' => 0,
