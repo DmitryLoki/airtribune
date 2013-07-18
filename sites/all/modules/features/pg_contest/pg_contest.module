@@ -8,23 +8,6 @@
 include_once 'pg_contest.features.inc';
 
 /**
- * Implements hook_node_info().
- */
-function pg_contest_node_info() {
-  $items = array(
-    'pg_contest' => array(
-      'name' => t('Paragliding Contest'),
-      'base' => 'pg_contest',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Name'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
-
-/**
  * Implementation of hook_form
  * Default base is 'node_content'
  * @param type $node
@@ -42,11 +25,27 @@ function pg_contest_form($node, $form_state) {
  * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
  */
 function pg_contest_node_presave($node) {
-  // We don't want path module to create node alias.
-  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE && isset($node->path)) {
+  
+  // Pathauto and path modules should never execute for events by themselves
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // Note that $node->path is empty if node is loaded/saved programmatically
+    // since it is added in form_alter (see path.module)
     
-    // Store path alias settings.
-    $node->event_path = $node->path;
+    // In case node is processed programmatically
+    if (!empty($node->nid) && !isset($node->path)) {
+      $conditions = array('source' => 'event/' . $node->nid);
+      $path = pg_contest_path_load($conditions);
+      if (!empty($path)) {
+        $node->event_path = $path;
+      }
+    }
+    // In case node is edited through node form
+    elseif (isset($node->path)) {
+      // Store path alias settings for further processing.
+      $node->event_path = $node->path;
+    }
+    
+    // We don't want path and pathauto module take any action for event nodes, i.e. to create node alias.
     
     // Set pathauto to FALSE to avoid pathauto_node_update_alias() processing.
     // Clear $node->path['alias'] to avoid path_node_insert() processing.
@@ -124,26 +123,21 @@ function pg_contest_insert($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_update($node) {
-  if (isset($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->original->field_points_file[LANGUAGE_NONE][0]['fid'] != $node->field_points_file[LANGUAGE_NONE][0]['fid']) {
-    if (isset($node->original->field_points_file[LANGUAGE_NONE])) {
-      //remove old points and og memberships
+  // Points file check
+  if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
+    // Check for update file
+    if (!empty($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && 
+          $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $node->original->field_points_file[LANGUAGE_NONE][0]['fid']) {
+      // Do nothing
+    } else {
+      //remove old points 
       $query = new EntityFieldQuery();
-      $result = $query
-        ->entityCondition('entity_type', 'og_membership')
-        ->propertyCondition('entity_type', 'ent_contest_point', '=')
-        ->propertyCondition('group_type', 'node', '=')
-        ->propertyCondition('gid', $node->nid, '=')
-        ->execute();
-      $query = new EntityFieldQuery();
-      $result1 = $query 
+      $result = $query 
         ->entityCondition('entity_type', 'ent_contest_point')
-        ->fieldCondition('og_group_ref', 'target_id', $node->nid)
+        ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $node->nid)
         ->execute();
-      if (!empty($result['og_membership'])) {
-        og_membership_delete_multiple(array_keys($result['og_membership']));
-      }
-      if (!empty($result1['ent_contest_point'])) {
-        entity_delete_multiple('ent_contest_point', array_keys($result1['ent_contest_point']));
+      if (!empty($result['ent_contest_point'])) {
+        entity_delete_multiple('ent_contest_point', array_keys($result['ent_contest_point']));
       }
     }
     if (isset($node->field_points_file[LANGUAGE_NONE])) {
@@ -173,33 +167,40 @@ function pg_contest_delete($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_validate($node, $form, &$form_state) {
-  if (isset($node->field_points_file[LANGUAGE_NONE][0]['fid']) && isset($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && $node->field_points_file[LANGUAGE_NONE][0]['fid'] != $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
-    $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
-    $file_string = file_get_contents($file->uri);
-    $strings = preg_split('/\v/', $file_string);
-    foreach ($strings as $string) {
-      $elements = preg_split('/\s+/', $string);
-      if ($elements[0] == 'G') {
-        array_shift($elements);
-        $datum = strtoupper(implode($elements));
-        if ($datum != 'WGS84') {
-          form_set_error('field_points_file', t('Incorrect datum'));
+  // Points file check
+  if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
+    // Check for update file
+    if (!empty($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && 
+          $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
+      // Do nothing
+    } else {
+      $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
+      $file_string = file_get_contents($file->uri);
+      $strings = preg_split('/\v/', $file_string);
+      foreach ($strings as $string) {
+        $elements = preg_split('/\s+/', $string);
+        if ($elements[0] == 'G') {
+          array_shift($elements);
+          $datum = strtoupper(implode($elements));
+          if ($datum != 'WGS84') {
+            form_set_error('field_points_file', t('Incorrect datum'));
+          }
+        }
+        if ($elements[0] == 'U') {
+          if ($elements[1] != 1) {
+            form_set_error('field_points_file', t('Cordinates should be Lat/Lon'));
+          }
+          else {
+            $u = TRUE;
+          }
         }
       }
-      if ($elements[0] == 'U') {
-        if ($elements[1] != 1) {
-          form_set_error('field_points_file', t('Cordinates should be Lat/Lon'));
-        }
-        else {
-          $u = TRUE;
-        }
+      if (!isset($datum)) {
+        form_set_error('field_points_file', t('Datum not set'));
       }
-    }
-    if (!isset($datum)) {
-      form_set_error('field_points_file', t('Datum not set'));
-    }
-    if (!isset($u)) {
-      form_set_error('field_points_file', t('Coordinate system not set'));
+      if (!isset($u)) {
+        form_set_error('field_points_file', t('Coordinate system not set'));
+      }
     }
   }
 }
@@ -248,6 +249,7 @@ function pg_contest_create_points($fid, $nid) {
     );
     $point = entity_create('ent_contest_point', $values);
     $point->save();
+    // linking to og should go to EntContestPointController 
     og_group('node', $nid, array('entity_type' => 'ent_contest_point', 'entity' => $point))->save();
   }
 }
@@ -278,6 +280,7 @@ function _pg_contest_urls_init($nid) {
         '/blog',
         '/pilots',
         '/pilots/status',
+        '/pilots/manage',
         '/pilots/nation',
         '/map',
         '/map/accommodations',
@@ -297,8 +300,6 @@ function _pg_contest_create_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
-    
-    $alias_base = !empty($node->event_path['alias']) ? $node->event_path['alias'] : pathauto_cleanstring($node->title);
     
     // Check if alias is set manually.
     if (!empty($node->event_path['alias'])) {
@@ -342,9 +343,12 @@ function _pg_contest_create_alias($node) {
 
     // Save tiny aliases.
     $tiny_path_items = field_get_items('node', $node,  AIRTRIBUNE_TINY_PATH_FIELD);
-    foreach ($tiny_path_items as $tiny_path) {
-      $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
-      path_save($path);
+    // Check that $tiny_path_items is not empty
+    if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
+      foreach ($tiny_path_items as $tiny_path) {
+        $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
+        path_save($path);
+      }
     }
 
     // Save aliases.
@@ -428,10 +432,12 @@ function pg_contest_cron() {
   $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now), '>=');
   $result = $query->execute();
   
+  // Close registration for selected events.
   if (!empty($result['node'])) {
     foreach ($result['node'] as $nid => $date) {
       $node = node_load($nid);
-      if ($node->nid) {
+      // if ($node->nid) {
+      if ($node->nid && isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] !== 0) {
         $node->field_registration_sw['und'][0]['value'] = 0;
         node_save($node);
       }

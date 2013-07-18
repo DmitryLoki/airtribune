@@ -809,7 +809,7 @@ Disallow: /?q=user/logout/';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'site_slogan';
-  $strongarm->value = 'Paragliding competition GPS live tracking';
+  $strongarm->value = 'Competition hosting and live tracking';
   $export['site_slogan'] = $strongarm;
 
   $strongarm = new stdClass();

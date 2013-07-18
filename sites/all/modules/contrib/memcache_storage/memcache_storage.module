@@ -1,0 +1,238 @@
+<?php
+
+/**
+ * @file
+ * Provides hook implementation for Memcache Storage module.
+ */
+
+/**
+ * Constant definitions.
+ */
+define('MEMCACHE_STORAGE_MINIMUM_MEMCACHE_VERSION', '2.2.1');
+define('MEMCACHE_STORAGE_MINIMUM_MEMCACHED_VERSION', '2.0.1');
+
+/**
+ * Implements hook_menu().
+ */
+function memcache_storage_menu() {
+
+  $items['admin/config/development/memcache_storage'] = array(
+    'title' => 'Memcache storage',
+    'description' => t('Manage Memcache Storage settings'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('memcache_storage_settings_form'),
+    'access arguments' => array('administer memcache storage'),
+    'file' => 'memcache_storage.admin.inc',
+  );
+
+  $items['memcache_storage/delete/%/%/%'] = array(
+    'page callback' => 'memcache_storage_clear_cache_ajax_callback',
+    'page arguments' => array(2, 3, 4, 5),
+    'access arguments' => array('view memcache storage debug'),
+    'delivery callback' => 'ajax_deliver',
+    'theme callback' => 'ajax_base_page_theme',
+    'type' => MENU_CALLBACK,
+    'file' => 'memcache_storage.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function memcache_storage_permission() {
+  return array(
+    'administer memcache storage' => array(
+      'title' => t('Administer Memcache storage'),
+      'description' => t('Manage Memcache storage module settings.'),
+    ),
+    'view memcache storage debug' => array(
+      'title' => t('View Memcache Storage debug output'),
+      'description' => t('Allow user to see memcache I/O operations at the bottom of the page.')
+    )
+  );
+}
+
+/**
+ * Implements hook_admin_menu_cache_info().
+ */
+function memcache_storage_admin_menu_cache_info() {
+
+  $caches['memcache_storage'] = array(
+    'title' => t('Memcache data'),
+    'callback' => 'memcache_storage_flush_all_cache',
+  );
+
+  return $caches;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function memcache_storage_cron() {
+
+  // Invalidates wildcards.
+  $new_wildcards = array();
+
+  // Wildcards will be deleted since 30 day after creation (to avoid storing big amount of invalidated data).
+  $wildcards_expire = variable_get('memcache_storage_wildcard_invalidate', 60 * 60 * 24 * 30);
+  $wildcards = variable_get('memcache_storage_wildcards', array());
+
+  foreach ($wildcards as $bin => $bin_wildcards) {
+    foreach ($bin_wildcards as $wildcard => $created) {
+      if (REQUEST_TIME - $created < $wildcards_expire) {
+        $new_wildcards[$bin][$wildcard] = $created;
+      }
+    }
+  }
+
+  // Save not expired wildcards.
+  variable_set('memcache_storage_wildcards', $new_wildcards);
+}
+
+/**
+ * Flushes all cached data in memcache storage.
+ */
+function memcache_storage_flush_all_cache() {
+  $flushed = MemcacheStorageAPI::flushClusters();
+  if ($flushed) {
+    drupal_set_message(t('Memcache data was successfully flushed.'));
+  }
+  else {
+    drupal_set_message(t('Could not flush memcache data. Something wrong happen.'), 'warning');
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function memcache_storage_init() {
+
+  // Do nothing if debug mode is disabled.
+  if (!variable_get('memcache_storage_debug', FALSE)) {
+    return;
+  }
+
+  // Do nothing if user has no access to debug info.
+  if (!user_access('view memcache storage debug')) {
+    return;
+  }
+
+  // Trying not break normal site operating.
+  if (!strstr($_SERVER ['PHP_SELF'], 'index.php') ||
+    strstr($_GET['q'], 'upload/js') ||
+    strstr($_GET['q'], 'admin/content/node-settings/rebuild') ||
+    strstr($_GET['q'], 'system') ||
+    strstr($_GET['q'], 'batch') ||
+    strstr($_GET['q'], 'ckeditor/xss') ||
+    strstr($_GET['q'], 'autocomplete')) {
+    return;
+  }
+  else {
+    drupal_add_library('system', 'drupal.ajax');
+    drupal_register_shutdown_function('memcache_storage_debug_shutdown');
+
+    // Avoid caching of pages with debug info in Drupal cache.
+    drupal_page_is_cacheable(FALSE);
+
+    // Avoid caching of pages with debug info in external cache.
+    drupal_add_http_header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  }
+}
+
+/**
+ * Print debug output of memcache statistics.
+ */
+function memcache_storage_debug_shutdown() {
+
+  // Don't call theme() during shutdown if the registry has been rebuilt (such
+  // as when enabling/disabling modules on admin/build/modules) as things break.
+  // Instead, simply exit without displaying admin statistics for this page
+  // load.  See http://drupal.org/node/616282 for discussion.
+  if (!function_exists('theme_get_registry') || !theme_get_registry()) {
+    return;
+  }
+
+  // Try not to break non-HTML pages.
+  if (function_exists('drupal_get_http_header')) {
+    $header = drupal_get_http_header('content-type');
+    if ($header) {
+      $formats = array('xml', 'javascript', 'json', 'plain', 'image', 'application', 'csv', 'x-comma-separated-values');
+      foreach ($formats as $format) {
+        if (strstr($header, $format)) {
+          return;
+        }
+      }
+    }
+  }
+
+  $debug_output = drupal_static('memcache_storage_debug_output');
+
+  // Don't output any debug if it is empty.
+  if (empty($debug_output)) {
+    return;
+  }
+
+  $common_stats = array();
+  foreach ($debug_output as $key => $row) {
+    $action = $row['action'];
+
+    if (empty($common_stats[$action])) {
+      $common_stats[$action]['action'] = $action;
+      $common_stats[$action]['time'] = 0;
+      $common_stats[$action]['mem']  = 0;
+      $common_stats[$action]['HIT']  = 0;
+      $common_stats[$action]['MISS'] = 0;
+    }
+
+    $common_stats[$action][$row['result']]++;
+
+    $debug_output[$key]['clear_link'] = render($row['clear_link']);
+
+    // Do not collect statistics if previos row is same as current (for getMultiple).
+    if (isset($debug_output[$key-1]) &&
+      $debug_output[$key-1]['timer'] == $row['timer'] &&
+      $debug_output[$key-1]['memory'] == $row['memory']) {
+      continue;
+    }
+
+    $common_stats[$action]['time'] += $row['timer'];
+    $common_stats[$action]['mem'] += $row['memory'];
+  }
+
+  foreach ($common_stats as $action => &$stats) {
+    $stats['mem']  = number_format($stats['mem'] / 1024, 2);
+    $stats['HIT']  = $stats['HIT']  . ' / ' . number_format($stats['HIT']  / ($stats['HIT'] + $stats['MISS']) * 100, 1) . '%';
+    $stats['MISS'] = $stats['MISS'] . ' / ' . number_format($stats['MISS'] / ($stats['HIT'] + $stats['MISS']) * 100, 1) . '%';
+  }
+
+  // Rebuild detailed debug output.
+  $detailed_debug = array();
+  foreach ($debug_output as $row) {
+    $detailed_debug[] = array(
+      'data' => $row,
+      'style' => $row['result'] == 'MISS' ? 'color:red;' : 'color:black;',
+    );
+  }
+
+  $stats_table = array(
+    '#theme' => 'table',
+    '#header' => array(t('Action'), t('Total time, ms'), t('Total memory used, MB'),  t('Total hits / %'), t('Total misses / %')),
+    '#rows' => $common_stats,
+    '#attributes' => array(
+      'class' => array('memcache-storage-common-debug')
+    ),
+  );
+
+  $debug_table = array(
+    '#theme' => 'table',
+    '#header' => array(t('Action'), t('Time, ms'), t('Used memory, KB'), t('Result'), t('Cache bin'), t('Cache key'), t('Cache action'), t('Memcache key')),
+    '#rows' => $detailed_debug,
+    '#attributes' => array(
+      'class' => array('memcache-storage-detailed-debug')
+    ),
+  );
+
+  print render($stats_table) . render($debug_table);
+}

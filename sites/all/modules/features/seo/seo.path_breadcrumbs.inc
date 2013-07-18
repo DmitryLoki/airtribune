@@ -17,14 +17,14 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'node/%node';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Hotels',
+      0 => 'Accommodation',
       1 => '%node:title',
     ),
     'paths' => array(
-      0 => 'hotels',
+      0 => '<none>',
       1 => '%node:url',
     ),
-    'home' => 0,
+    'home' => 1,
     'translatable' => 1,
     'arguments' => array(
       'node' => array(
@@ -2848,12 +2848,10 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'user/%uid/edit';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'My profile',
-      1 => 'Edit user',
+      0 => 'Edit user',
     ),
     'paths' => array(
-      0 => 'user',
-      1 => 'user/%uid:uid/edit',
+      0 => 'user/%uid:uid/edit',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -2892,12 +2890,10 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'profile-pilot/%uid/edit';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'My profile',
-      1 => 'Edit pilot profile',
+      0 => 'Edit pilot profile',
     ),
     'paths' => array(
-      0 => 'user',
-      1 => 'profile-pilot/%uid:uid/edit',
+      0 => 'profile-pilot/%uid:uid/edit',
     ),
     'home' => 1,
     'translatable' => 1,
@@ -2965,6 +2961,48 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_registrations';
+  $path_breadcrumb->name = 'User Registrations';
+  $path_breadcrumb->path = 'account/%uid/registrations';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'My registrations',
+    ),
+    'paths' => array(
+      0 => 'user/%uid:uid/registrations',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'uid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:user',
+        'settings' => array(
+          'identifier' => 'User: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 2,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -47;
+  $export['user_registrations'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'user_request_new_password';
   $path_breadcrumb->name = 'User Request new password';
   $path_breadcrumb->path = 'user/password';
@@ -3007,7 +3045,7 @@ function seo_path_breadcrumbs_settings_info() {
       0 => 'Sign in',
     ),
     'paths' => array(
-      0 => 'user',
+      0 => 'account',
     ),
     'home' => 1,
     'translatable' => 0,

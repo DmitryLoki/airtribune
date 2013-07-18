@@ -17,8 +17,7 @@
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
  */
- /*print $pane->type.'<br />';
- print $pane->subtype;*/
+//print $pane->type . '<br />' . $pane->subtype;
 ?>
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
@@ -43,7 +42,7 @@
     <?php endif; ?>
 
     <div class="pane-content">
-      <?php print render($content); ?>
+      <?php print preg_replace('/<\/span>[^<]*<span/', '</span><span', render($content)); ?>
     </div>
 
     <?php if ($links): ?>

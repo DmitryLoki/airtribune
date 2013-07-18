@@ -4,59 +4,65 @@
  * @file
  * Airtribune event share links pane plugin.
  *
- * @see #3036
+ * @see #3036 #3141
  */
 
 // Plugin definition.
 $plugin = array(
-  'title' => t('Airtrubune event share links'),
+  'title' => t('Airtrubune share links'),
   'single' => TRUE,
   'category' => array('Airtribune'),
   'required context' => new ctools_context_required(t('Node'), 'node'),
 );
 
 /**
- * Render airtribune event sharelinks pane.
+ * Render airtribune sharelinks pane.
  */
 function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $conf, $panel_args, $context) {
+//  dpm($context,'context');
+//  dpm($panel_args,'panels_args');
+//  dpm($conf,'conf');
 
-  if (empty($context) || empty($context->data)) {
+  // don't render share links pane on user profile pages
+  // @see #3257
+  if (arg(0) == 'user' || arg(0) == 'account' || strpos(arg(0), "profile-") !== FALSE) {
     return;
   }
+  if (empty($context) || empty($context->data)) {
+    // if pane loaded on <front>
+    $alias = "";
+  } else {
+    // event node
+    $node = $context->data;
 
-  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_event_sharelinks';
-
-  // Event node.
-  $node = $context->data;
-
-  $content['widget']['#markup'] = '';
-  $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-sharelinks'));
-  $content['#theme_wrappers'] = array('container');
-
-  // link to single accommodation / activity
-  if (count($panel_args) == 2) {
-    $map_node = node_load($panel_args[1]);
-    if ($map_node->type == "accommodation" || $map_node->type == "activity") {
-      $alias = drupal_get_path_alias('node/' . $map_node->nid);      
+    // if we have two args - event nid & accommodation/activity/newsblog nid,
+    // like event/[nid]/map/[nid] or event/[nid]/blog/[nid]
+    // load second arg node, override $node from $context
+    if (count($panel_args) == 2 && $panel_args[1] != 'details') {
+      $node = node_load($panel_args[1]);
+    }
+    // event/nid/* - sharelinks change by event tab
+    // @see #3141
+    if ($node->type == 'pg_contest') {
+      // get inner path, like event/1234/pilots
+      $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
+      $end = "/";
+      if (strpos($path, "blog")) $end .= "blog";
+      if (strpos($path, "map")) $end .= "map";
+      if (strpos($path, "pilots")) $end .= "pilots";
+      if (strpos($path, "results")) $end .= "results";
+      if (strpos($path, "info") || strpos($path, "info/details") || strpos($path, "register"))  $end .= "info";
+      $alias = drupal_get_path_alias('event/' . $node->nid . $end);
+    }
+    // node/nid
+    else {
+      $alias = drupal_get_path_alias('node/' . $node->nid);
     }
   }
-  // event/nid/* - sharelink change by event tab
-  // @see #3141
-  elseif ($node->type == 'pg_contest') {
-    // get inner path, like event/1234/pilots
-    $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
-    $end = "/";
-    if (strpos($path, "blog")) $end .= "blog";
-    if (strpos($path, "map")) $end .= "map";
-    if (strpos($path, "pilots")) $end .= "pilots";
-    if (strpos($path, "results")) $end .= "results";
-    if (strpos($path, "info") || strpos($path, "info/details") || strpos($path, "register"))  $end .= "info";
-    $alias = drupal_get_path_alias('event/' . $node->nid . $end);
+  if (arg(2) == 'blog' && !empty($context) && $context->data->type =='pg_contest') {
+    $alias = drupal_get_path_alias('event/' . $context->data->nid . '/blog/' . arg(3));
   }
-  // node/nid
-  else {
-    $alias = drupal_get_path_alias('node/' . $node->nid);
-  }
+
   global $base_url;
   $sharelinks_url = $base_url . '/' . $alias;
 
@@ -75,6 +81,7 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
 
   $content['widget']['#markup'] = $widget_html;
 
+  $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_event_sharelinks';
   $content['#attached']['css'] = array($plugin_path . '/airtribune_event_sharelinks.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-sharelinks'));
   $content['#theme_wrappers'] = array('container');

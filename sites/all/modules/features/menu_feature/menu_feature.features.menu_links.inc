@@ -11,10 +11,10 @@ function menu_feature_menu_default_menu_links() {
   $menu_links = array();
 
   // Exported menu link: account:<front>
-  $menu_links['account:<front>'] = array(
+  $menu_links['account:user/registrations'] = array(
     'menu_name' => 'account',
-    'link_path' => '<front>',
-    'router_path' => '',
+    'link_path' => 'account/registrations',
+    'router_path' => 'account/registrations',
     'link_title' => 'My registrations',
     'options' => array(
       'attributes' => array(
@@ -24,7 +24,7 @@ function menu_feature_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '1',
+    'hidden' => '0',
     'external' => '1',
     'has_children' => '0',
     'expanded' => '0',

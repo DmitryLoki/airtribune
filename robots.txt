@@ -1,0 +1,80 @@
+#
+# robots.txt
+#
+# For syntax checking, see:
+# http://www.sxw.org.uk/computing/robots/check.html
+# http://webmaster.yandex.ru/robots.xml
+# http://support.google.com/webmasters/bin/answer.py?hl=en&answer=156449&from=35237&rd=1
+User-agent: *
+Crawl-delay: 10
+# CUSTOM
+Disallow: /*sort=
+Disallow: /*/node/*/translate
+Disallow: /*/node/*
+Disallow: /*/event/*/map/*
+Disallow: /*/node/*/group
+Disallow: /*/group/node/*
+Disallow: /*/event/*
+Disallow: /*/taxonomy/term/*
+Disallow: /*/play/*
+#
+Disallow: /node/*/translate
+Disallow: /node/*
+Disallow: /event/*/map/*
+Disallow: /node/*/group
+Disallow: /group/node/*
+Disallow: /event/*
+Disallow: /taxonomy/term/*
+Disallow: /play/*
+#
+Disallow: /?q=node/*/translate
+Disallow: /?q=node/*
+Disallow: /?q=event/*/map/*
+Disallow: /?q=node/*/group
+Disallow: /?q=group/node/*
+Disallow: /?q=event/*
+Disallow: /?q=taxonomy/term/*
+Disallow: /?q=play/*
+# Other
+Disallow: /filter/tips/
+# Directories
+Disallow: /includes/
+Disallow: /misc/
+Disallow: /modules/
+Disallow: /profiles/
+Disallow: /scripts/
+Disallow: /themes/
+# Files
+Disallow: /CHANGELOG.txt
+Disallow: /cron.php
+Disallow: /INSTALL.mysql.txt
+Disallow: /INSTALL.pgsql.txt
+Disallow: /INSTALL.sqlite.txt
+Disallow: /install.php
+Disallow: /INSTALL.txt
+Disallow: /LICENSE.txt
+Disallow: /MAINTAINERS.txt
+Disallow: /update.php
+Disallow: /UPGRADE.txt
+Disallow: /xmlrpc.php
+# Paths (clean URLs)
+# with i18n support
+Disallow: /*/admin/
+Disallow: /*/comment/reply/
+Disallow: /*/filter/tips/
+Disallow: /*/node/add/
+Disallow: /*/search/
+Disallow: /*/user/register/
+Disallow: /*/user/password/
+Disallow: /*/user/login/
+Disallow: /*/user/logout/
+# Paths (no clean URLs)
+Disallow: /?q=admin/
+Disallow: /?q=comment/reply/
+Disallow: /?q=filter/tips/
+Disallow: /?q=node/add/
+Disallow: /?q=search/
+Disallow: /?q=user/password/
+Disallow: /?q=user/register/
+Disallow: /?q=user/login/
+Disallow: /?q=user/logout/

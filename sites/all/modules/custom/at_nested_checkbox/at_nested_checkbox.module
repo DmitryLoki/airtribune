@@ -1,0 +1,198 @@
+<?php
+
+/**
+ * @file Nested checkoxes form element module
+ * @author Vadim Valuev <gease@mail.ru>
+ * @todo add validation
+ */
+
+
+/**
+ * Implements hook_help()
+ */
+function at_nested_checkbox_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#at_nested_checkbox':
+      // Return a line-break version of the module README.txt
+      return check_markup(file_get_contents(dirname(__FILE__) . "/README.txt"));
+  }
+}
+
+/**
+ * Implementation of hook_element_info()
+ */
+function at_nested_checkbox_element_info() {
+  $types['nested_checkboxes'] = array(
+    '#tree' => TRUE,
+    '#input' => TRUE,
+    '#process' => array('at_nested_checkbox_process'),
+    '#theme_wrappers' => array('nested_checkboxes'),
+    '#element_validate' => array('at_nested_checkboxes_validate'),
+    '#value_callback' => 'at_nested_checkbox_value',
+    /*'#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'at_nested_checkbox') . '/jQuery-Tristate/jquery.tristate.min.js',
+        drupal_get_path('module', 'at_nested_checkbox') . '/at_nested_checkbox.js',
+      )
+    ),*/
+    '#after_build' => array('at_nested_checkbox_cancel_validation'),
+    '#level' => 0
+  );
+  return $types;
+}
+
+function at_nested_checkbox_libraries_info() {
+  $libraries['tristate'] = array(
+    'name' => 'jQuery tristate checkbox plugin',
+    'vendor url' => 'http://jlbruno.github.io/jQuery-Tristate-Checkbox-plugin/',
+    'download url' => 'http://github.com/jlbruno/jQuery-Tristate-Checkbox-plugin/zipball/master',
+    'version arguments' => array(
+      'file' => 'jquery.tristate.js',
+      'pattern' => '@version:\s+([0-9a-zA-Z\.-]+)@',
+      'lines' => 5,
+    ),
+    'files' => array(
+      'js' => array(
+        'jquery.tristate.js'
+      )
+    ),
+    'variants' => array(
+      'minified' => array(
+        'files' => array(
+          'js' => array(
+            'jquery.tristate.min.js'
+          )
+        )
+      )
+    ),
+    'integration files' => array(
+      'at_nested_checkbox' => array(
+        'js' => array('at_nested_checkbox.js'),
+      ),
+    ),
+  );
+  return $libraries;
+}
+
+function at_nested_checkbox_process($element, &$form_state) {
+  if (empty($element['#options'])) return;
+  if ($element['#level'] == 0) {
+    libraries_load('tristate');
+  }
+  $options = $element['#options'];
+  $keys = element_children($options);
+  foreach ($keys as $key ) {
+    $value = $options[$key];
+    if (is_array($value)) {
+      $element[$key] = array(
+        '#type' => 'nested_checkboxes',
+        '#options' => $value,
+        '#title_display' => $element['#title_display'],
+        '#title' => $value['#title'], 
+        '#level' => $element['#level'] + 1, 
+        '#default_value' => isset($element['#default_value'][$key]) ? $element['#default_value'][$key] : 0 
+      );
+    }
+    else {
+      $element[$key] = array(
+        '#type' => 'checkbox',
+        '#title' => $value,
+        '#return_value' => $key,
+        '#title_display' => $element['#title_display'],
+        '#theme_wrappers' => array( 'form_element'), 
+        '#post_render' => array('at_nested_checkbox_post_render'),
+        '#default_value' => (!empty($element['#default_value'][$key]) && $element['#default_value'][$key] == $key) ? $key  : NULL,
+      );
+    }
+  }
+  return $element; 
+}
+
+function at_nested_checkboxes_validate($element, &$form_state, $form) {
+  if ($element['#level'] > 0) return $element;
+  $values = _at_nested_checkbox_flatten($element['#value']);
+  $options = _at_nested_checkbox_flatten($element['#options']);
+  foreach ($values as $v_key => $value) {
+    $key_array = explode(':', $v_key);
+    $initial_key = $key_array[count($key_array) - 1];
+    if (!in_array($v_key, array_keys($options)) || $initial_key != $value) {
+      form_error($element, t('An illegal choice has been detected. Please contact the site administrator.'));
+      watchdog('form', 'Illegal choice %choice in %name element.', array('%choice' => $value, '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title']), WATCHDOG_ERROR);
+    }
+  }
+  return $element;
+}
+
+function at_nested_checkbox_cancel_validation($element) {
+  unset($element['#needs_validation']);
+  return $element;
+}
+
+/**
+ * Impementation of hook_element_theme()
+ */
+function at_nested_checkbox_theme($existing, $type, $theme, $path) {
+  return array(
+    'nested_checkboxes' => array(
+      'render element' => 'element'
+    )
+  );
+}
+
+function theme_nested_checkboxes($variables) {
+  $options = $variables['element']['#options'];
+  $new_vars = $variables;
+  $new_vars['element']['#children'] = theme('checkbox', $new_vars);
+  //$attributes['class'][] = 'level-' . $variables['element']['#level'];
+  //$attributes['class'][] = 'nested_checkboxes';
+  _form_set_class($variables['element'], array('nested-checkboxes', 'level-' . $variables['element']['#level']));
+  $attributes = $variables['element']['#attributes'];
+  $top_checkbox = theme('form_element', $new_vars);
+  $top_checkbox = preg_replace('/^<div/', '<li', $top_checkbox);
+  $top_checkbox = preg_replace('/<\/div>$/', '', $top_checkbox);
+  return '<ul ' . drupal_attributes($attributes) . '>' . $top_checkbox . '<ul class="nested_checkboxes inner">' . $variables['element']['#children'] . '</ul></li></ul>';
+}
+
+
+function at_nested_checkbox_post_render($element, $children) {
+  $element = preg_replace('/^<div/', '<li', $element);
+  $element = preg_replace('/\/div>$/', '/li>', $element);
+  return $element;
+}
+
+function at_nested_checkbox_value($element, $input, $form_state) {
+  if ($input === FALSE) {
+    //it escapes me when this is called with $input === FALSE, 
+    //but along with form_type_checkboxes_value, we set value to default here
+    if (isset($element['#default_value'])) {
+      return $element['#default_value'];
+    }
+    else {
+      return NULL;
+    }
+  }
+  elseif (is_array($input)) {
+    return $input;
+  }
+  else {
+    return array();
+  }
+}
+
+function _at_nested_checkbox_flatten($array, $prefix = '') {
+  $result = array();
+  if (is_array($array)) {
+    foreach ($array as $key => $value) {
+      if (substr($key, 0, 1) == '#') {
+        continue;
+      }
+      if (is_array($value)) {
+        $result += _at_nested_checkbox_flatten($value, $prefix . $key . ':');
+      }
+      else {
+        $result[$prefix . $key] = $value;
+      }
+    }
+  }
+  return $result;
+}

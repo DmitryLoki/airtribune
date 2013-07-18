@@ -20,6 +20,7 @@ $plugin = array(
  * Render airtribune player pane.
  */
 function airtribune_airtribune_player_content_type_render($subtype, $conf, $panel_args, $context) {
+  global $base_url;
 
   if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_RACE_TYPE) {
     return;
@@ -29,29 +30,38 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
 
   // Race entity.
   $race = $context->data;
-  $raceId = $race->field_core_id[0][LANGUAGE_NONE]['value'];
+  $items = field_get_items('ent_race', $race, AIRTRIBUNE_CORE_ID_FIELD);
+
+  $raceId = $items[0]['value'];
   
   // Get groups
   $groups = og_get_entity_groups($race->entityType(), $race);
 
-  $contest = node_load($groups['node']);
-  $contestId = $contest->field_core_id[0][LANGUAGE_NONE]['value'];
+  $contest = node_load(array_shift(array_values($groups['node'])));
+  $items = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
+  $contestId = $items[0]['value'];
 
   // Chekh 3th argunent. Get online status.
   $isOnline = (!empty($panel_args[2]) && $panel_args[2] == 'online') ? 'true' : 'false';
+
+  $titleUrl = $base_url . url('event/' . $contest->nid);
 
   // Options for widget
   $options = array(
     'isOnline' => $isOnline,
     'mapWidget' => $panel_args[1],
-    'widgetHeight' => $conf['widgetHeight'],
-    'widgetWidth' => $conf['widgetWidth'],
+    'apiVersion' => at_core_sync_get_api_version(),
+    'titleUrl' => $titleUrl,
   );
-  
-  // Set finction for output widget.
-  $function = $conf['widget_is_preview'] ? '_airtribune_airtribune_player_get_race_preview' : '_airtribune_airtribune_player_get_race_widget';
-  
-  $widget_html = $function($contestId, $raceId, $options);
+
+  $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
+  if (isset($widget_type) && $widget_type != 'default') {
+    $options['baseUrl'] = constant('AIRTRIBUNE_' . strtoupper($widget_type) .'_URL');
+    $options['mode'] = $widget_type;
+    unset($options['isOnline']);
+  }
+
+  $widget_html = _airtribune_airtribune_player_get_race_widget($contestId, $raceId, $options);
 
   $content['widget']['#markup'] = $widget_html;
   $content['#attached']['css'] = array($plugin_path . '/airtribune_player.css');
@@ -73,76 +83,52 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
  *    mapWidget - type of widget (2d, 3d and etc.)
  *    isOnline - online mode
  *    baseUrl - url hosting visualisation
+ *    apiVersion - version of CoreAPI
+ *    mode - widget mode (retrieve)
+ *    titleUrl - URL for title link
  * @return string HTML-code widget.
  */
 function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $options = array()) {
   // Initialization
-  $mapWidget = isset($options['mapWidget']) ? $options['mapWidget'] : '2d';
-  $isOnline = isset($options['isOnline']) ? $options['isOnline'] : 'false';
+  $mapWidget = isset($options['mapWidget']) ? 'mapWidget: "' . $options['mapWidget'] . '",' : '';
+  $isOnline = isset($options['isOnline']) ? ' isOnline: ' . $options['isOnline'] . ',' : '';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
+  $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
+  $mode = isset($options['mode']) ? ' mode: "' . $options['mode'] . '",' : '';
+  $titleUrl = isset($options['titleUrl']) ? ' titleUrl: "' . $options['titleUrl'] . '",' : '';
 
   $output = "<link rel=\"stylesheet\" href=\"{$baseUrl}/css/airvis.css\"/>
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/checkbox.css\"/>  
-    <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/require.js\"></script>
-    <div>
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\", isOnline: {$isOnline}, mapWidget: \"{$mapWidget}\" } --><!-- /ko -->
+    <link rel=\"stylesheet\" href=\"{$baseUrl}/css/shiny-sprite.css\">
+    <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
+    <div role=\"main\" class=\"airvis-container\">
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline}{$titleUrl} {$mapWidget} apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true} } --><!-- /ko -->
     </div>";
   return $output;
 }
 
 /**
- * Returns an HTML-code to insert a race preview.
- * @contestId string
- * @raceId string
- * @options array Widget settings.
- *    widgetWidth
- *    widgetHeight
- *    baseUrl - url hosting visualisation
- * @return string HTML-code widget.
+ * 'Edit form' callback for the content type.
  */
-function _airtribune_airtribune_player_get_race_preview ($contestId, $raceId, $options = array()) {
-  // Initialization
-  $widgetWidth = isset($options['widgetWidth']) ? $options['widgetWidth'] : '100%';
-  $widgetHeight = isset($options['widgetHeight']) ? $options['widgetHeight'] : '100%';
-  $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
-  
-  $output = "<script data-main=\"{$baseUrl}/js/initSimple\" src=\"{$baseUrl}/js/require.js\"></script>
-    <div>
-    <!-- ko widget: { data: page, contestId: \"{$contestId}\", raceId: \"{$raceId}\", width: \"{$widgetWidth}\", height: \"{$widgetHeight}\" } --><!-- /ko -->
-    </div>";
-  return $output;
-}
-
-/**
-* 'Edit form' callback for the content type.
-*/
 function airtribune_airtribune_player_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
-  $form['widget_is_preview'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('View as preview'),
-    '#default_value' => !empty($conf['widget_is_preview']) ? $conf['widget_is_preview'] : false,
-  );
-  $form['widgetWidth'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Preview Width'),
-    '#size' => 4,
-    '#default_value' => !empty($conf['widgetWidth']) ? $conf['widgetWidth'] : '100%',
-  );
-  $form['widgetHeight'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Preview Height'),
-    '#size' => 4,
-    '#default_value' => !empty($conf['widgetHeight']) ? $conf['widgetHeight'] : '100%',
-  );
-  return $form;
-}
+  $types = array('default' => 'Race', 'retrieve' => 'Retrieve');
+
+  $form['widget_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Widget type'),
+    '#options' => $types,
+    '#default_value' => !empty($conf['widget_type']) ? $conf['widget_type'] : 'default',
+   );
+   return $form;
+ }
+
+
 
 /**
-* Submit function, note anything in the formstate[conf] automatically gets saved
-*/
+ * Panels module needs this empty form.
+ */
 function airtribune_airtribune_player_content_type_edit_form_submit(&$form, &$form_state) {
-  $form_state['conf']['widget_is_preview'] = $form_state['values']['widget_is_preview'];
-  $form_state['conf']['widgetWidth'] = $form_state['values']['widgetWidth'];
-  $form_state['conf']['widgetHeight'] = $form_state['values']['widgetHeight'];
+  $form_state['conf']['widget_type'] = $form_state['values']['widget_type'];
+  return $form;
 }

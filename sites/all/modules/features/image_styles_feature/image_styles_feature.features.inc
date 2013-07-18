@@ -10,22 +10,110 @@
 function image_styles_feature_image_default_styles() {
   $styles = array();
 
-  // Exported image style: award.
-  $styles['award'] = array(
-    'name' => 'award',
+  // Exported image style: advert_on_visualization.
+  $styles['advert_on_visualization'] = array(
+    'name' => 'advert_on_visualization',
     'effects' => array(
-      4 => array(
-        'label' => 'Resize',
-        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
-        'effect callback' => 'image_resize_effect',
+      10 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
         'summary theme' => 'image_resize_summary',
         'module' => 'image',
-        'name' => 'image_resize',
+        'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '45',
-          'height' => '45',
+          'width' => '165',
+          'height' => '110',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award.
+  $styles['award'] = array(
+    'name' => 'award',
+    'effects' => array(
+      14 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '80',
+          'height' => '80',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award_details.
+  $styles['award_details'] = array(
+    'name' => 'award_details',
+    'effects' => array(
+      16 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '140',
+          'height' => '140',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award_sponsor.
+  $styles['award_sponsor'] = array(
+    'name' => 'award_sponsor',
+    'effects' => array(
+      15 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '140',
+          'height' => '80',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: award_sponsor_details.
+  $styles['award_sponsor_details'] = array(
+    'name' => 'award_sponsor_details',
+    'effects' => array(
+      17 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '240',
+          'height' => '140',
         ),
         'weight' => '1',
       ),
@@ -554,19 +642,63 @@ function image_styles_feature_image_default_styles() {
   $styles['scoring_winner'] = array(
     'name' => 'scoring_winner',
     'effects' => array(
-      10 => array(
-        'label' => 'Масштабирование',
-        'help' => 'Масштабирование позволяет изменить размеры изображения с сохранением пропорций. Если введён размер только одной стороны, то размер другой будет вычислен автоматически. Если введены два размера, то каждое будет определять максимальный размер по своему направлению и применяться в зависимости от формата изображения.',
-        'effect callback' => 'image_scale_effect',
-        'dimensions callback' => 'image_scale_dimensions',
-        'form callback' => 'image_scale_form',
-        'summary theme' => 'image_scale_summary',
-        'module' => 'image',
-        'name' => 'image_scale',
+      14 => array(
+        'label' => 'Aspect switcher',
+        'help' => 'Use different effects depending on whether the image is landscape of portrait shaped. This re-uses other preset definitions, and just chooses between them based on the rule.',
+        'effect callback' => 'canvasactions_aspect_image',
+        'dimensions callback' => 'canvasactions_aspect_dimensions',
+        'form callback' => 'canvasactions_aspect_form',
+        'summary theme' => 'canvasactions_aspect_summary',
+        'module' => 'imagecache_canvasactions',
+        'name' => 'canvasactions_aspect',
         'data' => array(
-          'width' => '300',
-          'height' => '',
-          'upscale' => 1,
+          'portrait' => 'scoring_winner_vertical',
+          'landscape' => 'scoring_winner_horizontal',
+          'ratio_adjustment' => '1',
+        ),
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported image style: scoring_winner_horizontal.
+  $styles['scoring_winner_horizontal'] = array(
+    'name' => 'scoring_winner_horizontal',
+    'effects' => array(
+      11 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '440',
+          'height' => '290',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: scoring_winner_vertical.
+  $styles['scoring_winner_vertical'] = array(
+    'name' => 'scoring_winner_vertical',
+    'effects' => array(
+      10 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '290',
+          'height' => '440',
         ),
         'weight' => '1',
       ),

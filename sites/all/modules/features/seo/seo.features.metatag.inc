@@ -18,7 +18,7 @@ function seo_metatag_export_default() {
         'value' => '[current-page:title] | [site:slogan]',
       ),
       'description' => array(
-        'value' => 'Sports event on-line presentation. Full support with registrations, live tracking, 2D and 3D live view and replay.',
+        'value' => 'Developing solutions for paragliding. For safety, entertainment and community uniting.',
       ),
       'keywords' => array(
         'value' => 'live tracking, live-tracking, livetracking, sports events on-line, competitions live tracking',
@@ -49,10 +49,10 @@ function seo_metatag_export_default() {
     'instance' => 'global:frontpage',
     'config' => array(
       'title' => array(
-        'value' => 'Paragliding competition GPS live tracking | [site:name]',
+        'value' => 'Competition hosting and live tracking | [site:name]',
       ),
       'description' => array(
-        'value' => 'Create your competition site here! It\'s free! Full support with registrations, live tracking, 2D & 3D live view and replay.',
+        'value' => 'Paragliding solutions. For safety, entertainment and community uniting.',
       ),
       'keywords' => array(
         'value' => 'live tracking, live-tracking, sports events on-line, paragliding competitions, paragliding live tracking',
@@ -67,7 +67,7 @@ function seo_metatag_export_default() {
         'value' => 'website',
       ),
       'og:title' => array(
-        'value' => 'On-line sports events presentation. | [site:slogan]',
+        'value' => 'Competition hosting and live tracking | [site:name]',
       ),
       'og:url' => array(
         'value' => '[site:url]',
@@ -102,7 +102,23 @@ function seo_metatag_export_default() {
         'value' => 'hotel',
       ),
       'title' => array(
-        'value' => '[node:title] | [site:slogan]',
+        'value' => '[node:title] | Accommodation for paragliding pilots | [site:name]',
+      ),
+      'description' => array(
+        'value' => '[node:summary]',
+      ),
+    ),
+  );
+
+  // Exported Metatag config instance: node:activity.
+  $config['node:activity'] = array(
+    'instance' => 'node:activity',
+    'config' => array(
+      'title' => array(
+        'value' => '[node:title] | Activities for paragliding pilots | [site:name]',
+      ),
+      'description' => array(
+        'value' => '[node:summary]',
       ),
     ),
   );

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Metatag integration for the metatag_opengraph module.
@@ -83,6 +82,10 @@ function metatag_opengraph_metatag_info() {
       '#theme' => 'metatag_opengraph',
     ),
   );
+  if (module_exists('fb_social')) {
+    $info['tags']['fb:app_id']['form']['#disabled'] = TRUE;
+    $info['tags']['fb:app_id']['form']['#description'] = t('The FB_Social module will automatically output this meta tag, go to the <a href="!fb_social">FB_Social settings page</a> to customize it.', array('!fb_social' => url('admin/config/user-interface/fb_social')));
+  }
 
   $info['tags']['og:site_name'] = array(
     'label' => t('Open Graph site name'),

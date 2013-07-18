@@ -38,7 +38,13 @@ function pages_feature_default_panels_mini() {
       'four_five' => NULL,
     ),
   );
-  $display->cache = array();
+  $display->cache = array(
+    'method' => 'simple',
+    'settings' => array(
+      'lifetime' => '604800',
+      'granularity' => 'none',
+    ),
+  );
   $display->title = '';
   $display->content = array();
   $display->panels = array();
@@ -85,7 +91,7 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Copyright',
       'title' => '',
-      'body' => '© 2012 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
+      'body' => '© 2011-2013 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
@@ -114,11 +120,11 @@ e-mail: info@airtribune.com</p>',
       'title' => 'Follow us',
       'body' => '<div id="social">
   <ul>
-    <li><a href="http://twitter.com/airtribune" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
-    <li><a href="http://vk.com/airtribune" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
-    <li><a href="#" class="lj" rel="nofollow" target="_blank"><span>Livejournal</span></a></li>
-    <li><a href="http://www.facebook.com/groups/300523859959914" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
-    <li><a href="#" class="yt" rel="nofollow" target="_blank"><span>Youtube</span></a></li>
+    <li style="display: none;"><a href="http://twitter.com/airtribune" class="tw" rel="nofollow" target="_blank"><span>Twitter</span></a></li>
+    <li style="display: none;"><a href="http://vk.com/airtribune" class="vk" rel="nofollow" target="_blank"><span>VKontakte</span></a></li>
+    <li style="display: none;"><a href="#" class="lj" rel="nofollow" target="_blank"><span>Livejournal</span></a></li>
+    <li><a href="http://www.facebook.com/Airtribune" class="fb" rel="nofollow" target="_blank"><span>Facebook</span></a></li>
+    <li style="display: none;"><a href="#" class="yt" rel="nofollow" target="_blank"><span>Youtube</span></a></li>
   </ul>
 </div>',
       'format' => 'full_html',
@@ -226,7 +232,13 @@ e-mail: info@airtribune.com</p>',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -244,7 +256,13 @@ e-mail: info@airtribune.com</p>',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );

@@ -83,6 +83,7 @@ function advert_field_default_fields() {
         'alt_field' => 0,
         'default_image' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'filefield_paths' => array(
@@ -200,6 +201,7 @@ function advert_field_default_fields() {
         ),
         'enable_tokens' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'title' => 'none',
         'title_maxlength' => '128',
         'title_value' => '',
@@ -323,6 +325,7 @@ function advert_field_default_fields() {
           ),
         ),
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'view modes' => array(
@@ -378,7 +381,7 @@ function advert_field_default_fields() {
         'max_length' => 255,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'text',
     ),
     'field_instance' => array(
@@ -412,6 +415,7 @@ function advert_field_default_fields() {
       'required' => TRUE,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'text_processing' => 0,
         'user_register_form' => FALSE,
       ),

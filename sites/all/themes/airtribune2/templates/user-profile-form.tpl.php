@@ -5,6 +5,9 @@ drupal_set_title(at_user_get_full_name($pilot_uid));
 
 global $user;
 
+//print_r($form);
+$form['actions']['submit']['#suffix'] = '<a id="mail-edit-cancel-link">or Cancel</a>';
+
 print "<div id='name_and_birthday'>"; // #name_and_birthday start
 
 $lang = $form['profile_main']['field_full_name']['#language'];
@@ -27,7 +30,7 @@ $form['account']['mail_dummy'] = array(
   '#title' => t('Email'),
   '#markup' => $form['account']['mail']['#value'],
   '#prefix' => '<div id="mail-dummy">', // form api "item" haven't #attributes
-  '#suffix' => '<div id="mail-edit-pencil">✎ edit</div></div>',
+  '#suffix' => '<div id="mail-edit-pencil">✎</div></div>',
 );
 
 $form['account']['mail']['#attached']['js'][] = drupal_get_path('module', 'at_user') . '/js/mail_change.js';

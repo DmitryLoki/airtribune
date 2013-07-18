@@ -142,7 +142,9 @@ function _at_validation_ajax($form, $form_state) {
     $html = array_shift($errors);
     
     // TODO: This is a hack for Name+Birthday unique check
-    if (strpos($html, 'This name, surname') !== FALSE) {
+    $checksubstr = t('This name, surname and date of birth combination already exist. <a href="!path">Forgot your password?</a>', array('!path' => url('user/password')));
+    $checksubstr = substr($checksubstr, 0, 15);
+    if (strpos($html, $checksubstr) !== FALSE) {
       $selector = '#edit-profile-main-field-birthdate-und-0-value';
     }
     
@@ -184,6 +186,26 @@ function drupal_json_output_plain_html($var = NULL) {
   }
 }
 
+/*
+ * Detect editable views
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @description This is temporary function disable it validation for editable views form until bug is fix
+ * @see #2902
+ * @TODO: Remove it after bug fix
+ */
+function _is_editableviews($context){
+  if (isset($context['form']['#attached']['library'])) {
+    foreach($context['form']['#attached']['library'] as $libs) {
+      foreach($libs as $lib) {
+        if ($lib == 'editablefields') {
+          return TRUE;
+        }
+      }
+    }
+  }
+  return FALSE;
+}
+
 /**
  * Implements hook_field_widget_form_alter().
  * 
@@ -191,7 +213,10 @@ function drupal_json_output_plain_html($var = NULL) {
  * Ctools plugins should be used for individual handlers.
  */
 function at_validation_field_widget_form_alter(&$element, &$form_state, $context) {
-  
+  // Disable validation for editable views
+  if (_is_editableviews($context)) {
+    return;
+  }
   if (array_keys($element) == array('value')) {
     return at_validation_field_widget_form_alter_tmp($element, $form_state, $context);
   }
@@ -586,6 +611,7 @@ function at_validation_js_alter(&$javascript) {
                 $rules['profile_pilot[field_paraglider_manufacturer][und][0][value]'] = $rules['field_paraglider_manufacturer[und][0][value]'];
                 $rules['profile_pilot[field_paraglider_model][und][0][value]'] = $rules['field_paraglider_model[und][0][value]'];
                 $rules['profile_pilot[field_paraglider_color][und][0][value]'] = $rules['field_paraglider_color[und][0][value]'];
+                $rules['profile_pilot[field_phone][und][0][full_number]'] = $rules['field_phone[und][0][full_number]'];
               }
             }
           }
