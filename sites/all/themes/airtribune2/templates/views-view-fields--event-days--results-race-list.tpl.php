@@ -56,9 +56,9 @@ if (!$day_number && !($day_number === 0)) {
 ?>
 
 
-<?php print $fields['nothing_1']->wrapper_prefix; ?>
-<?php print $fields['nothing_1']->content; ?>
-<?php print $fields['nothing_1']->wrapper_suffix; ?>
+<?php print $fields['pg_race_preview_image']->wrapper_prefix; ?>
+<?php print $fields['pg_race_preview_image']->content; ?>
+<?php print $fields['pg_race_preview_image']->wrapper_suffix; ?>
 
 <div class="views-field results_head">
   <?php if ($fields['field_day_status']->content != 'Registration day' && $fields['field_day_status']->content != 'Training day'): ?>

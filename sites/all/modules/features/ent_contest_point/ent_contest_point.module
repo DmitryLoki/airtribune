@@ -47,6 +47,7 @@ class EntContestPointController extends EntityAPIController {
     if (empty($ids)) {
       return;
     }
+    parent::delete($ids, $transaction);
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'og_membership')
@@ -54,9 +55,8 @@ class EntContestPointController extends EntityAPIController {
       ->propertyCondition('etid', $ids)
       ->execute();
     if (!empty($result['og_membership'])) {
-      
       og_membership_delete_multiple(array_keys($result['og_membership']));
     }
-    parent::delete($ids, $transaction);
+
   }
 }

@@ -137,6 +137,11 @@ function at_membership_permission() {
     'title' => t('Delete ANY OG membership'),
     'description' => t('Allow users to delete any memberships.'),
   );
+  $items['view all retrieve maps'] = array(
+    'title' => t('View all retrieve maps'),
+    'description' => t('Allow users to view all retrieve maps.'),
+  );
+
    // Generate standard node permissions for all OG membership types.
   foreach (at_membership_permissions_get_configured_types() as $type) {
     $items += at_membership_list_permissions($type);

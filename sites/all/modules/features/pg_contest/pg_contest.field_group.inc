@@ -23,10 +23,10 @@ function pg_contest_field_group_info() {
     'label' => 'Contacts',
     'weight' => '31',
     'children' => array(
-      0 => 'field_contacts_name',
-      1 => 'field_position',
-      2 => 'field_contacts_email',
-      3 => 'field_contacts_phone',
+      0 => 'field_contacts_phone',
+      1 => 'field_contacts_email',
+      2 => 'field_position',
+      3 => 'field_contacts_name',
     ),
     'format_type' => 'field_group_multiple_table',
     'format_settings' => array(
@@ -130,12 +130,12 @@ function pg_contest_field_group_info() {
     'label' => 'How to get here',
     'weight' => '36',
     'children' => array(
-      0 => 'field_gt_bus',
-      1 => 'field_gt_train',
-      2 => 'field_gt_car',
+      0 => 'field_gt_car',
+      1 => 'field_gt_general',
+      2 => 'field_gt_plane',
       3 => 'field_gt_taxi',
-      4 => 'field_gt_general',
-      5 => 'field_gt_plane',
+      4 => 'field_gt_train',
+      5 => 'field_gt_bus',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

@@ -94,13 +94,13 @@ function _day_pg_race_preview_markup($node) {
   $race_entity_id = $data['race_entity_id'];
   $contest_core_id = $data['contest_core_id'];
   $race_core_id = $data['race_core_id'];
-  $localtime = $data['localtime'];
-  $offset = $data['offset'];
-  
-  
+  $localtime = !empty($data['localtime']) ? $data['localtime'] : 0;
+  $offset = !empty($data['offset']) ? $data['offset'] : 0;
+  $is_current_day = $data['is_current_day'];
+
   // Wrapper data
-  
-  
+
+
   // span Wrapper attributes
   $wrapper_attributes = array(
     'class' => array('race-links'),
@@ -156,9 +156,14 @@ function _day_pg_race_preview_markup($node) {
         break;
     }
     
-    drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+    if ($is_current_day) {
+      drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+    }
   }
   else {
+    if (!$is_current_day) {
+      return '';
+    }
     // Default link and help text in case task isn't set.
     $link_text = t('Watch Live');
     $help_text = t('Button will be here as soon as task is set.');
@@ -184,6 +189,7 @@ function _day_pg_race_preview_markup($node) {
   }
   
   // Add js
+  drupal_add_js(drupal_get_path('module', 'day') .'/js/ie-fix.js', 'file');
   drupal_add_js(drupal_get_path('module', 'day') .'/js/day_pg_race_play_link.js', 'file');
   drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here soon.'))), 'setting');
   drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
@@ -198,6 +204,7 @@ function _day_pg_race_preview_markup($node) {
 function _day_pg_race_preview_data($node) {
   // Initialize values
   $data = array(
+    'is_current_day' => NULL,
     'status' => NULL,
     'has_task' => NULL,
     'start_time' => NULL,
@@ -208,8 +215,9 @@ function _day_pg_race_preview_data($node) {
   );
   
   // Get task and event data
-  $task_data = _day_pg_race_task_set($node->nid);
+  $task_data = _day_pg_race_task_set($node);
   
+  $data['is_current_day'] = $task_data['is_current_day'];
   if (empty($task_data['entity'])) {
     $data['has_task'] = FALSE;
     return $data;
@@ -233,8 +241,10 @@ function _day_pg_race_preview_data($node) {
 /**
  * Get day task if exists and check if points exist.
  */
-function _day_pg_race_task_set($day_id) {
+function _day_pg_race_task_set($day_node) {
+  
   $task_data = array(
+    'is_current_day' => NULL,
     'entity' => NULL,
     'status' => NULL,
     'start_time' => NULL,
@@ -244,6 +254,22 @@ function _day_pg_race_task_set($day_id) {
     'race_core_id' => NULL,
     'contest_core_id' => NULL,
   );
+  
+  // TODO: Remove duplicated operations (see if() case)
+  // Check if it is current day
+  $created = $day_node->created;
+  $items = field_get_items('node', $day_node, OG_AUDIENCE_FIELD);
+  $item = array_shift($items);
+  $target_id = $item['target_id'];
+  $node = node_load($target_id);
+  $event_time = airtribune_extract_time_from_event($node);
+  if (!isset($event_time['offset'])) {
+    return;
+  }
+  $offset = $event_time['offset'];
+  
+  $task_data['is_current_day'] = date('Y-m-d', $created - $offset) == date('Y-m-d', time() - $offset) ? TRUE : FALSE;
+  $day_id = $day_node->nid;
   
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'ent_race')

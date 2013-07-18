@@ -33,6 +33,7 @@ features[page_manager_pages][] = event_results
 features[page_manager_pages][] = event_sponsors
 features[page_manager_pages][] = my_registrations
 features[page_manager_pages][] = player
+features[page_manager_pages][] = retrieve_map
 features[panels_mini][] = footer_blocks
 features[panels_mini][] = header_blocks
 features[panels_mini][] = sidebar

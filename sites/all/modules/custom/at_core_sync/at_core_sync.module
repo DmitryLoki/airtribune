@@ -12,34 +12,8 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  /**
  * Returns Core ID from entity
  */
-function get_id_from_entity($entity) {
-  $field_core_id = field_get_items($entity->entityType(), $entity, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
-  }
-  else {
-    return FALSE;
-  }
-}
-
-/**
- * Returns Core ID from entity
- */
-function get_id_from_user($entity) {
-  $field_core_id = field_get_items('user', $entity, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
-  }
-  else {
-    return FALSE;
-  }
-}
-
-/**
- * Returns Core ID from entity
- */
-function get_id_from_contest($entity) {
-  $field_core_id = field_get_items('node', $entity, AIRTRIBUNE_CORE_ID_FIELD);
+function get_id_from_entity($entity_type, $entity) {
+  $field_core_id = field_get_items($entity_type, $entity, AIRTRIBUNE_CORE_ID_FIELD);
   if (!empty($field_core_id[0]['value'])) {
     return $field_core_id[0]['value'];
   }
@@ -64,42 +38,30 @@ function get_contest_id_from_race($entity) {
 }
 
 /**
- * Returns Contest Core ID from race entity
- */
-function get_race_id_from_race($entity) {
-  $field_core_id = field_get_items('ent_race', $entity, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
-  }
-  else {
-    return FALSE;
-  }
-}
-
-/**
  * Returns synchronization class
  */
-function _get_class_by_entity($entity, $type) {
+function _get_class_by_entity($entity_type, $entity) {
   require_once drupal_get_path("module", "at_core_sync") . "/at_core_sync.class.inc";
 
   $class = FALSE;
-  $tmp = $type;
+  $tmp = $entity_type;
 
   if (!empty($entity->type)) {
     $tmp .= ':' . $entity->type;
   }
-
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
     'user' => 'ATSyncPerson',
     'og_membership:pg_contestant' => 'ATSyncPilot',
+    'og_membership:tracked_object' => 'ATSyncTrackedObject',
     'ent_race:pg_race' => 'ATSyncRace',
     'ent_tracker:device' => 'ATSyncTracker',
+    'ent_customobject:customobject' => 'ATSyncCustom',
   );
 
   if (!empty($classes[$tmp])) {
     $class = $classes[$tmp];
-    return new $class($entity, $type);
+    return new $class($entity_type, $entity);
   } else {
     return FALSE;
   }
@@ -227,6 +189,15 @@ function at_core_sync_action_info() {
                 'any' => TRUE,
         ),
     ),
+    'at_core_sync_tracked_objects_action' => array(
+        'type' => 'og_membership',
+        'label' => t('[Core API] Sync tracked objects'),
+        'configurable' => FALSE,
+        'aggregate' => FALSE,
+        'hooks' => array (
+                'any' => TRUE,
+        ),
+    ),
     'at_core_sync_races_action' => array(
         'type' => 'ent_race',
         'label' => t('[Core API] Sync races'),
@@ -263,29 +234,30 @@ function at_core_sync_action_info() {
  */
 function at_core_sync_other_sync($entity_type, $entity) {
   if (variable_get('at_core_sync_enabled', 0)) {
-    if ($sync = _get_class_by_entity($entity, $entity_type)) {
+    if ($sync = _get_class_by_entity($entity_type, $entity)) {
       //TODO: move custom actions to hooks
       switch($entity_type) {
         case 'ent_race':
           return $sync->pushTracks();
           break;
+        case 'tracked_object':
         case 'og_membership':
           $tracker_entity = $sync->tracker;
-          $person_core_id = $sync->person_core_id;
+          $tracked_core_id = $sync->tracked_core_id;
           $contest_core_id = $sync->contest_core_id;
 
           // Tracker erased
-          if (!isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
+          if (isset($entity->original) && !isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
             $tracker_eid = $entity->original->field_tracker[LANGUAGE_NONE][0]['target_id'];
             if ($tracker_eid) {
               $tracker_entity = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
-              $person_core_id = '';
+              $tracked_core_id = '';
             }
           }
           // Assignee tracker to person
           if ($tracker_entity) {
-            $tracker = _get_class_by_entity($tracker_entity, 'ent_tracker');
-            return $tracker->assignee($person_core_id, $contest_core_id);
+            $tracker = _get_class_by_entity('ent_tracker', $tracker_entity);
+            return $tracker->assignee($tracked_core_id, $contest_core_id);
           }
           break;
       }
@@ -297,7 +269,7 @@ function at_core_sync_other_sync($entity_type, $entity) {
 function at_core_sync_entity_sync($entity_type, $entity) {
 
   if (variable_get('at_core_sync_enabled', 0)) {
-    if ($sync = _get_class_by_entity($entity, $entity_type)) {
+    if ($sync = _get_class_by_entity($entity_type, $entity)) {
       return $sync->synchronize();
     }
   }
@@ -321,6 +293,17 @@ function at_core_sync_contests_action(&$object, $context = array()) {
 * @param array $context
 */
 function at_core_sync_contestants_action(&$object, $context = array()) {
+  at_core_sync_entity_sync('og_membership', $object);
+  at_core_sync_other_sync('og_membership', $object);
+}
+
+/**
+* Implementation of a Drupal action
+*
+* @param object $object
+* @param array $context
+*/
+function at_core_sync_tracked_objects_action(&$object, $context = array()) {
   at_core_sync_entity_sync('og_membership', $object);
   at_core_sync_other_sync('og_membership', $object);
 }
