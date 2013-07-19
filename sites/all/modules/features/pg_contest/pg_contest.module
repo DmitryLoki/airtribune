@@ -110,7 +110,7 @@ function pg_contest_insert($node) {
   if (isset($node->field_points_file[LANGUAGE_NONE][0])) {
     pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0], $node->nid);
   }
-  
+
   // Create aliases
   _pg_contest_create_alias($node);
   // Restrict subscription depending on Registration Switch field.
@@ -139,10 +139,11 @@ function pg_contest_update($node) {
       if (!empty($result['ent_contest_point'])) {
         entity_delete_multiple('ent_contest_point', array_keys($result['ent_contest_point']));
       }
-    }
-    if (isset($node->field_points_file[LANGUAGE_NONE])) {
-      //create new points and subscribe them to group 
-      pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0]['fid'], $node->nid);
+
+      if (isset($node->field_points_file[LANGUAGE_NONE])) {
+        //create new points and subscribe them to group 
+        pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0]['fid'], $node->nid);
+      }
     }
   }
   
