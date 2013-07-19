@@ -368,7 +368,7 @@ function pg_race_retrive_table_callback($entity) {
 }
 
 
-function pg_race_retrive_access($entity, $gid) {return 1;
+function pg_race_retrive_access($entity, $gid) {
   $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
   $event_date = airtribune_extract_time_from_event($gid);
   $offset = $event_date['offset'];
