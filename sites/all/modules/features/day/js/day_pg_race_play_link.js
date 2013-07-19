@@ -38,8 +38,14 @@
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             console.log('enable links in ', $raceBlock);
             //make links clickable
-            setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', raceData.isOnline);
-            setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', raceData.isOnline);
+            if (raceData.isOnline || raceData.requestType == 'online') {
+              // Show online link before upload tracks from file
+              isOnline = 'online';
+            } else {
+              isOnline = false;
+            }
+            setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', isOnline);
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
