@@ -33,7 +33,10 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
   $items = field_get_items('ent_race', $race, AIRTRIBUNE_CORE_ID_FIELD);
 
   $raceId = $items[0]['value'];
-  
+
+  $wrapper = entity_metadata_wrapper('ent_race', $race);
+  $race_tracks = $wrapper->field_pg_race_tracks->value();
+
   // Get groups
   $groups = og_get_entity_groups($race->entityType(), $race);
 
@@ -53,6 +56,11 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
     'apiVersion' => at_core_sync_get_api_version(),
     'titleUrl' => $titleUrl,
   );
+
+  // Temporary fix: force disable online if tracks upload
+  if (isset($race_tracks['fid'])) {
+    unset($options['isOnline']);
+  }
 
   $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
   if (isset($widget_type) && $widget_type != 'default') {
