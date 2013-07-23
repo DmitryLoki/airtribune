@@ -344,15 +344,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'views',
   );
 
-  // Exported permission: administer xmlsitemap.
-  $permissions['administer xmlsitemap'] = array(
-    'name' => 'administer xmlsitemap',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'xmlsitemap',
-  );
-
   // Exported permission: block IP addresses.
   $permissions['block IP addresses'] = array(
     'name' => 'block IP addresses',
