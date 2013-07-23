@@ -741,6 +741,9 @@ function _at_race_get_contest_points($contest_id) {
     }
   }
   
+  // Sort points by title.
+  asort($points_list);
+  
   return $points_list;
 }
 
