@@ -7,7 +7,7 @@
 
 // Plugin defenition.
 $plugin = array(
-  'title' => t('Facebook fan gate'),
+  'title' => t('Facebook user fan (clicked LIKE button)'),
   'description' => t('Check whether the user is a fan of our page (already click "like" button).'),
   'callback' => 'airtribune_facebook_fan_gate_access_check',
   'required context' => new ctools_context_required(t('Node'), 'node'),
