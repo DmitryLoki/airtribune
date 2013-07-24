@@ -880,7 +880,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_advert/advert_visualisation/add?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/ad_vis">Add advert</a></li></ul>';
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_advert/advert_visualisation/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/ad_vis">Add advert</a></li></ul>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Relationship: OG membership: OG membership from Advertisement */
@@ -951,7 +951,7 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_advert/advert_visualisation/add?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/ad_vis">Add advert</a></li></ul>'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_advert/advert_visualisation/add?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/ad_vis">Add advert</a></li></ul>'),
     t('OG membership from ent_advert'),
     t('Title'),
     t('Edit link'),
@@ -2020,7 +2020,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/node/add/day?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/day">Add Day</a></li></ul>';
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/node/add/day?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/day">Add Day</a></li></ul>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* No results behavior: Global: Text area */
@@ -2137,7 +2137,7 @@ function at_core_sync_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<ul class="action-links"><li><a href="/node/add/day?og_group_ref=%1&destination=admin/config/administration/at_manage/contest/%1/day">Add Day</a></li></ul>'),
+    t('<ul class="action-links"><li><a href="/node/add/day?og_group_ref=!1&destination=admin/config/administration/at_manage/contest/!1/day">Add Day</a></li></ul>'),
     t('Days was not created.'),
     t('OG membership from node'),
     t('Group ID'),
