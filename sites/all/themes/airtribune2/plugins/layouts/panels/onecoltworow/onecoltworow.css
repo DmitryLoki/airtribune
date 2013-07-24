@@ -1,0 +1,41 @@
+/* CSS file for the 30 70 stacked layout */
+@import url('../../../../css/base-grid.css');
+
+
+.panel-col-seventy {
+  width: 100%;
+}
+
+.panel-header, .panel-top, .panel-footer {
+  width: 100%;
+}
+
+/* Margins taken from the Panels module plugins */
+.lastUnit .inside {
+  margin: 0 0 1em .5em;
+}
+.firstUnit .inside {
+  margin: 0 .5em 1em 0;
+}
+.unit .inside {
+  margin: 0 .5em 1em .5em;
+}
+
+
+body.page-event-results-facebook {}
+body.page-event-results-facebook .region_inner,
+body.page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none; min-height: 327px}
+body.page-event-results-facebook #footer,
+body.page-event-results-facebook #header { display: none;}
+body.page-event-results-facebook #super { max-width: 810px; margin: 0 auto; padding-bottom: 0;}
+body.page-event-results-facebook .panel-col-seventy { margin-right: 0; float: none;}
+body.page-event-results-facebook .panel-col-seventy .inside { margin-right: 0;}
+body.page-event-results-facebook .second_sidebar { display: none;}
+body.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none;}
+body.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9;}
+body.page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
+body.page-event-results-facebook .featured-header-title { padding: 0;}
+body.page-event-results-facebook .featured-header-title .featured-header-title { display: none;}
+.facebook-fan-gate .featured-header { padding-top: 180px;}
+body.page-event-results-facebook .facebook-fan-gate .collapse-control { top: 180px;}
+#facebook-fan-gate { width: 810px; height: 180px; background: url(./img/like.png) no-repeat 50% 50%;}
