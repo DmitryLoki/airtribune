@@ -5440,7 +5440,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'panels_everywhere_site_template' => 'site_template_panel_context_5',
   );
   $display = new panels_display();
-  $display->layout = 'twocolfourrow';
+  $display->layout = 'onecoltworow';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -5524,7 +5524,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->configuration = array(
       'admin_title' => 'Facebook Fan Gate',
       'title' => '',
-      'body' => '<div id=\'facebook-fan-gate\'><img src=\'/13fai/like.png\' />Click like to subscribe!</div>',
+      'body' => '<div id=\'facebook-fan-gate\'></div>',
       'format' => 'full_html',
       'substitute' => 1,
     );
@@ -5543,7 +5543,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:node_1',
@@ -6079,6 +6079,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->path = 'retrieve/%race';
   $page->access = array(
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
