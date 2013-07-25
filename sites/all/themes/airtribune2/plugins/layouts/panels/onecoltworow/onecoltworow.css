@@ -23,7 +23,7 @@
 
 
 body.page-event-results-facebook.body_bgr { min-width: 0; height: auto; overflow: hidden; min-height: 0}
-html.fb_view { overflow: hidden;}
+html.fb_view { overflow: auto;}
 body.page-event-results-facebook .pane-page-content > .pane-inner { margin: 0;}
 body.page-event-results-facebook .region_inner,
 body.page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none; height: 327px}
