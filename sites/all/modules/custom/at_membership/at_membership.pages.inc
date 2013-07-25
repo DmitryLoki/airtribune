@@ -17,6 +17,22 @@ function at_membership_form($form, &$form_state, $og_membership = FALSE) {
   at_membership_set_breadcrumb($og_membership);
   field_attach_form('og_membership', $og_membership, $form, $form_state);
 
+  // Load all available OG membership types & remove from array default OG membership.
+  $all_memberships = at_membership_type_get_types();
+  unset($all_memberships[OG_MEMBERSHIP_TYPE_DEFAULT]);
+  // assign to array, which will be used in select element in form
+  foreach ($all_memberships as $key => $value) {
+    $select_membership[$key] = $value->description;
+  }
+
+  $form['og_membership_select'] = array(
+    '#type' => 'select',
+    '#title' => t('Type'),
+    '#options' => $select_membership,
+    '#default_value' => $og_membership->type,
+    '#weight' => 0,
+  );
+
   // Markup some info about pilot.
   $membership = $form['#entity'];
   if ($membership->type == 'pg_contestant' && $membership->entity_type == 'user') {
@@ -54,10 +70,26 @@ function at_membership_form_submit($form, &$form_state) {
   $values = &$form_state['values'];
 
   $og_membership = $values['og_membership'];
+  // user change membership in form
+  if ($values['og_membership_select'] != $og_membership->type) {
+    // load values from old membership, to use for create new
+    $gid = $og_membership->gid;
+    $etid = $og_membership->etid;
+    $og_membership_values['type'] = $values['og_membership_select'];
 
+    // delete old membership
+    og_membership_delete($og_membership->id);
+    // assign new
+    $og_membership = airtribune_og_membership_create('node', $gid, 'user', $etid, 'og_user_node', $og_membership_values);
+  }
 
   field_attach_submit('og_membership', $og_membership, $form, $form_state);
-  $og_membership = og_membership_save($og_membership);
+  og_membership_save($og_membership);
+
+  // If user change type of membership, we delete and create new membership,
+  // also we need to change redirect after form submit, using new id.
+  // If membership doesn't updated - user will be redirected on old url.
+  $form_state['redirect']  = 'group-membership/' . $og_membership->id . '/edit';
   drupal_set_message('Membership data has been updated.');
 }
 
