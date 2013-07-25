@@ -5511,6 +5511,57 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->type = 'custom';
     $pane->subtype = 'custom';
     $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => '',
+      'body' => '<script>
+window.fbAsyncInit = function() {
+
+    FB.init({
+        appId      : \'668208616542404\', // App ID
+        channelUrl : \'//www.domain.com/channel.html\', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+    FB.Canvas.setAutoGrow(false);
+    FB.Canvas.setSize({height:600});
+    setTimeout(function(){
+        FB.Canvas.setAutoGrow(true);
+    }, 100);
+};
+
+// Load the SDK Asynchronously
+(function(d){
+    var js, id = \'facebook-jssdk\', ref = d.getElementsByTagName(\'script\')[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(\'script\'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+}(document));
+</script>',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-72'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-72';
+    $pane = new stdClass();
+    $pane->pid = 'new-73';
+    $pane->panel = 'featured_header_title';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
@@ -5534,12 +5585,12 @@ ____(CCCCCCCCCCCCCC)____________;;;
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-72'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-72';
+    $display->content['new-73'] = $pane;
+    $display->panels['featured_header_title'][1] = 'new-73';
     $pane = new stdClass();
-    $pane->pid = 'new-73';
+    $pane->pid = 'new-74';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -5559,12 +5610,12 @@ ____(CCCCCCCCCCCCCC)____________;;;
       'css_class' => 'featured-header-title',
     );
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-73'] = $pane;
-    $display->panels['featured_header_title'][1] = 'new-73';
+    $display->content['new-74'] = $pane;
+    $display->panels['featured_header_title'][2] = 'new-74';
     $pane = new stdClass();
-    $pane->pid = 'new-74';
+    $pane->pid = 'new-75';
     $pane->panel = 'left';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_title';
@@ -5589,10 +5640,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-74'] = $pane;
-    $display->panels['left'][0] = 'new-74';
+    $display->content['new-75'] = $pane;
+    $display->panels['left'][0] = 'new-75';
     $pane = new stdClass();
-    $pane->pid = 'new-75';
+    $pane->pid = 'new-76';
     $pane->panel = 'left';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_summary';
@@ -5617,10 +5668,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-75'] = $pane;
-    $display->panels['left'][1] = 'new-75';
+    $display->content['new-76'] = $pane;
+    $display->panels['left'][1] = 'new-76';
     $pane = new stdClass();
-    $pane->pid = 'new-76';
+    $pane->pid = 'new-77';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_scoring_categories-results_pane';
@@ -5635,10 +5686,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-76'] = $pane;
-    $display->panels['left'][2] = 'new-76';
+    $display->content['new-77'] = $pane;
+    $display->panels['left'][2] = 'new-77';
     $pane = new stdClass();
-    $pane->pid = 'new-77';
+    $pane->pid = 'new-78';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_days-results_race_list';
@@ -5653,8 +5704,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-77'] = $pane;
-    $display->panels['left'][3] = 'new-77';
+    $display->content['new-78'] = $pane;
+    $display->panels['left'][3] = 'new-78';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -5752,7 +5803,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-78';
+    $pane->pid = 'new-79';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -5771,8 +5822,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-78'] = $pane;
-    $display->panels['middle'][0] = 'new-78';
+    $display->content['new-79'] = $pane;
+    $display->panels['middle'][0] = 'new-79';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -5884,7 +5935,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-79';
+    $pane->pid = 'new-80';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -5905,10 +5956,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-79'] = $pane;
-    $display->panels['middle'][0] = 'new-79';
+    $display->content['new-80'] = $pane;
+    $display->panels['middle'][0] = 'new-80';
     $pane = new stdClass();
-    $pane->pid = 'new-80';
+    $pane->pid = 'new-81';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'my_registrations-panel_pane_1';
@@ -5926,8 +5977,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-80'] = $pane;
-    $display->panels['middle'][1] = 'new-80';
+    $display->content['new-81'] = $pane;
+    $display->panels['middle'][1] = 'new-81';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6017,7 +6068,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-81';
+    $pane->pid = 'new-82';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_player';
     $pane->subtype = 'airtribune_player';
@@ -6039,10 +6090,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-81'] = $pane;
-    $display->panels['middle'][0] = 'new-81';
+    $display->content['new-82'] = $pane;
+    $display->panels['middle'][0] = 'new-82';
     $pane = new stdClass();
-    $pane->pid = 'new-82';
+    $pane->pid = 'new-83';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_on_visualization-panel_pane_1';
@@ -6061,8 +6112,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-82'] = $pane;
-    $display->panels['middle'][1] = 'new-82';
+    $display->content['new-83'] = $pane;
+    $display->panels['middle'][1] = 'new-83';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6186,7 +6237,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-83';
+    $pane->pid = 'new-84';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_player';
     $pane->subtype = 'airtribune_player';
@@ -6206,10 +6257,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-83'] = $pane;
-    $display->panels['middle'][0] = 'new-83';
+    $display->content['new-84'] = $pane;
+    $display->panels['middle'][0] = 'new-84';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-83';
+  $display->title_pane = 'new-84';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['retrieve_map'] = $page;

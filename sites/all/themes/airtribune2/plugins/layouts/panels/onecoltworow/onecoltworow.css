@@ -22,9 +22,11 @@
 }
 
 
-body.page-event-results-facebook {}
+body.page-event-results-facebook.body_bgr { min-width: 0; height: auto; overflow: hidden; min-height: 0}
+html.fb_view { overflow: hidden;}
+body.page-event-results-facebook .pane-page-content > .pane-inner { margin: 0;}
 body.page-event-results-facebook .region_inner,
-body.page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none; min-height: 327px}
+body.page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none; height: 327px}
 body.page-event-results-facebook #footer,
 body.page-event-results-facebook #header { display: none;}
 body.page-event-results-facebook #super { max-width: 810px; margin: 0 auto; padding-bottom: 0;}
