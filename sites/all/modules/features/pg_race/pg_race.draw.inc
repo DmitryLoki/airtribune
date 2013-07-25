@@ -448,78 +448,42 @@ function _at_draw_draw_waypoints(&$img, $settings) {
 
 
 
-
+/*
 // TEMP FUNCTION
 function _at_draw_coords_tmp($settings, $p) {
-      $zoom_box = $settings['zoom_box'];
-      $resampling = $zoom_box['resampling'];
-      $corners = $zoom_box['corners'];
-      $edges = $zoom_box['edges'];
-      $extra_tiles = $zoom_box['extended']['extra_tiles'];
-      $ratio = $zoom_box['ratio'];
-      
-      $xtile_min = $corners[$edges['left']]['xtile'];
-      $ytile_min = $corners[$edges['top']]['ytile'];
-      
-      // Taken from _at_draw_draw_gmap().
-      $src_x = $resampling['src_x'];
-      $src_y = $resampling['src_y'];
-      
-      $xtile = floor($p['x']);
-      $ytile = floor($p['y']);
-      
-      //xPixel
-      //xPixel
-      //xtile
-      $xPixel = round(($p['x'] - $xtile) * AT_DRAW_PIXELS_PER_TILE);
-      $yPixel = round(($p['y'] - $ytile) * AT_DRAW_PIXELS_PER_TILE);
-      
-      $coords = array(
-        'x' => floor(($xPixel + ($xtile - $xtile_min + $extra_tiles['left']) * AT_DRAW_PIXELS_PER_TILE - $src_x) * $ratio),
-        'y' => floor(($yPixel + ($ytile - $ytile_min + $extra_tiles['top']) * AT_DRAW_PIXELS_PER_TILE - $src_y) * $ratio),
-      );
-      
-      return $coords;
-/*
-  $zoom = $zoom_box['zoom'];
+  $zoom_box = $settings['zoom_box'];
+  $resampling = $zoom_box['resampling'];
   $corners = $zoom_box['corners'];
   $edges = $zoom_box['edges'];
-  $ratio = $zoom_box['ratio'];
-  $centre = $zoom_box['centre'];
   $extra_tiles = $zoom_box['extended']['extra_tiles'];
-  $resampling = $zoom_box['resampling'];
+  $ratio = $zoom_box['ratio'];
   
-  
-  $lon = $point['lon'];
-  $lat = $point['lat'];
-  
-  $tile_num = _at_draw_coord_to_gmap_tile($lat, $lon, $zoom);
-  $xtile = $tile_num['x'];
-  $ytile = $tile_num['y'];
-  
-  $tile_pixel_coords = _at_draw_coord_to_gmap_tile_pixels($tile_num);
-  $xPixel = $tile_pixel_coords['x'];
-  $yPixel = $tile_pixel_coords['y'];
-  
-  $xtile = floor($xtile);
-  $ytile = floor($ytile);
+  $xtile_min = $corners[$edges['left']]['xtile'];
+  $ytile_min = $corners[$edges['top']]['ytile'];
   
   // Taken from _at_draw_draw_gmap().
   $src_x = $resampling['src_x'];
   $src_y = $resampling['src_y'];
   
-  $xtile_min = $corners[$edges['left']]['xtile'];
-  $ytile_min = $corners[$edges['top']]['ytile'];
+  $xtile = floor($p['x']);
+  $ytile = floor($p['y']);
+  
+  //xPixel
+  //xPixel
+  //xtile
+  $xPixel = round(($p['x'] - $xtile) * AT_DRAW_PIXELS_PER_TILE);
+  $yPixel = round(($p['y'] - $ytile) * AT_DRAW_PIXELS_PER_TILE);
   
   $coords = array(
     'x' => floor(($xPixel + ($xtile - $xtile_min + $extra_tiles['left']) * AT_DRAW_PIXELS_PER_TILE - $src_x) * $ratio),
     'y' => floor(($yPixel + ($ytile - $ytile_min + $extra_tiles['top']) * AT_DRAW_PIXELS_PER_TILE - $src_y) * $ratio),
   );
-*/
+  
+  return $coords;
 }
+*/
 
-
-
+/*
 // TEMP FUNCTION
 function _at_draw_rt_tmp(&$img, $settings) {
   module_load_include('inc', 'pg_race', 'pg_race.class');
@@ -569,6 +533,7 @@ function _at_draw_rt_tmp(&$img, $settings) {
     imagecolordeallocate($img, $new_line_colour);
   }
 }
+*/
 
 // TODO:
 function _at_draw_draw_routepoints(&$img, $settings) {
@@ -712,20 +677,7 @@ function _at_draw_extend_zoom_box($settings, $zoom_box) {
     'right' => ceil((($canvas_used['width'] + $offset['right']) / 2) / $ratio) - (($xtile_max - $centre['xtile'] + 1) * AT_DRAW_PIXELS_PER_TILE - $centre['xPixel']),
     'top' => ceil((($canvas_used['height'] + $offset['top']) / 2) / $ratio) - (($centre['ytile'] - $ytile_min) * AT_DRAW_PIXELS_PER_TILE + $centre['yPixel']),
     'bottom' => ceil((($canvas_used['width'] + $offset['bottom']) / 2) / $ratio) - (($ytile_max - $centre['ytile'] + 1) * AT_DRAW_PIXELS_PER_TILE - $centre['yPixel']),
-    //'left' => ceil($offset['left'] / $ratio) - $left,
-    //'right' => ceil($offset['right'] / $ratio) - $right,
-    //'top' => ceil($offset['top'] / $ratio) - $top,
-    //'bottom' => ceil($offset['bottom'] / $ratio) - $bottom,
   );
-  
-  /*
-  $tiles_extended = array(
-    'xtile_min' => $pixels_to_add['left'] > 0 ? $xtile_min - (floor($pixels_to_add['left'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $xtile_min,
-    'xtile_max' => $pixels_to_add['right'] > 0 ? $xtile_max + (floor($pixels_to_add['right'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $xtile_max,
-    'ytile_min' => $pixels_to_add['top'] > 0 ? $ytile_min - (floor($pixels_to_add['top'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $ytile_min,
-    'ytile_max' => $pixels_to_add['bottom'] > 0 ? $ytile_max + (floor($pixels_to_add['bottom'] / AT_DRAW_PIXELS_PER_TILE) + 1) : $ytile_max,
-  );
-  */
   
   // Here floor() is used to get integer number of tiles
   $extra_tiles = array(
@@ -772,7 +724,7 @@ function _at_draw_get_optimal_zoom_settings($settings) {
   
   // Roll back last increament.
   // Since we need $zoom_optimal+1, this line is commented.
-  //$zoom_optimal --;
+  // $zoom_optimal --;
   
   return array(
     'zoom_optimal' => $zoom_optimal,
@@ -870,7 +822,6 @@ function _at_draw_get_zoom_box($box, $zoom) {
 // since because of calculation error (inaccuracy) we can get pixels for a tile different from _at_draw_coord_to_gmap_tile() one.
 
 
-// TODO: Check if this returns right values.
 // TODO: Change returned value keys to 'xtile', 'ytile'
 
 /**
@@ -904,28 +855,6 @@ function _at_draw_coord_to_gmap_tile_pixels($tile_num) {
 }
 
 
-/*
-sub coord_to_gmap_tile {
-    my ($lat, $lon, $zoom) = @_;
-
-    # The C# code did this, but I don't know why, so I'm not going to enable it.
-    #return if abs($lat) > 85.0511287798066;
-
-    my $sin_phi = sin( $lat * pi / 180 );
-
-    my $norm_x = $lon / 180;
-    my $norm_y = (0.5 * log((1 + $sin_phi) / (1 - $sin_phi))) / pi;
-
-    my $tile_x = (2 ** $zoom) * (($norm_x + 1) / 2);
-    my $tile_y = (2 ** $zoom) * ((1 - $norm_y) / 2);
-
-    return(
-        $tile_x,
-        $tile_y,
-    );
-}
-*/
-
 // http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 function _at_draw_gmap_tile_to_coords($xtile, $ytile, $zoom) {
   $n = pow(2, $zoom);
@@ -941,12 +870,13 @@ function _at_draw_new_routepoints($waypoints, $zoom) {
   module_load_include('inc', 'pg_race', 'pg_race.class');
   
   $sw = new geoShortWayCalc();
-  $res = $sw->calculateShortestWay($waypoints, $zoom);
+  $res = $sw->calculateShortestWay($waypoints);
   
+  $pow = pow(2, $zoom);
   
   $routepoints_new = array();
   foreach($res as $k => $v) {
-    $routepoints_new[] = _at_draw_gmap_tile_to_coords($v->approximationPoint['x'], $v->approximationPoint['y'], $zoom);
+    $routepoints_new[] = _at_draw_gmap_tile_to_coords($v->approximationPoint['x'] * $pow, $v->approximationPoint['y'] * $pow, $zoom);
   }
   return $routepoints_new;
 }
