@@ -140,6 +140,7 @@ function _at_draw_get_waypoints($race_id) {
 
 function waypoint_get_optimized_waypoints($_allwp) {
   module_load_include('inc', 'waypoint', 'waypoint.class');
+  
   $waypoints = array();
   $result = array();
   $startPosition = LatLon::fromDegrees($_allwp[1]['lon'], $_allwp[1]['lat']);
@@ -445,11 +446,143 @@ function _at_draw_draw_waypoints(&$img, $settings) {
   imagecolordeallocate($img, $cylinder_inner_color_finish);
 }
 
+
+
+
+// TEMP FUNCTION
+function _at_draw_coords_tmp($settings, $p) {
+      $zoom_box = $settings['zoom_box'];
+      $resampling = $zoom_box['resampling'];
+      $corners = $zoom_box['corners'];
+      $edges = $zoom_box['edges'];
+      $extra_tiles = $zoom_box['extended']['extra_tiles'];
+      $ratio = $zoom_box['ratio'];
+      
+      $xtile_min = $corners[$edges['left']]['xtile'];
+      $ytile_min = $corners[$edges['top']]['ytile'];
+      
+      // Taken from _at_draw_draw_gmap().
+      $src_x = $resampling['src_x'];
+      $src_y = $resampling['src_y'];
+      
+      $xtile = floor($p['x']);
+      $ytile = floor($p['y']);
+      
+      //xPixel
+      //xPixel
+      //xtile
+      $xPixel = round(($p['x'] - $xtile) * AT_DRAW_PIXELS_PER_TILE);
+      $yPixel = round(($p['y'] - $ytile) * AT_DRAW_PIXELS_PER_TILE);
+      
+      $coords = array(
+        'x' => floor(($xPixel + ($xtile - $xtile_min + $extra_tiles['left']) * AT_DRAW_PIXELS_PER_TILE - $src_x) * $ratio),
+        'y' => floor(($yPixel + ($ytile - $ytile_min + $extra_tiles['top']) * AT_DRAW_PIXELS_PER_TILE - $src_y) * $ratio),
+      );
+      
+      return $coords;
+/*
+  $zoom = $zoom_box['zoom'];
+  $corners = $zoom_box['corners'];
+  $edges = $zoom_box['edges'];
+  $ratio = $zoom_box['ratio'];
+  $centre = $zoom_box['centre'];
+  $extra_tiles = $zoom_box['extended']['extra_tiles'];
+  $resampling = $zoom_box['resampling'];
+  
+  
+  $lon = $point['lon'];
+  $lat = $point['lat'];
+  
+  $tile_num = _at_draw_coord_to_gmap_tile($lat, $lon, $zoom);
+  $xtile = $tile_num['x'];
+  $ytile = $tile_num['y'];
+  
+  $tile_pixel_coords = _at_draw_coord_to_gmap_tile_pixels($tile_num);
+  $xPixel = $tile_pixel_coords['x'];
+  $yPixel = $tile_pixel_coords['y'];
+  
+  $xtile = floor($xtile);
+  $ytile = floor($ytile);
+  
+  // Taken from _at_draw_draw_gmap().
+  $src_x = $resampling['src_x'];
+  $src_y = $resampling['src_y'];
+  
+  $xtile_min = $corners[$edges['left']]['xtile'];
+  $ytile_min = $corners[$edges['top']]['ytile'];
+  
+  $coords = array(
+    'x' => floor(($xPixel + ($xtile - $xtile_min + $extra_tiles['left']) * AT_DRAW_PIXELS_PER_TILE - $src_x) * $ratio),
+    'y' => floor(($yPixel + ($ytile - $ytile_min + $extra_tiles['top']) * AT_DRAW_PIXELS_PER_TILE - $src_y) * $ratio),
+  );
+*/
+}
+
+
+
+// TEMP FUNCTION
+function _at_draw_rt_tmp(&$img, $settings) {
+  module_load_include('inc', 'pg_race', 'pg_race.class');
+  
+  $zoom_box = $settings['zoom_box'];
+  $zoom = $zoom_box['zoom'];
+  $waypoints = $settings['waypoints'];
+  $routepoints = $settings['routepoints'];
+  foreach ($routepoints as $k => $routepoint) {
+    $routepoints[$k] += _at_draw_coord_to_gmap_tile($routepoint['lat'], $routepoint['lon'], $zoom);
+  }
+  
+  $sw = new geoShortWayCalc();
+  $res = $sw->calculateShortestWay($waypoints, $zoom);
+  
+  $routepoints_new = array();
+  foreach($res as $k => $v) {
+    $routepoints_new[] = $v->approximationPoint;
+  }
+  
+  //dsm(' . . . . . .');
+  
+  
+  $count = count($routepoints_new);
+  if (count($routepoints_new) >= 2) {
+    $new_line_colour = imagecolorallocate($img, 255, 0, 0);
+    
+    //
+    for ($i = 0; $i < $count - 1; $i++ ) {
+      //$p0 = $routepoints_new[$i];
+      //$p1 = $routepoints_new[$i+1];
+      $p0 = _at_draw_coords_tmp($settings, $routepoints_new[$i]);
+      $p1 = _at_draw_coords_tmp($settings, $routepoints_new[$i+1]);
+      
+      
+      $x0 = $p0['x'];
+      $y0 = $p0['y'];
+      $x1 = $p1['x'];
+      $y1 = $p1['y'];
+      
+      // Set line thickness
+      imagesetthickness ($img, 2);
+      imageline($img, $x0, $y0, $x1, $y1, $new_line_colour);
+      
+    }
+    
+    imagecolordeallocate($img, $new_line_colour);
+  }
+}
+
 // TODO:
 function _at_draw_draw_routepoints(&$img, $settings) {
   
+  //_at_draw_rt_tmp($img, $settings);
+  
   $zoom_box = $settings['zoom_box'];
-  $routepoints = $settings['routepoints'];
+  
+  
+  // NOTE: Get NEW waypoints
+  // TODO: Remove OLD routepoints code
+  //$routepoints = $settings['routepoints'];
+  $routepoints = _at_draw_new_routepoints($settings['waypoints'], $zoom_box['zoom']);
+  
   
   // Draw a line
   $line_colour = imagecolorallocate($img, 51, 51, 51);  // #333333
@@ -459,7 +592,8 @@ function _at_draw_draw_routepoints(&$img, $settings) {
   // There should be at least two points to draw a line
   if ($count >= 2) {
     // Draw optimized route
-    for ($i = 1; $i <= $count - 1; $i++ ) {
+    //for ($i = 1; $i <= $count - 1; $i++ ) {
+    for ($i = 0; $i < $count - 1; $i++ ) {
       $p0 = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i]);
       $p1 = _at_draw_get_canvas_coords($zoom_box, $routepoints[$i+1]);
       
@@ -510,7 +644,6 @@ function _at_draw_draw_routepoints(&$img, $settings) {
         
         // Set line thickness
         imagesetthickness ($img, 1);
-        //dsm($points);
         imagefilledpolygon($img , $points , 3 , $line_colour);
       }
       
@@ -538,7 +671,6 @@ function _at_draw_get_gmap($settings) {
   $ratio = $ratio < 1 ? $ratio : 1;
   
   $zoom_box['ratio'] = $ratio;
-  //dsm($zoom_box);
   $zoom_box['extended'] = _at_draw_extend_zoom_box($settings, $zoom_box);
   return $zoom_box;
 }
@@ -628,7 +760,6 @@ function _at_draw_get_optimal_zoom_settings($settings) {
   $zoom_min = 8;
   $box = $settings['box'];
   $canvas_used = $settings['canvas_used'];
-  //dsm($canvas_used);
   
   $zoom_boxes = array();
   
@@ -748,6 +879,7 @@ function _at_draw_get_zoom_box($box, $zoom) {
  * see https://metacpan.org/module/Geo::Coordinates::GMap#___pod
  */
 function _at_draw_coord_to_gmap_tile($lat, $lon, $zoom) {
+  
   $sin_phi = sin( $lat * M_PI / 180 );
   
   $norm_x = $lon / 180;
@@ -793,3 +925,28 @@ sub coord_to_gmap_tile {
     );
 }
 */
+
+// http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+function _at_draw_gmap_tile_to_coords($xtile, $ytile, $zoom) {
+  $n = pow(2, $zoom);
+  $lon_deg = $xtile / $n * 360.0 - 180.0;
+  $lat_deg = rad2deg(atan(sinh(pi() * (1 - 2 * $ytile / $n))));
+  return array(
+    'lon' => $lon_deg,
+    'lat' => $lat_deg,
+  );
+}
+
+function _at_draw_new_routepoints($waypoints, $zoom) {
+  module_load_include('inc', 'pg_race', 'pg_race.class');
+  
+  $sw = new geoShortWayCalc();
+  $res = $sw->calculateShortestWay($waypoints, $zoom);
+  
+  
+  $routepoints_new = array();
+  foreach($res as $k => $v) {
+    $routepoints_new[] = _at_draw_gmap_tile_to_coords($v->approximationPoint['x'], $v->approximationPoint['y'], $zoom);
+  }
+  return $routepoints_new;
+}
