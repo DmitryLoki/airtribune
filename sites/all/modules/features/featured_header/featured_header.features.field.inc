@@ -225,6 +225,7 @@ function featured_header_field_default_fields() {
       'settings' => array(
         'allowed_values' => array(
           'results' => 'Event results',
+          'facebook' => 'Facebook app',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
