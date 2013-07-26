@@ -1144,3 +1144,51 @@ function airtribune_og_membership_presave(OgMembership $og_membership) {
       break;
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Sometimes users fail to reset password because PostgreSQL does
+ * case-insensitive string matching. So we need to replace
+ * default form validator to find accounts by name or by mail.
+ *
+ * @see #3516
+ */
+function airtribune_form_user_pass_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'] = array('airtribune_user_pass_validate');
+}
+
+/**
+ * Form validation callback.
+ *
+ * @see airtribune_form_user_pass_alter()
+ */
+function airtribune_user_pass_validate($form, &$form_state) {
+
+  $name = trim($form_state['values']['name']);
+  // Try to load by email.
+  $users = user_load_multiple(array(), array('mail' => $name, 'status' => '1'));
+  $account = reset($users);
+  if (!$account) {
+    // No success, try to load by name.
+    $users = user_load_multiple(array(), array('name' => $name, 'status' => '1'));
+    $account = reset($users);
+  }
+  // No success, lets try to find the account with insensitive string comparison.
+  if (!$account) {
+    $uid = db_query(
+      "SELECT u.uid FROM {users} u WHERE LOWER(u.name) = LOWER(?) OR LOWER(u.mail) = LOWER(?)",
+      array($name, $name)
+    )->fetchField();
+    if ($uid) {
+      $account = user_load($uid);
+    }
+  }
+  if (isset($account->uid)) {
+    form_set_value(array('#parents' => array('account')), $account, $form_state);
+  }
+  else {
+    form_set_error('name', t('Sorry, %name is not recognized as a user name or an e-mail address.', array('%name' => $name)));
+  }
+
+}
