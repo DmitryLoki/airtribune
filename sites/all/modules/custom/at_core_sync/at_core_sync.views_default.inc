@@ -2327,6 +2327,65 @@ function at_core_sync_views_default_views() {
   /* Display: Contest headers (manage) */
   $handler = $view->new_display('page', 'Contest headers (manage)', 'admin_page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Add header link */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['ui_name'] = 'Add header link';
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?og_group_ref=!1&destination=admin/content/featured-headers">Add featured header</a></li></ul>';
+  $handler->display->display_options['header']['area_text_custom']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Featured header: Id */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  /* Field: Featured header: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Slogan */
+  $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['ui_name'] = 'Slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
+  /* Field: Image */
+  $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['ui_name'] = 'Image';
+  $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_header_image']['settings'] = array(
+    'image_style' => 'header_thumbnail',
+    'image_link' => 'file',
+  );
+  /* Field: Featured header: Type */
+  $handler->display->display_options['fields']['field_header_page']['id'] = 'field_header_page';
+  $handler->display->display_options['fields']['field_header_page']['table'] = 'field_data_field_header_page';
+  $handler->display->display_options['fields']['field_header_page']['field'] = 'field_header_page';
+  /* Field: Author link */
+  $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['ui_name'] = 'Author link';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Author';
+  $handler->display->display_options['fields']['field_header_author']['element_label_colon'] = FALSE;
+  /* Field: Edit link */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link';
+  $handler->display->display_options['fields']['edit_link']['label'] = 'Operations';
+  /* Field: Delete link */
+  $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['ui_name'] = 'Delete link';
+  $handler->display->display_options['fields']['delete_link']['label'] = '';
+  $handler->display->display_options['fields']['delete_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/featured-headers';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'Headers';
@@ -2380,6 +2439,8 @@ function at_core_sync_views_default_views() {
     t('All'),
     t('Headers of %1'),
     t('Contest headers (manage)'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?og_group_ref=!1&destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
+    t('Type'),
     t('Service headers (manage)'),
   );
   $export['featured_headers'] = $view;
