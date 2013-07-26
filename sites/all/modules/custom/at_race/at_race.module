@@ -190,7 +190,7 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
 
 function _at_race_get_contest_id(&$form, &$form_state) {
   // TODO: Get this from settings
-  $og_ref_fieldname = AIRTRIBUNE_OG_GROUP_REF_FIELD;
+  $og_ref_fieldname = OG_AUDIENCE_FIELD;
   
   $entity = $form['entity']['#value'];
   $bundle = $entity->type;
@@ -210,7 +210,7 @@ function _at_race_get_contest_id(&$form, &$form_state) {
     $gid = $items[0]['target_id'];
   }
   
-  //$gid = isset($_GET[AIRTRIBUNE_OG_GROUP_REF_FIELD]) ? $_GET[AIRTRIBUNE_OG_GROUP_REF_FIELD] : -1;
+  //$gid = isset($_GET[OG_AUDIENCE_FIELD]) ? $_GET[OG_AUDIENCE_FIELD] : -1;
   return $gid;
 }
 
@@ -740,6 +740,9 @@ function _at_race_get_contest_points($contest_id) {
       $points_list[$entity->id] = $entity->title;
     }
   }
+  
+  // Sort points by title.
+  asort($points_list);
   
   return $points_list;
 }

@@ -8,6 +8,8 @@ define('DEFAULT_USER_PICTURE_PATH','pictures/default_user_picture.png');
 function airtribune2_preprocess_html(&$vars) {
   global $theme_key;
   $theme_name = $theme_key;
+  //print_r($vars);
+  
 
   // Add class for the active theme name
   $vars['classes_array'][] = drupal_html_class($theme_name);
@@ -25,7 +27,9 @@ function airtribune2_preprocess_html(&$vars) {
     }
   }
   $vars['classes_array'][] = 'body_bgr';
-  $vars['classes_array'][] = 'featured-header-collapsible';
+  if (!in_array('page-event-results-facebook', $vars['classes_array'])) {
+    $vars['classes_array'][] = 'featured-header-collapsible';
+  }
   if($vars['is_front']) {
     //$vars['title'] = t('Activity feed');
     drupal_set_title(t('Activity feed'));
@@ -72,6 +76,10 @@ function airtribune2_preprocess_html(&$vars) {
     /* if node event blog */
   if (in_array('page-event-blog', $vars['classes_array'])) {
     $vars['classes_array'][] = 'page-node';
+  }
+  
+  if (in_array('page-event-results-facebook', $vars['classes_array'])) {
+    $vars['html_attributes_array']['class'] = array('fb_view');
   }
 
 }

@@ -28,4 +28,8 @@ jQuery(function ($) {
             headerContainer.height(headerContainerHeight);
         }
     }
+
+    if ($('#facebook-fan-gate').size()) {
+        $('#page > .region_inner').addClass('facebook-fan-gate');
+    };
 });

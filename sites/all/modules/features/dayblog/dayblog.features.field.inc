@@ -40,7 +40,7 @@ function dayblog_field_default_fields() {
         'entity_translation_sync' => FALSE,
         'profile2_private' => FALSE,
       ),
-      'translatable' => '0',
+      'translatable' => '1',
       'type' => 'text_long',
     ),
     'field_instance' => array(
@@ -63,9 +63,35 @@ function dayblog_field_default_fields() {
       'label' => 'Body',
       'required' => 1,
       'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 0,
+            'full_html' => 'full_html',
+            'php_code' => 0,
+            'plain_text' => 0,
+          ),
+          'allowed_formats_toggle' => 1,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
