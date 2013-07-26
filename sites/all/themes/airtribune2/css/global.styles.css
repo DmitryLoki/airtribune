@@ -3122,6 +3122,6 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0;}
 .page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9;}
 .page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
-.facebook-fan-gate .featured-header { padding-top: 180px;}
-.page-event-results-facebook .facebook-fan-gate .collapse-control { top: 180px;}
-#facebook-fan-gate { width: 810px; height: 180px; background: url(../images/like.png) no-repeat 50% 50%;}
+.facebook-fan-gate .featured-header { padding-top: 160px;}
+.page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
+#facebook-fan-gate { width: 810px; height: 160px; background: url(../images/like.png) no-repeat 50% 0; }
