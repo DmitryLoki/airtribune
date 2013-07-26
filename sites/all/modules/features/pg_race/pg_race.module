@@ -671,7 +671,7 @@ function _day_pg_race_preview_markup($node) {
   
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/day_pg_race_play_link.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
   drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here soon.'))), 'setting');
   drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
 
