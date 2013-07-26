@@ -27,7 +27,9 @@ function airtribune2_preprocess_html(&$vars) {
     }
   }
   $vars['classes_array'][] = 'body_bgr';
-  $vars['classes_array'][] = 'featured-header-collapsible';
+  if (!in_array('page-event-results-facebook', $vars['classes_array'])) {
+    $vars['classes_array'][] = 'featured-header-collapsible';
+  }
   if($vars['is_front']) {
     //$vars['title'] = t('Activity feed');
     drupal_set_title(t('Activity feed'));
