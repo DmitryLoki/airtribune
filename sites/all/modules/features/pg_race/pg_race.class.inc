@@ -1,6 +1,5 @@
 <?php
 
-// TODO: Remove $zoom from method args till the very end
 
 
 class geoPoint {
@@ -14,7 +13,7 @@ class geoPoint {
     $this->lat = $lat;
   }
   
-  function getProjCoords($zoom) {
+  function getProjCoords() {
     
     $lon = $this->lon;
     $lat = $this->lat;
@@ -24,8 +23,11 @@ class geoPoint {
     $norm_x = $lon / 180;
     $norm_y = (0.5 * log((1 + $sin_phi) / (1 - $sin_phi))) / M_PI;
     
-    $this->proj_x = pow(2, $zoom) * (($norm_x + 1) / 2);
-    $this->proj_y = pow(2, $zoom) * ((1 - $norm_y) / 2);
+    // Suppose n = 0
+    // http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+    // {x = pow(2, $zoom) * (($norm_x + 1) / 2); y = pow(2, $zoom) * ((1 - $norm_y) / 2)}
+    $this->proj_x = ($norm_x + 1) / 2;
+    $this->proj_y = (1 - $norm_y) / 2;
     
     return array(
       'x' => $this->proj_x,
@@ -36,8 +38,6 @@ class geoPoint {
 
 class geoWaypoint extends geoPoint {
   
-  //private $lon;
-  //private $lat;
   private $radius_km;
   private $proj_radius;
   
@@ -51,7 +51,7 @@ class geoWaypoint extends geoPoint {
   
   
   
-  function getProjRadius($zoom) {
+  function getProjRadius() {
     $d2lat = 1 / 110.54; // 1 deg = 110.54 km
     //$d2lon = 1 / (111.320 * cos($waypoint['lat']));
     
@@ -60,8 +60,8 @@ class geoWaypoint extends geoPoint {
     $x0 = new geoPoint($this->lon, $this->lat);
     $x1 = new geoPoint($this->lon, $this->lat + $lat_delta);
     
-    $proj_x0 = $x0->getProjCoords($zoom);
-    $proj_x1 = $x1->getProjCoords($zoom);
+    $proj_x0 = $x0->getProjCoords();
+    $proj_x1 = $x1->getProjCoords();
     
     $this->proj_radius = abs($proj_x1['y'] - $proj_x0['y']);
     return $this->proj_radius;
@@ -83,13 +83,11 @@ class geoShortWayCalc {
    */
   CONST APPROXIMATION_CYCLES = 8;
   
-  //
-  //function calculateShortestWay($startPosition, $waypoints, $zoom) {
-  function calculateShortestWay($waypoints, $zoom) {
+  function calculateShortestWay($waypoints) {
     $routepoints = array();
     
     // Exclude some waypoints if needed.
-    self::excludeWaypoints($waypoints, $zoom);
+    self::excludeWaypoints($waypoints);
     $waypoints = array_values($waypoints);
     
     
@@ -98,33 +96,27 @@ class geoShortWayCalc {
     foreach ($waypoints as $waypoint) {
       $rt = new geoRoutepointStruct();
       $wp = new geoWaypoint($waypoint['lon'], $waypoint['lat'], $waypoint['rad']);
-      //$rt->circle = $waypoint;
       $rt->circle = $wp;
-      $rt->approximationPoint = $wp->getProjCoords($zoom);
+      $rt->approximationPoint = $wp->getProjCoords();
       $routepoints[] = $rt;
     }
     
-    //dsm($routepoints);
-    
-    if (self::IsInside($routepoints[0]->approximationPoint, $routepoints[1], $zoom)) {
+    if (self::IsInside($routepoints[0]->approximationPoint, $routepoints[1])) {
       unset($routepoints[1]);
       $routepoints = array_values($routepoints);
     }
     
-    // TODO: Get opimal route
+    // Get opimal route
     $curr = $next = $prev = NULL;
     if (count($routepoints) > 1) {
-      //foreach ($routepoints as $k => $routepoint) {
-        // TODO:
-        for ($counter = 0; $counter < self::APPROXIMATION_CYCLES; $counter++) {
-          for ($i = 1; $i < count($routepoints) - 1; $i++) {
-            $prev = $routepoints[$i - 1];
-            $curr = $routepoints[$i];
-            $next = $routepoints[$i + 1];
-            $curr->approximationPoint = self::findCenterBetween($curr, $prev->approximationPoint, $next->approximationPoint, $zoom);
-          }
+      for ($counter = 0; $counter < self::APPROXIMATION_CYCLES; $counter++) {
+        for ($i = 1; $i < count($routepoints) - 1; $i++) {
+          $prev = $routepoints[$i - 1];
+          $curr = $routepoints[$i];
+          $next = $routepoints[$i + 1];
+          $curr->approximationPoint = self::findCenterBetween($curr, $prev->approximationPoint, $next->approximationPoint);
         }
-      //}
+      }
     }
     
     return $routepoints;
@@ -132,12 +124,11 @@ class geoShortWayCalc {
   
   
   // TODO:
-  function findCenterBetween($center, $prev, $next, $zoom) {
+  function findCenterBetween($center, $prev, $next) {
     // TODO:
     // If the next point in our current circle - do not look for it on the point of intersection, immediately return the next point.
     
-    //if (self::isInside($next, $center)) {
-    if (self::isInside($next, $center, $zoom)) {
+    if (self::isInside($next, $center)) {
       return $prev;
     }
     
@@ -146,13 +137,13 @@ class geoShortWayCalc {
     $az1 = self::getAzimuth($center->approximationPoint, $prev);
     $az2 = self::getAzimuth($center->approximationPoint, $next);
     $middle = self::getHalfAzimuth($az1, $az2);
-    return self::getCoordinates($center, $middle, $zoom);
+    return self::getCoordinates($center, $middle);
   }
   
   
-  function isInside($next, $center, $zoom) {
-    $center_coords = $center->circle->getProjCoords($zoom);
-    $radius = $center->circle->getProjRadius($zoom);
+  function isInside($next, $center) {
+    $center_coords = $center->circle->getProjCoords();
+    $radius = $center->circle->getProjRadius();
     $distance = self::pointsProjDistance($center_coords, $next);
     
     return $distance <= $radius;
@@ -169,7 +160,7 @@ class geoShortWayCalc {
   
   
   // TODO: Check case of START Cylinder
-  private function excludeWaypoints(&$waypoints, $zoom) {
+  private function excludeWaypoints(&$waypoints) {
     $waypoints = array_values($waypoints);
     
     $count = count($waypoints);
@@ -181,17 +172,11 @@ class geoShortWayCalc {
       $curr = new geoWaypoint($curr['lon'], $curr['lat'], $curr['rad']);
       $next = new geoWaypoint($next['lon'], $next['lat'], $next['rad']);
       
-      //$curr_radius = $curr->getProjRadius($zoom);
-      //$next_radius = $next->getProjRadius($zoom);
-      
-      $p0 = $curr->getProjCoords($zoom);
-      $p1 = $next->getProjCoords($zoom);
-      
-      //$curr->getProjRadius($zoom);
-      //$next->getProjRadius($zoom);
+      $p0 = $curr->getProjCoords();
+      $p1 = $next->getProjCoords();
       
       // If next cylinder is inside current one, remove current from waypoints.
-      if (self::pointsProjDistance($p0, $p1) <= $curr->getProjRadius($zoom) - $next->getProjRadius($zoom)) {
+      if (self::pointsProjDistance($p0, $p1) <= $curr->getProjRadius() - $next->getProjRadius()) {
         unset($waypoints[$i]);
       }
     }
@@ -205,9 +190,7 @@ class geoShortWayCalc {
     
     if ($dx != 0.0) {
       $k = $dx >= 0 ? 0 : 1;
-      //$tg = $dy / $dx;
       $tg = $dy / $dx;
-      
       $azimuth = atan($tg) + M_PI * $k;
     }
     else {
@@ -226,53 +209,29 @@ class geoShortWayCalc {
   // TODO:
   function getHalfAzimuth($azimuth1, $azimuth2) {
     
-    $sum = $azimuth1 + $azimuth2;
-    //$sum = $sum - intval($sum / (2 * M_PI)) * 2 * M_PI;
-    
     // Get the arithmetic mean between the bearings
-    //$halfAzimuth = ($azimuth1 + $azimuth2) / 2.0;
-    $halfAzimuth = $sum / 2.0;
-    
-    // TODO: subtract 2 * M_PI if needed
+    $halfAzimuth = ($azimuth1 + $azimuth2) / 2.0;
     
     // If it greater than M_PI - take symmetric point
     if (abs($azimuth1 - $azimuth2) > M_PI) {
       $halfAzimuth -= M_PI;
     }
     
-    $az = array(
-      'az1' => $azimuth1,
-      'az2' => $azimuth2,
-      'half' => $halfAzimuth,
-    );
-    //dsm($az);
-    
-    /*
-    $abs = abs($halfAzimuth);
-    if ($abs - floor($abs) > 0.5 * M_PI) {
-      //$halfAzimuth += M_PI;
-    }
-    */
-    
-    
     return $halfAzimuth;
   }
   
-  function getCoordinates($center, $azimuth, $zoom) {
+  function getCoordinates($center, $azimuth) {
     $wp = $center->circle;
-    $center_coords = $wp->getProjCoords($zoom);
+    $center_coords = $wp->getProjCoords();
     
-    $proj_radius = $wp->getProjRadius($zoom);
+    $proj_radius = $wp->getProjRadius();
     $dx = $proj_radius * cos($azimuth);
     $dy = $proj_radius * sin($azimuth);
-    
-    //dsm('coords:: dx: ; dy: ');
     
     // Subract $dy because tile numbers increase from top to bottom
     // whereas coordinates - from bottom to top
     return array(
       'x' => $center_coords['x'] + $dx,
-      //'y' => $center_coords['y'] + $dy,
       'y' => $center_coords['y'] - $dy,
     );
   }
