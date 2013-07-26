@@ -322,7 +322,7 @@ function pg_race_preview_image_callback($entity) {
     module_load_include('inc', 'pg_race', 'pg_race.draw');
     $race_id = $entity->id;
     //$race_id = 3;
-    $path = _at_draw_get_image($race_id);
+    $path = _at_draw_image_path($race_id);
     
     $output = '';
     if (!empty($path)) {
