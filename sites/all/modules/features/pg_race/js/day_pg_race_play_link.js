@@ -116,7 +116,7 @@
       }
 
       function setHrefAttr(link, raceEid, mode, isOnline) {
-        link.attr('href', '/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
+        link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
       }
     }
   }
