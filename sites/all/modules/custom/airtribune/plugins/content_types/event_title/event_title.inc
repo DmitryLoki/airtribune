@@ -50,6 +50,7 @@ function airtribune_event_title_content_type_render($subtype, $conf, $panel_args
   }
   $fields[] = AIRTRIBUNE_TIMEZONE_FIELD;
 
+
   foreach ($fields as $weight => $field) {
     $content['description'][$field] = field_view_field('node', $node, $field, 'full');
     $content['description'][$field]['#weight'] = $weight;
@@ -58,6 +59,14 @@ function airtribune_event_title_content_type_render($subtype, $conf, $panel_args
   $content['description'][AIRTRIBUNE_TIMEZONE_FIELD]['#suffix'] = '</div>';
 
   $content['#attached']['css'] = array($plugin_path . '/event_title.css');
+  // Add event timezone offset to drupal settins. See #3460.
+  if ($event_date = airtribune_extract_time_from_event($node)) {
+    $content['#attached']['js'][] = array(
+      'data' => array('airtribune_event_offset' => $event_date['offset']),
+      'type' => 'setting',
+    );
+    $content['#attached']['js'][] = $plugin_path . '/event_title.js';
+  }
   $content['#attributes'] = array('id' => drupal_html_id('event-title'));
   $content['#theme_wrappers'] = array('container');
 

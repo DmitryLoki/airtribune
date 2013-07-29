@@ -8,6 +8,8 @@ define('DEFAULT_USER_PICTURE_PATH','pictures/default_user_picture.png');
 function airtribune2_preprocess_html(&$vars) {
   global $theme_key;
   $theme_name = $theme_key;
+  //print_r($vars);
+  
 
   // Add class for the active theme name
   $vars['classes_array'][] = drupal_html_class($theme_name);
@@ -25,7 +27,9 @@ function airtribune2_preprocess_html(&$vars) {
     }
   }
   $vars['classes_array'][] = 'body_bgr';
-  $vars['classes_array'][] = 'featured-header-collapsible';
+  if (!in_array('page-event-results-facebook', $vars['classes_array'])) {
+    $vars['classes_array'][] = 'featured-header-collapsible';
+  }
   if($vars['is_front']) {
     //$vars['title'] = t('Activity feed');
     drupal_set_title(t('Activity feed'));
@@ -72,6 +76,10 @@ function airtribune2_preprocess_html(&$vars) {
     /* if node event blog */
   if (in_array('page-event-blog', $vars['classes_array'])) {
     $vars['classes_array'][] = 'page-node';
+  }
+  
+  if (in_array('page-event-results-facebook', $vars['classes_array'])) {
+    $vars['html_attributes_array']['class'] = array('fb_view');
   }
 
 }
@@ -424,15 +432,7 @@ function airtribune2_process_node(&$vars) {
     
     if (isset($vars['content']['field_collection_sponsors'])) {
       // Return to the node tpl array of field collection items
-      $fc = $vars['content']['field_collection_sponsors'];
-      $field_collection_items = array();
-      if (isset($fc[0])) {
-        foreach ($fc['#items'] as $delta => $data) {
-           // Render item with custom view mode
-          $item = entity_view('field_collection_item',array(field_collection_field_get_entity($fc['#items'][$delta])), $view_mode);
-          $field_collection_items[] = $item['field_collection_item'][$data['value']];
-        }
-      }
+      $field_collection_items = _airtribune2_field_collection_as_array($vars['content']['field_collection_sponsors'], $view_mode);
       $vars['content']['sponsors'] = $field_collection_items;
     }
   }
@@ -477,6 +477,24 @@ function airtribune2_process_node(&$vars) {
     }
   }
   $vars['classes'] .= ' node_view_mode_' . $vars['view_mode'];
+}
+
+  /**
+   *  Get field collection field value as array of fc items
+   *
+   * @see #3265
+   * @author Vyacheslav Malchik <info@vkey.biz>
+   */
+function _airtribune2_field_collection_as_array($fc, $view_mode = 'full') {
+  $field_collection_items = array();
+  if (isset($fc[0])) {
+    foreach ($fc['#items'] as $delta => $data) {
+       // Render item with custom view mode
+      $item = entity_view('field_collection_item',array(field_collection_field_get_entity($fc['#items'][$delta])), $view_mode);
+      $field_collection_items[] = $item['field_collection_item'][$data['value']];
+    }
+    return $field_collection_items;
+  }
 }
 
 /**
@@ -875,13 +893,13 @@ function airtribune2_pager_link($variables) {
 function airtribune2_preprocess_entity(&$variables) {
 
   if (isset($variables['field_collection_item']) && $variables['field_collection_item']->field_name == 'field_collection_organizers' && $variables['view_mode'] == 'event_info_page') {
-  if(arg(0) == 'event' && !empty($variables['content']['field_organizer_logo'])) {
-    //print_r($variables['field_collection_item']);
-    $variables['content']['field_organizer_logo'][0] = array(
-      //'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
-      '#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/info/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
-    ) ;
-  }
+    if(arg(0) == 'event' && !empty($variables['content']['field_organizer_logo'])) {
+      //print_r($variables['field_collection_item']);
+      $variables['content']['field_organizer_logo'][0] = array(
+        //'#markup' => l(render($variables['content']['field_organizer_logo'][0]), $variables['field_collection_item']->field_url['und'][0]['url'], array('html' => true, 'attributes' => array('target'=>'_blank'))),
+        '#markup' => l(render($variables['content']['field_organizer_logo'][0]), 'event/'.arg(1).'/info/details', array('html' => true, 'fragment' => 'organizer_' . $variables['field_collection_item']->item_id)),
+      ) ;
+    }
   }
 
   // See http://drupal.org/node/1462772

@@ -16,8 +16,8 @@
           var headers = $(displaySelector + ' ' + headerSelector + ':not(.ui-accordion-header)'),
             headersLength = headers.length;
           headers.each(function (i) {
-            var hash = "#!day_" + (headersLength - i); // hash to use for accordion navigation option
             var $this = $(this);
+            var hash = '#!' + $this.find('div.day-number').data('href').substr(1); // hash to use for accordion navigation option
             var $link = $this.find('a');
             // if the header is not already using an anchor tag, add one
             if ($link.length == 0) {
@@ -37,12 +37,13 @@
               $this.siblings().wrapAll('<div></div>');
             }
           });
-          var activePane = Drupal.behaviors.views_accordion.getDayFromHash() || this.rowstartopen;
-          /* jQuery UI accordion call */
           var accordionElement = $(displaySelector + ':not(.ui-accordion)');
           if (accordionElement.length === 0) {
             return;
           }
+          var activePane = Drupal.behaviors.views_accordion.getDayFromHash(accordionElement) || this.rowstartopen;
+          /* jQuery UI accordion call */
+
           accordionElement.accordion({
             header: headerSelector,
             animated: this.animated,
@@ -69,10 +70,11 @@
         $('body,html').animate({scrollTop: $active.offset().top}, 400);
       }
     },
-    getDayFromHash: function () {
-      var hash = location.hash.match(/day_\d+$/);
-      if (hash !== null) {
-        return parseInt(hash, 10);
+    getDayFromHash: function (accordionElement) {
+      var hash = location.hash.match(/#!(.*)/i),
+        totalDaysCount = accordionElement.find('div.event-day').length;
+      if (hash !== null && hash.length > 1 && hash[1] !== '') {
+        return totalDaysCount - accordionElement.find('div.event-day:has(div[data-href="#' + hash[1] + '"])').index();
       } else if (location.hash === '#!') {
         return -1;
       }
@@ -81,16 +83,16 @@
     updateHash: function (accordion) {
       //if there is active page - set hash with its
       if (accordion.active.length !== 0) {
-        location.hash = accordion.active.find('a').attr('href');
+        location.hash = '#!' + accordion.active.find('div.day-number').data('href').substr(1);
       } else {
         location.hash = '#!';
       }
     }
   };
 
-  $(function() {
+  $(function () {
     //Scroll to map from day
-    var scrollBody = $('html,body')
+    var scrollBody = $('html,body'),
       mapTopOffset = $('#map').offset().top;
 
     $('.task_link').bind('click', function (event) {

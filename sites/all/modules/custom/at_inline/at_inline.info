@@ -1,0 +1,6 @@
+name = Airtribune Inline Forms
+description = Allow emebeding parts of entity forms and individual fields into other forms.
+package = Airtribune
+core = 7.x
+
+dependencies[] = og

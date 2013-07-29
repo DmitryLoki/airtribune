@@ -225,6 +225,7 @@ function featured_header_field_default_fields() {
       'settings' => array(
         'allowed_values' => array(
           'results' => 'Event results',
+          'facebook' => 'Facebook app',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
@@ -411,11 +412,9 @@ function featured_header_field_default_fields() {
       'exclude_cv' => 0,
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'options_limit' => 0,
+      'options_limit' => FALSE,
       'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(
-        'field_header_image' => 0,
-      ),
+      'options_limit_fields' => array(),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
@@ -429,9 +428,9 @@ function featured_header_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'disable',
+            'action' => 'hide',
             'action_on_edit' => 0,
-            'fallback' => 'none',
+            'fallback' => 'form_error',
             'og_context' => 0,
             'skip_perm' => '0',
             'status' => 1,

@@ -2,8 +2,32 @@
 
 /**
  * @file
- * Event days fields.
+ * Event days fields template.
+ * 
+ * 
+ * - $view: The view in use.
+ * - $fields: an array of $field objects. Each one contains:
+ *   - $field->content: The output of the field.
+ *   - $field->raw: The raw data for the field, if it exists. This is NOT output safe.
+ *   - $field->class: The safe class id to use.
+ *   - $field->handler: The Views field handler object controlling this field. Do not use
+ *     var_export to dump this object, as it can't handle the recursion.
+ *   - $field->inline: Whether or not the field should be inline.
+ *   - $field->inline_html: either div or span based on the above flag.
+ *   - $field->wrapper_prefix: A complete wrapper containing the inline_html to use.
+ *   - $field->wrapper_suffix: The closing tag for the wrapper.
+ *   - $field->separator: an optional separator that may appear before a field.
+ *   - $field->label: The wrap label text to use.
+ *   - $field->label_html: The full HTML of the label to use including
+ *     configured element type.
+ * - $row: The raw result object from the query, with all data it fetched.
+ *
+ * @ingroup views_templates
  */
+?>
+
+<?php
+
 $photos = array();
 if($row->field_field_image){
     $count = count($row->field_field_image);
@@ -57,19 +81,63 @@ if($row->field_field_image){
     $is_count++;
     
   }
-
 }
 
-?>
+//--- TODO remove lines, marked this style //--- after 
+global $day_number;
+if (!$day_number && !($day_number === 0)) {
+  $day_number = 0;
+  foreach ($view->result as $key => $result) {
+    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(3,4,5))) {
+      $day_number++;
+    }
+  }
+}
+//---
 
-<?php print $fields['title']->wrapper_prefix; ?>
-<?php print $fields['title']->content; ?>
-<?php if ($fields['field_day_status']->content != 'Ok'): ?>
-  <?php print ' — ' . $fields['field_day_status']->content; ?>
-<?php endif; ?>
-<?php if ($fields['title_1']->content): ?>
-  <?php print ' — ' . $fields['title_1']->content; ?>
-<?php endif; ?>
+/**
+ *  Theme race titles
+ *  @see #3400 #3365
+ *  @author Kraev Vasily
+ */
+
+print $fields['title']->wrapper_prefix;
+$separator = ' — ';
+$field_day_status = $fields['field_day_status']->content;
+// race day
+if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
+  $spike_day = $day_number--; 
+  $day = $fields['field_day_number']->content;
+  $task = $fields['field_race_number']->content;
+  if ($fields['title_1']->content) {
+    if (!empty($day)) { //--- fucking dirty kostyl'
+      print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
+      print $fields['field_day_number']->label . " " . $day . $separator . $fields['field_race_number']->label . " " . $task . ' - ' . $fields['field_optdistance']->content . " km";
+    } else {//---
+      print "<div class=\"day-number\" data-href=\"#day_{$spike_day}\"></div>";
+      print t('Day') . " $spike_day " . $separator . $fields['title_1']->content; //---
+      if (!empty($fields['field_optdistance']->content)) print ' - ' . $fields['field_optdistance']->content; //---
+    }
+  } else {
+    if (!empty($day)) {
+      print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
+      print $fields['field_day_number']->label . " " . $day;
+    } else {
+      print "<div class=\"day-number\" data-href=\"#day_{$spike_day}\"></div>";
+      print t('Day') . " $spike_day "; //---
+    }
+  }
+}
+// reg / trainging day
+else {
+  $anchor = str_replace(' day', '',$fields['field_day_status']->content);
+  print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";  
+  $separator = '';
+}
+
+if ($fields['field_day_status']->content != 'Ok') {
+  print $separator . $fields['field_day_status']->content;
+} ?>
 <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
   <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
 <?php else: ?>
@@ -77,30 +145,55 @@ if($row->field_field_image){
 <?php endif; ?>
 <?php print $fields['title']->wrapper_suffix; ?>
 
+
+<?php print $fields['day_set_a_task']->wrapper_prefix; ?>
+<?php print $fields['day_set_a_task']->content; ?>
+<?php print $fields['day_set_a_task']->wrapper_suffix; ?>
+
+<?php
+// output retrieve map link
+ print $fields['pg_race_retrieve_link']->wrapper_prefix;
+ print $fields['pg_race_retrieve_link']->content;
+ print $fields['pg_race_retrieve_link']->wrapper_suffix;
+?>
+
+<?php
+// output retrieve table link
+ print $fields['pg_race_retrieve_table_link']->wrapper_prefix;
+ print $fields['pg_race_retrieve_table_link']->content;
+ print $fields['pg_race_retrieve_table_link']->wrapper_suffix;
+?>
+
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
 
 
 <?php if (!empty($fields['view'])): ?>
-  <?php print $fields['view']->wrapper_prefix; ?>
+  <span class="views-field dropdown_list views-field-view">
   <?php print $fields['view']->label_html; ?>
   <?php print $fields['view']->content; ?>
-  <?php print $fields['view']->wrapper_suffix; ?>
+  </span>
 <?php endif; ?>
 
-<?php if (!empty($fields['field_pg_race_tracks'])): ?>
-  <?php print $fields['pg_race_play_link']->wrapper_prefix; ?>
-  <?php print $fields['pg_race_play_link']->label_html; ?>
-  <?php print $fields['pg_race_play_link']->content; ?>
-  <?php print $fields['pg_race_play_link']->wrapper_suffix; ?>
-<?php endif; ?>
+<?php 
+if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field views-field-day-pg-race-play-live-link">';
+  $fields['day_pg_race_play_link']->wrapper_suffix = '</span>';
+}
+else {
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field dropdown_list views-field-day-pg-race-play-link">';
+}?>
+<?php print $fields['day_pg_race_play_link']->wrapper_prefix; ?>
+<?php print $fields['day_pg_race_play_link']->label_html; ?>
+<?php print $fields['day_pg_race_play_link']->content; ?>
+</span>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
-  <?php print $fields['field_pg_race_tracks']->wrapper_prefix; ?>
+  <span class="views-field dropdown_list views-field-field-pg-race-tracks">
   <?php print $fields['field_pg_race_tracks']->label_html; ?>
   <?php print $fields['field_pg_race_tracks']->content; ?>
-  <?php print $fields['field_pg_race_tracks']->wrapper_suffix; ?>
+  </span>
 <?php endif; ?>
 
 <?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>

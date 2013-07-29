@@ -38,11 +38,21 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:create pg_race content'
-  $permissions['node:pg_contest:create pg_race content'] = array(
+  // Exported og permission: 'node:pg_contest:create day content'
+  $permissions['node:pg_contest:create day content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:pg_contest:create newsblog content'
+  $permissions['node:pg_contest:create newsblog content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
+  );
+
+  // Exported og permission: 'node:pg_contest:create pg_scoring_category content'
+  $permissions['node:pg_contest:create pg_scoring_category content'] = array(
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:pg_contest:delete any advert content'
@@ -52,11 +62,21 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:delete any pg_race content'
-  $permissions['node:pg_contest:delete any pg_race content'] = array(
+  // Exported og permission: 'node:pg_contest:delete any day content'
+  $permissions['node:pg_contest:delete any day content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:pg_contest:delete any newsblog content'
+  $permissions['node:pg_contest:delete any newsblog content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
+  );
+
+  // Exported og permission: 'node:pg_contest:delete any pg_scoring_category content'
+  $permissions['node:pg_contest:delete any pg_scoring_category content'] = array(
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:pg_contest:delete own advert content'
@@ -66,11 +86,21 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:delete own pg_race content'
-  $permissions['node:pg_contest:delete own pg_race content'] = array(
+  // Exported og permission: 'node:pg_contest:delete own day content'
+  $permissions['node:pg_contest:delete own day content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:pg_contest:delete own newsblog content'
+  $permissions['node:pg_contest:delete own newsblog content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
+  );
+
+  // Exported og permission: 'node:pg_contest:delete own pg_scoring_category content'
+  $permissions['node:pg_contest:delete own pg_scoring_category content'] = array(
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:pg_contest:manage members'
@@ -120,11 +150,21 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:update any pg_race content'
-  $permissions['node:pg_contest:update any pg_race content'] = array(
+  // Exported og permission: 'node:pg_contest:update any day content'
+  $permissions['node:pg_contest:update any day content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:pg_contest:update any newsblog content'
+  $permissions['node:pg_contest:update any newsblog content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
+  );
+
+  // Exported og permission: 'node:pg_contest:update any pg_scoring_category content'
+  $permissions['node:pg_contest:update any pg_scoring_category content'] = array(
+    'roles' => array(),
   );
 
   // Exported og permission: 'node:pg_contest:update group'
@@ -141,11 +181,21 @@ function organic_groups_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:pg_contest:update own pg_race content'
-  $permissions['node:pg_contest:update own pg_race content'] = array(
+  // Exported og permission: 'node:pg_contest:update own day content'
+  $permissions['node:pg_contest:update own day content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:pg_contest:update own newsblog content'
+  $permissions['node:pg_contest:update own newsblog content'] = array(
     'roles' => array(
       'member' => 'member',
     ),
+  );
+
+  // Exported og permission: 'node:pg_contest:update own pg_scoring_category content'
+  $permissions['node:pg_contest:update own pg_scoring_category content'] = array(
+    'roles' => array(),
   );
 
   return $permissions;

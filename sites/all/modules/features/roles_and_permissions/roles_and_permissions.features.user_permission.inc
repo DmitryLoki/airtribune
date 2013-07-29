@@ -344,15 +344,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'views',
   );
 
-  // Exported permission: administer xmlsitemap.
-  $permissions['administer xmlsitemap'] = array(
-    'name' => 'administer xmlsitemap',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'xmlsitemap',
-  );
-
   // Exported permission: block IP addresses.
   $permissions['block IP addresses'] = array(
     'name' => 'block IP addresses',
@@ -418,9 +409,37 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: create field_day_number.
+  $permissions['create field_day_number'] = array(
+    'name' => 'create field_day_number',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: create field_optdistance.
+  $permissions['create field_optdistance'] = array(
+    'name' => 'create field_optdistance',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: create field_pg_contestant_status.
   $permissions['create field_pg_contestant_status'] = array(
     'name' => 'create field_pg_contestant_status',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: create field_race_number.
+  $permissions['create field_race_number'] = array(
+    'name' => 'create field_race_number',
     'roles' => array(
       0 => 'administrator',
     ),
@@ -1213,12 +1232,39 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: edit field_day_number.
+  $permissions['edit field_day_number'] = array(
+    'name' => 'edit field_day_number',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit field_optdistance.
+  $permissions['edit field_optdistance'] = array(
+    'name' => 'edit field_optdistance',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit field_pg_contestant_status.
   $permissions['edit field_pg_contestant_status'] = array(
     'name' => 'edit field_pg_contestant_status',
     'roles' => array(
       0 => 'administrator',
       1 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit field_race_number.
+  $permissions['edit field_race_number'] = array(
+    'name' => 'edit field_race_number',
+    'roles' => array(
+      0 => 'administrator',
     ),
     'module' => 'field_permissions',
   );
@@ -1309,9 +1355,37 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: edit own field_day_number.
+  $permissions['edit own field_day_number'] = array(
+    'name' => 'edit own field_day_number',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit own field_optdistance.
+  $permissions['edit own field_optdistance'] = array(
+    'name' => 'edit own field_optdistance',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit own field_pg_contestant_status.
   $permissions['edit own field_pg_contestant_status'] = array(
     'name' => 'edit own field_pg_contestant_status',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit own field_race_number.
+  $permissions['edit own field_race_number'] = array(
+    'name' => 'edit own field_race_number',
     'roles' => array(
       0 => 'administrator',
     ),
@@ -1766,6 +1840,28 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: view field_day_number.
+  $permissions['view field_day_number'] = array(
+    'name' => 'view field_day_number',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view field_optdistance.
+  $permissions['view field_optdistance'] = array(
+    'name' => 'view field_optdistance',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: view field_pg_contestant_status.
   $permissions['view field_pg_contestant_status'] = array(
     'name' => 'view field_pg_contestant_status',
@@ -1774,6 +1870,17 @@ function roles_and_permissions_user_default_permissions() {
       1 => 'anonymous user',
       2 => 'authenticated user',
       3 => 'organizer',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view field_race_number.
+  $permissions['view field_race_number'] = array(
+    'name' => 'view field_race_number',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'field_permissions',
   );
@@ -1819,6 +1926,28 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: view own field_day_number.
+  $permissions['view own field_day_number'] = array(
+    'name' => 'view own field_day_number',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view own field_optdistance.
+  $permissions['view own field_optdistance'] = array(
+    'name' => 'view own field_optdistance',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: view own field_pg_contestant_status.
   $permissions['view own field_pg_contestant_status'] = array(
     'name' => 'view own field_pg_contestant_status',
@@ -1826,6 +1955,15 @@ function roles_and_permissions_user_default_permissions() {
       0 => 'administrator',
       1 => 'organizer',
       2 => 'pilot',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view own field_race_number.
+  $permissions['view own field_race_number'] = array(
+    'name' => 'view own field_race_number',
+    'roles' => array(
+      0 => 'administrator',
     ),
     'module' => 'field_permissions',
   );
