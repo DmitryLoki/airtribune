@@ -25,7 +25,6 @@
         var $raceBlock = $(raceBlock);
         var $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link');
         var raceData = getRaceDataFromRaceBlock($raceBlock);
-
         if (!raceData.isOnline) {
           $raceButton.hide();
         }
@@ -112,7 +111,7 @@
       }
 
       function hasTracksLoaded($raceBlock) {
-        return $raceBlock.parents('div.event-day').find('.views-field-field-pg-race-tracks').length>0;
+        return $raceBlock.parents('div.event-day,div.views-row').find('.views-field-field-pg-race-tracks').length>0;
       }
 
       function setHrefAttr(link, raceEid, mode, isOnline) {
