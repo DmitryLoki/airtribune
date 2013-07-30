@@ -415,12 +415,18 @@ function airtribune_preprocess_panels_pane(&$vars) {
   $configuration = $vars['pane']->configuration;
 
 
+
   // Translate overriden titles.
   if (!empty($configuration['override_title']) && $configuration['override_title_text']) {
     $vars['title'] = t($configuration['override_title_text']);
   }
   elseif ($vars['pane']->type == 'custom' && $vars['title']) {
     $vars['title'] = t($configuration['title']);
+  }
+
+
+  if ($vars['pane']->subtype == 'live_events') {
+    $vars['title'] .= l(t('View all'), 'events/current');
   }
 
   // Add 'view more' links to panes.
