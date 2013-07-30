@@ -671,7 +671,7 @@ function _day_pg_race_preview_markup($node) {
   
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/day_pg_race_play_link.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
   drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here soon.'))), 'setting');
   drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
 
@@ -821,21 +821,21 @@ function _day_pg_race_task_set($day_node) {
       $status = 'awaiting';
     }
     
-    
+
     $countdown_time = $start - $current_time;
-    
+
     // TODO: Get local time with offset
     $localtime = $current_time + $offset;
-    
-    
+
+
     $task_data['status'] = $status;
-    
+
     $task_data['start_time'] = $start;
     $task_data['countdown_time'] = $countdown_time;
     $task_data['localtime'] = $localtime;
     $task_data['offset'] = $offset;
   }
-  
+
   return $task_data;
 }
 
@@ -845,37 +845,22 @@ function _day_pg_race_task_set($day_node) {
 // TODO:
 function _day_pg_race_preview_offline_markup($data) {
   $class2d = array('race-link', '2d');
-  $class3d = array('race-link', '3d');
-  
-  // For online see Watch Live link
-  /*
-  if ($params['status'] == 'online') {
-    $class2d[] = 'online';
-    $class3d[] = 'online';
-  }
-  */
-  
   $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
-  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
-  
-  
+  //$class3d = array('race-link', '3d');
+  //$href3d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+
+
   // Generate list
-  $items = array($href2d, $href3d);
-  
+  //$items = array($href2d, $href3d);
+  $items = array($href2d);
+
   $ul_attribuntes = array(
     'class' => array('race-links'),
     'data-race-eid' => $data['race_entity_id'],
     'data-contest-cid' => $data['contest_core_id'],
     'data-race-cid' => $data['race_core_id'],
   );
-  
-  /*
-  // If online
-  if ($params['status'] == 'online') {
-    $ul_attribuntes['data-view-type'] = 'online';
-  }
-  */
-  
+
   $variables = array(
     'type' => 'ul',
     'title' => '',
@@ -884,9 +869,6 @@ function _day_pg_race_preview_offline_markup($data) {
   );
   $output = theme('item_list', $variables);
   $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
-  
+
   return $output;
 }
-
-
-
