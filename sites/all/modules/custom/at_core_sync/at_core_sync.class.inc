@@ -484,14 +484,17 @@ class ATSyncRace extends ATSync {
             }
           }
           if (in_array($point_data['properties']['checkpoint_type'], array('ss', 'es', 'goal'))) {
-          $point_data['properties']['open_time'] = $data['start_time'];
-          $point_data['properties']['close_time'] = $data['end_time'];
+            $point_data['properties']['open_time'] = $data['start_time'];
+            $point_data['properties']['close_time'] = $data['end_time'];
           }
 
           break;
 
         case "opendistance":
-          // @TODO: rules for open distance
+          if ($delta == count($points) - 1) {
+            $point_data['properties']['open_time'] = $data['start_time'];
+            $point_data['properties']['close_time'] = $data['end_time'];
+          }
           break;
       }
       $delta++;
@@ -529,7 +532,6 @@ class ATSyncRace extends ATSync {
         return FALSE;
       }
       $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
-      get_id_from_entity($this->entity);
       $contest_core_id = get_id_from_entity('node', $contest);
       if (!$contest_core_id) {
         ATSync::setMessage(t("Core API: Contest not synchronized yet."));
