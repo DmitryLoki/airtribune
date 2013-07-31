@@ -27,7 +27,7 @@ function airtribune_recently_viewed_content_type_render($subtype, $conf, $panel_
 
   return (object) array(
     'module' => 'airtribune',
-
+    'title' => t('Recently viewed'),
     'content' => $content,
     'delta' => 1,
   );

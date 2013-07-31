@@ -1,3 +1,3 @@
 jQuery(function ($) {
-  console.log('It works!');
+  console.log('recently_viewed.js');
 });
