@@ -491,7 +491,7 @@ class ATSyncRace extends ATSync {
           break;
 
         case "opendistance":
-          if ($delta == count($points) - 1) {
+          if (($delta == count($points) - 1) || in_array($point_data['properties']['checkpoint_type'], array('ss'))) {
             $point_data['properties']['open_time'] = $data['start_time'];
             $point_data['properties']['close_time'] = $data['end_time'];
           }
