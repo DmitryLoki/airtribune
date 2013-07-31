@@ -822,10 +822,14 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
+
   // Disable admin menu on visualisation page
   if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
   }
+
+  // See #3544-2
+  drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/events.js');
 
   // We need distinguish drupal pages, to get pinba statistics.
   // Change name of script from 'index.php' to requested $q variable
@@ -856,6 +860,8 @@ function airtribune_init() {
       drupal_goto('events/past');
     }
   }
+
+
 }
 
 /**
