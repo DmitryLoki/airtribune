@@ -180,7 +180,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -549,7 +549,7 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -1110,7 +1110,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -2861,7 +2861,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -3445,7 +3445,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -5456,28 +5456,38 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['ui_name'] = 'Contest node';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'Contest node';
-  /* Field: Title */
+  /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
   $handler->display->display_options['fields']['title_1']['relationship'] = 'og_membership_related_node_group';
-  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Title (excluded)';
   $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
-  /* Field: Content: Country */
+  /* Field: Country (excluded) */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
   $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Field: Content: City */
+  /* Field: City (Overridden) */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (Overridden)';
   $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_city']['alter']['text'] = '<span class="contest_head">
+ <span class="contest_title">[title_1]</span><br />
+ <span class="contest_place">[field_country], [field_city]</span>
+</span>
+<span class="valign"></span>';
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
   /* Field: Contest photo */
   $handler->display->display_options['fields']['field_contest_photos']['id'] = 'field_contest_photos';
@@ -5531,6 +5541,11 @@ return array($event_id);';
     t('Desc'),
     t('OG membership'),
     t('Contest node'),
+    t('<span class="contest_head">
+ <span class="contest_title">[title_1]</span><br />
+ <span class="contest_place">[field_country], [field_city]</span>
+</span>
+<span class="valign"></span>'),
   );
   $export['live_events'] = $view;
 
@@ -5568,7 +5583,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
