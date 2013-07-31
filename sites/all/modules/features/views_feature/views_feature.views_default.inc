@@ -4692,7 +4692,6 @@ return array($event_id);';
       'rendered_strip' => 1,
     ),
   );
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['style_options']['use-grouping-header'] = 1;
   $handler->display->display_options['style_options']['collapsible'] = 1;
   $handler->display->display_options['style_options']['row-start-open'] = '0';
