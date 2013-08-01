@@ -702,11 +702,25 @@ function airtribune_views_query_alter(&$view, &$query) {
     );
   }
 
+  // Prevent Live events duplication.
+  // See #3538.
+  if ($view->name == 'live_events') {
+
+
+    foreach($query->fields as $key => $field) {
+      //$query->fields[$key]['aggregate'] = TRUE;
+    }
+    $query->add_groupby('nid');
+
+  }
+
+
   // See http://drupal.org/node/1451218#comment-6136692
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
 }
+
 
 /**
  * Make normal, human sort in FAI pilot list (by nation)
@@ -716,6 +730,21 @@ function airtribune_views_query_alter(&$view, &$query) {
  * @see #3302
  */
 function airtribune_views_pre_render(&$view) {
+
+  if ($view->name == 'live_events') {
+    // Add only one day blog text to each day node.
+    foreach ($view->result as $index => $row) {
+      $wrapper = entity_metadata_wrapper('node', $row->nid);
+      if (isset($wrapper->field_dayblog_ref[0])) {
+        $delta = count($wrapper->field_dayblog_ref) - 1;
+        $node = $wrapper->field_dayblog_ref->get($delta)->value();
+        $plain_body = field_view_field('node', $node, 'field_plain_body', array('label' => 'hidden'));
+        $view->result[$index]->day_blog_text['#markup'] = render($plain_body);
+      }
+    }
+  }
+
+
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
     // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
     if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
