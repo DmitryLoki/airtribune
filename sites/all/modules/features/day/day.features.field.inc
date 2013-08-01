@@ -407,6 +407,7 @@ function day_field_default_fields() {
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 1,
         'max_filesize' => '5M',
         'max_resolution' => '2000x2000',
         'min_resolution' => '300x300',

@@ -498,6 +498,22 @@ function at_helper_views_post_execute(&$view) {
   
 }
 
+
+/**
+ * Implements hook_preprocess_HOOK()
+ * 
+ * Set Event Days Blog images' caption as colorbox popup title
+ */
+function at_helper_preprocess_colorbox_image_formatter(&$variables) {
+  if (isset($variables['field']['field_name']) && $variables['field']['field_name'] == AIRTRIBUNE_IMAGE_FIELD) {
+    if (!empty($variables['item']['image_field_caption']['value'])) {
+      $caption = $variables['item']['image_field_caption']['value'];
+      $variables['display_settings']['colorbox_caption_custom'] = $caption;
+    }
+  }  
+}
+
+
 /**
  * Implements hook_page_manager_contexts_alter()
  * 
@@ -567,4 +583,44 @@ function _at_helper_clear_pilots_list_cache() {
   foreach ($cids as $cid => $bin) {
     cache_clear_all($cid, $bin, TRUE);
   }  
+}
+
+/**
+ * Implements hook_field_attach_presave()
+ */
+function at_helper_field_attach_presave($entity_type, $entity) {
+  if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE && !empty($entity->at_helper_day_form_flag)) {
+    // Get day images data.
+    $node_wrapper = entity_metadata_wrapper('node', $entity);    
+    $images_value = $node_wrapper->{AIRTRIBUNE_IMAGE_FIELD}->value();
+    if (!empty($images_value)) {
+      // Get referenced event data
+      $og_audience_value = $node_wrapper->{OG_AUDIENCE_FIELD}->value();
+      $event_title = !empty($og_audience_value[0]->title) ? $og_audience_value[0]->title : '';
+      
+      $day_number = $node_wrapper->{AIRTRIBUNE_DAY_NUMBER}->value();
+      $day_number = !empty($day_number) ? 'Day' . $day_number : '';
+      foreach ($images_value as $k => $v) {
+        if (!empty($v['image_field_caption']['value'])) {
+          $components = array($v['image_field_caption']['value'], 'Paragliding', $event_title, $day_number);
+        }
+        else {
+          $components = array('Paragliding', $event_title, $day_number, $photo_number, sprintf('%03d', $k+1));
+        }
+        $images_value[$k]['alt'] = $images_value[$k]['title'] = implode(' ', $components);
+      }
+      // Set updated value
+      $node_wrapper->{AIRTRIBUNE_IMAGE_FIELD}->set($images_value);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_attach_form()
+ */
+function at_helper_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  // Set flag for image title tags change (in at_helper_field_attach_presave)
+  if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE) { 
+    $form['#node']->at_helper_day_form_flag = TRUE;
+  }
 }

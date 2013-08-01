@@ -3296,7 +3296,7 @@ return array($event_id);';
     'colorbox_image_style' => '',
     'colorbox_gallery' => 'post',
     'colorbox_gallery_custom' => '',
-    'colorbox_caption' => 'auto',
+    'colorbox_caption' => 'custom',
     'colorbox_caption_custom' => '',
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';

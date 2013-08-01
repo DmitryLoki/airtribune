@@ -1,0 +1,13 @@
+diff --git a/image_field_caption.install b/image_field_caption.install
+index 6aa3f21..1ce48a9 100644
+--- a/image_field_caption.install
++++ b/image_field_caption.install
+@@ -126,7 +126,7 @@ function image_field_caption_schema() {
+       'caption' => array(
+         'description' => 'The caption text.',
+         'type' => 'text',
+-        'not null' => TRUE,
++        'not null' => FALSE,
+       ),
+       'caption_format' => array(
+         'type' => 'varchar',
