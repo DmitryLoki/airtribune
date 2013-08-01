@@ -1,3 +1,24 @@
 jQuery(function ($) {
-  console.log('recently_viewed.js');
+  var recentlyViewedBlock = $('#recently-viewed');
+  if(!recentlyViewedBlock.length) {
+    return;
+  }
+
+  //get previous recently viewed
+  var lsKey = 'recentlyViewed',
+    recentlyViewed = localStorage[lsKey] ? JSON.parse(localStorage[lsKey]) : [];
+
+  if(!recentlyViewed.length) {
+    return;
+  }
+
+  var content = '<ul>';
+  for (var i = 0; i < recentlyViewed.length; i++) {
+    var eventPageInfo = redcentlyViewed[i];
+    content += '<li><a href="'+eventPageInfo.href+'">'+eventPageInfo.title+'</a></li>';
+  }
+  content += '</ul>';
+
+  recentlyViewedBlock.append(content);
+  recentlyViewedBlock.parents('.pane-recently-viewed').show();
 });

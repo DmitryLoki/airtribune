@@ -3125,3 +3125,5 @@ html.fb_view { overflow: auto;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
 #facebook-fan-gate { width: 810px; height: 160px; background: url(../images/like.png) no-repeat 50% 0; }
+
+section.pane-recently-viewed {display: none};
