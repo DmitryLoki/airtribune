@@ -1800,7 +1800,7 @@ ui-accordion-header ui-state-active
 #page .view-events-list h3,
 #page .view-events-list h3 a { font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; padding: 0; margin-bottom: 56px; position: relative;}
 #page .view-events-list h3 { width:90px; position:relative; z-index:10; clear:both; margin:0 -11px 0 0;}
-#page .view-events-list .ui-accordion-header { background:url(../images/hide_year.png) no-repeat 100% -95px; border: 0;}
+#page .view-events-list .ui-accordion-header { background:url(../images/hide_year.png) no-repeat 100% -96px; border: 0;}
 #page .view-events-list h3,
 #page .view-events-list .ui-accordion-header.ui-state-active { background:url(../images/hide_year.png) no-repeat 100% 4px;}
 #page .view-events-list .ui-accordion .ui-accordion-header .ui-icon { display: none;}
