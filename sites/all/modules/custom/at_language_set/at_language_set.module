@@ -37,8 +37,40 @@ function at_language_set_language_url_default($languages) {
     setcookie("language", $prefix, time() + 86400, '/');
     return $prefix;
   }
+  return $prefix;
+}
 
-  if (!empty($_COOKIE['language'])) {
+/**
+ * hook_boot impementation
+ */
+function at_language_set_boot() {
+  global $_SERVER;
+  
+  $hardcoded_languages = array(
+    'ru' => array('ru', 'be', 'uk', 'kz', 'ky', 'ab', 'mo', 'et', 'lv'),
+    'bg' => 'bg',
+    'fr' => 'fr',
+    'it' => 'it',
+    'pl' => 'pl',
+    'pt' => 'pt',
+    'sr' => 'sr',
+    'es' => 'es',
+    'tr' => 'tr',
+    'en' => 'en',
+  );
+  
+  $language = array();
+  if (($list = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+    if (preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/', $list, $list)) {
+      $language = array_combine($list[1], $list[2]);
+      foreach ($language as $n => $v) {
+        $language[$n] = $v ? $v : 1;
+      }
+      arsort($language, SORT_NUMERIC);
+    }
+  }
+  $prefix =  at_language_set_get_best_matched_lang($hardcoded_languages, $language);
+  /*if (!empty($_COOKIE['language'])) {
     $prefix = (!$prefix) ? "en" : $_COOKIE['language'];
     setcookie("language", $prefix, time() + 86400, '/');
     if($prefix!="en"){
@@ -57,8 +89,32 @@ function at_language_set_language_url_default($languages) {
     if($prefix!="en"){
       header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
     }
+  }*/
+  die('booting! straping!');
+}
+
+/**
+ * Finds best matching language
+ */
+function at_language_set_get_best_matched_lang($hardcodded_languages, $browser_languages, $default = "en") {
+  $languages=array();
+  foreach ($hardcodded_languages as $lang => $alias) {
+    if (is_array($alias)) {
+      foreach ($alias as $alias_lang) {
+        $languages[strtolower($alias_lang)] = strtolower($lang);
+      }
+    } else {
+      $languages[strtolower($alias)]=strtolower($lang);
+    }
   }
-  return $prefix;
+
+  foreach ($browser_languages as $l => $v) {
+    $s = strtok($l, '-'); // убираем то что идет после тире в языках вида "en-us, ru-ru"
+    if (isset($languages[$s])) {
+      return $languages[$s];
+    }
+  }
+  return $default;
 }
 
 function at_language_set_flush_caches(){
