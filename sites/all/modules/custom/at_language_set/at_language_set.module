@@ -45,6 +45,7 @@ function at_language_set_language_url_default($languages) {
  */
 function at_language_set_boot() {
   global $_SERVER;
+  global $_COOKIE;
   
   $hardcoded_languages = array(
     'ru' => array('ru', 'be', 'uk', 'kz', 'ky', 'ab', 'mo', 'et', 'lv'),
@@ -90,7 +91,7 @@ function at_language_set_boot() {
       header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
     }
   }*/
-  die('booting! straping!');
+  die('redirection to ' . $prefix);
 }
 
 /**
