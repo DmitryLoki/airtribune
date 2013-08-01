@@ -14,7 +14,7 @@ jQuery(function ($) {
 
   var content = '<ul>';
   for (var i = 0; i < recentlyViewed.length; i++) {
-    var eventPageInfo = redcentlyViewed[i];
+    var eventPageInfo = recentlyViewed[i];
     content += '<li><a href="'+eventPageInfo.href+'">'+eventPageInfo.title+'</a></li>';
   }
   content += '</ul>';
