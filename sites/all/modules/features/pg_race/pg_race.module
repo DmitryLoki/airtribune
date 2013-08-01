@@ -156,7 +156,7 @@ function recount_race_number($entity, $action) {
         $ch_exec = curl_exec($ch);
         // if we get correct data from CoreAPI
         if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
-          if ($optdistance = $core_race_data->optdistance) {
+          if ($optdistance = $core_race_data['optdistance']) {
             // write the optimum distance to field_optdistance & save(update) race entity
             $current_race->field_optdistance['und']['0']['value'] = $optdistance;
           }
