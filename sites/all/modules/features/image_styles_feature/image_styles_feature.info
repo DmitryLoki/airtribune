@@ -21,6 +21,7 @@ features[image][] = event_blog_teaser_seventh
 features[image][] = event_blog_teaser_sixth
 features[image][] = event_blog_teaser_sixth_extra
 features[image][] = event_blog_teaser_third
+features[image][] = event_logo
 features[image][] = event_map_picture_preview
 features[image][] = frontpage_event_padding
 features[image][] = header
