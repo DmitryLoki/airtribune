@@ -36,7 +36,7 @@ function pg_racetypes_field_default_fields() {
       'bundle' => 'pg_racetype_od',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Leave this field blank for race in any directions.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -60,8 +60,8 @@ function pg_racetypes_field_default_fields() {
       'entity_type' => 'ent_racetype',
       'exclude_cv' => 0,
       'field_name' => 'field_pg_race_azimuth',
-      'label' => 'Race azimuth',
-      'required' => 1,
+      'label' => 'Bearing',
+      'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
@@ -986,8 +986,9 @@ function pg_racetypes_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Bearing');
   t('Groups audience');
-  t('Race azimuth');
+  t('Leave this field blank for race in any directions.');
   t('Race cylinder type');
   t('Race gates interval');
   t('Race gates number');
