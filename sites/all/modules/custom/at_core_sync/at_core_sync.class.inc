@@ -390,7 +390,7 @@ class ATSyncRace extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+    $this->contest_core_id = get_id_from_entity('pg_race', $this->contest);
   }
   public function synchronize() {
     geophp_load();
