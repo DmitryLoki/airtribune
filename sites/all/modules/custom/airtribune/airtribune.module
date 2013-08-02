@@ -1200,3 +1200,65 @@ function airtribune_user_pass_validate($form, &$form_state) {
   }
 
 }
+
+function airtribune_cron() {
+  _create_day_for_contest();
+}
+
+/**
+ * Programmatically create 'day' node for event at 05.00AM local time.
+ * @see #3553
+ */
+function _create_day_for_contest() {
+  // Create 'day' for event at 05.00AM local time, see #3553
+  // Get all current events
+  $events = airtribune_get_events_nids_with_date_status();
+
+  foreach ($events['current'] as $key => $event_nid) {
+    $event = node_load($event_nid);
+
+    if ($event_date = airtribune_extract_time_from_event($event)) {
+      $offset = $event_date['offset'];
+    } else {
+      $offset = 0;
+    }
+
+    // Get last day for this event.
+    $days = get_days_ids_for_contest($event);
+    $last_day = node_load(end($days));
+
+    // Time for this day, with according local time offset
+    $last_day_created = $last_day->created + $offset;
+    $now = REQUEST_TIME + $offset;
+
+    // Last day node created today?
+    if (date('m.d.Y', $now) == date('m.d.Y', $last_day_created)) {
+      return;
+    }
+
+    // Day node must be created after 05.00 AM
+    if (date('H', $now) < 5) {
+      return;
+    }
+
+    // Create new 'day' node for this event day.
+    $node = new stdClass();
+    $node->type = AIRTRIBUNE_DAY_TYPE;
+    $node->language = 'en';
+    node_object_prepare($node);
+
+    $node->title = 'Day ' . (get_last_day_number_in_contest($event) + 1);
+    // By default day status is "OK".
+    $node->field_day_status['und']['0']['value'] = 0;
+    // OG reference - event nid.
+    $node->og_group_ref['und']['0']['target_id'] = $event_nid;
+    // Author of the day is the author (creator) of event.
+    $node->name = $event->name;
+    $node->uid  = $event->uid;
+
+//    $path = $event->path . '/day' . date('dmY');
+//    $node->path = array('alias' => $path);
+
+    node_save($node);
+  }
+}
