@@ -405,9 +405,10 @@ class ATSyncRace extends ATSync {
     }
 
     $this->address = implode('/', array('contest', $contest_core_id, 'race'));
-
+    $title = 'Task ' . $this->entity->field_race_number[LANGUAGE_NONE][0]['value'];
     $data = array(
-      'title' => $this->entity->title,
+      //'title' => $this->entity->title,
+      'title' => $title,
     );
     $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
     $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
@@ -507,7 +508,7 @@ class ATSyncRace extends ATSync {
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $edit = array(
-        "title" => $this->entity->title,
+        "title" => $title,
         "checkpoints" => $checkpoints,
       );
       $response = $this->request(json_encode($edit), "PUT");
