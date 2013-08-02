@@ -118,6 +118,28 @@ function recount_day_number($node, $action) {
   }
 }
 
+/**
+ * Count all days, which have numbers (i.e. not Registration day or not Training day)
+ * @param $contest_node
+ * @return int last day number
+ */
+function get_last_day_number_in_contest($contest_node) {
+  $day_number = 0;
+  if ($contest_node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // load all created days for this contest
+    $days = get_days_ids_for_contest($contest_node);
+    // recount day number for all this days
+    foreach ($days as $day) {
+      // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
+      $current_day_node = node_load($day);
+      if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
+        $day_number++;
+      }
+    }
+  }
+  return $day_number;
+}
+
 function recount_race_number($entity, $action) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   // load contest (og node)
