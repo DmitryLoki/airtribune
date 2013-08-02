@@ -46,7 +46,8 @@ function at_language_set_language_url_default($languages) {
 function at_language_set_boot() {
   global $_SERVER;
   global $_COOKIE;
-  
+  global $_GET;
+
   $hardcoded_languages = array(
     'ru' => array('ru', 'be', 'uk', 'kz', 'ky', 'ab', 'mo', 'et', 'lv'),
     'bg' => 'bg',
@@ -59,39 +60,33 @@ function at_language_set_boot() {
     'tr' => 'tr',
     'en' => 'en',
   );
-  
-  $language = array();
-  if (($list = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
-    if (preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/', $list, $list)) {
-      $language = array_combine($list[1], $list[2]);
-      foreach ($language as $n => $v) {
-        $language[$n] = $v ? $v : 1;
-      }
-      arsort($language, SORT_NUMERIC);
-    }
-  }
-  $prefix =  at_language_set_get_best_matched_lang($hardcoded_languages, $language);
-  /*if (!empty($_COOKIE['language'])) {
-    $prefix = (!$prefix) ? "en" : $_COOKIE['language'];
-    setcookie("language", $prefix, time() + 86400, '/');
-    if($prefix!="en"){
-      header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
-    }
+
+  $path = explode("/", isset($_GET['q']) ? $_GET['q'] : '');
+  if (count($path) > 0 && in_array($path[0], array_keys($hardcoded_languages))) {
+    // if language prefix is used then save cookie
+    setcookie("language", $path[0], time() + 86400, '/');
   } else {
-    $prefix = locale_language_from_browser($languages);
-    // Temp, uk as russsian 
-    if($prefix=="uk") {
-      $prefix = "ru";
+    // otherwise detect language from browser    
+    // if cookie is set and language is EN
+    if (empty($_COOKIE['language'])) {
+      $language = array();
+      if (($list = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+        if (preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/', $list, $list)) {
+          $language = array_combine($list[1], $list[2]);
+          foreach ($language as $n => $v) {
+            $language[$n] = $v ? $v : 1;
+          }
+          arsort($language, SORT_NUMERIC);
+        }
+      }
+      $prefix =  at_language_set_get_best_matched_lang($hardcoded_languages, $language);
+      setcookie("language", $prefix, time() + 86400, '/');
+      if($prefix!="en"){
+        header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);
+        exit();  
+      }
     }
-    if(!$prefix || $prefix == "") {
-      $prefix = "en"; 
-    }
-    setcookie("language", $prefix, time() + 86400, '/');
-    if($prefix!="en"){
-      header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);  
-    }
-  }*/
-  die('redirection to ' . $prefix);
+  }  
 }
 
 /**
@@ -128,12 +123,12 @@ function at_language_set_flush_caches(){
       ),
       'file' => 'includes/locale.inc',
     ),
-    'locale-cookie' => array(
+    /*'locale-cookie' => array(
       'callbacks' => array(
         'language' => 'at_language_set_language_url_default',
       ),
       'file' => 'sites/all/modules/custom/at_language_set/at_language_set.module',
-    ),
+    ),*/
     'locale-default' => array(
       'callbacks' => array(
         'language' => 'language_from_default',
@@ -145,7 +140,7 @@ function at_language_set_flush_caches(){
 
   $value = array(
     'locale-url' => '-10',
-    'locale-cookie' => '-9',
+    /*'locale-cookie' => '-9',*/
     'locale-session' => '-8',
     'locale-user' => '-7',
     'locale-browser' => '-6',
