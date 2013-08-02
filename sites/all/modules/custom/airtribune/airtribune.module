@@ -1010,6 +1010,7 @@ function airtribune_js_alter(&$javascript) {
   $views_page = views_get_page_view();
   if (is_object($views_page)) {
     if($views_page->name == 'events_list' && $views_page->current_display == 'page_events_past') {
+        drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/event_headers.js');
         return ;
     }
   }
