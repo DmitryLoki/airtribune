@@ -70,12 +70,12 @@ function dayblog_views_pre_render(&$view) {
         // Load event node
         $node = node_load($gid);
         // Get offset
-        $event_time = airtribune_extract_time_from_event($node);
-        if (!isset($event_time['offset'])) {
+        $contest_time = airtribune_extract_time_from_contest($node);
+        if (!isset($contest_time['offset'])) {
           return;
         }
         // Set static offset
-        $offset = $event_time['offset'];
+        $offset = $contest_time['offset'];
       }
     }
     

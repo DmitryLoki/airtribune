@@ -423,8 +423,8 @@ function pg_race_retrive_table_callback($entity) {
 
 function pg_race_retrive_access($entity, $gid) {
   $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
-  $event_date = airtribune_extract_time_from_event($gid);
-  $offset = $event_date['offset'];
+  $contest_time = airtribune_extract_time_from_contest($gid);
+  $offset = $contest_time['offset'];
   $start_limit = strtotime($race_date_items[0]['value']);
   $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
   $now = REQUEST_TIME + $offset;
@@ -765,11 +765,11 @@ function _day_pg_race_task_set($day_node) {
   $item = array_shift($items);
   $target_id = $item['target_id'];
   $node = node_load($target_id);
-  $event_time = airtribune_extract_time_from_event($node);
-  if (!isset($event_time['offset'])) {
+  $contest_time = airtribune_extract_time_from_contest($node);
+  if (!isset($contest_time['offset'])) {
     return;
   }
-  $offset = $event_time['offset'];
+  $offset = $contest_time['offset'];
   
   $task_data['is_current_day'] = date('Y-m-d', $created - $offset) == date('Y-m-d', time() - $offset) ? TRUE : FALSE;
   $day_id = $day_node->nid;
@@ -817,11 +817,11 @@ function _day_pg_race_task_set($day_node) {
       
     // Get time data for a given race
     // Get event time offset
-    $event_time = airtribune_extract_time_from_event($node);
-    if (!isset($event_time['offset'])) {
+    $contest_time = airtribune_extract_time_from_contest($node);
+    if (!isset($contest_time['offset'])) {
       return;
     }
-    $offset = $event_time['offset'];
+    $offset = $contest_time['offset'];
     
     // Get Race Time data
     $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
