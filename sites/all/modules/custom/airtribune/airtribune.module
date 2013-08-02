@@ -45,6 +45,7 @@ define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
 define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
+define('AIRTRIBUNE_IMAGE_FIELD', 'field_image');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_POINT_RADIUS_FIELD', 'field_point_radius');
@@ -52,6 +53,7 @@ define('AIRTRIBUNE_POINT_TYPE_FIELD', 'field_point_type');
 define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
 define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
+
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -745,18 +747,18 @@ function airtribune_pages_callback($context) {
 
   $node = $context->data;
 
-  $event_date_status = airtribune_event_status_check_by_date($node);
-  if ($event_date_status == 'next') {
+  $contest_date_status = airtribune_contest_status_check_by_date($node);
+  if ($contest_date_status == 'next') {
     menu_set_active_item('event/'.$node->nid.'/info');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
     return page_manager_page_execute('event_info', $context);
   }
-  elseif ($event_date_status == 'current') {
+  elseif ($contest_date_status == 'current') {
     menu_set_active_item('event/'.$node->nid.'/blog');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/blog'));
     return page_manager_page_execute('event_blog', $context);
   }
-  elseif ($event_date_status == 'past') {
+  elseif ($contest_date_status == 'past') {
     menu_set_active_item('event/'.$node->nid.'/results');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
     return page_manager_page_execute('event_results', $context);
@@ -845,11 +847,11 @@ function airtribune_init() {
   // Redirect on from /events to needed page, based on next/current events count
   // see #3067
   if (arg(0) == 'events' && arg(1) == NULL) {
-    $events = airtribune_get_events_nids_with_date_status();
-    if (!empty($events['current']) && count($events['current']) > 0) {
+    $contests = airtribune_get_events_nids_with_date_status();
+    if (!empty($contests['current']) && count($contests['current']) > 0) {
       drupal_goto('events/current');
     }
-    elseif (!empty($events['next']) && count($events['next']) > 0) {
+    elseif (!empty($contests['next']) && count($contests['next']) > 0) {
       drupal_goto('events/next');
     }
     else {
@@ -867,8 +869,8 @@ function airtribune_init() {
  *
  * @author Kraev Vasily
  */
-function airtribune_event_status_check_by_date($node) {
-  $result = airtribune_extract_time_from_event($node);
+function airtribune_contest_status_check_by_date($node) {
+  $result = airtribune_extract_time_from_contest($node);
   if (!$result) return FALSE;
   return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
 }
@@ -883,7 +885,7 @@ function airtribune_event_status_check_by_date($node) {
  *
  * @author Kraev Vasily
  */
-function airtribune_extract_time_from_event($node) {
+function airtribune_extract_time_from_contest($node) {
   // if we get node->nid instead node object
   if (!is_object($node)) {
     $node = node_load($node);
@@ -911,7 +913,7 @@ function airtribune_extract_time_from_event($node) {
 
 /**
  * Compare dates with 'now' moment, using timezone offset
- * Helper function to airtribune_event_status_check_by_date()
+ * Helper function to airtribune_contest_status_check_by_date()
  *
  * @param $start_date unix_stamp
  * @param $end_date unix_stamp
@@ -945,16 +947,16 @@ function airtribune_get_events_nids_with_date_status() {
   $result = array();
 
   // get all published events
-  $events = db_select('node', 'n')
+  $contests = db_select('node', 'n')
       ->fields('n', array('nid'))
       ->condition('n.type', AIRTRIBUNE_PG_CONTEST_TYPE)
       ->condition('n.status', 1)
       ->execute();
 
-  foreach ($events as $event) {
+  foreach ($contests as $current_contest) {
     // drupal way, with caching
-    $node = node_load($event->nid);
-    $status = airtribune_event_status_check_by_date($node);
+    $contest = node_load($current_contest->nid);
+    $status = airtribune_contest_status_check_by_date($contest);
 
     // probably more fast, based on sql
 //    $event_dates = db_select('field_data_field_dates', 'd')
@@ -973,7 +975,7 @@ function airtribune_get_events_nids_with_date_status() {
 //    $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
 //    $status = airtribune_compare_dates($start, $end, $offset);
 
-    $result[$status][] = $event->nid;
+    $result[$status][] = $current_contest->nid;
   }
 
   return $result;
@@ -990,9 +992,9 @@ function airtribune_get_events_nids_with_date_status() {
  * @author Kraev Vasily
  */
 function airtribune_how_time_after_event_start($node, $granularity = 'day') {
-  $result = airtribune_extract_time_from_event($node);
-  $event_date_status = airtribune_event_status_check_by_date($node);
-  if ($result && ($event_date_status == 'current' || $event_date_status == 'past')) {
+  $result = airtribune_extract_time_from_contest($node);
+  $contest_date_status = airtribune_contest_status_check_by_date($node);
+  if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
     $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
     if ($granularity == 'day') return ($seconds/3600/24);
     elseif ($granularity == 'hour') return ($seconds/3600);
@@ -1005,6 +1007,14 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
  * Implements hook_js_alter().
  */
 function airtribune_js_alter(&$javascript) {
+  // Disable custom views-accordion.js for some views
+  // @see #3555
+  $views_page = views_get_page_view();
+  if (is_object($views_page)) {
+    if($views_page->name == 'events_list' && $views_page->current_display == 'page_events_past') {
+        return ;
+    }
+  }
   // @see #3098-1.
   $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
   if (isset($javascript[$accodion_js])) {
@@ -1081,11 +1091,11 @@ function _airtribune_pg_race_online_status($etid) {
   $node = array_shift($nodes);
   
   // Get event time offset
-  $event_time = airtribune_extract_time_from_event($node);
-  if (!isset($event_time['offset'])) {
+  $contest_time = airtribune_extract_time_from_contest($node);
+  if (!isset($contest_time['offset'])) {
     return;
   }
-  $offset = $event_time['offset'];
+  $offset = $contest_time['offset'];
   
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $start = strtotime($start_end['value']);
@@ -1191,4 +1201,65 @@ function airtribune_user_pass_validate($form, &$form_state) {
     form_set_error('name', t('Sorry, %name is not recognized as a user name or an e-mail address.', array('%name' => $name)));
   }
 
+}
+
+function airtribune_cron() {
+  _create_day_for_contest();
+}
+
+/**
+ * Programmatically create 'day' node at 05.00AM local time of contest.
+ * @see #3553
+ */
+function _create_day_for_contest() {
+  // Get all current contests
+  $contests = airtribune_get_events_nids_with_date_status();
+
+  foreach ($contests['current'] as $key => $contest_nid) {
+    $contest = node_load($contest_nid);
+
+    if ($contest_date = airtribune_extract_time_from_contest($contest)) {
+      $offset = $contest_date['offset'];
+    } else {
+      $offset = 0;
+    }
+
+    // Get last day for this contest.
+    $days = get_days_ids_for_contest($contest);
+    $last_day = node_load(end($days));
+
+    // Time for this day, with according local time offset
+    $last_day_created = $last_day->created + $offset;
+    $now = REQUEST_TIME + $offset;
+
+    // Last day node created today?
+    if (date('m.d.Y', $now) == date('m.d.Y', $last_day_created)) {
+      return;
+    }
+
+    // Day node must be created after 05.00 AM
+    if (date('H', $now) < 5) {
+      return;
+    }
+
+    // Create new 'day' node for this contest day.
+    $node = new stdClass();
+    $node->type = AIRTRIBUNE_DAY_TYPE;
+    $node->language = 'en';
+    node_object_prepare($node);
+
+    $node->title = 'Day ' . (get_last_day_number_in_contest($contest) + 1);
+    // By default day status is "OK".
+    $node->field_day_status['und']['0']['value'] = 0;
+    // OG reference - contest nid.
+    $node->og_group_ref['und']['0']['target_id'] = $contest_nid;
+    // Author of the day is the author (creator) of contest.
+    $node->name = $contest->name;
+    $node->uid  = $contest->uid;
+
+//    $path = $contest->path . '/day' . date('dmY');
+//    $node->path = array('alias' => $path);
+
+    node_save($node);
+  }
 }
