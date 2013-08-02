@@ -387,24 +387,26 @@ class ATSyncPilot extends ATSync {
  */
 class ATSyncRace extends ATSync {
   public $address = "contest/";
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $this->contest = node_load($this->entity->gid, NULL, TRUE);
+    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+  }
   public function synchronize() {
     geophp_load();
     $day_id = $this->entity->field_day_ref[LANGUAGE_NONE][0]['target_id'];
-    $contest_nid = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-    $contest = node_load($contest_nid, NULL, TRUE);
-    if (!$contest) {
+    if (!isset($this->contest)) {
       ATSync::setMessage(t('ATSyncRace: Unable to load contest'));
       return FALSE;
     }
-    $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
+    $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
 
-    $contest_core_id = get_id_from_entity('node', $contest);
-    if (!$contest_core_id) {
+    if (!$this->contest_core_id) {
       ATSync::setMessage(t("Core API: Contest not synchronized yet."));
       return FALSE;
     }
 
-    $this->address = implode('/', array('contest', $contest_core_id, 'race'));
+    $this->address = implode('/', array('contest', $this->contest_core_id, 'race'));
     $title = 'Task ' . $this->entity->field_race_number[LANGUAGE_NONE][0]['value'];
     $data = array(
       //'title' => $this->entity->title,
@@ -528,22 +530,19 @@ class ATSyncRace extends ATSync {
   public function pushTracks() {
     $fid = !empty($this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid']) ? $this->entity->field_pg_race_tracks[LANGUAGE_NONE][0]['fid'] : FALSE;
     if ($fid) {
-      $contest_nid = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-      $contest = node_load($contest_nid, NULL, TRUE);
-      if (!$contest) {
+      if (!$this->contest) {
         ATSync::setMessage(t('ATSyncRace: Unable to load contest'));
         return FALSE;
       }
-      $time_zone = $contest->field_time_zone[LANGUAGE_NONE][0]['value'];
-      $contest_core_id = get_id_from_entity('node', $contest);
-      if (!$contest_core_id) {
+      $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
+      if (!$this->contest_core_id) {
         ATSync::setMessage(t("Core API: Contest not synchronized yet."));
         return FALSE;
       }
 
-      $this->address = implode('/', array('contest', $contest_core_id, 'race'));
+      $this->address = implode('/', array('contest', $this->contest_core_id, 'race'));
       if ($this->core_id) {
-        $this->address = implode('/', array('contest', $contest_core_id, 'race', $this->core_id, 'track_archive'));
+        $this->address = implode('/', array('contest', $this->contest_core_id, 'race', $this->core_id, 'track_archive'));
         $response = $this->request('url='.file_create_url(file_load($fid)->uri));
       } else {
         ATSync::setMessage(t("Core API: Unable to send tracks. Race not synchronized yet."));
