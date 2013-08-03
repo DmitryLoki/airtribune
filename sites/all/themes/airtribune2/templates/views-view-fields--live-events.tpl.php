@@ -23,8 +23,24 @@
  * @ingroup views_templates
  */
 
+$day_blog_text = $day_blog_prefix = $day_blog_suffix = '';
+
 ?>
+
 <?php foreach ($fields as $id => $field): ?>
+  <?php if ($id == 'title' && empty($fields['day_pg_race_play_link']) && isset($row->day_blog_text)): ?>
+    <?php 
+  	  $day_blog_text =  render($row->day_blog_text); 
+  	  $day_blog_prefix = '<div class="dayblog"><div class="dayblog_inner">';
+  	  $day_blog_suffix = '</div></div>';
+    ?>
+  <?php elseif ($id == 'title'): ?>
+  	<?php 
+  	  $day_blog_prefix = '<div class="task_title">';
+  	  $day_blog_suffix = '</div>';
+    ?>
+  <?php endif; ?>
+  <?php print $day_blog_prefix; ?>
   <?php if (!empty($field->separator)): ?>
     <?php print $field->separator; ?>
   <?php endif; ?>
@@ -33,7 +49,6 @@
     <?php print $field->label_html; ?>
     <?php print $field->content; ?>
   <?php print $field->wrapper_suffix; ?>
+  <?php print $day_blog_text; ?>
+  <?php print $day_blog_suffix; ?>
 <?php endforeach; ?>
-<?php if (empty($fields['day_pg_race_play_link']) && isset($row->day_blog_text)): ?>
-  <?php print render($row->day_blog_text); ?>
-<?php endif; ?>
