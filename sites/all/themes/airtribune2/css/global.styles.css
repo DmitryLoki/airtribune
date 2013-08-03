@@ -3147,9 +3147,12 @@ html.fb_view { overflow: auto;}
 .pane-live-events .views-field-day-pg-race-play-link .field-content { display: block; padding: 6px 5px 0;}
 .pane-live-events .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
 .pane-live-events .views-field-day-pg-race-play-link .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed}
+.pane-live-events .race-online .help-text,
 .pane-live-events .race-awaiting .help-text { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
+.pane-live-events .race-awaiting .help-text { color: #fbd72c;}
 .pane-live-events .time,
 .pane-live-events .views-field-title a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
+.pane-live-events .race-awaiting .time { background: #fbd72c}
 .pane-live-events .views-field-title a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
 .pane-live-events .file a,
 .pane-live-events .time,
