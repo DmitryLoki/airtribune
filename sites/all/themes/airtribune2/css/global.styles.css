@@ -3133,9 +3133,30 @@ html.fb_view { overflow: auto;}
 .pane-live-events h2 a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
 .pane-live-events .view-content { margin-left: -5px;}
 .pane-live-events .views-row { float: left; width: 230px; height: 270px; margin-left: 5px; position: relative; margin-top: 10px;}
-.pane-live-events .views-field-field-city { position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: rgba(17, 36, 51, .5);}
+.pane-live-events .views-field-field-city,
+.pane-live-events .views-field-day-pg-race-play-link { position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: rgba(17, 36, 51, .5);}
 .pane-live-events .views-field-field-city .field-content { margin: 0 10px;}
 .pane-live-events .contest_head { vertical-align: middle; max-width: 100%; display: inline-block; margin: 0; margin-top: 4px;}
 .pane-live-events .valign { width: 1px; overflow: hidden; height: 80px; vertical-align: middle; margin-right: -1px; display: inline-block;}
 .pane-live-events .contest_title { color: #ffffff; font: bold 14px/20px Arial, Helvetica, sans-serif; display: inline-block;}
+.pane-live-events .contest_title a { color: #ffffff; text-decoration: none;}
+.pane-live-events .contest_title a:hover { text-decoration: underline;}
 .pane-live-events .contest_place { color: #d5e4ed; font: 12px/14px Verdana, Geneva, sans-serif; background: url(../images/next_events.png) no-repeat -1000px -70px; padding-left: 17px;  position: relative; top: -4px;}
+
+.pane-live-events .views-field-day-pg-race-play-link { top: auto; bottom: 0; height: 60px;}
+.pane-live-events .views-field-day-pg-race-play-link .field-content { display: block; padding: 6px 5px 0;}
+.pane-live-events .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
+.pane-live-events .views-field-day-pg-race-play-link .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed}
+.pane-live-events .race-awaiting .help-text { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
+.pane-live-events .time,
+.pane-live-events .views-field-title a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
+.pane-live-events .views-field-title a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.pane-live-events .file a,
+.pane-live-events .time,
+.pane-live-events .views-field-title a {
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
