@@ -400,13 +400,18 @@ abstract class CascadeEntityController extends EntityAPIController {
     $entities = entity_load($this->entityType, $ids);
     $references = array();
     foreach ($entities as $entity) {
-      $references = array_merge($references, field_get_items($this->entityType, 
-          $entity, $this->referenceField));
+      $items = field_get_items($this->entityType, $entity, $this->referenceField);
+      if (!empty($items)) {
+        foreach ($items as $item) {
+          $references[] = $item['target_id'];
+        }
+      }
     }
     $references = array_unique($references);
+    dpm($references);
     $field_info = field_info_field($this->referenceField);
     $target_entity_type  = $field_info['settings']['target_type'];
-    entity_delete_multiple($references, $target_entity_type);
+    entity_delete_multiple($target_entity_type, $references);
     parent::delete($ids, $transaction);
   }
 }
