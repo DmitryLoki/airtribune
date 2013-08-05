@@ -16,11 +16,16 @@
 function at_entity_cascade_entity_info_alter(&$entity_info) {
   // @todo Remove next line.
   //return;
-  foreach ($entity_info as $key => $entity_info_entity) {
+  /*foreach ($entity_info as $key => $entity_info_entity) {
     if ($entity_info_entity['controller class'] == 'EntityAPIController') {
       $entity_info[$key]['controller class'] = 'CascadePointController';
     }
-  }
+    if ($entity_info_entity['controller class'] == 'NodeController') {
+      $entity_info[$key]['controller class'] = 'NodeCascadeController';
+    }
+  }*/
+  $entity_info['ent_race']['controller class'] = 'RaceEntityController';
+  $entity_info['ent_racetype']['controller class'] = 'RacetypeEntityController';
 }
 
 /**
@@ -70,13 +75,17 @@ class CascadePointController extends EntityAPIController
     // We assume that entity containing reference field is always "slave" one. 
     // First step - build cascade map.
     $this->cascade($ids);
+    dpm($this->entityInfo);
+    dpm(self::$cascadeMap);
     // Now we have to iteratively check and propagate blocks, until no new blocks 
     // are found.
-    $this->checkBlocks();
-    $step = -1;
+    /*$this->checkBlocks();
+    $step = 0;
     do {
       $step++;
       $this->propagateBlocks($step);
+      dpm($step);
+      dpm(self::$blockMap[$step]);
     } while (!empty(self::$blockMap[$step]));
     // Now we have all the blocks.
     // We need to flatten blocks map and subtract it from cascade map.
@@ -85,13 +94,14 @@ class CascadePointController extends EntityAPIController
     foreach ($entity_types as $entity_type) {
       for ($i = 0; $i <= $step; $i++) {
         if (isset($blockMap[$entity_type])) {
-          $blockMap[$entity_type] = array_merge($blockMap[$entity_type], self::$blockMap[$entity_type][$i]);
+          $blockMap[$entity_type] = array_merge($blockMap[$entity_type], self::$blockMap[$i][$entity_type]);
         }
         else {
-          $blockMap[$entity_type] = self::$blockMap[$entity_type][$i];
+          $blockMap[$entity_type] = self::$blockMap[$i][$entity_type];
         }
       }
     }
+    dpm(self::$blockMap);
     // Now flatten cascade map.
     foreach ($entity_types as $entity_type) {
       if (is_array(self::$cascadeMap[$entity_type])) {
@@ -115,7 +125,7 @@ class CascadePointController extends EntityAPIController
       else {
         $controller->delete(self::$deleteMap[$entity_type]);
       }
-    }
+    }*/
   }
   
   /**
@@ -197,7 +207,7 @@ class CascadePointController extends EntityAPIController
   }
   
   protected function propagateBlocks($step = 0) {
-    foreach (self::$blockMap[$step] as $entity_type => $ids) {
+    foreach (self::$blockMap[$step-1] as $entity_type => $ids) {
       $controller = entity_get_controller($entity_type);
       if ($controller instanceof CascadePointInterface) {
         foreach ($ids as $id) {
@@ -323,6 +333,43 @@ class CascadePointController extends EntityAPIController
 }
 
 
+class NodeCascadeController extends CascadePointController implements CascadePointInterface {
+  
+    protected function attachLoad(&$nodes, $revision_id = FALSE) {
+    // Create an array of nodes for each content type and pass this to the
+    // object type specific callback.
+    $typed_nodes = array();
+    foreach ($nodes as $id => $entity) {
+      $typed_nodes[$entity->type][$id] = $entity;
+    }
+
+    // Call object type specific callbacks on each typed array of nodes.
+    foreach ($typed_nodes as $node_type => $nodes_of_type) {
+      if (node_hook($node_type, 'load')) {
+        $function = node_type_get_base($node_type) . '_load';
+        $function($nodes_of_type);
+      }
+    }
+    // Besides the list of nodes, pass one additional argument to
+    // hook_node_load(), containing a list of node types that were loaded.
+    $argument = array_keys($typed_nodes);
+    $this->hookLoadArguments = array($argument);
+    parent::attachLoad($nodes, $revision_id);
+  }
+
+  protected function buildQuery($ids, $conditions = array(), $revision_id = FALSE) {
+    // Ensure that uid is taken from the {node} table,
+    // alias timestamp to revision_timestamp and add revision_uid.
+    $query = parent::buildQuery($ids, $conditions, $revision_id);
+    $fields =& $query->getFields();
+    unset($fields['timestamp']);
+    $query->addField('revision', 'timestamp', 'revision_timestamp');
+    $fields['uid']['table'] = 'base';
+    $query->addField('revision', 'uid', 'revision_uid');
+    return $query;
+  }
+}
+
 function at_entity_cascade_get_bundle($entity_type, $id) {
   $bundles = &drupal_static(__FUNCTION__);
   if (!isset($bundles) || !isset($bundles[$entity_type]) || !isset($bundles[$entity_type][$id])) {
@@ -341,4 +388,37 @@ function at_entity_cascade_get_bundle($entity_type, $id) {
     }
   }
   return $bundles[$entity_type][$id];
+}
+
+abstract class CascadeEntityController extends EntityAPIController {
+  
+  public $referenceField;
+  
+  public function delete ($ids, DatabaseTransaction $transaction = NULL) {
+    // Remove racetype, and waypoints.
+    // 1. Get racetype (do we need just ids or full objects?)
+    $entities = entity_load($this->entityType, $ids);
+    $references = array();
+    foreach ($entities as $entity) {
+      $references = array_merge($references, field_get_items($this->entityType, 
+          $entity, $this->referenceField));
+    }
+    $references = array_unique($references);
+    $field_info = field_info_field($this->referenceField);
+    $target_entity_type  = $field_info['settings']['target_type'];
+    entity_delete_multiple($references, $target_entity_type);
+    parent::delete($ids, $transaction);
+  }
+}
+
+class RacetypeEntityController extends CascadeEntityController {
+  
+  public $referenceField = 'field_pg_race_points';
+  
+}
+
+class RaceEntityController extends CascadeEntityController {
+  
+  public $referenceField = 'field_pg_racetype_ref';
+  
 }
