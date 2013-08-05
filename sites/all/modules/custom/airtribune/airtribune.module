@@ -1065,6 +1065,20 @@ function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
   }
 }
 
+/**
+ * Get single gid value from group member entity
+ *
+ * @return group id
+ *
+ * @author Vyacheslav Malchik <info@>
+ */
+function _airtribune_get_gid ($entity_type, $entity) {
+  $entity_groups = og_get_entity_groups($entity_type, $entity);
+  $gids = reset($entity_groups);
+  $gid = array_shift($gids);
+
+  return $gid;
+}
 
 /**
  * Get paragliding race status
