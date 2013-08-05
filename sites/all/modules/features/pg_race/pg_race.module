@@ -638,7 +638,7 @@ function _day_pg_race_preview_markup($node) {
     }
     
     if ($is_current_day) {
-      drupal_add_js(array('Day' => array('start_time' => $start_time*1000)), 'setting');
+      $wrapper_attributes['data-start-time'] = $start_time*1000;
     }
   }
   else {
