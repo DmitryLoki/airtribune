@@ -1067,6 +1067,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_name']['value'] = array(
     'field_competition_results' => 'field_competition_results',
   );
+  /* Filter criterion: Race: Id */
+  $handler->display->display_options['filters']['id']['id'] = 'id';
+  $handler->display->display_options['filters']['id']['table'] = 'eck_ent_race';
+  $handler->display->display_options['filters']['id']['field'] = 'id';
+  $handler->display->display_options['filters']['id']['relationship'] = 'field_competition_results_ent_race';
+  $handler->display->display_options['filters']['id']['operator'] = 'not empty';
   $translatables['category_results'] = array(
     t('Master'),
     t('more'),
@@ -3290,7 +3296,7 @@ return array($event_id);';
     'colorbox_image_style' => '',
     'colorbox_gallery' => 'post',
     'colorbox_gallery_custom' => '',
-    'colorbox_caption' => 'auto',
+    'colorbox_caption' => 'custom',
     'colorbox_caption_custom' => '',
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
@@ -4678,7 +4684,7 @@ return array($event_id);';
   $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_plugin'] = 'views_accordion';
   $handler->display->display_options['style_options']['grouping'] = array(
     0 => array(
       'field' => 'field_dates_1',
@@ -4686,6 +4692,11 @@ return array($event_id);';
       'rendered_strip' => 1,
     ),
   );
+  $handler->display->display_options['style_options']['use-grouping-header'] = 1;
+  $handler->display->display_options['style_options']['collapsible'] = 1;
+  $handler->display->display_options['style_options']['row-start-open'] = '0';
+  $handler->display->display_options['style_options']['autoheight'] = 0;
+  $handler->display->display_options['style_options']['navigation'] = 1;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';

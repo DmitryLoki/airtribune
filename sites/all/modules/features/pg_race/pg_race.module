@@ -118,6 +118,28 @@ function recount_day_number($node, $action) {
   }
 }
 
+/**
+ * Count all days, which have numbers (i.e. not Registration day or not Training day)
+ * @param $contest_node
+ * @return int last day number
+ */
+function get_last_day_number_in_contest($contest_node) {
+  $day_number = 0;
+  if ($contest_node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // load all created days for this contest
+    $days = get_days_ids_for_contest($contest_node);
+    // recount day number for all this days
+    foreach ($days as $day) {
+      // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
+      $current_day_node = node_load($day);
+      if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
+        $day_number++;
+      }
+    }
+  }
+  return $day_number;
+}
+
 function recount_race_number($entity, $action) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   // load contest (og node)
@@ -156,7 +178,7 @@ function recount_race_number($entity, $action) {
         $ch_exec = curl_exec($ch);
         // if we get correct data from CoreAPI
         if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
-          if ($optdistance = $core_race_data->optdistance) {
+          if ($optdistance = $core_race_data['optdistance']) {
             // write the optimum distance to field_optdistance & save(update) race entity
             $current_race->field_optdistance['und']['0']['value'] = $optdistance;
           }
@@ -401,8 +423,8 @@ function pg_race_retrive_table_callback($entity) {
 
 function pg_race_retrive_access($entity, $gid) {
   $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
-  $event_date = airtribune_extract_time_from_event($gid);
-  $offset = $event_date['offset'];
+  $contest_time = airtribune_extract_time_from_contest($gid);
+  $offset = $contest_time['offset'];
   $start_limit = strtotime($race_date_items[0]['value']);
   $end_limit = strtotime(date('Y-m-d', strtotime($race_date_items[0]['value2']) + 24*3600)) + 7200;
   $now = REQUEST_TIME + $offset;
@@ -671,7 +693,7 @@ function _day_pg_race_preview_markup($node) {
   
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/day_pg_race_play_link.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race_play_link.js', 'file');
   drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here soon.'))), 'setting');
   drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
 
@@ -743,11 +765,11 @@ function _day_pg_race_task_set($day_node) {
   $item = array_shift($items);
   $target_id = $item['target_id'];
   $node = node_load($target_id);
-  $event_time = airtribune_extract_time_from_event($node);
-  if (!isset($event_time['offset'])) {
+  $contest_time = airtribune_extract_time_from_contest($node);
+  if (!isset($contest_time['offset'])) {
     return;
   }
-  $offset = $event_time['offset'];
+  $offset = $contest_time['offset'];
   
   $task_data['is_current_day'] = date('Y-m-d', $created - $offset) == date('Y-m-d', time() - $offset) ? TRUE : FALSE;
   $day_id = $day_node->nid;
@@ -795,11 +817,11 @@ function _day_pg_race_task_set($day_node) {
       
     // Get time data for a given race
     // Get event time offset
-    $event_time = airtribune_extract_time_from_event($node);
-    if (!isset($event_time['offset'])) {
+    $contest_time = airtribune_extract_time_from_contest($node);
+    if (!isset($contest_time['offset'])) {
       return;
     }
-    $offset = $event_time['offset'];
+    $offset = $contest_time['offset'];
     
     // Get Race Time data
     $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
@@ -821,21 +843,21 @@ function _day_pg_race_task_set($day_node) {
       $status = 'awaiting';
     }
     
-    
+
     $countdown_time = $start - $current_time;
-    
+
     // TODO: Get local time with offset
     $localtime = $current_time + $offset;
-    
-    
+
+
     $task_data['status'] = $status;
-    
+
     $task_data['start_time'] = $start;
     $task_data['countdown_time'] = $countdown_time;
     $task_data['localtime'] = $localtime;
     $task_data['offset'] = $offset;
   }
-  
+
   return $task_data;
 }
 
@@ -845,37 +867,22 @@ function _day_pg_race_task_set($day_node) {
 // TODO:
 function _day_pg_race_preview_offline_markup($data) {
   $class2d = array('race-link', '2d');
-  $class3d = array('race-link', '3d');
-  
-  // For online see Watch Live link
-  /*
-  if ($params['status'] == 'online') {
-    $class2d[] = 'online';
-    $class3d[] = 'online';
-  }
-  */
-  
   $href2d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '2D', '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
-  $href3d = ''; //'<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
-  
-  
+  //$class3d = array('race-link', '3d');
+  //$href3d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
+
+
   // Generate list
-  $items = array($href2d, $href3d);
-  
+  //$items = array($href2d, $href3d);
+  $items = array($href2d);
+
   $ul_attribuntes = array(
     'class' => array('race-links'),
     'data-race-eid' => $data['race_entity_id'],
     'data-contest-cid' => $data['contest_core_id'],
     'data-race-cid' => $data['race_core_id'],
   );
-  
-  /*
-  // If online
-  if ($params['status'] == 'online') {
-    $ul_attribuntes['data-view-type'] = 'online';
-  }
-  */
-  
+
   $variables = array(
     'type' => 'ul',
     'title' => '',
@@ -884,9 +891,6 @@ function _day_pg_race_preview_offline_markup($data) {
   );
   $output = theme('item_list', $variables);
   $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
-  
+
   return $output;
 }
-
-
-

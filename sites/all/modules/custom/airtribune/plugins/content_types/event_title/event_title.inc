@@ -60,7 +60,7 @@ function airtribune_event_title_content_type_render($subtype, $conf, $panel_args
 
   $content['#attached']['css'] = array($plugin_path . '/event_title.css');
   // Add event timezone offset to drupal settins. See #3460.
-  if ($event_date = airtribune_extract_time_from_event($node)) {
+  if ($event_date = airtribune_extract_time_from_contest($node)) {
     $content['#attached']['js'][] = array(
       'data' => array('airtribune_event_offset' => $event_date['offset']),
       'type' => 'setting',

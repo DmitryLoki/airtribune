@@ -1794,9 +1794,17 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 #page ul.primary_suffix { text-align: center; margin: 0; padding: 0;}
 #page ul.primary_suffix li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
 
+ui-accordion-header ui-state-active
+
 #page .view-events-list {}
-#page .view-events-list h3 { float:left; width:90px; background:url(../images/hide_year.png) no-repeat 100% 4px; position:relative; z-index:10; font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; clear:both; margin:0 -11px 0 0;}
-#page .view-events-list .views-row { float:right; margin-left:-90px; width:100%;}
+#page .view-events-list h3,
+#page .view-events-list h3 a { font:bold 24px/26px Arial, Helvetica, sans-serif; color:#00aeef; padding: 0; margin-bottom: 56px; position: relative;}
+#page .view-events-list h3 { width:90px; position:relative; z-index:10; clear:both; margin:0 -11px 0 0;}
+#page .view-events-list .ui-accordion-header { background:url(../images/hide_year.png) no-repeat 100% -96px; border: 0;}
+#page .view-events-list h3,
+#page .view-events-list .ui-accordion-header.ui-state-active { background:url(../images/hide_year.png) no-repeat 100% 4px;}
+#page .view-events-list .ui-accordion .ui-accordion-header .ui-icon { display: none;}
+#page .view-events-list .ui-accordion-content { border: 0; padding: 0; clear: both; margin-top: -83px;}
 #page .view-events-list .views-row-last { margin-bottom: 56px;}
 #page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
 #page .view-events-list .views-row-first .views-field { padding-top:2px;}
@@ -3122,6 +3130,6 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0;}
 .page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9;}
 .page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
-.facebook-fan-gate .featured-header { padding-top: 180px;}
-.page-event-results-facebook .facebook-fan-gate .collapse-control { top: 180px;}
-#facebook-fan-gate { width: 810px; height: 180px; background: url(../images/like.png) no-repeat 50% 50%;}
+.facebook-fan-gate .featured-header { padding-top: 160px;}
+.page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
+#facebook-fan-gate { width: 810px; height: 160px; background: url(../images/like.png) no-repeat 50% 0; }
