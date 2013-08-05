@@ -391,7 +391,7 @@ class ATSyncRace extends ATSync {
     parent::__construct($entity_type, $entity);
     $gid = _airtribune_get_gid($entity_type, $entity);
     $this->contest = node_load($gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('pg_race', $this->contest);
+    $this->contest_core_id = get_id_from_entity('node', $this->contest);
   }
   public function synchronize() {
     geophp_load();
