@@ -389,8 +389,9 @@ class ATSyncRace extends ATSync {
   public $address = "contest/";
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('pg_race', $this->contest);
+    $gid = _airtribune_get_gid($entity_type, $entity);
+    $this->contest = node_load($gid, NULL, TRUE);
+    $this->contest_core_id = get_id_from_entity('node', $this->contest);
   }
   public function synchronize() {
     geophp_load();
@@ -425,7 +426,7 @@ class ATSyncRace extends ATSync {
 
       case "pg_racetype_od":
         $data['race_type'] = 'opendistance';
-        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
+        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
           $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
         }
         break;
