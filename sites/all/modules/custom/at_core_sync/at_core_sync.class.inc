@@ -426,7 +426,7 @@ class ATSyncRace extends ATSync {
 
       case "pg_racetype_od":
         $data['race_type'] = 'opendistance';
-        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
+        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
           $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
         }
         break;
