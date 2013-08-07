@@ -3166,6 +3166,7 @@ html.fb_view { overflow: auto;}
 .pane-frontpage-events-live-events-pane .day-blog p { margin: 0; padding: 2px 0 0;}
 .pane-frontpage-events-live-events-pane .day-blog a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
 .pane-frontpage-events-live-events-pane .day-blog a:hover { text-decoration: underline;}
+.pane-frontpage-events-live-events-pane .field-day-status-0 {display:none}
 .pane-frontpage-events-live-events-pane .file a,
 .pane-frontpage-events-live-events-pane .time,
 .pane-frontpage-events-live-events-pane .task_title a {
