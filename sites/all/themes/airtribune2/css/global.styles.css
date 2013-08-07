@@ -3151,25 +3151,25 @@ html.fb_view { overflow: auto;}
 .pane-frontpage-events-live-events-pane .views-field-view,
 .pane-frontpage-events-live-events-pane .dayblog { top: auto; bottom: 0; height: 60px;}
 .pane-frontpage-events-live-events-pane .views-field-day-pg-race-play-link { z-index: 10; background: none;}
-.pane-frontpage-events-live-events-pane .views-field-day-pg-race-play-link .field-content,
-.pane-frontpage-events-live-events-pane .day-blog { display: block; padding: 6px 5px 0; height: 50px; }
+.pane-frontpage-events-live-events-pane .view-event-day .views-row { display: block; padding: 6px 5px 0; height: 54px; }
 .pane-frontpage-events-live-events-pane .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
 .pane-frontpage-events-live-events-pane .views-field-day-pg-race-play-link .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed}
 .pane-frontpage-events-live-events-pane .race-online .help-text,
 .pane-frontpage-events-live-events-pane .race-awaiting .help-text { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
 .pane-frontpage-events-live-events-pane .race-awaiting .help-text { color: #fbd72c;}
 .pane-frontpage-events-live-events-pane .time,
-.pane-frontpage-events-live-events-pane .task_title a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
+.pane-frontpage-events-live-events-pane .views-field-title-1 a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
 .pane-frontpage-events-live-events-pane .race-awaiting .time { background: #fbd72c}
-.pane-frontpage-events-live-events-pane .task_title a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.pane-frontpage-events-live-events-pane .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
 .pane-frontpage-events-live-events-pane .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed }
 .pane-frontpage-events-live-events-pane .day-blog p { margin: 0; padding: 2px 0 0;}
 .pane-frontpage-events-live-events-pane .day-blog a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
 .pane-frontpage-events-live-events-pane .day-blog a:hover { text-decoration: underline;}
 .pane-frontpage-events-live-events-pane .field-day-status-0 {display:none}
+
 .pane-frontpage-events-live-events-pane .file a,
 .pane-frontpage-events-live-events-pane .time,
-.pane-frontpage-events-live-events-pane .task_title a {
+.pane-frontpage-events-live-events-pane .views-field-title-1 a {
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
