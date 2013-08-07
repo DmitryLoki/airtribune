@@ -2842,6 +2842,7 @@ return array($event_id);';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: OG membership from node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -2863,7 +2864,11 @@ return array($event_id);';
   $handler->display->display_options['fields']['day_pg_race_play_link']['field'] = 'day_pg_race_play_link';
   $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Visualization link';
   $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_type'] = '0';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_type'] = '0';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_default_classes'] = FALSE;
   /* Field: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
@@ -2884,6 +2889,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['id']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['id']['separator'] = '';
+  /* Field: Day status - key */
+  $handler->display->display_options['fields']['field_day_status_1']['id'] = 'field_day_status_1';
+  $handler->display->display_options['fields']['field_day_status_1']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status_1']['field'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status_1']['ui_name'] = 'Day status - key';
+  $handler->display->display_options['fields']['field_day_status_1']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_status_1']['type'] = 'list_key';
   /* Field: Day status - excluded */
   $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
