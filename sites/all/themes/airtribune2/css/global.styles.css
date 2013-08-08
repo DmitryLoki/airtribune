@@ -3137,8 +3137,8 @@ html.fb_view { overflow: auto;}
 .pane-frontpage-events-live-events-pane .views-row .views-row { float: none; width: auto; height: auto; margin: 0;}
 .pane-frontpage-events-live-events-pane .views-field-field-city,
 .pane-frontpage-events-live-events-pane .views-field-view,
-.pane-frontpage-events-live-events-pane .task_title,
 .pane-frontpage-events-live-events-pane .dayblog { position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: rgba(17, 36, 51, .5);}
+.pane-frontpage-events-live-events-pane .views-field-view { z-index: 10;}
 .pane-frontpage-events-live-events-pane .views-field-field-city .field-content { margin: 0 10px;}
 .pane-frontpage-events-live-events-pane .contest_head { vertical-align: middle; max-width: 100%; display: inline-block; margin: 0; margin-top: 4px;}
 .pane-frontpage-events-live-events-pane .valign { width: 1px; overflow: hidden; height: 80px; vertical-align: middle; margin-right: -1px; display: inline-block;}
@@ -3161,11 +3161,13 @@ html.fb_view { overflow: auto;}
 .pane-frontpage-events-live-events-pane .views-field-title-1 a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
 .pane-frontpage-events-live-events-pane .race-awaiting .time { background: #fbd72c}
 .pane-frontpage-events-live-events-pane .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
-.pane-frontpage-events-live-events-pane .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed }
+.pane-frontpage-events-live-events-pane .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden;}
 .pane-frontpage-events-live-events-pane .day-blog p { margin: 0; padding: 2px 0 0;}
 .pane-frontpage-events-live-events-pane .day-blog a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
 .pane-frontpage-events-live-events-pane .day-blog a:hover { text-decoration: underline;}
 .pane-frontpage-events-live-events-pane .field-day-status-0 {display:none}
+.pane-frontpage-events-live-events-pane .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0;}
+.pane-frontpage-events-live-events-pane .views-row:hover .views-field-field-logo { display: block;}
 
 .pane-frontpage-events-live-events-pane .file a,
 .pane-frontpage-events-live-events-pane .time,
