@@ -13,6 +13,7 @@ define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
 // See field field_pg_contestant_status allowed values list.
+define('AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST', 1);
 define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
 define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
 define('AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE', 'contest_gallery_thumb');
@@ -76,6 +77,18 @@ define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
 define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
 define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
+
+/**
+ * Implements hook_views_api().
+ */
+function airtribune_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'airtribune') . '/views',
+  );
+}
+
+
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -1211,4 +1224,18 @@ function airtribune_user_pass_validate($form, &$form_state) {
     form_set_error('name', t('Sorry, %name is not recognized as a user name or an e-mail address.', array('%name' => $name)));
   }
 
+}
+
+
+
+function airtribune_count_pilots($nid, $status) {
+  d::dsm($nid . ' - ' .  $status);
+  $view = views_get_view('paragliding_contest_pilots_stats');
+  $view->set_arguments(array($nid));
+
+  //$view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value'] = 0;
+  d::dump($view->display['default']->display_options['filters']);
+  $view->execute();
+  $count = count($view->result);
+  d::dsm($count, 'warning');
 }
