@@ -5372,15 +5372,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Field: Embeded day view */
-  $handler->display->display_options['fields']['view']['id'] = 'view';
-  $handler->display->display_options['fields']['view']['table'] = 'views';
-  $handler->display->display_options['fields']['view']['field'] = 'view';
-  $handler->display->display_options['fields']['view']['ui_name'] = 'Embeded day view';
-  $handler->display->display_options['fields']['view']['label'] = '';
-  $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view']['view'] = 'event_day';
-  $handler->display->display_options['fields']['view']['arguments'] = '[%nid]';
   /* Field: Logo */
   $handler->display->display_options['fields']['field_logo']['id'] = 'field_logo';
   $handler->display->display_options['fields']['field_logo']['table'] = 'field_data_field_logo';
@@ -5393,6 +5384,36 @@ return array($event_id);';
     'image_style' => 'event_logo',
     'image_link' => '',
   );
+  /* Field: Content: Dates */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'long',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Number pilots in waiting list */
+  $handler->display->display_options['fields']['view_confirmed_pilots']['id'] = 'view_confirmed_pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['field'] = 'view_confirmed_pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['ui_name'] = 'Number pilots in waiting list';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['label'] = '';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_confirmed_pilots']['status'] = '1';
+  /* Field: Number confirmed pilots */
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['id'] = 'view_confirmed_pilots_1';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['field'] = 'view_confirmed_pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['ui_name'] = 'Number confirmed pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['label'] = '';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['status'] = '4';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -5431,6 +5452,9 @@ return array($event_id);';
 
   /* Display: Live events */
   $handler = $view->new_display('panel_pane', 'Live events', 'live_events_pane');
+
+  /* Display: Soon worldwide */
+  $handler = $view->new_display('panel_pane', 'Soon worldwide', 'soon_worldwide_pane');
   $translatables['frontpage_events'] = array(
     t('Master'),
     t('Live events'),
@@ -5446,6 +5470,7 @@ return array($event_id);';
 </span>
 <span class="valign"></span>'),
     t('View panes'),
+    t('Soon worldwide'),
   );
   $export['frontpage_events'] = $view;
 
@@ -6360,6 +6385,17 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
+  /* Contextual filter: Pilot status */
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['ui_name'] = 'Pilot status';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['default_argument_options']['argument'] = 'all';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: User: Active */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
@@ -6380,14 +6416,6 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
-  /* Filter criterion: OG membership: Payment status (field_pg_contestant_status) */
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
-    4 => '4',
-  );
   $translatables['paragliding_contest_pilots_stats'] = array(
     t('Defaults'),
     t('more'),

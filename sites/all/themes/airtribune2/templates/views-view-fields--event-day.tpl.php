@@ -24,7 +24,7 @@
  * @ingroup views_templates
  */
 
-if  ($fields['day_pg_race_play_link']->content || $fields['field_day_status_1']->content != 0) {
+if (!empty($fields['day_pg_race_play_link']->content) || $fields['field_day_status_1']->content != 0) {
   unset($fields['field_plain_body_1']);
 }
 else {

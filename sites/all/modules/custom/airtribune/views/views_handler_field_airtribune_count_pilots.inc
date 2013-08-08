@@ -34,8 +34,23 @@ class views_handler_field_airtribune_count_pilots extends views_handler_field_en
   function render($values) {
    
     if (($node = $this->get_value($values)) && $node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
-      airtribune_count_pilots($node->nid, 4);
-      return 555;
+      $result = airtribune_count_pilots($node->nid, $this->options['status']);
+
+      switch ($this->options['status']) {
+        case AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST:
+          $plural_text = str_replace($result, '', format_plural($result, 'Pilot in waitng list', '@count Pilots in waiting list'));
+          break;
+
+        case AIRTRIBUNE_PG_CONTESTANT_CONFIRMED:
+          $plural_text = str_replace($result, '', format_plural($result, 'Confirmed pilot', '@count Confirmed pilots'));
+          break;
+
+      }
+      return array(
+        '#theme' => 'container',
+        '#markup' => '<div>' . $result . '</div><div>' . $plural_text . '</div>',
+        '#attributes' => array('class' => array('pilots-count')),
+      );
     }
   }
 

@@ -1227,15 +1227,13 @@ function airtribune_user_pass_validate($form, &$form_state) {
 }
 
 
-
-function airtribune_count_pilots($nid, $status) {
-  d::dsm($nid . ' - ' .  $status);
+/**
+ * Count contestants.
+ */
+function airtribune_count_pilots($nid, $status = NULL) {
   $view = views_get_view('paragliding_contest_pilots_stats');
-  $view->set_arguments(array($nid));
+  $view->set_arguments(array($nid, $status));
 
-  //$view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value'] = 0;
-  d::dump($view->display['default']->display_options['filters']);
   $view->execute();
-  $count = count($view->result);
-  d::dsm($count, 'warning');
+  return count($view->result);
 }

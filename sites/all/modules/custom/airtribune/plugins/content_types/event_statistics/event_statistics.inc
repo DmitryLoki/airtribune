@@ -24,6 +24,7 @@ function airtribune_event_statistics_content_type_render($subtype, $conf, $panel
     return;
   }
 
+
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/event_statistics';
 
   // Event node.
@@ -35,17 +36,8 @@ function airtribune_event_statistics_content_type_render($subtype, $conf, $panel
   );
 
   try {
-    $view = views_get_view('paragliding_contest_pilots_stats');
-    $view->set_arguments(array($node->nid));
-    unset($view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']);
-    $view->execute();
-    $content['pilots_waiting'] = count($view->result);
-
-    $view = views_get_view('paragliding_contest_pilots_stats');
-    $view->set_arguments(array($node->nid));
-    $view->execute();
-    $content['pilots_confirmed'] = count($view->result);
-
+    $content['pilots_waiting'] = airtribune_count_pilots($node->nid);
+    $content['pilots_confirmed'] = airtribune_count_pilots($node->nid, AIRTRIBUNE_PG_CONTESTANT_CONFIRMED);
     $wrapper = entity_metadata_wrapper('node', $node);
     $location = $wrapper->{AIRTRIBUNE_HQ_LOCATION_FIELD}->value();
     if ($location) {
