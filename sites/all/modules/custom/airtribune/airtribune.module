@@ -1012,6 +1012,7 @@ function airtribune_js_alter(&$javascript) {
   $views_page = views_get_page_view();
   if (is_object($views_page)) {
     if($views_page->name == 'events_list' && $views_page->current_display == 'page_events_past') {
+        drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/event_headers.js');
         return ;
     }
   }
@@ -1246,34 +1247,29 @@ function _create_day_for_contest() {
     $last_day_created = $last_day->created + $offset;
     $now = REQUEST_TIME + $offset;
 
-    // Last day node created today?
-    if (date('m.d.Y', $now) == date('m.d.Y', $last_day_created)) {
-      return;
+    // Last day node not created today?
+    if (date('m.d.Y', $now) != date('m.d.Y', $last_day_created)) {
+      // Day node must be created after 05.00 AM
+      if (date('H', $now) > 5) {
+        // Create new 'day' node for this contest day.
+        $node = new stdClass();
+        $node->type = AIRTRIBUNE_DAY_TYPE;
+        $node->language = 'en';
+        node_object_prepare($node);
+        // Set title.
+        $node->title = 'Day ' . (get_last_day_number_in_contest($contest) + 1);
+        // By default day status is "OK".
+        $node->field_day_status['und']['0']['value'] = 0;
+        // OG reference - contest nid.
+        $node->og_group_ref['und']['0']['target_id'] = $contest_nid;
+        // Author of the day is the author (creator) of contest.
+        $node->name = $contest->name;
+        $node->uid  = $contest->uid;
+        // Generate path for day node.
+        //$path = $contest->path . '/day' . date('dmY');
+        //$node->path = array('alias' => $path);
+        node_save($node);
+      }
     }
-
-    // Day node must be created after 05.00 AM
-    if (date('H', $now) < 5) {
-      return;
-    }
-
-    // Create new 'day' node for this contest day.
-    $node = new stdClass();
-    $node->type = AIRTRIBUNE_DAY_TYPE;
-    $node->language = 'en';
-    node_object_prepare($node);
-
-    $node->title = 'Day ' . (get_last_day_number_in_contest($contest) + 1);
-    // By default day status is "OK".
-    $node->field_day_status['und']['0']['value'] = 0;
-    // OG reference - contest nid.
-    $node->og_group_ref['und']['0']['target_id'] = $contest_nid;
-    // Author of the day is the author (creator) of contest.
-    $node->name = $contest->name;
-    $node->uid  = $contest->uid;
-
-//    $path = $contest->path . '/day' . date('dmY');
-//    $node->path = array('alias' => $path);
-
-    node_save($node);
   }
 }
