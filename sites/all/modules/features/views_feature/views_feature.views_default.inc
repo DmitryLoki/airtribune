@@ -5440,15 +5440,8 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
   $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
   $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Start date';
-  $handler->display->display_options['filters']['field_dates_value']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
-  /* Filter criterion: End date */
-  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
-  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
-  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
-  $handler->display->display_options['filters']['field_dates_value2']['ui_name'] = 'End date';
-  $handler->display->display_options['filters']['field_dates_value2']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
 
   /* Display: Live events */
   $handler = $view->new_display('panel_pane', 'Live events', 'live_events_pane');
