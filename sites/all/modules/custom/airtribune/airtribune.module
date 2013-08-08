@@ -424,8 +424,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $vars['title'] = t($configuration['title']);
   }
 
-
-  if ($vars['pane']->subtype == 'live_events') {
+  if ($vars['pane']->subtype == 'frontpage_events-live_events_pane') {
     $vars['title'] .= l(t('View all'), 'events/current');
   }
 
