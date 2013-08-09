@@ -20,7 +20,7 @@ $plugin = array(
 class airtribune_unique_values_validator extends field_validation_validator {
 
   /**
-   * Validate field. 
+   * Validate field.
    */
   public function validate() {
     $flag = FALSE;
@@ -93,7 +93,7 @@ class airtribune_unique_values_validator extends field_validation_validator {
   /**
    * Helper function to get field values.
    */
-  public function get_field_column_value1($items, $column ='value') {
+  public function get_field_column_value1($items, $column = 'value') {
     $field_values = array();
     foreach ($items as $delta => $item) {
       if (isset($item[$column])) {

@@ -7,8 +7,8 @@
 
 include_once 'airtribune_nodes.inc';
 
-define('AIRTRIBUNE_VIS_URL','http://vis.airtribune.com');
-define('AIRTRIBUNE_RETRIEVE_URL','http://retrieve.airtribune.com');
+define('AIRTRIBUNE_VIS_URL', 'http://vis.airtribune.com');
+define('AIRTRIBUNE_RETRIEVE_URL', 'http://retrieve.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
@@ -147,7 +147,7 @@ function airtribune_form_alter(&$form, &$form_state, $form_id) {
     // links to select membership
     $form['og_user']['membership_type_select'] = array(
       '#markup' => $links,
-      '#prefix' => '<div><div><b>'. t('Type') .'</b></div>',
+      '#prefix' => '<div><div><b>' . t('Type') . '</b></div>',
       '#suffix' => '</div>',
     );
 
@@ -434,14 +434,14 @@ function airtribune_preprocess_panels_pane(&$vars) {
     }
 
     if (isset($configuration['more']['fragment'])) {
-      $options  = array('fragment' => $configuration['more']['fragment']);
+      $options = array('fragment' => $configuration['more']['fragment']);
     }
 
     if (isset($configuration['more']['title'])) {
       $vars['more'] = l(t($configuration['more']['title']), $url, $options);
     }
 
-    $vars['title'] = $vars['title'] ? l( $vars['title'], $url, $options) : $vars['title'];
+    $vars['title'] = $vars['title'] ? l($vars['title'], $url, $options) : $vars['title'];
 
   }
   // Add anchors to pane titles.
@@ -543,7 +543,11 @@ function airtribune_field_image_widget_process($element, &$form_state, $form) {
  * @see #3028
  */
 function airtribune_field_widget_file_generic_form_alter(&$element, &$form_state, $context) {
-  if (isset($element['#field_name']) && in_array($element['#field_name'], array(AIRTRIBUNE_DAY_RESULTS_FIELD, AIRTRIBUNE_COMPETITION_RESULTS_FIELD))) {
+  if (isset($element['#field_name']) && in_array($element['#field_name'], array(
+      AIRTRIBUNE_DAY_RESULTS_FIELD,
+      AIRTRIBUNE_COMPETITION_RESULTS_FIELD
+    ))
+  ) {
     foreach (element_children($element) as $delta) {
       $element[$delta]['#process'][] = 'airtribune_field_file_widget_process';
     }
@@ -637,7 +641,7 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
  * Implementation of hook_views_query_alter
  * @param type $view
  */
-function airtribune_views_pre_build(&$view){
+function airtribune_views_pre_build(&$view) {
   // Export pilots by parts, using second arg
   // @see #3325
   if ($view->name == 'paragliding_pilots_list_export' && $view->current_display == 'export_pilots_all_csv') {
@@ -663,7 +667,7 @@ function airtribune_views_query_alter(&$view, &$query) {
     global $_SESSION;
     unset($_SESSION['geoip']);
     // Store GeoIP data in session to improve perfomance
-    if(empty($_SESSION['geoip']) && ($geoip = geoip_city())) {
+    if (empty($_SESSION['geoip']) && ($geoip = geoip_city())) {
       $_SESSION['geoip'] = array();
       $_SESSION['geoip']['lat'] = $geoip->latitude;
       $_SESSION['geoip']['lng'] = $geoip->longitude;
@@ -742,24 +746,24 @@ function airtribune_pages_callback($context) {
   // TODO change to module_load_include()
   // Be sure the inc file containing page_manager_page_execute is loaded
 //  ctools_include('page', 'page_manager', 'plugins/tasks');
-  include_once(drupal_get_path('module', 'ctools') .'/page_manager/plugins/tasks/page.inc');
-  include_once(drupal_get_path('module', 'path_breadcrumbs') .'/path_breadcrumbs.module');
+  include_once(drupal_get_path('module', 'ctools') . '/page_manager/plugins/tasks/page.inc');
+  include_once(drupal_get_path('module', 'path_breadcrumbs') . '/path_breadcrumbs.module');
 
   $node = $context->data;
 
   $contest_date_status = airtribune_contest_status_check_by_date($node);
   if ($contest_date_status == 'next') {
-    menu_set_active_item('event/'.$node->nid.'/info');
+    menu_set_active_item('event/' . $node->nid . '/info');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
     return page_manager_page_execute('event_info', $context);
   }
   elseif ($contest_date_status == 'current') {
-    menu_set_active_item('event/'.$node->nid.'/blog');
+    menu_set_active_item('event/' . $node->nid . '/blog');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/blog'));
     return page_manager_page_execute('event_blog', $context);
   }
   elseif ($contest_date_status == 'past') {
-    menu_set_active_item('event/'.$node->nid.'/results');
+    menu_set_active_item('event/' . $node->nid . '/results');
     drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
     return page_manager_page_execute('event_results', $context);
   }
@@ -780,6 +784,7 @@ function airtribune_node_presave($node) {
   // need wrapper to avoid 'EntityMalformedException: Missing bundle property' error
   airtribune_modify_event_date_include_last_day($node);
 }
+
 function airtribune_modify_event_date_include_last_day(&$node) {
   if ($node->type != 'pg_contest') {
     return;
@@ -790,7 +795,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
     //$new_end = date_create($end, $dates_items[0]['timezone']);
     //date_modify($new_end, '+1 day');
     //date_modify($new_end, '-1 sec');
-    $end = $end + ( (23 * 60 * 60) + (50 * 60) ); // 23:50:00
+    $end = $end + ((23 * 60 * 60) + (50 * 60)); // 23:50:00
   }
   $node->field_dates['und']['0']['value2'] = date(DATE_FORMAT_DATETIME, $end);
 }
@@ -871,7 +876,9 @@ function airtribune_init() {
  */
 function airtribune_contest_status_check_by_date($node) {
   $result = airtribune_extract_time_from_contest($node);
-  if (!$result) return FALSE;
+  if (!$result) {
+    return FALSE;
+  }
   return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
 }
 
@@ -906,7 +913,7 @@ function airtribune_extract_time_from_contest($node) {
   $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
 
   $result['start'] = strtotime($dates_field[0]['value']);
-  $result['end']   = strtotime($dates_field[0]['value2']);
+  $result['end'] = strtotime($dates_field[0]['value2']);
 
   return $result;
 }
@@ -928,12 +935,20 @@ function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
   $now = REQUEST_TIME;
   if ($offset) {
     $start_date += $offset;
-    $end_date   += $offset;
+    $end_date += $offset;
   }
-  if (empty($start_date) || empty($end_date)) return FALSE;
-  elseif ($now < $start_date) return 'next';
-  elseif ($now >= $start_date && $now <= $end_date) return 'current';
-  elseif ($now > $end_date) return 'past';
+  if (empty($start_date) || empty($end_date)) {
+    return FALSE;
+  }
+  elseif ($now < $start_date) {
+    return 'next';
+  }
+  elseif ($now >= $start_date && $now <= $end_date) {
+    return 'current';
+  }
+  elseif ($now > $end_date) {
+    return 'past';
+  }
 }
 
 /**
@@ -948,10 +963,10 @@ function airtribune_get_events_nids_with_date_status() {
 
   // get all published events
   $contests = db_select('node', 'n')
-      ->fields('n', array('nid'))
-      ->condition('n.type', AIRTRIBUNE_PG_CONTEST_TYPE)
-      ->condition('n.status', 1)
-      ->execute();
+    ->fields('n', array('nid'))
+    ->condition('n.type', AIRTRIBUNE_PG_CONTEST_TYPE)
+    ->condition('n.status', 1)
+    ->execute();
 
   foreach ($contests as $current_contest) {
     // drupal way, with caching
@@ -996,9 +1011,15 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
   $contest_date_status = airtribune_contest_status_check_by_date($node);
   if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
     $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
-    if ($granularity == 'day') return ($seconds/3600/24);
-    elseif ($granularity == 'hour') return ($seconds/3600);
-    else return $seconds;
+    if ($granularity == 'day') {
+      return ($seconds / 3600 / 24);
+    }
+    elseif ($granularity == 'hour') {
+      return ($seconds / 3600);
+    }
+    else {
+      return $seconds;
+    }
   }
   return FALSE;
 }
@@ -1011,9 +1032,9 @@ function airtribune_js_alter(&$javascript) {
   // @see #3555
   $views_page = views_get_page_view();
   if (is_object($views_page)) {
-    if($views_page->name == 'events_list' && $views_page->current_display == 'page_events_past') {
-        drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/event_headers.js');
-        return ;
+    if ($views_page->name == 'events_list' && $views_page->current_display == 'page_events_past') {
+      drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/event_headers.js');
+      return;
     }
   }
   // @see #3098-1.
@@ -1039,7 +1060,7 @@ function airtribune_airtribune_field_group_content_alter(&$elements) {
 
     $elements['gt_left']['#theme_wrappers'] = $elements['gt_right']['#theme_wrappers'] = array('container');
     $elements['gt_left']['#attributes'] = array('id' => 'gt-left');
-    $elements['gt_left']['#weight'] = -1 ;
+    $elements['gt_left']['#weight'] = -1;
     $elements['gt_right']['#attributes'] = array('id' => 'gt-right');
   }
 }
@@ -1073,7 +1094,7 @@ function airtribune_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
  *
  * @author Vyacheslav Malchik <info@>
  */
-function _airtribune_get_gid ($entity_type, $entity) {
+function _airtribune_get_gid($entity_type, $entity) {
   $entity_groups = og_get_entity_groups($entity_type, $entity);
   $gids = reset($entity_groups);
   $gid = array_shift($gids);
@@ -1083,10 +1104,10 @@ function _airtribune_get_gid ($entity_type, $entity) {
 
 /**
  * Get paragliding race status
- * 
+ *
  * @return race_status FALSE|string
  *   FALSE or 'online' or 'offline'
- * 
+ *
  * @author Kapelshikov Alexandr
  */
 function _airtribune_pg_race_online_status($etid) {
@@ -1096,7 +1117,7 @@ function _airtribune_pg_race_online_status($etid) {
     return;
   }
   $entity = array_shift($entities);
-  
+
   // Get referenced pg_contest node
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $nodes = $wrapper->{OG_AUDIENCE_FIELD}->value();
@@ -1104,21 +1125,21 @@ function _airtribune_pg_race_online_status($etid) {
     return;
   }
   $node = array_shift($nodes);
-  
+
   // Get event time offset
   $contest_time = airtribune_extract_time_from_contest($node);
   if (!isset($contest_time['offset'])) {
     return;
   }
   $offset = $contest_time['offset'];
-  
+
   $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
   $start = strtotime($start_end['value']);
   $end = strtotime($start_end['value2']);
-  
+
   // TODO: Get local time
   $localtime = time() + $offset;
-  
+
   // Compare dates to get status
   if ($start <= $localtime && $localtime < $end) {
     // online
@@ -1144,12 +1165,12 @@ function _at_get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   foreach ($response as $tracker) {
     $ids[] = $tracker->id;
   }
-  return implode('+',$ids);
+  return implode('+', $ids);
 }
 
 /**
- * Implements hook_og_membership_presave(). 
- * 
+ * Implements hook_og_membership_presave().
+ *
  * @see #3444 #3446
  */
 function airtribune_og_membership_presave(OgMembership $og_membership) {
@@ -1235,7 +1256,8 @@ function _create_day_for_contest() {
 
     if ($contest_date = airtribune_extract_time_from_contest($contest)) {
       $offset = $contest_date['offset'];
-    } else {
+    }
+    else {
       $offset = 0;
     }
 
@@ -1264,7 +1286,7 @@ function _create_day_for_contest() {
         $node->og_group_ref['und']['0']['target_id'] = $contest_nid;
         // Author of the day is the author (creator) of contest.
         $node->name = $contest->name;
-        $node->uid  = $contest->uid;
+        $node->uid = $contest->uid;
         // Generate path for day node.
         //$path = $contest->path . '/day' . date('dmY');
         //$node->path = array('alias' => $path);

@@ -3,7 +3,7 @@
 /**
  * @file
  *  Airtribune module drush integration.
- * 
+ *
  * @author Chivse
  */
 
@@ -148,8 +148,8 @@ function airtribune_get_modules($site_state) {
  * List of processed variables.
  */
 function airtribune_get_variables($site_state) {
-  $variables =  array(
-    'production' => array (
+  $variables = array(
+    'production' => array(
       'cache' => CACHE_NORMAL,
       'preprocess_js' => 1,
       'preprocess_css' => 1,
@@ -159,10 +159,10 @@ function airtribune_get_variables($site_state) {
       'at_core_sync_version' => 'v0.2',
       'file_temporary_path' => '/home/airtribune/data/mod-tmp'
     ),
-    'development' => array (
+    'development' => array(
       'cache' => CACHE_DISABLED,
       'preprocess_js' => 0,
-      'preprocess_css' =>  0,
+      'preprocess_css' => 0,
       'error_level' => 1,
       //'smtp_library' => drupal_get_filename('module', 'devel'),
       'at_core_sync_address' => 'http://apidev.airtribune.com',
