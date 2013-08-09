@@ -76,7 +76,7 @@ function _airtribune_airtribune_race_preview_get_race_preview ($contestId, $race
   $widgetWidth = isset($options['widgetWidth']) ? $options['widgetWidth'] : '100%';
   $widgetHeight = isset($options['widgetHeight']) ? $options['widgetHeight'] : '100%';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
-  $apiDomain = isset($options['apiDomain']) ? $ $options['apiDomain'] : at_core_sync_get_api_url();
+  $apiDomain = isset($options['apiDomain']) ? $ $options['apiDomain'] : variable_get('at_core_sync_address', 'http://api.airtribune.com');
   $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
   
   $output = "<script  data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
