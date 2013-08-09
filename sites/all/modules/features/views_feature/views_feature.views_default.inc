@@ -2872,13 +2872,24 @@ return array($event_id);';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_default_classes'] = FALSE;
-  /* Field: Title */
+  /* Field: Day number - excluded */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['ui_name'] = 'Day number - excluded';
+  $handler->display->display_options['fields']['field_day_number']['label'] = '';
+  $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  /* Field: Title - overriden */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Title - overriden';
   $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title_1']['alter']['path'] = 'event/!1/blog#!day_[field_day_number]';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
   /* Field: Task is ready - excluded - overriden */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -5384,45 +5395,10 @@ return array($event_id);';
     'image_style' => 'event_logo',
     'image_link' => '',
   );
-  /* Field: Dates (excluded) */
-  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
-  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
-  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Dates (excluded)';
-  $handler->display->display_options['fields']['field_dates']['label'] = '';
-  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
-  $handler->display->display_options['fields']['field_dates']['settings'] = array(
-    'format_type' => 'long',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Number pilots in waiting list (excluded) */
-  $handler->display->display_options['fields']['view_confirmed_pilots']['id'] = 'view_confirmed_pilots';
-  $handler->display->display_options['fields']['view_confirmed_pilots']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['view_confirmed_pilots']['field'] = 'view_confirmed_pilots';
-  $handler->display->display_options['fields']['view_confirmed_pilots']['ui_name'] = 'Number pilots in waiting list (excluded)';
-  $handler->display->display_options['fields']['view_confirmed_pilots']['label'] = '';
-  $handler->display->display_options['fields']['view_confirmed_pilots']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['view_confirmed_pilots']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view_confirmed_pilots']['status'] = '1';
-  /* Field: Number confirmed pilots (overriden) */
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['id'] = 'view_confirmed_pilots_1';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['field'] = 'view_confirmed_pilots';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['ui_name'] = 'Number confirmed pilots (overriden)';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['label'] = '';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['alter']['text'] = '<div class="views-field-view"><div class="views-row">
- <div class="views-field-dates">[field_dates]</div>
- <div class="view_confirmed_pilots">[view_confirmed_pilots]</div>
- <div class="view_confirmed_pilots view_confirmed_pilots_1">[view_confirmed_pilots_1]</div>
-</div></div>';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['status'] = '4';
+  /* Field: Global: View */
+  $handler->display->display_options['fields']['view']['id'] = 'view';
+  $handler->display->display_options['fields']['view']['table'] = 'views';
+  $handler->display->display_options['fields']['view']['field'] = 'view';
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -5451,12 +5427,265 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Start date';
   $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
   $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
+  /* Filter criterion: Content: Dates - end date (field_dates:value2) */
+  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
 
   /* Display: Live events */
   $handler = $view->new_display('panel_pane', 'Live events', 'live_events_pane');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Title (excluded) */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Country (excluded) */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  /* Field: City (Overridden) */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (Overridden)';
+  $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_city']['alter']['text'] = '<span class="contest_head">
+ <span class="contest_title">[title]</span><br />
+ <span class="contest_place">[field_country], [field_city]</span>
+</span>
+<span class="valign"></span>';
+  $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
+  /* Field: First photo */
+  $handler->display->display_options['fields']['field_contest_photos']['id'] = 'field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['table'] = 'field_data_field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['field'] = 'field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['ui_name'] = 'First photo';
+  $handler->display->display_options['fields']['field_contest_photos']['label'] = '';
+  $handler->display->display_options['fields']['field_contest_photos']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_contest_photos']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_contest_photos']['settings'] = array(
+    'image_style' => 'frontpage_event_padding',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_contest_photos']['group_column'] = 'entity_id';
+  $handler->display->display_options['fields']['field_contest_photos']['group_columns'] = array(
+    'fid' => 'fid',
+  );
+  $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
+  /* Field: Nid - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Nid - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Last day */
+  $handler->display->display_options['fields']['view']['id'] = 'view';
+  $handler->display->display_options['fields']['view']['table'] = 'views';
+  $handler->display->display_options['fields']['view']['field'] = 'view';
+  $handler->display->display_options['fields']['view']['ui_name'] = 'Last day';
+  $handler->display->display_options['fields']['view']['label'] = '';
+  $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view']['view'] = 'event_day';
+  $handler->display->display_options['fields']['view']['arguments'] = '[!nid]';
+  /* Field: Logo */
+  $handler->display->display_options['fields']['field_logo']['id'] = 'field_logo';
+  $handler->display->display_options['fields']['field_logo']['table'] = 'field_data_field_logo';
+  $handler->display->display_options['fields']['field_logo']['field'] = 'field_logo';
+  $handler->display->display_options['fields']['field_logo']['ui_name'] = 'Logo';
+  $handler->display->display_options['fields']['field_logo']['label'] = '';
+  $handler->display->display_options['fields']['field_logo']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_logo']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_logo']['settings'] = array(
+    'image_style' => 'event_logo',
+    'image_link' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['ui_name'] = 'Content published';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Content type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Start date */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Start date';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
+  /* Filter criterion: End date */
+  $handler->display->display_options['filters']['field_dates_value2']['id'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value2']['field'] = 'field_dates_value2';
+  $handler->display->display_options['filters']['field_dates_value2']['ui_name'] = 'End date';
+  $handler->display->display_options['filters']['field_dates_value2']['operator'] = '>';
+  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now';
 
   /* Display: Soon worldwide */
   $handler = $view->new_display('panel_pane', 'Soon worldwide', 'soon_worldwide_pane');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Soon worldwide';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Title (excluded) */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Country (excluded) */
+  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
+  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
+  $handler->display->display_options['fields']['field_country']['ui_name'] = 'Country (excluded)';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
+  /* Field: City (Overridden) */
+  $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
+  $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
+  $handler->display->display_options['fields']['field_city']['ui_name'] = 'City (Overridden)';
+  $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_city']['alter']['text'] = '<span class="contest_head">
+ <span class="contest_title">[title]</span><br />
+ <span class="contest_place">[field_country], [field_city]</span>
+</span>
+<span class="valign"></span>';
+  $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
+  /* Field: First photo */
+  $handler->display->display_options['fields']['field_contest_photos']['id'] = 'field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['table'] = 'field_data_field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['field'] = 'field_contest_photos';
+  $handler->display->display_options['fields']['field_contest_photos']['ui_name'] = 'First photo';
+  $handler->display->display_options['fields']['field_contest_photos']['label'] = '';
+  $handler->display->display_options['fields']['field_contest_photos']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_contest_photos']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_contest_photos']['settings'] = array(
+    'image_style' => 'frontpage_event_padding',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_contest_photos']['group_column'] = 'entity_id';
+  $handler->display->display_options['fields']['field_contest_photos']['group_columns'] = array(
+    'fid' => 'fid',
+  );
+  $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
+  /* Field: Nid - excluded */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['ui_name'] = 'Nid - excluded';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Dates (excluded) */
+  $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Dates (excluded)';
+  $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
+  $handler->display->display_options['fields']['field_dates']['settings'] = array(
+    'format_type' => 'long',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Pilots in waiting list (excluded) */
+  $handler->display->display_options['fields']['view_confirmed_pilots']['id'] = 'view_confirmed_pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['field'] = 'view_confirmed_pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['ui_name'] = 'Pilots in waiting list (excluded)';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['label'] = '';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['view_confirmed_pilots']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_confirmed_pilots']['status'] = '1';
+  /* Field: Confirmed pilots (overriden) */
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['id'] = 'view_confirmed_pilots_1';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['field'] = 'view_confirmed_pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['ui_name'] = 'Confirmed pilots (overriden)';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['label'] = '';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['alter']['text'] = '<div class="views-field-view"><div class="views-row">
+ <div class="views-field-dates">[field_dates]</div>
+ <div class="view_confirmed_pilots view_confirmed_pilots_1">[view_confirmed_pilots_1]</div>
+ <div class="view_confirmed_pilots">[view_confirmed_pilots]</div>
+</div></div>';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['status'] = '4';
+  /* Field: Logo */
+  $handler->display->display_options['fields']['field_logo']['id'] = 'field_logo';
+  $handler->display->display_options['fields']['field_logo']['table'] = 'field_data_field_logo';
+  $handler->display->display_options['fields']['field_logo']['field'] = 'field_logo';
+  $handler->display->display_options['fields']['field_logo']['ui_name'] = 'Logo';
+  $handler->display->display_options['fields']['field_logo']['label'] = '';
+  $handler->display->display_options['fields']['field_logo']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_logo']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_logo']['settings'] = array(
+    'image_style' => 'event_logo',
+    'image_link' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['ui_name'] = 'Content published';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Content type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_contest' => 'pg_contest',
+  );
+  /* Filter criterion: Start date */
+  $handler->display->display_options['filters']['field_dates_value']['id'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['table'] = 'field_data_field_dates';
+  $handler->display->display_options['filters']['field_dates_value']['field'] = 'field_dates_value';
+  $handler->display->display_options['filters']['field_dates_value']['ui_name'] = 'Start date';
+  $handler->display->display_options['filters']['field_dates_value']['operator'] = '>';
+  $handler->display->display_options['filters']['field_dates_value']['default_date'] = 'now';
   $translatables['frontpage_events'] = array(
     t('Master'),
     t('Live events'),
@@ -5471,13 +5700,14 @@ return array($event_id);';
  <span class="contest_place">[field_country], [field_city]</span>
 </span>
 <span class="valign"></span>'),
-    t('<div class="views-field-view"><div class="views-row">
- <div class="views-field-dates">[field_dates]</div>
- <div class="view_confirmed_pilots">[view_confirmed_pilots]</div>
- <div class="view_confirmed_pilots view_confirmed_pilots_1">[view_confirmed_pilots_1]</div>
-</div></div>'),
+    t('View'),
     t('View panes'),
     t('Soon worldwide'),
+    t('<div class="views-field-view"><div class="views-row">
+ <div class="views-field-dates">[field_dates]</div>
+ <div class="view_confirmed_pilots view_confirmed_pilots_1">[view_confirmed_pilots_1]</div>
+ <div class="view_confirmed_pilots">[view_confirmed_pilots]</div>
+</div></div>'),
   );
   $export['frontpage_events'] = $view;
 

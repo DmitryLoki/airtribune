@@ -3173,8 +3173,10 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0;}
 .front_live_events .views-row:hover .views-field-field-logo { display: block;}
 
-.front_live_events .view_confirmed_pilots { float: left; width: 50%; color: #788896; font: 11px/11px Verdana, Geneva, sans-serif;}
-.front_live_events .view_confirmed_pilots div:first-child { width: 45px; text-align: left; font-size: 26px; font-weight: bold; float: left;}
+.front_live_events .view_confirmed_pilots { float: left; width: 50%; color: #a3b9cc; font: 10px/11px Verdana, Geneva, sans-serif; padding-top: 3px;}
+.front_live_events .view_confirmed_pilots_1 { color: #c8d40e}
+.front_live_events .view_confirmed_pilots .plural_text { margin-left: 49px; padding-top: 3px;}
+.front_live_events .view_confirmed_pilots .number { width: 44px; text-align: right; float: left; font: bold 26px/26px Verdana, Geneva, sans-serif;}
 
 .front_live_events .file a,
 .front_live_events .time,

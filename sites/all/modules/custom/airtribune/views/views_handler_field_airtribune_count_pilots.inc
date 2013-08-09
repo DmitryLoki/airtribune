@@ -48,7 +48,7 @@ class views_handler_field_airtribune_count_pilots extends views_handler_field_en
       }
       return array(
         '#theme' => 'container',
-        '#markup' => '<div>' . $result . '</div><div>' . $plural_text . '</div>',
+        '#markup' => '<div class="number">' . $result . '</div><div class="plural_text">' . $plural_text . '</div>',
         '#attributes' => array('class' => array('pilots-count')),
       );
     }

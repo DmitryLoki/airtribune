@@ -440,6 +440,9 @@ function airtribune_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->subtype == 'frontpage_events-live_events_pane') {
     $vars['title'] .= l(t('View all'), 'events/current');
   }
+  if ($vars['pane']->subtype == 'frontpage_events-soon_worldwide_pane') {
+    $vars['title'] .= l(t('View all'), 'events/next');
+  }
 
   // Add 'view more' links to panes.
   if (isset($configuration['more'], $vars['display']->args[0])) {
