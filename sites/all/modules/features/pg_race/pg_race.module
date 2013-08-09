@@ -137,7 +137,7 @@ function get_last_day_number_in_contest($contest_node) {
 function get_opt_distance_from_core($entity, $action) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   // load contest (og node)
-  $contest = ($wrapper->og_group_ref->value()[0]);
+  $contest = reset($wrapper->og_group_ref->value());
   // load core id for this contest
   $contest_core_id = !empty($contest->field_core_id['und']['0']['value']) ? $contest->field_core_id['und']['0']['value'] : NULL;
 
@@ -186,7 +186,7 @@ function pg_race_form_validate(&$form, &$form_state) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
   // Load contest (og node).
-  $contest = $wrapper->og_group_ref->value()[0];
+  $contest = reset($wrapper->og_group_ref->value());
   // Get id of entity. If id = null, then its new created entity.
   $id = $wrapper->id->value();
 
