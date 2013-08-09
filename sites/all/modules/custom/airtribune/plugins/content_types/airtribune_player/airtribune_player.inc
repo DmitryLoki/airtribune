@@ -102,7 +102,7 @@ function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $op
   $mapWidget = isset($options['mapWidget']) ? 'mapWidget: "' . $options['mapWidget'] . '",' : '';
   $isOnline = isset($options['isOnline']) ? ' isOnline: ' . $options['isOnline'] . ',' : '';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
-  $apiDomain = isset($options['apiDomain']) ? $ $options['apiDomain'] : at_core_sync_get_api_url();
+  $apiDomain = isset($options['apiDomain']) ? $ $options['apiDomain'] : variable_get('at_core_sync_address', 'http://api.airtribune.com');
   $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
   $mode = isset($options['mode']) ? ' mode: "' . $options['mode'] . '",' : '';
   $titleUrl = isset($options['titleUrl']) ? ' titleUrl: "' . $options['titleUrl'] . '",' : '';
