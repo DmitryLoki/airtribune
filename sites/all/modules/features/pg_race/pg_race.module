@@ -176,30 +176,107 @@ function pg_race_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * Allow to users set race numbers only in chronically natural order.
+ * @see #3370
+ */
 function pg_race_form_validate(&$form, &$form_state) {
   $values = &$form_state['values'];
   $race = $values['entity'];
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
-  // load contest (og node)
+  // Load contest (og node).
   $contest = $wrapper->og_group_ref->value()[0];
-
-  $race_numbers = get_races_for_contest($contest, TRUE);
-  $submitted_day_num = $wrapper->field_race_number->value();
+  // Get id of entity. If id = null, then its new created entity.
   $id = $wrapper->id->value();
 
-  // Check, if race updated, & race number is changed with previous state.
-  if (!empty($id) && $submitted_day_num != $race_numbers[$id]) {
-    // Submitted day number already used?
-    if (in_array($submitted_day_num, $race_numbers)) {
+  // Get race numbers in chronically order (based on keys - ids in database).
+  $race_numbers = get_races_for_contest($contest, TRUE);
+  ksort($race_numbers);
+
+  $prefer_day_num = end($race_numbers) + 1;
+  $submitted_day_num = $wrapper->field_race_number->value();
+
+  // If day number is not set (or set to 0), change it to preferred day number.
+  if ($submitted_day_num == 0) {
+    form_set_value($form['field_race_number'], array(LANGUAGE_NONE => array(0 => array('value' => $prefer_day_num))), $form_state);
+    $submitted_day_num = $prefer_day_num;
+  }
+
+  // New race inserted.
+  if (empty($id)) {
+    if ($submitted_day_num <= end($race_numbers)) {
       form_set_error('field_race_number',
-        t('The race number "@submitted_day_num" already taken, you can use "@prefer_day_num"', array(
-          '@submitted_day_num' => $submitted_day_num,
-          '@prefer_day_num' => (end($race_numbers)+1)
+        t('Race number must be greater, than previous race day. You can use "@prefer_day_num".', array(
+          '@prefer_day_num' => $prefer_day_num
         ))
       );
     }
   }
+
+  // Race updated & race number is changed with previous state.
+  elseif (!empty($id) && $submitted_day_num != $race_numbers[$id]) {
+    // Submitted day is not used, we must check next & prev races to chronically order.
+    // Set the pointer of races array to first element.
+    reset($race_numbers);
+    // Find the pointer of races array to current race.
+    while (key($race_numbers) !== (int) $race->id) {
+      next($race_numbers);
+      //$val = next($race_numbers);
+      //$key = key($race_numbers);
+    }
+
+    /* buggy code
+    $next_num = next($race_numbers);
+    $next_key = key($race_numbers);
+    // because next() change pointer at array, we use prev() twice.
+    prev($race_numbers);
+    $prev_num = prev($race_numbers);
+    $prev_key = key($race_numbers);
+    */
+
+    // Clone array, to avoid problem with using prev() on NULL pointer, see code above.
+    $race_numbers2 = $race_numbers;
+    $next_num = next($race_numbers);
+    $next_key = key($race_numbers);
+    $prev_num = prev($race_numbers2);
+    $prev_key = key($race_numbers2);
+
+    // Handling returning NULL by prev()/next() for first/last element in array.
+    if ($prev_num == NULL) {
+      $prev_num = $race_numbers[$id] - 1;
+    }
+    if ($next_num == NULL) {
+      $next_num = 100;
+    }
+
+    $error = NULL;
+
+    // Day before.
+    if (!empty($prev_num) && $prev_num > $submitted_day_num) {
+      $error .= 'Race number must be greater, than previous race day. ';
+    }
+    // Day after.
+    if (!empty($next_num) && $next_num < $submitted_day_num) {
+      $error = 'Race number must be lower, than next race day. ';
+    }
+    // Day number already used.
+    if (in_array($submitted_day_num, $race_numbers)) {
+      $error = 'This race number already taken. ';
+    }
+
+    if ($error) {
+      form_set_error('field_race_number',
+        t($error . 'You can use numbers in range @prev_num...@next_num.',
+          array(
+            '@prev_num' => $prev_num + 1,
+            '@next_num' => $next_num - 1,
+          )
+        )
+      );
+    }
+
+  } // Race updated code end
 }
 
 /**
