@@ -109,6 +109,16 @@ function drush_airtribune_set_environment($site_state = FALSE) {
   sleep(1);
   drupal_flush_all_caches();
 
+  if ($site_state == 'development') {
+    $step++;
+    drush_print("\n$step. Reset admin password...");
+    sleep(1);
+    db_update('users')
+      ->fields(array('pass' => "\$S\$D.PGNZ40LDzKdblKp2E3j/rXtarzEgcKG7FdQ4mkaZIX5DVSjuK2"))
+      ->condition('uid', 1)
+      ->execute();
+  }
+
   // Finish.
   echo "\n";
   watchdog('airtribune', "Site moved to $site_state state", array(), WATCHDOG_NOTICE, l('View status report', 'admin/reports/status'));
