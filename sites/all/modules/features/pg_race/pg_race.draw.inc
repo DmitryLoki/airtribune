@@ -81,7 +81,7 @@ function _at_draw_get_waypoints($race_id) {
     
     $pg_racetype_entity = $wrapper->{AIRTRIBUNE_PG_RACETYPE_REF_FIELD}->value();
     
-    if (empty($pg_racetype_entity) || !isset($pg_racetype_entity->{AIRTRIBUNE_PG_RACE_POINTS_FIELD})) {
+    if (empty($pg_racetype_entity) || !isset($pg_racetype_entity->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}) || $pg_racetype_entity->type == 'pg_racetype_od') {
       return;
     }
     $pg_racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $pg_racetype_entity);
