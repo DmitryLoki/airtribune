@@ -49,14 +49,14 @@ function pg_race_entity_presave($entity, $type) {
 
 function pg_race_entity_insert($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    recount_race_number($entity, 'insert');
+    get_opt_distance_from_core($entity, 'insert');
   }
 }
 
 function pg_race_entity_update($entity, $type) {
   if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    recount_race_number($entity, 'update');
-    
+    get_opt_distance_from_core($entity, 'update');
+
     $race_id = $entity->id;
     $files_path = variable_get('file_public_path', conf_path() . '/files');
     $files_path .= '/pg_race_preview';
@@ -64,12 +64,6 @@ function pg_race_entity_update($entity, $type) {
     if (file_exists($path)) {
       unlink($path);
     }
-  }
-}
-
-function pg_race_entity_delete($entity, $type) {
-  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
-    recount_race_number($entity, 'delete');
   }
 }
 
@@ -140,62 +134,37 @@ function get_last_day_number_in_contest($contest_node) {
   return $day_number;
 }
 
-function recount_race_number($entity, $action) {
+function get_opt_distance_from_core($entity, $action) {
   $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   // load contest (og node)
   $contest = ($wrapper->og_group_ref->value()[0]);
-  // load all created races for this contest
-  $races_ids = get_races_ids_for_contest($contest);
   // load core id for this contest
   $contest_core_id = !empty($contest->field_core_id['und']['0']['value']) ? $contest->field_core_id['und']['0']['value'] : NULL;
 
-  // if race deleted, then we must remove this id from recount list
-  if ($action == 'delete' && ($key = array_search($entity->id, $races_ids)) !== false) {
-    unset($races_ids[$key]);
-  }
-
   $ch = curl_init();
-  $race_counter = 0;
 
-  // Load races entities.
-  $race_entities = get_races_for_contest($contest);
-  $race_numbers = get_races_for_contest($contest, TRUE);
-  foreach ($races_ids as $race) {
-    // load race entity
-    $current_race = $race_entities[$race];
-    // change race number field
-    if ($entity->id == $current_race->id && $current_race->field_race_number['und']['0']['value'] != 0) {
-      if ($action == 'insert' || $action == 'update') {
-        //$current_race->field_race_number['und']['0']['value'] =  $race_counter+1;
-      }
-    } else {
-      $race_counter++;
-      $current_race->field_race_number['und']['0']['value'] = $race_counter;
-    }
-
-    // if race have not filled field with optimum distance, then try to get from CoreAPI
-    if (empty($current_race->field_optdistance['und']['0']['value'])) {
-      // try to load core id for current race
-      $race_core_id = !empty($current_race->field_core_id['und']['0']['value']) ? $current_race->field_core_id['und']['0']['value'] : NULL;
-      // connect to CoreAPI & get info for current race (race start time, optimum distance, checkpoints, etc)
-      curl_setopt_array($ch, array(
-        CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
-        CURLOPT_RETURNTRANSFER => TRUE,
-        CURLOPT_TIMEOUT => 10,
-      ));
-      $ch_exec = curl_exec($ch);
-      // if we get correct data from CoreAPI
-      if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
-        if ($optdistance = $core_race_data['optdistance']) {
-          // write the optimum distance to field_optdistance & save(update) race entity
-          $current_race->field_optdistance['und']['0']['value'] = $optdistance;
-        }
+  // if race have not filled field with optimum distance, then try to get from CoreAPI
+  if (empty($entity->field_optdistance['und']['0']['value'])) {
+    // try to load core id for current race
+    $race_core_id = !empty($entity->field_core_id['und']['0']['value']) ? $entity->field_core_id['und']['0']['value'] : NULL;
+    // connect to CoreAPI & get info for current race (race start time, optimum distance, checkpoints, etc)
+    curl_setopt_array($ch, array(
+      CURLOPT_URL => at_core_sync_get_api_url() . "/contest/" . $contest_core_id . "/race/" . $race_core_id,
+      CURLOPT_RETURNTRANSFER => TRUE,
+      CURLOPT_TIMEOUT => 10,
+    ));
+    $ch_exec = curl_exec($ch);
+    // if we get correct data from CoreAPI
+    if ($ch_exec && $core_race_data = drupal_json_decode($ch_exec)) {
+      if ($optdistance = $core_race_data['optdistance']) {
+        // write the optimum distance to field_optdistance & save(update) race entity
+        $entity->field_optdistance['und']['0']['value'] = $optdistance;
       }
     }
-    // save changed fields for race
-    field_attach_presave(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race);
-    field_attach_update(AIRTRIBUNE_RACE_ENTITY_TYPE, $current_race);
   }
+  // save changed fields for race
+  field_attach_presave(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  field_attach_update(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
 
   curl_close($ch);
 }
