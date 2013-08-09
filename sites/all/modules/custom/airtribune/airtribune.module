@@ -1277,3 +1277,28 @@ function _create_day_for_contest() {
     node_save($node);
   }
 }
+
+/*
+    $plugins = array(
+      'onecoltworow',
+      'onecolthreerow',
+      'twocolfourrow',
+      'fourcoltworow',
+    );
+*/
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ajax_links_api_preprocess_twocolfourrow(&$variables, $hook) {
+  if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+    $variables['theme_hook_suggestions'][] = 'twocolfourrow__ajax';
+    if ($suggestions = theme_get_suggestions(arg(), 'twocolfourrow')) {
+      // Now you can override html--ajax.tpl.php for indivdual path.
+      foreach($variables['theme_hook_suggestions'] as $suggestion) {
+        $variables['theme_hook_suggestions'][] = $suggestion . '__ajax';
+      }
+    }
+    array_pop($variables['theme_hook_suggestions']);
+  }
+}
