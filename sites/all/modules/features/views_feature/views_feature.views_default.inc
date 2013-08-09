@@ -5384,11 +5384,13 @@ return array($event_id);';
     'image_style' => 'event_logo',
     'image_link' => '',
   );
-  /* Field: Content: Dates */
+  /* Field: Dates (excluded) */
   $handler->display->display_options['fields']['field_dates']['id'] = 'field_dates';
   $handler->display->display_options['fields']['field_dates']['table'] = 'field_data_field_dates';
   $handler->display->display_options['fields']['field_dates']['field'] = 'field_dates';
+  $handler->display->display_options['fields']['field_dates']['ui_name'] = 'Dates (excluded)';
   $handler->display->display_options['fields']['field_dates']['label'] = '';
+  $handler->display->display_options['fields']['field_dates']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_dates']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_dates']['type'] = 'adapitve_dates';
   $handler->display->display_options['fields']['field_dates']['settings'] = array(
@@ -5398,20 +5400,27 @@ return array($event_id);';
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Field: Number pilots in waiting list */
+  /* Field: Number pilots in waiting list (excluded) */
   $handler->display->display_options['fields']['view_confirmed_pilots']['id'] = 'view_confirmed_pilots';
   $handler->display->display_options['fields']['view_confirmed_pilots']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['view_confirmed_pilots']['field'] = 'view_confirmed_pilots';
-  $handler->display->display_options['fields']['view_confirmed_pilots']['ui_name'] = 'Number pilots in waiting list';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['ui_name'] = 'Number pilots in waiting list (excluded)';
   $handler->display->display_options['fields']['view_confirmed_pilots']['label'] = '';
+  $handler->display->display_options['fields']['view_confirmed_pilots']['exclude'] = TRUE;
   $handler->display->display_options['fields']['view_confirmed_pilots']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_confirmed_pilots']['status'] = '1';
-  /* Field: Number confirmed pilots */
+  /* Field: Number confirmed pilots (overriden) */
   $handler->display->display_options['fields']['view_confirmed_pilots_1']['id'] = 'view_confirmed_pilots_1';
   $handler->display->display_options['fields']['view_confirmed_pilots_1']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['view_confirmed_pilots_1']['field'] = 'view_confirmed_pilots';
-  $handler->display->display_options['fields']['view_confirmed_pilots_1']['ui_name'] = 'Number confirmed pilots';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['ui_name'] = 'Number confirmed pilots (overriden)';
   $handler->display->display_options['fields']['view_confirmed_pilots_1']['label'] = '';
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_confirmed_pilots_1']['alter']['text'] = '<div class="views-field-view"><div class="views-row">
+ <div class="views-field-dates">[field_dates]</div>
+ <div class="view_confirmed_pilots">[view_confirmed_pilots]</div>
+ <div class="view_confirmed_pilots view_confirmed_pilots_1">[view_confirmed_pilots_1]</div>
+</div></div>';
   $handler->display->display_options['fields']['view_confirmed_pilots_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_confirmed_pilots_1']['status'] = '4';
   /* Sort criterion: Post date */
@@ -5462,6 +5471,11 @@ return array($event_id);';
  <span class="contest_place">[field_country], [field_city]</span>
 </span>
 <span class="valign"></span>'),
+    t('<div class="views-field-view"><div class="views-row">
+ <div class="views-field-dates">[field_dates]</div>
+ <div class="view_confirmed_pilots">[view_confirmed_pilots]</div>
+ <div class="view_confirmed_pilots view_confirmed_pilots_1">[view_confirmed_pilots_1]</div>
+</div></div>'),
     t('View panes'),
     t('Soon worldwide'),
   );

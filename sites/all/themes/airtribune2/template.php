@@ -306,6 +306,21 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if ($variables['pane']->type == 'pane_messages') {
       //print_r($variables);
   }
+  //print_r($variables['pane']);
+  switch ($variables['pane']->subtype) {
+    case 'frontpage_events-live_events_pane':
+    case 'frontpage_events-soon_worldwide_pane':
+      $variables['classes_array'][] = 'front_live_events';
+      break;
+    
+    default:
+      # code...
+      break;
+  }
+    /* If pilot status list */
+  // if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
+  //   $vars['classes_array'][] = 'page-event-pilots-status';
+  // }
 }
 /**
  * Implements preprocess_node().
