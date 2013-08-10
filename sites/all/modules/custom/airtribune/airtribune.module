@@ -223,6 +223,10 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
+    'bricks' => array(
+      'label' => t('Bricks'),
+      'field types' => array('image'),
+    ),
   );
 }
 
@@ -246,6 +250,34 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         );
       }
       break;
+
+    case 'bricks':
+
+      $variants = array(
+        array('event_blog_teaser_first'),
+        array('event_blog_teaser_second'),
+        array('event_blog_teaser_third', 'event_blog_teaser_fourth'),
+        array('event_blog_teaser_fifth', 'event_blog_teaser_sixth'),
+        array('event_blog_teaser_first', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth'),
+        array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth'),
+        array('event_blog_teaser_first', 'event_blog_teaser_seventh'),
+        array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_seventh'),
+        array('event_blog_teaser_third', 'event_blog_teaser_fourth', 'event_blog_teaser_fourth', 'event_blog_teaser_seventh'),
+      );
+      $variant_index = count($items) - 1;
+      $image_styles = isset($variants[$variant_index]) ? $variants[$variant_index] : end($variants);
+      $default_image_style = end($image_styles);
+
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'image_formatter',
+          '#item' => $item,
+          '#image_style' => isset($image_styles[$delta]) ? $image_styles[$delta] : $default_image_style,
+        );
+      }
+      break;
+
+
   }
 
   return $element;
