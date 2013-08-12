@@ -6,29 +6,6 @@
  */
 
 /**
- * Implements hook_entity_info_alter().
- * By now, we hardcode the controller class change.
- * We assume also, that each entityreference field may contain just 1 value.
- * @todo bring this into admin interface
- * @todo cater for og controller
- * @param array $entity_info
- */
-function at_entity_cascade_entity_info_alter(&$entity_info) {
-  // @todo Remove next line.
-  //return;
-  /*foreach ($entity_info as $key => $entity_info_entity) {
-    if ($entity_info_entity['controller class'] == 'EntityAPIController') {
-      $entity_info[$key]['controller class'] = 'CascadePointController';
-    }
-    if ($entity_info_entity['controller class'] == 'NodeController') {
-      $entity_info[$key]['controller class'] = 'NodeCascadeController';
-    }
-  }*/
-  $entity_info['ent_race']['controller class'] = 'RaceEntityController';
-  $entity_info['ent_racetype']['controller class'] = 'RacetypeEntityController';
-}
-
-/**
  * Interface for controllers that support cascading deletion of entities.
  */
 interface CascadePointInterface {
@@ -394,9 +371,14 @@ abstract class CascadeEntityController extends EntityAPIController {
   
   public $referenceField;
   
+  /**
+   * Implements deletion of related entities, linked through $referenceField of 
+   * entityreference type,
+   * which belongs to the entity for which controller is implemented.
+   * @param array $ids
+   * @param DatabaseTransaction $transaction
+   */
   public function delete ($ids, DatabaseTransaction $transaction = NULL) {
-    // Remove racetype, and waypoints.
-    // 1. Get racetype (do we need just ids or full objects?)
     $entities = entity_load($this->entityType, $ids);
     $references = array();
     foreach ($entities as $entity) {
@@ -408,22 +390,9 @@ abstract class CascadeEntityController extends EntityAPIController {
       }
     }
     $references = array_unique($references);
-    dpm($references);
     $field_info = field_info_field($this->referenceField);
     $target_entity_type  = $field_info['settings']['target_type'];
     entity_delete_multiple($target_entity_type, $references);
     parent::delete($ids, $transaction);
   }
-}
-
-class RacetypeEntityController extends CascadeEntityController {
-  
-  public $referenceField = 'field_pg_race_points';
-  
-}
-
-class RaceEntityController extends CascadeEntityController {
-  
-  public $referenceField = 'field_pg_racetype_ref';
-  
 }
