@@ -169,6 +169,25 @@ function _d($var) {
 
 
 /**
+ * _at_sync_debug function
+ * 
+ * $var - variable for debug
+ * $url - Core API url for debug
+ */
+function _asd($var, $url = NULL) {
+  $debug = variable_get('at_core_sync_debug_mode', 0);
+  if ($debug) {
+    ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
+    $message = '';
+    if (isset($url)) {
+      ATSync::setMessage("<strong>URL:</strong>&nbsp;" . at_core_sync_get_api_url() . '/' . $url, 'warning');
+    }
+    ATSync::setMessage("<strong>Request:</strong>&nbsp;" . print_r($var, TRUE), 'warning');
+  }
+}
+
+
+/**
  * Implements hook_action_info()
  */
 function at_core_sync_action_info() {
