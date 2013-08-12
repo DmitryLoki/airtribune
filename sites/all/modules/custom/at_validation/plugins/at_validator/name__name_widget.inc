@@ -25,39 +25,45 @@ function at_validation_validator__name__name_widget_after_build($element, &$form
     unset($element[$component]['#ajax_processed']);
     $element[$component] = ajax_process_form($element[$component], $form_state);
   }
-  
+
   return $element;
 }
 
 function at_validation_validator__name__name_widget_id($element, $triggering_element, &$errors) {
   $component = end($triggering_element['#array_parents']);
-  
-  
+
+
   $field_label = $element['#title'];
   $triggering_title = $triggering_element['#title'];
-  
+
   // Check all messages and show only those that correspond to the triggering element, if any,
   // or link message to another id.
-  
+
   // TODO:
   // 
-  
+
   $patterns = array();
-  
-  
-  $blank = t('%name also requires the following parts: %components.', array('%name' => t($field_label), '%components' => '_blank_'));
+
+
+  $blank = t('%name also requires the following parts: %components.', array(
+    '%name' => t($field_label),
+    '%components' => '_blank_'
+  ));
   $blank = explode('_blank_', $blank);
   $patterns['components_blank'] = $blank[0];
-  $patterns['components_check'] = t('%name also requires the following parts: %components.', array('%name' => $field_label, '%components' => $triggering_title));
+  $patterns['components_check'] = t('%name also requires the following parts: %components.', array(
+    '%name' => $field_label,
+    '%components' => $triggering_title
+  ));
   $patterns['field_required'] = t('%name is required.', array('%name' => $field_label));
-  
+
   if (!empty($errors)) {
     foreach ($errors as $k => $error) {
       // If message relates to only one element and this element doesn't correspond
       // to the triggering one, then skip it.
-      
+
       // Else if this element corresponds to the triggering one, return this message.
-      
+
       // Else if message is common for a number of elements, choose the most appropriate element
       // and return the message.
       if (strpos($error, $patterns['components_blank']) !== FALSE) {
@@ -80,7 +86,7 @@ function at_validation_validator__name__name_widget_id($element, $triggering_ele
       // Else if neither case found, return the message and link to the triggering element.
     }
   }
-  
+
   $selector = '#' . $element['#id'] . '-' . $component;
   return $selector;
 }

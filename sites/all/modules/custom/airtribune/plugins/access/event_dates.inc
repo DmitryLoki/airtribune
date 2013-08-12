@@ -70,5 +70,8 @@ function airtribune_event_dates_access_check($conf, $context) {
  * Provide a summary description based upon the checked event status.
  */
 function airtribune_event_dates_access_check_access_summary($conf, $context) {
-  return t('@identifier is a @status event', array('@identifier' => $context->identifier, '@status' => $conf['status']));
+  return t('@identifier is a @status event', array(
+    '@identifier' => $context->identifier,
+    '@status' => $conf['status']
+  ));
 }

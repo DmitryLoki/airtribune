@@ -17,7 +17,8 @@ function jcarousel_formatter_field_formatter_info() {
         'full_image_style' => 'jcarousel-thumbnail',
         'full_image_modal' => 'file',
         'jcarousel_formatter_skin' => 'default',
-        'jcarousel_formatter_orientation' => 'horizontal',),
+        'jcarousel_formatter_orientation' => 'horizontal',
+      ),
     ),
   );
 }
@@ -40,10 +41,10 @@ function jcarousel_formatter_field_formatter_view($entity_type, $entity, $field,
 
     // Get thumbnails.
     $thumbnail = theme('image_style', $variables = array(
-      'style_name' => $display['settings']['jcarousel_image_style'],
-      'path'       => $item['uri'],
-      'alt'        => (!empty($item['alt'])) ? check_plain($item['alt']) : $entity->title,
-      'title'      => (!empty($item['title'])) ? check_plain($item['title']) : $entity->title,
+        'style_name' => $display['settings']['jcarousel_image_style'],
+        'path' => $item['uri'],
+        'alt' => (!empty($item['alt'])) ? check_plain($item['alt']) : $entity->title,
+        'title' => (!empty($item['title'])) ? check_plain($item['title']) : $entity->title,
       )
     );
 
@@ -61,11 +62,12 @@ function jcarousel_formatter_field_formatter_view($entity_type, $entity, $field,
     // Create the items.
     if (!empty($path)) {
       $items[$delta] = l($thumbnail, $path, array(
-        'html' => TRUE,
-        'attributes' => array(
-          'title' =>  !empty($item['title']) ? check_plain($item['title']) : check_plain($entity->title),
-          'rel' => 'gallery-' . $entity->nid,
-          'class' => (!empty($display['settings']['full_image_modal'])) ? $display['settings']['full_image_modal'] : 'no-modal'),
+          'html' => TRUE,
+          'attributes' => array(
+            'title' => !empty($item['title']) ? check_plain($item['title']) : check_plain($entity->title),
+            'rel' => 'gallery-' . $entity->nid,
+            'class' => (!empty($display['settings']['full_image_modal'])) ? $display['settings']['full_image_modal'] : 'no-modal'
+          ),
         )
       );
     }
@@ -140,7 +142,8 @@ function jcarousel_formatter_field_formatter_settings_form($field, $instance, $v
     '#default_value' => $settings['jcarousel_formatter_orientation'],
     '#options' => array(
       'horizontal' => t('Horizontal'),
-      'vertical' => t('Vertical')),
+      'vertical' => t('Vertical')
+    ),
   );
 
   // If colorbox or lightbox2 modules are enabled, we add these choices.

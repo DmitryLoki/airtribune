@@ -24,7 +24,7 @@ function calculate_hotels_distance_drush_command() {
 /**
  * Command callback: calculate hotels distances.
  *
- *  @param int $nid
+ * @param int $nid
  *   The node ID.
  */
 function drush_calculate_hotels_distance($nid) {
@@ -92,6 +92,6 @@ function drush_calculate_hotels_distance($nid) {
     drush_print_table($rows, TRUE);
   }
 
-  drush_log('Found hotels: ' . $total , 'status');
+  drush_log('Found hotels: ' . $total, 'status');
   drush_log('Execution time: ' . timer_read(__FUNCTION__) . ' ms', 'status');
 }

@@ -70,8 +70,6 @@ function airtribune_airtribune_event_links_content_type_render($subtype, $conf, 
   }
 
 
-
-
   $content['links'] = array(
     '#theme' => 'links',
     '#links' => $links,

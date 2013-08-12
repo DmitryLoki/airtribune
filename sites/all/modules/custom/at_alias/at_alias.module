@@ -2,13 +2,13 @@
 
 /**
  * See issue2686.
- * 
+ *
  * Accommodation aliases are updated in case:
  * - Accommodation added
  * - Accommodation deleted
  * - Accommodation name changed
  * - Event alias changed
- * 
+ *
  * Same for Activity
  */
 
@@ -27,7 +27,7 @@ function _at_alias_create_alias($node) {
     case AIRTRIBUNE_ACTIVITY_TYPE :
       _al_alias_create_object_aliases($node);
       break;
-    
+
     // pg_contest alias
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       // TODO: Move contents of the following function into the current one.
@@ -35,7 +35,7 @@ function _at_alias_create_alias($node) {
       // TODO: Move alias generation from pg_contest feature
       break;
   }
-  
+
   // TODO:
 }
 
@@ -43,7 +43,7 @@ function _at_alias_create_alias($node) {
  * Generic function for deleting custom aliases.
  */
 function _at_alias_delete_alias($node) {
-  
+
   switch ($node->type) {
     // accommodation and activity alias
     case AIRTRIBUNE_ACCOMMODATION_TYPE :
@@ -53,7 +53,7 @@ function _at_alias_delete_alias($node) {
       //$pattern = "event/%/map/{$subalias}/{$node->nid}";
       $source = "event/%/map/{$node->nid}";
       $alias = "%/map/{$subalias}/%";
-      
+
       // Delete accomodation aliases.
       db_delete('url_alias')
         ->condition('source', $source, 'LIKE')
@@ -61,8 +61,8 @@ function _at_alias_delete_alias($node) {
         ->execute();
       // TODO:
       break;
-    
-    
+
+
     // pg_contest alias
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       // type => subalias
@@ -82,11 +82,11 @@ function _at_alias_delete_alias($node) {
           ->condition('source', $source, 'LIKE')
           ->execute();
       }
-      
+
       // TODO: Move alias generation from pg_contest feature
       break;
   }
-  
+
   // TODO: Add case check.
   // Remove case check from hook. Or change this one.
 
@@ -98,14 +98,14 @@ function _at_alias_delete_alias($node) {
  */
 function _at_alias_exists($pattern) {
   // TODO: Add case
-  
+
   $query = db_select('url_alias', 'a')
     ->fields('a')
     ->condition('source', $pattern, 'LIKE')
     ->execute()
     ->fetchAll();
   return !empty($query);
-  
+
 }
 
 /**
@@ -117,7 +117,7 @@ function _at_alias_clear_string($string) {
   if (function_exists('pathauto_cleanstring') && !empty($string)) {
     $path = pathauto_cleanstring($string);
   }
-  
+
   return !empty($path) ? $path : FALSE;
 }
 
@@ -132,8 +132,8 @@ function _at_alias_related_events($node) {
     // continue for accommodation/activity events
     return;
   }
-  
-  
+
+
   $nids = array();
 
 
@@ -143,13 +143,13 @@ function _at_alias_related_events($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   $location = $wrapper->{AIRTRIBUNE_LOCATION_FIELD}->value();
-  
+
   $location_table = 'field_data_' . AIRTRIBUNE_HQ_LOCATION_FIELD;
   $sql = "SELECT location.* FROM $location_table location WHERE bundle = :bundle AND
   ST_Distance(ST_Point(location.field_hq_location_lon, field_hq_location_lat)::geography, ST_Point(:lon, :lat)::geography) < :distance";
   //ST_Distance(ST_Point(location.field_location_lon, field_location_lat)::geography, ST_Point(:lon, :lat)::geography) < :distance";
-  
-  
+
+
   // Get contest accomodation.
   $query = db_query($sql, array(
     ':bundle' => AIRTRIBUNE_PG_CONTEST_TYPE,
@@ -157,15 +157,15 @@ function _at_alias_related_events($node) {
     ':lon' => $location['lon'],
     ':distance' => 30000,
   ));
-  
+
   $result = $query->fetchAll();
-  
-  
+
+
   //$nids = array();
   foreach ($result as $row) {
     $nids[] = $row->entity_id;
   }
-  
+
   return $nids;
 }
 
@@ -177,28 +177,28 @@ function _at_alias_related_objects($node, $object_type) {
   if ($node->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
     return;
   }
-  
+
   $nids = array();
   switch ($object_type) {
     case 'accommodations' :
-     $bundle = AIRTRIBUNE_ACCOMMODATION_TYPE;
-     //$nids[] = 5455;
-     break;
+      $bundle = AIRTRIBUNE_ACCOMMODATION_TYPE;
+      //$nids[] = 5455;
+      break;
     case 'activities' :
-     $bundle = AIRTRIBUNE_ACTIVITY_TYPE;
-     //$nids[] = 5456;
-     break;
+      $bundle = AIRTRIBUNE_ACTIVITY_TYPE;
+      //$nids[] = 5456;
+      break;
   }
   //return $nids;
-  
-  
+
+
   $wrapper = entity_metadata_wrapper('node', $node);
   $location = $wrapper->{AIRTRIBUNE_HQ_LOCATION_FIELD}->value();
-  
+
   $location_table = 'field_data_' . AIRTRIBUNE_LOCATION_FIELD;
   $sql = "SELECT location.* FROM $location_table location WHERE bundle = :bundle AND
   ST_Distance(ST_Point(location.field_location_lon, field_location_lat)::geography, ST_Point(:lon, :lat)::geography) < :distance";
-  
+
   // Get contest object.
   $query = db_query($sql, array(
     ':bundle' => $bundle,
@@ -206,15 +206,15 @@ function _at_alias_related_objects($node, $object_type) {
     ':lon' => $location['lon'],
     ':distance' => 30000,
   ));
-  
+
   $result = $query->fetchAll();
-  
-  
+
+
   //$nids = array();
   foreach ($result as $row) {
     $nids[] = $row->entity_id;
   }
-  
+
   return $nids;
 }
 
@@ -223,23 +223,23 @@ function _at_alias_related_objects($node, $object_type) {
  * according to event coordinates.
  */
 function _at_alias_create_event_objects_aliases($node) {
-  
+
   module_load_include('inc', 'pathauto');
-  
+
   // Get alias base.
   $alias_base = _at_alias_get_event_alias($node->nid);
   // Do nothing.
   if ($alias_base == FALSE) {
     return;
   }
-  
+
   // Delete objects' aliases if any.
   // Actually we don't need to delete aliases if event is new.
   _at_alias_delete_alias($node);
-  
+
   // type => subalias
   $object_types = array('accommodations' => 'accommodations', 'activities' => 'activities');
-  
+
   foreach ($object_types as $object_type => $subalias) {
     //$object_nids = _at_alias_related_objects($node, 'accommodations');
     $object_nids = _at_alias_related_objects($node, $object_type);
@@ -255,7 +255,7 @@ function _at_alias_create_event_objects_aliases($node) {
           ->condition('source', $source, '=')
           ->execute();
         */
-        
+
         //$source = "event/{$node->nid}/map/{$subalias}/{$object_node->nid}";
         $source = "event/{$node->nid}/map/{$object_node->nid}";
         // Create object new alias.
@@ -264,8 +264,8 @@ function _at_alias_create_event_objects_aliases($node) {
         if (!$clear_title) {
           return;
         }
-        
-        
+
+
         $alias = "{$alias_base}/map/{$subalias}/{$clear_title}";
         // Save object alias for given event.
         $path = array('source' => $source, 'alias' => $alias);
@@ -280,9 +280,9 @@ function _at_alias_create_event_objects_aliases($node) {
  * Create aliases for single object (accommodation or activity).
  */
 function _al_alias_create_object_aliases($node) {
-      
+
   module_load_include('inc', 'pathauto');
-  
+
   $subalias = '';
   switch ($node->type) {
     case AIRTRIBUNE_ACCOMMODATION_TYPE :
@@ -292,13 +292,13 @@ function _al_alias_create_object_aliases($node) {
       $subalias = 'activities';
       break;
   }
-  
+
   // Do nothing.
   if (empty($subalias)) {
     return;
   }
-  
-  
+
+
   // If it is a newly created object, process further.
   if (!$node->is_new) {
     // -- Check if there exist already any aliases ("event/%/map/{$subalias}/{$node->nid}") for object.
@@ -318,8 +318,8 @@ function _al_alias_create_object_aliases($node) {
       _at_alias_delete_alias($node);
     }
   }
-  
-  
+
+
   // Get related events based on hq coordinates.
   $event_nids = _at_alias_related_events($node);
   foreach ($event_nids as $event_nid) {
@@ -328,15 +328,15 @@ function _al_alias_create_object_aliases($node) {
     if ($alias_base == FALSE) {
       return;
     }
-    
+
     // Clear title string to use as alias element.
     $clear_title = _at_alias_clear_string($node->title);
     if (!$clear_title) {
       return;
     }
-    
+
     $alias = "{$alias_base}/map/{$subalias}/{$clear_title}";
-    
+
     // Save object alias for given event.
     //$source = "event/{$event_nid}/map/{$subalias}/{$node->nid}";
     $source = "event/{$event_nid}/map/{$node->nid}";
@@ -356,13 +356,13 @@ function at_alias_node_insert($node) {
       // Create object aliases if needed.
       _at_alias_create_alias($node);
       break;
-    
+
     // pg_contest alias
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       // TODO: This should perform after alias is already created.
       // By the moment it's ok, scince hook_insert() (see pg_contest_insert)
       // is executed before hook_node_insert().
-      
+
       _at_alias_create_alias($node);
       // TODO: Move alias generation from pg_contest feature
       break;
@@ -380,7 +380,7 @@ function at_alias_node_update($node) {
       // Update accommodation aliases if needed.
       _at_alias_create_alias($node);
       break;
-    
+
     // pg_contest alias
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       // Create/Updated aliases for related objects.
@@ -402,7 +402,7 @@ function at_alias_node_delete($node) {
       // Delete object alias.
       _at_alias_delete_alias($node);
       break;
-    
+
     // pg_contest alias
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       _at_alias_delete_alias($node);
@@ -465,7 +465,7 @@ function _at_alias_get_event_alias($nid) {
   $source_base = "event/{$nid}";
   $conditions = array('source' => $source_base);
   $event_path = path_load($conditions);
-  
+
   // Return FALSE if alias doesn't exist or is empty string.
   return !empty($event_path['alias']) ? $event_path['alias'] : FALSE;
 }
