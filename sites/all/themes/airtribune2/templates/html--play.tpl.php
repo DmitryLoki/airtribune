@@ -61,6 +61,11 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $scripts; ?>
+  <style>
+    /* Temporary fix for remove title on player page */
+    .page-play h2.pane-title.block-title,
+    .page-play .to_top {display: none;}
+  </style>
 </head>
 <body class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <?php print $page_top; ?>

@@ -13,6 +13,7 @@ jQuery(function ($) {
     if (!accordion) return;
 
     accordion.option('change', filterEventFeaturesOnMap);
+    accordion.option('change', scrollToActiveTab);
 
     function filterEventFeaturesOnMap() {
       var activeAccordionBlock = accordion.active,
@@ -34,6 +35,13 @@ jQuery(function ($) {
 
       });
       eventsFeaturesLayer.redraw();
+    }
+
+    function scrollToActiveTab() {
+      var $active = $(accordion.active);
+      if ($active.length !== 0) {
+        $('body,html').animate({scrollTop: $active.offset().top}, 400);
+      }
     }
 
     filterEventFeaturesOnMap();
