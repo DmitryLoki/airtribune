@@ -1024,6 +1024,7 @@ function _day_pg_race_preview_offline_markup($data) {
     'items' => $items,
     'attributes' => $ul_attribuntes,
   );
+  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
   $output = theme('item_list', $variables);
   $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
 
