@@ -96,17 +96,53 @@ function airtribune_event_statistics_content_type_edit_form($form, &$form_state)
  * - $element
  *
  * @see airtribune-event-statistics-pane.tpl.php
+ * @see theme_airtribune_event_statistics()
  */
 function template_preprocess_airtribune_event_statistics_pane(&$vars) {
-  foreach (element_children($vars['elements']) as $key) {
-    $vars[$key] = render($vars['elements'][$key]);
-  }
+  $elements = $vars['elements'];
 
-  $vars['pilots_url'] = 'event/' . $vars['elements']['#event_id'] . '/pilots';
-  $vars['accommodations_url'] = 'event/' . $vars['elements']['#event_id'] . '/map';
-  $vars['activities_url'] = 'event/' . $vars['elements']['#event_id'] . '/map/activities';
+  $vars['pilots_url'] = 'event/' . $elements['#event_id'] . '/pilots';
+  $vars['places_url'] = 'event/' . $elements['#event_id'] . '/map';
 
-  $vars['pilots_confirmed_link'] = l(str_replace($vars['pilots_confirmed'], '', format_plural($vars['pilots_confirmed'], 'Pilot', '@count Pilots')), $vars['pilots_url']);
-  $vars['pilots_waiting_link'] = l(str_replace($vars['pilots_waiting'], '', format_plural($vars['pilots_waiting'], 'Pilot', '@count Pilots')), $vars['pilots_url']);
+  $pilots_confirmed = array(
+    '#theme' => 'airtribune_event_statistics',
+    '#count' => $elements['pilots_confirmed'],
+    '#text_1' => str_replace($elements['pilots_confirmed'], '', format_plural($elements['pilots_confirmed'], 'Pilot', '@count Pilots')),
+    '#text_2' => t('Confirmed'),
+    '#attributes' => array('class' => 'es-pilots-confirmed'),
+    '#url' => $vars['pilots_url'],
+  );
+  $vars['pilots_confirmed'] = render($pilots_confirmed);
+
+  $pilots_waiting = array(
+    '#theme' => 'airtribune_event_statistics',
+    '#count' => $elements['pilots_waiting'],
+    '#text_1' => str_replace($elements['pilots_waiting'], '', format_plural($elements['pilots_waiting'], 'Pilot', '@count Pilots')),
+    '#text_2' => t('total registered'),
+    '#attributes' => array('class' => 'es-pilots-waiting'),
+    '#url' => $vars['pilots_url'],
+  );
+  $vars['pilots_waiting'] = render($pilots_waiting);
+
+  $accommodation = array(
+    '#theme' => 'airtribune_event_statistics',
+    '#count' => $elements['accommodation'],
+    '#text_1' => t('Accommodation', array(), array('context' => 'event-statistics')),
+    '#text_2' => t('places'),
+    '#attributes' => array('class' => 'es-accommodation'),
+    '#url' => $vars['places_url'],
+  );
+  $vars['accommodation'] = render($accommodation);
+
+  $activities = array(
+    '#theme' => 'airtribune_event_statistics',
+    '#count' => $elements['activities'],
+    '#text_1' => t('Activities', array(), array('context' => 'event-statistics')),
+    '#text_2' => t('places'),
+    '#attributes' => array('class' => 'es-activities'),
+    '#url' => $vars['places_url'] . '/activities',
+  );
+
+  $vars['activities'] = render($activities);
 
 }

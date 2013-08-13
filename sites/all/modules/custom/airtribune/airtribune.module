@@ -222,6 +222,9 @@ function airtribune_theme() {
       'file' => 'event_statistics.inc',
       'render element' => 'elements',
     ),
+    'airtribune_event_statistics' => array(
+      'render element' => 'elements',
+    ),
   );
 }
 
@@ -1229,7 +1232,6 @@ function airtribune_user_pass_validate($form, &$form_state) {
 
 }
 
-
 /**
  * Count contestants.
  */
@@ -1239,4 +1241,23 @@ function airtribune_count_pilots($nid, $status = NULL) {
 
   $view->execute();
   return count($view->result);
+}
+
+/**
+ * Returns HTML for an event statistics block.
+ */
+function theme_airtribune_event_statistics($vars) {
+  $elements = $vars['elements'];
+  $output = '<div' . drupal_attributes($elements['#attributes']) . '>';
+  $output .= '<div class="es-count">' . $elements['#count'] . '</div>';
+  $output .= '<div class="es-label">';
+  if (empty($elements['#url'])) {
+    $output .= $elements['#text_1'];
+  }
+  else {
+    $output .= l($elements['#text_1'], $elements['#url'], array('context' => 'event-statistics'));
+  }
+  $output .= '<br/><span>' . t($elements['#text_2'], array(), array('context' => 'event-statistics-accommodation')) . '</span>';
+  $output .= '</div></div>';
+  return $output;
 }

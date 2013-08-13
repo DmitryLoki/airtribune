@@ -38,19 +38,24 @@ class views_handler_field_airtribune_count_pilots extends views_handler_field_en
 
       switch ($this->options['status']) {
         case AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST:
-          $plural_text = str_replace($result, '', format_plural($result, 'Pilot in waitng list', '@count Pilots in waiting list'));
+          $text_1 = str_replace($result, '', format_plural($result, 'Pilot in waitng list', '@count Pilots in waiting list'));
+          $text_2 = t('in waiting list');
           break;
 
         case AIRTRIBUNE_PG_CONTESTANT_CONFIRMED:
-          $plural_text = str_replace($result, '', format_plural($result, 'Confirmed pilot', '@count Confirmed pilots'));
+          $text_1 = str_replace($result, '', format_plural($result, 'Confirmed pilot', '@count Confirmed pilots'));
+          $text_2 = t('confirmed');
           break;
-
       }
-      return array(
-        '#theme' => 'container',
-        '#markup' => '<div class="number">' . $result . '</div><div class="plural_text">' . $plural_text . '</div>',
-        '#attributes' => array('class' => array('pilots-count')),
+
+      $pilots = array(
+        '#theme' => 'airtribune_event_statistics',
+        '#count' => $result,
+        '#text_1' => $text_1,
+        '#text_2' => $text_2,
+        '#attributes' => array('class' => 'es-pilots-confirmed'),
       );
+      return render($pilots);
     }
   }
 
