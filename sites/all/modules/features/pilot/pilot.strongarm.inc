@@ -47,6 +47,6 @@ function pilot_strongarm() {
     'shared_fields_original_only' => 0,
   );
   $export['entity_translation_settings_profile2__pilot'] = $strongarm;
-  
+
   return $export;
 }

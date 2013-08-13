@@ -70,13 +70,12 @@ function airtribune_event_statistics_content_type_render($subtype, $conf, $panel
         ':lon' => $location['lon'],
         ':distance' => 100000,
       ));
-      $content['activities']  = $result->fetchField();
+      $content['activities'] = $result->fetchField();
     }
     else {
       throw new Exception(t('Cannot load HQ location field.'));
     }
-  }
-  catch (Exception $e) {
+  } catch (Exception $e) {
     watchdog('airtribune', 'Event statistics failed: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
     return;
   }

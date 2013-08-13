@@ -1,6 +1,6 @@
 <?php
 
- 
+
 
 $plugin = array(
   'field_type' => 'number_integer',

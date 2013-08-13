@@ -25,12 +25,12 @@ function pg_contest_form($node, $form_state) {
  * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
  */
 function pg_contest_node_presave($node) {
-  
+
   // Pathauto and path modules should never execute for events by themselves
   if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
     // Note that $node->path is empty if node is loaded/saved programmatically
     // since it is added in form_alter (see path.module)
-    
+
     // In case node is processed programmatically
     if (!empty($node->nid) && !isset($node->path)) {
       $conditions = array('source' => 'event/' . $node->nid);
@@ -44,9 +44,9 @@ function pg_contest_node_presave($node) {
       // Store path alias settings for further processing.
       $node->event_path = $node->path;
     }
-    
+
     // We don't want path and pathauto module take any action for event nodes, i.e. to create node alias.
-    
+
     // Set pathauto to FALSE to avoid pathauto_node_update_alias() processing.
     // Clear $node->path['alias'] to avoid path_node_insert() processing.
     // Remove all other path data since we don't need it any more.
@@ -56,7 +56,7 @@ function pg_contest_node_presave($node) {
 
 /**
  * Implements hook_form_node_form_alter().
- * 
+ *
  * Set default path alias values for node form.
  * TODO: Make sure that this is always fired after path_form_node_form_alter().
  */
@@ -116,7 +116,7 @@ function pg_contest_insert($node) {
   // Restrict subscription depending on Registration Switch field.
   _pg_contest_og_registration_perm($node);
 }
- 
+
 /* Implementation of hook_update
  * @param type $node
  * @see og_membership_delete_by_group()
@@ -126,13 +126,15 @@ function pg_contest_update($node) {
   // Points file check
   if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
     // Check for update file
-    if (!empty($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) && 
-          $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $node->original->field_points_file[LANGUAGE_NONE][0]['fid']) {
+    if (!empty($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) &&
+      $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $node->original->field_points_file[LANGUAGE_NONE][0]['fid']
+    ) {
       // Do nothing
-    } else {
+    }
+    else {
       //remove old points 
       $query = new EntityFieldQuery();
-      $result = $query 
+      $result = $query
         ->entityCondition('entity_type', 'ent_contest_point')
         ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $node->nid)
         ->execute();
@@ -146,7 +148,7 @@ function pg_contest_update($node) {
       }
     }
   }
-  
+
   // Create aliases
   _pg_contest_create_alias($node);
   // Restrict subscription depending on Registration Switch field.
@@ -171,10 +173,12 @@ function pg_contest_validate($node, $form, &$form_state) {
   // Points file check
   if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
     // Check for update file
-    if (!empty($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) && 
-          $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) {
+    if (!empty($form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']) &&
+      $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $form_state['node']->field_points_file[LANGUAGE_NONE][0]['fid']
+    ) {
       // Do nothing
-    } else {
+    }
+    else {
       $file = file_load($node->field_points_file[LANGUAGE_NONE][0]['fid']);
       $file_string = file_get_contents($file->uri);
       $strings = preg_split('/\v/', $file_string);
@@ -207,7 +211,7 @@ function pg_contest_validate($node, $form, &$form_state) {
 }
 
 /**
- * Parse file and create point entities 
+ * Parse file and create point entities
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_create_points($fid, $nid) {
@@ -217,7 +221,9 @@ function pg_contest_create_points($fid, $nid) {
   $strings = preg_split('/\v/', $file_string);
   foreach ($strings as $string) {
     $elements = preg_split('/\s+/', $string);
-    if ($elements[0] != 'W') continue;
+    if ($elements[0] != 'W') {
+      continue;
+    }
     $let1 = substr($elements[3], -1);
     $let2 = substr($elements[4], -1);
     if (strpos('EW', $let1) !== FALSE && strpos('NS', $let2) !== FALSE) {
@@ -226,7 +232,7 @@ function pg_contest_create_points($fid, $nid) {
     }
     elseif (strpos('EW', $let2) !== FALSE && strpos('NS', $let1) !== FALSE) {
       $lon = ($let2 == 'E') ? floatval($elements[4]) : -floatval($elements[4]);
-      $lat = ($let1 == 'N') ? floatval($elements[3]) : -floatval($elements[3]);      
+      $lat = ($let1 == 'N') ? floatval($elements[3]) : -floatval($elements[3]);
     }
     else {
       continue;
@@ -238,12 +244,12 @@ function pg_contest_create_points($fid, $nid) {
       'language' => LANGUAGE_NONE,
       'title' => $elements[1],
       'field_point_location' => array(
-        LANGUAGE_NONE  => array(
+        LANGUAGE_NONE => array(
           0 => geofield_get_values_from_geometry($coords)
         )
       ),
       'field_point_description' => array(
-        LANGUAGE_NONE  => array(
+        LANGUAGE_NONE => array(
           0 => array('value' => isset($elements[8]) ? implode(' ', array_slice($elements, 8)) : '')
         ),
       ),
@@ -260,37 +266,37 @@ function pg_contest_create_points($fid, $nid) {
  *
  */
 function _pg_contestant_path_delete($url) {
-    $criteria = path_load($url);
-    if (!empty($criteria)) {
-      $criteria = array('source' => $criteria['source']);
-      path_delete($criteria);
-    }
+  $criteria = path_load($url);
+  if (!empty($criteria)) {
+    $criteria = array('source' => $criteria['source']);
+    path_delete($criteria);
+  }
 }
 
 /**
- * Initialize urls of pages 
+ * Initialize urls of pages
  * @param $nid - node nid
  * @return array
  */
 function _pg_contest_urls_init($nid) {
-    $result = array();
-    $result['url_base'] = "event/$nid";
-    $result['url_pages'] = array(
-        '/info',
-        '/info/details',
-        '/blog',
-        '/pilots',
-        '/pilots/status',
-        '/pilots/manage',
-        '/pilots/nation',
-        '/map',
-        '/map/accommodations',
-        '/map/activities',
-        '/map/basic',
-        '/register',
-        '/results',
-    );
-    return $result;
+  $result = array();
+  $result['url_base'] = "event/$nid";
+  $result['url_pages'] = array(
+    '/info',
+    '/info/details',
+    '/blog',
+    '/pilots',
+    '/pilots/status',
+    '/pilots/manage',
+    '/pilots/nation',
+    '/map',
+    '/map/accommodations',
+    '/map/activities',
+    '/map/basic',
+    '/register',
+    '/results',
+  );
+  return $result;
 }
 
 /**
@@ -301,7 +307,7 @@ function _pg_contest_create_alias($node) {
   module_load_include('inc', 'pathauto');
   if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
     $nid = $node->nid;
-    
+
     // Check if alias is set manually.
     if (!empty($node->event_path['alias'])) {
       $alias_base = $node->event_path['alias'];
@@ -310,18 +316,18 @@ function _pg_contest_create_alias($node) {
     else {
       // See pathauto_node_update_alias().
       $options = array('language' => pathauto_entity_language('node', $node));
-      
+
       // Skip processing if the node has no pattern.
       if (!pathauto_pattern_load_by_entity('node', $node->type, $options['language'])) {
         return;
       }
-      
+
       module_load_include('inc', 'pathauto');
       $uri = entity_uri('node', $node);
       // Ask pathauto to return alias.
       $alias_base = pathauto_create_alias('node', 'return', $uri['path'], array('node' => $node), $node->type, $options['language']);
     }
-    
+
     // Do nothing if there is no alias set (otherwise we may blow away existing aliases...)
     if (empty($alias_base)) {
       return;
@@ -331,19 +337,19 @@ function _pg_contest_create_alias($node) {
     $url_base = $urls_init['url_base'];
     $url_pages = $urls_init['url_pages'];
     $aliases = array($alias_base => $url_base);
-    
+
     // Remove existing alises.
     _pg_contestant_path_delete($url_base);
     foreach ($url_pages as $source) {
-      $url_curr = $url_base . $source;  
+      $url_curr = $url_base . $source;
       _pg_contestant_path_delete($url_curr);
-      
+
       //Create aliases array
       $aliases[$alias_base . $source] = $url_curr;
     }
 
     // Save tiny aliases.
-    $tiny_path_items = field_get_items('node', $node,  AIRTRIBUNE_TINY_PATH_FIELD);
+    $tiny_path_items = field_get_items('node', $node, AIRTRIBUNE_TINY_PATH_FIELD);
     // Check that $tiny_path_items is not empty
     if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
       foreach ($tiny_path_items as $tiny_path) {
@@ -373,11 +379,11 @@ function _pg_contest_delete_alias($node) {
     $urls_init = _pg_contest_urls_init($node->nid);
     $url_base = $urls_init['url_base'];
     $url_pages = $urls_init['url_pages'];
-    
+
     // Remove existing alises.
     _pg_contestant_path_delete($url_base);
     foreach ($url_pages as $source) {
-      $url_curr = $url_base . $source;  
+      $url_curr = $url_base . $source;
       _pg_contestant_path_delete($url_curr);
     }
   }
@@ -388,32 +394,32 @@ function _pg_contest_delete_alias($node) {
  * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
  */
 function _pg_contest_og_registration_perm($node) {
-  
+
   $entity_type = $group_type = 'node';
   $bundle = $node->type;
   $gid = $node->nid;
-  
-  
+
+
   if (!og_is_group_type($entity_type, $bundle)) {
     return;
   }
-  
+
   // Do nothing if defaults are used.
   if (og_is_group_default_access($group_type, $gid)) {
     return;
   }
-  
+
   // Get non-member role id.
   $og_roles = og_roles($group_type, $bundle, $gid);
   $nonmember_rid = array_search(OG_ANONYMOUS_ROLE, $og_roles);
   if ($nonmember_rid === FALSE) {
     return;
   }
-  
+
   $grant = (isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] == 1)
-         ? 1
-         : 0;
-  
+    ? 1
+    : 0;
+
   // Set permissions.
   $permissions = array('subscribe' => $grant, 'subscribe without approval' => $grant);
   og_role_change_permissions($nonmember_rid, $permissions);
@@ -425,14 +431,14 @@ function _pg_contest_og_registration_perm($node) {
 function pg_contest_cron() {
   $now = time();
   $date = $now - 2 * 24 * 3600;
-  
+
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'pg_contest');
   $query->fieldCondition('field_dates', 'value', date("Y-m-d", $date), '<');
   $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now), '>=');
   $result = $query->execute();
-  
+
   // Close registration for selected events.
   if (!empty($result['node'])) {
     foreach ($result['node'] as $nid => $date) {
@@ -446,24 +452,24 @@ function pg_contest_cron() {
   }
 }
 
-/** 
+/**
  * Implementation of hook_field_access
  * Hide Registration switch field.
  * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
  */
 function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
-  
+
   if ($op == 'edit' && $field['field_name'] == AIRTRIBUNE_REGISTRATION_SW_FIELD && !empty($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']) && ($entity->type == AIRTRIBUNE_PG_CONTEST_TYPE)) {
     global $user;
-    
+
     $date = time() - 2 * 24 * 3600;
     // Event start date.
     $value = strtotime($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
-    
+
     // For allowed roles switch is always shown.
     $allowed_roles = array('admin');
     $intersect = array_intersect($user->roles, $allowed_roles);
-    
+
     // Hide registration switch
     if ($value < $date && empty($intersect)) {
       return FALSE;

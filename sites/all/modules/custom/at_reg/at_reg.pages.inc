@@ -18,8 +18,6 @@ function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
   // see at_reg_entity_load().
 
 
-
-  
   global $user;
   $entity_info = entity_get_info($entity_type);
   if (!$entity_type || !$entity_info) {
@@ -69,12 +67,12 @@ function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
   */
 
   $redirect = FALSE;
-  
-  if($user->uid) {
+
+  if ($user->uid) {
     $params = array();
     $params['@user'] = format_username($user);
     // Show the group name only if user has access to it.
-    $params['@group'] = entity_access('view', $entity_type, $entity) ?  entity_label($entity_type, $entity) : t('Private group');
+    $params['@group'] = entity_access('view', $entity_type, $entity) ? entity_label($entity_type, $entity) : t('Private group');
 
     if (og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_BLOCKED))) {
       // User is blocked, access denied.
@@ -95,7 +93,6 @@ function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
   }
 
 
-
   if ($redirect) {
     drupal_set_message($message);
     $url = entity_uri($entity_type, $entity);
@@ -104,17 +101,18 @@ function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
 
   if (og_user_access($entity_type, $id, 'subscribe', $user) || og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
 
-    if($user->uid) {
+    if ($user->uid) {
 
       // Set values for crossfields in case form was submitted.
       $crossfield_items = at_reg_get_crossfields_values();
       at_reg_set_crossfields_values($crossfield_items);
       // Show the user a subscription confirmation.
       $form = drupal_get_form('og_ui_confirm_subscribe', $entity_type, $id, $user, $field_name);
-    } else {
+    }
+    else {
       // Prepare registration form.
       // og_ui_confirm_subscribe() $user value will be replaced by a new one after user registration.
-      
+
       // Set multiform settings.
       $multiform = array(
         '#multiform_id' => 'contest_registration_multiform',
@@ -130,7 +128,7 @@ function at_reg_subscribe($entity_type, $node, $field_name = NULL) {
           ),
         ),
       );
-      
+
       $form = multiform_get_form($multiform);
 
       $button_keys = array_keys($form['buttons']);

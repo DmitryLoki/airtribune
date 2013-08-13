@@ -3,7 +3,7 @@
 /**
  * @file
  * Airtribune player pane plugin.
- * 
+ *
  * @author Vyacheslav Malchik <info@vkey.biz>
  * @see #3068.
  */
@@ -64,7 +64,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
 
   $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
   if (isset($widget_type) && $widget_type != 'default') {
-    $options['baseUrl'] = constant('AIRTRIBUNE_' . strtoupper($widget_type) .'_URL');
+    $options['baseUrl'] = constant('AIRTRIBUNE_' . strtoupper($widget_type) . '_URL');
     $options['mode'] = $widget_type;
     unset($options['isOnline']);
   }
@@ -76,7 +76,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-player'));
   $content['#theme_wrappers'] = array('container');
 
-  return (object)array(
+  return (object) array(
     'module' => 'airtribune',
     'content' => $content,
     'delta' => 1,
@@ -97,7 +97,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
  *    titleUrl - URL for title link
  * @return string HTML-code widget.
  */
-function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $options = array()) {
+function _airtribune_airtribune_player_get_race_widget($contestId, $raceId, $options = array()) {
   // Initialization
   $mapWidget = isset($options['mapWidget']) ? 'mapWidget: "' . $options['mapWidget'] . '",' : '';
   $isOnline = isset($options['isOnline']) ? ' isOnline: ' . $options['isOnline'] . ',' : '';
@@ -132,10 +132,9 @@ function airtribune_airtribune_player_content_type_edit_form($form, &$form_state
     '#title' => t('Widget type'),
     '#options' => $types,
     '#default_value' => !empty($conf['widget_type']) ? $conf['widget_type'] : 'default',
-   );
-   return $form;
- }
-
+  );
+  return $form;
+}
 
 
 /**
