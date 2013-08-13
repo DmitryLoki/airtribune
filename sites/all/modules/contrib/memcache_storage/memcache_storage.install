@@ -9,151 +9,139 @@
  * Implements hook_requirements().
  */
 function memcache_storage_requirements($phase) {
+
+  if ($phase != 'runtime') {
+    return array();
+  }
+
   $requirements = array();
   $t = get_t();
+
+  // Make sure that cache class is loaded properly.
+  $requirements['memcache_storage_status']['title'] = $t('Memcache Storage class');
+  if (class_exists('MemcacheStorage')) {
+    $requirements['memcache_storage_status']['severity'] = REQUIREMENT_OK;
+    $requirements['memcache_storage_status']['value'] = $t('MemcacheStorage class is loaded.');
+  }
+  else {
+    $requirements['memcache_storage_status']['severity'] = REQUIREMENT_ERROR;
+    $requirements['memcache_storage_status']['value'] = $t('MemcacheStorage class is not loaded.');
+    $requirements['memcache_storage_status']['description'] = $t('See README.txt and make sure that settings.php is configured properly.');
+  }
 
   $memcache = extension_loaded('memcache');
   $memcached = extension_loaded('memcached');
 
-  if ($phase == 'runtime') {
+  if (!$memcache && !$memcached) {
 
-    if (!$memcache) {
-      $requirements['memcache_storage_memcache_extension']['title'] = $t('Memcache Storage: PECL Memcache extension');
+    // Output information about missing memcache and memcached extensions.
+    $requirements['memcache_storage_status']['title'] = $t('Memcache Storage status');
+    $requirements['memcache_storage_status']['severity'] = REQUIREMENT_ERROR;
+    $requirements['memcache_storage_status']['value'] =
+      $t('Memcache integration is not works until PECL <a href="@url_memcache">Memcache</a> or PECL <a href="@url_memcached">Memcached</a> extension is installed.',
+        array('@url_memcache' => 'http://pecl.php.net/package/memcache', '@url_memcached' => 'http://pecl.php.net/package/memcache'));
+
+    return $requirements;
+  }
+  elseif (($memcache && !$memcached) || ($memcache && $memcached)) {
+
+    // Check memcache extension version.
+    $memcache_version = phpversion('memcache');
+    $requirements['memcache_storage_memcache_extension']['title'] = $t('Memcache Storage: PECL Memcache extension');
+    $requirements['memcache_storage_memcache_extension']['value'] = $t('Version: @version', array('@version' => $memcache_version));
+
+    // Check if current memcache extension version less then required.
+    if ($memcache_version < MEMCACHE_STORAGE_MINIMUM_MEMCACHE_VERSION) {
       $requirements['memcache_storage_memcache_extension']['severity'] = REQUIREMENT_WARNING;
-      $requirements['memcache_storage_memcache_extension']['value'] = $t('PECL <a href="@url">Memcache</a> extensions is not installed on your server.',
-        array('@url' => 'http://pecl.php.net/package/memcache'));
+      $requirements['memcache_storage_memcache_extension']['description'] =
+        $t('You should update your pecl memcache version at least up to ' . MEMCACHE_STORAGE_MINIMUM_MEMCACHE_VERSION);
     }
     else {
-      // Check memcache extension version.
-      $memcache_version = phpversion('memcache');
-      $requirements['memcache_storage_memcache_extension']['title'] = $t('Memcache Storage: PECL Memcache extension');
-      $requirements['memcache_storage_memcache_extension']['value'] = $t('Version: @version', array('@version' => $memcache_version));
-      if ($memcache_version < MEMCACHE_STORAGE_MINIMUM_MEMCACHE_VERSION) {
-        $requirements['memcache_storage_memcache_extension']['severity'] = REQUIREMENT_WARNING;
-        $requirements['memcache_storage_memcache_extension']['description'] =
-          $t('You should update your pecl memcache version at least up to ' . MEMCACHE_STORAGE_MINIMUM_MEMCACHE_VERSION);
-      }
-      else {
-        $requirements['memcache_storage_memcache_extension']['severity'] = REQUIREMENT_OK;
-      }
+      $requirements['memcache_storage_memcache_extension']['severity'] = REQUIREMENT_OK;
     }
+  }
+  elseif (($memcached && !$memcache)  || ($memcache && $memcached)) {
 
-    if (!$memcached) {
-      $requirements['memcache_storage_memcached_extension']['title'] = $t('Memcache Storage: PECL Memcached extension');
+    // Check memcached version.
+    $memcached_version = phpversion('memcached');
+    $requirements['memcache_storage_memcached_extension']['title'] = $t('Memcache Storage: PECL Memcached extension');
+    $requirements['memcache_storage_memcached_extension']['value'] = $t('Version: @version', array('@version' => $memcached_version));
+
+    // Check if current memcached extension version less then required.
+    if ($memcached_version < MEMCACHE_STORAGE_MINIMUM_MEMCACHED_VERSION) {
       $requirements['memcache_storage_memcached_extension']['severity'] = REQUIREMENT_WARNING;
-      $requirements['memcache_storage_memcached_extension']['value'] = $t('PECL <a href="@url">Memcached</a> extensions is not installed on your server.',
-        array('@url' => 'http://pecl.php.net/package/memcached'));
+      $requirements['memcache_storage_memcached_extension']['description'] =
+        $t('You should update your pecl memcache version at least up to ' . MEMCACHE_STORAGE_MINIMUM_MEMCACHED_VERSION);
     }
     else {
-      // Check memcached version.
-      $memcached_version = phpversion('memcached');
-      $requirements['memcache_storage_memcached_extension']['title'] = $t('Memcache Storage: PECL Memcached extension');
-      $requirements['memcache_storage_memcached_extension']['value'] = $t('Version: @version', array('@version' => $memcached_version));
-      if ($memcached_version < MEMCACHE_STORAGE_MINIMUM_MEMCACHED_VERSION) {
-        $requirements['memcache_storage_memcached_extension']['severity'] = REQUIREMENT_WARNING;
-        $requirements['memcache_storage_memcached_extension']['description'] =
-          $t('You should update your pecl memcache version at least up to ' . MEMCACHE_STORAGE_MINIMUM_MEMCACHED_VERSION);
+      $requirements['memcache_storage_memcached_extension']['severity'] = REQUIREMENT_OK;
+    }
+  }
+
+  // Get used extension.
+  $preferred = variable_get('memcache_extension');
+  if (!empty($preferred) && class_exists($preferred)) {
+    $extension = $preferred;
+  }
+  // If no extension is set, default to PECL Memcache.
+  elseif (class_exists('Memcache')) {
+    $extension = 'Memcache';
+  }
+  elseif (class_exists('Memcached')) {
+    $extension = 'Memcached';
+  }
+
+  $requirements['memcache_storage_using_extension']['title'] = $t('Memcache Storage: extension used');
+  $requirements['memcache_storage_using_extension']['severity'] = REQUIREMENT_OK;
+  $requirements['memcache_storage_using_extension']['value'] = $extension;
+
+  // Load available servers and its clusters from settings.php.
+  $server_list = variable_get('memcache_servers', array('127.0.0.1:11211' => 'default'));
+
+  // Create new memcache connection.
+  $memcache = new $extension();
+
+  foreach ($server_list as $server => $cluster_name) {
+
+    list($host, $port) = explode(':', $server);
+
+    // Support unix sockets in the format 'unix:///path/to/socket'.
+    if ($host == 'unix') {
+
+      // PECL Memcache supports 'unix:///path/to/socket' path in ::addServer function,
+      // while PECL Memcached use only '/path/to/socket' string for the same purpose.
+      if ($extension == 'Memcache') {
+        $host = $server;
       }
-      else {
-        $requirements['memcache_storage_memcached_extension']['severity'] = REQUIREMENT_OK;
+      elseif ($extension == 'Memcached') {
+        $host = substr($server, 7);
       }
+
+      // Port is always 0 for unix sockets.
+      $port = 0;
     }
 
-    if (!$memcache && !$memcached) {
-      $requirements['memcache_storage_status']['title'] = $t('Memcache Storage status');
-      $requirements['memcache_storage_status']['severity'] = REQUIREMENT_ERROR;
-      $requirements['memcache_storage_status']['value'] =
-        $t('Memcache integration is not works until PECL <a href="@url_memcache">Memcache</a> or PECL <a href="@url_memcached">Memcached</a> extension is installed.',
-          array('@url_memcache' => 'http://pecl.php.net/package/memcache', '@url_memcached' => 'http://pecl.php.net/package/memcache'));
+    // Adding new server for memcache connection.
+    $connected = FALSE;
+    if ($extension == 'Memcache') {
+      $connected = @$memcache->connect($host, $port);
+    }
+    elseif ($extension == 'Memcached') {
+      $connected = @$memcache->addServer($host, $port);
+    }
+
+    $server_name = check_plain($server);
+    $requirements['memcache_storage_cluster_' . $server_name]['title'] =
+      $t('Memcache Storage: server %server (%cluster cluster)', array('%server' => $server, '%cluster' => $cluster_name));
+
+    if ($connected) {
+      $requirements['memcache_storage_cluster_' . $server_name]['severity'] = REQUIREMENT_OK;
+      $requirements['memcache_storage_cluster_' . $server_name]['value'] = $t('Connected');
     }
     else {
-
-      // Get used extension.
-      $preferred = variable_get('memcache_extension');
-      if (!empty($preferred) && class_exists($preferred)) {
-        $extension = $preferred;
-      }
-      // If no extension is set, default to PECL Memcache.
-      elseif (class_exists('Memcache')) {
-        $extension = 'Memcache';
-      }
-      elseif (class_exists('Memcached')) {
-        $extension = 'Memcached';
-      }
-
-      $requirements['memcache_storage_using_extension']['title'] = $t('Memcache Storage: extension is used');
-      $requirements['memcache_storage_using_extension']['severity'] = REQUIREMENT_OK;
-      $requirements['memcache_storage_using_extension']['value'] = $extension;
-
-      // Load available servers and its clusters from settings.php.
-      $server_list = variable_get('memcache_servers', array('127.0.0.1:11211' => 'default'));
-
-      // Create new memcache connection.
-      $memcache = new $extension();
-
-      foreach ($server_list as $server => $cluster_name) {
-
-        list($host, $port) = explode(':', $server);
-
-        // Support unix sockets in the format 'unix:///path/to/socket'.
-        if ($host == 'unix') {
-
-          // PECL Memcache supports 'unix:///path/to/socket' path in ::addServer function,
-          // while PECL Memcached use only '/path/to/socket' string for the same purpose.
-          if ($extension == 'Memcache') {
-            $host = $server;
-          }
-          elseif ($extension == 'Memcached') {
-            $host = substr($server, 7);
-          }
-
-          // Port is always 0 for unix sockets.
-          $port = 0;
-        }
-
-        // Adding new server for memcache connection.
-        $connected = FALSE;
-        if ($extension == 'Memcache') {
-          $connected = $memcache->connect($host, $port);
-        }
-        elseif ($extension == 'Memcached') {
-          $connected = $memcache->addServer($host, $port);
-        }
-
-        $requirements['memcache_storage_cluster_' . $cluster_name]['title'] =
-          $t('Memcache Storage: server %server', array('%server' => $server));
-
-        if ($connected) {
-          $requirements['memcache_storage_cluster_' . $cluster_name]['severity'] = REQUIREMENT_OK;
-          $requirements['memcache_storage_cluster_' . $cluster_name]['value'] = $t('Connected');
-
-          // Do not forget to close connection.
-          if ($extension == 'Memcache') {
-            $memcache->close();
-          }
-          else {
-            $memcache->quit();
-          }
-        }
-        else {
-          $requirements['memcache_storage_cluster_' . $cluster_name]['severity'] = REQUIREMENT_ERROR;
-          $requirements['memcache_storage_cluster_' . $cluster_name]['value'] = $t('No connection');
-        }
-      }
-
-      // Check whether cache class is loaded properly.
-      $requirements['memcache_storage_status']['title'] = $t('Memcache Storage class');
-      if (class_exists('MemcacheStorage')) {
-        $requirements['memcache_storage_status']['severity'] = REQUIREMENT_OK;
-        $requirements['memcache_storage_status']['value'] = $t('MemcacheStorage class is loaded.');
-      }
-      else {
-        $requirements['memcache_storage_status']['severity'] = REQUIREMENT_ERROR;
-        $requirements['memcache_storage_status']['value'] = $t('MemcacheStorage class is not loaded.');
-        $requirements['memcache_storage_status']['description'] = $t('See README.txt and make sure that settings.php is configured properly.');
-      }
+      $requirements['memcache_storage_cluster_' . $server_name]['severity'] = REQUIREMENT_ERROR;
+      $requirements['memcache_storage_cluster_' . $server_name]['value'] = $t('No connection');
     }
-
   }
 
   return $requirements;
