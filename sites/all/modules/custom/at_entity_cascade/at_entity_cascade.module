@@ -52,8 +52,8 @@ class CascadePointController extends EntityAPIController
     // We assume that entity containing reference field is always "slave" one. 
     // First step - build cascade map.
     $this->cascade($ids);
-    dpm($this->entityInfo);
-    dpm(self::$cascadeMap);
+    //dpm($this->entityInfo);
+    //dpm(self::$cascadeMap);
     // Now we have to iteratively check and propagate blocks, until no new blocks 
     // are found.
     /*$this->checkBlocks();
