@@ -69,8 +69,9 @@ function drush_airtribune_set_environment($site_state = FALSE) {
   $step++;
   drush_print("\n$step. Enable $site_state modules...");
   sleep(1);
-  drush_set_context('PM_ENABLE_MODULES', airtribune_get_modules($site_state));
-  drush_pm_enable();
+  drush_invoke_process("@self", "pm-enable", airtribune_get_modules($site_state));
+  //drush_set_context('PM_ENABLE_MODULES', airtribune_get_modules($site_state));
+  //drush_pm_enable();
 
   $step++;
   drush_print("\n$step. Set drupal variables to $site_state state...");
@@ -143,10 +144,8 @@ function airtribune_get_modules($site_state) {
       'devel',
       'devel_generate',
       'devel_node_access',
-      'location_generate',
       'dblog',
       'update',
-      'rules_ui',
       'views_ui',
       'field_validation_ui',
     ),
