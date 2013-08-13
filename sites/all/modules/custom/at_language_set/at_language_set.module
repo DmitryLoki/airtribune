@@ -71,7 +71,8 @@ function at_language_set_boot() {
     // if cookie is set and language is EN
     if (empty($_COOKIE['language'])) {
       $language = array();
-      if (($list = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+      $http_accept_language = empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? '' : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+      if (($list = strtolower($http_accept_language))) {
         if (preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/', $list, $list)) {
           $language = array_combine($list[1], $list[2]);
           foreach ($language as $n => $v) {

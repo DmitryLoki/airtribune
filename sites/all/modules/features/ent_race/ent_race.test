@@ -1,0 +1,63 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class EntityRaceTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Race entity test',
+      'description' => 'Ensure that racetype gets deleted with race',
+      'group' => 'Airtribune',
+    );
+  }
+  
+  public function setUp() {
+    parent::setUp('entity', 'eck',  'at_entity_cascade', 'ent_race', 'ent_racetype', 'entityreference');// Turn on modules.
+    
+    $field = array(
+      'entity_types' => array('ent_race'),
+      'settings' => array(
+        'handler' => 'base',
+        'target_type' => 'ent_racetype',
+        'handler_settings' => array(
+          'target_bundles' => array(),
+        ),
+      ),
+      'field_name' => 'field_pg_racetype_ref',
+      'type' => 'entityreference',
+    );
+    $field = field_create_field($field);
+    $instance = array(
+      'field_name' => 'field_pg_racetype_ref',
+      'bundle' => 'ent_race',
+      'entity_type' => 'ent_race',
+    );
+
+    field_create_instance($instance);
+    $ei = entity_get_info('ent_race');
+    $this->verbose($ei['label']);
+    $e = entity_create('ent_race', array('title'=>'test race', 'type' => 'ent_race'));
+    $w = entity_metadata_wrapper('ent_race', $e);
+    $et = entity_create('ent_racetype', array('title'=>'test racetype', 'type' => 'ent_racetype'));
+    $wt = entity_metadata_wrapper('ent_racetype', $et);    
+    $w->field_pg_racetype_ref->set(1);
+    $w->save();
+    $wt->save();
+  }
+  
+  public function testEntityRaceCascade() {
+    $this->pass('Race Cascade');
+    $w = entity_metadata_wrapper('ent_race', 1);
+    $wt = entity_metadata_wrapper('ent_racetype', 1);
+    $this->assertEqual($w->type(), 'ent_race', 'Entity race with id 1 present');
+    $this->assertEqual($wt->type(), 'ent_racetype', 'Entity racetype with id 1 present');
+    $this->assertEqual($w->field_pg_racetype_ref->value()->id, 1, 'ent_racetype with id 1 linked to ent_race with id 1');
+    $w->delete();
+    $ent_array = entity_load('ent_racetype', array(1));
+    $this->assertTrue(empty($ent_array), 'Linked racetype deleted.');
+  }
+  
+}
