@@ -5,3 +5,21 @@
  */
 
 include_once 'ent_racetype.features.inc';
+
+/**
+ * Implements hook_entity_info_alter.
+ * @param array $entity_info 
+ */
+function ent_racetype_entity_info_alter(&$entity_info) {
+  $entity_info['ent_racetype']['controller class'] = 'RacetypeEntityController';
+}
+
+
+/**
+ * Implements cascading deletion logic.
+ */
+class RacetypeEntityController extends CascadeEntityController {
+  
+  public $referenceField = 'field_pg_race_points';
+  
+}
