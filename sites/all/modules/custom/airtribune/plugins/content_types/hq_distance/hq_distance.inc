@@ -23,7 +23,7 @@ function airtribune_hq_distance_content_type_render($subtype, $conf, $panel_args
   }
 
   $wrapper = entity_metadata_wrapper('node', $context->data);
-  if ($wrapper->value() ) {
+  if ($wrapper->value()) {
     $hq_location = $wrapper->field_hq_location->value();
     if ($hq_location) {
       $hq_location_latlon = array($hq_location['lon'], $hq_location['lat']);
@@ -41,7 +41,7 @@ function airtribune_hq_distance_content_type_render($subtype, $conf, $panel_args
 
   if (isset($hq_location_latlon, $location_latlon)) {
     $distance = airtribune_calculate_distance($hq_location_latlon, $location_latlon);
-    $content = t('HQ Dist !distance', array('!distance' => '<span class="hq-distance">' . round($distance/1000, 2) . ' km</span>'));
+    $content = t('HQ Dist !distance', array('!distance' => '<span class="hq-distance">' . round($distance / 1000, 2) . ' km</span>'));
 
     return (object) array(
       'module' => 'airtribune',

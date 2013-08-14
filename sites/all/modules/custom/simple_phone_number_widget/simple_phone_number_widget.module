@@ -21,9 +21,7 @@ function simple_phone_number_widget_field_widget_info() {
 /**
  * Implements hook_field_widget_form().
  */
-function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $field, $instance,
-  $langcode, $items, $delta, $base
-) {
+function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $base) {
   $element = $base;
 
   $widget = $instance['widget'];
@@ -45,7 +43,7 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
       if ($countrycode && isset($cc[$countrycode])) {
         $full_number = substr($cc[$countrycode]['code'], 1) . $number;
       }
-      
+
       $element['full_number'] = array(
         '#type' => 'textfield',
         '#title' => t(check_plain($instance['label'])),
@@ -61,13 +59,13 @@ function simple_phone_number_widget_field_widget_form(&$form, &$form_state, $fie
         '#value' => $countrycode,
         '#element_validate' => array('_simple_phonenumber_element_validate'),
       );
-      
+
       $element['number'] = array(
         '#type' => 'hidden',
         '#value' => $number,
         '#element_validate' => array('_simple_phonenumber_element_validate'),
       );
-      
+
       break;
   }
   return $element;
@@ -97,21 +95,22 @@ function _simple_phonenumber_validate($element, &$form_state) {
   $field_name = $element['#parents'][$pdelta];
   $language = $element['#parents'][$pdelta + 1];
   $delta = $element['#parents'][$pdelta + 2];
-  
+
   //Prepare element for validation
   if ($pdelta) {
     $element['#field_parents'][0] = $element['#parents'][$pdelta - 1];
-  } else {
+  }
+  else {
     $element['#field_parents'][0] = FALSE;
   }
   $element['#field_name'] = $field_name;
   $element['#language'] = $language;
   $element['#delta'] = $delta;
-  
+
   $countrycode = '';
   $element['#value'] = cck_phone_clean_number($element['#value']);
   $number = $element['#value'];
-  
+
   if (empty($element['#value'])) {
     $form_state['input'][$field_name][$language][$delta]['country_codes'] = FALSE;
     $form_state['values'][$field_name][$language][$delta]['country_codes'] = FALSE;
@@ -127,14 +126,14 @@ function _simple_phonenumber_validate($element, &$form_state) {
       $number = substr($element['#value'], strlen($tmp['code']) - 1);
       // Set number for validate
       $number = empty($number) ? $element['#value'] : $number;
-      
+
       $form_state['input'][$field_name][$language][$delta]['country_codes'] = $countrycode;
       $form_state['values'][$field_name][$language][$delta]['country_codes'] = $countrycode;
       $form_state['input'][$field_name][$language][$delta]['number'] = $number;
       $form_state['values'][$field_name][$language][$delta]['number'] = $number;
     }
   }
-  
+
   if ($element['#required'] && empty($element['#value'])) {
     form_error($element, t('!name field is required.', array('!name' => $element['#title'])));
   }
@@ -143,7 +142,7 @@ function _simple_phonenumber_validate($element, &$form_state) {
     'country_codes' => $countrycode,
     'number' => $number,
   );
-  
+
   cck_phone_phone_number_validate($element, $form_state);
 }
 
@@ -159,7 +158,7 @@ function _simple_phonenumber_validate($element, &$form_state) {
  */
 function _get_contry_by_phone_code($number) {
   foreach (cck_phone_countrycodes() as $cc => $value) {
-    if (strpos((string)$number, ltrim((string)$value['code'], '+')) === 0) {
+    if (strpos((string) $number, ltrim((string) $value['code'], '+')) === 0) {
       return array($cc => $value);
     }
   }

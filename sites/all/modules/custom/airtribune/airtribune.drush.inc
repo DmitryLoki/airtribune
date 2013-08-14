@@ -3,7 +3,7 @@
 /**
  * @file
  *  Airtribune module drush integration.
- * 
+ *
  * @author Chivse
  */
 
@@ -69,8 +69,9 @@ function drush_airtribune_set_environment($site_state = FALSE) {
   $step++;
   drush_print("\n$step. Enable $site_state modules...");
   sleep(1);
-  drush_set_context('PM_ENABLE_MODULES', airtribune_get_modules($site_state));
-  drush_pm_enable();
+  drush_invoke_process("@self", "pm-enable", airtribune_get_modules($site_state));
+  //drush_set_context('PM_ENABLE_MODULES', airtribune_get_modules($site_state));
+  //drush_pm_enable();
 
   $step++;
   drush_print("\n$step. Set drupal variables to $site_state state...");
@@ -109,6 +110,16 @@ function drush_airtribune_set_environment($site_state = FALSE) {
   sleep(1);
   drupal_flush_all_caches();
 
+  if ($site_state == 'development') {
+    $step++;
+    drush_print("\n$step. Reset admin password...");
+    sleep(1);
+    db_update('users')
+      ->fields(array('pass' => "\$S\$D.PGNZ40LDzKdblKp2E3j/rXtarzEgcKG7FdQ4mkaZIX5DVSjuK2"))
+      ->condition('uid', 1)
+      ->execute();
+  }
+
   // Finish.
   echo "\n";
   watchdog('airtribune', "Site moved to $site_state state", array(), WATCHDOG_NOTICE, l('View status report', 'admin/reports/status'));
@@ -133,10 +144,8 @@ function airtribune_get_modules($site_state) {
       'devel',
       'devel_generate',
       'devel_node_access',
-      'location_generate',
       'dblog',
       'update',
-      'rules_ui',
       'views_ui',
       'field_validation_ui',
     ),
@@ -148,8 +157,8 @@ function airtribune_get_modules($site_state) {
  * List of processed variables.
  */
 function airtribune_get_variables($site_state) {
-  $variables =  array(
-    'production' => array (
+  $variables = array(
+    'production' => array(
       'cache' => CACHE_NORMAL,
       'preprocess_js' => 1,
       'preprocess_css' => 1,
@@ -159,10 +168,10 @@ function airtribune_get_variables($site_state) {
       'at_core_sync_version' => 'v0.2',
       'file_temporary_path' => '/home/airtribune/data/mod-tmp'
     ),
-    'development' => array (
+    'development' => array(
       'cache' => CACHE_DISABLED,
       'preprocess_js' => 0,
-      'preprocess_css' =>  0,
+      'preprocess_css' => 0,
       'error_level' => 1,
       //'smtp_library' => drupal_get_filename('module', 'devel'),
       'at_core_sync_address' => 'http://apidev.airtribune.com',

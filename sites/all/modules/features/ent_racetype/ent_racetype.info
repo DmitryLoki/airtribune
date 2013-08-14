@@ -6,3 +6,4 @@ dependencies[] = eck
 dependencies[] = features
 features[eck_entity_type][] = ent_racetype
 features[features_api][] = api:1
+files[] = ent_racetype.test

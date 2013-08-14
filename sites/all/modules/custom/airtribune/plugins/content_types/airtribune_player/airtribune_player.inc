@@ -3,7 +3,7 @@
 /**
  * @file
  * Airtribune player pane plugin.
- * 
+ *
  * @author Vyacheslav Malchik <info@vkey.biz>
  * @see #3068.
  */
@@ -64,7 +64,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
 
   $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
   if (isset($widget_type) && $widget_type != 'default') {
-    $options['baseUrl'] = constant('AIRTRIBUNE_' . strtoupper($widget_type) .'_URL');
+    $options['baseUrl'] = constant('AIRTRIBUNE_' . strtoupper($widget_type) . '_URL');
     $options['mode'] = $widget_type;
     unset($options['isOnline']);
   }
@@ -76,7 +76,7 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-player'));
   $content['#theme_wrappers'] = array('container');
 
-  return (object)array(
+  return (object) array(
     'module' => 'airtribune',
     'content' => $content,
     'delta' => 1,
@@ -91,16 +91,18 @@ function airtribune_airtribune_player_content_type_render($subtype, $conf, $pane
  *    mapWidget - type of widget (2d, 3d and etc.)
  *    isOnline - online mode
  *    baseUrl - url hosting visualisation
+ *    apiDomain - domain of CoreAPI
  *    apiVersion - version of CoreAPI
  *    mode - widget mode (retrieve)
  *    titleUrl - URL for title link
  * @return string HTML-code widget.
  */
-function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $options = array()) {
+function _airtribune_airtribune_player_get_race_widget($contestId, $raceId, $options = array()) {
   // Initialization
   $mapWidget = isset($options['mapWidget']) ? 'mapWidget: "' . $options['mapWidget'] . '",' : '';
   $isOnline = isset($options['isOnline']) ? ' isOnline: ' . $options['isOnline'] . ',' : '';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
+  $apiDomain = isset($options['apiDomain']) ? $ $options['apiDomain'] : variable_get('at_core_sync_address', 'http://api.airtribune.com');
   $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
   $mode = isset($options['mode']) ? ' mode: "' . $options['mode'] . '",' : '';
   $titleUrl = isset($options['titleUrl']) ? ' titleUrl: "' . $options['titleUrl'] . '",' : '';
@@ -110,7 +112,10 @@ function _airtribune_airtribune_player_get_race_widget ($contestId, $raceId, $op
     <link rel=\"stylesheet\" href=\"{$baseUrl}/css/shiny-sprite.css\">
     <script data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div role=\"main\" class=\"airvis-container\">
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline}{$titleUrl} {$mapWidget} apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,scaleControl:true} } --><!-- /ko -->
+      <div class=\"airvis-loading-container\">
+        <div class=\"airvis-loading\">&nbsp;</div>
+      </div>
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline}{$titleUrl} {$mapWidget}apiDomain: \"{$apiDomain}\", apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>";
   return $output;
 }
@@ -127,10 +132,9 @@ function airtribune_airtribune_player_content_type_edit_form($form, &$form_state
     '#title' => t('Widget type'),
     '#options' => $types,
     '#default_value' => !empty($conf['widget_type']) ? $conf['widget_type'] : 'default',
-   );
-   return $form;
- }
-
+  );
+  return $form;
+}
 
 
 /**

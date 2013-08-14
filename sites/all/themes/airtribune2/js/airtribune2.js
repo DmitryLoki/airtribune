@@ -21,7 +21,9 @@
 
     }
 
+
   }
+  
   function setRaceToggleBehavior() {
     jQuery('body').bind('click', {parent: this}, bodyClick);
     function bodyClick(e) {
@@ -70,4 +72,21 @@
   };
 
 })(jQuery);
+
+jQuery(function ($) {
+  var breadcrumb = $('.breadcrumb')
+  if(breadcrumb.width() == 580) {
+    var width = 0;
+    breadcrumb.children().each(function(){
+      if ($(this).width() > width) {
+        width = $(this).width();
+        el = $(this);
+      };
+    })
+    var last = breadcrumb.children(':last-child');
+    delta = last.position().left + last.width() - breadcrumb.width();
+    //alert(el);
+    el.find('span').css({'max-width': width - delta});
+  }
+})
 

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Provide class that manages memcache connections.
+ * Provide class that processes memcached operations.
  */
 
 /**
@@ -27,143 +27,158 @@ class MemcacheStorageAPI {
    */
   public static function openConnection($bin = '') {
 
-    // Get name of cluster for selected cache bin storage.
-    $bin_cluster = self::getCacheBinCluster($bin);
+    // Get name of cluster for the selected cache bin storage.
+    $cluster_name = self::getCacheBinCluster($bin);
 
-    if (empty(self::$connections[$bin_cluster])) {
+    // Connect to the cluster and get memcached object.
+    if (!isset(self::$connections[$cluster_name])) {
 
-      // Load available servers and its clusters from settings.php.
-      $server_list = variable_get('memcache_servers', array('127.0.0.1:11211' => 'default'));
-
-      // Search for all servers matching bin cluster.
-      $cluster_servers = array();
-      foreach ($server_list as $server => $cluster_name) {
-        if ($cluster_name == $bin_cluster) {
-          $cluster_servers[] = $server;
-        }
-      }
-
-      // No servers found for this cache bin.
-      if (empty($cluster_servers)) {
-
-        // Log error.
-        self::logError('Could not find server(s) for cluster %cluster (bin %bin). Check your settings.php configuration.',
-          array('%cluster' => $bin_cluster, '%bin' => $bin));
-
-        // Return not initialized value.
-        return FALSE;
-      }
-
-      $preferred = variable_get('memcache_extension');
-      if (isset($preferred) && class_exists($preferred)) {
-        $extension = $preferred;
-      }
-      // If no extension is set, default to PECL Memcache.
-      elseif (class_exists('Memcache')) {
-        $extension = 'Memcache';
-      }
-      elseif (class_exists('Memcached')) {
-        $extension = 'Memcached';
-      }
-
-      // Check if Memcache extension enabled.
-      if (empty($extension)) {
-
-        // Log error.
-        self::logError('<a href="@url_memcache">Memcache</a> or <a href="@url_memcached">Memcached</a> extension is not available.',
-          array('@url_memcache' => 'http://pecl.php.net/package/memcache', '@url_memcached' => 'http://pecl.php.net/package/memcache'));
-
-        return FALSE;
-      }
-
-      // Create new memcache connection.
-      $memcache = new $extension();
-
-      // Collect all servers thas is unable to connect.
-      $failed_connections = array();
-
-      // Connect to every server.
-      foreach ($cluster_servers as $server) {
-
-        list($host, $port) = explode(':', $server);
-
-        // Support unix sockets in the format 'unix:///path/to/socket'.
-        if ($host == 'unix') {
-
-          // PECL Memcache supports 'unix:///path/to/socket' path in ::addServer function,
-          // while PECL Memcached use only '/path/to/socket' string for the same purpose.
-          if ($extension == 'Memcache') {
-            $host = $server;
-          }
-          elseif ($extension == 'Memcached') {
-            $host = substr($server, 7);
-          }
-
-          // Port is always 0 for unix sockets.
-          $port = 0;
-        }
-
-        // Adding new server for memcache connection.
-        $persistent = variable_get('memcache_storage_persistent_connection', FALSE);
-        $connected = @$memcache->addServer($host, $port, $persistent);
-
-        if (!$connected) {
-
-          // Mark connection to this server as 'failed'.
-          $failed_connections[] = $server;
-
-          // Log error if unable to connect to server.
-          self::logError('Could not connect to server %server (port %port).',
-            array('%server' => $host, '%port' => $port));
-        }
-      }
-
-      // If memcache is unable to connect to all servers it means that
-      // we have no connections at all, and could not start memcached connection.
-      if (sizeof($failed_connections) == sizeof($cluster_servers)) {
-        return FALSE;
-      }
-
-      // Provided compressThreshold support for PECL Memcached library.
-      if ($extension == 'Memcache') {
-
-        // For more information see http://www.php.net/manual/en/memcache.setcompressthreshold.php.
-        $compress_threshold = variable_get('memcache_storage_compress_threshold', array('threshold' => 20000, 'min_savings' => 0.2));
-        if (isset($compress_threshold['threshold']) && isset($compress_threshold['min_savings'])) {
-          $memcache->setCompressThreshold($compress_threshold['threshold'], $compress_threshold['min_savings']);
-        }
-      }
-      elseif ($extension == 'Memcached') {
-
-        $default_options = array(
-          Memcached::OPT_COMPRESSION => FALSE,
-          Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
-        );
-
-        // For more info about memcached contants see http://www.php.net/manual/en/memcached.constants.php.
-        $memcached_options = variable_get('memcache_options', array());
-        $memcached_options += $default_options;
-
-        // Set memcached options.
-        // See http://www.php.net/manual/en/memcached.setoption.php.
-        foreach ($memcached_options as $key => $value) {
-          $memcache->setOption($key, $value);
-        }
-      }
-
-      // Store memcache object as a static object, to avoid duplicate connections to the same
-      // memcache cluster, but for differens cache bins.
-      self::$connections[$bin_cluster] = $memcache;
+      // Store memcached object as a static object, to avoid duplicate connections to the same
+      // memcached cluster but for differens cache bins.
+      self::$connections[$cluster_name] = self::connectToCluster($cluster_name);
     }
 
-    return self::$connections[$bin_cluster];
+    return self::$connections[$cluster_name];
   }
 
   /**
-   * Get single cache value from memcached.
+   * Connect to memcached cluster and return memcached object.
+   *
+   * @param $cluster_name
+   *   Name of memcached cluster.
+   *
+   * @return object
+   *   Connected memcached object or FALSE if no connection.
    */
-  public static function get($cache_id, $cache_bin = '', $preprocess_keys = TRUE) {
-    $cache = self::getMultiple(array($cache_id), $cache_bin, $preprocess_keys);
+  protected static function connectToCluster($cluster_name) {
+
+    // Load available servers and its cluster names from settings.php.
+    $server_list = variable_get('memcache_servers', array('127.0.0.1:11211' => 'default'));
+
+    // Search for all servers matching bin cluster.
+    $cluster_servers = array();
+    foreach ($server_list as $server => $name) {
+      if ($name == $cluster_name) {
+        $cluster_servers[] = $server;
+      }
+    }
+
+    // No servers found for this cache bin.
+    if (empty($cluster_servers)) {
+
+      // Log error.
+      self::logError('Could not find server(s) for cluster %cluster. Check your settings.php configuration.',
+        array('%cluster' => $cluster_name));
+
+      // Return not initialized value.
+      return FALSE;
+    }
+
+    $preferred = variable_get('memcache_extension');
+    if (!empty($preferred) && class_exists($preferred)) {
+      $extension = $preferred;
+    }
+    // If no extension is set, default to PECL Memcache.
+    elseif (class_exists('Memcache')) {
+      $extension = 'Memcache';
+    }
+    elseif (class_exists('Memcached')) {
+      $extension = 'Memcached';
+    }
+
+    // Check if Memcache extension enabled.
+    if (empty($extension)) {
+
+      // Log error.
+      self::logError('<a href="@url_memcache">Memcache</a> or <a href="@url_memcached">Memcached</a> extension is not available.',
+        array('@url_memcache' => 'http://pecl.php.net/package/memcache', '@url_memcached' => 'http://pecl.php.net/package/memcache'));
+
+      return FALSE;
+    }
+
+    // Create new memcached connection.
+    $memcache = new $extension();
+
+    // Collect all servers thas is unable to connect.
+    $failed_connections = array();
+
+    // Connect to every server.
+    foreach ($cluster_servers as $server) {
+
+      list($host, $port) = explode(':', $server);
+
+      // Support unix sockets in the format 'unix:///path/to/socket'.
+      if ($host == 'unix') {
+
+        // PECL Memcache supports 'unix:///path/to/socket' path in ::addServer function,
+        // while PECL Memcached use only '/path/to/socket' string for the same purpose.
+        if ($extension == 'Memcache') {
+          $host = $server;
+        }
+        elseif ($extension == 'Memcached') {
+          $host = substr($server, 7);
+        }
+
+        // Port is always 0 for unix sockets.
+        $port = 0;
+      }
+
+      // Adding new server for memcached connection.
+      $persistent = variable_get('memcache_storage_persistent_connection', FALSE);
+      $connected = @$memcache->addServer($host, $port, $persistent);
+
+      if (!$connected) {
+
+        // Mark connection to this server as 'failed'.
+        $failed_connections[] = $server;
+
+        // Log error if unable to connect to server.
+        self::logError('Could not connect to server %server (port %port).',
+          array('%server' => $host, '%port' => $port));
+      }
+    }
+
+    // If memcache is unable to connect to all servers it means that
+    // we have no connections at all, and could not start memcached connection.
+    if (sizeof($failed_connections) == sizeof($cluster_servers)) {
+      return FALSE;
+    }
+
+    // Provided compressThreshold support for PECL Memcached library.
+    if ($extension == 'Memcache') {
+
+      // For more information see http://www.php.net/manual/en/memcache.setcompressthreshold.php.
+      $compress_threshold = variable_get('memcache_storage_compress_threshold', array('threshold' => 20000, 'min_savings' => 0.2));
+      if (isset($compress_threshold['threshold']) && isset($compress_threshold['min_savings'])) {
+        $memcache->setCompressThreshold($compress_threshold['threshold'], $compress_threshold['min_savings']);
+      }
+    }
+    elseif ($extension == 'Memcached') {
+
+      $default_options = array(
+        Memcached::OPT_COMPRESSION => FALSE,
+        Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
+      );
+
+      // For more info about memcached contants see http://www.php.net/manual/en/memcached.constants.php.
+      $memcached_options = variable_get('memcache_options', array());
+      $memcached_options += $default_options;
+
+      // Set memcached options.
+      // See http://www.php.net/manual/en/memcached.setoption.php.
+      foreach ($memcached_options as $key => $value) {
+        $memcache->setOption($key, $value);
+      }
+    }
+
+    return $memcache;
+  }
+
+  /**
+   * Get single cache value from memcached pool.
+   */
+  public static function get($cache_id, $cache_bin = '') {
+    $cache = self::getMultiple(array($cache_id), $cache_bin);
     return isset($cache[$cache_id]) ? $cache[$cache_id] : FALSE;
   }
 
@@ -173,28 +188,21 @@ class MemcacheStorageAPI {
    *
    * @see http://www.php.net/manual/en/memcache.get.php
    */
-  public static function getMultiple($cache_ids, $cache_bin = '', $preprocess_keys = TRUE) {
+  public static function getMultiple($cache_ids, $cache_bin = '') {
 
-    // Get memcache object.
+    // Get memcached object.
     $memcache = self::openConnection($cache_bin);
 
-    // No memcache connection.
+    // No memcached connection.
     if (empty($memcache)) {
       return FALSE;
     }
 
-    // If cache ids is a string, convert it to array anyway.
-    if (!is_array($cache_ids)) {
-      $cache_ids = array($cache_ids);
-    }
-
     // Preprocess cache keys.
     $cids = array();
-    $cid_matches = array();
     foreach ($cache_ids as $cache_id) {
-      $cid = $preprocess_keys ? self::buildCacheKey($cache_id, $cache_bin) : $cache_id;
-      $cids[] = $cid;
-      $cid_matches[$cid] = $cache_id;
+      $safe_key = self::preprocessCacheKey($cache_id, $cache_bin);
+      $cids[$safe_key] = $cache_id;
     }
 
     // Run initial debug actions.
@@ -202,39 +210,39 @@ class MemcacheStorageAPI {
       self::initialDebugActions();
     }
 
-    // Get data from memcache storage.
+    // Fetch data from memcached pool.
     $cache = array();
     if ($memcache instanceof Memcache) {
-      $cache = $memcache->get($cids);
+      $cache = @$memcache->get(array_keys($cids));
     }
     elseif ($memcache instanceof Memcached) {
-      $cache = $memcache->getMulti($cids);
+      $cache = @$memcache->getMulti(array_keys($cids));
     }
 
     // Return cache with correct keys.
     $output = array();
     if (!empty($cache)) {
-      foreach ($cache as $cid => $data) {
-        $cache_id = $cid_matches[$cid];
-        $output[$cache_id] = $data;
+      $cache_keys = array_keys($cache);
+      foreach ($cache_keys as $cache_key) {
+        $output[$cids[$cache_key]] = $cache[$cache_key];
       }
     }
 
     // Run final debug actions.
     if (variable_get('memcache_storage_debug', FALSE)) {
-      self::finalDebugActions('get', $cache_bin, $cache_ids, $cid_matches, $output);
+      self::finalDebugActions('get', $cache_bin, array_values($cids), $cids, $output);
     }
 
     return $output;
   }
 
   /**
-   * Set data to memcache pool.
+   * Save data into memcached pool.
    * Provide debug logging.
    *
    * @see http://www.php.net/manual/en/memcache.set.php
    */
-  public static function set($cache_id, $data, $expire, $cache_bin = '', $preprocess_keys = TRUE) {
+  public static function set($cache_id, $data, $expire, $cache_bin = '') {
 
     // Get memcache object.
     $memcache = self::openConnection($cache_bin);
@@ -245,7 +253,7 @@ class MemcacheStorageAPI {
     }
 
     // Build unique cache id.
-    $cid = $preprocess_keys ? self::buildCacheKey($cache_id, $cache_bin) : $cache_id;
+    $cid = self::preprocessCacheKey($cache_id, $cache_bin);
 
     // Run initial debug actions.
     if (variable_get('memcache_storage_debug', FALSE)) {
@@ -257,10 +265,10 @@ class MemcacheStorageAPI {
     if ($memcache instanceof Memcache) {
       // Get compression mode.
       $compressed = variable_get('memcache_storage_compress_data', 0);
-      $result = $memcache->set($cid, $data, $compressed, $expire);
+      $result = @$memcache->set($cid, $data, $compressed, $expire);
     }
     elseif ($memcache instanceof Memcached) {
-      $result = $memcache->set($cid, $data, $expire);
+      $result = @$memcache->set($cid, $data, $expire);
     }
 
     // Run final debug actions.
@@ -277,7 +285,7 @@ class MemcacheStorageAPI {
    *
    * @see http://www.php.net/manual/en/memcache.replace.php
    */
-  public static function replace($cache_id, $data, $expire, $cache_bin = '', $preprocess_keys = TRUE) {
+  public static function replace($cache_id, $data, $expire, $cache_bin = '') {
 
     // Get memcache object.
     $memcache = self::openConnection($cache_bin);
@@ -288,7 +296,7 @@ class MemcacheStorageAPI {
     }
 
     // Build unique cache id.
-    $cid = $preprocess_keys ? self::buildCacheKey($cache_id, $cache_bin) : $cache_id;
+    $cid = self::preprocessCacheKey($cache_id, $cache_bin);
 
     // Run initial debug actions.
     if (variable_get('memcache_storage_debug', FALSE)) {
@@ -300,10 +308,10 @@ class MemcacheStorageAPI {
     if ($memcache instanceof Memcache) {
       // Get compression mode.
       $compressed = variable_get('memcache_storage_compress_data', 0);
-      $result = $memcache->replace($cid, $data, $compressed, $expire);
+      $result = @$memcache->replace($cid, $data, $compressed, $expire);
     }
     elseif ($memcache instanceof Memcached) {
-      $result = $memcache->replace($cid, $data, $expire);
+      $result = @$memcache->replace($cid, $data, $expire);
     }
 
     // Run final debug actions.
@@ -320,7 +328,7 @@ class MemcacheStorageAPI {
    *
    * @see http://www.php.net/manual/en/memcache.delete.php
    */
-  public static function delete($cache_id, $cache_bin = '', $preprocess_keys = TRUE) {
+  public static function delete($cache_id, $cache_bin = '') {
 
     // Get memcache object.
     $memcache = self::openConnection($cache_bin);
@@ -331,7 +339,7 @@ class MemcacheStorageAPI {
     }
 
     // Build unique cache id.
-    $cid = $preprocess_keys ? self::buildCacheKey($cache_id, $cache_bin) : $cache_id;
+    $cid = self::preprocessCacheKey($cache_id, $cache_bin);
 
     // Run initial debug actions.
     if (variable_get('memcache_storage_debug', FALSE)) {
@@ -339,7 +347,7 @@ class MemcacheStorageAPI {
     }
 
     // Delete cached data from memcached.
-    $result = $memcache->delete($cid);
+    $result = @$memcache->delete($cid);
 
     // Run final debug actions.
     if (variable_get('memcache_storage_debug', FALSE)) {
@@ -350,106 +358,77 @@ class MemcacheStorageAPI {
   }
 
   /**
-   * Immediately invalidates all existing items.
+   * Immediately invalidates all existing items in a selected memcached cluster.
+   *
+   * @param $cluster_name
+   *   Name of memcached cluster.
+   *
+   * @return bool
+   *   Status of operation.
    */
-  static public function flushClusters() {
-
-    $indexes = &drupal_static('memcache_storage_bin_indexes');
-
-    $cache = self::get('memcache_storage_bin_indexes', '', FALSE);
-    if (!empty($cache)) {
-      $indexes = $cache;
+  public static function flushCluster($cluster_name) {
+    $memcache = self::connectToCluster($cluster_name);
+    if (!$memcache) {
+      return FALSE;
     }
-
-    // Simply increase index for each bin.
-    // This index is a part of memcache key, so cache will request for data with a new keys.
-    foreach ($indexes as $cache_bin => &$bin_index) {
-      ++$bin_index;
-    }
-
-    return self::set('memcache_storage_bin_indexes', $indexes, 0, '', FALSE);
+    return @$memcache->flush();
   }
 
   /**
-   * Generates unique cache key.
+   * Immediately invalidates all existing items in all memcached clusters.
+   */
+  static public function flushClusters() {
+
+    $servers = variable_get('memcache_servers', array('127.0.0.1:11211' => 'default'));
+    $clusters = array();
+    foreach ($servers as $cluster_name) {
+      if (!in_array($cluster_name, $clusters)) {
+        $clusters[] = $cluster_name;
+      }
+    }
+
+    foreach ($clusters as $cluster_name) {
+      self::flushCluster($cluster_name);
+    }
+  }
+
+  /**
+   * Adds memcached key prefix and ensures that key is safe.
    *
-   * @param $cid
+   * @param $cache_id
    *   Cache ID.
    *
    * @param $cache_bin
-   *   Cache bin name.
+   *   Name of cache bin.
    *
    * @return string
    *   Unique cache key.
    */
-  protected static function buildCacheKey($cid, $cache_bin) {
+  protected static function preprocessCacheKey($cache_id, $cache_bin) {
 
-    // Unique index of bin storage.
-    // To flush cache for single storage we simply need to change this value.
-    $bin_index = self::getBinIndex($cache_bin);
-
-    // Load key prefix from settings.php.
+    // Get key prefix from settings.php.
     $key_prefix = variable_get('memcache_storage_key_prefix', '');
 
     // Build unique cache key.
-    $key_base = $cache_bin . '_' . $bin_index;
+    $cache_key  = $key_prefix ? $key_prefix . '-' : '';
+    $cache_key .= $cache_bin ? $cache_bin . '-' : '';
+    $cache_key .= $cache_id;
 
     // Add urlencode to avoid problems with different protocols.
-    $full_key = urlencode($key_base . '-' . $key_prefix . '-' . $cid);
+    // If cache bin is 'cache_page' it means that we use external page cache.
+    // Otherwise cache bin name is 'cache_page_[INDEX]'. We don't need to
+    // encode url for external page cache because external servers may not be able
+    // to urldecode this.
+    $safe_key = $cache_bin == 'cache_page' ? $cache_key : urlencode($cache_key);
 
     // Memcache only supports key length up to 250 bytes. If we have generated
     // a longer key, hash it with md5 which will shrink the key down to 32 bytes
     // while still keeping it unique.
-    if (strlen($full_key) > 250) {
-      $full_key = urlencode($key_base . '-' . md5($key_prefix . '-' . $cid));
+    if (strlen($safe_key) > 250) {
+      $safe_key = md5($safe_key);
     }
 
-    return $full_key;
-  }
-
-  /**
-   * Increase cache bin index.
-   * This operation changes all memcache keys in selected cache bin so we simulate cache flush for it.
-   */
-  public static function increaseBinIndex($cache_bin) {
-
-    $currentIndex = self::getBinIndex($cache_bin);
-
-    $indexes = &drupal_static('memcache_storage_bin_indexes');
-    $indexes[$cache_bin] = ++$currentIndex;
-
-    self::set('memcache_storage_bin_indexes', $indexes, 0, '', FALSE);
-  }
-
-  /**
-   * Load cache bin index.
-   * This index is part of memcache key and changes if cache bin should be cleared.
-   */
-  public static function getBinIndex($cache_bin) {
-
-    // Prevent from making unique indexes for locking mechanism and user sessions.
-    if (in_array($cache_bin, array('semaphore', 'users', 'sessions', 'sessions_map'))) {
-      return 0;
-    }
-
-    $indexes = &drupal_static('memcache_storage_bin_indexes');
-
-    if (empty($indexes)) {
-      $indexes = array();
-
-      // Try to get bin indexes from cache.
-      $cache = self::get('memcache_storage_bin_indexes', '', FALSE);
-      if (!empty($cache)) {
-        $indexes = $cache;
-      }
-    }
-
-    if (empty($indexes[$cache_bin])) {
-      $indexes[$cache_bin] = 1; // Initial index value.
-      self::set('memcache_storage_bin_indexes', $indexes, 0, '', FALSE);
-    }
-
-    return $indexes[$cache_bin];
+    return $safe_key;
   }
 
   /**
@@ -467,6 +446,7 @@ class MemcacheStorageAPI {
     // Example:
     // $conf['memcache_bins'] = array(
     //   'cache' => 'default',
+    //   'cache_bootstrap' => 'default',
     //   'cache_page' => 'pages',
     // );
     $cluster_bins = variable_get('memcache_bins', array());
@@ -499,7 +479,7 @@ class MemcacheStorageAPI {
    * Start timer and get usage of memory before memcache action.
    */
   protected static function initialDebugActions() {
-    $mem_usage = &drupal_static('memcache_storage_debug_mem_usage');
+    $mem_usage = &drupal_static('memcache_storage_debug_mem_usage', array());
 
     // Start count time spent on setting data to memcache.
     timer_start(self::$debug_key);
@@ -532,65 +512,56 @@ class MemcacheStorageAPI {
     timer_stop(self::$debug_key);
 
     // Calculate memory usage.
-    $mem_usage = &drupal_static('memcache_storage_debug_mem_usage');
+    $mem_usage = &drupal_static('memcache_storage_debug_mem_usage', array());
     $used_memory = memory_get_usage() - $mem_usage[self::$debug_key];
+
+    // Preprocess cache bin name (remove suffix _[INDEX] if exists).
+    // A little bit creepy, but this is a debug output, and we can do it here.
+    $cache_bin_suffix = substr($cache_bin, strrpos($cache_bin, '_') + 1);
+    $cache_bin_original = $cache_bin;
+    if (ctype_digit($cache_bin_suffix)) {
+      $cache_bin_original = substr($cache_bin, 0, strrpos($cache_bin, '_'));
+    }
 
     // Get array with debug data.
     $memcache_storage_debug_output = &drupal_static('memcache_storage_debug_output');
 
-    // Log entries about memcache action.
-    if (is_array($cache_id)) {
-      foreach ($cache_id as $cid) {
-
-        $unique_class = str_replace(array(' ','_', '/', '[', ']', ':'), '-', $cache_bin . '-' . $cid);
-        $clear_link = array(
-          '#theme' => 'link',
-          '#text' => 'Delete',
-          '#path' =>  'memcache_storage/delete/nojs/' . $cache_bin . '/' . $cid,
-          '#options' => array(
-            'attributes' => array(
-              'class' => array('use-ajax', $unique_class),
-            ),
-            'html' => FALSE,
-          ),
-        );
-
-        $memcache_storage_debug_output[] = array(
-          'action' => count($cache_id) > 1 ? $method . 'Multiple' : $method,
-          'timer' => timer_read(self::$debug_key),
-          'memory' => $used_memory,
-          'result' => isset($result[$cid]) ? 'HIT' : 'MISS',
-          'bin' => $cache_bin,
-          'key' => $cid,
-          'clear_link' => $clear_link,
-          'mem_key' => array_search($cid, $memcache_id),
-        );
-      }
+    if (is_string($cache_id)) {
+      $cache_id = array($cache_id);
     }
-    else {
 
-      $unique_class = str_replace(array(' ','_', '/', '[', ']', ':'), '-', $cache_bin . '-' . $cache_id);
+    // Log entries about memcache action.
+    foreach ($cache_id as $cid) {
+
+      $unique_class = str_replace(array(' ','_', '/', '[', ']', ':'), '-', $cache_bin . '-' . $cid);
       $clear_link = array(
         '#theme' => 'link',
         '#text' => 'Delete',
-        '#path' =>  'memcache_storage/delete/nojs/' . $cache_bin . '/' . $cache_id,
+        '#path' =>  'memcache_storage/delete/nojs/' . $cache_bin . '/' . $cid,
         '#options' => array(
-          'attributes' => array(
-            'class' => array('use-ajax', $unique_class),
-          ),
+          'attributes' => array('class' => array('use-ajax', $unique_class)),
           'html' => FALSE,
         ),
       );
 
+      // Get result string (HIT or MISS).
+      if (is_array($result)) {
+        $result_string = isset($result[$cid]) ? 'HIT' : 'MISS';
+      }
+      else {
+        $result_string = $result ? 'HIT' : 'MISS';
+      }
+
       $memcache_storage_debug_output[] = array(
-        'action' => $method,
+        'action' => count($cache_id) > 1 ? $method . 'Multiple' : $method,
         'timer' => timer_read(self::$debug_key),
         'memory' => $used_memory,
-        'result' => $result ? 'HIT' : 'MISS',
-        'bin' => $cache_bin,
-        'key' => $cache_id,
-        'clear_link' => $clear_link,
-        'mem_key' => $memcache_id,
+        'result' => $result_string,
+        'bin' => $cache_bin_original,
+        'cid' => $cid,
+        'mem_key' => is_array($memcache_id) ? array_search($cid, $memcache_id) : $memcache_id,
+        'clear_link' => $cid != 'memcache_storage_bin_indexes' ? $clear_link : '',
+        'token' => $cache_bin . '-' . $cid,
       );
     }
 

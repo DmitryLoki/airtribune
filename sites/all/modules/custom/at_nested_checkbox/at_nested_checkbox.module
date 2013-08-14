@@ -75,22 +75,24 @@ function at_nested_checkbox_libraries_info() {
 }
 
 function at_nested_checkbox_process($element, &$form_state) {
-  if (empty($element['#options'])) return;
+  if (empty($element['#options'])) {
+    return;
+  }
   if ($element['#level'] == 0) {
     libraries_load('tristate');
   }
   $options = $element['#options'];
   $keys = element_children($options);
-  foreach ($keys as $key ) {
+  foreach ($keys as $key) {
     $value = $options[$key];
     if (is_array($value)) {
       $element[$key] = array(
         '#type' => 'nested_checkboxes',
         '#options' => $value,
         '#title_display' => $element['#title_display'],
-        '#title' => $value['#title'], 
-        '#level' => $element['#level'] + 1, 
-        '#default_value' => isset($element['#default_value'][$key]) ? $element['#default_value'][$key] : 0 
+        '#title' => $value['#title'],
+        '#level' => $element['#level'] + 1,
+        '#default_value' => isset($element['#default_value'][$key]) ? $element['#default_value'][$key] : 0
       );
     }
     else {
@@ -99,17 +101,19 @@ function at_nested_checkbox_process($element, &$form_state) {
         '#title' => $value,
         '#return_value' => $key,
         '#title_display' => $element['#title_display'],
-        '#theme_wrappers' => array( 'form_element'), 
+        '#theme_wrappers' => array('form_element'),
         '#post_render' => array('at_nested_checkbox_post_render'),
-        '#default_value' => (!empty($element['#default_value'][$key]) && $element['#default_value'][$key] == $key) ? $key  : NULL,
+        '#default_value' => (!empty($element['#default_value'][$key]) && $element['#default_value'][$key] == $key) ? $key : NULL,
       );
     }
   }
-  return $element; 
+  return $element;
 }
 
 function at_nested_checkboxes_validate($element, &$form_state, $form) {
-  if ($element['#level'] > 0) return $element;
+  if ($element['#level'] > 0) {
+    return $element;
+  }
   $values = _at_nested_checkbox_flatten($element['#value']);
   $options = _at_nested_checkbox_flatten($element['#options']);
   foreach ($values as $v_key => $value) {
@@ -117,7 +121,10 @@ function at_nested_checkboxes_validate($element, &$form_state, $form) {
     $initial_key = $key_array[count($key_array) - 1];
     if (!in_array($v_key, array_keys($options)) || $initial_key != $value) {
       form_error($element, t('An illegal choice has been detected. Please contact the site administrator.'));
-      watchdog('form', 'Illegal choice %choice in %name element.', array('%choice' => $value, '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title']), WATCHDOG_ERROR);
+      watchdog('form', 'Illegal choice %choice in %name element.', array(
+        '%choice' => $value,
+        '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title']
+      ), WATCHDOG_ERROR);
     }
   }
   return $element;

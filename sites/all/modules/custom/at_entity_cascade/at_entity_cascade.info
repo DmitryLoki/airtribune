@@ -1,0 +1,6 @@
+name = At Entity Cascade
+description = Module providing cascading deletion of entities
+core = 7.x
+package = Other
+php = 5.3
+version = 7.x-1.x

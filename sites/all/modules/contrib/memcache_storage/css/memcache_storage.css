@@ -1,0 +1,7 @@
+table.memcache-storage-detailed-debug tr.hit td {
+  color: #000000;
+}
+
+table.memcache-storage-detailed-debug tr.miss td {
+  color: #FF0000;
+}

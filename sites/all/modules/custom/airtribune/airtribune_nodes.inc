@@ -2,9 +2,9 @@
 /**
  * @file
  * airtribune_nodes.inc
- * 
+ *
  * Definitions of node types moved from features
- * 
+ *
  * @author Vyacheslav Malchik <info@vkey.biz>
  * @see #2860
  */

@@ -35,10 +35,12 @@ function airtribune_airtribune_disqus_content_type_render($subtype, $conf, $pane
   }
 
   if ($node->type == AIRTRIBUNE_ACCOMMODATION_TYPE ||
-      $node->type == AIRTRIBUNE_ACTIVITY_TYPE ||
-      $node->type == AIRTRIBUNE_NEWSBLOG_TYPE) {
+    $node->type == AIRTRIBUNE_ACTIVITY_TYPE ||
+    $node->type == AIRTRIBUNE_NEWSBLOG_TYPE
+  ) {
     $alias = drupal_get_path_alias('node/' . $node->nid);
-  } else {
+  }
+  else {
     // don't show disqus comment for other node types and don't render pane
     return;
   }
