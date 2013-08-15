@@ -3408,6 +3408,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_race_retrieve_table_link']['relationship'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['fields']['pg_race_retrieve_table_link']['label'] = '';
   $handler->display->display_options['fields']['pg_race_retrieve_table_link']['element_label_colon'] = FALSE;
+  /* Field: Race type */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'eck_ent_racetype';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  $handler->display->display_options['fields']['type']['relationship'] = 'field_pg_racetype_ref_target_id';
+  $handler->display->display_options['fields']['type']['ui_name'] = 'Race type';
+  $handler->display->display_options['fields']['type']['label'] = '';
+  $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'panel',
