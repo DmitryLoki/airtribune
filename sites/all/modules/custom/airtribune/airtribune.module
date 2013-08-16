@@ -834,17 +834,6 @@ function airtribune_init() {
     module_invoke('admin_menu', 'suppress');
   }
 
-  // We need distinguish drupal pages, to get pinba statistics.
-  // Change name of script from 'index.php' to requested $q variable
-  // @see #3283
-  if (extension_loaded('pinba') && function_exists('pinba_script_name_set')) {
-    $request = $_SERVER['REQUEST_URI'];
-    // temp code, remove after moving files directory to /files
-    if (strpos($request, '/sites/default/files') !== FALSE) {
-      $request = substr($request, 15);
-    }
-    pinba_script_name_set($request);
-  }
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
