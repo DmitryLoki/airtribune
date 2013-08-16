@@ -102,6 +102,20 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
 /**
  * Implements hook_menu_alter().
  */
+function airtribune_menu() {
+  $items['soon_country/%'] = array(
+    'page callback' => 'airtribune_soon_country',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'plugins/content_types/soon_country/soon_country.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
 function airtribune_menu_alter(&$items) {
   $items['event/%pm_arg'] = array(
     'access arguments' => array('access content'),
