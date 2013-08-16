@@ -25,8 +25,8 @@ $plugin = array(
   ),
 );
 
-function airtribune_arg_event_context($arg = NULL, $conf = NULL, $empty = FALSE){
-   // If $empty == TRUE it wants a generic, unfilled context.
+function airtribune_arg_event_context($arg = NULL, $conf = NULL, $empty = FALSE) {
+  // If $empty == TRUE it wants a generic, unfilled context.
   if ($empty) {
     return ctools_context_create_empty('event');
   }
@@ -36,7 +36,7 @@ function airtribune_arg_event_context($arg = NULL, $conf = NULL, $empty = FALSE)
   if (empty($arg)) {
     return FALSE;
   }
-  
+
   $wrapper = entity_metadata_wrapper('node', $arg);
   if (!$wrapper->value()) {
     return FALSE;
@@ -56,4 +56,5 @@ function airtribune_arg_event_context($arg = NULL, $conf = NULL, $empty = FALSE)
   }
   return ctools_context_create('node', $node);
 }
+
 ?>

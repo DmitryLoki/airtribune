@@ -150,7 +150,7 @@ function accommodation_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'honeypot_form_accommodation_node_form';
   $strongarm->value = 0;
-  $export['honeypot_form_accommodation_node_form'] = $strongarm;  
+  $export['honeypot_form_accommodation_node_form'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -158,13 +158,13 @@ function accommodation_strongarm() {
   $strongarm->name = 'ant_accommodation';
   $strongarm->value = '0';
   $export['ant_accommodation'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ant_php_accommodation';
   $strongarm->value = 0;
-  $export['ant_php_accommodation'] = $strongarm; 
-  
+  $export['ant_php_accommodation'] = $strongarm;
+
   return $export;
 }

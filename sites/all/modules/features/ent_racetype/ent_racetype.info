@@ -4,5 +4,7 @@ core = 7.x
 package = Custom entities
 dependencies[] = eck
 dependencies[] = features
+dependencies[] = at_entity_cascade
 features[eck_entity_type][] = ent_racetype
 features[features_api][] = api:1
+files[] = ent_racetype.test

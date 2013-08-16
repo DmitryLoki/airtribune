@@ -67,7 +67,7 @@ function at_membership_form($form, &$form_state, $og_membership = FALSE) {
  * Form submit handler: submits og_membership_edit_form information
  */
 function at_membership_form_submit($form, &$form_state) {
-  $values = &$form_state['values'];
+  $values = & $form_state['values'];
 
   $og_membership = $values['og_membership'];
   // user change membership in form
@@ -89,7 +89,7 @@ function at_membership_form_submit($form, &$form_state) {
   // If user change type of membership, we delete and create new membership,
   // also we need to change redirect after form submit, using new id.
   // If membership doesn't updated - user will be redirected on old url.
-  $form_state['redirect']  = 'group-membership/' . $og_membership->id . '/edit';
+  $form_state['redirect'] = 'group-membership/' . $og_membership->id . '/edit';
   drupal_set_message('Membership data has been updated.');
 }
 
@@ -122,7 +122,8 @@ function at_membership_delete($og_membership) {
   if (!empty($_POST['js']) && at_membership_access($og_membership, 'delete')) {
     og_membership_delete($og_membership->id);
     drupal_json_output(array('message' => t('Your participation has been successfully canceled.')));
-  } else {
+  }
+  else {
     drupal_access_denied();
   }
 }

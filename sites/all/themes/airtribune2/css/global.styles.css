@@ -1851,9 +1851,10 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .view-my-registrations .views-row:hover .cancel-participation-process { display: block;}
 
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; white-space:nowrap; }
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
+.breadcrumb a span { display: inline-block; text-overflow: ellipsis; overflow:hidden; vertical-align: middle;}
 .breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
 .breadcrumb:hover a:hover { color:#1cb7f1}
 

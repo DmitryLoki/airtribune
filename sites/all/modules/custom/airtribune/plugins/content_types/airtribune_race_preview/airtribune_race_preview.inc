@@ -3,7 +3,7 @@
 /**
  * @file
  * Airtribune race preview pane plugin.
- * 
+ *
  * @author Vyacheslav Malchik <info@vkey.biz>
  * @see #3115.
  */
@@ -44,7 +44,7 @@ function airtribune_airtribune_race_preview_content_type_render($subtype, $conf,
     'widgetWidth' => $conf['widgetWidth'],
     'apiVersion' => at_core_sync_get_api_version(),
   );
-  
+
   $widget_html = _airtribune_airtribune_race_preview_get_race_preview($contestId, $raceId, $options);
 
   $content['widget']['#markup'] = $widget_html;
@@ -52,7 +52,7 @@ function airtribune_airtribune_race_preview_content_type_render($subtype, $conf,
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-player'));
   $content['#theme_wrappers'] = array('container');
 
-  return (object)array(
+  return (object) array(
     'module' => 'airtribune',
     'content' => $content,
     'delta' => 1,
@@ -71,14 +71,14 @@ function airtribune_airtribune_race_preview_content_type_render($subtype, $conf,
  *    apiVersion - version of CoreAPI
  * @return string HTML-code widget.
  */
-function _airtribune_airtribune_race_preview_get_race_preview ($contestId, $raceId, $options = array()) {
+function _airtribune_airtribune_race_preview_get_race_preview($contestId, $raceId, $options = array()) {
   // Initialization
   $widgetWidth = isset($options['widgetWidth']) ? $options['widgetWidth'] : '100%';
   $widgetHeight = isset($options['widgetHeight']) ? $options['widgetHeight'] : '100%';
   $baseUrl = isset($options['baseUrl']) ? $options['baseUrl'] : AIRTRIBUNE_VIS_URL;
   $apiDomain = isset($options['apiDomain']) ? $ $options['apiDomain'] : variable_get('at_core_sync_address', 'http://api.airtribune.com');
   $apiVersion = isset($options['apiVersion']) ? $options['apiVersion'] : at_core_sync_get_api_version();
-  
+
   $output = "<script  data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div role=\"main\" class=\"airvis-container\">
       <div class=\"airvis-loading-container\">
@@ -90,8 +90,8 @@ function _airtribune_airtribune_race_preview_get_race_preview ($contestId, $race
 }
 
 /**
-* 'Edit form' callback for the content type.
-*/
+ * 'Edit form' callback for the content type.
+ */
 function airtribune_airtribune_race_preview_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
   $form['widgetWidth'] = array(
@@ -110,8 +110,8 @@ function airtribune_airtribune_race_preview_content_type_edit_form($form, &$form
 }
 
 /**
-* Submit function, note anything in the formstate[conf] automatically gets saved
-*/
+ * Submit function, note anything in the formstate[conf] automatically gets saved
+ */
 function airtribune_airtribune_race_preview_content_type_edit_form_submit(&$form, &$form_state) {
   $form_state['conf']['widgetWidth'] = $form_state['values']['widgetWidth'];
   $form_state['conf']['widgetHeight'] = $form_state['values']['widgetHeight'];

@@ -80,9 +80,13 @@ function at_core_sync_field($form, &$form_state) {
   foreach ($values as $entity => $bundles) {
     if (!empty($bundles)) {
       foreach ($bundles as $bundle => $value) {
-        if ((string)$value == $bundle) {
+        if ((string) $value == $bundle) {
           if (!isset($attached[$entity]) || !in_array($value, $attached[$entity])) {
-            field_create_instance(array('field_name' => AIRTRIBUNE_CORE_ID_FIELD, 'entity_type' => $entity, 'bundle' => $bundle));
+            field_create_instance(array(
+              'field_name' => AIRTRIBUNE_CORE_ID_FIELD,
+              'entity_type' => $entity,
+              'bundle' => $bundle
+            ));
           }
         }
       }

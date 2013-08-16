@@ -2,8 +2,8 @@
 
 
 /**
-* Implements hook_menu()
-*/
+ * Implements hook_menu()
+ */
 function at_entityreference_geowidget_menu() {
   $items = array();
   $items['at_entityreference_geowidget/%/%'] = array(
@@ -18,8 +18,8 @@ function at_entityreference_geowidget_menu() {
 
 
 /**
-* Implements hook_field_widget_info()
-*/
+ * Implements hook_field_widget_info()
+ */
 function at_entityreference_geowidget_field_widget_info() {
   $widgets['at_entityreference_geowidget'] = array(
     'label' => t('Geowidget'),
@@ -38,7 +38,7 @@ function at_entityreference_geowidget_field_widget_info() {
     ),
   );
 
-  return $widgets;  
+  return $widgets;
 }
 
 /**
@@ -49,81 +49,81 @@ function at_entityreference_geowidget_field_widget_settings_form($field, $instan
   $settings = $widget['settings'];
   $maps = openlayers_maps();
   $default = !empty($settings['map']) ? $settings['map'] : NULL;
-    $options = array();
-    foreach ($maps as $key => $map) {
-      $options[$key] = $map->title;
+  $options = array();
+  foreach ($maps as $key => $map) {
+    $options[$key] = $map->title;
+  }
+  $form['map'] = array(
+    '#type' => 'select',
+    '#title' => t('Map'),
+    '#options' => $options,
+    '#default_value' => $default
+  );
+
+  //following is rewrite of views_get_applicable_views()
+  //inspired by EntityReference_SelectionHandler_Views::settingsForm
+  $views = views_get_all_views();
+  $options = array();
+  foreach ($views as $view) {
+    // Skip disabled views.
+    if (!empty($view->disabled)) {
+      continue;
     }
-    $form['map'] = array(
-      '#type' => 'select',
-      '#title' => t('Map'),
-      '#options' => $options,
-      '#default_value' => $default
-    );
 
-    //following is rewrite of views_get_applicable_views()
-    //inspired by EntityReference_SelectionHandler_Views::settingsForm
-    $views = views_get_all_views();
-    $options = array();
-    foreach ($views as $view) {
-      // Skip disabled views.
-      if (!empty($view->disabled)) {
-        continue;
-      } 
+    if (empty($view->display)) {
+      // Skip this view as it is broken.
+      vsm(t("Skipping broken view @view", array('@view' => $view->name)));
+      continue;
+    }
 
-      if (empty($view->display)) {
-        // Skip this view as it is broken.
-        vsm(t("Skipping broken view @view", array('@view' => $view->name)));
-        continue;
-      }
-
-      // Loop on array keys because something seems to muck with $view->display
-      // a bit in PHP4.
-      foreach (array_keys($view->display) as $id) {
-        $plugin = views_fetch_plugin_data('display', $view->display[$id]->display_plugin);
-        if ($plugin['handler'] == 'openlayers_views_plugin_display_openlayers') {
-          $v = $view->clone_view();
-          if ($v->set_display($id) && $v->display_handler->get_option('enabled')) {
-            $options[$v->name . ':' . $id] = $v->name . ' - ' . $v->display[$id]->display_title;
-          }    
+    // Loop on array keys because something seems to muck with $view->display
+    // a bit in PHP4.
+    foreach (array_keys($view->display) as $id) {
+      $plugin = views_fetch_plugin_data('display', $view->display[$id]->display_plugin);
+      if ($plugin['handler'] == 'openlayers_views_plugin_display_openlayers') {
+        $v = $view->clone_view();
+        if ($v->set_display($id) && $v->display_handler->get_option('enabled')) {
+          $options[$v->name . ':' . $id] = $v->name . ' - ' . $v->display[$id]->display_title;
         }
       }
     }
-    //$entity_info = entity_get_info($field['settings']['target_type']);
-    if ($options) {
-      $default = !empty($settings['view']['view_and_display']) ? $settings['view']['view_and_display'] : NULL;
-      $form['view']['view_and_display'] = array(
-        '#type' => 'select',
-        '#title' => t('View used to select the entities'),
-        '#required' => TRUE,
-        '#options' => $options,
-        '#default_value' => $default,
-        '#description' => '<p>' . t('Choose the view and display that select the entities that can be referenced.<br />Only views with a display of type "Entity Reference" are eligible.') . '</p>',
-      );
+  }
+  //$entity_info = entity_get_info($field['settings']['target_type']);
+  if ($options) {
+    $default = !empty($settings['view']['view_and_display']) ? $settings['view']['view_and_display'] : NULL;
+    $form['view']['view_and_display'] = array(
+      '#type' => 'select',
+      '#title' => t('View used to select the entities'),
+      '#required' => TRUE,
+      '#options' => $options,
+      '#default_value' => $default,
+      '#description' => '<p>' . t('Choose the view and display that select the entities that can be referenced.<br />Only views with a display of type "Entity Reference" are eligible.') . '</p>',
+    );
     $default = !empty($view_settings['args']) ? implode(', ', $view_settings['args']) : '';
-      $form['view']['args'] = array(
-        '#type' => 'textfield',
-        '#title' => t('View arguments'),
-        '#default_value' => $default,
-        '#required' => FALSE,
-        '#description' => t('Provide a comma separated list of arguments to pass to the view.'),
-      );
-    }
-    else {
-      $form['view']['no_view_help'] = array(
-        '#markup' => '<p>' . t('No eligible views were found. <a href="@create">Create a view</a> with an <em>Entity Reference</em> display, or add such a display to an <a href="@existing">existing view</a>.', array(
-          '@create' => url('admin/structure/views/add'),
-          '@existing' => url('admin/structure/views'),
-        )) . '</p>',
-      );
-    }
+    $form['view']['args'] = array(
+      '#type' => 'textfield',
+      '#title' => t('View arguments'),
+      '#default_value' => $default,
+      '#required' => FALSE,
+      '#description' => t('Provide a comma separated list of arguments to pass to the view.'),
+    );
+  }
+  else {
+    $form['view']['no_view_help'] = array(
+      '#markup' => '<p>' . t('No eligible views were found. <a href="@create">Create a view</a> with an <em>Entity Reference</em> display, or add such a display to an <a href="@existing">existing view</a>.', array(
+        '@create' => url('admin/structure/views/add'),
+        '@existing' => url('admin/structure/views'),
+      )) . '</p>',
+    );
+  }
 
   return $form;
 }
 
 
 /**
-* Implements hook_field_widget_form()
-*/
+ * Implements hook_field_widget_form()
+ */
 function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $cid = uniqid('geowidget-');
   cache_set($cid, $instance['widget']['settings'], 'cache', time() + 600000);
@@ -167,7 +167,14 @@ function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $f
   $element['#element_validate'] = array('at_entityreference_geowidget_validate');
   list($view, $display) = explode(':', $instance['widget']['settings']['view']['view_and_display']);
   $drupal_id = $view . '_' . $display;
-  drupal_add_js(array('atEntityreferenceGeowidget' => array('mapId' => $map['id'], 'value' => $value, 'cid' => $cid, 'drupalID' => $drupal_id)), 'setting');
+  drupal_add_js(array(
+    'atEntityreferenceGeowidget' => array(
+      'mapId' => $map['id'],
+      'value' => $value,
+      'cid' => $cid,
+      'drupalID' => $drupal_id
+    )
+  ), 'setting');
   return $element;
 }
 

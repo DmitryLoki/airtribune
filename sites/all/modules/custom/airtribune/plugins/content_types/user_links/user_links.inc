@@ -38,11 +38,11 @@ function airtribune_user_links_content_type_render($subtype, $conf, $panel_args,
 
   foreach ($links->links as $lang_code => $link) {
     $links->links[$lang_code]['title'] = theme(
-      'countryicons_icon_sprite',
-      array('code' => airtrubune_get_country_code($lang_code), 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
-    )
-    // pt-br to pt.
-    . substr($lang_code, 0, 2);
+        'countryicons_icon_sprite',
+        array('code' => airtrubune_get_country_code($lang_code), 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
+      )
+      // pt-br to pt.
+      . substr($lang_code, 0, 2);
     $links->links[$lang_code]['html'] = TRUE;
   }
   $content['lang_links'] = array(
