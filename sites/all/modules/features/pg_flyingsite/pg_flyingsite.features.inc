@@ -28,8 +28,9 @@ function pg_flyingsite_node_info() {
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',
-      'title_label' => t('Name'),
-      'help' => '',
+      'title_label' => t('Name (City)'),
+      'help' => t('This will be the Flying Site name. 
+Traditionally the sites are named according to the city associated with this flying site.'),
     ),
   );
   return $items;
