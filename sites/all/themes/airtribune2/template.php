@@ -310,7 +310,9 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   switch ($variables['pane']->subtype) {
     case 'frontpage_events-live_events_pane':
     case 'frontpage_events-soon_worldwide_pane':
+    case 'soon_country':
       $variables['classes_array'][] = 'front_live_events';
+      $variables['title_attributes_array']['class'][] = 'clearfix';
       break;
     
     default:

@@ -50,13 +50,13 @@ function airtribune_soon_country_content_type_render($subtype, $conf, $panel_arg
   $location = array(
     '#theme' => 'links',
     '#attributes' => array('id' => 'countries-wrapper'),
-    '#heading' => t('Change location'),
+    '#prefix' => '<span class="change_location_title">' . t('Change location') . '</span>',
     '#links' => $links,
   );
 
   return (object) array(
     'module' => 'airtribune',
-    'title' => $title . render($location),
+    'title' => '<span class="country_title">' . $title . '</span><div class="change_location">' . render($location) . '</div>',
     'content' => $content,
     'delta' => 1,
   );

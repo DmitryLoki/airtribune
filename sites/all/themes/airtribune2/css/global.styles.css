@@ -3128,6 +3128,7 @@ html.fb_view { overflow: auto;}
 #facebook-fan-gate { width: 810px; height: 160px; background: url(../images/like.png) no-repeat 50% 0; }
 
 .front_live_events > .pane-inner { margin: 0 0 40px;}
+.front_live_events h2.pane-title { position: relative; z-index: 10;}
 .front_live_events h2 a { float: right; margin: 3px -2px 0 0; position: relative; width: 67px; text-shadow: none; text-decoration: none;}
 .front_live_events h2 a:hover { background: rgba(0,174,239, 1);}
 .front_live_events h2 a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
@@ -3180,6 +3181,17 @@ html.fb_view { overflow: auto;}
 .front_live_events .view_confirmed_pilots .es-label span { font-size: 10px; color: #788896; word-spacing: -2px; letter-spacing: -1px;}
 .front_live_events .view_confirmed_pilots_1 .es-label span { color: #959e0a}
 .front_live_events .view_confirmed_pilots .es-count { text-align: right; float: left; font: bold 26px/26px Verdana, Geneva, sans-serif;}
+
+.front_live_events .country_title { float: left;}
+.front_live_events .change_location { float: left; margin: 0 0 0 10px; position: relative;}
+.front_live_events .change_location_title { color: rgba(82, 92, 102, .5); font: 14px/16px Arial, Helvetica, sans-serif; text-decoration: underline; cursor: pointer;}
+.front_live_events .change_location:hover .change_location_title { text-decoration: none;}
+.front_live_events .change_location_title:before { content: "("}
+.front_live_events .change_location_title:after { content: ")"}
+.front_live_events .change_location ul { margin: 0; padding: 0; position: absolute; top: 100%; left: 0; display: none;}
+.front_live_events .change_location:hover ul { display: block;}
+.front_live_events .change_location ul li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
+.front_live_events .change_location a { float: none;}
 
 .front_live_events .file a,
 .front_live_events .time,
