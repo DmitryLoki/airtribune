@@ -2367,7 +2367,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-6';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'event_days-panel_pane_1';
+    $pane->subtype = 'event_days-panel_event_days_on_blog';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();

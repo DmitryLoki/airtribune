@@ -180,7 +180,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -549,7 +549,7 @@ function views_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -1110,7 +1110,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -2855,7 +2855,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -3153,7 +3153,7 @@ return array($event_id);';
   );
 
   /* Display: List of day (accordion) */
-  $handler = $view->new_display('panel_pane', 'List of day (accordion)', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'List of day (accordion)', 'panel_event_days_on_blog');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'views_accordion';
@@ -3161,9 +3161,22 @@ return array($event_id);';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Day number */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['label'] = 'Day ';
+  $handler->display->display_options['fields']['field_day_number']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_day_number']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_number']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_day_number']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_day_number']['type'] = 'text_plain';
   /* Field: Race ID - excluded */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -3181,6 +3194,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nid']['relationship'] = 'og_membership_related_node_group';
   $handler->display->display_options['fields']['nid']['ui_name'] = 'Contest ID (excluded)';
   $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_type'] = '0';
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Field: Content: Nid */
@@ -3188,42 +3202,37 @@ return array($event_id);';
   $handler->display->display_options['fields']['nid_1']['table'] = 'node';
   $handler->display->display_options['fields']['nid_1']['field'] = 'nid';
   $handler->display->display_options['fields']['nid_1']['label'] = '';
+  $handler->display->display_options['fields']['nid_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid_1']['element_type'] = '0';
   $handler->display->display_options['fields']['nid_1']['element_label_colon'] = FALSE;
-  /* Field: Content: Day number */
-  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
-  $handler->display->display_options['fields']['field_day_number']['label'] = 'Day ';
-  $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_day_number']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_day_number']['alter']['text'] = 'Day [field_day_number-value]';
-  $handler->display->display_options['fields']['field_day_number']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_day_number']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_day_number']['element_default_classes'] = FALSE;
+  /* Field: Day number (excluded) */
+  $handler->display->display_options['fields']['field_day_number_1']['id'] = 'field_day_number_1';
+  $handler->display->display_options['fields']['field_day_number_1']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number_1']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number_1']['ui_name'] = 'Day number (excluded)';
+  $handler->display->display_options['fields']['field_day_number_1']['exclude'] = TRUE;
   /* Field: Race: Race number */
   $handler->display->display_options['fields']['field_race_number']['id'] = 'field_race_number';
   $handler->display->display_options['fields']['field_race_number']['table'] = 'field_data_field_race_number';
   $handler->display->display_options['fields']['field_race_number']['field'] = 'field_race_number';
   $handler->display->display_options['fields']['field_race_number']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_race_number']['label'] = '';
-  $handler->display->display_options['fields']['field_race_number']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_race_number']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_race_number']['alter']['text'] = ' — Task [field_race_number-value]';
+  $handler->display->display_options['fields']['field_race_number']['label'] = '— Task';
   $handler->display->display_options['fields']['field_race_number']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_race_number']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_race_number']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_race_number']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_race_number']['type'] = 'text_plain';
   /* Field: Race: Distance */
   $handler->display->display_options['fields']['field_optdistance']['id'] = 'field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['table'] = 'field_data_field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['field'] = 'field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['relationship'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['fields']['field_optdistance']['label'] = '—';
-  $handler->display->display_options['fields']['field_optdistance']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_optdistance']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_optdistance']['alter']['text'] = ' — [field_optdistance-value]km';
+  $handler->display->display_options['fields']['field_optdistance']['alter']['text'] = '[field_optdistance-value]km';
   $handler->display->display_options['fields']['field_optdistance']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_optdistance']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_optdistance']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_optdistance']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_optdistance']['element_default_classes'] = FALSE;
@@ -3234,9 +3243,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['ui_name'] = 'Day status';
   $handler->display->display_options['fields']['field_day_status']['label'] = '—';
-  $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_day_status']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_day_status']['alter']['text'] = ' — [field_day_status]';
   $handler->display->display_options['fields']['field_day_status']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_day_status']['element_wrapper_type'] = '0';
@@ -3247,28 +3253,13 @@ return array($event_id);';
   $handler->display->display_options['fields']['created']['field'] = 'created';
   $handler->display->display_options['fields']['created']['ui_name'] = 'Post date';
   $handler->display->display_options['fields']['created']['label'] = '';
-  $handler->display->display_options['fields']['created']['exclude'] = TRUE;
   $handler->display->display_options['fields']['created']['element_type'] = 'span';
   $handler->display->display_options['fields']['created']['element_class'] = 'posted';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'j M, Y';
-  /* Field: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['text'] = '[field_day_number][field_race_number][field_optdistance][field_day_status][created]';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_type'] = '0';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Race Core ID */
   $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
@@ -3292,7 +3283,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="day-number" data-href="#day_[field_day_number_1]"></div>
+<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>
 <div id="content-day-[nid_1]"></div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
@@ -3332,7 +3324,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['ui_name'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['label'] = 'pg_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -3795,13 +3787,12 @@ return array($event_id);';
     t('Race points'),
     t('All'),
     t('List of day (accordion)'),
-    t('Day [field_day_number-value]'),
-    t(' — Task [field_race_number-value]'),
+    t('Day number'),
+    t('— Task'),
     t('—'),
-    t(' — [field_optdistance-value]km'),
-    t(' — [field_day_status]'),
-    t('[field_day_number][field_race_number][field_optdistance][field_day_status][created]'),
-    t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>
+    t('[field_optdistance-value]km'),
+    t('<div class="day-number" data-href="#day_[field_day_number_1]"></div>
+<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>
 <div id="content-day-[nid_1]"></div>'),
     t('View panes'),
     t('List of race (results)'),
@@ -5568,7 +5559,7 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_related_user']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_user']['field'] = 'og_membership_related_user';
   $handler->display->display_options['relationships']['og_membership_related_user']['required'] = TRUE;
-  /* Relationship: OG membership: Group Content from OG membership */
+  /* Relationship: OG membership: Group Node from OG membership */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
@@ -6194,7 +6185,7 @@ return array($event_id);';
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7120,7 +7111,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7361,7 +7352,7 @@ return array($event_id);';
     'empty_text' => '',
     'fallback_format' => 'list_default',
   );
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7730,7 +7721,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
