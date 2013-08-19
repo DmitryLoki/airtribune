@@ -1,0 +1,103 @@
+<?php
+
+function abc_menu() {
+  $items['abc/test'] = array(
+   'title' => 'ABC Test', 
+    'page callback' => 'abc_test', 
+    'access callback' => TRUE, 
+    'file' => 'abc.tmp.inc',
+  );
+  return $items;
+}
+
+
+/**
+ * Returns a form containing a number of other forms.
+ */
+function abc_get_form($settings) {
+  module_load_include('inc', 'abc');
+  module_load_include('inc', 'abc', 'abc.form');
+  
+  // Array to store all required data for workflow.
+  $multiform = array();
+  
+  // Initialize settings
+  abc_init_settings($settings);
+  
+  // Get all subforms
+  $subforms = $settings['#subforms'];
+  
+  // Compile multiform stucture
+  $form = abc_init_form();
+  $post = !empty($_POST) ? $_POST : array();
+  foreach ($subforms as $index => $subform) {
+    $subform_id = $subform['form_id'];
+    $subform_args = $subform['args'];
+    
+    // Set _POST value as it should be in case of single form.
+    if (isset($post['multiform'][$subform_id])) {
+      $_POST = $post['multiform'][$subform_id];
+    }
+    
+    // Reset $form_state and disable redirection for a given subform.
+    // TODO: If multiform submission was successfull, don't prepopulate form again.
+    // Form is not cleared because of $subform_form_state = array('no_redirect' => TRUE);
+    // But w/o no_redirect only first form is submitted
+    // Also no_redirect would suppress multistep forms.
+    // To avoid this, redirect multiform itself if submission was successfull.
+    $subform_form_state = array('no_redirect' => TRUE);
+    // This line is copied from drupal_get_form().
+    $subform_form_state['build_info']['args'] = $subform_args;
+    
+    // Build and process current subform.
+    $unprocessed_form = array();
+    $subform_form = abc_drupal_build_subform($subform_id, $subform_form_state, $unprocessed_form);
+    // Store data for delayed submit.
+    abc_delayed_submit_prepare($multiform, $subform_form, $subform_form_state, $subform_id, $unprocessed_form);
+  }
+  
+  // At this point all subforms were validated.
+  
+  foreach ($subforms as $index => $subform) {
+    $subform_id = $subform['form_id'];
+    $subform_form = $subform_form_state = array();
+    
+    abc_delayed_submit_execute($multiform, $subform_form, $subform_form_state, $subform_id);
+    
+    // Do not render the <form> tags. Instead we render the <form> as a <div>.
+    $subform_form['#theme_wrappers'] = array('container');
+    // Unset any attributes specifics to form tags.
+    // TODO: Check attributes for multiform itself
+    $disallowed_attributes = array('enctype', 'action', 'method');
+    $subform_form['#attributes'] = array_diff_key($subform_form['#attributes'], array_flip($disallowed_attributes));
+    
+    // Change #name elements' attribute to post values correctly considering multiform _POST array structure.
+    _abc_get_form($subform_form, $subform_id);
+    
+    $form['multiform'][] = $subform_form;
+    
+    if (isset($subform_form_state['has_file_element'])) {
+      $form['#attributes']['enctype'] = 'multipart/form-data';
+    }
+    
+  }
+  
+  return $form;
+}
+
+// TODO: Rename
+function _abc_get_form(&$element, $form_id) {
+  // Recurse.
+  foreach (element_children($element) as $key) {
+    _abc_get_form($element[$key], $form_id);
+  }
+  
+  // By only changing $element['#name'] form API is not affected but the
+  // browser will put the element values into _POST where multiform_get_form
+  // expects them.
+  if (isset($element['#name'])) {
+    // If the name was op then we want multiform[$form_id][op]. If it was
+    // foo[bar] then we want multiform[$form_id][foo][bar].
+    $element['#name'] = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $element['#name']);
+  }
+}
