@@ -599,8 +599,8 @@ function at_reg_user_register_after_execute(&$multiform, $index) {
 
   if (og_user_access($group_type, $gid, 'subscribe without approval')) {
     // Hide the user request field.
-    if (!empty($form[OG_MEMBERSHIP_REQUEST_FIELD])) {
-      $form[OG_MEMBERSHIP_REQUEST_FIELD]['#access'] = FALSE;
+    if (!empty($og_form[OG_MEMBERSHIP_REQUEST_FIELD])) {
+      $og_form[OG_MEMBERSHIP_REQUEST_FIELD]['#access'] = FALSE;
     }
   }
 

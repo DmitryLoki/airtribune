@@ -54,6 +54,9 @@ function abc_get_form($settings) {
     $subform_form = abc_drupal_build_subform($subform_id, $subform_form_state, $unprocessed_form);
     // Store data for delayed submit.
     abc_delayed_submit_prepare($multiform, $subform_form, $subform_form_state, $subform_id, $unprocessed_form);
+    
+    // TODO: Temporary solution for #after_execute in abc_delayed_submit_execute().
+    $multiform['#subforms'][$subform_id]['#subform_settings'] = $subform;
   }
   
   // At this point all subforms were validated.
