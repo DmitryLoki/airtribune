@@ -29,7 +29,7 @@ function airtribune_soon_country_countries_list() {
     $links[] = array(
       'href'  => "soon_country/{$code}/",
       'title' => $name,
-      'attributes' =>array('class' => array('use-ajax')),
+      'attributes' =>array('class' => array('use-ajax'), 'rel' => array('nofollow')),
     );
   }
 
