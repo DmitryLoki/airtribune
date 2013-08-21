@@ -3182,14 +3182,16 @@ html.fb_view { overflow: auto;}
 .front_live_events .field-day-status-0 {display:none}
 .front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0;}
 .front_live_events .views-row:hover .views-field-field-logo { display: block;}
+.front_live_events .views-field-nothing { position: relative; z-index: 100; height: 100%;}
 .front_live_events .views-field-nothing a { display: block; width: 100%; height: 100%; overflow: hidden; text-indent: -9999px; position: absolute; top: 0; left: 0; z-index: 10;}
 
 .front_live_events .view_confirmed_pilots { float: left; max-width: 50%; color: #a3b9cc; font: 12px/10px Verdana, Geneva, sans-serif; padding-top: 3px;}
 .front_live_events .view_confirmed_pilots_1 { color: #c8d40e; margin-right: 9px;}
-.front_live_events .view_confirmed_pilots .es-label { margin-left: 5px; padding-top: 4px; float: left;}
-.front_live_events .view_confirmed_pilots .es-label span { font-size: 10px; color: #788896; word-spacing: -2px; letter-spacing: -1px;}
+.front_live_events .view_confirmed_pilots .es-label { margin-left: 5px; padding-top: 4px; float: left; overflow: hidden; max-width: 51px;}
+.i18n-en .front_live_events .view_confirmed_pilots .es-label { max-width: 55px;}
+.front_live_events .view_confirmed_pilots .es-label span { font-size: 10px; color: #788896; word-spacing: -2px; letter-spacing: -1px; white-space: nowrap;}
 .front_live_events .view_confirmed_pilots_1 .es-label span { color: #959e0a}
-.front_live_events .view_confirmed_pilots .es-count { text-align: right; float: left; font: bold 26px/26px Verdana, Geneva, sans-serif;}
+.front_live_events .view_confirmed_pilots .es-count { text-align: right; float: left; font: bold 26px/26px Verdana, Geneva, sans-serif; letter-spacing: -2px}
 
 .front_live_events .country_title { float: left;}
 .front_live_events .change_location { float: left; margin: 0 0 0 10px; position: relative;}
