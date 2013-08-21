@@ -1809,6 +1809,7 @@ ui-accordion-header ui-state-active
 #page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
 #page .view-events-list .views-row-first .views-field { padding-top:2px;}
 #page .view-events-list .views-field-nothing .field-content, #page .view-events-list .views-field-nothing-1 .field-content { display:block; padding:0 0 0 31px}
+#page .view-display-id-page_events_next .views-row-first { margin-top: -26px;}
 a.next_event { color:#525d66; font:bold 18px/20px Arial, Helvetica, sans-serif; text-decoration:none; cursor:pointer; display:block; overflow:hidden}
 a.next_event:hover { color:#00aeef}
 a.next_event .title { font-weight:bold; display:block; padding-bottom:11px}
