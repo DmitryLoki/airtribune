@@ -119,7 +119,7 @@ if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
         print 'Open Distance';
       }
       else {
-        $fields['field_optdistance']->content . " km";
+        print $fields['field_optdistance']->content . " km";
       }
     } else {//---
       print "<div class=\"day-number\" data-href=\"#day_{$spike_day}\"></div>";
