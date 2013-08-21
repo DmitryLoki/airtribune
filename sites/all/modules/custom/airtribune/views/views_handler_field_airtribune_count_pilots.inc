@@ -38,12 +38,12 @@ class views_handler_field_airtribune_count_pilots extends views_handler_field_en
 
       switch ($this->options['status']) {
         case AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST:
-          $text_1 = str_replace($result, '', format_plural($result, 'Pilot in waitng list', '@count Pilots'));
+          $text_1 = str_replace($result, '', format_plural($result, 'Pilot', '@count Pilots'));
           $text_2 = t('in waiting list');
           break;
 
         case AIRTRIBUNE_PG_CONTESTANT_CONFIRMED:
-          $text_1 = str_replace($result, '', format_plural($result, 'Confirmed pilot', '@count Pilots'));
+          $text_1 = str_replace($result, '', format_plural($result, 'Pilot', '@count Pilots'));
           $text_2 = t('confirmed');
           break;
       }
