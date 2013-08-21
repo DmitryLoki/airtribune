@@ -67,7 +67,7 @@ return;
   );
   $content['pilots_confirmed']['text'] = array(
     '#theme' => 'container',
-    '#markup' => str_replace($pilots_confirmed, '', format_plural($pilots_confirmed, 'Confirmed pilot', '@count Confirmed pilots')),
+    '#markup' => str_replace($pilots_confirmed, '', format_plural($pilots_confirmed, 'Pilot', '@count Pilots')),
     '#attributes' => array('class' => array('pilots-text')),
   );
 
