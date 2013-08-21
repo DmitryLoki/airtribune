@@ -13,6 +13,7 @@ define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
 // See field field_pg_contestant_status allowed values list.
+define('AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST', 1);
 define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
 define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
 define('AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE', 'contest_gallery_thumb');
@@ -80,12 +81,38 @@ define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
 
 /**
+ * Implements hook_views_api().
+ */
+function airtribune_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'airtribune') . '/views',
+  );
+}
+
+
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function airtribune_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
     return 'plugins/' . $plugin_type;
   }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function airtribune_menu() {
+  $items['soon_country/%'] = array(
+    'page callback' => 'airtribune_soon_country',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'plugins/content_types/soon_country/soon_country.inc',
+  );
+  return $items;
 }
 
 /**
@@ -209,6 +236,9 @@ function airtribune_theme() {
       'template' => 'airtribune-event-statistics-pane',
       'path' => $content_plugins_path . '/event_statistics',
       'file' => 'event_statistics.inc',
+      'render element' => 'elements',
+    ),
+    'airtribune_event_statistics' => array(
       'render element' => 'elements',
     ),
   );
@@ -426,9 +456,11 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $vars['title'] = t($configuration['title']);
   }
 
-
-  if ($vars['pane']->subtype == 'live_events') {
+  if ($vars['pane']->subtype == 'frontpage_events-live_events_pane') {
     $vars['title'] .= l(t('View all'), 'events/current');
+  }
+  if ($vars['pane']->subtype == 'frontpage_events-soon_worldwide_pane') {
+    $vars['title'] .= l(t('View all'), 'events/next');
   }
 
   // Add 'view more' links to panes.
@@ -708,11 +740,25 @@ function airtribune_views_query_alter(&$view, &$query) {
     );
   }
 
+  // Prevent Live events duplication.
+  // See #3538.
+  if ($view->name == 'live_events') {
+
+
+    foreach($query->fields as $key => $field) {
+      //$query->fields[$key]['aggregate'] = TRUE;
+    }
+    $query->add_groupby('nid');
+
+  }
+
+
   // See http://drupal.org/node/1451218#comment-6136692
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
 }
+
 
 /**
  * Make normal, human sort in FAI pilot list (by nation)
@@ -722,6 +768,7 @@ function airtribune_views_query_alter(&$view, &$query) {
  * @see #3302
  */
 function airtribune_views_pre_render(&$view) {
+
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
     // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
     if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
@@ -1234,6 +1281,7 @@ function airtribune_user_pass_validate($form, &$form_state) {
 
 }
 
+
 function airtribune_cron() {
   _create_day_for_contest();
 }
@@ -1305,4 +1353,33 @@ function _create_day_for_contest() {
       }
     }
   }
+
+/**
+ * Count contestants.
+ */
+function airtribune_count_pilots($nid, $status = NULL) {
+  $view = views_get_view('paragliding_contest_pilots_stats');
+  $view->set_arguments(array($nid, $status));
+
+  $view->execute();
+  return count($view->result);
+}
+
+/**
+ * Returns HTML for an event statistics block.
+ */
+function theme_airtribune_event_statistics($vars) {
+  $elements = $vars['elements'];
+  $output = '<div' . drupal_attributes($elements['#attributes']) . '>';
+  $output .= '<div class="es-count">' . $elements['#count'] . '</div>';
+  $output .= '<div class="es-label">';
+  if (empty($elements['#url'])) {
+    $output .= $elements['#text_1'];
+  }
+  else {
+    $output .= l($elements['#text_1'], $elements['#url'], array('context' => 'event-statistics'));
+  }
+  $output .= '<br/><span>' . t($elements['#text_2'], array(), array('context' => 'event-statistics-accommodation')) . '</span>';
+  $output .= '</div></div>';
+  return $output;
 }
