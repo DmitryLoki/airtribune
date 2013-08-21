@@ -13,7 +13,8 @@ jQuery(function ($) {
     return;
   }
 
-  var eventTitleLink = $('#event-title a');
+  var eventTitleLink = $('#event-title a'),
+    eventID = eventHref[1];
   if (!eventTitleLink.length) {
     return;
   }
@@ -27,13 +28,13 @@ jQuery(function ($) {
 
   //remove from recently viewed link on current event
   for (var i = 0, l = recentlyViewed.length; i < l; ++i) {
-    if (recentlyViewed[i].href == eventHref) {
+    if (recentlyViewed[i].eventID == eventID) {
       recentlyViewed.splice(i, 1);
       break;
     }
   }
 
-  recentlyViewed.unshift({title: eventTitle, href: eventHref});
+  recentlyViewed.unshift({title: eventTitle, href: eventHref, eventID: eventID});
 
   localStorage[lsKey] = JSON.stringify(recentlyViewed);
 });
