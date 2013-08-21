@@ -16,6 +16,27 @@ $plugin = array(
 );
 
 /**
+ * Get countries for Soon in country select list.
+ */
+function airtribune_soon_country_countries_list() {
+  $view = views_get_view('frontpage_events');
+  $view->set_display('soon_country_list_entityreference');
+  $view->execute();
+  $links = array();
+  foreach ($view->result as $r) {
+    $name = $r->field_field_country[0]['rendered']['#markup'];
+    $code = strtolower($r->field_field_country_1[0]['raw']['iso2']);
+    $links[] = array(
+      'href'  => "soon_country/{$code}/",
+      'title' => $name,
+      'attributes' =>array('class' => array('use-ajax')),
+    );
+  }
+
+  return $links;
+}
+
+/**
  * Render event title pane.
  */
 function airtribune_soon_country_content_type_render($subtype, $conf, $panel_args, $context) {
@@ -26,26 +47,7 @@ function airtribune_soon_country_content_type_render($subtype, $conf, $panel_arg
   $content = '<div id="soon-county-wrapper"></div>';
   $title = t('Soon in country');
 
-  $links[] = array(
-    'href'  => 'soon_country/de/',
-    'title' => t('Germany'),
-    'attributes' =>array('class' => array('use-ajax')),
-  );
-  $links[] = array(
-    'href'  =>  'soon_country/ru/',
-    'title' => t('Russia'),
-    'attributes' =>array('class' => array('use-ajax')),
-  );
-  $links[] = array(
-    'href'  =>  'soon_country/ua/',
-    'title' => t('Ukraine'),
-    'attributes' =>array('class' => array('use-ajax')),
-  );
-  $links[] = array(
-    'href'  =>  'soon_country/tr/',
-    'title' => t('Turkey'),
-    'attributes' =>array('class' => array('use-ajax')),
-  );
+  $links = airtribune_soon_country_countries_list();
 
   $location = array(
     '#theme' => 'links',
