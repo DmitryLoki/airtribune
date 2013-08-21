@@ -384,6 +384,28 @@ function image_styles_feature_image_default_styles() {
     ),
   );
 
+  // Exported image style: frontpage_event_padding.
+  $styles['frontpage_event_padding'] = array(
+    'name' => 'frontpage_event_padding',
+    'effects' => array(
+      10 => array(
+        'label' => 'Resize',
+        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+        'effect callback' => 'image_resize_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_resize',
+        'data' => array(
+          'width' => '230',
+          'height' => '270',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: header.
   $styles['header'] = array(
     'name' => 'header',
