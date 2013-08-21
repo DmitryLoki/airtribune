@@ -3211,3 +3211,10 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
+
+.pane-recently-viewed {display: none}
+.second_sidebar .pane-recently-viewed h2.block-title { text-align: left;}
+.pane-recently-viewed .pane-content ul { margin: 4px 0 8px 2px; padding: 0;}
+.pane-recently-viewed ul li { margin: 0; padding: 0 0 9px; list-style: none; list-style-image: none; line-height: 15px;}
+.pane-recently-viewed a { color: #525d66; font: 14px/15px Arial, Helvetica, sans-serif; text-decoration: none;}
+.pane-recently-viewed a:hover { color: #00aeef}

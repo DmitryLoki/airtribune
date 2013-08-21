@@ -882,9 +882,25 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
+
   // Disable admin menu on visualisation page
   if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
+  }
+
+  // See #3544-2
+  drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/events.js');
+
+  // We need distinguish drupal pages, to get pinba statistics.
+  // Change name of script from 'index.php' to requested $q variable
+  // @see #3283
+  if (extension_loaded('pinba') && function_exists('pinba_script_name_set')) {
+    $request = $_SERVER['REQUEST_URI'];
+    // temp code, remove after moving files directory to /files
+    if (strpos($request, '/sites/default/files') !== FALSE) {
+      $request = substr($request, 15);
+    }
+    pinba_script_name_set($request);
   }
 
   // Set breadcrumbs for current page if it exists.
@@ -905,6 +921,8 @@ function airtribune_init() {
       drupal_goto('events/past');
     }
   }
+
+
 }
 
 /**
