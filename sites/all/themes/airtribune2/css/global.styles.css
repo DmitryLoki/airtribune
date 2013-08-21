@@ -3096,7 +3096,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 #airtribune-player .gmap {}
 #airtribune-player .gmap > div > .gmnoprint:nth-child(3n+1) { top: 117px !important; left: 12px !important;}
-#airtribune-player .gmap > div > .gmnoprint:last-child { top: 124px !important; right: 40px !important;}
+#airtribune-player .gmap > div > .gmnoprint:last-child { top: 118px !important; right: 40px !important; left: 12px !important;}
 
 .setUserVisualMode,
 .setProfVisualMode { background: url(../images/prof.png) no-repeat 0 -30px; position: absolute; top: 129px; right: 35px; width: 30px; height: 30px; text-indent: -9999px; overflow: hidden;}
