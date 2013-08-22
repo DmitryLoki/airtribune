@@ -83,28 +83,34 @@ function at_messages_init() {
  * Hide drupal messages or replace messages to our values
  */
 function at_messages_msg_changer() {
-  $hide_messages = array (
+  $hide_messages = array(
     'You have already registered this identity.' // hybridauth
   );
-  $replace_messages = array (
+  $replace_messages = array(
     //'Some string' => 'Replaced string',
-    'New identity added.' => 'Your Facebook account has been added successfully.', // hybridauth
-    'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions have been sent to your email.', // guest register
-    'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.', // guest activate account by email link
-    'You have just used your one-time login link. It is no longer necessary to use this link to log in. Please change your password.' => 'You just used one-time login-in link. You may reset your password now.', // user pass reset one-time link
-    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect. <a href="/user/password">Forgot your password?</a>', // user pass recovery
-    'A confirmation email has been sent to your new email address. You must follow the link provided in that email within 24 hours in order to confirm the change to your account email address.' => 'The change email procedure has been initialized. You have 24 hours to finish it. Further instructions have been sent to your new email address. Until you confirm your new email the old email address will be valid as your login in the system.', // email_change init procedure
+    'New identity added.' => 'Your Facebook account has been added successfully.',
+    // hybridauth
+    'A welcome message with further instructions has been sent to your e-mail address.' => 'Thank you for registration on Airtribune. Further instructions have been sent to your email.',
+    // guest register
+    'You have just used your one-time login link. Your account is now active.' => 'Congratulations! Your Airtribune account has been created.',
+    // guest activate account by email link
+    'You have just used your one-time login link. It is no longer necessary to use this link to log in. Please change your password.' => 'You just used one-time login-in link. You may reset your password now.',
+    // user pass reset one-time link
+    'Sorry, unrecognized username or password. <a href="/user/password">Have you forgotten your password?</a>' => 'The username or password you have entered is incorrect. <a href="/user/password">Forgot your password?</a>',
+    // user pass recovery
+    'A confirmation email has been sent to your new email address. You must follow the link provided in that email within 24 hours in order to confirm the change to your account email address.' => 'The change email procedure has been initialized. You have 24 hours to finish it. Further instructions have been sent to your new email address. Until you confirm your new email the old email address will be valid as your login in the system.',
+    // email_change init procedure
     'Your e-mail address is now %mail.' => AT_MSG_SITE_USER_MAIL_CHANGE_CONFIRMED,
   );
   if ($messages = drupal_get_messages()) {
-    foreach($messages  as $type => $messages_by_type) {
-      foreach($messages_by_type as $key => $message) {
-        if (array_key_exists(t($message), $replace_messages)){
+    foreach ($messages as $type => $messages_by_type) {
+      foreach ($messages_by_type as $key => $message) {
+        if (array_key_exists(t($message), $replace_messages)) {
           $message = t($replace_messages[$message]);
         }
         // if current message not in message list, which we want to hide,
         // then again add this msg to drupal msg stack
-        if (!in_array(t($message), $hide_messages)){
+        if (!in_array(t($message), $hide_messages)) {
           drupal_set_message($message, $type);
         }
       }
@@ -150,7 +156,8 @@ function at_messages_register_at_event_submit($form, &$form_state) {
       $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
       $contestant_number = $form_state['values']['field_contestant_number']['und'][0]['value'];
     }
-  } else {
+  }
+  else {
     // already registered user/pilot try to reg on event
     $f = $form_state['values'];
     $user = $form_state['user'];
@@ -230,7 +237,8 @@ function at_messages_register_at_event_submit($form, &$form_state) {
       // after form sending drupal generate one-time password reset link, which will be sended to user by email
       // when user click this link & activate account, we send
     }
-  } else {
+  }
+  else {
     drupal_set_message(t(AT_MSG_SITE_PILOT_REG_ON_EVENT, $full_info));
     $mail_pilot = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail_to_pilot));
     $mail_org = drupal_mail('system', 'mail', $organiser->mail, user_preferred_language($organiser), array('context' => $mail_to_org));

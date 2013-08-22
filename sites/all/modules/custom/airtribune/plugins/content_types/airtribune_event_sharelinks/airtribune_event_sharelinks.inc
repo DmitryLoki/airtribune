@@ -31,7 +31,8 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
   if (empty($context) || empty($context->data)) {
     // if pane loaded on <front>
     $alias = "";
-  } else {
+  }
+  else {
     // event node
     $node = $context->data;
 
@@ -47,11 +48,21 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
       // get inner path, like event/1234/pilots
       $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
       $end = "/";
-      if (strpos($path, "blog")) $end .= "blog";
-      if (strpos($path, "map")) $end .= "map";
-      if (strpos($path, "pilots")) $end .= "pilots";
-      if (strpos($path, "results")) $end .= "results";
-      if (strpos($path, "info") || strpos($path, "info/details") || strpos($path, "register"))  $end .= "info";
+      if (strpos($path, "blog")) {
+        $end .= "blog";
+      }
+      if (strpos($path, "map")) {
+        $end .= "map";
+      }
+      if (strpos($path, "pilots")) {
+        $end .= "pilots";
+      }
+      if (strpos($path, "results")) {
+        $end .= "results";
+      }
+      if (strpos($path, "info") || strpos($path, "info/details") || strpos($path, "register")) {
+        $end .= "info";
+      }
       $alias = drupal_get_path_alias('event/' . $node->nid . $end);
     }
     // node/nid
@@ -59,7 +70,7 @@ function airtribune_airtribune_event_sharelinks_content_type_render($subtype, $c
       $alias = drupal_get_path_alias('node/' . $node->nid);
     }
   }
-  if (arg(2) == 'blog' && !empty($context) && $context->data->type =='pg_contest') {
+  if (arg(2) == 'blog' && !empty($context) && $context->data->type == 'pg_contest') {
     $alias = drupal_get_path_alias('event/' . $context->data->nid . '/blog/' . arg(3));
   }
 

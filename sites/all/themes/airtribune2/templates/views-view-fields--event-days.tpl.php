@@ -104,6 +104,8 @@ if (!$day_number && !($day_number === 0)) {
 print $fields['title']->wrapper_prefix;
 $separator = ' — ';
 $field_day_status = $fields['field_day_status']->content;
+$race_type = $fields['type']->raw;
+
 // race day
 if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
   $spike_day = $day_number--; 
@@ -112,7 +114,13 @@ if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
   if ($fields['title_1']->content) {
     if (!empty($day)) { //--- fucking dirty kostyl'
       print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-      print $fields['field_day_number']->label . " " . $day . $separator . $fields['field_race_number']->label . " " . $task . ' - ' . $fields['field_optdistance']->content . " km";
+      print $fields['field_day_number']->label . " " . $day . $separator . $fields['field_race_number']->label . " " . $task . ' - ';
+      if ($race_type == 'pg_racetype_od') {
+        print 'Open Distance';
+      }
+      else {
+        print $fields['field_optdistance']->content . " km";
+      }
     } else {//---
       print "<div class=\"day-number\" data-href=\"#day_{$spike_day}\"></div>";
       print t('Day') . " $spike_day " . $separator . $fields['title_1']->content; //---

@@ -1,0 +1,66 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class EntityRacetypeTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Racetype entity test',
+      'description' => 'Ensure that points gets deleted with racetype',
+      'group' => 'Airtribune',
+    );
+  }
+  
+  public function setUp() {
+    parent::setUp('entity', 'eck',  'at_entity_cascade', 'ent_race', 'ent_racetype', 'ent_point','entityreference');// Turn on modules.
+    
+    $field = array(
+      'entity_types' => array('ent_racetype'),
+      'settings' => array(
+        'handler' => 'base',
+        'target_type' => 'ent_point',
+        'handler_settings' => array(
+          'target_bundles' => array(),
+        ),
+      ),
+      'field_name' => 'field_pg_race_points',
+      'type' => 'entityreference',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED
+    );
+    $field = field_create_field($field);
+    $instance = array(
+      'field_name' => 'field_pg_race_points',
+      'bundle' => 'ent_racetype',
+      'entity_type' => 'ent_racetype',
+    );
+
+    field_create_instance($instance);
+    $ei = entity_get_info('ent_racetype');
+    $this->verbose($ei['label']);
+    $e = entity_create('ent_racetype', array('type' => 'ent_racetype'));
+    $w = entity_metadata_wrapper('ent_racetype', $e);
+    for ($i = 0; $i < 3; $i++) {
+      $et = entity_create('ent_point', array('type' => 'ent_point'));
+      $wt = entity_metadata_wrapper('ent_point', $et);
+      $wt->save();
+    }
+    $w->field_pg_race_points->set(array(1,2,3));
+    $w->save();
+  }
+  
+  public function testEntityRacetypeCascade() {
+    $this->pass('Race Cascade');
+    $w = entity_metadata_wrapper('ent_racetype', 1);
+    //$wt = entity_metadata_wrapper('ent_racetype', 1);
+    $this->assertEqual($w->type(), 'ent_racetype', 'Entity racetype with id 1 present');
+    //$this->assertEqual($wt->type(), 'ent_racetype', 'Entity racetype with id 1 present');
+    $this->assertEqual(count($w->field_pg_race_points), 3, 'ent_racetype has 3 linked points');
+    $w->delete();
+    $ent_array = entity_load('ent_point');
+    $this->assertTrue(empty($ent_array), 'All points are deleted.');
+  }
+  
+}

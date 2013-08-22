@@ -43,7 +43,12 @@ function at_user_menu_alter(&$items) {
   // hide the tab on the user account page
   $items['user/%user_category/edit/main']['access callback'] = FALSE;
   // override to our
-  $items['user/registrationpassword/%/%/%']['page arguments'] = array('at_user_registrationpassword_confirm_account', 2, 3, 4);
+  $items['user/registrationpassword/%/%/%']['page arguments'] = array(
+    'at_user_registrationpassword_confirm_account',
+    2,
+    3,
+    4
+  );
 }
 
 /**
@@ -74,16 +79,20 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     // make upload & delete (user_picture / avatar imagefield) without form_submit
     // see #2764
     if (isset($form_state['values']['field_user_avatar_und_0_remove_button']) &&
-        $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove") {
+      $form_state['values']['field_user_avatar_und_0_remove_button'] == "Remove"
+    ) {
       at_user_photo_ajax_remove($form, $form_state, $form_id);
     }
     $lang = $form['field_user_avatar']['#language'];
     // own field validators
     $form['field_user_avatar'][$lang][0]['#upload_validators'] = array();
     //unset($form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_image_resolution']);
-    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_extensions'] = array(0=>'png gif jpg jpeg');
-    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(0=>'150x150',1=>'60x60');
-    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0=>(200*1024));
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_extensions'] = array(0 => 'png gif jpg jpeg');
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(
+      0 => '150x150',
+      1 => '60x60'
+    );
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0 => (200 * 1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
 
     // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
@@ -130,8 +139,8 @@ function at_user_photo_ajax_remove(&$form, $form_state, $form_id) {
     file_delete($file);
 
     // empty fields & save user data
-    $edit['picture'] = null;
-    $edit['field_user_avatar'] = null;
+    $edit['picture'] = NULL;
+    $edit['field_user_avatar'] = NULL;
     $saved_user = user_save($user, $edit);
   }
 }
@@ -175,7 +184,7 @@ function at_user_photo_ajax_upload(stdClass $file) {
   global $user;
 
   if ($res = file_copy($file, 'public://pictures/')) {
-    $account         = user_load($user->uid);
+    $account = user_load($user->uid);
 
     $edit['picture'] = $res;
     $edit['field_user_avatar']['und'][] = array(
@@ -183,13 +192,13 @@ function at_user_photo_ajax_upload(stdClass $file) {
       // 'title' => '',
       // 'width' => 100,
       // 'height' => 100,
-      'fid'       => $res->fid,
-      'uid'       => $res->uid,
-      'uri'       => $res->destination,
-      'status'    => $res->status,
-      'filename'  => $res->filename,
-      'filemime'  => $res->filemime,
-      'filesize'  => $res->filesize,
+      'fid' => $res->fid,
+      'uid' => $res->uid,
+      'uri' => $res->destination,
+      'status' => $res->status,
+      'filename' => $res->filename,
+      'filemime' => $res->filemime,
+      'filesize' => $res->filesize,
       'timestamp' => $res->timestamp,
     );
     $saved_user = user_save($account, $edit);
@@ -249,12 +258,14 @@ function at_user_login_error_redirect_to_form($form, &$form_state) {
 function at_user_preprocess_page(&$variables) {
   $tabs_to_disable = array(
     // 'user/%/devel', 'node/%/devel', 'node/%/log',
-    'user/%/view', 'profile-pilot/%/view', 'profile-main/%/view'
+    'user/%/view',
+    'profile-pilot/%/view',
+    'profile-main/%/view'
   );
   foreach ($variables['tabs'] as $group_key => $tab_group) {
     if (is_array($tab_group)) {
       foreach ($tab_group as $key => $tab) {
-        if (isset($tab['#link']['path']) && in_array($tab['#link']['path'], $tabs_to_disable)){
+        if (isset($tab['#link']['path']) && in_array($tab['#link']['path'], $tabs_to_disable)) {
           unset($variables['tabs'][$group_key][$key]);
         }
       }
@@ -273,14 +284,21 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
   if ($user->uid) {
     // The existing user is already logged in.
     if ($user->uid == $uid) {
-      drupal_set_message(t('You are logged in as %user. <a href="!user_edit">Change your password.</a>', array('%user' => $user->name, '!user_edit' => url("user/$user->uid/edit"))));
+      drupal_set_message(t('You are logged in as %user. <a href="!user_edit">Change your password.</a>', array(
+        '%user' => $user->name,
+        '!user_edit' => url("user/$user->uid/edit")
+      )));
     }
     // A different user is already logged in on the computer.
     else {
       $reset_link_account = user_load($uid);
       if (!empty($reset_link_account)) {
         drupal_set_message(t('Another user (%other_user) is already logged into the site on this computer, but you tried to use a one-time link for user %resetting_user. Please <a href="!logout">logout</a> and try using the link again.',
-          array('%other_user' => $user->name, '%resetting_user' => $reset_link_account->name, '!logout' => url('user/logout'))));
+          array(
+            '%other_user' => $user->name,
+            '%resetting_user' => $reset_link_account->name,
+            '!logout' => url('user/logout')
+          )));
       }
       else {
         // Invalid one-time link specifies an unknown user.
@@ -302,7 +320,10 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
         drupal_goto('user/password');
       }
       elseif ($account->uid && $timestamp >= $account->login && $timestamp <= $current && $hashed_pass == user_pass_rehash($account->pass, $timestamp, $account->login)) {
-        watchdog('user', 'User %name used one-time login link at time %timestamp.', array('%name' => $account->name, '%timestamp' => $timestamp));
+        watchdog('user', 'User %name used one-time login link at time %timestamp.', array(
+          '%name' => $account->name,
+          '%timestamp' => $timestamp
+        ));
         // Activate the user.
         $account = user_save($account, array('status' => 1));
         // Set the new user.
@@ -337,7 +358,8 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
             $mail_org = drupal_mail('system', 'mail', $organiser->mail, user_preferred_language($organiser), array('context' => $mail_to_org));
             unlink($mail_dir . '/' . $user->uid . '_to_pilot.mail');
             unlink($mail_dir . '/' . $user->uid . '_to_org.mail');
-          } else {
+          }
+          else {
             watchdog(WATCHDOG_ERROR, 'cant load & send confirm email about pilot registration for uid: !uid', array('!uid' => $user->uid));
           }
 //        dpm($mail_dir, 'mail_dir');
@@ -348,7 +370,8 @@ function at_user_registrationpassword_confirm_account($form, &$form_state, $uid,
 //        dpm($mail_org, 'mail_org');
           // redirect to pilot list
           drupal_goto('event/' . $event->nid . '/pilots');
-        } else {
+        }
+        else {
           drupal_goto('user');
         }
         // AIRTRIBUNE SECTION END

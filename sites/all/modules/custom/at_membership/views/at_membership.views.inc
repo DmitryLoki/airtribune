@@ -25,7 +25,7 @@ function at_membership_views_data() {
       'handler' => 'views_handler_field_og_membership_link_edit',
     ),
   );
-  
+
   return $data;
 }
 

@@ -1,0 +1,398 @@
+<?php
+
+/**
+ * @file
+ * Module that enables cascading deletion of entities
+ */
+
+/**
+ * Interface for controllers that support cascading deletion of entities.
+ */
+interface CascadePointInterface {
+  public function cascade($ids);
+  public function deleteSimple($ids, DatabaseTransaction $transaction = NULL);
+  public function getRelations();
+  public function getEntityReferenceFields($entity, $bundle);
+}
+
+class CascadePointController extends EntityAPIController 
+  implements CascadePointInterface {
+  
+  protected $relations;
+  
+  // Map of entity fields marked for deletion by cascade.
+  // 3-dimensional array: [entity][id][field].
+  protected static $cascadeMap;
+  
+  // Map of entities allowed for deletion.
+  protected static $deleteMap;
+  
+  // Map of entities blocked for deletion.
+  protected static $blockMap;
+  
+  /**
+   * Delete without cascading.
+   * @param array $ids
+   * @param DatabaseTransaction $transaction
+   */
+  public function deleteSimple($ids, DatabaseTransaction $transaction = NULL) {
+    parent::delete($ids, $transaction);
+  }  
+  
+  /**
+   * Implements EntityAPIControllerInterface.
+   * Overrides EntityAPIController::delete()
+   * @param type $ids
+   * @param DatabaseTransaction $transaction
+   */
+  public function delete($ids, DatabaseTransaction $transaction = NULL) {
+    // Here we need to insert cascading logic
+    // First, we don't take into account inline_entity_forms, which have the 
+    // reverse order of links.
+    // We assume that entity containing reference field is always "slave" one. 
+    // First step - build cascade map.
+    $this->cascade($ids);
+    //dpm($this->entityInfo);
+    //dpm(self::$cascadeMap);
+    // Now we have to iteratively check and propagate blocks, until no new blocks 
+    // are found.
+    /*$this->checkBlocks();
+    $step = 0;
+    do {
+      $step++;
+      $this->propagateBlocks($step);
+      dpm($step);
+      dpm(self::$blockMap[$step]);
+    } while (!empty(self::$blockMap[$step]));
+    // Now we have all the blocks.
+    // We need to flatten blocks map and subtract it from cascade map.
+    // And to call deletion on the result.
+    $entity_types = keys(entity_get_info());
+    foreach ($entity_types as $entity_type) {
+      for ($i = 0; $i <= $step; $i++) {
+        if (isset($blockMap[$entity_type])) {
+          $blockMap[$entity_type] = array_merge($blockMap[$entity_type], self::$blockMap[$i][$entity_type]);
+        }
+        else {
+          $blockMap[$entity_type] = self::$blockMap[$i][$entity_type];
+        }
+      }
+    }
+    dpm(self::$blockMap);
+    // Now flatten cascade map.
+    foreach ($entity_types as $entity_type) {
+      if (is_array(self::$cascadeMap[$entity_type])) {
+        self::$deleteMap[$entity_type] = keys(self::$cascadeMap[$entity_type]);
+      }
+      else {
+        self::$deleteMap[$entity_type] = array();
+      }
+    }
+    // Subtract block map from delete map.
+    foreach ($entity_types as $entity_type) {
+      self::$deleteMap[$entity_type] = array_diff(self::$deleteMap[$entity_type], self::$blockMap[$entity_type]);
+    }
+    // Now we need to call respective entity controllers for deletion. 
+    // And do it in the way we don't initiate cascade again.
+    foreach ($entity_types as $entity_type) {
+      $controller = entity_get_controller($entity_type);
+      if ($controller instanceof CascadePointInterface) {
+        $controller->deleteSimple(self::$deleteMap[$entity_type]);
+      }
+      else {
+        $controller->delete(self::$deleteMap[$entity_type]);
+      }
+    }*/
+  }
+  
+  /**
+   * Checks for blocking conditions on deletion cascade.
+   * 
+   * @param array $ids
+   * @param string $field
+   */
+  public function cascade($ids, $field = NULL) {
+    // Here we need to insert cascading logic
+    // First, we don't take into account inline_entity_forms, which have the 
+    // reverse order of links.
+    // We assume that entity containing reference field is always "slave" one
+    // We need to add this entities to the map.
+    if (isset($field)) {
+      // This means that the deletion is cascaded from somewhere.
+      foreach ($ids as $id) {
+        self::$cascadeMap[$this->entityType][$id][$field] = TRUE;
+      }
+    }
+    else {
+      // This means that the deletion is called directly.
+      foreach ($ids as $id) {
+        self::$cascadeMap[$this->entityType][$id] = TRUE;
+      }
+    }
+    // First, we need to find entities that have entityreference field to this 
+    // entity
+    //$this->getRelations();
+    $related_entities = $this->getRelatedEntities($ids);
+    if (!empty($related_entities)) {
+      foreach ($related_entities as $entity_type => $entity_ids) {
+        $controller = entity_get_controller($entity_type);
+        if ($controller instanceof CascadePointInterface) {
+          $controller->cascade($entity_ids);
+        }
+      }
+    }
+  }
+  
+  protected function checkBlocks() {
+    foreach (self::$cascadeMap as $entity_type => $ids) {
+      // Run through each entity
+      foreach ($ids as $id => $map_fields) {
+        // $value may be an array or TRUE
+        if (is_array($map_fields)) {
+          // Check that each field is in $cascade_map 
+          // We need to get all non-empty entityreference fields.
+          // In our model, entityreference fields may have just 1 value.
+          // @todo Bring bundle detection into separate function.
+          // By now, quick and dirty:
+          $bundle = at_entity_cascade_get_bundle($entity_type, $id);
+          // Now we need to get all entityreference fields of the bundle.
+          $entityreference_fields = $this->getEntityreferenceFields($entity_type, $bundle);
+          $blocked = FALSE;
+          // Now compare with cascade_map
+          if (!empty($entityreference_fields)) {
+            foreach ($entityreference_fields as $field) {
+              // $map_fields is an array of fields from CascadePointController::$cascade_map
+              if (!isset($map_fields[$field]) || !$map_fields[$field]) {
+                // This field was not cascaded. Add it to blocks map.
+                self::$blockMap[$step][$entity_type][] = $id;
+                $blocked = TRUE;
+                break;
+              }
+            }
+            if (!$blocked) {
+              self::$cascadeMap[$entity_type][$id] = TRUE;
+            }
+            else {
+              unset(self::$cascadeMap[$entity_type][$id]);
+            }
+          }
+        }
+      }
+      // Remove duplicates from $blockMap[$step][$entity_type].
+      self::$blockMap[$step][$entity_type] = array_unique(self::$blockMap[$step][$entity_type]);
+    }
+  }
+  
+  protected function propagateBlocks($step = 0) {
+    foreach (self::$blockMap[$step-1] as $entity_type => $ids) {
+      $controller = entity_get_controller($entity_type);
+      if ($controller instanceof CascadePointInterface) {
+        foreach ($ids as $id) {
+          $bundle = at_entity_cascade_get_bundle($entity_type, $id);
+          // Propagate up.
+          $field_names = $controller->getEntityreferenceFields($entity_type, $bundle);
+          if (!empty($field_names)) {
+            $entities = entity_load($entity_type, array($id));
+            foreach ($field_names as $field_name) {
+              $items = field_get_items($entity_type, $entities[0], $field_name);
+              // We need to get referenced entity type.
+              $field_info = field_info_field($field_name);
+              $entity_type = $field_info['settings']['target_type'];
+              // If it's not blocked on previous steps, add it to this step's block.
+              // 1)Check previous steps.
+              $found = FALSE;
+              for ($i = 0; $i < $step; $i++) {
+                $found = $found || in_array($items[0]['target_id'], self::$blockMap[$i][$entity_type]);
+              }
+              if (!$found) {
+                self::$blockMap[$step][$entity_type][] = $items[0]['target_id'];
+              }
+            }
+          }          
+          // Propagate down.
+          // Get entities targeting this one.
+          $related_entities = $this->getRelatedEntities(array($id));
+          if (!empty($related_entities)) {
+            foreach ($related_entities as $entity_type => $ids) {
+              self::$blockMap[$step][$entity_type] = array_merge(self::$blockMap[$step][$entity_type], $ids);
+            }
+          }
+        }
+      }
+    }
+    self::$blockMap[$step][$entity_type] = array_unique(self::$blockMap[$step][$entity_type]);
+  }
+  
+  /**
+   * Get bundles referencing this entity type.
+   * 
+   * @param type $flush
+   * @return array (field_name => array (entity_name => array(bundles)))
+   */
+  public function getRelations($flush = FALSE) {
+    if (is_array($relations) && !$flush) {
+      return $this->relations;
+    }
+    $this->relations = array();
+    // First, we need to find entities that have entityreference field to this 
+    // entity
+    $field_map = field_info_field_map();
+    foreach ($field_map as $field_name => $field_array) {
+      if ($field_array['type'] == 'entityreference') {
+        $field_info = field_info_field($field_name);
+        if ($field_info['settings']['target_type'] == $this->entityType) {
+          // Add this field and its bundles to the potential relations.
+          $this->relations[$field_name] = $field_array['bundles'];
+        }
+      }
+    }
+    return $this->relations;
+  }
+  
+  /**
+   * Get entities, targeting selected entities of this type.
+   * 
+   * @param array $ids
+   * @return array $entity_type => array($ids)
+   */
+  public function getRelatedEntities ($ids = array()) {
+    $relations = $this->getRelations();
+    $result = array();
+    if (!empty($relations)) {
+      foreach ($relations as $field_name => $entity_types) {
+      // $bundles is an array keyed by entity  
+        foreach ($entity_types as $entity_type => $bundles) {
+        // Here we cascade further
+        
+          $controller = entity_get_controller($entity_type);
+          if ($controller instanceof CascadePointInterface) {
+          // Cascade further here:
+          // Get ids of related entities.
+            $query = new EntityFieldQuery();
+            $result = $query->entityCondition('entity', $entity_type)
+                ->fieldCondition($field_name, 'target_id', $ids, 'IN')->execute();
+            $cascade_ids = array_keys($result[$entity_type]);
+            // Cascade to them.
+            $result[$entity_type] = $cascade_ids;
+          }
+        }
+      }
+    }
+    return $result;
+  }
+  
+  
+  /**
+   * Get list of entityreference fields.
+   * 
+   * @param string $entity
+   * @param string $bundle
+   * @todo Not quite clear where this function shoud go.
+   * @todo Should it be static or should it go to particular entity controller.
+   */
+  public function getEntityreferenceFields ($entity, $bundle) {
+    $fields = &drupal_static(__FUNCTION__);
+    if (!isset($fields)) {
+      $map = field_info_field_map();
+      foreach ($map as $field => $field_array) {
+        if ($field_array['type'] == 'entityreference') {
+          foreach ($field_array['bundles'] as $entity_name => $bundles) {
+            foreach ($bundles as $bundle_name) {
+              $fields[$entity_name][$bundle_name][] = $field;
+            } 
+          }
+        }
+      }
+    }
+    return $fields[$entity][$bundle];
+  }
+  
+}
+
+
+class NodeCascadeController extends CascadePointController implements CascadePointInterface {
+  
+    protected function attachLoad(&$nodes, $revision_id = FALSE) {
+    // Create an array of nodes for each content type and pass this to the
+    // object type specific callback.
+    $typed_nodes = array();
+    foreach ($nodes as $id => $entity) {
+      $typed_nodes[$entity->type][$id] = $entity;
+    }
+
+    // Call object type specific callbacks on each typed array of nodes.
+    foreach ($typed_nodes as $node_type => $nodes_of_type) {
+      if (node_hook($node_type, 'load')) {
+        $function = node_type_get_base($node_type) . '_load';
+        $function($nodes_of_type);
+      }
+    }
+    // Besides the list of nodes, pass one additional argument to
+    // hook_node_load(), containing a list of node types that were loaded.
+    $argument = array_keys($typed_nodes);
+    $this->hookLoadArguments = array($argument);
+    parent::attachLoad($nodes, $revision_id);
+  }
+
+  protected function buildQuery($ids, $conditions = array(), $revision_id = FALSE) {
+    // Ensure that uid is taken from the {node} table,
+    // alias timestamp to revision_timestamp and add revision_uid.
+    $query = parent::buildQuery($ids, $conditions, $revision_id);
+    $fields =& $query->getFields();
+    unset($fields['timestamp']);
+    $query->addField('revision', 'timestamp', 'revision_timestamp');
+    $fields['uid']['table'] = 'base';
+    $query->addField('revision', 'uid', 'revision_uid');
+    return $query;
+  }
+}
+
+function at_entity_cascade_get_bundle($entity_type, $id) {
+  $bundles = &drupal_static(__FUNCTION__);
+  if (!isset($bundles) || !isset($bundles[$entity_type]) || !isset($bundles[$entity_type][$id])) {
+    $entity_info = entity_get_info($entity_type);
+    // More than one bundle for entity type.
+    $column = $entity_info['entity keys']['bundle'];
+    $table = $entity_info['base table'];
+    $id_column = $entity_info['entity keys']['id'];
+    $query = db_select($table)->fields($table, array($column))->condition($id_column, $id)->execute();
+    $result = $query->fetchAssoc();
+    if (!empty($result)) {
+      $bundles[$entity_type][$id] = $result[$column];
+    }
+    else {
+      $bundles[$entity_type][$id] = NULL;
+    }
+  }
+  return $bundles[$entity_type][$id];
+}
+
+abstract class CascadeEntityController extends EntityAPIController {
+  
+  public $referenceField;
+  
+  /**
+   * Implements deletion of related entities, linked through $referenceField of 
+   * entityreference type,
+   * which belongs to the entity for which controller is implemented.
+   * @param array $ids
+   * @param DatabaseTransaction $transaction
+   */
+  public function delete ($ids, DatabaseTransaction $transaction = NULL) {
+    $entities = entity_load($this->entityType, $ids);
+    $references = array();
+    foreach ($entities as $entity) {
+      $items = field_get_items($this->entityType, $entity, $this->referenceField);
+      if (!empty($items)) {
+        foreach ($items as $item) {
+          $references[] = $item['target_id'];
+        }
+      }
+    }
+    $references = array_unique($references);
+    $field_info = field_info_field($this->referenceField);
+    $target_entity_type  = $field_info['settings']['target_type'];
+    entity_delete_multiple($target_entity_type, $references);
+    parent::delete($ids, $transaction);
+  }
+}
