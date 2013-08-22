@@ -1,6 +1,6 @@
 jQuery(function ($) {
 
-  //get features from map
+
   var mapContainer = $('[id^="openlayers-map"]');
   if (!mapContainer) return;
 
@@ -12,10 +12,14 @@ jQuery(function ($) {
     var accordion = $(accordionSettings.header).parent().data('accordion');
     if (!accordion) return;
 
-    accordion.option('change', filterEventFeaturesOnMap);
-    accordion.option('change', scrollToActiveTab);
+    accordion.option('change', onChange);
 
-    function filterEventFeaturesOnMap() {
+    function onChange() {
+      filterEventsFeaturesOnMap();
+      scrollToActiveTab();
+    }
+
+    function filterEventsFeaturesOnMap() {
       var activeAccordionBlock = accordion.active,
         year = '';
 
@@ -36,6 +40,7 @@ jQuery(function ($) {
       });
       eventsFeaturesLayer.redraw();
     }
+    filterEventsFeaturesOnMap();
 
     function scrollToActiveTab() {
       var $active = $(accordion.active);
@@ -44,8 +49,6 @@ jQuery(function ($) {
       }
     }
 
-    filterEventFeaturesOnMap();
   });
-
 
 });
