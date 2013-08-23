@@ -12,6 +12,7 @@ function abc_init_settings(&$settings) {
       'args' => array(),
       '#before_execute' => array(),
       '#after_execute' => array(),
+      '#preprocess_form_state' => array(),
     );
   }
 }
@@ -53,7 +54,12 @@ function abc_delayed_submit_execute(&$multiform, &$form, &$form_state, $form_id)
       $function($multiform, $form_id);
     }
   }
-  
+}
+
+function abc_preprocess_form_state(&$form_state, $subform) {
+  foreach ($subform['#preprocess_form_state'] as $function) {
+    $function($form_state);
+  }
 }
 
 // TODO:

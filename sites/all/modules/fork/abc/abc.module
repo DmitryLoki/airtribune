@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Security issue. Subform mustn't be submitted separately, since it is already cached.
+
 function abc_menu() {
   $items['abc/test'] = array(
    'title' => 'ABC Test', 
@@ -48,6 +50,11 @@ function abc_get_form($settings) {
     $subform_form_state = array('no_redirect' => TRUE);
     // This line is copied from drupal_get_form().
     $subform_form_state['build_info']['args'] = $subform_args;
+    
+    // If original form (subform) is built not through drupal_build_form,
+    // we may need to additionally make some changes to $form_state.
+    // E.g. entity_ui_get_form().
+    abc_preprocess_form_state($form_state, $subform);
     
     // Build and process current subform.
     $unprocessed_form = array();

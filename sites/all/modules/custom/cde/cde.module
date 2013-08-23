@@ -16,8 +16,9 @@ function cde_test($nid) {
   
   // TODO: Temporary event id
   $nid = 5438;
-  
-  return $user->uid ? cde_form_authorized($nid) : cde_form_anonymous($nid);
+  $form = $user->uid ? cde_form_authorized($nid) : cde_form_anonymous($nid);
+  //dsm($form);
+  return $form;
 }
 
 
@@ -27,7 +28,15 @@ function cde_form_anonymous($nid) {
   module_load_include('inc', 'og_ui', 'og_ui.pages');
   module_load_include('inc', 'cde');
   
+  module_load_include('module', 'profile2');
+  
   global $user;
+  
+  // profile2_form()
+  module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  $profile2_init_data = cde_profile_form_init_data();
+  //dsm($profile2_init_data);
   
   $settings = array(
     '#subforms' => array(
@@ -38,10 +47,23 @@ function cde_form_anonymous($nid) {
       ),
       array(
         'form_id' => 'og_ui_confirm_subscribe',
-        'args' => cde_form_args($nid),
+        'args' => cde_og_form_args($nid),
       ),
+      
+      array(
+        //'form_id' => 'entity_ui_get_form',
+        'form_id' => $profile2_init_data['form_id'],
+        //'args' => cde_profile_form_args(),
+        'args' => $profile2_init_data['args'],
+        '#preprocess_form_state' => array('cde_profile2_form_preprocess_form_state'),
+      ),
+      
     ),
   );
+  
+  //$args = cde_profile_form_args();
+  //dsm($args);
+  //dsm(entity_ui_get_form($args[0], $args[1]));
   return abc_get_form($settings);
 }
 
@@ -54,7 +76,9 @@ function cde_form_authorized($nid) {
 }
 
 
-function cde_form_args($nid) {
+// TODO: Move 'args' function into a single init_data function
+
+function cde_og_form_args($nid) {
   global $user;
   
   $entity_type = 'node';
@@ -67,3 +91,47 @@ function cde_form_args($nid) {
   //$entity_type, $id, $user, $field_name
   return array($entity_type, $id, $user, $field_name);
 }
+
+// Based on entity_ui_get_form() version 7.x-1.2
+function cde_profile_form_init_data() {
+  // TODO: Include entity.module ?
+  // TODO: Also see profile2_by_uid_load($uid, $type_name) in profile2_pages.module
+  // TODO: Remove hardcode
+  
+  $entity_type = 'profile2';
+  $type_name = 'pilot';
+  $entity = profile2_create(array('type' => $type_name));
+  
+  // Based on entity_ui_get_form()
+  $form_state = array();
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $form_id = (!isset($bundle) || $bundle == $entity_type) ? $entity_type . '_form' : $entity_type . '_edit_' . $bundle . '_form';
+  
+  $op = 'add';
+  $form_state['build_info']['args'] = array($entity, $op, $entity_type);
+  
+  $data = array(
+    'args' => array($entity, $op, $entity_type),
+    'form_id' => $form_id,
+  );
+  
+  return $data;
+}
+
+
+// Based on entity_ui_get_form() version 7.x-1.2
+function cde_profile2_form_preprocess_form_state(&$form_state) {
+  $entity_type = 'pilot';
+  $form_state['wrapper_callback'] = 'entity_ui_main_form_defaults';
+  $form_state['entity_type'] = $entity_type;
+  form_load_include($form_state, 'inc', 'entity', 'includes/entity.ui');
+}
+
+
+
+
+
+
+
+
+
