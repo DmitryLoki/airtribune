@@ -5,6 +5,9 @@ jQuery(function ($) {
   }
 
   //get previous recently viewed
+  var currentLanguagePrefix = '/'+$('html').attr('lang');
+  currentLanguagePrefix = currentLanguagePrefix == '/en' ? '' : currentLanguagePrefix;
+
   var lsKey = 'recentlyViewed',
     recentlyViewed = localStorage[lsKey] ? JSON.parse(localStorage[lsKey]) : [];
 
@@ -15,7 +18,7 @@ jQuery(function ($) {
   var content = '<ul>';
   for (var i = 0; i < recentlyViewed.length; i++) {
     var eventPageInfo = recentlyViewed[i];
-    content += '<li><a href="'+eventPageInfo.href+'">'+eventPageInfo.title+'</a></li>';
+    content += '<li><a href="'+currentLanguagePrefix+eventPageInfo.href+'">'+eventPageInfo.title+'</a></li>';
   }
   content += '</ul>';
 

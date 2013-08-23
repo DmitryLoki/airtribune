@@ -20,7 +20,7 @@ jQuery(function ($) {
   }
 
   var eventTitle = eventTitleLink.text(),
-    eventHref = eventTitleLink.attr('href');
+    eventHref = eventTitleLink.attr('href').replace('/'+ $('html').attr('lang'),'');
 
   //get previous recently viewed
   var lsKey = 'recentlyViewed',
