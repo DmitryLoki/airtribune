@@ -12,6 +12,48 @@ function abc_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_init().
+ * 
+ * NOTE: hook_init() isn't called for cached requests.
+ */
+function abc_init() {
+  // TODO: Security issue.
+  //dsm($_POST);
+  
+  // Prepare _POST if ajax request made
+  if (isset($_POST['multiform']) && isset($_POST['_triggering_element_name']) && isset($_POST['ajax_page_state'])) {
+    // TODO: Define subform index corresponding to _triggering_element_name
+    $_POST += $_POST['multiform']['profile2_edit_pilot_form']; unset($_POST['multiform']); //dsm($_POST);
+    
+    // TODO: This should be attached to form
+    // profile2_form()
+    module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  }
+}
+
+// TODO: Check
+function abc_form_alter(&$form, &$form_state, $form_id) {
+
+  if (!empty($form_state['#multiform'])) {
+    $form['#after_build'][] = 'abc_form_after_build';
+  }
+}
+
+// TODO: To use after_build is not the best practice
+// since potentially there could be other "later" after_builds that can change form or use it some other way.
+// But it works.
+function abc_form_after_build(&$form, &$form_state) {
+  // TODO: Check that $form_state is always stored in cache.
+  // Otherwise it won't work.
+  //if (!empty($form_state['#multiform'])) {
+    $form_id = $form_state['#subform_index'];
+    _abc_get_form($form, $form_id);    
+  //}
+  
+  return $form;
+}
+
 
 /**
  * Returns a form containing a number of other forms.
@@ -51,6 +93,11 @@ function abc_get_form($settings) {
     // This line is copied from drupal_get_form().
     $subform_form_state['build_info']['args'] = $subform_args;
     
+    // Add flag to correctly handle ajax requests
+    $subform_form_state['#multiform'] = TRUE;
+    $subform_form_state['#subform_index'] = $subform_id;
+    $subform_form_state['#subform_name_processed'] = TRUE;
+    
     // If original form (subform) is built not through drupal_build_form,
     // we may need to additionally make some changes to $form_state.
     // E.g. entity_ui_get_form().
@@ -81,8 +128,10 @@ function abc_get_form($settings) {
     $disallowed_attributes = array('enctype', 'action', 'method');
     $subform_form['#attributes'] = array_diff_key($subform_form['#attributes'], array_flip($disallowed_attributes));
     
+    // TODO: Remove commented code
     // Change #name elements' attribute to post values correctly considering multiform _POST array structure.
-    _abc_get_form($subform_form, $subform_id);
+    // This is set in abc_form_after_build()
+    //_abc_get_form($subform_form, $subform_id);
     
     $form['multiform'][] = $subform_form;
     
