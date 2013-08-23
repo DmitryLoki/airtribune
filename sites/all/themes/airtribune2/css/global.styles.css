@@ -3148,7 +3148,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-row .views-row { float: none; width: auto; height: auto; margin: 0;}
 .front_live_events .views-field-field-city,
 .front_live_events .views-field-view,
-.front_live_events .dayblog { position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: rgba(17, 36, 51, .5);}
+.front_live_events .dayblog { position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: rgba(17, 36, 51, .5); z-index: 10;}
 .front_live_events .views-field-view { z-index: 10;}
 .front_live_events .views-field-field-city .field-content { margin: 0 10px;}
 .front_live_events .contest_head { vertical-align: middle; max-width: 100%; display: inline-block; margin: 0; margin-top: 4px;}
@@ -3214,6 +3214,8 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
+
+.front_live_events .views-field-field-contest-photos { position: absolute; top: 0; }
 
 .pane-recently-viewed {display: none}
 .second_sidebar .pane-recently-viewed h2.block-title { text-align: left;}

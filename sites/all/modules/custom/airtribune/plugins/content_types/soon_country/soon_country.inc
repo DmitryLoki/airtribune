@@ -23,14 +23,25 @@ function airtribune_soon_country_countries_list() {
   $view->set_display('soon_country_list_entityreference');
   $view->execute();
   $links = array();
+
+  // @TODO: Implement distinct countries at views level.
   foreach ($view->result as $r) {
     $name = $r->field_field_country[0]['rendered']['#markup'];
     $code = strtolower($r->field_field_country_1[0]['raw']['iso2']);
-    $links[] = array(
-      'href'  => "soon_country/{$code}/",
-      'title' => $name,
-      'attributes' =>array('class' => array('use-ajax'), 'rel' => array('nofollow')),
-    );
+    // Exclude the country if there is already have
+    if (empty($links[$code])) {
+      $links[$code] = array(
+        'href'  => "soon_country/{$code}/",
+        'title' => theme(
+            'countryicons_icon_sprite',
+            array('code' => $code, 'iconset' => AIRTRIBUNE_LANGUAGES_ICONSET)
+          )
+          .
+          $name,
+        'attributes' => array('class' => array('use-ajax'), 'rel' => array('nofollow')),
+        'html' => TRUE,
+      );
+    }
   }
 
   return $links;
