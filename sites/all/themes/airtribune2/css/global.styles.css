@@ -3226,7 +3226,7 @@ html.fb_view { overflow: auto;}
   transition-duration: 200ms;
 
 }
-.countries_title_suffix_inner { position: absolute; bottom: 0; left: 0; width: 100%; max-height: 98px; padding: 10px 0 23px !important;}
+.countries_title_suffix_inner { position: absolute; bottom: 0; left: 0; width: 100%; max-height: 98px; padding: 10px 0 23px !important; display: block;}
 .countries_title_suffix_inner .jspPane { padding: 0 !important;}
 
 #countries-wrapper { margin: 0; padding: 0;}
