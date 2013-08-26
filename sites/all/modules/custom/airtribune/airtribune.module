@@ -507,6 +507,19 @@ function airtribune_preprocess_panels_pane(&$vars) {
     $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
   }
 
+  // Add link to create event page to next events pane
+  if ($vars['pane']->subtype == 'soon_country') {
+    $links = airtribune_soon_country_countries_list();
+
+    $location = array(
+      '#theme' => 'links',
+      '#attributes' => array('id' => 'countries-wrapper'),
+      //'#prefix' => ,
+      '#links' => $links,
+    );
+    $vars['title_suffix'] = '<div class="countries_title_suffix"><div class="countries_title_suffix_inner"><div class="clearfix">' . render($location) . '</div></div></div>';
+  }
+
   // Add links to switch view of pilots list
   if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
     if (!empty($vars['user']->roles[3]) || $vars['user']->uid == 1) {

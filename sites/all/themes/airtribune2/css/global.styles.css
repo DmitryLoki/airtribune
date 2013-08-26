@@ -2458,18 +2458,18 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .select .items_padding { padding:12px 0 !important;}
 .page-user .pane-page-content form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
 .page-user .pane-page-content form .select .option:hover { color:#00aeef;}
-.page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
+.jspContainer { position:relative; overflow:hidden; display: block !important;}
 .page-user .pane-page-content form .jspContainer div { display: block !important;}
-.page-user .pane-page-content form .jspPane { position:relative;}
-.page-user .pane-page-content form .jspVerticalBar { position:absolute; top:0; right:4px}
-.page-user .pane-page-content form .jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
+.jspPane { position:relative;}
+.jspVerticalBar { position:absolute; top:0; right:4px}
+.jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
-.page-user .pane-page-content form .jspPane { margin-left:0 !important}
+.jspPane { margin-left:0 !important}
 
 
 .page-user .pane-page-content form .form-item .form-type-select { padding-bottom: 5px;}
@@ -3216,6 +3216,25 @@ html.fb_view { overflow: auto;}
 }
 
 .front_live_events .views-field-field-contest-photos { position: absolute; top: 0; }
+
+.countries_title_suffix { position: relative; overflow: hidden; height: 0;
+
+  -moz-transition-duration: 200ms;
+  -webkit-transition-duration: 200ms;
+  -ms-transition-duration: 200ms;
+  -o-transition-duration: 200ms;
+  transition-duration: 200ms;
+
+}
+.countries_title_suffix_inner { position: absolute; bottom: 0; left: 0; width: 100%; max-height: 98px; padding-bottom: 23px !important;}
+.countries_title_suffix_inner .jspPane { padding: 0 !important;}
+
+#countries-wrapper { margin: 0; padding: 0;}
+#countries-wrapper li { margin: 0; padding: 1px 0 1px 10px; float: left; width: 115px; list-style: none; list-style-image: none; font-size: 12px; position: relative;}
+#countries-wrapper li a { color: #525c66; text-decoration: none; vertical-align: top;}
+#countries-wrapper li a:hover { color: #00aeef}
+#countries-wrapper li .countryicon-sprite { margin-right: 5px; top: 1px; position: relative;}
+#countries-wrapper li .ajax-progress .throbber { position: absolute; top: -2px; margin-left: 5px;}
 
 .pane-recently-viewed {display: none}
 .second_sidebar .pane-recently-viewed h2.block-title { text-align: left;}
