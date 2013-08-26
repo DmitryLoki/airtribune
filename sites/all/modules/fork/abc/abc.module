@@ -94,6 +94,7 @@ function abc_get_form($settings) {
     $subform_form_state['build_info']['args'] = $subform_args;
     
     // Add flag to correctly handle ajax requests
+    // TODO: Remove flags that are not used
     $subform_form_state['#multiform'] = TRUE;
     $subform_form_state['#subform_index'] = $subform_id;
     $subform_form_state['#subform_name_processed'] = TRUE;
@@ -101,7 +102,7 @@ function abc_get_form($settings) {
     // If original form (subform) is built not through drupal_build_form,
     // we may need to additionally make some changes to $form_state.
     // E.g. entity_ui_get_form().
-    abc_preprocess_form_state($form_state, $subform);
+    abc_preprocess_form_state($subform_form_state, $subform);
     
     // Build and process current subform.
     $unprocessed_form = array();

@@ -72,7 +72,28 @@ function cde_form_anonymous($nid) {
 
 
 function cde_form_authorized($nid) {
-  return 'test';
+  module_load_include('inc', 'og_ui', 'og_ui.pages');
+  module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  $profile2_init_data = cde_profile_form_init_data_authorized();
+  
+  $settings = array(
+    '#subforms' => array(
+      array(
+        'form_id' => 'og_ui_confirm_subscribe',
+        'args' => cde_og_form_args($nid),
+      ),
+      array(
+        //'form_id' => 'entity_ui_get_form',
+        'form_id' => $profile2_init_data['form_id'],
+        //'args' => cde_profile_form_args(),
+        'args' => $profile2_init_data['args'],
+        '#preprocess_form_state' => array('cde_profile2_form_preprocess_form_state'),
+      ),
+    ),
+  );
+  
+  return abc_get_form($settings);
 }
 
 
@@ -108,6 +129,7 @@ function cde_profile_form_init_data() {
   $form_id = (!isset($bundle) || $bundle == $entity_type) ? $entity_type . '_form' : $entity_type . '_edit_' . $bundle . '_form';
   
   $op = 'add';
+  // TODO: Delete this line
   $form_state['build_info']['args'] = array($entity, $op, $entity_type);
   
   $data = array(
@@ -118,10 +140,39 @@ function cde_profile_form_init_data() {
   return $data;
 }
 
+// TODO: see entity_ui_form_defaults() to add 'profile2' into $form_state
+// via entity_ui_main_form_defaults (cde_profile2_form_preprocess_form_state())
+function cde_profile_form_init_data_authorized() {
+  // profile2_form()
+  module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  global $user;
+  $uid = $user->uid;
+  
+  $entity_type = 'profile2';
+  $type_name = 'pilot';
+  $entity = profile2_by_uid_load($uid, $type_name);
+  
+  // Based on entity_ui_get_form()
+  $form_state = array();
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $form_id = (!isset($bundle) || $bundle == $entity_type) ? $entity_type . '_form' : $entity_type . '_edit_' . $bundle . '_form';
+  
+  // Default option. See entity_ui_get_form().
+  $op = 'edit';
+  
+  $form_state['build_info']['args'] = array($entity, $op, $entity_type);
+  
+  $data = array(
+    'args' => array($entity, $op, $entity_type),
+    'form_id' => $form_id,
+  );
+  return $data;
+}
 
 // Based on entity_ui_get_form() version 7.x-1.2
 function cde_profile2_form_preprocess_form_state(&$form_state) {
-  $entity_type = 'pilot';
+  $entity_type = 'profile2';
   $form_state['wrapper_callback'] = 'entity_ui_main_form_defaults';
   $form_state['entity_type'] = $entity_type;
   form_load_include($form_state, 'inc', 'entity', 'includes/entity.ui');
