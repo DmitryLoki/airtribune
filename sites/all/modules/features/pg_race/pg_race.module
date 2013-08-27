@@ -787,7 +787,6 @@ function _day_pg_race_preview_markup($node) {
   $help_text = '';
   $time = '';
 
-  // dpm($data);
   // Check if task exists
   if ($has_task) {
     switch ($status) {
@@ -811,7 +810,6 @@ function _day_pg_race_preview_markup($node) {
         $link_text = t('Replay');
         $time = date('H:i:s', $start_time + $offset) . ' / ' . date('H:i:s', $deadline_time + $offset);
         $time = '<div class="time">' . $time . '</div>';
-        dpr($time);
         break;
     }
 
