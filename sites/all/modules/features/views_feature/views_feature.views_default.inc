@@ -5927,6 +5927,11 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_country_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_country_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_country_1']['type'] = 'country_alpha_2';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Country (field_country) */
+  $handler->display->display_options['sorts']['field_country_iso2']['id'] = 'field_country_iso2';
+  $handler->display->display_options['sorts']['field_country_iso2']['table'] = 'field_data_field_country';
+  $handler->display->display_options['sorts']['field_country_iso2']['field'] = 'field_country_iso2';
   $translatables['frontpage_events'] = array(
     t('Master'),
     t('Live events'),
