@@ -9,7 +9,7 @@
           $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link'),
           raceTime;
 
-        var setTime = function () {
+        var setOnlineTime = function () {
           raceTime = Math.floor((raceData.raceStartTime - new Date().getTime()) / 1000);
           var absD = Math.abs(raceTime);
           timeHelperText.html((raceTime > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
@@ -18,15 +18,21 @@
             var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
             setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText);
           }
-          setTimeout(setTime, 1000);
+          setTimeout(setOnlineTime, 1000);
         };
+
+        var setOfflineTime = function() {
+          raceTime = (Math.floor(raceData.raceDeadlineTime - raceData.raceStartTime) / 1000);
+          timeHelperText.html(getTimeStr(Math.floor(raceTime / 3600), Math.floor(raceTime % 3600 / 60), raceTime % 60));
+        }
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
         if (!raceData.isOnline) {
           $raceButton.hide();
+          setOfflineTime();
         } else {
-          setTime();
+          setOnlineTime();
         }
 
         if (!raceData.raceId || !raceData.contestId) {
@@ -102,6 +108,7 @@
           raceId: $raceBlock.data('race-cid'),
           raceEid: $raceBlock.data('race-eid'),
           raceStartTime: parseInt($raceBlock.data('start-time')),
+          raceDeadlineTime: parseInt($raceBlock.data('deadline-time')),
           isOnline: $raceBlock.data('view-type') != undefined
         };
 
