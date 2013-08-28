@@ -564,7 +564,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -686,7 +686,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -797,7 +797,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -856,7 +856,7 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Image'),
+    t('Banner'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
@@ -912,7 +912,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -2897,7 +2897,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['id']['relationship'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['fields']['id']['ui_name'] = 'Task is ready - excluded - overriden';
   $handler->display->display_options['fields']['id']['label'] = '';
-  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
   $handler->display->display_options['fields']['id']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['id']['alter']['text'] = ' task-ready';
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
@@ -2936,6 +2935,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['element_type'] = 'span';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Day blog body - overriden */
   $handler->display->display_options['fields']['field_plain_body_1']['id'] = 'field_plain_body_1';
   $handler->display->display_options['fields']['field_plain_body_1']['table'] = 'field_data_field_plain_body';
@@ -2944,8 +2944,12 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_plain_body_1']['ui_name'] = 'Day blog body - overriden';
   $handler->display->display_options['fields']['field_plain_body_1']['label'] = '';
   $handler->display->display_options['fields']['field_plain_body_1']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_plain_body_1']['alter']['text'] = '<div class="day-blog[id]">[title] [field_plain_body_1]</div>';
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['text'] = '<div class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</div>';
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['path'] = 'event/!1/blog#!day_[field_day_number]';
   $handler->display->display_options['fields']['field_plain_body_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_plain_body_1']['empty'] = '<div class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</div>';
+  $handler->display->display_options['fields']['field_plain_body_1']['hide_alter_empty'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -2998,7 +3002,8 @@ return array($event_id);';
     t('.'),
     t('<span class="field-day-status-[field_day_status-value]">([field_day_status])</span>'),
     t('[title] [field_day_status]'),
-    t('<div class="day-blog[id]">[title] [field_plain_body_1]</div>'),
+    t('<div class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</div>'),
+    t('<div class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</div>'),
     t('All'),
   );
   $export['event_day'] = $view;

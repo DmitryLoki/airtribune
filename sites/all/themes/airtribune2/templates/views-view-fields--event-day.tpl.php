@@ -24,6 +24,13 @@
  * @ingroup views_templates
  */
 
+// If race is empty then remove link text
+if (empty($fields['id']->content)) {
+  unset($fields['day_pg_race_play_link']->content);
+}
+unset($fields['id']->content);
+
+// Unset dayblog body if link is not empty
 if (!empty($fields['day_pg_race_play_link']->content) || $fields['field_day_status_1']->content != 0) {
   unset($fields['field_plain_body_1']);
 }
