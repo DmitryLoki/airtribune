@@ -30,6 +30,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'advert_on_visualization',
   );
 
   // Exported image style: award.
@@ -52,6 +53,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award',
   );
 
   // Exported image style: award_details.
@@ -74,6 +76,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award_details',
   );
 
   // Exported image style: award_sponsor.
@@ -96,6 +99,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award_sponsor',
   );
 
   // Exported image style: award_sponsor_details.
@@ -118,6 +122,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award_sponsor_details',
   );
 
   // Exported image style: contest_gallery_thumb.
@@ -140,6 +145,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'contest_gallery_thumb',
   );
 
   // Exported image style: contest_thumbnail.
@@ -162,6 +168,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'contest_thumbnail',
   );
 
   // Exported image style: event_blog_teaser_eighth.
@@ -184,6 +191,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_eighth',
   );
 
   // Exported image style: event_blog_teaser_fifth.
@@ -206,6 +214,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_fifth',
   );
 
   // Exported image style: event_blog_teaser_first.
@@ -228,6 +237,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_first',
   );
 
   // Exported image style: event_blog_teaser_fourth.
@@ -250,6 +260,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_fourth',
   );
 
   // Exported image style: event_blog_teaser_second.
@@ -272,6 +283,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_second',
   );
 
   // Exported image style: event_blog_teaser_seventh.
@@ -294,6 +306,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_seventh',
   );
 
   // Exported image style: event_blog_teaser_sixth.
@@ -316,6 +329,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_sixth',
   );
 
   // Exported image style: event_blog_teaser_sixth_extra.
@@ -338,6 +352,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_sixth_extra',
   );
 
   // Exported image style: event_blog_teaser_third.
@@ -360,26 +375,28 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_third',
   );
 
   // Exported image style: event_logo.
   $styles['event_logo'] = array(
     'name' => 'event_logo',
+    'label' => 'event_logo',
     'effects' => array(
-      43 => array(
-        'label' => 'Resize',
-        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
-        'effect callback' => 'image_resize_effect',
+      11 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
         'summary theme' => 'image_resize_summary',
         'module' => 'image',
-        'name' => 'image_resize',
+        'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => '230',
           'height' => '130',
         ),
-        'weight' => '1',
+        'weight' => '2',
       ),
     ),
   );
@@ -404,26 +421,28 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_map_picture_preview',
   );
 
   // Exported image style: frontpage_event_padding.
   $styles['frontpage_event_padding'] = array(
     'name' => 'frontpage_event_padding',
+    'label' => 'frontpage_event_padding',
     'effects' => array(
-      10 => array(
-        'label' => 'Resize',
-        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
-        'effect callback' => 'image_resize_effect',
+      13 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
         'summary theme' => 'image_resize_summary',
         'module' => 'image',
-        'name' => 'image_resize',
+        'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => '230',
           'height' => '270',
         ),
-        'weight' => '1',
+        'weight' => '2',
       ),
     ),
   );
@@ -448,6 +467,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'header',
   );
 
   // Exported image style: header_thumbnail.
@@ -470,6 +490,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'header_thumbnail',
   );
 
   // Exported image style: hotel_preview.
@@ -492,6 +513,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'hotel_preview',
   );
 
   // Exported image style: node_image_first.
@@ -514,6 +536,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_image_first',
   );
 
   // Exported image style: node_image_second.
@@ -536,6 +559,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_image_second',
   );
 
   // Exported image style: node_image_third.
@@ -558,6 +582,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_image_third',
   );
 
   // Exported image style: node_userpic.
@@ -580,6 +605,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_userpic',
   );
 
   // Exported image style: organizer_details.
@@ -619,6 +645,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'organizer_details',
   );
 
   // Exported image style: organizer_info.
@@ -658,6 +685,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'organizer_info',
   );
 
   // Exported image style: race_teaser.
@@ -680,6 +708,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'race_teaser',
   );
 
   // Exported image style: scoring_winner.
@@ -703,6 +732,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'scoring_winner',
   );
 
   // Exported image style: scoring_winner_horizontal.
@@ -725,6 +755,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'scoring_winner_horizontal',
   );
 
   // Exported image style: scoring_winner_vertical.
@@ -747,6 +778,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'scoring_winner_vertical',
   );
 
   // Exported image style: user_picture.
@@ -769,6 +801,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'user_picture',
   );
 
   // Exported image style: user_picture_mini.
@@ -791,6 +824,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'user_picture_mini',
   );
 
   return $styles;

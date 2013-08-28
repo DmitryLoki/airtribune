@@ -2944,11 +2944,11 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_plain_body_1']['ui_name'] = 'Day blog body - overriden';
   $handler->display->display_options['fields']['field_plain_body_1']['label'] = '';
   $handler->display->display_options['fields']['field_plain_body_1']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_plain_body_1']['alter']['text'] = '<div class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</div>';
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['text'] = '<span class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</span>';
   $handler->display->display_options['fields']['field_plain_body_1']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_plain_body_1']['alter']['path'] = 'event/!1/blog#!day_[field_day_number]';
   $handler->display->display_options['fields']['field_plain_body_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_plain_body_1']['empty'] = '<div class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</div>';
+  $handler->display->display_options['fields']['field_plain_body_1']['empty'] = '<span class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</span>';
   $handler->display->display_options['fields']['field_plain_body_1']['hide_alter_empty'] = FALSE;
   /* Sort criterion: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
@@ -3002,8 +3002,8 @@ return array($event_id);';
     t('.'),
     t('<span class="field-day-status-[field_day_status-value]">([field_day_status])</span>'),
     t('[title] [field_day_status]'),
-    t('<div class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</div>'),
-    t('<div class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</div>'),
+    t('<span class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</span>'),
+    t('<span class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</span>'),
     t('All'),
   );
   $export['event_day'] = $view;
