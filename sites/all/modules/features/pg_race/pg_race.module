@@ -956,19 +956,7 @@ function _day_pg_race_task_set($day_node) {
 
     $current_time = time();
 
-    if ($start <= $current_time && $current_time < $end) {
-      // online
-      $status = 'online';
-    }
-    elseif ($current_time >= $end) {
-      // offline. race finished
-      $status = 'offline';
-    }
-    else {
-      // race haven't started yet
-      $status = 'awaiting';
-    }
-
+    $status = _airtribune_pg_race_online_status($race->id);
 
     $countdown_time = $start - $current_time;
 
