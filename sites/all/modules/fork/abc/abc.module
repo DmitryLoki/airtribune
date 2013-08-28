@@ -19,17 +19,42 @@ function abc_menu() {
  */
 function abc_init() {
   // TODO: Security issue.
-  //dsm($_POST);
   
   // Prepare _POST if ajax request made
   if (isset($_POST['multiform']) && isset($_POST['_triggering_element_name']) && isset($_POST['ajax_page_state'])) {
     // TODO: Define subform index corresponding to _triggering_element_name
-    $_POST += $_POST['multiform']['profile2_edit_pilot_form']; unset($_POST['multiform']); //dsm($_POST);
+    $subform_index = abc_subform_ajax_index($_POST);
+    
+    //~ $_POST += $_POST['multiform']['profile2_edit_pilot_form']; unset($_POST['multiform']); //dsm($_POST);
+    $_POST += $_POST['multiform'][$subform_index]; unset($_POST['multiform']); //dsm($_POST);
     
     // TODO: This should be attached to form
     // profile2_form()
     module_load_include('inc', 'profile2', 'contrib/profile2_page');
+    // TODO: We need to include og_ui_confirm_subscribe_validate() until process_inpute isn't set to FALSE
+    // and also for integrity.
+    module_load_include('inc', 'og_ui', 'og_ui.pages');
+    
+    
   }
+}
+
+// TODO:
+// Temporary solution
+function abc_subform_ajax_index($post) {
+  $triggering_element_name = $post['_triggering_element_name'];
+  $parents = explode('[', str_replace(']', '', $triggering_element_name));
+  
+  foreach ($post['multiform'] as $index => $subform) {
+    $key_exists = FALSE;
+    drupal_array_get_nested_value($subform, $parents, $key_exists);
+    if ($key_exists) {
+      break;
+    }
+  }
+  
+  //~ return 'profile2_edit_pilot_form';
+  return $index;
 }
 
 // TODO: Check
@@ -73,6 +98,26 @@ function abc_get_form($settings) {
   
   // Compile multiform stucture
   $form = abc_init_form();
+  
+  /*
+  $form['#id'] = 'multiform';
+  $form['form_id'] = array(
+    '#type' => 'hidden',
+    '#value' => 'multiform',
+    '#id' => drupal_html_id("edit-multiform"),
+    '#name' => 'form_id',
+    '#attributes' => array(),
+  );
+  $build_id = 'form-' . md5(uniqid(mt_rand(), TRUE));
+  $form['form_build_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $build_id,
+    '#id' => $build_id,
+    '#name' => 'form_build_id',
+    '#attributes' => array(),
+  );
+  */
+  
   $post = !empty($_POST) ? $_POST : array();
   foreach ($subforms as $index => $subform) {
     $subform_id = $subform['form_id'];

@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Move common generic plugins alter into def submodule (def_extra).
+
 function cde_menu() {
   $items['cde/test/%'] = array(
    'title' => 'CDE Test', 
@@ -67,8 +69,21 @@ function cde_form_anonymous($nid) {
   return abc_get_form($settings);
 }
 
-
-
+/**
+ * Add list of generic elements to validate.
+ */
+function cde_form_alter(&$form, &$form_state, $form_id) {
+  $def_generic_elements = array();
+  
+  // TODO: Add only for forms with enabled validation.
+  switch ($form_id) {
+    case 'user_register_form' :
+      $def_generic_elements[] = array('account', 'mail');
+      break;
+  }
+  
+  def_add_generic_elements($form_state, $def_generic_elements);
+}
 
 
 function cde_form_authorized($nid) {
