@@ -736,10 +736,10 @@ function _day_pg_race_preview_markup($node) {
   }
 
   // Get race status and core id data
-  $data = _day_pg_race_preview_data($node);
+  $data = _day_pg_race_task_set($node);
   // Race status data
   $status = $data['status'];
-  $has_task = $data['has_task'];
+  $has_task = !empty($data['entity']) ? TRUE : FALSE;
   $start_time = $data['start_time'];
   $deadline_time = $data['deadline_time'];
   $countdown_time = $data['countdown_time'];
@@ -868,49 +868,6 @@ function _day_pg_race_preview_markup($node) {
   drupal_add_js(array('pgRace' => array('coreApiAddress' => at_core_sync_get_api_url())), 'setting');
 
   return $output;
-}
-
-/**
- * Return data for visualization link.
- */
-// TODO:
-function _day_pg_race_preview_data($node) {
-  // Initialize values
-  $data = array(
-    'is_current_day' => NULL,
-    'status' => NULL,
-    'has_task' => NULL,
-    'start_time' => NULL,
-    'deadline_time' => NULL,
-    'countdown_time' => NULL,
-    'race_entity_id' => NULL,
-    'race_core_id' => NULL,
-    'contest_core_id' => NULL,
-  );
-
-  // Get task and event data
-  $task_data = _day_pg_race_task_set($node);
-
-  $data['is_current_day'] = $task_data['is_current_day'];
-  if (empty($task_data['entity'])) {
-    $data['has_task'] = FALSE;
-    return $data;
-  }
-  $data['has_task'] = TRUE;
-  $data['status'] = $task_data['status'];
-
-  $data['start_time'] = $task_data['start_time'];
-  $data['deadline_time'] = $task_data['deadline_time'];
-  $data['localtime'] = $task_data['localtime'];
-  $data['countdown_time'] = $task_data['countdown_time'];
-
-  $data['race_entity_id'] = $task_data['race_entity_id'];
-  $data['race_core_id'] = $task_data['race_core_id'];
-  $data['contest_core_id'] = $task_data['contest_core_id'];
-
-  $data['offset'] = $task_data['offset'];
-
-  return $data;
 }
 
 /**
