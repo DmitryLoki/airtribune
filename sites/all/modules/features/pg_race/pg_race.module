@@ -764,17 +764,17 @@ function _day_pg_race_preview_markup($node) {
   );
   // Add wrapper Race status class
   switch ($status) {
-    case 'awaiting' :
+    case AIRTRIBUNE_VIS_STATE_AWAITING :
       $wrapper_attributes['class'][] = 'race-awaiting';
       if ($has_task) {
         $wrapper_attributes['data-view-type'] = 'online';
       }
       break;
-    case 'online' :
+    case AIRTRIBUNE_VIS_STATE_ONLINE :
       $wrapper_attributes['class'][] = 'race-online';
       $wrapper_attributes['data-view-type'] = 'online';
       break;
-    case 'offline' :
+    case AIRTRIBUNE_VIS_STATE_REPLAY :
       $wrapper_attributes['class'][] = 'race-offline';
       break;
   }
@@ -790,7 +790,7 @@ function _day_pg_race_preview_markup($node) {
   // Check if task exists
   if ($has_task) {
     switch ($status) {
-      case 'awaiting' :
+      case AIRTRIBUNE_VIS_STATE_AWAITING :
         $link_text = t('Watch Live');
         $time = $countdown_time;
         $time = date('H:i:s', $countdown_time);
@@ -800,13 +800,13 @@ function _day_pg_race_preview_markup($node) {
         drupal_add_js(array('Day' => array('localtime' => $localtime * 1000)), 'setting');
         drupal_add_js(array('Day' => array('offset' => $offset * 1000)), 'setting');
         break;
-      case 'online' :
+      case AIRTRIBUNE_VIS_STATE_ONLINE :
         $link_text = t('Watch Live');
         $time = date('H:i:s', $start_time + $offset);
         $time = '<div class="time">' . $time . '</div>';
         $help_text = t('Race starts on');
         break;
-      case 'offline' :
+      case AIRTRIBUNE_VIS_STATE_REPLAY :
         $link_text = t('Replay');
         $time = date('H:i:s', $start_time + $offset) . ' / ' . date('H:i:s', $deadline_time + $offset);
         $time = '<div class="time">' . $time . '</div>';
@@ -834,7 +834,7 @@ function _day_pg_race_preview_markup($node) {
     $wrapper_attributes['class'][] = 'no-task';
   }
 
-  if ($status == 'offline') {
+  if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
     $output = _day_pg_race_preview_offline_markup($data);
   }
   else {
@@ -956,7 +956,6 @@ function _day_pg_race_task_set($day_node) {
 
     $current_time = time();
 
-    $status = _airtribune_pg_race_online_status($race->id);
 
     $countdown_time = $start - $current_time;
 
@@ -964,7 +963,7 @@ function _day_pg_race_task_set($day_node) {
     $localtime = $current_time + $offset;
 
 
-    $task_data['status'] = $status;
+    $task_data['status'] = _airtribune_pg_race_online_state($race->id);
 
     $task_data['start_time'] = $start;
     $task_data['deadline_time'] = $end;
