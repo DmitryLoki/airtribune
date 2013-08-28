@@ -334,7 +334,7 @@ function get_races_ids_for_contest($og) {
   $query = new EntityFieldQuery;
   $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
-    ->fieldCondition('og_group_ref', 'target_id', $og->nid)
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $og->nid)
     ->execute();
   $races = array();
   if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
@@ -357,7 +357,7 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
   $query = new EntityFieldQuery;
   $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
-    ->fieldCondition('og_group_ref', 'target_id', $contest->nid)
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $contest->nid)
     ->execute();
   $races = array();
   if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
@@ -408,7 +408,7 @@ function get_days_ids_for_contest($og) {
  */
 function pg_race_field_extra_fields() {
 
-  $extra['ent_race']['pg_race'] = array(
+  $extra[AIRTRIBUNE_RACE_ENTITY_TYPE][AIRTRIBUNE_PG_RACE_TYPE] = array(
     'form' => array(
       'pg_race_play_link' => array(
         'label' => t('Paragliding race link'),
@@ -481,7 +481,7 @@ function day_pg_race_play_link_callback($node) {
 }
 
 function pg_race_preview_image_callback($entity) {
-  if ($entity->type == 'pg_race') {
+  if ($entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
 
     module_load_include('inc', 'pg_race', 'pg_race.draw');
     $race_id = $entity->id;
@@ -498,7 +498,7 @@ function pg_race_preview_image_callback($entity) {
 }
 
 function pg_race_play_link_callback($entity) {
-  if ($entity->type == 'pg_race') {
+  if ($entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
 
     $preview = _pg_race_preview_markup($entity);
     $markup = $preview['markup'];
@@ -518,7 +518,7 @@ function pg_race_play_link_callback($entity) {
 
 function pg_race_retrive_callback($entity) {
   global $user;
-  $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
   $gid = $og_ref_items[0]['target_id'];
 
   $link = array(
@@ -537,12 +537,12 @@ function pg_race_retrive_callback($entity) {
 
 function pg_race_retrive_table_callback($entity) {
 
-  $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
   $gid = $og_ref_items[0]['target_id'];
 
   $node = node_load($gid);
   $core_id_items = field_get_items('node', $node, 'field_core_id');
-  $race_id_items = field_get_items('ent_race', $entity, 'field_core_id');
+  $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
 
   $link = array(
     '#theme' => 'link',
@@ -564,7 +564,7 @@ function pg_race_retrive_table_callback($entity) {
 
 
 function pg_race_retrive_access($entity, $gid) {
-  $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
+  $race_date_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_race_start_end');
   $contest_time = airtribune_extract_time_from_contest($gid);
   $offset = $contest_time['offset'];
   $start_limit = strtotime($race_date_items[0]['value']);
@@ -579,7 +579,7 @@ function pg_race_retrive_access($entity, $gid) {
  */
 function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
 
-  if ($type == 'ent_race' && $entity->type == 'pg_race') {
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
     $preview = _pg_race_preview_markup($entity);
     $markup = $preview['markup'];
     $title = $preview['title'];
@@ -625,18 +625,18 @@ function pg_race_node_view($node, $view_mode, $langcode) {
 
 
 function _pg_race_preview_markup($entity) {
-  $wrapper = entity_metadata_wrapper('ent_race', $entity);
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $race_core_id = $wrapper->field_core_id->value();
 
   //$pg_contest_entities = $wrapper->og_group_ref->value();
-  $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
+  $items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
 
   if (!empty($items) && is_array($items)) {
     $item = array_shift($items);
-    $target_id = $item['target_id'];
-    $node = node_load($target_id);
-    $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
-    $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+    $contest_id = $item['target_id'];
+    $contest = node_load($contest_id);
+    $contest_wrapper = entity_metadata_wrapper('node', $contest);
+    $contest_core_id = $contest_wrapper->field_core_id->value();
   }
 
 
@@ -936,9 +936,9 @@ function _day_pg_race_task_set($day_node) {
   $created = $day_node->created;
   $items = field_get_items('node', $day_node, OG_AUDIENCE_FIELD);
   $item = array_shift($items);
-  $target_id = $item['target_id'];
-  $node = node_load($target_id);
-  $contest_time = airtribune_extract_time_from_contest($node);
+  $contest_id = $item['target_id'];
+  $contest = node_load($contest_id);
+  $contest_time = airtribune_extract_time_from_contest($contest);
   if (!isset($contest_time['offset'])) {
     return;
   }
@@ -948,23 +948,22 @@ function _day_pg_race_task_set($day_node) {
   $day_id = $day_node->nid;
 
   $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'ent_race')
-    ->entityCondition('bundle', 'pg_race')
+  $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+    ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
     ->fieldCondition('field_day_ref', 'target_id', $day_id, '=');
 
   $result = $query->execute();
-  if (!empty($result['ent_race'])) {
-    $entity = array_shift($result['ent_race']);
-    $entities = entity_load('ent_race', array($entity->id));
-    $entity = array_shift($entities);
-    $task_data['entity'] = $entity;
+  if (!empty($result[AIRTRIBUNE_RACE_ENTITY_TYPE])) {
+    $race = array_shift($result[AIRTRIBUNE_RACE_ENTITY_TYPE]);
+    $races = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($race->id));
+    $race = array_shift($races);
+    $task_data['entity'] = $race;
 
-
-    $wrapper = entity_metadata_wrapper('ent_race', $entity);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
     // TODO: Check if points are set and track files exist
     //$race_tracks = $wrapper->field_pg_race_tracks->value();
-    //$points = field_get_items('ent_race', $entity, 'field_dates');
+    //$points = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_dates');
 
 
     // Get Race core_id and entity_id
@@ -973,22 +972,21 @@ function _day_pg_race_task_set($day_node) {
     $task_data['race_core_id'] = !empty($race_core_id) ? $race_core_id : NULL;
 
     // Get Event core_id for a given Race.
-    $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
+    $items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $race, OG_AUDIENCE_FIELD);
     if (empty($items) || !is_array($items)) {
-      watchdog('warning', t('Og reference not set for Race id = ' . $entity->id));
+      watchdog('warning', t('Og reference not set for Race id = ' . $race->id));
       return;
     }
 
     $item = array_shift($items);
-    $target_id = $item['target_id'];
-    $node = node_load($target_id);
-    $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
-    $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+    $contest = node_load($item['target_id']);
+    $contest_wrapper = entity_metadata_wrapper('node', $contest);
+    $contest_core_id = $contest_wrapper->field_core_id->value();
     $task_data['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : NULL;
 
     // Get time data for a given race
     // Get event time offset
-    $contest_time = airtribune_extract_time_from_contest($node);
+    $contest_time = airtribune_extract_time_from_contest($contest);
     if (!isset($contest_time['offset'])) {
       return;
     }
