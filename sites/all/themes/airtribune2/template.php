@@ -1594,3 +1594,32 @@ function airtribune2_preprocess_image_style(&$variables) {
                                         : 'scoring-winner-vertical';
   }
 }
+
+/**
+ * Prerender hook_views_pre_render().
+ * 
+ */
+function airtribune2_views_pre_render(&$view) {
+  // Scramble the order of the rows shown on this result page.
+  // Note that this could be done earlier, but not later in the view execution
+  // process.
+  //dpm($view);
+  //print $view->name . "\n\r";
+  if ($view->name == 'frontpage_events') {
+    if (count($view->result) == 1) {
+      $img_styles = array('frontpage_event_padding_once', 'event_logo_once');
+      $view->name .= '_once';
+    }
+    if (count($view->result) == 2) {
+      $img_styles = array('frontpage_event_padding_twice', 'event_logo_twice');
+      $view->name .= '_twice';
+    }
+    if(!empty($img_styles)){
+      foreach ($view->result as $key => $value) {
+        $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
+        $view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
+      }
+    }
+  }
+  shuffle($view->result);
+}
