@@ -799,13 +799,13 @@ function _day_pg_race_preview_markup($node) {
         break;
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $link_text = t('Watch Live');
-        $time = date('H:i:s', $start_time + $offset);
+        $time = date('H:i:s', $start_time);
         $time = '<div class="time">' . $time . '</div>';
         $help_text = t('Race starts on');
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
         $link_text = t('Replay');
-        $time = date('H:i:s', $start_time + $offset) . ' / ' . date('H:i:s', $deadline_time + $offset);
+        $time = date('H:i:s', $start_time) . ' / ' . date('H:i:s', $deadline_time);
         $time = '<div class="time">' . $time . '</div>';
         break;
     }
@@ -935,29 +935,18 @@ function _day_pg_race_task_set($day_node) {
     $contest_core_id = $contest_wrapper->field_core_id->value();
     $task_data['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : NULL;
 
-    // Get time data for a given race
+    // Get time data for contest and a given race
     // Get event time offset
     $contest_time = airtribune_extract_time_from_contest($contest);
-    if (!isset($contest_time['offset'])) {
-      return;
-    }
     $offset = $contest_time['offset'];
-
     // Get Race Time data
-    $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
-    $start = strtotime($start_end['value']) - $offset;
-    $end = strtotime($start_end['value2']) - $offset;
-
-    $current_time = time();
-    $countdown_time = $start - $current_time;
-    $localtime = $current_time + $offset;
+    $race_time = airtribune_extract_time_from_race($race, $offset);
 
     $task_data['status'] = _airtribune_pg_race_online_state($race->id);
-
-    $task_data['start_time'] = $start;
-    $task_data['deadline_time'] = $end;
-    $task_data['countdown_time'] = $countdown_time;
-    $task_data['localtime'] = $localtime;
+    $task_data['start_time'] = $race_time['start_local'];
+    $task_data['deadline_time'] = $race_time['deadline_local'];
+    $task_data['countdown_time'] = $race_time['countdown'];
+    $task_data['localtime'] = $contest_time['localtime'];
     $task_data['offset'] = $offset;
   }
 

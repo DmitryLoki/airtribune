@@ -992,6 +992,42 @@ function airtribune_extract_time_from_contest($node) {
 
   $result['start'] = strtotime($dates_field[0]['value']);
   $result['end'] = strtotime($dates_field[0]['value2']);
+/**
+ * Helper function, load node & extract time and offset from fields
+ *
+ * @param $entity object
+ * @param $offset int contest offset time
+ *
+ * @return $result array
+ *   - 'start', 'deadline', 'window_open', 'window_close' - UTC time.
+ *   - 'start_local', 'deadline_local', 'window_open_local', 'window_close_local' - local time.
+ *   - 'countdown' - seconds before race start.
+ * @author Kraev Vasily
+ */
+function airtribune_extract_time_from_race($entity, $offset) {
+  // If we get integer race id, not object, then load entity.
+  if (is_int($entity)) {
+    $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity));
+    $entity = array_shift($entity);
+  }
+  if (!($entity) || empty($offset)) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
+  $window_open_close = $wrapper->{AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD}->value();
+
+  date_default_timezone_set('UTC');
+  $result['start'] = strtotime($start_end['value']);
+  $result['deadline'] = strtotime($start_end['value2']);
+  $result['window_open'] = strtotime($window_open_close['value']);
+  $result['window_close'] = strtotime($window_open_close['value2']);
+  $result['start_local'] = strtotime($start_end['value']) + $offset;
+  $result['deadline_local'] = strtotime($start_end['value2']) + $offset;
+  $result['window_open_local'] = strtotime($window_open_close['value']) + $offset;
+  $result['window_close_local'] = strtotime($window_open_close['value2']) + $offset;
+  $result['countdown'] = $result['start'] - REQUEST_TIME;
 
   return $result;
 }
