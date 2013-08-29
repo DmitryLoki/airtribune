@@ -996,8 +996,9 @@ function airtribune_extract_time_from_contest($node) {
   $result['localtime'] = REQUEST_TIME + $offset;
   $result['start'] = strtotime($dates_field[0]['value']);
   $result['end'] = strtotime($dates_field[0]['value2']);
-  $result['start_local'] = strtotime($dates_field[0]['value']) + $offset;
-  $result['end_local'] = strtotime($dates_field[0]['value2']) + $offset;
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $result['start_local'] = strtotime($dates_field[0]['value']) - $offset;
+  $result['end_local'] = strtotime($dates_field[0]['value2']) - $offset;
 
   return $result;
 }
@@ -1033,11 +1034,12 @@ function airtribune_extract_time_from_race($entity, $offset) {
   $result['deadline'] = strtotime($start_end['value2']);
   $result['window_open'] = strtotime($window_open_close['value']);
   $result['window_close'] = strtotime($window_open_close['value2']);
-  $result['start_local'] = strtotime($start_end['value']) + $offset;
-  $result['deadline_local'] = strtotime($start_end['value2']) + $offset;
-  $result['window_open_local'] = strtotime($window_open_close['value']) + $offset;
-  $result['window_close_local'] = strtotime($window_open_close['value2']) + $offset;
-  $result['countdown'] = $result['start'] - REQUEST_TIME;
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $result['start_local'] = strtotime($start_end['value']) - $offset;
+  $result['deadline_local'] = strtotime($start_end['value2']) - $offset;
+  $result['window_open_local'] = strtotime($window_open_close['value']) - $offset;
+  $result['window_close_local'] = strtotime($window_open_close['value2']) - $offset;
+  $result['countdown'] = $result['start_local'] - REQUEST_TIME;
 
   return $result;
 }
