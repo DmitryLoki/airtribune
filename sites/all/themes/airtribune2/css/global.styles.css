@@ -1682,7 +1682,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 
 }
 .second_sidebar .block .pane-inner { margin:0}
-.second_sidebar .block h2.block-title { background:#eceff2; margin:0; padding:6px 10px 8px; position:relative; font:24px/26px Arial, Helvetica, sans-serif; color:#677581; text-shadow:0 1px 1px #ffffff; text-align:center;
+.second_sidebar .block h2.block-title { background:#eceff2; margin:0; padding:6px 10px 8px; position:relative; font:24px/26px Arial, Helvetica, sans-serif; color:#525c66; text-shadow:0 1px 1px #ffffff;
 
 	-webkit-border-radius: 2px 2px 0 0; 
 	-moz-border-radius: 2px 2px 0 0;
@@ -3136,6 +3136,28 @@ html.fb_view { overflow: auto;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
 #facebook-fan-gate { width: 810px; height: 160px; background: url(../images/like.png) no-repeat 50% 0; }
+
+.second_sidebar .pane-activity-news-content-pane { border: none; background: none; margin: 0 1px 20px;}
+.second_sidebar .pane-activity-news-content-pane h2.block-title { border: 1px solid #e1e6e9; padding-bottom: 6px;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.second_sidebar .pane-activity-news-content-pane .pane-content { margin: 10px 0 0;}
+.pane-activity-news-content-pane .node-teaser h1.node-title { padding-left: 0; font-size: 14px; line-height: 20px; font-weight: bold;}
+.pane-activity-news-content-pane .node-teaser.node-sticky h1.node-title { text-indent: 21px;}
+.pane-activity-news-content-pane .node-teaser h1.node-title a {  color: #525d66}
+.pane-activity-news-content-pane img { vertical-align: middle;}
+.pane-activity-news-content-pane .views-field-title-field { margin-top: 4px; margin-bottom: 0; padding-bottom: 2px;}
+.pane-activity-news-content-pane .views-field-created { color: #a0a0a0; font: 12px/14px Verdana, Geneva, sans-serif}
+.pane-activity-news-content-pane .views-field-created em { font-style: normal;}
+.pane-activity-news-content-pane .views-row { padding-bottom: 29px;}
+.pane-activity-news-content-pane .views-row-last { padding-bottom: 18px;}
+.pane-activity-news-content-pane .more-link { text-align: center; font-size: 14px;}
+
+.front .pane-page-content { padding-top: 7px;}
 
 .front_live_events > .pane-inner { margin: 0 0 40px;}
 .front_live_events h2.pane-title { position: relative; z-index: 10;}
