@@ -957,7 +957,7 @@ function airtribune_contest_status_check_by_date($node) {
   if (!$result) {
     return FALSE;
   }
-  return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
+  return airtribune_compare_dates($result['start_local'], $result['end_local']);
 }
 
 /**
@@ -966,7 +966,7 @@ function airtribune_contest_status_check_by_date($node) {
  * @param $node object
  *
  * @return $result array
- *   with 'start', 'end' & 'offset'. FALSE if event not found
+ *   'start', 'end', 'start_local', 'end_local', 'localtime', 'offset'. FALSE if event not found
  *
  * @author Kraev Vasily
  */
@@ -985,13 +985,23 @@ function airtribune_extract_time_from_contest($node) {
   $tz_field = field_get_items('node', $node, AIRTRIBUNE_TIMEZONE_FIELD);
   $dates_field = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
 
+  date_default_timezone_set('UTC');
   $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
   $tz = new DateTimeZone($tz);
   // get offset of event timezone from UTC
   $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
-
+  if (!isset($result['offset'])) {
+    $result['offset'] = 0;
+  }
+  $result['localtime'] = REQUEST_TIME + $offset;
   $result['start'] = strtotime($dates_field[0]['value']);
   $result['end'] = strtotime($dates_field[0]['value2']);
+  $result['start_local'] = strtotime($dates_field[0]['value']) + $offset;
+  $result['end_local'] = strtotime($dates_field[0]['value2']) + $offset;
+
+  return $result;
+}
+
 /**
  * Helper function, load node & extract time and offset from fields
  *
@@ -1038,19 +1048,14 @@ function airtribune_extract_time_from_race($entity, $offset) {
  *
  * @param $start_date unix_stamp
  * @param $end_date unix_stamp
- * @param $offset int seconds
  *
  * @return event_date_status FALSE|string
  *   FALSE or 'past' or 'current' or 'next'
  *
  * @author Kraev Vasily
  */
-function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
+function airtribune_compare_dates($start_date, $end_date) {
   $now = REQUEST_TIME;
-  if ($offset) {
-    $start_date += $offset;
-    $end_date += $offset;
-  }
   if (empty($start_date) || empty($end_date)) {
     return FALSE;
   }
@@ -1124,7 +1129,7 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
   $result = airtribune_extract_time_from_contest($node);
   $contest_date_status = airtribune_contest_status_check_by_date($node);
   if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
-    $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
+    $seconds = REQUEST_TIME - ($result['start_local']);
     if ($granularity == 'day') {
       return ($seconds / 3600 / 24);
     }
