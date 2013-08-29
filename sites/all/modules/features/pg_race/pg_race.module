@@ -792,13 +792,10 @@ function _day_pg_race_preview_markup($node) {
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
         $link_text = t('Watch Live');
-        $time = $countdown_time;
         $time = date('H:i:s', $countdown_time);
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $time = '<div class="time">' . $time . '</div>';
         $help_text = t('Race starts in');
-        drupal_add_js(array('Day' => array('localtime' => $localtime * 1000)), 'setting');
-        drupal_add_js(array('Day' => array('offset' => $offset * 1000)), 'setting');
         break;
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $link_text = t('Watch Live');
@@ -814,9 +811,6 @@ function _day_pg_race_preview_markup($node) {
     }
 
     if ($is_current_day) {
-      drupal_add_js(array('Day' => array('offset' => $offset * 1000)), 'setting');
-      drupal_add_js(array('Day' => array('start_time' => $start_time * 1000)), 'setting');
-      drupal_add_js(array('Day' => array('deadline_time' => $deadline_time * 1000)), 'setting');
       $wrapper_attributes['data-start-time'] = $start_time * 1000;
       $wrapper_attributes['data-deadline-time'] = $deadline_time * 1000;
     }
@@ -955,13 +949,8 @@ function _day_pg_race_task_set($day_node) {
     $end = strtotime($start_end['value2']) - $offset;
 
     $current_time = time();
-
-
     $countdown_time = $start - $current_time;
-
-    // TODO: Get local time with offset
     $localtime = $current_time + $offset;
-
 
     $task_data['status'] = _airtribune_pg_race_online_state($race->id);
 
