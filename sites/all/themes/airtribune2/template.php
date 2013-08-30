@@ -1620,5 +1620,7 @@ function airtribune2_views_pre_render(&$view) {
       }
     }
   }
-  shuffle($view->result);
+  if (!empty($view->result)) {
+    shuffle($view->result);
+  }
 }
