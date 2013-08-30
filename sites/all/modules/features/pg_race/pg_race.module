@@ -642,7 +642,7 @@ function _pg_race_preview_markup($entity) {
 
   // Prepare link parameters
   $params = array(
-    'status' => _airtribune_pg_race_online_status($entity->id),
+    'status' => _airtribune_pg_race_online_state($entity->id),
     'race_entity_id' => $entity->id,
   );
   $params['race_core_id'] = !empty($race_core_id) ? $race_core_id : '';
@@ -919,7 +919,7 @@ function _day_pg_race_task_set($day_node) {
 
     // Get Race core_id and entity_id
     $race_core_id = $wrapper->field_core_id->value();
-    $task_data['race_entity_id'] = $entity->id;
+    $task_data['race_entity_id'] = $race->id;
     $task_data['race_core_id'] = !empty($race_core_id) ? $race_core_id : NULL;
 
     // Get Event core_id for a given Race.
