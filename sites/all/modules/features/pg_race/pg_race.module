@@ -562,7 +562,9 @@ function pg_race_retrive_table_callback($entity) {
   return render($link);
 }
 
-
+/**
+ * Retrive up to 2am (02:00 night) of next day following race day.
+ */
 function pg_race_retrive_access($entity, $gid) {
   $race_date_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_race_start_end');
   $contest_time = airtribune_extract_time_from_contest($gid);
@@ -666,33 +668,26 @@ function _pg_race_preview_markup($entity) {
   );
 }
 
+function _day_make_link($params) {
+  if (empty($params['text'])) {
+    return;
+  }
+  $class = array('race-link', $params['type'], $params['status']);
+  $link = '<span class="file">' . theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'a',
+        '#value' => $params['text'],
+        '#attributes' => array('class' => $class, 'target' => '_blank', 'rel' => 'nofollow')
+      )
+    )) . '</span>';
+  return $link;
+}
+
 /**
  * Prepare markup for play links
  */
 function _pg_race_play_link($params) {
-  $class2d = array('race-link', '2d');
-  $class3d = array('race-link', '3d');
-
-  if ($params['status'] == 'online') {
-    $class2d[] = 'online';
-    $class3d[] = 'online';
-  }
-
-  $href2d = '<span class="file">' . theme('html_tag', array(
-      'element' => array(
-        '#tag' => 'a',
-        '#value' => '2D',
-        '#attributes' => array('class' => $class2d, 'target' => '_blank')
-      )
-    )) . '</span>';
-  $href3d = '<span class="file">' . theme('html_tag', array(
-      'element' => array(
-        '#tag' => 'a',
-        '#value' => '3D',
-        '#attributes' => array('class' => $class3d, 'target' => '_blank')
-      )
-    )) . '</span>';
-
+  $href2d = _day_make_link($params);
 
   // Generate list
   //$items = array($href2d, $href3d);
@@ -716,16 +711,12 @@ function _pg_race_play_link($params) {
     'items' => $items,
     'attributes' => $ul_attribuntes,
   );
-  $output = theme('item_list', $variables);
-
-  return $output;
+  $output = theme('item_list', $variables) . $params['helptext'] . $params['time'];
 }
-
 
 /**
  * Return markup for visualization link.
  */
-// TODO:
 function _day_pg_race_preview_markup($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $day_status = $wrapper->field_day_status->value();
@@ -779,34 +770,29 @@ function _day_pg_race_preview_markup($node) {
       break;
   }
 
-
   // Content data
-
-  $class2d = array('race-link', '2d');
-
-  $help_text = '';
-  $time = '';
+  $data['type'] = '2d';
+  $link_text = NULL;
+  $help_text = NULL;
+  $time = NULL;
 
   // Check if task exists
   if ($has_task) {
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
-        $link_text = t('Watch Live');
         $time = date('H:i:s', $countdown_time);
         $time = $countdown_time > 0 ? '-' . $time : $time;
-        $time = '<div class="time">' . $time . '</div>';
         $help_text = t('Race starts in');
         break;
       case AIRTRIBUNE_VIS_STATE_ONLINE :
-        $link_text = t('Watch Live');
         $time = date('H:i:s', $start_time);
-        $time = '<div class="time">' . $time . '</div>';
+        $link_text = t('Watch Live');
         $help_text = t('Race starts on');
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
-        $link_text = t('Replay');
-        $time = date('H:i:s', $start_time) . ' / ' . date('H:i:s', $deadline_time);
-        $time = '<div class="time">' . $time . '</div>';
+        $time = date('H:i:s', $start_time) . ' – ' . date('H:i:s', $deadline_time);
+        $link_text = t('Task Replay');
+        $help_text = t('Race time');
         break;
     }
 
@@ -820,7 +806,6 @@ function _day_pg_race_preview_markup($node) {
       return '';
     }
     // Default link and help text in case task isn't set.
-    $link_text = t('Watch Live');
     $help_text = t('Button will be here as soon as task is set.');
     // Do not output time/countdown
     $time = '';
@@ -828,32 +813,23 @@ function _day_pg_race_preview_markup($node) {
     $wrapper_attributes['class'][] = 'no-task';
   }
 
-  if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
-    $output = _day_pg_race_preview_offline_markup($data);
-  }
-  else {
-    // Wrap link text
-    $link_text = '<span class="file">' . theme('html_tag', array(
-        'element' => array(
-          '#tag' => 'a',
-          '#value' => $link_text,
-          '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')
-        )
-      )) . '</span>';
-    // Wrap time and help-text if not empty.
-    $time = !empty($time) ? '<span id="time-counter" class="time">' . $time . '</span>' : '';
-    $help_text = !empty($help_text) ? '<span class="help-text">' . $help_text . '</span>' : '';
+  // Wrap time and help-text if not empty.
+  $time = !empty($time) ? '<div id="time-counter" class="time">' . $time . '</div>' : '';
+  $help_text = !empty($help_text) ? '<span class="help-text">' . $help_text . '</span>' : '';
 
-    // Prepare output
-    $output = $link_text . $help_text . $time;
-    $output = theme('html_tag', array(
-      'element' => array(
-        '#tag' => 'span',
-        '#value' => $output,
-        '#attributes' => $wrapper_attributes
-      )
-    ));
-  }
+  // Wrap link text
+  $data['text'] = $link_text;
+  $link = _day_make_link($data);
+
+  // Prepare output
+  $output = $link . $help_text . $time;
+  $output = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'span',
+      '#value' => $output,
+      '#attributes' => $wrapper_attributes
+    )
+  ));
 
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
@@ -912,10 +888,9 @@ function _day_pg_race_task_set($day_node) {
 
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
-    // TODO: Check if points are set and track files exist
-    //$race_tracks = $wrapper->field_pg_race_tracks->value();
-    //$points = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_dates');
-
+    // Check if points are set and track files exist
+    $race_tracks = $wrapper->field_pg_race_tracks->value();
+    $points = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $race, AIRTRIBUNE_POINTS_FILE_FIELD);
 
     // Get Race core_id and entity_id
     $race_core_id = $wrapper->field_core_id->value();
@@ -951,45 +926,4 @@ function _day_pg_race_task_set($day_node) {
   }
 
   return $task_data;
-}
-
-/**
- * Return markup in case Race is offline.
- */
-// TODO:
-function _day_pg_race_preview_offline_markup($data) {
-  $class2d = array('race-link', '2d');
-  $href2d = '<span class="file">' . theme('html_tag', array(
-      'element' => array(
-        '#tag' => 'a',
-        '#value' => '2D',
-        '#attributes' => array('class' => $class2d, 'target' => '_blank', 'rel' => 'nofollow')
-      )
-    )) . '</span>';
-  //$class3d = array('race-link', '3d');
-  //$href3d = '<span class="file">' . theme('html_tag', array('element' => array('#tag' => 'a', '#value' => '3D', '#attributes' => array('class' => $class3d, 'target' => '_blank', 'rel' => 'nofollow')))) . '</span>';
-
-
-  // Generate list
-  //$items = array($href2d, $href3d);
-  $items = array($href2d);
-
-  $ul_attribuntes = array(
-    'class' => array('race-links'),
-    'data-race-eid' => $data['race_entity_id'],
-    'data-contest-cid' => $data['contest_core_id'],
-    'data-race-cid' => $data['race_core_id'],
-  );
-
-  $variables = array(
-    'type' => 'ul',
-    'title' => '',
-    'items' => $items,
-    'attributes' => $ul_attribuntes,
-  );
-  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  $output = theme('item_list', $variables);
-  $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
-
-  return $output;
 }
