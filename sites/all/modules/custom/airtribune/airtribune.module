@@ -80,6 +80,11 @@ define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
 define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
 
+// Visualisation
+define('AIRTRIBUNE_VIS_STATE_ONLINE', 'online');
+define('AIRTRIBUNE_VIS_STATE_REPLAY', 'replay');
+define('AIRTRIBUNE_VIS_STATE_AWAITING', 'awaiting');
+
 /**
  * Implements hook_views_api().
  */
@@ -952,7 +957,7 @@ function airtribune_contest_status_check_by_date($node) {
   if (!$result) {
     return FALSE;
   }
-  return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
+  return airtribune_compare_dates($result['start_local'], $result['end_local']);
 }
 
 /**
@@ -961,7 +966,7 @@ function airtribune_contest_status_check_by_date($node) {
  * @param $node object
  *
  * @return $result array
- *   with 'start', 'end' & 'offset'. FALSE if event not found
+ *   'start', 'end', 'start_local', 'end_local', 'localtime', 'offset'. FALSE if event not found
  *
  * @author Kraev Vasily
  */
@@ -980,13 +985,61 @@ function airtribune_extract_time_from_contest($node) {
   $tz_field = field_get_items('node', $node, AIRTRIBUNE_TIMEZONE_FIELD);
   $dates_field = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
 
+  date_default_timezone_set('UTC');
   $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
   $tz = new DateTimeZone($tz);
   // get offset of event timezone from UTC
   $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
-
+  if (!isset($result['offset'])) {
+    $result['offset'] = 0;
+  }
+  $result['localtime'] = REQUEST_TIME + $offset;
   $result['start'] = strtotime($dates_field[0]['value']);
   $result['end'] = strtotime($dates_field[0]['value2']);
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $result['start_local'] = strtotime($dates_field[0]['value']) - $offset;
+  $result['end_local'] = strtotime($dates_field[0]['value2']) - $offset;
+
+  return $result;
+}
+
+/**
+ * Helper function, load node & extract time and offset from fields
+ *
+ * @param $entity object
+ * @param $offset int contest offset time
+ *
+ * @return $result array
+ *   - 'start', 'deadline', 'window_open', 'window_close' - UTC time.
+ *   - 'start_local', 'deadline_local', 'window_open_local', 'window_close_local' - local time.
+ *   - 'countdown' - seconds before race start.
+ * @author Kraev Vasily
+ */
+function airtribune_extract_time_from_race($entity, $offset) {
+  // If we get integer race id, not object, then load entity.
+  if (is_int($entity)) {
+    $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity));
+    $entity = array_shift($entity);
+  }
+  if (!($entity) || empty($offset)) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
+  $window_open_close = $wrapper->{AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD}->value();
+
+  date_default_timezone_set('UTC');
+  $result['start'] = strtotime($start_end['value']);
+  $result['deadline'] = strtotime($start_end['value2']);
+  $result['window_open'] = strtotime($window_open_close['value']);
+  $result['window_close'] = strtotime($window_open_close['value2']);
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $result['start_local'] = strtotime($start_end['value']) - $offset;
+  $result['deadline_local'] = strtotime($start_end['value2']) - $offset;
+  $result['window_open_local'] = strtotime($window_open_close['value']) - $offset;
+  $result['window_close_local'] = strtotime($window_open_close['value2']) - $offset;
+  $result['countdown'] = $result['start_local'] - REQUEST_TIME;
 
   return $result;
 }
@@ -997,19 +1050,14 @@ function airtribune_extract_time_from_contest($node) {
  *
  * @param $start_date unix_stamp
  * @param $end_date unix_stamp
- * @param $offset int seconds
  *
  * @return event_date_status FALSE|string
  *   FALSE or 'past' or 'current' or 'next'
  *
  * @author Kraev Vasily
  */
-function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
+function airtribune_compare_dates($start_date, $end_date) {
   $now = REQUEST_TIME;
-  if ($offset) {
-    $start_date += $offset;
-    $end_date += $offset;
-  }
   if (empty($start_date) || empty($end_date)) {
     return FALSE;
   }
@@ -1083,7 +1131,7 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
   $result = airtribune_extract_time_from_contest($node);
   $contest_date_status = airtribune_contest_status_check_by_date($node);
   if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
-    $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
+    $seconds = REQUEST_TIME - ($result['start_local']);
     if ($granularity == 'day') {
       return ($seconds / 3600 / 24);
     }
@@ -1176,14 +1224,14 @@ function _airtribune_get_gid($entity_type, $entity) {
 }
 
 /**
- * Get paragliding race status
+ * Get paragliding race visualisation state
  *
- * @return race_status FALSE|string
- *   FALSE or 'online' or 'offline'
+ * @return race_state string
+ *   'online' | 'replay' | 'awaiting'
  *
  * @author Kapelshikov Alexandr
  */
-function _airtribune_pg_race_online_status($etid) {
+function _airtribune_pg_race_online_state($etid) {
   // Load pg_race entity
   $entities = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($etid));
   if (empty($entities)) {
@@ -1213,18 +1261,18 @@ function _airtribune_pg_race_online_status($etid) {
   // TODO: Get local time
   $localtime = time() + $offset;
 
-  // Compare dates to get status
+  // Compare dates to get state
   if ($start <= $localtime && $localtime < $end) {
     // online
-    return 'online';
+    return AIRTRIBUNE_VIS_STATE_ONLINE;
   }
   elseif ($localtime >= $end) {
-    // offline. race finished
-    return 'offline';
+    // replay. race finished
+    return AIRTRIBUNE_VIS_STATE_REPLAY;
   }
   else {
     // race haven't started yet
-    return FALSE;
+    return AIRTRIBUNE_VIS_STATE_AWAITING;
   }
 }
 

@@ -21,7 +21,7 @@
           setTimeout(setOnlineTime, 1000);
         };
 
-        var setOfflineTime = function() {
+        var setReplayTime = function() {
           raceTime = (Math.floor(raceData.raceDeadlineTime - raceData.raceStartTime) / 1000);
           timeHelperText.html(getTimeStr(Math.floor(raceTime / 3600), Math.floor(raceTime % 3600 / 60), raceTime % 60));
         }
@@ -30,7 +30,7 @@
 
         if (!raceData.isOnline) {
           $raceButton.hide();
-          setOfflineTime();
+          setReplayTime();
         } else {
           setOnlineTime();
         }

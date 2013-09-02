@@ -334,7 +334,7 @@ function get_races_ids_for_contest($og) {
   $query = new EntityFieldQuery;
   $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
-    ->fieldCondition('og_group_ref', 'target_id', $og->nid)
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $og->nid)
     ->execute();
   $races = array();
   if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
@@ -357,7 +357,7 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
   $query = new EntityFieldQuery;
   $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
     ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
-    ->fieldCondition('og_group_ref', 'target_id', $contest->nid)
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $contest->nid)
     ->execute();
   $races = array();
   if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
@@ -408,7 +408,7 @@ function get_days_ids_for_contest($og) {
  */
 function pg_race_field_extra_fields() {
 
-  $extra['ent_race']['pg_race'] = array(
+  $extra[AIRTRIBUNE_RACE_ENTITY_TYPE][AIRTRIBUNE_PG_RACE_TYPE] = array(
     'form' => array(
       'pg_race_play_link' => array(
         'label' => t('Paragliding race link'),
@@ -481,7 +481,7 @@ function day_pg_race_play_link_callback($node) {
 }
 
 function pg_race_preview_image_callback($entity) {
-  if ($entity->type == 'pg_race') {
+  if ($entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
 
     module_load_include('inc', 'pg_race', 'pg_race.draw');
     $race_id = $entity->id;
@@ -498,7 +498,7 @@ function pg_race_preview_image_callback($entity) {
 }
 
 function pg_race_play_link_callback($entity) {
-  if ($entity->type == 'pg_race') {
+  if ($entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
 
     $preview = _pg_race_preview_markup($entity);
     $markup = $preview['markup'];
@@ -518,7 +518,7 @@ function pg_race_play_link_callback($entity) {
 
 function pg_race_retrive_callback($entity) {
   global $user;
-  $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
   $gid = $og_ref_items[0]['target_id'];
 
   $link = array(
@@ -537,12 +537,12 @@ function pg_race_retrive_callback($entity) {
 
 function pg_race_retrive_table_callback($entity) {
 
-  $og_ref_items = field_get_items('ent_race', $entity, 'og_group_ref');
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
   $gid = $og_ref_items[0]['target_id'];
 
   $node = node_load($gid);
   $core_id_items = field_get_items('node', $node, 'field_core_id');
-  $race_id_items = field_get_items('ent_race', $entity, 'field_core_id');
+  $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
 
   $link = array(
     '#theme' => 'link',
@@ -564,7 +564,7 @@ function pg_race_retrive_table_callback($entity) {
 
 
 function pg_race_retrive_access($entity, $gid) {
-  $race_date_items = field_get_items('ent_race', $entity, 'field_race_start_end');
+  $race_date_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_race_start_end');
   $contest_time = airtribune_extract_time_from_contest($gid);
   $offset = $contest_time['offset'];
   $start_limit = strtotime($race_date_items[0]['value']);
@@ -579,7 +579,7 @@ function pg_race_retrive_access($entity, $gid) {
  */
 function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
 
-  if ($type == 'ent_race' && $entity->type == 'pg_race') {
+  if ($type == AIRTRIBUNE_RACE_ENTITY_TYPE && $entity->type == AIRTRIBUNE_PG_RACE_TYPE) {
     $preview = _pg_race_preview_markup($entity);
     $markup = $preview['markup'];
     $title = $preview['title'];
@@ -625,18 +625,18 @@ function pg_race_node_view($node, $view_mode, $langcode) {
 
 
 function _pg_race_preview_markup($entity) {
-  $wrapper = entity_metadata_wrapper('ent_race', $entity);
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
   $race_core_id = $wrapper->field_core_id->value();
 
   //$pg_contest_entities = $wrapper->og_group_ref->value();
-  $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
+  $items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
 
   if (!empty($items) && is_array($items)) {
     $item = array_shift($items);
-    $target_id = $item['target_id'];
-    $node = node_load($target_id);
-    $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
-    $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+    $contest_id = $item['target_id'];
+    $contest = node_load($contest_id);
+    $contest_wrapper = entity_metadata_wrapper('node', $contest);
+    $contest_core_id = $contest_wrapper->field_core_id->value();
   }
 
 
@@ -736,10 +736,10 @@ function _day_pg_race_preview_markup($node) {
   }
 
   // Get race status and core id data
-  $data = _day_pg_race_preview_data($node);
+  $data = _day_pg_race_task_set($node);
   // Race status data
   $status = $data['status'];
-  $has_task = $data['has_task'];
+  $has_task = !empty($data['entity']) ? TRUE : FALSE;
   $start_time = $data['start_time'];
   $deadline_time = $data['deadline_time'];
   $countdown_time = $data['countdown_time'];
@@ -764,17 +764,17 @@ function _day_pg_race_preview_markup($node) {
   );
   // Add wrapper Race status class
   switch ($status) {
-    case 'awaiting' :
+    case AIRTRIBUNE_VIS_STATE_AWAITING :
       $wrapper_attributes['class'][] = 'race-awaiting';
       if ($has_task) {
         $wrapper_attributes['data-view-type'] = 'online';
       }
       break;
-    case 'online' :
+    case AIRTRIBUNE_VIS_STATE_ONLINE :
       $wrapper_attributes['class'][] = 'race-online';
       $wrapper_attributes['data-view-type'] = 'online';
       break;
-    case 'offline' :
+    case AIRTRIBUNE_VIS_STATE_REPLAY :
       $wrapper_attributes['class'][] = 'race-offline';
       break;
   }
@@ -790,33 +790,27 @@ function _day_pg_race_preview_markup($node) {
   // Check if task exists
   if ($has_task) {
     switch ($status) {
-      case 'awaiting' :
+      case AIRTRIBUNE_VIS_STATE_AWAITING :
         $link_text = t('Watch Live');
-        $time = $countdown_time;
         $time = date('H:i:s', $countdown_time);
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $time = '<div class="time">' . $time . '</div>';
         $help_text = t('Race starts in');
-        drupal_add_js(array('Day' => array('localtime' => $localtime * 1000)), 'setting');
-        drupal_add_js(array('Day' => array('offset' => $offset * 1000)), 'setting');
         break;
-      case 'online' :
+      case AIRTRIBUNE_VIS_STATE_ONLINE :
         $link_text = t('Watch Live');
-        $time = date('H:i:s', $start_time + $offset);
+        $time = date('H:i:s', $start_time);
         $time = '<div class="time">' . $time . '</div>';
         $help_text = t('Race starts on');
         break;
-      case 'offline' :
+      case AIRTRIBUNE_VIS_STATE_REPLAY :
         $link_text = t('Replay');
-        $time = date('H:i:s', $start_time + $offset) . ' / ' . date('H:i:s', $deadline_time + $offset);
+        $time = date('H:i:s', $start_time) . ' / ' . date('H:i:s', $deadline_time);
         $time = '<div class="time">' . $time . '</div>';
         break;
     }
 
     if ($is_current_day) {
-      drupal_add_js(array('Day' => array('offset' => $offset * 1000)), 'setting');
-      drupal_add_js(array('Day' => array('start_time' => $start_time * 1000)), 'setting');
-      drupal_add_js(array('Day' => array('deadline_time' => $deadline_time * 1000)), 'setting');
       $wrapper_attributes['data-start-time'] = $start_time * 1000;
       $wrapper_attributes['data-deadline-time'] = $deadline_time * 1000;
     }
@@ -834,7 +828,7 @@ function _day_pg_race_preview_markup($node) {
     $wrapper_attributes['class'][] = 'no-task';
   }
 
-  if ($status == 'offline') {
+  if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
     $output = _day_pg_race_preview_offline_markup($data);
   }
   else {
@@ -871,49 +865,6 @@ function _day_pg_race_preview_markup($node) {
 }
 
 /**
- * Return data for visualization link.
- */
-// TODO:
-function _day_pg_race_preview_data($node) {
-  // Initialize values
-  $data = array(
-    'is_current_day' => NULL,
-    'status' => NULL,
-    'has_task' => NULL,
-    'start_time' => NULL,
-    'deadline_time' => NULL,
-    'countdown_time' => NULL,
-    'race_entity_id' => NULL,
-    'race_core_id' => NULL,
-    'contest_core_id' => NULL,
-  );
-
-  // Get task and event data
-  $task_data = _day_pg_race_task_set($node);
-
-  $data['is_current_day'] = $task_data['is_current_day'];
-  if (empty($task_data['entity'])) {
-    $data['has_task'] = FALSE;
-    return $data;
-  }
-  $data['has_task'] = TRUE;
-  $data['status'] = $task_data['status'];
-
-  $data['start_time'] = $task_data['start_time'];
-  $data['deadline_time'] = $task_data['deadline_time'];
-  $data['localtime'] = $task_data['localtime'];
-  $data['countdown_time'] = $task_data['countdown_time'];
-
-  $data['race_entity_id'] = $task_data['race_entity_id'];
-  $data['race_core_id'] = $task_data['race_core_id'];
-  $data['contest_core_id'] = $task_data['contest_core_id'];
-
-  $data['offset'] = $task_data['offset'];
-
-  return $data;
-}
-
-/**
  * Get day task if exists and check if points exist.
  */
 function _day_pg_race_task_set($day_node) {
@@ -936,9 +887,9 @@ function _day_pg_race_task_set($day_node) {
   $created = $day_node->created;
   $items = field_get_items('node', $day_node, OG_AUDIENCE_FIELD);
   $item = array_shift($items);
-  $target_id = $item['target_id'];
-  $node = node_load($target_id);
-  $contest_time = airtribune_extract_time_from_contest($node);
+  $contest_id = $item['target_id'];
+  $contest = node_load($contest_id);
+  $contest_time = airtribune_extract_time_from_contest($contest);
   if (!isset($contest_time['offset'])) {
     return;
   }
@@ -948,23 +899,22 @@ function _day_pg_race_task_set($day_node) {
   $day_id = $day_node->nid;
 
   $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'ent_race')
-    ->entityCondition('bundle', 'pg_race')
+  $query->entityCondition('entity_type', AIRTRIBUNE_RACE_ENTITY_TYPE)
+    ->entityCondition('bundle', AIRTRIBUNE_PG_RACE_TYPE)
     ->fieldCondition('field_day_ref', 'target_id', $day_id, '=');
 
   $result = $query->execute();
-  if (!empty($result['ent_race'])) {
-    $entity = array_shift($result['ent_race']);
-    $entities = entity_load('ent_race', array($entity->id));
-    $entity = array_shift($entities);
-    $task_data['entity'] = $entity;
+  if (!empty($result[AIRTRIBUNE_RACE_ENTITY_TYPE])) {
+    $race = array_shift($result[AIRTRIBUNE_RACE_ENTITY_TYPE]);
+    $races = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($race->id));
+    $race = array_shift($races);
+    $task_data['entity'] = $race;
 
-
-    $wrapper = entity_metadata_wrapper('ent_race', $entity);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $race);
 
     // TODO: Check if points are set and track files exist
     //$race_tracks = $wrapper->field_pg_race_tracks->value();
-    //$points = field_get_items('ent_race', $entity, 'field_dates');
+    //$points = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_dates');
 
 
     // Get Race core_id and entity_id
@@ -973,60 +923,30 @@ function _day_pg_race_task_set($day_node) {
     $task_data['race_core_id'] = !empty($race_core_id) ? $race_core_id : NULL;
 
     // Get Event core_id for a given Race.
-    $items = field_get_items('ent_race', $entity, OG_AUDIENCE_FIELD);
+    $items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $race, OG_AUDIENCE_FIELD);
     if (empty($items) || !is_array($items)) {
-      watchdog('warning', t('Og reference not set for Race id = ' . $entity->id));
+      watchdog('warning', t('Og reference not set for Race id = ' . $race->id));
       return;
     }
 
     $item = array_shift($items);
-    $target_id = $item['target_id'];
-    $node = node_load($target_id);
-    $pg_contest_wrapper = entity_metadata_wrapper('node', $node);
-    $contest_core_id = $pg_contest_wrapper->field_core_id->value();
+    $contest = node_load($item['target_id']);
+    $contest_wrapper = entity_metadata_wrapper('node', $contest);
+    $contest_core_id = $contest_wrapper->field_core_id->value();
     $task_data['contest_core_id'] = !empty($contest_core_id) ? $contest_core_id : NULL;
 
-    // Get time data for a given race
+    // Get time data for contest and a given race
     // Get event time offset
-    $contest_time = airtribune_extract_time_from_contest($node);
-    if (!isset($contest_time['offset'])) {
-      return;
-    }
+    $contest_time = airtribune_extract_time_from_contest($contest);
     $offset = $contest_time['offset'];
-
     // Get Race Time data
-    $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
-    $start = strtotime($start_end['value']) - $offset;
-    $end = strtotime($start_end['value2']) - $offset;
+    $race_time = airtribune_extract_time_from_race($race, $offset);
 
-    $current_time = time();
-
-    if ($start <= $current_time && $current_time < $end) {
-      // online
-      $status = 'online';
-    }
-    elseif ($current_time >= $end) {
-      // offline. race finished
-      $status = 'offline';
-    }
-    else {
-      // race haven't started yet
-      $status = 'awaiting';
-    }
-
-
-    $countdown_time = $start - $current_time;
-
-    // TODO: Get local time with offset
-    $localtime = $current_time + $offset;
-
-
-    $task_data['status'] = $status;
-
-    $task_data['start_time'] = $start;
-    $task_data['deadline_time'] = $end;
-    $task_data['countdown_time'] = $countdown_time;
-    $task_data['localtime'] = $localtime;
+    $task_data['status'] = _airtribune_pg_race_online_state($race->id);
+    $task_data['start_time'] = $race_time['start_local'];
+    $task_data['deadline_time'] = $race_time['deadline_local'];
+    $task_data['countdown_time'] = $race_time['countdown'];
+    $task_data['localtime'] = $contest_time['localtime'];
     $task_data['offset'] = $offset;
   }
 
