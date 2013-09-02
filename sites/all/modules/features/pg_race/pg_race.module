@@ -731,6 +731,8 @@ function _day_pg_race_preview_markup($node) {
   // Race status data
   $status = $data['status'];
   $has_task = !empty($data['entity']) ? TRUE : FALSE;
+  $has_tracks = $data['has_tracks'];
+  $has_points = $data['has_points'];
   $start_time = $data['start_time'];
   $deadline_time = $data['deadline_time'];
   $countdown_time = $data['countdown_time'];
@@ -777,7 +779,7 @@ function _day_pg_race_preview_markup($node) {
   $time = NULL;
 
   // Check if task exists
-  if ($has_task) {
+  if ($has_task && $has_tracks) {
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
         $time = date('H:i:s', $countdown_time);
@@ -851,8 +853,9 @@ function _day_pg_race_task_set($day_node) {
     'status' => NULL,
     'start_time' => NULL,
     'deadline_time' => NULL,
-    //'has_points' => NULL,
-    //'has_tacks' => NULL,
+    'countdown_time' => NULL,
+    'has_tracks' => NULL,
+    'has_points' => NULL,
     'race_entity_id' => NULL,
     'race_core_id' => NULL,
     'contest_core_id' => NULL,
@@ -891,6 +894,8 @@ function _day_pg_race_task_set($day_node) {
     // Check if points are set and track files exist
     $race_tracks = $wrapper->field_pg_race_tracks->value();
     $points = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $race, AIRTRIBUNE_POINTS_FILE_FIELD);
+    $task_data['has_tracks'] = !empty($race_tracks);
+    $task_data['has_points'] = !empty($points);
 
     // Get Race core_id and entity_id
     $race_core_id = $wrapper->field_core_id->value();
