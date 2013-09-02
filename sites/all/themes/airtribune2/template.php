@@ -1605,6 +1605,7 @@ function airtribune2_views_pre_render(&$view) {
   //dpm($view);
   //print $view->name . "\n\r";
   if ($view->name == 'frontpage_events') {
+    drupal_add_js(drupal_get_path('theme', 'airtribune2') . '/js/fronpage.js');
     if (count($view->result) == 1) {
       $img_styles = array('frontpage_event_padding_once', 'event_logo_once');
       $view->name .= '_once';
