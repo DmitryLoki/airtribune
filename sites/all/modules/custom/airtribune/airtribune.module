@@ -989,10 +989,11 @@ function airtribune_extract_time_from_contest($node) {
   $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
   $tz = new DateTimeZone($tz);
   // get offset of event timezone from UTC
-  $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
-  if (!isset($result['offset'])) {
-    $result['offset'] = 0;
+  $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+  if (empty($offset)) {
+    $offset = 0;
   }
+  $result['offset'] = $offset;
   $result['localtime'] = REQUEST_TIME + $offset;
   $result['start'] = strtotime($dates_field[0]['value']);
   $result['end'] = strtotime($dates_field[0]['value2']);
