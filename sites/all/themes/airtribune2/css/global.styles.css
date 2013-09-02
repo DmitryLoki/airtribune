@@ -3248,6 +3248,23 @@ html.fb_view { overflow: auto;}
 
 }
 
+.view-frontpage-events .views-row-4,
+.view-frontpage-events .views-row-5,
+.view-frontpage-events .views-row-6,
+.view-frontpage-events .views-row-7,
+.view-frontpage-events .views-row-8,
+.view-frontpage-events .views-row-9 { display: none } 
+
+.frontpage-show-more-events {
+color: #2e4b59;
+display: inline-block;
+position: relative;
+border: 1px solid #d5e5ea;
+width: 142px;
+text-align: center;
+font-size: 25px;
+}
+
 .front_live_events .views-field-field-contest-photos { position: absolute; top: 0; }
 
 .countries_title_suffix { position: relative; overflow: hidden; height: 0;

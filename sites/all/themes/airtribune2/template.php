@@ -1613,6 +1613,10 @@ function airtribune2_views_pre_render(&$view) {
       $img_styles = array('frontpage_event_padding_twice', 'event_logo_twice');
       $view->name .= '_twice';
     }
+    // Output "show more events" button after view, if we have more, than 3 items.
+    if (count($view->result) > 3) {
+      $view->attachment_after = '<div class="frontpage-show-more-events">...</div>';
+    }
     if(!empty($img_styles)){
       foreach ($view->result as $key => $value) {
         $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
