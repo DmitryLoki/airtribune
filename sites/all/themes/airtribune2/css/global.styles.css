@@ -3164,7 +3164,13 @@ html.fb_view { overflow: auto;}
 .front_live_events h2 a { float: right; margin: 3px -2px 0 0; position: relative; width: 67px; text-shadow: none; text-decoration: none;}
 .front_live_events h2 a:hover { background: rgba(0,174,239, 1);}
 .front_live_events h2 a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
-.front_live_events .view-content { margin-left: -5px;}
+.front_live_events .view-content { margin-left: -5px; height: 280px; overflow: hidden;
+  -moz-transition-duration: 200ms;
+  -webkit-transition-duration: 200ms;
+  -ms-transition-duration: 200ms;
+  -o-transition-duration: 200ms;
+  transition-duration: 200ms;
+}
 .front_live_events .view-frontpage-events-twice .view-content { margin-left: -6px;}
 .front_live_events .view-content .view-content { margin-left: 0;}
 .front_live_events .views-row { float: left; width: 230px; height: 270px; margin-left: 5px; position: relative; margin-top: 10px;}
@@ -3248,12 +3254,12 @@ html.fb_view { overflow: auto;}
 
 }
 
-.view-frontpage-events .views-row-4,
+/*.view-frontpage-events .views-row-4,
 .view-frontpage-events .views-row-5,
 .view-frontpage-events .views-row-6,
 .view-frontpage-events .views-row-7,
 .view-frontpage-events .views-row-8,
-.view-frontpage-events .views-row-9 { display: none } 
+.view-frontpage-events .views-row-9 { display: none } */
 
 .frontpage-show-more-events {
 color: #2e4b59;
