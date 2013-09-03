@@ -1,6 +1,11 @@
 jQuery(function ($) {
-
+  
   $('.countries_title_suffix_inner').each(function () {
+    var defaultCountry = $("#soon-county-wrapper").data('country');
+    if(defaultCountry != "none") {
+      $(".change_location_title").click();
+      $("#countries-wrapper").find("li." + defaultCountry).find("a.use-ajax").click();
+    }    
 
     var countriesInner = $(this);
     countriesInner.parent().show();

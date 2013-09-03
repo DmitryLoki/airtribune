@@ -51,6 +51,7 @@ function airtribune_soon_country_countries_list() {
  * Render event title pane.
  */
 function airtribune_soon_country_content_type_render($subtype, $conf, $panel_args, $context) {
+  global $_COOKIE;
 
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/soon_country';
   drupal_add_library('system', 'drupal.ajax');
@@ -59,11 +60,15 @@ function airtribune_soon_country_content_type_render($subtype, $conf, $panel_arg
   drupal_add_js($theme_path . '/js/jquery.jscrollpane.min.js');
   drupal_add_js($plugin_path . '/soon_country.js');
 
+  $country = "none";
+  if (isset($_COOKIE['soon_country'])) {
+    $country = $_COOKIE['soon_country']; 
+  } else {
+    $country = strtolower(geoip_country_code());  
+  }
 
-  $content = '<div id="soon-county-wrapper"></div>';
+  $content = '<div id="soon-county-wrapper" data-country="' . $country . '"></div>';
   $title = t('Soon in country');
-
-  
 
   return (object) array(
     'module' => 'airtribune',
@@ -83,7 +88,7 @@ function airtribune_soon_country_content_type_edit_form($form, &$form_state) {
 
 
 function airtribune_soon_country($country_code) {
-
+  setcookie('soon_country', $country_code, time() + 60*60*24, '/');
   $view = views_get_view('frontpage_events');
   $view->set_arguments(array(strtoupper($country_code)));
 
