@@ -9,8 +9,32 @@ jQuery(function ($) {
 
   //get accordion object
   $.each(Drupal.settings.views_accordion, function (title, accordionSettings) {
-    var accordion = $(accordionSettings.header).parent().data('accordion');
+    var accordionContainer = $(accordionSettings.header).parent(),
+      accordion = accordionContainer.data('accordion');
     if (!accordion) return;
+
+    $(accordionSettings.header)
+      .unbind('click.accordion')
+      .bind('click', function (event) {
+        var accordionPaneHeader = $(this),
+          accordionPane = $(this).next();
+        accordionPaneHeader.toggleClass('ui-state-active ui-state-default');
+        accordionPane.toggleClass('ui-accordion-content-active');
+
+        var options = {
+          toHide: $(),
+          toShow: $(),
+          complete: function(){
+            accordion.active = this;
+            accordion._trigger('change');
+          }
+        };
+        options[accordionPaneHeader.hasClass('ui-state-active') ? 'toShow' : 'toHide'] = accordionPane;
+
+        $.ui.accordion.animations.slide(options);
+
+        event.preventDefault();
+      });
 
     accordion.option('change', onChange);
 
@@ -20,18 +44,21 @@ jQuery(function ($) {
     }
 
     function filterEventsFeaturesOnMap() {
-      var activeAccordionBlock = accordion.active,
-        year = '';
+      var activePanesHeaders = accordionContainer.find('.ui-state-active'),
+        years = [];
 
-      if (activeAccordionBlock.length) {
-        year = activeAccordionBlock.find('a').text().trim();
+      if (activePanesHeaders.length) {
+        years = activePanesHeaders.find('a').text().trim().split(/\s+/gi);
       }
 
       $.each(eventsFeaturesLayer.features, function (i, feature) {
-        var featureDescription = $(feature.attributes.description);
+        var featureDescription = $(feature.attributes.description),
+          eventDate = featureDescription.find('span.dates').text();
 
         //show feature if year string in feature description
-        if (year == '' || featureDescription.find('span.dates').text().indexOf(year) > -1) {
+        if (years.some(function (year) {
+          return eventDate.indexOf(year) > -1
+        })) {
           feature.style = null;
         } else {
           feature.style = {display: 'none'}
