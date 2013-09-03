@@ -3285,6 +3285,9 @@ font-size: 25px;
 .countries_title_suffix_inner { position: absolute; bottom: 0; left: 0; width: 100%; max-height: 98px; padding-bottom: 23px !important;}
 .countries_title_suffix_inner .jspPane { padding: 0 !important;}
 
+.front_live_events .country-flag {
+    width:32px; height:20px; margin: 3px 5px; float:left; background-size: 32px 20px;
+}
 #countries-wrapper { margin: 0; padding: 0;}
 #countries-wrapper li { margin: 0; padding: 1px 0 1px 10px; float: left; width: 115px; list-style: none; list-style-image: none; font-size: 12px; position: relative;}
 #countries-wrapper li a { color: #525c66; text-decoration: none; vertical-align: top;}

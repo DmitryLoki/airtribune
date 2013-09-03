@@ -59,7 +59,7 @@ function airtribune_soon_country_content_type_render($subtype, $conf, $panel_arg
   drupal_add_js($theme_path . '/js/jquery.mousewheel.min.js');
   drupal_add_js($theme_path . '/js/jquery.jscrollpane.min.js');
   drupal_add_js($plugin_path . '/soon_country.js');
-
+  drupal_add_js(array('countryIconsShinyPath' => drupal_get_path('module', 'countryicons_shiny')),'setting');
   $country = "none";
   if (isset($_COOKIE['soon_country'])) {
     $country = $_COOKIE['soon_country']; 
@@ -69,10 +69,9 @@ function airtribune_soon_country_content_type_render($subtype, $conf, $panel_arg
 
   $content = '<div id="soon-county-wrapper" data-country="' . $country . '"></div>';
   $title = t('Soon in country');
-
   return (object) array(
     'module' => 'airtribune',
-    'title' => '<span class="country_title">' . $title . '</span><div class="change_location"><span class="change_location_title">' . t('Change location') . '</span></div>',
+    'title' => '<div class="country-flag"></div><span class="country_title">' . $title . '</span><div class="change_location"><span class="change_location_title">' . t('Change location') . '</span></div>',
     //'location' => render($location),
     'content' => $content,
     'delta' => 1,
