@@ -86,6 +86,163 @@ function cde_form_alter(&$form, &$form_state, $form_id) {
 }
 
 
+/**
+ * Implements hook_def_form_after_build().
+ */
+function cde_def_form_after_build($form, &$form_state) {
+  if (!empty($form_state['build_info']['form_id'])) {
+    if ($form_state['build_info']['form_id'] == 'user_register_form') {
+      $form['account']['mail']['#element_validate'][] = 'cde_mail_validate';
+    }
+  }
+  return $form;
+}
+
+function cde_mail_validate($element, &$form_state) {
+  //$mail = trim($form_state['values']['mail']);
+  //form_set_value($form['account']['mail'], $mail, $form_state);
+  if ($error = user_validate_mail($form_state['values']['mail'])) {
+    form_set_error('mail', $error);
+  }
+  elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')
+    ->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()
+  ) {
+    form_set_error('mail', t('This email is already registered. <br />' . l('Forgot your password?', 'user/password')));
+  }
+}
+
+
+// TODO: Remove if not needed.
+function cde_field_widget_form_alter(&$element, &$form_state, $context) {
+  //
+}
+
+
+// TODO: Check other conditions and load plugin
+/**
+ * Implements _def_field_plugin_alter().
+ */
+function cde_def_field_plugin_alter(&$plugin, $element, $form_state, $context) {
+  
+  if ($plugin['module'] == 'def' && $plugin['plugin type'] == 'field') {
+    switch ($plugin['name']) {
+      case 'name__name_widget' :
+        $plugin_override = ctools_get_plugins('cde', 'field', 'name__name_widget');
+        break;
+      case 'datetime__date_select' :
+        $plugin_override = ctools_get_plugins('cde', 'field', 'datetime__date_select');
+        break;
+      case 'number_integer__number' :
+        // Check field name.
+        if (!empty($context['field']['field_name']) && $context['field']['field_name'] == AIRTRIBUNE_CONTESTANT_NUMBER_FIELD) {
+          $plugin_override = ctools_get_plugins('cde', 'field', 'number_integer__number');
+        }
+        break;
+    }
+    
+    if (!empty($plugin_override)) {
+      $plugin = $plugin_override;
+    }
+  }  
+}
+
+function cde_name_dateofbirth_element_validate($element, &$form_state) {
+  // Here we need to validate both Name and DateOfBirth fields.
+  // See field_default_extract_form_values().
+  
+  global $user;
+
+  // Do nothing for authorized user.
+  if ($user->uid) {
+    return;
+  }
+  
+  // TODO: Maybe extract data a different way.
+  // $entity, $entity_type, $field_parents and $langcode are the same for both, Name and DateOfBirth.
+  $entity = $element['#entity'];
+  $entity_type = $element['#entity_type'];
+  $field_parents = $element['#field_parents'];
+  $langcode = LANGUAGE_NONE;
+  
+  
+  $path[AIRTRIBUNE_USER_FULLNAME_FIELD] = array_merge($field_parents, array(AIRTRIBUNE_USER_FULLNAME_FIELD, $langcode));
+  $path[AIRTRIBUNE_BIRTHDATE_FIELD] = array_merge($field_parents, array(AIRTRIBUNE_BIRTHDATE_FIELD, $langcode));
+  
+  $key_exists = NULL;
+  $values[AIRTRIBUNE_USER_FULLNAME_FIELD] = drupal_array_get_nested_value($form_state['values'], $path[AIRTRIBUNE_USER_FULLNAME_FIELD], $key_exists);
+  $key_exists = NULL;
+  $values[AIRTRIBUNE_BIRTHDATE_FIELD] = drupal_array_get_nested_value($form_state['values'], $path[AIRTRIBUNE_BIRTHDATE_FIELD], $key_exists);
+  
+  //~ dsm($values);
+  
+  $given = !empty($values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['given']) ? $values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['given'] : FALSE;
+  $family = !empty($values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['family']) ? $values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['family'] : FALSE;
+  $birthdate = !empty($values[AIRTRIBUNE_BIRTHDATE_FIELD][0]['value']) ? $values[AIRTRIBUNE_BIRTHDATE_FIELD][0]['value'] : FALSE;
+  
+  if (!empty($given) && !empty($family) && !empty($birthdate)) {
+    $time = new DateObject($birthdate);
+    $birthdate = $time->format('Y-m-d H:i:s');
+    if (!$time->validGranularity('year', 'month', 'day')) {
+      return;
+    }
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'profile2');
+    $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
+    $query->fieldCondition('field_full_name', 'given', $given);
+    $query->fieldCondition('field_full_name', 'family', $family);
+    $query->fieldCondition('field_birthdate', 'value', $birthdate);
+    $orig_query = clone $query;
+    $name_exists = $query->count()->execute();
+    
+    if ($name_exists) {
+      // TODO: choose correct element for each field.
+      //~ $element = isset($form[$profile_type]) ? $form[$profile_type]['field_full_name'] : $form;
+      form_error($element, t('This name, surname and date of birth combination already exist. <a href="!path">Forgot your password?</a>', array('!path' => url('user/password'))));
+    }
+  }
+}
+
+// TODO:
+/**
+ * Field Validation.
+ * 
+ * Check that pilot's number is unique.
+ */
+function cde_pilot_number_element_validate($element, &$form_state) {
+  // See field_default_extract_form_values().
+  
+  // Group ID.
+  $gid = !empty($form_state['values']['gid']) ? $form_state['values']['gid'] : FALSE;
+  
+  $entity = $element['value']['#entity'];
+  $bundle = $element['value']['#bundle'];
+  $entity_type = $element['value']['#entity_type'];
+  $field_parents = $element['value']['#field_parents'];
+  $langcode = $element['value']['#language'];
+  
+  $path = array_merge($field_parents, array(AIRTRIBUNE_CONTESTANT_NUMBER_FIELD, $langcode));
+  
+  $key_exists = NULL;
+  $values = drupal_array_get_nested_value($form_state['values'], $path, $key_exists);
+  
+  if (!empty($gid) && !empty($values[0]['value']) && is_numeric($pilot_number = $values[0]['value'])) {
+    
+    // TODO:
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', $entity_type);
+    $query->entityCondition('bundle', $bundle);
+    $query->propertyCondition('gid', $gid);
+    $query->fieldCondition(AIRTRIBUNE_CONTESTANT_NUMBER_FIELD, 'value', $pilot_number);
+    //$query->fieldCondition('field_full_name', 'family', $family);
+    $number_exists = $query->count()->execute();
+    if ($number_exists) {
+      // TODO:
+      //~ $element = isset($form['field_contestant_number']) ? $form['field_contestant_number'] : $form;
+      form_error($element, t('This number is used by another pilot.'));
+    }
+  }
+}
+
 function cde_form_authorized($nid) {
   module_load_include('inc', 'og_ui', 'og_ui.pages');
   module_load_include('inc', 'profile2', 'contrib/profile2_page');
@@ -195,9 +352,55 @@ function cde_profile2_form_preprocess_form_state(&$form_state) {
 
 
 
+// TODO:
+/**
+ * Implements hook_def_validation_enabled().
+ */
+function cde_def_validation_enabled($element, $form_state) {
+  $callback = NULL;
+  
+  //~ if (isset($form_state['build_info']['form_id']) && $form_state['build_info']['form_id'] == 'user_register_form') {
+    $callback = 'cde_def_validation_enabled_callback';
+  //~ }
+  
+  return $callback;
+}
+
+// TODO:
+function cde_def_validation_enabled_callback($element, $form_state) {
+  return TRUE;
+}
 
 
 
+// =======================================================
+// Ctools
+// =======================================================
 
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+// TODO: 'use hooks' ?
+function cde_ctools_plugin_type() {
+  // Used for field widgets.
+  $plugins['field'] = array(
+    'use hooks' => FALSE,
+  );
+  //~ // Used for generic form elements.
+  //~ $plugins['generic'] = array(
+    //~ 'use hooks' => FALSE,
+  //~ );
+  return $plugins;
+}
 
-
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function cde_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'cde' && $plugin == 'field') {
+    return 'plugins/validators/field';
+  }
+  //~ if ($module == 'cde' && $plugin == 'generic') {
+    //~ return 'plugins/validators/generic';
+  //~ }
+}

@@ -2,31 +2,33 @@
 
 // TODO: Consider empty preprocessor option
 // TODO: Unify function names. E.g. def__field_type__widget_type__function_key.
+// TODO: This plugin should be moved into cde module as def plugin override.
+// TODO: How can we overrid #process callback?
 
 $plugin = array(
   'field_type' => 'name',
   'widget_type' => 'name_widget',
-  'preprocessor' => 'def_preprocessor__name__name_widget',
+  'preprocessor' => 'cde_preprocessor__name__name_widget',
   //~ 'selector' => 'at_validation_validator__name__name_widget_id',
-  'after_build' => 'def_preprocessor__name__name_widget__after_build',
-  'element_info_alter' => 'def_preprocessor__name__name_widget__element_info_alter',
+  'after_build' => 'cde_preprocessor__name__name_widget__after_build',
+  'element_info_alter' => 'cde_preprocessor__name__name_widget__element_info_alter',
 );
 
-function def_preprocessor__name__name_widget(&$element, &$form_state, $context) {
+function cde_preprocessor__name__name_widget(&$element, &$form_state, $context) {
   //~ $element['#after_build'][] = 'at_validation_field_widget_form_after_build';
   //~ dsm($element);
 }
 
 // Return info for hook_element_info_alter().
-function def_preprocessor__name__name_widget__element_info_alter() {
+function cde_preprocessor__name__name_widget__element_info_alter() {
   $data = array(
     'types' => array('name_element'),
-    'process' => 'def_preprocessor__name__name_widget__process',
+    'process' => 'cde_preprocessor__name__name_widget__process',
   );
   return $data;
 }
 
-function def_preprocessor__name__name_widget__process($element, &$form_state, $complete_form) {
+function cde_preprocessor__name__name_widget__process($element, &$form_state, $complete_form) {
   foreach ($element['#components'] as $component => $data) {
     if (!empty($data['exclude'])) {
       continue;
@@ -40,7 +42,11 @@ function def_preprocessor__name__name_widget__process($element, &$form_state, $c
   return $element;
 }
 
-function def_preprocessor__name__name_widget__after_build($element, &$form_state) {
+function cde_preprocessor__name__name_widget__after_build($element, &$form_state) {
+  //~ dsm($element);
+  
+  // Check that Name + Date of birth are unique.
+  $element['#element_validate'][] = 'cde_name_dateofbirth_element_validate';
   
   if (isset($form_state['#def_ajax_validation'])) {
     

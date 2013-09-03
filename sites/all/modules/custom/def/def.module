@@ -60,9 +60,15 @@ function def_ajax_form_callback() {
   }
 }
 
-//$form_state['values'] = array();
 // This is a part of drupal_process_form() up to form_builder() call.
+// We can change $form and $form_state as we wish,
+// these are not cached during ajax validation.
 function def_drupal_process_form($form_id, &$form, &$form_state) {
+  
+  // This flag is used for extra validation functions, that are required
+  // only in case of elements' ajax validation process.
+  $form_state['#def_ajax_validation'] = TRUE;
+  
   $form_state['values'] = array();
 
   // With $_GET, these forms are always submitted if requested.
@@ -152,6 +158,7 @@ function def_validate($form, $form_state) {
 // TODO:
 function def_target_element($form, $form_state) {
   // Define validation scope.
+  // TODO: Maybe set scope info in preprocessor.
   $triggering_element = $form_state['triggering_element'];
   $array_parents = $triggering_element['#array_parents'];
   
@@ -160,6 +167,7 @@ function def_target_element($form, $form_state) {
   $element = $form;
   foreach ($array_parents as $k => $array_parent) {
     // TODO: Check for field_collection.
+    // And maybe traverse $array_parents from last parent to first one.
     $element = $element[$array_parent];
 
     if (!empty($element['#field_name'])) {
@@ -208,6 +216,24 @@ function def_form_alter(&$form, &$form_state, $form_id) {
   foreach ($elements as $array_parents) {
     def_generic_element_preprocess($form, $array_parents);
   }
+  
+  $form['#after_build'][] = 'def_form_after_build';
+}
+
+// TODO:
+// Maybe this action should be attached to plugin as it is done with fields
+// in order not to call it when not needed (i.e. only for required triggering elements).
+function def_form_after_build($form, &$form_state) {
+  // TODO: Add ajax-time #validate functions using hook_def_form_after_build().
+  // Special flag should be set in $form_state before form_builder() call.
+  if (!empty($form_state['#def_ajax_validation'])) {
+    $modules = module_implements('def_form_after_build');
+    foreach ($modules as $module) {
+      $function = $module . '_def_form_after_build';
+      $form = $function($form, $form_state);
+    }
+  }
+  return $form;
 }
 
 /**
@@ -276,11 +302,20 @@ function def_field_widget_form_alter(&$element, &$form_state, $context) {
   //~ dsm($field_info);
   
   $plugin = def_field_plugin($field_type, $widget_type);
+  //~ dsm($context);
   if (!empty($plugin)) {
+    $modules = module_implements('def_field_plugin_alter');
+    foreach ($modules as $module) {
+      $function = $module . '_def_field_plugin_alter';
+      $function($plugin, $element, $form_state, $context);
+    }
+    
+    $element['#def_plugin'] = $plugin;
     // Add Ajax validator to the widget.
     $function = $plugin['preprocessor'];
     $function($element, $form_state, $context);
     
+    // TODO: Just set '#after_build'. For other data $element['#def_plugin'] should be used.
     // Some plugins may implement their own #after_build functions.
     // Since during elements' validation, form is retrieved from cache and hook_field_widget_form_alter() isn't called,
     // we need to include plugin file to form in order not to get "function not found" error in form_builder() (see def_validate())
@@ -297,7 +332,7 @@ function def_field_widget_form_alter(&$element, &$form_state, $context) {
 // Widget form #after_build.
 // See comment in def_field_widget_form_alter().
 function def_field_widget_form_after_build($element, &$form_state) {
-  //
+  // TODO: Here we can just check if $element['#def_plugin'] contains '#after_build'
   if (isset($element['#def_after_build_plugin'])) {
     $info = $element['#def_after_build_plugin'];
     $plugin = ctools_get_plugins($info['module'], $info['type'], $info['id']);
@@ -306,13 +341,49 @@ function def_field_widget_form_after_build($element, &$form_state) {
       $element = $function($element, $form_state);
     }
   }
+  
+  // TODO:
+  // Add ajax-time #validate functions using hook_def_field_widget_form_after_build().
+  // But first apply plugin after_build
+  
   return $element;
 }
 
 // TODO:
 // Maybe also pass $context for $plugin_type == 'field' case
+// This function should implement a special hook, that would be used
+// by other modules to inform about forms to validate. As a result hook implementations
+// return sets of rules (or maybe only their own callback function name) to identify forms.
+// These rules should be cached inside this function not to call hooks every time.
+// Also signiture (maybe form_id plus other data) of identified forms should be cached here.
 function def_validation_enabled($element, $form_state, $plugin_type) {
-  return TRUE;
+  static $callbacks = NULL;
+  
+  if (!isset($callbacks)) {
+    $callbacks = array();
+    // TODO: Implement hook_def_validation_enabled($element, $form_state)
+    $modules = module_implements('def_validation_enabled');
+    foreach ($modules as $module) {
+      $function = $module . '_def_validation_enabled';
+      $callback = $function($element, $form_state);
+      if (!empty($callback)) {
+        $callbacks[] = $callback;
+      }
+    }
+  }
+  
+  $enabled = FALSE;
+  foreach ($callbacks as $callback) {
+    $enabled = $callback($element, $form_state);
+    
+    // Only one module that enabled validation is enough.
+    if ($enabled) {
+      break;
+    }
+  }
+  
+  //~ return TRUE;
+  return $enabled;
 }
 
 /**
@@ -402,6 +473,7 @@ function def_element_info_alter(&$types) {
  */
 function def_element_process($element, &$form_state, $complete_form) {
   // TODO: Check if validation is enabled
+  // TODO: Use $element['#def_plugin']
   
   if (isset($element['#def_element_info_alter_plugin'])) {
     $info = $element['#def_element_info_alter_plugin'];
