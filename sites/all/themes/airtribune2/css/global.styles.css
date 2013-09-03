@@ -780,6 +780,7 @@ div.messages  {
   border-radius: 9px;
 }
 .page-user div.messages { margin-bottom: 0;}
+.front .page-user div.messages { margin-bottom: 28px;}
 div.messages .close_messages { position: absolute; top: 3px; right: 3px; width: 14px; height: 14px; background: url(../images/close.png) no-repeat 0 0; cursor: pointer;}
 div.messages .close_messages:hover { background-position: 0 -14px}
 div.messages span { display: inline-block; vertical-align: middle;}
