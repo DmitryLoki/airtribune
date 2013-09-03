@@ -341,7 +341,9 @@ class ATSyncPilot extends ATSync {
     $this->tracked_core_id = get_id_from_entity('user', $this->person);
     if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
-      $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+      if ($tracker_eid) {
+        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+      }
     }
   }
 
