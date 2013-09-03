@@ -2,31 +2,37 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
-      var timeHelperText = $("#time-counter"),
-        helperText = $('.help-text'),
-        d;
-      if (typeof Drupal.settings.Day != 'undefined' && typeof Drupal.settings.Day.start_time != 'undefined') {
-        var setTime = function () {
-
-          d = Math.floor((Drupal.settings.Day.start_time - new Date().getTime()) / 1000);
-          var absD = Math.abs(d);
-          timeHelperText.html((d > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
-
-          if (d < 0) {
-            var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
-            setOnlineTimeView(isRaceStateReady);
-          }
-          setTimeout(setTime, 1000);
-        };
-        setTime();
-      }
-
       $('.race-links').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock);
-        var $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link');
+        var timeHelperText = $raceBlock.find('.time'),
+          helperText = $raceBlock.find('.help-text'),
+          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link'),
+          raceTime;
+
+        var setOnlineTime = function () {
+          raceTime = Math.floor((raceData.raceStartTime - new Date().getTime()) / 1000);
+          var absD = Math.abs(raceTime);
+          timeHelperText.html((raceTime > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
+
+          if (raceTime < 0) {
+            var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
+            setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText);
+          }
+          setTimeout(setOnlineTime, 1000);
+        };
+
+        var setReplayTime = function() {
+          raceTime = (Math.floor(raceData.raceDeadlineTime - raceData.raceStartTime) / 1000);
+          timeHelperText.html(getTimeStr(Math.floor(raceTime / 3600), Math.floor(raceTime % 3600 / 60), raceTime % 60));
+        }
+
         var raceData = getRaceDataFromRaceBlock($raceBlock);
+
         if (!raceData.isOnline) {
           $raceButton.hide();
+          setReplayTime();
+        } else {
+          setOnlineTime();
         }
 
         if (!raceData.raceId || !raceData.contestId) {
@@ -35,7 +41,6 @@
 
         requestRaceState(raceData, function response(raceInfo) {
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
-            console.log('enable links in ', $raceBlock);
             //make links clickable
             if (raceData.isOnline || raceData.requestType == 'online') {
               // Show online link before upload tracks from file
@@ -48,11 +53,11 @@
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
-              setOnlineTimeView(true);
+              setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
           } else {
             if(raceData.isOnline) {
-              setOnlineTimeView(false);
+              setOnlineTimeView(false, raceTime, timeHelperText, helperText);
             } else {
               raceData.requestType = 'online';
             }
@@ -63,9 +68,9 @@
         });
       });
 
-      function setOnlineTimeView(isRaceStateReady) {
+      function setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText) {
         var raceBlock = timeHelperText.parents('.race-links');
-        if (d <= 0) {
+        if (raceTime <= 0) {
           raceBlock.removeClass('race-awaiting');
           if (isRaceStateReady) {
             raceBlock.addClass('race-online');
@@ -102,16 +107,17 @@
           contestId: $raceBlock.data('contest-cid'),
           raceId: $raceBlock.data('race-cid'),
           raceEid: $raceBlock.data('race-eid'),
+          raceStartTime: parseInt($raceBlock.data('start-time')),
+          raceDeadlineTime: parseInt($raceBlock.data('deadline-time')),
           isOnline: $raceBlock.data('view-type') != undefined
-        }
+        };
 
         raceData.requestType = raceData.isOnline || !hasTracksLoaded($raceBlock) ? 'online' : 'competition_aftertask';
-
         return raceData;
       }
 
       function hasTracksLoaded($raceBlock) {
-        return $raceBlock.parents('div.event-day,div.views-row').find('.views-field-field-pg-race-tracks').length>0;
+        return $raceBlock.parents('div.event-day').find('.views-field-field-pg-race-tracks').length>0;
       }
 
       function setHrefAttr(link, raceEid, mode, isOnline) {

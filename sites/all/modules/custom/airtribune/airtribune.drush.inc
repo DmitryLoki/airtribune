@@ -118,6 +118,12 @@ function drush_airtribune_set_environment($site_state = FALSE) {
       ->fields(array('pass' => "\$S\$D.PGNZ40LDzKdblKp2E3j/rXtarzEgcKG7FdQ4mkaZIX5DVSjuK2"))
       ->condition('uid', 1)
       ->execute();
+
+    $step++;
+    drush_print("\n$step. Change mailsystem class...");
+    sleep(1);
+    variable_set('mail_system', array('default-system' => 'DevelMailLog'));
+    variable_set('mail_system', array('mimemail' => 'DevelMailLog'));
   }
 
   // Finish.
