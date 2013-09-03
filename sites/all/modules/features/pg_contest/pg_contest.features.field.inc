@@ -3268,8 +3268,10 @@ Prof.',
         ),
         'type' => 'options_onoff',
         'weight' => '58',
+      ),
     ),
   );
+
   // Exported field: 'node-pg_contest-field_logo'.
   $fields['node-pg_contest-field_logo'] = array(
     'field_config' => array(

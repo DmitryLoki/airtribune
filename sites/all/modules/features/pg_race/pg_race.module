@@ -749,6 +749,7 @@ function _day_pg_race_preview_markup($node) {
   $localtime = !empty($data['localtime']) ? $data['localtime'] : 0;
   $offset = !empty($data['offset']) ? $data['offset'] : 0;
   $is_current_day = $data['is_current_day'];
+  $contest_is_offline = $data['contest_is_offline'];
 
   // Wrapper data
 
@@ -809,7 +810,7 @@ function _day_pg_race_preview_markup($node) {
     }
   }
   else {
-    if (!$is_current_day) {
+    if (!$is_current_day || $contest_is_offline) {
       return '';
     }
     // Default link and help text in case task isn't set.
@@ -864,6 +865,7 @@ function _day_pg_race_task_set($day_node) {
     'race_entity_id' => NULL,
     'race_core_id' => NULL,
     'contest_core_id' => NULL,
+    'contest_is_offline' => NULL,
   );
 
   // TODO: Remove duplicated operations (see if() case)
@@ -873,12 +875,15 @@ function _day_pg_race_task_set($day_node) {
   $item = array_shift($items);
   $contest_id = $item['target_id'];
   $contest = node_load($contest_id);
+  $contest_wrapper = entity_metadata_wrapper('node', $contest);
   $contest_time = airtribune_extract_time_from_contest($contest);
   if (!isset($contest_time['offset'])) {
     return;
   }
   $offset = $contest_time['offset'];
+  $contest_is_offline = $contest_wrapper->field_is_offline->value();
 
+  $task_data['contest_is_offline'] = $contest_is_offline;
   $task_data['is_current_day'] = date('Y-m-d', $created - $offset) == date('Y-m-d', time() - $offset) ? TRUE : FALSE;
   $day_id = $day_node->nid;
 
@@ -934,6 +939,5 @@ function _day_pg_race_task_set($day_node) {
     $task_data['localtime'] = $contest_time['localtime'];
     $task_data['offset'] = $offset;
   }
-
   return $task_data;
 }
