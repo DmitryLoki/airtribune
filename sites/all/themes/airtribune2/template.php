@@ -1625,30 +1625,89 @@ function airtribune2_preprocess_image_style(&$variables) {
  *
  */
 function airtribune2_views_pre_render(&$view) {
-  // Scramble the order of the rows shown on this result page.
-  // Note that this could be done earlier, but not later in the view execution
-  // process.
-  //dpm($view);
-  //print $view->name . "\n\r";
   if ($view->name == 'frontpage_events') {
     drupal_add_js(drupal_get_path('theme', 'airtribune2') . '/js/frontpage.js');
-    if (count($view->result) == 1) {
+    $standart = floor(count($view->result)/3) * 3;
+    $deviant = count($view->result) - $standart;
+    if ($deviant == 1) {
       $img_styles = array('frontpage_event_padding_once', 'event_logo_once');
-      $view->name .= '_once';
+      //$view->name .= '_once';
     }
-    if (count($view->result) == 2) {
+    if ($deviant == 2) {
       $img_styles = array('frontpage_event_padding_twice', 'event_logo_twice');
-      $view->name .= '_twice';
+      //$view->name .= '_twice';
     }
     // Output "show more events" button after view, if we have more, than 3 items.
     if (count($view->result) > 3) {
       $view->attachment_after = '<div class="frontpage-show-more-events">...</div>';
     }
     if (!empty($img_styles)) {
+      $index = 1;
       foreach ($view->result as $key => $value) {
-        $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
-        $view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
+        if ($index > $standart) {
+          $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
+          $view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
+        }
+        $index ++;
       }
     }
+  }
+}
+
+
+/**
+ * Display the simple view of rows one after another
+ */
+function airtribune2_preprocess_views_view_unformatted(&$vars) {
+  //print_r($vars);
+  $view = $vars['view'];
+  $rows = $vars['rows'];
+  $style = $view->style_plugin;
+  $options = $style->options;
+
+  $vars['classes_array'] = array();
+  $vars['classes'] = array();
+  $default_row_class = isset($options['default_row_class']) ? $options['default_row_class'] : FALSE;
+  $row_class_special = isset($options['row_class_special']) ? $options['row_class_special'] : FALSE;
+  // Set up striping values.
+  $count = 0;
+
+  /* if view name is 'frontpage_events' looking for the highest multiple of excess */
+  if ($view->name == 'frontpage_events') {
+    $standart = floor(count($view->result)/3) * 3;
+    $deviant = count($view->result) - $standart;
+    if ($deviant == 1) {
+      $row_name = 'once';
+    }
+    if ($deviant == 2) {
+      $row_name  = 'twice';
+    }
+  }
+  $max = count($rows);
+  foreach ($rows as $id => $row) {
+    $count++;
+    if ($default_row_class) {
+      $vars['classes'][$id][] = 'views-row';
+      $vars['classes'][$id][] = 'views-row-' . $count;
+    }
+    if (!empty($row_name) && $count > $standart) {
+      $vars['classes'][$id][] = 'views-row-' . $row_name;      
+    }
+    if ($row_class_special) {
+      $vars['classes'][$id][] = 'views-row-' . ($count % 2 ? 'odd' : 'even');
+      if ($count == 1) {
+        $vars['classes'][$id][] = 'views-row-first';
+      }
+      if ($count == $max) {
+        $vars['classes'][$id][] = 'views-row-last';
+      }
+    }
+
+    if ($row_class = $view->style_plugin->get_row_class($id)) {
+      $vars['classes'][$id][] = $row_class;
+    }
+
+    // Flatten the classes to a string for each row for the template file.
+    $vars['classes_array'][$id] = isset($vars['classes'][$id]) ? implode(' ', $vars['classes'][$id]) : '';
   }
 }
