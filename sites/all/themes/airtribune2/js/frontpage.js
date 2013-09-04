@@ -5,7 +5,7 @@
         var $section = $(section),
           clickCounter = $section.data('click-counter') || 1,
           itemsPerRow = 3,
-          items = $section.find('.views-row'),
+          items = $section.find('.view-frontpage-events > .view-content > .views-row'),
           rowsCount = Math.ceil(items.length / itemsPerRow),
           rowsContainer = $section.find('.view-frontpage-events > .view-content'),
           rowsContainerHeight = rowsContainer.height(),
