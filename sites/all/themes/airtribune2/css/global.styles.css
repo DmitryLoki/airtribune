@@ -780,6 +780,7 @@ div.messages  {
   border-radius: 9px;
 }
 .page-user div.messages { margin-bottom: 0;}
+.front .page-user div.messages { margin-bottom: 28px;}
 div.messages .close_messages { position: absolute; top: 3px; right: 3px; width: 14px; height: 14px; background: url(../images/close.png) no-repeat 0 0; cursor: pointer;}
 div.messages .close_messages:hover { background-position: 0 -14px}
 div.messages span { display: inline-block; vertical-align: middle;}
@@ -1809,6 +1810,7 @@ ui-accordion-header ui-state-active
 #page .view-events-list .views-row .views-field { margin-left:79px; background:url(../images/teaser_border.png) repeat-x 0 100%; padding:18px 0 11px; }
 #page .view-events-list .views-row-first .views-field { padding-top:2px;}
 #page .view-events-list .views-field-nothing .field-content, #page .view-events-list .views-field-nothing-1 .field-content { display:block; padding:0 0 0 31px}
+#page .view-display-id-page_events_next .views-row-first { margin-top: -26px;}
 a.next_event { color:#525d66; font:bold 18px/20px Arial, Helvetica, sans-serif; text-decoration:none; cursor:pointer; display:block; overflow:hidden}
 a.next_event:hover { color:#00aeef}
 a.next_event .title { font-weight:bold; display:block; padding-bottom:11px}
@@ -1851,9 +1853,10 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .view-my-registrations .views-row:hover .cancel-participation-process { display: block;}
 
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;}
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; white-space:nowrap; }
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
+.breadcrumb a span { display: inline-block; text-overflow: ellipsis; overflow:hidden; vertical-align: middle;}
 .breadcrumb:hover a, .breadcrumb:hover div { color:#969ea6}
 .breadcrumb:hover a:hover { color:#1cb7f1}
 
@@ -3094,7 +3097,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 #airtribune-player .gmap {}
 #airtribune-player .gmap > div > .gmnoprint:nth-child(3n+1) { top: 117px !important; left: 12px !important;}
-#airtribune-player .gmap > div > .gmnoprint:last-child { top: 124px !important; right: 40px !important;}
+#airtribune-player .gmap > div > .gmnoprint:last-child { top: 118px !important; right: 40px !important; left: 12px !important;}
 
 .setUserVisualMode,
 .setProfVisualMode { background: url(../images/prof.png) no-repeat 0 -30px; position: absolute; top: 129px; right: 35px; width: 30px; height: 30px; text-indent: -9999px; overflow: hidden;}

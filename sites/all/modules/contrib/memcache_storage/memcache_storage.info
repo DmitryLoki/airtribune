@@ -1,5 +1,5 @@
 name = Memcache Storage
-description = Allows to store cache in memory using <a href="http://pecl.php.net/package/memcache">memcache</a> library.
+description = Provides integration with memcached backend for storing cached data.
 package = Performance and scalability
 core = 7.x
 
@@ -7,9 +7,9 @@ configure = admin/config/development/memcache_storage
 
 files[] = memcache_storage.api.inc
 
-; Information added by drupal.org packaging script on 2013-05-09
-version = "7.x-1.0-rc10"
+; Information added by drupal.org packaging script on 2013-08-06
+version = "7.x-1.2"
 core = "7.x"
 project = "memcache_storage"
-datestamp = "1368123312"
+datestamp = "1375786639"
 

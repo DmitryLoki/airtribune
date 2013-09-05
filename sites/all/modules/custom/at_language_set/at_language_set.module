@@ -33,7 +33,7 @@ function at_language_set_language_url_default($languages) {
 
   global $_COOKIE;
   $prefix = locale_language_from_url($languages);
-  if($prefix){
+  if ($prefix) {
     setcookie("language", $prefix, time() + 86400, '/');
     return $prefix;
   }
@@ -65,12 +65,14 @@ function at_language_set_boot() {
   if (count($path) > 0 && in_array($path[0], array_keys($hardcoded_languages))) {
     // if language prefix is used then save cookie
     setcookie("language", $path[0], time() + 86400, '/');
-  } else {
+  }
+  else {
     // otherwise detect language from browser    
     // if cookie is set and language is EN
     if (empty($_COOKIE['language'])) {
       $language = array();
-      if (($list = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) {
+      $http_accept_language = empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? '' : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+      if (($list = strtolower($http_accept_language))) {
         if (preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/', $list, $list)) {
           $language = array_combine($list[1], $list[2]);
           foreach ($language as $n => $v) {
@@ -79,28 +81,29 @@ function at_language_set_boot() {
           arsort($language, SORT_NUMERIC);
         }
       }
-      $prefix =  at_language_set_get_best_matched_lang($hardcoded_languages, $language);
+      $prefix = at_language_set_get_best_matched_lang($hardcoded_languages, $language);
       setcookie("language", $prefix, time() + 86400, '/');
-      if($prefix!="en"){
-        header( 'Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);
-        exit();  
+      if ($prefix != "en") {
+        header('Location: http://' . $_SERVER['HTTP_HOST'] . '/' . $prefix . '/' . $_GET['q']);
+        exit();
       }
     }
-  }  
+  }
 }
 
 /**
  * Finds best matching language
  */
 function at_language_set_get_best_matched_lang($hardcodded_languages, $browser_languages, $default = "en") {
-  $languages=array();
+  $languages = array();
   foreach ($hardcodded_languages as $lang => $alias) {
     if (is_array($alias)) {
       foreach ($alias as $alias_lang) {
         $languages[strtolower($alias_lang)] = strtolower($lang);
       }
-    } else {
-      $languages[strtolower($alias)]=strtolower($lang);
+    }
+    else {
+      $languages[strtolower($alias)] = strtolower($lang);
     }
   }
 
@@ -113,7 +116,7 @@ function at_language_set_get_best_matched_lang($hardcodded_languages, $browser_l
   return $default;
 }
 
-function at_language_set_flush_caches(){
+function at_language_set_flush_caches() {
   $value = array(
     'locale-url' => array(
       'callbacks' => array(

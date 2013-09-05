@@ -1,0 +1,62 @@
+<?php
+
+function pinba_start_init() {
+  // We need distinguish drupal pages, to get pinba statistics.
+  // Change name of script from 'index.php' to requested $q variable
+  // @see #3283
+  if (extension_loaded('pinba') && function_exists('pinba_script_name_set')) {
+    $request = $_SERVER['REQUEST_URI'];
+    pinba_script_name_set($request);
+    global $pinba_timers;
+    $pinba_timers = array();
+  }
+}
+
+function pinba_start_entity_load($entity_type, $ids = FALSE, $conditions = array(), $reset = FALSE) {
+  if (!extension_loaded('pinba')) return;
+
+  global $pinba_timers;
+  foreach ($entity_type as $key => $entity) {
+    $type_name = !empty($entity->type) ? $entity->type : $ids;
+    $timer = pinba_timer_start(array(
+      "entity_load" => "entity_load__" . $type_name . "__"  . $key
+    ));
+    $pinba_timers[$type_name . $key] = $timer;
+  }
+}
+
+function pinba_start_entity_view($entity, $type, $view_mode, $langcode) {
+  if (!extension_loaded('pinba')) return;
+
+  global $pinba_timers;
+
+  if (isset($entity->id)) {
+    $id = $entity->id;
+  }
+  elseif (isset($entity->nid)) {
+    $id = $entity->nid;
+  }
+  elseif (isset($entity->uid)) {
+    $id = $entity->uid;
+  }
+  elseif (isset($entity->pid)) {
+    $id = $entity->uid;
+  }
+  else {
+    $id = NULL;
+  }
+
+  $timer = pinba_timer_start(array(
+    "entity_view" => "entity_view__" . $type . "__"  . $id
+  ));
+  $pinba_timers[$type . $id] = $timer;
+}
+
+function pinba_start_cron() {
+  if (!extension_loaded('pinba')) return;
+
+  $timer = pinba_timer_start(array(
+    "cron" => "cron__" . REQUEST_TIME
+  ));
+  $pinba_timers['cron'] = $timer;
+}

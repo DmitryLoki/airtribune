@@ -22,7 +22,7 @@ function at_validation_validator__addressfield__addressfield_standard_id($elemen
  */
 function at_validation_validator__addressfield__addressfield_standard_after_build($element, &$form_state) {
   $defaults = at_validation_ajax_defaults();
-  
+
   // TODO: Actually commented part should replace the checks below.
   // But by some reason drupal_array_set_nested_value() doesn't find locality and postal_code
   /*
@@ -49,8 +49,8 @@ function at_validation_validator__addressfield__addressfield_standard_after_buil
     }
   }
   */
-  
-  
+
+
   // Address 1
   if (isset($element['street_block']['thoroughfare'])) {
     $element['street_block']['thoroughfare']['#ajax'] = $defaults;
@@ -60,7 +60,7 @@ function at_validation_validator__addressfield__addressfield_standard_after_buil
     unset($element['street_block']['thoroughfare']['#ajax_processed']);
     $element['street_block']['thoroughfare'] = ajax_process_form($element['street_block']['thoroughfare'], $form_state);
   }
-  
+
   // City
   if (isset($element['locality_block']['locality'])) {
     $element['locality_block']['locality']['#ajax'] = $defaults;
@@ -70,7 +70,7 @@ function at_validation_validator__addressfield__addressfield_standard_after_buil
     unset($element['locality_block']['locality']['#ajax_processed']);
     $element['locality_block']['locality'] = ajax_process_form($element['locality_block']['locality'], $form_state);
   }
-  
+
   // Zip code
   if (isset($element['locality_block']['postal_code'])) {
     $element['locality_block']['postal_code']['#ajax'] = $defaults;
@@ -80,6 +80,6 @@ function at_validation_validator__addressfield__addressfield_standard_after_buil
     unset($element['locality_block']['postal_code']['#ajax_processed']);
     $element['locality_block']['postal_code'] = ajax_process_form($element['locality_block']['postal_code'], $form_state);
   }
-  
+
   return $element;
 }

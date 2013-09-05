@@ -2,19 +2,23 @@
 
 /**
  * @file
- * Provides class for memcache data handling.
+ * Provides class for memcached data handling.
  */
 
-// Load include with memcache manager class.
+// Load include with Memcache API.
 // We don't rely here on Drupal autoload mechanism because this include could
 // be used before Drupal registry with all classes is loaded.
 require_once dirname(__FILE__) . '/memcache_storage.api.inc';
 
 /**
- * Class handles memcache data.
+ * Class handles memcached cache objects.
  */
 class MemcacheStorage implements DrupalCacheInterface {
 
+  /**
+   * Name of cache bin.
+   * Example: 'cache' or 'cache_page', etc.
+   */
   protected $bin;
 
   /**
@@ -38,16 +42,19 @@ class MemcacheStorage implements DrupalCacheInterface {
    */
   function getMultiple(&$cids) {
 
-    $data = MemcacheStorageAPI::getMultiple($cids, $this->bin);
+    $cache_bin = $this->preprocessCacheBinName();
+    $data = MemcacheStorageAPI::getMultiple($cids, $cache_bin);
 
     // Build a new array with cached data using normal cache id.
     $cache = array();
-    if ($data !== FALSE) {
-      foreach ($data as $item) {
-        // Check expiration for every cache item recieved from memcache.
-        if ($item = $this->validateItem($item)) {
-          $cache[$item->cid] = $item;
-        }
+    if (empty($data)) {
+      return $cache;
+    }
+
+    foreach ($data as $item) {
+      // Check expiration for every cache item recieved from memcached pool.
+      if ($this->validateItem($item)) {
+        $cache[$item->cid] = $item;
       }
     }
 
@@ -69,18 +76,33 @@ class MemcacheStorage implements DrupalCacheInterface {
     $cache->created = REQUEST_TIME;
     $cache->expire = $expire;
 
-    // We should always keep in storage permanent and temporary cache data.
+    // We should always keep in storage temporary cache data.
     // Such cached data are invalidates during cache_get() operations.
-    if ($expire == CACHE_PERMANENT || $expire == CACHE_TEMPORARY) {
+    if ($expire == CACHE_TEMPORARY) {
+
+      // We should set expiration to 0 for temporary cache.
+      // This type of cache could be expired after fetching from memcached storage.
+      // @see MemcacheStorage::validateItem().
       $expire = 0;
+
+      // Process custom cache expiration for pages.
+      if ($this->bin == 'cache_page') {
+
+        // Developers may set custom expiration for cached pages in settings.php.
+        $custom_expiration = variable_get('memcache_storage_page_cache_custom_expiration', FALSE);
+        if ($custom_expiration) {
+          $expire = variable_get('memcache_storage_page_cache_expire', 0);
+        }
+      }
     }
     // Otherwise simply convert default drupal expire time to memcache expire time.
     elseif ($expire > REQUEST_TIME) {
       $expire -= REQUEST_TIME;
     }
 
-    // Save data in memcache pool.
-    return MemcacheStorageAPI::set($cid, $cache, $expire, $this->bin);
+    // Save data into memcached pool.
+    $cache_bin = $this->preprocessCacheBinName();
+    return MemcacheStorageAPI::set($cid, $cache, $expire, $cache_bin);
   }
 
   /**
@@ -112,8 +134,8 @@ class MemcacheStorage implements DrupalCacheInterface {
         if ($cid == '*') {
           // Simple changing index for bin storage will flushes the whole cache bin,
           // because it is used for building memcache key.
-          // @see MemcacheStorageAPI::buildCacheKey();
-          MemcacheStorageAPI::increaseBinIndex($this->bin);
+          // @see $this::preprocessCacheID();
+          $this->increaseBinIndex();
         }
         else {
 
@@ -121,28 +143,31 @@ class MemcacheStorage implements DrupalCacheInterface {
           $wildcards = variable_get('memcache_storage_wildcards', array());
 
           // Add / replace wildcard.
-          // Every cache item after load from memcache checks wildcard matches .
+          // Every cache item after load from memcached pool checks wildcard matches.
           $wildcards[$this->bin][$cid] = REQUEST_TIME;
           $this->variableSet('memcache_storage_wildcards', $wildcards);
         }
       }
       elseif (is_array($cid)) {
+        $cache_bin = $this->preprocessCacheBinName();
         foreach ($cid as $cache_id) {
-          MemcacheStorageAPI::delete($cache_id, $this->bin);
+          MemcacheStorageAPI::delete($cache_id, $cache_bin);
         }
       }
       else {
-        MemcacheStorageAPI::delete($cid, $this->bin);
+        $cache_bin = $this->preprocessCacheBinName();
+        MemcacheStorageAPI::delete($cid, $cache_bin);
       }
     }
 
+    return TRUE;
   }
 
   /**
    * Implements DrupalCacheInterface::isEmpty().
    */
   function isEmpty() {
-    // It is unable to get empty state of memcache pool,
+    // It is unable to get empty state of memcached pool,
     // so we assume it is never empty.
     return FALSE;
   }
@@ -160,6 +185,11 @@ class MemcacheStorage implements DrupalCacheInterface {
    */
   protected function validateItem($cache) {
 
+    // Check if cache object is valid.
+    if (empty($cache->cid) || empty($cache->created) || !isset($cache->expire)) {
+      return FALSE;
+    }
+
     // Load array with all wildcards.
     $wildcards = variable_get('memcache_storage_wildcards', array());
     $current_wildcards = !empty($wildcards[$this->bin]) ? $wildcards[$this->bin] : array();
@@ -167,13 +197,14 @@ class MemcacheStorage implements DrupalCacheInterface {
     foreach ($current_wildcards as $wildcard => $flush_timestamp) {
 
       // See if wildcard is actual for current cache item.
-      if ($cache->created < $flush_timestamp) {
+      if ($cache->created <= $flush_timestamp) {
 
         // See if current cache id matches wildcard.
         if (strpos($cache->cid, $wildcard) === 0) {
 
           // Remove expired item from memcache.
-          MemcacheStorageAPI::delete($cache->cid, $this->bin);
+          $cache_bin = $this->preprocessCacheBinName();
+          MemcacheStorageAPI::delete($cache->cid, $cache_bin);
 
           // Return no value from cache.
           return FALSE;
@@ -188,37 +219,86 @@ class MemcacheStorage implements DrupalCacheInterface {
       // Timestamp when cache bin was flushed last time.
       $last_bin_flush = variable_get('cache_flush_' . $this->bin, 0);
 
-      // Custom behavior for cache page.
+      // Custom behavior for cached pages.
       if ($this->bin == 'cache_page') {
 
-        // Developers may set custom expiration time for cached pages in settings.php.
+        // Get timestamp of last page cache flush only if custom expiration is disabled.
+        // In other case memcached will handle expiration of this cache itself.
         $custom_expiration = variable_get('memcache_storage_page_cache_custom_expiration', FALSE);
-        if ($custom_expiration) {
-          $expire_time = variable_get('memcache_storage_page_cache_expire', 0);
-          $last_bin_flush = $expire_time ? REQUEST_TIME - $expire_time : 0;
-        }
-        else {
+        if ($custom_expiration == FALSE) {
+
           // We should load variables for page cache earlier.
           // Drupal variables are load only during 4th bootstrap phase,
           // while page cache loads during 2th bootstrap phase.
           $variables = cache_get('variables', 'cache_bootstrap');
-          if (!empty($variables->data) && !empty($variables->data['cache_flush_' . $this->bin])) {
-            $last_bin_flush = $variables->data['cache_flush_' . $this->bin];
+          if (!empty($variables->data) && !empty($variables->data['cache_flush_cache_page'])) {
+            $last_bin_flush = $variables->data['cache_flush_cache_page'];
           }
         }
       }
 
-      if ($cache->created < $last_bin_flush) {
+      if ($cache->created <= $last_bin_flush) {
 
         // Remove expired item from memcache.
-        MemcacheStorageAPI::delete($cache->cid, $this->bin);
+        $cache_bin = $this->preprocessCacheBinName();
+        MemcacheStorageAPI::delete($cache->cid, $cache_bin);
 
         // Return no value from cache.
         return FALSE;
       }
     }
 
-    return $cache;
+    return TRUE;
+  }
+
+  /**
+   * Add a number to the name of cache bin.
+   * This small feature allows to manage flushing of entire cache bin.
+   * To flush bin we only need to change this number (bin index).
+   */
+  protected function preprocessCacheBinName() {
+    return $this->bin . '_' . $this->getBinIndex();
+  }
+
+  /**
+   * Increase cache bin index.
+   * This operation changes all memcache keys in selected cache bin
+   * so we simulate cache flush for it.
+   */
+  protected function increaseBinIndex() {
+
+    $currentIndex = $this->getBinIndex();
+
+    $indexes = &drupal_static('memcache_storage_bin_indexes', array());
+    $indexes[$this->bin] = ++$currentIndex;
+
+    MemcacheStorageAPI::set('memcache_storage_bin_indexes', $indexes, 0);
+  }
+
+  /**
+   * Load cache bin index.
+   * This index is part of memcache key and changes if cache bin should be cleared.
+   */
+  protected function getBinIndex() {
+
+    $indexes = &drupal_static('memcache_storage_bin_indexes', array());
+
+    if (empty($indexes)) {
+      $indexes = array();
+
+      // Try to get bin indexes from cache.
+      $cache = MemcacheStorageAPI::get('memcache_storage_bin_indexes');
+      if (!empty($cache)) {
+        $indexes = $cache;
+      }
+    }
+
+    if (empty($indexes[$this->bin])) {
+      $indexes[$this->bin] = 1; // Initial index value.
+      MemcacheStorageAPI::set('memcache_storage_bin_indexes', $indexes, 0);
+    }
+
+    return $indexes[$this->bin];
   }
 
   /**

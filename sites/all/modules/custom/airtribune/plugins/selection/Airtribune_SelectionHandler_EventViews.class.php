@@ -26,10 +26,14 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
       }
       if (isset($og_items[0]['target_id'])) {
         $this->group_id = $og_items[0]['target_id'];
-      } else if (isset($entity->gid)) {
+      }
+      else {
+        if (isset($entity->gid)) {
           $this->group_id = $entity->gid;
-      } else {
+        }
+        else {
           $this->group_id = FALSE;
+        }
       }
 
       // Get entity id
@@ -49,8 +53,11 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
     foreach ($this->field['settings']['handler_settings']['view']['args'] as $key => $arg) {
       if ($arg == 'gid') {
         $this->field['settings']['handler_settings']['view']['args'][$key] = $this->group_id;
-      } else if ($arg == '[og_membership:id]') {
-        $this->field['settings']['handler_settings']['view']['args'][$key] = $this->eid;
+      }
+      else {
+        if ($arg == '[og_membership:id]') {
+          $this->field['settings']['handler_settings']['view']['args'][$key] = $this->eid;
+        }
       }
     }
     return parent::getReferencableEntities($match, $match_operator, $limit);

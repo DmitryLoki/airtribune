@@ -1,6 +1,6 @@
 jQuery(function ($) {
 
-  //get features from map
+
   var mapContainer = $('[id^="openlayers-map"]');
   if (!mapContainer) return;
 
@@ -9,25 +9,56 @@ jQuery(function ($) {
 
   //get accordion object
   $.each(Drupal.settings.views_accordion, function (title, accordionSettings) {
-    var accordion = $(accordionSettings.header).parent().data('accordion');
+    var accordionContainer = $(accordionSettings.header).parent(),
+      accordion = accordionContainer.data('accordion');
     if (!accordion) return;
 
-    accordion.option('change', filterEventFeaturesOnMap);
-    accordion.option('change', scrollToActiveTab);
+    $(accordionSettings.header)
+      .unbind('click.accordion')
+      .bind('click', function (event) {
+        var accordionPaneHeader = $(this),
+          accordionPane = $(this).next();
+        accordionPaneHeader.toggleClass('ui-state-active ui-state-default');
+        accordionPane.toggleClass('ui-accordion-content-active');
 
-    function filterEventFeaturesOnMap() {
-      var activeAccordionBlock = accordion.active,
-        year = '';
+        var options = {
+          toHide: $(),
+          toShow: $(),
+          complete: function(){
+            accordion.active = this;
+            accordion._trigger('change');
+          }
+        };
+        options[accordionPaneHeader.hasClass('ui-state-active') ? 'toShow' : 'toHide'] = accordionPane;
 
-      if (activeAccordionBlock.length) {
-        year = activeAccordionBlock.find('a').text().trim();
+        $.ui.accordion.animations.slide(options);
+
+        event.preventDefault();
+      });
+
+    accordion.option('change', onChange);
+
+    function onChange() {
+      filterEventsFeaturesOnMap();
+      scrollToActiveTab();
+    }
+
+    function filterEventsFeaturesOnMap() {
+      var activePanesHeaders = accordionContainer.find('.ui-state-active'),
+        years = [];
+
+      if (activePanesHeaders.length) {
+        years = activePanesHeaders.find('a').text().trim().split(/\s+/gi);
       }
 
       $.each(eventsFeaturesLayer.features, function (i, feature) {
-        var featureDescription = $(feature.attributes.description);
+        var featureDescription = $(feature.attributes.description),
+          eventDate = featureDescription.find('span.dates').text();
 
         //show feature if year string in feature description
-        if (year == '' || featureDescription.find('span.dates').text().indexOf(year) > -1) {
+        if (years.some(function (year) {
+          return eventDate.indexOf(year) > -1
+        })) {
           feature.style = null;
         } else {
           feature.style = {display: 'none'}
@@ -36,6 +67,7 @@ jQuery(function ($) {
       });
       eventsFeaturesLayer.redraw();
     }
+    filterEventsFeaturesOnMap();
 
     function scrollToActiveTab() {
       var $active = $(accordion.active);
@@ -44,8 +76,6 @@ jQuery(function ($) {
       }
     }
 
-    filterEventFeaturesOnMap();
   });
-
 
 });

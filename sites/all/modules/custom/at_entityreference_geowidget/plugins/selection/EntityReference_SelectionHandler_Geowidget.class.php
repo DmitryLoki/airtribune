@@ -14,12 +14,12 @@ class EntityReference_SelectionHandler_Geowidget extends EntityReference_Selecti
   public static function getInstance($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
     return new EntityReference_SelectionHandler_Geowidget($field, $instance);
   }
-  
+
   protected function __construct($field, $instance) {
     $this->field = $field;
     $this->instance = $instance;
   }
-  
+
   public static function settingsForm($field, $instance) {
     $maps = openlayers_maps();
     $default = !empty($field['settings']['handler_settings']['map']) ? $field['settings']['handler_settings']['map'] : NULL;
@@ -41,7 +41,7 @@ class EntityReference_SelectionHandler_Geowidget extends EntityReference_Selecti
       // Skip disabled views.
       if (!empty($view->disabled)) {
         continue;
-      } 
+      }
 
       if (empty($view->display)) {
         // Skip this view as it is broken.
@@ -57,7 +57,7 @@ class EntityReference_SelectionHandler_Geowidget extends EntityReference_Selecti
           $v = $view->clone_view();
           if ($v->set_display($id) && $v->display_handler->get_option('enabled')) {
             $options[$v->name . ':' . $id] = $v->name . ' - ' . $v->display[$id]->display_title;
-          }    
+          }
         }
       }
     }
@@ -93,22 +93,27 @@ class EntityReference_SelectionHandler_Geowidget extends EntityReference_Selecti
     $form['view']['#element_validate'] = array('entityreference_view_settings_validate');
     return $form;
   }
-  
+
   public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
     return NULL;
   }
+
   public function countReferencableEntities($match = NULL, $match_operator = 'CONTAINS') {
     return NULL;
   }
+
   public function validateAutocompleteInput($input, &$element, &$form_state, $form) {
     return NULL;
   }
+
   public function validateReferencableEntities(array $ids) {
     return $ids;
   }
+
   public function getLabel($entity) {
     return NULL;
   }
+
   public function entityFieldQueryAlter(SelectQueryInterface $query) {
     return NULL;
   }

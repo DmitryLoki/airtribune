@@ -23,7 +23,7 @@ function at_race_element_info() {
     '#theme_wrappers' => array('form_element'),
     */
   );
-  
+
   return $types;
 }
 
@@ -41,7 +41,7 @@ function at_race_theme() {
 function at_race_ajax_callback($form, $form_state) {
   $button = $form_state['clicked_button'];
   $array_parents = $button['#array_parents'];
-  
+
   $button_key = array_pop($array_parents);
   switch ($button_key) {
     case 'remove_button' :
@@ -51,9 +51,9 @@ function at_race_ajax_callback($form, $form_state) {
       $offset = -1;
       break;
   }
-  
+
   $array_parents = array_slice($array_parents, 0, $offset);
-  
+
   return drupal_array_get_nested_value($form, $array_parents);
 }
 
@@ -70,8 +70,8 @@ function at_race_field_widget_info() {
       'pg_racetype' => '',
     ),
     'behaviors' => array(
-        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
-        'default value' => FIELD_BEHAVIOR_NONE,
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      'default value' => FIELD_BEHAVIOR_NONE,
     ),
   );
   return $widgets;
@@ -90,7 +90,7 @@ function at_race_field_widget_settings_form($field, $instance) {
     '#default_value' => $instance['widget']['settings']['pg_racetype'],
     '#required' => TRUE,
   );
-  
+
   return $form;
 }
 
@@ -115,83 +115,83 @@ function at_race_field_widget_form(&$form, &$form_state, $field, $instance, $lan
   $plugin = at_race_pg_racetype_plugin($race_type);
   // TODO:
   $element['#type'] = 'pg_race_waypoint';
-  
+
   // TODO: Set default here instead of _at_race_get_waypoint_data()
   $defaults = array(
     'target_id' => 0,
   );
-  
-  $field_state = field_form_get_state($element['#field_parents'], $field['field_name'], $langcode, $form_state);//dsm($form_state);
-  
-  
+
+  $field_state = field_form_get_state($element['#field_parents'], $field['field_name'], $langcode, $form_state); //dsm($form_state);
+
+
   if (isset($field_state['items'])) {
     $items = $field_state['items'];
     unset($items['add_new_point']);
     unset($items['remove_button']);
   }
-  
+
   // TODO: Do we really need these?
   unset($items['add_new_point']);
   unset($items['remove_button']);
   unset($form_state['values']['field_pg_race_points']['und']['add_new_point']);
   unset($form_state['values']['field_pg_race_points']['und']['remove_button']);
-  
+
   $items_count = $field_state['items_count'];
-  
+
   $add_new = count($items) < $items_count ? TRUE : FALSE;
-  
+
   if ($add_new) {
     $items[] = $defaults;
   }
-  
+
   //$gid = 5364;
   $gid = _at_race_get_contest_id($form, $form_state);
-  
+
   if ($field['cardinality'] == 1) {
     // TODO:
   }
   else {
     foreach ($items as $item) {
-      
+
       $elements[$delta] = $element;
       $elements[$delta]['#default_value'] = $item;
       // set corresponding point_id
-      
+
       $elements[$delta]['#default_value'] += _at_race_get_waypoint_data($item['target_id']);
       $elements[$delta]['#components'] = _at_race_widget_components($gid);
-      
+
       $elements[$delta]['#weight'] = $delta;
       $delta++;
     }
-    
+
     // TODO: Add check for limited cardinality case. add_button should not be added in case of last delta
-    
+
     //if (($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED || $delta < $field['cardinality']) && empty($form_state['programmed'])) {
-      
-      // TODO:
-      /*
-      $elements[$delta] = $element;
-      $elements[$delta]['#default_value'] = $defaults;
-      $elements[$delta]['#weight'] = $delta;
-      $elements[$delta]['#required'] = ($element['#required'] && $delta == 0);
-      */
-      
+
+    // TODO:
+    /*
+    $elements[$delta] = $element;
+    $elements[$delta]['#default_value'] = $defaults;
+    $elements[$delta]['#weight'] = $delta;
+    $elements[$delta]['#required'] = ($element['#required'] && $delta == 0);
+    */
+
     //}
     // TODO: Add defaults for new point
-    
+
     $elements['#theme'] = 'at_waypoints_entityreference_widget_multiple';
     $elements['#theme_wrappers'] = array('fieldset');
     $elements['#process'] = array('at_race_field_widget_process_multiple');
     //$elements['#value_callback'] = 'at_race_point_value';
   }
-  
+
   return $elements;
 }
 
 function _at_race_get_contest_id(&$form, &$form_state) {
   // TODO: Get this from settings
   $og_ref_fieldname = OG_AUDIENCE_FIELD;
-  
+
   $entity = $form['entity']['#value'];
   $bundle = $entity->type;
   if (empty($entity->is_new)) {
@@ -209,21 +209,20 @@ function _at_race_get_contest_id(&$form, &$form_state) {
     //$gid = !empty($items) ? $items[0]['target_id'] : -1;
     $gid = $items[0]['target_id'];
   }
-  
+
   //$gid = isset($_GET[OG_AUDIENCE_FIELD]) ? $_GET[OG_AUDIENCE_FIELD] : -1;
   return $gid;
 }
 
 
-
 function theme_at_waypoints_entityreference_widget_multiple($variables) {
-  
+
   $element = $variables['element'];
-  
+
   // Special ID and classes for draggable tables.
   $weight_class = $element['#id'] . '-weight';
   $table_id = $element['#id'] . '-table';
-  
+
   // Build up a table of applicable fields.
   $headers = array();
   $headers[] = t('Name');
@@ -232,33 +231,33 @@ function theme_at_waypoints_entityreference_widget_multiple($variables) {
   $headers[] = t('Check');
   $headers[] = t('Weight');
   $headers[] = t('Delete');
-  
+
   // Get our list of widgets in order (needed when the form comes back after
   // preview or failed validation).
   $widgets = array();
   foreach (element_children($element) as $key) {
-    $widgets[] = &$element[$key];
+    $widgets[] = & $element[$key];
   }
   usort($widgets, '_field_sort_items_value_helper');
-  
+
   $rows = array();
   foreach ($widgets as $key => &$widget) {
     // Add-new button should be rendered in the end
     if (isset($widget['#type']) && $widget['#type'] == 'submit') {
       continue;
     }
-    
-    
+
+
     // TODO: Change keys
     $name = drupal_render($widget['point_id']);
     $radius = drupal_render($widget['radius']);
     $ss_es = drupal_render($widget['ss_es']);
     $check = drupal_render($widget['check']);
     $delete = drupal_render($widget['remove_button']);
-    
+
     $widget['_weight']['#attributes']['class'] = array($weight_class);
     $weight = render($widget['_weight']);
-    
+
     // Arrange the row with all of the rendered columns.
     $row = array();
     $row[] = $name;
@@ -272,33 +271,34 @@ function theme_at_waypoints_entityreference_widget_multiple($variables) {
       'class' => isset($widget['#attributes']['class']) ? array_merge($widget['#attributes']['class'], array('draggable')) : array('draggable'),
     );
   }
-  
+
   drupal_add_tabledrag($table_id, 'order', 'sibling', $weight_class);
-  
+
   $output = '';
-  $output = empty($rows) ? '' : theme('table', array('header' => $headers, 'rows' => $rows, 'attributes' => array('id' => $table_id)));
+  $output = empty($rows) ? '' : theme('table', array(
+    'header' => $headers,
+    'rows' => $rows,
+    'attributes' => array('id' => $table_id)
+  ));
   $output .= drupal_render_children($element);
-  
+
   return $output;
 }
-
-
-
 
 
 /**
  * Process callback
  */
 function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
-  
+
   if (isset($form_state['triggering_element']['#arg'])) {
     $form_state['rebuild'] = TRUE;
     $form_state['#add_new'] = TRUE;
   }
-  
+
   // Get parrent for wrapper-id
   $parent = drupal_array_get_nested_value($form, array_slice($element['#array_parents'], 0, -1));
-  
+
   $ajax_settings = array(
     'callback' => 'at_race_ajax_callback',
     //'wrapper' => $parent['#id'] . '-ajax-wrapper',
@@ -314,7 +314,7 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
     '#validate' => array('at_race_remove_point_validate'),
     // TODO: Comment #limit_validation_errors to avoid eck error (eck.entity.inc line 477)
     //'#limit_validation_errors' => array(array_slice($element['#parents'], 0, -1)),
-    
+
     '#limit_validation_errors' => array(array_slice($element['#parents'], 0, -2)),
     //'#limit_validation_errors' => array(),
     //'#limit_validation_errors' => FALSE,
@@ -322,7 +322,7 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
     '#submit' => array('at_race_add_remove_point_submit'),
     '#weight' => -5,
   );
-  
+
   $element['point_id'] = array(
     '#type' => 'select',
     '#options' => $element['#components']['points'],
@@ -347,7 +347,7 @@ function at_race_pg_race_waypoint_process($element, &$form_state, $form) {
     '#type' => 'hidden',
     '#value' => $element['#default_value']['target_id'],
   );
-  
+
   return $element;
 }
 
@@ -360,7 +360,7 @@ function at_race_remove_point_validate($form, &$form_state) {
   $element = drupal_array_get_nested_value($form, array_slice($parents, 0, -1));
   $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
   $pg_racetype = $instance['widget']['settings']['pg_racetype'];
-  
+
   // Call racetype validatoin function
   $plugin = at_race_pg_racetype_plugin($pg_racetype);
   $function = $plugin['remove_point_validate_callback'];
@@ -369,25 +369,25 @@ function at_race_remove_point_validate($form, &$form_state) {
 
 // TODO:
 function at_race_add_point_validate($form, &$form_state) {
-  
+
   // Get instance settings race_type
   $button = $form_state['triggering_element'];
   $parents = $form_state['triggering_element']['#array_parents'];
   $element = drupal_array_get_nested_value($form, array_slice($parents, 0, -1));
-  
+
   $element_children = element_children($element);
   // Check if there is at least one delta (except add_new_point). Otherwise skip validation
   if (!is_numeric($element_children[0])) {
     return;
   }
-  
+
   // We need any delta to check field settings.
   $delta = $element_children[0];
   $element = $element[$delta];
-  
+
   $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
   $pg_racetype = $instance['widget']['settings']['pg_racetype'];
-  
+
   // Call racetype validatoin function
   $plugin = at_race_pg_racetype_plugin($pg_racetype);
   $function = $plugin['add_new_validate_callback'];
@@ -402,13 +402,13 @@ function at_race_add_remove_point_submit($form, &$form_state) {
   $button = $form_state['triggering_element'];
   $parents = $form_state['triggering_element']['#array_parents'];
   $button_key = array_pop($parents);
-  
+
   $element = drupal_array_get_nested_value($form, $parents);
-  
+
   $field_name = $element['#field_name'];
   $langcode = $element['#language'];
   $parents = $element['#field_parents'];
-  
+
   switch ($button_key) {
     case 'remove_button' :
       $offset = -2;
@@ -419,18 +419,18 @@ function at_race_add_remove_point_submit($form, &$form_state) {
     default :
       return;
   }
-  
+
   $submitted_values = drupal_array_get_nested_value($form_state['values'], array_slice($button['#array_parents'], 0, $offset));
-  
+
   unset($submitted_values['add_new_point']);
   $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
   if ($button_key == 'remove_button') {
     $elem_parents = $element['#parents'];
     $delta = array_pop($elem_parents);
     unset($submitted_values[$delta]);
-    
+
     // TODO: Remove value from $form_states and re-index deltas
-    
+
     // Re-index values
     $submitted_values = array_values($submitted_values);
     // Store values with new deltas for correct prepopulation
@@ -447,34 +447,38 @@ function at_race_add_remove_point_submit($form, &$form_state) {
 }
 
 
-
 /**
  * Implements hook_field_attach_validate().
  */
 function at_race_field_attach_validate($entity_type, $entity, &$errors) {
-  
+
   // Avoid executing for other than ent_racetype entities
-  if ($entity_type != 'ent_racetype' || !in_array($entity->type, array('pg_racetype_od', 'pg_racetype_rtg', 'pg_racetype_sr'))) {
+  if ($entity_type != 'ent_racetype' || !in_array($entity->type, array(
+      'pg_racetype_od',
+      'pg_racetype_rtg',
+      'pg_racetype_sr'
+    ))
+  ) {
     return;
   }
-  
+
   $errors = array();
   return;
-  
+
   // TODO:
   //dsm($errors);
   //dsm('test validate');
-  
+
   // Check for required values. At least one point should exist.
   // TODO:
   // Remove errors for target_id = 0
   //$errors = array();
   //dsm($errors);
-  
+
   // TODO: Get racetype from widget settings
   $pg_racetype = 'race_to_goal';
   $plugin = at_race_pg_racetype_plugin($pg_racetype);
-  
+
   $function = $plugin['validate_callback'];
   $function($entity_type, $entity, $errors);
 }
@@ -483,19 +487,24 @@ function at_race_field_attach_validate($entity_type, $entity, &$errors) {
  * Implements hook_field_attach_submit().
  */
 function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state) {
-  
+
   // Avoid executing for other than ent_racetype entities
-  if ($entity_type != 'ent_racetype' || !in_array($entity->type, array('pg_racetype_od', 'pg_racetype_rtg', 'pg_racetype_sr'))) {
+  if ($entity_type != 'ent_racetype' || !in_array($entity->type, array(
+      'pg_racetype_od',
+      'pg_racetype_rtg',
+      'pg_racetype_sr'
+    ))
+  ) {
     return;
   }
-  
+
   // Get waypoint data
   $entity_wrapper = entity_metadata_wrapper('ent_racetype', $entity);
-  
+
   $items = field_get_items('ent_racetype', $entity, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
-  
+
   $field_value = $entity_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->value();
-  
+
   foreach ($items as $delta => $item) {
     $waypoint_id = $item['target_id'];
     if ($waypoint_id == 0) {
@@ -504,14 +513,15 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
       $waypoint_entity = entity_create('ent_point', array(
         'type' => 'waypoint',
       ));
-      
+
       $wrapper = entity_metadata_wrapper('ent_point', $waypoint_entity);
-      
+
       // Set new values
       $wrapper->{AIRTRIBUNE_POINT_RADIUS_FIELD}->set($item['radius']);
       $wrapper->{AIRTRIBUNE_POINT_TYPE_FIELD}->set($item['check']);
-      if ($item['ss_es'] != '_none')
+      if ($item['ss_es'] != '_none') {
         $wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD}->set($item['ss_es']);
+      }
       else {
         $wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD}->set(NULL);
       }
@@ -531,12 +541,13 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
       $entities = entity_load('ent_point', array($waypoint_id));
       $waypoint_entity = array_shift($entities);
       $wrapper = entity_metadata_wrapper('ent_point', $waypoint_entity);
-      
+
       // Set new values
       $wrapper->{AIRTRIBUNE_POINT_RADIUS_FIELD}->set($item['radius']);
       $wrapper->{AIRTRIBUNE_POINT_TYPE_FIELD}->set($item['check']);
-      if ($item['ss_es'] != '_none')
+      if ($item['ss_es'] != '_none') {
         $wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD}->set($item['ss_es']);
+      }
       else {
         $wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD}->set(NULL);
         unset($wrapper->{AIRTRIBUNE_POINT_SS_ES_FIELD});
@@ -545,15 +556,15 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
       $entities = entity_load('ent_contest_point', array($item['point_id']));
       $point_entity = array_shift($entities);
       $wrapper->{AIRTRIBUNE_POINT_REF_FIELD}->set($point_entity);
-      
+
       // Save waypoint data
       entity_save('ent_point', $waypoint_entity);
-      
+
       $entity_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->offsetSet($delta, $waypoint_entity);
     }
-    
+
   }
-  
+
   // TODO: Maybe this should be done in hook_field_attach_presave or other hook
   // Delete removed waypoints if any.
   if (!empty($entity->id)) {
@@ -565,7 +576,7 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
     $original = array_shift($entities);
     $original_items = field_get_items('ent_racetype', $original, AIRTRIBUNE_PG_RACE_POINTS_FIELD);
     $original_items = _at_race_get_items_target_ids($original_items);
-    
+
     // Get list of removed target_ids.
     $removed_items = array_intersect($original_items, array_diff($original_items, $new_items));
     // Remove waypoints.
@@ -573,7 +584,7 @@ function at_race_field_attach_submit($entity_type, $entity, $form, &$form_state)
       entity_delete('ent_point', $id);
     }
   }
-  
+
 }
 
 /**
@@ -587,16 +598,16 @@ function _at_race_get_items_target_ids($items) {
       $target_ids[] = $item['target_id'];
     }
   }
-  
+
   return array_unique($target_ids);
 }
 
 function at_race_field_widget_process_multiple($element, &$form_state, $form) {
   // TODO:
-  
+
   $element_children = element_children($element, TRUE);
   $count = count($element_children);
-  
+
   // TODO: Manage weight correctly, when a point is removed and a new one added
   foreach ($element_children as $delta => $key) {
     $element[$key]['_weight'] = array(
@@ -611,7 +622,7 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
   //$wrapper_id = $element['#id'] . '-ajax-wrapper';
   $wrapper_id = 'at-race-waypoints-ajax-wrapper';
   //$element['#after_build'][] = '_at_race_points_after_build';
-  
+
   $element['add_new_point'] = array(
     '#type' => 'submit',
     '#value' => t('Add new point'),
@@ -627,16 +638,16 @@ function at_race_field_widget_process_multiple($element, &$form_state, $form) {
     ),
     //'#input' => FALSE,
   );
-  
+
   // TODO: User value callback to remove 'add_new_button'
   // http://api.drupal.org/api/drupal/developer%21topics%21forms_api_reference.html/7#value_callback
   // $element['#value_callback'] = '_at_race_points_value_callback';
-  
+
   $element['#prefix'] = '<div id="' . $wrapper_id . '">';
-  
+
   $element['#suffix'] = '</div>';
-  
-  
+
+
   return $element;
 }
 
@@ -675,9 +686,9 @@ function _at_race_get_waypoint_data($waypoint_id) {
     $wrapper = entity_metadata_wrapper('ent_point', $entity);
     $point_entity = $wrapper->field_point_ref->value();
     $point_id = $point_entity->id;
-    
+
     $ss_es = $wrapper->field_point_ss_es->value();
-    
+
     $data = array(
       'radius' => $wrapper->field_point_radius->value(),
       'check' => $wrapper->field_point_type->value(),
@@ -693,25 +704,25 @@ function _at_race_get_waypoint_data($waypoint_id) {
       'point_id' => 0,
     );
   }
-  
+
   return $data;
 }
 
 // TODO: Maybe this part could be optimized.
 function _at_race_widget_components($gid) {
-  
+
   static $components;
-  
+
   // Waypoint components
   if (empty($components)) {
     // SS/ES
     $field_point_ss_es = field_info_field('field_point_ss_es');
     $field_point_type = field_info_field('field_point_type');
-    
+
     $components['ss_es'] = $field_point_ss_es['settings']['allowed_values'];
     $components['ss_es'] = array('_none' => t('None')) + $components['ss_es'];
-    
-    $components['check'] = $field_point_type['settings']['allowed_values'];    
+
+    $components['check'] = $field_point_type['settings']['allowed_values'];
     $components['points'] = _at_race_get_contest_points($gid);
   }
   return $components;
@@ -722,12 +733,12 @@ function _at_race_widget_components($gid) {
  */
 function _at_race_get_contest_points($contest_id) {
   $pointsQuery = new EntityFieldQuery();
-  
+
   $query = $pointsQuery->entityCondition('entity_type', 'ent_contest_point')
-                       ->entityCondition('bundle', 'contest_point')
-                        ->fieldCondition('og_group_ref', 'target_id', $contest_id, '=');
+    ->entityCondition('bundle', 'contest_point')
+    ->fieldCondition('og_group_ref', 'target_id', $contest_id, '=');
   $result = $query->execute();
-  
+
   $points_list = array();
   if (!empty($result['ent_contest_point'])) {
     $ids = array();
@@ -735,23 +746,17 @@ function _at_race_get_contest_points($contest_id) {
       $ids[] = $object->id;
     }
     $entities = entity_load('ent_contest_point', $ids);
-    
+
     foreach ($entities as $entity) {
       $points_list[$entity->id] = $entity->title;
     }
   }
-  
+
   // Sort points by title.
   asort($points_list);
-  
+
   return $points_list;
 }
-
-
-
-
-
-
 
 
 /**
@@ -780,13 +785,13 @@ function at_race_ctools_plugin_directory($module, $plugin) {
 function at_race_pg_racetype_plugin($pg_racetype) {
   // Get pg_racetype plugins.
   ctools_include('plugins');
-  $plugins = ctools_get_plugins('at_race', 'pg_racetype');    
+  $plugins = ctools_get_plugins('at_race', 'pg_racetype');
   foreach ($plugins as $plugin) {
     if ($plugin['pg_racetype'] == $pg_racetype) {
       return $plugin;
     }
   }
-    
+
   return FALSE;
 }
 
@@ -799,11 +804,13 @@ function at_race_form_alter(&$form, &$form_state, $form_id) {
     //$form['#after_build'][] = 'at_race_after_build';
   }
 }
+
 function at_race_after_build($form, $form_state) {
   //$form['#submit'] = array('at_race_submit_tmp');
   dsm($form);
   return $form;
 }
+
 function at_race_submit_tmp($form, &$form_state) {
 }
 
