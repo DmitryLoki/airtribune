@@ -99,8 +99,9 @@ function abc_get_form($settings) {
   // Compile multiform stucture
   $form = abc_init_form();
   
-  /*
+  
   $form['#id'] = 'multiform';
+  /*
   $form['form_id'] = array(
     '#type' => 'hidden',
     '#value' => 'multiform',
@@ -178,6 +179,8 @@ function abc_get_form($settings) {
     // Change #name elements' attribute to post values correctly considering multiform _POST array structure.
     // This is set in abc_form_after_build()
     //_abc_get_form($subform_form, $subform_id);
+    
+    //~ $subform_form['#attributes']['class'][] = 'multiform-subform';
     
     $form['multiform'][] = $subform_form;
     

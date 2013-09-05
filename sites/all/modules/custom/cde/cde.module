@@ -37,6 +37,9 @@ function cde_form_anonymous($nid) {
   // profile2_form()
   module_load_include('inc', 'profile2', 'contrib/profile2_page');
   
+  // Inform hook_js_alter() that multiform is processed.
+  drupal_add_js(array('cde' => array('multiform_id' => 'multiform')), 'setting');
+  
   $profile2_init_data = cde_profile_form_init_data();
   //dsm($profile2_init_data);
   
@@ -403,4 +406,49 @@ function cde_ctools_plugin_directory($module, $plugin) {
   //~ if ($module == 'cde' && $plugin == 'generic') {
     //~ return 'plugins/validators/generic';
   //~ }
+}
+
+
+// =======================================================
+// Clientside validation
+// =======================================================
+
+// TODO: This hook should be called before clientside_validation original hook.
+// TODO: Check that form is multiform.
+function cde_js_alter(&$javascript) {
+  
+  $is_multiform = FALSE;
+  foreach ($javascript['settings']['data'] as $k => $setting) {
+    if (!empty($setting['cde']['multiform_id'])) {
+      $is_multiform = TRUE;
+      break;
+    }
+  }
+  
+  // TODO: This is temporary solution.
+  // Do nothing if there is no multiform.
+  if (!$is_multiform) {
+    return;
+  }
+  
+  foreach ($javascript['settings']['data'] as $k => $setting) {
+      if (!empty($setting['clientsideValidation']['forms'])) {
+        
+        // TODO:
+        // For now we just copy settings of first subform.
+        $multiform_setting = reset($setting['clientsideValidation']['forms']);
+        
+        $rules = array();
+        
+        foreach ($setting['clientsideValidation']['forms'] as $f => $subform_setting) {
+          $rules += $subform_setting['rules'];
+          //~ dsm($subform_setting['rules']);
+        }
+        $multiform_setting['rules'] = $rules;
+        
+        $setting['clientsideValidation']['forms'] = array('multiform' => $multiform_setting);
+        
+        $javascript['settings']['data'][$k] = $setting;
+      }
+  }
 }
