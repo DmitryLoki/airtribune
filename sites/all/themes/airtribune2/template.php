@@ -1217,9 +1217,11 @@ function airtribune2_preprocess_field(&$vars) {
     $items = array();
 
     // Get all waypoint files
-    foreach ($points_file['#items'] as $k => $v) {
-      $points_file[$k]['#file']->description = 'Waypoints file';
-      $items[] = $points_file[$k];
+    if (isset($points_file['#items'])) {
+      foreach ($points_file['#items'] as $k => $v) {
+        $points_file[$k]['#file']->description = 'Waypoints file';
+        $items[] = $points_file[$k];
+      }
     }
     // Get all dowload files
     foreach ($element['#items'] as $k => $v) {
