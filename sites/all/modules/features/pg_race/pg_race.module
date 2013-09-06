@@ -337,7 +337,8 @@ function get_races_ids_for_contest($og) {
     ->fieldCondition('og_group_ref', 'target_id', $og->nid)
     ->execute();
   $races = array();
-  if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
+  if (isset($query_results[AIRTRIBUNE_RACE_ENTITY_TYPE])) {
+    $entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE];
     foreach ($entities as $entity) {
       $races[] = $entity->id;
     }
