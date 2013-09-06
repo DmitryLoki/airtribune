@@ -121,7 +121,8 @@ function _simple_phonenumber_validate($element, &$form_state) {
   else {
     $country = _get_contry_by_phone_code($element['#value']);
     if ($country) {
-      $countrycode = array_pop(array_keys($country));
+      $keys = array_keys($country);
+      $countrycode = array_pop($keys);
       $tmp = array_pop($country);
       $number = substr($element['#value'], strlen($tmp['code']) - 1);
       // Set number for validate

@@ -81,9 +81,6 @@ function _airtribune_airtribune_race_preview_get_race_preview($contestId, $raceI
 
   $output = "<script  data-main=\"{$baseUrl}/js/init\" src=\"{$baseUrl}/js/lib/require.js\"></script>
     <div role=\"main\" class=\"airvis-container\">
-      <div class=\"airvis-loading-container\">
-        <div class=\"airvis-loading\">&nbsp;</div>
-      </div>
       <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", contestId: \"{$contestId}\", raceId: \"{$raceId}\", width: \"{$widgetWidth}\", height: \"{$widgetHeight}\", callback: window.airvisPageLoadedCallback, mode: \"simple\", apiDomain: \"{$apiDomain}\", apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
     </div>";
   return $output;

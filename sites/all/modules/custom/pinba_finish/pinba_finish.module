@@ -18,8 +18,24 @@ function pinba_finish_entity_view($entity, $type, $view_mode, $langcode) {
 
   global $pinba_timers;
 
-  $timer = $pinba_timers[$type . $entity->nid];
-  unset($pinba_timers[$type . $entity->nid]);
+  if (isset($entity->id)) {
+    $id = $entity->id;
+  }
+  elseif (isset($entity->nid)) {
+    $id = $entity->nid;
+  }
+  elseif (isset($entity->uid)) {
+    $id = $entity->uid;
+  }
+  elseif (isset($entity->pid)) {
+    $id = $entity->uid;
+  }
+  else {
+    $id = NULL;
+  }
+
+  $timer = $pinba_timers[$type . $id];
+  unset($pinba_timers[$type . $id]);
   pinba_timer_stop($timer);
 }
 
