@@ -564,7 +564,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -686,7 +686,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -797,7 +797,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -856,7 +856,7 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Image'),
+    t('Banner'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
@@ -912,7 +912,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -2902,7 +2902,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Field: Day number */
+  /* Field: Content: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3182,7 +3182,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Field: Day number */
+  /* Field: Content: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -3290,14 +3290,9 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_image']['label'] = '';
   $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['type'] = 'colorbox';
+  $handler->display->display_options['fields']['field_image']['type'] = 'bricks';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'colorbox_node_style' => 'thumbnail',
-    'colorbox_image_style' => '',
-    'colorbox_gallery' => 'post',
-    'colorbox_gallery_custom' => '',
-    'colorbox_caption' => 'custom',
-    'colorbox_caption_custom' => '',
+    'layout' => 'bricks_a',
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
   /* Field: Competition results */
@@ -3495,7 +3490,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
-  /* Field: Field: Day number */
+  /* Field: Content: Day number */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
@@ -6091,7 +6086,7 @@ return array($event_id);';
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7017,7 +7012,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7258,7 +7253,7 @@ return array($event_id);';
     'empty_text' => '',
     'fallback_format' => 'list_default',
   );
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -7627,7 +7622,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
