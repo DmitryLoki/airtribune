@@ -247,7 +247,7 @@ function pg_race_form_validate(&$form, &$form_state) {
   }
 
   // Race updated & race number is changed with previous state.
-  elseif (!empty($id) && $submitted_day_num != $race_numbers[$id]) {
+  elseif (!empty($id) && !empty($race_numbers[$id]) && $submitted_day_num != $race_numbers[$id]) {
     // Submitted day is not used, we must check next & prev races to chronically order.
     // Set the pointer of races array to first element.
     reset($race_numbers);
@@ -360,7 +360,8 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
     ->fieldCondition('og_group_ref', 'target_id', $contest->nid)
     ->execute();
   $races = array();
-  if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
+  if (isset($query_results[AIRTRIBUNE_RACE_ENTITY_TYPE])) {
+    $entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE];
     foreach ($entities as $entity) {
       $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity->id), array(), TRUE);
       $entity = reset($entity);
