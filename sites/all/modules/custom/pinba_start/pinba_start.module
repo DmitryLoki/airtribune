@@ -55,6 +55,7 @@ function pinba_start_entity_view($entity, $type, $view_mode, $langcode) {
 function pinba_start_cron() {
   if (!extension_loaded('pinba')) return;
 
+  global $pinba_timers;
   $timer = pinba_timer_start(array(
     "cron" => "cron__" . REQUEST_TIME
   ));
