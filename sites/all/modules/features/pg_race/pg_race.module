@@ -759,25 +759,21 @@ function _day_pg_race_preview_markup($node) {
   $start_time = $data['start_time'];
   $deadline_time = $data['deadline_time'];
   $countdown_time = $data['countdown_time'];
-  
-  // Core id data
-  $race_entity_id = $data['race_entity_id'];
-  $contest_core_id = $data['contest_core_id'];
-  $race_core_id = $data['race_core_id'];
+
   $localtime = !empty($data['localtime']) ? $data['localtime'] : 0;
   $offset = !empty($data['offset']) ? $data['offset'] : 0;
   $is_current_day = $data['is_current_day'];
   $contest_is_offline = $data['contest_is_offline'];
 
   // Wrapper data
-
-
   // span Wrapper attributes
   $wrapper_attributes = array(
     'class' => array('race-links'),
-    'data-race-eid' => $race_entity_id,
-    'data-contest-cid' => $contest_core_id,
-    'data-race-cid' => $race_core_id,
+    'data-race-eid' => $data['race_entity_id'],
+    'data-contest-cid' => $data['contest_core_id'],
+    'data-race-cid' => $data['race_core_id'],
+    'data-start-time' => $start_time * 1000,
+    'data-deadline-time' => $deadline_time * 1000,
   );
   // Add wrapper Race status class
   switch ($status) {
@@ -822,10 +818,6 @@ function _day_pg_race_preview_markup($node) {
         break;
     }
 
-    if ($is_current_day) {
-      $wrapper_attributes['data-start-time'] = $start_time * 1000;
-      $wrapper_attributes['data-deadline-time'] = $deadline_time * 1000;
-    }
   }
   else {
     if (!$is_current_day || $contest_is_offline) {
@@ -858,8 +850,9 @@ function _day_pg_race_preview_markup($node) {
   ));
 
   // Use another output for blog page.
-  if (arg(2) == 'blog') {
+  if (arg(2) == 'blog' && $status == AIRTRIBUNE_VIS_STATE_REPLAY) {
     $data['text'] = '2D';
+    $data['attributes'] = $wrapper_attributes;
     $output = pg_race_replay_blog_markup($data);
   }
   // Add js
@@ -875,18 +868,11 @@ function pg_race_replay_blog_markup($data) {
   $link = _day_make_link($data);
   $items = array($link);
 
-  $ul_attribuntes = array(
-    'class' => array('race-links'),
-    'data-race-eid' => $data['race_entity_id'],
-    'data-contest-cid' => $data['contest_core_id'],
-    'data-race-cid' => $data['race_core_id'],
-  );
-
   $variables = array(
     'type' => 'ul',
     'title' => '',
     'items' => $items,
-    'attributes' => $ul_attribuntes,
+    'attributes' => $data['attributes'],
   );
   $output = theme('item_list', $variables);
   $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
