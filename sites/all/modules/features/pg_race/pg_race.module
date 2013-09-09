@@ -719,7 +719,7 @@ function _pg_race_play_link($params) {
   );
 
   // If online
-  if ($params['status'] == 'online') {
+  if ($params['status'] == AIRTRIBUNE_VIS_STATE_ONLINE) {
     $ul_attribuntes['data-view-type'] = 'online';
   }
 
@@ -788,7 +788,7 @@ function _day_pg_race_preview_markup($node) {
       $wrapper_attributes['data-view-type'] = 'online';
       break;
     case AIRTRIBUNE_VIS_STATE_REPLAY :
-      $wrapper_attributes['class'][] = 'race-offline';
+      $wrapper_attributes['class'][] = 'race-replay';
       break;
   }
 
