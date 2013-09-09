@@ -337,7 +337,8 @@ function get_races_ids_for_contest($og) {
     ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $og->nid)
     ->execute();
   $races = array();
-  if ($entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE]) {
+  if (isset($query_results[AIRTRIBUNE_RACE_ENTITY_TYPE])) {
+    $entities = $query_results[AIRTRIBUNE_RACE_ENTITY_TYPE];
     foreach ($entities as $entity) {
       $races[] = $entity->id;
     }
@@ -749,7 +750,7 @@ function _day_pg_race_preview_markup($node) {
   }
 
   // Get race status and core id data
-  $data = _day_pg_race_task_set($node);
+  $data = pg_race_task_get_info($node);
   // Race status data
   $status = $data['status'];
   $has_task = !empty($data['entity']) ? TRUE : FALSE;
@@ -815,7 +816,7 @@ function _day_pg_race_preview_markup($node) {
         $help_text = t('Race starts on');
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
-        $time = date('H:i:s', $start_time) . ' – ' . date('H:i:s', $deadline_time);
+        $time = date('H:i:s', ($deadline_time - $start_time));
         $link_text = t('Task Replay');
         $help_text = t('Race time');
         break;
@@ -856,6 +857,11 @@ function _day_pg_race_preview_markup($node) {
     )
   ));
 
+  // Use another output for blog page.
+  if (arg(2) == 'blog') {
+    $data['text'] = '2D';
+    $output = pg_race_replay_blog_markup($data);
+  }
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/pg_race_play_link.js', 'file');
@@ -865,10 +871,33 @@ function _day_pg_race_preview_markup($node) {
   return $output;
 }
 
+function pg_race_replay_blog_markup($data) {
+  $link = _day_make_link($data);
+  $items = array($link);
+
+  $ul_attribuntes = array(
+    'class' => array('race-links'),
+    'data-race-eid' => $data['race_entity_id'],
+    'data-contest-cid' => $data['contest_core_id'],
+    'data-race-cid' => $data['race_core_id'],
+  );
+
+  $variables = array(
+    'type' => 'ul',
+    'title' => '',
+    'items' => $items,
+    'attributes' => $ul_attribuntes,
+  );
+  $output = theme('item_list', $variables);
+  $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
+
+  return $output;
+}
+
 /**
  * Get day task if exists and check if points exist.
  */
-function _day_pg_race_task_set($day_node) {
+function pg_race_task_get_info($day_node) {
 
   $task_data = array(
     'is_current_day' => NULL,
