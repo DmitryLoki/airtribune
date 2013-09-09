@@ -1,0 +1,28 @@
+diff --git a/editablefields.module b/editablefields.module
+index ddfe664..ba404d5 100644
+--- a/editablefields.module
++++ b/editablefields.module
+@@ -523,9 +523,19 @@ function editablefields_form_submit(&$form, &$form_state) {
+ 
+   entity_form_submit_build_entity($element['#entity_type'], $entity, $element, $form_state);
+ 
+-  // TODO: needs a try / catch.
+-  entity_save($element['#entity_type'], $entity);
+-  $form_state['rebuild'] = TRUE;
++  // Validate element, which was changed, using standard drupal field validation.
++  $errors = array();
++  _field_invoke_default('extract_form_values', $element['#entity_type'], $entity, $form, $form_state);
++  _field_invoke('validate', $element['#entity_type'], $entity, $errors);
++  // Got errors, attach error message to element.
++  if ($errors) {
++    foreach($errors[$parents[0]][$element['#langcode']][0] as $error) {
++      form_error($element, $error['message']);
++    }
++  } else {
++    // TODO: needs a try / catch.
++    entity_save($element['#entity_type'], $entity);
++    $form_state['rebuild'] = TRUE;
++  }
+ 
+   // Re-load the entity so that fields can act on the new value.
+   $entity = entity_load($element['#entity_type'], array($element['#entity_id']));
