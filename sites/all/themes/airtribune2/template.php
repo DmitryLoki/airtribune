@@ -1243,6 +1243,24 @@ function airtribune2_preprocess_field(&$vars) {
         $vars['items'][0]['#items'][] = $item;
       }
     }
+  } else if ($element['#field_name'] == AIRTRIBUNE_DOWNLOADS_FIELD) {
+    // @TODO: remove this after release of the generation point files from the db
+    // @see: #3611
+    $points_file = field_view_field('node', $element['#object'], AIRTRIBUNE_POINTS_FILE_FIELD);
+    $items = array();
+
+    // Get all waypoint files
+    if (isset($points_file['#items'])) {
+      foreach ($points_file['#items'] as $k => $v) {
+        $points_file[$k]['#file']->description = 'Waypoints file';
+        $items[] = $points_file[$k];
+      }
+    }
+    // Get all dowload files
+    foreach ($element['#items'] as $k => $v) {
+      $items[] = $element[$k];
+    }
+    $vars['items'] = $items;
   }
 }
 
