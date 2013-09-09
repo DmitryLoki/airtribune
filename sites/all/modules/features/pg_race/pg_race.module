@@ -520,48 +520,64 @@ function pg_race_play_link_callback($entity) {
 
 function pg_race_retrive_callback($entity) {
   global $user;
+  $output = FALSE;
+
   $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
   $gid = $og_ref_items[0]['target_id'];
 
-  $link = array(
-    '#theme' => 'link',
-    '#text' => t('Retrieve map'),
-    '#path' => 'retrieve/' . $entity->id,
-    '#options' => array(
-      'attributes' => array('class' => array('retrieve-link'), 'target' => '_blank'),
-      'html' => FALSE,
-    ),
-    '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
-  );
+  // TODO: move the detection of offline contest in a separate function
+  $node = node_load($gid);
+  $contest_wrapper = entity_metadata_wrapper('node', $node);
+  $contest_is_offline = $contest_wrapper->field_is_offline->value();
 
-  return render($link);
+  if (!$contest_is_offline) {
+    $link = array(
+      '#theme' => 'link',
+      '#text' => t('Retrieve map'),
+      '#path' => 'retrieve/' . $entity->id,
+      '#options' => array(
+        'attributes' => array('class' => array('retrieve-link'), 'target' => '_blank'),
+        'html' => FALSE,
+      ),
+      '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
+    );
+    $output = render($link);
+  }
+  return $output;
 }
 
 function pg_race_retrive_table_callback($entity) {
+  $output = FALSE;
 
   $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
   $gid = $og_ref_items[0]['target_id'];
 
   $node = node_load($gid);
-  $core_id_items = field_get_items('node', $node, 'field_core_id');
-  $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
+  // TODO: move the detection of offline contest in a separate function
+  $contest_wrapper = entity_metadata_wrapper('node', $node);
+  $contest_is_offline = $contest_wrapper->field_is_offline->value();
 
-  $link = array(
-    '#theme' => 'link',
-    '#text' => t('Retrieve table'),
-    '#path' => PG_RACE_RETREIVE_URL,
-    '#options' => array(
-      'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
-      'html' => FALSE,
-      'query' => array(
-        'contestid' => $core_id_items[0]['value'],
-        'raceid' => $race_id_items[0]['value'],
-      )
-    ),
-    '#access' => pg_race_retrive_access($entity, $gid),
-  );
+  if (!$contest_is_offline) {
+    $core_id_items = field_get_items('node', $node, 'field_core_id');
+    $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
 
-  return render($link);
+    $link = array(
+      '#theme' => 'link',
+      '#text' => t('Retrieve table'),
+      '#path' => PG_RACE_RETREIVE_URL,
+      '#options' => array(
+        'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
+        'html' => FALSE,
+        'query' => array(
+          'contestid' => $core_id_items[0]['value'],
+          'raceid' => $race_id_items[0]['value'],
+        )
+      ),
+      '#access' => pg_race_retrive_access($entity, $gid),
+    );
+    $output = render($link);
+  }
+  return $output;
 }
 
 /**
@@ -751,6 +767,7 @@ function _day_pg_race_preview_markup($node) {
   $localtime = !empty($data['localtime']) ? $data['localtime'] : 0;
   $offset = !empty($data['offset']) ? $data['offset'] : 0;
   $is_current_day = $data['is_current_day'];
+  $contest_is_offline = $data['contest_is_offline'];
 
   // Wrapper data
 
@@ -811,7 +828,7 @@ function _day_pg_race_preview_markup($node) {
     }
   }
   else {
-    if (!$is_current_day) {
+    if (!$is_current_day || $contest_is_offline) {
       return '';
     }
     // Default link and help text in case task isn't set.
@@ -894,6 +911,7 @@ function pg_race_task_get_info($day_node) {
     'race_entity_id' => NULL,
     'race_core_id' => NULL,
     'contest_core_id' => NULL,
+    'contest_is_offline' => NULL,
   );
 
   // TODO: Remove duplicated operations (see if() case)
@@ -903,12 +921,17 @@ function pg_race_task_get_info($day_node) {
   $item = array_shift($items);
   $contest_id = $item['target_id'];
   $contest = node_load($contest_id);
+  $contest_wrapper = entity_metadata_wrapper('node', $contest);
   $contest_time = airtribune_extract_time_from_contest($contest);
   if (!isset($contest_time['offset'])) {
     return;
   }
   $offset = $contest_time['offset'];
 
+  // TODO: move the detection of offline contest in a separate function
+  $contest_is_offline = $contest_wrapper->field_is_offline->value();
+
+  $task_data['contest_is_offline'] = $contest_is_offline;
   $task_data['is_current_day'] = date('Y-m-d', $created - $offset) == date('Y-m-d', time() - $offset) ? TRUE : FALSE;
   $day_id = $day_node->nid;
 
@@ -964,6 +987,5 @@ function pg_race_task_get_info($day_node) {
     $task_data['localtime'] = $contest_time['localtime'];
     $task_data['offset'] = $offset;
   }
-
   return $task_data;
 }
