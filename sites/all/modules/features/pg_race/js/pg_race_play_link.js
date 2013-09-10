@@ -74,12 +74,12 @@
           raceBlock.removeClass('race-awaiting');
           if (isRaceStateReady) {
             raceBlock.addClass('race-online');
-            helperText.text('Race is on');
+            helperText.text(Drupal.settings.Day.race_on_text);
             timeHelperText.show();
           } else {
             raceBlock.removeClass('race-online');
             timeHelperText.hide();
-            helperText.text('Button will be here as soon as task is set.');
+            helperText.text(Drupal.settings.Day.button_soon_text);
           }
         }
       }
