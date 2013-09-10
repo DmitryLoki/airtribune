@@ -43,16 +43,31 @@ function cde_form_anonymous($nid) {
   $profile2_init_data = cde_profile_form_init_data();
   //dsm($profile2_init_data);
   
+  // TODO: Maybe use #array_parents instead of #parents in order not to confuse.
   $settings = array(
     '#subforms' => array(
       array(
         'form_id' => 'user_register_form',
         '#before_execute' => array('cde_user_register_before_execute'),
         '#after_execute' => array('cde_user_register_after_execute'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
       ),
       array(
         'form_id' => 'og_ui_confirm_subscribe',
         'args' => cde_og_form_args($nid),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
       ),
       
       array(
@@ -61,8 +76,23 @@ function cde_form_anonymous($nid) {
         //'args' => cde_profile_form_args(),
         'args' => $profile2_init_data['args'],
         '#preprocess_form_state' => array('cde_profile2_form_preprocess_form_state'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
       ),
       
+    ),
+    '#submit_map' => array(
+      '#submits' => array(
+        'register' => array(
+          '#type' => 'submit',
+          '#value' => t('Multiform register'),
+        ),
+      ),
     ),
   );
   
@@ -257,6 +287,13 @@ function cde_form_authorized($nid) {
       array(
         'form_id' => 'og_ui_confirm_subscribe',
         'args' => cde_og_form_args($nid),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
       ),
       array(
         //'form_id' => 'entity_ui_get_form',
@@ -264,6 +301,21 @@ function cde_form_authorized($nid) {
         //'args' => cde_profile_form_args(),
         'args' => $profile2_init_data['args'],
         '#preprocess_form_state' => array('cde_profile2_form_preprocess_form_state'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+    ),
+    '#submit_map' => array(
+      '#submits' => array(
+        'register' => array(
+          '#type' => 'submit',
+          '#value' => t('Multiform register'),
+        ),
       ),
     ),
   );
@@ -416,6 +468,8 @@ function cde_ctools_plugin_directory($module, $plugin) {
 // TODO: This hook should be called before clientside_validation original hook.
 // TODO: Check that form is multiform.
 function cde_js_alter(&$javascript) {
+  
+  //~ return;
   
   $is_multiform = FALSE;
   foreach ($javascript['settings']['data'] as $k => $setting) {

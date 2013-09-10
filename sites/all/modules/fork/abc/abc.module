@@ -1,6 +1,8 @@
 <?php
 
 // TODO: Security issue. Subform mustn't be submitted separately, since it is already cached.
+// TODO: Validate multiform settings.
+// What if submits map's values are the same?
 
 function abc_menu() {
   $items['abc/test'] = array(
@@ -19,9 +21,9 @@ function abc_menu() {
  */
 function abc_init() {
   // TODO: Security issue.
-  
   // Prepare _POST if ajax request made
   if (isset($_POST['multiform']) && isset($_POST['_triggering_element_name']) && isset($_POST['ajax_page_state'])) {
+    
     // TODO: Define subform index corresponding to _triggering_element_name
     $subform_index = abc_subform_ajax_index($_POST);
     
@@ -76,6 +78,12 @@ function abc_form_after_build(&$form, &$form_state) {
     _abc_get_form($form, $form_id);    
   //}
   
+  global $_POST_MULTIFORM;
+  if (!empty($_POST_MULTIFORM)) {
+    //~ dsm($_POST_MULTIFORM);
+    //~ dsm($form_state);
+  }
+  
   return $form;
 }
 
@@ -93,6 +101,10 @@ function abc_get_form($settings) {
   // Initialize settings
   abc_init_settings($settings);
   
+  // Preprocess _POST: set submits according to submits map if any.
+  // Exclude submits map subform's values from $_POST if any.
+  abc_preprocess_post($_POST, $settings);
+  
   // Get all subforms
   $subforms = $settings['#subforms'];
   
@@ -101,6 +113,9 @@ function abc_get_form($settings) {
   
   
   $form['#id'] = 'multiform';
+  
+  $build_id_hash = md5(uniqid(mt_rand(), TRUE));
+  //~ $build_id = 'form-' . $build_id_hash;
   /*
   $form['form_id'] = array(
     '#type' => 'hidden',
@@ -119,10 +134,25 @@ function abc_get_form($settings) {
   );
   */
   
+  $multiform_build_id = 'multiform_settings-' . $build_id_hash;
+  $form['multiform_seettings_build_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $multiform_build_id,
+    '#id' => $multiform_build_id,
+    '#name' => 'multiform_seettings_build_id',
+    '#attributes' => array(),
+  );
+  
   $post = !empty($_POST) ? $_POST : array();
   foreach ($subforms as $index => $subform) {
     $subform_id = $subform['form_id'];
     $subform_args = $subform['args'];
+    
+    // Store original _POST in case we need it later. E.g. for subforms map.
+    global $_POST_MULTIFORM;
+    //~ dsm($_POST);
+    $_POST_MULTIFORM = $_POST;
+    //~ $GLOBALS['_POST_MULTIFORM'] = $_POST;
     
     // Set _POST value as it should be in case of single form.
     if (isset($post['multiform'][$subform_id])) {
@@ -144,6 +174,10 @@ function abc_get_form($settings) {
     $subform_form_state['#multiform'] = TRUE;
     $subform_form_state['#subform_index'] = $subform_id;
     $subform_form_state['#subform_name_processed'] = TRUE;
+    
+    // TODO: Check if it is required.
+    // Add multiform settings (e.g. for submits map).
+    $subform_form_state['#multiform_settings'] = $settings;
     
     // If original form (subform) is built not through drupal_build_form,
     // we may need to additionally make some changes to $form_state.
@@ -189,6 +223,11 @@ function abc_get_form($settings) {
     }
     
   }
+  //~ dsm($form);
+  
+  // TODO: Prepare settings cache for submits map.
+  // And hide mapped submits.
+  abc_cache_prepare($build_id_hash, $settings, $form);
   
   return $form;
 }
