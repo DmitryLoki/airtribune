@@ -3,8 +3,8 @@
   Drupal.behaviors.day_feature = {
     attach: function (context) {
       $('.race-links').each(function (i, raceBlock) {
-        var $raceBlock = $(raceBlock);
-        var timeHelperText = $raceBlock.find('.time'),
+        var $raceBlock = $(raceBlock).removeClass('race-awaiting');
+        var timeHelperText = $raceBlock.find('.time').hide(),
           helperText = $raceBlock.find('.help-text'),
           $raceButton,
           raceTime;
@@ -28,6 +28,7 @@
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
+        helperText.text(Drupal.settings.Day.button_soon_text || '');
         if (!raceData.isOnline) {
           setReplayTime();
           $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link').hide();
@@ -40,6 +41,7 @@
           return;
         }
 
+        timeHelperText.show();
         requestRaceState(raceData, function response(raceInfo) {
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             //make links clickable
@@ -72,16 +74,18 @@
       function setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText) {
         var raceBlock = timeHelperText.parents('.race-links');
         if (raceTime <= 0) {
-          raceBlock.removeClass('race-awaiting');
+          raceBlock.removeClass('race-awaiting').addClass('race-started');
+          helperText.text(Drupal.settings.Day.race_on_text);
           if (isRaceStateReady) {
             raceBlock.addClass('race-online');
-            helperText.text(Drupal.settings.Day.race_on_text);
-            timeHelperText.show();
           } else {
             raceBlock.removeClass('race-online');
-            helperText.text(Drupal.settings.Day.button_soon_text);
           }
+        } else {
+          raceBlock.addClass('race-awaiting').removeClass('race-started');
+          helperText.text(Drupal.settings.Day.race_in_text);
         }
+
       }
 
       function getTimeStr(h, m, s) {
