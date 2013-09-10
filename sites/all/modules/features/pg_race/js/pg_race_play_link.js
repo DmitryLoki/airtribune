@@ -28,16 +28,15 @@
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
-        if(Drupal.settings.Day && Drupal.settings.Day.button_soon_text) {
-          helperText.text(Drupal.settings.Day.button_soon_text)
-        } else {
-          helperText.text('');
-        }
-
         if (!raceData.isOnline) {
           setReplayTime();
           $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link').hide();
         } else {
+          if(Drupal.settings.Day && Drupal.settings.Day.button_soon_text) {
+            helperText.text(Drupal.settings.Day.button_soon_text)
+          } else {
+            helperText.text('');
+          }
           setOnlineTime();
           $raceButton = $raceBlock.find('a.race-link');
         }
