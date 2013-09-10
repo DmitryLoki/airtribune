@@ -30,13 +30,12 @@
 
         if (!raceData.isOnline) {
           setReplayTime();
-          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link')
+          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link').hide();
         } else {
           setOnlineTime();
           $raceButton = $raceBlock.find('a.race-link');
         }
 
-        $raceButton.hide();
         if (!raceData.raceId || !raceData.contestId) {
           return;
         }
@@ -80,7 +79,6 @@
             timeHelperText.show();
           } else {
             raceBlock.removeClass('race-online');
-            timeHelperText.hide();
             helperText.text(Drupal.settings.Day.button_soon_text);
           }
         }

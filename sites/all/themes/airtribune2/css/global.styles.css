@@ -3191,7 +3191,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .contest_place { color: #d5e4ed; font: 12px/14px Verdana, Geneva, sans-serif; background: url(../images/next_events.png) no-repeat -1000px -70px; padding-left: 17px;  position: relative; top: -4px;}
 
 /*.front_live_events .race-links { position: absolute;}*/
-.front_live_events .views-field-day-pg-race-play-link { display: inline-block;}
+.front_live_events .views-field-day-pg-race-play-link a.race-link { display: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 /*.front_live_events .race-links,*/
 .front_live_events .views-field-view,
