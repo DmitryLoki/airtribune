@@ -6,7 +6,7 @@
         var $raceBlock = $(raceBlock);
         var timeHelperText = $raceBlock.find('.time'),
           helperText = $raceBlock.find('.help-text'),
-          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link'),
+          $raceButton,
           raceTime;
 
         var setOnlineTime = function () {
@@ -24,17 +24,19 @@
         var setReplayTime = function() {
           raceTime = (Math.floor(raceData.raceDeadlineTime - raceData.raceStartTime) / 1000);
           timeHelperText.html(getTimeStr(Math.floor(raceTime / 3600), Math.floor(raceTime % 3600 / 60), raceTime % 60));
-        }
+        };
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
-        $raceButton.hide();
         if (!raceData.isOnline) {
           setReplayTime();
+          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link')
         } else {
           setOnlineTime();
+          $raceButton = $raceBlock.find('a.race-link');
         }
 
+        $raceButton.hide();
         if (!raceData.raceId || !raceData.contestId) {
           return;
         }
