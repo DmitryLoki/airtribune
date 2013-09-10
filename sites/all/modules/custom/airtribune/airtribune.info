@@ -4,6 +4,7 @@ core = 7.x
 package = Airtribune
 php = 5.2 
 files[] = translation.handler.inc
+files[] = views/views_handler_field_airtribune_count_pilots.inc
 
 dependencies[] = profile2
 dependencies[] = field_collection

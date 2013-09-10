@@ -190,10 +190,11 @@ function pg_contest_field_default_fields() {
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'contest/logos',
+            'value' => 'pg_contests/[node:nid]-[node:title]/img/organizer_logo',
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 0,
         'max_filesize' => '1MB',
         'max_resolution' => '',
         'min_resolution' => '80x80',
@@ -208,11 +209,11 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -1324,6 +1325,7 @@ Prof.',
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 0,
         'max_filesize' => '1MB',
         'max_resolution' => '',
         'min_resolution' => '300x200',
@@ -2130,6 +2132,7 @@ Prof.',
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 0,
         'max_filesize' => '1MB',
         'max_resolution' => '',
         'min_resolution' => '300x200',
@@ -3181,6 +3184,204 @@ Prof.',
         ),
         'type' => 'text_textarea',
         'weight' => '7',
+      ),
+    ),
+  );
+
+
+  // Exported field: 'node-pg_contest-field_is_offline'.
+  $fields['node-pg_contest-field_is_offline'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_is_offline',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => '',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 68,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_is_offline',
+      'label' => 'This is an offline event',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '58',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_logo'.
+  $fields['node-pg_contest-field_logo'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_logo',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => 68,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_logo',
+      'label' => 'Logo',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 0,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'pg_contests/[node:nid]-[node:title]/img/logo',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'max_filesize' => '',
+        'max_resolution' => '800x800',
+        'min_resolution' => '220x140',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '59',
       ),
     ),
   );
@@ -4678,6 +4879,7 @@ Prof.',
   t('Is registration for the event open.');
   t('List all awards here.');
   t('Local rules');
+  t('Logo');
   t('Maximum number of contestants');
   t('Name');
   t('Open class');
@@ -4701,6 +4903,7 @@ Prof.',
   t('Start and end dates for the event.');
   t('Taxi');
   t('Tel');
+  t('This is an offline event');
   t('Time zone');
   t('Tiny path');
   t('Train');
