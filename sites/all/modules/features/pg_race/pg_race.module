@@ -826,7 +826,8 @@ function _day_pg_race_preview_markup($node) {
       return '';
     }
     // Default link and help text in case task isn't set.
-    //$help_text = t('Button will be here as soon as task is set.');
+    $link_text = t('Watch Live');
+    $help_text = t('Button will be here as soon as task is set.');
     // Do not output time/countdown
     $time = '';
     // Add wrapper attribute. Can be used in js
