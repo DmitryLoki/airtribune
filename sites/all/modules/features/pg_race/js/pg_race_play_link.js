@@ -28,8 +28,8 @@
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
+        $raceButton.hide();
         if (!raceData.isOnline) {
-          $raceButton.hide();
           setReplayTime();
         } else {
           setOnlineTime();
@@ -63,7 +63,7 @@
             }
             setTimeout(function () {
               requestRaceState(raceData, response);
-            }, 10000)
+            }, 10000);
           }
         });
       });
