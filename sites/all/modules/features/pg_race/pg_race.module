@@ -672,6 +672,7 @@ function _pg_race_preview_markup($entity) {
     return;
   }
 
+  $params['text'] = '2D';
   $markup = _pg_race_play_link($params);
 
   $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
@@ -850,11 +851,13 @@ function _day_pg_race_preview_markup($node) {
   ));
 
   // Use another output for blog page.
-  if (arg(2) == 'blog' && $status == AIRTRIBUNE_VIS_STATE_REPLAY) {
-    $data['text'] = '2D';
-    $data['attributes'] = $wrapper_attributes;
-    $output = pg_race_replay_blog_markup($data);
+  if (arg(2) == 'blog') {
     drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
+    if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
+      $data['text'] = '2D';
+      $data['attributes'] = $wrapper_attributes;
+      $output = pg_race_replay_blog_markup($data);
+    }
   }
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
