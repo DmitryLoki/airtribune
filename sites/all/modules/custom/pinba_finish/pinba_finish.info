@@ -1,0 +1,5 @@
+name = pinba finish
+core = 7.x
+dependencies[] = pinba_start
+version = "7.x-1.x-dev"
+core = "7.x"

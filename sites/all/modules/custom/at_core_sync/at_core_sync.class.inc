@@ -137,7 +137,7 @@ abstract class ATSync {
     $this->core_id = $id;
   }
 
-  public function setMessage($message = NULL, $type = 'status', $repeat = TRUE) {
+  public static function setMessage($message = NULL, $type = 'status', $repeat = TRUE) {
     if (user_access('administer site configuration')) {
       drupal_set_message($message, $type, $repeat);
     }
@@ -339,9 +339,11 @@ class ATSyncPilot extends ATSync {
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
     $this->tracked_core_id = get_id_from_entity('user', $this->person);
-    $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
-    if ($tracker_eid) {
-      $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+    if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
+      $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
+      if ($tracker_eid) {
+        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+      }
     }
   }
 
@@ -614,6 +616,7 @@ class ATSyncTracker extends ATSync {
   }
 
   public function assignee($person_id = '', $contest_id = '') {
+    $response = FALSE;
     $data = array(
       'name' => $this->entity->title,
       'assignee' => $person_id,

@@ -30,6 +30,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'advert_on_visualization',
   );
 
   // Exported image style: award.
@@ -52,6 +53,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award',
   );
 
   // Exported image style: award_details.
@@ -74,6 +76,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award_details',
   );
 
   // Exported image style: award_sponsor.
@@ -96,6 +99,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'award_sponsor',
   );
 
   // Exported image style: award_sponsor_details.
@@ -114,6 +118,168 @@ function image_styles_feature_image_default_styles() {
         'data' => array(
           'width' => '240',
           'height' => '140',
+        ),
+        'weight' => '1',
+      ),
+    ),
+    'label' => 'award_sponsor_details',
+  );
+
+  // Exported image style: bricks_a_1.
+  $styles['bricks_a_1'] = array(
+    'name' => 'bricks_a_1',
+    'label' => 'Bricks A 1',
+    'effects' => array(
+      44 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '700',
+          'height' => '350',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_2.
+  $styles['bricks_a_2'] = array(
+    'name' => 'bricks_a_2',
+    'label' => 'Bricks A 2',
+    'effects' => array(
+      45 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '349',
+          'height' => '230',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_3.
+  $styles['bricks_a_3'] = array(
+    'name' => 'bricks_a_3',
+    'label' => 'Bricks A 3',
+    'effects' => array(
+      46 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '466',
+          'height' => '310',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_4.
+  $styles['bricks_a_4'] = array(
+    'name' => 'bricks_a_4',
+    'label' => 'Bricks A 4',
+    'effects' => array(
+      48 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '232',
+          'height' => '154',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_5.
+  $styles['bricks_a_5'] = array(
+    'name' => 'bricks_a_5',
+    'label' => 'Bricks A 5',
+    'effects' => array(
+      49 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '525',
+          'height' => '349',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_6.
+  $styles['bricks_a_6'] = array(
+    'name' => 'bricks_a_6',
+    'label' => 'Bricks A 6',
+    'effects' => array(
+      50 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '173',
+          'height' => '115',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_7.
+  $styles['bricks_a_7'] = array(
+    'name' => 'bricks_a_7',
+    'label' => 'Bricks A 7',
+    'effects' => array(
+      51 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '115',
+          'height' => '75',
         ),
         'weight' => '1',
       ),
@@ -140,6 +306,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'contest_gallery_thumb',
   );
 
   // Exported image style: contest_thumbnail.
@@ -162,6 +329,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'contest_thumbnail',
   );
 
   // Exported image style: event_blog_teaser_eighth.
@@ -184,6 +352,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_eighth',
   );
 
   // Exported image style: event_blog_teaser_fifth.
@@ -206,6 +375,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_fifth',
   );
 
   // Exported image style: event_blog_teaser_first.
@@ -228,6 +398,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_first',
   );
 
   // Exported image style: event_blog_teaser_fourth.
@@ -250,6 +421,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_fourth',
   );
 
   // Exported image style: event_blog_teaser_second.
@@ -272,6 +444,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_second',
   );
 
   // Exported image style: event_blog_teaser_seventh.
@@ -294,6 +467,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_seventh',
   );
 
   // Exported image style: event_blog_teaser_sixth.
@@ -316,6 +490,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_sixth',
   );
 
   // Exported image style: event_blog_teaser_sixth_extra.
@@ -338,6 +513,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_sixth_extra',
   );
 
   // Exported image style: event_blog_teaser_third.
@@ -360,6 +536,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_blog_teaser_third',
   );
 
   // Exported image style: event_map_picture_preview.
@@ -382,6 +559,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'event_map_picture_preview',
   );
 
   // Exported image style: header.
@@ -404,6 +582,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'header',
   );
 
   // Exported image style: header_thumbnail.
@@ -426,6 +605,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'header_thumbnail',
   );
 
   // Exported image style: hotel_preview.
@@ -448,6 +628,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'hotel_preview',
   );
 
   // Exported image style: node_image_first.
@@ -470,6 +651,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_image_first',
   );
 
   // Exported image style: node_image_second.
@@ -492,6 +674,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_image_second',
   );
 
   // Exported image style: node_image_third.
@@ -514,6 +697,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_image_third',
   );
 
   // Exported image style: node_userpic.
@@ -536,6 +720,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'node_userpic',
   );
 
   // Exported image style: organizer_details.
@@ -575,6 +760,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'organizer_details',
   );
 
   // Exported image style: organizer_info.
@@ -614,6 +800,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'organizer_info',
   );
 
   // Exported image style: race_teaser.
@@ -636,6 +823,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'race_teaser',
   );
 
   // Exported image style: scoring_winner.
@@ -659,6 +847,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'scoring_winner',
   );
 
   // Exported image style: scoring_winner_horizontal.
@@ -681,6 +870,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'scoring_winner_horizontal',
   );
 
   // Exported image style: scoring_winner_vertical.
@@ -703,6 +893,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'scoring_winner_vertical',
   );
 
   // Exported image style: user_picture.
@@ -725,6 +916,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '2',
       ),
     ),
+    'label' => 'user_picture',
   );
 
   // Exported image style: user_picture_mini.
@@ -747,6 +939,7 @@ function image_styles_feature_image_default_styles() {
         'weight' => '1',
       ),
     ),
+    'label' => 'user_picture_mini',
   );
 
   return $styles;

@@ -223,8 +223,39 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
+    'bricks' => array(
+      'label' => t('Bricks'),
+      'field types' => array('image'),
+      'settings' => array('layout' => 'bicks_a')
+    ),
   );
 }
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function airtribune_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  if ($instance['display'][$view_mode]['type'] == 'bricks') {
+    $element['layout'] = array(
+      '#title' => t('Layout'),
+      '#type' => 'select',
+      '#options' => array('bricks_a' => t('Bricks A'), 'bricks_b' => t('Bricks B'), 'bricks_c' => t('Bricks C')),
+      '#default_value' => $instance['display'][$view_mode]['settings'],
+      '#required' => TRUE,
+    );
+    return $element;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function airtribune_field_formatter_settings_summary($field, $instance, $view_mode) {
+  if ($instance['display'][$view_mode]['type'] == 'bricks') {
+    return t('Layout: %layout', array('%layout' =>  $instance['display'][$view_mode]['settings']['layout']));
+  }
+}
+
 
 /**
  * Implements hook_field_formatter_view().
@@ -244,6 +275,75 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         $element[$delta] = array(
           '#markup' => airtribune_format_date_interval($item['value'], $item['value2'])
         );
+      }
+      break;
+
+    case 'bricks':
+      $layout = $display['settings']['layout'];
+      for ($i = 1; $i <= 7; $i++) {
+        $presets[$i] = $layout . '_' . $i;
+      }
+      switch ($layout) {
+        case 'bricks_a':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+
+        case 'bricks_b':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+
+        case 'bricks_c':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+      }
+      $variant_index = count($items) - 1;
+      $image_styles = isset($variants[$variant_index]) ? $variants[$variant_index] : end($variants);
+      $default_image_style = end($image_styles);
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'colorbox_image_formatter',
+          '#item' => $item,
+          '#display_settings' => array(
+            'colorbox_node_style' => isset($image_styles[$delta]) ? $image_styles[$delta] : $default_image_style,
+            'colorbox_image_style' => NULL,
+            'colorbox_caption' => 'auto',
+            'colorbox_gallery' => 'field_post',
+          ),
+          '#entity' => $entity,
+          '#entity_type' => $entity_type,
+          '#field' => $field,
+        );
+
       }
       break;
   }
@@ -894,17 +994,6 @@ function airtribune_init() {
     module_invoke('admin_menu', 'suppress');
   }
 
-  // We need distinguish drupal pages, to get pinba statistics.
-  // Change name of script from 'index.php' to requested $q variable
-  // @see #3283
-  if (extension_loaded('pinba') && function_exists('pinba_script_name_set')) {
-    $request = $_SERVER['REQUEST_URI'];
-    // temp code, remove after moving files directory to /files
-    if (strpos($request, '/sites/default/files') !== FALSE) {
-      $request = substr($request, 15);
-    }
-    pinba_script_name_set($request);
-  }
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
     drupal_set_breadcrumb($breadcrumbs);
@@ -1329,17 +1418,23 @@ function _create_day_for_contest() {
     $last_day_created = $last_day->created + $offset;
     $now = REQUEST_TIME + $offset;
 
+    // Need variables for output to debug.
+    $dmy_now = date('d.m.Y', $now);
+    $dmy_last_day_created = date('d.m.Y', $last_day_created);
+    $h_now = date('H', $now);
+
     // Last day node not created today?
-    if (date('m.d.Y', $now) != date('m.d.Y', $last_day_created)) {
+    if ($dmy_now != $dmy_last_day_created) {
       // Day node must be created after 05.00 AM
-      if (date('H', $now) > 5) {
+      if ($h_now > 5) {
         // Create new 'day' node for this contest day.
         $node = new stdClass();
         $node->type = AIRTRIBUNE_DAY_TYPE;
         $node->language = 'en';
         node_object_prepare($node);
         // Set title.
-        $node->title = 'Day ' . (get_last_day_number_in_contest($contest) + 1);
+        $day_num = get_last_day_number_in_contest($contest) + 1;
+        $node->title = 'Day ' . $day_num;
         // By default day status is "OK".
         $node->field_day_status['und']['0']['value'] = 0;
         // OG reference - contest nid.
@@ -1351,6 +1446,16 @@ function _create_day_for_contest() {
         //$path = $contest->path . '/day' . date('dmY');
         //$node->path = array('alias' => $path);
         node_save($node);
+        // Debug info
+        $debug_day_node_create = array(
+          '1 contest' => $contest->nid . ' / ' . $contest->title,
+          '2 days nids in contest' => $days,
+          '3 last day created time / day' => $last_day_created . ' / ' . $dmy_last_day_created,
+          '4 now time / day / hour' => $now . ' / ' . $dmy_now . ' / ' . $h_now,
+          '6 created day number' => $day_num,
+          '7 created node nid' => $node->nid,
+        );
+        watchdog('airtribune', 'Automatic create day node. !debug', array('!debug' => '<pre>' . print_r($debug_day_node_create, TRUE) . '</pre>'));
       }
     }
   }

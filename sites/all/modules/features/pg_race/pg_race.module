@@ -72,7 +72,7 @@ function pg_race_node_insert($node) {
 }
 
 function pg_race_node_update($node) {
-  recount_day_number($node, 'update');
+//  recount_day_number($node, 'update');
 }
 
 function pg_race_node_delete($node) {
@@ -96,7 +96,7 @@ function recount_day_number($node, $action) {
       // 0|Ok, 1|Stopped, 2|Cancelled, 3|Rest day, 4|Registration day, 5|Training day
       $current_day_node = node_load($day);
       // handle new added node, which yet no data in database, because not all hooks are worked
-      if ($action == 'insert' && $current_day_node->nid == $node->nid) {
+      if ($current_day_node->nid == $node->nid) {
         $current_day_node = $node;
       }
       if ($current_day_node->field_day_status['und']['0']['value'] < 4) {
@@ -106,9 +106,14 @@ function recount_day_number($node, $action) {
       else {
         $current_day_node->field_day_number['und']['0']['value'] = 0;
       }
-      // and save changed fields
-      field_attach_presave('node', $current_day_node);
-      field_attach_update('node', $current_day_node);
+      // And save.
+      if ($action == 'insert' && $current_day_node->nid == $node->nid) {
+        field_attach_presave('node', $current_day_node);
+        field_attach_update('node', $current_day_node);
+      }
+      else {
+        node_save($current_day_node);
+      }
     }
   }
 }
@@ -175,6 +180,31 @@ function pg_race_form_alter(&$form, &$form_state, $form_id) {
     $form_id == 'eck__entity__form_edit_ent_race_pg_race'
   ) {
     $form['#validate'][] = 'pg_race_form_validate';
+  }
+  if ($form_id == 'day_node_form') {
+    $form['#validate'][] = 'pg_race_day_form_validate';
+  }
+}
+
+function pg_race_day_form_validate(&$form, &$form_state) {
+  $v = $form_state['values'];
+  // Bad code, see #3647 for detailed explanation.
+  if (isset($v['nid'])) {
+    $day_old = node_load($v['nid']);
+    $day_status_old = $day_old->field_day_status[LANGUAGE_NONE]['0']['value'];
+    $day_status_submitted = $form_state['values']['field_day_status'][LANGUAGE_NONE]['0']['value'];
+
+    // Day status changed, for example, from 'OK' to 'Registration'.
+    if ($day_status_old != $day_status_submitted) {
+      // Use $day_old, because $form_state['values'] is array, not node object.
+      // Change field_day_status for loaded node, and use this object to recount days.
+      $day_old->field_day_status[LANGUAGE_NONE]['0']['value'] = $day_status_submitted;
+      recount_day_number($day_old, 'update');
+      // After recounting day we must use new value for field_day_number, and change it in sumbitted form.
+      $day = node_load($v['nid']);
+      $recounted_day_num = $day->field_day_number[LANGUAGE_NONE]['0']['value'];
+      form_set_value($form['field_day_number'], array(LANGUAGE_NONE => array(0 => array('value' => $recounted_day_num))), $form_state);
+    }
   }
 }
 
@@ -686,6 +716,9 @@ function _pg_race_play_link($params) {
     'items' => $items,
     'attributes' => $ul_attribuntes,
   );
+
+  // Add js for fix work of links  in MS IE
+  drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
   $output = theme('item_list', $variables);
 
   return $output;

@@ -1,0 +1,49 @@
+<?php
+
+function pinba_finish_entity_load($entity_type, $ids = FALSE, $conditions = array(), $reset = FALSE) {
+  if (!extension_loaded('pinba')) return;
+
+  global $pinba_timers;
+  foreach ($entity_type as $key => $entity) {
+    $type_name = !empty($entity->type) ? $entity->type : $ids;
+    $timer = $pinba_timers[$type_name . $key];
+
+    unset($pinba_timers[$type_name . $key]);
+    pinba_timer_stop($timer);
+  }
+}
+
+function pinba_finish_entity_view($entity, $type, $view_mode, $langcode) {
+  if (!extension_loaded('pinba')) return;
+
+  global $pinba_timers;
+
+  if (isset($entity->id)) {
+    $id = $entity->id;
+  }
+  elseif (isset($entity->nid)) {
+    $id = $entity->nid;
+  }
+  elseif (isset($entity->uid)) {
+    $id = $entity->uid;
+  }
+  elseif (isset($entity->pid)) {
+    $id = $entity->uid;
+  }
+  else {
+    $id = NULL;
+  }
+
+  $timer = $pinba_timers[$type . $id];
+  unset($pinba_timers[$type . $id]);
+  pinba_timer_stop($timer);
+}
+
+function pinba_finish_cron() {
+  if (!extension_loaded('pinba')) return;
+
+  global $pinba_timers;
+  $timer = $pinba_timers['cron'];
+  unset($pinba_timers['cron']);
+  pinba_timer_stop($timer);
+}
