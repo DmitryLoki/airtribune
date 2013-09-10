@@ -672,6 +672,7 @@ function _pg_race_preview_markup($entity) {
     return;
   }
 
+  $params['text'] = '2D';
   $markup = _pg_race_play_link($params);
 
   $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
