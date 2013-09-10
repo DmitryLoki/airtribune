@@ -1651,14 +1651,14 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 
 .pane-event-days-panel-pane-1 .race-links .file { display: inline-block; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-pane-1 .race-links.no-task a { cursor: text;}
-.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px;}
+.pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px; cursor:text;}
 .pane-event-days-panel-pane-1 .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px; margin-top: 11px;}
 .pane-event-days-panel-pane-1 .race-awaiting .help-text,
 .pane-event-days-panel-pane-1 .race-started .help-text { width: 60px; text-align: right; color: #fdbd41; font-weight: bold; font-style: normal; padding-left: 20px;}
 .pane-event-days-panel-pane-1 .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-online .race-link,
-.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;}
+.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:inherit;}
 .pane-event-days-panel-pane-1 #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
 .pane-event-days-panel-pane-1 .race-awaiting #time-counter { background-color: #fbd72b; border-color: #f6d72e;}
 
