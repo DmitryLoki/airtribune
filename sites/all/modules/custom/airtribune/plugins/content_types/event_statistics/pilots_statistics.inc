@@ -27,18 +27,23 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
   // Event node.
   $node = $context->data;
 
+  /*
   $view = views_get_view('paragliding_contest_pilots_stats');
   $view->set_arguments(array($node->nid));
   unset($view->display['default']->display_options['filters'][AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD . '_value']);
   $view->execute();
   $pilots_total = count($view->result);
+  */
+return;
+  $result = airtribune_count_pilots($node->nid);
+
   $content['pilots_total'] = array(
     '#theme_wrappers' => array('container'),
     '#attributes' => array('class' => array('pilots-total')),
   );
   $content['pilots_total']['result'] = array(
     '#theme' => 'container',
-    '#markup' => $pilots_total,
+    '#markup' => $result['pilots'],
     '#attributes' => array('class' => array('pilots-result')),
   );
   $content['pilots_total']['text'] = array(
@@ -47,10 +52,9 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
     '#attributes' => array('class' => array('pilots-text')),
   );
 
-  $view = views_get_view('paragliding_contest_pilots_stats');
-  $view->set_arguments(array($node->nid));
-  $view->execute();
-  $pilots_confirmed = count($view->result);
+
+  $result = airtribune_count_pilots($node->nid, AIRTRIBUNE_PG_CONTESTANT_CONFIRMED);
+
   $content['pilots_confirmed'] = array(
     '#theme_wrappers' => array('container'),
     '#attributes' => array('class' => array('pilots-confirmed')),
@@ -58,12 +62,12 @@ function airtribune_pilots_statistics_content_type_render($subtype, $conf, $pane
   );
   $content['pilots_confirmed']['result'] = array(
     '#theme' => 'container',
-    '#markup' => $pilots_confirmed,
+    '#markup' => $result['pilots'],
     '#attributes' => array('class' => array('pilots-result')),
   );
   $content['pilots_confirmed']['text'] = array(
     '#theme' => 'container',
-    '#markup' => str_replace($pilots_confirmed, '', format_plural($pilots_confirmed, 'Confirmed pilot', '@count Confirmed pilots')),
+    '#markup' => str_replace($pilots_confirmed, '', format_plural($pilots_confirmed, 'Pilot', '@count Pilots')),
     '#attributes' => array('class' => array('pilots-text')),
   );
 

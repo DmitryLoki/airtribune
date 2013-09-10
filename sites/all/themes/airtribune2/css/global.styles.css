@@ -1612,6 +1612,7 @@ pane-event-days-panel-event-days-on-blog #time { min-width: 98px; display: inlin
   border-radius: 2px;
 
 }
+
 pane-event-days-panel-event-days-on-blog .dropdown_list .field-content .field-content { min-width: 0;}
 pane-event-days-panel-event-days-on-blog .dropdown_list .views-label,
 pane-event-days-panel-event-days-on-blog .dropdown_list .replay-link-label,
@@ -1681,7 +1682,7 @@ pane-event-days-panel-event-days-on-blog .race-awaiting #time-counter { backgrou
 
 }
 .second_sidebar .block .pane-inner { margin:0}
-.second_sidebar .block h2.block-title { background:#eceff2; margin:0; padding:6px 10px 8px; position:relative; font:24px/26px Arial, Helvetica, sans-serif; color:#677581; text-shadow:0 1px 1px #ffffff; text-align:center;
+.second_sidebar .block h2.block-title { background:#eceff2; margin:0; padding:6px 10px 8px; position:relative; font:24px/26px Arial, Helvetica, sans-serif; color:#525c66; text-shadow:0 1px 1px #ffffff;
 
 	-webkit-border-radius: 2px 2px 0 0; 
 	-moz-border-radius: 2px 2px 0 0;
@@ -2457,18 +2458,18 @@ html.js .page-user input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .select .items_padding { padding:12px 0 !important;}
 .page-user .pane-page-content form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
 .page-user .pane-page-content form .select .option:hover { color:#00aeef;}
-.page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
+.jspContainer { position:relative; overflow:hidden; display: block !important;}
 .page-user .pane-page-content form .jspContainer div { display: block !important;}
-.page-user .pane-page-content form .jspPane { position:relative;}
-.page-user .pane-page-content form .jspVerticalBar { position:absolute; top:0; right:4px}
-.page-user .pane-page-content form .jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
+.jspPane { position:relative;}
+.jspVerticalBar { position:absolute; top:0; right:4px}
+.jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
-.page-user .pane-page-content form .jspPane { margin-left:0 !important}
+.jspPane { margin-left:0 !important}
 
 
 .page-user .pane-page-content form .form-item .form-type-select { padding-bottom: 5px;}
@@ -3123,8 +3124,7 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .pane-event-days-results-race-list .views-row-last { padding-bottom: 0;}
 .page-event-results-facebook .region_inner,
 .page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none;}
-.page-event-results-facebook .featured-header { min-height: 327px}
-.page-event-results-facebook .featured-header .featured-header-title { position: relative;}
+.page-event-results-facebook .featured-header { height: 327px}
 .page-event-results-facebook #super { max-width: 810px; margin: 0 auto; padding-bottom: 0; height: auto;}
 .page-event-results-facebook .panel-col-seventy { margin-right: 0; float: none;}
 .page-event-results-facebook .panel-col-seventy .inside { margin-right: 0; margin-bottom: 0px;}
@@ -3136,3 +3136,179 @@ html.fb_view { overflow: auto;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
 #facebook-fan-gate { width: 810px; height: 160px; background: url(../images/like.png) no-repeat 50% 0; }
+
+.second_sidebar .pane-activity-news-content-pane { border: none; background: none; margin: 0 1px 20px;}
+.second_sidebar .pane-activity-news-content-pane h2.block-title { border: 1px solid #e1e6e9; padding-bottom: 6px;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.second_sidebar .pane-activity-news-content-pane .pane-content { margin: 10px 0 0;}
+.pane-activity-news-content-pane .node-teaser h1.node-title { padding-left: 0; font-size: 14px; line-height: 20px; font-weight: bold;}
+.pane-activity-news-content-pane .node-teaser.node-sticky h1.node-title { text-indent: 21px;}
+.pane-activity-news-content-pane .node-teaser h1.node-title a {  color: #525d66}
+.pane-activity-news-content-pane img { vertical-align: middle;}
+.pane-activity-news-content-pane .views-field-title-field { margin-top: 4px; margin-bottom: 0; padding-bottom: 2px;}
+.pane-activity-news-content-pane .views-field-created { color: #a0a0a0; font: 12px/14px Verdana, Geneva, sans-serif}
+.pane-activity-news-content-pane .views-field-created em { font-style: normal;}
+.pane-activity-news-content-pane .views-row { padding-bottom: 29px;}
+.pane-activity-news-content-pane .views-row-last { padding-bottom: 18px;}
+.pane-activity-news-content-pane .more-link { text-align: center; font-size: 14px;}
+
+.front .pane-page-content { padding-top: 7px;}
+
+.front_live_events > .pane-inner { margin: 0 0 40px;}
+.front_live_events h2.pane-title { position: relative; z-index: 10;}
+.front_live_events h2 a { float: right; margin: 3px -2px 0 0; position: relative; width: 67px; text-shadow: none; text-decoration: none;}
+.front_live_events h2 a:hover { background: rgba(0,174,239, 1);}
+.front_live_events h2 a:active { background: rgba(0,129,239, 1); border-color: #007ee7;}
+.front_live_events .view-content { margin-left: -5px; height: 280px; overflow: hidden;
+  -moz-transition-duration: 200ms;
+  -webkit-transition-duration: 200ms;
+  -ms-transition-duration: 200ms;
+  -o-transition-duration: 200ms;
+  transition-duration: 200ms;
+}
+.front_live_events .view-content .view-content { margin-left: 0; height: auto; overflow: visible;}
+.front_live_events .views-row { float: left; width: 230px; height: 270px; margin-left: 5px; position: relative; margin-top: 10px;}
+.front_live_events .views-row-once { width: 700px;}
+.front_live_events .views-row-twice { width: 347px;}
+.front_live_events .views-row-twice + .views-row-twice { margin-left: 6px;}
+.front_live_events .views-row .views-row { float: none; width: auto; height: auto; margin: 0;}
+.front_live_events .views-field-field-city,
+.front_live_events .views-field-view,
+.front_live_events .dayblog { position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: rgba(17, 36, 51, .5); z-index: 10;}
+.front_live_events .views-field-view { z-index: 10;}
+.front_live_events .views-field-field-city .field-content { margin: 0 10px;}
+.front_live_events .contest_head { vertical-align: middle; max-width: 100%; display: inline-block; margin: 0; margin-top: 4px;}
+.front_live_events .valign { width: 1px; overflow: hidden; height: 80px; vertical-align: middle; margin-right: -1px; display: inline-block;}
+.front_live_events .contest_title { color: #ffffff; font: bold 14px/20px Arial, Helvetica, sans-serif; display: inline-block;}
+.front_live_events .contest_title a { color: #ffffff; text-decoration: none;}
+.front_live_events .contest_title a:hover { text-decoration: underline;}
+.front_live_events .contest_place { color: #d5e4ed; font: 12px/14px Verdana, Geneva, sans-serif; background: url(../images/next_events.png) no-repeat -1000px -70px; padding-left: 17px;  position: relative; top: -4px;}
+
+/*.front_live_events .race-links { position: absolute;}*/
+.front_live_events .views-field-day-pg-race-play-link a.race-link { display: none;}
+.front_live_events .views-field-day-pg-race-play-link,
+/*.front_live_events .race-links,*/
+.front_live_events .views-field-view,
+.front_live_events .dayblog { top: auto; bottom: 0; height: 60px;}
+.front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
+.front_live_events .views-field-day-pg-race-play-link,
+.front_live_events .race-links { height: 54px;}
+.front_live_events .view-event-day .views-row,
+.front_live_events .views-field-view .views-row { display: block; padding: 6px 5px 0; height: 54px; }
+.front_live_events .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
+.front_live_events .views-row-twice .file a { left: 113px;}
+.front_live_events .views-row-once .file a { left: 235px;}
+.front_live_events .race-replay .file a { color: #8f733b; background: #fbd72c}
+.front_live_events .views-field-day-pg-race-play-link .help-text,
+.front_live_events .race-links .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed;}
+.front_live_events .race-online .help-text,
+.front_live_events .race-awaiting .help-text,
+.front_live_events .race-replay .help-text { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
+.front_live_events .race-awaiting .help-text { color: #fbd72c;}
+.front_live_events .race-replay .help-text { color: #fbd72c}
+.front_live_events .time,
+.front_live_events .views-field-title-1 a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
+.front_live_events .race-awaiting .time { background: #fbd72c}
+.front_live_events .race-replay .time { background: #fbd72c}
+.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.front_live_events .views-field-field-plain-body-1 a { text-decoration: none;}
+.front_live_events .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden; display: block;}
+.front_live_events .day-blog p { margin: 0; padding: 2px 0 0;}
+.front_live_events .day-blog a,
+.front_live_events .day-blog .title,
+.front_live_events .views-field-dates,
+.front_live_events .views-field-dates a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
+.front_live_events .day-blog a:hover,
+.front_live_events .no-blog { text-align: center;}
+.front_live_events .no-blog .title { font: bold 28px/42px Arial, Helvetica, sans-serif;}
+.front_live_events .no-blog .title span { font-size: 18px}
+.front_live_events .views-field-dates a:hover { text-decoration: underline;}
+.front_live_events .field-day-status-0 {display:none}
+.front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0;}
+.front_live_events .views-row:hover .views-field-field-logo { display: block;}
+.front_live_events .views-field-nothing { position: relative; z-index: 100; height: 100%;}
+.front_live_events .view-display-id-live_events_pane .views-field-nothing { height: 210px; z-index: 10;}
+.front_live_events .views-field-nothing a { display: block; width: 100%; height: 100%; overflow: hidden; text-indent: -9999px; position: absolute; top: 0; left: 0;}
+
+.front_live_events .view_confirmed_pilots { float: left; max-width: 50%; color: #a3b9cc; font: 12px/10px Verdana, Geneva, sans-serif; padding-top: 3px;}
+.front_live_events .view_confirmed_pilots_1 { color: #c8d40e; margin-right: 9px;}
+.front_live_events .view_confirmed_pilots .es-label { margin-left: 5px; padding-top: 4px; float: left; overflow: hidden; max-width: 51px;}
+.i18n-en .front_live_events .view_confirmed_pilots .es-label { max-width: 55px;}
+.front_live_events .views-row-once .view_confirmed_pilots .es-label,
+.front_live_events .views-row-twice .view_confirmed_pilots .es-label { max-width: auto;}
+.front_live_events .view_confirmed_pilots .es-label span { font-size: 10px; color: #788896; word-spacing: -2px; letter-spacing: -1px; white-space: nowrap;}
+.front_live_events .view_confirmed_pilots_1 .es-label span { color: #959e0a}
+.front_live_events .view_confirmed_pilots .es-count { text-align: right; float: left; font: bold 26px/26px Verdana, Geneva, sans-serif; letter-spacing: -2px}
+
+.front_live_events .country_title { float: left;}
+.front_live_events .change_location { float: left; margin: 0 0 0 10px; position: relative;}
+.front_live_events .change_location_title { color: rgba(82, 92, 102, .5); font: 14px/16px Arial, Helvetica, sans-serif; text-decoration: underline; cursor: pointer;}
+.front_live_events .change_location:hover .change_location_title { text-decoration: none;}
+.front_live_events .change_location_title:before { content: "("}
+.front_live_events .change_location_title:after { content: ")"}
+.front_live_events .change_location ul { margin: 0; padding: 0; position: absolute; top: 100%; left: 0; display: none;}
+.front_live_events .change_location:hover ul { display: block;}
+.front_live_events .change_location ul li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
+.front_live_events .change_location a { float: none;}
+
+.front_live_events .file a,
+.front_live_events .time,
+.front_live_events .views-field-title-1 a {
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+
+/*.view-frontpage-events .views-row-4,
+.view-frontpage-events .views-row-5,
+.view-frontpage-events .views-row-6,
+.view-frontpage-events .views-row-7,
+.view-frontpage-events .views-row-8,
+.view-frontpage-events .views-row-9 { display: none } */
+
+.frontpage-show-more-events { display: block; position: relative; width: 30px; height: 16px; overflow: hidden; text-indent: -9999px; margin: 7px auto 0; background: #f1f3f5 url(../images/table_action.png) no-repeat 50% -2194px; cursor: pointer;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.frontpage-show-more-events:hover { background-position: 50% -2294px}
+
+.front_live_events .views-field-field-contest-photos { position: absolute; top: 0; }
+
+.countries_title_suffix { position: relative; overflow: hidden; height: 0;
+
+  -moz-transition-duration: 200ms;
+  -webkit-transition-duration: 200ms;
+  -ms-transition-duration: 200ms;
+  -o-transition-duration: 200ms;
+  transition-duration: 200ms;
+
+}
+.countries_title_suffix_inner { position: absolute; bottom: 0; left: 0; width: 100%; max-height: 98px; padding-bottom: 23px !important;}
+.countries_title_suffix_inner .jspPane { padding: 0 !important;}
+
+.front_live_events .country-flag {
+    width:32px; height:20px; margin: 3px 5px; float:left; background-size: 32px 20px;
+}
+#countries-wrapper { margin: 0; padding: 0;}
+#countries-wrapper li { margin: 0; padding: 1px 0 1px 10px; float: left; width: 115px; list-style: none; list-style-image: none; font-size: 12px; position: relative;}
+#countries-wrapper li a { color: #525c66; text-decoration: none; vertical-align: top;}
+#countries-wrapper li a:hover { color: #00aeef}
+#countries-wrapper li .countryicon-sprite { margin-right: 5px; top: 1px; position: relative;}
+#countries-wrapper li .ajax-progress .throbber { position: absolute; top: -2px; margin-left: 5px;}
+
+.pane-recently-viewed {display: none}
+.second_sidebar .pane-recently-viewed h2.block-title { text-align: left;}
+.pane-recently-viewed .pane-content ul { margin: 4px 0 8px 2px; padding: 0;}
+.pane-recently-viewed ul li { margin: 0; padding: 0 0 9px; list-style: none; list-style-image: none; line-height: 15px;}
+.pane-recently-viewed a { color: #525d66; font: 14px/15px Arial, Helvetica, sans-serif; text-decoration: none;}
+.pane-recently-viewed a:hover { color: #00aeef}

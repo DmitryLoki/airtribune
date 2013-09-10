@@ -13,6 +13,7 @@ define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
 
 // See field field_pg_contestant_status allowed values list.
+define('AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST', 1);
 define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
 define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
 define('AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE', 'contest_gallery_thumb');
@@ -43,6 +44,7 @@ define('AIRTRIBUNE_RACE_START_END_FIELD', 'field_race_start_end');
 define('AIRTRIBUNE_RACE_NUMBER', 'field_race_number');
 define('AIRTRIBUNE_DAY_NUMBER', 'field_day_number');
 define('AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD', 'field_pg_race_window_open_close');
+define('AIRTRIBUNE_DOWNLOADS_FIELD', 'field_downloads');
 define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 define('AIRTRIBUNE_IMAGE_FIELD', 'field_image');
@@ -79,6 +81,23 @@ define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
 define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
 
+// Visualisation
+define('AIRTRIBUNE_VIS_STATE_ONLINE', 'online');
+define('AIRTRIBUNE_VIS_STATE_REPLAY', 'replay');
+define('AIRTRIBUNE_VIS_STATE_AWAITING', 'awaiting');
+
+/**
+ * Implements hook_views_api().
+ */
+function airtribune_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'airtribune') . '/views',
+  );
+}
+
+
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -86,6 +105,20 @@ function airtribune_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
     return 'plugins/' . $plugin_type;
   }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function airtribune_menu() {
+  $items['soon_country/%'] = array(
+    'page callback' => 'airtribune_soon_country',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'plugins/content_types/soon_country/soon_country.inc',
+  );
+  return $items;
 }
 
 /**
@@ -209,6 +242,9 @@ function airtribune_theme() {
       'template' => 'airtribune-event-statistics-pane',
       'path' => $content_plugins_path . '/event_statistics',
       'file' => 'event_statistics.inc',
+      'render element' => 'elements',
+    ),
+    'airtribune_event_statistics' => array(
       'render element' => 'elements',
     ),
   );
@@ -517,12 +553,20 @@ function airtribune_preprocess_panels_pane(&$vars) {
   $configuration = $vars['pane']->configuration;
 
 
+
   // Translate overriden titles.
   if (!empty($configuration['override_title']) && $configuration['override_title_text']) {
     $vars['title'] = t($configuration['override_title_text']);
   }
   elseif ($vars['pane']->type == 'custom' && $vars['title']) {
     $vars['title'] = t($configuration['title']);
+  }
+
+  if ($vars['pane']->subtype == 'frontpage_events-live_events_pane') {
+    $vars['title'] .= l(t('View all'), 'events/current');
+  }
+  if ($vars['pane']->subtype == 'frontpage_events-soon_worldwide_pane') {
+    $vars['title'] .= l(t('View all'), 'events/next');
   }
 
   // Add 'view more' links to panes.
@@ -567,6 +611,19 @@ function airtribune_preprocess_panels_pane(&$vars) {
   // Add link to create event page to next events pane
   if ($vars['pane']->subtype == 'next_events-sidebar_pane') {
     $vars['content'] = rtrim($vars['content'], "</div>") . '<div class="events-add">' . l(t('Create new event'), 'events/add') . '</div></div>';
+  }
+
+  // Add link to create event page to next events pane
+  if ($vars['pane']->subtype == 'soon_country') {
+    $links = airtribune_soon_country_countries_list();
+
+    $location = array(
+      '#theme' => 'links',
+      '#attributes' => array('id' => 'countries-wrapper'),
+      //'#prefix' => ,
+      '#links' => $links,
+    );
+    $vars['title_suffix'] = '<div class="countries_title_suffix"><div class="countries_title_suffix_inner"><div class="clearfix">' . render($location) . '</div></div></div>';
   }
 
   // Add links to switch view of pilots list
@@ -802,11 +859,25 @@ function airtribune_views_query_alter(&$view, &$query) {
     );
   }
 
+  // Prevent Live events duplication.
+  // See #3538.
+  if ($view->name == 'live_events') {
+
+
+    foreach($query->fields as $key => $field) {
+      //$query->fields[$key]['aggregate'] = TRUE;
+    }
+    $query->add_groupby('nid');
+
+  }
+
+
   // See http://drupal.org/node/1451218#comment-6136692
   if ($view->name == 'day_results') {
     $view->query->where[0]['type'] = 'OR';
   }
 }
+
 
 /**
  * Implementation of hook_views_pre_render
@@ -818,6 +889,7 @@ function airtribune_views_query_alter(&$view, &$query) {
  * @see #3302
  */
 function airtribune_views_pre_render(&$view) {
+
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
     // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
     if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
@@ -989,9 +1061,25 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
+
   // Disable admin menu on visualisation page
   if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
+  }
+
+  // See #3544-2
+  drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/events.js');
+
+  // We need distinguish drupal pages, to get pinba statistics.
+  // Change name of script from 'index.php' to requested $q variable
+  // @see #3283
+  if (extension_loaded('pinba') && function_exists('pinba_script_name_set')) {
+    $request = $_SERVER['REQUEST_URI'];
+    // temp code, remove after moving files directory to /files
+    if (strpos($request, '/sites/default/files') !== FALSE) {
+      $request = substr($request, 15);
+    }
+    pinba_script_name_set($request);
   }
 
   // Set breadcrumbs for current page if it exists.
@@ -1012,6 +1100,8 @@ function airtribune_init() {
       drupal_goto('events/past');
     }
   }
+
+
 }
 
 /**
@@ -1028,7 +1118,7 @@ function airtribune_contest_status_check_by_date($node) {
   if (!$result) {
     return FALSE;
   }
-  return airtribune_compare_dates($result['start'], $result['end'], $result['offset']);
+  return airtribune_compare_dates($result['start_local'], $result['end_local']);
 }
 
 /**
@@ -1037,7 +1127,7 @@ function airtribune_contest_status_check_by_date($node) {
  * @param $node object
  *
  * @return $result array
- *   with 'start', 'end' & 'offset'. FALSE if event not found
+ *   'start', 'end', 'start_local', 'end_local', 'localtime', 'offset'. FALSE if event not found
  *
  * @author Kraev Vasily
  */
@@ -1056,13 +1146,62 @@ function airtribune_extract_time_from_contest($node) {
   $tz_field = field_get_items('node', $node, AIRTRIBUNE_TIMEZONE_FIELD);
   $dates_field = field_get_items('node', $node, AIRTRIBUNE_DATES_FIELD);
 
+  date_default_timezone_set('UTC');
   $tz = !empty($tz_field[0]['value']) ? $tz_field[0]['value'] : 'UTC';
   $tz = new DateTimeZone($tz);
   // get offset of event timezone from UTC
-  $result['offset'] = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
-
+  $offset = $tz->getOffset(new DateTime("now", new DateTimezone('UTC')));
+  if (empty($offset)) {
+    $offset = 0;
+  }
+  $result['offset'] = $offset;
+  $result['localtime'] = REQUEST_TIME + $offset;
   $result['start'] = strtotime($dates_field[0]['value']);
   $result['end'] = strtotime($dates_field[0]['value2']);
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $result['start_local'] = strtotime($dates_field[0]['value']) - $offset;
+  $result['end_local'] = strtotime($dates_field[0]['value2']) - $offset;
+
+  return $result;
+}
+
+/**
+ * Helper function, load node & extract time and offset from fields
+ *
+ * @param $entity object
+ * @param $offset int contest offset time
+ *
+ * @return $result array
+ *   - 'start', 'deadline', 'window_open', 'window_close' - UTC time.
+ *   - 'start_local', 'deadline_local', 'window_open_local', 'window_close_local' - local time.
+ *   - 'countdown' - seconds before race start.
+ * @author Kraev Vasily
+ */
+function airtribune_extract_time_from_race($entity, $offset) {
+  // If we get integer race id, not object, then load entity.
+  if (is_int($entity)) {
+    $entity = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($entity));
+    $entity = array_shift($entity);
+  }
+  if (!($entity) || empty($offset)) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+  $start_end = $wrapper->{AIRTRIBUNE_RACE_START_END_FIELD}->value();
+  $window_open_close = $wrapper->{AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD}->value();
+
+  date_default_timezone_set('UTC');
+  $result['start'] = strtotime($start_end['value']);
+  $result['deadline'] = strtotime($start_end['value2']);
+  $result['window_open'] = strtotime($window_open_close['value']);
+  $result['window_close'] = strtotime($window_open_close['value2']);
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $result['start_local'] = strtotime($start_end['value']) - $offset;
+  $result['deadline_local'] = strtotime($start_end['value2']) - $offset;
+  $result['window_open_local'] = strtotime($window_open_close['value']) - $offset;
+  $result['window_close_local'] = strtotime($window_open_close['value2']) - $offset;
+  $result['countdown'] = $result['start_local'] - REQUEST_TIME;
 
   return $result;
 }
@@ -1073,19 +1212,14 @@ function airtribune_extract_time_from_contest($node) {
  *
  * @param $start_date unix_stamp
  * @param $end_date unix_stamp
- * @param $offset int seconds
  *
  * @return event_date_status FALSE|string
  *   FALSE or 'past' or 'current' or 'next'
  *
  * @author Kraev Vasily
  */
-function airtribune_compare_dates($start_date, $end_date, $offset = 0) {
+function airtribune_compare_dates($start_date, $end_date) {
   $now = REQUEST_TIME;
-  if ($offset) {
-    $start_date += $offset;
-    $end_date += $offset;
-  }
   if (empty($start_date) || empty($end_date)) {
     return FALSE;
   }
@@ -1159,7 +1293,7 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
   $result = airtribune_extract_time_from_contest($node);
   $contest_date_status = airtribune_contest_status_check_by_date($node);
   if ($result && ($contest_date_status == 'current' || $contest_date_status == 'past')) {
-    $seconds = REQUEST_TIME - ($result['start'] + $result['offset']);
+    $seconds = REQUEST_TIME - ($result['start_local']);
     if ($granularity == 'day') {
       return ($seconds / 3600 / 24);
     }
@@ -1252,14 +1386,14 @@ function _airtribune_get_gid($entity_type, $entity) {
 }
 
 /**
- * Get paragliding race status
+ * Get paragliding race visualisation state
  *
- * @return race_status FALSE|string
- *   FALSE or 'online' or 'offline'
+ * @return race_state string
+ *   'online' | 'replay' | 'awaiting'
  *
  * @author Kapelshikov Alexandr
  */
-function _airtribune_pg_race_online_status($etid) {
+function _airtribune_pg_race_online_state($etid) {
   // Load pg_race entity
   $entities = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($etid));
   if (empty($entities)) {
@@ -1289,18 +1423,18 @@ function _airtribune_pg_race_online_status($etid) {
   // TODO: Get local time
   $localtime = time() + $offset;
 
-  // Compare dates to get status
+  // Compare dates to get state
   if ($start <= $localtime && $localtime < $end) {
     // online
-    return 'online';
+    return AIRTRIBUNE_VIS_STATE_ONLINE;
   }
   elseif ($localtime >= $end) {
-    // offline. race finished
-    return 'offline';
+    // replay. race finished
+    return AIRTRIBUNE_VIS_STATE_REPLAY;
   }
   else {
     // race haven't started yet
-    return FALSE;
+    return AIRTRIBUNE_VIS_STATE_AWAITING;
   }
 }
 
@@ -1387,6 +1521,7 @@ function airtribune_user_pass_validate($form, &$form_state) {
   }
 
 }
+
 
 function airtribune_cron() {
   _create_day_for_contest();
@@ -1484,4 +1619,33 @@ function ajax_links_api_preprocess_twocolfourrow(&$variables, $hook) {
     }
     array_pop($variables['theme_hook_suggestions']);
   }
+}
+/**
+ * Count contestants.
+ */
+function airtribune_count_pilots($nid, $status = NULL) {
+  $view = views_get_view('paragliding_contest_pilots_stats');
+  $view->set_arguments(array($nid, $status));
+
+  $view->execute();
+  return count($view->result);
+}
+
+/**
+ * Returns HTML for an event statistics block.
+ */
+function theme_airtribune_event_statistics($vars) {
+  $elements = $vars['elements'];
+  $output = '<div' . drupal_attributes($elements['#attributes']) . '>';
+  $output .= '<div class="es-count">' . $elements['#count'] . '</div>';
+  $output .= '<div class="es-label">';
+  if (empty($elements['#url'])) {
+    $output .= $elements['#text_1'];
+  }
+  else {
+    $output .= l($elements['#text_1'], $elements['#url'], array('context' => 'event-statistics'));
+  }
+  $output .= '<br/><span>' . t($elements['#text_2'], array(), array('context' => 'event-statistics-accommodation')) . '</span>';
+  $output .= '</div></div>';
+  return $output;
 }

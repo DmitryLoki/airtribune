@@ -539,6 +539,75 @@ function image_styles_feature_image_default_styles() {
     'label' => 'event_blog_teaser_third',
   );
 
+  // Exported image style: event_logo.
+  $styles['event_logo'] = array(
+    'name' => 'event_logo',
+    'label' => 'event_logo',
+    'effects' => array(
+      11 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '230',
+          'height' => '130',
+        ),
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported image style: event_logo_once.
+  $styles['event_logo_once'] = array(
+    'name' => 'event_logo_once',
+    'label' => 'event_logo_once',
+    'effects' => array(
+      15 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '700',
+          'height' => '130',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: event_logo_twice.
+  $styles['event_logo_twice'] = array(
+    'name' => 'event_logo_twice',
+    'label' => 'event_logo_twice',
+    'effects' => array(
+      16 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '347',
+          'height' => '130',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: event_map_picture_preview.
   $styles['event_map_picture_preview'] = array(
     'name' => 'event_map_picture_preview',
@@ -560,6 +629,75 @@ function image_styles_feature_image_default_styles() {
       ),
     ),
     'label' => 'event_map_picture_preview',
+  );
+
+  // Exported image style: frontpage_event_padding.
+  $styles['frontpage_event_padding'] = array(
+    'name' => 'frontpage_event_padding',
+    'label' => 'frontpage_event_padding',
+    'effects' => array(
+      13 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '230',
+          'height' => '270',
+        ),
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported image style: frontpage_event_padding_once.
+  $styles['frontpage_event_padding_once'] = array(
+    'name' => 'frontpage_event_padding_once',
+    'label' => 'frontpage_event_padding_once',
+    'effects' => array(
+      14 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '700',
+          'height' => '270',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: frontpage_event_padding_twice.
+  $styles['frontpage_event_padding_twice'] = array(
+    'name' => 'frontpage_event_padding_twice',
+    'label' => 'frontpage_event_padding_twice',
+    'effects' => array(
+      17 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '347',
+          'height' => '270',
+        ),
+        'weight' => '1',
+      ),
+    ),
   );
 
   // Exported image style: header.
