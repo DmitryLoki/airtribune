@@ -267,7 +267,7 @@ class ATSyncTrackedObject extends ATSync {
       $data = array(
         'transport_id' => $this->tracked_core_id,
       );
-      $response = $this->request(json_encode($data), "POST");
+      $response = $this->request(http_build_query($data), "POST");
       _asd(json_encode($data), $this->address);
     }
     
