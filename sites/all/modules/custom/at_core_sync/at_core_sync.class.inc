@@ -212,7 +212,12 @@ class ATSyncCustom extends ATSync {
       $this->updateCoreID($response->id);
     }
     _asd(json_encode($data), $this->address);
-
+    // Synchronize og_membership, see #3572 for details
+    $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
+    $og_membership = og_get_membership("node", $og_group_ref, "ent_customobject", $this->entity->id);
+    $og_membership->tracked_core_id = !empty($response->id) ? $response->id : FALSE;
+    $sync = _get_class_by_entity('og_membership', $og_membership);
+    $sync->synchronize();
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -232,28 +237,31 @@ class ATSyncTrackedObject extends ATSync {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
-    $this->transport = array_pop(entity_load('ent_customobject', array($this->entity->etid), array(), TRUE));
-    $this->tracked_core_id = get_id_from_entity('ent_customobject', $this->transport);
+    $this->transport = entity_load_single('ent_customobject', $this->entity->etid);
+    // See #3572
+    if(!empty($entity->tracked_core_id)) {
+      $this->tracked_core_id = $entity->tracked_core_id;
+    } else {
+      $this->tracked_core_id = get_id_from_entity('ent_customobject', $this->transport);
+    }
     $tracker_eid = FALSE;
     if (isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
-        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+        $this->tracker = entity_load_single('ent_tracker', $tracker_eid);
       }
     }
   }
 
   public function synchronize() {
-    
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity('node', $this->contest);
       $this->contest_core_id = $sync->synchronize();
     }
     if (!$this->tracked_core_id) {
-      // Synchronize object if not synchronized
-      $sync = _get_class_by_entity('ent_customobject', $this->transport);
-      $this->tracked_core_id = $sync->synchronize();
+      // Do not synchronize object. just skip
+      return FALSE;
     }
     else {
       $resp = ATSync::requestToCore('transport/' . $this->tracked_core_id, '', 'GET');
