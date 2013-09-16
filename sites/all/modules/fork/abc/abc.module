@@ -1,5 +1,7 @@
 <?php
 
+define('DEFAULT_MULTIFORM_ID', 'multiform');
+
 // TODO: Security issue. Subform mustn't be submitted separately, since it is already cached.
 // TODO: Validate multiform settings.
 // What if submits map's values are the same?
@@ -224,6 +226,10 @@ function abc_get_form($settings) {
     
   }
   //~ dsm($form);
+  
+  if (!empty($settings['#multiform_id'])) {
+    $form['#theme'] = array($settings['#multiform_id']);
+  }
   
   // TODO: Prepare settings cache for submits map.
   // And hide mapped submits.

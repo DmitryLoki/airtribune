@@ -11,7 +11,7 @@ function cde_menu() {
     //'file' => 'abc.tmp.inc',
   );
   
-  $items['cde/test2/%node'] = array(
+  $items['event/%node/register'] = array(
    'title' => 'CDE Test', 
     'page callback' => 'cde_test2',
     'page arguments' => array(2),
@@ -93,6 +93,7 @@ function cde_form_anonymous($nid) {
   
   // TODO: Maybe use #array_parents instead of #parents in order not to confuse.
   $settings = array(
+    '#multiform_id' => 'contest_registration_anonymous',
     '#subforms' => array(
       array(
         'form_id' => 'user_register_form',
@@ -331,6 +332,7 @@ function cde_form_authorized($nid) {
   $profile2_init_data = cde_profile_form_init_data_authorized();
   
   $settings = array(
+    '#multiform_id' => 'contest_registration_authorized',
     '#subforms' => array(
       array(
         'form_id' => 'og_ui_confirm_subscribe',

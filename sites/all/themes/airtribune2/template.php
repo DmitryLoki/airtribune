@@ -1143,6 +1143,15 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/profile2-edit-pilot-form',
     ),
+    
+    'contest_registration_anonymous' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration-anonymous',
+    ),
+    'contest_registration_authorized' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration-authorized',
+    ),
   );
 }
 

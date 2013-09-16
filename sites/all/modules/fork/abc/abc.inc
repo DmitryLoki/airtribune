@@ -8,6 +8,11 @@ function abc_init_form() {
 
 // TODO: Include abc_submits_form() only if submits map is declared.
 function abc_init_settings(&$settings) {
+  
+  $settings += array(
+    '#multiform_id' => DEFAULT_MULTIFORM_ID,
+  );
+  
   $submits_form = array(
     'form_id' => 'abc_submits_form',
     'args' => array($settings),

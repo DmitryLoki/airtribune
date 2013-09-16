@@ -112,6 +112,8 @@ function def_ajax_tmp($form, $form_state) {
   $text = $errors[0];
   //~ dsm($errors);
   
+  
+  
   // https://api.drupal.org/api/drupal/includes%21ajax.inc/group/ajax/7
   // https://api.drupal.org/comment/50903#comment-50903
   $result = array(
@@ -420,6 +422,10 @@ function def_generic_plugin($element_type) {
  * Prepare default ajax settings for plugins.
  */
 function def_ajax_defaults() {
+  
+  // TODO: Included file should be overriden in case of custom callback.
+  drupal_add_js(drupal_get_path('module', 'def') .'/js/def.js', 'file');
+  
   $defaults = array();
   $defaults = array(
     'path' => 'def/ajax',
