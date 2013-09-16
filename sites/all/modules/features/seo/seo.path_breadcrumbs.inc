@@ -422,7 +422,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -62;
+  $path_breadcrumb->weight = -61;
   $export['breadcrumb_pg_contest_current_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -497,7 +497,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -56;
+  $path_breadcrumb->weight = -55;
   $export['breadcrumb_pg_contest_current_activity'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -553,7 +553,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -59;
+  $path_breadcrumb->weight = -58;
   $export['breadcrumb_pg_contest_current_activity_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -748,7 +748,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -77;
+  $path_breadcrumb->weight = -76;
   $export['breadcrumb_pg_contest_current_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -860,7 +860,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -65;
+  $path_breadcrumb->weight = -64;
   $export['breadcrumb_pg_contest_current_map'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -916,7 +916,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -74;
+  $path_breadcrumb->weight = -73;
   $export['breadcrumb_pg_contest_current_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -974,7 +974,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -71;
+  $path_breadcrumb->weight = -70;
   $export['breadcrumb_pg_contest_current_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1032,7 +1032,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -68;
+  $path_breadcrumb->weight = -67;
   $export['breadcrumb_pg_contest_current_pilots_by_payment_status'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1088,7 +1088,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -52;
+  $path_breadcrumb->weight = -51;
   $export['breadcrumb_pg_contest_current_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1144,7 +1144,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -53;
+  $path_breadcrumb->weight = -52;
   $export['breadcrumb_pg_contest_current_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1275,7 +1275,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -61;
+  $path_breadcrumb->weight = -60;
   $export['breadcrumb_pg_contest_next_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1350,7 +1350,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -55;
+  $path_breadcrumb->weight = -54;
   $export['breadcrumb_pg_contest_next_activity'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1406,7 +1406,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -58;
+  $path_breadcrumb->weight = -57;
   $export['breadcrumb_pg_contest_next_activity_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1601,7 +1601,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -76;
+  $path_breadcrumb->weight = -75;
   $export['breadcrumb_pg_contest_next_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1657,7 +1657,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -79;
+  $path_breadcrumb->weight = -78;
   $export['breadcrumb_pg_contest_next_info'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1713,7 +1713,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -64;
+  $path_breadcrumb->weight = -63;
   $export['breadcrumb_pg_contest_next_map'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1769,7 +1769,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -73;
+  $path_breadcrumb->weight = -72;
   $export['breadcrumb_pg_contest_next_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1827,7 +1827,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -70;
+  $path_breadcrumb->weight = -69;
   $export['breadcrumb_pg_contest_next_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1885,7 +1885,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -67;
+  $path_breadcrumb->weight = -66;
   $export['breadcrumb_pg_contest_next_pilots_by_payment_status'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1941,7 +1941,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -51;
+  $path_breadcrumb->weight = -50;
   $export['breadcrumb_pg_contest_next_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2128,7 +2128,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -63;
+  $path_breadcrumb->weight = -62;
   $export['breadcrumb_pg_contest_past_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2203,7 +2203,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -57;
+  $path_breadcrumb->weight = -56;
   $export['breadcrumb_pg_contest_past_activity'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2259,7 +2259,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -60;
+  $path_breadcrumb->weight = -59;
   $export['breadcrumb_pg_contest_past_activity_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2454,7 +2454,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -78;
+  $path_breadcrumb->weight = -77;
   $export['breadcrumb_pg_contest_past_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2566,7 +2566,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -66;
+  $path_breadcrumb->weight = -65;
   $export['breadcrumb_pg_contest_past_map'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2622,7 +2622,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -75;
+  $path_breadcrumb->weight = -74;
   $export['breadcrumb_pg_contest_past_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2680,7 +2680,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -72;
+  $path_breadcrumb->weight = -71;
   $export['breadcrumb_pg_contest_past_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2738,7 +2738,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -69;
+  $path_breadcrumb->weight = -68;
   $export['breadcrumb_pg_contest_past_pilots_by_payment_status'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2794,7 +2794,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -54;
+  $path_breadcrumb->weight = -53;
   $export['breadcrumb_pg_contest_past_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2843,6 +2843,86 @@ function seo_path_breadcrumbs_settings_info() {
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org';
+  $path_breadcrumb->name = 'Solutions for organizers';
+  $path_breadcrumb->path = 'organizers';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Solutions for organizers',
+    ),
+    'paths' => array(
+      0 => 'organizers/hosting',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = -43;
+  $export['solutions_for_org'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_hosting';
+  $path_breadcrumb->name = 'Solutions for organizers / Hosting';
+  $path_breadcrumb->path = 'organizers/hosting';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Solutions for organizers',
+    ),
+    'paths' => array(
+      0 => 'organizers/hosting',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = -42;
+  $export['solutions_for_org_hosting'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_live_tracking';
+  $path_breadcrumb->name = 'Solutions for organizers / Competition live tracking';
+  $path_breadcrumb->path = 'organizers/livetracking';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Competition live tracking',
+    ),
+    'paths' => array(
+      0 => 'organizers/livetracking',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = -40;
+  $export['solutions_for_org_live_tracking'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_retrieve';
+  $path_breadcrumb->name = 'Solutions for organizers / Competition retrieve';
+  $path_breadcrumb->path = 'organizers/retrieve';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Competition retrieve',
+    ),
+    'paths' => array(
+      0 => 'organizers/retrieve',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => NULL,
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = -41;
+  $export['solutions_for_org_retrieve'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'user_edit';
   $path_breadcrumb->name = 'User Edit';
   $path_breadcrumb->path = 'user/%uid/edit';
@@ -2880,7 +2960,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -47;
+  $path_breadcrumb->weight = -46;
   $export['user_edit'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2922,7 +3002,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -46;
+  $path_breadcrumb->weight = -44;
   $export['user_pilot_edit'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2956,7 +3036,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -49;
+  $path_breadcrumb->weight = -48;
   $export['user_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2998,7 +3078,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -47;
+  $path_breadcrumb->weight = -45;
   $export['user_registrations'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -3032,7 +3112,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -48;
+  $path_breadcrumb->weight = -47;
   $export['user_request_new_password'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -3066,7 +3146,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -50;
+  $path_breadcrumb->weight = -49;
   $export['user_sign_in'] = $path_breadcrumb;
 
   return $export;
