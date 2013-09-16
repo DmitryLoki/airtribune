@@ -574,7 +574,19 @@ user',
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/register',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'balloon_type' => 'h',
       'context' => 'node',
@@ -1209,8 +1221,7 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-event/*/register',
+            'paths' => 'event/*/pilots/manage',
           ),
           'context' => 'empty',
           'not' => FALSE,
