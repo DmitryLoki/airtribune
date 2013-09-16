@@ -2042,6 +2042,115 @@ Prof.',
     ),
   );
 
+  // Exported field: 'node-pg_contest-field_gt_general'.
+  $fields['node-pg_contest-field_gt_general'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_general',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '34',
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_general',
+      'label' => 'How to get here - general',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '52',
+      ),
+    ),
+  );
+
   // Exported field: 'node-pg_contest-field_headquarter_hotel'.
   $fields['node-pg_contest-field_headquarter_hotel'] = array(
     'field_config' => array(
@@ -3906,6 +4015,8 @@ Prof.',
   t('Flying site');
   t('Full info about organizer - description, links, contacts');
   t('General day-by-day schedule of the event.');
+  t('Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.');
   t('General schedule');
   t('Group');
   t('Group roles and permissions');
@@ -3914,6 +4025,7 @@ Prof.',
   t('Headquarter location');
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
+  t('How to get here - general');
   t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
   t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');

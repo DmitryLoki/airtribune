@@ -60,6 +60,7 @@ features[field][] = node-pg_contest-field_device_id
 features[field][] = node-pg_contest-field_downloads
 features[field][] = node-pg_contest-field_fai_category
 features[field][] = node-pg_contest-field_flying_site_ref
+features[field][] = node-pg_contest-field_gt_general
 features[field][] = node-pg_contest-field_headquarter_hotel
 features[field][] = node-pg_contest-field_headquarter_info
 features[field][] = node-pg_contest-field_hq_location
