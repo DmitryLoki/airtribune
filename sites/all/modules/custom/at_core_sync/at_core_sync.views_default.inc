@@ -2829,7 +2829,7 @@ function at_core_sync_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'manage_list_tracked_objects');
   $handler->display->display_options['path'] = 'admin/config/administration/at_manage/contest/%/custom_object';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Manaje custom objects';
+  $handler->display->display_options['menu']['title'] = 'Manage custom objects';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
