@@ -159,6 +159,7 @@ dependencies[] = rules_feature
 dependencies[] = schemaorg
 dependencies[] = select_or_other
 dependencies[] = seo
+dependencies[] = service_header
 dependencies[] = simple_phone_number_widget
 dependencies[] = strongarm
 dependencies[] = sync_postgis
