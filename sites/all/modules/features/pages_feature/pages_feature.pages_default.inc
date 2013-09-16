@@ -1209,7 +1209,8 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage',
+            'paths' => 'event/*/pilots/manage
+event/*/register',
           ),
           'context' => 'empty',
           'not' => FALSE,
