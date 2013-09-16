@@ -1086,7 +1086,7 @@ function airtribune2_field($variables) {
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' field_buttons';
 
-      if ($variables['element']['#field_name'] == 'field_hotel_wifi' && !$variables['element']['#items'][0]['value']) {
+      if ($variables['element']['#field_name'] == 'field_hotel_wifi' && empty($variables['element']['#items'][0]['value'])) {
         $variables['classes'] .= ' field_wifi_no';
       }
       break;
