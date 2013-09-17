@@ -1040,8 +1040,7 @@ function airtribune_js_alter(&$javascript) {
  * @see #3112-13
  */
 function airtribune_airtribune_field_group_content_alter(&$elements) {
-
-  if ($elements['#id'] == 'node_pg_contest_default_group_how_to_get_here') {
+  if ($elements['#id'] == 'node_pg_flyingsite_default_group_how_to_get_here') {
     foreach (element_children($elements, TRUE) as $index => $key) {
       $elements[$index % 2 ? 'gt_right' : 'gt_left'][$key] = $elements[$key];
       unset($elements[$key]);
