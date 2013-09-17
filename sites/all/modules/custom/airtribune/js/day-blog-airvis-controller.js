@@ -12,6 +12,10 @@ jQuery(function ($) {
   faiCategory.after(raceInfo.hide());
   raceDataTextBlock.data('contest-date-text', raceDataTextBlock.text());
 
+  if(!Drupal.settings.views_accordion) {
+    return;
+  }
+
   //Need to get accordion instance
   $.each(Drupal.settings.views_accordion, function (id) {
     var viewname = this.viewname;
@@ -26,6 +30,7 @@ jQuery(function ($) {
       toggleHeader($(accordion.active));
     });
   });
+
 
   //This callback calls when airvis widget initiated
   window.airvisPageLoadedCallback = function (airvis) {

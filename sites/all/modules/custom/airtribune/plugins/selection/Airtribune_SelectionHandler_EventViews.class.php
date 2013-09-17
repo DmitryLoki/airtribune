@@ -44,6 +44,10 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
     }
     $this->field = $field;
     $this->instance = $instance;
+    $this->entity = $entity;
+    // Get the entity token type of the entity type.
+    $entity_info = entity_get_info($entity_type);
+    $this->entity_type_token = isset($entity_info['token type']) ? $entity_info['token type'] : $entity_type;
   }
 
   /**
