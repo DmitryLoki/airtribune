@@ -78,6 +78,17 @@ function airtribune_node_info() {
       'title_label' => t('Name'),
       'help' => '',
     ),
+    'pg_flyingsite' => array(
+      'name' => t('Flying site'),
+      'base' => 'pg_flyingsite',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Name (City)'),
+      'help' => t('This will be the Flying Site name. 
+Traditionally the sites are named according to the city associated with this flying site.'),
+    ),
+
   );
+  
   return $items;
 }

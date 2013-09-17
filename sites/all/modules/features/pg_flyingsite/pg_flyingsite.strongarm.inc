@@ -57,6 +57,9 @@ function pg_flyingsite_strongarm() {
         'language' => array(
           'weight' => '9',
         ),
+        'xmlsitemap' => array(
+          'weight' => '8',
+        ),
       ),
       'display' => array(),
     ),

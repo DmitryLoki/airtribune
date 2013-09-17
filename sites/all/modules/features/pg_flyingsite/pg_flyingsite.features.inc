@@ -17,21 +17,3 @@ function pg_flyingsite_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
-
-/**
- * Implements hook_node_info().
- */
-function pg_flyingsite_node_info() {
-  $items = array(
-    'pg_flyingsite' => array(
-      'name' => t('Flying site'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Name (City)'),
-      'help' => t('This will be the Flying Site name. 
-Traditionally the sites are named according to the city associated with this flying site.'),
-    ),
-  );
-  return $items;
-}

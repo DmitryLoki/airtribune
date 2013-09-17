@@ -86,14 +86,14 @@ function pg_flyingsite_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-pg_flyingsite-field_description'.
-  $fields['node-pg_flyingsite-field_description'] = array(
+  // Exported field: 'node-pg_flyingsite-field_flying_info'.
+  $fields['node-pg_flyingsite-field_flying_info'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_description',
+      'field_name' => 'field_flying_info',
       'field_permissions' => array(
         'type' => '0',
       ),
@@ -130,7 +130,7 @@ function pg_flyingsite_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 18,
+          'weight' => 19,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -147,7 +147,7 @@ function pg_flyingsite_field_default_fields() {
       ),
       'entity_type' => 'node',
       'exclude_cv' => 0,
-      'field_name' => 'field_description',
+      'field_name' => 'field_flying_info',
       'label' => 'Description',
       'required' => 1,
       'settings' => array(
@@ -189,7 +189,7 @@ function pg_flyingsite_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '2',
+        'weight' => '3',
       ),
     ),
   );
@@ -961,7 +961,7 @@ GPS coordinates, roads general description, driving hints.',
           ),
         ),
         'type' => 'reverse_geocode_widget_widget',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );

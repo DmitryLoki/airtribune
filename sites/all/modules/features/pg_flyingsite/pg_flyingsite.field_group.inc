@@ -23,12 +23,11 @@ function pg_flyingsite_field_group_info() {
     'label' => 'How to get here',
     'weight' => '5',
     'children' => array(
-      0 => 'field_gt_plane',
+      0 => 'field_gt_taxi',
       1 => 'field_gt_train',
-      2 => 'field_gt_taxi',
-      3 => 'field_gt_general',
-      4 => 'field_gt_car',
-      5 => 'field_gt_bus',
+      2 => 'field_gt_bus',
+      3 => 'field_gt_car',
+      4 => 'field_gt_plane',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
