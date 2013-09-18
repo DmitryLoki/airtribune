@@ -154,7 +154,7 @@ function _at_draw_od_direction_points($racetype_data, $routepoints) {
   
   $has_azimuth = isset($racetype_data['azimuth']) ? TRUE : FALSE;
   if ($has_azimuth) {
-    $azimuth = ($racetype_data['azimuth'] / 360) * M_PI;
+    $azimuth = - ($racetype_data['azimuth'] / 180) * M_PI;
     $od_direction_points[] = array('x' => $last_routepoint['x'] + $azimuth_length * cos($azimuth), 'y' => $last_routepoint['y'] + $azimuth_length * sin($azimuth));
   }
   else {
