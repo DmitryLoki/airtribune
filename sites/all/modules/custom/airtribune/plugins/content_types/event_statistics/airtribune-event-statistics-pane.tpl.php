@@ -4,51 +4,24 @@
  * @file
  * Default theme implementation to display event statistics pane.
  *
- * @see template_preprocess_airtribune_statistics_pane().
+ * @see template_preprocess_airtribune_statistics_pane()
+ * @see theme_airtribune_event_statistics()
  */
 
 ?>
 <div class="es-pane">
   <div class="es-pilots">
-    <div class="es-pilots-confirmed">
-      <div class="es-count"><?php print $pilots_confirmed; ?></div>
-      <div class="es-label">
-        <?php print $pilots_confirmed_link; ?><br/>
-        <span><?php print t('confirmed'); ?></span>
-      </div>
-    </div>
-    <div class="es-pilots-waiting">
-      <div class="es-count"><?php print $pilots_waiting; ?></div>
-      <div class="es-label">
-        <?php print $pilots_waiting_link; ?><br/>
-        <span><?php print t('total registered'); ?></span>
-      </div>
-    </div>
+    <?php print $pilots_confirmed; ?>
+    <?php print $pilots_waiting; ?>
     <div class="more-link">
       <?php print l(t('View pilots list'), $pilots_url); ?><br/>
     </div>
   </div>
   <div class="es-places">
-    <div class="es-accommodation">
-      <div class="es-count">
-        <?php print $accommodation; ?>
-      </div>
-      <div class="es-label">
-        <?php print l(t('Accommodation', array(), array('context' => 'event-statistics')), $accommodations_url); ?><br/>
-        <span><?php print t('places', array(), array('context' => 'event-statistics-accommodation')); ?></span>
-      </div>
-    </div>
-    <div class="es-activities">
-      <div class="es-count">
-        <?php print $activities; ?>
-      </div>
-      <div class="es-label">
-        <?php print l(t('Activities', array(), array('context' => 'event-statistics')), $activities_url); ?><br/>
-        <span><?php print t('places', array(), array('context' => 'event-statistics-activities')); ?></span>
-      </div>
-    </div>
+     <?php print $accommodation; ?>
+      <?php print $activities; ?>
     <div class="more-link">
-      <?php print l(t('View event map'), $accommodations_url); ?><br/>
+      <?php print l(t('View event map'), $places_url); ?><br/>
     </div>
   </div>
 </div>
