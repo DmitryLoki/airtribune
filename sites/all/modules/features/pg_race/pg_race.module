@@ -812,7 +812,7 @@ function _day_pg_race_preview_markup($node) {
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $time = date('H:i:s', $start_time);
         $link_text = t('Watch Live');
-        $help_text = t('Race starts on');
+        $help_text = t('Race is on');
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
         $time = date('H:i:s', ($deadline_time - $start_time));
