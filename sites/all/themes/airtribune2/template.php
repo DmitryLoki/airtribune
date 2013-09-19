@@ -297,11 +297,11 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   }
 
   $transport = array(
+    'node:field_gt_plane',
+    'node:field_gt_train',
     'node:field_gt_car',
     'node:field_gt_bus',
     'node:field_gt_taxi',
-    'node:field_gt_plane',
-    'node:field_gt_train',
   );
 
   if (in_array($variables['pane']->subtype, $transport)) {
@@ -1101,11 +1101,11 @@ function airtribune2_field($variables) {
       $variables['classes'] .= ' fields_contacts';
       break;
 
+    case 'field_gt_plane':
+    case 'field_gt_train':
     case 'field_gt_car':
     case 'field_gt_bus':
     case 'field_gt_taxi':
-    case 'field_gt_plane':
-    case 'field_gt_train':
       if (!arg(3)) {
         list(, , $key) = explode('_', $variables['element']['#field_name']);
         $contest_id = (int) arg(1);
@@ -1236,7 +1236,11 @@ function airtribune2_preprocess_field(&$vars) {
       'jcarousel_image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE,
       'full_image_style' => '',
     );
-    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
+    // Get flying site node
+    $fs_nid = $element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
+    $fs_node = node_load($fs_nid);
+
+    $flying_site_photos = field_view_field('node', $fs_node, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
 
     if (isset($flying_site_photos[0])) {
       foreach ($flying_site_photos[0]['#items'] as $item) {
