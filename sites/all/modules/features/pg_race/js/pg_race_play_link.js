@@ -55,8 +55,8 @@
             } else {
               isOnline = false;
             }
-            setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', isOnline);
-            setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.3d').show(), raceData.raceEid, '3d', isOnline);
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
