@@ -734,7 +734,7 @@ function _pg_race_play_link($params) {
 
   // Add js for fix work of links  in MS IE
   drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  $output = theme('item_list', $variables) . $params['helptext'] . $params['time'];
+  $output = theme('item_list', $variables);
 
   return $output;
 }
