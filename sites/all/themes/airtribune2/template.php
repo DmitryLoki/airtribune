@@ -573,6 +573,10 @@ function airtribune2_menu_link__account(&$vars) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+function airtribune2_menu_tree__menu_solutions_organizers(&$vars) {
+  return '<ul class="tabs primary menu">' . $vars['tree'] . '</ul>';
+}
+
 /**
  * Implements hook_form_alter().
  */
