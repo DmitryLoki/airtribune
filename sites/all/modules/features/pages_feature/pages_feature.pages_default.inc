@@ -800,6 +800,20 @@ user',
           'settings' => NULL,
           'not' => TRUE,
         ),
+        2 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'organizers
+pilots
+viewers
+organizers/*
+pilots/*
+viewers/*',
+          ),
+          'context' => 'alias',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array();
