@@ -838,12 +838,12 @@ viewers/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        1 => array(
+        0 => array(
           'name' => 'role',
           'settings' => array(
             'rids' => array(
               0 => 3,
-              1 => 4,
+              1 => 7,
             ),
           ),
           'context' => 'logged-in-user',
@@ -881,6 +881,20 @@ viewers/*',
           'settings' => NULL,
           'not' => TRUE,
         ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'organizers
+pilots
+viewers
+organizers/*
+pilots/*
+viewers/*',
+          ),
+          'context' => 'alias',
+          'not' => FALSE,
+        ),
       ),
     );
     $pane->configuration = array();
@@ -896,6 +910,41 @@ viewers/*',
     $display->panels['right'][5] = 'new-18';
     $pane = new stdClass();
     $pane->pid = 'new-19';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_list-panel_pane_3';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers
+pilots
+viewers
+organizers/*
+pilots/*
+viewers/*',
+          ),
+          'context' => 'alias',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 6;
+    $pane->locks = array();
+    $display->content['new-19'] = $pane;
+    $display->panels['right'][6] = 'new-19';
+    $pane = new stdClass();
+    $pane->pid = 'new-20';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -910,8 +959,8 @@ viewers/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-19'] = $pane;
-    $display->panels['top'][0] = 'new-19';
+    $display->content['new-20'] = $pane;
+    $display->panels['top'][0] = 'new-20';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1056,7 +1105,7 @@ viewers/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-20';
+    $pane->pid = 'new-21';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-event_header';
@@ -1095,10 +1144,10 @@ event/*/results',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-20'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-20';
+    $display->content['new-21'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-21';
     $pane = new stdClass();
-    $pane->pid = 'new-21';
+    $pane->pid = 'new-22';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-event_results_header';
@@ -1135,10 +1184,10 @@ event/*/results',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-21'] = $pane;
-    $display->panels['featured_header_padding'][1] = 'new-21';
+    $display->content['new-22'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-22';
     $pane = new stdClass();
-    $pane->pid = 'new-22';
+    $pane->pid = 'new-23';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-event_map';
@@ -1172,10 +1221,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-22'] = $pane;
-    $display->panels['featured_header_padding'][2] = 'new-22';
+    $display->content['new-23'] = $pane;
+    $display->panels['featured_header_padding'][2] = 'new-23';
     $pane = new stdClass();
-    $pane->pid = 'new-23';
+    $pane->pid = 'new-24';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-activities_pane';
@@ -1209,10 +1258,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-23'] = $pane;
-    $display->panels['featured_header_padding'][3] = 'new-23';
+    $display->content['new-24'] = $pane;
+    $display->panels['featured_header_padding'][3] = 'new-24';
     $pane = new stdClass();
-    $pane->pid = 'new-24';
+    $pane->pid = 'new-25';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'airtribune_race_preview';
     $pane->subtype = 'airtribune_race_preview';
@@ -1248,10 +1297,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-24'] = $pane;
-    $display->panels['featured_header_padding'][4] = 'new-24';
+    $display->content['new-25'] = $pane;
+    $display->panels['featured_header_padding'][4] = 'new-25';
     $pane = new stdClass();
-    $pane->pid = 'new-25';
+    $pane->pid = 'new-26';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -1276,10 +1325,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-25'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-25';
+    $display->content['new-26'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-26';
     $pane = new stdClass();
-    $pane->pid = 'new-26';
+    $pane->pid = 'new-27';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -1297,10 +1346,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['footer'][0] = 'new-26';
+    $display->content['new-27'] = $pane;
+    $display->panels['footer'][0] = 'new-27';
     $pane = new stdClass();
-    $pane->pid = 'new-27';
+    $pane->pid = 'new-28';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -1318,10 +1367,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['header'][0] = 'new-27';
+    $display->content['new-28'] = $pane;
+    $display->panels['header'][0] = 'new-28';
     $pane = new stdClass();
-    $pane->pid = 'new-28';
+    $pane->pid = 'new-29';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -1339,10 +1388,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-28'] = $pane;
-    $display->panels['left'][0] = 'new-28';
+    $display->content['new-29'] = $pane;
+    $display->panels['left'][0] = 'new-29';
     $pane = new stdClass();
-    $pane->pid = 'new-29';
+    $pane->pid = 'new-30';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -1379,10 +1428,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-29'] = $pane;
-    $display->panels['left'][1] = 'new-29';
+    $display->content['new-30'] = $pane;
+    $display->panels['left'][1] = 'new-30';
     $pane = new stdClass();
-    $pane->pid = 'new-30';
+    $pane->pid = 'new-31';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1401,10 +1450,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-30'] = $pane;
-    $display->panels['left'][2] = 'new-30';
+    $display->content['new-31'] = $pane;
+    $display->panels['left'][2] = 'new-31';
     $pane = new stdClass();
-    $pane->pid = 'new-31';
+    $pane->pid = 'new-32';
     $pane->panel = 'right';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -1438,10 +1487,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-31'] = $pane;
-    $display->panels['right'][0] = 'new-31';
+    $display->content['new-32'] = $pane;
+    $display->panels['right'][0] = 'new-32';
     $pane = new stdClass();
-    $pane->pid = 'new-32';
+    $pane->pid = 'new-33';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
@@ -1478,10 +1527,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-32'] = $pane;
-    $display->panels['right'][1] = 'new-32';
+    $display->content['new-33'] = $pane;
+    $display->panels['right'][1] = 'new-33';
     $pane = new stdClass();
-    $pane->pid = 'new-33';
+    $pane->pid = 'new-34';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1522,10 +1571,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-33'] = $pane;
-    $display->panels['right'][2] = 'new-33';
+    $display->content['new-34'] = $pane;
+    $display->panels['right'][2] = 'new-34';
     $pane = new stdClass();
-    $pane->pid = 'new-34';
+    $pane->pid = 'new-35';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -1561,10 +1610,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-34'] = $pane;
-    $display->panels['right'][3] = 'new-34';
+    $display->content['new-35'] = $pane;
+    $display->panels['right'][3] = 'new-35';
     $pane = new stdClass();
-    $pane->pid = 'new-35';
+    $pane->pid = 'new-36';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -1579,8 +1628,8 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-35'] = $pane;
-    $display->panels['top'][0] = 'new-35';
+    $display->content['new-36'] = $pane;
+    $display->panels['top'][0] = 'new-36';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1717,7 +1766,7 @@ event/*/map/accommodations',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-36';
+    $pane->pid = 'new-37';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -1735,10 +1784,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-36'] = $pane;
-    $display->panels['footer'][0] = 'new-36';
+    $display->content['new-37'] = $pane;
+    $display->panels['footer'][0] = 'new-37';
     $pane = new stdClass();
-    $pane->pid = 'new-37';
+    $pane->pid = 'new-38';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -1756,10 +1805,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-37'] = $pane;
-    $display->panels['header'][0] = 'new-37';
+    $display->content['new-38'] = $pane;
+    $display->panels['header'][0] = 'new-38';
     $pane = new stdClass();
-    $pane->pid = 'new-38';
+    $pane->pid = 'new-39';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1778,8 +1827,8 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-38'] = $pane;
-    $display->panels['middle'][0] = 'new-38';
+    $display->content['new-39'] = $pane;
+    $display->panels['middle'][0] = 'new-39';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1821,7 +1870,7 @@ event/*/map/accommodations',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-39';
+    $pane->pid = 'new-40';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1840,10 +1889,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-39'] = $pane;
-    $display->panels['middle'][0] = 'new-39';
+    $display->content['new-40'] = $pane;
+    $display->panels['middle'][0] = 'new-40';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-39';
+  $display->title_pane = 'new-40';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_5'] = $handler;
 
