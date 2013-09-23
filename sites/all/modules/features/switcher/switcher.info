@@ -122,6 +122,7 @@ dependencies[] = multiform
 dependencies[] = name
 dependencies[] = newsblog
 dependencies[] = number
+dependencies[] = nodesymlinks
 dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_context
