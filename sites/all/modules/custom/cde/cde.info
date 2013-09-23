@@ -1,4 +1,4 @@
 name = CDE
 core = 7.x
 
-
+files[] = tests/cde.test
