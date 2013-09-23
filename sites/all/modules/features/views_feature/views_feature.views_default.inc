@@ -1442,7 +1442,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_single_image']['type'] = 'colorbox';
   $handler->display->display_options['fields']['field_single_image']['settings'] = array(
     'colorbox_node_style' => 'scoring_winner',
-    'colorbox_image_style' => 'large',
+    'colorbox_image_style' => '',
     'colorbox_gallery' => 'field_page',
     'colorbox_gallery_custom' => '',
     'colorbox_caption' => 'auto',
@@ -1549,7 +1549,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_single_image']['type'] = 'colorbox';
   $handler->display->display_options['fields']['field_single_image']['settings'] = array(
     'colorbox_node_style' => 'scoring_winner',
-    'colorbox_image_style' => 'large',
+    'colorbox_image_style' => '',
     'colorbox_gallery' => 'field_page',
     'colorbox_gallery_custom' => '',
     'colorbox_caption' => 'auto',
