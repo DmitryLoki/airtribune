@@ -6127,6 +6127,14 @@ return array($event_id);';
   $handler->display->display_options['filters']['gid']['field'] = 'gid';
   $handler->display->display_options['filters']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['gid']['operator'] = 'empty';
+  /* Filter criterion: Featured header: Target (field_target) */
+  $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
+  $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
+  $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
+  $handler->display->display_options['filters']['field_target_value']['operator'] = 'not';
+  $handler->display->display_options['filters']['field_target_value']['value'] = array(
+    'solutions' => 'solutions',
+  );
 
   /* Display: Default header */
   $handler = $view->new_display('panel_pane', 'Default header', 'default_header');
@@ -6166,6 +6174,14 @@ return array($event_id);';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+  /* Filter criterion: Featured header: Target (field_target) */
+  $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
+  $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
+  $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
+  $handler->display->display_options['filters']['field_target_value']['operator'] = 'not';
+  $handler->display->display_options['filters']['field_target_value']['value'] = array(
+    'solutions' => 'solutions',
+  );
 
   /* Display: Event header */
   $handler = $view->new_display('panel_pane', 'Event header', 'event_header');
@@ -6319,6 +6335,50 @@ return array($event_id);';
       'label' => 'OG membership: Group ID',
     ),
   );
+
+  /* Display: Solutions header */
+  $handler = $view->new_display('panel_pane', 'Solutions header', 'panel_pane_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Featured header: Image */
+  $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['label'] = '';
+  $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_header_image']['settings'] = array(
+    'image_style' => 'header',
+    'image_link' => '',
+  );
+  /* Field: Featured header: Author link */
+  $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Photo by';
+  /* Field: Featured header: Slogan */
+  $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['label'] = '';
+  $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_slogan']['element_wrapper_class'] = 'views-field-field-header-slogan-solutions';
+  $handler->display->display_options['fields']['field_header_slogan']['element_default_classes'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Field: Groups audience (og_group_ref) */
+  $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+  /* Filter criterion: Featured header: Target (field_target) */
+  $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
+  $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
+  $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
+  $handler->display->display_options['filters']['field_target_value']['value'] = array(
+    'solutions' => 'solutions',
+  );
   $translatables['header_slideshow'] = array(
     t('Master'),
     t('more'),
@@ -6336,6 +6396,7 @@ return array($event_id);';
     t('All'),
     t('Event Results header'),
     t('Facebook header'),
+    t('Solutions header'),
   );
   $export['header_slideshow'] = $view;
 
