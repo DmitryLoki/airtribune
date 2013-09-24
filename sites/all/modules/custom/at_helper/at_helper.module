@@ -436,7 +436,8 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
 function at_helper_og_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   // Contest pilots manage page.
-  if ($form['#form_id'] == 'views_form_paragliding_pilots_list_manage' &&
+  if (!empty($form['#form_id']) && !empty($form_state['triggering_element']['#array_parents']) &&
+      $form['#form_id'] == 'views_form_paragliding_pilots_list_manage' &&
       $form_state['triggering_element']['#array_parents'][0] == 'field_contestant_number') {
     $parents = $form_state['triggering_element']['#array_parents'];
     // Remove the 'actions' and 'link' elements.
