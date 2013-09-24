@@ -9,16 +9,16 @@
  */
 function pg_basicmark_types_eck_bundle_info() {
   $items = array(
-  'ent_basicmark_pg_basicmark_lz' => array(
-  'machine_name' => 'ent_basicmark_pg_basicmark_lz',
+  'ent_basicmark_pg_landing' => array(
+  'machine_name' => 'ent_basicmark_pg_landing',
   'entity_type' => 'ent_basicmark',
-  'name' => 'pg_basicmark_lz',
+  'name' => 'pg_landing',
   'label' => 'Landing zone',
 ),
-  'ent_basicmark_pg_basicmark_takeoff' => array(
-  'machine_name' => 'ent_basicmark_pg_basicmark_takeoff',
+  'ent_basicmark_pg_takeoff' => array(
+  'machine_name' => 'ent_basicmark_pg_takeoff',
   'entity_type' => 'ent_basicmark',
-  'name' => 'pg_basicmark_takeoff',
+  'name' => 'pg_takeoff',
   'label' => 'Take Off',
 ),
   );
