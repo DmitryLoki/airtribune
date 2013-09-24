@@ -190,6 +190,11 @@ function airtribune2_preprocess_pane_navigation(&$vars) {
   }
 }
 
+function airtribune2_preprocess_page(&$vars, $hook) {
+  dpm($GLOBALS['base_url']);
+  dpm($vars['template_files']);
+}
+
 /**
  * Preprocess pane twocolfourrow
  */

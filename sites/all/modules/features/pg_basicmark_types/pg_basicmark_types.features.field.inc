@@ -10,8 +10,8 @@
 function pg_basicmark_types_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'ent_basicmark-pg_basicmark_lz-field_basicmark_photos'.
-  $fields['ent_basicmark-pg_basicmark_lz-field_basicmark_photos'] = array(
+  // Exported field: 'ent_basicmark-pg_landing-field_basicmark_photos'.
+  $fields['ent_basicmark-pg_landing-field_basicmark_photos'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '4',
@@ -48,7 +48,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_lz',
+      'bundle' => 'pg_landing',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -119,8 +119,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_lz-field_description'.
-  $fields['ent_basicmark-pg_basicmark_lz-field_description'] = array(
+  // Exported field: 'ent_basicmark-pg_landing-field_description'.
+  $fields['ent_basicmark-pg_landing-field_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -153,7 +153,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_lz',
+      'bundle' => 'pg_landing',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -221,8 +221,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_lz-field_location'.
-  $fields['ent_basicmark-pg_basicmark_lz-field_location'] = array(
+  // Exported field: 'ent_basicmark-pg_landing-field_location'.
+  $fields['ent_basicmark-pg_landing-field_location'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -278,7 +278,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'geofield',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_lz',
+      'bundle' => 'pg_landing',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -331,8 +331,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_lz-field_sea_level'.
-  $fields['ent_basicmark-pg_basicmark_lz-field_sea_level'] = array(
+  // Exported field: 'ent_basicmark-pg_landing-field_sea_level'.
+  $fields['ent_basicmark-pg_landing-field_sea_level'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -355,7 +355,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'number_float',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_lz',
+      'bundle' => 'pg_landing',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -403,8 +403,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_takeoff-field_basicmark_photos'.
-  $fields['ent_basicmark-pg_basicmark_takeoff-field_basicmark_photos'] = array(
+  // Exported field: 'ent_basicmark-pg_takeoff-field_basicmark_photos'.
+  $fields['ent_basicmark-pg_takeoff-field_basicmark_photos'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '4',
@@ -441,7 +441,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_takeoff',
+      'bundle' => 'pg_takeoff',
       'default_value' => array(),
       'deleted' => '0',
       'description' => '',
@@ -513,8 +513,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_takeoff-field_description'.
-  $fields['ent_basicmark-pg_basicmark_takeoff-field_description'] = array(
+  // Exported field: 'ent_basicmark-pg_takeoff-field_description'.
+  $fields['ent_basicmark-pg_takeoff-field_description'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -547,7 +547,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_takeoff',
+      'bundle' => 'pg_takeoff',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -615,8 +615,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_takeoff-field_location'.
-  $fields['ent_basicmark-pg_basicmark_takeoff-field_location'] = array(
+  // Exported field: 'ent_basicmark-pg_takeoff-field_location'.
+  $fields['ent_basicmark-pg_takeoff-field_location'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -672,7 +672,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'geofield',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_takeoff',
+      'bundle' => 'pg_takeoff',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -725,8 +725,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_takeoff-field_sea_level'.
-  $fields['ent_basicmark-pg_basicmark_takeoff-field_sea_level'] = array(
+  // Exported field: 'ent_basicmark-pg_takeoff-field_sea_level'.
+  $fields['ent_basicmark-pg_takeoff-field_sea_level'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -749,7 +749,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'number_float',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_takeoff',
+      'bundle' => 'pg_takeoff',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -797,8 +797,8 @@ function pg_basicmark_types_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ent_basicmark-pg_basicmark_takeoff-field_suitable_winds'.
-  $fields['ent_basicmark-pg_basicmark_takeoff-field_suitable_winds'] = array(
+  // Exported field: 'ent_basicmark-pg_takeoff-field_suitable_winds'.
+  $fields['ent_basicmark-pg_takeoff-field_suitable_winds'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -835,7 +835,7 @@ function pg_basicmark_types_field_default_fields() {
       'type' => 'list_text',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_basicmark_takeoff',
+      'bundle' => 'pg_takeoff',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
