@@ -629,7 +629,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -751,7 +751,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -802,7 +802,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['grouping'] = array(
     0 => array(
-      'field' => 'field_target',
+      'field' => 'field_advert_target',
       'rendered' => 1,
       'rendered_strip' => 0,
     ),
@@ -812,9 +812,9 @@ function views_feature_views_default_views() {
     'title_field' => 'title_field',
     'field_image' => 'field_image',
     'field_link' => 'field_link',
-    'field_target' => 'field_target',
     'edit_node' => 'edit_node',
     'delete_node' => 'delete_node',
+    'field_advert_target' => 'field_advert_target',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -842,19 +842,19 @@ function views_feature_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_target' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
     'edit_node' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'delete_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_advert_target' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -892,7 +892,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -915,14 +915,13 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
-  /* Field: Target - excluded */
-  $handler->display->display_options['fields']['field_target']['id'] = 'field_target';
-  $handler->display->display_options['fields']['field_target']['table'] = 'field_data_field_target';
-  $handler->display->display_options['fields']['field_target']['field'] = 'field_target';
-  $handler->display->display_options['fields']['field_target']['ui_name'] = 'Target - excluded';
-  $handler->display->display_options['fields']['field_target']['label'] = 'For page';
-  $handler->display->display_options['fields']['field_target']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_target']['empty'] = 'Frontpage';
+  /* Field: Content: Target */
+  $handler->display->display_options['fields']['field_advert_target']['id'] = 'field_advert_target';
+  $handler->display->display_options['fields']['field_advert_target']['table'] = 'field_data_field_advert_target';
+  $handler->display->display_options['fields']['field_advert_target']['field'] = 'field_advert_target';
+  $handler->display->display_options['fields']['field_advert_target']['label'] = 'For page';
+  $handler->display->display_options['fields']['field_advert_target']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_advert_target']['empty'] = 'Frontpage';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -971,7 +970,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1018,7 +1017,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['field'] = 'id';
   $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
-  /* Filter criterion: Field: Target (field_target) */
+  /* Filter criterion: Featured header: Target (field_target) */
   $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
   $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
   $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
@@ -1027,8 +1026,8 @@ function views_feature_views_default_views() {
     'solutions' => 'solutions',
   );
 
-  /* Display: Banners for solutions */
-  $handler = $view->new_display('panel_pane', 'Banners for solutions', 'panel_pane_3');
+  /* Display: Solutions for organizers */
+  $handler = $view->new_display('panel_pane', 'Solutions for organizers', 'pane_solutions_organizers');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -1048,7 +1047,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1095,12 +1094,164 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['field'] = 'id';
   $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
-  /* Filter criterion: Field: Target (field_target) */
-  $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
-  $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
-  $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
-  $handler->display->display_options['filters']['field_target_value']['value'] = array(
-    'solutions' => 'solutions',
+  /* Filter criterion: Content: Target (field_advert_target) */
+  $handler->display->display_options['filters']['field_advert_target_value']['id'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['table'] = 'field_data_field_advert_target';
+  $handler->display->display_options['filters']['field_advert_target_value']['field'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['value'] = array(
+    'organizers' => 'organizers',
+  );
+
+  /* Display: Solutions for pilots */
+  $handler = $view->new_display('panel_pane', 'Solutions for pilots', 'pane_solutions_pilots');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Partners';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Link (excluded) */
+  $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
+  $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['ui_name'] = 'Link (excluded)';
+  $handler->display->display_options['fields']['field_link']['label'] = '';
+  $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['path'] = '[field_link]';
+  $handler->display->display_options['fields']['field_image']['alter']['external'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['rel'] = 'nofollow';
+  $handler->display->display_options['fields']['field_image']['alter']['target'] = '_blank';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Draggableviews: Weight */
+  $handler->display->display_options['sorts']['weight']['id'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
+  $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'advert_list:page_1';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'advert' => 'advert',
+  );
+  /* Filter criterion: OG membership: Og membership ID */
+  $handler->display->display_options['filters']['id']['id'] = 'id';
+  $handler->display->display_options['filters']['id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['id']['field'] = 'id';
+  $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['id']['operator'] = 'empty';
+  /* Filter criterion: Content: Target (field_advert_target) */
+  $handler->display->display_options['filters']['field_advert_target_value']['id'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['table'] = 'field_data_field_advert_target';
+  $handler->display->display_options['filters']['field_advert_target_value']['field'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['value'] = array(
+    'pilots' => 'pilots',
+  );
+
+  /* Display: Solutions for viewers */
+  $handler = $view->new_display('panel_pane', 'Solutions for viewers', 'pane_solutions_viewers');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Partners';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Link (excluded) */
+  $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
+  $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['ui_name'] = 'Link (excluded)';
+  $handler->display->display_options['fields']['field_link']['label'] = '';
+  $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['path'] = '[field_link]';
+  $handler->display->display_options['fields']['field_image']['alter']['external'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['rel'] = 'nofollow';
+  $handler->display->display_options['fields']['field_image']['alter']['target'] = '_blank';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Draggableviews: Weight */
+  $handler->display->display_options['sorts']['weight']['id'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
+  $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'advert_list:page_1';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'advert' => 'advert',
+  );
+  /* Filter criterion: OG membership: Og membership ID */
+  $handler->display->display_options['filters']['id']['id'] = 'id';
+  $handler->display->display_options['filters']['id']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['id']['field'] = 'id';
+  $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['id']['operator'] = 'empty';
+  /* Filter criterion: Content: Target (field_advert_target) */
+  $handler->display->display_options['filters']['field_advert_target_value']['id'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['table'] = 'field_data_field_advert_target';
+  $handler->display->display_options['filters']['field_advert_target_value']['field'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['value'] = array(
+    'viewers' => 'viewers',
   );
   $translatables['advert_list'] = array(
     t('Master'),
@@ -1114,7 +1265,7 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Banner'),
+    t('Image'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
@@ -1132,7 +1283,9 @@ function views_feature_views_default_views() {
     t('For page'),
     t('Frontpage'),
     t('Site banners'),
-    t('Banners for solutions'),
+    t('Solutions for organizers'),
+    t('Solutions for pilots'),
+    t('Solutions for viewers'),
   );
   $export['advert_list'] = $view;
 
@@ -1173,7 +1326,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -6324,7 +6477,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['gid']['field'] = 'gid';
   $handler->display->display_options['filters']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['gid']['operator'] = 'empty';
-  /* Filter criterion: Field: Target (field_target) */
+  /* Filter criterion: Featured header: Target (field_target) */
   $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
   $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
   $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
@@ -6371,7 +6524,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
-  /* Filter criterion: Field: Target (field_target) */
+  /* Filter criterion: Featured header: Target (field_target) */
   $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
   $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
   $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
@@ -6569,7 +6722,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
-  /* Filter criterion: Field: Target (field_target) */
+  /* Filter criterion: Featured header: Target (field_target) */
   $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
   $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
   $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
