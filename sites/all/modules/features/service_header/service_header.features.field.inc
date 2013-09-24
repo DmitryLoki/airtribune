@@ -330,7 +330,7 @@ function service_header_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_target',
       'field_permissions' => array(
-        'type' => '0',
+        'type' => '2',
       ),
       'foreign keys' => array(),
       'indexes' => array(
