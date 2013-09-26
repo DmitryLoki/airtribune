@@ -306,9 +306,6 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
     $variables['classes_array'][] = 'wrapper-with-link';
   }
-  if ($variables['pane']->type == 'node_content' && $variables['content']['#node']->type == 'newsblog') {
-    $variables['title'] = '';
-  }
 
   $transport = array(
     'node:field_gt_plane',
@@ -331,6 +328,11 @@ function airtribune2_preprocess_panels_pane(&$variables) {
     case 'soon_country':
       $variables['classes_array'][] = 'front_live_events';
       $variables['title_attributes_array']['class'][] = 'clearfix';
+      break;
+    case 'node_content':
+      if (strpos(drupal_get_path_alias(), 'organizers/') !== FALSE || $variables['content']['#node']->type == 'newsblog') {
+        $variables['title'] = '';
+      }
       break;
 
     default:

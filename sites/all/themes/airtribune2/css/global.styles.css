@@ -2794,7 +2794,7 @@ table tr td.:first-child { border-left: none;}
 #social ul li a.yt:hover { background-position:-80px -18px;}
 
 /* Header slideshow */
-.view-header-slideshow .views_slideshow_cycle_slide { position: relative;}
+.view-header-slideshow .views_slideshow_cycle_slide { position: relative; height: 380px;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-image img { vertical-align: middle;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan { top: 0; position: absolute; color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan .field-content { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px}
@@ -2802,7 +2802,9 @@ table tr td.:first-child { border-left: none;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author { position: absolute; bottom: 4px; right: 10px; color: #FFF; font: italic 12px/14px Arial, Helvetica, sans-serif;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author a { color: #FFF; }
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author .field-content { display: inline;}
-.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions { position: absolute; bottom: 10px; right: 10px; color: #FFF;}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions { margin: -227px 60px 0 402px; font-size: 24px; color: #ffffff; line-height: 30px; font-weight: bold; position: relative; text-indent: -19px;}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions p:before { content: "“"; font-size: 36px;}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions p:after { content: "”"; font-size: 36px; display: inline-block; position: relative; right: -19px; line-height: 15px;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions .field-content {}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
@@ -2831,7 +2833,8 @@ table tr td.:first-child { border-left: none;}
 .logo_in_title .featured-header-title,
 .page-node-5362 .featured-header-title,
 .page-user.page-user-header-logo .featured-header-title,
-.page-events .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
+.page-events .featured-header-title,
+.solutions .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
 .page-events .featured-header-title, 
 .page-event-map .featured-header-title { background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5);}
 .page-user.page-event-register .featured-header-title .pane-airtribune-event-title { padding: 16px 20px 19px;}
@@ -2839,7 +2842,8 @@ table tr td.:first-child { border-left: none;}
 .logo_in_title .featured-header-title h1,
 .page-node-5362 .featured-header-title h1,
 .page-user.page-user-header-logo .featured-header-title h1,
-.page-events .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px}
+.page-events .featured-header-title h1,
+.solutions .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px}
 
 
 
@@ -3266,12 +3270,6 @@ html.fb_view { overflow: auto;}
 
 }
 
-/*.view-frontpage-events .views-row-4,
-.view-frontpage-events .views-row-5,
-.view-frontpage-events .views-row-6,
-.view-frontpage-events .views-row-7,
-.view-frontpage-events .views-row-8,
-.view-frontpage-events .views-row-9 { display: none } */
 
 .frontpage-show-more-events { display: block; position: relative; width: 30px; height: 16px; overflow: hidden; text-indent: -9999px; margin: 7px auto 0; background: #f1f3f5 url(../images/table_action.png) no-repeat 50% -2194px; cursor: pointer;
 
@@ -3315,6 +3313,7 @@ html.fb_view { overflow: auto;}
 
 
   /* Solutions Hosting */
+
 
 .solutions_hosting { padding-top: 26px;}
 .solutions_hosting .zoom_block_wrap { padding: 40px; margin-top: 25px; margin-bottom: 17px;
