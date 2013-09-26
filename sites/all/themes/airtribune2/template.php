@@ -367,6 +367,8 @@ function airtribune2_process_node(&$vars) {
   $vars['event_blog'] = FALSE;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
 
+  //print drupal_get_path_alias();
+
   if (isset($account->field_full_name)) {
     $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
   }
@@ -375,6 +377,15 @@ function airtribune2_process_node(&$vars) {
   }
 
   $vars['full_name'] = render($full_name);
+
+  if (strpos(drupal_get_path_alias(), 'organizers/') !== FALSE) {
+    $vars['notitle'] = TRUE;
+    $vars['title'] = '';
+    $vars['user_picture'] = '';
+    $vars['display_submitted'] = '';
+    $vars['no_posted_text'] = TRUE;
+  }
+
   /* If view mode is event_blog_teaser */
 
   if ($vars['view_mode'] == 'event_blog_teaser') {
@@ -449,6 +460,7 @@ function airtribune2_process_node(&$vars) {
     }
   }
 
+
   /**
    *  paragliding scoring category
    *
@@ -494,7 +506,9 @@ function airtribune2_process_node(&$vars) {
 
   /* Change of specific nodes */
   elseif ($vars['node']->nid != '5363' && $vars['node']->nid != '5362') {
-    _airtribune2_add_created($vars);
+    if (empty($vars['no_posted_text'])){
+      _airtribune2_add_created($vars);
+    }
     if (!empty($vars['content']['field_image'])) {
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
