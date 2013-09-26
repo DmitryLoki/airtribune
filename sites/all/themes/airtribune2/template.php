@@ -86,6 +86,20 @@ function airtribune2_preprocess_html(&$vars) {
   if (in_array('page-event-results-facebook', $vars['classes_array'])) {
     $vars['html_attributes_array']['class'] = array('fb_view');
   }
+  
+  // @see #3796: add class for body on solutions pages
+  
+  $path = request_uri();
+  preg_match('/[^\/]+/',$path, $matches);
+  $part = $matches[0];
+  switch($part) {
+    case 'organizers':
+    case 'pilots':
+    case 'viewers':
+      $vars['classes_array'][] = $part;
+      break;
+  }
+  
 }
 
 /**
@@ -188,11 +202,6 @@ function airtribune2_preprocess_pane_navigation(&$vars) {
         ),
       ));
   }
-}
-
-function airtribune2_preprocess_page(&$vars, $hook) {
-  dpm($GLOBALS['base_url']);
-  dpm($vars['template_files']);
 }
 
 /**
@@ -358,6 +367,22 @@ function airtribune2_preprocess_node(&$vars) {
     $vars['notitle'] = TRUE;
     $vars['title'] = '';
     $vars['user_picture'] = '';
+  }
+  
+  // @see #3796: add template for solutions pages
+  
+  $base = 'node';
+  $delimiter = '__';
+  $path = request_uri();
+  preg_match('/[^\/]+/',$path, $matches);
+  $part = $matches[0];
+  switch($part) {
+    case 'organizers':
+    case 'pilots':
+    case 'viewers':
+        $vars['theme_hook_suggestions'][] = $base . $delimiter . 'solutions';
+        //$variables['theme_hook_suggestions'][] = $base . $delimiter . $part;
+      break;
   }
 }
 
