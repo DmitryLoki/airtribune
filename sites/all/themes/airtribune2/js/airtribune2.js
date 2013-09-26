@@ -88,5 +88,19 @@ jQuery(function ($) {
     //alert(el);
     el.find('span').css({'max-width': width - delta});
   }
+  $('.sulutions_accordeon .accordeon_inner').each(function(){
+    $(this).height('auto');
+    $(this).attr('rel', $(this).height());
+    $(this).height(0);
+  });
+  $('.sulutions_accordeon .accordeon_title').click(function(){
+    el = $(this).next();
+    if(el.height() == 0){
+      el.height(el.attr('rel'));
+    }
+    else{
+      el.height(0); 
+    }
+  })
 })
 

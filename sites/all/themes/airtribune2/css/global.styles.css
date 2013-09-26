@@ -3317,7 +3317,7 @@ html.fb_view { overflow: auto;}
   /* Solutions Hosting */
 
 .solutions_hosting { padding-top: 26px;}
-.solutions_hosting .zoom_block_wrap { padding: 40px; margin-top: 25px;
+.solutions_hosting .zoom_block_wrap { padding: 40px; margin-top: 25px; margin-bottom: 17px;
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eff0f1'); /* для IE6-9 */
   background: -webkit-linear-gradient(top, bottom, #ffffff 0%, #ffffff 55%, #eff0f1 100%); /* для webkit-браузеров */
@@ -3334,3 +3334,56 @@ html.fb_view { overflow: auto;}
 .solutions_hosting .zoom_text a { color: #a4bb15; font-size: 30px}
 .solutions_hosting .zoom_block { float: right; background: #ffffff; border: 1px solid #e1e6e9; padding: 20px 36px 20px 46px;}
 .solutions_hosting .cloud-zoom-big { width: 371px !important; height: 391px !important; border: 1px solid #e1e6e9; background: #ffffff; top: -21px !important; left: -440px !important;}
+.solutions_hosting .block_cols {}
+.solutions_hosting .block_cols h2,
+.solutions_hosting .block_cols h3 { color: #d2dae0; font-size: 30px; line-height: 30px; font-weight: normal; padding-bottom: 32px; padding-top: 32px;}
+.solutions_hosting .block_cols h3 { color: #566570; margin: 0; padding: 0 0 8px;}
+.solutions_hosting .block_cols .block_col { float: left; width: 200px; margin: 0 30px 0 10px;}
+.solutions_hosting .block_cols .block_col_last { margin-right: 0;}
+
+.solutions_hosting .block_icons { color: #475159; font-size: 16px; padding-bottom: 15px;}
+.solutions_hosting .block_icons span { display: inline-block; vertical-align: middle;}
+.solutions_hosting .block_icons span.valign { width: 1px; height: 50px; overflow: hidden; margin-right: -1px;}
+.solutions_hosting .block_icons .block_col { padding-left: 60px; background: url(../images/table_action.png) no-repeat 0 -2600px; width: 140px; margin-top: 3px;}
+.solutions_hosting .block_icons .block_col_first { background-position: 0 -2400px}
+.solutions_hosting .block_icons .block_col_last { background-position: 0 -2800px}
+.solutions_hosting .feel_free { text-align: center; color: #a4bb15; font-size: 36px; line-height: 40px; margin: 78px 20px 0; padding-bottom: 54px;}
+.sulutions_accordeon {}
+.sulutions_accordeon .accordeon_title { font-size: 30px; line-height: 30px; color: #d2dae0; text-decoration: underline; cursor: pointer; margin-top: 20px; display: inline-block;}
+.sulutions_accordeon .accordeon_title:hover { color: #566570}
+.sulutions_accordeon .accordeon_inner { overflow: hidden; height: 0;
+
+  -moz-transition-duration: 300ms;
+  -webkit-transition-duration: 300ms;
+  -ms-transition-duration: 300ms;
+  -o-transition-duration: 300ms;
+  transition-duration: 300ms;
+
+}
+
+.solutions_hosting .create_event { padding-top: 102px; text-align: right; color: #333a40; font-size: 16px;}
+.solutions_hosting .create_event a { display: block; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #ffffff; text-shadow: 0 1px 1px rgba(79, 87, 12, .15); text-decoration: none; padding: 22px 0 28px; margin-bottom: 8px;
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdd925', endColorstr='#a4bb15'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #cdd925 0%, #a4bb15 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#cdd925), to(#a4bb15));
+  background: -moz-linear-gradient(top,  #cdd925 0%,  #a4bb15 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #cdd925 0%,  #a4bb15 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #cdd925 0%,  #a4bb15 100%); /* для IE10+ */
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+
+.solutions_hosting .create_event a:hover {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d8e22a', endColorstr='#98b310'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #d8e22a 0%, #98b310 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#d8e22a), to(#98b310));
+  background: -moz-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для IE10+ */
+
+}
