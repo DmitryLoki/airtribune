@@ -629,7 +629,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -751,7 +751,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -892,7 +892,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -970,7 +970,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1047,7 +1047,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1123,7 +1123,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1199,7 +1199,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1265,7 +1265,7 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Image'),
+    t('Banner'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
@@ -1326,7 +1326,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -2843,7 +2843,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_track';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
   /* Field: WiFi */
   $handler->display->display_options['fields']['field_hotel_wifi']['id'] = 'field_hotel_wifi';
@@ -2941,7 +2940,6 @@ return array($event_id);';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-  $handler->display->display_options['sorts']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
   /* Contextual filter: Global: Null */
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
@@ -2955,6 +2953,21 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
+  );
+  /* Contextual filter: FlyingSite NID from context */
+  $handler->display->display_options['arguments']['null_1']['id'] = 'null_1';
+  $handler->display->display_options['arguments']['null_1']['table'] = 'views';
+  $handler->display->display_options['arguments']['null_1']['field'] = 'null';
+  $handler->display->display_options['arguments']['null_1']['ui_name'] = 'FlyingSite NID from context';
+  $handler->display->display_options['arguments']['null_1']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null_1']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null_1']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null_1']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null_1']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null_1']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null_1']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null_1']['validate_options']['types'] = array(
+    'pg_flyingsite' => 'pg_flyingsite',
   );
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -2972,11 +2985,11 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Distance to HQ */
+  /* Filter criterion: Distance to FlyingSite */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to HQ';
+  $handler->display->display_options['filters']['field_geofield_distance']['ui_name'] = 'Distance to FlyingSite';
   $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
   $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
     'distance' => '30',
@@ -2987,9 +3000,8 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '1';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
@@ -3002,6 +3014,14 @@ return array($event_id);';
       'panel' => '0',
       'fixed' => '',
       'label' => 'Global: Null',
+    ),
+    'null_1' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '',
+      'label' => 'FlyingSite NID from context',
     ),
   );
   $translatables['event_accommodations'] = array(
@@ -3166,6 +3186,21 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
+  /* Contextual filter: FlyingSite NID from context */
+  $handler->display->display_options['arguments']['null_1']['id'] = 'null_1';
+  $handler->display->display_options['arguments']['null_1']['table'] = 'views';
+  $handler->display->display_options['arguments']['null_1']['field'] = 'null';
+  $handler->display->display_options['arguments']['null_1']['ui_name'] = 'FlyingSite NID from context';
+  $handler->display->display_options['arguments']['null_1']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null_1']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null_1']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null_1']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null_1']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null_1']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null_1']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null_1']['validate_options']['types'] = array(
+    'pg_flyingsite' => 'pg_flyingsite',
+  );
   /* Filter criterion: Node is published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -3197,9 +3232,8 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '1';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
@@ -3212,6 +3246,14 @@ return array($event_id);';
       'panel' => '0',
       'fixed' => '',
       'label' => 'Global: Null',
+    ),
+    'null_1' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'FlyingSite NID from context',
     ),
   );
   $translatables['event_activities'] = array(
