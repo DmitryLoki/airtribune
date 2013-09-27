@@ -330,7 +330,7 @@ function airtribune2_preprocess_panels_pane(&$variables) {
       $variables['title_attributes_array']['class'][] = 'clearfix';
       break;
     case 'node_content':
-      if (strpos(drupal_get_path_alias(), 'organizers/') !== FALSE || $variables['content']['#node']->type == 'newsblog') {
+      if (is_solutions() || $variables['content']['#node']->type == 'newsblog') {
         $variables['title'] = '';
       }
       break;
@@ -373,19 +373,10 @@ function airtribune2_preprocess_node(&$vars) {
   
   // @see #3796: add template for solutions pages
   
-  $base = 'node';
-  $delimiter = '__';
-  $path = request_uri();
-  preg_match('/[^\/]+/',$path, $matches);
-  $part = $matches[0];
-  switch($part) {
-    case 'organizers':
-    case 'pilots':
-    case 'viewers':
-        $vars['theme_hook_suggestions'][] = $base . $delimiter . 'solutions';
-        //$variables['theme_hook_suggestions'][] = $base . $delimiter . $part;
-      break;
+  if (is_solutions()) {
+    $vars['theme_hook_suggestions'][] = $base . $delimiter . 'solutions';
   }
+
 }
 
 function airtribune2_process_node(&$vars) {
@@ -405,7 +396,7 @@ function airtribune2_process_node(&$vars) {
 
   $vars['full_name'] = render($full_name);
 
-  if (strpos(drupal_get_path_alias(), 'organizers/') !== FALSE) {
+  if (is_solutions()) {
     $vars['notitle'] = TRUE;
     $vars['title'] = '';
     $vars['user_picture'] = '';
@@ -1782,4 +1773,24 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
     // Flatten the classes to a string for each row for the template file.
     $vars['classes_array'][$id] = isset($vars['classes'][$id]) ? implode(' ', $vars['classes'][$id]) : '';
   }
+}
+
+// @see #3796: definition of solutions pages
+
+function is_solutions(){
+
+  
+  $base = 'node';
+  $delimiter = '__';
+  $path = request_uri();
+  preg_match('/[^\/]+/',$path, $matches);
+  $part = $matches[0];
+  switch($part) {
+    case 'organizers':
+    case 'pilots':
+    case 'viewers':
+        return TRUE;
+      break;
+  }
+  return FALSE;
 }

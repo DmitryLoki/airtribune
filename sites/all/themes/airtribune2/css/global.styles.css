@@ -1787,8 +1787,12 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 }
 #page ul.tabs.primary li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_reg_hover.png);}
 #page ul.tabs.primary li a:hover { color:#677581; background-image: url(../images/tab_bgr_hover.png); text-decoration: none;}
-#page ul.tabs.primary li.active { border-bottom:none;}
-#page ul.tabs.primary li.active a, #page ul.tabs.primary li.active a:hover { background:#ffffff; border-color:#e1e6e9; padding-bottom:5px; color:#667380; border-bottom: none;}
+#page ul.tabs.primary li.active,
+ #page ul.tabs.primary li.active-trail { border-bottom:none;}
+#page ul.tabs.primary li.active a,
+#page ul.tabs.primary li.active-trail a,
+#page ul.tabs.primary li.active a:hover,
+#page ul.tabs.primary li.active-trail a:hover { background:#ffffff; border-color:#e1e6e9; padding-bottom:5px; color:#667380; border-bottom: none;}
 #page ul.tabs.primary li.active a.registration, #page ul.tabs.primary li.active a.registration:hover { color: #8f733b;}
 #page ul.tabs.primary li.event_add { float: right;}
 #page ul.primary_suffix { text-align: center; margin: 0; padding: 0;}
@@ -2803,8 +2807,10 @@ table tr td.:first-child { border-left: none;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author a { color: #FFF; }
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author .field-content { display: inline;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions { margin: -227px 60px 0 402px; font-size: 24px; color: #ffffff; line-height: 30px; font-weight: bold; position: relative; text-indent: -19px;}
-.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions p:before { content: "“"; font-size: 36px;}
-.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions p:after { content: "”"; font-size: 36px; display: inline-block; position: relative; right: -19px; line-height: 15px;}
+.view-header-slideshow .views-field-field-header-slogan-solutions .quote:before { content: "“"; font-size: 36px;}
+.view-header-slideshow .views-field-field-header-slogan-solutions .quote:after { content: "”"; font-size: 36px; display: inline-block; position: relative; right: -19px; line-height: 15px;}
+.view-header-slideshow .views-field-field-header-slogan-solutions .quote_author { text-align: right; font-size: 14px; line-height: 16px; position: relative; top: -1px;}
+.view-header-slideshow .views-field-field-header-slogan-solutions .quote_author_about { text-align: right; font-size: 12px; line-height: 14px; font-weight: normal; font-style: italic;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions .field-content {}
 .main_slide_header .pane-content > h1 {  background:url(./images/logo_service.png) no-repeat 0 0; }
 
@@ -3329,7 +3335,7 @@ html.fb_view { overflow: auto;}
 .solutions_hosting .zoom_text { float: left; color: #75a0bc; color: rgba(3, 82, 133, .54); font-size: 24px; line-height: 30px; width: 355px;}
 .solutions_hosting .zoom_text .big_text { width: 250px; padding-top: 34px;}
 .solutions_hosting .zoom_text ul { font-size: 20px; margin: 0; padding: 15px 0 34px;}
-.solutions_hosting .zoom_text ul li { margin: 0 0 0 16px; padding: 5px 0;}
+.solutions_hosting .zoom_text ul li { margin: 0 0 0 19px; padding: 5px 0;}
 .solutions_hosting .zoom_text a { color: #a4bb15; font-size: 30px}
 .solutions_hosting .zoom_block { float: right; background: #ffffff; border: 1px solid #e1e6e9; padding: 20px 36px 20px 46px;}
 .solutions_hosting .cloud-zoom-big { width: 371px !important; height: 391px !important; border: 1px solid #e1e6e9; background: #ffffff; top: -21px !important; left: -440px !important;}
