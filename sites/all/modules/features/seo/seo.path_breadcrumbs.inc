@@ -2926,11 +2926,11 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'solutions_for_org_live_tracking';
-  $path_breadcrumb->name = 'Solutions for organizers / Competition live tracking';
+  $path_breadcrumb->name = 'Solutions for organizers / Live tracking';
   $path_breadcrumb->path = 'node/%nid';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Competition live tracking',
+      0 => 'Live tracking',
     ),
     'paths' => array(
       0 => 'organizers/livetracking',
@@ -2969,11 +2969,11 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'solutions_for_org_retrieve';
-  $path_breadcrumb->name = 'Solutions for organizers / Competition retrieve';
+  $path_breadcrumb->name = 'Solutions for organizers / Retrieve';
   $path_breadcrumb->path = 'node/%nid';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Competition retrieve',
+      0 => 'Retrieve',
     ),
     'paths' => array(
       0 => 'organizers/retrieve',
@@ -3008,6 +3008,49 @@ function seo_path_breadcrumbs_settings_info() {
   );
   $path_breadcrumb->weight = -98;
   $export['solutions_for_org_retrieve'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_service_providers';
+  $path_breadcrumb->name = 'Solutions for organizers / Service providers';
+  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Service providers',
+    ),
+    'paths' => array(
+      0 => 'organizers/service-providers',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'nid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers/service-providers',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -98;
+  $export['solutions_for_org_service_providers'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
