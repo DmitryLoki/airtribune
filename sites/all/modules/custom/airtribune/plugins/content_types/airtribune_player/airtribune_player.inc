@@ -115,7 +115,7 @@ function _airtribune_airtribune_player_get_race_widget($contestId, $raceId, $opt
       <div class=\"airvis-loading-container\">
         <div class=\"airvis-loading\">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline}{$titleUrl} {$mapWidget}apiDomain: \"{$apiDomain}\", apiVersion: \"{$apiVersion}\", mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: \"{$baseUrl}/img/\", raceId: \"{$raceId}\", contestId: \"{$contestId}\",{$mode}{$isOnline}{$titleUrl} {$mapWidget}apiDomain: \"{$apiDomain}\", apiVersion: \"{$apiVersion}\", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>";
   return $output;
 }
