@@ -374,6 +374,8 @@ function airtribune2_preprocess_node(&$vars) {
   // @see #3796: add template for solutions pages
   
   if (is_solutions()) {
+    $base = 'node';
+    $delimiter = '__';
     $vars['theme_hook_suggestions'][] = $base . $delimiter . 'solutions';
   }
 
@@ -1779,9 +1781,6 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
 
 function is_solutions(){
 
-  
-  $base = 'node';
-  $delimiter = '__';
   $path = request_uri();
   preg_match('/[^\/]+/',$path, $matches);
   $part = $matches[0];
