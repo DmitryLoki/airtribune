@@ -3333,7 +3333,7 @@ html.fb_view { overflow: auto;}
 
 }
 .solutions_hosting .zoom_text { float: left; color: #75a0bc; color: rgba(3, 82, 133, .54); font-size: 24px; line-height: 30px; width: 355px;}
-.solutions_hosting .zoom_text .big_text { width: 250px; padding-top: 34px;}
+.solutions_hosting .zoom_text .big_text { width: 260px; padding-top: 34px;}
 .solutions_hosting .zoom_text ul { font-size: 20px; margin: 0; padding: 15px 0 34px;}
 .solutions_hosting .zoom_text ul li { margin: 0 0 0 19px; padding: 5px 0;}
 .solutions_hosting .zoom_text a { color: #a4bb15; font-size: 30px}
