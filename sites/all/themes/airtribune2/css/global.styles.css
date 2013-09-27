@@ -3353,10 +3353,10 @@ html.fb_view { overflow: auto;}
 .solutions_hosting .block_icons .block_col_first { background-position: 0 -2400px}
 .solutions_hosting .block_icons .block_col_last { background-position: 0 -2800px}
 .solutions_hosting .feel_free { text-align: center; color: #a4bb15; font-size: 36px; line-height: 40px; margin: 78px 20px 0; padding-bottom: 54px;}
-.sulutions_accordeon {}
-.sulutions_accordeon .accordeon_title { font-size: 30px; line-height: 30px; color: #d2dae0; text-decoration: underline; cursor: pointer; margin-top: 20px; display: inline-block;}
-.sulutions_accordeon .accordeon_title:hover { color: #566570}
-.sulutions_accordeon .accordeon_inner { overflow: hidden; height: 0;
+.solutions_accordeon {}
+.solutions_accordeon .accordeon_title { font-size: 30px; line-height: 30px; color: #d2dae0; text-decoration: underline; cursor: pointer; margin-top: 20px; display: inline-block;}
+.solutions_accordeon .accordeon_title:hover { color: #566570}
+.solutions_accordeon .accordeon_inner { overflow: hidden; height: 0;
 
   -moz-transition-duration: 300ms;
   -webkit-transition-duration: 300ms;

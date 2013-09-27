@@ -1782,7 +1782,7 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
 function is_solutions(){
 
   $path = request_uri();
-  preg_match('/[^\/]+/',$path, $matches);
+  preg_match('/[^\/]{2,}[^\/]/',$path, $matches);
   $part = $matches[0];
   switch($part) {
     case 'organizers':
