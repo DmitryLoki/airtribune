@@ -1048,7 +1048,16 @@ viewers/*',
     padding: 0 10px;
   }',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'node',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -1269,6 +1278,10 @@ event/*/map/accommodations',
       'override_title_text' => '',
       'context' => array(
         0 => 'event',
+        2 => 'empty',
+      ),
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
       ),
     );
     $pane->cache = array();
@@ -1303,10 +1316,13 @@ event/*/map/accommodations',
     $pane->configuration = array(
       'context' => array(
         0 => 'event',
-        1 => 'empty',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
