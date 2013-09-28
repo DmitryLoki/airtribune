@@ -88,18 +88,17 @@ function airtribune2_preprocess_html(&$vars) {
   }
   
   // @see #3796: add class for body on solutions pages
-  
-  $path = request_uri();
-  preg_match('/[^\/]+/',$path, $matches);
-  $part = $matches[0];
-  switch($part) {
-    case 'organizers':
-    case 'pilots':
-    case 'viewers':
-      $vars['classes_array'][] = $part;
-      break;
+  $path = drupal_get_path_alias(current_path());
+  if (preg_match('/[^\/]+/',$path, $matches)) {
+    $part = $matches[0];
+    switch($part) {
+      case 'organizers':
+      case 'pilots':
+      case 'viewers':
+        $vars['classes_array'][] = $part;
+        break;
+    }    
   }
-  
 }
 
 /**
