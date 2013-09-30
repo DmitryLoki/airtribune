@@ -3188,7 +3188,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .contest_title { color: #ffffff; font: bold 14px/20px Arial, Helvetica, sans-serif; display: inline-block;}
 .front_live_events .contest_title a { color: #ffffff; text-decoration: none;}
 .front_live_events .contest_title a:hover { text-decoration: underline;}
-.front_live_events .contest_place { color: #d5e4ed; font: 12px/14px Verdana, Geneva, sans-serif; background: url(../images/next_events.png) no-repeat -1000px -70px; padding-left: 17px;  position: relative; top: -4px; display: inline-block; padding: 1px 0;}
+.front_live_events .contest_place { color: #d5e4ed; font: 12px/14px Verdana, Geneva, sans-serif; background: url(../images/next_events.png) no-repeat -1000px -70px; position: relative; top: -4px; display: inline-block; padding: 1px 0 1px 17px;}
 
 /*.front_live_events .race-links { position: absolute;}*/
 .front_live_events .views-field-day-pg-race-play-link a.race-link { display: none;}
