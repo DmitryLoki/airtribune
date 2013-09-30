@@ -51,7 +51,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -100;
+  $path_breadcrumb->weight = -96;
   $export['breadcrumb_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -95,7 +95,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -99;
+  $path_breadcrumb->weight = -95;
   $export['breadcrumb_activities'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -139,7 +139,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -95;
+  $path_breadcrumb->weight = -91;
   $export['breadcrumb_activity_newsblog'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -181,7 +181,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -94;
+  $path_breadcrumb->weight = -90;
   $export['breadcrumb_basic_page'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -203,7 +203,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -92;
+  $path_breadcrumb->weight = -88;
   $export['breadcrumb_events_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -225,7 +225,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -91;
+  $path_breadcrumb->weight = -87;
   $export['breadcrumb_events_list_2'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -247,7 +247,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -89;
+  $path_breadcrumb->weight = -85;
   $export['breadcrumb_events_list_current'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -269,7 +269,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -88;
+  $path_breadcrumb->weight = -84;
   $export['breadcrumb_events_list_next'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -291,7 +291,7 @@ function seo_path_breadcrumbs_settings_info() {
     'arguments' => NULL,
     'access' => array(),
   );
-  $path_breadcrumb->weight = -90;
+  $path_breadcrumb->weight = -86;
   $export['breadcrumb_events_list_past'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -347,7 +347,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -87;
+  $path_breadcrumb->weight = -83;
   $export['breadcrumb_pg_contest_current'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -422,7 +422,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -62;
+  $path_breadcrumb->weight = -57;
   $export['breadcrumb_pg_contest_current_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -497,7 +497,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -56;
+  $path_breadcrumb->weight = -51;
   $export['breadcrumb_pg_contest_current_activity'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -553,7 +553,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -59;
+  $path_breadcrumb->weight = -54;
   $export['breadcrumb_pg_contest_current_activity_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -609,7 +609,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -83;
+  $path_breadcrumb->weight = -79;
   $export['breadcrumb_pg_contest_current_blog'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -690,7 +690,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -96;
+  $path_breadcrumb->weight = -92;
   $export['breadcrumb_pg_contest_current_blog_entry'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -748,7 +748,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -77;
+  $path_breadcrumb->weight = -72;
   $export['breadcrumb_pg_contest_current_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -804,7 +804,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -80;
+  $path_breadcrumb->weight = -76;
   $export['breadcrumb_pg_contest_current_info'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -860,7 +860,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -65;
+  $path_breadcrumb->weight = -60;
   $export['breadcrumb_pg_contest_current_map'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -916,7 +916,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -74;
+  $path_breadcrumb->weight = -69;
   $export['breadcrumb_pg_contest_current_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -974,7 +974,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -71;
+  $path_breadcrumb->weight = -66;
   $export['breadcrumb_pg_contest_current_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1032,7 +1032,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -68;
+  $path_breadcrumb->weight = -63;
   $export['breadcrumb_pg_contest_current_pilots_by_payment_status'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1088,7 +1088,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -52;
+  $path_breadcrumb->weight = -47;
   $export['breadcrumb_pg_contest_current_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1144,7 +1144,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -53;
+  $path_breadcrumb->weight = -48;
   $export['breadcrumb_pg_contest_current_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1200,7 +1200,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -85;
+  $path_breadcrumb->weight = -81;
   $export['breadcrumb_pg_contest_next'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1275,7 +1275,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -61;
+  $path_breadcrumb->weight = -56;
   $export['breadcrumb_pg_contest_next_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1350,7 +1350,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -55;
+  $path_breadcrumb->weight = -50;
   $export['breadcrumb_pg_contest_next_activity'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1406,7 +1406,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -58;
+  $path_breadcrumb->weight = -53;
   $export['breadcrumb_pg_contest_next_activity_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1462,7 +1462,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -82;
+  $path_breadcrumb->weight = -78;
   $export['breadcrumb_pg_contest_next_blog'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1543,7 +1543,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -98;
+  $path_breadcrumb->weight = -94;
   $export['breadcrumb_pg_contest_next_blog_entry'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1601,7 +1601,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -76;
+  $path_breadcrumb->weight = -71;
   $export['breadcrumb_pg_contest_next_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1657,7 +1657,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -79;
+  $path_breadcrumb->weight = -74;
   $export['breadcrumb_pg_contest_next_info'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1713,7 +1713,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -64;
+  $path_breadcrumb->weight = -59;
   $export['breadcrumb_pg_contest_next_map'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1769,7 +1769,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -73;
+  $path_breadcrumb->weight = -68;
   $export['breadcrumb_pg_contest_next_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1827,7 +1827,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -70;
+  $path_breadcrumb->weight = -65;
   $export['breadcrumb_pg_contest_next_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1885,7 +1885,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -67;
+  $path_breadcrumb->weight = -62;
   $export['breadcrumb_pg_contest_next_pilots_by_payment_status'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1941,7 +1941,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -51;
+  $path_breadcrumb->weight = -46;
   $export['breadcrumb_pg_contest_next_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -1997,7 +1997,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -79;
+  $path_breadcrumb->weight = -75;
   $export['breadcrumb_pg_contest_next_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2053,7 +2053,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -86;
+  $path_breadcrumb->weight = -82;
   $export['breadcrumb_pg_contest_past'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2128,7 +2128,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -63;
+  $path_breadcrumb->weight = -58;
   $export['breadcrumb_pg_contest_past_accommodation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2203,7 +2203,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -57;
+  $path_breadcrumb->weight = -52;
   $export['breadcrumb_pg_contest_past_activity'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2259,7 +2259,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -60;
+  $path_breadcrumb->weight = -55;
   $export['breadcrumb_pg_contest_past_activity_list'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2315,7 +2315,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -84;
+  $path_breadcrumb->weight = -80;
   $export['breadcrumb_pg_contest_past_blog'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2396,7 +2396,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -97;
+  $path_breadcrumb->weight = -93;
   $export['breadcrumb_pg_contest_past_blog_entry'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2454,7 +2454,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -78;
+  $path_breadcrumb->weight = -73;
   $export['breadcrumb_pg_contest_past_details'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2510,7 +2510,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -81;
+  $path_breadcrumb->weight = -77;
   $export['breadcrumb_pg_contest_past_info'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2566,7 +2566,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -66;
+  $path_breadcrumb->weight = -61;
   $export['breadcrumb_pg_contest_past_map'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2622,7 +2622,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -75;
+  $path_breadcrumb->weight = -70;
   $export['breadcrumb_pg_contest_past_pilots'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2680,7 +2680,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -72;
+  $path_breadcrumb->weight = -67;
   $export['breadcrumb_pg_contest_past_pilots_by_nation'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2738,7 +2738,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -69;
+  $path_breadcrumb->weight = -64;
   $export['breadcrumb_pg_contest_past_pilots_by_payment_status'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2794,7 +2794,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -54;
+  $path_breadcrumb->weight = -49;
   $export['breadcrumb_pg_contest_past_results'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2838,8 +2838,219 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -93;
+  $path_breadcrumb->weight = -89;
   $export['breadcrumb_pg_race'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org';
+  $path_breadcrumb->name = 'Solutions for organizers';
+  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Solutions for organizers',
+    ),
+    'paths' => array(
+      0 => 'organizers/hosting',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'nid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -100;
+  $export['solutions_for_org'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_hosting';
+  $path_breadcrumb->name = 'Solutions for organizers / Hosting';
+  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Solutions for organizers',
+    ),
+    'paths' => array(
+      0 => 'organizers/hosting',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'nid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers/hosting',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -99;
+  $export['solutions_for_org_hosting'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_live_tracking';
+  $path_breadcrumb->name = 'Solutions for organizers / Live tracking';
+  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Live tracking',
+    ),
+    'paths' => array(
+      0 => 'organizers/livetracking',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'nid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers/livetracking',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -97;
+  $export['solutions_for_org_live_tracking'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_retrieve';
+  $path_breadcrumb->name = 'Solutions for organizers / Retrieve';
+  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Retrieve',
+    ),
+    'paths' => array(
+      0 => 'organizers/retrieve',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'nid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers/retrieve',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -98;
+  $export['solutions_for_org_retrieve'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'solutions_for_org_service_providers';
+  $path_breadcrumb->name = 'Solutions for organizers / Service providers';
+  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Service providers',
+    ),
+    'paths' => array(
+      0 => 'organizers/service-providers',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'nid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:node',
+        'settings' => array(
+          'identifier' => 'Node: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'organizers/service-providers',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = -98;
+  $export['solutions_for_org_service_providers'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
@@ -2880,7 +3091,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -47;
+  $path_breadcrumb->weight = -42;
   $export['user_edit'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2922,7 +3133,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -46;
+  $path_breadcrumb->weight = -40;
   $export['user_pilot_edit'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2956,7 +3167,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -49;
+  $path_breadcrumb->weight = -44;
   $export['user_register'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -2998,7 +3209,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -47;
+  $path_breadcrumb->weight = -41;
   $export['user_registrations'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -3032,7 +3243,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -48;
+  $path_breadcrumb->weight = -43;
   $export['user_request_new_password'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
@@ -3066,7 +3277,7 @@ function seo_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -50;
+  $path_breadcrumb->weight = -45;
   $export['user_sign_in'] = $path_breadcrumb;
 
   return $export;

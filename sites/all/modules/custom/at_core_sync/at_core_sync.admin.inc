@@ -48,6 +48,14 @@ function at_core_sync_admin_settings() {
     '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
     '#description' => t('For example: v0.1, v0.1.2'),
   );
+  
+  $form['at_core_sync_custom_settings']['at_core_sync_debug_mode'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Debug mode'),
+    '#default_value' => variable_get('at_core_sync_debug_mode', 0),
+    '#description' => t('Switch to debug mode'),
+  );
+  
   return system_settings_form($form);
 }
 

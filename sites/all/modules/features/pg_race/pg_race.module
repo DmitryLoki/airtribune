@@ -734,7 +734,7 @@ function _pg_race_play_link($params) {
 
   // Add js for fix work of links  in MS IE
   drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  $output = theme('item_list', $variables) . $params['helptext'] . $params['time'];
+  $output = theme('item_list', $variables);
 
   return $output;
 }
@@ -812,7 +812,7 @@ function _day_pg_race_preview_markup($node) {
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $time = date('H:i:s', $start_time);
         $link_text = t('Watch Live');
-        $help_text = t('Race starts on');
+        $help_text = t('Race is on');
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
         $time = date('H:i:s', ($deadline_time - $start_time));
@@ -866,7 +866,7 @@ function _day_pg_race_preview_markup($node) {
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/pg_race_play_link.js', 'file');
   drupal_add_js(array('Day' => array(
     'race_in_text' => t('Race starts in'),
-    'race_on_text' => t('Race starts on'),
+    'race_on_text' => t('Race is on'),
     'race_time_text' => t('Race time'),
     'watch_live_text' => t('Watch live'),
     'task_replay_text' => t('Task replay'),

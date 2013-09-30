@@ -1846,7 +1846,7 @@ Prof.',
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'file_directory' => 'contests',
-        'file_extensions' => 'txt doc docx odt xls xlsx odc pdf png jpg lkm xcm dem tpl ppt pptx',
+        'file_extensions' => 'txt doc docx odt xls xlsx odc pdf png jpg lkm xcm dem tpl ppt pptx zip klm wpt gpx cup',
         'filefield_paths' => array(
           'active_updating' => 1,
           'file_name' => array(
@@ -1954,140 +1954,64 @@ Prof.',
     ),
   );
 
-  // Exported field: 'node-pg_contest-field_flying_info'.
-  $fields['node-pg_contest-field_flying_info'] = array(
+  // Exported field: 'node-pg_contest-field_flying_site_ref'.
+  $fields['node-pg_contest-field_flying_site_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_flying_info',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
+      'field_name' => 'field_flying_site_ref',
       'foreign keys' => array(
-        'format' => array(
+        'node' => array(
           'columns' => array(
-            'format' => 'format',
+            'target_id' => 'nid',
           ),
-          'table' => 'filter_format',
+          'table' => 'node',
         ),
       ),
       'indexes' => array(
-        'format' => array(
-          0 => 'format',
+        'target_id' => array(
+          0 => 'target_id',
         ),
       ),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => 'Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '9',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_flying_info',
-      'label' => 'Flying site',
-      'required' => 1,
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '9',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_flying_site_photos'.
-  $fields['node-pg_contest-field_flying_site_photos'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '8',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_flying_site_photos',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
           ),
-          'table' => 'file_managed',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_flyingsite' => 'pg_flyingsite',
+          ),
         ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'entity_translation_sync' => array(
-          0 => 'fid',
-        ),
-        'profile2_private' => FALSE,
-        'uri_scheme' => 'public',
+        'target_type' => 'node',
       ),
       'translatable' => '0',
-      'type' => 'image',
+      'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'entityreference',
           'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
+            'link' => FALSE,
           ),
-          'type' => 'image',
-          'weight' => '16',
+          'type' => 'entityreference_label',
+          'weight' => 68,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -2103,267 +2027,19 @@ Prof.',
         ),
       ),
       'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_flying_site_photos',
-      'label' => 'Flying site photos',
-      'required' => 0,
+      'field_name' => 'field_flying_site_ref',
+      'label' => 'Flying site',
+      'required' => FALSE,
       'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'filefield_paths' => array(
-          'active_updating' => 1,
-          'file_name' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
-          ),
-          'file_path' => array(
-            'options' => array(
-              'pathauto' => 1,
-              'transliterate' => 1,
-            ),
-            'value' => 'pg_contests/[node:nid]-[node:title]/img/flying_site',
-          ),
-          'retroactive_update' => 0,
-        ),
-        'image_field_caption' => 0,
-        'max_filesize' => '1MB',
-        'max_resolution' => '',
-        'min_resolution' => '300x200',
-        'title_field' => 1,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'image',
-        'settings' => array(
-          'preview_image_style' => 'thumbnail',
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'image_image',
-        'weight' => '10',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_gt_bus'.
-  $fields['node-pg_contest-field_gt_bus'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_gt_bus',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '61',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_gt_bus',
-      'label' => 'Bus',
-      'required' => 0,
-      'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '56',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_gt_car'.
-  $fields['node-pg_contest-field_gt_car'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_gt_car',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '64',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_gt_car',
-      'label' => 'Car',
-      'required' => 0,
-      'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '55',
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '59',
       ),
     ),
   );
@@ -2405,7 +2081,8 @@ Prof.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -2430,7 +2107,7 @@ Prof.',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_gt_general',
-      'label' => 'General',
+      'label' => 'How to get here - general',
       'required' => 0,
       'settings' => array(
         'better_formats' => array(
@@ -2472,330 +2149,6 @@ Prof.',
         ),
         'type' => 'text_textarea',
         'weight' => '52',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_gt_plane'.
-  $fields['node-pg_contest-field_gt_plane'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_gt_plane',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '60',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_gt_plane',
-      'label' => 'Plane',
-      'required' => 0,
-      'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '53',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_gt_taxi'.
-  $fields['node-pg_contest-field_gt_taxi'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_gt_taxi',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '63',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_gt_taxi',
-      'label' => 'Taxi',
-      'required' => 0,
-      'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '57',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_gt_train'.
-  $fields['node-pg_contest-field_gt_train'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_gt_train',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '1',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '62',
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_gt_train',
-      'label' => 'Train',
-      'required' => 0,
-      'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '54',
       ),
     ),
   );
@@ -4846,8 +4199,6 @@ Prof.',
   // Included for use with string extractors like potx.
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
-  t('Bus');
-  t('Car');
   t('City');
   t('Core ID');
   t('Country');
@@ -4862,10 +4213,10 @@ Prof.',
   t('FAI category');
   t('Facebook, Twitter, Google Plus, Youtube, Vimeo');
   t('Flying site');
-  t('Flying site photos');
   t('Full info about organizer - description, links, contacts');
-  t('General');
   t('General day-by-day schedule of the event.');
+  t('Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.');
   t('General schedule');
   t('Group');
   t('Group roles and permissions');
@@ -4874,6 +4225,7 @@ Prof.',
   t('Headquarter location');
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
+  t('How to get here - general');
   t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
   t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
@@ -4888,7 +4240,6 @@ Prof.',
   t('Organizers');
   t('Photos');
   t('Photos pertaining to the general description of the contest');
-  t('Plane');
   t('Points file');
   t('Prize fund and scoring categories');
   t('Registration switch');
@@ -4896,17 +4247,14 @@ Prof.',
   t('Results summary');
   t('Results title');
   t('Rules');
-  t('Seasons to fly, distances flown, thermal forces and winds, main flying directions, infrastructure, takeoff and landing and everything you think might be important.');
   t('Selection and entry fee');
   t('Social networks links');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
-  t('Taxi');
   t('Tel');
   t('This is an offline event');
   t('Time zone');
   t('Tiny path');
-  t('Train');
   t('Twitter widget code');
   t('Web site');
 

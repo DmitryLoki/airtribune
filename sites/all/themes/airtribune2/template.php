@@ -86,6 +86,19 @@ function airtribune2_preprocess_html(&$vars) {
   if (in_array('page-event-results-facebook', $vars['classes_array'])) {
     $vars['html_attributes_array']['class'] = array('fb_view');
   }
+  
+  // @see #3796: add class for body on solutions pages
+  $path = drupal_get_path_alias(current_path());
+  if (preg_match('/[^\/]+/',$path, $matches)) {
+    $part = $matches[0];
+    switch($part) {
+      case 'organizers':
+      case 'pilots':
+      case 'viewers':
+        $vars['classes_array'][] = $part;
+        break;
+    }    
+  }
 }
 
 /**
@@ -292,16 +305,13 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   if (isset($variables['pane']->configuration['more'], $variables['display']->args[0])) {
     $variables['classes_array'][] = 'wrapper-with-link';
   }
-  if ($variables['pane']->type == 'node_content' && $variables['content']['#node']->type == 'newsblog') {
-    $variables['title'] = '';
-  }
 
   $transport = array(
+    'node:field_gt_plane',
+    'node:field_gt_train',
     'node:field_gt_car',
     'node:field_gt_bus',
     'node:field_gt_taxi',
-    'node:field_gt_plane',
-    'node:field_gt_train',
   );
 
   if (in_array($variables['pane']->subtype, $transport)) {
@@ -317,6 +327,11 @@ function airtribune2_preprocess_panels_pane(&$variables) {
     case 'soon_country':
       $variables['classes_array'][] = 'front_live_events';
       $variables['title_attributes_array']['class'][] = 'clearfix';
+      break;
+    case 'node_content':
+      if (is_solutions() || $variables['content']['#node']->type == 'newsblog') {
+        $variables['title'] = '';
+      }
       break;
 
     default:
@@ -354,12 +369,23 @@ function airtribune2_preprocess_node(&$vars) {
     $vars['title'] = '';
     $vars['user_picture'] = '';
   }
+  
+  // @see #3796: add template for solutions pages
+  
+  if (is_solutions()) {
+    $base = 'node';
+    $delimiter = '__';
+    $vars['theme_hook_suggestions'][] = $base . $delimiter . 'solutions';
+  }
+
 }
 
 function airtribune2_process_node(&$vars) {
 
   $vars['event_blog'] = FALSE;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
+
+  //print drupal_get_path_alias();
 
   if (isset($account->field_full_name)) {
     $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
@@ -369,6 +395,15 @@ function airtribune2_process_node(&$vars) {
   }
 
   $vars['full_name'] = render($full_name);
+
+  if (is_solutions()) {
+    $vars['notitle'] = TRUE;
+    $vars['title'] = '';
+    $vars['user_picture'] = '';
+    $vars['display_submitted'] = '';
+    $vars['no_posted_text'] = TRUE;
+  }
+
   /* If view mode is event_blog_teaser */
 
   if ($vars['view_mode'] == 'event_blog_teaser') {
@@ -443,6 +478,7 @@ function airtribune2_process_node(&$vars) {
     }
   }
 
+
   /**
    *  paragliding scoring category
    *
@@ -488,8 +524,9 @@ function airtribune2_process_node(&$vars) {
 
   /* Change of specific nodes */
   elseif ($vars['node']->nid != '5363' && $vars['node']->nid != '5362') {
-    _airtribune2_add_created($vars);
-
+    if (empty($vars['no_posted_text'])){
+      _airtribune2_add_created($vars);
+    }
     if (!empty($vars['content']['field_image'])) {
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
@@ -572,6 +609,10 @@ function airtribune2_menu_link__account(&$vars) {
     $output .= '<div>' . $element['#localized_options']['attributes']['title'] . '</div>';
   }
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+function airtribune2_menu_tree__menu_solutions_organizers(&$vars) {
+  return '<ul class="tabs primary menu">' . $vars['tree'] . '</ul>';
 }
 
 /**
@@ -1087,7 +1128,7 @@ function airtribune2_field($variables) {
       $variables['label_hidden'] = '';
       $variables['classes'] .= ' field_buttons';
 
-      if ($variables['element']['#field_name'] == 'field_hotel_wifi' && !$variables['element']['#items'][0]['value']) {
+      if ($variables['element']['#field_name'] == 'field_hotel_wifi' && empty($variables['element']['#items'][0]['value'])) {
         $variables['classes'] .= ' field_wifi_no';
       }
       break;
@@ -1102,11 +1143,11 @@ function airtribune2_field($variables) {
       $variables['classes'] .= ' fields_contacts';
       break;
 
+    case 'field_gt_plane':
+    case 'field_gt_train':
     case 'field_gt_car':
     case 'field_gt_bus':
     case 'field_gt_taxi':
-    case 'field_gt_plane':
-    case 'field_gt_train':
       if (!arg(3)) {
         list(, , $key) = explode('_', $variables['element']['#field_name']);
         $contest_id = (int) arg(1);
@@ -1237,7 +1278,11 @@ function airtribune2_preprocess_field(&$vars) {
       'jcarousel_image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE,
       'full_image_style' => '',
     );
-    $flying_site_photos = field_view_field('node', $element['#object'], AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
+    // Get flying site node
+    $fs_nid = $element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
+    $fs_node = node_load($fs_nid);
+
+    $flying_site_photos = field_view_field('node', $fs_node, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
 
     if (isset($flying_site_photos[0])) {
       foreach ($flying_site_photos[0]['#items'] as $item) {
@@ -1729,4 +1774,21 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
     // Flatten the classes to a string for each row for the template file.
     $vars['classes_array'][$id] = isset($vars['classes'][$id]) ? implode(' ', $vars['classes'][$id]) : '';
   }
+}
+
+// @see #3796: definition of solutions pages
+
+function is_solutions(){
+
+  $path = request_uri();
+  preg_match('/[^\/]{2,}[^\/]/',$path, $matches);
+  $part = $matches[0];
+  switch($part) {
+    case 'organizers':
+    case 'pilots':
+    case 'viewers':
+        return TRUE;
+      break;
+  }
+  return FALSE;
 }
