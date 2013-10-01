@@ -7,10 +7,8 @@ jQuery(function($){
 		parentLi.attr('rel', 'drop-menu-'+parentLiInc);
 		dropItemWrap.insertAfter(parentLi.parent());
 		dropItemWrap.find('.pane-inner').append($(this));
-		dropItemWrap.css({'position':'absolute', 'left':parentLi.position().left + 7, 'width':parentLi.width() - 10})
-		setTimeout(function(){
-			dropItemWrap.hide();
-		},100);
+		dropItemWrap.css({'position':'absolute', 'left':parentLi.position().left + 7, 'width':parentLi.width() - 10});
+
 		/*dropItemWrap.hover(
 			function(){
 				$(this).addClass('mouseover');
@@ -34,7 +32,11 @@ jQuery(function($){
 				}, 50)
 			}
 		);*/
-		
+
+		//set drop item wrap height
+        dropItemWrap.height(dropItemWrap.find('.pane-inner-wrapper').outerHeight() + 20);
+        dropItemWrap.hide();
+
 		parentLi.click(function(){
             var slideElement = $('#'+$(this).attr('rel'));
 			if(!$(this).hasClass('menu_active')){

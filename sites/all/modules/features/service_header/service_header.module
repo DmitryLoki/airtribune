@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Service header feature.
+ */
+
+include_once 'service_header.features.inc';

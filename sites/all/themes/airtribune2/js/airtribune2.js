@@ -3,7 +3,7 @@
     attach: function (context) {
 
       // Temporary disable these menu items,
-      $('.pane-menu-footer-menu a, .menu-item-1338 a, .menu-item-1339 a, .menu-item-1340 a, .menu-item-1341 a')
+      $('.pane-menu-footer-menu a, .pane-airtribune-primary-navigation .menu-item-1338 a, .pane-airtribune-primary-navigation .menu-item-1339 a, .pane-airtribune-primary-navigation .menu-item-1340 a, .pane-airtribune-primary-navigation .menu-item-1341 a')
         .attr('title', 'Under construction')
         .attr('href', '')
         .click(function () {
@@ -88,5 +88,19 @@ jQuery(function ($) {
     //alert(el);
     el.find('span').css({'max-width': width - delta});
   }
+  $('.solutions_accordeon .accordeon_inner').each(function(){
+    $(this).height('auto');
+    $(this).attr('rel', $(this).height());
+    $(this).height(0);
+  });
+  $('.solutions_accordeon .accordeon_title').click(function(){
+    el = $(this).next();
+    if(el.height() == 0){
+      el.height(el.attr('rel'));
+    }
+    else{
+      el.height(0); 
+    }
+  })
 })
 

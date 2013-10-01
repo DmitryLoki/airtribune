@@ -1,0 +1,89 @@
+NodeSymlinks 7.x-1.0-rc1, 2013-03-16
+--------------------------------------
+Update pathauto pattern, and set it by default so Pathauto is usable immediately after installation.
+
+NodeSymlinks 7.x-1.0-beta3, 2013-03-09
+--------------------------------------
+Code style changes (following Coder recommandations)
+Add 'configure' link in .info
+Add dependency on Menu module
+Issue #1839024 by cristian100, Simon Georges: Permission Issues
+Issue #1784912 by tenken: Fatal error on uninstall, no url_alias.src column
+
+NodeSymlinks 7.x-1.0-beta2, 2012-06-27
+--------------------------------------
+Issue #1226012: Fixed Link title for menu replaces node title when viewing symlink content."
+Issue #1513438 by Wolfgang Reszel: Added View modes not working with NodeSymlinks.
+Issue #1537874 by Wolfgang Reszel: Fixed Bulk update of NodeSymlinks paths does not work.
+Issue #1512420 by Wolfgang Reszel: Added Restrict the menu tree to the available menus from the content type settings.
+Issue #1592870: Fixed Parse error: syntax error, unexpected T_FUNCTION in nodesymlinks.inc on line 328 (support for PHP < 5.3).
+Issue #1547396 by wojtha and moskito: NodeSymlink's original tabs are shown to everyone.
+
+NodeSymlinks 7.x-1.0-beta1, 2012-04-25
+--------------------------------------
+First Drupal 7.x release!
+Issue #1535432 by moskito and Wolfgang Reszel: Fixed Cannot delete nodes with NodeSymlinks enabled.
+Issue #1539340 by moskito: Fixed Undefined index: items in _nodesymlinks_nodeapi_insert_update().
+
+NodeSymlinks 7.x-1.x, 2012-03-23
+--------------------------------------
+Initial Drupal 7.x port.
+
+NodeSymlinks 6.x-1.0-beta6, 2011-04-16
+--------------------------------------
+Issue #960634 by screenage, meatsack: Added Symlinked nodes aren't compatible with node_view() Panels.
+
+NodeSymlinks 6.x-1.0-beta5, 2011-01-07
+--------------------------------------
+Issue #978772 by wojtha: Fixed duplicate tokens error message on the Status Report
+
+NodeSymlinks 6.x-1.0-beta4, 2011-01-07
+--------------------------------------
+Issue #993650 by djac: Fixing HTTP 403 error for users with administer menu but without administer symlinks permission
+Issue #661490 by wojtha: Check if form[menu] exists before injecting our stuff
+Issue #986644 by wojtha: Fixing call-time pass-by-reference bug brakes AHAH requests when error reporting is set to strict
+Delete nodesymlinks variables during unistall
+Node tokens are now optional
+Adding URL fragment support
+
+NodeSymlinks 6.x-1.0-beta3, 2010-11-21
+--------------------------------------
+Adding full support for Pathauto and Path module - you can create custom aliases per nodesymlink. Yeah!
+Adding configurable optional validation check if primary node menu item exists before creating new nodesymlink.
+Issue #974684 by wojtha: Adding new token [nodesymlinks-nodepath] for creating aliases based on node path alias.
+Issue #974684 by wojtha: Fixing broken Pathauto 1.x bulk update.
+
+NodeSymlinks 6.x-1.0-beta2, 2010-11-13
+--------------------------------------
+Issue #965954 by wojtha: Fixes ampersand and similar characters are converted to html entitities in menu titles
+Issue #808002 by wojtha and scottrigby: Adding Pathauto/Tokens support, automatic generation of nodesymlink path aliases
+Issue #807918 by wojtha: Adding support for bulk creation of aliases
+
+NodeSymlinks 6.x-1.0-beta1, 2009-09-14
+--------------------------------------
+Added by wojtha: Admin settings form for the breadcrumbs behavior on the Nodesymlinks pages
+Added by wojtha: Nodesymlinks on the node menu settings form can be added or deleted using AHAH!
+
+NodeSymlinks 6.x-1.0-alpha2, 2009-09-12
+--------------------------------------
+NOTE: Merge with Gordon's Luk fork (nodemultiparent-6.X-1.3-dev)
+Added by Gordon Luk, wojtha: Link storage table for backup purpose
+- Links are now saved in its own table when module is disabled and enabled again all links are restored.
+Added by Gordon Luk, wojtha: Changes in UI
+Added by Gordon Luk, wojtha: Admin page with all NodeSymlinks in one table (admin/settings/nodesymlinks)
+Added by wojtha: License file
+
+NodeSymlinks 6.x-1.0-alpha1, 2009-09-11
+--------------------------------------
+Issue #479520 by Fedor.Za: Wrong SQL syntax
+Issue #479532 by Fedor.Za, wojtha: "Delete" button interefered with Node's "Delete" button -> renamed to "Delete Symlinks"
+Check if module Path exists before calling path_set_alias()
+Issue #522378 by zoo33: Make view/edit links for original node themeable
+
+NodeSymlinks 6.x-1.x-dev, 2009-05-30
+--------------------------------------
+Issue #371463 by pokurek: changed path to symlinks menu items in form during nodeapi update and insert
+
+NodeSymlinks 6.x-1.x-dev, 2009-01-19
+--------------------------------------
+Initial commit

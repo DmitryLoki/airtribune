@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for NodeSymlinks.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function nodesymlinks_install() {
+  // We need to launch this module after pathauto in nodeapi, Pathauto has
+  // weight 1, so we set the weight to 2.
+  db_query("UPDATE {system} SET weight = 2 WHERE name = 'nodesymlinks'");
+  // Initialize pahtauto settings, so pathauto option is present by default.
+  variable_set('pathauto_nodesymlinks_pattern', '[nodesymlink:menu-link:parents:join-path]/[nodesymlink:menu-link:title]');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function nodesymlinks_uninstall() {
+  // Delete the duplicate paths we created.
+  $result = db_query("SELECT mlid FROM {menu_links} WHERE module = 'nodesymlinks'");
+  while ($mlid = $result->fetchField()) {
+    menu_link_delete($mlid);
+  }
+
+  // Delete the duplicate aliases we created.
+  db_delete('url_alias')
+    ->condition('source', 'node/%/mid/%', 'LIKE')
+    ->execute();
+
+  // Delete variables.
+  variable_del('nodesymlinks_crumbs_lastcrumb');
+  variable_del('nodesymlinks_check_menuitem');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function nodesymlinks_schema() {
+  $schema = array();
+
+  $schema['nodesymlinks_link_storage'] = array(
+    'description' => 'Permanent storage for nodesymlinks while it exists in installed apps. Since menu_links are not permanent, we need to have a backing store so they can be regenerated during module re-enable.',
+    'fields' => array(
+      'mlid' => array(
+        'description' => 'The menu link ID (mlid) is the integer primary key.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE),
+      'nid' => array(
+        'description' => 'The original Node ID this link pointed to.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE),
+      'item_data' => array(
+        'description' => 'The serialized item data structure that was/should be passed to menu_link_save.',
+        'type' => 'text',
+        'not null' => TRUE),
+    ),
+    'primary key' => array('mlid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nodesymlinks_enable() {
+  // Look for stored menu links to recreate.
+  $result = db_query("SELECT * FROM {nodesymlinks_link_storage}");
+  while ($menu_link = $result->fetchAssoc()) {
+    _nodesymlinks_restore_menu_link($menu_link);
+  }
+}
+
+/**
+ * Private function for re-populating menu_links with our stored entries.
+ */
+function _nodesymlinks_restore_menu_link($record) {
+  // Make sure this MLID doesn't actually exist.
+  $exists = (bool) db_query('SELECT * FROM {menu_links} WHERE mlid = :mlid', array(':mlid' => $record['mlid']))->fetchField();
+  if (!$exists) {
+    // Looks like it got wiped out.
+    // Let's restore it.
+    $item = unserialize($record['item_data']);
+    $nid = $record['nid'];
+    // Dynamically load the node in case the path changed between disable
+    // and re-enable.
+    $node = node_load($nid);
+    // This is from nodesymlinks_item_save. We basically want to
+    // re-save our item via the menu_link API again.
+    // @WARNING:
+    // The items we restore must be re-entered into the menu_link system.
+    // I do not think it will cause problems, so I re-use the old MLIDs
+    // which should have been originally granted in the serial datatype.
+    // BUT, if menu_links are suddenly getting overwritten, this could very
+    // well be the culprit.
+    // This is an attempt to try and keep our URLs sane so they don't all
+    // break bookmarks on every disable/re-enable.
+    $item['mlid'] = $record['mlid'];
+    $item['link_path'] = 'node/' . $nid . '/mid/' . $item['mlid'];
+    if (menu_link_save($item)) {
+      // Make alias using the "fresh" node data.
+      $node_alias = ($node->path == 'node/' . $node->nid) ? NULL : $node->path;
+      if ($node_alias) {
+        $path = array(
+          'source' => $item['link_path'],
+          'alias' => $node_alias . '_' . $item['mlid'],
+        );
+        path_save($path);
+      }
+      // Replace the record in the db.
+      // NOTE: I'm not sure if this will cause an infinite loop if our original
+      // select isn't in a transaction. I guess we'll see.
+      db_delete('nodesymlinks_link_storage')
+        ->condition('mlid', $record['mlid'])
+        ->execute();
+      // Insert using our new $item record (with updated serialized item data
+      // in case node path changed).
+      $id = db_insert('nodesymlinks_link_storage')
+        ->fields(array(
+          'mlid' => $item['mlid'],
+          'nid' => $nid,
+          'item_data' => serialize($item),
+        ))
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nodesymlinks_disable() {
+}
+
+/**
+ * Rebuild menu due to the change of the access callback.
+ */
+function nodesymlinks_update_7001() {
+  cache_clear_all(NULL, 'cache_menu');
+  menu_rebuild();
+}

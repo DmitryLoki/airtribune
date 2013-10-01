@@ -898,11 +898,10 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = 'Banner';
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
     'image_style' => 'thumbnail',
@@ -2030,7 +2029,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'Days was not created.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
@@ -2243,7 +2242,10 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['header']['area_text_custom']['ui_name'] = 'Add header link';
-  $handler->display->display_options['header']['area_text_custom']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>';
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/config/administration/at_manage/featured-headers">Add featured header</a></li>
+<li><a href="/admin/structure/entity-type/ent_featured_header/service_header/add?destination=admin/config/administration/at_manage/featured-headers">Add service header</a></li></ul>
+
+';
   /* Footer: Global: Result summary */
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
@@ -2395,6 +2397,59 @@ function at_core_sync_views_default_views() {
   /* Display: Service headers (manage) */
   $handler = $view->new_display('page', 'Service headers (manage)', 'manage_service_headers');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Featured header: Id */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  /* Field: Featured header: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Slogan */
+  $handler->display->display_options['fields']['field_header_slogan']['id'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['table'] = 'field_data_field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['field'] = 'field_header_slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['ui_name'] = 'Slogan';
+  $handler->display->display_options['fields']['field_header_slogan']['element_label_colon'] = FALSE;
+  /* Field: Image */
+  $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['table'] = 'field_data_field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['field'] = 'field_header_image';
+  $handler->display->display_options['fields']['field_header_image']['ui_name'] = 'Image';
+  $handler->display->display_options['fields']['field_header_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_header_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_header_image']['settings'] = array(
+    'image_style' => 'header_thumbnail',
+    'image_link' => 'file',
+  );
+  /* Field: Author link */
+  $handler->display->display_options['fields']['field_header_author']['id'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['table'] = 'field_data_field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['field'] = 'field_header_author';
+  $handler->display->display_options['fields']['field_header_author']['ui_name'] = 'Author link';
+  $handler->display->display_options['fields']['field_header_author']['label'] = 'Author';
+  $handler->display->display_options['fields']['field_header_author']['element_label_colon'] = FALSE;
+  /* Field: Featured header: Target */
+  $handler->display->display_options['fields']['field_target']['id'] = 'field_target';
+  $handler->display->display_options['fields']['field_target']['table'] = 'field_data_field_target';
+  $handler->display->display_options['fields']['field_target']['field'] = 'field_target';
+  $handler->display->display_options['fields']['field_target']['label'] = 'For page';
+  $handler->display->display_options['fields']['field_target']['empty'] = 'Frontpage';
+  /* Field: Edit link */
+  $handler->display->display_options['fields']['edit_link']['id'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
+  $handler->display->display_options['fields']['edit_link']['ui_name'] = 'Edit link';
+  $handler->display->display_options['fields']['edit_link']['label'] = 'Operations';
+  /* Field: Delete link */
+  $handler->display->display_options['fields']['delete_link']['id'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['table'] = 'eck_ent_featured_header';
+  $handler->display->display_options['fields']['delete_link']['field'] = 'delete_link';
+  $handler->display->display_options['fields']['delete_link']['ui_name'] = 'Delete link';
+  $handler->display->display_options['fields']['delete_link']['label'] = '';
+  $handler->display->display_options['fields']['delete_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -2424,7 +2479,10 @@ function at_core_sync_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
+    t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?destination=admin/config/administration/at_manage/featured-headers">Add featured header</a></li>
+<li><a href="/admin/structure/entity-type/ent_featured_header/service_header/add?destination=admin/config/administration/at_manage/featured-headers">Add service header</a></li></ul>
+
+'),
     t('Displaying @start - @end of @total'),
     t('Sorry, no any entries were found.'),
     t('OG membership from ent_featured_header'),
@@ -2442,6 +2500,8 @@ function at_core_sync_views_default_views() {
     t('<ul class="action-links"><li><a href="/admin/structure/entity-type/ent_featured_header/ent_featured_header/add?og_group_ref=!1&destination=admin/content/featured-headers">Add featured header</a></li></ul>'),
     t('Type'),
     t('Service headers (manage)'),
+    t('For page'),
+    t('Frontpage'),
   );
   $export['featured_headers'] = $view;
 
@@ -2784,7 +2844,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
   $handler->display->display_options['fields']['field_core_id']['field'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['label'] = 'Core status';
-  /* Field: Field: Tracker */
+  /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
@@ -3025,7 +3085,7 @@ function at_core_sync_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Relationship: OG membership: OG membership from Content */
+  /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
