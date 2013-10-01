@@ -1,0 +1,373 @@
+<?php
+/**
+ * @file
+ * Editable fields as an AJAX link module.
+ */
+
+/**
+ * @TODO test the Views integration
+ */
+
+/**
+ * Implements hook_menu(). 
+ */
+function editablefields_as_link_menu() {
+  $items = array();
+
+  $items['editablefields/edit/nojs/%/%/%/%/%/%'] = array(
+    'title' => '403 Unauthorized',
+    'description' => 'This field must be edited via AJAX.',
+    'page callback' => 'editablefields_as_link_ajax_edit',
+    'access callback' => FALSE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['editablefields/edit/ajax/%/%/%/%/%/%'] = array( // editablefields/edit/ajax/[$entity_type]/[$bundle]/[$entity_id]/[$entity_vid]/[$field_name]/[$display_id];
+    'title' => 'Edit a field',
+    'description' => 'Edit a field via AJAX.',
+    'page callback' => 'editablefields_as_link_ajax_edit',
+    'page arguments' => array(3, 4, 5, 6, 7, 8),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => 'editablefields_as_link_ajax_access',
+    'access arguments' => array(1, 3, 5, 7), // 'edit', $entity_type, $entity_id, $field_name
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['editablefields/view/ajax/%/%/%/%/%/%'] = array( // editablefields/view/ajax/[$entity_type]/[$bundle]/[$entity_id]/[$field_name]/[$display_id]/[$form_id];
+    'title' => 'View a field',
+    'description' => 'View a field via AJAX.',
+    'page callback' => 'editablefields_as_link_ajax_view',
+    'page arguments' => array(3, 4, 5, 6, 7, 8),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => 'editablefields_as_link_ajax_access',
+    'access arguments' => array(1, 3, 5, 6), // 'view', $entity_type, $entity_id, $field_name
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function editablefields_as_link_field_formatter_info() {
+  $all_types = array_keys(field_info_field_types());
+  return array(
+    'editable_as_link' => array(
+      'label' => t('Editable (Link)'),
+      'field types' => $all_types,
+      'settings' => array(
+        'fallback_format' => NULL,
+        'fallback_settings' => array(),
+        'click_to_edit' => TRUE, // Left it here because editablefields expects this
+        'empty_text' => '',
+        'link_text' => 'Edit',
+        'link_position' => 0,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function editablefields_as_link_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  // Start with the default form from editablefields, then set the click_to_edit value to always TRUE
+  $settings = &$instance['display'][$view_mode]['settings'];
+  $element = editablefields_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+
+  $element['click_to_edit'] = array(
+    '#type' =>'value',
+    '#value' => TRUE,
+  );
+
+  $element['link_text'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link text'),
+    '#description' => t('The untranslated text of the edit link. (HTML)'),
+    '#default_value' => $settings['link_text'],
+  );
+
+  $element['link_position'] = array(
+    '#type' => 'radios',
+    '#title' => t('Link position'),
+    '#options' => array(
+      0 => t('Before'),
+      1 => t('After'),
+    ),
+    '#default_value' => $settings['link_position'],
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function editablefields_as_link_field_formatter_settings_summary($field, $instance, $view_mode) {
+  // Summary is the same as that of editablefields
+  return editablefields_field_formatter_settings_summary($field, $instance, $view_mode);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function editablefields_as_link_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, &$items, $display) {
+  drupal_add_library('system', 'drupal.ajax');
+  list($entity_id, $entity_vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $field_name = $field['field_name'];
+
+  // Fully load the entity. Performance hit, but prevents bugs :/
+  $entity = entity_load($entity_type, array($entity_id), array(), TRUE);
+  $entity = reset($entity);
+
+  $link_id = 'editablefields_link__' . $entity_type . '__' . $bundle . '__' . $entity_id . '__' . $entity_vid . '__' . $field_name;
+
+  // Hide the label to prevent "double label" bug
+  $display['label'] = 'hidden';
+
+  // Render the fallback format.
+  $renderable = array();
+  $fallback_elements = editablefields_fallback_formatter($entity_type, $entity, $field, $instance, $langcode, $items, $display);
+
+  // Iterate through field items and test for contents
+  $is_empty = FALSE;
+  $function = $field['module'] . '_field_is_empty';
+  foreach ($items as $item) {
+    if (function_exists($function)) {
+      $is_empty = $is_empty || $function($item, $field);
+    }
+  }
+
+  if (!$is_empty) {
+    // Field has contents
+    $fallback_elements = drupal_render($fallback_elements);
+  }
+  elseif (editablefields_as_link_ajax_access('edit', 'node', $entity->nid, $field_name) && $display['settings']['empty_text']) {
+    // Field is empty, user can edit the field, and we have an empty text setting
+    $fallback_elements = '<div class="empty">' . $display['settings']['empty_text'] . '</div>';
+  }
+  else {
+    // Field is empty and user is a visitor
+    $fallback_elements = '';
+  }
+
+  $renderable[] = array(
+    '#prefix' => '<div id="' . $link_id . '__view">',
+    '#markup' => $fallback_elements,
+    '#suffix' => '</div>',
+  );
+
+  // If the user can edit this field, add an AJAX link to edit it
+  if (editablefields_as_link_ajax_access('edit', $entity_type, $entity_id, $field_name)) {
+    $display_id = _editablefields_as_link_generate_display_id($display);
+    $link_path = 'editablefields/edit/nojs/' . $entity_type . '/' . $bundle . '/' . $entity_id . '/' . $entity_vid . '/' . $field_name . '/' . $display_id;
+    $link_options = array(
+      'attributes' => array(
+        'id' => $link_id,
+        'class' => array('use-ajax editablefields-link'),
+      ),
+      'html' => TRUE,
+    );
+    $link_markup = l(t($display['settings']['link_text']), $link_path, $link_options);
+
+    switch ($display['settings']['link_position']) {
+      case 0: // "Before"
+        $renderable[0]['#prefix'] = $link_markup . $renderable[0]['#prefix'];
+        break;
+
+      case 1:
+        $renderable[0]['#suffix'] .= $link_markup;
+    }
+  }
+
+  return $renderable;
+}
+
+/**
+ * Replace the "Edit" link and the fallback field display with the editing form.
+ *
+ * (AJAX delivery)
+ */
+function editablefields_as_link_ajax_edit($entity_type, $bundle, $entity_id, $entity_vid, $field_name, $display) {
+  $link_id_selector = '#editablefields_link__' . $entity_type . '__' . $bundle . '__' . $entity_id . '__' . $entity_vid . '__' . $field_name;
+  list($entity, $field, $instance, $langcode, $display) = _editablefields_as_link_list_formatter_arguments($entity_type, $bundle, $entity_id, $field_name, $display);
+
+  $form = drupal_get_form('editablefields_as_link_form', $entity_type, $entity, $field, $instance, $langcode, $display);
+
+  $output = array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace($link_id_selector . '__view', drupal_render($form)),
+      ajax_command_remove($link_id_selector),
+    ),
+  );
+
+  return $output;
+}
+
+/**
+ * Form builder for the AJAX-link editable field form.
+ */
+function editablefields_as_link_form($form, &$form_state, $entity_type, $entity, $field, $instance, $langcode, $display) {
+  $form = editablefields_form($form, $form_state, $entity_type, $entity, $field, $instance, $langcode, array()); // We want the form, so we are sending an empty $display argument
+  $wrapper_id = $form['actions']['submit']['#ajax']['wrapper'];
+
+  $form['wrapper_id'] = array(
+    '#type' => 'value',
+    '#value' => $wrapper_id,
+  );
+
+  // Change the submit button callback from editablefieldss_form_update to our own version
+  $form['actions']['submit']['#ajax']['callback'] = 'editablefields_as_links_form_update';
+
+  // Add a "Cancel" link besides the submit button
+  list($entity_id, $entity_vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $display_id = _editablefields_as_link_generate_display_id($display);
+  $link_path = 'editablefields/view/nojs/' . $entity_type . '/' . $bundle . '/' . $entity_id . '/' . $field['field_name'] . '/' . $display_id . '/' . $wrapper_id;
+  $link_options = array(
+    'attributes' => array(
+      'class' => array('use-ajax'),
+    ),
+  );
+  $form['actions']['cancel'] = array(
+    '#markup' => l(t('Cancel'), $link_path, $link_options),
+  );
+
+  return $form;
+}
+
+/**
+ * AJAX Submit handler for editablefields_as_link_form.
+ */
+function editablefields_as_links_form_update($form, $form_state) {
+  $element = editablefields_form_update($form, $form_state);
+  $wrapper_id_selector = '#' . $form_state['values']['wrapper_id'];
+
+  $errors = form_get_errors();
+  if ($errors) {
+    $output = array(
+      '#type' => 'ajax',
+      '#commands' => array(
+        ajax_command_replace($wrapper_id_selector, drupal_render($element)),
+        ajax_command_prepend($wrapper_id_selector, theme('status_messages')),
+      ),
+    );
+  }
+  else {
+    list($entity_type, $entity, $field, $instance, $langcode, $display) = $form_state['build_info']['args'];
+    $items = array();
+
+    $output = array(
+      '#type' => 'ajax',
+      '#commands' => array(
+        ajax_command_replace($wrapper_id_selector, drupal_render(editablefields_as_link_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display))),
+      ),
+    );
+  }
+
+  return $output;
+}
+
+/**
+ * Determine whether the user can perform an action on a specific field.
+ * @param $action
+ *   either 'view' or 'edit'
+ * @param $entity_type
+ *   the entity's type
+ * @param $entity_id
+ *   the entity's id
+ * @param $field_name
+ *   the field's name
+ * @return boolean True if the user can perform the action
+ */
+function editablefields_as_link_ajax_access($action, $entity_type, $entity_id, $field_name) {
+  $entity = entity_load($entity_type, array($entity_id));
+  $entity = reset($entity);
+  $field = field_info_field($field_name);
+
+  switch ($action) {
+    case 'view':
+      return entity_access('view', $entity_type, $entity) && field_access('view', $field, $entity_type, $entity);
+
+    case 'edit':
+      return entity_access('update', $entity_type, $entity) && field_access('edit', $field, $entity_type, $entity);
+
+    default:
+      return FALSE;
+  }
+}
+
+/**
+ * Replace the editing form with the "Edit" link and the fallback formatter.
+ *
+ * (AJAX delivery)
+ */
+function editablefields_as_link_ajax_view($entity_type, $bundle, $entity_id, $field_name, $display, $form_id) {
+  list($entity, $field, $instance, $langcode, $display) = _editablefields_as_link_list_formatter_arguments($entity_type, $bundle, $entity_id, $field_name, $display);
+
+  $items = array();
+  $output = array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace('#' . $form_id, drupal_render(editablefields_as_link_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display))),
+    ),
+  );
+
+  return $output;
+}
+
+/**
+ * Helper function. Returns required arguments for field formatters in an array.
+ */
+function _editablefields_as_link_list_formatter_arguments($entity_type, $bundle, $entity_id, $field_name, $display_id) {
+  $entity = entity_load($entity_type, array($entity_id));
+  $entity = array_pop($entity);
+  $field = field_info_field($field_name);
+  $instance = field_info_instance($entity_type, $field_name, $bundle);
+  $langcode = $field['translatable'] ? $GLOBALS['language']->language : LANGUAGE_NONE;
+  $display = _editablefields_as_link_retrieve_display($display_id);
+
+  return array($entity, $field, $instance, $langcode, $display);
+}
+
+/**
+ * Helper function to generate a $display_id and store the $display array to the session. 
+ */
+function _editablefields_as_link_generate_display_id($display) {
+  unset($display['views_view']);
+  unset($display['views_field']);
+  unset($display['views_row_id']);
+
+  $display_id = md5(serialize($display));
+
+  $primary_keys = array();
+  if (db_select('editablefields_display_cache', 'edc')->condition('display_id', $display_id)->countQuery()->execute()->fetchField()) {
+    $primary_keys[] = 'display_id';
+  }
+  $record = (object) array(
+    'display_id' => $display_id,
+    'display' => $display,
+    'last_used' => time(),
+  );
+  drupal_write_record('editablefields_display_cache', $record, $primary_keys);
+
+  return $display_id;
+}
+
+/**
+ * Helper function to return a $display array by its session specific ID.
+ */
+function _editablefields_as_link_retrieve_display($display_id) {
+  $query = db_select('editablefields_display_cache', 'edc')->condition('display_id', $display_id);
+  $query->addField('edc', 'display');
+  return unserialize($query->execute()->fetchField());
+}
+
+/**
+ * Implements hook_cron(). 
+ */
+function editablefields_as_link_cron() {
+  // 6 Hours seems like a good default. Change the variable manually with the devel or variable modules if you don't agree!
+  db_delete('editablefields_display_cache')->condition('last_used', time() - variable_get('editablefields_as_links_display_cache_interval', 6*60*60), '<');
+}
