@@ -102,5 +102,11 @@ jQuery(function ($) {
       el.height(0); 
     }
   })
+
+  //Temp stub for "Create an event" button
+  $('.create_event a').bind('click', function(e){
+    e.preventDefault();
+    $(this).text('Sorry, coming soon!');
+  });
 })
 
