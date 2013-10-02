@@ -1,5 +1,7 @@
 <?php
 define('DEFAULT_USER_PICTURE_PATH', 'pictures/default_user_picture.png');
+define('SOLUTIONS_REGEXT_PATTERN', '/[^\/]{2,}[^\/]/');
+
 
 /**
  * Preprocess html.tpl.php
@@ -86,18 +88,11 @@ function airtribune2_preprocess_html(&$vars) {
   if (in_array('page-event-results-facebook', $vars['classes_array'])) {
     $vars['html_attributes_array']['class'] = array('fb_view');
   }
-  
+
   // @see #3796: add class for body on solutions pages
-  $path = drupal_get_path_alias(current_path());
-  if (preg_match('/[^\/]+/',$path, $matches)) {
-    $part = $matches[0];
-    switch($part) {
-      case 'organizers':
-      case 'pilots':
-      case 'viewers':
-        $vars['classes_array'][] = $part;
-        break;
-    }    
+  $part = is_solutions();
+  if ($part) {
+    $vars['classes_array'][] = $part;
   }
 }
 
@@ -1781,13 +1776,14 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
 function is_solutions(){
 
   $path = request_uri();
-  preg_match('/[^\/]{2,}[^\/]/',$path, $matches);
+  $pattern = SOLUTIONS_REGEXT_PATTERN;
+  preg_match($pattern, $path, $matches);
   $part = $matches[0];
   switch($part) {
     case 'organizers':
     case 'pilots':
     case 'viewers':
-        return TRUE;
+        return $part;
       break;
   }
   return FALSE;
