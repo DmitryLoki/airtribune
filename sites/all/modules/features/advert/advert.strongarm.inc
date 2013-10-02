@@ -13,6 +13,41 @@ function advert_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'additional_settings__active_tab_advert';
+  $strongarm->value = 'edit-xmlsitemap';
+  $export['additional_settings__active_tab_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_pattern_advert';
+  $strongarm->value = '';
+  $export['ant_pattern_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ant_php_advert';
+  $strongarm->value = 0;
+  $export['ant_php_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'entity_translation_hide_translation_links_advert';
+  $strongarm->value = 0;
+  $export['entity_translation_hide_translation_links_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'entity_translation_node_metadata_advert';
+  $strongarm->value = '0';
+  $export['entity_translation_node_metadata_advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__advert';
   $strongarm->value = array(
     'view_modes' => array(),
@@ -32,6 +67,13 @@ function advert_strongarm() {
     ),
   );
   $export['field_bundle_settings_node__advert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'honeypot_form_advert_node_form';
+  $strongarm->value = 0;
+  $export['honeypot_form_advert_node_form'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -76,48 +118,6 @@ function advert_strongarm() {
   $strongarm->name = 'node_submitted_advert';
   $strongarm->value = 0;
   $export['node_submitted_advert'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'additional_settings__active_tab_advert';
-  $strongarm->value = 'edit-xmlsitemap';
-  $export['additional_settings__active_tab_advert'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_php_advert';
-  $strongarm->value = 0;
-  $export['ant_php_advert'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ant_pattern_advert';
-  $strongarm->value = '';
-  $export['ant_pattern_advert'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_hide_translation_links_advert';
-  $strongarm->value = 0;
-  $export['entity_translation_hide_translation_links_advert'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'entity_translation_node_metadata_advert';
-  $strongarm->value = '0';
-  $export['entity_translation_node_metadata_advert'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'honeypot_form_advert_node_form';
-  $strongarm->value = 0;
-  $export['honeypot_form_advert_node_form'] = $strongarm;
 
   return $export;
 }

@@ -3,7 +3,7 @@
     attach: function (context) {
 
       // Temporary disable these menu items,
-      $('.pane-menu-footer-menu a, .menu-item-1338 a, .menu-item-1339 a, .menu-item-1340 a, .menu-item-1341 a')
+      $('.pane-menu-footer-menu a, .pane-airtribune-primary-navigation .menu-item-1338 a, .pane-airtribune-primary-navigation .menu-item-1339 a, .pane-airtribune-primary-navigation .menu-item-1340 a, .pane-airtribune-primary-navigation .menu-item-1341 a')
         .attr('title', 'Under construction')
         .attr('href', '')
         .click(function () {
@@ -23,7 +23,7 @@
 
 
   }
-  
+
   function setRaceToggleBehavior() {
     jQuery('body').bind('click', {parent: this}, bodyClick);
     function bodyClick(e) {
@@ -75,18 +75,45 @@
 
 jQuery(function ($) {
   var breadcrumb = $('.breadcrumb')
-  if(breadcrumb.width() == 580) {
+  if (breadcrumb.width() == 580) {
     var width = 0;
-    breadcrumb.children().each(function(){
+    breadcrumb.children().each(function () {
       if ($(this).width() > width) {
         width = $(this).width();
         el = $(this);
-      };
+      }
+      ;
     })
     var last = breadcrumb.children(':last-child');
     delta = last.position().left + last.width() - breadcrumb.width();
     //alert(el);
     el.find('span').css({'max-width': width - delta});
   }
+  $('.solutions_accordeon .accordeon_inner').each(function () {
+    $(this).height('auto');
+    $(this).attr('rel', $(this).height());
+    $(this).height(0);
+  });
+  $('.solutions_accordeon .accordeon_title').click(function () {
+    el = $(this).next();
+    if (el.height() == 0) {
+      el.height(el.attr('rel'));
+    }
+    else {
+      el.height(0);
+    }
+  })
+
+  //Temp stub for "Create an event" button
+  var defaultText =
+    $('.create_event a')
+      .bind('click', function (e) {
+        e.preventDefault();
+        $(this).text('Sorry, coming soon!');
+      })
+      .bind('mouseout', function (e) {
+        $(this).text(defaultText);
+      })
+      .text()
 })
 

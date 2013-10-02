@@ -243,6 +243,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login' :
       $form['actions']['submit']['#value'] = t('Sign in');
       break;
+    case 'views_form_paragliding_pilots_list_manage':
     case 'og_ui_confirm_subscribe' :
       $form['#validate'][] = 'at_helper_og_form_validate';
       // TODO: Add after_build only when performing ajax validation.
@@ -434,13 +435,38 @@ function at_helper_user_reg_form_validate($form, &$form_state) {
 
 function at_helper_og_form_validate($form, &$form_state) {
   $values = $form_state['values'];
-  $gid = !empty($values['gid']) ? $values['gid'] : FALSE;
-  $pilot_number = !empty($values['field_contestant_number']['und'][0]['value'])
-    ? $values['field_contestant_number']['und'][0]['value']
-    : FALSE;
-  //watchdog('test', $gid . ' ' . $pilot_number);
+  // Contest pilots manage page.
+  if (!empty($form['#form_id']) && !empty($form_state['triggering_element']['#array_parents']) &&
+      $form['#form_id'] == 'views_form_paragliding_pilots_list_manage' &&
+      $form_state['triggering_element']['#array_parents'][0] == 'field_contestant_number') {
+    $parents = $form_state['triggering_element']['#array_parents'];
+    // Remove the 'actions' and 'link' elements.
+    array_pop($parents);
+    array_pop($parents);
+    // Get element (for futher usage with form_error, if pilot number exists).
+    $element = &$form;
+    foreach ($parents as $parent) {
+      $element = &$element[$parent];
+    }
+    // Load entity to get contest ID.
+    $entity = $form_state['editablefields_entities'][$element['#entity_type']][$element['#entity_id']];
+    entity_form_submit_build_entity($element['#entity_type'], $entity, $element, $form_state);
+    // Get contest ID & pilot number.
+    $gid = $entity->gid;
+    $pilot_number = $values['field_contestant_number'][$parents[1]]['field_contestant_number'][LANGUAGE_NONE][0]['value'];
+  }
+  // Pilot registration for pontest page.
+  else {
+    // Get element (for futher usage with form_error, if pilot number exists).
+    $element = isset($form['field_contestant_number']) ? $form['field_contestant_number'] : $form;
+    // Get contest ID & pilot number.
+    $gid = !empty($values['gid']) ? $values['gid'] : FALSE;
+    $pilot_number = !empty($values['field_contestant_number'][LANGUAGE_NONE][0]['value'])
+      ? $values['field_contestant_number'][LANGUAGE_NONE][0]['value']
+      : FALSE;
+  }
+
   if ($gid && $pilot_number) {
-    // TODO:
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership');
     $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
@@ -449,7 +475,6 @@ function at_helper_og_form_validate($form, &$form_state) {
     //$query->fieldCondition('field_full_name', 'family', $family);
     $number_exists = $query->count()->execute();
     if ($number_exists) {
-      $element = isset($form['field_contestant_number']) ? $form['field_contestant_number'] : $form;
       form_error($element, t('This number is used by another pilot.'));
     }
   }

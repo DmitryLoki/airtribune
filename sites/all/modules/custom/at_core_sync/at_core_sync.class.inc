@@ -165,7 +165,7 @@ class ATSyncContest extends ATSync {
       'place' => $node->field_city['und'][0]['value'],
       'country' => $node->field_country['und'][0]['iso2'],
       'timezone' => $node->field_time_zone['und'][0]['value'],
-      'retrieve_id' => $node->field_device_id['und'][0]['value'],
+      'retrieve_id' => !empty($node->field_device_id['und'][0]['value']) ? $node->field_device_id['und'][0]['value'] : NULL,
     );
     if ($this->core_id) {
       // change address if contest already in Core
