@@ -200,10 +200,19 @@ function editablefields_as_link_ajax_edit($entity_type, $bundle, $entity_id, $en
     '#commands' => array(
       ajax_command_replace($link_id_selector . '__view', drupal_render($form)),
       ajax_command_remove($link_id_selector),
+      // Invoke script, which help to remove 'TypeError: validator is undefined' clientside module js error.
+      ajax_command_invoke(NULL, "assign_clienside_validation", array($form['wrapper_id']['#value'])),
     ),
   );
 
   return $output;
+}
+
+/**
+ * Javascript, which assign clientside validation rules to editing form.
+ */
+function editablefields_as_link_init() {
+  drupal_add_js(drupal_get_path('module', 'editablefields_as_link') . '/editablefields_as_link_clientside_validation.js');
 }
 
 /**
