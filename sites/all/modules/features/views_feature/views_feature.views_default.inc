@@ -684,8 +684,8 @@ function views_feature_views_default_views() {
     'advert' => 'advert',
   );
 
-  /* Display: Event Sponsors */
-  $handler = $view->new_display('panel_pane', 'Event Sponsors', 'panel_pane_1');
+  /* Display: Manage event partners */
+  $handler = $view->new_display('panel_pane', 'Manage event partners', 'panel_pane_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Global: Text area */
@@ -787,8 +787,8 @@ function views_feature_views_default_views() {
     ),
   );
 
-  /* Display: Site Partners */
-  $handler = $view->new_display('page', 'Site Partners', 'page_1');
+  /* Display: Manage site partners */
+  $handler = $view->new_display('page', 'Manage site partners', 'page_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Partners';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -869,8 +869,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<?php print l(t(\'Add partner\'), \'node/add/advert\');?>';
-  $handler->display->display_options['header']['area']['format'] = 'php_code';
+  $handler->display->display_options['header']['area']['content'] = '<ul class="action-links"><li><a href="/node/add/advert?destination=partners">Add partner</a></li></ul>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -1017,13 +1017,12 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['id']['field'] = 'id';
   $handler->display->display_options['filters']['id']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['id']['operator'] = 'empty';
-  /* Filter criterion: Featured header: Target (field_target) */
-  $handler->display->display_options['filters']['field_target_value']['id'] = 'field_target_value';
-  $handler->display->display_options['filters']['field_target_value']['table'] = 'field_data_field_target';
-  $handler->display->display_options['filters']['field_target_value']['field'] = 'field_target_value';
-  $handler->display->display_options['filters']['field_target_value']['operator'] = 'not';
-  $handler->display->display_options['filters']['field_target_value']['value'] = array(
-    'solutions' => 'solutions',
+  /* Filter criterion: Content: Target (field_advert_target) */
+  $handler->display->display_options['filters']['field_advert_target_value']['id'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['table'] = 'field_data_field_advert_target';
+  $handler->display->display_options['filters']['field_advert_target_value']['field'] = 'field_advert_target_value';
+  $handler->display->display_options['filters']['field_advert_target_value']['value'] = array(
+    'frontpage' => 'frontpage',
   );
 
   /* Display: Solutions for organizers */
@@ -1270,15 +1269,15 @@ function views_feature_views_default_views() {
     t('Edit link'),
     t('Delete link'),
     t('All'),
-    t('Event Sponsors'),
+    t('Manage event partners'),
     t('<?php print l(t(\'Add partner\'), \'node/add/advert\', array(\'query\' => array(\'og_group_ref\' => !1)));?>'),
     t('There are no partners added yet for the current event.'),
     t('View panes'),
     t('Event Banners'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x140blank.png"/></a></div>'),
     t('<div><a href="#"><img src="/sites/default/files/Sponsors200x200blank.png"/></a></div>'),
-    t('Site Partners'),
-    t('<?php print l(t(\'Add partner\'), \'node/add/advert\');?>'),
+    t('Manage site partners'),
+    t('<ul class="action-links"><li><a href="/node/add/advert?destination=partners">Add partner</a></li></ul>'),
     t('There are no sponsors added yet.'),
     t('For page'),
     t('Frontpage'),
@@ -4432,7 +4431,7 @@ return array($event_id);';
     'accommodation' => 'accommodation',
     'activity' => 'activity',
   );
-  /* Filter criterion: Field: Coordinates - proximity */
+  /* Filter criterion: Content: Location - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4829,7 +4828,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
   );
-  /* Filter criterion: Field: Coordinates - proximity */
+  /* Filter criterion: Content: Location - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4885,7 +4884,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Field: Coordinates - proximity */
+  /* Filter criterion: Content: Location - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -5064,7 +5063,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Field: Coordinates (field_location:lat) */
+  /* Filter criterion: Content: Location (field_location:lat) */
   $handler->display->display_options['filters']['field_location_lat']['id'] = 'field_location_lat';
   $handler->display->display_options['filters']['field_location_lat']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_location_lat']['field'] = 'field_location_lat';
@@ -5083,7 +5082,7 @@ return array($event_id);';
     4 => 0,
     7 => 0,
   );
-  /* Filter criterion: Field: Coordinates (field_location:lon) */
+  /* Filter criterion: Content: Location (field_location:lon) */
   $handler->display->display_options['filters']['field_location_lon']['id'] = 'field_location_lon';
   $handler->display->display_options['filters']['field_location_lon']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_location_lon']['field'] = 'field_location_lon';
