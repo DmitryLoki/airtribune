@@ -233,6 +233,7 @@ function editablefields_as_link_form($form, &$form_state, $entity_type, $entity,
   $form['actions']['cancel'] = array(
     '#markup' => l(t('Cancel'), $link_path, $link_options),
   );
+  $form['actions']['submit']['#id'] = $entity_type . '_' . $bundle . '_' . $entity_id;
 
   return $form;
 }
