@@ -476,7 +476,19 @@ function cde_def_validation_enabled_callback($element, $form_state) {
   return TRUE;
 }
 
+// TODO:
+/**
+ * Implements hook_def_ajax_defaults_alter().
+ */
+function cde_def_ajax_defaults_alter(&$defaults, $form_state) {
+  $defaults['def_commands_callback'] = 'cde_ajax_commands';
+}
 
+function cde_ajax_commands($selector, $text) {
+  return array(
+    ajax_command_alert($text),
+  );
+}
 
 // =======================================================
 // Ctools

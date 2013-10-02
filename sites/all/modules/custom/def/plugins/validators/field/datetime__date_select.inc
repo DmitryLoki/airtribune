@@ -10,7 +10,7 @@ $plugin = array(
 
 function def_preprocessor__datetime__date_select(&$element, &$form_state, $context) {
     //~ dsm($element);
-    $element['#ajax'] = def_ajax_defaults();
+    $element['#ajax'] = def_ajax_defaults($form_state);
     $element['#ajax'] += array(
       'event' => 'change',
     );

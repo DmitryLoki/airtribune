@@ -9,7 +9,7 @@ $plugin = array(
 );
 
 function def_preprocessor__phone_number__simple_phone_number_widget(&$element, &$form_state, $context) {
-  $element['full_number']['#ajax'] = def_ajax_defaults();
+  $element['full_number']['#ajax'] = def_ajax_defaults($form_state);
   $element['full_number']['#ajax'] += array(
     'event' => 'focusout',
   );

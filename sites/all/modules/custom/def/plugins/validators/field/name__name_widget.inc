@@ -31,7 +31,7 @@ function def_preprocessor__name__name_widget__process($element, &$form_state, $c
     if (!empty($data['exclude'])) {
       continue;
     }
-    $element[$component]['#ajax'] = def_ajax_defaults();
+    $element[$component]['#ajax'] = def_ajax_defaults($form_state);
     $element[$component]['#ajax'] += array(
       'event' => 'focusout',
     );

@@ -9,7 +9,7 @@ $plugin = array(
 );
 
 function def_preprocessor__text__text_textfield(&$element, &$form_state, $context) {
-  $element['value']['#ajax'] = def_ajax_defaults();
+  $element['value']['#ajax'] = def_ajax_defaults($form_state);
   $element['value']['#ajax'] += array(
     'event' => 'focusout',
   );

@@ -113,17 +113,31 @@ function def_ajax_tmp($form, $form_state) {
   //~ dsm($errors);
   
   
+  // Allow override callback commands. See def_ajax_defaults().
+  $triggering_element = $form_state['triggering_element'];
+  
+  // TODO: Get selector
+  $selector = '';
+  $commands = call_user_func($triggering_element['#ajax']['def_commands_callback'], $selector, $text);
   
   // https://api.drupal.org/api/drupal/includes%21ajax.inc/group/ajax/7
   // https://api.drupal.org/comment/50903#comment-50903
   $result = array(
     '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_alert($text),
-    ),
+    '#commands' => $commands,
   );
   
   return $result;
+}
+
+/**
+ * Default def ajax commands callback.
+ * Used to inform user of errors.
+ */
+function def_ajax_commands($selector, $text) {
+  return array(
+    ajax_command_alert($text),
+  );
 }
 
 // TODO:
@@ -421,7 +435,7 @@ function def_generic_plugin($element_type) {
 /**
  * Prepare default ajax settings for plugins.
  */
-function def_ajax_defaults() {
+function def_ajax_defaults($form_state) {
   
   // TODO: Included file should be overriden in case of custom callback.
   drupal_add_js(drupal_get_path('module', 'def') .'/js/def.js', 'file');
@@ -430,8 +444,16 @@ function def_ajax_defaults() {
   $defaults = array(
     'path' => 'def/ajax',
     'callback' => 'def_ajax_tmp',
+    'def_commands_callback' => 'def_ajax_commands',
     //'progress' => 'none',
   );
+  
+  // Alter defaults if needed.
+  $modules = module_implements('def_ajax_defaults_alter');
+  foreach ($modules as $module) {
+    $function = $module . '_def_ajax_defaults_alter';
+    $function($defaults, $form_state);
+  }
 
   return $defaults;
 }
