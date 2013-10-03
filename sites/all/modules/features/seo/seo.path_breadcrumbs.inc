@@ -2845,10 +2845,10 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->api_version = 1;
   $path_breadcrumb->machine_name = 'solutions_for_org';
   $path_breadcrumb->name = 'Solutions for organizers';
-  $path_breadcrumb->path = 'node/%nid';
+  $path_breadcrumb->path = 'node/%nid/mid/%mid';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Solutions for organizers',
+      0 => 'Competition hosting',
     ),
     'paths' => array(
       0 => 'organizers/hosting',
@@ -2862,6 +2862,9 @@ function seo_path_breadcrumbs_settings_info() {
         'settings' => array(
           'identifier' => 'Node: ID',
         ),
+      ),
+      'mid' => array(
+        'position' => 3,
       ),
     ),
     'access' => array(
@@ -2889,7 +2892,7 @@ function seo_path_breadcrumbs_settings_info() {
   $path_breadcrumb->path = 'node/%nid';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Solutions for organizers',
+      0 => 'Competition hosting',
     ),
     'paths' => array(
       0 => 'organizers/hosting',

@@ -1846,7 +1846,7 @@ Prof.',
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'file_directory' => 'contests',
-        'file_extensions' => 'txt doc docx odt xls xlsx odc pdf png jpg lkm xcm dem tpl ppt pptx zip klm wpt gpx cup',
+        'file_extensions' => 'txt doc docx odt xls xlsx odc pdf png jpg lkm xcm dem tpl ppt pptx zip kml wpt gpx cup',
         'filefield_paths' => array(
           'active_updating' => 1,
           'file_name' => array(
