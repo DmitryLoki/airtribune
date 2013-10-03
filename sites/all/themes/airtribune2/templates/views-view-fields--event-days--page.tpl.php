@@ -26,81 +26,6 @@
  */
 ?>
 
-<?php
-
-//--- TODO remove lines, marked this style //--- after 
-global $day_number;
-if (!$day_number && !($day_number === 0)) {
-  $day_number = 0;
-  foreach ($view->result as $key => $result) {
-    if (!in_array($result->field_field_day_status[0]['raw']['value'], array(3,4,5))) {
-      $day_number++;
-    }
-  }
-}
-//---
-
-/**
- *  Theme race titles
- *  @see #3400 #3365
- *  @author Kraev Vasily
- */
-
-print '<a class="ajax-link" href="/event/' . $fields['nid']->content . '/day/' . $fields['nid_1']->content . '" rel="#content-day-' . $fields['nid_1']->content.'">';
-print $fields['title']->wrapper_prefix;
-print $fields['title']->content;
-$data_nid = ' data-nid="' .$fields['nid_1']->content . '" data-contest-nid="' .$fields['nid']->content.'"';
-$separator = ' — ';
-$field_day_status = $fields['field_day_status']->content;
-$race_type = $fields['type']->raw;
-
-// race day
-if ( !in_array($field_day_status, array('Registration day', 'Training day')) ) {
-  $spike_day = $day_number--; 
-  $day = $fields['field_day_number']->content;
-  $task = $fields['field_race_number']->content;
-  if ($fields['title_1']->content) {
-    if (!empty($day)) { //--- fucking dirty kostyl'
-      print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-      print $fields['field_day_number']->label . " " . $day . $separator . $fields['field_race_number']->label . " " . $task . ' - ';
-      if ($race_type == 'pg_racetype_od') {
-        print 'Open Distance';
-      }
-      else {
-        print $fields['field_optdistance']->content . " km";
-      }
-    } else {//---
-      print "<div class=\"day-number\" data-href=\"#day_{$spike_day}\"></div>";
-      print t('Day') . " $spike_day " . $separator . $fields['title_1']->content; //---
-      if (!empty($fields['field_optdistance']->content)) print ' - ' . $fields['field_optdistance']->content; //---
-    }
-  } else {
-    if (!empty($day)) {
-      print "<div class=\"day-number\" data-href=\"#day_{$day}\"></div>";
-      print $fields['field_day_number']->label . " " . $day;
-    } else {
-      print "<div class=\"day-number\" data-href=\"#day_{$spike_day}\"></div>";
-      print t('Day') . " $spike_day "; //---
-    }
-  }
-}
-// reg / trainging day
-else {
-  $anchor = str_replace(' day', '',$fields['field_day_status']->content);
-  print "<div class=\"day-number\" data-href=\"#{$anchor}\"></div>";  
-  $separator = '';
-}
-
-?>
-<?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
-  <?php //print '<span class="posted">' . t('Today') . '</span>'; ?>
-<?php else: ?>
-  <?php //print $fields['created']->content; ?>
-<?php endif; ?>
-<?php print $fields['title']->wrapper_suffix; ?>
-<?php print '</a>'; ?>
-
-
 <?php print $fields['day_set_a_task']->wrapper_prefix; ?>
 <?php print $fields['day_set_a_task']->content; ?>
 <?php print $fields['day_set_a_task']->wrapper_suffix; ?>
@@ -154,10 +79,6 @@ else {
 <?php print $fields['field_dayblog_ref']->wrapper_prefix; ?>
 <?php print $fields['field_dayblog_ref']->content; ?>
 <?php print $fields['field_dayblog_ref']->wrapper_suffix; ?>
-
-<?php print $fields['nothing']->wrapper_prefix; ?>
-<?php print $fields['nothing']->content; ?>
-<?php print $fields['nothing']->wrapper_suffix; ?>
 
 <?php print $fields['field_image']->wrapper_prefix; ?>
 <?php print $fields['field_image']->content; ?>

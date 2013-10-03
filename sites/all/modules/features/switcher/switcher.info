@@ -10,6 +10,7 @@ dependencies[] = admin_menu
 dependencies[] = advert
 dependencies[] = advert_visualisation
 dependencies[] = airtribune
+dependencies[] = ajax_links_api
 dependencies[] = at_alias
 dependencies[] = at_entityreference_geowidget
 dependencies[] = at_inline
