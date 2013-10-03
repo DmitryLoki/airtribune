@@ -6,9 +6,9 @@ $plugin = array(
   'field_type' => 'number_integer',
   'widget_type' => 'number',
   'preprocessor' => 'def_preprocessor__number_integer__number',
-  //~ 'validator' => 'at_validation_validator__number_integer__number',
-  //~ 'selector' => 'at_validation_validator__number_integer__number_id',
   'after_build' => 'def_preprocessor__number_integer__number_after_build',
+  'selector' => 'def_preprocessor__number_integer__number__selector',
+  //~ 'validator' => 'at_validation_validator__number_integer__number',
 );
 
 function def_preprocessor__number_integer__number(&$element, &$form_state, $context) {
@@ -25,12 +25,20 @@ function def_preprocessor__number_integer__number(&$element, &$form_state, $cont
   //~ $element['#def_after_build_plugin']['id'] = 'number_integer__number';
 }
 
-//~ function at_validation_validator__number_integer__number_id($element, $triggering_element, &$errors) {
-  //~ $selector = '#' . $element['#id'] . '-value';
-  //~ return $selector;
-//~ }
 
 function def_preprocessor__number_integer__number_after_build($element, &$form_state) {
   //~ dsm('number_integer test after build2');
   return $element;
 }
+
+function def_preprocessor__number_integer__number__selector($element) {
+  // TODO: Get delta
+  $delta = 0;
+  $selector = '#' . $element['#id'] . "-$delta-value";
+  return $selector;
+}
+
+//~ function at_validation_validator__number_integer__number_id($element, $triggering_element, &$errors) {
+  //~ $selector = '#' . $element['#id'] . '-value';
+  //~ return $selector;
+//~ }

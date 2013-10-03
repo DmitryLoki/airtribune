@@ -11,6 +11,7 @@ function def_preprocessor__input__textfield(&$element, &$form_state) {
   $element['#ajax'] += array(
     'event' => 'focusout',
   );
+  //~ dsm($element);
 }
 
 //~ function at_validation_validator__input__textfield_id($element, $triggering_element) {

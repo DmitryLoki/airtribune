@@ -208,7 +208,7 @@ function cde_field_widget_form_alter(&$element, &$form_state, $context) {
 
 // TODO: Check other conditions and load plugin
 /**
- * Implements _def_field_plugin_alter().
+ * Implements hook_def_field_plugin_alter().
  */
 function cde_def_field_plugin_alter(&$plugin, $element, $form_state, $context) {
   
@@ -494,9 +494,16 @@ function cde_def_ajax_defaults_alter(&$defaults, $form_state) {
   $defaults['def_commands_callback'] = 'cde_ajax_commands';
 }
 
-function cde_ajax_commands($selector, $text) {
+function cde_ajax_commands($selector, $html) {
+  if (empty($html)) {
+    $html = 'no errors';
+  }
+  
+  //~ $html = "$html $selector";
+  
   return array(
-    ajax_command_alert($text),
+    //$commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
+    ajax_command_alert($html),
   );
 }
 

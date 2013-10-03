@@ -96,19 +96,21 @@ function def_drupal_process_form($form_id, &$form, &$form_state) {
 
 // TODO: For testing purposes only.
 function def_ajax_tmp($form, $form_state) {
-  $text = 'test';
   
   //~ $commands[] = ajax_command_alert($text);
   //~ return $commands;
   
   
   
-  $element = def_target_element($form, $form_state);
+  // TODO: rename variable ?
+  $target_element_element = def_target_element($form, $form_state);
+  $element = $target_element_element['element'];
+  $element_properties = $target_element_element['properties'];
   
   $form_state['submitted'] = TRUE;
   _form_validate($element, $form_state);
   $errors = form_get_errors();
-  $errors = !empty($errors) ? array_values($errors) : array('no errors');
+  $errors = !empty($errors) ? array_values($errors) : array('');
   $text = $errors[0];
   //~ dsm($errors);
   
@@ -116,8 +118,8 @@ function def_ajax_tmp($form, $form_state) {
   // Allow override callback commands. See def_ajax_defaults().
   $triggering_element = $form_state['triggering_element'];
   
-  // TODO: Get selector
-  $selector = '';
+  // Get selector
+  $selector = def_element_selector($element, $element_properties);
   $commands = call_user_func($triggering_element['#ajax']['def_commands_callback'], $selector, $text);
   
   // https://api.drupal.org/api/drupal/includes%21ajax.inc/group/ajax/7
@@ -130,13 +132,48 @@ function def_ajax_tmp($form, $form_state) {
   return $result;
 }
 
+// TODO: Implement plugin override
+function def_element_selector($element, $properties) {
+  
+  $selector = '';
+  // Get field element selector
+  if (isset($properties['field_name'])) {
+    $plugin = def_field_plugin($properties['field_type'], $properties['widget_type']);
+    if (!empty($plugin)) {
+      //~ dsm($plugin);
+      // TODO:
+      if (isset($plugin['selector'])) {
+        $function = $plugin['selector'];
+        $selector = $function($element);
+        //~ dsm($selector);
+      }
+    }
+  }
+  // Get generic element selector
+  else {
+    //
+    if (isset($element['#type'])) {
+      dsm($element);
+      $element_type = $element['#type'];
+      $plugin = def_generic_plugin($element_type);
+      if (!empty($plugin)) {
+        $function = $plugin['selector'];
+        $selector = $function($element);
+      }
+    }
+    
+  }
+  
+  return $selector;
+}
+
 /**
  * Default def ajax commands callback.
  * Used to inform user of errors.
  */
-function def_ajax_commands($selector, $text) {
+function def_ajax_commands($selector, $html) {
   return array(
-    ajax_command_alert($text),
+    ajax_command_alert($html),
   );
 }
 
@@ -181,11 +218,14 @@ function def_target_element($form, $form_state) {
   // TODO: Add check for field_collection.
   //~ dsm($form);
   $element = $form;
+  $properties = array();
   foreach ($array_parents as $k => $array_parent) {
     // TODO: Check for field_collection.
     // And maybe traverse $array_parents from last parent to first one.
     $element = $element[$array_parent];
 
+    // TODO: Here we validate whole field (i.e. all deltas).
+    // Only triggering one should be validated.
     if (!empty($element['#field_name'])) {
       // Current triggering_element cardinality (this is only for fields).
       // Not every widget has cardinality. I.e. options_select
@@ -208,13 +248,24 @@ function def_target_element($form, $form_state) {
 
       $field_type = $field_info['type'];
       $widget_type = $instance_info['widget']['type'];
+      
+      $properties +=array(
+        'field_name' => $field_name,
+        'entity_type' => $entity_type,
+        'bundle' => $bundle,
+        'field_type' => $field_type,
+        'widget_type' => $widget_type,
+      );
       break;
     }
   }
   
   //~ dsm($triggering_element);
   //~ dsm($element);
-  return $element;
+  return array(
+    'element' => $element,
+    'properties' => $properties,
+  );
   //~ return $triggering_element;
   //~ return $form['profile_pilot']['field_civl_id'];
 }
@@ -230,6 +281,9 @@ function def_form_alter(&$form, &$form_state, $form_id) {
   
   $elements = def_target_generic_elements($form_state);
   foreach ($elements as $array_parents) {
+    // TODO: Issue with html5_tools_form_user_register_form_alter(). I.e. when another module
+    // changes element #type . Thus, there will be different #type-s
+    // for def_form_alter() and def_ajax_selector().
     def_generic_element_preprocess($form, $array_parents);
   }
   
