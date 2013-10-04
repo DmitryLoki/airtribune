@@ -43,6 +43,6 @@
  */
 ?>
 <?php print $styles; ?>
-<?php print $scripts; ?>
+<?php //print $scripts; ?>
 <?php print $page; ?>
 
