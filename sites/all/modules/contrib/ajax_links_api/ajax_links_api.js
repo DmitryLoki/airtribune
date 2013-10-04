@@ -59,7 +59,10 @@
     // Replace the content with a throbber.
     $(selector).html("<div class='ajax-links-api-loading'></div>");
   }
-  function ajaxAfter(selector, url, data, window, document){    
+  function ajaxAfter(selector, url, data, window, document){
+    // Update the ajaxLoading indicator.
+    ajaxLoading = false;
+
     // Reset the height of the container.
     $(selector).css('height', '');
 
