@@ -3739,6 +3739,12 @@ return array($event_id);';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Day number (excluded) */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
@@ -4344,6 +4350,7 @@ return array($event_id);';
     t('Race points'),
     t('All'),
     t('List of day (accordion)'),
+    t('<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>'),
     t('Day [field_day_number]'),
     t('—'),
     t(' — [field_optdistance-value] km'),
