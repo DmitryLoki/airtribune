@@ -4133,6 +4133,8 @@ return array($event_id);';
 
   /* Display: Event day */
   $handler = $view->new_display('page', 'Event day', 'panel_event_day_on_page');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'pane-event-days-panel-event-days-on-blog';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
@@ -4218,7 +4220,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['type'] = 'bricks';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'layout' => 'bricks_b',
+    'layout' => 'bricks_a',
   );
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_image']['multi_type'] = 'ul';
