@@ -1639,6 +1639,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content > span:first-child { padding-top: 10px;}
 .pane-event-days-panel-pane-1 .views-field-view .field-content span.file { padding: 0 0 0 10px;} 
 
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: none;}
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span.file { padding: 0;} 
 .pane-event-days-panel-pane-1 .dropdown_list .field-content a,
 .pane-event-days-panel-pane-1 .dropdown_list .replay-link-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
@@ -3244,7 +3245,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0;}
 .front_live_events .views-row:hover .views-field-field-logo { display: block;}
 .front_live_events .views-field-nothing { position: relative; z-index: 100; height: 100%;}
-.front_live_events .view-display-id-live_events_pane .views-field-nothing { height: 210px; z-index: 10;}
+.front_live_events .view-display-id-live_events_pane .views-field-nothing { height: 210px; z-index: 20;}
 .front_live_events .views-field-nothing a { display: block; width: 100%; height: 100%; overflow: hidden; text-indent: -9999px; position: absolute; top: 0; left: 0;}
 
 .front_live_events .view_confirmed_pilots { float: left; max-width: 50%; color: #a3b9cc; font: 12px/10px Verdana, Geneva, sans-serif; padding-top: 3px;}
