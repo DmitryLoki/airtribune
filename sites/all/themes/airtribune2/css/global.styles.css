@@ -3273,7 +3273,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .dayblog-text {display:block;}
 
 .front_live_events .race-block-activated .file {display:inline;}
-.front_live_events .race-block-activated .time {display:block}
+.front_live_events .race-block-activated .time {display:block !important;}
 .front_live_events .race-block-activated .help-text {display:block;}
 .front_live_events .race-block-activated .dayblog-text {display:none;}
 /*.view-frontpage-events .views-row-4,
