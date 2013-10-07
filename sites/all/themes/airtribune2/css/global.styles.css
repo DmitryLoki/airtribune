@@ -3218,6 +3218,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-awaiting .time { background: #fbd72c}
 .front_live_events .race-replay .time { background: #fbd72c}
 .front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.front_live_events .no-dayblog-text .views-field-title-1 a { background: none; text-decoration: none; width: 115px; margin-right: auto; margin-left: auto; font-size: 32px; margin-top: 10px; position: static;}
 .front_live_events .views-field-field-plain-body-1 a { text-decoration: none;}
 .front_live_events .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden; display: block;}
 .front_live_events .day-blog p { margin: 0; padding: 2px 0 0;}
@@ -3267,7 +3268,7 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
-.front_live_events .file,
+.front_live_events .file {display: none;}
 .front_live_events .time {display:none !important;}
 .front_live_events .help-text {display:none}
 .front_live_events .dayblog-text {display:block;}

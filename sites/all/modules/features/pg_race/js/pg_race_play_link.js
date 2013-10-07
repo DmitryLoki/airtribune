@@ -41,6 +41,10 @@
           $raceButton = $raceBlock.find('a.race-link');
         }
 
+        if (!hasDayblogText($raceBlock) && $raceBlock.parents('.views-row').length) {
+          $raceBlock.parents('.views-row').addClass('no-dayblog-text');
+        }
+
         if (!raceData.raceId || !raceData.contestId) {
           return;
         }
@@ -61,6 +65,9 @@
             $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
+            }
+            if($raceBlock.parents('.views-row').length) {
+              $raceBlock.parents('.views-row').removeClass('no-dayblog-text');
             }
           } else {
             if(raceData.isOnline) {
@@ -131,6 +138,10 @@
 
       function setHrefAttr(link, raceEid, mode, isOnline) {
         link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
+      }
+
+      function hasDayblogText($raceBlock) {
+        return $raceBlock.find('.dayblog-text').length > 0;
       }
     }
   }
