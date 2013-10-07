@@ -1652,6 +1652,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 
 .pane-event-days-panel-pane-1 .race-links .file { display: inline-block; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-pane-1 .race-links.no-task a { cursor: text;}
+.pane-event-days-panel-pane-1 .race-links .dayblog-text {display:none;}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px; cursor:text;}
 .pane-event-days-panel-pane-1 .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px; margin-top: 11px;}
 .pane-event-days-panel-pane-1 .race-awaiting .help-text,
@@ -3275,7 +3276,20 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
-
+.front_live_events .file,
+.front_live_events .time {margin-top: 20px;}
+.front_live_events .help-text {display:none}
+.front_live_events .dayblog-text {display:block;}
+.front_live_events .race-block-activated .file {display: inline;}
+.front_live_events .race-block-activated .time {margin-top: 0px;}
+.front_live_events .race-block-activated .help-text {display:block;}
+.front_live_events .race-block-activated .dayblog-text {display:none;}
+/*.view-frontpage-events .views-row-4,
+.view-frontpage-events .views-row-5,
+.view-frontpage-events .views-row-6,
+.view-frontpage-events .views-row-7,
+.view-frontpage-events .views-row-8,
+.view-frontpage-events .views-row-9 { display: none } */
 
 .frontpage-show-more-events { display: block; position: relative; width: 30px; height: 16px; overflow: hidden; text-indent: -9999px; margin: 7px auto 0; background: #f1f3f5 url(../images/table_action.png) no-repeat 50% -2194px; cursor: pointer;
 

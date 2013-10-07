@@ -849,7 +849,10 @@ function _day_pg_race_preview_markup($node) {
     $help_text .= '<span class="views-field-field-pg-race-tracks"><a href="' . file_create_url($tracks['uri']) . '">' . t('Tracks') . '</a></span>';
   }
   // Prepare output
-  $output = $link . $help_text . $dayblog_text . $time;
+  $output = $link . $help_text . $time;
+  if (arg(0) == 'frontpage') {
+    $output .= $dayblog_text;
+  }
   $output = theme('html_tag', array(
     'element' => array(
       '#tag' => 'span',
