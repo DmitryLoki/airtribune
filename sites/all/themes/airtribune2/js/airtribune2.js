@@ -17,36 +17,54 @@
 
       })
 
-      $(document.body).once(setRaceToggleBehavior);
+      setRaceToggleBehavior();
+      $(document.body).once(function(){
+        if (jQuery('.view-event-days .event-day').length > 1) {
+          $('.pane-contest-blog-contest-full-pane h2.pane-title').toggleClass('expanded').next().hide()
+        }
+        $('.pane-contest-blog-contest-full-pane h2.pane-title').click(function () {
+          $(this).toggleClass('expanded').next().slideToggle()
+        });
 
+        $('.ui-accordion-content').each(function () {
+          el = $('<div class="ui-accordion-content-inner"></div>');
+          el.append($(this).children());
+          $(this).append(el);
+        });
+      })
     }
 
 
   }
 
   function setRaceToggleBehavior() {
-    jQuery('body').bind('click', {parent: this}, bodyClick);
+    jQuery('body')
+      .unbind('click.bodyClick')
+      .bind('click.bodyClick', {parent: this}, bodyClick);
     function bodyClick(e) {
       //If e.target is not a child of el.handle then hide list
       if (jQuery(e.target).parents('.views-field-view, ' +
           '.views-field-field-pg-race-tracks, ' +
           '.views-field-day-pg-race-play-link')
         .size() == 0) {
-        $('.pane-event-days-panel-event-days-on-blog .views-field-view > .field-content, ' +
-          '.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-tracks > .field-content, ' +
-          '.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-content').hide();
+        $('.views-field-view > .field-content, ' +
+          '.views-field-field-pg-race-tracks > .field-content, ' +
+          '.views-field-day-pg-race-play-link .replay-link-content').hide();
         $('.files_list_down').removeClass('files_list_down');
       }
     }
 
-    $('.pane-event-days-panel-event-days-on-blog .views-field-view .views-label, ' +
-      '.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-tracks .views-label, ' +
-      '.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-label')
+    $('.views-field-view .views-label, ' +
+      '.views-field-field-pg-race-tracks .views-label, ' +
+      '.views-field-day-pg-race-play-link .replay-link-label')
+      .unbind('click')
       .click(function () {
+        if($(this).hasClass('processed'))
+        $(this).addClass('processed');
         el = $(this).next();
-        $('.pane-event-days-panel-event-days-on-blog .views-field-view > .field-content, ' +
-          '.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-tracks > .field-content, ' +
-          '.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-content')
+        $('.views-field-view > .field-content, ' +
+          '.views-field-field-pg-race-tracks > .field-content, ' +
+          '.views-field-day-pg-race-play-link .replay-link-content')
           .each(function () {
             if ($(this)[0] != el[0]) {
               $(this).hide();
@@ -56,19 +74,15 @@
         $(this).next().toggle().parents('.ui-accordion-content').toggleClass('files_list_down');
       });
 
-    if (jQuery('.view-event-days .event-day').length > 1) {
-      $('.pane-contest-blog-contest-full-pane h2.pane-title').toggleClass('expanded').next().hide()
-    }
-    $('.pane-contest-blog-contest-full-pane h2.pane-title').click(function () {
-      $(this).toggleClass('expanded').next().slideToggle()
-    });
 
-    $('.ui-accordion-content').each(function () {
-      el = $('<div class="ui-accordion-content-inner"></div>');
-      el.append($(this).children());
-      $(this).append(el);
-    });
+    //Scroll to map from day
+    var scrollBody = $('html,body'),
+      mapTopOffset = $('#map').offset().top;
 
+    $('.task_link').bind('click', function (event) {
+      event.preventDefault();
+      scrollBody.animate({scrollTop: mapTopOffset}, 400);
+    });
   };
 
 })(jQuery);

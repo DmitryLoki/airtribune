@@ -26,11 +26,15 @@ jQuery(function ($) {
 
     accordion = accordionElement.data('accordion');
 
-    accordionElement.bind('accordionchange', function () {
-      toggleHeader($(accordion.active));
-    });
   });
 
+  Drupal.behaviors.updateHeaderOnAjax = {
+    attach: function(context){
+      if(accordion && accordion.active && $(accordion.active).parent().find(context).length>0) {
+        toggleHeader($(accordion.active));
+      }
+    }
+  };
 
   //This callback calls when airvis widget initiated
   window.airvisPageLoadedCallback = function (airvis) {
@@ -81,6 +85,7 @@ jQuery(function ($) {
 
   //Rebuild airvis widget with new params. Events 'loaded' or 'loadingError' of airvisWidget will be fired after rebuild
   function rebuildRacePreview(contestId, raceId) {
+    if(!airvisWidget) return;
     airvisWidget.setOption('contestId', contestId);
     airvisWidget.setOption('raceId', raceId);
     airvisWidget.rebuild();
@@ -91,10 +96,9 @@ jQuery(function ($) {
   function toggleHeader(activeDayAccordionBlock) {
     //try to display widget, if any day opened
     if (activeDayAccordionBlock.length !== 0) {
-
-      var raceInfo = activeDayAccordionBlock.parent().find('.data-race').data(),
-        contestId = raceInfo['contestId'],
-        raceId = raceInfo['raceId'];
+      var raceInfo = activeDayAccordionBlock.parent().find('.race-links').data(),
+        contestId = raceInfo ? raceInfo['contestCid'] : '',
+        raceId = raceInfo ? raceInfo['raceCid'] : '';
 
       if (contestId !== '' && raceId !== '') {
         rebuildRacePreview(contestId, raceId);

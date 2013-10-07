@@ -1,8 +1,10 @@
 (function ($) {
   Drupal.behaviors.views_accordion = {
     attach: function () {
+      Drupal.settings.ajax_links_api.html5 = 0;
       if (Drupal.settings.views_accordion) {
         $.each(Drupal.settings.views_accordion, function (id) {
+          if(this.processed) return;
           /* Our view settings */
           var usegroupheader = this.usegroupheader;
           var viewname = this.viewname;
@@ -19,6 +21,11 @@
             var $this = $(this);
             var hash = '#!' + $this.find('div.day-number').data('href').substr(1); // hash to use for accordion navigation option
             var $link = $this.find('a');
+            //special tricks for ajax links api
+            $(this).attr('href',$(this).data('href'));
+            $link.bind('click', function(e) {
+              $(this).unbind('click').removeClass('ajax-link');
+            });
             // if the header is not already using an anchor tag, add one
             if ($link.length == 0) {
               // setup anchor tag for navigation
@@ -29,7 +36,7 @@
               // @FIXME ?
               // We are currently destroying the original link, though search crawlers will stil see it.
               // Links in accordions are NOT clickable and leaving them would kill deep linking.
-              $link.get(0).href = hash;
+              $link.attr('day-hash',hash);
             }
 
             // Wrap the accordion content within a div if necessary
@@ -49,7 +56,7 @@
             animated: this.animated,
             active: activePane,
             collapsible: this.collapsible,
-            autoHeight: this.autoheight,
+            autoHeight: false,//this.autoheight,
             event: this.event,
             fillSpace: this.fillspace,
             navigation: this.navigation,
@@ -61,6 +68,8 @@
             }
           });
           Drupal.behaviors.views_accordion.updateHash(accordionElement.data('accordion'));
+          accordionElement.find('.ui-state-active a').trigger('click');
+          this.processed = true;
         });
       }
     },
@@ -71,10 +80,13 @@
       }
     },
     getDayFromHash: function (accordionElement) {
-      var hash = location.hash.match(/#!(.*)/i),
-        totalDaysCount = accordionElement.find('div.event-day').length;
+      var hash = location.hash.match(/#!(.*)/i);
       if (hash !== null && hash.length > 1 && hash[1] !== '') {
-        return totalDaysCount - accordionElement.find('div.event-day:has(div[data-href="#' + hash[1] + '"])').index();
+        var activeDayNumber = -1;
+        accordionElement.find('div.views-accordion-header a').each(function(i,link){
+          if($(link).attr('day-hash') == hash[0]) activeDayNumber = i;
+        });
+        return activeDayNumber;
       } else if (location.hash === '#!') {
         return -1;
       }
@@ -83,23 +95,12 @@
     updateHash: function (accordion) {
       //if there is active page - set hash with its
       if (accordion.active.length !== 0) {
-        location.hash = '#!' + accordion.active.find('div.day-number').data('href').substr(1);
+        location.hash = '#!' + accordion.active.parent().find('div.views-accordion-header a').attr('day-hash').substr(2);
       } else {
         location.hash = '#!';
       }
     }
   };
 
-  $(function () {
-    //Scroll to map from day
-    var scrollBody = $('html,body'),
-      mapTopOffset = $('#map').offset().top;
-
-    $('.task_link').bind('click', function (event) {
-      event.preventDefault();
-      scrollBody.animate({scrollTop: mapTopOffset}, 400);
-    });
-
-  });
 
 })(jQuery.noConflict());
