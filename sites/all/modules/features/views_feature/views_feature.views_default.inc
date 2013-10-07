@@ -4431,7 +4431,7 @@ return array($event_id);';
     'accommodation' => 'accommodation',
     'activity' => 'activity',
   );
-  /* Filter criterion: Content: Location - proximity */
+  /* Filter criterion: Field: Coordinates - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4828,7 +4828,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
   );
-  /* Filter criterion: Content: Location - proximity */
+  /* Filter criterion: Field: Coordinates - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4884,7 +4884,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Content: Location - proximity */
+  /* Filter criterion: Field: Coordinates - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -5063,7 +5063,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Content: Location (field_location:lat) */
+  /* Filter criterion: Field: Coordinates (field_location:lat) */
   $handler->display->display_options['filters']['field_location_lat']['id'] = 'field_location_lat';
   $handler->display->display_options['filters']['field_location_lat']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_location_lat']['field'] = 'field_location_lat';
@@ -5082,7 +5082,7 @@ return array($event_id);';
     4 => 0,
     7 => 0,
   );
-  /* Filter criterion: Content: Location (field_location:lon) */
+  /* Filter criterion: Field: Coordinates (field_location:lon) */
   $handler->display->display_options['filters']['field_location_lon']['id'] = 'field_location_lon';
   $handler->display->display_options['filters']['field_location_lon']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_location_lon']['field'] = 'field_location_lon';
@@ -5884,10 +5884,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field:  Link to event info tab */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
