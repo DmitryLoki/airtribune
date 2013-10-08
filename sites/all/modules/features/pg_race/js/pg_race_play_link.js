@@ -45,12 +45,13 @@
           $raceButton = $raceBlock.find('a.race-link');
         }
 
-        if($raceBlock.closest('.views-row').length) {
+        var closestViewsRow = $raceBlock.closest('.views-row');
+        if(closestViewsRow.length) {
           if (!hasDayblogText($raceBlock)) {
-            $raceBlock.closest('.views-row').addClass('no-dayblog-text');
+            closestViewsRow.addClass('no-dayblog-text');
           } else {
-            $raceBlock.closest('.views-row').addClass('day-blog');
-            $raceBlock.closest('.views-field-title-1').removeClass('views-field-title-1').addClass('title');
+            closestViewsRow.addClass('day-blog');
+            closestViewsRow.find('.views-field-title-1').removeClass('views-field-title-1').addClass('title');
           }
         }
 
