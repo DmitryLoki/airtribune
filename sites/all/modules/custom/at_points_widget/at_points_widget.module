@@ -33,14 +33,16 @@ function at_points_widget_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => 'at_points_widget_upload',
     'page arguments' => array(2),
-    'access callback' => TRUE
+    'access callback' => 'og_user_access',
+    'access arguments' => array('node', 2, 'administer group')
   );
   $items['points/get/%'] = array(
     'title' => 'Get points for contest',
     'type' => MENU_CALLBACK,
     'page callback' => 'at_points_widget_get_points',
     'page arguments' => array(2),
-    'access callback' => TRUE
+    'access callback' => 'og_user_access',
+    'access arguments' => array('node', 2, 'administer group')
   );
   return $items;
 }
@@ -55,7 +57,6 @@ function at_points_widget_views_api(){
 function at_points_widget_upload($nid) {
   geophp_load();
   $object = json_decode($_POST['points']);
-  dpm($object);
   $modified_points = array();
   $new_points = array();
   $deleted_point_ids = array();
@@ -101,7 +102,6 @@ function at_points_widget_upload($nid) {
     $loaded_points = entity_load('ent_contest_point', $modified_point_ids);
     foreach ($loaded_points as $key => $point) {
       $mp = $modified_points[$key];
-      dpm($point);
       $coords = new Point($mp['coordinates'][0], $mp['coordinates'][1]);
       $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point);
       $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
@@ -109,7 +109,6 @@ function at_points_widget_upload($nid) {
       $point_wrapper->field_point_description->set($mp['description']);
       $point_wrapper->title->set($mp['name']);
       $point_wrapper->save();
-      dpm($point_wrapper->value());
     }
   }
   //dpm($loaded_points);
@@ -117,6 +116,7 @@ function at_points_widget_upload($nid) {
     entity_delete_multiple('ent_contest_point', $deleted_point_ids);
   }
   if (!empty($new_points)) {
+    $output_array = array();
     foreach ($new_points as $key => $point) {
       $coords = new Point($point['coordinates'][0], $point['coordinates'][1]);
       $point_entity = entity_create('ent_contest_point', array('type' => 'contest_point'));
@@ -126,7 +126,9 @@ function at_points_widget_upload($nid) {
       $point_wrapper->field_point_description->set($point['description']);
       $point_wrapper->title->set($point['name']);
       $point_wrapper->save();
+      $output_array[] = $point_wrapper->value();
     }
+    print _at_points_widget_wrapper($output_array);
   }
   drupal_add_http_header('Status', '200 Saved successfully');
   drupal_exit();
@@ -149,7 +151,7 @@ function at_points_widget_get_points($nid) {
       $contest_point_ids[] = $entity->id;
     }
   }
-  $controller = new EntContestPointController();
+  $controller = entity_get_controller('ent_contest_point');
   $used_contest_point_ids = array();
   if (!empty($contest_point_ids)) {
     $used_contest_point_ids = $controller->getBlocked($contest_point_ids);
@@ -160,47 +162,43 @@ function at_points_widget_get_points($nid) {
   $used_contest_points = entity_load('ent_contest_point', $used_contest_point_ids);
   $unused_contest_points = entity_load('ent_contest_point', $unused_contest_point_ids);
   foreach ($used_contest_points as $contest_point) {
-    $array = array(
-      'type' => 'Feature',
-      'geometry' => array(
-        'type' => 'Point',
-        'coordinates' => array(
-          $contest_point->field_point_location['und'][0]['lon'],
-          $contest_point->field_point_location['und'][0]['lat']
-        ),
-      ),
-      'properties' => array(
-        'name' => $contest_point->title,
-        'id' => $contest_point->id,
-        'readonly' => TRUE
-      )
-    );
-    $used_array[] = $array;
+    $contest_point->readonly = TRUE;
   }
   foreach ($unused_contest_points as $contest_point) {
-    $array = array(
-      'type' => 'Feature',
-      'geometry' => array(
-        'type' => 'Point',
-        'coordinates' => array(
-          $contest_point->field_point_location['und'][0]['lon'],
-          $contest_point->field_point_location['und'][0]['lat']
-        ),
-      ),
-      'properties' => array(
-        'name' => $contest_point->title,
-        'id' => $contest_point->id,
-        'readonly' => FALSE
-       )
-    );
-    $unused_array[] = $array;
+    $contest_point->readonly = FALSE;
   }
-  $output = array(
-    'type' => 'FeatureCollection',
-    'features' => array_merge($used_array, $unused_array)
-    );
-  $output = json_encode($output);
+  $output = _at_points_widget_wrapper(array_merge($used_contest_points, $unused_contest_points));
   drupal_add_http_header('Content-Type', 'application/json');
   print $output;
   drupal_exit();
+}
+
+function _at_points_widget_wrapper (array $points) {
+  $result = array();
+  foreach ($points as $point) {
+    $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point);
+    $array = array(
+      'type' => 'Feature',
+      'geometry' => array(
+        'type' => 'Point',
+        'coordinates' => array(
+          $point->field_point_location['und'][0]['lon'],
+          $point->field_point_location['und'][0]['lat'],
+          $point_wrapper->field_altitude->value()
+        ),
+      ),
+      'properties' => array(
+        'name' => $point->title,
+        'id' => $point->id,
+        'comment' => $point_wrapper->field_point_description->value(),
+        'readonly' => isset($point->readonly) ? $point->readonly : FALSE
+       )
+    );
+    $result[] = $array;
+  }
+  $result = array(
+    'type' => 'FeatureCollection',
+    'features' => $result
+    );
+  return json_encode($result);
 }
