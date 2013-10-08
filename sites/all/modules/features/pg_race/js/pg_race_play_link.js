@@ -45,9 +45,14 @@
           $raceButton = $raceBlock.find('a.race-link');
         }
 
-        if (!hasDayblogText($raceBlock) && $raceBlock.parents('.views-row').length) {
-          $raceBlock.parents('.views-row').addClass('no-dayblog-text');
+        if($raceBlock.parents('.views-row').length) {
+          if (!hasDayblogText($raceBlock)) {
+            $raceBlock.parents('.views-row').addClass('no-dayblog-text');
+          } else {
+            $raceBlock.parents('.views-row').addClass('day-blog');
+          }
         }
+
 
         if (!raceData.raceId || !raceData.contestId) {
           return;
@@ -72,7 +77,7 @@
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
             if($raceBlock.parents('.views-row').length) {
-              $raceBlock.parents('.views-row').removeClass('no-dayblog-text').addClass('race-activated');
+              $raceBlock.parents('.views-row').removeClass('no-dayblog-text day-blog').addClass('race-activated');
             }
           } else {
             if(raceData.isOnline) {
