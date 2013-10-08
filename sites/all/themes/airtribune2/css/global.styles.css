@@ -3278,14 +3278,17 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
-.front_live_events .file {display: none;}
-.front_live_events .time {display:none !important;}
-.front_live_events .help-text {display:none}
-.front_live_events .dayblog-text {display:block;}
+.front_live_events .race-links .file {display: none;}
+.front_live_events .race-links .time {display:none !important;}
+.front_live_events .race-links .help-text {display:none}
+.front_live_events .race-links .dayblog-text {display:block;}
+
 .front_live_events .race-block-activated .file {display:inline;}
 .front_live_events .race-block-activated .time {display:block !important;}
 .front_live_events .race-block-activated .help-text {display:block;}
 .front_live_events .race-block-activated .dayblog-text {display:none;}
+
+.front_live_events .views-field-field-pg-race-tracks {display:none;}
 /*.view-frontpage-events .views-row-4,
 .view-frontpage-events .views-row-5,
 .view-frontpage-events .views-row-6,

@@ -2,6 +2,7 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
+      $('.dayblog-text').remove();
       $('.race-links').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting');
         var timeHelperText = $raceBlock.find('.time').hide(),
@@ -30,7 +31,9 @@
 
         if (!raceData.isOnline) {
           setReplayTime();
-          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link').hide();
+          if($raceBlock.parents('.front_live_events').length == 0) {
+            $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link').hide();
+          }
         } else {
           if(Drupal.settings.Day && Drupal.settings.Day.button_soon_text) {
             helperText.text(Drupal.settings.Day.button_soon_text)
@@ -51,6 +54,7 @@
 
         timeHelperText.show();
         requestRaceState(raceData, function response(raceInfo) {
+          raceInfo=[{a:1}]
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             //make links clickable
             if (raceData.isOnline || raceData.requestType == 'online') {
@@ -67,7 +71,7 @@
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
             if($raceBlock.parents('.views-row').length) {
-              $raceBlock.parents('.views-row').removeClass('no-dayblog-text');
+              $raceBlock.parents('.views-row').removeClass('no-dayblog-text').addClass('race-activated');
             }
           } else {
             if(raceData.isOnline) {
