@@ -50,6 +50,7 @@
             $raceBlock.closest('.views-row').addClass('no-dayblog-text');
           } else {
             $raceBlock.closest('.views-row').addClass('day-blog');
+            $raceBlock.closest('.views-field-title-1').removeClass('views-field-title-1').addClass('title');
           }
         }
 
