@@ -4,6 +4,7 @@
       Drupal.settings.ajax_links_api.html5 = 0;
       if (Drupal.settings.views_accordion) {
         $.each(Drupal.settings.views_accordion, function (id) {
+
           if(this.processed) return;
           /* Our view settings */
           var usegroupheader = this.usegroupheader;
@@ -22,9 +23,12 @@
             var hash = '#!' + $this.find('div.day-number').data('href').substr(1); // hash to use for accordion navigation option
             var $link = $this.find('a');
             //special tricks for ajax links api
-            $(this).attr('href',$(this).data('href'));
+            $link.attr('href', $link.data('href'));
             $link.bind('click', function(e) {
-              $(this).unbind('click').removeClass('ajax-link');
+              $(this).unbind('click').removeClass('ajax-link').bind('click',function(){
+
+              })
+              //$(this).bind('click',accordionElement.data('accordion')._clickHandler.bind(accordionElement.data('accordion')));
             });
             // if the header is not already using an anchor tag, add one
             if ($link.length == 0) {
@@ -36,7 +40,7 @@
               // @FIXME ?
               // We are currently destroying the original link, though search crawlers will stil see it.
               // Links in accordions are NOT clickable and leaving them would kill deep linking.
-              $link.attr('day-hash',hash);
+              //$link.get(0).href = hash;
             }
 
             // Wrap the accordion content within a div if necessary
@@ -55,7 +59,7 @@
             header: headerSelector,
             animated: this.animated,
             active: activePane,
-            collapsible: this.collapsible,
+            collapsible: 0,//this.collapsible,
             autoHeight: false,//this.autoheight,
             event: this.event,
             fillSpace: this.fillspace,
@@ -68,7 +72,9 @@
             }
           });
           Drupal.behaviors.views_accordion.updateHash(accordionElement.data('accordion'));
+          Drupal.behaviors.views_accordion.scrollToActiveTab(accordionElement.data('accordion'));
           accordionElement.find('.ui-state-active a').trigger('click');
+          accordionElement.data('accordion').options.collapsible = 1;//this.collapsible
           this.processed = true;
         });
       }
@@ -83,8 +89,8 @@
       var hash = location.hash.match(/#!(.*)/i);
       if (hash !== null && hash.length > 1 && hash[1] !== '') {
         var activeDayNumber = -1;
-        accordionElement.find('div.views-accordion-header a').each(function(i,link){
-          if($(link).attr('day-hash') == hash[0]) activeDayNumber = i;
+        accordionElement.find('div.views-accordion-header .day-number').each(function(i,link){
+          if($(link).attr('data-href').substr(1) == hash[0].substr(2)) activeDayNumber = i;
         });
         return activeDayNumber;
       } else if (location.hash === '#!') {
@@ -95,7 +101,7 @@
     updateHash: function (accordion) {
       //if there is active page - set hash with its
       if (accordion.active.length !== 0) {
-        location.hash = '#!' + accordion.active.parent().find('div.views-accordion-header a').attr('day-hash').substr(2);
+        location.hash = '#!' + accordion.active.parent().find('div.views-accordion-header .day-number').attr('data-href').substr(1);
       } else {
         location.hash = '#!';
       }
