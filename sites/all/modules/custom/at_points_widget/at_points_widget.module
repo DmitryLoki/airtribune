@@ -1,0 +1,206 @@
+<?php
+
+function at_points_widget_form_alter(&$form, &$form_state, $form_id) {
+  //@todo We should'n hardcode name of the content type. 
+  //dpm($form);
+  if ($form_id == 'pg_contest_node_form' && isset($form['#node']->nid)) {
+    // Here, we should insert widget.
+    // It's better to do this as a vertical tab.
+    // Libraries API would be an overkill, cause we use our private js script.
+    $form['at_points_widget'] = array(
+      '#type' => 'item',
+      '#title' => t('Contest points input widget'),
+      '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid, array('attributes' => array ('target' => '_blank'))),
+    );
+  }
+}
+
+function at_points_widget_css_alter(&$css) {
+  if ((arg(0) == 'play' || arg(0) == 'retrieve' || arg(0) == 'points') && is_numeric(arg(1))) {
+    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
+  }
+}
+
+function at_points_widget_js_alter(&$js) {
+  if ((arg(0) == 'points') && is_numeric(arg(1))) {
+    //unset($js);
+  }
+}
+  
+function at_points_widget_menu() {
+  $items['points/upload/%'] = array(
+    'title' => 'Points upload url',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'at_points_widget_upload',
+    'page arguments' => array(2),
+    'access callback' => TRUE
+  );
+  $items['points/get/%'] = array(
+    'title' => 'Get points for contest',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'at_points_widget_get_points',
+    'page arguments' => array(2),
+    'access callback' => TRUE
+  );
+  return $items;
+}
+
+function at_points_widget_views_api(){
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'at_points_widget')
+  );
+}
+
+function at_points_widget_upload($nid) {
+  geophp_load();
+  $object = json_decode($_POST['points']);
+  dpm($object);
+  $modified_points = array();
+  $new_points = array();
+  $deleted_point_ids = array();
+  // First, we need to check all points.
+  foreach($object->features as $feature) {
+    if ($feature->geometry->type != 'Point') {
+      continue;
+    }
+    if ($feature->properties->status == 'deleted') {
+      $deleted_point_ids[] = $feature->properties->id;
+    }
+    if ($feature->properties->status == 'modified') {
+      $modified_points[$feature->properties->id] = array(
+        'coordinates' => $feature->geometry->coordinates,
+        'description' => $feature->properties->comment,
+        'name'        => $feature->properties->name
+      );
+    }
+    if ($feature->properties->status == 'deleted') {
+      $deleted_point_ids[] = $feature->properties->id;
+    }
+    if (empty($feature->properties->status)) {
+      $new_points[] = array(
+        'coordinates' => $feature->geometry->coordinates,
+        'description' => $feature->properties->comment,
+        'name'        => $feature->properties->name
+      );
+    }
+  }
+  
+  $modified_point_ids = array_keys($modified_points);
+  $controller = entity_get_controller('ent_contest_point');
+  $all_ids = array_merge($deleted_point_ids, $modified_point_ids);
+  $blocked = array();
+  if (!empty($all_ids)) {
+    $blocked = $controller->getBlocked(array_merge($deleted_point_ids, $modified_point_ids));
+  }
+  if (!empty($blocked)) {
+    drupal_add_http_header('Status', '400 Points cannot be deleted or modified');
+    drupal_exit();
+  }
+  if (!empty($modified_points)) {
+    $loaded_points = entity_load('ent_contest_point', $modified_point_ids);
+    foreach ($loaded_points as $key => $point) {
+      $mp = $modified_points[$key];
+      dpm($point);
+      $coords = new Point($mp['coordinates'][0], $mp['coordinates'][1]);
+      $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point);
+      $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
+      $point_wrapper->field_altitude->set($mp['coordinates'][2]);
+      $point_wrapper->field_point_description->set($mp['description']);
+      $point_wrapper->title->set($mp['name']);
+      $point_wrapper->save();
+      dpm($point_wrapper->value());
+    }
+  }
+  //dpm($loaded_points);
+  if (!empty($deleted_point_ids)) {
+    entity_delete_multiple('ent_contest_point', $deleted_point_ids);
+  }
+  if (!empty($new_points)) {
+    foreach ($new_points as $key => $point) {
+      $coords = new Point($point['coordinates'][0], $point['coordinates'][1]);
+      $point_entity = entity_create('ent_contest_point', array('type' => 'contest_point'));
+      $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point_entity);
+      $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
+      $point_wrapper->field_altitude->set($point['coordinates'][2]);
+      $point_wrapper->field_point_description->set($point['description']);
+      $point_wrapper->title->set($point['name']);
+      $point_wrapper->save();
+    }
+  }
+  drupal_add_http_header('Status', '200 Saved successfully');
+  drupal_exit();
+}
+
+/**
+ * Callback to get list of points for points edit widget.
+ */
+function at_points_widget_get_points($nid) {
+  // 1. Get contest points that are already used as race points.
+  // 1a. Get all contest points for contest.
+  $query = new EntityFieldQuery();
+  $query_results = $query->entityCondition('entity_type', 'ent_contest_point')
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $nid)
+    ->execute();
+  $contest_point_ids = array();
+  if (isset($query_results['ent_contest_point'])) {
+    $entities = $query_results['ent_contest_point'];
+    foreach ($entities as $entity) {
+      $contest_point_ids[] = $entity->id;
+    }
+  }
+  $controller = new EntContestPointController();
+  $used_contest_point_ids = array();
+  if (!empty($contest_point_ids)) {
+    $used_contest_point_ids = $controller->getBlocked($contest_point_ids);
+  }
+  // 2. Get contest points that are not used as race points.
+  $unused_contest_point_ids = array_diff($contest_point_ids, $used_contest_point_ids);
+  // 3. Load point entities and serve them (as geoJSON?)
+  $used_contest_points = entity_load('ent_contest_point', $used_contest_point_ids);
+  $unused_contest_points = entity_load('ent_contest_point', $unused_contest_point_ids);
+  foreach ($used_contest_points as $contest_point) {
+    $array = array(
+      'type' => 'Feature',
+      'geometry' => array(
+        'type' => 'Point',
+        'coordinates' => array(
+          $contest_point->field_point_location['und'][0]['lon'],
+          $contest_point->field_point_location['und'][0]['lat']
+        ),
+      ),
+      'properties' => array(
+        'name' => $contest_point->title,
+        'id' => $contest_point->id,
+        'readonly' => TRUE
+      )
+    );
+    $used_array[] = $array;
+  }
+  foreach ($unused_contest_points as $contest_point) {
+    $array = array(
+      'type' => 'Feature',
+      'geometry' => array(
+        'type' => 'Point',
+        'coordinates' => array(
+          $contest_point->field_point_location['und'][0]['lon'],
+          $contest_point->field_point_location['und'][0]['lat']
+        ),
+      ),
+      'properties' => array(
+        'name' => $contest_point->title,
+        'id' => $contest_point->id,
+        'readonly' => FALSE
+       )
+    );
+    $unused_array[] = $array;
+  }
+  $output = array(
+    'type' => 'FeatureCollection',
+    'features' => array_merge($used_array, $unused_array)
+    );
+  $output = json_encode($output);
+  drupal_add_http_header('Content-Type', 'application/json');
+  print $output;
+  drupal_exit();
+}

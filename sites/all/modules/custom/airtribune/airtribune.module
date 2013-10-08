@@ -903,7 +903,7 @@ function airtribune_entity_delete($entity, $type) {
 function airtribune_init() {
 
   // Disable admin menu on visualisation page
-  if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
+  if ((arg(0) == 'play' || arg(0) == 'retrieve' || arg(0) == 'points') && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
   }
 
