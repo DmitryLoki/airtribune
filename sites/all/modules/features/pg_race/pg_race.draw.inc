@@ -38,7 +38,8 @@ function _at_draw_image_path($race_id) {
 
 
   // Get waypoints
-  $waypoints = _at_draw_get_waypoints($race_id);
+  $waypoints = _at_draw_get_waypoints($race_id, $racetype_data);
+  
   if (empty($waypoints)) {
     return NULL;
   }
@@ -46,8 +47,18 @@ function _at_draw_image_path($race_id) {
   // Get routepoints
   $routepoints = _at_draw_get_routepoints($waypoints);
 
+  $points = array();
+  
+  $projection_points = $routepoints;
+  if ($racetype_data['bundle_type'] == 'pg_racetype_od') {
+    $od_direction_points = _at_draw_od_direction_points($racetype_data, $routepoints);
+    $projection_points = array_merge($projection_points, $od_direction_points);
+    $points['od_direction_points'] = $od_direction_points;
+  }
+  
+  
   // Get projection_box (min and max edges in projection coordinates)
-  $projection_box = _at_draw_projection_box($routepoints);
+  $projection_box = _at_draw_projection_box($projection_points, TRUE);
 
   // Get canvas_used
   $canvas_used = _at_draw_canvas_used($settings);
@@ -59,7 +70,9 @@ function _at_draw_image_path($race_id) {
   $canvas_box = _at_draw_get_canvas_box($settings, $canvas_used, $zoom_box);
 
   // Get final image resource
-  $img = _at_draw_image_resource($settings, $waypoints, $routepoints, $canvas_box, $zoom_box);
+  $points['waypoints'] = $waypoints;
+  $points['routepoints'] = $routepoints;
+  $img = _at_draw_image_resource($settings, $points, $canvas_box, $zoom_box);
 
   // Save image
   imagepng($img, $path);
@@ -70,7 +83,7 @@ function _at_draw_image_path($race_id) {
 
 
 // Get waypoints by race id
-function _at_draw_get_waypoints($race_id) {
+function _at_draw_get_waypoints($race_id, &$racetype_data) {
   $entities = entity_load(AIRTRIBUNE_RACE_ENTITY_TYPE, array($race_id));
 
   if (!empty($entities)) {
@@ -79,9 +92,14 @@ function _at_draw_get_waypoints($race_id) {
 
     $pg_racetype_entity = $wrapper->{AIRTRIBUNE_PG_RACETYPE_REF_FIELD}->value();
 
-    if (empty($pg_racetype_entity) || !isset($pg_racetype_entity->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}) || $pg_racetype_entity->type == 'pg_racetype_od') {
+    
+    if (empty($pg_racetype_entity) || !isset($pg_racetype_entity->{AIRTRIBUNE_PG_RACE_POINTS_FIELD})) {
       return;
     }
+    
+    // Store type for further usage.
+    $racetype_data = _at_draw_extract_racetype_data($pg_racetype_entity);
+    
     $pg_racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $pg_racetype_entity);
 
     $waypoint_entities = $pg_racetype_wrapper->{AIRTRIBUNE_PG_RACE_POINTS_FIELD}->value();
@@ -102,6 +120,55 @@ function _at_draw_get_waypoints($race_id) {
   return $waypoints;
 }
 
+function _at_draw_extract_racetype_data($pg_racetype_entity) {
+  
+  $data = array();
+  $data['bundle_type'] = $pg_racetype_entity->type;
+  
+  $pg_racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $pg_racetype_entity);
+  if ($data['bundle_type'] == 'pg_racetype_od') {
+    $azimuth = $pg_racetype_wrapper->{AIRTRIBUNE_PG_RACE_AZIMUTH_FIELD}->value();
+    $data['azimuth'] = isset($azimuth) ? $azimuth : NULL;
+  }
+  
+  return $data;
+}
+
+function _at_draw_od_direction_points($racetype_data, $routepoints) {
+  $od_direction_points = array();
+  $projection_box = _at_draw_projection_box($routepoints);
+  $diagonal = sqrt(pow($projection_box['x_max'] - $projection_box['x_min'], 2) + pow($projection_box['x_max'] - $projection_box['x_min'], 2));
+  
+  if ($diagonal != 0) {
+    $azimuth_length = $diagonal * 1/3;
+  }
+  else {
+    // TODO: Same settings in ap_draw_projection_box()
+    $px = 50;
+    $default_zoom = 10;
+    $pow = pow(2, $default_zoom);
+    $azimuth_length = $px / ($pow * AT_DRAW_PIXELS_PER_TILE);
+  }
+  
+  $last_routepoint = array_pop($routepoints);
+  
+  $has_azimuth = isset($racetype_data['azimuth']) ? TRUE : FALSE;
+  if ($has_azimuth) {
+    // Add 90 deg since north at top.
+    $azimuth = - (($racetype_data['azimuth'] - 90)/ 180) * M_PI;
+    $od_direction_points[] = array('x' => $last_routepoint['x'] + $azimuth_length * cos($azimuth), 'y' => $last_routepoint['y'] + $azimuth_length * sin($azimuth));
+  }
+  else {
+    $azimuth_length = $azimuth_length / 2;
+    $od_direction_points[] = array('x' => $last_routepoint['x'] + $azimuth_length, 'y' => $last_routepoint['y']);
+    $od_direction_points[] = array('x' => $last_routepoint['x'] - $azimuth_length, 'y' => $last_routepoint['y']);
+    $od_direction_points[] = array('x' => $last_routepoint['x'], 'y' => $last_routepoint['y'] + $azimuth_length);
+    $od_direction_points[] = array('x' => $last_routepoint['x'], 'y' => $last_routepoint['y'] - $azimuth_length);
+  }
+
+  return $od_direction_points;
+}
+
 // Get routepoints
 function _at_draw_get_routepoints($waypoints) {
   module_load_include('inc', 'pg_race', 'pg_race.class');
@@ -118,7 +185,7 @@ function _at_draw_get_routepoints($waypoints) {
 }
 
 // Get projection_box (min and max edges in projection coordinates)
-function _at_draw_projection_box($routepoints) {
+function _at_draw_projection_box($routepoints, $check_dimensions = FALSE) {
   // Rest index
   $routepoints = array_values($routepoints);
   foreach ($routepoints as $k => $routepoint) {
@@ -130,6 +197,24 @@ function _at_draw_projection_box($routepoints) {
     $y_min = $k != 0 ? min($y_min, $y) : $y;
     $y_max = $k != 0 ? max($y_max, $y) : $y;
   }
+
+  
+  if ($check_dimensions) {
+    $px = 50;
+    $default_zoom = 10;
+    $pow = pow(2, $default_zoom);
+    $default_offset = $px / ($pow * AT_DRAW_PIXELS_PER_TILE);
+    $default_offset = $default_offset / 2;
+    if ($x_min == $x_max) {
+      $x_min -= $default_offset;
+      $x_max += $default_offset;
+    }
+    elseif ($y_min == $y_max) {
+      $y_min -= $default_offset;
+      $y_max += $default_offset;
+    }
+  }
+  
   $projection_box = array(
     'x_min' => $x_min,
     'x_max' => $x_max,
@@ -138,6 +223,7 @@ function _at_draw_projection_box($routepoints) {
     'width' => $x_max - $x_min,
     'height' => $y_max - $y_min,
   );
+  
   return $projection_box;
 }
 
@@ -210,7 +296,10 @@ function _at_draw_get_canvas_box($settings, $canvas_used, $zoom_box) {
 }
 
 // Get final image resource
-function _at_draw_image_resource($settings, $waypoints, $routepoints, $canvas_box, $zoom_box) {
+function _at_draw_image_resource($settings, $points, $canvas_box, $zoom_box) {
+  $waypoints = $points['waypoints'];
+  $routepoints = $points['routepoints'];
+  
   $canvas = $settings['canvas'];
 
   // Create image
@@ -225,8 +314,80 @@ function _at_draw_image_resource($settings, $waypoints, $routepoints, $canvas_bo
 
   // Draw routepoints
   _at_draw_draw_routepoints($img, $routepoints, $canvas_box, $zoom_box);
+  
+  // Draw OD direction points
+  if (isset($points['od_direction_points'])) {
+    $od_direction_points = $points['od_direction_points'];
+    $last_routepoint = array_pop($routepoints);
+    _at_draw_draw_od_direction_points($img, $od_direction_points, $canvas_box, $zoom_box, $last_routepoint);
+  }
 
   return $img;
+}
+
+function _at_draw_draw_od_direction_points(&$img, $od_direction_points, $canvas_box, $zoom_box, $last_routepoint) {
+  $zoom = $zoom_box['zoom'];
+  $ratio = $zoom_box['ratio'];
+
+  $pow = pow(2, $zoom);
+  
+  $canvas_directionpoints = array();
+  foreach ($od_direction_points as $directionpoint) {
+    $canvas_directionpoints[] = array(
+      'x' => floor(($directionpoint['x'] * $pow - $canvas_box['zoom_projection']['x_min']) * AT_DRAW_PIXELS_PER_TILE * $ratio),
+      'y' => floor(($directionpoint['y'] * $pow - $canvas_box['zoom_projection']['y_min']) * AT_DRAW_PIXELS_PER_TILE * $ratio),
+    );
+  }
+  
+  $canvas_routepoint = array(
+    'x' => floor(($last_routepoint['x'] * $pow - $canvas_box['zoom_projection']['x_min']) * AT_DRAW_PIXELS_PER_TILE * $ratio),
+    'y' => floor(($last_routepoint['y'] * $pow - $canvas_box['zoom_projection']['y_min']) * AT_DRAW_PIXELS_PER_TILE * $ratio),
+  );
+  
+  // Draw OD Task direction lines
+  $line_colour = imagecolorallocate($img, 51, 51, 51); // #333333
+  $p0 = $canvas_routepoint;
+  $x0 = $p0['x'];
+  $y0 = $p0['y'];
+  foreach ($canvas_directionpoints as $canvas_directionpoint) {
+    $p1 = $canvas_directionpoint;
+    $x1 = $p1['x'];
+    $y1 = $p1['y'];
+    imageline($img, $x0, $y0, $x1, $y1, $line_colour);
+    
+    // Draw arrows
+    $arrow_length = 10; // px
+
+    $atan = $x1 != $x0 ? atan(($y1 - $y0) / ($x1 - $x0)) : M_PI/2 * (abs($y1 - $y0)/($y1 - $y0));
+    $k = $x1 != $x0 ?  min(0, ($x1 - $x0) / abs($x1 - $x0)) : 0;
+    $k = abs($k);
+
+    $a1 = $atan + 5 / 6 * M_PI + $k * M_PI;
+    $a2 = $atan - 5 / 6 * M_PI + $k * M_PI;
+
+    $d1 = array(
+      'x' => round($arrow_length * cos($a1)),
+      'y' => round($arrow_length * sin($a1)),
+    );
+
+    $d2 = array(
+      'x' => round($arrow_length * cos($a2)),
+      'y' => round($arrow_length * sin($a2)),
+    );
+    
+    $points = array(
+      $x1,
+      $y1,
+      $x1 + $d1['x'],
+      $y1 + $d1['y'],
+      $x1 + $d2['x'],
+      $y1 + $d2['y'],
+    );
+
+    // Set line thickness
+    imagesetthickness($img, 1);
+    imagefilledpolygon($img, $points, 3, $line_colour);
+  }
 }
 
 // Attach background from GMap tiles

@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Code for the Flying site feature.
+ */
+
+include_once 'pg_flyingsite.features.inc';
+
+/**
+ * Implementation of hook_form
+ * Default base is 'node_content'
+ * @param type $node
+ * @param type $form_state
+ */
+function pg_flyingsite_form($node, $form_state) {
+  //Default base is 'node_content'
+  //Title field is not attached otherwise
+  $form = node_content_form($node, $form_state);
+  return $form;
+}

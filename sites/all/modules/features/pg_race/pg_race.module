@@ -734,7 +734,7 @@ function _pg_race_play_link($params) {
 
   // Add js for fix work of links  in MS IE
   drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/ie-fix.js', 'file');
-  $output = theme('item_list', $variables) . $params['helptext'] . $params['time'];
+  $output = theme('item_list', $variables);
 
   return $output;
 }
@@ -751,13 +751,15 @@ function _day_pg_race_preview_markup($node) {
     return '';
   }
 
+  // Get last dayblog
+  $dayblog_text = airtribune_get_last_dayblog_text($node);
   // Get race status and core id data
   $data = pg_race_task_get_info($node);
   // Race status data
   $status = $data['status'];
   $has_task = !empty($data['entity']) ? TRUE : FALSE;
-  $has_tracks = $data['has_tracks'];
-  $has_points = $data['has_points'];
+  $tracks = $data['tracks'];
+  $points = $data['points'];
   $start_time = $data['start_time'];
   $deadline_time = $data['deadline_time'];
   $countdown_time = $data['countdown_time'];
@@ -812,7 +814,7 @@ function _day_pg_race_preview_markup($node) {
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $time = date('H:i:s', $start_time);
         $link_text = t('Watch Live');
-        $help_text = t('Race starts on');
+        $help_text = t('Race is on');
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
         $time = date('H:i:s', ($deadline_time - $start_time));
@@ -842,8 +844,15 @@ function _day_pg_race_preview_markup($node) {
   $data['text'] = $link_text;
   $link = _day_make_link($data);
 
+  // tracks
+  if ($tracks) {
+    $help_text .= '<span class="views-field-field-pg-race-tracks"><a href="' . file_create_url($tracks['uri']) . '">' . t('Tracks') . '</a></span>';
+  }
   // Prepare output
   $output = $link . $help_text . $time;
+  if (arg(0) == 'frontpage') {
+    $output .= $dayblog_text;
+  }
   $output = theme('html_tag', array(
     'element' => array(
       '#tag' => 'span',
@@ -866,7 +875,7 @@ function _day_pg_race_preview_markup($node) {
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/pg_race_play_link.js', 'file');
   drupal_add_js(array('Day' => array(
     'race_in_text' => t('Race starts in'),
-    'race_on_text' => t('Race starts on'),
+    'race_on_text' => t('Race is on'),
     'race_time_text' => t('Race time'),
     'watch_live_text' => t('Watch live'),
     'task_replay_text' => t('Task replay'),
@@ -905,8 +914,8 @@ function pg_race_task_get_info($day_node) {
     'start_time' => NULL,
     'deadline_time' => NULL,
     'countdown_time' => NULL,
-    'has_tracks' => NULL,
-    'has_points' => NULL,
+    'tracks' => NULL,
+    'points' => NULL,
     'race_entity_id' => NULL,
     'race_core_id' => NULL,
     'contest_core_id' => NULL,
@@ -951,8 +960,8 @@ function pg_race_task_get_info($day_node) {
     // Check if points are set and track files exist
     $race_tracks = $wrapper->field_pg_race_tracks->value();
     $points = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $race, AIRTRIBUNE_POINTS_FILE_FIELD);
-    $task_data['has_tracks'] = !empty($race_tracks);
-    $task_data['has_points'] = !empty($points);
+    $task_data['tracks'] = !empty($race_tracks) ? $race_tracks : FALSE;
+    $task_data['points'] = !empty($points) ? $points : FALSE;
 
     // Get Race core_id and entity_id
     $race_core_id = $wrapper->field_core_id->value();

@@ -41,6 +41,10 @@
           $raceButton = $raceBlock.find('a.race-link');
         }
 
+        if (!hasDayblogText($raceBlock) && $raceBlock.parents('.views-row').length) {
+          $raceBlock.parents('.views-row').addClass('no-dayblog-text');
+        }
+
         if (!raceData.raceId || !raceData.contestId) {
           return;
         }
@@ -55,12 +59,15 @@
             } else {
               isOnline = false;
             }
-            setHrefAttr($raceBlock.find('a.race-link.2d'), raceData.raceEid, '2d', isOnline);
-            setHrefAttr($raceBlock.find('a.race-link.3d'), raceData.raceEid, '3d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.3d').show(), raceData.raceEid, '3d', isOnline);
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
+            }
+            if($raceBlock.parents('.views-row').length) {
+              $raceBlock.parents('.views-row').removeClass('no-dayblog-text');
             }
           } else {
             if(raceData.isOnline) {
@@ -125,11 +132,16 @@
       }
 
       function hasTracksLoaded($raceBlock) {
-        return $raceBlock.parents('div.event-day').find('.views-field-field-pg-race-tracks').length>0;
+        return $raceBlock.parents('div.event-day,div.views-row').find('.views-field-field-pg-race-tracks').length>0
+          || $raceBlock.find('.views-field-field-pg-race-tracks').length>0;
       }
 
       function setHrefAttr(link, raceEid, mode, isOnline) {
         link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
+      }
+
+      function hasDayblogText($raceBlock) {
+        return $raceBlock.find('.dayblog-text').length > 0;
       }
     }
   }

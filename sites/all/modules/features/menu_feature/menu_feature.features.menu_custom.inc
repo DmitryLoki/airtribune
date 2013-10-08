@@ -26,10 +26,19 @@ function menu_feature_menu_default_menu_custom() {
     'language' => 'und',
     'i18n_mode' => '5',
   );
+  // Exported menu: menu-solutions-organizers.
+  $menus['menu-solutions-organizers'] = array(
+    'menu_name' => 'menu-solutions-organizers',
+    'title' => 'For organizers',
+    'description' => '',
+    'language' => 'und',
+    'i18n_mode' => '5',
+  );
   // Translatables
   // Included for use with string extractors like potx.
   t('Account');
   t('Footer menu');
+  t('For organizers');
   t('The <em>Account</em> menu contains links related to the user\'s account, as well as the \'Log out\' link.');
 
 

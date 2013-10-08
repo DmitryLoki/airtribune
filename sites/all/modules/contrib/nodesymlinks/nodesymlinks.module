@@ -1,0 +1,408 @@
+<?php
+
+/**
+ * @file
+ * Node Symlinks allows creating duplicate menu links with unique id to all
+ * nodes. As a result all these duplicates have unique menu trails and
+ * breadcrumbs.
+ *
+ * @author Vojtech Kusy <wojtha@gmail.com>, http://vojtechkusy.com
+ *
+ * Google answer about duplicates
+ * http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=66359
+ * Robots meta tag
+ * http://www.robotstxt.org/meta.html
+ *
+ * NOTE: This module has weight 2, so it is launched after Pathauto (if present)
+ *
+ * @example
+ * <META NAME="ROBOTS" CONTENT="NOINDEX, FOLLOW">
+ * <META NAME="ROBOTS" CONTENT="INDEX, NOFOLLOW">
+ * <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+ *
+ * CREDITS:
+ * -- Backup table, admin page and some other fixes by Gordon Luk
+ *    <gordon.luk@gmail.com>
+ *    http://getluky.net/2009/05/29/drupal-module-node-multi-parenting/
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function nodesymlinks_menu() {
+  $items = array();
+
+  $items['node/%node/mid/%'] = array(
+    'title' => 'Content Duplicate',
+    'title callback' => 'nodesymlinks_menu_title',
+    'title arguments' => array(1),
+    'page callback' => 'nodesymlinks_page',
+    'page arguments' => array(1, 3),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['node/%node/mid/%/view'] = array(
+    'title' => 'NodeSymlink',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['node/%node/mid/%/original'] = array(
+    'title' => 'Original',
+    'page callback' => 'nodesymlinks_original',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('update', 1),
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+    'weight' => 1,
+  );
+  $items['node/%node/mid/%/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'nodesymlinks_original',
+    'page arguments' => array(1, 'edit'),
+    'access callback' => 'node_access',
+    'access arguments' => array('update', 1),
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+    'weight' => 5,
+  );
+
+  $items['admin/structure/nodesymlinks'] = array(
+    'title' => 'NodeSymlinks',
+    'page callback' => 'nodesymlinks_admin',
+    'access arguments' => array('administer nodesymlinks'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'nodesymlinks.admin.inc',
+  );
+
+  $items['admin/structure/nodesymlinks/list'] = array(
+    'title' => 'List',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items['admin/structure/nodesymlinks/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nodesymlinks_settings'),
+    'access arguments' => array('administer nodesymlinks'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'nodesymlinks.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Title callback for the menu overview page and links.
+ */
+function nodesymlinks_menu_title($node) {
+  return $node->title;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nodesymlinks_permission() {
+  return array(
+    'administer nodesymlinks' => array(
+      'title' => t('administer nodesymlinks'),
+      'description' => t('Administer and configure NodeSymlinks'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_breadcrumb_alter().
+ */
+function nodesymlinks_menu_breadcrumb_alter(&$active_trail, $item) {
+  if (!drupal_is_front_page() && $item['page_callback'] == 'nodesymlinks_page') {
+    $last_crumb = variable_get('nodesymlinks_crumbs_lastcrumb', 'parent');
+    switch ($last_crumb) {
+      case 'current_link':
+        $active_trail[] = $item;
+        break;
+
+      case 'current_plain':
+        $active_trail[] = $item->title;
+        break;
+
+      case 'parent':
+      default:
+    }
+  }
+}
+
+/**
+ * Main callback for displaying the node.
+ *
+ * Menu callback which loads and displays the content from the node wrapped
+ * within the different menu and breadcrumbs. It also sets the robots META tag
+ * to prevent duplicate search engine indexing.
+ */
+function nodesymlinks_page($node, $mid) {
+  // Don't allow duplicates to be indexed.
+  if (!drupal_is_front_page()) {
+    $element = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'robots',
+        'content' => 'noindex, follow',
+      ),
+    );
+    drupal_add_html_head($element, 'meta_robots');
+  }
+
+  // View as a full page.
+  if (module_exists('page_manager')) {
+    // If there exists another handler for the node view use it, otherwise
+    // fallback on the drupal core node view.
+    module_load_include('inc', 'page_manager', '/plugins/tasks/node_view');
+    $output = page_manager_node_view_page($node);
+  }
+  else {
+    // If display suite’s 'View mode per node' is used,
+    // select the correct view mode.
+    $viewmode = (empty($node->ds_switch) ? 'full' : $node->ds_switch);
+    // For markup consistency with other pages, use node_view_multiple()
+    // rather than node_view().
+    $output = node_view_multiple(array($node->nid => $node), $viewmode);
+
+    // Update the history table, stating that this user viewed this node.
+    node_tag_new($node);
+  }
+
+  // Without this, title of the page would be same as the link title
+  // @See http://drupal.org/node/1226012
+  // @TODO: Is there a better way?
+  drupal_set_title($node->title);
+
+  return $output;
+}
+
+/**
+ * Redirect to original node.
+ */
+function nodesymlinks_original($node, $op = '') {
+  drupal_goto('node/' . $node->nid . '/' . $op);
+}
+
+/**
+ * Include nodesymlinks file.
+ */
+function _nodesymlinks_include($name = '') {
+  $name = $name ? 'nodesymlinks.' . $name : 'nodesymlinks';
+  module_load_include('inc', 'nodesymlinks', $name);
+}
+
+/**
+ * Implements hook_pathauto().
+ */
+function nodesymlinks_pathauto($op) {
+  switch ($op) {
+    case 'settings':
+      $settings = array(
+        'module' => 'nodesymlinks',
+        'token_type' => 'nodesymlink',
+        'groupheader' => t('Nodesymlinks paths'),
+        'patterndescr' => t('Default path pattern (applies to all node types with blank patterns below)'),
+        'patterndefault' => '[nodesymlink:menu-link:parents:join-path]/[nodesymlink:menu-link:title]',
+        'bulkname' => t('Bulk generate aliases for nodesymlinks that are not aliased'),
+        'bulkdescr' => t('Generate aliases for all existing nodesymlinks which do not already have aliases.'),
+        'batch_update_callback' => '_nodesymlinks_pathauto_bulkupdate',
+        'batch_file' => drupal_get_path('module', 'nodesymlinks') . '/nodesymlinks.inc',
+      );
+
+      $languages = array();
+      if (module_exists('locale')) {
+        $languages = array(LANGUAGE_NONE => t('language neutral')) + locale_language_list('name');
+      }
+
+      foreach (node_type_get_names() as $node_type => $node_name) {
+        if (count($languages) && variable_get('language_content_type_' . $node_type, 0)) {
+          $settings['patternitems'][$node_type] = t('Default path pattern for @node_type (applies to all @node_type content types with blank patterns below)', array('@node_type' => $node_name));
+          foreach ($languages as $lang_code => $lang_name) {
+            $settings['patternitems'][$node_type . '_' . $lang_code] = t('Pattern for all @language @node_type paths', array('@node_type' => $node_name, '@language' => $lang_name));
+          }
+        }
+        else {
+          $settings['patternitems'][$node_type] = t('Pattern for all @node_type paths', array('@node_type' => $node_name));
+        }
+      }
+      return (object) $settings;
+  }
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function nodesymlinks_token_info() {
+  $type = array(
+    'name' => t('Nodesymlinks'),
+    'description' => t('Tokens related to nodesymlinks.'),
+    'needs-data' => 'node',
+  );
+
+  // Chained node tokens.
+  $nodesymlink['node'] = array(
+    'name' => t('Node'),
+    'description' => t('Node of the nodesymlink.'),
+    'type' => 'node',
+  );
+
+  // Chained menu tokens.
+  $nodesymlink['menu-link'] = array(
+    'name' => t('Menu link'),
+    'description' => t("The menu link for this node."),
+    'type' => 'menu-link',
+  );
+
+  return array(
+    'types' => array(
+      'nodesymlink' => $type,
+    ),
+    'tokens' => array(
+      'nodesymlink' => $nodesymlink,
+    ),
+  );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function nodesymlinks_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+
+  $url_options = array('absolute' => TRUE);
+  if (isset($options['language'])) {
+    $url_options['language'] = $options['language'];
+    $language_code = $options['language']->language;
+  }
+  else {
+    $language_code = NULL;
+  }
+
+  $sanitize = !empty($options['sanitize']);
+
+  if ($type == 'nodesymlink' && !empty($data['node'])) {
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        // Default values for the chained tokens handled below.
+        case 'node':
+          $node = $data['node'];
+          $replacements[$original] = $sanitize ? check_plain($node->title) : $node->title;
+          break;
+      }
+    }
+
+    if ($node_tokens = token_find_with_prefix($tokens, 'node')) {
+      $replacements += token_generate('node', $node_tokens, $data, $options);
+    }
+  }
+
+  if ($type == 'nodesymlink' && !empty($data['menu-link'])) {
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        // Default values for the chained tokens handled below.
+        case 'menu-link':
+          $replacements[$original] = $sanitize ? check_plain($node->title) : $node->title;
+          break;
+      }
+    }
+
+    if ($menu_tokens = token_find_with_prefix($tokens, 'menu-link')) {
+      $replacements += token_generate('menu-link', $menu_tokens, $data, $options);
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_node_validate().
+ */
+function nodesymlinks_node_validate($node, $form) {
+  if (isset($node->menu['nodesymlinks'])) {
+    _nodesymlinks_include();
+    _nodesymlinks_nodeapi_validate($node, 'validate');
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function nodesymlinks_node_insert($node) {
+  if (isset($node->menu['nodesymlinks'])) {
+    _nodesymlinks_include();
+    _nodesymlinks_nodeapi_insert_update($node, 'insert');
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function nodesymlinks_node_update($node) {
+  if (isset($node->menu['nodesymlinks'])) {
+    _nodesymlinks_include();
+    _nodesymlinks_nodeapi_insert_update($node, 'update');
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function nodesymlinks_node_delete($node) {
+  _nodesymlinks_include();
+  _nodesymlinks_nodeapi_delete($node, 'delete');
+}
+
+/**
+ * Implements hook_node_prepare().
+ */
+function nodesymlinks_node_prepare($node) {
+  if (empty($node->nodesymlinks)) {
+    _nodesymlinks_include();
+    _nodesymlinks_nodeapi_prepare_presave($node, 'prepare');
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function nodesymlinks_node_presave($node) {
+  if (empty($node->nodesymlinks)) {
+    _nodesymlinks_include();
+    _nodesymlinks_nodeapi_prepare_presave($node, 'presave');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds nodesymlinks item fields to the node form.
+ */
+function nodesymlinks_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Check for node form and also check if 'menu' exists - some modules like
+  // Menuless Nodetype or Content Type Menu are able to unset menu at certain
+  // node types.
+  if (isset($form['#node']) && isset($form['menu'])) {
+    _nodesymlinks_include();
+    _nodesymlinks_node_form_alter($form, $form_state, $form_id);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function nodesymlinks_theme() {
+  return array(
+    'nodesymlinks_form_items' => array(
+      'render element' => 'form',
+      'file' => 'nodesymlinks.inc',
+    ),
+  );
+}

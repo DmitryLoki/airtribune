@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Basic mark types feature.
+ */
+
+include_once 'pg_basicmark_types.features.inc';

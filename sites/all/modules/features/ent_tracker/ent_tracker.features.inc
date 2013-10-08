@@ -18,11 +18,6 @@ $items = array(
       'type' => 'text',
       'behavior' => 'title',
     ),
-    'uuid' => array(
-      'label' => 'UUID',
-      'type' => 'uuid',
-      'behavior' => '',
-    ),
     'identifier' => array(
       'label' => 'Identifier',
       'type' => 'text',
