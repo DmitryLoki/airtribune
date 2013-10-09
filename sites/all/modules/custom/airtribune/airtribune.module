@@ -1448,21 +1448,6 @@ function airtribune_count_pilots($nid, $status = NULL) {
 }
 
 /**
- * Load last dayblog text.
- * @return string html-safe dayblog text
- */
-function airtribune_get_last_dayblog_text($day_node) {
-  $dayblog_text = NULL;
-  $wrapper = entity_metadata_wrapper('node', $day_node);
-  // If we have at least one dayblog text - load the last, and return as html-safe
-  if ($dayblog = end($wrapper->field_dayblog_ref->value())) {
-    $dayblog_body = entity_metadata_wrapper('node', $dayblog)->field_plain_body->value();
-    $dayblog_text = '<span class="dayblog-text">' . @$dayblog_body['safe_value'] . '</span>';
-  }
-  return $dayblog_text;
-}
-
-/**
  * Returns HTML for an event statistics block.
  */
 function theme_airtribune_event_statistics($vars) {
