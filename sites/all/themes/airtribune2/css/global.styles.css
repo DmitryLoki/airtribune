@@ -3207,6 +3207,7 @@ html.fb_view { overflow: auto;}
 /*.front_live_events .race-links,*/
 .front_live_events .views-field-view,
 .front_live_events .dayblog { top: auto; bottom: 0; height: 60px;}
+.front_live_events .views-row > .views-field-view { z-index: 100;}
 .front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 .front_live_events .race-links { height: 54px;}
@@ -3232,7 +3233,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .no-dayblog-text .views-field-title-1 a { background: none; text-decoration: none; width: 115px; margin-right: auto; margin-left: auto; font-size: 32px; margin-top: 10px; position: static;}
 .front_live_events .views-field-field-plain-body-1 a { text-decoration: none;}
 .front_live_events .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden; display: block;}
-.front_live_events .day-blog p { margin: 0; padding: 2px 0 0;}
+.front_live_events .day-blog p { margin: 0; padding: 3px 0 0;}
 .front_live_events .day-blog a,
 .front_live_events .day-blog .title,
 .front_live_events .day-blog .views-field-title-1 a,

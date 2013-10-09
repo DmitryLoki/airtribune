@@ -3275,14 +3275,6 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['id'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
-  /* Field: Visualization link */
-  $handler->display->display_options['fields']['day_pg_race_play_link']['id'] = 'day_pg_race_play_link';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['table'] = 'node';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['field'] = 'day_pg_race_play_link';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Visualization link';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['day_pg_race_play_link']['element_wrapper_type'] = 'span';
   /* Field: Day number - excluded */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
@@ -3301,6 +3293,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['title_1']['alter']['path'] = 'event/!1/blog#!day_[field_day_number]';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Visualization link */
+  $handler->display->display_options['fields']['day_pg_race_play_link']['id'] = 'day_pg_race_play_link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['table'] = 'node';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['field'] = 'day_pg_race_play_link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Visualization link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_wrapper_type'] = 'span';
   /* Field: Task is ready - excluded - overriden */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
