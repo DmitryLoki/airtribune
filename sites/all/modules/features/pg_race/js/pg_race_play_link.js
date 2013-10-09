@@ -2,6 +2,7 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
+      //$('.dayblog-text').remove();
       $('.race-links').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting');
         var timeHelperText = $raceBlock.find('.time').hide(),
@@ -30,7 +31,10 @@
 
         if (!raceData.isOnline) {
           setReplayTime();
-          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link').hide();
+          $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link');
+          if($raceBlock.parents('.front_live_events').length == 0) {
+            $raceButton.hide();
+          }
         } else {
           if(Drupal.settings.Day && Drupal.settings.Day.button_soon_text) {
             helperText.text(Drupal.settings.Day.button_soon_text)
@@ -41,9 +45,16 @@
           $raceButton = $raceBlock.find('a.race-link');
         }
 
-        if (!hasDayblogText($raceBlock) && $raceBlock.parents('.views-row').length) {
-          $raceBlock.parents('.views-row').addClass('no-dayblog-text');
+        var closestViewsRow = $raceBlock.closest('.views-row');
+        if(closestViewsRow.length) {
+          if (!hasDayblogText($raceBlock)) {
+            closestViewsRow.addClass('no-dayblog-text');
+          } else {
+            closestViewsRow.addClass('day-blog');
+            closestViewsRow.find('.views-field-title-1').removeClass('views-field-title-1').addClass('title');
+          }
         }
+
 
         if (!raceData.raceId || !raceData.contestId) {
           return;
@@ -51,6 +62,7 @@
 
         timeHelperText.show();
         requestRaceState(raceData, function response(raceInfo) {
+          //raceInfo=[{a:1}]
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             //make links clickable
             if (raceData.isOnline || raceData.requestType == 'online') {
@@ -66,8 +78,8 @@
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
-            if($raceBlock.parents('.views-row').length) {
-              $raceBlock.parents('.views-row').removeClass('no-dayblog-text');
+            if($raceBlock.closest('.views-row').length) {
+              $raceBlock.closest('.views-row').removeClass('no-dayblog-text day-blog').addClass('race-activated');
             }
           } else {
             if(raceData.isOnline) {
