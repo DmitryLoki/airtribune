@@ -1661,7 +1661,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .pane-event-days-panel-pane-1 .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-online .race-link,
-.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:inherit;}
+.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:pointer;}
 .pane-event-days-panel-pane-1 #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
 .pane-event-days-panel-pane-1 .race-awaiting #time-counter { background-color: #fbd72b; border-color: #f6d72e;}
 
