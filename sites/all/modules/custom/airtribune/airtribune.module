@@ -119,6 +119,16 @@ function airtribune_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'plugins/content_types/soon_country/soon_country.inc',
   );
+  $items['event/%node/settings'] = array(
+    'type' => MENU_CALLBACK,
+    'file' => 'airtribune.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('airtribune_event_settings_form', 1),
+    'access callback' => 'airtribune_event_settings_access',
+    'access arguments' => array(1),
+    'title callback' => 'airtribune_event_settings_title',
+    'title arguments' => array(1),
+  );
   return $items;
 }
 
@@ -136,6 +146,25 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+}
+
+/**
+ * Event settings page title callback.
+ */
+function airtribune_event_settings_title($event) {
+  $title = "Settings form 2";
+  $title = t('!name settings', array('!name' => $event->title));
+  return $title;
+}
+
+/**
+ * Determine whether the current user has access Event settings form
+ */
+function airtribune_event_settings_access($event, $op = 'edit') {
+  global $user;
+
+  $access = TRUE;  
+  return $access;
 }
 
 /**
