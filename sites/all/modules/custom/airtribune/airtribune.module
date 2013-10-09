@@ -902,9 +902,13 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
-
+  $args = array(
+    'play',
+    'retrieve',
+    'points',
+  );
   // Disable admin menu on visualisation page
-  if ((arg(0) == 'play' || arg(0) == 'retrieve' || arg(0) == 'points') && is_numeric(arg(1))) {
+  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
   }
 

@@ -16,13 +16,21 @@ function at_points_widget_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function at_points_widget_css_alter(&$css) {
-  if ((arg(0) == 'play' || arg(0) == 'retrieve' || arg(0) == 'points') && is_numeric(arg(1))) {
+  $args = array(
+    'play',
+    'retrieve',
+    'points',
+  );
+  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
   }
 }
 
 function at_points_widget_js_alter(&$js) {
-  if ((arg(0) == 'points') && is_numeric(arg(1))) {
+  $args = array(
+    'points',
+  );
+  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
     //unset($js);
   }
 }
