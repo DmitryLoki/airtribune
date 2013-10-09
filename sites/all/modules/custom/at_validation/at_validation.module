@@ -439,6 +439,32 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
     // We need it for authorized event registration
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation') . '/js/user-reg-validation.js';
   }
+
+  // Fix clientside validation for editablefields_as_link.
+  // @see #3485
+  if ($form_id == 'editablefields_as_link_form') {
+    $langcode = $form['#langcode'];
+    $name = key($form_state['field']);
+    if ($name == 'field_phone') {
+      // We use custom widget to output phone number, which combine 2 fields: country code & number in one at client.
+      // Instead default 'value' this field have name 'full_number'.
+      $value = 'full_number';
+    }
+    else {
+      $value = 'value';
+    }
+    // Example 'field_phone[und][0][full_number]'
+    $fullname = $name . '[' . $langcode .'][0][' . $value . ']';
+
+    //  Drupal.settings.clientsideValidation.forms['editablefields-as-link-form'].rules['field_phone[und][0][full_number]'].required=true;
+    $form['#attached']['js'][] = array(
+      'data' => array(
+        'clientsideValidation_editablefield_field_name' => $fullname,
+        'clientsideValidation_editablefield_form_id' => $form['#id'],
+      ),
+      'type' => 'setting'
+    );
+  }
 }
 
 /**
@@ -653,6 +679,13 @@ function at_validation_js_alter(&$javascript) {
       _at_validation_required_message($setting['clientsideValidation']['forms']);
       $javascript['settings']['data'][$k] = $setting;
       break;
+    }
+
+    if (!empty($setting['clientsideValidation_editablefield_field_name'])) {
+      $field_name = $setting['clientsideValidation_editablefield_field_name'];
+      $form_id = $setting['clientsideValidation_editablefield_form_id'];
+      $setting['clientsideValidation']['forms'][$form_id]['rules'][$field_name]['required'] = FALSE;
+      $javascript['settings']['data'][] = $setting;
     }
   }
   $javascript['settings']['data'][] = array('requiredMessage' => t('This field is required.'));
