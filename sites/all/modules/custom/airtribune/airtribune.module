@@ -1153,6 +1153,21 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
 }
 
 /**
+ * Implements hook_css_alter.
+ * Kills all drupal css on external js-pages.
+ */
+function airtribune_css_alter(&$css) {
+  $args = array(
+    'play',
+    'retrieve',
+    'points',
+  );
+  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
+    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
+  }
+}
+
+/**
  * Implements hook_js_alter().
  */
 function airtribune_js_alter(&$javascript) {

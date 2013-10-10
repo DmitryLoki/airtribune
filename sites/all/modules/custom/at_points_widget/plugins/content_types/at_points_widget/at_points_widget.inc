@@ -43,7 +43,6 @@ function airtribune_airtribune_points_widget_render($subtype, $conf, $panel_args
   $widget_html = _airtribune_points_widget_get_widget($contest->nid, $options);
 
   $content['widget']['#markup'] = $widget_html;
-  //$content['#attached']['css'] = array($plugin_path . '/airtribune_player.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-points-widget'));
   $content['#theme_wrappers'] = array('container');
 
@@ -94,24 +93,6 @@ function airtribune_airtribune_points_widget_edit_form($form, &$form_state) {
     '#title' => t('Widget type'),
     '#options' => $types,
     '#default_value' => !empty($conf['widget_type']) ? $conf['widget_type'] : '2d',
-  );
-  $form['widget_height'] = array(
-    '#type' => 'numberfield',
-    '#title' => t('Widget height'),
-    '#min' => 200,
-    '#max' => 1200,
-    '#step' => 5,
-    '#field_suffix' => 'px',
-    '#default_value' => !empty($conf['widget_height']) ? $conf['widget_height'] : 600,
-  );
-  $form['widget_width'] = array(
-    '#type' => 'numberfield',
-    '#title' => t('Widget width'),
-    '#min' => 400,
-    '#max' => 1800,
-    '#step' => 5,
-    '#field_suffix' => 'px',
-    '#default_value' => !empty($conf['widget_width']) ? $conf['widget_width'] : 900,
   );
   return $form;
 }

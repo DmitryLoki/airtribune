@@ -13,7 +13,7 @@ define('POINT_REFERENCE_FIELD', 'field_point_ref');
  * @param array $entity_info
  */
 function ent_contest_point_entity_info_alter(&$entity_info) {
-  $entity_info['ent_contest_point']['controller class'] = "EntContestPointController";
+  $entity_info[AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE]['controller class'] = "EntContestPointController";
 }
 
 class EntContestPointController extends EntityAPIController {
@@ -21,8 +21,9 @@ class EntContestPointController extends EntityAPIController {
   public $referenceField = 'field_point_ref';
   
   public function __construct() {
-    parent::__construct('ent_contest_point');
+    parent::__construct(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE);
   }
+  
   /**
    * Implements EntityAPIControllerInterface.
    * Overrides EntityAPIController::delete()
@@ -45,7 +46,7 @@ class EntContestPointController extends EntityAPIController {
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'og_membership')
-      ->propertyCondition('entity_type', 'ent_contest_point', '=')
+      ->propertyCondition('entity_type', AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, '=')
       ->propertyCondition('etid', $ids)
       ->execute();
     if (!empty($result['og_membership'])) {
@@ -56,7 +57,7 @@ class EntContestPointController extends EntityAPIController {
   /**
    * Get ids of ent_contest_point that are already referenced by ent_point.
    * If $ids is empty, get all used points, if it's not empty, get the subset of $ids.
-   * @param Array $ids
+   * @param array $ids
    * @author Vadim Valuev<gease@mail.ru>
    */
   public function getBlocked ($ids = array()) {

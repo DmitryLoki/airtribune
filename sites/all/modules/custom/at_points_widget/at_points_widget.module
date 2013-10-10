@@ -1,40 +1,38 @@
 <?php
+/**
+ * @file
+ * Contains code for embedding extenal js widget for contest point input.
+ * @author Vadim Valuev<gease@mail.ru>
+ */
 
-function at_points_widget_form_alter(&$form, &$form_state, $form_id) {
-  //@todo We should'n hardcode name of the content type. 
-  //dpm($form);
-  if ($form_id == 'pg_contest_node_form' && isset($form['#node']->nid)) {
-    // Here, we should insert widget.
-    // It's better to do this as a vertical tab.
-    // Libraries API would be an overkill, cause we use our private js script.
+/**
+ * Implementation of hook_form_FORM_ID_alter.
+ */
+function at_points_widget_form_pg_contest_node_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node']->nid)) {
+    // That's actually a link to the widget that opens in a new window.
+    // Widget page points/%nid is implemented as a panel.
     $form['at_points_widget'] = array(
       '#type' => 'item',
       '#title' => t('Contest points input widget'),
-      '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid, array('attributes' => array ('target' => '_blank'))),
+      '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid, 
+          array('attributes' => array ('target' => '_blank'))),
     );
   }
 }
 
-function at_points_widget_css_alter(&$css) {
-  $args = array(
-    'play',
-    'retrieve',
-    'points',
-  );
-  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_points_widget_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
+    return 'plugins/' . $plugin_type;
   }
 }
 
-function at_points_widget_js_alter(&$js) {
-  $args = array(
-    'points',
-  );
-  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
-    //unset($js);
-  }
-}
-  
+/**
+ * Implements hook_menu.
+ */
 function at_points_widget_menu() {
   $items['points/upload/%'] = array(
     'title' => 'Points upload url',
@@ -55,20 +53,18 @@ function at_points_widget_menu() {
   return $items;
 }
 
-function at_points_widget_views_api(){
-  return array(
-    'api' => 3,
-    'path' => drupal_get_path('module', 'at_points_widget')
-  );
-}
-
+/**
+ * Menu callback for points/upload/%nid.
+ * Receives geoJSON with modified points from widget and saves them. 
+ * @param int $nid
+ */
 function at_points_widget_upload($nid) {
   geophp_load();
   $object = json_decode($_POST['points']);
   $modified_points = array();
   $new_points = array();
   $deleted_point_ids = array();
-  // First, we need to check all points.
+  // First, we compile different arrays: for new points, modified and deleted ones.
   foreach($object->features as $feature) {
     if ($feature->geometry->type != 'Point') {
       continue;
@@ -94,9 +90,10 @@ function at_points_widget_upload($nid) {
       );
     }
   }
-  
+  // Then, we need to check if we can delete or modify points we are requested,
+  // so that they don't have child race points.
   $modified_point_ids = array_keys($modified_points);
-  $controller = entity_get_controller('ent_contest_point');
+  $controller = entity_get_controller(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE);
   $all_ids = array_merge($deleted_point_ids, $modified_point_ids);
   $blocked = array();
   if (!empty($all_ids)) {
@@ -106,36 +103,26 @@ function at_points_widget_upload($nid) {
     drupal_add_http_header('Status', '400 Points cannot be deleted or modified');
     drupal_exit();
   }
+  
+  // Below, we make the actual save.
+  if (!empty($deleted_point_ids)) {
+    entity_delete_multiple(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $deleted_point_ids);
+  }
   if (!empty($modified_points)) {
-    $loaded_points = entity_load('ent_contest_point', $modified_point_ids);
+    $loaded_points = entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $modified_point_ids);
     foreach ($loaded_points as $key => $point) {
       $mp = $modified_points[$key];
-      $coords = new Point($mp['coordinates'][0], $mp['coordinates'][1]);
-      $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point);
-      $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
-      $point_wrapper->field_altitude->set($mp['coordinates'][2]);
-      $point_wrapper->field_point_description->set($mp['description']);
-      $point_wrapper->title->set($mp['name']);
-      $point_wrapper->save();
+      _at_points_widget_set_values($point, $mp);
     }
-  }
-  //dpm($loaded_points);
-  if (!empty($deleted_point_ids)) {
-    entity_delete_multiple('ent_contest_point', $deleted_point_ids);
   }
   if (!empty($new_points)) {
     $output_array = array();
     foreach ($new_points as $key => $point) {
-      $coords = new Point($point['coordinates'][0], $point['coordinates'][1]);
-      $point_entity = entity_create('ent_contest_point', array('type' => 'contest_point'));
-      $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point_entity);
-      $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
-      $point_wrapper->field_altitude->set($point['coordinates'][2]);
-      $point_wrapper->field_point_description->set($point['description']);
-      $point_wrapper->title->set($point['name']);
-      $point_wrapper->save();
-      $output_array[] = $point_wrapper->value();
+      $point_entity = entity_create(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array('type' => 'contest_point'));
+      og_group('node', $nid, array('entity_type' => AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, 'entity' => $point_entity));
+      $output_array[] = _at_points_widget_set_values($point_entity, $point);
     }
+    // If there are new points, we return them to the widget with their ids.
     print _at_points_widget_wrapper($output_array);
   }
   drupal_add_http_header('Status', '200 Saved successfully');
@@ -143,32 +130,49 @@ function at_points_widget_upload($nid) {
 }
 
 /**
+ * Set ent_contest_points values from array. 
+ * @param Entity $point point to be modified
+ * @param array $value values to set
+ * @return Entity modified point entity
+ */
+function _at_points_widget_set_values($point, $value) {
+  $coords = new Point($value['coordinates'][0], $value['coordinates'][1]);
+  $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
+  $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
+  $point_wrapper->field_altitude->set($value['coordinates'][2]);
+  $point_wrapper->field_point_description->set($value['description']);
+  $point_wrapper->title->set($value['name']);
+  $point_wrapper->save();
+  return $point_wrapper->value();
+}
+
+/**
  * Callback to get list of points for points edit widget.
  */
 function at_points_widget_get_points($nid) {
-  // 1. Get contest points that are already used as race points.
-  // 1a. Get all contest points for contest.
+  // 1. Get all contest points for contest.
   $query = new EntityFieldQuery();
-  $query_results = $query->entityCondition('entity_type', 'ent_contest_point')
+  $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE)
     ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $nid)
     ->execute();
   $contest_point_ids = array();
-  if (isset($query_results['ent_contest_point'])) {
-    $entities = $query_results['ent_contest_point'];
+  if (isset($query_results[AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE])) {
+    $entities = $query_results[AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE];
     foreach ($entities as $entity) {
       $contest_point_ids[] = $entity->id;
     }
   }
-  $controller = entity_get_controller('ent_contest_point');
+  // 2. Get contest points that are already used as race points.
+  $controller = entity_get_controller(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE);
   $used_contest_point_ids = array();
   if (!empty($contest_point_ids)) {
     $used_contest_point_ids = $controller->getBlocked($contest_point_ids);
   }
-  // 2. Get contest points that are not used as race points.
+  // 3. Get contest points that are not used as race points.
   $unused_contest_point_ids = array_diff($contest_point_ids, $used_contest_point_ids);
-  // 3. Load point entities and serve them (as geoJSON?)
-  $used_contest_points = entity_load('ent_contest_point', $used_contest_point_ids);
-  $unused_contest_points = entity_load('ent_contest_point', $unused_contest_point_ids);
+  // 4. Load point entities and serve them (as geoJSON)
+  $used_contest_points = entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $used_contest_point_ids);
+  $unused_contest_points = entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $unused_contest_point_ids);
   foreach ($used_contest_points as $contest_point) {
     $contest_point->readonly = TRUE;
   }
@@ -181,10 +185,15 @@ function at_points_widget_get_points($nid) {
   drupal_exit();
 }
 
+/**
+ * Helper function to wrap point entities into geoJSON.
+ * @param array $points
+ * @return string
+ */
 function _at_points_widget_wrapper (array $points) {
   $result = array();
   foreach ($points as $point) {
-    $point_wrapper = entity_metadata_wrapper('ent_contest_point', $point);
+    $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
     $array = array(
       'type' => 'Feature',
       'geometry' => array(

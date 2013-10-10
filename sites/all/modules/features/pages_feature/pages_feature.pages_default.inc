@@ -6617,6 +6617,183 @@ window.fbAsyncInit = function() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'points_widget';
+  $page->task = 'page';
+  $page->admin_title = 'Points widget';
+  $page->admin_description = '';
+  $page->path = 'points/%node';
+  $page->access = array(
+    'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
+    'plugins' => array(
+      0 => array(
+        'name' => 'node_type',
+        'settings' => array(
+          'type' => array(
+            'pg_contest' => 'pg_contest',
+          ),
+        ),
+        'context' => 'argument_entity_id:node_1',
+        'not' => FALSE,
+      ),
+    ),
+  );
+  $page->menu = array(
+    'type' => 'none',
+    'title' => '',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'node' => array(
+      'id' => 1,
+      'identifier' => 'Материал: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_points_widget_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'points_widget';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Points widget',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
+        'keyword' => 'event',
+        'name' => 'entity_from_field:og_group_ref-ent_race-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+    ),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_5',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'No Title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-86';
+    $pane->panel = 'middle';
+    $pane->type = 'at_points_widget';
+    $pane->subtype = 'at_points_widget';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'widget_type' => '2d',
+      'widget_height' => '600',
+      'widget_width' => '900',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-86'] = $pane;
+    $display->panels['middle'][0] = 'new-86';
+    $pane = new stdClass();
+    $pane->pid = 'new-87';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_on_visualization-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-87'] = $pane;
+    $display->panels['middle'][1] = 'new-87';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_points_widget_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'points_widget';
+  $handler->handler = 'http_response';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => '403 Access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'panels_everywhere_site_template' => 'site_template_panel_context_2',
+  );
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['points_widget'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'retrieve_map';
   $page->task = 'page';
   $page->admin_title = 'Retrieve map';
@@ -6731,7 +6908,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-86';
+    $pane->pid = 'new-88';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_player';
     $pane->subtype = 'airtribune_player';
@@ -6751,10 +6928,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-86'] = $pane;
-    $display->panels['middle'][0] = 'new-86';
+    $display->content['new-88'] = $pane;
+    $display->panels['middle'][0] = 'new-88';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-86';
+  $display->title_pane = 'new-88';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['retrieve_map'] = $page;
