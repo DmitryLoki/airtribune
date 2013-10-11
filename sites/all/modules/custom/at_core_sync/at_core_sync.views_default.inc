@@ -1469,7 +1469,7 @@ function at_core_sync_views_default_views() {
       'label' => '',
     ),
     'action::views_bulk_operations_delete_item' => array(
-      'selected' => 0,
+      'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -3299,7 +3299,7 @@ function at_core_sync_views_default_views() {
     t('Edit link'),
     t('#'),
     t('Title'),
-    t('Awards description'),
+    t('Description'),
     t('Core status'),
     t('Tracker'),
     t('Operations'),
