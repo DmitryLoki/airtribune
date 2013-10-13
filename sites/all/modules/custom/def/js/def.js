@@ -39,22 +39,8 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
 (function ($) {
 
-  $(function(){
-    $.validator.prototype.checkAllValid = function () {
-      var self = this,
-        allValid = true;
-      var allElements = this.elements();
-      allElements.each(function (i, e) {
-        allValid = allValid && self.check(e);
-      });
-      if (allValid) {
-        $(allElements[0].form).find('.form-submit').removeAttr('disabled');
-      }
-    };
-  });
-
   $.fn.checkValidationResult = function (errorText) {
-    if(!this[0]) return;
+    if (!this[0]) return;
     var form = $(this[0].form),
       validator = form.validate();
     if (!errorText) {
@@ -106,7 +92,18 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
       return errorElement;
     },
     attach: function (context, settings) {
-
+      $.validator.prototype.checkAllValid = function () {
+        var self = this,
+          allValid = true;
+        var allElements = this.elements();
+        allElements.each(function (i, e) {
+          allValid = allValid && self.check(e);
+        });
+        if (allValid) {
+          $(self.currentForm).find('.form-submit').removeAttr('disabled');
+        }
+        return allValid;
+      };
       //override beforeSubmit
       for (var ajax_el in Drupal.settings.ajax) {
         var ajax = Drupal.ajax[ajax_el];
@@ -115,7 +112,9 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
       //overrides errorPlacement in validation settings
       Drupal.clientsideValidation.prototype.setErrorElement = function (error, element) {
-        if(error.text() == '') {return;}
+        if (error.text() == '') {
+          return;
+        }
         var errorElement = Drupal.behaviors.DEFClientValidation.prepareErrorElement(error);
 
         var formItem = element.closest('.form-item');
@@ -157,8 +156,9 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
           //set correct password booble
           passwordField
-            .after(Drupal.behaviors.DEFClientValidation
-              .getBooble(passwordStrength.indicatorText));
+            .after(
+              Drupal.behaviors.DEFClientValidation.getBooble(passwordStrength.indicatorText)
+            );
 
           passwordFieldContainer.addClass(passStrengthClass);
 
@@ -202,14 +202,19 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
           var validator = Drupal.myClientsideValidation.validators[form];
           validator.settings.success = $.proxy(Drupal.behaviors.DEFClientValidation.success, validator);
           var allElements = validator.elements();
-          (function(validator){
+
+          (function (validator) {
             allElements
               .unbind('focusout.validation')
               .bind('focusout.validation', function () {
-              validator.checkAllValid();
-            });
-          })(validator);
+                validator.checkAllValid();
+              });
 
+            if(!validator.checkAllValid()){
+              $(allElements[0].form).find('.form-submit').attr('disabled', '');
+            }
+
+          })(validator);
         }
       });
     }
