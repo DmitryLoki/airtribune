@@ -2993,11 +2993,11 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
-.page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
+.page-event-pilots td.views-field-field-pg-contestant-status { width: 91px;}
 .page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center; word-wrap: break-word;}
 .page-event-pilots td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center; word-wrap: break-word;}
-.page-event-pilots td.views-field-field-sponsors .td_inner { width: 116px;}
+.page-event-pilots td.views-field-field-sponsors { width: 186px; text-align: center; word-wrap: break-word;}
+.page-event-pilots td.views-field-field-sponsors .td_inner { width: 186px;}
 .page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 1px; vertical-align: top;}
 .page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
 
@@ -3008,13 +3008,12 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 .page-event-pilots .pane-page-content .pane-views-panes { margin: 0 -1px;}
 
-.page-event-pilots-status td.views-field-field-full-name { width: 181px;}
-.page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
-.page-event-pilots-status td.views-field-field-paraglider-model { width: 66px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-full-name { width: 141px;}
+.page-event-pilots-status td.views-field-field-paraglider-model { width: 86px; word-wrap: break-word;}
 .page-event-pilots-status td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots-status td.views-field-field-sponsors { width: 86px; word-wrap: break-word;}
-.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 86px;}
-.page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
+.page-event-pilots-status td.views-field-field-sponsors { width: 156px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 156px;}
+.page-event-pilots-status td.views-field-field-address { width: 81px; text-align: center;}
 .page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}
 
 .view-paragliding-pilots-list-export {}
