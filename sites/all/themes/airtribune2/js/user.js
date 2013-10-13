@@ -7,7 +7,7 @@
 Drupal.behaviors.password = {
   attach: function (context, settings) {
     var translate = settings.password;
-    $('input.password-field', context).once('password', function () {
+    /*$('input.password-field', context).once('password', function () {
       var passwordInput = $(this);
       var innerWrapper = $(this).parent();
       var outerWrapper = $(this).parent().parent();
@@ -100,7 +100,7 @@ Drupal.behaviors.password = {
           this.visited = true;
           confirmInput.closest('form').validate().element(confirmInput[0]);
       });
-    });
+    });*/
   }
 };
 
