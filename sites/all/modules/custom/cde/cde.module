@@ -85,8 +85,14 @@ function cde_form_anonymous($nid) {
   // profile2_form()
   module_load_include('inc', 'profile2', 'contrib/profile2_page');
   
+  // TODO: Maybe move into abc_get_form().
+  // Why do we need this flag?
   // Inform hook_js_alter() that multiform is processed.
   drupal_add_js(array('cde' => array('multiform_id' => 'multiform')), 'setting');
+  
+  // TODO: Included file should be overriden in case of custom callback.
+  // See def comment in def_ajax_defaults().
+  drupal_add_js(drupal_get_path('module', 'cde') .'/js/cde.js', 'file');
   
   $profile2_init_data = cde_profile_form_init_data();
   //dsm($profile2_init_data);
@@ -202,7 +208,7 @@ function cde_field_widget_form_alter(&$element, &$form_state, $context) {
 
 // TODO: Check other conditions and load plugin
 /**
- * Implements _def_field_plugin_alter().
+ * Implements hook_def_field_plugin_alter().
  */
 function cde_def_field_plugin_alter(&$plugin, $element, $form_state, $context) {
   
@@ -328,6 +334,10 @@ function cde_pilot_number_element_validate($element, &$form_state) {
 function cde_form_authorized($nid) {
   module_load_include('inc', 'og_ui', 'og_ui.pages');
   module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  // TODO: Included file should be overriden in case of custom callback.
+  // See def comment in def_ajax_defaults().
+  drupal_add_js(drupal_get_path('module', 'cde') .'/js/cde.js', 'file');
   
   $profile2_init_data = cde_profile_form_init_data_authorized();
   
@@ -476,7 +486,26 @@ function cde_def_validation_enabled_callback($element, $form_state) {
   return TRUE;
 }
 
+// TODO:
+/**
+ * Implements hook_def_ajax_defaults_alter().
+ */
+function cde_def_ajax_defaults_alter(&$defaults, $form_state) {
+  $defaults['def_commands_callback'] = 'cde_ajax_commands';
+}
 
+function cde_ajax_commands($selector, $html) {
+  if (empty($html)) {
+    $html = 'no errors';
+  }
+  
+  //~ $html = "$html $selector";
+  
+  return array(
+    //$commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
+    ajax_command_alert($html),
+  );
+}
 
 // =======================================================
 // Ctools

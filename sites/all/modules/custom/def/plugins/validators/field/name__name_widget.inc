@@ -7,9 +7,9 @@ $plugin = array(
   'field_type' => 'name',
   'widget_type' => 'name_widget',
   'preprocessor' => 'def_preprocessor__name__name_widget',
-  //~ 'selector' => 'at_validation_validator__name__name_widget_id',
   'after_build' => 'def_preprocessor__name__name_widget__after_build',
   'element_info_alter' => 'def_preprocessor__name__name_widget__element_info_alter',
+  //~ 'selector' => 'def_preprocessor__name__name_widget__selector',
 );
 
 function def_preprocessor__name__name_widget(&$element, &$form_state, $context) {
@@ -31,7 +31,7 @@ function def_preprocessor__name__name_widget__process($element, &$form_state, $c
     if (!empty($data['exclude'])) {
       continue;
     }
-    $element[$component]['#ajax'] = def_ajax_defaults();
+    $element[$component]['#ajax'] = def_ajax_defaults($form_state);
     $element[$component]['#ajax'] += array(
       'event' => 'focusout',
     );

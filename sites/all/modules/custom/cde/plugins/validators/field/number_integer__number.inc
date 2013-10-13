@@ -12,7 +12,7 @@ $plugin = array(
 );
 
 function cde_preprocessor__number_integer__number(&$element, &$form_state, $context) {
-  $element['value']['#ajax'] = def_ajax_defaults();
+  $element['value']['#ajax'] = def_ajax_defaults($form_state);
   $element['value']['#ajax'] += array(
     'event' => 'focusout',
   );

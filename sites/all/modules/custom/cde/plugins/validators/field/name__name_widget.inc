@@ -33,7 +33,7 @@ function cde_preprocessor__name__name_widget__process($element, &$form_state, $c
     if (!empty($data['exclude'])) {
       continue;
     }
-    $element[$component]['#ajax'] = def_ajax_defaults();
+    $element[$component]['#ajax'] = def_ajax_defaults($form_state);
     $element[$component]['#ajax'] += array(
       'event' => 'focusout',
     );
@@ -58,7 +58,11 @@ function cde_preprocessor__name__name_widget__after_build($element, &$form_state
     }
     
     // Add '#required' property to name components.
-    $triggering_component = array_pop($form_state['triggering_element']['#array_parents']);
+    $array_parents = $form_state['triggering_element']['#array_parents'];
+    
+    // TODO: Check that "$triggering_component" is actually a component,
+    // i.e. it could be any other form element (even generic one) that is triggering.
+    $triggering_component = array_pop($array_parents);
     foreach ($element['#components'] as $component => $data) {
       if (!empty($data['exclude'])) {
         continue;
