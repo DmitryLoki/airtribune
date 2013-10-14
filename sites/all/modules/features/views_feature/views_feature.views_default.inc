@@ -5456,6 +5456,16 @@ return array($event_id);';
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<?php
+  drupal_goto("events/past");
+?>';
+  $handler->display->display_options['empty']['area']['format'] = 'php_code';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -5493,6 +5503,16 @@ return array($event_id);';
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<?php
+  drupal_goto("events/next");
+?>';
+  $handler->display->display_options['empty']['area']['format'] = 'php_code';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -5546,7 +5566,13 @@ return array($event_id);';
     t('Past events'),
     t('Next'),
     t('Next events'),
+    t('<?php
+  drupal_goto("events/past");
+?>'),
     t('Current'),
+    t('<?php
+  drupal_goto("events/next");
+?>'),
   );
   $export['events_list'] = $view;
 
@@ -8671,7 +8697,6 @@ return array($event_id);';
     t('Paraglider color'),
     t('Paraglider manufacturer'),
     t('Paraglider model'),
-    t('Payment status'),
     t('Status'),
     t('Name'),
     t('Gender'),
@@ -8681,6 +8706,7 @@ return array($event_id);';
     t('All'),
     t('%1 members'),
     t('Standard'),
+    t('Payment status'),
     t('[field_full_name] ([field_contestant_number])'),
     t('Country'),
     t('Sponsor'),
