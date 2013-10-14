@@ -495,15 +495,16 @@ function cde_def_ajax_defaults_alter(&$defaults, $form_state) {
 }
 
 function cde_ajax_commands($selector, $html) {
-  if (empty($html)) {
-    $html = 'no errors';
-  }
+  //~ if (empty($html)) {
+    //~ $html = 'no errors';
+  //~ }
   
   //~ $html = "$html $selector";
   
   return array(
     //$commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
-    ajax_command_alert($html),
+    //~ ajax_command_alert($html),
+    ajax_command_invoke($selector, 'checkValidationResult', array($html)),
   );
 }
 
