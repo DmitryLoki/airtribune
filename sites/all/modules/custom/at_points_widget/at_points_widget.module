@@ -119,8 +119,9 @@ function at_points_widget_upload($nid) {
     $output_array = array();
     foreach ($new_points as $key => $point) {
       $point_entity = entity_create(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array('type' => 'contest_point'));
-      og_group('node', $nid, array('entity_type' => AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, 'entity' => $point_entity));
+      $point_entity->save();
       $output_array[] = _at_points_widget_set_values($point_entity, $point);
+      og_group('node', $nid, array('entity_type' => AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, 'entity' => $point_entity));
     }
     // If there are new points, we return them to the widget with their ids.
     print _at_points_widget_wrapper($output_array);
