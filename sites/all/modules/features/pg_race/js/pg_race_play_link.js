@@ -2,7 +2,7 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
-      //$('.dayblog-text').remove();
+      //$('.day-blog').remove();
       $('.race-links').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting');
         var timeHelperText = $raceBlock.find('.time').hide(),
@@ -46,7 +46,7 @@
         }
 
         var closestViewsRow = $raceBlock.closest('.views-row'),
-          hasDayblogText = isDayblogTextExists($raceBlock);
+          hasDayblogText = isDayblogTextExists(closestViewsRow);
 
         if(closestViewsRow.length) {
           if (!hasDayblogText) {
@@ -157,8 +157,11 @@
         link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
       }
 
-      function isDayblogTextExists($raceBlock) {
-        return $raceBlock.find('.dayblog-text').length > 0;
+      function isDayblogTextExists(viewsRow) {
+        if(viewsRow.length){
+          return viewsRow.find('.day-blog').length > 0;
+        }
+        return false;
       }
     }
   }
