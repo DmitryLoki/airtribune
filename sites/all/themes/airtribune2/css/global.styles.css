@@ -3229,19 +3229,22 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-field-title-1 a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
 .front_live_events .race-awaiting .time { background: #fbd72c}
 .front_live_events .race-replay .time { background: #fbd72c}
-.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 3px; right: 5px; width: 115px;}
 .front_live_events .no-dayblog-text .views-field-title-1 a { background: none; text-decoration: none; width: 115px; margin-right: auto; margin-left: auto; font-size: 32px; margin-top: 10px; position: static;}
 .front_live_events .views-field-field-plain-body-1 a { text-decoration: none;}
 .front_live_events .no-dayblog-text .views-field-field-plain-body-1,
 .front_live_events .race-activated .views-field-field-plain-body-1 { display: none;}
 .front_live_events .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden; display: block;}
 .front_live_events .day-blog p { margin: 0; padding: 3px 0 0;}
+.front_live_events .day-blog .views-field.title,
+.front_live_events .views-field-title-1 { display: none;}
+.front_live_events .race-activated .views-field-title-1 { display: block;}
 .front_live_events .day-blog a,
 .front_live_events .day-blog .title,
 .front_live_events .day-blog .views-field-title-1 a,
 .front_live_events .views-field-dates,
 .front_live_events .views-field-dates a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
-.front_live_events .day-blog a:hover,
+/*.front_live_events .day-blog a:hover,*/
 .front_live_events .no-blog { text-align: center;}
 .front_live_events .no-blog .title { font: bold 28px/42px Arial, Helvetica, sans-serif;}
 .front_live_events .no-blog .title span { font-size: 18px}
