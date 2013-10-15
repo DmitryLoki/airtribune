@@ -1168,6 +1168,19 @@ function airtribune_js_alter(&$javascript) {
   }
 }
 
+function airtribune_get_string_date_of_contest_day($contest, $day_timestamp) {
+  $contest_time = airtribune_extract_time_from_contest($contest);
+  // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+  $day_created_time = $day_timestamp - $contest_time['offset'];
+  if (date('Ymd', $contest_time['localtime']) == date('Ymd', $day_created_time)){
+    $day_string = t('Today');
+  }
+  else {
+    $day_string = format_date($day_created_time, 'custom', 'j M, Y');
+  }
+  return '<span class="posted">' . $day_string . '</span>';
+}
+
 /**
  * Implements hook_airtribune__field_group_content_alter().
  *

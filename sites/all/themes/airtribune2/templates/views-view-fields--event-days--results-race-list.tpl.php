@@ -73,11 +73,12 @@ if (!$day_number && !($day_number === 0)) {
     ?>
   <?php endif; ?>
 
-  <?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
-    <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
-  <?php else: ?>
-    <?php print $fields['created']->content; ?>
-  <?php endif; ?>
+  <?php 
+  // output srting date
+  // event/%nid/blog
+  $contest_nid = arg(1);
+  print airtribune_get_string_date_of_contest_day($contest_nid, $fields['created']->raw);
+  ?>
 
 <?php
 print $fields['type']->wrapper_prefix;
