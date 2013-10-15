@@ -1411,8 +1411,8 @@ function _create_day_for_contest() {
     $dmy_last_day_created = date('d.m.Y', $last_day_created);
     $h_now = date('H', $now);
 
-    // Last day node not created today?
-    if ($dmy_now != $dmy_last_day_created) {
+    // Last day node not created today, and created in past?
+    if ($dmy_now != $dmy_last_day_created && $now > $last_day_created) {
       // Day node must be created after 05.00 AM
       if ($h_now > 5) {
         // Create new 'day' node for this contest day.
