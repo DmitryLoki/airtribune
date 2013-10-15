@@ -931,9 +931,13 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
-
+  $args = array(
+    'play',
+    'retrieve',
+    'points',
+  );
   // Disable admin menu on visualisation page
-  if ((arg(0) == 'play' || arg(0) == 'retrieve') && is_numeric(arg(1))) {
+  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
   }
 
@@ -1175,6 +1179,21 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
     }
   }
   return FALSE;
+}
+
+/**
+ * Implements hook_css_alter.
+ * Kills all drupal css on external js-pages.
+ */
+function airtribune_css_alter(&$css) {
+  $args = array(
+    'play',
+    'retrieve',
+    'points',
+  );
+  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
+    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
+  }
 }
 
 /**

@@ -1,0 +1,222 @@
+<?php
+/**
+ * @file
+ * Contains code for embedding extenal js widget for contest point input.
+ * @author Vadim Valuev<gease@mail.ru>
+ */
+
+/**
+ * Implementation of hook_form_FORM_ID_alter.
+ */
+function at_points_widget_form_pg_contest_node_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node']->nid)) {
+    // That's actually a link to the widget that opens in a new window.
+    // Widget page points/%nid is implemented as a panel.
+    $form['at_points_widget'] = array(
+      '#type' => 'item',
+      '#title' => t('Contest points input widget'),
+      '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid, 
+          array('attributes' => array ('target' => '_blank'))),
+    );
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_points_widget_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_menu.
+ */
+function at_points_widget_menu() {
+  $items['points/upload/%'] = array(
+    'title' => 'Points upload url',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'at_points_widget_upload',
+    'page arguments' => array(2),
+    'access callback' => 'og_user_access',
+    'access arguments' => array('node', 2, 'administer group')
+  );
+  $items['points/get/%'] = array(
+    'title' => 'Get points for contest',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'at_points_widget_get_points',
+    'page arguments' => array(2),
+    'access callback' => 'og_user_access',
+    'access arguments' => array('node', 2, 'administer group')
+  );
+  return $items;
+}
+
+/**
+ * Menu callback for points/upload/%nid.
+ * Receives geoJSON with modified points from widget and saves them. 
+ * @param int $nid
+ */
+function at_points_widget_upload($nid) {
+  geophp_load();
+  $object = json_decode($_POST['points']);
+  $modified_points = array();
+  $new_points = array();
+  $deleted_point_ids = array();
+  // First, we compile different arrays: for new points, modified and deleted ones.
+  foreach($object->features as $feature) {
+    if ($feature->geometry->type != 'Point') {
+      continue;
+    }
+    if ($feature->properties->status == 'deleted') {
+      $deleted_point_ids[] = $feature->properties->id;
+    }
+    if ($feature->properties->status == 'modified') {
+      $modified_points[$feature->properties->id] = array(
+        'coordinates' => $feature->geometry->coordinates,
+        'description' => $feature->properties->comment,
+        'name'        => $feature->properties->name
+      );
+    }
+    if ($feature->properties->status == 'deleted') {
+      $deleted_point_ids[] = $feature->properties->id;
+    }
+    if (empty($feature->properties->status)) {
+      $new_points[] = array(
+        'coordinates' => $feature->geometry->coordinates,
+        'description' => $feature->properties->comment,
+        'name'        => $feature->properties->name
+      );
+    }
+  }
+  // Then, we need to check if we can delete or modify points we are requested,
+  // so that they don't have child race points.
+  $modified_point_ids = array_keys($modified_points);
+  $controller = entity_get_controller(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE);
+  $all_ids = array_merge($deleted_point_ids, $modified_point_ids);
+  $blocked = array();
+  if (!empty($all_ids)) {
+    $blocked = $controller->getBlocked(array_merge($deleted_point_ids, $modified_point_ids));
+  }
+  if (!empty($blocked)) {
+    drupal_add_http_header('Status', '400 Points cannot be deleted or modified');
+    drupal_exit();
+  }
+  
+  // Below, we make the actual save.
+  if (!empty($deleted_point_ids)) {
+    entity_delete_multiple(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $deleted_point_ids);
+  }
+  if (!empty($modified_points)) {
+    $loaded_points = entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $modified_point_ids);
+    foreach ($loaded_points as $key => $point) {
+      $mp = $modified_points[$key];
+      _at_points_widget_set_values($point, $mp);
+    }
+  }
+  if (!empty($new_points)) {
+    $output_array = array();
+    foreach ($new_points as $key => $point) {
+      $point_entity = entity_create(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array('type' => 'contest_point'));
+      $point_entity->save();
+      $output_array[] = _at_points_widget_set_values($point_entity, $point);
+      og_group('node', $nid, array('entity_type' => AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, 'entity' => $point_entity));
+    }
+    // If there are new points, we return them to the widget with their ids.
+    print _at_points_widget_wrapper($output_array);
+  }
+  drupal_add_http_header('Status', '200 Saved successfully');
+  drupal_exit();
+}
+
+/**
+ * Set ent_contest_points values from array. 
+ * @param Entity $point point to be modified
+ * @param array $value values to set
+ * @return Entity modified point entity
+ */
+function _at_points_widget_set_values($point, $value) {
+  $coords = new Point($value['coordinates'][0], $value['coordinates'][1]);
+  $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
+  $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
+  $point_wrapper->field_altitude->set($value['coordinates'][2]);
+  $point_wrapper->field_point_description->set($value['description']);
+  $point_wrapper->title->set($value['name']);
+  $point_wrapper->save();
+  return $point_wrapper->value();
+}
+
+/**
+ * Callback to get list of points for points edit widget.
+ */
+function at_points_widget_get_points($nid) {
+  // 1. Get all contest points for contest.
+  $query = new EntityFieldQuery();
+  $query_results = $query->entityCondition('entity_type', AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE)
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $nid)
+    ->execute();
+  $contest_point_ids = array();
+  if (isset($query_results[AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE])) {
+    $entities = $query_results[AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE];
+    foreach ($entities as $entity) {
+      $contest_point_ids[] = $entity->id;
+    }
+  }
+  // 2. Get contest points that are already used as race points.
+  $controller = entity_get_controller(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE);
+  $used_contest_point_ids = array();
+  if (!empty($contest_point_ids)) {
+    $used_contest_point_ids = $controller->getBlocked($contest_point_ids);
+  }
+  // 3. Get contest points that are not used as race points.
+  $unused_contest_point_ids = array_diff($contest_point_ids, $used_contest_point_ids);
+  // 4. Load point entities and serve them (as geoJSON)
+  $used_contest_points = entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $used_contest_point_ids);
+  $unused_contest_points = entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $unused_contest_point_ids);
+  foreach ($used_contest_points as $contest_point) {
+    $contest_point->readonly = TRUE;
+  }
+  foreach ($unused_contest_points as $contest_point) {
+    $contest_point->readonly = FALSE;
+  }
+  $output = _at_points_widget_wrapper(array_merge($used_contest_points, $unused_contest_points));
+  drupal_add_http_header('Content-Type', 'application/json');
+  print $output;
+  drupal_exit();
+}
+
+/**
+ * Helper function to wrap point entities into geoJSON.
+ * @param array $points
+ * @return string
+ */
+function _at_points_widget_wrapper (array $points) {
+  $result = array();
+  foreach ($points as $point) {
+    $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
+    $array = array(
+      'type' => 'Feature',
+      'geometry' => array(
+        'type' => 'Point',
+        'coordinates' => array(
+          $point->field_point_location['und'][0]['lon'],
+          $point->field_point_location['und'][0]['lat'],
+          $point_wrapper->field_altitude->value()
+        ),
+      ),
+      'properties' => array(
+        'name' => $point->title,
+        'id' => $point->id,
+        'comment' => $point_wrapper->field_point_description->value(),
+        'readonly' => isset($point->readonly) ? $point->readonly : FALSE
+       )
+    );
+    $result[] = $array;
+  }
+  $result = array(
+    'type' => 'FeatureCollection',
+    'features' => $result
+    );
+  return json_encode($result);
+}
