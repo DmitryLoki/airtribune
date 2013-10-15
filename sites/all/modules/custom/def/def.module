@@ -153,12 +153,12 @@ function def_element_selector($element, $triggering_element, $properties) {
   else {
     //
     if (isset($element['#type'])) {
-      dsm($element);
+      //~ dsm($element);
       $element_type = $element['#type'];
       $plugin = def_generic_plugin($element_type);
       if (!empty($plugin)) {
         $function = $plugin['selector'];
-        $selector = $function($element);
+        $selector = $function($element, $triggering_element);
       }
     }
     
