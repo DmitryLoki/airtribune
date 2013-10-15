@@ -22,6 +22,15 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
               messages: {
                 passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
               }
+            },
+            'profile_main[field_birthdate][und][0][value][month]': {
+              required: true
+            },
+            'profile_main[field_birthdate][und][0][value][year]': {
+              required: true
+            },
+            'profile_main[field_birthdate][und][0][value][day]': {
+              required: true
             }
           }
         }
@@ -40,34 +49,40 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 (function ($) {
 
   $.fn.checkValidationResult = function (errorText) {
-    if (!this[0]) return;
-    var form = $(this[0].form),
+    //Костыль!!
+    if(!this[0] || this.attr('id') == 'edit-profile-main-field-birthdate-und-0-value') {
+      $('#user-register-form').validate().checkAllValid();
+      return;
+    }
+
+    var form = this.closest('form'),
       validator = form.validate();
     if (!errorText) {
       validator.checkAllValid();
       return;
     }
 
+    Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error'] = true;
     this.rules('add', {'validation-error': true, messages: {'validation-error': errorText}});
     //show error message
     validator.element(this);
 
-    //hide error message on next validation
-    this.bind('focusin.ajax-validation', function () {
-      $(this).rules('remove', 'validation-error');
-    });
-    Drupal.behaviors.clientsideValidation.attach = function () {
-    }
   };
 
   Drupal.behaviors.DEFClientValidation = {
     beforeSubmit: function (form_values, form, options) {
+      //remove previous ajax validation error
+      delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
+      $(this.element).rules('remove', 'validation-error');
+
       var validator = form.validate(),
         validationResult = validator.element(this.element);
 
       //ajax validation will not happened
       if (!validationResult) {
         this.ajaxing = false;
+      } else {
+        delete Drupal.myClientsideValidation;
       }
 
       return validationResult;
@@ -104,6 +119,7 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
         }
         return allValid;
       };
+
       //override beforeSubmit
       for (var ajax_el in Drupal.settings.ajax) {
         var ajax = Drupal.ajax[ajax_el];
@@ -173,7 +189,7 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
             passwordValue = passwordField.val();
 
           //remove previous booble element
-          confirmationFieldContainer.find('.form_booble').remove();
+          confirmationFieldContainer.find('.form_booble:not(.error)').remove();
           confirmationFieldContainer.removeClass('field_excellent');
 
           //validate password confirmation on password field blur
@@ -205,12 +221,22 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
           (function (validator) {
             allElements
-              .unbind('focusout.validation')
-              .bind('focusout.validation', function () {
-                validator.checkAllValid();
+              .filter(':not(.ajax-processed)')
+              .unbind('keyup.validation')
+              .bind('keyup.validation', function () {
+                if (!validator.checkAllValid()) {
+                  $(this.form).find('.form-submit').attr('disabled', '');
+                } else {
+                  $(this.form).find('.form-submit').removeAttr('disabled');
+                }
               });
-
-            if(!validator.checkAllValid()){
+            //Disable submit button on ajax field focus
+            allElements.filter('.ajax-processed')
+              .unbind('focusin.validation')
+              .bind('focusin.validation', function () {
+                $(this.form).find('.form-submit').attr('disabled', '');
+              });
+            if (!validator.checkAllValid()) {
               $(allElements[0].form).find('.form-submit').attr('disabled', '');
             }
 

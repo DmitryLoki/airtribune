@@ -21,6 +21,9 @@ function def_preprocessor__input__emailfield(&$element, &$form_state) {
 function def_preprocessor__input__emailfield__selector($element) {
   // TODO: Remove index added in form_builder(?). E.g. "edit-mail--2"
   $selector = '#' . $element['#id'];
+  $elems = explode('--', $selector);
+  array_pop($elems);
+  $selector = implode('--', $elems);
   return $selector;
 }
 

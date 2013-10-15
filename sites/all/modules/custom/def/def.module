@@ -173,7 +173,7 @@ function def_element_selector($element, $properties) {
  */
 function def_ajax_commands($selector, $html) {
   return array(
-    ajax_command_alert($html),
+    ajax_command_invoke($selector, 'checkValidationResult', array($html)),
   );
 }
 
