@@ -31,7 +31,7 @@ function def_preprocessor__number_integer__number_after_build($element, &$form_s
   return $element;
 }
 
-function def_preprocessor__number_integer__number__selector($element) {
+function def_preprocessor__number_integer__number__selector($element, $triggering_element) {
   // TODO: Get delta
   $delta = 0;
   $selector = '#' . $element['#id'] . "-$delta-value";

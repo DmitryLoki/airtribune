@@ -16,7 +16,7 @@ function def_preprocessor__text__autocomplete_widgets_flddata(&$element, &$form_
 }
 
 
-function def_preprocessor__text__autocomplete_widgets_flddata__selector($element) {
+function def_preprocessor__text__autocomplete_widgets_flddata__selector($element, $triggering_element) {
   // TODO: Get delta
   $delta = 0;
   $selector = '#' . $element['#id'] . "-$delta-value";

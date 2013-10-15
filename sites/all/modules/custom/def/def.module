@@ -119,7 +119,7 @@ function def_ajax_tmp($form, $form_state) {
   $triggering_element = $form_state['triggering_element'];
   
   // Get selector
-  $selector = def_element_selector($element, $element_properties);
+  $selector = def_element_selector($element, $triggering_element, $element_properties);
   $commands = call_user_func($triggering_element['#ajax']['def_commands_callback'], $selector, $text);
   
   // https://api.drupal.org/api/drupal/includes%21ajax.inc/group/ajax/7
@@ -133,7 +133,7 @@ function def_ajax_tmp($form, $form_state) {
 }
 
 // TODO: Implement plugin override
-function def_element_selector($element, $properties) {
+function def_element_selector($element, $triggering_element, $properties) {
   
   $selector = '';
   // Get field element selector
@@ -144,7 +144,7 @@ function def_element_selector($element, $properties) {
       // TODO:
       if (isset($plugin['selector'])) {
         $function = $plugin['selector'];
-        $selector = $function($element);
+        $selector = $function($element, $triggering_element);
         //~ dsm($selector);
       }
     }

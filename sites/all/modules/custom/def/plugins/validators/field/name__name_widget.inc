@@ -9,7 +9,7 @@ $plugin = array(
   'preprocessor' => 'def_preprocessor__name__name_widget',
   'after_build' => 'def_preprocessor__name__name_widget__after_build',
   'element_info_alter' => 'def_preprocessor__name__name_widget__element_info_alter',
-  //~ 'selector' => 'def_preprocessor__name__name_widget__selector',
+  'selector' => 'def_preprocessor__name__name_widget__selector',
 );
 
 function def_preprocessor__name__name_widget(&$element, &$form_state, $context) {
@@ -39,6 +39,16 @@ function def_preprocessor__name__name_widget__process($element, &$form_state, $c
 
   return $element;
 }
+
+function def_preprocessor__name__name_widget__selector($element, $triggering_element) {
+  
+  // TODO: Get delta
+  $delta = 0;
+  $triggering_component = array_pop($triggering_element['#parents']);
+  $selector = '#' . $element['#id'] . "-$delta-$triggering_component";
+  return $selector;
+}
+
 
 function def_preprocessor__name__name_widget__after_build($element, &$form_state) {
   

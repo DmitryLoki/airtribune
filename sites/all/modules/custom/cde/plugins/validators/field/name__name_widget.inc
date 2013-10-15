@@ -9,9 +9,9 @@ $plugin = array(
   'field_type' => 'name',
   'widget_type' => 'name_widget',
   'preprocessor' => 'cde_preprocessor__name__name_widget',
-  //~ 'selector' => 'at_validation_validator__name__name_widget_id',
   'after_build' => 'cde_preprocessor__name__name_widget__after_build',
   'element_info_alter' => 'cde_preprocessor__name__name_widget__element_info_alter',
+  'selector' => 'cde_preprocessor__name__name_widget__selector',
 );
 
 function cde_preprocessor__name__name_widget(&$element, &$form_state, $context) {
@@ -76,6 +76,15 @@ function cde_preprocessor__name__name_widget__after_build($element, &$form_state
   }
   
   return $element;
+}
+
+function cde_preprocessor__name__name_widget__selector($element, $triggering_element) {
+  
+  // TODO: Get delta
+  $delta = 0;
+  $triggering_component = array_pop($triggering_element['#parents']);
+  $selector = '#' . $element['#id'] . "-$delta-$triggering_component";
+  return $selector;
 }
 
 //~ function at_validation_validator__name__name_widget_id($element, $triggering_element, &$errors) {

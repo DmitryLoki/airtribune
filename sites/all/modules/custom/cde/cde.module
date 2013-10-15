@@ -549,9 +549,23 @@ function cde_ctools_plugin_directory($module, $plugin) {
 // TODO: Check that form is multiform.
 function cde_js_alter(&$javascript) {
   
-  //~ return;
-  
+  $clientsideValidationSettingsKey = NULL;
   $is_multiform = FALSE;
+  
+  // Check for clientside_validation settings.
+  foreach ($javascript['settings']['data'] as $k => $setting) {
+      if (!empty($setting['clientsideValidation']['forms'])) {
+        $clientsideValidationSettingsKey = $k;
+        break;
+      }
+  }
+  
+  // Do nothing if there is no clientside_validation settings.
+  if (!isset($clientsideValidationSettingsKey)) {
+    return;
+  }
+  
+  // Check for multiform.
   foreach ($javascript['settings']['data'] as $k => $setting) {
     if (!empty($setting['cde']['multiform_id'])) {
       $is_multiform = TRUE;
@@ -559,30 +573,55 @@ function cde_js_alter(&$javascript) {
     }
   }
   
-  // TODO: This is temporary solution.
-  // Do nothing if there is no multiform.
+  
+  $k = $clientsideValidationSettingsKey;
+  $setting = $javascript['settings']['data'][$k];
+  
+  // If there is no multiform
   if (!$is_multiform) {
-    return;
+    
+    if (isset($setting['clientsideValidation']['forms']['user-register-form'])) {
+      $rules =& $setting['clientsideValidation']['forms']['user-register-form']['rules'];
+      
+      $rules['profile_main[field_full_name][und][0][given]']['required'] = true;
+      $rules['profile_main[field_full_name][und][0][family]']['required'] = true;
+      $rules['pass[pass1]']['passwordStrength'] = true;
+      $rules['pass[pass1]']['messages']['passwordStrength'] = t('This password is too easy to guess.');
+      $rules['pass[pass2]']['passwordConfirmation'] = true;
+      $rules['pass[pass2]']['messages']['passwordConfirmation'] = t('Passwords do not match.');
+      
+      
+      $rules['profile_main[field_birthdate][und][0][value][month]']['required'] = true;
+      $rules['profile_main[field_birthdate][und][0][value][year]']['required'] = true;
+      $rules['profile_main[field_birthdate][und][0][value][day]']['required'] = true;
+      
+      
+      
+      //~ dsm($setting);
+      
+    }
   }
   
-  foreach ($javascript['settings']['data'] as $k => $setting) {
-      if (!empty($setting['clientsideValidation']['forms'])) {
-        
-        // TODO:
-        // For now we just copy settings of first subform.
-        $multiform_setting = reset($setting['clientsideValidation']['forms']);
-        
-        $rules = array();
-        
-        foreach ($setting['clientsideValidation']['forms'] as $f => $subform_setting) {
-          $rules += $subform_setting['rules'];
-          //~ dsm($subform_setting['rules']);
-        }
-        $multiform_setting['rules'] = $rules;
-        
-        $setting['clientsideValidation']['forms'] = array('multiform' => $multiform_setting);
-        
-        $javascript['settings']['data'][$k] = $setting;
-      }
+  // Preprocess settings for multiform.
+  // TODO: This is temporary solution.
+  // There could also be regular forms on multiform page.
+  else {
+
+    
+    // TODO:
+    // For now we just copy settings of first subform.
+    $multiform_setting = reset($setting['clientsideValidation']['forms']);
+    
+    $rules = array();
+    
+    foreach ($setting['clientsideValidation']['forms'] as $f => $subform_setting) {
+      $rules += $subform_setting['rules'];
+      //~ dsm($subform_setting['rules']);
+    }
+    $multiform_setting['rules'] = $rules;
+    
+    $setting['clientsideValidation']['forms'] = array('multiform' => $multiform_setting);
+    
+    $javascript['settings']['data'][$k] = $setting;
   }
 }

@@ -16,7 +16,7 @@ function def_preprocessor__phone_number__simple_phone_number_widget(&$element, &
 }
 
 
-function def_preprocessor__phone_number__simple_phone_number_widget__selector($element) {
+function def_preprocessor__phone_number__simple_phone_number_widget__selector($element, $triggering_element) {
   // TODO: Get delta
   $delta = 0;
   $selector = '#' . $element['#id'] . "-$delta-full-number";

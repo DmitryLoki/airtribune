@@ -17,10 +17,11 @@ function def_preprocessor__datetime__date_select(&$element, &$form_state, $conte
     );
 }
 
-function def_preprocessor__datetime__date_select__selector($element) {
+function def_preprocessor__datetime__date_select__selector($element, $triggering_element) {
   // TODO: Get delta (maybe from triggering_element)
   $delta = 0;
-  $selector = "#" . $element['#id'] . "-$delta-value";
+  //~ $selector = "#" . $element['#id'] . "-$delta-value";
+  $selector = "#" . $element['#id'] . "-$delta-value-year";
   return $selector;
 }
 

@@ -15,7 +15,7 @@ function def_preprocessor__text__text_textfield(&$element, &$form_state, $contex
   );
 }
 
-function def_preprocessor__text__text_textfield__selector($element) {
+function def_preprocessor__text__text_textfield__selector($element, $triggering_element) {
   // TODO: Get delta
   $delta = 0;
   $selector = '#' . $element['#id'] . "-$delta-value";
