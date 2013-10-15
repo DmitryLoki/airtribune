@@ -751,8 +751,6 @@ function _day_pg_race_preview_markup($node) {
     return '';
   }
 
-  // Get last dayblog
-  $dayblog_text = airtribune_get_last_dayblog_text($node);
   // Get race status and core id data
   $data = pg_race_task_get_info($node);
   // Race status data
@@ -850,9 +848,6 @@ function _day_pg_race_preview_markup($node) {
   }
   // Prepare output
   $output = $link . $help_text . $time;
-  if (arg(0) == 'frontpage') {
-    $output .= $dayblog_text;
-  }
   $output = theme('html_tag', array(
     'element' => array(
       '#tag' => 'span',

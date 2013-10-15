@@ -2,7 +2,7 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
-      //$('.dayblog-text').remove();
+      //$('.day-blog').remove();
       $('.race-links').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting');
         var timeHelperText = $raceBlock.find('.time').hide(),
@@ -45,9 +45,11 @@
           $raceButton = $raceBlock.find('a.race-link');
         }
 
-        var closestViewsRow = $raceBlock.closest('.views-row');
+        var closestViewsRow = $raceBlock.closest('.views-row'),
+          hasDayblogText = isDayblogTextExists(closestViewsRow);
+
         if(closestViewsRow.length) {
-          if (!hasDayblogText($raceBlock)) {
+          if (!hasDayblogText) {
             closestViewsRow.addClass('no-dayblog-text');
           } else {
             closestViewsRow.addClass('day-blog');
@@ -78,8 +80,11 @@
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
-            if($raceBlock.closest('.views-row').length) {
-              $raceBlock.closest('.views-row').removeClass('no-dayblog-text day-blog').addClass('race-activated');
+            if(closestViewsRow.length) {
+              closestViewsRow.removeClass('no-dayblog-text day-blog').addClass('race-activated');
+              if(hasDayblogText) {
+                closestViewsRow.find('.views-field.title').removeClass('title').addClass('views-field-title-1');
+              }
             }
           } else {
             if(raceData.isOnline) {
@@ -152,8 +157,11 @@
         link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
       }
 
-      function hasDayblogText($raceBlock) {
-        return $raceBlock.find('.dayblog-text').length > 0;
+      function isDayblogTextExists(viewsRow) {
+        if(viewsRow.length){
+          return viewsRow.find('.day-blog').length > 0;
+        }
+        return false;
       }
     }
   }

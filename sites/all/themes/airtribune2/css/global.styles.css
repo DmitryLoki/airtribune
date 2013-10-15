@@ -1661,7 +1661,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .pane-event-days-panel-pane-1 .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-online .race-link,
-.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:inherit;}
+.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:pointer;}
 .pane-event-days-panel-pane-1 #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
 .pane-event-days-panel-pane-1 .race-awaiting #time-counter { background-color: #fbd72b; border-color: #f6d72e;}
 
@@ -2993,11 +2993,11 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
-.page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
+.page-event-pilots td.views-field-field-pg-contestant-status { width: 91px;}
 .page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center; word-wrap: break-word;}
 .page-event-pilots td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center; word-wrap: break-word;}
-.page-event-pilots td.views-field-field-sponsors .td_inner { width: 116px;}
+.page-event-pilots td.views-field-field-sponsors { width: 186px; text-align: center; word-wrap: break-word;}
+.page-event-pilots td.views-field-field-sponsors .td_inner { width: 186px;}
 .page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 1px; vertical-align: top;}
 .page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
 
@@ -3008,13 +3008,12 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 .page-event-pilots .pane-page-content .pane-views-panes { margin: 0 -1px;}
 
-.page-event-pilots-status td.views-field-field-full-name { width: 181px;}
-.page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
-.page-event-pilots-status td.views-field-field-paraglider-model { width: 66px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-full-name { width: 141px;}
+.page-event-pilots-status td.views-field-field-paraglider-model { width: 86px; word-wrap: break-word;}
 .page-event-pilots-status td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots-status td.views-field-field-sponsors { width: 86px; word-wrap: break-word;}
-.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 86px;}
-.page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
+.page-event-pilots-status td.views-field-field-sponsors { width: 156px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 156px;}
+.page-event-pilots-status td.views-field-field-address { width: 81px; text-align: center;}
 .page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}
 
 .view-paragliding-pilots-list-export {}
@@ -3207,6 +3206,7 @@ html.fb_view { overflow: auto;}
 /*.front_live_events .race-links,*/
 .front_live_events .views-field-view,
 .front_live_events .dayblog { top: auto; bottom: 0; height: 60px;}
+.front_live_events .views-row > .views-field-view { z-index: 100;}
 .front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 .front_live_events .race-links { height: 54px;}
@@ -3228,17 +3228,22 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-field-title-1 a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
 .front_live_events .race-awaiting .time { background: #fbd72c}
 .front_live_events .race-replay .time { background: #fbd72c}
-.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 3px; right: 5px; width: 115px;}
 .front_live_events .no-dayblog-text .views-field-title-1 a { background: none; text-decoration: none; width: 115px; margin-right: auto; margin-left: auto; font-size: 32px; margin-top: 10px; position: static;}
 .front_live_events .views-field-field-plain-body-1 a { text-decoration: none;}
+.front_live_events .no-dayblog-text .views-field-field-plain-body-1,
+.front_live_events .race-activated .views-field-field-plain-body-1 { display: none;}
 .front_live_events .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden; display: block;}
-.front_live_events .day-blog p { margin: 0; padding: 2px 0 0;}
+.front_live_events .day-blog p { margin: 0; padding: 3px 0 0;}
+.front_live_events .day-blog .views-field.title,
+.front_live_events .views-field-title-1 { display: none;}
+.front_live_events .race-activated .views-field-title-1 { display: block;}
 .front_live_events .day-blog a,
 .front_live_events .day-blog .title,
 .front_live_events .day-blog .views-field-title-1 a,
 .front_live_events .views-field-dates,
 .front_live_events .views-field-dates a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
-.front_live_events .day-blog a:hover,
+/*.front_live_events .day-blog a:hover,*/
 .front_live_events .no-blog { text-align: center;}
 .front_live_events .no-blog .title { font: bold 28px/42px Arial, Helvetica, sans-serif;}
 .front_live_events .no-blog .title span { font-size: 18px}
