@@ -73,7 +73,13 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#default_value' => $event->title,
     '#weight' => -1,
   );
-  $form['field_dates']['#weight'] = 20;
+  $form['field_country']['#weight'] = 0;
+  $form['field_flying_site_ref']['#weight'] = 1;
+  $form['field_tiny_path']['#weight'] = 2;
+  $form['field_logo']['#weight'] = 3;
+  $form['field_dates']['#weight'] = 4;
+  $form['field_fai_category']['#weight'] = 5;
+  $form['field_open_class']['#weight'] = 6;
   //$form['field_fai_category']['#type'] = 'select';
   /*// Load all available OG membership types & remove from array default OG membership.
   $all_memberships = at_membership_type_get_types();
@@ -132,6 +138,7 @@ function airtribune_event_settings_form_submit($form, &$form_state) {
   $event = $values['event'];
   field_attach_submit('node', $event, $form, $form_state);
   drupal_set_message(t('Event settings updated.'));
+  $event->title = $values['name'];
   node_save($event);
   //drupal_set_message(print_r(array_keys($form), TRUE));
   /*
