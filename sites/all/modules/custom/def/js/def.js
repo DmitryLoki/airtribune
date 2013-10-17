@@ -1,59 +1,65 @@
-var ajaxAttach = Drupal.behaviors.AJAX.attach;
-
-(function ($) {
-
-  Drupal.behaviors.AJAX.attach = function (context, settings) {
-    /*
-     Настройки для clientsideValidation, т.е. то, что должно дополнительно быть в
-     Drupal.settings.clientsideValidation
-     */
-    var clientsideValidationSettings = {
-      forms: {
-        'user-register-form': {
-          rules: {
-            'pass[pass1]': {
-              passwordStrength: true,
-              messages: {
-                passwordStrength: Drupal.settings.password.easyToGuess
-              }
-            },
-            'pass[pass2]': {
-              passwordConfirmation: true,
-              messages: {
-                passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
-              }
-            },
-            'profile_main[field_birthdate][und][0][value][month]': {
-              required: true
-            },
-            'profile_main[field_birthdate][und][0][value][year]': {
-              required: true
-            },
-            'profile_main[field_birthdate][und][0][value][day]': {
-              required: true
-            }
-          }
-        }
-      }
-    };
-    /*
-     Конец настроек clientsideValidation
-     */
-    ajaxAttach.call(this, context, settings);
-
-    $.extend(true, Drupal.settings.clientsideValidation, clientsideValidationSettings);
-  }
-})(jQuery);
+//var ajaxAttach = Drupal.behaviors.AJAX.attach;
+//
+//(function ($) {
+//
+//  Drupal.behaviors.AJAX.attach = function (context, settings) {
+//    /*
+//     Настройки для clientsideValidation, т.е. то, что должно дополнительно быть в
+//     Drupal.settings.clientsideValidation
+//     */
+//    var clientsideValidationSettings = {
+//      forms: {
+//        'user-register-form': {
+//          rules: {
+//            'profile_main[field_full_name][und][0][given]': {
+//              required: true
+//            },
+//            'profile_main[field_full_name][und][0][family]': {
+//              required: true
+//            },
+//            'pass[pass1]': {
+//              passwordStrength: true,
+//              messages: {
+//                passwordStrength: Drupal.settings.password.easyToGuess
+//              }
+//            },
+//            'pass[pass2]': {
+//              passwordConfirmation: true,
+//              messages: {
+//                passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
+//              }
+//            },
+//            'profile_main[field_birthdate][und][0][value][month]': {
+//              required: true
+//            },
+//            'profile_main[field_birthdate][und][0][value][year]': {
+//              required: true
+//            },
+//            'profile_main[field_birthdate][und][0][value][day]': {
+//              required: true
+//            }
+//          }
+//        }
+//      }
+//    };
+//    /*
+//     Конец настроек clientsideValidation
+//     */
+//    ajaxAttach.call(this, context, settings);
+//
+//    $.extend(true, Drupal.settings.clientsideValidation, clientsideValidationSettings);
+//  }
+//})(jQuery);
 
 
 (function ($) {
 
   $.fn.checkValidationResult = function (errorText) {
     //Костыль!!
-    if(!this[0] || this.attr('id') == 'edit-profile-main-field-birthdate-und-0-value') {
+    /*if(!this[0] || this.attr('id') == 'edit-profile-main-field-birthdate-und-0-value') {
       $('#user-register-form').validate().checkAllValid();
       return;
-    }
+    }*/
 
     var form = this.closest('form'),
       validator = form.validate();
@@ -64,24 +70,29 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
     Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error'] = true;
     this.rules('add', {'validation-error': true, messages: {'validation-error': errorText}});
+    if(Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
+      Drupal.myClientsideValidation = Drupal.behaviors.DEFClientValidation.myClientsideValidation;
+    }
     //show error message
     validator.element(this);
 
   };
 
   Drupal.behaviors.DEFClientValidation = {
+    myClientsideValidation:undefined,
     beforeSubmit: function (form_values, form, options) {
       //remove previous ajax validation error
       delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
       $(this.element).rules('remove', 'validation-error');
 
       var validator = form.validate(),
-        validationResult = validator.element(this.element);
+        validationResult = validator.element(this.element) !== false;
 
       //ajax validation will not happened
       if (!validationResult) {
         this.ajaxing = false;
       } else {
+        Drupal.behaviors.DEFClientValidation.myClientsideValidation = Drupal.myClientsideValidation;
         delete Drupal.myClientsideValidation;
       }
 
@@ -229,6 +240,10 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
                 } else {
                   $(this.form).find('.form-submit').removeAttr('disabled');
                 }
+              })
+              .unbind('focusout.validation')
+              .bind('focusout.validation', function(){
+                validator.element(this);
               });
             //Disable submit button on ajax field focus
             allElements.filter('.ajax-processed')
