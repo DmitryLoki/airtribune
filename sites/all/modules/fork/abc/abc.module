@@ -80,6 +80,9 @@ function abc_form_after_build(&$form, &$form_state) {
     _abc_get_form($form, $form_id);    
   //}
   
+  abc_multiform_ids($form_id);
+  //~ dsm('test after_build');
+  
   global $_POST_MULTIFORM;
   if (!empty($_POST_MULTIFORM)) {
     //~ dsm($_POST_MULTIFORM);
@@ -89,6 +92,15 @@ function abc_form_after_build(&$form, &$form_state) {
   return $form;
 }
 
+// TODO:
+function abc_multiform_ids($form_id = NULL) {
+  // TODO: Add statically cached flag for multiform js.
+  $multiform_ids = &drupal_static(__FUNCTION__);
+  if (!empty($form_id)) {
+    $multiform_ids[] = $form_id;
+  }
+  return $multiform_ids;
+}
 
 /**
  * Returns a form containing a number of other forms.

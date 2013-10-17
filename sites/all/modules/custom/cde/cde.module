@@ -88,7 +88,7 @@ function cde_form_anonymous($nid) {
   // TODO: Maybe move into abc_get_form().
   // Why do we need this flag?
   // Inform hook_js_alter() that multiform is processed.
-  drupal_add_js(array('cde' => array('multiform_id' => 'multiform')), 'setting');
+  //~ drupal_add_js(array('cde' => array('multiform_id' => 'multiform')), 'setting');
   
   // TODO: Included file should be overriden in case of custom callback.
   // See def comment in def_ajax_defaults().
@@ -547,6 +547,7 @@ function cde_ctools_plugin_directory($module, $plugin) {
 
 // TODO: This hook should be called before clientside_validation original hook.
 // TODO: Check that form is multiform.
+// TODO: Seems that hook is not invoked for ajax-validation.
 function cde_js_alter(&$javascript) {
   
   $clientsideValidationSettingsKey = NULL;
@@ -566,16 +567,27 @@ function cde_js_alter(&$javascript) {
   }
   
   // Check for multiform.
-  foreach ($javascript['settings']['data'] as $k => $setting) {
-    if (!empty($setting['cde']['multiform_id'])) {
-      $is_multiform = TRUE;
-      break;
-    }
+  //~ foreach ($javascript['settings']['data'] as $k => $setting) {
+    //~ if (!empty($setting['cde']['multiform_id'])) {
+      //~ $is_multiform = TRUE;
+      //~ break;
+    //~ }
+  //~ }
+  $multiform_ids = abc_multiform_ids();
+  
+  // TODO: Check for specific ids
+  if (!empty($multiform_ids)) {
+    $is_multiform = TRUE;
+    //~ dsm('test');
   }
+  
+  //~ watchdog('test', 'test');
   
   
   $k = $clientsideValidationSettingsKey;
   $setting = $javascript['settings']['data'][$k];
+  //~ dsm($setting);
+  
   
   // If there is no multiform
   if (!$is_multiform) {
@@ -625,3 +637,52 @@ function cde_js_alter(&$javascript) {
     $javascript['settings']['data'][$k] = $setting;
   }
 }
+
+function cde_ajax_render_alter(&$commands) {
+  //
+  
+  foreach ($commands as $k => $command) {
+    if (isset($command['settings']['clientsideValidation']['forms'])) {
+      $forms =& $command['settings']['clientsideValidation']['forms'];
+      
+      //~ if (isset($command['settings']['clientsideValidation']['forms']['user-register-form'])) {
+      if (isset($forms['user-register-form'])) {
+        $is_multiform = FALSE;
+        $multiform_ids = abc_multiform_ids();
+        
+        // TODO: Check for specific ids
+        if (!empty($multiform_ids)) {
+          $is_multiform = TRUE;
+        }
+        
+        if ($is_multiform) {
+          //~ dsm('multiform');
+          //multiform
+          $forms['multiform'] = $forms['user-register-form'];
+          unset($forms['user-register-form']);
+        }
+        
+        if (isset($forms['profile2-edit-pilot-form'])) {
+          // TODO:
+        }
+      }
+      $commands[$k] = $command;
+      //~ dsm($command);
+      break;
+    }
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
