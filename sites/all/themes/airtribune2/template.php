@@ -1706,7 +1706,7 @@ function airtribune2_views_pre_render(&$view) {
       foreach ($view->result as $key => $value) {
         if ($index > $standart) {
           $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
-          $view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
+          //$view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
         }
         $index ++;
       }
