@@ -646,26 +646,31 @@ function cde_ajax_render_alter(&$commands) {
       $forms =& $command['settings']['clientsideValidation']['forms'];
       
       //~ if (isset($command['settings']['clientsideValidation']['forms']['user-register-form'])) {
+      
+      $is_multiform = FALSE;
+      $multiform_ids = abc_multiform_ids();
+      
+      // TODO: Check for specific ids
+      if (!empty($multiform_ids)) {
+        $is_multiform = TRUE;
+      }
+      
       if (isset($forms['user-register-form'])) {
-        $is_multiform = FALSE;
-        $multiform_ids = abc_multiform_ids();
-        
-        // TODO: Check for specific ids
-        if (!empty($multiform_ids)) {
-          $is_multiform = TRUE;
-        }
-        
         if ($is_multiform) {
-          //~ dsm('multiform');
-          //multiform
           $forms['multiform'] = $forms['user-register-form'];
           unset($forms['user-register-form']);
         }
-        
-        if (isset($forms['profile2-edit-pilot-form'])) {
-          // TODO:
-        }
       }
+      
+      if (isset($forms['profile2-edit-pilot-form'])) {
+        // TODO:
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['profile2-edit-pilot-form'];
+          unset($forms['profile2-edit-pilot-form']);
+        }
+        unset($forms['profile2-edit-pilot-form--2']);
+      }
+      
       $commands[$k] = $command;
       //~ dsm($command);
       break;

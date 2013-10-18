@@ -95,6 +95,7 @@ function abc_form_after_build(&$form, &$form_state) {
 // TODO:
 function abc_multiform_ids($form_id = NULL) {
   // TODO: Add statically cached flag for multiform js.
+  // TODO: Use specific key instead of __FUNCTION__
   $multiform_ids = &drupal_static(__FUNCTION__);
   if (!empty($form_id)) {
     $multiform_ids[] = $form_id;
