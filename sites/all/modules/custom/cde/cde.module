@@ -14,9 +14,10 @@ function cde_menu() {
   $items['event/%node/register'] = array(
    'title' => 'CDE Test', 
     'page callback' => 'cde_test2',
-    'page arguments' => array(2),
+    'page arguments' => array(1),
     'access callback' => 'cde_access',
-    'access arguments' => array(2),
+    'access arguments' => array(1),
+    'title' => 'Registration',
     //'file' => 'abc.tmp.inc',
   );
   return $items;
@@ -548,10 +549,17 @@ function cde_ctools_plugin_directory($module, $plugin) {
 // TODO: This hook should be called before clientside_validation original hook.
 // TODO: Check that form is multiform.
 // TODO: Seems that hook is not invoked for ajax-validation.
+
+/**
+ * Implements hook_js_alter().
+ */
 function cde_js_alter(&$javascript) {
   
   $clientsideValidationSettingsKey = NULL;
-  $is_multiform = FALSE;
+  
+  // TODO: Check for specific ids
+  $multiform_ids = abc_multiform_ids();
+  $is_multiform = !empty($multiform_ids) ? TRUE : FALSE;
   
   // Check for clientside_validation settings.
   foreach ($javascript['settings']['data'] as $k => $setting) {
@@ -566,23 +574,6 @@ function cde_js_alter(&$javascript) {
     return;
   }
   
-  // Check for multiform.
-  //~ foreach ($javascript['settings']['data'] as $k => $setting) {
-    //~ if (!empty($setting['cde']['multiform_id'])) {
-      //~ $is_multiform = TRUE;
-      //~ break;
-    //~ }
-  //~ }
-  $multiform_ids = abc_multiform_ids();
-  
-  // TODO: Check for specific ids
-  if (!empty($multiform_ids)) {
-    $is_multiform = TRUE;
-    //~ dsm('test');
-  }
-  
-  //~ watchdog('test', 'test');
-  
   
   $k = $clientsideValidationSettingsKey;
   $setting = $javascript['settings']['data'][$k];
@@ -594,23 +585,7 @@ function cde_js_alter(&$javascript) {
     
     if (isset($setting['clientsideValidation']['forms']['user-register-form'])) {
       $rules =& $setting['clientsideValidation']['forms']['user-register-form']['rules'];
-      
-      $rules['profile_main[field_full_name][und][0][given]']['required'] = true;
-      $rules['profile_main[field_full_name][und][0][family]']['required'] = true;
-      $rules['pass[pass1]']['passwordStrength'] = true;
-      $rules['pass[pass1]']['messages']['passwordStrength'] = t('This password is too easy to guess.');
-      $rules['pass[pass2]']['passwordConfirmation'] = true;
-      $rules['pass[pass2]']['messages']['passwordConfirmation'] = t('Passwords do not match.');
-      
-      
-      $rules['profile_main[field_birthdate][und][0][value][month]']['required'] = true;
-      $rules['profile_main[field_birthdate][und][0][value][year]']['required'] = true;
-      $rules['profile_main[field_birthdate][und][0][value][day]']['required'] = true;
-      
-      
-      
-      //~ dsm($setting);
-      
+      _cde_rules($rules);
     }
   }
   
@@ -627,17 +602,29 @@ function cde_js_alter(&$javascript) {
     $rules = array();
     
     foreach ($setting['clientsideValidation']['forms'] as $f => $subform_setting) {
+      
+      _cde_rules($subform_setting['rules'], TRUE);
+      
       $rules += $subform_setting['rules'];
-      //~ dsm($subform_setting['rules']);
     }
     $multiform_setting['rules'] = $rules;
     
     $setting['clientsideValidation']['forms'] = array('multiform' => $multiform_setting);
-    
-    $javascript['settings']['data'][$k] = $setting;
   }
+  
+  $javascript['settings']['data'][$k] = $setting;
 }
 
+
+/**
+ * Implements hook_ajax_render_alter().
+ * 
+ * Change Drupal.settings for the case when ajax-callback returns $commands,
+ * since hook_js_alter isn't called.
+ * 
+ * Here we need to add 'multiform' for every clientside_validation setting key.
+ * Alse there is a bug with clientside_validation when form_state['rebuild'] == TRUE. See #3928
+ */
 function cde_ajax_render_alter(&$commands) {
   //
   
@@ -645,15 +632,9 @@ function cde_ajax_render_alter(&$commands) {
     if (isset($command['settings']['clientsideValidation']['forms'])) {
       $forms =& $command['settings']['clientsideValidation']['forms'];
       
-      //~ if (isset($command['settings']['clientsideValidation']['forms']['user-register-form'])) {
-      
-      $is_multiform = FALSE;
-      $multiform_ids = abc_multiform_ids();
-      
       // TODO: Check for specific ids
-      if (!empty($multiform_ids)) {
-        $is_multiform = TRUE;
-      }
+      $multiform_ids = abc_multiform_ids();
+      $is_multiform = !empty($multiform_ids) ? TRUE : FALSE;
       
       if (isset($forms['user-register-form'])) {
         if ($is_multiform) {
@@ -682,12 +663,130 @@ function cde_ajax_render_alter(&$commands) {
 
 
 
+/**
+ * Override clientside_validation js rules.
+ */
+function _cde_rules(&$rules, $multiform = FALSE) {
+  
+  $english_only_message = t('This field may contain only English letters.');
+  
+  $new_rules = array(
+    'profile_main[field_full_name][und][0][given]' => array(
+      'required' => TRUE,
+      'messages' => array(
+        'required' => t('Name is required.'),
+        'regexMatch' => $english_only_message,
+      ),
+    ),
+    'profile_main[field_full_name][und][0][family]' => array(
+      'required' => TRUE,
+      'messages' => array(
+        'required' => t('Surname is required.'),
+        'regexMatch' => $english_only_message,
+      ),
+    ),
+    
+    'pass[pass1]' => array(
+      'passwordStrength' => TRUE,
+      'messages' => array(
+        'required' => t('Password is required.'),
+        'passwordStrength' => t('This password is too easy to guess.'),
+      ),
+    ),
+    
+    'pass[pass2]' => array(
+      'passwordConfirmation' => TRUE,
+      'messages' => array(
+        'required' => t('Type the password in both fields.'),
+        'passwordConfirmation' => t('Passwords do not match.'),
+      ),
+    ),
+    
+    'profile_main[field_birthdate][und][0][value][month]' => array(
+      'required' => TRUE,
+    ),
+    'profile_main[field_birthdate][und][0][value][year]' => array(
+      'required' => TRUE,
+    ),
+    'profile_main[field_birthdate][und][0][value][day]' => array(
+      'required' => TRUE,
+    ),
+    
+    // ADDRESS
+    // TODO: Check if regexMatch is added correctly (relates to array_merge_recursive_distinct()).
+    'profile_pilot[field_address][und][0][thoroughfare]' => array(
+      'regexMatch' => array(
+        0 => '^[\x20-\x7F]+$',
+      ),
+      'messages' => array(
+        'regexMatch' => $english_only_message,
+      ),
+    ),
+    
+    'profile_pilot[field_address][und][0][premise]' => array(
+      'regexMatch' => array(
+        0 => '^[\x20-\x7F]+$',
+      ),
+      'messages' => array(
+        'regexMatch' => $english_only_message,
+      ),
+    ),
+    
+    'profile_pilot[field_address][und][0][locality]' => array(
+      'regexMatch' => array(
+        0 => '^[\x20-\x7F]+$',
+      ),
+      //~ 'messages' => array(
+        //~ 'regexMatch' => $english_only_message,
+      //~ ),
+    ),
+    
+    // CIVL ID
+    'profile_pilot[field_civl_id][und][0][value]' => array(
+      'messages' => array(
+        'digits_negative' => t('CIVL ID may contain only digits.'),
+      ),
+    ),
+  );
+  
+  // TODO:
+  $unset_rules = array(
+    'profile_pilot[field_address][und][0][postal_code]' => array(
+      'regexMatch',
+    ),
+    'profile_pilot[field_address][und][0][country]' => array(
+      'regexMatch',
+    ),
+    
+    //Phone number select
+    'profile_pilot[field_phone][und][0][country_codes]',
+    'profile_pilot[field_person_phone][und][0][country_codes]',
+  );
+  
+  
+  
+  if (!$multiform) {
+    // First find array_intersect to add rules for existing components only.
+    $new_rules = array_intersect_key($new_rules, $rules);
+    // Add or override rules.
+    $rules = array_merge_recursive_distinct($rules, $new_rules);
+  }
+}
 
 
-
-
-
-
+// http://www.php.net/manual/ru/function.array-merge-recursive.php#92195
+function array_merge_recursive_distinct ($array1, $array2) {
+  $merged = $array1;
+  foreach ( $array2 as $key => &$value ) {
+    if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ) {
+      $merged [$key] = array_merge_recursive_distinct ( $merged [$key], $value );
+    }
+    else {
+      $merged [$key] = $value;
+    }
+  }
+  return $merged;
+}
 
 
 
