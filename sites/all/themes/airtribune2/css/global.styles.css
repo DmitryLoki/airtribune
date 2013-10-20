@@ -3371,6 +3371,7 @@ html.fb_view { overflow: auto;}
 .solutions_hosting .block_cols h3 { color: #566570; margin: 0; padding: 0 0 8px;}
 .solutions_hosting .block_cols .block_col { float: left; width: 200px; margin: 0 30px 0 10px;}
 .solutions_hosting .block_cols .block_col_last { margin-right: 0;}
+.solutions_hosting .two_blocks .block_col { width: 320px; margin: 0 30px 0 0;}
 
 .solutions_hosting .block_icons { color: #475159; font-size: 16px; padding-bottom: 15px;}
 .solutions_hosting .block_icons span { display: inline-block; vertical-align: middle;}
@@ -3396,6 +3397,8 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .accordeon_inner ul { margin: 0 0 35px 18px; padding: 0; color: #555555; font-size: 14px;}
 .solutions_accordeon .accordeon_inner ul li { padding: 2px 0 3px;}
 .solutions_accordeon .accordeon_inner ul ul { color: #919191; margin: 0 0 0 10px; list-style: none; list-style-image: none;}
+.solutions_accordeon .accordeon_inner p:first-child { padding: 26px 0 27px;}
+.solutions_accordeon .accordeon_inner ul + p { font-size: 18px; margin-top: -35px; padding-bottom: 35px;}
 
 .solutions_hosting .create_event { padding-top: 102px; text-align: right; color: #333a40; font-size: 16px;}
 .solutions_hosting .create_event a { display: block; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #ffffff; text-shadow: 0 1px 1px rgba(79, 87, 12, .15); text-decoration: none; padding: 22px 0 28px; margin-bottom: 8px;
@@ -3423,3 +3426,32 @@ html.fb_view { overflow: auto;}
   background: -ms-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для IE10+ */
 
 }
+
+
+  /* Solutions SMS Retrieve */
+
+.solutions_retrieve .examples { position: relative; padding-top: 66px; padding-bottom: 57px; margin-bottom: 66px;}
+.solutions_retrieve .examples img { vertical-align: middle;}
+.solutions_retrieve .examples .pilots_table { position: absolute; bottom: 0; right: 0; height: 13px; width: 472px; background: url(/sites/default/files/macair.png) no-repeat 50% -288px; display: block;}
+.solutions_retrieve .examples .pilots_table span { display: block; width: 380px; height: 253px; background: url(/sites/default/files/macair.png) no-repeat 50% -35px; margin: -253px auto 0;}
+.solutions_retrieve .apps { padding-top: 92px; background: url(../images/retrieve_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 203px;}
+.solutions_retrieve .apps_phone { position: absolute; width: 194px; height: 424px; overflow: hidden; top: -14px; left: 381px;
+
+  -moz-transform:rotate(-55deg);
+  -webkit-transform:rotate(-55deg);
+  -o-transform:rotate(-55deg);
+  -ms-transform:rotate(-55deg);
+
+}
+.solutions_retrieve .apps_phone img { max-width: none; position: relative; top: 85px; left: -130px;
+
+  -moz-transform:rotate(55deg);
+  -webkit-transform:rotate(55deg);
+  -o-transform:rotate(55deg);
+  -ms-transform:rotate(55deg);
+
+}
+
+
+.page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
+ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
