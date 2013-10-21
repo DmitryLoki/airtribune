@@ -4,7 +4,7 @@
  * Code for the Paragliding Race feature.
  */
 
-define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.php');
+define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.html');
 
 include_once 'pg_race.features.inc';
 
