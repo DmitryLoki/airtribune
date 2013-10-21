@@ -690,6 +690,10 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   
   $english_only_message = t('This field may contain only English letters.');
   
+  static $multiform_rules = NULL;
+  
+  // TODO: Remove 'form_id' key
+  // TODO: profile_main has a differrent multiform form_id for authenticated users.
   $new_rules = array(
     'profile_main[field_full_name][und][0][given]' => array(
       'required' => TRUE,
@@ -697,6 +701,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
         'required' => t('Name is required.'),
         'regexMatch' => $english_only_message,
       ),
+      'form_id' => 'user_register_form',
     ),
     'profile_main[field_full_name][und][0][family]' => array(
       'required' => TRUE,
@@ -704,6 +709,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
         'required' => t('Surname is required.'),
         'regexMatch' => $english_only_message,
       ),
+      'form_id' => 'user_register_form',
     ),
     
     'pass[pass1]' => array(
@@ -712,6 +718,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
         'required' => t('Password is required.'),
         'passwordStrength' => t('This password is too easy to guess.'),
       ),
+      'form_id' => 'user_register_form',
     ),
     
     'pass[pass2]' => array(
@@ -720,16 +727,20 @@ function _cde_rules(&$rules, $multiform = FALSE) {
         'required' => t('Type the password in both fields.'),
         'passwordConfirmation' => t('Passwords do not match.'),
       ),
+      'form_id' => 'user_register_form',
     ),
     
     'profile_main[field_birthdate][und][0][value][month]' => array(
       'required' => TRUE,
+      'form_id' => 'user_register_form',
     ),
     'profile_main[field_birthdate][und][0][value][year]' => array(
       'required' => TRUE,
+      'form_id' => 'user_register_form',
     ),
     'profile_main[field_birthdate][und][0][value][day]' => array(
       'required' => TRUE,
+      'form_id' => 'user_register_form',
     ),
     
     // ADDRESS
@@ -741,6 +752,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       'messages' => array(
         'regexMatch' => $english_only_message,
       ),
+      'form_id' => 'profile2_edit_pilot_form',
     ),
     
     'profile_pilot[field_address][und][0][premise]' => array(
@@ -750,6 +762,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       'messages' => array(
         'regexMatch' => $english_only_message,
       ),
+      'form_id' => 'profile2_edit_pilot_form',
     ),
     
     'profile_pilot[field_address][und][0][locality]' => array(
@@ -759,6 +772,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       //~ 'messages' => array(
         //~ 'regexMatch' => $english_only_message,
       //~ ),
+      'form_id' => 'profile2_edit_pilot_form',
     ),
     
     // CIVL ID
@@ -766,6 +780,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       'messages' => array(
         'digits_negative' => t('CIVL ID may contain only digits.'),
       ),
+      'form_id' => 'profile2_edit_pilot_form',
     ),
   );
   
@@ -786,16 +801,58 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   
   
   if (!$multiform) {
+    cde_tmp_clean_new_rules($new_rules);
+    
     // First find array_intersect to add rules for existing components only.
     $new_rules = array_intersect_key($new_rules, $rules);
     // Add or override rules.
     $rules = array_merge_recursive_distinct($rules, $new_rules);
   }
+  else {
+    if (empty($multiform_rules)) {
+      cde_tmp_new_rules_multiform_keys($new_rules);
+      cde_tmp_clean_new_rules($new_rules);
+      $multiform_rules = $new_rules;
+    }
+    else {
+      $new_rules = $multiform_rules;
+    }
+    //~ dsm($new_rules);
+    $new_rules = array_intersect_key($new_rules, $rules);
+    $rules = array_merge_recursive_distinct($rules, $new_rules);
+  }
+}
+
+// TODO: Remove
+// This is a temporary function
+function cde_tmp_clean_new_rules(&$new_rules) {
+  foreach ($new_rules as $k => $new_rule) {
+    if (isset($new_rules[$k]['form_id'])) {
+      unset($new_rules[$k]['form_id']);
+    }
+  }
+}
+
+// TODO: Remove
+// This is a temporary function
+function cde_tmp_new_rules_multiform_keys(&$new_rules) {
+  foreach ($new_rules as $k => $new_rule) {
+    if (isset($new_rule['form_id'])) {
+      if (strpos($k, 'multiform') === 0) {
+        continue;
+      }
+      $form_id = $new_rule['form_id'];
+      $new_key = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $k);
+      $new_rules[$new_key] = $new_rules[$k];
+    }
+    
+    unset($new_rules[$k]);
+  }
 }
 
 
 // http://www.php.net/manual/ru/function.array-merge-recursive.php#92195
-function array_merge_recursive_distinct ($array1, $array2) {
+function array_merge_recursive_distinct (&$array1, &$array2) {
   $merged = $array1;
   foreach ($array2 as $key => &$value) {
     if (is_array ($value) && isset($merged[$key]) && is_array($merged[$key])) {
