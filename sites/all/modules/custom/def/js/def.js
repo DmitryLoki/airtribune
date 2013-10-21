@@ -1,55 +1,59 @@
-//var ajaxAttach = Drupal.behaviors.AJAX.attach;
-//
-//(function ($) {
-//
-//  Drupal.behaviors.AJAX.attach = function (context, settings) {
-//    /*
-//     Настройки для clientsideValidation, т.е. то, что должно дополнительно быть в
-//     Drupal.settings.clientsideValidation
-//     */
-//    var clientsideValidationSettings = {
-//      forms: {
-//        'user-register-form': {
-//          rules: {
-//            'profile_main[field_full_name][und][0][given]': {
-//              required: true
-//            },
-//            'profile_main[field_full_name][und][0][family]': {
-//              required: true
-//            },
-//            'pass[pass1]': {
-//              passwordStrength: true,
-//              messages: {
-//                passwordStrength: Drupal.settings.password.easyToGuess
-//              }
-//            },
-//            'pass[pass2]': {
-//              passwordConfirmation: true,
-//              messages: {
-//                passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
-//              }
-//            },
-//            'profile_main[field_birthdate][und][0][value][month]': {
-//              required: true
-//            },
-//            'profile_main[field_birthdate][und][0][value][year]': {
-//              required: true
-//            },
-//            'profile_main[field_birthdate][und][0][value][day]': {
-//              required: true
-//            }
-//          }
-//        }
-//      }
-//    };
-//    /*
-//     Конец настроек clientsideValidation
-//     */
-//    ajaxAttach.call(this, context, settings);
-//
-//    $.extend(true, Drupal.settings.clientsideValidation, clientsideValidationSettings);
-//  }
-//})(jQuery);
+/*
+var ajaxAttach = Drupal.behaviors.AJAX.attach;
+
+(function ($) {
+
+  Drupal.behaviors.AJAX.attach = function (context, settings) {
+
+     //Настройки для clientsideValidation, т.е. то, что должно дополнительно быть в
+     //Drupal.settings.clientsideValidation
+
+
+    var clientsideValidationSettings = {
+      forms: {
+        'user-register-form': {
+          rules: {
+            'profile_main[field_full_name][und][0][given]': {
+              required: true
+            },
+            'profile_main[field_full_name][und][0][family]': {
+              required: true
+            },
+            'pass[pass1]': {
+              passwordStrength: true,
+              messages: {
+                passwordStrength: Drupal.settings.password.easyToGuess
+              }
+            },
+            'pass[pass2]': {
+              passwordConfirmation: true,
+              messages: {
+                passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
+              }
+            },
+            'profile_main[field_birthdate][und][0][value][month]': {
+              required: true
+            },
+            'profile_main[field_birthdate][und][0][value][year]': {
+              required: true
+            },
+            'profile_main[field_birthdate][und][0][value][day]': {
+              required: true
+            }
+          }
+        }
+      }
+    };
+
+
+
+
+    ajaxAttach.call(this, context, settings);
+
+    $.extend(true, Drupal.settings.clientsideValidation, clientsideValidationSettings);
+  }
+})(jQuery);
+*/
 
 
 (function ($) {
@@ -57,9 +61,9 @@
   $.fn.checkValidationResult = function (errorText) {
     //Костыль!!
     /*if(!this[0] || this.attr('id') == 'edit-profile-main-field-birthdate-und-0-value') {
-      $('#user-register-form').validate().checkAllValid();
-      return;
-    }*/
+     $('#user-register-form').validate().checkAllValid();
+     return;
+     }*/
 
     var form = this.closest('form'),
       validator = form.validate();
@@ -70,7 +74,7 @@
 
     Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error'] = true;
     this.rules('add', {'validation-error': true, messages: {'validation-error': errorText}});
-    if(Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
+    if (Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
       Drupal.myClientsideValidation = Drupal.behaviors.DEFClientValidation.myClientsideValidation;
     }
     //show error message
@@ -79,14 +83,18 @@
   };
 
   Drupal.behaviors.DEFClientValidation = {
-    myClientsideValidation:undefined,
+    myClientsideValidation: undefined,
     beforeSubmit: function (form_values, form, options) {
       //remove previous ajax validation error
       delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
       $(this.element).rules('remove', 'validation-error');
 
-      var validator = form.validate(),
-        validationResult = validator.element(this.element) !== false;
+
+      var validator = form.validate();
+      if (!Drupal.myClientsideValidation) {
+        validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
+      }
+      var validationResult = validator.element(this.element) !== false;
 
       //ajax validation will not happened
       if (!validationResult) {
@@ -123,10 +131,13 @@
           allValid = true;
         var allElements = this.elements();
         allElements.each(function (i, e) {
-          allValid = allValid && self.check(e);
+          var result = self.check(e);
+          if (result == undefined)
+            result = true;//true to prevent undefined check() result
+          allValid = allValid && result;
         });
         if (allValid) {
-          $(self.currentForm).find('.form-submit').removeAttr('disabled');
+          $(self.currentForm).find('.form-submit').removeClass('disabled');
         }
         return allValid;
       };
@@ -151,15 +162,16 @@
         element.after(errorElement);
         formItem.addClass('field_error');
 
-        $(element[0].form).find('.form-submit').attr('disabled', '');
+        $(element[0].form).find('.form-submit').addClass('disabled');;
       };
 
       $(document).bind('clientsideValidationAddCustomRules', function (event) {
 
         $.validator.addMethod("passwordStrength", function (value, element, param) {
+          $(element).rules('remove','required');
           var passwordStrength = Drupal.evaluatePasswordStrength(value, settings.password),
             passwordField = $(element),
-            passwordFieldContainer = passwordField.closest('.form-item-pass-pass1'),
+            passwordFieldContainer = passwordField.parent(),
             passStrengthClass = '';
           //remove previous booble
           passwordFieldContainer.find('.form_booble').remove();
@@ -169,6 +181,8 @@
           //debugger;
           switch (passwordStrength.pass) {
             case 'error':
+              var errorMessage = Drupal.behaviors.DEFClientValidation.prepareErrorElement($('<span>' + settings.password.easyToGuess + '</span>'));
+              Drupal.clientsideValidation.prototype.setErrorElement(errorMessage, $(element));
               return false;
             case 'weak':
               passStrengthClass = 'field_weak';
@@ -193,14 +207,16 @@
         });
 
         $.validator.addMethod("passwordConfirmation", function (value, element, param) {
+          //Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error']
+          $(element).rules('remove','required');
           var form = $(element.form),
             confirmationField = $(element),
             passwordField = form.find('.password-field'),
-            confirmationFieldContainer = $(element).closest('.form-item-pass-pass2'),
+            confirmationFieldContainer = $(element).parent(),
             passwordValue = passwordField.val();
 
           //remove previous booble element
-          confirmationFieldContainer.find('.form_booble:not(.error)').remove();
+          confirmationFieldContainer.find('.form_booble').remove();
           confirmationFieldContainer.removeClass('field_excellent');
 
           //validate password confirmation on password field blur
@@ -214,6 +230,11 @@
             confirmationField
               .after(Drupal.behaviors.DEFClientValidation.getBooble(settings.password.confirmSuccess));
             confirmationFieldContainer.addClass('field_excellent');
+            confirmationField.removeClass('error');
+          } else {
+            confirmationField
+              .after(Drupal.behaviors.DEFClientValidation.getBooble(settings.password.confirmFailure));
+            confirmationFieldContainer.addClass('field_error');
           }
           return result;
         });
@@ -231,28 +252,40 @@
           var allElements = validator.elements();
 
           (function (validator) {
+            function validateElement() {
+              if (!Drupal.myClientsideValidation) {
+                validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
+              }
+              validator.element(this);
+              validator.checkAllValid();
+            }
+
             allElements
               .filter(':not(.ajax-processed)')
               .unbind('keyup.validation')
               .bind('keyup.validation', function () {
                 if (!validator.checkAllValid()) {
-                  $(this.form).find('.form-submit').attr('disabled', '');
+                  $(this.form).find('.form-submit').addClass('disabled');;
                 } else {
-                  $(this.form).find('.form-submit').removeAttr('disabled');
+                  $(this.form).find('.form-submit').removeClass('disabled');;
                 }
               })
               .unbind('focusout.validation')
-              .bind('focusout.validation', function(){
-                validator.element(this);
-              });
+              .bind('focusout.validation',validateElement);
+
+            allElements.filter('select')
+              .unbind('change.validation')
+              .bind('change.validation',validateElement);
+
             //Disable submit button on ajax field focus
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                $(this.form).find('.form-submit').attr('disabled', '');
+                $(this.form).find('.form-submit').addClass('disabled');;
               });
+            
             if (!validator.checkAllValid()) {
-              $(allElements[0].form).find('.form-submit').attr('disabled', '');
+              $(allElements[0].form).find('.form-submit').addClass('disabled');;
             }
 
           })(validator);

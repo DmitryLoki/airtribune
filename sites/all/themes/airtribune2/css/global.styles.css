@@ -2416,7 +2416,8 @@ form .reg_choice a span { display: inline-block; vertical-align: middle;}
 form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
 #event_register { display: none;}
 
-form .form-actions input[disabled], form .form-actions input[disabled]:hover, form .form-actions input[disabled]:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
+form .form-actions input.disabled, form .form-actions input.disabled:hover, form .form-actions input.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
+
 
     box-shadow: 0 1px 3px rgba(35,48,35,0.45), inset 0 0 3px #ebe493;  
   -moz-box-shadow: 0 1px 3px rgba(35,48,35,0.45), inset 0 0 3px #ebe493;         
