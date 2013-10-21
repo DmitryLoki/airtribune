@@ -818,9 +818,10 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       $new_rules = $multiform_rules;
     }
     //~ dsm($new_rules);
-    $new_rules = array_intersect_key($new_rules, $rules);
+    //~ $new_rules = array_intersect_key($new_rules, $rules);
     $rules = array_merge_recursive_distinct($rules, $new_rules);
   }
+  //~ dsm($rules);
 }
 
 // TODO: Remove
