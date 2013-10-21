@@ -203,7 +203,7 @@ function cde_mail_validate($element, &$form_state) {
 
 // TODO: Remove if not needed.
 function cde_field_widget_form_alter(&$element, &$form_state, $context) {
-  //
+  cde_alter_widgets($element, $form_state, $context);
 }
 
 
@@ -867,3 +867,104 @@ function array_merge_recursive_distinct (&$array1, &$array2) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Implements hook_field_widget_form_alter().
+ *
+ * Adds ajax handler to field widgets.
+ * Ctools plugins should be used for individual handlers.
+ */
+function cde_alter_widgets(&$element, &$form_state, $context) {
+  // TODO: Move to a single function.
+  // Change field_t_shirt_size default select option name.
+  if ($element['#field_name'] == 'field_t_shirt_size') {
+    $element['#after_build'][] = '_t_shirt_size_after_build';
+  }
+  // Change field_blood_type default select option name.
+  if ($element['#field_name'] == 'field_blood_type') {
+    $element['#after_build'][] = '_blood_type_after_build';
+  }
+  // Change field_address default select option name.
+  if ($element['#field_name'] == 'field_address') {
+    $element['#after_build'][] = '_address_after_build';
+  }
+  // Change field_birthdate components order.
+  if ($element['#field_name'] == 'field_birthdate') {
+    $element['#after_build'][] = '_birthdate_after_build';
+  }
+  // Change field_full_name components description.
+  if ($element['#field_name'] == 'field_full_name') {
+    $element['#after_build'][] = '_full_name_after_build';
+  }
+}
+
+
+/**
+ * After build for field_t_shirt_size field widget.
+ */
+function _t_shirt_size_after_build($element, $form_state) {
+  $options = array('_none' => t('Select your size'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
+  return $element;
+}
+
+/**
+ * After build for field_blood_type field widget.
+ */
+function _blood_type_after_build($element, $form_state) {
+  $options = array('_none' => t('Select your type'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
+  return $element;
+}
+
+/**
+ * After build for field_address field widget.
+ */
+function _address_after_build($element, $form_state) {
+  // Add extra blank option.
+  $options = array('' => t('Select your country'));
+  foreach ($element['country']['#options'] as $k => $v) {
+    $options[$k] = $v;
+  }
+  $element['country']['#options'] = $options;
+
+  // Change components' order.
+  $element['locality_block']['#weight'] = 0;
+  $element['street_block']['#weight'] = 1;
+  $element['locality_block']['postal_code']['#weight'] = 0;
+  $element['locality_block']['locality']['#weight'] = 0.001;
+  $element['locality_block']['#sorted'] = FALSE;
+
+  return $element;
+}
+
+/**
+ * After build for field_birthdate field widget.
+ */
+function _birthdate_after_build($element, $form_state) {
+  //dsm($element);
+  $element['value']['month']['#weight'] = 1;
+  $element['value']['day']['#weight'] = 0;
+  return $element;
+}
+
+/**
+ * After build for field_birthdate field widget.
+ */
+function _full_name_after_build($element, $form_state) {
+  $element['given']['#description'] = t('Your name in English transcription.');
+  $element['family']['#description'] = t('Your surname in English transcription.');
+  return $element;
+}
