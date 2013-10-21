@@ -652,6 +652,26 @@ function cde_ajax_render_alter(&$commands) {
         unset($forms['profile2-edit-pilot-form--2']);
       }
       
+      if (isset($forms['og-ui-confirm-subscribe'])) {
+        // TODO:
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['og-ui-confirm-subscribe'];
+          unset($forms['og-ui-confirm-subscribe']);
+        }
+        // Exclude?
+        unset($forms['og-ui-confirm-subscribe--2']);
+      }
+      
+      // Exclude?
+      if (isset($forms['profile2-edit-main-form'])) {
+        // TODO:
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['profile2-edit-main-form'];
+          unset($forms['profile2-edit-main-form']);
+        }
+        unset($forms['profile2-edit-main-form--2']);
+      }
+      
       $commands[$k] = $command;
       //~ dsm($command);
       break;
@@ -777,12 +797,12 @@ function _cde_rules(&$rules, $multiform = FALSE) {
 // http://www.php.net/manual/ru/function.array-merge-recursive.php#92195
 function array_merge_recursive_distinct ($array1, $array2) {
   $merged = $array1;
-  foreach ( $array2 as $key => &$value ) {
-    if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ) {
-      $merged [$key] = array_merge_recursive_distinct ( $merged [$key], $value );
+  foreach ($array2 as $key => &$value) {
+    if (is_array ($value) && isset($merged[$key]) && is_array($merged[$key])) {
+      $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
     }
     else {
-      $merged [$key] = $value;
+      $merged[$key] = $value;
     }
   }
   return $merged;
