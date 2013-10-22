@@ -4,6 +4,7 @@ define('DEFAULT_MULTIFORM_ID', 'multiform');
 
 // TODO: Security issue. Subform mustn't be submitted separately, since it is already cached.
 // TODO: Validate multiform settings.
+// TODO: Check case when $form_state['rebuild'] == TRUE for a subform
 // What if submits map's values are the same?
 
 function abc_menu() {

@@ -25,14 +25,17 @@ function cde_menu() {
 
 function cde_test2($node) {
   $nid = $node->nid;
-  return cde_test($nid);
+  return cde_test($nid, FALSE);
 }
 
-function cde_test($nid) {
+function cde_test($nid, $default_nid = TRUE) {
   global $user;
   
   // TODO: Temporary event id
-  $nid = 5438;
+  if ($default_nid) {
+    $nid = 5438;
+  }
+  
   $form = $user->uid ? cde_form_authorized($nid) : cde_form_anonymous($nid);
   //dsm($form);
   return $form;
@@ -579,6 +582,11 @@ function cde_js_alter(&$javascript) {
   $setting = $javascript['settings']['data'][$k];
   //~ dsm($setting);
   
+  // Set custom function for error placement.
+  foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
+    $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
+    $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'setErrorElement';
+  }
   
   // If there is no multiform
   if (!$is_multiform) {
