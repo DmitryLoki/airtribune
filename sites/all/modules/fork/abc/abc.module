@@ -74,6 +74,8 @@ function abc_form_alter(&$form, &$form_state, $form_id) {
 // since potentially there could be other "later" after_builds that can change form or use it some other way.
 // But it works.
 function abc_form_after_build(&$form, &$form_state) {
+  
+  abc_crossfields_process(NULL, $form, $form_state);
   // TODO: Check that $form_state is always stored in cache.
   // Otherwise it won't work.
   //if (!empty($form_state['#multiform'])) {
@@ -116,6 +118,9 @@ function abc_get_form($settings) {
   
   // Initialize settings
   abc_init_settings($settings);
+  
+  // Set _POST values for crossfields if any.
+  abc_crossfields_process($settings);
   
   // Preprocess _POST: set submits according to submits map if any.
   // Exclude submits map subform's values from $_POST if any.
@@ -193,6 +198,7 @@ function abc_get_form($settings) {
     
     // TODO: Check if it is required.
     // Add multiform settings (e.g. for submits map).
+    // Also used for crossfields.
     $subform_form_state['#multiform_settings'] = $settings;
     
     // If original form (subform) is built not through drupal_build_form,
@@ -266,5 +272,28 @@ function _abc_get_form(&$element, $form_id) {
     // If the name was op then we want multiform[$form_id][op]. If it was
     // foo[bar] then we want multiform[$form_id][foo][bar].
     $element['#name'] = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $element['#name']);
+  }
+}
+
+// -------------------------------
+// Crossfields functionality
+// -------------------------------
+
+// TODO:
+function abc_crossfields_process($settings, &$form = NULL, &$form_state = NULL) {
+  module_load_include('inc', 'abc', 'abc.crossfields');
+  if ($settings) {
+    $crossfields_info = abc_crossfields_info($settings);
+    if (!empty($_POST)) {
+      abc_crossfields_set_post_values($settings, $crossfields_info);
+    }
+  }
+  
+  // TODO: Maybe this part should be called from inside widget_form_after_build instead of form_after_build.
+  elseif (!$settings && !empty($form) && isset($form_state['#multiform_settings'])) {
+    $settings = $form_state['#multiform_settings'];
+    $crossfields_info = abc_crossfields_info($settings);
+    // TODO: Do smth with hidden fields validation
+    abc_crossfields_hide_elements($settings, $crossfields_info, $form, $form_state);
   }
 }

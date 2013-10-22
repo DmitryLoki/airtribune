@@ -884,7 +884,9 @@ function array_merge_recursive_distinct (&$array1, &$array2) {
 
 
 
-
+// =======================================================
+// Misc
+// =======================================================
 
 
 /**
@@ -977,3 +979,49 @@ function _full_name_after_build($element, $form_state) {
   $element['family']['#description'] = t('Your surname in English transcription.');
   return $element;
 }
+
+
+
+
+// =======================================================
+// Crossfields
+// =======================================================
+
+
+// TODO:
+
+/**
+ * Implements hook_multiform_crossfields().
+ */
+function cde_multiform_crossfields($multiform) {
+  $items = array();
+
+  // TODO: Also add contest_registration_authorized
+  if (in_array($multiform['#multiform_id'], array('contest_registration_anonymous', 'contest_registration_authorized'))) {
+    $field_names = array(
+      'field_paraglider_manufacturer',
+      'field_paraglider_model',
+      'field_paraglider_color',
+      'field_phone'
+    );
+    foreach ($field_names as $field_name) {
+      $items[] = array(
+        '#dependent' => array(
+          '#tag' => 'og_ui_confirm_subscribe',
+          '#name' => $field_name,
+          '#parents' => array($field_name),
+          '#array_parents' => array($field_name),
+        ),
+        '#base' => array(
+          '#tag' => 'profile2_edit_pilot_form',
+          '#name' => $field_name,
+          '#parents' => array('profile_pilot', $field_name),
+          '#array_parents' => array('profile_pilot', $field_name),
+        ),
+      );
+    }
+  }
+
+  return $items;
+}
+
