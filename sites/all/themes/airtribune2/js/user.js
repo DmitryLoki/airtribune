@@ -198,12 +198,12 @@ Drupal.evaluatePasswordStrength = function (password, translate) {
   } else if(password.length < 8) {
     indicatorText = translate.weak;
     pass = 'weak';
-  } else if( password.length < 10) {
-    indicatorText = translate.good;
-    pass = 'good';
-  } else {
+  } else if (password.length > 8 && /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,}$/.test(password)) {
     indicatorText = translate.strong;
     pass = 'excellent';
+  } else {
+    indicatorText = translate.good;
+    pass = 'good';
   }
   /*else if (strength < 60) {
     indicatorText = translate.weak;
