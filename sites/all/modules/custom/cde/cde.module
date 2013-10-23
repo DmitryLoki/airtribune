@@ -703,6 +703,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   $english_only_message = t('This field may contain only English letters.');
   
   static $multiform_rules = NULL;
+  static $multiform_unset_rules = NULL;
   
   // TODO: Remove 'form_id' key
   // TODO: profile_main has a differrent multiform form_id for authenticated users.
@@ -800,17 +801,22 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   $unset_rules = array(
     'profile_pilot[field_address][und][0][postal_code]' => array(
       'regexMatch',
+      'form_id' => 'profile2_edit_pilot_form',
     ),
     'profile_pilot[field_address][und][0][country]' => array(
-      'regexMatch',
+      'regexMatch' => 'regexMatch',
     ),
     
     //Phone number select
-    'profile_pilot[field_phone][und][0][country_codes]',
-    'profile_pilot[field_person_phone][und][0][country_codes]',
+    'profile_pilot[field_phone][und][0][country_codes]' => array(
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    'profile_pilot[field_person_phone][und][0][country_codes]' => array(
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
   );
   
-  
+  // We don't use unset rules for !multiform because there are those fields.
   
   if (!$multiform) {
     cde_tmp_clean_new_rules($new_rules);
@@ -824,14 +830,23 @@ function _cde_rules(&$rules, $multiform = FALSE) {
     if (empty($multiform_rules)) {
       cde_tmp_new_rules_multiform_keys($new_rules);
       cde_tmp_clean_new_rules($new_rules);
+      
+      cde_tmp_new_rules_multiform_keys($unset_rules);
+      cde_tmp_clean_new_rules($unset_rules);
+      
       $multiform_rules = $new_rules;
+      
+      $multiform_unset_rules = $unset_rules;
     }
     else {
       $new_rules = $multiform_rules;
+      $unset_rules = $multiform_unset_rules;
     }
     //~ dsm($new_rules);
     //~ $new_rules = array_intersect_key($new_rules, $rules);
     $rules = array_merge_recursive_distinct($rules, $new_rules);
+    
+    array_recursive_unset($rules, $unset_rules);
   }
   //~ dsm($rules);
 }
@@ -878,7 +893,27 @@ function array_merge_recursive_distinct (&$array1, &$array2) {
   return $merged;
 }
 
+function recursive_unset(&$array, $unwanted_key) {
+    unset($array[$unwanted_key]);
+    foreach ($array as &$value) {
+        if (is_array($value)) {
+            recursive_unset($value, $unwanted_key);
+        }
+    }
+}
 
+function array_recursive_unset(&$array, $unset_rules) {
+  foreach ($unset_rules as $k1 => $rules) {
+    if (empty($rules)) {
+      unset($array[$k1]);
+    }
+    else {
+      foreach ($rules as $k2) {
+        unset($array[$k1][$k2]);
+      }
+    }
+  }
+}
 
 
 
