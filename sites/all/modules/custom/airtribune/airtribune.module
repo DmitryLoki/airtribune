@@ -302,6 +302,15 @@ function airtribune_token_info() {
     'name' => t('Map entry changing title'),
     'description' => t('Insert activities or accommodation word in title, based on node type'),
   );
+  $info['tokens']['variable']['core-api-domain'] = array(
+    'name' => t('Core API domain'),
+    'description' => t('Base Core API domain from settings Core sync module.'),
+  );
+  $info['tokens']['variable']['core-api-version'] = array(
+    'name' => t('Core API version'),
+    'description' => t('Core API version from settings Core sync module.'),
+  );
+
   return $info;
 }
 
@@ -327,6 +336,13 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
       }
     }
   }
+
+  // Add tokens for Core API
+  if (module_exists('at_core_sync')) {
+    $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
+    $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+  }
+
   return $replacements;
 }
 

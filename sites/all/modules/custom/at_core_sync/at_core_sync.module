@@ -145,7 +145,7 @@ function at_core_sync_get_api_domain() {
  * @see #3115.
  */
 function at_core_sync_get_api_url() {
-  $address = at_core_sync_get_api_domain(),
+  $address = at_core_sync_get_api_domain()
     . '/'
     . at_core_sync_get_api_version();
   return $address;
