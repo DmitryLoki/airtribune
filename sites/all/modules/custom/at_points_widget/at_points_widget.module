@@ -181,7 +181,6 @@ function at_points_widget_get_points($nid) {
     $contest_point->readonly = FALSE;
   }
   $output = _at_points_widget_wrapper(array_merge($used_contest_points, $unused_contest_points));
-  drupal_add_http_header('Content-Type', 'application/json');
   print $output;
   drupal_exit();
 }
@@ -218,5 +217,6 @@ function _at_points_widget_wrapper (array $points) {
     'type' => 'FeatureCollection',
     'features' => $result
     );
+  drupal_add_http_header('Content-Type', 'application/json');
   return json_encode($result);
 }
