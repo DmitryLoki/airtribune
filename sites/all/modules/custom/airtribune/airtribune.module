@@ -79,6 +79,7 @@ define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
 
 // Memberships
 define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
+define('AIRTRIBUNE_MEMBERSHIP_WINDDUMMY', 'pg_winddummy');
 define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
 
@@ -1446,6 +1447,35 @@ function _create_day_for_contest() {
         watchdog('airtribune', 'Automatic create day node. !debug', array('!debug' => '<pre>' . print_r($debug_day_node_create, TRUE) . '</pre>'));
       }
     }
+  }
+}
+
+/**
+ * Update membership type on payment status change (Contestant <-> Wind Dummy).
+ * @see #3959
+ */
+function airtribune_og_membership_update($og_membership) {
+  if ($og_membership->already_updated_by_paymentstatus == TRUE) {
+    return;
+  }
+
+  $status_field_allowed_values = list_allowed_values(field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD));
+  $wind_dummy_status = array_search("Wind dummy", $status_field_allowed_values);
+  $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+  $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+
+  if ($now_status != $old_status) {
+    // WindDummy -> Contestant (waiting list / waiting payment / in progress / confirmed).
+    if ($old_status == $wind_dummy_status) {
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+    }
+    // Contestant -> WindDummy.
+    if ($now_status == $wind_dummy_status) {
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
+    }
+    // Avoid recursion by hook_og_membership_update & hook_og_membership_save.
+    $og_membership->already_updated_by_paymentstatus = TRUE;
+    og_membership_save($og_membership);
   }
 }
 
