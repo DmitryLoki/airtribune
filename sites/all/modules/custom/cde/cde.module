@@ -153,6 +153,8 @@ function cde_form_anonymous($nid) {
         ),
       ),
     ),
+    
+    '#redirect_path' => 'event/' . $nid,
   );
   
   //$args = cde_profile_form_args();
@@ -382,6 +384,8 @@ function cde_form_authorized($nid) {
         ),
       ),
     ),
+    
+    '#redirect_path' => 'event/' . $nid,
   );
   
   return abc_get_form($settings);

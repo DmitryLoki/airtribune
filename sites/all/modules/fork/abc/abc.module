@@ -255,6 +255,12 @@ function abc_get_form($settings) {
   // And hide mapped submits.
   abc_cache_prepare($build_id_hash, $settings, $form);
   
+  // TODO: Check.
+  $errors = form_get_errors();
+  if (empty($errors) && !empty($_POST) && isset($settings['#redirect_path'])) {
+    drupal_goto($settings['#redirect_path']);
+  }
+  
   return $form;
 }
 
