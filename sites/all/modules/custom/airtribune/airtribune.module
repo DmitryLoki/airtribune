@@ -291,7 +291,7 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
 /**
  * Implements hook_token_info().
  *
- * @see #3217 #3235
+ * @see #3217 #3235, #3960
  */
 function airtribune_token_info() {
   $info['tokens']['node']['event-dates'] = array(
@@ -326,9 +326,17 @@ function airtribune_token_info() {
     'name' => t('URL: Contest'),
     'description' => t('Main URL for Contest page.'),
   );
-  $info['tokens']['airtribune']['map-widget'] = array(
+  $info['tokens']['airtribune']['widget-map'] = array(
     'name' => t('Widget map type'),
     'description' => t('Type of visualization widget map.'),
+  );
+  $info['tokens']['airtribune']['widget-width'] = array(
+    'name' => t('Widget width'),
+    'description' => t('Width of visualization widget map.'),
+  );
+  $info['tokens']['airtribune']['widget-height'] = array(
+    'name' => t('Widget height'),
+    'description' => t('Height of visualization widget map.'),
   );
   return $info;
 }
@@ -366,7 +374,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
 
   // Tokens for visualization pane
   // @author Vyacheslav Malchik <info@vkey.biz>
-  // @see #3917
+  // @see #3960
   if ($type == 'airtribune') {
     if (!empty($data['race'])) {
       $replacements['[airtribune:core-id-race]'] = get_id_from_entity('ent_race', $data['race']);
@@ -377,7 +385,9 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
       $replacements['[airtribune:core-id-contest]'] = get_id_from_entity('node', $data['contest']);
     }
     if (!empty($data['widget']['type'])) {
-      $replacements['[airtribune:map-widget]'] = $data['widget']['type'];
+      $replacements['[airtribune:widget-map]'] = $data['widget']['type'];
+      $replacements['[airtribune:widget-width]'] = $data['widget']['width'];
+      $replacements['[airtribune:widget-height]'] = $data['widget']['height'];
     }
   }
 

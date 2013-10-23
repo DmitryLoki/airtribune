@@ -5,7 +5,7 @@
  * Airtribune visualisation pane plugin.
  *
  * @author Vyacheslav Malchik <info@vkey.biz>
- * @see #3068, #3917.
+ * @see #3068, #3960.
  */
 
 // Plugin definition.
@@ -44,7 +44,11 @@ function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_a
   $data = array(
     'contest' => $contest,
     'race' => $race,
-    'widget' => array('type' => $widget_type),
+    'widget' => array(
+      'type' => $widget_type,
+      'width' => $conf['widget_width'],
+      'height' => $conf['widget_height'],
+    ),
   );
 
   $widget_html = token_replace(check_markup($conf['widget_code']['value'], $conf['widget_code']['format']), $data);
@@ -102,7 +106,7 @@ function airtribune_airtribune_vis_content_type_edit_form($form, &$form_state) {
     '#max' => 1200,
     '#step' => 5,
     '#field_suffix' => 'px',
-    '#default_value' => !empty($conf['widget_height']) ? $conf['widget_height'] : '',
+    '#default_value' => !empty($conf['widget_height']) ? $conf['widget_height'] : 380,
   );
 
   $form['widget_width'] = array(
@@ -112,7 +116,7 @@ function airtribune_airtribune_vis_content_type_edit_form($form, &$form_state) {
     '#max' => 1800,
     '#step' => 5,
     '#field_suffix' => 'px',
-    '#default_value' => !empty($conf['widget_width']) ? $conf['widget_width'] : '',
+    '#default_value' => !empty($conf['widget_width']) ? $conf['widget_width'] : 940,
   );
   return $form;
 }
