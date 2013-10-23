@@ -318,6 +318,10 @@ function airtribune_token_info() {
  * Implements hook_tokens().
  */
 function airtribune_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  dpm($type);
+  dpm($tokens);
+  dpm($data);
+  dpm($options);
   $replacements = array();
   if ($type == 'node' && !empty($data['node'])) {
     if (isset($tokens['event-dates'])) {
