@@ -380,11 +380,11 @@ function organic_groups_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          1 => 'Waiting list',
-          2 => 'Waiting for payment',
-          3 => 'Payment in progress',
-          4 => 'Confirmed',
-          5 => 'Wind dummy',
+          10 => 'Waiting list',
+          20 => 'Waiting for payment',
+          30 => 'Payment in progress',
+          40 => 'Wind dummy',
+          50 => 'Confirmed',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
@@ -1213,11 +1213,11 @@ function organic_groups_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          1 => 'Waiting list',
-          2 => 'Waiting for payment',
-          3 => 'Payment in progress',
-          4 => 'Confirmed',
-          5 => 'Wind dummy',
+          10 => 'Waiting list',
+          20 => 'Waiting for payment',
+          30 => 'Payment in progress',
+          40 => 'Wind dummy',
+          50 => 'Confirmed',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,

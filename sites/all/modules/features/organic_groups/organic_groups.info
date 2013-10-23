@@ -1,5 +1,6 @@
 name = Organic groups
 description = All that relates to og settings
+version = "7.x-1.0"
 core = 7.x
 package = Other
 php = 5.2.4

@@ -7498,7 +7498,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
-    4 => '4',
+    50 => '50',
   );
 
   /* Display: Standard */

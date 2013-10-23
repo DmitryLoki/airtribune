@@ -1210,10 +1210,11 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
-    1 => '1',
-    2 => '2',
-    3 => '3',
-    4 => '4',
+    10 => '10',
+    20 => '20',
+    30 => '30',
+    40 => '40',
+    50 => '50',
   );
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator_id'] = 'field_pg_contestant_status_value_op';
@@ -1229,16 +1230,17 @@ function at_core_sync_views_default_views() {
       'title' => 'Confirmed',
       'operator' => 'or',
       'value' => array(
-        4 => '4',
+        50 => '50',
       ),
     ),
     2 => array(
       'title' => 'Not confirmed',
       'operator' => 'or',
       'value' => array(
-        1 => '1',
-        2 => '2',
-        3 => '3',
+        10 => '10',
+        20 => '20',
+        30 => '30',
+        40 => '40',
       ),
     ),
   );
@@ -1301,7 +1303,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
-    4 => '4',
+    50 => '50',
   );
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['operator_id'] = 'field_pg_contestant_status_value_op';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['expose']['label'] = 'Payment status';
@@ -1324,16 +1326,17 @@ function at_core_sync_views_default_views() {
       'title' => 'Confirmed',
       'operator' => 'or',
       'value' => array(
-        4 => '4',
+        50 => '50',
       ),
     ),
     2 => array(
       'title' => 'Not confirmed',
       'operator' => 'or',
       'value' => array(
-        1 => '1',
-        2 => '2',
-        3 => '3',
+        10 => '10',
+        20 => '20',
+        30 => '30',
+        40 => '40',
       ),
     ),
   );

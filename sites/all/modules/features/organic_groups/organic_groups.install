@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Update payment status field
+ * @see #3959
+ */
+function organic_groups_update_7000(&$sandbox) {
+  // Now we use 40 => 'Wind dummy', 50 => 'Confirmed', but we need to save old 'Confirmed' values.
+  db_update('field_data_field_pg_contestant_status')
+  ->condition('field_pg_contestant_status_value', 4)
+  ->fields(array('field_pg_contestant_status_value' => 5))
+  ->execute();
+  db_update('field_revision_field_pg_contestant_status')
+    ->condition('field_pg_contestant_status_value', 4)
+    ->fields(array('field_pg_contestant_status_value' => 5))
+    ->execute();
+  // Multiply each on 10, to have reserve for new values.
+  db_update('field_data_field_pg_contestant_status')
+    ->expression('field_pg_contestant_status_value', 'field_pg_contestant_status_value * 10')
+    ->execute();
+  db_update('field_revision_field_pg_contestant_status')
+    ->expression('field_pg_contestant_status_value', 'field_pg_contestant_status_value * 10')
+    ->execute();
+}
