@@ -149,7 +149,7 @@ function cde_form_anonymous($nid) {
       '#submits' => array(
         'register' => array(
           '#type' => 'submit',
-          '#value' => t('Multiform register'),
+          '#value' => t('Register'),
         ),
       ),
     ),
@@ -380,7 +380,7 @@ function cde_form_authorized($nid) {
       '#submits' => array(
         'register' => array(
           '#type' => 'submit',
-          '#value' => t('Multiform register'),
+          '#value' => t('Register'),
         ),
       ),
     ),
@@ -821,10 +821,20 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   if (!$multiform) {
     cde_tmp_clean_new_rules($new_rules);
     
+    if (isset($rules['profile_main[field_birthdate][und][0][value]'])) {
+      $additional_rules = array(
+        'profile_main[field_birthdate][und][0][value][month]' => $new_rules['profile_main[field_birthdate][und][0][value][month]'],
+        'profile_main[field_birthdate][und][0][value][year]' => $new_rules['profile_main[field_birthdate][und][0][value][year]'],
+        'profile_main[field_birthdate][und][0][value][day]' => $new_rules['profile_main[field_birthdate][und][0][value][day]'],
+      );
+    }
+
     // First find array_intersect to add rules for existing components only.
     $new_rules = array_intersect_key($new_rules, $rules);
     // Add or override rules.
     $rules = array_merge_recursive_distinct($rules, $new_rules);
+
+    $rules += $additional_rules;
   }
   else {
     if (empty($multiform_rules)) {
