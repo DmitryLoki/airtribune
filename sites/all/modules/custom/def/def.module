@@ -100,7 +100,8 @@ function def_ajax_tmp($form, $form_state) {
   //~ $commands[] = ajax_command_alert($text);
   //~ return $commands;
   
-  
+  // Store $_SESSION['messages'] state to restore afterwards.
+  $orig_session_msgs = isset($_SESSION['messages']) ? $_SESSION['messages'] : NULL;
   
   // TODO: rename variable ?
   $target_element_element = def_target_element($form, $form_state);
@@ -128,6 +129,11 @@ function def_ajax_tmp($form, $form_state) {
     '#type' => 'ajax',
     '#commands' => $commands,
   );
+  
+  // Restore $_SESSION['messages'] into its original state,
+  // since we don't need to display any validation messages (i.e. store them in $_SESSION).
+  // See drupal_set_message($message, 'error') in form_set_error() called by form_get_errors().
+  $_SESSION['messages'] = $orig_session_msgs;
   
   return $result;
 }
