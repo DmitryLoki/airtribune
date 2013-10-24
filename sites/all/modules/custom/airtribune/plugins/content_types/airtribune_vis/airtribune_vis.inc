@@ -38,23 +38,21 @@ function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_a
 
   $widget_type = isset($conf['widget_type']) ? $conf['widget_type'] : NULL;
   if (isset($widget_type) && $widget_type == '_none') {
-    $widget_type = $panel_args[1] ? $panel_args[1] : '2d';
+    $widget_type = isset($panel_args[1]) ? $panel_args[1] : '2d';
   }
 
   $data = array(
-    'contest' => $contest,
-    'race' => $race,
-    'widget' => array(
-      'type' => $widget_type,
-      'width' => $conf['widget_width'],
-      'height' => $conf['widget_height'],
-    ),
+    'contest' => $context_contest->data,
+    'race' => $context_race->data,
+    'widget_type' => $widget_type,
+    'widget_width' => $conf['widget_width'],
+    'widget_height' => $conf['widget_height'],
   );
 
-  $widget_html = token_replace(check_markup($conf['widget_code']['value'], $conf['widget_code']['format']), $data);
+  $widget_html = check_markup(token_replace($conf['widget_code']['value'], $data), $conf['widget_code']['format']);
 
   $content['widget']['#markup'] = $widget_html;
-  $content['#attached']['css'] = array($plugin_path . '/airtribune_player.css');
+  $content['#attached']['css'] = array($plugin_path . '/airtribune_vis.css');
   $content['#attributes'] = array('id' => drupal_html_id('airtribune-vis'));
   $content['#theme_wrappers'] = array('container');
 

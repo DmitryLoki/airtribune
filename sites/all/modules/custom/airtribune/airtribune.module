@@ -314,15 +314,19 @@ function airtribune_token_info() {
     'name' => t('Airtribune tokens'),
     'description' => t('Tokens related to the Airtribune.'),
   );
-  $info['tokens']['airtribune']['core-id-race'] = array(
+  $info['tokens']['airtribune']['race-core-id'] = array(
     'name' => t('Core ID: Race'),
     'description' => t('Race ID in Core.'),
   );
-  $info['tokens']['airtribune']['core-id-contest'] = array(
+  $info['tokens']['airtribune']['race-online]'] = array(
+    'name' => t('Race state'),
+    'description' => t('Race state (online/replay/awaiting).'),
+  );
+  $info['tokens']['airtribune']['contest-core-id'] = array(
     'name' => t('Core ID: Contest'),
     'description' => t('Contest ID in Core.'),
   );
-  $info['tokens']['airtribune']['url-contest'] = array(
+  $info['tokens']['airtribune']['contest-url'] = array(
     'name' => t('URL: Contest'),
     'description' => t('Main URL for Contest page.'),
   );
@@ -345,8 +349,6 @@ function airtribune_token_info() {
  * Implements hook_tokens().
  */
 function airtribune_tokens($type, $tokens, array $data = array(), array $options = array()) {
-  global $base_url;
-
   $replacements = array();
   if ($type == 'node' && !empty($data['node'])) {
     if (isset($tokens['event-dates'])) {
@@ -367,6 +369,8 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   }
 
   // Add tokens for Core API
+  // @author Vyacheslav Malchik <info@vkey.biz>
+  // @todo Returns an array of after clearing the cache for an unknown reason
   if (module_exists('at_core_sync')) {
     $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
     $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
@@ -377,18 +381,24 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   // @see #3960
   if ($type == 'airtribune') {
     if (!empty($data['race'])) {
-      $replacements['[airtribune:core-id-race]'] = get_id_from_entity('ent_race', $data['race']);
+      $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
       $replacements['[airtribune:race-online]'] = _airtribune_pg_race_online_state($data['race']->id);
+    } else {
+      $replacements['[airtribune:race-core-id]'] = 'NONE';
+      $replacements['[airtribune:race-online]'] = 'NONE';
     }
+
     if (!empty($data['contest'])) {
-      $replacements['[airtribune:url-contest]'] = $base_url . url('event/' . $data['contest']->nid);
-      $replacements['[airtribune:core-id-contest]'] = get_id_from_entity('node', $data['contest']);
+      $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
+      $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
+    } else {
+      $replacements['[airtribune:contest-url]'] = 'NONE';
+      $replacements['[airtribune:contest-core-id]'] = 'NONE';
     }
-    if (!empty($data['widget']['type'])) {
-      $replacements['[airtribune:widget-map]'] = $data['widget']['type'];
-      $replacements['[airtribune:widget-width]'] = $data['widget']['width'];
-      $replacements['[airtribune:widget-height]'] = $data['widget']['height'];
-    }
+
+    $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
+    $replacements['[airtribune:widget-width]'] = isset($data['widget_width']) ? $data['widget_width'] : '940px';
+    $replacements['[airtribune:widget-height]'] = isset($data['widget_height']) ? $data['widget_height'] : '380px';
   }
 
   return $replacements;
