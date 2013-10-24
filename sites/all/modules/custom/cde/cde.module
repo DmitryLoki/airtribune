@@ -12,12 +12,11 @@ function cde_menu() {
   );
   
   $items['event/%node/register'] = array(
-   'title' => 'CDE Test', 
+    'title' => 'Registration',
     'page callback' => 'cde_test2',
     'page arguments' => array(1),
     'access callback' => 'cde_access',
     'access arguments' => array(1),
-    'title' => 'Registration',
     //'file' => 'abc.tmp.inc',
   );
   return $items;
@@ -97,6 +96,9 @@ function cde_form_anonymous($nid) {
   // TODO: Included file should be overriden in case of custom callback.
   // See def comment in def_ajax_defaults().
   drupal_add_js(drupal_get_path('module', 'cde') .'/js/cde.js', 'file');
+
+  $node = node_load($nid);
+  $form_title = $node->title;
   
   $profile2_init_data = cde_profile_form_init_data();
   //dsm($profile2_init_data);
@@ -154,6 +156,7 @@ function cde_form_anonymous($nid) {
       ),
     ),
     
+    '#title' => $form_title,
     '#redirect_path' => 'event/' . $nid,
   );
   
@@ -344,7 +347,10 @@ function cde_form_authorized($nid) {
   // TODO: Included file should be overriden in case of custom callback.
   // See def comment in def_ajax_defaults().
   drupal_add_js(drupal_get_path('module', 'cde') .'/js/cde.js', 'file');
-  
+
+  $node = node_load($nid);
+  $form_title = $node->title;
+
   $profile2_init_data = cde_profile_form_init_data_authorized();
   
   $settings = array(
@@ -385,6 +391,7 @@ function cde_form_authorized($nid) {
       ),
     ),
     
+    '#title' => $form_title,
     '#redirect_path' => 'event/' . $nid,
   );
   
