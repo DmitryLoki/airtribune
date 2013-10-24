@@ -649,6 +649,12 @@ function cde_ajax_render_alter(&$commands) {
   
   foreach ($commands as $k => $command) {
     if (isset($command['settings']['clientsideValidation']['forms'])) {
+      
+      // TODO: Fix
+      // Do not add any settings on ajax requests
+      unset($commands[$k]);
+      return;
+      
       $forms =& $command['settings']['clientsideValidation']['forms'];
       
       // TODO: Check for specific ids
