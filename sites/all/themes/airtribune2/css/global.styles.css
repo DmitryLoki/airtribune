@@ -3430,8 +3430,8 @@ html.fb_view { overflow: auto;}
 
 .solutions_retrieve .examples { position: relative; padding-top: 66px; padding-bottom: 57px; margin-bottom: 66px;}
 .solutions_retrieve .examples img { vertical-align: middle;}
-.solutions_retrieve .examples .pilots_table { position: absolute; bottom: 0; right: 0; height: 13px; width: 472px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -288px; display: block;}
-.solutions_retrieve .examples .pilots_table span { display: block; width: 380px; height: 253px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -35px; margin: -253px auto 0;}
+.solutions_retrieve .examples .pilots_table { position: absolute; bottom: 0; right: -7px; height: 13px; width: 472px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -254px; display: block;}
+.solutions_retrieve .examples .pilots_table span { display: block; width: 380px; height: 253px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -1px; margin: -253px auto 0;}
 .solutions_retrieve .apps { padding-top: 92px; background: url(../images/retrieve_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 146px;}
 .solutions_retrieve .apps_phone { position: absolute; width: 194px; height: 424px; overflow: hidden; top: -14px; left: 381px;
 
