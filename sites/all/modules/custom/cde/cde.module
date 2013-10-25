@@ -13,11 +13,13 @@ function cde_menu() {
   );
   
   $items['event/%node/register'] = array(
+    'type' => MENU_LOCAL_TASK,
     'title' => 'Registration',
     'page callback' => 'cde_page_callback',
     'page arguments' => array(1),
     'access callback' => 'cde_access',
     'access arguments' => array(1),
+    'weight' => 50,
     //'file' => 'abc.tmp.inc',
   );
   return $items;
