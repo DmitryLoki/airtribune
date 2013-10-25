@@ -976,11 +976,7 @@ function airtribune_entity_delete($entity, $type) {
  * Implements hook_init().
  */
 function airtribune_init() {
-  $args = array(
-    'play',
-    'retrieve',
-    'points',
-  );
+  $args = _at_get_vis_pages();
   // Disable admin menu on visualisation page
   if (in_array(arg(0), $args) && is_numeric(arg(1))) {
     module_invoke('admin_menu', 'suppress');
@@ -1227,16 +1223,26 @@ function airtribune_how_time_after_event_start($node, $granularity = 'day') {
 }
 
 /**
- * Implements hook_css_alter.
- * Kills all drupal css on external js-pages.
+ * Function return an array of first arguments for pages with visualization
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @return array
  */
-function airtribune_css_alter(&$css) {
+function _at_get_vis_pages() {
   $args = array(
     'play',
     'retrieve',
     'points',
   );
-  if (in_array(arg(0), $args) && is_numeric(arg(1))) {
+  return $args;
+}
+
+/**
+ * Implements hook_css_alter.
+ * Kills all drupal css on external js-pages.
+ */
+function airtribune_css_alter(&$css) {
+  $args = _at_get_vis_pages();
+  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
   }
 }
@@ -1258,6 +1264,12 @@ function airtribune_js_alter(&$javascript) {
   $accodion_js = 'sites/all/modules/contrib/views_accordion/views-accordion.js';
   if (isset($javascript[$accodion_js])) {
     $javascript[$accodion_js]['data'] = drupal_get_path('module', 'airtribune') . '/js/views-accordion.js';
+  }
+
+  // Kill all js on visualization pages
+  $args = _at_get_vis_pages();
+  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
+    unset($javascript);
   }
 }
 
