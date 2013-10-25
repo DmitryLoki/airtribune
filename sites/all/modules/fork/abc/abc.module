@@ -7,6 +7,9 @@ define('DEFAULT_MULTIFORM_ID', 'multiform');
 // TODO: Check case when $form_state['rebuild'] == TRUE for a subform
 // What if submits map's values are the same?
 
+// TODO: Remove empty 'actions' wrapper for submit map, i.e. in case there is only one
+// submit in subform's actions and it's mapped (hidden).
+
 function abc_menu() {
   $items['abc/test'] = array(
    'title' => 'ABC Test', 

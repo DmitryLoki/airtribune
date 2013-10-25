@@ -2,6 +2,7 @@
 
 // TODO: Move common generic plugins alter into def submodule (def_extra).
 
+// TODO: Remove after tests finished.
 function cde_menu() {
   $items['cde/test/%'] = array(
    'title' => 'CDE Test', 
@@ -13,7 +14,7 @@ function cde_menu() {
   
   $items['event/%node/register'] = array(
     'title' => 'Registration',
-    'page callback' => 'cde_test2',
+    'page callback' => 'cde_page_callback',
     'page arguments' => array(1),
     'access callback' => 'cde_access',
     'access arguments' => array(1),
@@ -22,11 +23,16 @@ function cde_menu() {
   return $items;
 }
 
-function cde_test2($node) {
+function cde_page_callback($node) {
+  global $user;
+  
   $nid = $node->nid;
-  return cde_test($nid, FALSE);
+  
+  $form = $user->uid ? cde_form_authorized($nid) : cde_form_anonymous($nid);
+  return $form;
 }
 
+// TODO: Remove after tests finished.
 function cde_test($nid, $default_nid = TRUE) {
   global $user;
   
@@ -209,7 +215,11 @@ function cde_mail_validate($element, &$form_state) {
 }
 
 
-// TODO: Remove if not needed.
+/**
+ * Implements hook_field_widget_form_alter().
+ * 
+ * Minor changes for widget form elements.
+ */
 function cde_field_widget_form_alter(&$element, &$form_state, $context) {
   cde_alter_widgets($element, $form_state, $context);
 }
@@ -971,25 +981,18 @@ function array_recursive_unset(&$array, $unset_rules) {
  */
 function cde_alter_widgets(&$element, &$form_state, $context) {
   // TODO: Move to a single function.
-  // Change field_t_shirt_size default select option name.
-  if ($element['#field_name'] == 'field_t_shirt_size') {
-    $element['#after_build'][] = '_t_shirt_size_after_build';
-  }
-  // Change field_blood_type default select option name.
-  if ($element['#field_name'] == 'field_blood_type') {
-    $element['#after_build'][] = '_blood_type_after_build';
-  }
-  // Change field_address default select option name.
-  if ($element['#field_name'] == 'field_address') {
-    $element['#after_build'][] = '_address_after_build';
-  }
-  // Change field_birthdate components order.
-  if ($element['#field_name'] == 'field_birthdate') {
-    $element['#after_build'][] = '_birthdate_after_build';
-  }
-  // Change field_full_name components description.
-  if ($element['#field_name'] == 'field_full_name') {
-    $element['#after_build'][] = '_full_name_after_build';
+  if (isset($element['#field_name'])) {
+    $after_builds = array(
+      'field_t_shirt_size' => '_t_shirt_size_after_build',  // Change field_t_shirt_size default select option name.
+      'field_blood_type' => '_blood_type_after_build',      // Change field_blood_type default select option name.
+      'field_address' => '_address_after_build',            // Change field_address default select option name.
+      'field_birthdate' => '_birthdate_after_build',        // Change field_birthdate components order.
+      'field_full_name' => '_full_name_after_build',        // Change field_full_name components description.
+    );
+    
+    if (in_array($element['#field_name'], array_keys($after_builds))) {
+      $element['#after_build'][] = $after_builds[$element['#field_name']];
+    }
   }
 }
 
@@ -1039,9 +1042,34 @@ function _address_after_build($element, $form_state) {
  * After build for field_birthdate field widget.
  */
 function _birthdate_after_build($element, $form_state) {
-  //dsm($element);
   $element['value']['month']['#weight'] = 1;
   $element['value']['day']['#weight'] = 0;
+  
+  $element['value']['year']['#options'][''] = t('Year');
+  $element['value']['month']['#options'][''] = t('Month');
+  $element['value']['day']['#options'][''] = t('Day');
+  $element['value']['month']['#options'] = array_replace(
+    $element['value']['month']['#options'],
+    array(
+      1 => t('January'),
+      2 => t('February'),
+      3 => t('March'),
+      4 => t('April'),
+      5 => t('May'),
+      6 => t('June'),
+      7 => t('July'),
+      8 => t('August'),
+      9 => t('September'),
+      10 => t('October'),
+      11 => t('November'),
+      12 => t('December'),
+    )
+  );
+  
+  if ($element['#required']) {
+    $element['#title'] .= " " . theme('form_required_marker');
+  }
+  
   return $element;
 }
 
@@ -1051,9 +1079,25 @@ function _birthdate_after_build($element, $form_state) {
 function _full_name_after_build($element, $form_state) {
   $element['given']['#description'] = t('Your name in English transcription.');
   $element['family']['#description'] = t('Your surname in English transcription.');
+  
+  // Add asterisk for name components before rendering.
+  // Could be also moved into corresponding templates.
+  foreach ($element['#components'] as $k => $component) {
+    if (empty($component['#exclude'])) {
+      $element[$k]['#pre_render'][] = '_full_name_pre_render';
+    }
+  }
+  
   return $element;
 }
 
+/**
+ * Add #required asterisk to name field components.
+ */
+function _full_name_pre_render($element) {
+  $element['#required'] = TRUE;
+  return $element;
+}
 
 
 
