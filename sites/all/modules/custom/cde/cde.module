@@ -12,12 +12,11 @@ function cde_menu() {
   );
   
   $items['event/%node/register'] = array(
-   'title' => 'CDE Test', 
+    'title' => 'Registration',
     'page callback' => 'cde_test2',
     'page arguments' => array(1),
     'access callback' => 'cde_access',
     'access arguments' => array(1),
-    'title' => 'Registration',
     //'file' => 'abc.tmp.inc',
   );
   return $items;
@@ -97,6 +96,9 @@ function cde_form_anonymous($nid) {
   // TODO: Included file should be overriden in case of custom callback.
   // See def comment in def_ajax_defaults().
   drupal_add_js(drupal_get_path('module', 'cde') .'/js/cde.js', 'file');
+
+  $node = node_load($nid);
+  $form_title = $node->title;
   
   $profile2_init_data = cde_profile_form_init_data();
   //dsm($profile2_init_data);
@@ -149,11 +151,12 @@ function cde_form_anonymous($nid) {
       '#submits' => array(
         'register' => array(
           '#type' => 'submit',
-          '#value' => t('Multiform register'),
+          '#value' => t('Register'),
         ),
       ),
     ),
     
+    '#title' => $form_title,
     '#redirect_path' => 'event/' . $nid,
   );
   
@@ -344,7 +347,10 @@ function cde_form_authorized($nid) {
   // TODO: Included file should be overriden in case of custom callback.
   // See def comment in def_ajax_defaults().
   drupal_add_js(drupal_get_path('module', 'cde') .'/js/cde.js', 'file');
-  
+
+  $node = node_load($nid);
+  $form_title = $node->title;
+
   $profile2_init_data = cde_profile_form_init_data_authorized();
   
   $settings = array(
@@ -380,11 +386,12 @@ function cde_form_authorized($nid) {
       '#submits' => array(
         'register' => array(
           '#type' => 'submit',
-          '#value' => t('Multiform register'),
+          '#value' => t('Register'),
         ),
       ),
     ),
     
+    '#title' => $form_title,
     '#redirect_path' => 'event/' . $nid,
   );
   
@@ -642,6 +649,12 @@ function cde_ajax_render_alter(&$commands) {
   
   foreach ($commands as $k => $command) {
     if (isset($command['settings']['clientsideValidation']['forms'])) {
+      
+      // TODO: Fix
+      // Do not add any settings on ajax requests
+      unset($commands[$k]);
+      return;
+      
       $forms =& $command['settings']['clientsideValidation']['forms'];
       
       // TODO: Check for specific ids
@@ -703,6 +716,7 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   $english_only_message = t('This field may contain only English letters.');
   
   static $multiform_rules = NULL;
+  static $multiform_unset_rules = NULL;
   
   // TODO: Remove 'form_id' key
   // TODO: profile_main has a differrent multiform form_id for authenticated users.
@@ -800,38 +814,62 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   $unset_rules = array(
     'profile_pilot[field_address][und][0][postal_code]' => array(
       'regexMatch',
+      'form_id' => 'profile2_edit_pilot_form',
     ),
     'profile_pilot[field_address][und][0][country]' => array(
-      'regexMatch',
+      'regexMatch' => 'regexMatch',
     ),
     
     //Phone number select
-    'profile_pilot[field_phone][und][0][country_codes]',
-    'profile_pilot[field_person_phone][und][0][country_codes]',
+    'profile_pilot[field_phone][und][0][country_codes]' => array(
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    'profile_pilot[field_person_phone][und][0][country_codes]' => array(
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
   );
   
-  
+  // We don't use unset rules for !multiform because there are those fields.
   
   if (!$multiform) {
     cde_tmp_clean_new_rules($new_rules);
     
+    if (isset($rules['profile_main[field_birthdate][und][0][value]'])) {
+      $additional_rules = array(
+        'profile_main[field_birthdate][und][0][value][month]' => $new_rules['profile_main[field_birthdate][und][0][value][month]'],
+        'profile_main[field_birthdate][und][0][value][year]' => $new_rules['profile_main[field_birthdate][und][0][value][year]'],
+        'profile_main[field_birthdate][und][0][value][day]' => $new_rules['profile_main[field_birthdate][und][0][value][day]'],
+      );
+    }
+
     // First find array_intersect to add rules for existing components only.
     $new_rules = array_intersect_key($new_rules, $rules);
     // Add or override rules.
     $rules = array_merge_recursive_distinct($rules, $new_rules);
+
+    $rules += $additional_rules;
   }
   else {
     if (empty($multiform_rules)) {
       cde_tmp_new_rules_multiform_keys($new_rules);
       cde_tmp_clean_new_rules($new_rules);
+      
+      cde_tmp_new_rules_multiform_keys($unset_rules);
+      cde_tmp_clean_new_rules($unset_rules);
+      
       $multiform_rules = $new_rules;
+      
+      $multiform_unset_rules = $unset_rules;
     }
     else {
       $new_rules = $multiform_rules;
+      $unset_rules = $multiform_unset_rules;
     }
     //~ dsm($new_rules);
     //~ $new_rules = array_intersect_key($new_rules, $rules);
     $rules = array_merge_recursive_distinct($rules, $new_rules);
+    
+    array_recursive_unset($rules, $unset_rules);
   }
   //~ dsm($rules);
 }
@@ -878,7 +916,27 @@ function array_merge_recursive_distinct (&$array1, &$array2) {
   return $merged;
 }
 
+function recursive_unset(&$array, $unwanted_key) {
+    unset($array[$unwanted_key]);
+    foreach ($array as &$value) {
+        if (is_array($value)) {
+            recursive_unset($value, $unwanted_key);
+        }
+    }
+}
 
+function array_recursive_unset(&$array, $unset_rules) {
+  foreach ($unset_rules as $k1 => $rules) {
+    if (empty($rules)) {
+      unset($array[$k1]);
+    }
+    else {
+      foreach ($rules as $k2) {
+        unset($array[$k1][$k2]);
+      }
+    }
+  }
+}
 
 
 

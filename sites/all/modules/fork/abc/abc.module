@@ -261,6 +261,10 @@ function abc_get_form($settings) {
     drupal_goto($settings['#redirect_path']);
   }
   
+  if (isset($settings['#title'])) {
+    drupal_set_title($settings['#title']);
+  }
+
   return $form;
 }
 
