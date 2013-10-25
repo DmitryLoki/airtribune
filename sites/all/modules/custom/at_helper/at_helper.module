@@ -13,17 +13,6 @@ define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
 define('MAIN_PROFILE_TYPE', 'main');
 define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
 
-/**
- * Implements hook_menu_alter().
- */
-function at_helper_menu_alter(&$items) {
-  $items['user/login']['title'] = 'Sign in';
-  $items['user/register']['title'] = 'Register new user';
-
-  $items['user/register']['weight'] = 0;
-  $items['user/login']['weight'] = 1;
-  $items['user/password']['weight'] = 2;
-}
 
 /**
  * Implements hook_menu_local_tasks_alter().
@@ -212,53 +201,10 @@ function at_helper_node_delete($node) {
 }
 
 
-// =================================================
-// User Registration
-// =================================================
-
 /**
- * Implements hook_node_delete().
- */
-function at_helper_form_alter(&$form, &$form_state, $form_id) {
-  switch ($form_id) {
-    case 'user_register_form' :
-      $form['actions']['submit']['#value'] = t('Register');
-      $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
-
-      break;
-    case 'user_profile_form' :
-      $form['account']['pass']['#after_build'][] = '_at_helper_user_register_form_after_build';
-      break;
-    case 'user_pass' :
-      $form['actions']['submit']['#value'] = t('Request new password');
-      break;
-    case 'user_login' :
-      $form['actions']['submit']['#value'] = t('Sign in');
-      break;
-  }
-}
-
-/**
- * Password element #after_build.
- */
-function _at_helper_user_register_form_after_build($element, $form_state) {
-  $element['#attached']['js'][1]['data']['password']['confirmSuccess'] = t('Passwords match.');
-  $element['#attached']['js'][1]['data']['password']['confirmFailure'] = t('Passwords do not match.');
-  $element['#attached']['js'][1]['data']['password']['easyToGuess'] = t('This password is too simple and easy to guess.');
-
-  $element['#attached']['js'][1]['data']['password']['weak'] = t('Weak password.');
-  $element['#attached']['js'][1]['data']['password']['fair'] = t('Fair password.');
-  $element['#attached']['js'][1]['data']['password']['good'] = t('Good password.');
-  $element['#attached']['js'][1]['data']['password']['strong'] = t('Strong password.');
-  $element['#attached']['js'][1]['data']['password']['required'] = t('Password is required.');
-  $element['pass1']['#description'] = t('Minimum 6 characters.');
-  $element['pass2']['#description'] = t('Type a new password in both fields.');
-  unset($element['#description']);
-  return $element;
-}
-
-/**
- * Alter Name field widget
+ * Implements hook_field_widget_form_alter().
+ * 
+ * Alter Start/Finish and Open/Close Event fields' labels
  */
 function at_helper_field_widget_form_alter(&$element, &$form_state, $context) {
   if (!empty($element['#field_name'])) {
@@ -347,21 +293,6 @@ function at_helper_preprocess_colorbox_image_formatter(&$variables) {
   }
 }
 
-
-/**
- * Implements hook_page_manager_contexts_alter()
- *
- * Add node context for event/[nid]/register page
- */
-function at_helper_page_manager_contexts_alter(&$contexts, $placeholders) {
-  if (arg(0) == 'event' && arg(2) == 'register') {
-    $raw_node = node_load(arg(1));
-    if ($raw_node->nid) {
-      $node = ctools_context_create('node', $raw_node);
-      panels_everywhere_site_template_add_context($contexts, $node, t('Node being viewed'), 'node', 'node');
-    }
-  }
-}
 
 /**
  * Implements hook_ctools_plugin_directory().

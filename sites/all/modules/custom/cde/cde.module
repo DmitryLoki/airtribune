@@ -25,6 +25,18 @@ function cde_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_menu_alter().
+ */
+function cde_menu_alter(&$items) {
+  $items['user/login']['title'] = 'Sign in';
+  $items['user/register']['title'] = 'Register new user';
+
+  $items['user/register']['weight'] = 0;
+  $items['user/login']['weight'] = 1;
+  $items['user/password']['weight'] = 2;
+}
+
 function cde_page_callback($node) {
   global $user;
   
@@ -187,7 +199,43 @@ function cde_form_alter(&$form, &$form_state, $form_id) {
       break;
   }
   
+  switch ($form_id) {
+    case 'user_register_form' :
+      $form['actions']['submit']['#value'] = t('Register');
+      $form['account']['pass']['#after_build'][] = '_cde_user_register_form_after_build';
+
+      break;
+    case 'user_profile_form' :
+      $form['account']['pass']['#after_build'][] = '_cde_user_register_form_after_build';
+      break;
+    case 'user_pass' :
+      $form['actions']['submit']['#value'] = t('Request new password');
+      break;
+    case 'user_login' :
+      $form['actions']['submit']['#value'] = t('Sign in');
+      break;
+  }
+  
   def_add_generic_elements($form_state, $def_generic_elements);
+}
+
+/**
+ * Password element #after_build.
+ */
+function _cde_user_register_form_after_build($element, $form_state) {
+  $element['#attached']['js'][1]['data']['password']['confirmSuccess'] = t('Passwords match.');
+  $element['#attached']['js'][1]['data']['password']['confirmFailure'] = t('Passwords do not match.');
+  $element['#attached']['js'][1]['data']['password']['easyToGuess'] = t('This password is too simple and easy to guess.');
+
+  $element['#attached']['js'][1]['data']['password']['weak'] = t('Weak password.');
+  $element['#attached']['js'][1]['data']['password']['fair'] = t('Fair password.');
+  $element['#attached']['js'][1]['data']['password']['good'] = t('Good password.');
+  $element['#attached']['js'][1]['data']['password']['strong'] = t('Strong password.');
+  $element['#attached']['js'][1]['data']['password']['required'] = t('Password is required.');
+  $element['pass1']['#description'] = t('Minimum 6 characters.');
+  $element['pass2']['#description'] = t('Type a new password in both fields.');
+  unset($element['#description']);
+  return $element;
 }
 
 
@@ -565,6 +613,25 @@ function cde_ctools_plugin_directory($module, $plugin) {
   //~ if ($module == 'cde' && $plugin == 'generic') {
     //~ return 'plugins/validators/generic';
   //~ }
+}
+
+// =======================================================
+// Contexts
+// =======================================================
+
+/**
+ * Implements hook_page_manager_contexts_alter()
+ *
+ * Add node context for event/[nid]/register page
+ */
+function cde_page_manager_contexts_alter(&$contexts, $placeholders) {
+  if (arg(0) == 'event' && arg(2) == 'register') {
+    $raw_node = node_load(arg(1));
+    if ($raw_node->nid) {
+      $node = ctools_context_create('node', $raw_node);
+      panels_everywhere_site_template_add_context($contexts, $node, t('Node being viewed'), 'node', 'node');
+    }
+  }
 }
 
 
