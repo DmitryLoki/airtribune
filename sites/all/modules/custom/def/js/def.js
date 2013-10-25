@@ -121,7 +121,7 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
     },
     prepareErrorElement: function (error) {
-      var errorText = error.text(),
+      var errorText = error.html(),
         errorElement = $(Drupal.behaviors.DEFClientValidation.getBooble(errorText));
       errorElement.addClass('error');
       return errorElement;
