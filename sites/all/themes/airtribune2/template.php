@@ -1772,14 +1772,15 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   }
 }
 
-// @see #3796: definition of solutions pages
-
+/**
+ * Definition of solutions pages
+ * @see #3796
+ */
 function is_solutions(){
-
   $path = request_uri();
   $pattern = SOLUTIONS_REGEXT_PATTERN;
   preg_match($pattern, $path, $matches);
-  $part = $matches[0];
+  $part = isset($matches[0]) ? $matches[0] : NULL;
   switch($part) {
     case 'organizers':
     case 'pilots':
