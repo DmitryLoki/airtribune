@@ -624,7 +624,10 @@ function cde_js_alter(&$javascript) {
       
       _cde_rules($subform_setting['rules'], TRUE);
       
-      $rules += $subform_setting['rules'];
+      // TODO: In multiform all settings are summed up to each subform
+      // because they are stored statically in clientside variable (see clientside.module).
+      //~ $rules += $subform_setting['rules'];
+      $rules = $subform_setting['rules'];
     }
     $multiform_setting['rules'] = $rules;
     
@@ -916,14 +919,14 @@ function array_merge_recursive_distinct (&$array1, &$array2) {
   return $merged;
 }
 
-function recursive_unset(&$array, $unwanted_key) {
-    unset($array[$unwanted_key]);
-    foreach ($array as &$value) {
-        if (is_array($value)) {
-            recursive_unset($value, $unwanted_key);
-        }
-    }
-}
+//~ function recursive_unset(&$array, $unwanted_key) {
+    //~ unset($array[$unwanted_key]);
+    //~ foreach ($array as &$value) {
+        //~ if (is_array($value)) {
+            //~ recursive_unset($value, $unwanted_key);
+        //~ }
+    //~ }
+//~ }
 
 function array_recursive_unset(&$array, $unset_rules) {
   foreach ($unset_rules as $k1 => $rules) {
