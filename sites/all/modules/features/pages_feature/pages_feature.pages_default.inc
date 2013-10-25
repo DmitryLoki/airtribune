@@ -6564,17 +6564,33 @@ window.fbAsyncInit = function() {
     $pane = new stdClass();
     $pane->pid = 'new-84';
     $pane->panel = 'middle';
-    $pane->type = 'airtribune_player';
-    $pane->subtype = 'airtribune_player';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:ent_race_1',
+      'widget_code' => array(
+        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
+    <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
+    <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
+    <script data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
+    <div role="main" class="airvis-container">
+      <div class="airvis-loading-container">
+        <div class="airvis-loading">&nbsp;</div>
+      </div>
+    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    </div>',
+        'format' => 'full_html',
+      ),
+      'widget_type' => '_none',
+      'widget_height' => '380',
+      'widget_width' => '940',
+      'context' => array(
+        0 => 'argument_entity_id:ent_race_1',
+        1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
-      'widget_is_preview' => 0,
-      'widgetWidth' => '100%',
-      'widgetHeight' => '300px',
     );
     $pane->cache = array();
     $pane->style = array(
