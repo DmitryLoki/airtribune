@@ -59,11 +59,6 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 (function ($) {
 
   $.fn.checkValidationResult = function (errorText) {
-    //Костыль!!
-    /*if(!this[0] || this.attr('id') == 'edit-profile-main-field-birthdate-und-0-value') {
-     $('#user-register-form').validate().checkAllValid();
-     return;
-     }*/
 
     var form = this.closest('form'),
       validator = form.validate();
@@ -94,6 +89,12 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
       if (!Drupal.myClientsideValidation) {
         validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
       }
+
+      var rules = $(this.element).rules();
+      //add fake rule
+      if($.isEmptyObject(rules)) {
+        $(this.element).rules('add',{'fake-rule':true});
+      }
       var validationResult = validator.element(this.element) !== false;
 
       //ajax validation will not happened
@@ -103,7 +104,7 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
         Drupal.behaviors.DEFClientValidation.myClientsideValidation = Drupal.myClientsideValidation;
         delete Drupal.myClientsideValidation;
       }
-
+      $(this.element).rules('remove', 'fake-rule');
       return validationResult;
     },
     getBooble: function (html) {
@@ -243,6 +244,9 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
           return false;
         });
 
+        $.validator.addMethod("fake-rule", function () {
+          return true;
+        });
       });
 
       $(document).bind('clientsideValidationInitialized', function () {
