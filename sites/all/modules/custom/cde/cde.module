@@ -543,6 +543,7 @@ function cde_profile2_form_preprocess_form_state(&$form_state) {
 
 
 // TODO:
+// TODO: Check for editable_views
 /**
  * Implements hook_def_validation_enabled().
  */
@@ -557,8 +558,18 @@ function cde_def_validation_enabled($element, $form_state) {
 }
 
 // TODO:
+// Here we can disable validation for certain fields.
 function cde_def_validation_enabled_callback($element, $form_state) {
-  return TRUE;
+  
+  $enabled = FALSE;
+  // List of form_ids, for which ajax validation is enabled.
+  $enabled_forms = array('user_register_form', 'og_ui_confirm_subscribe', 'profile2_edit_pilot_form');
+  
+  if (isset($form_state['build_info']['form_id']) && in_array($form_state['build_info']['form_id'], $enabled_forms)) {
+    $enabled = TRUE;
+  }
+  
+  return $enabled;
 }
 
 // TODO:

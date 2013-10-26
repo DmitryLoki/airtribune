@@ -435,21 +435,28 @@ function def_field_widget_form_after_build($element, &$form_state) {
 function def_validation_enabled($element, $form_state, $plugin_type) {
   static $callbacks = NULL;
   
-  if (!isset($callbacks)) {
-    $callbacks = array();
+  $enabled = FALSE;
+  $form_id = $form_state['build_info']['form_id'];
+  
+  if (!isset($callbacks[$form_id])) {
+    $callbacks[$form_id] = array();
     // TODO: Implement hook_def_validation_enabled($element, $form_state)
     $modules = module_implements('def_validation_enabled');
     foreach ($modules as $module) {
       $function = $module . '_def_validation_enabled';
       $callback = $function($element, $form_state);
       if (!empty($callback)) {
-        $callbacks[] = $callback;
+        $callbacks[$form_id][] = $callback;
       }
     }
   }
   
+  if (empty($callbacks[$form_id])) {
+    return $enabled;
+  }
+  
   $enabled = FALSE;
-  foreach ($callbacks as $callback) {
+  foreach ($callbacks[$form_id] as $callback) {
     $enabled = $callback($element, $form_state);
     
     // Only one module that enabled validation is enough.
