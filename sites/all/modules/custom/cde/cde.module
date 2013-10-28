@@ -905,12 +905,12 @@ function _cde_rules(&$rules, $multiform = FALSE) {
     
     // Paraglider manufacturer
     // TODO: This message should be change in field_validation settings instead.
-    'profile_pilot[field_paraglider_manufacturer][und][0][value]' => array(
-      'messages' => array(
-        'regexMatch' => t('This field may contain only Eglish letters and digits.'),
-      ),
-      'form_id' => 'profile2_edit_pilot_form',
-    ),
+    //~ 'profile_pilot[field_paraglider_manufacturer][und][0][value]' => array(
+      //~ 'messages' => array(
+        //~ 'regexMatch' => t('This field may contain only Eglish letters and digits.'),
+      //~ ),
+      //~ 'form_id' => 'profile2_edit_pilot_form',
+    //~ ),
   );
   
   // TODO:
