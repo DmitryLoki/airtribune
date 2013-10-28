@@ -32,7 +32,6 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_hq_location',
     'field_address',
     'field_headquarter_info',
-    'field_registration_sw',
     'field_points_file',
     'field_social_links',
     'field_twitter_widget_code',
@@ -75,49 +74,40 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   );
   $form['field_country']['#weight'] = 0;
   $form['field_flying_site_ref']['#weight'] = 1;
-  $form['field_tiny_path']['#weight'] = 2;
-  $form['field_logo']['#weight'] = 3;
-  $form['field_dates']['#weight'] = 4;
-  $form['field_fai_category']['#weight'] = 5;
-  $form['field_open_class']['#weight'] = 6;
-  //$form['field_fai_category']['#type'] = 'select';
-  /*// Load all available OG membership types & remove from array default OG membership.
-  $all_memberships = at_membership_type_get_types();
-  unset($all_memberships[OG_MEMBERSHIP_TYPE_DEFAULT]);
-  // assign to array, which will be used in select element in form
-  foreach ($all_memberships as $key => $value) {
-    $select_membership[$key] = $value->description;
-  }
-
-  $form['og_membership_select'] = array(
-    '#type' => 'select',
-    '#title' => t('Type'),
-    '#options' => $select_membership,
-    '#default_value' => $og_membership->type,
-    '#weight' => 0,
+  $form['alias'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL address'),
+    '#default_value' => drupal_get_path_alias('event/' . $event->nid),
+    '#weight' => 2,
   );
-
-  // Markup some info about pilot.
-  $membership = $form['#entity'];
-  if ($membership->type == 'pg_contestant' && $membership->entity_type == 'user') {
-    $user = user_load($membership->etid);
-
-    $profile2 = profile2_load_by_user($membership->etid, 'main');
-    $field = field_get_items('profile2', $profile2, 'field_full_name');
-    $name = field_view_value('profile2', $profile2, 'field_full_name', $field[0]);
-
-    $form['og_membership_info'] = array(
-      '#type' => 'markup',
-      '#markup' => '<p><strong>' . render($name) . '</strong> ' . $user->mail . '</p>',
-      '#weight' => -1,
+  $form['field_tiny_path']['#weight'] = 4;
+  $form['field_logo']['#weight'] = 6;
+  $form['field_dates']['#weight'] = 8;
+  $form['field_fai_category']['#weight'] = 10;
+  $form['field_open_class']['#weight'] = 12;
+  if (module_exists('at_points_widget')) {
+    $form['at_points_widget'] = array(
+      '#weight' => 13,
+      '#type' => 'item',
+      '#title' => t('Contest points input widget'),
+      '#markup' => l(t('Edit contest points'), 'points/' . $event->nid, 
+        array('attributes' => array ('target' => '_blank'))),
     );
   }
-
-  $form['og_membership'] = array(
-    '#type' => 'value',
-    '#value' => $og_membership,
-  );*/
-  
+  $form['setting_registration'] = array(
+    '#type' => 'radios',
+    '#title' => t('Registration'),
+    '#options' => array(1 => 'Open', 0 => 'Closed'),
+    '#default_value' => $event->field_registration_sw['und'][0]['value'],
+    '#weight' => 14,
+  );
+  $form['setting_status'] = array(
+    '#type' => 'radios',
+    '#title' => t('Publication settings'),
+    '#options' => array(1 => 'Published', 0 => 'Unpublished'),
+    '#default_value' => $event->status,
+    '#weight' => 16,
+  );
   $form['event'] = array(
     '#type' => 'value',
     '#value' => $event,
@@ -139,33 +129,14 @@ function airtribune_event_settings_form_submit($form, &$form_state) {
   field_attach_submit('node', $event, $form, $form_state);
   drupal_set_message(t('Event settings updated.'));
   $event->title = $values['name'];
+  $event->status = $values['setting_status'];
+  $event->field_registration_sw['und'][0]['value'] = $values['setting_registration'];
+
+  /* Manage URL aliases */
+  $source = 'event/' . $event->nid;
+  path_delete(array('source' => $source));
+  $path = array('source' => $source, 'alias' => $values['alias']);
+  path_save($path);
+
   node_save($event);
-  //drupal_set_message(print_r(array_keys($form), TRUE));
-  /*
-  
-  field_attach_submit('og_membership', $og_membership, $form, $form_state);
-  og_membership_save($og_membership);
-  /*$values = & $form_state['values'];
-
-  $og_membership = $values['og_membership'];
-  // user change membership in form
-  if ($values['og_membership_select'] != $og_membership->type) {
-    // load values from old membership, to use for create new
-    $gid = $og_membership->gid;
-    $etid = $og_membership->etid;
-    $og_membership_values['type'] = $values['og_membership_select'];
-
-    // delete old membership
-    og_membership_delete($og_membership->id);
-    // assign new
-    $og_membership = airtribune_og_membership_create('node', $gid, 'user', $etid, 'og_user_node', $og_membership_values);
-  }
-
-  field_attach_submit('og_membership', $og_membership, $form, $form_state);
-  og_membership_save($og_membership);
-
-  // If user change type of membership, we delete and create new membership,
-  // also we need to change redirect after form submit, using new id.
-  // If membership doesn't updated - user will be redirected on old url.
-  $form_state['redirect'] = 'group-membership/' . $og_membership->id . '/edit';*/
 }
