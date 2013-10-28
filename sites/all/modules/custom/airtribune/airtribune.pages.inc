@@ -63,7 +63,6 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_device_id',
     'field_is_offline',
     'field_flying_info',
-    'field_open_class',
   );
   foreach ($unset_fields as $unset_field) {
     unset($form[$unset_field]);
@@ -74,34 +73,41 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#default_value' => $event->title,
     '#weight' => -1,
   );
+  $form['field_country']['#weight'] = 0;
+  $form['field_flying_site_ref']['#weight'] = 1;
+  $form['alias'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL address'),
+    '#default_value' => drupal_get_path_alias('event/' . $event->nid),
+    '#weight' => 2,
+  );
+  $form['field_tiny_path']['#weight'] = 4;
+  $form['field_logo']['#weight'] = 6;
+  $form['field_dates']['#weight'] = 8;
+  $form['field_fai_category']['#weight'] = 10;
+  $form['field_open_class']['#weight'] = 12;
   if (module_exists('at_points_widget')) {
     $form['at_points_widget'] = array(
-      '#weight' => 6,
+      '#weight' => 13,
       '#type' => 'item',
       '#title' => t('Contest points input widget'),
       '#markup' => l(t('Edit contest points'), 'points/' . $event->nid, 
         array('attributes' => array ('target' => '_blank'))),
     );
   }
-  $form['field_country']['#weight'] = 0;
-  $form['field_flying_site_ref']['#weight'] = 1;
-  $form['field_tiny_path']['#weight'] = 2;
-  $form['field_logo']['#weight'] = 3;
-  $form['field_dates']['#weight'] = 4;
-  $form['field_fai_category']['#weight'] = 5;
   $form['setting_registration'] = array(
     '#type' => 'radios',
     '#title' => t('Registration'),
     '#options' => array(1 => 'Open', 0 => 'Closed'),
     '#default_value' => $event->status,
-    '#weight' => 7,
+    '#weight' => 14,
   );
   $form['setting_status'] = array(
     '#type' => 'radios',
     '#title' => t('Publication settings'),
     '#options' => array(1 => 'Published', 0 => 'Unpublished'),
     '#default_value' => $event->status,
-    '#weight' => 8,
+    '#weight' => 16,
   );
   $form['event'] = array(
     '#type' => 'value',
