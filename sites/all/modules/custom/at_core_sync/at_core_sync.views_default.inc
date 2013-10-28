@@ -1835,11 +1835,11 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
   $handler->display->display_options['footer']['result']['field'] = 'result';
-  /* Field: Tracker: Identifier */
-  $handler->display->display_options['fields']['identifier']['id'] = 'identifier';
-  $handler->display->display_options['fields']['identifier']['table'] = 'eck_ent_tracker';
-  $handler->display->display_options['fields']['identifier']['field'] = 'identifier';
-  $handler->display->display_options['fields']['identifier']['exclude'] = TRUE;
+  /* Field: Field: Device ID */
+  $handler->display->display_options['fields']['field_device_id']['id'] = 'field_device_id';
+  $handler->display->display_options['fields']['field_device_id']['table'] = 'field_data_field_device_id';
+  $handler->display->display_options['fields']['field_device_id']['field'] = 'field_device_id';
+  $handler->display->display_options['fields']['field_device_id']['exclude'] = TRUE;
   /* Field: Bulk operations: Tracker */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'eck_ent_tracker';
@@ -1914,7 +1914,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['label'] = 'Tracker';
   $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[identifier]';
+  $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[field_device_id]';
   /* Field: Field: Core ID */
   $handler->display->display_options['fields']['field_core_id']['id'] = 'field_core_id';
   $handler->display->display_options['fields']['field_core_id']['table'] = 'field_data_field_core_id';
@@ -1945,10 +1945,10 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Status';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]">No data</span>';
-  /* Sort criterion: Tracker: Identifier */
-  $handler->display->display_options['sorts']['identifier']['id'] = 'identifier';
-  $handler->display->display_options['sorts']['identifier']['table'] = 'eck_ent_tracker';
-  $handler->display->display_options['sorts']['identifier']['field'] = 'identifier';
+  /* Sort criterion: Field: Device ID (field_device_id) */
+  $handler->display->display_options['sorts']['field_device_id_value']['id'] = 'field_device_id_value';
+  $handler->display->display_options['sorts']['field_device_id_value']['table'] = 'field_data_field_device_id';
+  $handler->display->display_options['sorts']['field_device_id_value']['field'] = 'field_device_id_value';
   /* Filter criterion: Tracker: ent_tracker type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'eck_ent_tracker';
@@ -1979,10 +1979,10 @@ function at_core_sync_views_default_views() {
     t('<script type="text/javascript" src="/sites/all/modules/custom/airtribune/js/trackers.js"></script>
 <ul class="action-links"><li><a href="/admin/structure/entity-type/ent_tracker/device/add?destination=admin/config/administration/at_manage/tracker">Add tracker</a></li></ul>'),
     t('Displaying @start - @end of @total'),
-    t('Identifier'),
+    t('Device ID'),
     t('#'),
     t('Tracker'),
-    t('[identifier]'),
+    t('[field_device_id]'),
     t('Core Status'),
     t('Name'),
     t('Model'),
