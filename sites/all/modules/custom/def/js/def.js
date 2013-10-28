@@ -329,7 +329,11 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
       });
 
       birthDateComboboxes.bind('change', function () {
-        $(this.form).validate().element(this);
+        var validator = $(this.form).validate();
+        if (!Drupal.myClientsideValidation) {
+          validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
+        }
+        validator.element(this);
       });
 
       //override success function
