@@ -310,7 +310,7 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
       Drupal.clientsideValidation.prototype.setErrorElement = function (error, element) {
         if (element[0].name.indexOf('field_birthdate') > -1 && error.text() != '') {
           var errorElement = Drupal.behaviors.DEFClientValidation.prepareErrorElement(error),
-            container = element.parents('.form-item-profile-main-field-birthdate-und-0-value').children();
+            container = element.closest('.form-type-date-select').children();
           container.find('.error.form_booble').remove();
           container.append(errorElement).addClass('field_error');
           return;
