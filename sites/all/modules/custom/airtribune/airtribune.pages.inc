@@ -32,7 +32,6 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_hq_location',
     'field_address',
     'field_headquarter_info',
-    'field_registration_sw',
     'field_points_file',
     'field_social_links',
     'field_twitter_widget_code',
@@ -99,7 +98,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#type' => 'radios',
     '#title' => t('Registration'),
     '#options' => array(1 => 'Open', 0 => 'Closed'),
-    '#default_value' => $event->status,
+    '#default_value' => $event->field_registration_sw['und'][0]['value'],
     '#weight' => 14,
   );
   $form['setting_status'] = array(
@@ -131,9 +130,13 @@ function airtribune_event_settings_form_submit($form, &$form_state) {
   drupal_set_message(t('Event settings updated.'));
   $event->title = $values['name'];
   $event->status = $values['setting_status'];
+  $event->field_registration_sw['und'][0]['value'] = $values['setting_registration'];
+
+  /* Manage URL aliases */
   $source = 'event/' . $event->nid;
   path_delete(array('source' => $source));
   $path = array('source' => $source, 'alias' => $values['alias']);
   path_save($path);
+
   node_save($event);
 }
