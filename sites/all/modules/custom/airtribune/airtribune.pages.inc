@@ -131,5 +131,9 @@ function airtribune_event_settings_form_submit($form, &$form_state) {
   drupal_set_message(t('Event settings updated.'));
   $event->title = $values['name'];
   $event->status = $values['setting_status'];
+  $source = 'event/' . $event->nid;
+  path_delete(array('source' => $source));
+  $path = array('source' => $source, 'alias' => $values['alias']);
+  path_save($path);
   node_save($event);
 }
