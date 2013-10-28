@@ -73,6 +73,15 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#default_value' => $event->title,
     '#weight' => -1,
   );
+  if (module_exists('at_points_widget')) {
+    $form['at_points_widget'] = array(
+      '#weight' => -1,
+      '#type' => 'item',
+      '#title' => t('Contest points input widget'),
+      '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid, 
+        array('attributes' => array ('target' => '_blank'))),
+    );
+  }
   $form['field_country']['#weight'] = 0;
   $form['field_flying_site_ref']['#weight'] = 1;
   $form['field_tiny_path']['#weight'] = 2;
