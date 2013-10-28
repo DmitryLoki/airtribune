@@ -3451,11 +3451,20 @@ html.fb_view { overflow: auto;}
 }
 
 .solutions_retrieve .feel_free { margin-top: 0; margin-bottom: 2px;}
+.solutions_retrieve .accordeon_inner { padding-left: 22px;}
+.solutions_retrieve .accordeon_inner p:first-child { padding-top: 25px;}
+.solutions_retrieve .accordeon_inner p:last-child { padding-bottom: 41px;}
+
 .solutions_accordeon .how_to_start ul { color: #525d66; margin-left: 30px; margin-bottom: 48px;}
 .solutions_accordeon .how_to_start p { font-size: 18px;}
 .solutions_accordeon .how_to_start p:first-child { padding: 44px 0 28px;}
+.solutions_accordeon .how_to_start p:last-child { padding-bottom: 9px;}
 .solutions_accordeon .how_to_start ul + p {  margin-top: -27px; padding-bottom: 58px;}
 .solutions_accordeon .how_to_start h3 { font-size: 24px; color: #525d66; padding-bottom: 9px;}
+
+.solutions_accordeon .features_items h3 { font-size: 24px; padding: 39px 0 1px;}
+.solutions_accordeon .features_items h3:first-child { padding-top: 45px;}
+.solutions_accordeon .features_items p { padding-left: 19px;}
 
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
