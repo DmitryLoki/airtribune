@@ -812,6 +812,16 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   static $multiform_rules = NULL;
   static $multiform_unset_rules = NULL;
   
+  if (isset($rules)) {
+    foreach ($rules as $k2 => $rule) {
+      if (isset($rule['messages']['required'])) {
+        $rules[$k2]['messages']['required'] = t('This field is required');
+        $rules[$k2]['messages']['blacklist'] = t('This field is required');
+      }
+    }
+  }
+  
+  
   // TODO: Remove 'form_id' key
   // TODO: profile_main has a differrent multiform form_id for authenticated users.
   $new_rules = array(
