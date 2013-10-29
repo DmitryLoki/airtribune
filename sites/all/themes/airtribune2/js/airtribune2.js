@@ -117,7 +117,9 @@ jQuery(function ($) {
       link.html(stubHtml);
     })
     .bind('mouseleave', function (e) {
-      link.text(defaultText);
+      setTimeout(function(){
+        link.text(defaultText);
+      }, 5000);
     });
 
   mailLink.bind('click', function (e) {
