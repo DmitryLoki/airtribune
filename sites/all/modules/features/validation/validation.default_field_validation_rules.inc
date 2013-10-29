@@ -98,14 +98,13 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[A-Za-z -]+$',
+    'data' => '^[\\x20-\\x7F]+$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
