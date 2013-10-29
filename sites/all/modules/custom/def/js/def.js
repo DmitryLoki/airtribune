@@ -320,7 +320,10 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
       };
 
       //override beforeSubmit for birthdate comboboxes
-      var birthDateComboboxes = $('#edit-profile-main-field-birthdate-und-0-value-year,#edit-profile-main-field-birthdate-und-0-value-month,#edit-profile-main-field-birthdate-und-0-value-day')
+      var birthDateComboboxes = $('#edit-profile-main-field-birthdate-und-0-value-year,#edit-profile-main-field-birthdate-und-0-value-month,#edit-profile-main-field-birthdate-und-0-value-day');
+      if(!birthDateComboboxes.length) {
+        return;
+      }
       birthDateComboboxes.each(function (i, birthdateElement) {
         Drupal.ajax[$(birthdateElement).attr('id')].beforeSubmit = function () {
           var isAllFilled = Drupal.behaviors.userRegisterFormSpecials.isAllBirthdateInputsFilled(birthDateComboboxes);
