@@ -358,8 +358,13 @@ function cde_name_dateofbirth_element_validate($element, &$form_state) {
       //~ $element = isset($form[$profile_type]) ? $form[$profile_type]['field_full_name'] : $form;
       form_error($element, t('This name, surname and date of birth combination already exist. <a href="!path">Forgot your password?</a>', array('!path' => url('user/password'))));
     }
+    else {
+      $remove_error = &drupal_static('cde_name_birthdate_error');
+      $remove_error = TRUE;
+    }
   }
 }
+
 
 // TODO:
 /**
@@ -599,11 +604,16 @@ function cde_ajax_commands($selector, $html) {
   
   
   if (in_array($selector, $name_date_selectors) && empty($html)) {
-    $commands = array(
-      ajax_command_invoke('#edit-profile-main-field-full-name-und-0-value-year', 'nameAndBirthdateCombinationError', array($html)),
-    );
+    $remove_error = &drupal_static('cde_name_birthdate_error');
     
-    return $commands;
+    if (!empty($remove_error)) {
+      $commands = array(
+        //~ ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'nameAndBirthdateCombinationError', array($html)),
+        ajax_command_invoke($selector, 'checkValidationResult', array($html, TRUE)),
+      );
+      
+      return $commands;
+    }
   }
   
   //~ dsm($selector);
