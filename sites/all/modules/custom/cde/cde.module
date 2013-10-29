@@ -357,10 +357,12 @@ function cde_name_dateofbirth_element_validate($element, &$form_state) {
       // TODO: choose correct element for each field.
       //~ $element = isset($form[$profile_type]) ? $form[$profile_type]['field_full_name'] : $form;
       form_error($element, t('This name, surname and date of birth combination already exist. <a href="!path">Forgot your password?</a>', array('!path' => url('user/password'))));
+      $remove_error = &drupal_static('cde_name_birthdate_error');
+      $remove_error = TRUE;
     }
     else {
       $remove_error = &drupal_static('cde_name_birthdate_error');
-      $remove_error = TRUE;
+      $remove_error = FALSE;
     }
   }
 }
@@ -596,25 +598,26 @@ function cde_ajax_commands($selector, $html) {
   
   // TODO: Add error codes for special cases. E.g. for Name + Birthdate error.
   
-  $name_date_selectors = array(
-    '#edit-profile-main-field-full-name-und-0-given',
-    '#edit-profile-main-field-full-name-und-0-family',
-    '#edit-profile-main-field-birthdate-und-0-value-year',
-  );
+  //~ $name_date_selectors = array(
+    //~ '#edit-profile-main-field-full-name-und-0-given',
+    //~ '#edit-profile-main-field-full-name-und-0-family',
+    //~ '#edit-profile-main-field-birthdate-und-0-value-year',
+  //~ );
   
   
-  if (in_array($selector, $name_date_selectors) && empty($html)) {
+  //~ if (in_array($selector, $name_date_selectors) && empty($html)) {
     $remove_error = &drupal_static('cde_name_birthdate_error');
     
-    if (!empty($remove_error)) {
+    if (isset($remove_error)) {
       $commands = array(
         //~ ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'nameAndBirthdateCombinationError', array($html)),
-        ajax_command_invoke($selector, 'checkValidationResult', array($html, TRUE)),
+        //~ ajax_command_invoke($selector, 'checkValidationResult', array($html, $remove_error)),
+        ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'checkValidationResult', array($html, $remove_error)),
       );
       
       return $commands;
     }
-  }
+  //~ }
   
   //~ dsm($selector);
   
