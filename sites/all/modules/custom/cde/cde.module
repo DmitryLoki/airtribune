@@ -346,9 +346,10 @@ function cde_name_dateofbirth_element_validate($element, &$form_state) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'profile2');
     $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
-    $query->fieldCondition('field_full_name', 'given', $given);
-    $query->fieldCondition('field_full_name', 'family', $family);
-    $query->fieldCondition('field_birthdate', 'value', $birthdate);
+    // Add case-insensitive conditions.
+    $query->fieldCondition('field_full_name', 'given', db_like($given), 'LIKE');
+    $query->fieldCondition('field_full_name', 'family', db_like($family), 'LIKE');
+    $query->fieldCondition('field_birthdate', 'value', db_like($birthdate), 'LIKE');
     $orig_query = clone $query;
     $name_exists = $query->count()->execute();
     
