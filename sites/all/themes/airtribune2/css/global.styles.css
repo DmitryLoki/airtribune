@@ -3439,6 +3439,8 @@ html.fb_view { overflow: auto;}
 .solutions_hosting .create_event>a { display: block; height: 80px; margin-bottom: 8px; background: url(../images/CreateEvent.png) no-repeat 0 0; overflow: hidden; text-indent: -9999px; text-align: left;}
 
 .solutions_hosting .create_event>a:hover { background-position: 0 -80px}
+.solutions_hosting .create_event>a span { text-align: left; text-indent: -9999px;}
+
 
   /* Solutions SMS Retrieve */
 
