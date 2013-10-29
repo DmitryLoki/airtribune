@@ -3371,8 +3371,8 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .accordeon_inner ul li { padding: 2px 0 3px;}
 .solutions_accordeon .accordeon_inner ul ul { color: #919191; margin: 0 0 0 10px; list-style: none; list-style-image: none;}
 
-.solutions_hosting .create_event { padding-top: 102px; text-align: right; color: #333a40; font-size: 16px;}
-.solutions_hosting .create_event a { display: block; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #ffffff; text-shadow: 0 1px 1px rgba(79, 87, 12, .15); text-decoration: none; padding: 22px 0 28px; margin-bottom: 8px;
+.solutions_hosting .create_event { margin-top: 102px; text-align: right; color: #333a40; font-size: 16px;}
+.solutions_hosting .create_event>a { display: block; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #ffffff; text-shadow: 0 1px 1px rgba(79, 87, 12, .15); text-decoration: none; padding: 22px 0 28px; margin-bottom: 8px;
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdd925', endColorstr='#a4bb15'); /* для IE6-9 */
   background: -webkit-linear-gradient(top, bottom, #cdd925 0%, #a4bb15 100%); /* для webkit-браузеров */
@@ -3387,7 +3387,7 @@ html.fb_view { overflow: auto;}
 
 }
 
-.solutions_hosting .create_event a:hover {
+.solutions_hosting .create_event>a:hover {
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d8e22a', endColorstr='#98b310'); /* для IE6-9 */
   background: -webkit-linear-gradient(top, bottom, #d8e22a 0%, #98b310 100%); /* для webkit-браузеров */
