@@ -713,6 +713,28 @@ tr.even td.active {
   border-bottom: 1px solid #ccc;
 }
 
+/* =============================================================================
+    Gutters
+   ========================================================================== */
+/*
+ * If gutters are set in theme settings they will override these values,
+ * see Extensions > Modify Output > Design
+ * $gutter-width is set in _base.scss
+ */
+#main-content,
+.block-inner,
+.pane-inner,
+.pane-panels-mini .at-panel .pane-inner,
+.menu-wrapper,
+.branding-elements,
+.breadcrumb-wrapper,
+.attribution, 
+.at-panel .rounded-corner,
+.block-panels-mini > .block-title,
+div.messages {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 /**
  * Forum tables
@@ -1639,6 +1661,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content > span:first-child { padding-top: 10px;}
 .pane-event-days-panel-pane-1 .views-field-view .field-content span.file { padding: 0 0 0 10px;} 
 
+.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: none;}
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span.file { padding: 0;} 
 .pane-event-days-panel-pane-1 .dropdown_list .field-content a,
 .pane-event-days-panel-pane-1 .dropdown_list .replay-link-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
@@ -1652,6 +1675,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 
 .pane-event-days-panel-pane-1 .race-links .file { display: inline-block; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-pane-1 .race-links.no-task a { cursor: text;}
+.pane-event-days-panel-pane-1 .race-links .dayblog-text {display:none;}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px; cursor:text;}
 .pane-event-days-panel-pane-1 .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px; margin-top: 11px;}
 .pane-event-days-panel-pane-1 .race-awaiting .help-text,
@@ -1659,7 +1683,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .pane-event-days-panel-pane-1 .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
 .pane-event-days-panel-pane-1 .views-field-day-pg-race-play-live-link .race-online .race-link,
-.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:inherit;}
+.pane-event-days-panel-pane-1 #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;cursor:pointer;}
 .pane-event-days-panel-pane-1 #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
 .pane-event-days-panel-pane-1 .race-awaiting #time-counter { background-color: #fbd72b; border-color: #f6d72e;}
 
@@ -2640,7 +2664,8 @@ table caption,
 }
 table thead tr { background: #f7f8f9}
 tr.odd { background: none}
-table tr.even { background: #fafafa}
+table tr.even,
+table tr:nth-child(even) { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
 table tbody tr:hover { background: #cceffc;}
 table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
@@ -2655,6 +2680,20 @@ table thead th.views-field:first-child { border-left: none;}
 table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px; vertical-align: top;}
 table .views-row-first td { border-top: none;}
 table tr td.:first-child { border-left: none;}
+
+  /*  Retrieve table */
+
+#airtribune-vis img { display: none;}
+#airtribune-vis { position: relative;}
+#airtribune-vis .timeout { z-index: 10; position: absolute; right: 10px; top: 3px; color: #97abbd; font-size: 12px;}
+#airtribune-vis table { margin-top: 0;}
+#airtribune-vis th a { text-decoration: none; color: #525d66}
+#airtribune-vis td { vertical-align: middle; text-align: center;}
+#airtribune-vis .name { width: 135px;}
+#airtribune-vis td.name { text-align: left;}
+#airtribune-vis td span.ng-binding { display: inline-block;}
+.page-retrieve .panel-col-seventy .inside { margin: 0;}
+.page-retrieve .pane-inner .pane-inner { margin: 0;}
 
 
 /* page-event-map-activity-accommodation */
@@ -2991,11 +3030,11 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
-.page-event-pilots td.views-field-field-pg-contestant-status { width: 161px;}
+.page-event-pilots td.views-field-field-pg-contestant-status { width: 91px;}
 .page-event-pilots td.views-field-field-paraglider-model { width: 86px; text-align: center; word-wrap: break-word;}
 .page-event-pilots td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots td.views-field-field-sponsors { width: 116px; text-align: center; word-wrap: break-word;}
-.page-event-pilots td.views-field-field-sponsors .td_inner { width: 116px;}
+.page-event-pilots td.views-field-field-sponsors { width: 186px; text-align: center; word-wrap: break-word;}
+.page-event-pilots td.views-field-field-sponsors .td_inner { width: 186px;}
 .page-event-pilots td.views-field-field-full-name span { display: inline-block; width: 10px; height: 16px; background: url(../images/table_action.png) no-repeat 0 -10000px; margin-left: 9px; position: relative; top: 1px; vertical-align: top;}
 .page-event-pilots td.views-field-field-full-name span.gender-1 { background-position: 0 -1375px}
 
@@ -3006,13 +3045,12 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 .page-event-pilots .pane-page-content .pane-views-panes { margin: 0 -1px;}
 
-.page-event-pilots-status td.views-field-field-full-name { width: 181px;}
-.page-event-pilots-status td.views-field-field-pg-contestant-status { width: 151px;}
-.page-event-pilots-status td.views-field-field-paraglider-model { width: 66px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-full-name { width: 141px;}
+.page-event-pilots-status td.views-field-field-paraglider-model { width: 86px; word-wrap: break-word;}
 .page-event-pilots-status td.views-field-field-paraglider-model .td_inner { width: 86px;}
-.page-event-pilots-status td.views-field-field-sponsors { width: 86px; word-wrap: break-word;}
-.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 86px;}
-.page-event-pilots-status td.views-field-field-address { width: 71px; text-align: center;}
+.page-event-pilots-status td.views-field-field-sponsors { width: 156px; word-wrap: break-word;}
+.page-event-pilots-status td.views-field-field-sponsors .td_inner { width: 156px;}
+.page-event-pilots-status td.views-field-field-address { width: 81px; text-align: center;}
 .page-event-pilots-status td.views-field-field-address .countryicon-sprite { margin-right: 6px;}
 
 .view-paragliding-pilots-list-export {}
@@ -3205,11 +3243,13 @@ html.fb_view { overflow: auto;}
 /*.front_live_events .race-links,*/
 .front_live_events .views-field-view,
 .front_live_events .dayblog { top: auto; bottom: 0; height: 60px;}
+.front_live_events .views-row > .views-field-view { z-index: 100;}
 .front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 .front_live_events .race-links { height: 54px;}
 .front_live_events .view-event-day .views-row,
 .front_live_events .views-field-view .views-row { display: block; padding: 6px 5px 0; height: 54px; }
+.front_live_events .view-event-day .views-row { height: 52px;}
 .front_live_events .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
 .front_live_events .views-row-twice .file a { left: 113px;}
 .front_live_events .views-row-once .file a { left: 235px;}
@@ -3225,24 +3265,31 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-field-title-1 a { font: bold 18px/20px Arial, Helvetica, sans-serif; display: block; color: #ffffff; background: #ced828; padding: 4px 0 6px; width: 100px; text-align: center;}
 .front_live_events .race-awaiting .time { background: #fbd72c}
 .front_live_events .race-replay .time { background: #fbd72c}
-.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 5px; right: 5px; width: 115px;}
+.front_live_events .views-field-title-1 a { background: #929698; background-color: rgba(255, 255, 255, 0.5); text-decoration: none; position: absolute; bottom: 3px; right: 5px; width: 115px;}
+.front_live_events .no-dayblog-text .views-field-title-1 a { background: none; text-decoration: none; width: 115px; margin-right: auto; margin-left: auto; font-size: 32px; margin-top: 10px; position: static;}
 .front_live_events .views-field-field-plain-body-1 a { text-decoration: none;}
+.front_live_events .no-dayblog-text .views-field-field-plain-body-1,
+.front_live_events .race-activated .views-field-field-plain-body-1 { display: none;}
 .front_live_events .day-blog { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed; height: 50px; overflow: hidden; display: block;}
-.front_live_events .day-blog p { margin: 0; padding: 2px 0 0;}
+.front_live_events .day-blog p { margin: 0; padding: 3px 0 0;}
+.front_live_events .day-blog .views-field.title,
+.front_live_events .views-field-title-1 { display: none;}
+.front_live_events .race-activated .views-field-title-1 { display: block;}
 .front_live_events .day-blog a,
 .front_live_events .day-blog .title,
+.front_live_events .day-blog .views-field-title-1 a,
 .front_live_events .views-field-dates,
 .front_live_events .views-field-dates a { font: bold 14px/16px Arial, Helvetica, sans-serif; color: #ffffff; text-decoration: none;}
-.front_live_events .day-blog a:hover,
+/*.front_live_events .day-blog a:hover,*/
 .front_live_events .no-blog { text-align: center;}
 .front_live_events .no-blog .title { font: bold 28px/42px Arial, Helvetica, sans-serif;}
 .front_live_events .no-blog .title span { font-size: 18px}
 .front_live_events .views-field-dates a:hover { text-decoration: underline;}
 .front_live_events .field-day-status-0 {display:none}
-.front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0;}
+.front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0; background: url(../images/logo_bgr.png) no-repeat 50% 0; width: 100%; text-align: center;}
 .front_live_events .views-row:hover .views-field-field-logo { display: block;}
 .front_live_events .views-field-nothing { position: relative; z-index: 100; height: 100%;}
-.front_live_events .view-display-id-live_events_pane .views-field-nothing { height: 210px; z-index: 10;}
+.front_live_events .view-display-id-live_events_pane .views-field-nothing { height: 210px; z-index: 20;}
 .front_live_events .views-field-nothing a { display: block; width: 100%; height: 100%; overflow: hidden; text-indent: -9999px; position: absolute; top: 0; left: 0;}
 
 .front_live_events .view_confirmed_pilots { float: left; max-width: 50%; color: #a3b9cc; font: 12px/10px Verdana, Geneva, sans-serif; padding-top: 3px;}
@@ -3275,7 +3322,23 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
+.front_live_events .race-links .file {display: none;}
+.front_live_events .race-links .time {display:none !important;}
+.front_live_events .race-links .help-text {display:none}
+.front_live_events .race-links .dayblog-text {display:block;}
 
+.front_live_events .race-block-activated .file {display:inline;}
+.front_live_events .race-block-activated .time {display:block !important;}
+.front_live_events .race-block-activated .help-text {display:block;}
+.front_live_events .race-block-activated .dayblog-text {display:none;}
+
+.front .front_live_events .views-field-field-pg-race-tracks {display:none;}
+/*.view-frontpage-events .views-row-4,
+.view-frontpage-events .views-row-5,
+.view-frontpage-events .views-row-6,
+.view-frontpage-events .views-row-7,
+.view-frontpage-events .views-row-8,
+.view-frontpage-events .views-row-9 { display: none } */
 
 .frontpage-show-more-events { display: block; position: relative; width: 30px; height: 16px; overflow: hidden; text-indent: -9999px; margin: 7px auto 0; background: #f1f3f5 url(../images/table_action.png) no-repeat 50% -2194px; cursor: pointer;
 
@@ -3345,6 +3408,7 @@ html.fb_view { overflow: auto;}
 .solutions_hosting .block_cols h3 { color: #566570; margin: 0; padding: 0 0 8px;}
 .solutions_hosting .block_cols .block_col { float: left; width: 200px; margin: 0 30px 0 10px;}
 .solutions_hosting .block_cols .block_col_last { margin-right: 0;}
+.solutions_hosting .two_blocks .block_col { width: 320px; margin: 0 30px 0 0;}
 
 .solutions_hosting .block_icons { color: #475159; font-size: 16px; padding-bottom: 15px;}
 .solutions_hosting .block_icons span { display: inline-block; vertical-align: middle;}
@@ -3397,3 +3461,49 @@ html.fb_view { overflow: auto;}
   background: -ms-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для IE10+ */
 
 }
+
+
+  /* Solutions SMS Retrieve */
+
+.solutions_retrieve .examples { position: relative; padding-top: 66px; padding-bottom: 57px; margin-bottom: 66px;}
+.solutions_retrieve .examples img { vertical-align: middle;}
+.solutions_retrieve .examples .pilots_table { position: absolute; bottom: 0; right: -7px; height: 13px; width: 472px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -254px; display: block;}
+.solutions_retrieve .examples .pilots_table span { display: block; width: 380px; height: 253px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -1px; margin: -253px auto 0;}
+.solutions_retrieve .apps { padding-top: 92px; background: url(../images/retrieve_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 146px;}
+.solutions_retrieve .apps_phone { position: absolute; width: 194px; height: 424px; overflow: hidden; top: -14px; left: 381px;
+
+  -moz-transform:rotate(-55deg);
+  -webkit-transform:rotate(-55deg);
+  -o-transform:rotate(-55deg);
+  -ms-transform:rotate(-55deg);
+
+}
+.solutions_retrieve .apps_phone img { max-width: none; position: relative; top: 85px; left: -130px;
+
+  -moz-transform:rotate(55deg);
+  -webkit-transform:rotate(55deg);
+  -o-transform:rotate(55deg);
+  -ms-transform:rotate(55deg);
+
+}
+
+.solutions_retrieve .feel_free { margin-top: 0; margin-bottom: 2px;}
+.solutions_retrieve .accordeon_inner { padding-left: 22px;}
+.solutions_retrieve .accordeon_inner p:first-child { padding-top: 25px;}
+.solutions_retrieve .accordeon_inner p:last-child { padding-bottom: 41px;}
+
+.solutions_accordeon .how_to_start ul { color: #525d66; margin-left: 30px; margin-bottom: 48px;}
+.solutions_accordeon .how_to_start p { font-size: 18px;}
+.solutions_accordeon .how_to_start p:first-child { padding: 44px 0 28px;}
+.solutions_accordeon .how_to_start p:last-child { padding-bottom: 9px;}
+.solutions_accordeon .how_to_start ul + p {  margin-top: -27px; padding-bottom: 58px;}
+.solutions_accordeon .how_to_start h3 { font-size: 24px; color: #525d66; padding-bottom: 9px;}
+
+.solutions_accordeon .features_items h3 { font-size: 24px; padding: 39px 0 1px;}
+.solutions_accordeon .features_items h3:first-child { padding-top: 45px;}
+.solutions_accordeon .features_items p { padding-left: 19px;}
+
+
+.page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
+ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
+.solutions_retrieve .create_event { padding-top: 99px;}

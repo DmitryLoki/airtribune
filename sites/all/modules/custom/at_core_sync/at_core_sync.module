@@ -129,13 +129,23 @@ function at_core_sync_get_api_version() {
 }
 
 /**
+ * Get CoreAPI domain.
+ *
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function at_core_sync_get_api_domain() {
+  $result = variable_get('at_core_sync_address', 'http://api.airtribune.com');
+  return $result;
+}
+
+/**
  * Get CoreAPI url.
  *
  * @author Vyacheslav Malchik <info@vkey.biz>
  * @see #3115.
  */
 function at_core_sync_get_api_url() {
-  $address = variable_get('at_core_sync_address', 'http://api.airtribune.com')
+  $address = at_core_sync_get_api_domain()
     . '/'
     . at_core_sync_get_api_version();
   return $address;

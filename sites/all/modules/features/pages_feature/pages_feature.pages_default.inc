@@ -1048,7 +1048,16 @@ viewers/*',
     padding: 0 10px;
   }',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'node',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -1269,6 +1278,10 @@ event/*/map/accommodations',
       'override_title_text' => '',
       'context' => array(
         0 => 'event',
+        2 => 'empty',
+      ),
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
       ),
     );
     $pane->cache = array();
@@ -1303,10 +1316,13 @@ event/*/map/accommodations',
     $pane->configuration = array(
       'context' => array(
         0 => 'event',
-        1 => 'empty',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1523,7 +1539,8 @@ event/*/map/accommodations',
           'settings' => array(
             'visibility_setting' => '0',
             'paths' => 'event/*/pilots/manage
-event/*/register',
+event/*/register
+retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1560,7 +1577,8 @@ event/*/register',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage',
+            'paths' => 'event/*/pilots/manage
+retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1608,7 +1626,8 @@ event/*/register',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage',
+            'paths' => 'event/*/pilots/manage
+retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1644,7 +1663,8 @@ event/*/register',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage',
+            'paths' => 'event/*/pilots/manage
+retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -2088,7 +2108,16 @@ function pages_feature_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -2136,7 +2165,11 @@ function pages_feature_default_page_manager_pages() {
     $pane->subtype = 'event_accommodations-panel_event_map_pane';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -2206,7 +2239,16 @@ function pages_feature_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -2254,7 +2296,11 @@ function pages_feature_default_page_manager_pages() {
     $pane->subtype = 'event_activities-panel_event_map_pane';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -6564,17 +6610,33 @@ window.fbAsyncInit = function() {
     $pane = new stdClass();
     $pane->pid = 'new-84';
     $pane->panel = 'middle';
-    $pane->type = 'airtribune_player';
-    $pane->subtype = 'airtribune_player';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:ent_race_1',
+      'widget_code' => array(
+        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
+    <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
+    <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
+    <script data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
+    <div role="main" class="airvis-container">
+      <div class="airvis-loading-container">
+        <div class="airvis-loading">&nbsp;</div>
+      </div>
+    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    </div>',
+        'format' => 'full_html',
+      ),
+      'widget_type' => '_none',
+      'widget_height' => '380',
+      'widget_width' => '940',
+      'context' => array(
+        0 => 'argument_entity_id:ent_race_1',
+        1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
-      'widget_is_preview' => 0,
-      'widgetWidth' => '100%',
-      'widgetHeight' => '300px',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -6617,11 +6679,188 @@ window.fbAsyncInit = function() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'points_widget';
+  $page->task = 'page';
+  $page->admin_title = 'Points widget';
+  $page->admin_description = '';
+  $page->path = 'points/%node';
+  $page->access = array(
+    'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
+    'plugins' => array(
+      0 => array(
+        'name' => 'node_type',
+        'settings' => array(
+          'type' => array(
+            'pg_contest' => 'pg_contest',
+          ),
+        ),
+        'context' => 'argument_entity_id:node_1',
+        'not' => FALSE,
+      ),
+    ),
+  );
+  $page->menu = array(
+    'type' => 'none',
+    'title' => '',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'node' => array(
+      'id' => 1,
+      'identifier' => 'Материал: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_points_widget_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'points_widget';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Points widget',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
+        'keyword' => 'event',
+        'name' => 'entity_from_field:og_group_ref-ent_race-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+    ),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_5',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'No Title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-86';
+    $pane->panel = 'middle';
+    $pane->type = 'at_points_widget';
+    $pane->subtype = 'at_points_widget';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'widget_type' => '2d',
+      'widget_height' => '600',
+      'widget_width' => '900',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-86'] = $pane;
+    $display->panels['middle'][0] = 'new-86';
+    $pane = new stdClass();
+    $pane->pid = 'new-87';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_on_visualization-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-87'] = $pane;
+    $display->panels['middle'][1] = 'new-87';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_points_widget_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'points_widget';
+  $handler->handler = 'http_response';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => '403 Access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'panels_everywhere_site_template' => 'site_template_panel_context_2',
+  );
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['points_widget'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'retrieve_map';
   $page->task = 'page';
   $page->admin_title = 'Retrieve map';
   $page->admin_description = '';
-  $page->path = 'retrieve/%race';
+  $page->path = 'retrieve/%node/%race';
   $page->access = array(
     'logic' => 'and',
     'type' => 'none',
@@ -6640,6 +6879,12 @@ window.fbAsyncInit = function() {
     ),
   );
   $page->arguments = array(
+    'node' => array(
+      'id' => 1,
+      'identifier' => 'Node: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
     'race' => array(
       'id' => 1,
       'identifier' => 'Race: ID',
@@ -6654,32 +6899,11 @@ window.fbAsyncInit = function() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_retrieve_map_http_response';
-  $handler->task = 'page';
-  $handler->subtask = 'retrieve_map';
-  $handler->handler = 'http_response';
-  $handler->weight = 1;
-  $handler->conf = array(
-    'title' => 'Access denied',
-    'contexts' => array(),
-    'relationships' => array(),
-    'code' => '403',
-    'destination' => '',
-    'panels_everywhere_site_template' => 'site_template_panel_context_2',
-    'access' => array(
-      'plugins' => array(),
-      'logic' => 'and',
-    ),
-  );
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_retrieve_map_panel_context';
+  $handler->name = 'page_retrieve_map_panel_context_2';
   $handler->task = 'page';
   $handler->subtask = 'retrieve_map';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = 2;
   $handler->conf = array(
     'title' => 'Retrieve map',
     'no_blocks' => 1,
@@ -6713,6 +6937,15 @@ window.fbAsyncInit = function() {
           ),
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'retrieve/*/map',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
       ),
     ),
     'panels_everywhere_site_template' => 'site_template_panel_context_5',
@@ -6731,17 +6964,35 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-86';
+    $pane->pid = 'new-88';
     $pane->panel = 'middle';
-    $pane->type = 'airtribune_player';
-    $pane->subtype = 'airtribune_player';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:ent_race_1',
+      'widget_code' => array(
+        'value' => '<link rel="stylesheet" href="http://retrieve.airtribune.com/css/airvis.css"/>
+    <link rel="stylesheet" href="http://retrieve.airtribune.com/css/checkbox.css"/>
+    <link rel="stylesheet" href="http://retrieve.airtribune.com/css/shiny-sprite.css">
+    <script data-main="http://retrieve.airtribune.com/js/init" src="http://retrieve.airtribune.com/js/lib/require.js"></script>
+    <div role="main" class="airvis-container">
+      <div class="airvis-loading-container">
+        <div class="airvis-loading">&nbsp;</div>
+      </div>
+    <!-- ko widget: { data: page, imgRootUrl: "http://retrieve.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    </div>',
+        'format' => 'full_html',
+      ),
+      'widget_type' => '2d',
+      'widget_height' => '380',
+      'widget_width' => '940',
+      'context' => array(
+        0 => 'argument_entity_id:ent_race_1',
+        1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
-      'widget_type' => 'retrieve',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -6751,11 +7002,137 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-86'] = $pane;
-    $display->panels['middle'][0] = 'new-86';
+    $display->content['new-88'] = $pane;
+    $display->panels['middle'][0] = 'new-88';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-86';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_retrieve_map_panel_context_3';
+  $handler->task = 'page';
+  $handler->subtask = 'retrieve_map';
+  $handler->handler = 'panel_context';
+  $handler->weight = 3;
+  $handler->conf = array(
+    'title' => 'Retrieve table',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => 'view-retrieve-map',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Contest',
+        'keyword' => 'contest',
+        'name' => 'entity_from_field:og_group_ref-ent_race-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+    ),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+          ),
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'retrieve/*/table',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_3',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Retrieve table | Task %race:field-race-number | %contest:title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-89';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'widget_code' => array(
+        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->' .
+        '<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>' .
+        '<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
+        'format' => 'php_code',
+      ),
+      'widget_type' => '2d',
+      'widget_height' => '380',
+      'widget_width' => '940',
+      'context' => array(
+        0 => 'argument_entity_id:ent_race_1',
+        1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-89'] = $pane;
+    $display->panels['middle'][0] = 'new-89';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_retrieve_map_http_response_2';
+  $handler->task = 'page';
+  $handler->subtask = 'retrieve_map';
+  $handler->handler = 'http_response';
+  $handler->weight = 4;
+  $handler->conf = array(
+    'title' => 'Access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'panels_everywhere_site_template' => 'site_template_panel_context_2',
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
+  );
   $page->default_handlers[$handler->name] = $handler;
   $pages['retrieve_map'] = $page;
 

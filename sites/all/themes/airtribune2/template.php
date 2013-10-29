@@ -1274,11 +1274,12 @@ function airtribune2_preprocess_field(&$vars) {
       'full_image_style' => '',
     );
     // Get flying site node
-    $fs_nid = $element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
-    $fs_node = node_load($fs_nid);
+    if(!empty($element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'])) {
+      $fs_nid = $element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
+      $fs_node = node_load($fs_nid);
 
-    $flying_site_photos = field_view_field('node', $fs_node, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
-
+      $flying_site_photos = field_view_field('node', $fs_node, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
+    }
     if (isset($flying_site_photos[0])) {
       foreach ($flying_site_photos[0]['#items'] as $item) {
         $vars['items'][0]['#items'][] = $item;
@@ -1705,7 +1706,7 @@ function airtribune2_views_pre_render(&$view) {
       foreach ($view->result as $key => $value) {
         if ($index > $standart) {
           $view->result[$key]->field_field_contest_photos[0]['rendered']['#image_style'] = $img_styles['0'];
-          $view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
+          //$view->result[$key]->field_field_logo[0]['rendered']['#image_style'] = $img_styles['1'];
         }
         $index ++;
       }
@@ -1771,14 +1772,15 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   }
 }
 
-// @see #3796: definition of solutions pages
-
+/**
+ * Definition of solutions pages
+ * @see #3796
+ */
 function is_solutions(){
-
   $path = request_uri();
   $pattern = SOLUTIONS_REGEXT_PATTERN;
   preg_match($pattern, $path, $matches);
-  $part = $matches[0];
+  $part = isset($matches[0]) ? $matches[0] : NULL;
   switch($part) {
     case 'organizers':
     case 'pilots':
