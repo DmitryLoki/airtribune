@@ -1606,6 +1606,16 @@ function airtribune2_jcarousel_formatter_element_alter(&$element) {
  * @see #2851
  */
 function airtribune2_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if (isset($data['tabs'][0]['output'])) {
+    foreach ($data['tabs'][0]['output'] as $index => $tab) {
+      $path = $data['tabs'][0]['output'][$index]['#link']['path'];
+      $path = str_replace('%/', '', $path);
+      $path_array = explode("/", $path);
+      $class = 'tab-'.implode("-", $path_array);
+      $attributes = array('attributes' => array( 'class' => array($class)));
+      $data['tabs'][0]['output'][$index]['#link']['localized_options'] = $attributes;
+    }
+  }
   if (isset($data['tabs'][1]['output'])) {
     // Hide tabs on map nodes.
     if ($root_path == 'event/%/map/%') {
