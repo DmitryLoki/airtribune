@@ -589,6 +589,25 @@ function cde_ajax_commands($selector, $html) {
   
   //~ $html = "$html $selector";
   
+  // TODO: Add error codes for special cases. E.g. for Name + Birthdate error.
+  
+  $name_date_selectors = array(
+    '#edit-profile-main-field-full-name-und-0-given',
+    '#edit-profile-main-field-full-name-und-0-family',
+    '#edit-profile-main-field-birthdate-und-0-value-year',
+  );
+  
+  
+  if (in_array($selector, $name_date_selectors) && empty($html)) {
+    $commands = array(
+      ajax_command_invoke('#edit-profile-main-field-full-name-und-0-value-year', 'nameAndBirthdateCombinationError', array($html)),
+    );
+    
+    return $commands;
+  }
+  
+  //~ dsm($selector);
+  
   return array(
     //$commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
     //~ ajax_command_alert($html),
