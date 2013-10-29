@@ -1,6 +1,7 @@
 <?php
 
 // TODO: Move common generic plugins alter into def submodule (def_extra).
+// TODO: Close standard callback for group registration.
 
 // TODO: Remove after tests finished.
 function cde_menu() {
@@ -811,6 +812,16 @@ function _cde_rules(&$rules, $multiform = FALSE) {
   static $multiform_rules = NULL;
   static $multiform_unset_rules = NULL;
   
+  if (isset($rules)) {
+    foreach ($rules as $k2 => $rule) {
+      if (isset($rule['messages']['required'])) {
+        $rules[$k2]['messages']['required'] = t('This field is required');
+        $rules[$k2]['messages']['blacklist'] = t('This field is required');
+      }
+    }
+  }
+  
+  
   // TODO: Remove 'form_id' key
   // TODO: profile_main has a differrent multiform form_id for authenticated users.
   $new_rules = array(
@@ -904,12 +915,12 @@ function _cde_rules(&$rules, $multiform = FALSE) {
     
     // Paraglider manufacturer
     // TODO: This message should be change in field_validation settings instead.
-    'profile_pilot[field_paraglider_manufacturer][und][0][value]' => array(
-      'messages' => array(
-        'regexMatch' => t('This field may contain only Eglish letters and digits.'),
-      ),
-      'form_id' => 'profile2_edit_pilot_form',
-    ),
+    //~ 'profile_pilot[field_paraglider_manufacturer][und][0][value]' => array(
+      //~ 'messages' => array(
+        //~ 'regexMatch' => t('This field may contain only Eglish letters and digits.'),
+      //~ ),
+      //~ 'form_id' => 'profile2_edit_pilot_form',
+    //~ ),
   );
   
   // TODO:
@@ -1018,14 +1029,6 @@ function array_merge_recursive_distinct (&$array1, &$array2) {
   return $merged;
 }
 
-//~ function recursive_unset(&$array, $unwanted_key) {
-    //~ unset($array[$unwanted_key]);
-    //~ foreach ($array as &$value) {
-        //~ if (is_array($value)) {
-            //~ recursive_unset($value, $unwanted_key);
-        //~ }
-    //~ }
-//~ }
 
 function array_recursive_unset(&$array, $unset_rules) {
   foreach ($unset_rules as $k1 => $rules) {
@@ -1054,10 +1057,7 @@ function array_recursive_unset(&$array, $unset_rules) {
 
 
 /**
- * Implements hook_field_widget_form_alter().
- *
- * Adds ajax handler to field widgets.
- * Ctools plugins should be used for individual handlers.
+ * Add #after_build function to certain fields' widgets.
  */
 function cde_alter_widgets(&$element, &$form_state, $context) {
   // TODO: Move to a single function.

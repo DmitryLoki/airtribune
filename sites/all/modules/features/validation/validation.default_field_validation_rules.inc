@@ -80,12 +80,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -132,12 +131,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['insurance_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -158,12 +156,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 1,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['latin'] = $rule;
 
   $rule = new stdClass();
@@ -315,12 +312,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['paraglider_color_latin'] = $rule;
 
   $rule = new stdClass();

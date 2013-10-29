@@ -6,6 +6,7 @@ define('DEFAULT_MULTIFORM_ID', 'multiform');
 // TODO: Validate multiform settings.
 // TODO: Check case when $form_state['rebuild'] == TRUE for a subform
 // What if submits map's values are the same?
+// TODO: Add Views integration for logging.
 
 // TODO: Remove empty 'actions' wrapper for submit map, i.e. in case there is only one
 // submit in subform's actions and it's mapped (hidden).
@@ -17,8 +18,30 @@ function abc_menu() {
     'access callback' => TRUE, 
     'file' => 'abc.tmp.inc',
   );
+  $items['abc/log'] = array(
+    'title' => 'ABC log', 
+    'page callback' => 'abc_log_page', 
+    'access callback' => 'abc_log_access',
+    'file' => 'abc.admin.inc',
+  );
+  $items['abc/log/%'] = array(
+    'title' => 'ABC log', 
+    'page callback' => 'abc_log_entry', 
+    'page arguments' => array(2), 
+    'access callback' => 'abc_log_access',
+    'file' => 'abc.admin.inc',
+  );
+  
   return $items;
 }
+
+// TODO: Check if devel is enabled and check permissions
+function abc_log_access() {
+  global $user;
+  return (function_exists('kpr') && $user->uid == 1);
+  //~ return TRUE;
+}
+
 
 /**
  * Implements hook_init().
@@ -260,7 +283,23 @@ function abc_get_form($settings) {
   
   // TODO: Check.
   $errors = form_get_errors();
+  
+  if (empty($errors) && !empty($_POST)) {
+    // Log _POST data.
+    // TODO: Fill in context.
+    $context = array();
+    $id = db_insert('abc_log') // Table name no longer needs {}
+      ->fields(array(
+      'multiform_id' => !empty($settings['#multiform_id']) ? $settings['#multiform_id'] : DEFAULT_MULTIFORM_ID,
+      'timestamp' => time(),
+      'post_array' => serialize($post),
+      'context_data' => serialize($context),
+    ))
+    ->execute();
+  }
+  
   if (empty($errors) && !empty($_POST) && isset($settings['#redirect_path'])) {
+    // Redirect
     drupal_goto($settings['#redirect_path']);
   }
   
