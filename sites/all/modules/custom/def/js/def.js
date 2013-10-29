@@ -1,59 +1,59 @@
 /*
-var ajaxAttach = Drupal.behaviors.AJAX.attach;
+ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
-(function ($) {
+ (function ($) {
 
-  Drupal.behaviors.AJAX.attach = function (context, settings) {
+ Drupal.behaviors.AJAX.attach = function (context, settings) {
 
-     //Настройки для clientsideValidation, т.е. то, что должно дополнительно быть в
-     //Drupal.settings.clientsideValidation
-
-
-    var clientsideValidationSettings = {
-      forms: {
-        'user-register-form': {
-          rules: {
-            'profile_main[field_full_name][und][0][given]': {
-              required: true
-            },
-            'profile_main[field_full_name][und][0][family]': {
-              required: true
-            },
-            'pass[pass1]': {
-              passwordStrength: true,
-              messages: {
-                passwordStrength: Drupal.settings.password.easyToGuess
-              }
-            },
-            'pass[pass2]': {
-              passwordConfirmation: true,
-              messages: {
-                passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
-              }
-            },
-            'profile_main[field_birthdate][und][0][value][month]': {
-              required: true
-            },
-            'profile_main[field_birthdate][und][0][value][year]': {
-              required: true
-            },
-            'profile_main[field_birthdate][und][0][value][day]': {
-              required: true
-            }
-          }
-        }
-      }
-    };
+ //Настройки для clientsideValidation, т.е. то, что должно дополнительно быть в
+ //Drupal.settings.clientsideValidation
 
 
+ var clientsideValidationSettings = {
+ forms: {
+ 'user-register-form': {
+ rules: {
+ 'profile_main[field_full_name][und][0][given]': {
+ required: true
+ },
+ 'profile_main[field_full_name][und][0][family]': {
+ required: true
+ },
+ 'pass[pass1]': {
+ passwordStrength: true,
+ messages: {
+ passwordStrength: Drupal.settings.password.easyToGuess
+ }
+ },
+ 'pass[pass2]': {
+ passwordConfirmation: true,
+ messages: {
+ passwordConfirmation: 'A пароли-то не совпадают.'//Какой-то текст:)
+ }
+ },
+ 'profile_main[field_birthdate][und][0][value][month]': {
+ required: true
+ },
+ 'profile_main[field_birthdate][und][0][value][year]': {
+ required: true
+ },
+ 'profile_main[field_birthdate][und][0][value][day]': {
+ required: true
+ }
+ }
+ }
+ }
+ };
 
 
-    ajaxAttach.call(this, context, settings);
 
-    $.extend(true, Drupal.settings.clientsideValidation, clientsideValidationSettings);
-  }
-})(jQuery);
-*/
+
+ ajaxAttach.call(this, context, settings);
+
+ $.extend(true, Drupal.settings.clientsideValidation, clientsideValidationSettings);
+ }
+ })(jQuery);
+ */
 
 
 (function ($) {
@@ -92,8 +92,8 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
       var rules = $(this.element).rules();
       //add fake rule
-      if($.isEmptyObject(rules)) {
-        $(this.element).rules('add',{'fake-rule':true});
+      if ($.isEmptyObject(rules)) {
+        $(this.element).rules('add', {'fake-rule': true});
       }
       var validationResult = validator.element(this.element) !== false;
 
@@ -163,13 +163,14 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
         element.after(errorElement);
         formItem.addClass('field_error');
 
-        $(element[0].form).find('.form-submit').addClass('disabled');;
+        $(element[0].form).find('.form-submit').addClass('disabled');
+        ;
       };
 
       $(document).bind('clientsideValidationAddCustomRules', function (event) {
 
         $.validator.addMethod("passwordStrength", function (value, element, param) {
-          $(element).rules('remove','required');
+          $(element).rules('remove', 'required');
           var passwordStrength = Drupal.evaluatePasswordStrength(value, settings.password),
             passwordField = $(element),
             passwordFieldContainer = passwordField.parent(),
@@ -209,7 +210,7 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
         $.validator.addMethod("passwordConfirmation", function (value, element, param) {
           //Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error']
-          $(element).rules('remove','required');
+          $(element).rules('remove', 'required');
           var form = $(element.form),
             confirmationField = $(element),
             passwordField = form.find('.password-field'),
@@ -269,27 +270,31 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
               .unbind('keyup.validation')
               .bind('keyup.validation', function () {
                 if (!validator.checkAllValid()) {
-                  $(this.form).find('.form-submit').addClass('disabled');;
+                  $(this.form).find('.form-submit').addClass('disabled');
+                  ;
                 } else {
-                  $(this.form).find('.form-submit').removeClass('disabled');;
+                  $(this.form).find('.form-submit').removeClass('disabled');
+                  ;
                 }
               })
               .unbind('focusout.validation')
-              .bind('focusout.validation',validateElement);
+              .bind('focusout.validation', validateElement);
 
             allElements.filter('select')
               .unbind('change.validation')
-              .bind('change.validation',validateElement);
+              .bind('change.validation', validateElement);
 
             //Disable submit button on ajax field focus
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                $(this.form).find('.form-submit').addClass('disabled');;
+                $(this.form).find('.form-submit').addClass('disabled');
+                ;
               });
-            
+
             if (!validator.checkAllValid()) {
-              $(allElements[0].form).find('.form-submit').addClass('disabled');;
+              $(allElements[0].form).find('.form-submit').addClass('disabled');
+              ;
             }
 
           })(validator);
@@ -299,12 +304,33 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
   };
 
   Drupal.behaviors.userRegisterFormSpecials = {
+    nameAndBirthdateCombinationError: function () {
+      return false
+    },
     isAllBirthdateInputsFilled: function (birthdateInputs) {
       return birthdateInputs.filter(function (i, el) {
         return jQuery(el).val() != ''
       }).length == birthdateInputs.length;
     },
     attach: function (context, settings) {
+      var oldCheckValidationResult = $.fn.checkValidationResult;
+      if (!$.fn.checkValidationResult.overriden) {
+        $.fn.checkValidationResult = function (errorText, isCombinationError) {
+          if (!isCombinationError || errorText == '') {
+            oldCheckValidationResult.call(this, errorText);
+            return;
+          }
+          var form = this.closest('form'),
+            validator = form.validate();
+
+          this.rules('add', {'combination-error': true, messages: {'combination-error': errorText || 'asdasd'}});
+          if (Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
+            Drupal.myClientsideValidation = Drupal.behaviors.DEFClientValidation.myClientsideValidation;
+          }
+          validator.element(this);
+        };
+        $.fn.checkValidationResult.overriden = true;
+      }
       //Custom error placement for birthdate fields
       var oldSetErrorElement = Drupal.clientsideValidation.prototype.setErrorElement;
       Drupal.clientsideValidation.prototype.setErrorElement = function (error, element) {
@@ -320,10 +346,32 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
       };
 
       //override beforeSubmit for birthdate comboboxes
-      var birthDateComboboxes = $('#edit-profile-main-field-birthdate-und-0-value-year,#edit-profile-main-field-birthdate-und-0-value-month,#edit-profile-main-field-birthdate-und-0-value-day');
-      if(!birthDateComboboxes.length) {
+      var birthDateComboboxes = $('#edit-profile-main-field-birthdate-und-0-value-year,#edit-profile-main-field-birthdate-und-0-value-month,#edit-profile-main-field-birthdate-und-0-value-day'),
+        yearCombobox = $('#edit-profile-main-field-birthdate-und-0-value-day'),
+        nameField = $('#edit-profile-main-field-full-name-und-0-given'),
+        surnameField = $('#edit-profile-main-field-full-name-und-0-family');
+      if (!birthDateComboboxes.length) {
         return;
       }
+
+      nameField.bind('change', function () {
+        var validator = $(this.form).validate();
+        yearCombobox.rules('remove', 'combination-error');
+        if (yearCombobox.data('combination-error')) {
+          validator.element(yearCombobox);
+          yearCombobox.data('combination-error', false);
+        }
+
+      });
+      surnameField.bind('change', function () {
+        var validator = $(this.form).validate();
+        yearCombobox.rules('remove', 'combination-error');
+        if (yearCombobox.data('combination-error')) {
+          validator.element(yearCombobox);
+          yearCombobox.data('combination-error', false);
+        }
+      });
+
       birthDateComboboxes.each(function (i, birthdateElement) {
         Drupal.ajax[$(birthdateElement).attr('id')].beforeSubmit = function () {
           var isAllFilled = Drupal.behaviors.userRegisterFormSpecials.isAllBirthdateInputsFilled(birthDateComboboxes);
@@ -331,12 +379,16 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
         }
       });
 
-      birthDateComboboxes.bind('change', function () {
+      birthDateComboboxes.bind('change', function (e) {
+        yearCombobox.rules('remove', 'combination-error');
         var validator = $(this.form).validate();
         if (!Drupal.myClientsideValidation) {
           validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
         }
-        validator.element(this);
+        if (yearCombobox.data('combination-error')) {
+          validator.element(yearCombobox);
+          yearCombobox.data('combination-error', false);
+        }
       });
 
       //override success function
@@ -362,6 +414,13 @@ var ajaxAttach = Drupal.behaviors.AJAX.attach;
 
           oldSuccess.call(this);
         }, validator)
+      });
+
+      $(document).bind('clientsideValidationAddCustomRules', function (event) {
+        $.validator.addMethod('combination-error', function () {
+          yearCombobox.data('combination-error', true);
+          return false;
+        })
       });
     }
   }
