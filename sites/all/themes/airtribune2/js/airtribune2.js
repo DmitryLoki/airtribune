@@ -107,18 +107,21 @@ jQuery(function ($) {
   //Temp stub for "Create an event" button
   var createEventButton = $('.create_event'),
     //stubHtml = $('<span style="display: block">Contact <a class="create-event-mail" href="mailto:info@airtribune.com">info@airtribune.com</a> to publish your event</span><span style="font-size: 25px">Automatic event publication is coming soon.</span>'),
-    stubHtml = $('<span style="display: block"></span>',
+    stubHtml = $('.create_event .contact_admin'),
     mailLink = stubHtml.find('.create-event-mail'),
-    link = createEventButton.find('a'),
-    defaultText = link.text();
+    link = createEventButton.find('a.create');
+    //defaultText = link.text();
 
   createEventButton
     .bind('click', function (e) {
       e.preventDefault();
-      link.html(stubHtml);
+      link.hide();
+      stubHtml.css('display', 'block');
     })
     .bind('mouseleave', function (e) {
-      link.text(defaultText);
+      //link.text(defaultText);
+      stubHtml.hide();
+      link.show();
     });
 
   mailLink.bind('click', function (e) {
