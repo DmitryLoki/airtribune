@@ -6888,6 +6888,16 @@ return array($event_id);';
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Path (excluded) */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['ui_name'] = 'Path (excluded)';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['path']['alter']['text'] = 'event/[nid]';
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   /* Field: Title (excluded) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -6895,8 +6905,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['path'] = 'event/[nid]';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
@@ -6939,6 +6947,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_logo']['field'] = 'field_logo';
   $handler->display->display_options['fields']['field_logo']['ui_name'] = 'Logo (excluded)';
   $handler->display->display_options['fields']['field_logo']['label'] = '';
+  $handler->display->display_options['fields']['field_logo']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_logo']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_logo']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_logo']['settings'] = array(
@@ -6962,6 +6971,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]</span><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span><span class="status">[status]</span></div>';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = '[path]';
+  $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'my_event';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
@@ -6977,13 +6990,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -7034,6 +7040,7 @@ return array($event_id);';
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('event/[nid]'),
     t('<div><span class="logo">[field_logo]</span><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span><span class="status">[status]</span></div>'),
     t('All'),
     t('Dates - end date (field_dates:value2)'),
