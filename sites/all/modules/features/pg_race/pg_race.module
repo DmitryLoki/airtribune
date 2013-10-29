@@ -561,9 +561,9 @@ function pg_race_retrive_callback($entity) {
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve map'),
-      '#path' => 'retrieve/' . $entity->id,
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map'),
       '#options' => array(
-        'attributes' => array('class' => array('retrieve-link'), 'target' => '_blank'),
+        'attributes' => array('class' => array('retrieve-map-link'), 'target' => '_blank'),
         'html' => FALSE,
       ),
       '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
@@ -585,22 +585,15 @@ function pg_race_retrive_table_callback($entity) {
   $contest_is_offline = $contest_wrapper->field_is_offline->value();
 
   if (!$contest_is_offline) {
-    $core_id_items = field_get_items('node', $node, 'field_core_id');
-    $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
-
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve table'),
-      '#path' => PG_RACE_RETREIVE_URL,
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table'),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
         'html' => FALSE,
-        'query' => array(
-          'contestid' => $core_id_items[0]['value'],
-          'raceid' => $race_id_items[0]['value'],
-        )
       ),
-      '#access' => pg_race_retrive_access($entity, $gid),
+      '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
     );
     $output = render($link);
   }
