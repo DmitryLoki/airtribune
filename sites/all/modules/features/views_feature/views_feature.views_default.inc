@@ -6964,13 +6964,25 @@ return array($event_id);';
   $handler->display->display_options['fields']['status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['status']['type'] = 'published-notpublished';
   $handler->display->display_options['fields']['status']['not'] = 0;
+  /* Field: Published status class (excluded) */
+  $handler->display->display_options['fields']['status_1']['id'] = 'status_1';
+  $handler->display->display_options['fields']['status_1']['table'] = 'node';
+  $handler->display->display_options['fields']['status_1']['field'] = 'status';
+  $handler->display->display_options['fields']['status_1']['ui_name'] = 'Published status class (excluded)';
+  $handler->display->display_options['fields']['status_1']['label'] = '';
+  $handler->display->display_options['fields']['status_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['status_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['status_1']['alter']['text'] = 'status-[status_1]';
+  $handler->display->display_options['fields']['status_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['status_1']['type'] = 'boolean';
+  $handler->display->display_options['fields']['status_1']['not'] = 0;
   /* Field: All fields */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]</span><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span><span class="status">[status]</span></div>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]</span><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span><span class="status [status_1]">[status]</span></div>';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
@@ -7041,7 +7053,8 @@ return array($event_id);';
     t('next ›'),
     t('last »'),
     t('event/[nid]'),
-    t('<div><span class="logo">[field_logo]</span><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span><span class="status">[status]</span></div>'),
+    t('status-[status_1]'),
+    t('<div><span class="logo">[field_logo]</span><span class="title">[title]</span><span class="dates">[field_dates]</span><span class="place">[field_country], [field_city]</span><span class="status [status_1]">[status]</span></div>'),
     t('All'),
     t('Dates - end date (field_dates:value2)'),
     t('Page'),
