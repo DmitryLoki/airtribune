@@ -617,10 +617,11 @@ class ATSyncTracker extends ATSync {
 
   public function synchronize() {
     $wrapper = entity_metadata_wrapper('ent_tracker', $this->entity);
-    $field = $wrapper->field_tracker_type->value();
-    $device_type = $field->title;
+    $field_tracker_type = $wrapper->field_tracker_type->value();
+    $field_device_id = $wrapper->field_device_id->value();
+    $device_type = $field_tracker_type->title;
     $data = array(
-      'device_id' => $this->entity->identifier,
+      'device_id' => $field_device_id,
       'device_type' => $device_type,
       'name' => $this->entity->title,
     );

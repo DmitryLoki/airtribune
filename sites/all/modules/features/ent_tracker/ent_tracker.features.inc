@@ -18,11 +18,6 @@ $items = array(
       'type' => 'text',
       'behavior' => 'title',
     ),
-    'identifier' => array(
-      'label' => 'Identifier',
-      'type' => 'text',
-      'behavior' => 'title',
-    ),
   ),
 ),
   );
