@@ -13,58 +13,25 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   if (!$event) {
     drupal_not_found();
   }
-
   field_attach_form('node', $event, $form, $form_state);
-  $unset_fields = array(
-    'field_city',
-    'group_group',
-    'field_time_zone',
-    'field_info',
-    'field_contest_photos',
-    'field_flying_site_photos',
-    'field_collection_organizers',
-    'field_selection',
-    'field_contest_rules',
-    'field_prizes',
-    'field_schedule',
-    'field_sample_schedule',
-    'field_downloads',
-    'field_hq_location',
-    'field_address',
-    'field_headquarter_info',
-    'field_points_file',
-    'field_social_links',
-    'field_twitter_widget_code',
-    'field_headquarter_hotel',
-    'og_roles_permissions',
-    'group_contacs',
-    '#fieldgroups',
-    '#attached',
-    '#group_children',
-    '#groups',
-    '#field_group_multiple',
-    '#metatags',
-    'field_contacts_email',
-    'field_contacts_name',
-    'field_position',
-    'field_contacts_phone',    
-    'fgm_node_pg_contest_form_group_contacs',
-    'field_results_title',
-    'field_results_summary',
-    'field_core_id',
-    'field_max_number_contestants',
-    'field_gt_general',
-    'field_gt_plane',
-    'field_gt_train',
-    'field_gt_car',
-    'field_gt_bus',
-    'field_gt_taxi',
-    'field_device_id',
-    'field_is_offline',
-    'field_flying_info',
+  $fields = array(
+    '#parents',
+    '#entity',
+    'field_flying_site_ref',
+    'field_tiny_path',
+    'field_dates',
+    'field_logo',
+    'field_fai_category',
+    'field_open_class',
+    'field_country',
+    'field_registration_sw',
+    '#pre_render',
+    '#entity_type',
+    '#bundle'
   );
-  foreach ($unset_fields as $unset_field) {
-    unset($form[$unset_field]);
+  foreach ($form as $id => $value) {
+    if(!in_array($id, $fields))
+      unset($form[$id]);
   }
   $form['name'] = array(
     '#type' => 'textfield',
