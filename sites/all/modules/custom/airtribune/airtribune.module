@@ -120,14 +120,13 @@ function airtribune_menu() {
     'file' => 'plugins/content_types/soon_country/soon_country.inc',
   );
   $items['event/%node/settings'] = array(
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
     'file' => 'airtribune.pages.inc',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('airtribune_event_settings_form', 1),
     'access callback' => 'airtribune_event_settings_access',
     'access arguments' => array(1),
-    'title callback' => 'airtribune_event_settings_title',
-    'title arguments' => array(1),
+    'title' => 'Settings',
   );
   return $items;
 }

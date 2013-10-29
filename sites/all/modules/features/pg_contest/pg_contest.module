@@ -295,6 +295,7 @@ function _pg_contest_urls_init($nid) {
     '/map/basic',
     '/register',
     '/results',
+    '/settings',
   );
   return $result;
 }
