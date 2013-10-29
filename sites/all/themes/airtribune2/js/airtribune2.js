@@ -106,7 +106,8 @@ jQuery(function ($) {
 
   //Temp stub for "Create an event" button
   var createEventButton = $('.create_event'),
-    stubHtml = $('<span style="display: block">Contact <a class="create-event-mail" href="mailto:info@airtribune.com">info@airtribune.com</a> to publish your event</span><span style="font-size: 25px">Automatic event publication is coming soon.</span>'),
+    //stubHtml = $('<span style="display: block">Contact <a class="create-event-mail" href="mailto:info@airtribune.com">info@airtribune.com</a> to publish your event</span><span style="font-size: 25px">Automatic event publication is coming soon.</span>'),
+    stubHtml = $('<span style="display: block"></span>',
     mailLink = stubHtml.find('.create-event-mail'),
     link = createEventButton.find('a'),
     defaultText = link.text();
