@@ -121,7 +121,7 @@
 
     },
     prepareErrorElement: function (error) {
-      var errorText = error.html(),
+      var errorText = error.html?error.html():error,
         errorElement = $(Drupal.behaviors.DEFClientValidation.getBooble(errorText));
       errorElement.addClass('error');
       return errorElement;
@@ -164,13 +164,12 @@
         formItem.addClass('field_error');
 
         $(element[0].form).find('.form-submit').addClass('disabled');
-        ;
+
       };
 
       $(document).bind('clientsideValidationAddCustomRules', function (event) {
 
         $.validator.addMethod("passwordStrength", function (value, element, param) {
-          $(element).rules('remove', 'required');
           var passwordStrength = Drupal.evaluatePasswordStrength(value, settings.password),
             passwordField = $(element),
             passwordFieldContainer = passwordField.parent(),
@@ -183,7 +182,7 @@
           //debugger;
           switch (passwordStrength.pass) {
             case 'error':
-              var errorMessage = Drupal.behaviors.DEFClientValidation.prepareErrorElement($('<span>' + settings.password.easyToGuess + '</span>'));
+              var errorMessage = $('<span>'+settings.password.easyToGuess+'</span>');
               Drupal.clientsideValidation.prototype.setErrorElement(errorMessage, $(element));
               return false;
             case 'weak':
@@ -209,8 +208,6 @@
         });
 
         $.validator.addMethod("passwordConfirmation", function (value, element, param) {
-          //Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error']
-          $(element).rules('remove', 'required');
           var form = $(element.form),
             confirmationField = $(element),
             passwordField = form.find('.password-field'),
@@ -262,21 +259,15 @@
                 validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
               }
               validator.element(this);
-              validator.checkAllValid();
+              if (!validator.checkAllValid()) {
+                $(this.form).find('.form-submit').addClass('disabled');
+              } else {
+                $(this.form).find('.form-submit').removeClass('disabled');
+              }
             }
 
             allElements
-              .filter(':not(.ajax-processed)')
-              .unbind('keyup.validation')
-              .bind('keyup.validation', function () {
-                if (!validator.checkAllValid()) {
-                  $(this.form).find('.form-submit').addClass('disabled');
-                  ;
-                } else {
-                  $(this.form).find('.form-submit').removeClass('disabled');
-                  ;
-                }
-              })
+              .filter(':not(.ajax-processed,[type="password"])')
               .unbind('focusout.validation')
               .bind('focusout.validation', validateElement);
 
@@ -289,12 +280,17 @@
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
                 $(this.form).find('.form-submit').addClass('disabled');
-                ;
               });
 
+            allElements.filter(':not([type="password"])')
+              .unbind('focusout.keyup-validation')
+              .bind('focusout.keyup-validation', function(){
+                $(this)
+                  .unbind('keyup.keyup-validation')
+                  .bind('keyup.keyup-validation', validateElement);
+              })
             if (!validator.checkAllValid()) {
               $(allElements[0].form).find('.form-submit').addClass('disabled');
-              ;
             }
 
           })(validator);
@@ -323,7 +319,7 @@
           var form = this.closest('form'),
             validator = form.validate();
 
-          this.rules('add', {'combination-error': true, messages: {'combination-error': errorText || 'asdasd'}});
+          this.rules('add', {'combination-error': true, messages: {'combination-error': errorText}});
           if (Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
             Drupal.myClientsideValidation = Drupal.behaviors.DEFClientValidation.myClientsideValidation;
           }
@@ -347,6 +343,7 @@
 
       //override beforeSubmit for birthdate comboboxes
       var birthDateComboboxes = $('#edit-profile-main-field-birthdate-und-0-value-year,#edit-profile-main-field-birthdate-und-0-value-month,#edit-profile-main-field-birthdate-und-0-value-day'),
+        passField = $('#edit-pass-pass1'),
         yearCombobox = $('#edit-profile-main-field-birthdate-und-0-value-day'),
         nameField = $('#edit-profile-main-field-full-name-und-0-given'),
         surnameField = $('#edit-profile-main-field-full-name-und-0-family');
@@ -354,7 +351,16 @@
         return;
       }
 
-      nameField.bind('change', function () {
+      passField
+        .unbind('keyup.user-reg-validation')
+        .bind('keyup.user-reg-validation', function(){
+          var validator = $(this.form).validate();
+          validator.element(this);
+        });
+
+      nameField
+        .unbind('change.user-reg-validation')
+        .bind('change.user-reg-validation', function () {
         var validator = $(this.form).validate();
         yearCombobox.rules('remove', 'combination-error');
         if (yearCombobox.data('combination-error')) {
@@ -363,7 +369,9 @@
         }
 
       });
-      surnameField.bind('change', function () {
+      surnameField
+        .unbind('change.user-reg-validation')
+        .bind('change.user-reg-validation', function () {
         var validator = $(this.form).validate();
         yearCombobox.rules('remove', 'combination-error');
         if (yearCombobox.data('combination-error')) {
@@ -375,6 +383,7 @@
       birthDateComboboxes.each(function (i, birthdateElement) {
         Drupal.ajax[$(birthdateElement).attr('id')].beforeSubmit = function () {
           var isAllFilled = Drupal.behaviors.userRegisterFormSpecials.isAllBirthdateInputsFilled(birthDateComboboxes);
+          this.ajaxing = false;
           return isAllFilled;
         }
       });
@@ -424,5 +433,4 @@
       });
     }
   }
-})
-  (jQuery);
+})(jQuery);
