@@ -812,7 +812,7 @@ function cde_ajax_render_alter(&$commands) {
       
       // TODO: Fix
       // Do not add any settings on ajax requests
-      unset($commands[$k]);
+      unset($commands[$k]['settings']['clientsideValidation']);
       return;
       
       $forms =& $command['settings']['clientsideValidation']['forms'];
