@@ -879,7 +879,8 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       'passwordStrength' => TRUE,
       'messages' => array(
         'required' => t('Password is required.'),
-        'passwordStrength' => t('This password is too easy to guess.'),
+        //~ 'passwordStrength' => t('This password is too easy to guess.'),
+        'passwordStrength' => t('This password is too simple and easy to guess.'),
       ),
       'form_id' => 'user_register_form',
     ),
@@ -934,6 +935,9 @@ function _cde_rules(&$rules, $multiform = FALSE) {
       ),
       //~ 'messages' => array(
         //~ 'regexMatch' => $english_only_message,
+      //~ ),
+      //~ 'messages' => array(
+        //~ 'regexMatch' => t('This field may contain only Eglish letters and digits.'),
       //~ ),
       'form_id' => 'profile2_edit_pilot_form',
     ),
