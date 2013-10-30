@@ -3436,9 +3436,36 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .accordeon_inner ul ul { color: #919191; margin: 0 0 0 10px; list-style: none; list-style-image: none;}
 
 .solutions_hosting .create_event { margin-top: 102px; text-align: right; color: #333a40; font-size: 16px;}
-.solutions_hosting .create_event>a { display: block; height: 80px; margin-bottom: 8px; background: url(../images/CreateEvent.png) no-repeat 0 0; overflow: hidden; text-indent: -9999px; text-align: left;}
+.solutions_hosting .create_event > a,
+.solutions_hosting .create_event > span.contact_admin { display: block; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #ffffff; text-shadow: 0 1px 1px rgba(79, 87, 12, .15); text-decoration: none; padding: 22px 0 28px; margin-bottom: 8px;
 
-.solutions_hosting .create_event>a:hover { background-position: 0 -80px}
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdd925', endColorstr='#a4bb15'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #cdd925 0%, #a4bb15 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#cdd925), to(#a4bb15));
+  background: -moz-linear-gradient(top,  #cdd925 0%,  #a4bb15 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #cdd925 0%,  #a4bb15 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #cdd925 0%,  #a4bb15 100%); /* для IE10+ */
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+
+.solutions_hosting .create_event>a:hover {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d8e22a', endColorstr='#98b310'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #d8e22a 0%, #98b310 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#d8e22a), to(#98b310));
+  background: -moz-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #d8e22a 0%,  #98b310 100%); /* для IE10+ */
+
+}
+
+ .solutions_hosting .create_event > span.contact_admin { font-size: 24px; line-height: 24px; padding: 17px 0 28px; height: 35px; display: none;}
+ .solutions_hosting .create_event > span.contact_admin a { color: #1550bc}
+ .solutions_hosting .create_event > span.contact_admin span { display: block; font-size: 14px; line-height: 16px; padding-top: 10px;}
 
   /* Solutions SMS Retrieve */
 
