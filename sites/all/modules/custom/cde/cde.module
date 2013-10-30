@@ -191,6 +191,8 @@ function cde_form_anonymous($nid) {
  * Add list of generic elements to validate.
  */
 function cde_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  
   $def_generic_elements = array();
   
   // TODO: Add only for forms with enabled validation.
@@ -215,6 +217,18 @@ function cde_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login' :
       $form['actions']['submit']['#value'] = t('Sign in');
       break;
+  }
+  
+  // TODO: Check membership types
+  if ($form_id == 'og_ui_confirm_subscribe' && $user->uid) {
+    //~ $form['user_mail'] = array(
+      //~ '#markup' => $user->mail,
+    //~ );
+    $form['account']['mail_dummy'] = array(
+      '#type' => 'item',
+      '#title' => t('Email'),
+      '#markup' => $user->mail,
+    );
   }
   
   def_add_generic_elements($form_state, $def_generic_elements);
@@ -421,10 +435,26 @@ function cde_form_authorized($nid) {
   $form_title = $node->title;
 
   $profile2_init_data = cde_profile_form_init_data_authorized();
+  $profile2_init_data_main = cde_profile_form_init_data_authorized('main');
   
   $settings = array(
     '#multiform_id' => 'contest_registration_authorized',
     '#subforms' => array(
+      array(
+        //'form_id' => 'entity_ui_get_form',
+        'form_id' => $profile2_init_data_main['form_id'],
+        //'args' => cde_profile_form_args(),
+        'args' => $profile2_init_data_main['args'],
+        '#preprocess_form_state' => array('cde_profile2_form_preprocess_form_state'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+      
       array(
         'form_id' => 'og_ui_confirm_subscribe',
         'args' => cde_og_form_args($nid),
@@ -436,6 +466,8 @@ function cde_form_authorized($nid) {
           ),
         ),
       ),
+
+      
       array(
         //'form_id' => 'entity_ui_get_form',
         'form_id' => $profile2_init_data['form_id'],
@@ -450,6 +482,7 @@ function cde_form_authorized($nid) {
           ),
         ),
       ),
+      
     ),
     '#submit_map' => array(
       '#submits' => array(
@@ -513,7 +546,7 @@ function cde_profile_form_init_data() {
 
 // TODO: see entity_ui_form_defaults() to add 'profile2' into $form_state
 // via entity_ui_main_form_defaults (cde_profile2_form_preprocess_form_state())
-function cde_profile_form_init_data_authorized() {
+function cde_profile_form_init_data_authorized($type_name = 'pilot') {
   // profile2_form()
   module_load_include('inc', 'profile2', 'contrib/profile2_page');
   
@@ -521,7 +554,7 @@ function cde_profile_form_init_data_authorized() {
   $uid = $user->uid;
   
   $entity_type = 'profile2';
-  $type_name = 'pilot';
+  //~ $type_name = 'pilot';
   $entity = profile2_by_uid_load($uid, $type_name);
   
   // Based on entity_ui_get_form()
@@ -572,7 +605,7 @@ function cde_def_validation_enabled_callback($element, $form_state) {
   
   $enabled = FALSE;
   // List of form_ids, for which ajax validation is enabled.
-  $enabled_forms = array('user_register_form', 'og_ui_confirm_subscribe', 'profile2_edit_pilot_form');
+  $enabled_forms = array('user_register_form', 'og_ui_confirm_subscribe', 'profile2_edit_pilot_form', 'profile2_edit_main_form');
   
   if (isset($form_state['build_info']['form_id']) && in_array($form_state['build_info']['form_id'], $enabled_forms)) {
     $enabled = TRUE;
