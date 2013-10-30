@@ -158,8 +158,8 @@
 
         var formItem = element.closest('.form-item');
         //remove previous error booble
-        formItem.find('.error.form_booble').remove();
-
+        formItem.find('.form_booble').remove();
+        formItem.removeClass('field_weak field_good field_excellent');
         element.after(errorElement);
         formItem.addClass('field_error');
 
