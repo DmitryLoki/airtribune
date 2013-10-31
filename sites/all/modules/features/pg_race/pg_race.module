@@ -412,22 +412,25 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
  * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
  */
 function get_days_ids_for_contest($og) {
-  if (!is_object($og)) {
-    return FALSE;
+  $days = FALSE;
+  if (is_object($og)) {
+    $relation_nids = db_select('og_membership', 'ogm')
+      ->fields('ogm', array('etid'))
+      ->condition('ogm.gid', $og->nid)
+      ->condition('ogm.entity_type', 'node')
+      ->execute()
+      ->fetchCol();
+
+    if (!empty($relation_nids)) {
+      $days = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->orderBy('nid', 'ASC')
+        ->condition('n.nid', $relation_nids, 'IN')
+        ->condition('n.type', 'day')
+        ->execute()
+        ->fetchCol();
+    }
   }
-  $relation_nids = db_select('og_membership', 'ogm')
-    ->fields('ogm', array('etid'))
-    ->condition('ogm.gid', $og->nid)
-    ->condition('ogm.entity_type', 'node')
-    ->execute()
-    ->fetchCol();
-  $days = db_select('node', 'n')
-    ->fields('n', array('nid'))
-    ->orderBy('nid', 'ASC')
-    ->condition('n.nid', $relation_nids, 'IN')
-    ->condition('n.type', 'day')
-    ->execute()
-    ->fetchCol();
   return $days;
 }
 
