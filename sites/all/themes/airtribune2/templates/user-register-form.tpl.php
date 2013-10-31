@@ -12,7 +12,7 @@ drupal_render($form['profile_main']['field_full_name']);
 print drupal_render($form['profile_main']['field_gender']);
 
 // Print Birthdate
-_airtribune2_alter_birthdate_widget(&$form['profile_main']['field_birthdate']);
+_airtribune2_alter_birthdate_widget($form['profile_main']['field_birthdate']);
 print drupal_render($form['profile_main']['field_birthdate']);
 
 //print_r($form['account']['pass']);

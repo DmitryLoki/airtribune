@@ -33,7 +33,7 @@ print drupal_render($pm_form['profile_main']['field_full_name'][$lang][0]['famil
 drupal_render($pm_form['profile_main']['field_full_name']);
 
 // Print Birthdate
-_airtribune2_alter_birthdate_widget(&$pm_form['profile_main']['field_birthdate']);
+_airtribune2_alter_birthdate_widget($pm_form['profile_main']['field_birthdate']);
 print drupal_render($pm_form['profile_main']['field_birthdate']);
 
 // Print profile_main fields left.
