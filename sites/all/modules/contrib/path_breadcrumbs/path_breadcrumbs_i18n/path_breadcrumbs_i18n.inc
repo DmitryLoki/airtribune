@@ -6,7 +6,7 @@
  */
 
 /**
- * Path breadcrumbs i18n object.
+ * Path Breadcrumbs i18n object.
  */
 class i18n_path_breadcrumbs_object extends i18n_string_object_wrapper {
 

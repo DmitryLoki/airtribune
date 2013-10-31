@@ -48,7 +48,7 @@ function _path_breadcrumbs_render_table($vars) {
     unset($form['breadcrumbs_table']);
 
     $rows[] = array(
-      'data' => array(array('data' => render($form['more']), 'colspan' => 4))
+      'data' => array(array('data' => render($form['more']), 'colspan' => 4)),
     );
 
     $headers = array(t('Link title'), t('Link path'), t('Weight'), t('Delete link'));
@@ -63,11 +63,12 @@ function _path_breadcrumbs_render_table($vars) {
 
     // Build some other elements after table.
     $context_placeholders = render($form['contexts']);
+    $custom = !empty($form['custom']) ? render($form['custom']) : '';
     $buttons = render($form['actions']);
 
     drupal_add_tabledrag('breadcrumbs-table', 'order', 'sibling', 'path-weight');
 
-    return drupal_render_children($form) . $output . $context_placeholders . $buttons;
+    return drupal_render_children($form) . $output . $context_placeholders . $custom . $buttons;
   }
 }
 
@@ -101,7 +102,7 @@ function theme_path_breadcrumbs_ui_breadcrumbs_list($vars) {
 
   if (empty($rows)) {
     $rows = array(array(
-      'data' => array(array('data' => t('There are no created path breadcrumbs yet.'), 'colspan' => 5))
+      'data' => array(array('data' => t('There are no created path breadcrumbs yet.'), 'colspan' => 5)),
     ));
   }
 
@@ -144,6 +145,6 @@ function theme_path_breadcrumbs_ui_form_step_arguments_selection_table($vars) {
   return theme('table', array(
     'header' => $header,
     'rows' => $rows,
-    'attributes' => array('id' => 'path-breadcrumbs-ui-argument-table')
+    'attributes' => array('id' => 'path-breadcrumbs-ui-argument-table'),
   ));
 }

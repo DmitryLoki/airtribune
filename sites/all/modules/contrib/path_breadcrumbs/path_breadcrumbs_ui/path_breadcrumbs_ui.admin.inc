@@ -66,7 +66,7 @@ function path_breadcrumbs_ui_breadcrumbs_list($form, &$form_state) {
     $form[$path->machine_name]['actions'] = array(
       '#theme' => 'links__ctools_dropbutton',
       '#links' => $operations,
-      '#attributes' => array('class' => array('links', 'inline'))
+      '#attributes' => array('class' => array('links', 'inline')),
     );
 
     $form[$path->machine_name]['weight'] = array(
@@ -110,36 +110,62 @@ function path_breadcrumbs_ui_breadcrumbs_list_submit($form, &$form_state) {
     }
   }
 
-  drupal_set_message(t('Path breadcrumbs was updated.'));
+  drupal_set_message(t('Path Breadcrumbs was updated.'));
 }
 
 /**
- * Path breadcrumbs settings form.
+ * Path Breadcrumbs settings form.
  */
 function path_breadcrumbs_ui_settings($form, $form_state) {
 
-  $form['path_breadcrumbs_settings'] = array(
+  // Theme settings.
+  $form['path_breadcrumbs_theme'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Breadcrumbs settings'),
+    '#title' => t('Theming settings'),
+    '#description' => t('Additional theme settings for all site breadcrumbs. You have to enable option "%option" to use Path Breadcrumbs theming features.', array('%option' => t('Use module breadcrumbs render function'))),
   );
 
-  $form['path_breadcrumbs_settings']['path_breadcrumbs_delimiter'] = array(
+  $form['path_breadcrumbs_theme']['path_breadcrumbs_internal_render'] = array(
+    '#type' => 'checkbox',
+    '#title' => '<strong>' . t('Use module breadcrumbs render function') . '</strong>',
+    '#default_value' => variable_get('path_breadcrumbs_internal_render', 1),
+    '#description' => t("If this value checked module will replace system or theme breadcrumb render function by module's one.<br/>Note that if this checkbox is unchecked module will not be able to implement settings below."),
+  );
+
+  $form['path_breadcrumbs_theme']['themes_fieldset'] = array(
+    '#type' => 'fieldset',
+    '#collapsed' => !count(variable_get('path_breadcrumbs_internal_render_themes', array())),
+    '#collapsible' => TRUE,
+    '#title' => t('Per theme settings'),
+  );
+
+  $form['path_breadcrumbs_theme']['themes_fieldset']['path_breadcrumbs_internal_render_themes'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Use internal Path Breadcrumbs rendering only for specific themes'),
+    '#options' => _path_breadcrumbs_themes_option_list(),
+    '#default_value' => variable_get('path_breadcrumbs_internal_render_themes', array()),
+    '#description' => t('If you select no themes, there will be no specific limitation for Path Breadcrumbs render function.'),
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="path_breadcrumbs_internal_render"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+
+  $form['path_breadcrumbs_theme']['path_breadcrumbs_delimiter'] = array(
     '#type' => 'textfield',
     '#title' => t('Delimiter'),
     '#default_value' => variable_get('path_breadcrumbs_delimiter', '»'),
     '#size' => 3,
     '#description' => t('Symbol that separates breadcrumbs.'),
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="path_breadcrumbs_internal_render"]' => array('checked' => FALSE),
+      ),
+    ),
   );
 
-  $form['path_breadcrumbs_settings']['path_breadcrumbs_truncate_length'] = array(
-    '#type' => 'select',
-    '#title' => t('Title max length'),
-    '#default_value' => variable_get('path_breadcrumbs_truncate_length', 100),    
-    '#options' => drupal_map_assoc(range(10, 150)),
-    '#description' => t('An upper limit of symbols in the title. Title over the limit will be truncated with adding ellipsis at the end.'),
-  );
-
-  $form['path_breadcrumbs_settings']['path_breadcrumbs_rich_snippets'] = array(
+  $form['path_breadcrumbs_theme']['path_breadcrumbs_rich_snippets'] = array(
     '#type' => 'select',
     '#title' => t('Rich snippets support'),
     '#options' => array(
@@ -148,39 +174,24 @@ function path_breadcrumbs_ui_settings($form, $form_state) {
       PATH_BREADCRUMBS_RICH_SNIPPETS_MICRODATA => t('Microdata'),
     ),
     '#default_value' => variable_get('path_breadcrumbs_rich_snippets', PATH_BREADCRUMBS_RICH_SNIPPETS_DISABLED),
-    '#description' => t('Provides rich snippets support for breadcrumbs. It is important to build a structure of a site in the SERP.')
+    '#description' => t('Provides rich snippets support for breadcrumbs. It is important to build a structure of a site in the SERP.'),
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="path_breadcrumbs_internal_render"]' => array('checked' => FALSE),
+      ),
+    ),
   );
 
-  $form['path_breadcrumbs_settings']['path_breadcrumbs_hide_single_breadcrumb'] = array(
+  $form['path_breadcrumbs_theme']['path_breadcrumbs_hide_single_breadcrumb'] = array(
     '#type' => 'checkbox',
     '#title' => t('Hide breadcrumbs navigation for single breadcrumb'),
     '#default_value' => variable_get('path_breadcrumbs_hide_single_breadcrumb', 0),
     '#description' => t('If breacrumbs navigation contains only one breadcrumb then breadcrumb navigation will be hidden.'),
-  );
-
-  $form['path_breadcrumbs_settings']['path_breadcrumbs_decode_entities'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Decode HTML entities'),
-    '#description' => t('Converts quotes in the breadcrumbs to their applicable characters.'),
-    '#default_value' => variable_get('path_breadcrumbs_decode_entities', TRUE),
-  );
-
-  $internal_render = variable_get('path_breadcrumbs_internal_render', 1);
-  if (!$internal_render) {
-    $form['path_breadcrumbs_settings']['path_breadcrumbs_delimiter']['#disabled'] = TRUE;
-    $form['path_breadcrumbs_settings']['path_breadcrumbs_rich_snippets']['#disabled'] = TRUE;
-    $form['path_breadcrumbs_settings']['path_breadcrumbs_hide_single_breadcrumb']['#disabled'] = TRUE;
-    $notice = '<div style="color:red">' . t('You are not able to use this feature until internal render is disabled.') . '</div>';
-    $form['path_breadcrumbs_settings']['path_breadcrumbs_delimiter']['#description'] .= $notice;
-    $form['path_breadcrumbs_settings']['path_breadcrumbs_rich_snippets']['#description'] .= $notice;
-    $form['path_breadcrumbs_settings']['path_breadcrumbs_hide_single_breadcrumb']['#description'] .= $notice;
-  }
-
-  $form['path_breadcrumbs_settings']['path_breadcrumbs_internal_render'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Use module breadcrumbs render function'),
-    '#default_value' => variable_get('path_breadcrumbs_internal_render', 1),
-    '#description' => t("If this value checked module will replace system or theme breadcrumb render function by module's one.<br/>Note that if this checkbox is unchecked module will not be able to implement settings above.")
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="path_breadcrumbs_internal_render"]' => array('checked' => FALSE),
+      ),
+    ),
   );
 
   // Cache settings.
@@ -220,6 +231,7 @@ function path_breadcrumbs_ui_settings($form, $form_state) {
     '#default_value' => variable_get('path_breadcrumbs_cache_lifetime', CACHE_PERMANENT),
   );
 
+  // Home link settings.
   $form['path_breadcrumbs_home_link'] = array(
     '#type' => 'fieldset',
     '#title' => t('Home link settings'),
@@ -240,6 +252,53 @@ function path_breadcrumbs_ui_settings($form, $form_state) {
     '#size' => 30,
   );
 
+  // Other settings.
+  $form['path_breadcrumbs_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Other settings'),
+  );
+
+  $url_cleaning_method_options = array(
+    'none' => t('Disabled'),
+    'ctools' => t('CTools'),
+  );
+  $url_cleaning_method_help[] = t('CTools method: transliterate (if <a href="@url">Transliteration</a> enabled), lower case, replace whitespace with "-".', array('@url' => 'https://drupal.org/project/transliteration'));
+
+  if (module_exists('pathauto')) {
+    $url_cleaning_method_options['pathauto'] = t('Pathauto');
+    $url_cleaning_method_help[] = t('Pathauto method: clean with <a href="@url">Pathauto settings</a>.', array('@url' => url('admin/config/search/path/settings', array( 'query' => array('destination' => current_path()) ))));
+  }
+  else {
+    $url_cleaning_method_help[] = t('Pathauto method (disabled): clean with <a href="@url">Pathauto module</a>.', array('@url' => 'https://drupal.org/project/pathauto'));
+  }
+
+  $url_cleaning_method_help = '<p>' . implode('<br />', $url_cleaning_method_help) . '</p>';
+
+  $form['path_breadcrumbs_settings']['path_breadcrumbs_url_cleaning_method'] = array(
+    '#type' => 'select',
+    '#title' => t('URL path cleaning method'),
+    '#default_value' => variable_get('path_breadcrumbs_url_cleaning_method', 'none'),
+    '#options' => $url_cleaning_method_options,
+    '#description' => $url_cleaning_method_help . t('Choose the path cleaning method to be applied to URLs in Path Breadcrumbs.'),
+  );
+
+  $form['path_breadcrumbs_settings']['path_breadcrumbs_truncate_title_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum title length'),
+    '#default_value' => variable_get('path_breadcrumbs_truncate_title_length', ''),
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#size' => 3,
+    '#description' => t('An upper limit of symbols in the Path Breadcrumbs title. Title over the limit will be truncated with adding ellipsis at the end. Leave blank to disable truncating.'),
+    '#field_suffix' => '<span class="description">' . (variable_get('path_breadcrumbs_truncate_title_length', '') ? t('To disable truncating leave field blank.') : t('Now truncating is disabled.')) . '</span>',
+  );
+
+  $form['path_breadcrumbs_settings']['path_breadcrumbs_decode_entities'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Decode HTML entities'),
+    '#description' => t('Converts quotes in the breadcrumbs to their applicable characters.'),
+    '#default_value' => variable_get('path_breadcrumbs_decode_entities', TRUE),
+  );
+
   $form['#submit'][] = 'path_breadcrumbs_ui_settings_submit';
 
   return system_settings_form($form);
@@ -252,12 +311,16 @@ function path_breadcrumbs_ui_settings_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   // Flush theme registry if internal render was changed to enable/disable system render in theme_breadcrumb() function.
-  if (isset($values['path_breadcrumbs_internal_render'])) {
-    $internal_render_new_value = $values['path_breadcrumbs_internal_render'];
-    $internal_render_old_value = variable_get('path_breadcrumbs_internal_render', 1);
-    if ($internal_render_new_value != $internal_render_old_value) {
-      drupal_theme_rebuild();
-    }
+  $internal_render_new_value = $values['path_breadcrumbs_internal_render'];
+  $internal_render_old_value = variable_get('path_breadcrumbs_internal_render', 1);
+
+  $themes_new_value = array_filter($values['path_breadcrumbs_internal_render_themes']);
+  $themes_old_value = variable_get('path_breadcrumbs_internal_render_themes', array());
+
+  $form_state['values']['path_breadcrumbs_internal_render_themes'] = $themes_new_value;
+
+  if (($internal_render_new_value != $internal_render_old_value) || $themes_new_value != $themes_old_value) {
+    drupal_theme_rebuild();
   }
 
   // Truncate all cached data.
