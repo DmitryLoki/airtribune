@@ -2687,11 +2687,32 @@ table tr td.:first-child { border-left: none;}
 #airtribune-vis { position: relative;}
 #airtribune-vis .timeout { z-index: 10; position: absolute; right: 10px; top: 3px; color: #97abbd; font-size: 12px;}
 #airtribune-vis table { margin-top: 0;}
-#airtribune-vis th a { text-decoration: none; color: #525d66}
+#airtribune-vis th a { text-decoration: none; }
+#airtribune-vis th a.asc { background-position: 100% -1268px; color: #33c0f8}
+#airtribune-vis th a.desc { background-position: 100% -1168px; color: #33c0f8}
 #airtribune-vis td { vertical-align: middle; text-align: center;}
+#airtribune-vis td:visited { color: #a300ef}
 #airtribune-vis .name { width: 135px;}
 #airtribune-vis td.name { text-align: left;}
 #airtribune-vis td span.ng-binding { display: inline-block;}
+#airtribune-vis td:first-child,
+#airtribune-vis th:first-child { border-left: none;}
+
+#airtribune-vis td.row-number { width: 31px;}
+#airtribune-vis td.contest-number { width: 41px;}
+#airtribune-vis td.name { width: 131px;}
+#airtribune-vis td.distance { width: 80px;}
+#airtribune-vis td.data-age { width: 61px;}
+#airtribune-vis td.speed { width: 71px;}
+#airtribune-vis td.alt { width: 51px;}
+#airtribune-vis td.coords { width: 151px;}
+#airtribune-vis td.tracker-name { width: 81px;}
+#airtribune-vis td.battery { width: 51px;}
+
+#airtribune-vis td.name span { display: inline-block;}
+#airtribune-vis td.name span.ng-binding { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+#airtribune-vis td.name span:last-child { width: 16px; margin-left: 5px;}
+
 .page-retrieve .panel-col-seventy .inside { margin: 0;}
 .page-retrieve .pane-inner .pane-inner { margin: 0;}
 
@@ -3510,4 +3531,43 @@ html.fb_view { overflow: auto;}
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
+
 .solutions_retrieve .create_event { padding-top: 99px;}
+
+/*====================================================
+CSS Tooltips by Adam Whitcroft
+https://github.com/AdamWhitcroft/CSS.Tooltips
+====================================================*/
+/*==================================================*/
+/*  $Tooltips                                       */
+/*==================================================*/
+[data-tip] {
+    position: relative;
+}
+
+[data-tip]:before {
+
+}
+
+[data-tip]:after {
+    display: none;
+    content: attr(data-tip);
+    position: absolute;
+    bottom: -14px;
+    left: 0px;
+    padding: 0 9px;
+    background: #fefaeb;
+    color: #6d6647;
+    z-index: 9;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    white-space: nowrap;
+    word-wrap: normal;
+    border: 1px solid #f4efda;
+}
+
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+    display: block;
+}
