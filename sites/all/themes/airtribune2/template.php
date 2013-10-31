@@ -1586,3 +1586,28 @@ function airtribune2_preprocess_image_style(&$variables) {
                                         : 'scoring-winner-vertical';
   }
 }
+
+/**
+ * Alter Name field widget to remove fieldset.
+ */
+function _airtribune2_alter_name_widget(&$element) {
+  $lang = $element['#language'];
+  $element[$lang][0]['given']['#prefix'] = '';
+  $element[$lang][0]['given']['#suffix'] = '';
+  $element[$lang][0]['family']['#prefix'] = '';
+  $element[$lang][0]['family']['#suffix'] = '';
+  $element[$lang][0]['given']['#title_display'] = 'before';
+  $element[$lang][0]['family']['#title_display'] = 'before';
+  $element[$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
+  $element[$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
+  // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+  $element[$lang][0]['given']['#title'] = t('Name');
+  $element[$lang][0]['family']['#title'] = t('Surname');
+}
+
+function _airtribune2_alter_birthdate_widget(&$element) {
+  $lang = $element['#language'];
+  $element[$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $element[$lang][0]['#title']);
+  $element[$lang][0]['value']['day']['#title'] = $element[$lang][0]['#title'];
+  $element[$lang][0]['#title'] = '';
+}
