@@ -80,12 +80,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -99,14 +98,13 @@ function validation_default_field_validation_rule() {
   $rule->bundle = 'pilot';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[A-Za-z -]+$',
+    'data' => '^[\\x20-\\x7F]+$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
@@ -132,12 +130,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['insurance_alphanumeric'] = $rule;
 
   $rule = new stdClass();
@@ -158,12 +155,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 1,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['latin'] = $rule;
 
   $rule = new stdClass();
@@ -315,12 +311,11 @@ function validation_default_field_validation_rule() {
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
   );
-  $rule->error_message = 'This field may contain only English letters.';
+  $rule->error_message = 'This field may contain only English letters and digits.';
   $export['paraglider_color_latin'] = $rule;
 
   $rule = new stdClass();

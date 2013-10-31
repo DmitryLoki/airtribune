@@ -1,7 +1,0 @@
-name = Airtribune registration
-description = Provides Airtribune registration process. To be refactored.
-package = Airtribune
-core = 7.x
-dependencies[] = og_ui
-dependencies[] = multiform
-; files[] = at_reg.rules.inc

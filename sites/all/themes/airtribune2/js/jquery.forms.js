@@ -152,8 +152,8 @@ jQuery.fn.forms = function(options){ // custom form elements
 				el.handle.items.children('.items_inner').find('.selected').removeClass('selected');
 				jQuery(this).addClass('selected');
 				el.handle.index = el.handle.items.children('.items_inner').find('.option').index(jQuery(this));
-				el.children().removeAttr('selected');
-				el.children().eq(el.handle.index).attr('selected', 'selected');
+				//el.find('option').removeAttr('selected');
+				el.find('option').eq(el.handle.index).attr('selected', '');
 				el.handle.cheked.html(el.handle.items.children('.items_inner').find('.selected').html())
 				el.handle.items.hide();
                 el.handle.items.trigger('select-hided');
