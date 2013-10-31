@@ -4421,20 +4421,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
   );
-  /* Contextual filter: Global: Null */
-  $handler->display->display_options['arguments']['null_1']['id'] = 'null_1';
-  $handler->display->display_options['arguments']['null_1']['table'] = 'views';
-  $handler->display->display_options['arguments']['null_1']['field'] = 'null';
-  $handler->display->display_options['arguments']['null_1']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['null_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null_1']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['null_1']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null_1']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['null_1']['validate_options']['types'] = array(
-    'pg_flyingsite' => 'pg_flyingsite',
-  );
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
@@ -4894,8 +4880,9 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '1';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'mapquest_nominatim';
 
   /* Display: Overlay accommodations */
   $handler = $view->new_display('openlayers', 'Overlay accommodations', 'overlay_accommodations');
@@ -4917,20 +4904,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
     'pg_contest' => 'pg_contest',
-  );
-  /* Contextual filter: Global: Null */
-  $handler->display->display_options['arguments']['null_1']['id'] = 'null_1';
-  $handler->display->display_options['arguments']['null_1']['table'] = 'views';
-  $handler->display->display_options['arguments']['null_1']['field'] = 'null';
-  $handler->display->display_options['arguments']['null_1']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null_1']['default_argument_type'] = 'php';
-  $handler->display->display_options['arguments']['null_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null_1']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['null_1']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['null_1']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['null_1']['validate_options']['types'] = array(
-    'pg_flyingsite' => 'pg_flyingsite',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -4964,8 +4937,9 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '1';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'mapquest_nominatim';
 
   /* Display: Active accommodation pane */
   $handler = $view->new_display('panel_pane', 'Active accommodation pane', 'panel_pane_1');
