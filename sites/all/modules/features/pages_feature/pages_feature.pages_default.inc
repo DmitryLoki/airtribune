@@ -5926,23 +5926,11 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane = new stdClass();
     $pane->pid = 'new-71';
     $pane->panel = 'featured_header_padding';
-    $pane->type = 'views';
-    $pane->subtype = 'header_slideshow';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'header_slideshow-header_facebook';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => FALSE,
-      'use_pager' => FALSE,
-      'nodes_per_page' => 10,
-      'pager_id' => 0,
-      'offset' => 0,
-      'more_link' => FALSE,
-      'feed_icons' => FALSE,
-      'panel_args' => FALSE,
-      'link_to_view' => FALSE,
-      'args' => '',
-      'url' => '',
-      'display' => 'default',
       'context' => array(
         0 => 'argument_entity_id:node_1',
       ),
@@ -7084,9 +7072,9 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->' .
-        '<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>' .
-        '<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
+        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->
+<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>
+<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
         'format' => 'php_code',
       ),
       'widget_type' => '2d',
