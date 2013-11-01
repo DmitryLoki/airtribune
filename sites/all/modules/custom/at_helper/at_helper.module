@@ -244,6 +244,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $form['actions']['submit']['#value'] = t('Sign in');
       break;
     case 'views_form_paragliding_pilots_list_manage':
+    case 'editablefields_as_link_form':
     case 'og_ui_confirm_subscribe' :
       $form['#validate'][] = 'at_helper_og_form_validate';
       // TODO: Add after_build only when performing ajax validation.
@@ -461,6 +462,9 @@ function at_helper_og_form_validate($form, &$form_state) {
     $element = isset($form['field_contestant_number']) ? $form['field_contestant_number'] : $form;
     // Get contest ID & pilot number.
     $gid = !empty($values['gid']) ? $values['gid'] : FALSE;
+    if ($form['#id'] == 'editablefields-as-link-form') {
+      $gid = $form['#entity']->gid;
+    }
     $pilot_number = !empty($values['field_contestant_number'][LANGUAGE_NONE][0]['value'])
       ? $values['field_contestant_number'][LANGUAGE_NONE][0]['value']
       : FALSE;

@@ -439,6 +439,28 @@ function at_validation_form_alter(&$form, &$form_state, $form_id) {
     // We need it for authorized event registration
     $form['#attached']['js'][] = drupal_get_path('module', 'at_validation') . '/js/user-reg-validation.js';
   }
+
+  // Fix clientside validation for editablefields_as_link.
+  // @see #3485
+  if ($form_id == 'editablefields_as_link_form') {
+    $langcode = $form['#langcode'];
+    $name = key($form_state['field']);
+    if ($name == 'field_phone') {
+      // We use custom widget to output phone number, which combine 2 fields: country code & number in one at client.
+      // Instead default 'value' this field have name 'full_number'.
+      $value = 'full_number';
+    }
+    else {
+      $value = 'value';
+    }
+    // Example 'field_phone[und][0][full_number]'
+    $fieldname = $name . '[' . $langcode .'][0][' . $value . ']';
+
+    $clientside_validation_settings = &drupal_static('clientside_validation_settings', array());
+    // Use 'editablefields-as-link-form' insted $form['#id'] because data will be copy from first form, without suffix
+    // such --2 --3 and also. @see clientside_validation_js_alter()
+    $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['rules'][$fieldname]['required'] = TRUE;
+  }
 }
 
 /**
