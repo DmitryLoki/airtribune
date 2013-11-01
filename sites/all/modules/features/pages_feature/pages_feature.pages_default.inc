@@ -1048,16 +1048,7 @@ viewers/*',
     padding: 0 10px;
   }',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
-        'keyword' => 'flying_site',
-        'name' => 'entity_from_field:field_flying_site_ref-node-node',
-        'delta' => 0,
-        'context' => 'node',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -1278,10 +1269,7 @@ event/*/map/accommodations',
       'override_title_text' => '',
       'context' => array(
         0 => 'event',
-        2 => 'empty',
-      ),
-      'arguments' => array(
-        'null_1' => '%flying_site:nid',
+        1 => 'empty',
       ),
     );
     $pane->cache = array();
@@ -1316,13 +1304,10 @@ event/*/map/accommodations',
     $pane->configuration = array(
       'context' => array(
         0 => 'event',
-        2 => 'empty',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
-      'arguments' => array(
-        'null_1' => '%flying_site:nid',
-      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -1337,8 +1322,8 @@ event/*/map/accommodations',
     $pane = new stdClass();
     $pane->pid = 'new-27';
     $pane->panel = 'featured_header_padding';
-    $pane->type = 'airtribune_race_preview';
-    $pane->subtype = 'airtribune_race_preview';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
@@ -1354,20 +1339,29 @@ event/*/map/accommodations',
       ),
     );
     $pane->configuration = array(
-      'widgetWidth' => '940px',
-      'widgetHeight' => '380px',
+      'widget_code' => array(
+        'value' => '<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
+<script  data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
+<div role="main" class="airvis-container">
+<!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
+</div>',
+        'format' => 'full_html',
+      ),
+      'widget_type' => '2d',
+      'widget_height' => '380',
+      'widget_width' => '940',
+      'context' => array(
+        0 => 'event',
+        1 => 'empty',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
-      'context' => 'empty',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => 'race-preview-map',
-      'css_class' => '',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
