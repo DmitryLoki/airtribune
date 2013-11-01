@@ -14,8 +14,8 @@ $plugin = array(
   'single' => TRUE,
   'category' => array('Airtribune'),
   'required context' => array(
-    new ctools_context_required(t('Race'), 'ent_race'),
     new ctools_context_required(t('Contest'), 'node'),
+    new ctools_context_optional(t('Race'), 'ent_race'),
   ),
 );
 
@@ -23,15 +23,11 @@ $plugin = array(
  * Render airtribune player pane.
  */
 function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_args, $context) {
-
-  if (empty($context[0]) || empty($context[0]->data) || $context[0]->data->type != AIRTRIBUNE_PG_RACE_TYPE) {
-    return;
+  if (!empty($context[0])) {
+    $context_contest = $context[0];
   }
-  else {
-    $context_race = $context[0];
-    if (!empty($context[1])) {
-      $context_contest = $context[1];
-    }
+  if (!empty($context[1])) {
+    $context_race = $context[1];
   }
 
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_vis';

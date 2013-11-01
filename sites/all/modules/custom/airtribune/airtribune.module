@@ -385,16 +385,16 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
       $replacements['[airtribune:race-online]'] = _airtribune_pg_race_online_state($data['race']->id);
     } else {
-      $replacements['[airtribune:race-core-id]'] = 'NONE';
-      $replacements['[airtribune:race-online]'] = 'NONE';
+      $replacements['[airtribune:race-core-id]'] = '';
+      $replacements['[airtribune:race-online]'] = NULL;
     }
 
     if (!empty($data['contest'])) {
       $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
       $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
     } else {
-      $replacements['[airtribune:contest-url]'] = 'NONE';
-      $replacements['[airtribune:contest-core-id]'] = 'NONE';
+      $replacements['[airtribune:contest-url]'] = '/';
+      $replacements['[airtribune:contest-core-id]'] = '';
     }
 
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
