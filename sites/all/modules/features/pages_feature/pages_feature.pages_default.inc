@@ -6698,7 +6698,7 @@ window.fbAsyncInit = function() {
   $page->arguments = array(
     'node' => array(
       'id' => 1,
-      'identifier' => 'Материал: ID',
+      'identifier' => 'Contest: ID',
       'name' => 'entity_id:node',
       'settings' => array(),
     ),
@@ -6707,6 +6707,23 @@ window.fbAsyncInit = function() {
     'admin_paths' => FALSE,
   );
   $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_points_widget_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'points_widget';
+  $handler->handler = 'http_response';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => '403 Access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'panels_everywhere_site_template' => 'site_template_panel_context_2',
+  );
+  $page->default_handlers[$handler->name] = $handler;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
@@ -6724,16 +6741,7 @@ window.fbAsyncInit = function() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
-        'keyword' => 'event',
-        'name' => 'entity_from_field:og_group_ref-ent_race-node',
-        'delta' => '0',
-        'context' => 'argument_entity_id:ent_race_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'logic' => 'and',
       'plugins' => array(
@@ -6762,21 +6770,32 @@ window.fbAsyncInit = function() {
     ),
   );
   $display->cache = array();
-  $display->title = 'No Title';
+  $display->title = 'Waypoint Planner | %node:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-86';
     $pane->panel = 'middle';
-    $pane->type = 'at_points_widget';
-    $pane->subtype = 'at_points_widget';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'widget_code' => array(
+        'value' => '<script data-main="http://vis.airtribune.com/wp/js/init" src="http://vis.airtribune.com/wp/js/require.js"></script>
+<link rel="stylesheet" href="http://vis.airtribune.com/wp/css/reset.css" />
+<link rel="stylesheet" href="http://vis.airtribune.com/wp/css/WayPointerEditor.css" />
+<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", eventId: [node:nid], mapWidget: "2d" } --><!-- /ko -->
+</div>',
+        'format' => 'full_html',
+      ),
       'widget_type' => '2d',
       'widget_height' => '600',
       'widget_width' => '900',
-      'context' => 'argument_entity_id:node_1',
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'empty',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -6790,48 +6809,9 @@ window.fbAsyncInit = function() {
     $pane->locks = array();
     $display->content['new-86'] = $pane;
     $display->panels['middle'][0] = 'new-86';
-    $pane = new stdClass();
-    $pane->pid = 'new-87';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'advert_on_visualization-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-87'] = $pane;
-    $display->panels['middle'][1] = 'new-87';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_points_widget_http_response';
-  $handler->task = 'page';
-  $handler->subtask = 'points_widget';
-  $handler->handler = 'http_response';
-  $handler->weight = 1;
-  $handler->conf = array(
-    'title' => '403 Access denied',
-    'contexts' => array(),
-    'relationships' => array(),
-    'code' => '403',
-    'destination' => '',
-    'panels_everywhere_site_template' => 'site_template_panel_context_2',
-  );
   $page->default_handlers[$handler->name] = $handler;
   $pages['points_widget'] = $page;
 
@@ -6946,7 +6926,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-88';
+    $pane->pid = 'new-87';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -6984,8 +6964,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-88'] = $pane;
-    $display->panels['middle'][0] = 'new-88';
+    $display->content['new-87'] = $pane;
+    $display->panels['middle'][0] = 'new-87';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7058,7 +7038,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-89';
+    $pane->pid = 'new-88';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7089,8 +7069,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-89'] = $pane;
-    $display->panels['middle'][0] = 'new-89';
+    $display->content['new-88'] = $pane;
+    $display->panels['middle'][0] = 'new-88';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

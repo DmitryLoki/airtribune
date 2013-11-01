@@ -43,6 +43,7 @@ function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_a
     'widget_type' => $widget_type,
     'widget_width' => $conf['widget_width'],
     'widget_height' => $conf['widget_height'],
+    'node' => $context_contest->data,
   );
 
   $widget_html = check_markup(token_replace($conf['widget_code']['value'], $data), $conf['widget_code']['format']);
@@ -82,7 +83,7 @@ function airtribune_airtribune_vis_content_type_edit_form($form, &$form_state) {
   if(module_exists("token")) { 
     $form['token_help']['content'] = array(
       '#type' => 'markup',
-      '#token_types' => array(), 
+      '#token_types' => array('node'),
       '#theme' => 'token_tree');
   }
 
