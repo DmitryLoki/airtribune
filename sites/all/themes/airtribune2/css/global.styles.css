@@ -2402,7 +2402,8 @@ form .form-actions { margin-left:210px; padding-top:28px}
 #mail-edit-cancel-link { display: none; cursor: pointer;}
 form .form-actions input, 
 .events-add a,
-form .reg_choice a { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
+form .reg_choice a, 
+form table input.form-submit { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2418,7 +2419,10 @@ form .reg_choice a { position:relative; display:inline-block; height:30px; borde
   
 }
 
-form .form-actions input:hover, .events-add a:hover, form .reg_choice a:hover {border-color:#ecd767;
+form .form-actions input:hover, 
+.events-add a:hover, 
+form .reg_choice a:hover, 
+form table input.form-submit:hover {border-color:#ecd767;
 
   background:#e4c25e;
   background: -moz-linear-gradient(top, #e4c25e 0%, #d8a92d 100%); 
@@ -2430,7 +2434,10 @@ form .form-actions input:hover, .events-add a:hover, form .reg_choice a:hover {b
   
 }
 
-form .form-actions input:active, .events-add a:active, form .reg_choice a:active { border-color:#d5a722;
+form .form-actions input:active, 
+.events-add a:active, 
+form .reg_choice a:active, 
+form table input.form-submit:active { border-color:#d5a722;
   background:#d3b246;
   background: -moz-linear-gradient(top, #d3b246 0%, #ca9f22 100%); 
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3b246), color-stop(100%,#ca9f22));
@@ -2446,7 +2453,12 @@ form .reg_choice a span { display: inline-block; vertical-align: middle;}
 form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
 #event_register { display: none;}
 
-form .form-actions input.disabled, form .form-actions input.disabled:hover, form .form-actions input.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
+form .form-actions input.disabled, 
+form .form-actions input.disabled:hover, 
+form .form-actions input.disabled:active, 
+form table input.form-submit.disabled, 
+form table input.form-submit.disabled:hover, 
+form table input.form-submit.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
 
 
     box-shadow: 0 1px 3px rgba(35,48,35,0.45), inset 0 0 3px #ebe493;  
@@ -2521,6 +2533,14 @@ form .field-type-phone-number .field-prefix { position: absolute; margin: 4px 0 
 
 form .street-block { clear: both; padding-top: 1px; display: block;}
 form  .street-block .form-item:first-child { margin-top: 15px;}
+
+
+.page-event-pilots form { margin-top: 0; padding: 0; border: none;}
+form table .form-item { padding-bottom: 0;}
+form table .inline-label { width: 5px;}
+form table .form-actions { width: auto; margin: 0; padding: 0;}
+form table td { vertical-align: middle;}
+form table .field-name-field-pg-contestant-status .select { width: 164px;}
 
 /* User account form */
 /*.page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
