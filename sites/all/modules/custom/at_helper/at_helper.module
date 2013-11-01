@@ -214,6 +214,29 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       //~ $form['#after_build'][] = '_at_helper_user_register_extra_after_build';
       //~ // TODO: Add after_build only when performing ajax validation.
       $form['#after_build'][] = '_at_helper_og_form_extra_after_build';
+      
+      
+      // Moved from at_validation.module
+      
+      // Fix clientside validation for editablefields_as_link.
+      // @see #3485
+      $langcode = $form['#langcode'];
+      $name = key($form_state['field']);
+      if ($name == 'field_phone') {
+        // We use custom widget to output phone number, which combine 2 fields: country code & number in one at client.
+        // Instead default 'value' this field have name 'full_number'.
+        $value = 'full_number';
+      }
+      else {
+        $value = 'value';
+      }
+      // Example 'field_phone[und][0][full_number]'
+      $fieldname = $name . '[' . $langcode .'][0][' . $value . ']';
+
+      $clientside_validation_settings = &drupal_static('clientside_validation_settings', array());
+      // Use 'editablefields-as-link-form' insted $form['#id'] because data will be copy from first form, without suffix
+      // such --2 --3 and also. @see clientside_validation_js_alter()
+      $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['rules'][$fieldname]['required'] = TRUE;
       break;
   }
 }
