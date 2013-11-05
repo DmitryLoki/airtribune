@@ -93,6 +93,14 @@ function multiform_form_alter(&$form, &$form_state, $form_id) {
 
   if (!empty($form_state['#multiform'])) {
     $form['#after_build'][] = 'multiform_form_after_build';
+    
+    // TODO: Change module weights.
+    // Change order of clientside_validation hook
+    $cs_key = array_search('clientside_validation_form_after_build', $form['#after_build']);
+    if ($cs_key !== FALSE) {
+      unset($form['#after_build'][$cs_key]);
+      $form['#after_build'][] = 'clientside_validation_form_after_build';
+    }
   }
 }
 
