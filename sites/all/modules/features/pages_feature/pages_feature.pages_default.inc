@@ -6553,10 +6553,18 @@ window.fbAsyncInit = function() {
     'contexts' => array(),
     'relationships' => array(
       0 => array(
-        'identifier' => 'Content from Race (on Race: Groups audience [og_group_ref])',
+        'identifier' => 'Contest reference',
         'keyword' => 'event',
         'name' => 'entity_from_field:og_group_ref-ent_race-node',
         'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+      1 => array(
+        'identifier' => 'Day reference',
+        'keyword' => 'day',
+        'name' => 'entity_from_field:field_day_ref-ent_race-node',
+        'delta' => 0,
         'context' => 'argument_entity_id:ent_race_1',
         'id' => 1,
       ),
@@ -6576,7 +6584,7 @@ window.fbAsyncInit = function() {
     ),
   );
   $display->cache = array();
-  $display->title = '%event:title';
+  $display->title = 'Task %race:field_race_number | Day %day:field_day_number | %event:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -6604,8 +6612,8 @@ window.fbAsyncInit = function() {
       'widget_height' => '380',
       'widget_width' => '940',
       'context' => array(
-        0 => 'argument_entity_id:ent_race_1',
-        1 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+        1 => 'argument_entity_id:ent_race_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',

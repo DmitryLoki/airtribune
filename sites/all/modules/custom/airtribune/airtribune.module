@@ -375,8 +375,10 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   // @author Vyacheslav Malchik <info@vkey.biz>
   // @todo Returns an array of after clearing the cache for an unknown reason
   if (module_exists('at_core_sync')) {
-    $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
-    $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+    if ($type == 'variable') {
+      $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
+      $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+    }
   }
 
   // Tokens for visualization pane
