@@ -1,0 +1,7 @@
+name = AT Registration
+core = 7.x
+
+dependencies[] = multiform
+dependencies[] = feaval
+
+files[] = tests/at_reg.test

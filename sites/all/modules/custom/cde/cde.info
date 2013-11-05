@@ -1,7 +1,0 @@
-name = CDE
-core = 7.x
-
-dependencies[] = abc
-dependencies[] = def
-
-files[] = tests/cde.test

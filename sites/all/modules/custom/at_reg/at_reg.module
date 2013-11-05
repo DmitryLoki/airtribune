@@ -1,0 +1,1295 @@
+<?php
+
+// TODO: Move common generic plugins alter into feaval submodule (feaval_extra).
+// TODO: Close standard callback for group registration.
+
+// TODO: Remove after tests finished.
+function at_reg_menu() {
+  $items['at_reg/test/%'] = array(
+   'title' => 'AT Reg Test', 
+    'page callback' => 'at_reg_test',
+    'page arguments' => array(2),
+    'access callback' => TRUE, 
+    //'file' => 'multiform.tmp.inc',
+  );
+  
+  $items['event/%node/register'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'Registration',
+    'page callback' => 'at_reg_page_callback',
+    'page arguments' => array(1),
+    'access callback' => 'at_reg_access',
+    'access arguments' => array(1),
+    'weight' => 50,
+    //'file' => 'multiform.tmp.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function at_reg_menu_alter(&$items) {
+  $items['user/login']['title'] = 'Sign in';
+  $items['user/register']['title'] = 'Register new user';
+
+  $items['user/register']['weight'] = 0;
+  $items['user/login']['weight'] = 1;
+  $items['user/password']['weight'] = 2;
+}
+
+function at_reg_page_callback($node) {
+  global $user;
+  
+  $nid = $node->nid;
+  
+  $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  return $form;
+}
+
+// TODO: Remove after tests finished.
+function at_reg_test($nid, $default_nid = TRUE) {
+  global $user;
+  
+  // TODO: Temporary event id
+  if ($default_nid) {
+    $nid = 5438;
+  }
+  
+  $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  //dsm($form);
+  return $form;
+}
+
+
+// TODO: Check conditions.
+/**
+ * Access callback for event registration page.
+ */
+function at_reg_access($node) {
+  $etid = $node->nid;
+  global $user;
+  
+  $entity_type = 'node';
+  
+  if (airtribune_how_time_after_event_start($etid) >= 2) {
+    return FALSE;
+  }
+
+  $entity = entity_load_single($entity_type, $etid);
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+
+  if (!og_user_access($entity_type, $id, 'subscribe', $user) && !og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
+    return FALSE;
+  }
+
+  if ($user->uid) {
+
+    if (og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_ACTIVE))
+      || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_PENDING))
+      || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_BLOCKED))
+    ) {
+
+      return FALSE;
+    }
+  }
+
+
+  return TRUE;
+}
+
+function at_reg_form_anonymous($nid) {
+  module_load_include('inc', 'og_ui', 'og_ui.pages');
+  module_load_include('inc', 'at_reg');
+  
+  module_load_include('module', 'profile2');
+  
+  global $user;
+  
+  // profile2_form()
+  module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  // TODO: Maybe move into multiform_get_form().
+  // Why do we need this flag?
+  // Inform hook_js_alter() that multiform is processed.
+  //~ drupal_add_js(array('at_reg' => array('multiform_id' => 'multiform')), 'setting');
+  
+  // TODO: Included file should be overriden in case of custom callback.
+  // See feaval comment in feaval_ajax_defaults().
+  drupal_add_js(drupal_get_path('module', 'at_reg') .'/js/at_reg.js', 'file');
+
+  $node = node_load($nid);
+  $form_title = $node->title;
+  
+  $profile2_init_data = at_reg_profile_form_init_data();
+  //dsm($profile2_init_data);
+  
+  // TODO: Maybe use #array_parents instead of #parents in order not to confuse.
+  $settings = array(
+    '#multiform_id' => 'contest_registration_anonymous',
+    '#subforms' => array(
+      array(
+        'form_id' => 'user_register_form',
+        '#before_execute' => array('at_reg_user_register_before_execute'),
+        '#after_execute' => array('at_reg_user_register_after_execute'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+      array(
+        'form_id' => 'og_ui_confirm_subscribe',
+        'args' => at_reg_og_form_args($nid),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+      
+      array(
+        //'form_id' => 'entity_ui_get_form',
+        'form_id' => $profile2_init_data['form_id'],
+        //'args' => at_reg_profile_form_args(),
+        'args' => $profile2_init_data['args'],
+        '#preprocess_form_state' => array('at_reg_profile2_form_preprocess_form_state'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+      
+    ),
+    '#submit_map' => array(
+      '#submits' => array(
+        'register' => array(
+          '#type' => 'submit',
+          '#value' => t('Register'),
+        ),
+      ),
+    ),
+    
+    '#title' => $form_title,
+    '#redirect_path' => 'event/' . $nid,
+  );
+  
+  //$args = at_reg_profile_form_args();
+  //dsm($args);
+  //dsm(entity_ui_get_form($args[0], $args[1]));
+  return multiform_get_form($settings);
+}
+
+/**
+ * Add list of generic elements to validate.
+ */
+function at_reg_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  
+  $feaval_generic_elements = array();
+  
+  // TODO: Add only for forms with enabled validation.
+  switch ($form_id) {
+    case 'user_register_form' :
+      $feaval_generic_elements[] = array('account', 'mail');
+      break;
+  }
+  
+  switch ($form_id) {
+    case 'user_register_form' :
+      $form['actions']['submit']['#value'] = t('Register');
+      $form['account']['pass']['#after_build'][] = '_at_reg_user_register_form_after_build';
+
+      break;
+    case 'user_profile_form' :
+      $form['account']['pass']['#after_build'][] = '_at_reg_user_register_form_after_build';
+      break;
+    case 'user_pass' :
+      $form['actions']['submit']['#value'] = t('Request new password');
+      break;
+    case 'user_login' :
+      $form['actions']['submit']['#value'] = t('Sign in');
+      break;
+  }
+  
+  // TODO: Check membership types
+  if ($form_id == 'og_ui_confirm_subscribe' && $user->uid) {
+    //~ $form['user_mail'] = array(
+      //~ '#markup' => $user->mail,
+    //~ );
+    $form['account']['mail_dummy'] = array(
+      '#type' => 'item',
+      '#title' => t('Email'),
+      '#markup' => $user->mail,
+    );
+  }
+  
+  feaval_add_generic_elements($form_state, $feaval_generic_elements);
+}
+
+/**
+ * Password element #after_build.
+ */
+function _at_reg_user_register_form_after_build($element, $form_state) {
+  $element['#attached']['js'][1]['data']['password']['confirmSuccess'] = t('Passwords match.');
+  $element['#attached']['js'][1]['data']['password']['confirmFailure'] = t('Passwords do not match.');
+  $element['#attached']['js'][1]['data']['password']['easyToGuess'] = t('This password is too simple and easy to guess.');
+
+  $element['#attached']['js'][1]['data']['password']['weak'] = t('Weak password.');
+  $element['#attached']['js'][1]['data']['password']['fair'] = t('Fair password.');
+  $element['#attached']['js'][1]['data']['password']['good'] = t('Good password.');
+  $element['#attached']['js'][1]['data']['password']['strong'] = t('Strong password.');
+  $element['#attached']['js'][1]['data']['password']['required'] = t('Password is required.');
+  $element['pass1']['#description'] = t('Minimum 6 characters.');
+  $element['pass2']['#description'] = t('Type a new password in both fields.');
+  unset($element['#description']);
+  return $element;
+}
+
+
+/**
+ * Implements hook_feaval_form_after_build().
+ */
+function at_reg_feaval_form_after_build($form, &$form_state) {
+  if (!empty($form_state['build_info']['form_id'])) {
+    if ($form_state['build_info']['form_id'] == 'user_register_form') {
+      $form['account']['mail']['#element_validate'][] = 'at_reg_mail_validate';
+    }
+  }
+  return $form;
+}
+
+function at_reg_mail_validate($element, &$form_state) {
+  //$mail = trim($form_state['values']['mail']);
+  //form_set_value($form['account']['mail'], $mail, $form_state);
+  if ($error = user_validate_mail($form_state['values']['mail'])) {
+    form_set_error('mail', $error);
+  }
+  elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', 0, '<>')
+    ->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()
+  ) {
+    form_set_error('mail', t('This email is already registered. <br />' . l('Forgot your password?', 'user/password')));
+  }
+}
+
+
+/**
+ * Implements hook_field_widget_form_alter().
+ * 
+ * Minor changes for widget form elements.
+ */
+function at_reg_field_widget_form_alter(&$element, &$form_state, $context) {
+  at_reg_alter_widgets($element, $form_state, $context);
+}
+
+
+// TODO: Check other conditions and load plugin
+/**
+ * Implements hook_feaval_field_plugin_alter().
+ */
+function at_reg_feaval_field_plugin_alter(&$plugin, $element, $form_state, $context) {
+  
+  if ($plugin['module'] == 'feaval' && $plugin['plugin type'] == 'field') {
+    switch ($plugin['name']) {
+      case 'name__name_widget' :
+        $plugin_override = ctools_get_plugins('at_reg', 'field', 'name__name_widget');
+        break;
+      case 'datetime__date_select' :
+        $plugin_override = ctools_get_plugins('at_reg', 'field', 'datetime__date_select');
+        break;
+      case 'number_integer__number' :
+        // Check field name.
+        if (!empty($context['field']['field_name']) && $context['field']['field_name'] == AIRTRIBUNE_CONTESTANT_NUMBER_FIELD) {
+          $plugin_override = ctools_get_plugins('at_reg', 'field', 'number_integer__number');
+        }
+        break;
+    }
+    
+    if (!empty($plugin_override)) {
+      $plugin = $plugin_override;
+    }
+  }  
+}
+
+function at_reg_name_dateofbirth_element_validate($element, &$form_state) {
+  // Here we need to validate both Name and DateOfBirth fields.
+  // See field_default_extract_form_values().
+  
+  global $user;
+
+  // Do nothing for authorized user.
+  if ($user->uid) {
+    return;
+  }
+  
+  // TODO: Maybe extract data a different way.
+  // $entity, $entity_type, $field_parents and $langcode are the same for both, Name and DateOfBirth.
+  $entity = $element['#entity'];
+  $entity_type = $element['#entity_type'];
+  $field_parents = $element['#field_parents'];
+  $langcode = LANGUAGE_NONE;
+  
+  
+  $path[AIRTRIBUNE_USER_FULLNAME_FIELD] = array_merge($field_parents, array(AIRTRIBUNE_USER_FULLNAME_FIELD, $langcode));
+  $path[AIRTRIBUNE_BIRTHDATE_FIELD] = array_merge($field_parents, array(AIRTRIBUNE_BIRTHDATE_FIELD, $langcode));
+  
+  $key_exists = NULL;
+  $values[AIRTRIBUNE_USER_FULLNAME_FIELD] = drupal_array_get_nested_value($form_state['values'], $path[AIRTRIBUNE_USER_FULLNAME_FIELD], $key_exists);
+  $key_exists = NULL;
+  $values[AIRTRIBUNE_BIRTHDATE_FIELD] = drupal_array_get_nested_value($form_state['values'], $path[AIRTRIBUNE_BIRTHDATE_FIELD], $key_exists);
+  
+  //~ dsm($values);
+  
+  $given = !empty($values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['given']) ? $values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['given'] : FALSE;
+  $family = !empty($values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['family']) ? $values[AIRTRIBUNE_USER_FULLNAME_FIELD][0]['family'] : FALSE;
+  $birthdate = !empty($values[AIRTRIBUNE_BIRTHDATE_FIELD][0]['value']) ? $values[AIRTRIBUNE_BIRTHDATE_FIELD][0]['value'] : FALSE;
+  
+  if (!empty($given) && !empty($family) && !empty($birthdate)) {
+    $time = new DateObject($birthdate);
+    $birthdate = $time->format('Y-m-d H:i:s');
+    if (!$time->validGranularity('year', 'month', 'day')) {
+      return;
+    }
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'profile2');
+    $query->entityCondition('bundle', MAIN_PROFILE_TYPE);
+    // Add case-insensitive conditions.
+    $query->fieldCondition('field_full_name', 'given', db_like($given), 'LIKE');
+    $query->fieldCondition('field_full_name', 'family', db_like($family), 'LIKE');
+    $query->fieldCondition('field_birthdate', 'value', db_like($birthdate), 'LIKE');
+    $orig_query = clone $query;
+    $name_exists = $query->count()->execute();
+    
+    if ($name_exists) {
+      // TODO: choose correct element for each field.
+      //~ $element = isset($form[$profile_type]) ? $form[$profile_type]['field_full_name'] : $form;
+      form_error($element, t('This name, surname and date of birth combination already exist. <a href="!path">Forgot your password?</a>', array('!path' => url('user/password'))));
+      $remove_error = &drupal_static('at_reg_name_birthdate_error');
+      $remove_error = TRUE;
+    }
+    else {
+      $remove_error = &drupal_static('at_reg_name_birthdate_error');
+      $remove_error = FALSE;
+    }
+  }
+}
+
+
+// TODO:
+/**
+ * Field Validation.
+ * 
+ * Check that pilot's number is unique.
+ */
+function at_reg_pilot_number_element_validate($element, &$form_state) {
+  // See field_default_extract_form_values().
+  
+  // Group ID.
+  $gid = !empty($form_state['values']['gid']) ? $form_state['values']['gid'] : FALSE;
+  
+  $entity = $element['value']['#entity'];
+  $bundle = $element['value']['#bundle'];
+  $entity_type = $element['value']['#entity_type'];
+  $field_parents = $element['value']['#field_parents'];
+  $langcode = $element['value']['#language'];
+  
+  $path = array_merge($field_parents, array(AIRTRIBUNE_CONTESTANT_NUMBER_FIELD, $langcode));
+  
+  $key_exists = NULL;
+  $values = drupal_array_get_nested_value($form_state['values'], $path, $key_exists);
+  
+  if (!empty($gid) && !empty($values[0]['value']) && is_numeric($pilot_number = $values[0]['value'])) {
+    
+    // TODO:
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', $entity_type);
+    $query->entityCondition('bundle', $bundle);
+    $query->propertyCondition('gid', $gid);
+    $query->fieldCondition(AIRTRIBUNE_CONTESTANT_NUMBER_FIELD, 'value', $pilot_number);
+    //$query->fieldCondition('field_full_name', 'family', $family);
+    $number_exists = $query->count()->execute();
+    if ($number_exists) {
+      // TODO:
+      //~ $element = isset($form['field_contestant_number']) ? $form['field_contestant_number'] : $form;
+      form_error($element, t('This number is used by another pilot.'));
+    }
+  }
+}
+
+function at_reg_form_authorized($nid) {
+  module_load_include('inc', 'og_ui', 'og_ui.pages');
+  module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  // TODO: Included file should be overriden in case of custom callback.
+  // See feaval comment in feaval_ajax_defaults().
+  drupal_add_js(drupal_get_path('module', 'at_reg') .'/js/at_reg.js', 'file');
+
+  $node = node_load($nid);
+  $form_title = $node->title;
+
+  $profile2_init_data = at_reg_profile_form_init_data_authorized();
+  $profile2_init_data_main = at_reg_profile_form_init_data_authorized('main');
+  
+  $settings = array(
+    '#multiform_id' => 'contest_registration_authorized',
+    '#subforms' => array(
+      array(
+        //'form_id' => 'entity_ui_get_form',
+        'form_id' => $profile2_init_data_main['form_id'],
+        //'args' => at_reg_profile_form_args(),
+        'args' => $profile2_init_data_main['args'],
+        '#preprocess_form_state' => array('at_reg_profile2_form_preprocess_form_state'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+      
+      array(
+        'form_id' => 'og_ui_confirm_subscribe',
+        'args' => at_reg_og_form_args($nid),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+
+      
+      array(
+        //'form_id' => 'entity_ui_get_form',
+        'form_id' => $profile2_init_data['form_id'],
+        //'args' => at_reg_profile_form_args(),
+        'args' => $profile2_init_data['args'],
+        '#preprocess_form_state' => array('at_reg_profile2_form_preprocess_form_state'),
+        '#map' => array(
+          // TODO:
+          array(
+            '#parents' => array('actions', 'submit'),
+            '#triggering_submit' => array('register'),
+          ),
+        ),
+      ),
+      
+    ),
+    '#submit_map' => array(
+      '#submits' => array(
+        'register' => array(
+          '#type' => 'submit',
+          '#value' => t('Register'),
+        ),
+      ),
+    ),
+    
+    '#title' => $form_title,
+    '#redirect_path' => 'event/' . $nid,
+  );
+  
+  return multiform_get_form($settings);
+}
+
+
+// TODO: Move 'args' function into a single init_data function
+
+function at_reg_og_form_args($nid) {
+  global $user;
+  
+  $entity_type = 'node';
+  $etid = $nid;
+  
+  $entity = entity_load_single($entity_type, $etid);
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $field_name = og_get_best_group_audience_field('user', $user->uid, $entity_type, $bundle);
+  
+  //$entity_type, $id, $user, $field_name
+  return array($entity_type, $id, $user, $field_name);
+}
+
+// Based on entity_ui_get_form() version 7.x-1.2
+function at_reg_profile_form_init_data() {
+  // TODO: Include entity.module ?
+  // TODO: Also see profile2_by_uid_load($uid, $type_name) in profile2_pages.module
+  // TODO: Remove hardcode
+  
+  $entity_type = 'profile2';
+  $type_name = 'pilot';
+  $entity = profile2_create(array('type' => $type_name));
+  
+  // Based on entity_ui_get_form()
+  $form_state = array();
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $form_id = (!isset($bundle) || $bundle == $entity_type) ? $entity_type . '_form' : $entity_type . '_edit_' . $bundle . '_form';
+  
+  $op = 'add';
+  // TODO: Delete this line
+  $form_state['build_info']['args'] = array($entity, $op, $entity_type);
+  
+  $data = array(
+    'args' => array($entity, $op, $entity_type),
+    'form_id' => $form_id,
+  );
+  
+  return $data;
+}
+
+// TODO: see entity_ui_form_defaults() to add 'profile2' into $form_state
+// via entity_ui_main_form_defaults (at_reg_profile2_form_preprocess_form_state())
+function at_reg_profile_form_init_data_authorized($type_name = 'pilot') {
+  // profile2_form()
+  module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  
+  global $user;
+  $uid = $user->uid;
+  
+  $entity_type = 'profile2';
+  //~ $type_name = 'pilot';
+  $entity = profile2_by_uid_load($uid, $type_name);
+  
+  // Based on entity_ui_get_form()
+  $form_state = array();
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $form_id = (!isset($bundle) || $bundle == $entity_type) ? $entity_type . '_form' : $entity_type . '_edit_' . $bundle . '_form';
+  
+  // Default option. See entity_ui_get_form().
+  $op = 'edit';
+  
+  $form_state['build_info']['args'] = array($entity, $op, $entity_type);
+  
+  $data = array(
+    'args' => array($entity, $op, $entity_type),
+    'form_id' => $form_id,
+  );
+  return $data;
+}
+
+// Based on entity_ui_get_form() version 7.x-1.2
+function at_reg_profile2_form_preprocess_form_state(&$form_state) {
+  $entity_type = 'profile2';
+  $form_state['wrapper_callback'] = 'entity_ui_main_form_defaults';
+  $form_state['entity_type'] = $entity_type;
+  form_load_include($form_state, 'inc', 'entity', 'includes/entity.ui');
+}
+
+
+
+// TODO:
+// TODO: Check for editable_views
+/**
+ * Implements hook_feaval_validation_enabled().
+ */
+function at_reg_feaval_validation_enabled($element, $form_state) {
+  $callback = NULL;
+  
+  //~ if (isset($form_state['build_info']['form_id']) && $form_state['build_info']['form_id'] == 'user_register_form') {
+    $callback = 'at_reg_feaval_validation_enabled_callback';
+  //~ }
+  
+  return $callback;
+}
+
+// TODO:
+// Here we can disable validation for certain fields.
+function at_reg_feaval_validation_enabled_callback($element, $form_state) {
+  
+  $enabled = FALSE;
+  // List of form_ids, for which ajax validation is enabled.
+  $enabled_forms = array('user_register_form', 'og_ui_confirm_subscribe', 'profile2_edit_pilot_form', 'profile2_edit_main_form');
+  
+  if (isset($form_state['build_info']['form_id']) && in_array($form_state['build_info']['form_id'], $enabled_forms)) {
+    $enabled = TRUE;
+  }
+  
+  return $enabled;
+}
+
+// TODO:
+/**
+ * Implements hook_feaval_ajax_defaults_alter().
+ */
+function at_reg_feaval_ajax_defaults_alter(&$defaults, $form_state) {
+  $defaults['feaval_commands_callback'] = 'at_reg_ajax_commands';
+}
+
+function at_reg_ajax_commands($selector, $html) {
+  //~ if (empty($html)) {
+    //~ $html = 'no errors';
+  //~ }
+  
+  //~ $html = "$html $selector";
+  
+  // TODO: Add error codes for special cases. E.g. for Name + Birthdate error.
+  
+  //~ $name_date_selectors = array(
+    //~ '#edit-profile-main-field-full-name-und-0-given',
+    //~ '#edit-profile-main-field-full-name-und-0-family',
+    //~ '#edit-profile-main-field-birthdate-und-0-value-year',
+  //~ );
+  
+  
+  //~ if (in_array($selector, $name_date_selectors) && empty($html)) {
+    $remove_error = &drupal_static('at_reg_name_birthdate_error');
+    
+    if (isset($remove_error)) {
+      $commands = array(
+        //~ ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'nameAndBirthdateCombinationError', array($html)),
+        //~ ajax_command_invoke($selector, 'checkValidationResult', array($html, $remove_error)),
+        ajax_command_invoke('#edit-profile-main-field-birthdate-und-0-value-year', 'checkValidationResult', array($html, $remove_error)),
+      );
+      
+      return $commands;
+    }
+  //~ }
+  
+  //~ dsm($selector);
+  
+  return array(
+    //$commands[] = ajax_command_invoke($selector, 'checkValidationResult', array($html));
+    //~ ajax_command_alert($html),
+    ajax_command_invoke($selector, 'checkValidationResult', array($html)),
+  );
+}
+
+// =======================================================
+// Ctools
+// =======================================================
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+// TODO: 'use hooks' ?
+function at_reg_ctools_plugin_type() {
+  // Used for field widgets.
+  $plugins['field'] = array(
+    'use hooks' => FALSE,
+  );
+  //~ // Used for generic form elements.
+  //~ $plugins['generic'] = array(
+    //~ 'use hooks' => FALSE,
+  //~ );
+  return $plugins;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function at_reg_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'at_reg' && $plugin == 'field') {
+    return 'plugins/validators/field';
+  }
+  //~ if ($module == 'at_reg' && $plugin == 'generic') {
+    //~ return 'plugins/validators/generic';
+  //~ }
+}
+
+// =======================================================
+// Contexts
+// =======================================================
+
+/**
+ * Implements hook_page_manager_contexts_alter()
+ *
+ * Add node context for event/[nid]/register page
+ */
+function at_reg_page_manager_contexts_alter(&$contexts, $placeholders) {
+  if (arg(0) == 'event' && arg(2) == 'register') {
+    $raw_node = node_load(arg(1));
+    if ($raw_node->nid) {
+      $node = ctools_context_create('node', $raw_node);
+      panels_everywhere_site_template_add_context($contexts, $node, t('Node being viewed'), 'node', 'node');
+    }
+  }
+}
+
+
+// =======================================================
+// Clientside validation
+// =======================================================
+
+// TODO: This hook should be called before clientside_validation original hook.
+// TODO: Check that form is multiform.
+// TODO: Seems that hook is not invoked for ajax-validation.
+
+/**
+ * Implements hook_js_alter().
+ */
+function at_reg_js_alter(&$javascript) {
+  
+  $clientsideValidationSettingsKey = NULL;
+  
+  // TODO: Check for specific ids
+  $multiform_ids = multiform_multiform_ids();
+  $is_multiform = !empty($multiform_ids) ? TRUE : FALSE;
+  
+  // Check for clientside_validation settings.
+  foreach ($javascript['settings']['data'] as $k => $setting) {
+      if (!empty($setting['clientsideValidation']['forms'])) {
+        $clientsideValidationSettingsKey = $k;
+        break;
+      }
+  }
+  
+  // Do nothing if there is no clientside_validation settings.
+  if (!isset($clientsideValidationSettingsKey)) {
+    return;
+  }
+  
+  
+  $k = $clientsideValidationSettingsKey;
+  $setting = $javascript['settings']['data'][$k];
+  //~ dsm($setting);
+  
+  // Set custom function for error placement.
+  foreach ($setting['clientsideValidation']['forms'] as $form_key => $form_settings) {
+    $setting['clientsideValidation']['forms'][$form_key]['errorPlacement'] = 7;
+    $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'setErrorElement';
+  }
+  
+  // If there is no multiform
+  if (!$is_multiform) {
+    
+    if (isset($setting['clientsideValidation']['forms']['user-register-form'])) {
+      $rules =& $setting['clientsideValidation']['forms']['user-register-form']['rules'];
+      _at_reg_rules($rules);
+    }
+  }
+  
+  // Preprocess settings for multiform.
+  // TODO: This is temporary solution.
+  // There could also be regular forms on multiform page.
+  else {
+
+    
+    // TODO:
+    // For now we just copy settings of first subform.
+    $multiform_setting = reset($setting['clientsideValidation']['forms']);
+    
+    $rules = array();
+    
+    foreach ($setting['clientsideValidation']['forms'] as $f => $subform_setting) {
+      
+      _at_reg_rules($subform_setting['rules'], TRUE);
+      
+      // TODO: In multiform all settings are summed up to each subform
+      // because they are stored statically in clientside variable (see clientside.module).
+      //~ $rules += $subform_setting['rules'];
+      $rules = $subform_setting['rules'];
+    }
+    $multiform_setting['rules'] = $rules;
+    
+    $setting['clientsideValidation']['forms'] = array('multiform' => $multiform_setting);
+  }
+  
+  $javascript['settings']['data'][$k] = $setting;
+}
+
+
+/**
+ * Implements hook_ajax_render_alter().
+ * 
+ * Change Drupal.settings for the case when ajax-callback returns $commands,
+ * since hook_js_alter isn't called.
+ * 
+ * Here we need to add 'multiform' for every clientside_validation setting key.
+ * Alse there is a bug with clientside_validation when form_state['rebuild'] == TRUE. See #3928
+ */
+function at_reg_ajax_render_alter(&$commands) {
+  //
+  
+  foreach ($commands as $k => $command) {
+    if (isset($command['settings']['clientsideValidation']['forms'])) {
+      
+      // TODO: Fix
+      // Do not add any settings on ajax requests
+      unset($commands[$k]['settings']['clientsideValidation']);
+      return;
+      
+      $forms =& $command['settings']['clientsideValidation']['forms'];
+      
+      // TODO: Check for specific ids
+      $multiform_ids = multiform_multiform_ids();
+      $is_multiform = !empty($multiform_ids) ? TRUE : FALSE;
+      
+      if (isset($forms['user-register-form'])) {
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['user-register-form'];
+          unset($forms['user-register-form']);
+        }
+      }
+      
+      if (isset($forms['profile2-edit-pilot-form'])) {
+        // TODO:
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['profile2-edit-pilot-form'];
+          unset($forms['profile2-edit-pilot-form']);
+        }
+        unset($forms['profile2-edit-pilot-form--2']);
+      }
+      
+      if (isset($forms['og-ui-confirm-subscribe'])) {
+        // TODO:
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['og-ui-confirm-subscribe'];
+          unset($forms['og-ui-confirm-subscribe']);
+        }
+        // Exclude?
+        unset($forms['og-ui-confirm-subscribe--2']);
+      }
+      
+      // Exclude?
+      if (isset($forms['profile2-edit-main-form'])) {
+        // TODO:
+        if ($is_multiform) {
+          $forms['multiform'] = $forms['profile2-edit-main-form'];
+          unset($forms['profile2-edit-main-form']);
+        }
+        unset($forms['profile2-edit-main-form--2']);
+      }
+      
+      $commands[$k] = $command;
+      //~ dsm($command);
+      break;
+    }
+
+  }
+}
+
+
+
+
+/**
+ * Override clientside_validation js rules.
+ */
+function _at_reg_rules(&$rules, $multiform = FALSE) {
+  
+  $english_only_message = t('This field may contain only English letters.');
+  
+  static $multiform_rules = NULL;
+  static $multiform_unset_rules = NULL;
+  
+  if (isset($rules)) {
+    foreach ($rules as $k2 => $rule) {
+      if (isset($rule['messages']['required'])) {
+        $rules[$k2]['messages']['required'] = t('This field is required');
+        $rules[$k2]['messages']['blacklist'] = t('This field is required');
+      }
+    }
+  }
+  
+  
+  // TODO: Remove 'form_id' key
+  // TODO: profile_main has a differrent multiform form_id for authenticated users.
+  $new_rules = array(
+    'profile_main[field_full_name][und][0][given]' => array(
+      'required' => TRUE,
+      'messages' => array(
+        'required' => t('Name is required.'),
+        'regexMatch' => $english_only_message,
+      ),
+      'form_id' => 'user_register_form',
+    ),
+    'profile_main[field_full_name][und][0][family]' => array(
+      'required' => TRUE,
+      'messages' => array(
+        'required' => t('Surname is required.'),
+        'regexMatch' => $english_only_message,
+      ),
+      'form_id' => 'user_register_form',
+    ),
+    
+    'pass[pass1]' => array(
+      'passwordStrength' => TRUE,
+      'messages' => array(
+        'required' => t('Password is required.'),
+        //~ 'passwordStrength' => t('This password is too easy to guess.'),
+        'passwordStrength' => t('This password is too simple and easy to guess.'),
+      ),
+      'form_id' => 'user_register_form',
+    ),
+    
+    'pass[pass2]' => array(
+      'passwordConfirmation' => TRUE,
+      'messages' => array(
+        'required' => t('Type the password in both fields.'),
+        'passwordConfirmation' => t('Passwords do not match.'),
+      ),
+      'form_id' => 'user_register_form',
+    ),
+    
+    'profile_main[field_birthdate][und][0][value][month]' => array(
+      'required' => TRUE,
+      'form_id' => 'user_register_form',
+    ),
+    'profile_main[field_birthdate][und][0][value][year]' => array(
+      'required' => TRUE,
+      'form_id' => 'user_register_form',
+    ),
+    'profile_main[field_birthdate][und][0][value][day]' => array(
+      'required' => TRUE,
+      'form_id' => 'user_register_form',
+    ),
+    
+    // ADDRESS
+    // TODO: Check if regexMatch is added correctly (relates to array_merge_recursive_distinct()).
+    'profile_pilot[field_address][und][0][thoroughfare]' => array(
+      'regexMatch' => array(
+        0 => '^[\x20-\x7F]+$',
+      ),
+      'messages' => array(
+        'regexMatch' => $english_only_message,
+      ),
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    
+    'profile_pilot[field_address][und][0][premise]' => array(
+      'regexMatch' => array(
+        0 => '^[\x20-\x7F]+$',
+      ),
+      'messages' => array(
+        'regexMatch' => $english_only_message,
+      ),
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    
+    'profile_pilot[field_address][und][0][locality]' => array(
+      'regexMatch' => array(
+        0 => '^[\x20-\x7F]+$',
+      ),
+      //~ 'messages' => array(
+        //~ 'regexMatch' => $english_only_message,
+      //~ ),
+      //~ 'messages' => array(
+        //~ 'regexMatch' => t('This field may contain only Eglish letters and digits.'),
+      //~ ),
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    
+    // CIVL ID
+    'profile_pilot[field_civl_id][und][0][value]' => array(
+      'messages' => array(
+        'digits_negative' => t('CIVL ID may contain only digits.'),
+      ),
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    
+    // Paraglider manufacturer
+    // TODO: This message should be change in field_validation settings instead.
+    //~ 'profile_pilot[field_paraglider_manufacturer][und][0][value]' => array(
+      //~ 'messages' => array(
+        //~ 'regexMatch' => t('This field may contain only Eglish letters and digits.'),
+      //~ ),
+      //~ 'form_id' => 'profile2_edit_pilot_form',
+    //~ ),
+  );
+  
+  // TODO:
+  $unset_rules = array(
+    'profile_pilot[field_address][und][0][postal_code]' => array(
+      'regexMatch',
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    'profile_pilot[field_address][und][0][country]' => array(
+      'regexMatch' => 'regexMatch',
+    ),
+    
+    //Phone number select
+    'profile_pilot[field_phone][und][0][country_codes]' => array(
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+    'profile_pilot[field_person_phone][und][0][country_codes]' => array(
+      'form_id' => 'profile2_edit_pilot_form',
+    ),
+  );
+  
+  // We don't use unset rules for !multiform because there are those fields.
+  
+  if (!$multiform) {
+    at_reg_tmp_clean_new_rules($new_rules);
+    
+    if (isset($rules['profile_main[field_birthdate][und][0][value]'])) {
+      $additional_rules = array(
+        'profile_main[field_birthdate][und][0][value][month]' => $new_rules['profile_main[field_birthdate][und][0][value][month]'],
+        'profile_main[field_birthdate][und][0][value][year]' => $new_rules['profile_main[field_birthdate][und][0][value][year]'],
+        'profile_main[field_birthdate][und][0][value][day]' => $new_rules['profile_main[field_birthdate][und][0][value][day]'],
+      );
+    }
+
+    // First find array_intersect to add rules for existing components only.
+    $new_rules = array_intersect_key($new_rules, $rules);
+    // Add or override rules.
+    $rules = array_merge_recursive_distinct($rules, $new_rules);
+
+    $rules += $additional_rules;
+  }
+  else {
+    if (empty($multiform_rules)) {
+      at_reg_tmp_new_rules_multiform_keys($new_rules);
+      at_reg_tmp_clean_new_rules($new_rules);
+      
+      at_reg_tmp_new_rules_multiform_keys($unset_rules);
+      at_reg_tmp_clean_new_rules($unset_rules);
+      
+      $multiform_rules = $new_rules;
+      
+      $multiform_unset_rules = $unset_rules;
+    }
+    else {
+      $new_rules = $multiform_rules;
+      $unset_rules = $multiform_unset_rules;
+    }
+    //~ dsm($new_rules);
+    //~ $new_rules = array_intersect_key($new_rules, $rules);
+    $rules = array_merge_recursive_distinct($rules, $new_rules);
+    
+    array_recursive_unset($rules, $unset_rules);
+  }
+  //~ dsm($rules);
+}
+
+// TODO: Remove
+// This is a temporary function
+function at_reg_tmp_clean_new_rules(&$new_rules) {
+  foreach ($new_rules as $k => $new_rule) {
+    if (isset($new_rules[$k]['form_id'])) {
+      unset($new_rules[$k]['form_id']);
+    }
+  }
+}
+
+// TODO: Remove
+// This is a temporary function
+function at_reg_tmp_new_rules_multiform_keys(&$new_rules) {
+  foreach ($new_rules as $k => $new_rule) {
+    if (isset($new_rule['form_id'])) {
+      if (strpos($k, 'multiform') === 0) {
+        continue;
+      }
+      $form_id = $new_rule['form_id'];
+      $new_key = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $k);
+      $new_rules[$new_key] = $new_rules[$k];
+    }
+    
+    unset($new_rules[$k]);
+  }
+}
+
+
+// http://www.php.net/manual/ru/function.array-merge-recursive.php#92195
+function array_merge_recursive_distinct (&$array1, &$array2) {
+  $merged = $array1;
+  foreach ($array2 as $key => &$value) {
+    if (is_array ($value) && isset($merged[$key]) && is_array($merged[$key])) {
+      $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
+    }
+    else {
+      $merged[$key] = $value;
+    }
+  }
+  return $merged;
+}
+
+
+function array_recursive_unset(&$array, $unset_rules) {
+  foreach ($unset_rules as $k1 => $rules) {
+    if (empty($rules)) {
+      unset($array[$k1]);
+    }
+    else {
+      foreach ($rules as $k2) {
+        unset($array[$k1][$k2]);
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+// =======================================================
+// Misc
+// =======================================================
+
+
+/**
+ * Add #after_build function to certain fields' widgets.
+ */
+function at_reg_alter_widgets(&$element, &$form_state, $context) {
+  // TODO: Move to a single function.
+  if (isset($element['#field_name'])) {
+    $after_builds = array(
+      'field_t_shirt_size' => '_t_shirt_size_after_build',  // Change field_t_shirt_size default select option name.
+      'field_blood_type' => '_blood_type_after_build',      // Change field_blood_type default select option name.
+      'field_address' => '_address_after_build',            // Change field_address default select option name.
+      'field_birthdate' => '_birthdate_after_build',        // Change field_birthdate components order.
+      'field_full_name' => '_full_name_after_build',        // Change field_full_name components description.
+    );
+    
+    if (in_array($element['#field_name'], array_keys($after_builds))) {
+      $element['#after_build'][] = $after_builds[$element['#field_name']];
+    }
+  }
+}
+
+
+/**
+ * After build for field_t_shirt_size field widget.
+ */
+function _t_shirt_size_after_build($element, $form_state) {
+  $options = array('_none' => t('Select your size'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
+  return $element;
+}
+
+/**
+ * After build for field_blood_type field widget.
+ */
+function _blood_type_after_build($element, $form_state) {
+  $options = array('_none' => t('Select your type'));
+  $options += $element['#options'];
+  $element['#options'] = $options;
+  return $element;
+}
+
+/**
+ * After build for field_address field widget.
+ */
+function _address_after_build($element, $form_state) {
+  // Add extra blank option.
+  $options = array('' => t('Select your country'));
+  foreach ($element['country']['#options'] as $k => $v) {
+    $options[$k] = $v;
+  }
+  $element['country']['#options'] = $options;
+
+  // Change components' order.
+  $element['locality_block']['#weight'] = 0;
+  $element['street_block']['#weight'] = 1;
+  $element['locality_block']['postal_code']['#weight'] = 0;
+  $element['locality_block']['locality']['#weight'] = 0.001;
+  $element['locality_block']['#sorted'] = FALSE;
+
+  return $element;
+}
+
+/**
+ * After build for field_birthdate field widget.
+ */
+function _birthdate_after_build($element, $form_state) {
+  $element['value']['month']['#weight'] = 1;
+  $element['value']['day']['#weight'] = 0;
+  
+  $element['value']['year']['#options'][''] = t('Year');
+  $element['value']['month']['#options'][''] = t('Month');
+  $element['value']['day']['#options'][''] = t('Day');
+  $element['value']['month']['#options'] = array_replace(
+    $element['value']['month']['#options'],
+    array(
+      1 => t('January'),
+      2 => t('February'),
+      3 => t('March'),
+      4 => t('April'),
+      5 => t('May'),
+      6 => t('June'),
+      7 => t('July'),
+      8 => t('August'),
+      9 => t('September'),
+      10 => t('October'),
+      11 => t('November'),
+      12 => t('December'),
+    )
+  );
+  
+  if ($element['#required']) {
+    $element['#title'] .= " " . theme('form_required_marker');
+  }
+  
+  return $element;
+}
+
+/**
+ * After build for field_birthdate field widget.
+ */
+function _full_name_after_build($element, $form_state) {
+  $element['given']['#description'] = t('Your name in English transcription.');
+  $element['family']['#description'] = t('Your surname in English transcription.');
+  
+  // Add asterisk for name components before rendering.
+  // Could be also moved into corresponding templates.
+  foreach ($element['#components'] as $k => $component) {
+    if (empty($component['#exclude'])) {
+      $element[$k]['#pre_render'][] = '_full_name_pre_render';
+    }
+  }
+  
+  return $element;
+}
+
+/**
+ * Add #required asterisk to name field components.
+ */
+function _full_name_pre_render($element) {
+  $element['#required'] = TRUE;
+  return $element;
+}
+
+
+
+// =======================================================
+// Crossfields
+// =======================================================
+
+
+// TODO:
+
+/**
+ * Implements hook_multiform_crossfields().
+ */
+function at_reg_multiform_crossfields($multiform) {
+  $items = array();
+
+  // TODO: Also add contest_registration_authorized
+  if (in_array($multiform['#multiform_id'], array('contest_registration_anonymous', 'contest_registration_authorized'))) {
+    $field_names = array(
+      'field_paraglider_manufacturer',
+      'field_paraglider_model',
+      'field_paraglider_color',
+      'field_phone'
+    );
+    foreach ($field_names as $field_name) {
+      $items[] = array(
+        '#dependent' => array(
+          '#tag' => 'og_ui_confirm_subscribe',
+          '#name' => $field_name,
+          '#parents' => array($field_name),
+          '#array_parents' => array($field_name),
+        ),
+        '#base' => array(
+          '#tag' => 'profile2_edit_pilot_form',
+          '#name' => $field_name,
+          '#parents' => array('profile_pilot', $field_name),
+          '#array_parents' => array('profile_pilot', $field_name),
+        ),
+      );
+    }
+  }
+
+  return $items;
+}
+
