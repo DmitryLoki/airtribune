@@ -1497,6 +1497,10 @@ function _create_day_for_contest() {
   // Get all current contests
   $contests = airtribune_get_events_nids_with_date_status();
 
+  if (empty($contests['current'])) {
+    return;
+  }
+
   foreach ($contests['current'] as $key => $contest_nid) {
     $contest = node_load($contest_nid);
 
