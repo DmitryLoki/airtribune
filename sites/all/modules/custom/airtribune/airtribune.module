@@ -323,7 +323,7 @@ function airtribune_token_info() {
   );
   $info['tokens']['airtribune']['race-online]'] = array(
     'name' => t('Race state'),
-    'description' => t('Race state (online/replay/awaiting).'),
+    'description' => t('Race state ("online"/false).'),
   );
   $info['tokens']['airtribune']['contest-core-id'] = array(
     'name' => t('Core ID: Contest'),
@@ -387,13 +387,15 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   if ($type == 'airtribune') {
     if (!empty($data['race'])) {
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
-      $replacements['[airtribune:race-online]'] = _airtribune_pg_race_online_state($data['race']->id);
+      $online = _airtribune_pg_race_online_state($data['race']->id);
+      $replacements['[airtribune:race-online]'] = $online == '"online"' ? $online : 'false';
     } else {
       $replacements['[airtribune:race-core-id]'] = '';
-      $replacements['[airtribune:race-online]'] = NULL;
+      $replacements['[airtribune:race-online]'] = 'false';
     }
 
     if (!empty($data['contest'])) {
+      
       $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
       $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
     } else {
