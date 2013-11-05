@@ -2578,7 +2578,7 @@ function theme_status_report($variables) {
       $severity = $severities[isset($requirement['severity']) ? (int) $requirement['severity'] : 0];
       $severity['icon'] = '<div title="' . $severity['title'] . '"><span class="element-invisible">' . $severity['title'] . '</span></div>';
       // The requirement value is optional and so may need to be explicitly set.
-      //$requirement['value'] = isset($requirement['value']) ? $requirement['value'] : '';
+      $requirement['value'] = isset($requirement['value']) ? $requirement['value'] : '';
 
       // Output table row(s)
       if (!empty($requirement['description'])) {
