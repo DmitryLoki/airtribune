@@ -690,7 +690,7 @@ user',
     $pane->panel = 'right';
     $pane->type = 'recently_viewed';
     $pane->subtype = 'recently_viewed';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
@@ -719,7 +719,7 @@ user',
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'activity-news_content_pane';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
@@ -794,11 +794,6 @@ user',
           ),
           'context' => 'argument_string_1',
           'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'front',
-          'settings' => NULL,
-          'not' => TRUE,
         ),
         2 => array(
           'name' => 'path_visibility',
@@ -876,11 +871,6 @@ viewers/*',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
-          'name' => 'front',
-          'settings' => NULL,
-          'not' => TRUE,
-        ),
         1 => array(
           'name' => 'path_visibility',
           'settings' => array(
