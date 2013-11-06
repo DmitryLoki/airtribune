@@ -18,30 +18,9 @@ function multiform_menu() {
     'access callback' => TRUE, 
     'file' => 'multiform.tmp.inc',
   );
-  $items['multiform/log'] = array(
-    'title' => 'Multiform log', 
-    'page callback' => 'multiform_log_page', 
-    'access callback' => 'multiform_log_access',
-    'file' => 'multiform.admin.inc',
-  );
-  $items['multiform/log/%'] = array(
-    'title' => 'Multiform log', 
-    'page callback' => 'multiform_log_entry', 
-    'page arguments' => array(2), 
-    'access callback' => 'multiform_log_access',
-    'file' => 'multiform.admin.inc',
-  );
   
   return $items;
 }
-
-// TODO: Check if devel is enabled and check permissions
-function multiform_log_access2() {
-  global $user;
-  return (function_exists('kpr') && $user->uid == 1);
-  //~ return TRUE;
-}
-
 
 /**
  * Implements hook_init().
@@ -292,7 +271,7 @@ function multiform_get_form($settings) {
   // TODO: Check.
   $errors = form_get_errors();
   
-  if (empty($errors) && !empty($_POST)) {
+  if (empty($errors) && !empty($_POST) && module_exists('multiform_log')) {
     // Log _POST data.
     // TODO: Fill in context.
     $context = array();
