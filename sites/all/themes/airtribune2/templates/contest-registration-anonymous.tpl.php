@@ -15,7 +15,8 @@ $form['multiform'][3]['register']['#suffix'] = '</div>';
 
 // Remove user_register_form subform theme function.
 //~ $form['multiform'][0]['#theme'] = array();
-$form['multiform'][0]['#theme'] = '';
+//~ $form['multiform'][0]['#theme'] = '';
+unset($form['multiform'][0]['#theme']);
 
 $ur_form = &$form['multiform'][0];
 $og_form = &$form['multiform'][1];
