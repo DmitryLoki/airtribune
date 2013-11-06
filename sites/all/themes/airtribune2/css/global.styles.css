@@ -2451,7 +2451,7 @@ form .reg_choice { text-align: center;}
 form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 66px; line-height: 20px; padding-bottom: 2px; overflow: hidden; vertical-align: top; cursor: pointer;}
 form .reg_choice a span { display: inline-block; vertical-align: middle;}
 form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
-#event_register { display: none;}
+.event-register-form {position:absolute; margin-left: -100000px;}
 
 form .form-actions input.disabled, 
 form .form-actions input.disabled:hover, 
