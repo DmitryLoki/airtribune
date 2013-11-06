@@ -14,8 +14,8 @@ $plugin = array(
   'single' => TRUE,
   'category' => array('Airtribune'),
   'required context' => array(
-    new ctools_context_required(t('Race'), 'ent_race'),
     new ctools_context_required(t('Contest'), 'node'),
+    new ctools_context_optional(t('Race'), 'ent_race'),
   ),
 );
 
@@ -23,15 +23,11 @@ $plugin = array(
  * Render airtribune player pane.
  */
 function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_args, $context) {
-
-  if (empty($context[0]) || empty($context[0]->data) || $context[0]->data->type != AIRTRIBUNE_PG_RACE_TYPE) {
-    return;
+  if (!empty($context[0])) {
+    $context_contest = $context[0];
   }
-  else {
-    $context_race = $context[0];
-    if (!empty($context[1])) {
-      $context_contest = $context[1];
-    }
+  if (!empty($context[1])) {
+    $context_race = $context[1];
   }
 
   $plugin_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_vis';
@@ -47,6 +43,7 @@ function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_a
     'widget_type' => $widget_type,
     'widget_width' => $conf['widget_width'],
     'widget_height' => $conf['widget_height'],
+    'node' => $context_contest->data,
   );
 
   $widget_html = check_markup(token_replace($conf['widget_code']['value'], $data), $conf['widget_code']['format']);
@@ -86,7 +83,7 @@ function airtribune_airtribune_vis_content_type_edit_form($form, &$form_state) {
   if(module_exists("token")) { 
     $form['token_help']['content'] = array(
       '#type' => 'markup',
-      '#token_types' => array(), 
+      '#token_types' => array('node'),
       '#theme' => 'token_tree');
   }
 

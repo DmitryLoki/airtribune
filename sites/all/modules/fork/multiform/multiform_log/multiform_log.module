@@ -1,0 +1,61 @@
+<?php
+
+function multiform_log_menu() {
+  $items['multiform/log'] = array(
+    'title' => 'Multiform log', 
+    'page callback' => 'multiform_log_list_page', 
+    'access callback' => 'multiform_log_access',
+    'file' => 'multiform_log.admin.inc',
+  );
+  $items['multiform/log/%'] = array(
+    'title' => 'Multiform log', 
+    'page callback' => 'multiform_log_entry_page', 
+    'page arguments' => array(2), 
+    'access callback' => 'multiform_log_access',
+    'file' => 'multiform_log.admin.inc',
+  );
+  
+  return $items;
+}
+
+// TODO: Check if devel is enabled and check permissions
+function multiform_log_access() {
+  global $user;
+  return (function_exists('kpr') && $user->uid == 1);
+  //~ return TRUE;
+}
+
+function multiform_log_create_entry($entry_data) {
+    
+    //~ $entry_data['multiform_id'];  // required
+    $entry_data['timestamp'] = !empty($entry_data['timestamp']) ? $entry_data['timestamp'] : time();
+    //~ $entry_data['post_array'];  // required
+    //~ $entry_data['context_data'];  // required
+    
+    // Log _POST data.
+    $id = db_insert('multiform_log') // Table name no longer needs {}
+      ->fields(array(
+      'multiform_id' => $entry_data['multiform_id'],
+      'timestamp' => $entry_data['timestamp'],
+      'post_array' => serialize($entry_data['post_array']),
+      'context_data' => serialize($entry_data['context_data']),
+    ))
+    ->execute();
+    
+    return $id;
+}
+
+
+/*
+if (module_exists('multiform_log')) {
+    $context = array();
+    $entry_data = array(
+      'multiform_id' => !empty($settings['#multiform_id']) ? $settings['#multiform_id'] : DEFAULT_MULTIFORM_ID,
+      'timestamp' => time(),
+      'post_array' => serialize($post),
+      'context_data' => serialize($context),
+    );
+    
+    multiform_log_create_entry($entry_data);
+}
+*/

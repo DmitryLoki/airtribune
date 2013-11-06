@@ -48,16 +48,36 @@ class field_validation_unique_validator extends field_validation_validator {
       if ($this->rule->entity_type == 'field_collection_item' && arg(0) == 'field-collection' && arg(3) =='edit' && empty($id)) {
         $id = arg(2); 
       }
+      if ($this->rule->entity_type == 'profile2' && empty($id)) {
+        $arg_index = 1;
+        if (module_exists('profile2_page')) {
+          $profile_type = profile2_type_load($this->entity->type);
+          $path = profile2_page_get_base_path($profile_type);
+          $arg_index = count(explode('/', $path));
+        }
+        $uid = arg($arg_index);
+        if (arg($arg_index + 1) == 'edit' && is_numeric($uid) && $account = user_load($uid)) {
+          if ($profile = profile2_load_by_user($account, $this->entity->type)) {
+            $id = $profile->pid;
+          }
+        }
+      }
       if (!empty($id)) {
         $query->entityCondition('entity_id', $id, '!=');
       }
       //Always bypass all access checkings.
       $query->addMetaData('account', user_load(1));
-      $count = $query->fieldCondition($this->rule->field_name, $this->rule->col, $this->value)
+      $query->fieldCondition($this->rule->field_name, $this->rule->col, $this->value);
+
+      // Store a copy of our matched entities for our use in tokens later.
+      $matched_entities = $query->execute();
+
+      $count = $query
         ->count()
         ->execute();
       if ($count) {
         $flag = FALSE;
+
       }
 
     }
@@ -66,6 +86,34 @@ class field_validation_unique_validator extends field_validation_validator {
       $token = array(
         '[count]' => $count,
       );
+
+      // Find the first entity that failed this unique condition so we can
+      // add a token referencing it. First, we have some special handling for
+      // field collection entities so we can find the entity title of
+      // whatever the specific field is connected to.
+      $entity_types = array_keys($matched_entities);
+      $entity_type = reset($entity_types);
+      $matched_entity = reset($matched_entities);
+      $first_match = reset($matched_entity);
+      $entity_info = entity_get_info($entity_type);
+      $entity_key_id = $entity_info['entity keys']['id'];
+      $entitys = entity_load($entity_type, array($first_match->{$entity_key_id}));
+      $entity = reset($entitys);
+
+      if ($entity_type == 'field_collection_item') {
+        $host_type = $entity->hostEntityType();
+        $host_entity = $entity->hostEntity();
+        $label = entity_label($host_type, $host_entity);
+        $uri = entity_uri($host_type, $host_entity);
+      }
+      else {
+        $label = entity_label($entity_type, $entity);
+        $uri = entity_uri($entity_type, $entity);
+      }
+
+      $token['[existing-entity-label]'] = $label;
+      $token['[existing-entity-link]'] = l($label, $uri['path'], $uri['options']);
+
       $this->set_error($token);
     }
   }
@@ -97,6 +145,8 @@ class field_validation_unique_validator extends field_validation_validator {
     $token_help = parent::token_help();
     $token_help += array(
       '[count]' => t('Count of duplicate'),
+      '[existing-entity-label]' => t('The label of the first entity that contains matching data.'),
+      '[existing-entity-link]' => t('A link to the first entity that contains matching data.'),
     );
     return $token_help;
   }

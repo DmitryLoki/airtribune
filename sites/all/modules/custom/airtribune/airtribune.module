@@ -48,6 +48,8 @@ define('AIRTRIBUNE_DOWNLOADS_FIELD', 'field_downloads');
 define('AIRTRIBUNE_PG_RACETYPE_REF_FIELD', 'field_pg_racetype_ref');
 define('AIRTRIBUNE_TWITTER_WIDGET_CODE_FIELD', 'field_twitter_widget_code');
 define('AIRTRIBUNE_IMAGE_FIELD', 'field_image');
+define('AIRTRIBUNE_BIRTHDATE_FIELD', 'field_birthdate');
+define('AIRTRIBUNE_CONTESTANT_NUMBER_FIELD', 'field_contestant_number');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_PG_RACE_AZIMUTH_FIELD', 'field_pg_race_azimuth');
@@ -321,7 +323,7 @@ function airtribune_token_info() {
   );
   $info['tokens']['airtribune']['race-online]'] = array(
     'name' => t('Race state'),
-    'description' => t('Race state (online/replay/awaiting).'),
+    'description' => t('Race state ("online"/false).'),
   );
   $info['tokens']['airtribune']['contest-core-id'] = array(
     'name' => t('Core ID: Contest'),
@@ -373,8 +375,10 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   // @author Vyacheslav Malchik <info@vkey.biz>
   // @todo Returns an array of after clearing the cache for an unknown reason
   if (module_exists('at_core_sync')) {
-    $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
-    $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+    if ($type == 'variable') {
+      $replacements['[variable:core-api-domain]'] = at_core_sync_get_api_domain();
+      $replacements['[variable:core-api-version]'] = at_core_sync_get_api_version();
+    }
   }
 
   // Tokens for visualization pane
@@ -383,18 +387,20 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   if ($type == 'airtribune') {
     if (!empty($data['race'])) {
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
-      $replacements['[airtribune:race-online]'] = _airtribune_pg_race_online_state($data['race']->id);
+      $online = _airtribune_pg_race_online_state($data['race']->id);
+      $replacements['[airtribune:race-online]'] = $online == '"online"' ? $online : 'false';
     } else {
-      $replacements['[airtribune:race-core-id]'] = 'NONE';
-      $replacements['[airtribune:race-online]'] = 'NONE';
+      $replacements['[airtribune:race-core-id]'] = '';
+      $replacements['[airtribune:race-online]'] = 'false';
     }
 
     if (!empty($data['contest'])) {
+      
       $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
       $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
     } else {
-      $replacements['[airtribune:contest-url]'] = 'NONE';
-      $replacements['[airtribune:contest-core-id]'] = 'NONE';
+      $replacements['[airtribune:contest-url]'] = '/';
+      $replacements['[airtribune:contest-core-id]'] = '';
     }
 
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
@@ -1245,6 +1251,7 @@ function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
   if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
+    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.styles.css']);
   }
 }
 
@@ -1493,6 +1500,10 @@ function airtribune_cron() {
 function _create_day_for_contest() {
   // Get all current contests
   $contests = airtribune_get_events_nids_with_date_status();
+
+  if (empty($contests['current'])) {
+    return;
+  }
 
   foreach ($contests['current'] as $key => $contest_nid) {
     $contest = node_load($contest_nid);

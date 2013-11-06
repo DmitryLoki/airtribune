@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * Implements hook_init().
+ */
+function at_devel_init() {
+  // Add debug information.
+  if (
+    !drupal_is_cli() &&
+    !preg_match('#(admin_menu|user|ckeditor|ajax|system|autocomplete|batch|admin/structure/views)#', current_path())
+  ) {
+    drupal_add_css(drupal_get_path('module', 'at_devel') . '/css/at_devel_debug.css');
+    drupal_register_shutdown_function('at_devel_shutdown');
+  }
+}
+
+/**
+ * Extract the branch we currently have checked out.
+ */
+function at_devel_get_git_branch() {
+  $file = '.git/HEAD';
+  if (is_readable($file) && $data = file_get_contents($file)) {
+    $data = explode('/', $data);
+    return end($data);
+  }
+}
+
+/**
+ * Show link on issue if avaliable.
+ */
+function at_devel_get_issue_link($subject) {
+  $pattern = '/issue([0-9]*)/i';
+  $matches = array();
+  $output = $subject;
+  preg_match($pattern, $subject, $matches);
+  if (isset($matches[1])) {
+    $issue = $matches[1];
+    $output = l($subject, 'https://devc.ru/issues/'.$issue, array('attributes' => array('target' => '_blank')));
+  } else {
+    $output = l($subject, 'https://devc.ru/projects/airtribune_website/repository?utf8=%E2%9C%93&rev='.$subject, array('attributes' => array('target' => '_blank')));
+  }
+  return $output;
+}
+
+/**
+ * Shutdown callback.
+ *
+ * Provide some debug information about the page.
+ * @see cp_init()
+ */
+function at_devel_shutdown() {
+  $branch = '<span>' . at_devel_get_issue_link(at_devel_get_git_branch()). '</span>';
+  $memory = '<span>' . round(memory_get_peak_usage(TRUE) / 1024 / 1024, 2) .' MB</span>';
+  $timer = '<span>' . round(timer_read('page')) .' ms</span>';
+  print '<div id="devel-debug">' . $branch . $memory . $timer . '</div>';
+}
