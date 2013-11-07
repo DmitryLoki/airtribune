@@ -176,7 +176,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
 
   $gender_list = array('male', 'female');
   $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
-  $birthday = format_date(strtotime($profile_main['field_birthdate']['und'][0]['value']), 'custom', 'd/m/Y');
+  $birthday = format_date(intval(strtotime($profile_main['field_birthdate']['und'][0]['value'])), 'custom', 'd/m/Y');
   $nation = country_load($profile_pilot['field_address']['und'][0]['country'])->name;
   $pilot_full_name = $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'];
 
