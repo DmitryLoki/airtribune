@@ -178,7 +178,7 @@ function at_reg_form_anonymous($nid) {
     ),
     
     '#title' => $form_title,
-    '#redirect_path' => 'event/' . $nid,
+    '#redirect_path' => 'event/' . $nid . '/pilots',
   );
   
   //$args = at_reg_profile_form_args();
@@ -494,7 +494,7 @@ function at_reg_form_authorized($nid) {
     ),
     
     '#title' => $form_title,
-    '#redirect_path' => 'event/' . $nid,
+    '#redirect_path' => 'event/' . $nid . '/pilots',
   );
   
   return multiform_get_form($settings);
