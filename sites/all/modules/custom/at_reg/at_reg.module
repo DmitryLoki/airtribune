@@ -881,8 +881,8 @@ function _at_reg_rules(&$rules, $multiform = FALSE) {
   if (isset($rules)) {
     foreach ($rules as $k2 => $rule) {
       if (isset($rule['messages']['required'])) {
-        $rules[$k2]['messages']['required'] = t('This field is required');
-        $rules[$k2]['messages']['blacklist'] = t('This field is required');
+        $rules[$k2]['messages']['required'] = t('This field is required.');
+        $rules[$k2]['messages']['blacklist'] = t('This field is required.');
       }
     }
   }
