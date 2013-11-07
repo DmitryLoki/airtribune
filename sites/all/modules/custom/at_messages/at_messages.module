@@ -119,63 +119,119 @@ function at_messages_msg_changer() {
 }
 
 function at_messages_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_register_form') {
+  if (in_array($form_id, array('user_register_form', 'og_ui_confirm_subscribe', 'profile2_edit_main_form', 'profile2_edit_pilot_form'))) {
     $form['#submit'][] = 'at_messages_register_at_event_submit';
   }
-  if (($form_id == 'og_ui_confirm_subscribe')) {
-    $form['#submit'][] = 'at_messages_register_at_event_submit';
-  }
+  //~ if ($form_id == 'user_register_form') {
+    //~ $form['#submit'][] = 'at_messages_register_at_event_submit';
+  //~ }
+  //~ if (($form_id == 'og_ui_confirm_subscribe')) {
+    //~ $form['#submit'][] = 'at_messages_register_at_event_submit';
+  //~ }
+  //~ if (($form_id == 'profile2_edit_main_form')) {
+    //~ $form['#submit'][] = 'at_messages_register_at_event_submit';
+  //~ }
+  //~ if (($form_id == 'profile2_edit_pilot_form')) {
+    //~ $form['#submit'][] = 'at_messages_register_at_event_submit';
+  //~ }
 }
 
 function at_messages_register_at_event_submit($form, &$form_state) {
-  // TRUE if guest
-  // FALSE if already registered & logged user
-  $guest_registration_at_event = isset($form_state['multiform_id']) && $form_state['multiform_id'] == 'contest_registration_multiform'
-    ? TRUE
-    : FALSE;
-
-  // prevent handling form on usual guest registration to site
-  if (!$guest_registration_at_event && $form['#id'] == 'user-register-form') {
+  
+  $is_multiform = !empty($form_state['#multiform_settings']['#multiform_id']) ? TRUE : FALSE;
+  if (!$is_multiform) {
     return;
   }
-
+  
+  $multiform_id = $form_state['#multiform_settings']['#multiform_id'];
+  if (!in_array($multiform_id, array('contest_registration_authorized', 'contest_registration_anonymous'))) {
+    return;
+  }
+  
+  global $registration_at_event_form_state;
+  
+  $guest_registration_at_event = ($multiform_id == 'contest_registration_anonymous') ? TRUE : FALSE;
+  
+  
+  $continue = FALSE;
+  $key = '';
   if ($guest_registration_at_event) {
-    // some magic & dirty code
-    // at guest registration with multiform, at user-register we have all info about user, but haven't contestant_number
-    // at og-ui-confirm-subscribe we have contestant_number, but haven't
-    // so we need to combine values from two form_states
-    if ($form['#id'] == 'user-register-form') {
-      global $form_state_guest_reg_on_event;
-      $form_state_guest_reg_on_event = $form_state;
-      return;
-    }
-    elseif ($form['#id'] == 'og-ui-confirm-subscribe') {
-      global $form_state_guest_reg_on_event;
-      $f = $form_state_guest_reg_on_event['values'];
-      $user = $form_state_guest_reg_on_event['user'];
-      $event = node_load($form_state['multiform']['#subforms']['og_ui_confirm_subscribe_0']['args'][1]);
-      $contestant_number = $form_state['values']['field_contestant_number']['und'][0]['value'];
+    switch ($form['#id']) {
+      case 'user-register-form' :
+        $key = 'user_register_form';
+        break;
+      case 'og-ui-confirm-subscribe' :
+        $key = 'og_ui_confirm_subscribe';
+        break;
+      case 'profile2-edit-pilot-form' :
+        $key = 'profile2_edit_pilot_form';
+        $continue = TRUE;
+        break;
     }
   }
   else {
-    // already registered user/pilot try to reg on event
-    $f = $form_state['values'];
-    $user = $form_state['user'];
-    $event = node_load($f['gid']);
-    $contestant_number = $f['field_contestant_number']['und'][0]['value'];
+    switch ($form['#id']) {
+      case 'profile2-edit-main-form' :
+        $key = 'profile2_edit_main_form';
+        break;
+      case 'og-ui-confirm-subscribe' :
+        $key = 'og_ui_confirm_subscribe';
+        break;
+      case 'profile2-edit-pilot-form' :
+        $key = 'profile2_edit_pilot_form';
+        $continue = TRUE;
+        break;
+    }
   }
-
+  
+  // Store subform's form_state in global variable.
+  if (!empty($key)) {
+    $registration_at_event_form_state[$key] = $form_state;
+  }
+  
+  // Continue only on last subform
+  if (!$continue) {
+    return;
+  }
+  
+  if ($guest_registration_at_event) {
+    $user = $registration_at_event_form_state['user_register_form']['user'];
+    $event_nid = $registration_at_event_form_state['og_ui_confirm_subscribe']['build_info']['args'][1];
+    $event = node_load($event_nid);
+    $contestant_number = $registration_at_event_form_state['og_ui_confirm_subscribe']['values']['field_contestant_number']['und'][0]['value'];
+    
+    $profile_main = $registration_at_event_form_state['user_register_form']['values']['profile_main'];
+    // TODO: There should be 'values' instead of 'input'
+    $profile_pilot = $registration_at_event_form_state['profile2_edit_pilot_form']['input']['profile_pilot'];
+    
+      // TODO:
+    $gender_list = array('male', 'female');
+    $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
+  }
+  else {
+    //
+    global $user;
+    $event_nid = $registration_at_event_form_state['og_ui_confirm_subscribe']['build_info']['args'][1];
+    $event = node_load($event_nid);
+    $contestant_number = $registration_at_event_form_state['og_ui_confirm_subscribe']['values']['field_contestant_number']['und'][0]['value'];
+    
+    $profile_main = $registration_at_event_form_state['profile2_edit_main_form']['input']['profile_main'];
+    $profile_pilot = $registration_at_event_form_state['profile2_edit_pilot_form']['input']['profile_pilot'];
+    
+    // TODO:
+    $gender_list = array('male', 'female');
+    $gender = $gender_list[$profile_main['field_gender']['und']];
+  }
+  
+  
   $event_name = trim($event->title);
   $event_pilot_list_url = drupal_get_path_alias('event/' . $event->nid . '/pilots');
   $organiser = user_load($event->uid);
   $organiser_profile = profile2_load_by_user($organiser);
   $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
 
-  $profile_main = $f['profile_main'];
-  $profile_pilot = $f['profile_pilot'];
-
-  $gender_list = array('male', 'female');
-  $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
+  //~ $gender_list = array('male', 'female');  // TODO:
+  //~ $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];
   $birthday = format_date(intval(strtotime($profile_main['field_birthdate']['und'][0]['value'])), 'custom', 'd/m/Y');
   $nation = country_load($profile_pilot['field_address']['und'][0]['country'])->name;
   $pilot_full_name = $profile_main['field_full_name']['und'][0]['given'] . ' ' . $profile_main['field_full_name']['und'][0]['family'];
@@ -199,7 +255,8 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@fai_license_number' => $profile_pilot['field_fai_license_number']['und'][0]['value'],
     '@civl_id' => $profile_pilot['field_civl_id']['und'][0]['value'],
     '@contestant_number' => $contestant_number,
-    '@t_shirt_size' => $profile_pilot['field_t_shirt_size']['und'][0]['value'],
+    //~ '@t_shirt_size' => $profile_pilot['field_t_shirt_size']['und'][0]['value'],
+    '@t_shirt_size' => $profile_pilot['field_t_shirt_size']['und'],  // TODO: This is because 'input' is used instead of values.
     '@paraglider_manufacturer' => $profile_pilot['field_paraglider_manufacturer']['und'][0]['value'],
     '@paraglider_model' => $profile_pilot['field_paraglider_model']['und'][0]['value'],
     '@paraglider_color' => $profile_pilot['field_paraglider_color']['und'][0]['value'],
@@ -209,7 +266,8 @@ function at_messages_register_at_event_submit($form, &$form_state) {
     '@name_in_national_alphabet' => $profile_pilot['field_name_in_national_alphabet']['und'][0]['value'],
     '@person_emergency' => $profile_pilot['field_person_name']['und'][0]['value'],
     '@phone_emergency' => $profile_pilot['field_person_phone']['und'][0]['full_number'],
-    '@blood_type' => $profile_pilot['field_blood_type']['und'][0]['value'],
+    //~ '@blood_type' => $profile_pilot['field_blood_type']['und'][0]['value'],
+    '@blood_type' => $profile_pilot['field_blood_type']['und'],  // TODO: See comment for t_shirt_size.
   );
 
   $mail_to_pilot = array(
