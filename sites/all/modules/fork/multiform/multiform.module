@@ -271,7 +271,7 @@ function multiform_get_form($settings) {
   // TODO: Check.
   $errors = form_get_errors();
   
-  if (empty($errors) && !empty($_POST) && module_exists('multiform_log')) {
+  if (empty($errors) && !empty($post['multiform']) && module_exists('multiform_log')) {
     // Log _POST data.
     // TODO: Fill in context.
     $context = array();
@@ -285,7 +285,7 @@ function multiform_get_form($settings) {
     ->execute();
   }
   
-  if (empty($errors) && !empty($_POST) && isset($settings['#redirect_path'])) {
+  if (empty($errors) && !empty($post['multiform']) && isset($settings['#redirect_path'])) {
     // Redirect
     drupal_goto($settings['#redirect_path']);
   }
