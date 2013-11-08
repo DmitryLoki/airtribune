@@ -960,7 +960,7 @@ function airtribune_modify_event_date_include_last_day(&$node) {
 function airtribune_entity_insert($entity, $type) {
   // change membership for user to organizer, whom create contest node
   // @see airtribune_og_membership_presave()
-  if ($entity->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+  if ($type == 'node' && $entity->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
     global $change_membership;
     $change_membership = AIRTRIBUNE_MEMBERSHIP_ORGANIZER;
   }

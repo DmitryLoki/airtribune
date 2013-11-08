@@ -12,7 +12,7 @@ function multiform_log_list_page() {
   $rows = array();
   
   foreach ($result as $entry) {
-    $rows[] = array(l($entry->id, 'multiform/log/' . $entry->id), date('Y-d-m H:m:i', $entry->timestamp), $entry->multiform_id, $entry->timestamp);
+    $rows[] = array(l($entry->id, 'multiform/log/' . $entry->id), date('Y-m-d H:m:i', $entry->timestamp), $entry->multiform_id, $entry->timestamp);
   }
   
   $table = array(
