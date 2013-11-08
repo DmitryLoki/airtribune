@@ -929,14 +929,23 @@ function _at_reg_rules(&$rules, $multiform = FALSE) {
     
     'profile_main[field_birthdate][und][0][value][month]' => array(
       'required' => TRUE,
+      'messages' => array(
+        'required' => t('This field is required.'),
+      ),
       'form_id' => 'user_register_form',
     ),
     'profile_main[field_birthdate][und][0][value][year]' => array(
       'required' => TRUE,
+      'messages' => array(
+        'required' => t('This field is required.'),
+      ),
       'form_id' => 'user_register_form',
     ),
     'profile_main[field_birthdate][und][0][value][day]' => array(
       'required' => TRUE,
+      'messages' => array(
+        'required' => t('This field is required.'),
+      ),
       'form_id' => 'user_register_form',
     ),
     
