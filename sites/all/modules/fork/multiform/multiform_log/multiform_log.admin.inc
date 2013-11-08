@@ -43,7 +43,7 @@ function multiform_log_entry_page($id) {
   $context_data = unserialize($result['context_data']);
   $post = unserialize($result['post_array']);
   
-  drupal_set_title('#' . $id . ', ' . date('Y-d-m H:m:i', $timestamp));
+  drupal_set_title('#' . $id . ', ' . date('Y-m-d H:m:i', $timestamp));
   
   $output = '_POST:<br />';
   $output .= kpr($post, TRUE);
