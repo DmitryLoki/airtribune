@@ -229,7 +229,9 @@ function at_inline_prepare_form(&$form, $hidden) {
     // Hide element only if it exists,
     // e.g. OG_GROUP_REF is shown only on edit form
     if (isset($form[$v])) {
-      $form[$v]['#access'] = FALSE;
+      // see #3799
+      // $form[$v]['#access'] = FALSE;
+      unset($form[$v]);
     }
   }
 }
