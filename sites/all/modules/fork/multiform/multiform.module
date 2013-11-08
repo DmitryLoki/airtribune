@@ -229,6 +229,24 @@ function multiform_get_form($settings) {
     $multiform['#subforms'][$subform_id]['#subform_settings'] = $subform;
   }
   
+  // TODO: Check.
+  $errors = form_get_errors();
+
+  if (empty($errors) && !empty($post['multiform']) && module_exists('multiform_log')) {
+    // Log _POST data.
+    // TODO: Fill in context.
+    $context = array();
+
+    $entry_data = array(
+      'multiform_id' => !empty($settings['#multiform_id']) ? $settings['#multiform_id'] : DEFAULT_MULTIFORM_ID,
+      'timestamp' => time(),
+      'post_array' => $post,
+      'context_data' => $context,
+    );
+
+    multiform_log_create_entry($entry_data);
+  }
+  
   // At this point all subforms were validated.
   
   foreach ($subforms as $index => $subform) {
@@ -271,21 +289,7 @@ function multiform_get_form($settings) {
   // TODO: Check.
   $errors = form_get_errors();
   
-  if (empty($errors) && !empty($_POST) && module_exists('multiform_log')) {
-    // Log _POST data.
-    // TODO: Fill in context.
-    $context = array();
-    $id = db_insert('multiform_log') // Table name no longer needs {}
-      ->fields(array(
-      'multiform_id' => !empty($settings['#multiform_id']) ? $settings['#multiform_id'] : DEFAULT_MULTIFORM_ID,
-      'timestamp' => time(),
-      'post_array' => serialize($post),
-      'context_data' => serialize($context),
-    ))
-    ->execute();
-  }
-  
-  if (empty($errors) && !empty($_POST) && isset($settings['#redirect_path'])) {
+  if (empty($errors) && !empty($post['multiform']) && isset($settings['#redirect_path'])) {
     // Redirect
     drupal_goto($settings['#redirect_path']);
   }
