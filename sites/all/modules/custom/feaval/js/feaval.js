@@ -434,3 +434,50 @@
     }
   }
 })(jQuery);
+
+jQuery(function($){
+  jQuery.validator.addMethod("dateFormat", function(value, element, param) {
+    var parts = value.split(param.splitter);
+    var expectedpartscount = 0;
+    var day = parseInt(parts[param.daypos], 10);
+    var month = parseInt(parts[param.monthpos], 10);
+    month = month - 1;
+    var year = parseInt(parts[param.yearpos], 10);
+    var date = new Date();
+    var result = true;
+    /*if (day.toString().length !== parts[param.daypos].length){
+      result = false;
+    }
+    if (month.toString().length !== parts[param.monthpos].length){
+      result = false;
+    }*/
+    if (year.toString().length !== parts[param.yearpos].length){
+      result = false;
+    }
+    if (param.yearpos !== false){
+      expectedpartscount++;
+      date.setFullYear(year);
+      if (year !== date.getFullYear()) {
+        result = false;
+      }
+    }
+    if (param.monthpos !== false) {
+      expectedpartscount++;
+      date.setMonth(month);
+      if (month !== date.getMonth()) {
+        result = false;
+      }
+    }
+    if (param.daypos !== false) {
+      expectedpartscount++;
+      date.setDate(day);
+      if (day !== date.getDate()) {
+        result = false;
+      }
+    }
+    if (expectedpartscount !== parts.length) {
+      result = false;
+    }
+    return this.optional(element) || result;
+  }, jQuery.format('The date is not in a valid format'));
+});
