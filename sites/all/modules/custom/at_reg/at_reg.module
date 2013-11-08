@@ -178,7 +178,7 @@ function at_reg_form_anonymous($nid) {
     ),
     
     '#title' => $form_title,
-    '#redirect_path' => 'event/' . $nid,
+    '#redirect_path' => 'event/' . $nid . '/pilots',
   );
   
   //$args = at_reg_profile_form_args();
@@ -494,7 +494,7 @@ function at_reg_form_authorized($nid) {
     ),
     
     '#title' => $form_title,
-    '#redirect_path' => 'event/' . $nid,
+    '#redirect_path' => 'event/' . $nid . '/pilots',
   );
   
   return multiform_get_form($settings);
@@ -881,8 +881,8 @@ function _at_reg_rules(&$rules, $multiform = FALSE) {
   if (isset($rules)) {
     foreach ($rules as $k2 => $rule) {
       if (isset($rule['messages']['required'])) {
-        $rules[$k2]['messages']['required'] = t('This field is required');
-        $rules[$k2]['messages']['blacklist'] = t('This field is required');
+        $rules[$k2]['messages']['required'] = t('This field is required.');
+        $rules[$k2]['messages']['blacklist'] = t('This field is required.');
       }
     }
   }
@@ -929,14 +929,23 @@ function _at_reg_rules(&$rules, $multiform = FALSE) {
     
     'profile_main[field_birthdate][und][0][value][month]' => array(
       'required' => TRUE,
+      'messages' => array(
+        'required' => t('This field is required.'),
+      ),
       'form_id' => 'user_register_form',
     ),
     'profile_main[field_birthdate][und][0][value][year]' => array(
       'required' => TRUE,
+      'messages' => array(
+        'required' => t('This field is required.'),
+      ),
       'form_id' => 'user_register_form',
     ),
     'profile_main[field_birthdate][und][0][value][day]' => array(
       'required' => TRUE,
+      'messages' => array(
+        'required' => t('This field is required.'),
+      ),
       'form_id' => 'user_register_form',
     ),
     
