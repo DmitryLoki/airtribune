@@ -2248,10 +2248,10 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
-.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:540px; padding:0 0 6px; margin-top: -2px;}
+.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:520px; padding:0 0 6px; margin-top: -2px;}
 .page-node .node .node-content { clear:both;}
 .page-node .node .submitted, .page-node .node .with-user-picture { float:right; margin-top:-17px}
-.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 100px; display: inline-block; text-align: right; padding-bottom: 1px;}
+.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 120px; display: inline-block; text-align: right; padding-bottom: 1px;}
 .page-node .node .author a, .page-node .node .links a { color:#616569; text-decoration:none;}
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node ul { padding-left:15px}
