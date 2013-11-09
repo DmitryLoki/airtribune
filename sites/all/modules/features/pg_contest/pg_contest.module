@@ -8,6 +8,19 @@
 include_once 'pg_contest.features.inc';
 
 /**
+ * Implements hook_menu_alter().
+ */
+function pg_contest_menu() {
+  $items['flyingsite/%'] = array(
+    'page callback' => 'get_takeoffs_for_flyingsite',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
  * Implementation of hook_form
  * Default base is 'node_content'
  * @param type $node
@@ -475,4 +488,14 @@ function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
       return FALSE;
     }
   }
+}
+
+function get_takeoffs_for_flyingsite($flying_site_id) {
+  $view = views_get_view('basic_marks_by_proximity');
+  $view->set_arguments(array($flying_site_id));
+  $view->preview('take_offs_pane', array($flying_site_id));
+  foreach ($view->result as $item) {
+    $result[$item->id] = $item->eck_ent_basicmark_title;
+  }
+  return json_encode($result);
 }
