@@ -7,75 +7,6 @@
 
 include_once 'pg_contest.features.inc';
 
-function pg_contest_menu() {
-  $items = array();
-  $items['event/%node/settings'] = array(
-    'title' => 'Settings',
-    'menu_name' => 'navigation',
-    'page callback' => 'pg_contest_page_settings',
-    'page arguments' => array(1),
-    'access arguments' => array('edit own pg_contest content'),
-    'type' => MENU_CALLBACK,
-  );
-  return $items;
-}
-
-function pg_contest_page_settings($node) {
-  // loads the include file for node pages
-  module_load_include('inc', 'node', 'node.pages');
-  $path = 'event/'.$node->nid.'/settings';
-  $node->path = array('alias' => $path);
-  $form = node_page_edit($node);
-
-  unset($form['field_address']);
-  unset($form['field_collection_organizers']);
-  unset($form['field_contest_photos']);
-  unset($form['field_contest_rules']);
-  unset($form['field_core_id']);
-  unset($form['field_device_id']);
-  unset($form['field_downloads']);
-  unset($form['field_flying_info']);
-  unset($form['field_headquarter_hotel']);
-  unset($form['field_headquarter_info']);
-  unset($form['field_hq_location']);
-  unset($form['field_info']);
-  unset($form['field_is_offline']);
-  unset($form['field_max_number_contestants']);
-  unset($form['field_prizes']);
-  unset($form['field_results_summary']);
-  unset($form['field_results_title']);
-  unset($form['field_sample_schedule']);
-  unset($form['field_schedule']);
-  unset($form['field_selection']);
-  unset($form['field_selection']);
-  unset($form['field_social_links']);
-  unset($form['field_time_zone']);
-  unset($form['field_twitter_widget_code']);
-
-  // Fieldgroups.
-  $form['revision_information']['#access'] = false;
-  $form['author']['#access'] = false;
-  $form['menu']['#access'] = false;
-  $form['metatags']['#access'] = false;
-  $form['options']['promote']['#access'] = false;
-  $form['options']['sticky']['#access'] = false;
-
-  // Temporary, this fields will be removed in futere.
-  unset($form['field_flying_site_info']);
-  unset($form['field_flying_site_photos']);
-  unset($form['field_flying_site_photos']);
-  unset($form['field_gt_bus']);
-  unset($form['field_gt_car']);
-  unset($form['field_gt_general']);
-  unset($form['field_gt_plane']);
-  unset($form['field_gt_taxi']);
-  unset($form['field_gt_train']);
-
-//  dpm($form);
-//  $rendered_form = drupal_render($form);
-//  return $rendered_form;
-  return $form;
-}
 /**
  * Implementation of hook_form
  * Default base is 'node_content'
@@ -364,7 +295,6 @@ function _pg_contest_urls_init($nid) {
     '/map/basic',
     '/register',
     '/results',
-    '/settings',
   );
   return $result;
 }
