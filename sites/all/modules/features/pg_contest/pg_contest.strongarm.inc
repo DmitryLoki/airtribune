@@ -115,7 +115,7 @@ function pg_contest_strongarm() {
           'weight' => '4',
         ),
         'path' => array(
-          'weight' => '29',
+          'weight' => '30',
         ),
         'metatags' => array(
           'weight' => '32',
