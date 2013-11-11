@@ -6872,7 +6872,7 @@ return array($event_id);';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
-    5 => '5',
+    2 => '2',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -7026,7 +7026,7 @@ return array($event_id);';
     5 => 0,
     7 => 0,
   );
-  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now - 500 day';
+  $handler->display->display_options['filters']['field_dates_value2']['default_date'] = 'now - 5 day';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');

@@ -6516,8 +6516,19 @@ window.fbAsyncInit = function() {
           'context' => 'logged-in-user',
           'not' => TRUE,
         ),
+        1 => array(
+          'name' => 'compare_users',
+          'settings' => array(
+            'equality' => '0',
+          ),
+          'context' => array(
+            0 => 'argument_entity_id:user_1',
+            1 => 'logged-in-user',
+          ),
+          'not' => FALSE,
+        ),
       ),
-      'logic' => 'and',
+      'logic' => 'or',
     ),
   );
   $page->default_handlers[$handler->name] = $handler;
