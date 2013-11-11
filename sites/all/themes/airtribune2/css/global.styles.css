@@ -3560,6 +3560,19 @@ html.fb_view { overflow: auto;}
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
 
+  /* My events */
+
+.view-my-events {}
+.view-my-events .views-row { padding-top: 20px; clear: both;}
+.view-my-events .views-row:first-child { padding-top: 0;}
+.view-my-events .my_event { display: block; }
+.view-my-events .my_event .logo { display: block; width: 48px; height: 48px; border: 1px solid #f2f2f2; background: #ffffff; float: left; margin-right: 10px;}
+.view-my-events .my_event .main_text { float: left; color: #565a5d; font-size: 18px; line-height: 20px; margin-top: 3px;}
+.view-my-events .my_event .main_description { display: block; color: #b0b0b0; font-size: 14px; line-height: 16px; margin-top: 4px;}
+.view-my-events .my_event .dates:before { content: " | "}
+.view-my-events .my_event .status { float: right; color: #809226; font-size: 16px; margin-top: 12px;}
+.view-my-events .my_event .status-0 { color: #cecece }
+
 /*====================================================
 CSS Tooltips by Adam Whitcroft
 https://github.com/AdamWhitcroft/CSS.Tooltips
