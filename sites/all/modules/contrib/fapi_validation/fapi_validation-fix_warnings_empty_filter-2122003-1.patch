@@ -1,0 +1,16 @@
+
+<!-- saved from url=(0101)http://geocoder.inprog.ru/patches/fapi_validation/fapi_validation-fix_warnings_empty_filter-0-0.patch -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">diff --git a/fapi_validation.module b/fapi_validation.module
+index 875c093..fa63106 100644
+--- a/fapi_validation.module
++++ b/fapi_validation.module
+@@ -47,7 +47,7 @@ function fapi_validation_filters_execute(&amp;$element, &amp;$form_state) {
+   }
+ 
+   foreach ($element['#filters'] as $filter) {
+-    if (!empty($data[$filter])) {
++    if ($filter &amp;&amp; !empty($data[$filter])) {
+       $element['#value'] = $data[$filter]['callback']($element['#value']);
+       form_set_value($element, $element['#value'], $form_state);
+     }
+</pre><div id="window-resizer-tooltip"><a href="http://geocoder.inprog.ru/patches/fapi_validation/fapi_validation-fix_warnings_empty_filter-0-0.patch#" title="Edit settings" style="background-image: url(chrome-extension://kkelicaakdanhinjdeammmilcgefonfh/images/icon_19.png);"></a><span class="tooltipTitle">Window size: </span><span class="tooltipWidth" id="winWidth"></span> x <span class="tooltipHeight" id="winHeight"></span><br><span class="tooltipTitle">Viewport size: </span><span class="tooltipWidth" id="vpWidth"></span> x <span class="tooltipHeight" id="vpHeight"></span></div></body></html>
