@@ -76,6 +76,7 @@ features[path_breadcrumbs][] = solutions_for_org_live_tracking
 features[path_breadcrumbs][] = solutions_for_org_retrieve
 features[path_breadcrumbs][] = solutions_for_org_service_providers
 features[path_breadcrumbs][] = user_edit
+features[path_breadcrumbs][] = user_events
 features[path_breadcrumbs][] = user_pilot_edit
 features[path_breadcrumbs][] = user_register
 features[path_breadcrumbs][] = user_registrations
