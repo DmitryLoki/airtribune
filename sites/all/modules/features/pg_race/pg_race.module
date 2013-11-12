@@ -564,7 +564,7 @@ function pg_race_retrive_callback($entity) {
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve map'),
-      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map'),
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map', array('absolute' => TRUE)),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-map-link'), 'target' => '_blank'),
         'html' => FALSE,
@@ -591,7 +591,7 @@ function pg_race_retrive_table_callback($entity) {
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve table'),
-      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table'),
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table', array('absolute' => TRUE)),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
         'html' => FALSE,

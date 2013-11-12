@@ -395,7 +395,6 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     }
 
     if (!empty($data['contest'])) {
-      
       $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
       $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
     } else {
@@ -1236,7 +1235,7 @@ function _at_get_vis_pages() {
  */
 function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
-  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
+  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.styles.css']);
   }
@@ -1263,7 +1262,7 @@ function airtribune_js_alter(&$javascript) {
 
   // Kill all js on visualization pages
   $args = _at_get_vis_pages();
-  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
+  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
     unset($javascript);
   }
 }
