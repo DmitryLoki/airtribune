@@ -574,7 +574,7 @@ function feaval_element_process($element, &$form_state, $complete_form) {
 
   // TODO: Check if validation is enabled
   if (!feaval_validation_enabled($element, $form_state, 'field')) {
-    return;
+    return $element;
   }
 
   if (isset($element['#feaval_element_info_alter_plugin'])) {
