@@ -803,10 +803,21 @@ function at_reg_js_alter(&$javascript) {
  * 
  * Here we need to add 'multiform' for every clientside_validation setting key.
  * Alse there is a bug with clientside_validation when form_state['rebuild'] == TRUE. See #3928
+ * 
+ * Temporary solution.
  */
 function at_reg_ajax_render_alter(&$commands) {
   //
   
+  // TODO: Check for specific ids
+  $multiform_ids = multiform_multiform_ids();
+  $is_multiform = !empty($multiform_ids) ? TRUE : FALSE;
+  // Do nothing for none-multiform forms.
+  // TODO: Check other condtions. What if single profile form is edited?
+  if (!$is_multiform) {
+    return;
+  }
+
   foreach ($commands as $k => $command) {
     if (isset($command['settings']['clientsideValidation']['forms'])) {
       
