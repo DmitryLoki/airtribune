@@ -80,8 +80,10 @@
   Drupal.behaviors.DEFClientValidation = {
     myClientsideValidation: undefined,
     beforeSubmit: function (form_values, form, options) {
-      //remove previous ajax validation error
-      delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
+      if(Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]) {
+        //remove previous ajax validation error
+        delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
+      }
       $(this.element).rules('remove', 'validation-error');
 
 
@@ -127,6 +129,44 @@
       return errorElement;
     },
     attach: function (context, settings) {
+      jQuery.validator.addMethod("dateFormat", function(value, element, param) {
+        var parts = value.split(param.splitter);
+        var expectedpartscount = 0;
+        var day = parseInt(parts[param.daypos], 10);
+        var month = parseInt(parts[param.monthpos], 10);
+        month = month - 1;
+        var year = parseInt(parts[param.yearpos], 10);
+        var date = new Date();
+        var result = true;
+        if (year.toString().length !== parts[param.yearpos].length){
+          result = false;
+        }
+        if (param.yearpos !== false){
+          expectedpartscount++;
+          date.setFullYear(year);
+          if (year !== date.getFullYear()) {
+            result = false;
+          }
+        }
+        if (param.monthpos !== false) {
+          expectedpartscount++;
+          date.setMonth(month);
+          if (month !== date.getMonth()) {
+            result = false;
+          }
+        }
+        if (param.daypos !== false) {
+          expectedpartscount++;
+          date.setDate(day);
+          if (day !== date.getDate()) {
+            result = false;
+          }
+        }
+        if (expectedpartscount !== parts.length) {
+          result = false;
+        }
+        return this.optional(element) || result;
+      }, jQuery.format('The date is not in a valid format'));
       $.validator.prototype.checkAllValid = function () {
         var self = this,
           allValid = true;
@@ -435,49 +475,3 @@
   }
 })(jQuery);
 
-jQuery(function($){
-  jQuery.validator.addMethod("dateFormat", function(value, element, param) {
-    var parts = value.split(param.splitter);
-    var expectedpartscount = 0;
-    var day = parseInt(parts[param.daypos], 10);
-    var month = parseInt(parts[param.monthpos], 10);
-    month = month - 1;
-    var year = parseInt(parts[param.yearpos], 10);
-    var date = new Date();
-    var result = true;
-    /*if (day.toString().length !== parts[param.daypos].length){
-      result = false;
-    }
-    if (month.toString().length !== parts[param.monthpos].length){
-      result = false;
-    }*/
-    if (year.toString().length !== parts[param.yearpos].length){
-      result = false;
-    }
-    if (param.yearpos !== false){
-      expectedpartscount++;
-      date.setFullYear(year);
-      if (year !== date.getFullYear()) {
-        result = false;
-      }
-    }
-    if (param.monthpos !== false) {
-      expectedpartscount++;
-      date.setMonth(month);
-      if (month !== date.getMonth()) {
-        result = false;
-      }
-    }
-    if (param.daypos !== false) {
-      expectedpartscount++;
-      date.setDate(day);
-      if (day !== date.getDate()) {
-        result = false;
-      }
-    }
-    if (expectedpartscount !== parts.length) {
-      result = false;
-    }
-    return this.optional(element) || result;
-  }, jQuery.format('The date is not in a valid format'));
-});
