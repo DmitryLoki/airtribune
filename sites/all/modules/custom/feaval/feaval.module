@@ -432,6 +432,8 @@ function feaval_field_widget_form_after_build($element, &$form_state) {
 // return sets of rules (or maybe only their own callback function name) to identify forms.
 // These rules should be cached inside this function not to call hooks every time.
 // Also signiture (maybe form_id plus other data) of identified forms should be cached here.
+
+// Also set "disabled" flag in order not to check multiple times.
 function feaval_validation_enabled($element, $form_state, $plugin_type) {
   static $callbacks = NULL;
   
@@ -567,9 +569,14 @@ function feaval_element_info_alter(&$types) {
  * Generic #process callback to create the element.
  */
 function feaval_element_process($element, &$form_state, $complete_form) {
-  // TODO: Check if validation is enabled
-  // TODO: Use $element['#feaval_plugin']
   
+  // TODO: Use $element['#feaval_plugin']
+
+  // TODO: Check if validation is enabled
+  if (!feaval_validation_enabled($element, $form_state, 'field')) {
+    return;
+  }
+
   if (isset($element['#feaval_element_info_alter_plugin'])) {
     $info = $element['#feaval_element_info_alter_plugin'];
     $plugin = ctools_get_plugins($info['module'], $info['type'], $info['id']);
