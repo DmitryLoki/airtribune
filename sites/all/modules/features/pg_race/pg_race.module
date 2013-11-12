@@ -577,6 +577,7 @@ function pg_race_retrive_callback($entity) {
 }
 
 function pg_race_retrive_table_callback($entity) {
+  global $user;
   $output = FALSE;
 
   $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
