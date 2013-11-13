@@ -62,11 +62,11 @@
 
     var form = this.closest('form'),
       validator = form.validate();
+    form.find('.form-submit').removeAttr('disabled');
     if (!errorText) {
       validator.checkAllValid();
       return;
     }
-
     Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error'] = true;
     this.rules('add', {'validation-error': true, messages: {'validation-error': errorText}});
     if (Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
@@ -177,7 +177,7 @@
             result = true;//true to prevent undefined check() result
           allValid = allValid && result;
         });
-        if (allValid) {
+        if (allValid && !allElements.filter(':focus').hasClass('ajax-processed')) {
           $(self.currentForm).find('.form-submit').removeClass('disabled');
         }
         return allValid;
@@ -301,7 +301,7 @@
               validator.element(this);
               if (!validator.checkAllValid()) {
                 $(this.form).find('.form-submit').addClass('disabled');
-              } else {
+              } else if(!$(this).hasClass('ajax-processed')){
                 $(this.form).find('.form-submit').removeClass('disabled');
               }
             }
@@ -319,7 +319,7 @@
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                $(this.form).find('.form-submit').addClass('disabled');
+                $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
               });
 
             allElements.filter(':not([type="password"])')
