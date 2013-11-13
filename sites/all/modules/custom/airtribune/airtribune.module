@@ -1009,7 +1009,13 @@ function airtribune_init() {
     }
   }
 
-
+  // Load CSV scripts on every page (exclude editablefields ajax request).
+  // Need to correct validation on /admin/* pages.
+  // @see #4025
+  if (strpos($_GET['q'], 'editablefields') === false) {
+    drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.min.js');
+    drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/clientside_validation.js');
+  }
 }
 
 /**
