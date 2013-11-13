@@ -324,7 +324,7 @@
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
                 var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
-                submitButton.parent().append(submitPreventDiv);
+                submitButton.parent().prepend(submitPreventDiv);
               })
               .unbind('focusout.validation')
               .bind('focusout.validation', function () {
