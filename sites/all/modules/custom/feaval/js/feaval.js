@@ -289,11 +289,15 @@
 
       $(document).bind('clientsideValidationInitialized', function () {
         for (var form in settings.clientsideValidation.forms) {
+          var submitPreventDiv = $('<div class="submit-prevent-div" style="position:absolute;width:100%;height:100%;z-index: 100;"></div>');
+          submitPreventDiv.bind('click', function(){
+            $(this).remove();
+          });
           var validator = Drupal.myClientsideValidation.validators[form];
           validator.settings.success = $.proxy(Drupal.behaviors.DEFClientValidation.success, validator);
           var allElements = validator.elements();
 
-          (function (validator) {
+          (function (validator, submitPreventDiv) {
             function validateElement() {
               if (!Drupal.myClientsideValidation) {
                 validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
@@ -319,7 +323,12 @@
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
+                var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
+                submitButton.parent().append(submitPreventDiv);
+              })
+              .unbind('focusout.validation')
+              .bind('focusout.validation', function () {
+                submitPreventDiv.remove();
               });
 
             allElements.filter(':not([type="password"])')
@@ -333,7 +342,7 @@
               $(allElements[0].form).find('.form-submit').addClass('disabled');
             }
 
-          })(validator);
+          })(validator, submitPreventDiv);
         }
       });
     }
