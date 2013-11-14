@@ -615,19 +615,18 @@ function entity_metadata_field_file_validate_item($items, $context) {
  */
 function entity_metadata_no_hook_node_access($op, $node = NULL, $account = NULL) {
   if (isset($node)) {
-    // If a non-default revision is given, incorporate revision access.
-    $default_revision = node_load($node->nid);
-    if ($node->vid != $default_revision->vid) {
-      return _node_revision_access($node, $op);
+    // Check if node exist.
+    if (isset($node->nid)) {
+      // If a non-default revision is given, incorporate revision access.
+      $default_revision = node_load($node->nid);
+      if ($node->vid != $default_revision->vid) {
+        return _node_revision_access($node, $op);
+      }
     }
-    else {
-      return node_access($op, $node, $account);
-    }
+    // Otherwise, use the standard node access.
+    return node_access($op, $node, $account);
   }
-  // Is access to all nodes allowed?
-  if (!user_access('access content', $account)) {
-    return FALSE;
-  }
+
   if (user_access('bypass node access', $account) || (!isset($account) && $op == 'view' && node_access_view_all_nodes())) {
     return TRUE;
   }
