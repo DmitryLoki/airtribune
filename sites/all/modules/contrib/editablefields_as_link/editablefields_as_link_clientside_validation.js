@@ -4,9 +4,14 @@
       Drupal.ajax[ajax] = false;
     }
     jQuery('#editablefields-as-link-form').validate({});
-    var processed_element = jQuery('#' + wrapper).find('input,select').first();
-    Drupal.ajax[jQuery('#' + wrapper).find('input[type="submit"]').attr('id')].validate_first = true;
+    var container = $('#' + wrapper);
+    var processed_element = container.find('input,select').first();
+    Drupal.ajax[container.find('input[type="submit"]').attr('id')].validate_first = true;
 
+    container.find('a.use-ajax').bind('mousedown', function(){
+      var focused = container.find('input');
+      focused.unbind('change.*');
+    })
     jQuery(wrapper).ajaxSend(function () {
       processed_element.blur()
     });
