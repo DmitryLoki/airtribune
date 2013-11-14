@@ -3222,14 +3222,14 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .pane-event-days-results-race-list .views-row-last { padding-bottom: 0;}
 .page-event-results-facebook .region_inner,
 .page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none;}
-.page-event-results-facebook .featured-header { height: 327px}
+.page-event-results-facebook .featured-header { height: auto;}
 .page-event-results-facebook #super { max-width: 810px; margin: 0 auto; padding-bottom: 0; height: auto;}
 .page-event-results-facebook .panel-col-seventy { margin-right: 0; float: none;}
 .page-event-results-facebook .panel-col-seventy .inside { margin-right: 0; margin-bottom: 0px;}
 .page-event-results-facebook .pane-page-content { margin-bottom: 0;}
 .page-event-results-facebook .second_sidebar { display: none;}
-.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0;}
-.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9;}
+.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0; position: relative;}
+.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9; height: 327px;}
 .page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
