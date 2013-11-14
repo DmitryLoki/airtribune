@@ -62,7 +62,9 @@
 
     var form = this.closest('form'),
       validator = form.validate();
-    form.find('.form-submit').removeAttr('disabled');
+    this.removeAttr('ajax-validating');
+    if(form.find('input[ajax-validating]').length==0)
+      form.find('.form-submit').removeAttr('disabled');
     if (!errorText) {
       validator.checkAllValid();
       return;
@@ -85,7 +87,7 @@
         delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
       }
       $(this.element).rules('remove', 'validation-error');
-
+      $(this.element).attr('ajax-validating',true);
 
       var validator = form.validate();
       if (!Drupal.myClientsideValidation) {
@@ -170,6 +172,7 @@
       $.validator.prototype.checkAllValid = function () {
         var self = this,
           allValid = true;
+        if($(this.currentForm).find('input[ajax-validating]').length!=0) return;
         var allElements = this.elements();
         allElements.each(function (i, e) {
           var result = self.check(e);
@@ -324,11 +327,16 @@
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
                 var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
-                submitButton.parent().prepend(submitPreventDiv);
+                var preventDiv = submitPreventDiv.clone();
+                preventDiv.data('ajax-element',this);
+                submitButton.parent().prepend(preventDiv);
               })
               .unbind('focusout.validation-prevent-submit')
               .bind('focusout.validation-prevent-submit', function () {
-                $(this).closest('form').find('.submit-prevent-div').remove();
+                var self = this;
+                $(this).closest('form').find('.submit-prevent-div').filter(function(i, prevDiv){
+                  return $(prevDiv).data('ajax-element') == self;
+                }).remove();
               });
 
             allElements.filter(':not([type="password"])')
