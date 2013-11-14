@@ -11,7 +11,7 @@
  * @see #4025
  */
 function at_high_weight_js_alter(&$js){
-  if (strpos($_GET['q'], 'editablefields') !== FALSE) {
+  if (strpos($_GET['q'], 'editablefields') !== FALSE || $_POST['form_id'] == 'editablefields_as_link_form') {
     if (variable_get('clientside_validation_use_minified', 0) == 0) {
       unset($js[drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.js']);
     } else {

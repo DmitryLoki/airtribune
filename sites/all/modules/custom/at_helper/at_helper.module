@@ -237,7 +237,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       // Use 'editablefields-as-link-form' insted $form['#id'] because data will be copy from first form, without suffix
       // such --2 --3 and also. @see clientside_validation_js_alter()
       $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['rules'][$fieldname]['required'] = TRUE;
-      $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['general']['errorElement'] = 'label';
+      $clientside_validation_settings['clientsideValidation']['forms'][$form['#id']]['general']['errorElement'] = 'label';
       $clientside_validation_settings['clientsideValidation']['groups'] = "";
       break;
   }
