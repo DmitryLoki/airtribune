@@ -62,11 +62,11 @@
 
     var form = this.closest('form'),
       validator = form.validate();
+    form.find('.form-submit').removeAttr('disabled');
     if (!errorText) {
       validator.checkAllValid();
       return;
     }
-
     Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error'] = true;
     this.rules('add', {'validation-error': true, messages: {'validation-error': errorText}});
     if (Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
@@ -177,7 +177,7 @@
             result = true;//true to prevent undefined check() result
           allValid = allValid && result;
         });
-        if (allValid) {
+        if (allValid && !allElements.filter(':focus').hasClass('ajax-processed')) {
           $(self.currentForm).find('.form-submit').removeClass('disabled');
         }
         return allValid;
@@ -289,11 +289,15 @@
 
       $(document).bind('clientsideValidationInitialized', function () {
         for (var form in settings.clientsideValidation.forms) {
+          var submitPreventDiv = $('<div class="submit-prevent-div" style="position:absolute;width:100%;height:100%;z-index: 100;"></div>');
+          submitPreventDiv.bind('click', function(){
+            $(this).remove();
+          });
           var validator = Drupal.myClientsideValidation.validators[form];
           validator.settings.success = $.proxy(Drupal.behaviors.DEFClientValidation.success, validator);
           var allElements = validator.elements();
 
-          (function (validator) {
+          (function (validator, submitPreventDiv) {
             function validateElement() {
               if (!Drupal.myClientsideValidation) {
                 validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
@@ -301,7 +305,7 @@
               validator.element(this);
               if (!validator.checkAllValid()) {
                 $(this.form).find('.form-submit').addClass('disabled');
-              } else {
+              } else if(!$(this).hasClass('ajax-processed')){
                 $(this.form).find('.form-submit').removeClass('disabled');
               }
             }
@@ -319,7 +323,12 @@
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                $(this.form).find('.form-submit').addClass('disabled');
+                var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
+                submitButton.parent().prepend(submitPreventDiv);
+              })
+              .unbind('focusout.validation')
+              .bind('focusout.validation', function () {
+                submitPreventDiv.remove();
               });
 
             allElements.filter(':not([type="password"])')
@@ -333,7 +342,7 @@
               $(allElements[0].form).find('.form-submit').addClass('disabled');
             }
 
-          })(validator);
+          })(validator, submitPreventDiv);
         }
       });
     }

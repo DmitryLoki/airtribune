@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * This is an another airtribune module, which have big weight, so this module called last.
+ * Module used for overridde some variables, defined in contrib and another modules.
+ */
+
+/**
+ * Implements of hook_js_alter.
+ * Unset CSV script, to escape overriding already defined values.
+ * @see #4025
+ */
+function at_high_weight_js_alter(&$js){
+  if (strpos($_GET['q'], 'editablefields') !== FALSE || $_POST['form_id'] == 'editablefields_as_link_form') {
+    if (variable_get('clientside_validation_use_minified', 0) == 0) {
+      unset($js[drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.js']);
+    } else {
+      unset($js[drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.min.js']);
+    }
+  }
+}
