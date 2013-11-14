@@ -326,9 +326,9 @@
                 var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
                 submitButton.parent().prepend(submitPreventDiv);
               })
-              .unbind('focusout.validation')
-              .bind('focusout.validation', function () {
-                submitPreventDiv.remove();
+              .unbind('focusout.validation-prevent-submit')
+              .bind('focusout.validation-prevent-submit', function () {
+                $(this).closest('form').find('.submit-prevent-div').remove();
               });
 
             allElements.filter(':not([type="password"])')
