@@ -19,3 +19,19 @@ function at_high_weight_js_alter(&$js){
     }
   }
 }
+
+/**
+ * Implements of hook_css_alter.
+ * Unset CSS, loaded by editablefields_as_link from default theme. Don't need this CSS in /admin/* section.
+ * @see #4025
+ */
+function at_high_weight_css_alter(&$css){
+  if (strpos($_GET['q'], 'editablefields') !== FALSE || $_POST['form_id'] == 'editablefields_as_link_form') {
+    foreach ($css as $key => $value) {
+      // 'airtribune2' || 'sites/all/themes/adaptivetheme/at_core'
+      if (strpos($key, $GLOBALS['theme']) || strpos($key, $GLOBALS['path_to_at_core'])) {
+        unset($css[$key]);
+      }
+    }
+  }
+}
