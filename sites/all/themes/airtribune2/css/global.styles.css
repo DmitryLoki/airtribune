@@ -2388,6 +2388,7 @@ html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field_excellent .form_booble { border:2px solid #95da3a; color:#95da3a;}
 .page-user .pane-page-content form .field_excellent .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -74px}
 .page-user .pane-page-content form .form-item input.form-text.error,
+.page-user .pane-page-content form .field_error span.select,
 .page-user .pane-page-content form .field_error input.form-text { border:2px solid #ff464d; margin:0;}
 html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field_weak input.form-text { border:2px solid #ff464d; margin:0;}
