@@ -313,6 +313,10 @@
               }
             }
 
+            $(validator.currentForm).bind('submit.validation-disable-second-click', function(){
+              var submit = $(this).find('.form-submit');
+              submit.attr('disabled','disabled');
+            });
             allElements
               .filter(':not(.ajax-processed,[type="password"])')
               .unbind('focusout.validation')
