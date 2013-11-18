@@ -470,29 +470,6 @@ table {
   font: 100%;
 }
 
-/* =============================================================================
-    Gutters
-   ========================================================================== */
-/*
- * If gutters are set in theme settings they will override these values,
- * see Extensions > Modify Output > Design
- * $gutter-width is set in _base.scss
- */
-#main-content,
-.block-inner,
-.pane-inner,
-.pane-panels-mini .at-panel .pane-inner,
-.menu-wrapper,
-.branding-elements,
-.breadcrumb-wrapper,
-.attribution, 
-.at-panel .rounded-corner,
-.block-panels-mini > .block-title,
-div.messages {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
 /*
  * Panel pages need negative margin equal to the gutter width applied to #content,
  * this is taken care of in theme settings as per above for normal gutters

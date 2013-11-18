@@ -144,6 +144,12 @@ function field_validation_ui_ctools_export_ui_form(&$form, &$form_state) {
   foreach ($columns as $key => $column) {
     $col_options[$key] = $key;  
   }
+
+  // Support free tagging.
+  if ($field['type'] == 'taxonomy_term_reference') {
+    $col_options['name'] = 'name';
+  }
+
   if (!in_array($default_col, array_keys($col_options))) {
     $default_col = '';
   }   

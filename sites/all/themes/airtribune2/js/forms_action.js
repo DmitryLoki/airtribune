@@ -73,16 +73,10 @@ function updateForm(container) {
 
 }
 jQuery(function ($) {
-    $('#event_register').show();
     updateForm($('.pane-page-content form'));
-    $('#event_register').hide();
     $('.reg_choice .form_show').click(function () {
-        $('#event_register').show();
-        Drupal.disableTabKey($('#event_register'));
+        $('#event_register').removeClass('event-register-form');
         $(this).parent().hide();
-        var form = $(this).closest('form');
-        form.data('all-elements-valid', false);
-        Drupal.checkAllElementsValid(form.validate());
         return false;
     });
 });

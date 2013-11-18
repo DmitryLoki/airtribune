@@ -128,6 +128,7 @@ function at_entityreference_geowidget_field_widget_form(&$form, &$form_state, $f
   $cid = uniqid('geowidget-');
   cache_set($cid, $instance['widget']['settings'], 'cache', time() + 600000);
   $map = openlayers_map_load($instance['widget']['settings']['map']);
+  $value = NULL;
   if (isset($items[$delta])) {
     $value = $items[$delta]['target_id'];
     $entityreference_node = node_load($value);

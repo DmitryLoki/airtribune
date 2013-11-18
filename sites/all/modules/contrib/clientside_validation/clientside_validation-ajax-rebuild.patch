@@ -1,0 +1,27 @@
+diff --git a/clientside_validation.module b/clientside_validation.module
+index 10e0885..cf4de32 100644
+--- a/clientside_validation.module
++++ b/clientside_validation.module
+@@ -396,6 +396,14 @@ function _clientside_validation_add_special_rules(&$js_rules, &$settings, $form)
+  */
+ function clientside_validation_form_after_build(&$form, &$form_state) {
+   static $js_rules = array();
++
++  // TODO: Consider case when form is rebuilt.
++  if ($form_state['rebuild'] && !form_get_errors()) {
++    $js_rules = array();
++    $clientside_validation_settings = &drupal_static('clientside_validation_settings', array());
++    $clientside_validation_settings = array();
++  }
++
+   clientside_validation_settings_current_form($form['#clientside_validation_settings']);
+   drupal_alter("clientside_validation_form", $form, $form_state, $js_rules);
+   if (!empty($js_rules)) {
+@@ -408,6 +416,7 @@ function clientside_validation_form_after_build(&$form, &$form_state) {
+   return $form;
+ }
+ 
++
+ function _clientside_validation_add_general_settings(&$settings, $form) {
+   $form_id = $form['#id'];
+   $matches = array();

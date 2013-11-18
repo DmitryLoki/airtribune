@@ -65,6 +65,12 @@ function views_feature_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['use_more'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'View more';
   $handler->display->display_options['path'] = 'activity';
 
   /* Display: Content pane */
@@ -128,7 +134,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Front page feed';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['path'] = 'rss.xml';
@@ -153,9 +160,9 @@ function views_feature_views_default_views() {
     t('next ›'),
     t('last »'),
     t('Page'),
-    t('more'),
     t('Content pane'),
     t('News'),
+    t('more'),
     t('node-sticky'),
     t('View panes'),
     t('Feed'),
@@ -2988,7 +2995,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'json';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'mapquest_nominatim';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_event_map_pane');
@@ -3001,6 +3008,14 @@ return array($event_id);';
       'panel' => '0',
       'fixed' => '',
       'label' => 'Global: Null',
+    ),
+    'null_1' => array(
+      'type' => 'none',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Flying site',
     ),
   );
   $translatables['event_accommodations'] = array(
@@ -3275,14 +3290,6 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['id'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
-  /* Field: Visualization link */
-  $handler->display->display_options['fields']['day_pg_race_play_link']['id'] = 'day_pg_race_play_link';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['table'] = 'node';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['field'] = 'day_pg_race_play_link';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Visualization link';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
-  $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['day_pg_race_play_link']['element_wrapper_type'] = 'span';
   /* Field: Day number - excluded */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
@@ -3301,6 +3308,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['title_1']['alter']['path'] = 'event/!1/blog#!day_[field_day_number]';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Visualization link */
+  $handler->display->display_options['fields']['day_pg_race_play_link']['id'] = 'day_pg_race_play_link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['table'] = 'node';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['field'] = 'day_pg_race_play_link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['ui_name'] = 'Visualization link';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['day_pg_race_play_link']['element_wrapper_type'] = 'span';
   /* Field: Task is ready - excluded - overriden */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -4431,7 +4446,7 @@ return array($event_id);';
     'accommodation' => 'accommodation',
     'activity' => 'activity',
   );
-  /* Filter criterion: Content: Location - proximity */
+  /* Filter criterion: Field: Coordinates - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4740,6 +4755,14 @@ return array($event_id);';
       'fixed' => '56',
       'label' => 'Global: Null',
     ),
+    'null_1' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Flying site',
+    ),
     'nid' => array(
       'type' => 'context',
       'context' => 'entity:node.nid',
@@ -4778,6 +4801,14 @@ return array($event_id);';
       'panel' => '0',
       'fixed' => '56',
       'label' => 'Global: Null',
+    ),
+    'null_1' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'FlyingSite',
     ),
     'nid' => array(
       'type' => 'context',
@@ -4828,7 +4859,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'activity' => 'activity',
   );
-  /* Filter criterion: Content: Location - proximity */
+  /* Filter criterion: Field: Coordinates - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4844,6 +4875,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'mapquest_nominatim';
 
   /* Display: Overlay accommodations */
   $handler = $view->new_display('openlayers', 'Overlay accommodations', 'overlay_accommodations');
@@ -4884,7 +4916,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Content: Location - proximity */
+  /* Filter criterion: Field: Coordinates - proximity */
   $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
   $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
@@ -4900,6 +4932,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_hq_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_geocoder_engine'] = 'mapquest_nominatim';
 
   /* Display: Active accommodation pane */
   $handler = $view->new_display('panel_pane', 'Active accommodation pane', 'panel_pane_1');
@@ -4929,6 +4962,14 @@ return array($event_id);';
       'panel' => '0',
       'fixed' => '56',
       'label' => 'Global: Null',
+    ),
+    'null_1' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'FlyingSite',
     ),
     'nid' => array(
       'type' => 'context',
@@ -4968,6 +5009,14 @@ return array($event_id);';
       'panel' => '0',
       'fixed' => '56',
       'label' => 'Global: Null',
+    ),
+    'null_1' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'FlyingSite',
     ),
     'nid' => array(
       'type' => 'context',
@@ -5063,7 +5112,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'accommodation' => 'accommodation',
   );
-  /* Filter criterion: Content: Location (field_location:lat) */
+  /* Filter criterion: Field: Coordinates (field_location:lat) */
   $handler->display->display_options['filters']['field_location_lat']['id'] = 'field_location_lat';
   $handler->display->display_options['filters']['field_location_lat']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_location_lat']['field'] = 'field_location_lat';
@@ -5082,7 +5131,7 @@ return array($event_id);';
     4 => 0,
     7 => 0,
   );
-  /* Filter criterion: Content: Location (field_location:lon) */
+  /* Filter criterion: Field: Coordinates (field_location:lon) */
   $handler->display->display_options['filters']['field_location_lon']['id'] = 'field_location_lon';
   $handler->display->display_options['filters']['field_location_lon']['table'] = 'field_data_field_location';
   $handler->display->display_options['filters']['field_location_lon']['field'] = 'field_location_lon';
@@ -5456,6 +5505,16 @@ return array($event_id);';
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<?php
+  drupal_goto("events/past");
+?>';
+  $handler->display->display_options['empty']['area']['format'] = 'php_code';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -5493,6 +5552,16 @@ return array($event_id);';
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Current events';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<?php
+  drupal_goto("events/next");
+?>';
+  $handler->display->display_options['empty']['area']['format'] = 'php_code';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -5546,7 +5615,13 @@ return array($event_id);';
     t('Past events'),
     t('Next'),
     t('Next events'),
+    t('<?php
+  drupal_goto("events/past");
+?>'),
     t('Current'),
+    t('<?php
+  drupal_goto("events/next");
+?>'),
   );
   $export['events_list'] = $view;
 
@@ -5884,10 +5959,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['ui_name'] = 'Title (excluded)';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field:  Link to event info tab */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -6688,6 +6763,55 @@ return array($event_id);';
   /* Display: Solutions header */
   $handler = $view->new_display('panel_pane', 'Solutions header', 'panel_pane_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'slideshow';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_options']['slideshow_type'] = 'views_slideshow_cycle';
+  $handler->display->display_options['style_options']['slideshow_skin'] = 'default';
+  $handler->display->display_options['style_options']['skin_info'] = array(
+    'class' => 'default',
+    'name' => 'По умолчанию',
+    'module' => 'views_slideshow',
+    'path' => '',
+    'stylesheets' => array(),
+  );
+  $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_pager']['weight'] = '1';
+  $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_pager']['type'] = 'views_slideshow_pager_fields';
+  $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_pager']['views_slideshow_pager_fields_fields'] = array(
+    'field_header_image' => 0,
+    'field_header_author' => 0,
+    'field_header_slogan' => 0,
+  );
+  $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_controls']['weight'] = '1';
+  $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_controls']['type'] = 'views_slideshow_controls_text';
+  $handler->display->display_options['style_options']['widgets']['top']['views_slideshow_slide_counter']['weight'] = '1';
+  $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_pager']['weight'] = '1';
+  $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_pager']['type'] = 'views_slideshow_pager_fields';
+  $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_pager']['views_slideshow_pager_fields_fields'] = array(
+    'field_header_image' => 0,
+    'field_header_author' => 0,
+    'field_header_slogan' => 0,
+  );
+  $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_controls']['weight'] = '1';
+  $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_controls']['type'] = 'views_slideshow_controls_text';
+  $handler->display->display_options['style_options']['widgets']['bottom']['views_slideshow_slide_counter']['weight'] = '1';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['transition_advanced'] = 1;
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['timeout'] = '5000';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['speed'] = '1800';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['delay'] = '0';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['random'] = 1;
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['start_paused'] = 0;
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['remember_slide_days'] = '1';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['items_per_slide'] = '1';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['wait_for_image_load_timeout'] = '3000';
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartype'] = 0;
+  $handler->display->display_options['style_options']['views_slideshow_cycle']['cleartypenobg'] = 0;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Featured header: Image */
   $handler->display->display_options['fields']['field_header_image']['id'] = 'field_header_image';
@@ -7377,6 +7501,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'i18n_list_default';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
@@ -7637,6 +7762,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
   $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
@@ -7873,6 +7999,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
   $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
@@ -8571,6 +8698,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
   $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
   $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
@@ -8667,7 +8795,7 @@ return array($event_id);';
     t('Paraglider color'),
     t('Paraglider manufacturer'),
     t('Paraglider model'),
-    t('Payment status'),
+    t('Status'),
     t('Name'),
     t('Gender'),
     t('Address'),
@@ -8676,6 +8804,7 @@ return array($event_id);';
     t('All'),
     t('%1 members'),
     t('Standard'),
+    t('Payment status'),
     t('[field_full_name] ([field_contestant_number])'),
     t('Country'),
     t('Sponsor'),

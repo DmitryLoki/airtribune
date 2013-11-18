@@ -145,13 +145,12 @@ else {
 
 if ($fields['field_day_status']->content != 'Ok') {
   print $separator . $fields['field_day_status']->content;
-} ?>
-<?php if (date('Ymd') == date('Ymd', $fields['created']->raw)): ?>
-  <?php print '<span class="posted">' . t('Today') . '</span>'; ?>
-<?php else: ?>
-  <?php print $fields['created']->content; ?>
-<?php endif; ?>
-<?php print $fields['title']->wrapper_suffix; ?>
+}
+// output srting date
+// event/%nid/blog
+$contest_nid = arg(1);
+print airtribune_get_string_date_of_contest_day($contest_nid, $fields['created']->raw);
+print $fields['title']->wrapper_suffix; ?>
 
 
 <?php print $fields['day_set_a_task']->wrapper_prefix; ?>
