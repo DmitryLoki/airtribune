@@ -1,0 +1,47 @@
+From e057b05901155eca78d310706911112f0aa1c82d Mon Sep 17 00:00:00 2001
+From: Sergiu Savva <sergiu.savva@gmail.com>
+Date: Tue, 5 Feb 2013 19:34:16 +0200
+Subject: [PATCH] Issue #1780646 by sergiu.savva: Fixed entity node access
+ callback entity_metadata_no_hook_node_access().
+
+---
+ modules/callbacks.inc |   21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+
+diff --git a/modules/callbacks.inc b/modules/callbacks.inc
+index dca9e1d..2c7da21 100644
+--- a/modules/callbacks.inc
++++ b/modules/callbacks.inc
+@@ -611,19 +611,18 @@ function entity_metadata_field_file_validate_item($items, $context) {
+  */
+ function entity_metadata_no_hook_node_access($op, $node = NULL, $account = NULL) {
+   if (isset($node)) {
+-    // If a non-default revision is given, incorporate revision access.
+-    $default_revision = node_load($node->nid);
+-    if ($node->vid != $default_revision->vid) {
+-      return _node_revision_access($node, $op);
+-    }
+-    else {
+-      return node_access($op, $node, $account);
++    // Check if node exist.
++    if (isset($node->nid)) {
++      // If a non-default revision is given, incorporate revision access.
++      $default_revision = node_load($node->nid);
++      if ($node->vid != $default_revision->vid) {
++        return _node_revision_access($node, $op);
++      }
+     }
++    // Otherwise, use the standard node access.
++    return node_access($op, $node, $account);
+   }
+-  // Is access to all nodes allowed?
+-  if (!user_access('access content', $account)) {
+-    return FALSE;
+-  }
++
+   if (user_access('bypass node access', $account) || (!isset($account) && $op == 'view' && node_access_view_all_nodes())) {
+     return TRUE;
+   }
+-- 
+1.7.10.4
+

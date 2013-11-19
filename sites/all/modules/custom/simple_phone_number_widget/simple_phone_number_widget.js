@@ -8,6 +8,9 @@
           $input.val('+');
         }
         $input.unbind('blur.mask');
+        $input.bind('blur', function() {
+          $(this).trigger('change');
+        })
       });
     }
   };

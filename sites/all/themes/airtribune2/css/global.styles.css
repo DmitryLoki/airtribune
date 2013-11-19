@@ -2248,10 +2248,10 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
-.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:540px; padding:0 0 6px; margin-top: -2px;}
+.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:520px; padding:0 0 6px; margin-top: -2px;}
 .page-node .node .node-content { clear:both;}
 .page-node .node .submitted, .page-node .node .with-user-picture { float:right; margin-top:-17px}
-.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 100px; display: inline-block; text-align: right; padding-bottom: 1px;}
+.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 120px; display: inline-block; text-align: right; padding-bottom: 1px;}
 .page-node .node .author a, .page-node .node .links a { color:#616569; text-decoration:none;}
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node ul { padding-left:15px}
@@ -2388,6 +2388,7 @@ html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field_excellent .form_booble { border:2px solid #95da3a; color:#95da3a;}
 .page-user .pane-page-content form .field_excellent .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -74px}
 .page-user .pane-page-content form .form-item input.form-text.error,
+.page-user .pane-page-content form .field_error span.select,
 .page-user .pane-page-content form .field_error input.form-text { border:2px solid #ff464d; margin:0;}
 html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field_weak input.form-text { border:2px solid #ff464d; margin:0;}
@@ -2452,7 +2453,8 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 66px; line-height: 20px; padding-bottom: 2px; overflow: hidden; vertical-align: top; cursor: pointer;}
 .page-user .pane-page-content form .reg_choice a span { display: inline-block; vertical-align: middle;}
 .page-user .pane-page-content form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
-.event-register-form {position:absolute; margin-left: -100000px;}
+
+.event-register-form {position:absolute; top: -100000px;}
 
 .page-user .pane-page-content form .form-actions input.disabled, 
 .page-user .pane-page-content form .form-actions input.disabled:hover, 
@@ -3220,14 +3222,14 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .pane-event-days-results-race-list .views-row-last { padding-bottom: 0;}
 .page-event-results-facebook .region_inner,
 .page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none;}
-.page-event-results-facebook .featured-header { height: 327px}
+.page-event-results-facebook .featured-header { height: auto;}
 .page-event-results-facebook #super { max-width: 810px; margin: 0 auto; padding-bottom: 0; height: auto;}
 .page-event-results-facebook .panel-col-seventy { margin-right: 0; float: none;}
 .page-event-results-facebook .panel-col-seventy .inside { margin-right: 0; margin-bottom: 0px;}
 .page-event-results-facebook .pane-page-content { margin-bottom: 0;}
 .page-event-results-facebook .second_sidebar { display: none;}
-.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0;}
-.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9;}
+.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0; position: relative;}
+.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9; height: 327px;}
 .page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
@@ -3558,6 +3560,19 @@ html.fb_view { overflow: auto;}
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
+
+  /* My events */
+
+.view-my-events {}
+.view-my-events .views-row { padding-top: 20px; clear: both;}
+.view-my-events .views-row:first-child { padding-top: 0;}
+.view-my-events .my_event { display: block; }
+.view-my-events .my_event .logo { display: block; width: 48px; height: 48px; border: 1px solid #f2f2f2; background: #ffffff; float: left; margin-right: 10px;}
+.view-my-events .my_event .main_text { float: left; color: #565a5d; font-size: 18px; line-height: 20px; margin-top: 3px;}
+.view-my-events .my_event .main_description { display: block; color: #b0b0b0; font-size: 14px; line-height: 16px; margin-top: 4px;}
+.view-my-events .my_event .dates:before { content: " | "}
+.view-my-events .my_event .status { float: right; color: #809226; font-size: 16px; margin-top: 12px;}
+.view-my-events .my_event .status-0 { color: #cecece }
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft

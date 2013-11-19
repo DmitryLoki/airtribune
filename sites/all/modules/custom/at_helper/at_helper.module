@@ -237,6 +237,8 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       // Use 'editablefields-as-link-form' insted $form['#id'] because data will be copy from first form, without suffix
       // such --2 --3 and also. @see clientside_validation_js_alter()
       $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['rules'][$fieldname]['required'] = TRUE;
+      $clientside_validation_settings['clientsideValidation']['forms'][$form['#id']]['general']['errorElement'] = 'label';
+      $clientside_validation_settings['clientsideValidation']['groups'] = "";
       break;
   }
 }
@@ -313,7 +315,7 @@ function at_helper_og_form_validate($form, &$form_state) {
     $element = isset($form['field_contestant_number']) ? $form['field_contestant_number'] : $form;
     // Get contest ID & pilot number.
     $gid = !empty($values['gid']) ? $values['gid'] : FALSE;
-    if ($form['#id'] == 'editablefields-as-link-form') {
+    if (!empty($form['#entity']->gid) && strpos($form['#id'], 'editablefields-as-link-form') !== FALSE) {
       $gid = $form['#entity']->gid;
     }
     $pilot_number = !empty($values['field_contestant_number'][LANGUAGE_NONE][0]['value'])
@@ -477,5 +479,45 @@ function at_helper_field_attach_form($entity_type, $entity, &$form, &$form_state
   // Set flag for image title tags change (in at_helper_field_attach_presave)
   if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE) {
     $form['#node']->at_helper_day_form_flag = TRUE;
+  }
+}
+
+// ------------------------------
+// Grants and permissions
+// ------------------------------
+
+// TODO:
+/**
+ * Implements hook_node_access()
+ */
+function at_helper_node_access($node, $op, $account) {
+  // TODO: Check user role for organizer or author is enough?
+  if ($node->uid == $account->uid && _at_helper_event_edit_denied($node)) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Check event finish date.
+ * Deny access to edit event if it finished more than five days ago.
+ */
+function _at_helper_event_edit_denied($node) {
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // Finish date delta = 5 days
+    $end_delta = 5 * 24 * 3600;
+
+    // Get event end date without offset.
+    $contest_time = airtribune_extract_time_from_contest($node);
+    $end = $contest_time['end_local'];
+
+    // Deny access if event finished more than five days ago.
+    if ($end + $end_delta <= time()) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
   }
 }

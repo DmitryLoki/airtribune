@@ -31,6 +31,7 @@ class EntContestPointController extends EntityAPIController {
    * @param DatabaseTransaction $transaction
    */
   public function delete($ids, DatabaseTransaction $transaction = NULL) {
+    $result = array();
     //filter ids to sort out those that are already used in any contest
     $filtered_ids = $this->getBlocked($ids);
     if (!empty($filtered_ids)) {

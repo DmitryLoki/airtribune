@@ -62,11 +62,13 @@
 
     var form = this.closest('form'),
       validator = form.validate();
+    this.removeAttr('ajax-validating');
+    if(form.find('input[ajax-validating]').length==0)
+      form.find('.form-submit').removeAttr('disabled');
     if (!errorText) {
       validator.checkAllValid();
       return;
     }
-
     Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.attr('name')]['validation-error'] = true;
     this.rules('add', {'validation-error': true, messages: {'validation-error': errorText}});
     if (Drupal.behaviors.DEFClientValidation.myClientsideValidation) {
@@ -80,10 +82,12 @@
   Drupal.behaviors.DEFClientValidation = {
     myClientsideValidation: undefined,
     beforeSubmit: function (form_values, form, options) {
-      //remove previous ajax validation error
-      delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
+      if(Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]) {
+        //remove previous ajax validation error
+        delete Drupal.settings.clientsideValidation.forms[form.attr('id')].rules[this.element.name]['validation-error'];
+      }
       $(this.element).rules('remove', 'validation-error');
-
+      $(this.element).attr('ajax-validating',true);
 
       var validator = form.validate();
       if (!Drupal.myClientsideValidation) {
@@ -127,9 +131,48 @@
       return errorElement;
     },
     attach: function (context, settings) {
+      jQuery.validator.addMethod("dateFormat", function(value, element, param) {
+        var parts = value.split(param.splitter);
+        var expectedpartscount = 0;
+        var day = parseInt(parts[param.daypos], 10);
+        var month = parseInt(parts[param.monthpos], 10);
+        month = month - 1;
+        var year = parseInt(parts[param.yearpos], 10);
+        var date = new Date();
+        var result = true;
+        if (year.toString().length !== parts[param.yearpos].length){
+          result = false;
+        }
+        if (param.yearpos !== false){
+          expectedpartscount++;
+          date.setFullYear(year);
+          if (year !== date.getFullYear()) {
+            result = false;
+          }
+        }
+        if (param.monthpos !== false) {
+          expectedpartscount++;
+          date.setMonth(month);
+          if (month !== date.getMonth()) {
+            result = false;
+          }
+        }
+        if (param.daypos !== false) {
+          expectedpartscount++;
+          date.setDate(day);
+          if (day !== date.getDate()) {
+            result = false;
+          }
+        }
+        if (expectedpartscount !== parts.length) {
+          result = false;
+        }
+        return this.optional(element) || result;
+      }, jQuery.format('The date is not in a valid format'));
       $.validator.prototype.checkAllValid = function () {
         var self = this,
           allValid = true;
+        if($(this.currentForm).find('input[ajax-validating]').length!=0) return;
         var allElements = this.elements();
         allElements.each(function (i, e) {
           var result = self.check(e);
@@ -137,7 +180,7 @@
             result = true;//true to prevent undefined check() result
           allValid = allValid && result;
         });
-        if (allValid) {
+        if (allValid && !allElements.filter(':focus').hasClass('ajax-processed')) {
           $(self.currentForm).find('.form-submit').removeClass('disabled');
         }
         return allValid;
@@ -249,11 +292,15 @@
 
       $(document).bind('clientsideValidationInitialized', function () {
         for (var form in settings.clientsideValidation.forms) {
+          var submitPreventDiv = $('<div class="submit-prevent-div" style="position:absolute;width:100%;height:100%;z-index: 100;"></div>');
+          submitPreventDiv.bind('click', function(){
+            $(this).remove();
+          });
           var validator = Drupal.myClientsideValidation.validators[form];
           validator.settings.success = $.proxy(Drupal.behaviors.DEFClientValidation.success, validator);
           var allElements = validator.elements();
 
-          (function (validator) {
+          (function (validator, submitPreventDiv) {
             function validateElement() {
               if (!Drupal.myClientsideValidation) {
                 validator.settings.errorPlacement = Drupal.clientsideValidation.prototype.setErrorElement;
@@ -261,11 +308,15 @@
               validator.element(this);
               if (!validator.checkAllValid()) {
                 $(this.form).find('.form-submit').addClass('disabled');
-              } else {
+              } else if(!$(this).hasClass('ajax-processed')){
                 $(this.form).find('.form-submit').removeClass('disabled');
               }
             }
 
+            $(validator.currentForm).bind('submit.validation-disable-second-click', function(){
+              var submit = $(this).find('.form-submit');
+              submit.attr('disabled','disabled');
+            });
             allElements
               .filter(':not(.ajax-processed,[type="password"])')
               .unbind('focusout.validation')
@@ -279,7 +330,17 @@
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                $(this.form).find('.form-submit').addClass('disabled');
+                var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
+                var preventDiv = submitPreventDiv.clone();
+                preventDiv.data('ajax-element',this);
+                submitButton.parent().prepend(preventDiv);
+              })
+              .unbind('focusout.validation-prevent-submit')
+              .bind('focusout.validation-prevent-submit', function () {
+                var self = this;
+                $(this).closest('form').find('.submit-prevent-div').filter(function(i, prevDiv){
+                  return $(prevDiv).data('ajax-element') == self;
+                }).remove();
               });
 
             allElements.filter(':not([type="password"])')
@@ -293,7 +354,7 @@
               $(allElements[0].form).find('.form-submit').addClass('disabled');
             }
 
-          })(validator);
+          })(validator, submitPreventDiv);
         }
       });
     }
@@ -434,3 +495,4 @@
     }
   }
 })(jQuery);
+
