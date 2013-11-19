@@ -3044,8 +3044,6 @@ function seo_path_breadcrumbs_settings_info() {
     ),
     'home' => 1,
     'translatable' => 1,
-    'home' => 1,
-    'translatable' => 1,
     'arguments' => array(
       'nid' => array(
         'position' => 1,
@@ -3085,8 +3083,6 @@ function seo_path_breadcrumbs_settings_info() {
     'paths' => array(
       0 => 'organizers/service-providers',
     ),
-    'home' => 1,
-    'translatable' => 1,
     'home' => 1,
     'translatable' => 1,
     'arguments' => array(
@@ -3157,6 +3153,48 @@ function seo_path_breadcrumbs_settings_info() {
   );
   $path_breadcrumb->weight = -40;
   $export['user_edit'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'user_events';
+  $path_breadcrumb->name = 'User Events';
+  $path_breadcrumb->path = 'account/%uid/events';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'My events',
+    ),
+    'paths' => array(
+      0 => 'user/%uid:uid/events',
+    ),
+    'home' => 1,
+    'translatable' => 1,
+    'arguments' => array(
+      'uid' => array(
+        'position' => 1,
+        'argument' => 'entity_id:user',
+        'settings' => array(
+          'identifier' => 'User: ID',
+        ),
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 2,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $path_breadcrumb->weight = 0;
+  $export['user_events'] = $path_breadcrumb;
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;

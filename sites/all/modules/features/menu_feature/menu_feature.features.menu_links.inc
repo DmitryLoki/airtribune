@@ -10,6 +10,26 @@
 function menu_feature_menu_default_menu_links() {
   $menu_links = array();
 
+  // Exported menu link: account:account/events
+  $menu_links['account:account/events'] = array(
+    'menu_name' => 'account',
+    'link_path' => 'account/events',
+    'router_path' => 'account/events',
+    'link_title' => 'My events',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-my-events-link',
+        ),
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-47',
+  );
   // Exported menu link: account:account/registrations
   $menu_links['account:account/registrations'] = array(
     'menu_name' => 'account',
@@ -180,6 +200,7 @@ function menu_feature_menu_default_menu_links() {
   t('For sponsors');
   t('For the viewers');
   t('Home');
+  t('My events');
   t('My profile');
   t('My registrations');
   t('Sign out');

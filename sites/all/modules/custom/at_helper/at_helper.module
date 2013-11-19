@@ -481,3 +481,43 @@ function at_helper_field_attach_form($entity_type, $entity, &$form, &$form_state
     $form['#node']->at_helper_day_form_flag = TRUE;
   }
 }
+
+// ------------------------------
+// Grants and permissions
+// ------------------------------
+
+// TODO:
+/**
+ * Implements hook_node_access()
+ */
+function at_helper_node_access($node, $op, $account) {
+  // TODO: Check user role for organizer or author is enough?
+  if ($node->uid == $account->uid && _at_helper_event_edit_denied($node)) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Check event finish date.
+ * Deny access to edit event if it finished more than five days ago.
+ */
+function _at_helper_event_edit_denied($node) {
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // Finish date delta = 5 days
+    $end_delta = 5 * 24 * 3600;
+
+    // Get event end date without offset.
+    $contest_time = airtribune_extract_time_from_contest($node);
+    $end = $contest_time['end_local'];
+
+    // Deny access if event finished more than five days ago.
+    if ($end + $end_delta <= time()) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
+  }
+}

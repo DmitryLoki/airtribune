@@ -10,6 +10,7 @@ features[features_api][] = api:1
 features[menu_custom][] = account
 features[menu_custom][] = footer-menu
 features[menu_custom][] = menu-solutions-organizers
+features[menu_links][] = account:account/events
 features[menu_links][] = account:account/registrations
 features[menu_links][] = account:user
 features[menu_links][] = account:user/logout

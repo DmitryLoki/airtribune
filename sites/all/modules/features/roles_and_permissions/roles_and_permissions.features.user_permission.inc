@@ -1308,7 +1308,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit original values.
   $permissions['edit original values'] = array(
     'name' => 'edit original values',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'organizer',
+    ),
     'module' => 'entity_translation',
   );
 
