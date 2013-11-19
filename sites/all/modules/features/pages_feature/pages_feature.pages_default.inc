@@ -6488,7 +6488,7 @@ window.fbAsyncInit = function() {
           'name' => 'role',
           'settings' => array(
             'rids' => array(
-              0 => 2,
+              0 => 5,
             ),
           ),
           'context' => 'logged-in-user',

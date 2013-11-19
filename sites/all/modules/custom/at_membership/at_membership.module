@@ -42,7 +42,7 @@ function at_membership_menu() {
   $items['account/events'] = array(
     'title' => 'User events',
     'page callback' => 'at_membership_redirect_to_events',
-    'access callback' => TRUE,
+    'access callback' => 'at_membership_redirect_to_events_access',
     'type' => MENU_CALLBACK,
   );
 
@@ -273,4 +273,10 @@ function at_membership_redirect_to_events() {
   else {
     drupal_access_denied();
   }
+}
+
+function at_membership_redirect_to_events_access() {
+  global $user;
+  
+  return in_array('organizer', $user->roles);
 }
