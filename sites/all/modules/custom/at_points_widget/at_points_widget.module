@@ -143,65 +143,18 @@ function at_points_widget_file($nid) {
     drupal_add_http_header('Status', '400 Incorrect format of input file');
     drupal_exit();
   }
-  geophp_load();
-  if ($extension == '.cup') {
-    // Add settings for SeeYou format
-    $path = file_directory_temp() . '/waypoints.wpt';
-    $command = '/usr/local/bin/gpsbabel -i cup -f ' . $file['tmp_name'] . ' -o compegps -F ' . $path;
+  $filename = file_directory_temp() . '/waypoints_' . time() . $extension;
+  dpm($filename);
+  move_uploaded_file($file['tmp_name'], $filename);
+  // Factory method.
+  $file_reader = at_points_widget_get_filereader($filename);
+  dpm($filereader);
+  if (empty($filereader)) {
+    drupal_add_http_header('Status', '400 Incorrect format of input file');
+    drupal_exit();
   }
-  else {
-    $check_string = file_get_contents($file['tmp_name'], FALSE, NULL, -1, 12);
-    if (strpos($check_string, 'OziExplorer Waypoint File') === 0){
-      $format = 'ozi';
-    }
-    elseif (strpos($check_string, '$FormatGEO') === 0){
-      $format = '';
-    }
-    elseif (strpos($check_string, '$FormatUTM') === 0){
-      
-    }
-    elseif (strpos($check_string, 'G  WGS 84') === 0){
-      
-    }
-    else {
-      
-    }
-  }
-  exec($command, $output, $return);
-  // Parse waypoints
-  $file_string = file_get_contents('temporary://waypoints.wpt');
-  $strings = preg_split('/\v/', $file_string);
-  $points = array();
-  foreach ($strings as $string) {
-    $elements = preg_split('/\s+/', $string);
-    if ($elements[0] != 'W') {
-      continue;
-    }
-    $let1 = substr($elements[3], -1);
-    $let2 = substr($elements[4], -1);
-    if (strpos('EW', $let1) !== FALSE && strpos('NS', $let2) !== FALSE) {
-      $lon = ($let1 == 'E') ? floatval($elements[3]) : -floatval($elements[3]);
-      $lat = ($let2 == 'N') ? floatval($elements[4]) : -floatval($elements[4]);
-    }
-    elseif (strpos('EW', $let2) !== FALSE && strpos('NS', $let1) !== FALSE) {
-      $lon = ($let2 == 'E') ? floatval($elements[4]) : -floatval($elements[4]);
-      $lat = ($let1 == 'N') ? floatval($elements[3]) : -floatval($elements[3]);
-    }
-    else {
-      continue;
-    }
-    $coords = new Point($lon, $lat);
-    //$values = geofield_get_values_from_geometry($coords);
-    $point = entity_create(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array('type' => 'contest_point'));
-    $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
-    $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
-    $point_wrapper->field_point_description->set(isset($elements[8]) ? 
-        implode(' ', array_slice($elements, 8)) : '');
-    $point_wrapper->title->set($elements[1]);
-    $points[] = $point_wrapper->value();
-  }
-  dpm($points);
-  unlink($path);
+  $points = $file_reader->read();
+  unlink($filename);
   print _at_points_widget_wrapper($points);
   drupal_exit();
 }
@@ -295,4 +248,28 @@ function _at_points_widget_wrapper (array $points) {
     );
   drupal_add_http_header('Content-Type', 'application/json');
   return json_encode($result);
+}
+
+/**
+ * Returns implementation of atPointsWidgetFile class.
+ * @param string $filename
+ */
+function at_points_widget_get_filereader($filename) {
+  $classes = array(
+    'AtPointsWidgetCupFile', 
+    'AtPointsWidgetOziFile', 
+    'AtPointsWidgetFSGeoFile', 
+    'AtPointsWidgetCompGPSFile'
+  );
+  dpm('in filereader');
+ $object = new AtPointsWidgetFSGeoFile();
+ dpm('passed'); 
+ /*dpm(AtPointsWidgetCupFile::check($filename));
+  foreach ($classes as $class) {
+    dpm(AtPointsWidgetCupFile::check($filename));
+    if ($class::check($filename)) {
+      return new $class($filename);
+    }
+  }*/
+  return NULL;
 }
