@@ -379,3 +379,17 @@ function at_core_sync_races_tracks_action(&$object, $context = array()) {
 function at_core_sync_trackers_action(&$object, $context = array()) {
   at_core_sync_entity_sync('ent_tracker', $object);
 }
+
+/**
+ * Implements hook_flush_caches().
+ * Move at_core_sync before pg_race
+ */
+function at_core_sync_flush_caches() {
+  db_update('system')
+    ->fields(array(
+      'weight' => -2,
+    ))
+    ->condition('type', 'module')
+    ->condition('name', 'at_core_sync')
+    ->execute();
+}
