@@ -31,13 +31,12 @@ class EntContestPointController extends EntityAPIController {
    * @param DatabaseTransaction $transaction
    */
   public function delete($ids, DatabaseTransaction $transaction = NULL) {
-    $result = array();
     //filter ids to sort out those that are already used in any contest
     $filtered_ids = $this->getBlocked($ids);
     if (!empty($filtered_ids)) {
       drupal_set_message(t('@ids are already used and were not removed', array('@ids' => implode(',', $filtered_ids))));
       watchdog('airtribune', '@ids are already used and were not removed', array('@ids' => implode(',', $filtered_ids)), WATCHDOG_INFO);
-      $ids = array_diff($ids, array_keys($result));
+      $ids = array_diff($ids, $filtered_ids);
     }
     //unlink from og (contests)
     if (empty($ids)) {
