@@ -48,6 +48,10 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#weight' => 2,
   );
   $form['field_tiny_path']['#weight'] = 4;
+  $lang = $form['field_tiny_path']['#language'];
+  $form['field_tiny_path'][$lang]['add_more']['#prefix'] = '<div class="form-actions">';
+  $form['field_tiny_path'][$lang]['add_more']['#suffix'] = '</div>';
+  //print_r($form['field_tiny_path']);
   $form['field_logo']['#weight'] = 6;
   $form['field_dates']['#weight'] = 8;
   $form['field_fai_category']['#weight'] = 10;
@@ -83,6 +87,8 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
+    '#prefix' => '<div class="form-actions">',
+    '#suffix' => '</div>',
   );
   return $form;
 }

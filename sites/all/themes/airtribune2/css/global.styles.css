@@ -3574,6 +3574,26 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 .view-my-events .my_event .status { float: right; color: #809226; font-size: 16px; margin-top: 12px;}
 .view-my-events .my_event .status-0 { color: #cecece }
 
+  /* Event setings */
+
+.page-event-settings .pane-page-content .select { width: 244px;}
+.page-event-settings .pane-page-content form table .form-item,
+.page-event-settings .pane-page-content form .form-item table .form-item:last-child { margin: 0;}
+.page-event-settings .pane-page-content table .select { width: auto;}
+.page-event-settings .pane-page-content form table .inline-label { width: auto;}
+
+.page-event-settings .pane-page-content .form-radios,
+.page-event-settings .pane-page-content .form-radios .form-item { display: inline-block; margin: 0; padding: 0;}
+.page-event-settings .pane-page-content .form-radios .inline-label { width: auto;}
+.page-event-settings .pane-page-content .form-radios label { font-size: 14px}
+.page-event-settings .image-widget  {  position: relative; display: inline-block; width: 150px; height: 150px; border: 1px solid #d2d6d9;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+
 /*====================================================
 CSS Tooltips by Adam Whitcroft
 https://github.com/AdamWhitcroft/CSS.Tooltips
