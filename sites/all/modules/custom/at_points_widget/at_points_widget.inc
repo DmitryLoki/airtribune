@@ -8,18 +8,18 @@
 
 abstract class AtPointsWidgetFile {
   
-  //public $filename;
-  //public $babbel_path = '/usr/local/bin/';
+  public $filename;
+  public $babbel_path = '/usr/local/bin/';
   
-  //public function __construct($filename) {
-   // if (self::check($filename)){
-      //$this->filename = $filename;
-      //geophp_load();
-    //}
-    //else {
-    //  throw new Exception();
-    //}
-  //} 
+  public function __construct($filename) {
+    if (static::check($filename)){
+     $this->filename = $filename;
+     geophp_load();
+    }
+    else {
+      throw new Exception();
+    }
+  } 
   
   /**
    * Reads file into an array of point entities.
@@ -34,17 +34,13 @@ abstract class AtPointsWidgetFile {
   /**
    * Checks the file validity.
    */
-  static function check($filename);
+  static public function check($filename){}
 }
 
-class AtPointsWidgetFSGeoFile /*extends AtPointsWidgetFile*/ {
-  
-  public function __construct() {
-    
-  }
+class AtPointsWidgetFSGeoFile extends AtPointsWidgetFile {
   
   public function read() {
-    /*$file_string = file_get_contents($this->filename);
+    $file_string = file_get_contents($this->filename);
     $strings = preg_split('/\v/', $file_string);
     $points = array(); 
     foreach ($strings as $string) {
@@ -71,10 +67,11 @@ class AtPointsWidgetFSGeoFile /*extends AtPointsWidgetFile*/ {
       $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
       $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
       $point_wrapper->field_point_description->set($comment);
+      $point_wrapper->field_altitude->set($alt);
       $point_wrapper->title->set($name);
       $points[] = $point_wrapper->value();
-    }*/
-    return 1; //$points;
+    }
+    return $points;
   }
   
   public function extension(){
@@ -82,13 +79,12 @@ class AtPointsWidgetFSGeoFile /*extends AtPointsWidgetFile*/ {
   }
   
   static function check($filename) {
-  //  $check_string = file_get_contents($filename, FALSE, NULL, -1, 10);
-    dpm($check_string);
-    //return $check_string == '$FormatGEO';
+    $check_string = file_get_contents($filename, FALSE, NULL, -1, 10);
+    return $check_string == '$FormatGEO';
   }
 }
 
-/*class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
+class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
   
   public function read() {
     $file_string = file_get_contents($this->filename);
@@ -120,6 +116,7 @@ class AtPointsWidgetFSGeoFile /*extends AtPointsWidgetFile*/ {
       $point = entity_create(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array('type' => 'contest_point'));
       $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
       $point_wrapper->field_point_location->set(geofield_get_values_from_geometry($coords));
+      $point_wrapper->field_altitude->set(intval($elements[7]));
       $point_wrapper->field_point_description->set(isset($elements[8]) ? 
         implode(' ', array_slice($elements, 8)) : '');
       $point_wrapper->title->set($elements[1]);
@@ -134,7 +131,6 @@ class AtPointsWidgetFSGeoFile /*extends AtPointsWidgetFile*/ {
   
   static function check($filename) {
     $check_string = file_get_contents($filename, FALSE, NULL, -1, 9);
-    dpm($check_string);
     return $check_string == 'G  WGS 84';
   }
   
@@ -147,7 +143,7 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
     $command = $this->babbel_path . 'gpsbabel -i ozi -f ' . $this->filename . ' -o compegps -F ' . $outfile;
     exec($command);
     rename($outfile, $this->filename);
-    $compGPSReader = new atPointsWidgetCompGPSFile($this->filename);
+    $compGPSReader = new AtPointsWidgetCompGPSFile($this->filename);
     return $compGPSReader->read();
   }
   
@@ -157,7 +153,6 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
   
   static function check($filename) {
     $check_string = file_get_contents($filename, FALSE, NULL, -1, 25);
-    dpm($check_string);
     return $check_string == 'OziExplorer Waypoint File';    
   }
 }
@@ -168,10 +163,10 @@ class AtPointsWidgetCupFile extends AtPointsWidgetFile {
     $outfile = substr($this->filename, 0, drupal_strlen($this->filename) - 4) . '.wpt';
     $command = $this->babbel_path . 'gpsbabel -i cup -f ' . $this->filename . ' -o compegps -F ' . $outfile;
     exec($command);
-    rename($outfile, $this->filename);
-    $compGPSReader = new atPointsWidgetCompGPSFile($outfile);
+    $compGPSReader = new AtPointsWidgetCompGPSFile($outfile);
+    $points = $compGPSReader->read();
     unlink($outfile);
-    return $compGPSReader->read();
+    return $points;
   }
   
   public function extension() {
@@ -180,7 +175,6 @@ class AtPointsWidgetCupFile extends AtPointsWidgetFile {
   
   static function check($filename) {
     $extension = drupal_substr($filename, -4);
-    dpm($extension);
-    return 1;//$extension == '.cup';    
+    return $extension == '.cup';    
   }
-}*/
+}

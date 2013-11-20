@@ -144,12 +144,11 @@ function at_points_widget_file($nid) {
     drupal_exit();
   }
   $filename = file_directory_temp() . '/waypoints_' . time() . $extension;
-  dpm($filename);
   move_uploaded_file($file['tmp_name'], $filename);
   // Factory method.
   $file_reader = at_points_widget_get_filereader($filename);
-  dpm($filereader);
-  if (empty($filereader)) {
+  dpm($file_reader);
+  if (empty($file_reader)) {
     drupal_add_http_header('Status', '400 Incorrect format of input file');
     drupal_exit();
   }
@@ -261,15 +260,10 @@ function at_points_widget_get_filereader($filename) {
     'AtPointsWidgetFSGeoFile', 
     'AtPointsWidgetCompGPSFile'
   );
-  dpm('in filereader');
- $object = new AtPointsWidgetFSGeoFile();
- dpm('passed'); 
- /*dpm(AtPointsWidgetCupFile::check($filename));
   foreach ($classes as $class) {
-    dpm(AtPointsWidgetCupFile::check($filename));
     if ($class::check($filename)) {
       return new $class($filename);
     }
-  }*/
+  }
   return NULL;
 }
