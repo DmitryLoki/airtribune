@@ -2604,7 +2604,7 @@ form .form-type-item .inline-label { top: -10px;}
 .page-user-edit .field-name-field-user-avatar .delete-photo { position: absolute; cursor: pointer;}
 
 .image-widget .image-widget-data { position: absolute; top: 1px; left: 1px; z-index: 10;}
-.image-widget .form-submit { position: absolute; top: -1000px;}
+.image-widget .form-submit { position: absolute; top: -100000px;}
 .image-widget span.file { width: 150px; height: 150px; display: block; position: relative;}
 .image-widget span.emulate-click { cursor: pointer; display: block;}
 .image-widget span.emulate-click-plus, 
@@ -3586,7 +3586,9 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 .page-event-settings .pane-page-content .form-radios .form-item { display: inline-block; margin: 0; padding: 0;}
 .page-event-settings .pane-page-content .form-radios .inline-label { width: auto;}
 .page-event-settings .pane-page-content .form-radios label { font-size: 14px}
-.page-event-settings .image-widget  {  position: relative; display: inline-block; width: 150px; height: 150px; border: 1px solid #d2d6d9;
+.page-event-settings .image-widget {  position: relative; display: inline-block;}
+.page-event-settings .image-widget .form-submit { top: 0; left: 100%; margin-left: 10px;}
+.page-event-settings .image-widget .image-preview { border: 1px solid #d2d6d9; width: 150px; height: 150px; padding: 0;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
