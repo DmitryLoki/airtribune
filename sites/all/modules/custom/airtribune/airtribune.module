@@ -992,7 +992,7 @@ function airtribune_init() {
 
   // Set breadcrumbs for current page if it exists.
   if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
-    drupal_set_breadcrumb($breadcrumbs);
+    drupal_set_breadcrumb($breadcrumbs->build);
   }
   // Redirect on from /events to needed page, based on next/current events count
   // see #3067
