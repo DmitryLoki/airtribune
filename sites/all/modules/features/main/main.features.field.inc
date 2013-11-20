@@ -75,6 +75,7 @@ function main_field_default_fields() {
         'default_value_code' => '',
         'default_value_code2' => '',
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -233,6 +234,7 @@ Prof.',
         'component_layout' => 'default',
         'credentials_inline' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'field_type' => array(
           'credentials' => 'text',
           'family' => 'text',
@@ -332,6 +334,7 @@ Prof.',
       'required' => 1,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(

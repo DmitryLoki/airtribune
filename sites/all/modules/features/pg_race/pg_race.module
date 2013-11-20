@@ -4,7 +4,7 @@
  * Code for the Paragliding Race feature.
  */
 
-define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.php');
+define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.html');
 
 include_once 'pg_race.features.inc';
 
@@ -77,6 +77,33 @@ function pg_race_node_update($node) {
 
 function pg_race_node_delete($node) {
   recount_day_number($node, 'delete');
+}
+
+function pg_race_node_presave($node) {
+  // @see #3462
+  // We can't have two days in contest with same day of created. So, if new day node created, we check for timestamp.
+  if ($node->type == AIRTRIBUNE_DAY_TYPE && empty($node->nid)) {
+    // load contest
+    $og = node_load($node->og_group_ref['und']['0']['target_id']);
+    // load all created days for this contest
+    $contest_time = airtribune_extract_time_from_contest($og);
+    $last_day = node_load(end(get_days_ids_for_contest($og)));
+    // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+    $new_day_created_time = $node->created - $contest_time['offset'];
+    $last_day_created_time = $last_day->created - $contest_time['offset'];
+
+    if ($new_day_created_time < $last_day_created_time) {
+      $node->created = $last_day_created_time;
+      $new_day_created_time = $last_day_created_time;
+    }
+    
+    // Days have same date, set for new created node next day.
+    if (date('Ymd', $new_day_created_time) == date('Ymd', $last_day_created_time)) {
+      $node->created += 3600 * 24;
+      $node->updated = $node->created;
+      node_save($node);
+    }    
+  }
 }
 
 function recount_day_number($node, $action) {
@@ -385,22 +412,25 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
  * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
  */
 function get_days_ids_for_contest($og) {
-  if (!is_object($og)) {
-    return FALSE;
+  $days = FALSE;
+  if (is_object($og)) {
+    $relation_nids = db_select('og_membership', 'ogm')
+      ->fields('ogm', array('etid'))
+      ->condition('ogm.gid', $og->nid)
+      ->condition('ogm.entity_type', 'node')
+      ->execute()
+      ->fetchCol();
+
+    if (!empty($relation_nids)) {
+      $days = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->orderBy('nid', 'ASC')
+        ->condition('n.nid', $relation_nids, 'IN')
+        ->condition('n.type', 'day')
+        ->execute()
+        ->fetchCol();
+    }
   }
-  $relation_nids = db_select('og_membership', 'ogm')
-    ->fields('ogm', array('etid'))
-    ->condition('ogm.gid', $og->nid)
-    ->condition('ogm.entity_type', 'node')
-    ->execute()
-    ->fetchCol();
-  $days = db_select('node', 'n')
-    ->fields('n', array('nid'))
-    ->orderBy('nid', 'ASC')
-    ->condition('n.nid', $relation_nids, 'IN')
-    ->condition('n.type', 'day')
-    ->execute()
-    ->fetchCol();
   return $days;
 }
 
@@ -534,9 +564,9 @@ function pg_race_retrive_callback($entity) {
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve map'),
-      '#path' => 'retrieve/' . $entity->id,
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map', array('absolute' => TRUE)),
       '#options' => array(
-        'attributes' => array('class' => array('retrieve-link'), 'target' => '_blank'),
+        'attributes' => array('class' => array('retrieve-map-link'), 'target' => '_blank'),
         'html' => FALSE,
       ),
       '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
@@ -547,6 +577,7 @@ function pg_race_retrive_callback($entity) {
 }
 
 function pg_race_retrive_table_callback($entity) {
+  global $user;
   $output = FALSE;
 
   $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
@@ -558,22 +589,15 @@ function pg_race_retrive_table_callback($entity) {
   $contest_is_offline = $contest_wrapper->field_is_offline->value();
 
   if (!$contest_is_offline) {
-    $core_id_items = field_get_items('node', $node, 'field_core_id');
-    $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
-
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve table'),
-      '#path' => PG_RACE_RETREIVE_URL,
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table', array('absolute' => TRUE)),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
         'html' => FALSE,
-        'query' => array(
-          'contestid' => $core_id_items[0]['value'],
-          'raceid' => $race_id_items[0]['value'],
-        )
       ),
-      '#access' => pg_race_retrive_access($entity, $gid),
+      '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
     );
     $output = render($link);
   }
@@ -584,7 +608,7 @@ function pg_race_retrive_table_callback($entity) {
  * Retrive up to 2am (02:00 night) of next day following race day.
  */
 function pg_race_retrive_access($entity, $gid) {
-  $race_date_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_race_start_end');
+  $race_date_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, AIRTRIBUNE_PG_RACE_WINDOW_OPEN_CLOSE_FIELD);
   $contest_time = airtribune_extract_time_from_contest($gid);
   $offset = $contest_time['offset'];
   $start_limit = strtotime($race_date_items[0]['value']);

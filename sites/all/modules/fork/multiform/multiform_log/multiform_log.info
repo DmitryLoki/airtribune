@@ -1,0 +1,4 @@
+name = Multiform Log
+core = 7.x
+
+dependencies[] = multiform

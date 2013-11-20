@@ -257,11 +257,8 @@ e-mail: info@airtribune.com</p>',
     $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '604800',
-        'granularity' => 'none',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,

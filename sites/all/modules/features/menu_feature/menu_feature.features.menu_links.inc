@@ -10,8 +10,28 @@
 function menu_feature_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: account:<front>
-  $menu_links['account:user/registrations'] = array(
+  // Exported menu link: account:account/events
+  $menu_links['account:account/events'] = array(
+    'menu_name' => 'account',
+    'link_path' => 'account/events',
+    'router_path' => 'account/events',
+    'link_title' => 'My events',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'user-my-events-link',
+        ),
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-47',
+  );
+  // Exported menu link: account:account/registrations
+  $menu_links['account:account/registrations'] = array(
     'menu_name' => 'account',
     'link_path' => 'account/registrations',
     'router_path' => 'account/registrations',
@@ -25,50 +45,10 @@ function menu_feature_menu_default_menu_links() {
     ),
     'module' => 'menu',
     'hidden' => '0',
-    'external' => '1',
+    'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
     'weight' => '-49',
-  );
-  // Exported menu link: account:node/5363
-  $menu_links['account:node/5363'] = array(
-    'menu_name' => 'account',
-    'link_path' => 'node/5363',
-    'router_path' => 'node/%',
-    'link_title' => 'My events',
-    'options' => array(
-      'attributes' => array(
-        'class' => array(
-          0 => 'user-my-events-link',
-        ),
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => '1',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-47',
-  );
-  // Exported menu link: account:node/add/pg_contest
-  $menu_links['account:node/add/pg_contest'] = array(
-    'menu_name' => 'account',
-    'link_path' => 'node/add/pg_contest',
-    'router_path' => 'node/add',
-    'link_title' => 'Create event',
-    'options' => array(
-      'attributes' => array(
-        'class' => array(
-          0 => 'user-create-event-link',
-        ),
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => '1',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-48',
   );
   // Exported menu link: account:user
   $menu_links['account:user'] = array(
@@ -215,7 +195,6 @@ function menu_feature_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('About');
-  t('Create event');
   t('For organizers');
   t('For pilots');
   t('For sponsors');

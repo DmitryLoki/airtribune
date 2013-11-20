@@ -433,17 +433,33 @@ function pg_contest_cron() {
   $now = time();
   $date = $now - 2 * 24 * 3600;
 
+  // First get all nodes considering +/- timezone possible offset.
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'pg_contest');
-  $query->fieldCondition('field_dates', 'value', date("Y-m-d", $date), '<');
-  $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now), '>=');
+  $query->fieldCondition('field_dates', 'value', date("Y-m-d", $date + 24 * 3600), '<');
+  $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now - 24 * 3600), '>=');
   $result = $query->execute();
 
   // Close registration for selected events.
   if (!empty($result['node'])) {
-    foreach ($result['node'] as $nid => $date) {
+    foreach ($result['node'] as $nid => $data) {
+
       $node = node_load($nid);
+
+      // Event start and finish date.
+      $value = strtotime($node->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
+      $value2 = strtotime($node->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value2']);
+      $contest_time = airtribune_extract_time_from_contest($node);
+      // Event start and finish date in UTC.
+      $value -= $contest_time['offset'];
+      $value2 -= $contest_time['offset'];
+
+      // Skip events that don't match required condition.
+      if (($value < $date && $value2 >= $now) == FALSE) {
+        continue;
+      }
+
       // if ($node->nid) {
       if ($node->nid && isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] !== 0) {
         $node->field_registration_sw['und'][0]['value'] = 0;
@@ -466,6 +482,9 @@ function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
     $date = time() - 2 * 24 * 3600;
     // Event start date.
     $value = strtotime($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
+    $contest_time = airtribune_extract_time_from_contest($entity);
+    // Event start date in UTC.
+    $value -= $contest_time['offset'];
 
     // For allowed roles switch is always shown.
     $allowed_roles = array('admin');

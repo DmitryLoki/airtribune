@@ -82,24 +82,30 @@ Drupal.media.popups.mediaBrowser = function (onSelect, globalOptions, pluginOpti
       return;
     }
     onSelect(selected);
-    $(this).dialog("destroy");
-    $(this).remove();
+    $(this).dialog("close");
   };
 
   dialogOptions.buttons[cancel] = function () {
-    $(this).dialog("destroy");
-    $(this).remove();
+    $(this).dialog("close");
   };
 
-  Drupal.media.popups.setDialogPadding(mediaIframe.dialog(dialogOptions));
+  var dialog = mediaIframe.dialog(dialogOptions);
+
   // Remove the title bar.
-  mediaIframe.parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
-  Drupal.media.popups.overlayDisplace(mediaIframe.parents(".ui-dialog"));
+  dialog.parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+
+  Drupal.media.popups.sizeDialog(dialog);
+  Drupal.media.popups.resizeDialog(dialog);
+  Drupal.media.popups.scrollDialog(dialog);
+  Drupal.media.popups.overlayDisplace(dialog.parents(".ui-dialog"));
+
   return mediaIframe;
 };
 
 Drupal.media.popups.mediaBrowser.mediaBrowserOnLoad = function (e) {
   var options = e.data;
+  if (this.contentWindow.Drupal.media == undefined) return;
+
   if (this.contentWindow.Drupal.media.browser.selectedMedia.length > 0) {
     var ok = (Drupal && Drupal.t) ? Drupal.t('OK') : 'OK';
     var ok_func = $(this).dialog('option', 'buttons')[ok];
@@ -129,8 +135,7 @@ Drupal.media.popups.mediaBrowser.finalizeSelection = function () {
     return;
   }
   onSelect(selected);
-  $(this).dialog("destroy");
-  $(this).remove();
+  $(this).dialog("close");
 }
 
 /**
@@ -150,7 +155,7 @@ Drupal.media.popups.mediaBrowser.finalizeSelection = function () {
 Drupal.media.popups.mediaStyleSelector = function (mediaFile, onSelect, options) {
   var defaults = Drupal.media.popups.mediaStyleSelector.getDefaults();
   // @todo: remove this awful hack :(
-  defaults.src = defaults.src.replace('-media_id-', mediaFile.fid);
+  defaults.src = defaults.src.replace('-media_id-', mediaFile.fid) + '&fields=' + JSON.stringify(mediaFile.fields);
   options = $.extend({}, defaults, options);
   // Create it as a modal window.
   var mediaIframe = Drupal.media.popups.getPopupIframe(options.src, 'mediaStyleSelector');
@@ -181,19 +186,23 @@ Drupal.media.popups.mediaStyleSelector = function (mediaFile, onSelect, options)
       return;
     }
     onSelect(formattedMedia);
-    $(this).dialog("destroy");
-    $(this).remove();
+    $(this).dialog("close");
   };
 
   dialogOptions.buttons[cancel] = function () {
-    $(this).dialog("destroy");
-    $(this).remove();
+    $(this).dialog("close");
   };
 
-  Drupal.media.popups.setDialogPadding(mediaIframe.dialog(dialogOptions));
+  var dialog = mediaIframe.dialog(dialogOptions);
+
   // Remove the title bar.
-  mediaIframe.parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
-  Drupal.media.popups.overlayDisplace(mediaIframe.parents(".ui-dialog"));
+  dialog.parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+
+  Drupal.media.popups.sizeDialog(dialog);
+  Drupal.media.popups.resizeDialog(dialog);
+  Drupal.media.popups.scrollDialog(dialog);
+  Drupal.media.popups.overlayDisplace(dialog.parents(".ui-dialog"));
+
   return mediaIframe;
 };
 
@@ -251,28 +260,29 @@ Drupal.media.popups.mediaFieldEditor = function (fid, onSelect, options) {
   var dialogOptions = Drupal.media.popups.getDialogOptions();
 
   dialogOptions.buttons[ok] = function () {
-    alert('hell yeah');
-    return "poo";
-
     var formattedMedia = this.contentWindow.Drupal.media.formatForm.getFormattedMedia();
     if (!formattedMedia) {
       alert(notSelected);
       return;
     }
     onSelect(formattedMedia);
-    $(this).dialog("destroy");
-    $(this).remove();
+    $(this).dialog("close");
   };
 
   dialogOptions.buttons[cancel] = function () {
-    $(this).dialog("destroy");
-    $(this).remove();
+    $(this).dialog("close");
   };
 
-  Drupal.media.popups.setDialogPadding(mediaIframe.dialog(dialogOptions));
+  var dialog = mediaIframe.dialog(dialogOptions);
+
   // Remove the title bar.
-  mediaIframe.parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
-  Drupal.media.popups.overlayDisplace(mediaIframe.parents(".ui-dialog"));
+  dialog.parents(".ui-dialog").find(".ui-dialog-titlebar").remove();
+
+  Drupal.media.popups.sizeDialog(dialog);
+  Drupal.media.popups.resizeDialog(dialog);
+  Drupal.media.popups.scrollDialog(dialog);
+  Drupal.media.popups.overlayDisplace(dialog);
+
   return mediaIframe;
 };
 
@@ -303,41 +313,21 @@ Drupal.media.popups.getDialogOptions = function () {
     modal: true,
     draggable: false,
     resizable: false,
-    minWidth: 600,
-    width: 800,
-    height: 550,
+    width: 'auto',
+    height: 'auto',
     position: 'center',
-    overlay: {
-      backgroundColor: '#000000',
-      opacity: 0.4
+    zIndex: 10000,
+    close: function (event, ui) {
+      $(event.target).remove();
     }
   };
-};
-
-/**
- * Created padding on a dialog
- *
- * @param jQuery dialogElement
- *  The element which has .dialog() attached to it.
- */
-Drupal.media.popups.setDialogPadding = function (dialogElement) {
-  // @TODO: Perhaps remove this hardcoded reference to height.
-  // - It's included to make IE on Windows 7 display the dialog without
-  //   collapsing. 550 is the height that displays all of the tab panes
-  //   within the Add Media overlay. This is either a bug in the jQuery
-  //   UI library, a bug in IE on Windows 7 or a bug in the way the
-  //   dialog is instantiated. Or a combo of the three.
-  //   All browsers except IE on Win7 ignore these defaults and adjust
-  //   the height of the iframe correctly to match the content in the panes
-  dialogElement.height(dialogElement.dialog('option', 'height'));
-  dialogElement.width(dialogElement.dialog('option', 'width'));
 };
 
 /**
  * Get an iframe to serve as the dialog's contents. Common to both plugins.
  */
 Drupal.media.popups.getPopupIframe = function (src, id, options) {
-  var defaults = {width: '800px', scrolling: 'auto'};
+  var defaults = {width: '100%', scrolling: 'auto'};
   var options = $.extend({}, defaults, options);
 
   return $('<iframe class="media-modal-frame"/>')
@@ -348,12 +338,56 @@ Drupal.media.popups.getPopupIframe = function (src, id, options) {
 };
 
 Drupal.media.popups.overlayDisplace = function (dialog) {
-  if (parent.window.Drupal.overlay) {
+  if (parent.window.Drupal.overlay && jQuery.isFunction(parent.window.Drupal.overlay.getDisplacement)) {
     var overlayDisplace = parent.window.Drupal.overlay.getDisplacement('top');
     if (dialog.offset().top < overlayDisplace) {
       dialog.css('top', overlayDisplace);
     }
   }
+}
+
+/**
+ * Size the dialog when it is first loaded and keep it centered when scrolling.
+ *
+ * @param jQuery dialogElement
+ *  The element which has .dialog() attached to it.
+ */
+Drupal.media.popups.sizeDialog = function (dialogElement) {
+  var windowWidth = $(window).width();
+  var dialogWidth = windowWidth * 0.8;
+  var windowHeight = $(window).height();
+  var dialogHeight = windowHeight * 0.8;
+
+  dialogElement.dialog("option", "width", dialogWidth);
+  dialogElement.dialog("option", "height", dialogHeight);
+  dialogElement.dialog("option", "position", 'center');
+
+  $('.media-modal-frame').width('100%');
+}
+
+/**
+ * Resize the dialog when the window changes.
+ *
+ * @param jQuery dialogElement
+ *  The element which has .dialog() attached to it.
+ */
+Drupal.media.popups.resizeDialog = function (dialogElement) {
+  $(window).resize(function() {
+    Drupal.media.popups.sizeDialog(dialogElement);
+  });
+}
+
+/**
+ * Keeps the dialog centered when the window is scrolled.
+ *
+ * @param jQuery dialogElement
+ *  The element which has .dialog() attached to it.
+ */
+Drupal.media.popups.scrollDialog = function (dialogElement) {
+  // Keep the dialog window centered when scrolling.
+  $(window).scroll(function() {
+    dialogElement.dialog("option", "position", 'center');
+  });
 }
 
 })(jQuery);

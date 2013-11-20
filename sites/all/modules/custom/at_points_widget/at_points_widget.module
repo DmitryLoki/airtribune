@@ -22,15 +22,6 @@ function at_points_widget_form_pg_contest_node_form_alter(&$form, &$form_state, 
 }
 
 /**
- * Implements hook_ctools_plugin_directory().
- */
-function at_points_widget_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' || $owner == 'field_validation' || $owner == 'entityreference') {
-    return 'plugins/' . $plugin_type;
-  }
-}
-
-/**
  * Implements hook_menu.
  */
 function at_points_widget_menu() {
