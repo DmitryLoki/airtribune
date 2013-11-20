@@ -990,10 +990,6 @@ function airtribune_init() {
     pinba_script_name_set($request);
   }
 
-  // Set breadcrumbs for current page if it exists.
-  if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
-    drupal_set_breadcrumb($breadcrumbs->build);
-  }
   // Redirect on from /events to needed page, based on next/current events count
   // see #3067
   if (arg(0) == 'events' && arg(1) == NULL) {
