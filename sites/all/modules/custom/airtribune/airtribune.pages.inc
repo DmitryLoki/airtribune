@@ -90,6 +90,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#prefix' => '<div class="form-actions">',
     '#suffix' => '</div>',
   );
+  drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm()}}', 'inline');
   return $form;
 }
 
