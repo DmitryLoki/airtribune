@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Move data from entity property (ent_track identifier) to entity field (field_device_id).
+ */
+function ent_track_update_7000() {
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', AIRTRIBUNE_TRACKER_TYPE)->execute();
+  $tracker_ids = array_keys($result[AIRTRIBUNE_TRACKER_TYPE]);
+  $tracker_entities = entity_load(AIRTRIBUNE_TRACKER_TYPE, $tracker_ids);
+  foreach ($tracker_entities as $k => $e) {
+    $ew = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $e);
+    $identifier = $ew->identifier->value();
+    $ew->field_device_id->set($identifier);
+    $ew->save();
+  }
+}

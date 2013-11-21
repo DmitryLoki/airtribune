@@ -39,6 +39,13 @@ function at_membership_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['account/events'] = array(
+    'title' => 'User events',
+    'page callback' => 'at_membership_redirect_to_events',
+    'access callback' => 'at_membership_redirect_to_events_access',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -253,4 +260,23 @@ function at_membership_redirect_to_registrations() {
   else {
     drupal_access_denied();
   }
+}
+
+/**
+ * Redirect to logged in user events page
+ */
+function at_membership_redirect_to_events() {
+  global $user;
+  if ($user->uid) {
+    drupal_goto('account/' . $user->uid . '/events');
+  }
+  else {
+    drupal_access_denied();
+  }
+}
+
+function at_membership_redirect_to_events_access() {
+  global $user;
+  
+  return in_array('organizer', $user->roles);
 }

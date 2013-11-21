@@ -1,0 +1,49 @@
+<?php
+
+// id
+// timestamp
+// multiform_id
+// serialized_array
+// context (uid etc.)
+
+function multiform_log_schema() {
+  $schema['multiform_log'] = array(
+    'description' => 'The table for multiform submitted _POST values.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for log entry.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the log entry was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'multiform_id' => array(
+        'description' => 'Logged multiform id.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'post_array' => array(
+        'description' => 'Serialized _POST array.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      'context_data' => array(
+        'description' => 'Serialized data specific for a given multiform.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  
+  return $schema;
+}

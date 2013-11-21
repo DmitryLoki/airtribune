@@ -87,6 +87,10 @@ abstract class field_validation_validator {
    */
   public function get_error_element() {
     $error_element = $this->rule->field_name . '][' . $this->langcode . '][' . $this->delta . '][' . $this->rule->col;
+    // Support free tagging.
+    if (!empty($this->field['type']) && $this->field['type'] == 'taxonomy_term_reference') {
+      $error_element = $this->rule->field_name . '][' . $this->langcode;
+    }
     return  $error_element;
   }
   

@@ -19,7 +19,12 @@ function hook_og_permission() {
     'subscribe' => array(
       'title' => t('Subscribe user to group'),
       'description' => t("Allow user to be a member of a group (approval required)."),
+      // Determine to which role to limit the permission. For example the
+      // "subscribe" can't be assigned only to a non-member, as a member doesn't
+      // need it.
       'roles' => array(OG_ANONYMOUS_ROLE),
+      // Determine to which roles the permissions will be enabled by default.
+      'default role' => array(OG_ANONYMOUS_ROLE),
     ),
   );
 }
@@ -115,6 +120,22 @@ function hook_og_role_grant($entity_type, $gid, $uid, $rid) {
  *   The OG role id being revoked from the user.
  */
 function hook_og_role_revoke($entity_type, $gid, $uid, $rid) {
+}
+
+/**
+ * Give a notification about OG role permissions change.
+ *
+ * @param $role
+ *   The role object of the changed role.
+ * @param $grant
+ *   A list of granted permission names.
+ * @param $revoke
+ *   A list of revoked permission names.
+ */
+function hook_og_role_change_permissions($role, $grant, $revoke) {
+  if (!$role->gid) {
+    drupal_set_message(t('Global group permissions granted for @role users: @permissions', array('@role' => $role->name, '@permissions' => implode(', ', $grant))));
+  }
 }
 
 /**

@@ -89,7 +89,7 @@ function hook_path_breadcrumbs_delete($path_breadcrumbs) {
  *    Ctools contexts from current URL.
  * @return object $path_breadcrumbs
  */
-function path_breadcrumbs_view(&$path_breadcrumbs, $contexts) {
+function hook_path_breadcrumbs_view(&$path_breadcrumbs, $contexts) {
   // @todo Needs function body.
 }
 
@@ -105,6 +105,34 @@ function path_breadcrumbs_view(&$path_breadcrumbs, $contexts) {
  * @param array $contexts
  *    Ctools contexts from current URL.
  */
-function path_breadcrumbs_view_alter(&$breadcrumbs, $path_breadcrumbs, $contexts) {
+function hook_path_breadcrumbs_view_alter(&$breadcrumbs, $path_breadcrumbs, $contexts) {
   // @todo Needs function body.
+}
+
+/**
+ * Possibility to add custom breadcrumb settings on 4th step.
+ * See example: https://drupal.org/node/1946760#comment-7194426
+ */
+function hook_path_breadcrumbs_settings_form_custom_alter(&$form, $path_breadcrumbs) {
+  // @todo Needs function body.
+}
+
+/**
+ * Possibility to implement custom breadcrumb settings on 4th step.
+ */
+function hook_path_breadcrumbs_settings_form_submit_custom_alter(&$custom, $form_state) {
+  // @todo Needs function body.
+}
+
+/**
+ * Alter CTools cleanstring settings for Path Breadcrumbs URLs.
+ * @see ctools_cleanstring() function for more info.
+ */
+function hook_ctools_cleanstring_path_breadcrumbs_url_alter(&$clean_settings) {
+  // Disable transliteration (https://drupal.org/project/transliteration).
+  $clean_settings['transliterate'] = FALSE;
+  // Allow non-ASCII symbols.
+  $clean_settings['reduce ascii'] = FALSE;
+  // Use underscore as a separator.
+  $clean_settings['separator'] = '_';
 }
