@@ -1477,7 +1477,8 @@ p { margin:0; padding:9px 0 11px}
 	/* Header */
 
 #header_inner { background:url(../images/header_bgr.png) repeat-x 0 100%; padding-bottom:18px;}
-#header_inner:after { content:"."; clear:both; visibility:hidden; display:block; height:0}
+#header_inner:after,
+form#user-login:after { content:"."; clear:both; visibility:hidden; display:block; height:0}
 
 .pane-pane-header { padding:15px 0 0; float:left;}
 #logo { padding:0}
@@ -2536,8 +2537,11 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field-type-phone-number .field-prefix { position: absolute; margin: 4px 0 0 6px;}
 
 .page-user .pane-page-content form .street-block { clear: both; padding-top: 1px; display: block;}
-.page-user .pane-page-content form  .street-block .form-item:first-child { margin-top: 15px;}
+.page-user .pane-page-content form .street-block .form-item:first-child { margin-top: 15px;}
 
+form#user-login .form-wrapper { float: left; padding-bottom: 39px;}
+form#user-login .hybridauth_prefix { float: left; color: #7a8b99; font-size: 18px; padding: 28px 9px 0 24px;}
+form#user-login .hybridauth-widget { float: left; padding-top: 28px;}
 
 
 /* These styles for tables in forms if they need
