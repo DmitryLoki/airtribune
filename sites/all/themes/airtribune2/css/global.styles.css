@@ -1881,7 +1881,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .view-my-registrations .views-row:hover .cancel-participation-process { display: block;}
 
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; white-space:nowrap; }
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-10px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; white-space:nowrap; }
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
 .breadcrumb a span { display: inline-block; text-overflow: ellipsis; overflow:hidden; vertical-align: middle;}
@@ -2701,40 +2701,49 @@ table tr.even,
 table tr:nth-child(even) { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
 table tbody tr:hover { background: #cceffc;}
-table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
+table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/20px Arial, Helvetica, sans-serif; color: #525d66}
 table thead tr + tr th { font-weight: normal;}
-table thead th a { color: #525d66; padding-right: 20px; background: url(../images/table_action.png) no-repeat 100% -1068px;}
-table thead th a:hover { color: #33c0f8; background-position: 100% -1268px;}
+table thead th a { color: #525d66; padding-right: 20px; display: inline-block; position: relative;}
+table thead th a:after { content: " "; position: absolute; top: 50%; display: block; width: 10px; height: 8px; margin-top: -2px; background: url(../images/table_action.png) no-repeat 100% -1075px; right: 0;}
+table thead th a:hover { color: #33c0f8;}
+table thead th a:hover:after { background-position: 100% -1275px;}
 table thead th.active a { color: #33c0f8; padding-right: 0; background: none;}
+table thead th.active a:after { content: none;}
 table thead th.active a span { display: inline-block; width: 10px; height: 8px; background: url(../images/table_action.png) no-repeat 100% -10000px; margin-left: 10px; padding: 0;}
 table thead th.active a span.arrow-asc { background-position: -90px -1275px;}
 table thead th.active a span.arrow-desc { background-position: -90px -1175px;}
 table thead th.views-field:first-child { border-left: none;}
 table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px; vertical-align: top;}
-table .views-row-first td { border-top: none;}
-table tr td.:first-child { border-left: none;}
+table .views-row-first td,
+table tr:first-child td { border-top: none;}
+table tr td:first-child { border-left: none;}
 
   /*  Retrieve table */
 
+#airtribune-vis { position: relative; margin: -1px -1px 0;}
+#airtribune-vis table caption { padding-left: 11px;}
 #airtribune-vis img { display: none;}
-#airtribune-vis { position: relative;}
 #airtribune-vis .timeout { z-index: 10; position: absolute; right: 10px; top: 3px; color: #97abbd; font-size: 12px;}
 #airtribune-vis table { margin-top: 0;}
+#airtribune-vis th { padding-top: 8px; padding-bottom: 11px;}
 #airtribune-vis th a { text-decoration: none; }
-#airtribune-vis th a.asc { background-position: 100% -1268px; color: #33c0f8}
-#airtribune-vis th a.desc { background-position: 100% -1168px; color: #33c0f8}
-#airtribune-vis td { vertical-align: middle; text-align: center;}
-#airtribune-vis td:visited { color: #a300ef}
-#airtribune-vis .name { width: 135px;}
+#airtribune-vis th a.asc { color: #33c0f8}
+#airtribune-vis th a.asc:after { background-position: 100% -1275px; }
+#airtribune-vis th a.desc { color: #33c0f8}
+#airtribune-vis th a.desc:after { background-position: 100% -1175px;}
+#airtribune-vis td { vertical-align: middle; text-align: center; line-height: 20px; padding-top: 9px; padding-bottom: 11px;}
+#airtribune-vis tr:first-child td { padding-top: 18px;}
+#airtribune-vis td a:visited { color: #a300ef}
+/*#airtribune-vis .name { width: 135px;}*/
 #airtribune-vis td.name { text-align: left;}
 #airtribune-vis td span.ng-binding { display: inline-block;}
 #airtribune-vis td:first-child,
 #airtribune-vis th:first-child { border-left: none;}
 
-#airtribune-vis td.row-number { width: 31px;}
+#airtribune-vis td.row-number { width: 32px;}
 #airtribune-vis td.contest-number { width: 41px;}
 #airtribune-vis td.name { width: 131px;}
-#airtribune-vis td.distance { width: 80px;}
+#airtribune-vis td.distance { width: 81px;}
 #airtribune-vis td.data-age { width: 61px;}
 #airtribune-vis td.speed { width: 71px;}
 #airtribune-vis td.alt { width: 51px;}
@@ -2742,9 +2751,9 @@ table tr td.:first-child { border-left: none;}
 #airtribune-vis td.tracker-name { width: 81px;}
 #airtribune-vis td.battery { width: 51px;}
 
-#airtribune-vis td.name span { display: inline-block;}
-#airtribune-vis td.name span.ng-binding { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-#airtribune-vis td.name span:last-child { width: 16px; margin-left: 5px;}
+#airtribune-vis td.name span { display: inline-block; }
+#airtribune-vis td.name span.ng-binding { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;}
+#airtribune-vis td.name > span:last-child { width: 16px; margin-left: 4px; line-height: 11px; height: 11px; vertical-align: middle;}
 
 .page-retrieve .panel-col-seventy .inside { margin: 0;}
 .page-retrieve .pane-inner .pane-inner { margin: 0;}
