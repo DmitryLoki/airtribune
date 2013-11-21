@@ -1012,12 +1012,6 @@ function airtribune_init() {
     drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.min.js');
     drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/clientside_validation.js');
   }
-
-  // Add og:image meta-tags for facebook share.
-  // @see #3308
-  if (arg(0) == 'event') {
-    airtribune_add_custom_og_metatags();
-  }
 }
 
 /**
@@ -1564,25 +1558,16 @@ function _create_day_for_contest() {
  * Add og:image meta-tags for facebook share.
  * @see #3308
  */
-function airtribune_add_custom_og_metatags() {
-  // event/1234/results
-  switch (arg(2)) {
-    case 'results':
-      $view = views_get_view('contest_scoring_categories');
-      $view->set_display('results_pane');
-      $view->set_arguments(array('5438'));
-      $view->execute();
-      foreach ($view->result as $key => $result) {
-        $url = file_create_url($result->field_field_single_image[0]['raw']['uri']);
-        _add_metatag_opengraph_image($url, $key);
-      }
-      break;
-    case 'default':
-    case 'info':
-    case 'blog':
-    case 'map':
-    case 'results':
-      break;
+function airtribune_metatag_metatags_view_alter(&$output, $instance) {
+  if ($instance == 'panels:page_event_results_panel_context') {
+    $view = views_get_view('contest_scoring_categories');
+    $view->set_display('results_pane');
+    $view->set_arguments(array(arg(1)));
+    $view->execute();
+    foreach ($view->result as $key => $result) {
+      $url = file_create_url($result->field_field_single_image[0]['raw']['uri']);
+      _add_metatag_opengraph_image($url, $key);
+    }
   }
 }
 
