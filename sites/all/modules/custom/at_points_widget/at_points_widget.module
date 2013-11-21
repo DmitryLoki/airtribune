@@ -221,7 +221,6 @@ function _at_points_widget_wrapper (array $points) {
   $result = array();
   foreach ($points as $point) {
     $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
-    $point->
     $array = array(
       'type' => 'Feature',
       'geometry' => array(
@@ -234,7 +233,7 @@ function _at_points_widget_wrapper (array $points) {
       ),
       'properties' => array(
         'name' => $point->title,
-        'id' => isset($point->id) ? $point->id : NULL, // New points from file upload don't have id
+        'id' => isset($point->id) ? $point->id : NULL, //New points from uploaded file don't have ids
         'comment' => $point_wrapper->field_point_description->value(),
         'readonly' => isset($point->readonly) ? $point->readonly : FALSE
        )
