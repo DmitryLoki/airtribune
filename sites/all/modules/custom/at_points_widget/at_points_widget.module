@@ -147,7 +147,6 @@ function at_points_widget_file($nid) {
   move_uploaded_file($file['tmp_name'], $filename);
   // Factory method.
   $file_reader = at_points_widget_get_filereader($filename);
-  dpm($file_reader);
   if (empty($file_reader)) {
     drupal_add_http_header('Status', '400 Incorrect format of input file');
     drupal_exit();
@@ -222,6 +221,7 @@ function _at_points_widget_wrapper (array $points) {
   $result = array();
   foreach ($points as $point) {
     $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
+    $point->
     $array = array(
       'type' => 'Feature',
       'geometry' => array(
@@ -234,7 +234,7 @@ function _at_points_widget_wrapper (array $points) {
       ),
       'properties' => array(
         'name' => $point->title,
-        'id' => $point->id,
+        'id' => isset($point->id) ? $point->id : NULL, // New points from file upload don't have id
         'comment' => $point_wrapper->field_point_description->value(),
         'readonly' => isset($point->readonly) ? $point->readonly : FALSE
        )
