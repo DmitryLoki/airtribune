@@ -2752,7 +2752,7 @@ table tr td:first-child { border-left: none;}
 #airtribune-vis td.battery { width: 51px;}
 
 #airtribune-vis td.name span { display: inline-block; }
-#airtribune-vis td.name span.ng-binding { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;}
+#airtribune-vis td.name span.ng-binding { width: 110px; white-space: nowrap; vertical-align: middle;}
 #airtribune-vis td.name > span:last-child { width: 16px; margin-left: 4px; line-height: 11px; height: 11px; vertical-align: middle;}
 
 .page-retrieve .panel-col-seventy .inside { margin: 0;}
@@ -3593,7 +3593,7 @@ https://github.com/AdamWhitcroft/CSS.Tooltips
     display: none;
     content: attr(data-tip);
     position: absolute;
-    bottom: -14px;
+    top: 25px;
     left: 0px;
     padding: 0 9px;
     background: #fefaeb;
