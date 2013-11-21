@@ -6484,16 +6484,6 @@ window.fbAsyncInit = function() {
     'destination' => '',
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 5,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => TRUE,
-        ),
         1 => array(
           'name' => 'compare_users',
           'settings' => array(
@@ -6504,6 +6494,14 @@ window.fbAsyncInit = function() {
             1 => 'logged-in-user',
           ),
           'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'view my_events page',
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
         ),
       ),
       'logic' => 'or',
