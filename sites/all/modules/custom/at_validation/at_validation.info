@@ -1,6 +1,0 @@
-name = Airtribune validation
-description = Provides ajax validation. To be refactored.
-package = Airtribune
-core = 7.x
-dependencies[] = clientside_validation
-dependencies[] = ctools

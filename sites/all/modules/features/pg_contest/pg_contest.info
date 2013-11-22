@@ -7,7 +7,6 @@ project = pg_contest
 dependencies[] = addressfield
 dependencies[] = airtribune
 dependencies[] = at_entityreference_geowidget
-dependencies[] = at_reg
 dependencies[] = autocomplete_widgets
 dependencies[] = cck_phone
 dependencies[] = countries

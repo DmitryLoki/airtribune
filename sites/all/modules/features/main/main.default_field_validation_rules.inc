@@ -21,14 +21,13 @@ function main_default_field_validation_rule() {
   $rule->bundle = 'main';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z\' \']*$',
+    'data' => '^[a-zA-Z\' \'-]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,
@@ -47,14 +46,13 @@ function main_default_field_validation_rule() {
   $rule->bundle = 'main';
   $rule->validator = 'field_validation_regex_validator';
   $rule->settings = array(
-    'data' => '^[a-zA-Z\' \']*$',
+    'data' => '^[a-zA-Z\' \'-]*$',
     'bypass' => 0,
     'roles' => array(
       2 => 0,
       3 => 0,
       6 => 0,
       5 => 0,
-      4 => 0,
       7 => 0,
     ),
     'errors' => 0,

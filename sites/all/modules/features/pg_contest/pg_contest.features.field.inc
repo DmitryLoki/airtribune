@@ -1705,6 +1705,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_device_id',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -1723,6 +1726,7 @@ Prof.',
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -4048,11 +4052,11 @@ Duplicate city names warnings if exists.',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'at_reg',
+          'module' => 'list',
           'settings' => array(
             'field_name' => FALSE,
           ),
-          'type' => 'at_reg_group_subscribe',
+          'type' => 'list_default',
           'weight' => '0',
         ),
         'event_blog_teaser' => array(

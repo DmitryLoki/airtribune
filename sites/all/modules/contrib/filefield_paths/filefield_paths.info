@@ -21,9 +21,9 @@ files[] = modules/video.inc
 ; files[] = tests/file.test
 ; files[] = tests/filefield_paths.test
 
-; Information added by drupal.org packaging script on 2012-08-10
-version = "7.x-1.0-beta3+4-dev"
+; Information added by drupal.org packaging script on 2013-04-25
+version = "7.x-1.0-beta4"
 core = "7.x"
 project = "filefield_paths"
-datestamp = "1344601058"
+datestamp = "1366871711"
 

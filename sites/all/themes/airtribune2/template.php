@@ -614,7 +614,7 @@ function airtribune2_menu_tree__menu_solutions_organizers(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form');
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', /*'views_form_paragliding_pilots_list_manage'*/);
   if (in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
@@ -1213,6 +1213,15 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/profile2-edit-pilot-form',
     ),
+    
+    'contest_registration_anonymous' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration-anonymous',
+    ),
+    'contest_registration_authorized' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration-authorized',
+    ),
   );
 }
 
@@ -1789,4 +1798,29 @@ function is_solutions(){
       break;
   }
   return FALSE;
+}
+
+/**
+ * Alter Name field widget to remove fieldset.
+ */
+function _airtribune2_alter_name_widget(&$element) {
+  $lang = $element['#language'];
+  $element[$lang][0]['given']['#prefix'] = '';
+  $element[$lang][0]['given']['#suffix'] = '';
+  $element[$lang][0]['family']['#prefix'] = '';
+  $element[$lang][0]['family']['#suffix'] = '';
+  $element[$lang][0]['given']['#title_display'] = 'before';
+  $element[$lang][0]['family']['#title_display'] = 'before';
+  $element[$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
+  $element[$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
+  // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+  $element[$lang][0]['given']['#title'] = t('Name');
+  $element[$lang][0]['family']['#title'] = t('Surname');
+}
+
+function _airtribune2_alter_birthdate_widget(&$element) {
+  $lang = $element['#language'];
+  $element[$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $element[$lang][0]['#title']);
+  $element[$lang][0]['value']['day']['#title'] = $element[$lang][0]['#title'];
+  $element[$lang][0]['#title'] = '';
 }

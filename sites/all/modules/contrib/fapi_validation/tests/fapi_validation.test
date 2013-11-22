@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Test file for fapi_validation module.
+ */
+
+/**
+ * Default test case for the fapi_validation module.
+ */
+class FAPIVTestCase extends DrupalWebTestCase {
+  private $mod_url = 'fapiv_test/form_test';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Form API Validation',
+      'description' => 'Various tests on the fapi_validation module.' ,
+      'group' => 'FApiValidation',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('fapi_validation_tests'));
+    
+    $this->validRuleValues = array(
+      'numericField' => '12345',
+      'alphaField' => 'abcde',
+      'length1Field' => 'abcde',
+      'length2Field' => 'abcdefg',
+      'length3Field' => 'abcdefghij',
+      'chars1Field' => 'a',
+      'chars2Field' => 'b',
+      'emailField' => 'user@example.com',
+      'url1Field' => 'path/path',
+      'url2Field' => 'http://www.example.com',
+      'ipv4Field' => '192.168.1.1',
+      'alpha_numericField' => 'abcd1234',
+      'alpha_dashField' => 'abc-abc_abc123',
+      'digitField' => '1234',
+      'decimal1Field' => '123.12',
+      'decimal2Field' => '123.321',
+      'regexpField' => 'abcde',
+      'match_fieldAField' => 'abcde',
+      'match_fieldBField' => 'abcde',
+      'rangeField' => '5'
+    );
+  }
+
+  /**
+   * Test Form API Validation with Valid values
+   */
+  function testFormRulesValid() {
+    $data = $this->validRuleValues;
+    
+    $this->drupalPost($this->mod_url, $data, 'Submit');
+    $this->assertText('FAPIV Test 1 OK!');
+  }
+  
+  /**
+   * Test Form API Validation with Invalid values
+   */
+  function testFormRulesInvalid() {
+    $data = array(
+      'numericField' => '12abc345',
+      'alphaField' => 'abcd1234',
+      'length1Field' => 'abc',
+      'length2Field' => 'abcdefghij',
+      'length3Field' => 'ab',
+      'chars1Field' => 'ab',
+      'chars2Field' => 'bd',
+      'emailField' => 'user-at-example.com',
+      'url1Field' => 'path/path\\asd',
+      'url2Field' => 'aaaaaaa',
+      'ipv4Field' => '192.168.400.1',
+      'alpha_numericField' => 'abcd1234#%',
+      'alpha_dashField' => 'abc-abc_abc421$@%',
+      'digitField' => '1234aaa',
+      'decimal1Field' => '123',
+      'decimal2Field' => '123312.aaa',
+      'regexpField' => 'abc',
+      'match_fieldAField' => 'abcdefgh',
+      'match_fieldBField' => 'abcde',
+      'rangeField' => '15'
+    );
+    
+    $this->drupalPost($this->mod_url, $data, 'Submit');
+    
+    $this->assertText('Use only numbers at numericField.');
+    $this->assertText('Use only alpha characters at alphaField.');
+    $this->assertText('Invalid size of length1Field value.');
+    $this->assertText('Invalid size of length2Field value.');
+    $this->assertText('Invalid size of length3Field value.');
+    $this->assertText('Invalid characters on chars1Field value.');
+    $this->assertText('Invalid characters on chars2Field value.');
+    $this->assertText('emailField not is a valid email.');
+    $this->assertText('Invalid format of url1Field.');
+    $this->assertText('Invalid format of url2Field.');
+    $this->assertText('Invalid format of ipv4Field.');
+    $this->assertText('Use only alpha numerics characters at alpha_numericField.');
+    $this->assertText('Use only digits on digitField.');
+    $this->assertText('Use only decimal on decimal1Field.');
+    $this->assertText('Use only decimal on decimal2Field.');
+    $this->assertText('regexpField value does not match rule.');
+    $this->assertText('match_fieldBField value does not match other field.');
+    $this->assertText('rangeField value is out of range.');
+    
+    //$this->assertText('FAPIV Test 1 OK!');
+  }
+}

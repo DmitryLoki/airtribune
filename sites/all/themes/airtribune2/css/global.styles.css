@@ -2405,7 +2405,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 #mail-edit-cancel-link { display: none; cursor: pointer;}
 .page-user .pane-page-content form .form-actions input, 
 .events-add a,
-.page-user .pane-page-content form .reg_choice a,
+.page-user .pane-page-content form .reg_choice a, 
 .page-user .pane-page-content form table input.form-submit { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
 
   -webkit-border-radius: 3px;
@@ -2422,9 +2422,9 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
   
 }
 
-.page-user .pane-page-content form .form-actions input:hover,
-.events-add a:hover,
-.page-user .pane-page-content form .reg_choice a:hover,
+.page-user .pane-page-content form .form-actions input:hover, 
+.events-add a:hover, 
+.page-user .pane-page-content form .reg_choice a:hover, 
 .page-user .pane-page-content form table input.form-submit:hover {border-color:#ecd767;
 
   background:#e4c25e;
@@ -2437,9 +2437,9 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
   
 }
 
-.page-user .pane-page-content form .form-actions input:active,
-.events-add a:active,
-.page-user .pane-page-content form .reg_choice a:active,
+.page-user .pane-page-content form .form-actions input:active, 
+.events-add a:active, 
+.page-user .pane-page-content form .reg_choice a:active, 
 .page-user .pane-page-content form table input.form-submit:active { border-color:#d5a722;
   background:#d3b246;
   background: -moz-linear-gradient(top, #d3b246 0%, #ca9f22 100%); 
@@ -2457,13 +2457,13 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .event-register-form {position:absolute; top: -100000px;}
 
-.page-user .pane-page-content form .form-actions input.disabled,
-.page-user .pane-page-content form .form-actions input.disabled:hover,
-.page-user .pane-page-content form .form-actions input.disabled:active,
-.page-user .pane-page-content form table input.form-submit.disabled,
-.page-user .pane-page-content form table input.form-submit.disabled:hover,
+.page-user .pane-page-content form .form-actions input.disabled, 
+.page-user .pane-page-content form .form-actions input.disabled:hover, 
+.page-user .pane-page-content form .form-actions input.disabled:active, 
+.page-user .pane-page-content form table input.form-submit.disabled, 
+.page-user .pane-page-content form table input.form-submit.disabled:hover, 
 .page-user .pane-page-content form table input.form-submit.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
-  
+
 
     box-shadow: 0 1px 3px rgba(35,48,35,0.45), inset 0 0 3px #ebe493;  
   -moz-box-shadow: 0 1px 3px rgba(35,48,35,0.45), inset 0 0 3px #ebe493;         
@@ -3242,7 +3242,7 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .pane-page-content { margin-bottom: 0;}
 .page-event-results-facebook .second_sidebar { display: none;}
 .page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0; position: relative;}
-.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative; background: #dee6e9; height: 327px;}
+.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9; height: 327px;}
 .page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
@@ -3570,11 +3570,47 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .features_items h3:first-child { padding-top: 45px;}
 .solutions_accordeon .features_items p { padding-left: 19px;}
 
+  /* Solutions Live tracking */
+
+.solutions_hosting img + .feel_free { margin-top: 51px; padding-bottom: 52px;}
+.solutions_competition .mobile_apps { padding-top: 92px; background: url(../images/competition_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 112px; position: relative;}
+.solutions_competition .mobile_apps h3,
+.solutions_competition .block_cols h2 { font-size: 34px; font-weight: bold; line-height: 34px;}
+.solutions_competition .mobile_apps .content { color: #7d9aa8; font-size: 24px; line-height: 30px; width: 205px; padding-top: 11px;}
+.solutions_competition .com_soon { background: url(../images/coming_soon.png) no-repeat 0 0; width: 210px; height: 50px; line-height: 50px; padding: 13px 20px 44px 27px; font-size: 24px; color: #ffffff; text-align: center; margin: 23px 0 -24px -27px;}
+.solutions_competition .apps_phone { position: absolute; left: 420px; top: 19px;}
+.solutions_competition .block_cols h2 { color: #566570; padding-top: 111px; padding-bottom: 17px;}
+.solutions_competition .visualization h3 { padding-top: 12px;}
+.solutions_competition .tradititional { padding-top: 30px; clear: both; padding-bottom: 10px;}
+.solutions_competition .tradititional img { vertical-align: middle;}
+.solutions_competition .examples { position: relative; height: 287px; margin-top: 33px; margin-bottom: -1px;}
+.solutions_competition .examples .player_2d { position: absolute; bottom: 0; z-index: 10; left: 35px;}
+.solutions_competition .examples .player_3d { position: absolute; bottom: 23px; left: 196px; height: 12px; width: 472px; background: url(/sites/default/files/3d_player.jpg) no-repeat 50% -255px; display: block;}
+.solutions_competition .examples .player_3d span { display: block; width: 373px; height: 255px; background: url(/sites/default/files/3d_player.jpg) no-repeat 50% 0; margin: -253px auto 0;}
+.solutions_competition .solutions_accordeon { padding-top: 52px; padding-bottom: 10px;}
+
+.solutions_accordeon .how_to_go_live { padding-left: 19px;}
+.solutions_accordeon .how_to_go_live h3 { font-size: 24px; padding: 39px 0 1px;}
+.solutions_accordeon .how_to_go_live h3:first-child { padding-top: 45px;}
+.solutions_accordeon .how_to_go_live p { padding: 6px 0 9px 21px; line-height: 25px;}
+
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
 
-.solutions_retrieve .create_event { padding-top: 99px;}
+  /* My events */
+
+.view-my-events {}
+.view-my-events .views-row { padding-top: 20px; clear: both;}
+.view-my-events .views-row:first-child { padding-top: 0;}
+.view-my-events .my_event { display: block; }
+.view-my-events .my_event .logo { display: block; width: 50px; height: 50px; border: 1px solid #f2f2f2; background: #ffffff; float: left; margin-right: 9px; background: url(../images/defaultavatar.png) no-repeat 0 0; margin-top: -1px;}
+.view-my-events .my_event .logo img { background: #ffffff;}
+.view-my-events .my_event .main_text { float: left; color: #565a5d; font-size: 18px; line-height: 20px; margin-top: 3px;}
+.view-my-events .my_event .main_description { display: block; color: #b0b0b0; font-size: 14px; line-height: 16px; margin-top: 4px;}
+.view-my-events .my_event .dates:before { content: " | "}
+.view-my-events .my_event .status { float: right; color: #809226; font-size: 16px; margin-top: 12px;}
+.view-my-events .my_event .status-0 { color: #cecece }
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft
