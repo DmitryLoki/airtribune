@@ -1244,10 +1244,16 @@ function _create_day_for_contest() {
 
     // Get last day for this contest.
     $days = get_days_ids_for_contest($contest);
-    $last_day = node_load(end($days));
-
-    // Time for this day, with according local time offset
-    $last_day_created = $last_day->created + $offset;
+    // Contest does not yet contain days.
+    if (empty($days)) {
+      $last_day_created = 0;
+    }
+    // Contest already have days.
+    else {
+      $last_day = node_load(end($days));
+      // Time for this day, with according local time offset
+      $last_day_created = $last_day->created + $offset;
+    }
     $now = REQUEST_TIME + $offset;
 
     // Need variables for output to debug.
