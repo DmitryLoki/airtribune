@@ -409,10 +409,10 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
  * Its dirty code, but in OG module code there is nothing like this functionality
  *
  * @param $og organic group (node) object
- * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
+ * @return array with ids of days for contest
  */
 function get_days_ids_for_contest($og) {
-  $days = FALSE;
+  $days = array();
   if (is_object($og)) {
     $relation_nids = db_select('og_membership', 'ogm')
       ->fields('ogm', array('etid'))
