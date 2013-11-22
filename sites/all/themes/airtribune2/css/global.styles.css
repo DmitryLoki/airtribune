@@ -3570,6 +3570,30 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .features_items h3:first-child { padding-top: 45px;}
 .solutions_accordeon .features_items p { padding-left: 19px;}
 
+  /* Solutions Live tracking */
+
+.solutions_hosting img + .feel_free { margin-top: 51px; padding-bottom: 52px;}
+.solutions_competition .mobile_apps { padding-top: 92px; background: url(../images/competition_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 112px; position: relative;}
+.solutions_competition .mobile_apps h3,
+.solutions_competition .block_cols h2 { font-size: 34px; font-weight: bold; line-height: 34px;}
+.solutions_competition .mobile_apps .content { color: #7d9aa8; font-size: 24px; line-height: 30px; width: 205px; padding-top: 11px;}
+.solutions_competition .com_soon { background: url(../images/coming_soon.png) no-repeat 0 0; width: 210px; height: 50px; line-height: 50px; padding: 13px 20px 44px 27px; font-size: 24px; color: #ffffff; text-align: center; margin: 23px 0 -24px -27px;}
+.solutions_competition .apps_phone { position: absolute; left: 301px; top: 19px;}
+.solutions_competition .block_cols h2 { color: #566570; padding-top: 111px; padding-bottom: 17px;}
+.solutions_competition .visualization h3 { padding-top: 12px;}
+.solutions_competition .tradititional { padding-top: 30px; clear: both; padding-bottom: 10px;}
+.solutions_competition .tradititional img { vertical-align: middle;}
+.solutions_competition .examples { position: relative; height: 287px; margin-top: 33px; margin-bottom: -1px;}
+.solutions_competition .examples .player_2d { position: absolute; bottom: 0; z-index: 10; left: 35px;}
+.solutions_competition .examples .player_3d { position: absolute; bottom: 23px; left: 196px; height: 12px; width: 472px; background: url(/sites/default/files/3d_player.jpg) no-repeat 50% -255px; display: block;}
+.solutions_competition .examples .player_3d span { display: block; width: 373px; height: 255px; background: url(/sites/default/files/3d_player.jpg) no-repeat 50% 0; margin: -253px auto 0;}
+.solutions_competition .solutions_accordeon { padding-top: 52px; padding-bottom: 10px;}
+
+.solutions_accordeon .how_to_go_live { padding-left: 19px;}
+.solutions_accordeon .how_to_go_live h3 { font-size: 24px; padding: 39px 0 1px;}
+.solutions_accordeon .how_to_go_live h3:first-child { padding-top: 45px;}
+.solutions_accordeon .how_to_go_live p { padding: 6px 0 9px 21px; line-height: 25px;}
+
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
