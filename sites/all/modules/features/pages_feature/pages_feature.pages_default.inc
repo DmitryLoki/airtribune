@@ -1048,7 +1048,16 @@ viewers/*',
     padding: 0 10px;
   }',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'node',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -1269,6 +1278,10 @@ event/*/map/accommodations',
       'override_title_text' => '',
       'context' => array(
         0 => 'event',
+        2 => 'empty',
+      ),
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
       ),
     );
     $pane->cache = array();
@@ -1303,10 +1316,13 @@ event/*/map/accommodations',
     $pane->configuration = array(
       'context' => array(
         0 => 'event',
-        1 => 'empty',
+        2 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -2092,7 +2108,16 @@ function pages_feature_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -2140,7 +2165,11 @@ function pages_feature_default_page_manager_pages() {
     $pane->subtype = 'event_accommodations-panel_event_map_pane';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -2210,7 +2239,16 @@ function pages_feature_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Node from Node (on Node: Flying site [field_flying_site_ref])',
+        'keyword' => 'flying_site',
+        'name' => 'entity_from_field:field_flying_site_ref-node-node',
+        'delta' => 0,
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -2258,7 +2296,11 @@ function pages_feature_default_page_manager_pages() {
     $pane->subtype = 'event_activities-panel_event_map_pane';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'arguments' => array(
+        'null_1' => '%flying_site:nid',
+      ),
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -5884,23 +5926,11 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane = new stdClass();
     $pane->pid = 'new-71';
     $pane->panel = 'featured_header_padding';
-    $pane->type = 'views';
-    $pane->subtype = 'header_slideshow';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'header_slideshow-header_facebook';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => FALSE,
-      'use_pager' => FALSE,
-      'nodes_per_page' => 10,
-      'pager_id' => 0,
-      'offset' => 0,
-      'more_link' => FALSE,
-      'feed_icons' => FALSE,
-      'panel_args' => FALSE,
-      'link_to_view' => FALSE,
-      'args' => '',
-      'url' => '',
-      'display' => 'default',
       'context' => array(
         0 => 'argument_entity_id:node_1',
       ),
@@ -7042,9 +7072,9 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->' .
-        '<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>' .
-        '<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
+        'value' => '<!--link rel="stylesheet" href="http://retrieve.airtribune.com/table/css/style.css"-->
+<script data-main="http://retrieve.airtribune.com/table/init" src="http://retrieve.airtribune.com/table/libs/require.js"></script>
+<retrieve-table root-url="http://retrieve.airtribune.com/table" api-version="[variable:core-api-version]" api-domain="[variable:core-api-domain]" contest-id="[airtribune:contest-core-id]" race-id="[airtribune:race-core-id]"></retrieve-table>',
         'format' => 'php_code',
       ),
       'widget_type' => '2d',

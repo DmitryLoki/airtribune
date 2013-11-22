@@ -72,6 +72,7 @@ define('AIRTRIBUNE_RACETYPE_ENTITY_TYPE', 'ent_racetype');
 define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
 define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 define('AIRTRIBUNE_CUSTOMOBJECT_TYPE', 'ent_customobject');
+define('AIRTRIBUNE_TRACKER_TYPE', 'ent_tracker');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');

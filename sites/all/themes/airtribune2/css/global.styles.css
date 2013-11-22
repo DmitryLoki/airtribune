@@ -3497,10 +3497,10 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .accordeon_inner ul { margin: 0 0 35px 18px; padding: 0; color: #555555; font-size: 14px;}
 .solutions_accordeon .accordeon_inner ul li { padding: 2px 0 3px;}
 .solutions_accordeon .accordeon_inner ul ul { color: #919191; margin: 0 0 0 10px; list-style: none; list-style-image: none;}
+
 .solutions_hosting .create_event { margin-top: 102px; text-align: right; color: #333a40; font-size: 16px;}
 .solutions_hosting .create_event > a,
 .solutions_hosting .create_event > span.contact_admin { display: block; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #ffffff; text-shadow: 0 1px 1px rgba(79, 87, 12, .15); text-decoration: none; padding: 22px 0 28px; margin-bottom: 8px;
-
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdd925', endColorstr='#a4bb15'); /* для IE6-9 */
   background: -webkit-linear-gradient(top, bottom, #cdd925 0%, #a4bb15 100%); /* для webkit-браузеров */
@@ -3526,9 +3526,9 @@ html.fb_view { overflow: auto;}
 
 }
 
-.solutions_hosting .create_event > span.contact_admin { font-size: 24px; line-height: 24px; padding: 17px 0 28px; height: 35px; display: none;}
-.solutions_hosting .create_event > span.contact_admin a { color: #1550bc}
-.solutions_hosting .create_event > span.contact_admin span { display: block; font-size: 14px; line-height: 16px; padding-top: 10px;}
+ .solutions_hosting .create_event > span.contact_admin { font-size: 24px; line-height: 24px; padding: 17px 0 28px; height: 35px; display: none;}
+ .solutions_hosting .create_event > span.contact_admin a { color: #1550bc}
+ .solutions_hosting .create_event > span.contact_admin span { display: block; font-size: 14px; line-height: 16px; padding-top: 10px;}
 
   /* Solutions SMS Retrieve */
 
@@ -3563,7 +3563,7 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .how_to_start p { font-size: 18px;}
 .solutions_accordeon .how_to_start p:first-child { padding: 44px 0 28px;}
 .solutions_accordeon .how_to_start p:last-child { padding-bottom: 9px;}
-.solutions_accordeon .how_to_start ul + p { margin-top: -27px; padding-bottom: 58px;}
+.solutions_accordeon .how_to_start ul + p {  margin-top: -27px; padding-bottom: 58px;}
 .solutions_accordeon .how_to_start h3 { font-size: 24px; color: #525d66; padding-bottom: 9px;}
 
 .solutions_accordeon .features_items h3 { font-size: 24px; padding: 39px 0 1px;}
@@ -3573,6 +3573,8 @@ html.fb_view { overflow: auto;}
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
+
+.solutions_retrieve .create_event { padding-top: 99px;}
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft
@@ -3611,4 +3613,3 @@ https://github.com/AdamWhitcroft/CSS.Tooltips
 [data-tip]:hover:after {
     display: block;
 }
-
