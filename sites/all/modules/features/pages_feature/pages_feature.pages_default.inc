@@ -2618,7 +2618,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && $node->nid != 1120) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
     return TRUE;
   }
   return FALSE;
@@ -3123,7 +3123,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && $node->nid != 1120) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
     return TRUE;
   }
   return FALSE;
@@ -5064,7 +5064,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && $node->nid != 1120) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
     return TRUE;
   }
   return FALSE;
@@ -6772,7 +6772,7 @@ window.fbAsyncInit = function() {
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
