@@ -6610,7 +6610,7 @@ window.fbAsyncInit = function() {
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
