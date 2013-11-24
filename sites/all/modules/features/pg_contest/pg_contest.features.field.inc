@@ -3750,7 +3750,7 @@ Duplicate city names warnings if exists.',
   $fields['node-pg_contest-field_take_offs'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_take_offs',
@@ -3758,39 +3758,57 @@ Duplicate city names warnings if exists.',
         'type' => '0',
       ),
       'foreign keys' => array(
-        'format' => array(
+        'eck_ent_basicmark' => array(
           'columns' => array(
-            'format' => 'format',
+            'target_id' => 'id',
           ),
-          'table' => 'filter_format',
+          'table' => 'eck_ent_basicmark',
         ),
       ),
       'indexes' => array(
-        'format' => array(
-          0 => 'format',
+        'target_id' => array(
+          0 => 'target_id',
         ),
       ),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max_length' => '255',
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_takeoff' => 'pg_takeoff',
+          ),
+        ),
         'profile2_private' => FALSE,
+        'target_type' => 'ent_basicmark',
       ),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
       'default_value' => array(),
+      'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '69',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 69,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -3809,45 +3827,26 @@ Duplicate city names warnings if exists.',
       'exclude_cv' => 0,
       'field_name' => 'field_take_offs',
       'label' => 'Take offs',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
       'required' => 0,
       'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
-            ),
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
           ),
         ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 0,
+        'active' => 1,
         'module' => 'pg_contest',
         'settings' => array(),
         'type' => 'pg_contest_takeoff',
-        'weight' => '10',
+        'weight' => '60',
       ),
     ),
   );
