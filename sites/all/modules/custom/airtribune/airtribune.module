@@ -388,7 +388,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     if (!empty($data['race'])) {
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
       $online = _airtribune_pg_race_online_state($data['race']->id);
-      $replacements['[airtribune:race-online]'] = $online == '"online"' ? $online : 'false';
+      $replacements['[airtribune:race-online]'] = $online == AIRTRIBUNE_VIS_STATE_ONLINE ? '"online"' : 'false';
     } else {
       $replacements['[airtribune:race-core-id]'] = '';
       $replacements['[airtribune:race-online]'] = 'false';
