@@ -497,8 +497,7 @@ function pg_contest_field_widget_info() {
   return array(
     'pg_contest_takeoff' => array(
       'label' => t('Flyings site Take-off\'s widget'),
-      'field types' => array('text'),
-//      'field types' => array('text', 'list_integer', 'list_decimal'),
+      'field types' => array('entityreference'),
     ),
   );
 }
@@ -507,30 +506,53 @@ function pg_contest_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function pg_contest_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $value = isset($items[$delta]['serialized_to']) ? $items[$delta]['serialized_to'] : '';
-  $widget = $element;
-  $widget['#delta'] = $delta;
+  $field_name = $instance['field_name'];
+  $values = &$form_state['values'];
+  $node = $form_state['node'];
 
   if ($instance['widget']['type'] == 'pg_contest_takeoff') {
-    $widget += array(
-      '#suffix' => '<div id="field-takeoffs-checkboxes"></div>',
-      '#attributes' => array('class' => array('edit-field-takeoffs')),
-      '#attached' => array(
-        'js' => array(drupal_get_path('module', 'pg_contest') . '/fs_takeoff_widget.js'),
-        'css' => array(drupal_get_path('module', 'pg_contest') . '/fs_takeoff_widget.css'),
-      ),
+    unset($form['field_flying_site_ref']);
+    $element['field_flying_site_ref']['#ajax'] = array(
+      'callback' => 'pg_contest_field_widget_ajax_callback',
+      'wrapper' => 'take-off-list',
+      'method' => 'replace',
+      'effect' => 'fade',
     );
-
-    $widget += array(
-      '#type' => 'textfield',
-      '#default_value' => $value,
-      '#size' => 40,
-      '#maxlength' => 7,
+    $element['field_take_offs'] = array(
+      '#type' => 'checkboxes',
+      '#entity_type' => 'ent_basicmark',
+      '#title' => 'Take offs for this Flying site',
+      '#weight' => 100,
+      '#options' => array(),
+      '#prefix' => '<div id="take-off-list">',
+      '#suffix' => '</div>',
+      '#element_validate' => array('pg_contest_takeoffs_validate'),
     );
+    // User edit existing contest, form already have flying site.
+    if (!empty($node->field_flying_site_ref['und']['0']['target_id'])) {
+      $fs = $node->field_flying_site_ref['und']['0']['target_id'];
+      $takeoffs = get_takeoffs_for_flyingsite($fs);
+      $element['field_take_offs']['#options'] = $takeoffs;
+      // Set TO checkboxes to checked state
+      if (!empty($node->field_take_offs['und']['0']['value'])) {
+        // need refactor
+        $checked = $node->field_take_offs['und']['0']['value'];
+        $element['field_take_offs']['#default_value'] = $checked;
+      }
+    }
   }
 
-  $element['serialized_to'] = $widget;
   return $element;
+}
+
+function pg_contest_field_widget_ajax_callback($form, $form_state) {
+  $values = &$form_state['values'];
+  // todo make loading TO for sended FS
+  return $form['field_take_offs'];
+}
+
+function pg_contest_takeoffs_validate($element, &$form_state) {
+//~  $x=1;
 }
 
 function get_takeoffs_for_flyingsite($flying_site_id) {
@@ -540,5 +562,5 @@ function get_takeoffs_for_flyingsite($flying_site_id) {
   foreach ($view->result as $item) {
     $result[$item->id] = $item->eck_ent_basicmark_title;
   }
-  print json_encode($result);
+  return $result;
 }
