@@ -69,11 +69,10 @@ function pg_contest_node_presave($node) {
 
 /**
  * Implements hook_form_node_form_alter().
- *
- * Set default path alias values for node form.
- * TODO: Make sure that this is always fired after path_form_node_form_alter().
  */
-function pg_contest_form_node_form_alter(&$form, $form_state) {
+function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
+  // Set default path alias values for node form.
+  // TODO: Make sure that this is always fired after path_form_node_form_alter().
   if (!empty($form['#node']->nid)) {
     $conditions = array('source' => 'event/' . $form['#node']->nid);
     $path = pg_contest_path_load($conditions);
@@ -513,6 +512,7 @@ function get_takeoffs_for_flyingsite($flying_site_id) {
   $view = views_get_view('basic_marks_by_proximity');
   $view->set_arguments(array($flying_site_id));
   $view->preview('take_offs_pane', array($flying_site_id));
+  $result = array();
   foreach ($view->result as $item) {
     $result[$item->id] = $item->eck_ent_basicmark_title;
   }
