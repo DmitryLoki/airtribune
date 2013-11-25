@@ -769,6 +769,29 @@ function image_styles_feature_image_default_styles() {
     'label' => 'hotel_preview',
   );
 
+  // Exported image style: my_events_logo.
+  $styles['my_events_logo'] = array(
+    'name' => 'my_events_logo',
+    'label' => 'My events logo 50x50',
+    'effects' => array(
+      10 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '50',
+          'height' => '50',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: node_image_first.
   $styles['node_image_first'] = array(
     'name' => 'node_image_first',

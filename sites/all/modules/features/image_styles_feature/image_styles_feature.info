@@ -38,6 +38,7 @@ features[image][] = frontpage_event_padding_twice
 features[image][] = header
 features[image][] = header_thumbnail
 features[image][] = hotel_preview
+features[image][] = my_events_logo
 features[image][] = node_image_first
 features[image][] = node_image_second
 features[image][] = node_image_third

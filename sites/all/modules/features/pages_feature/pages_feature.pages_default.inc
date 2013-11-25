@@ -1333,7 +1333,7 @@ event/*/map/accommodations',
         'value' => '<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
 <script  data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
 <div role="main" class="airvis-container">
-<!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
+<!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
 </div>',
         'format' => 'full_html',
       ),
@@ -2618,7 +2618,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && $node->nid != 1120) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
     return TRUE;
   }
   return FALSE;
@@ -3123,7 +3123,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && $node->nid != 1120) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
     return TRUE;
   }
   return FALSE;
@@ -5064,7 +5064,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && $node->nid != 1120) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
     return TRUE;
   }
   return FALSE;
@@ -6484,16 +6484,6 @@ window.fbAsyncInit = function() {
     'destination' => '',
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 5,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => TRUE,
-        ),
         1 => array(
           'name' => 'compare_users',
           'settings' => array(
@@ -6504,6 +6494,14 @@ window.fbAsyncInit = function() {
             1 => 'logged-in-user',
           ),
           'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'perm',
+          'settings' => array(
+            'perm' => 'view my_events page',
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
         ),
       ),
       'logic' => 'or',
@@ -6774,7 +6772,7 @@ window.fbAsyncInit = function() {
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: "[airtribune:race-online]", titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
