@@ -388,14 +388,13 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     if (!empty($data['race'])) {
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
       $online = _airtribune_pg_race_online_state($data['race']->id);
-      $replacements['[airtribune:race-online]'] = $online == '"online"' ? $online : 'false';
+      $replacements['[airtribune:race-online]'] = $online == AIRTRIBUNE_VIS_STATE_ONLINE ? '"online"' : 'false';
     } else {
       $replacements['[airtribune:race-core-id]'] = '';
       $replacements['[airtribune:race-online]'] = 'false';
     }
 
     if (!empty($data['contest'])) {
-      
       $replacements['[airtribune:contest-url]'] = url('event/' . $data['contest']->nid, array('absolute' => TRUE));
       $replacements['[airtribune:contest-core-id]'] = get_id_from_entity('node', $data['contest']);
     } else {
@@ -908,17 +907,14 @@ function airtribune_pages_callback($context) {
   $contest_date_status = airtribune_contest_status_check_by_date($node);
   if ($contest_date_status == 'next') {
     menu_set_active_item('event/' . $node->nid . '/info');
-    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/info'));
     return page_manager_page_execute('event_info', $context);
   }
   elseif ($contest_date_status == 'current') {
     menu_set_active_item('event/' . $node->nid . '/blog');
-    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/blog'));
     return page_manager_page_execute('event_blog', $context);
   }
   elseif ($contest_date_status == 'past') {
     menu_set_active_item('event/' . $node->nid . '/results');
-    drupal_set_breadcrumb(path_breadcrumbs_load_variant('event/%node/results'));
     return page_manager_page_execute('event_results', $context);
   }
 }
@@ -991,10 +987,6 @@ function airtribune_init() {
     pinba_script_name_set($request);
   }
 
-  // Set breadcrumbs for current page if it exists.
-  if ($breadcrumbs = path_breadcrumbs_load_variant(current_path())) {
-    drupal_set_breadcrumb($breadcrumbs);
-  }
   // Redirect on from /events to needed page, based on next/current events count
   // see #3067
   if (arg(0) == 'events' && arg(1) == NULL) {
@@ -1010,7 +1002,13 @@ function airtribune_init() {
     }
   }
 
-
+  // Load CSV scripts on every page (exclude editablefields ajax request).
+  // Need to correct validation on /admin/* pages.
+  // @see #4025
+  if (strpos($_GET['q'], 'editablefields') === false) {
+    drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/jquery-validate/jquery.validate.min.js');
+    drupal_add_js(drupal_get_path('module', 'clientside_validation') . '/clientside_validation.js');
+  }
 }
 
 /**
@@ -1236,7 +1234,7 @@ function _at_get_vis_pages() {
  */
 function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
-  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
+  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
     unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.styles.css']);
   }
@@ -1263,7 +1261,7 @@ function airtribune_js_alter(&$javascript) {
 
   // Kill all js on visualization pages
   $args = _at_get_vis_pages();
-  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(2) != 'table') {
+  if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
     unset($javascript);
   }
 }
@@ -1504,10 +1502,16 @@ function _create_day_for_contest() {
 
     // Get last day for this contest.
     $days = get_days_ids_for_contest($contest);
-    $last_day = node_load(end($days));
-
-    // Time for this day, with according local time offset
-    $last_day_created = $last_day->created + $offset;
+    // Contest does not yet contain days.
+    if (empty($days)) {
+      $last_day_created = 0;
+    }
+    // Contest already have days.
+    else {
+      $last_day = node_load(end($days));
+      // Time for this day, with according local time offset
+      $last_day_created = $last_day->created + $offset;
+    }
     $now = REQUEST_TIME + $offset;
 
     // Need variables for output to debug.

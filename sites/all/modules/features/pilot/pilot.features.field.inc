@@ -190,8 +190,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
-',
+      'description' => '<a href="http://civlrankings.fai.org/?a=306&/" target="_blank">Check your CIVL ID</a>',
       'display' => array(
         'default' => array(
           'label' => 'above',
