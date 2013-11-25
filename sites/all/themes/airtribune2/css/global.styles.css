@@ -2722,7 +2722,7 @@ table tr td:first-child { border-left: none;}
 
 #airtribune-vis { position: relative; margin: -1px -1px 0;}
 #airtribune-vis table caption { padding-left: 11px;}
-#airtribune-vis img { display: none;}
+.retrieve-table-logo  { display: none;}
 #airtribune-vis .timeout { z-index: 10; position: absolute; right: 10px; top: 3px; color: #97abbd; font-size: 12px;}
 #airtribune-vis table { margin-top: 0;}
 #airtribune-vis th { padding-top: 8px; padding-bottom: 11px;}
