@@ -33,6 +33,7 @@ features[views_view][] = events_list
 features[views_view][] = events_map
 features[views_view][] = frontpage_events
 features[views_view][] = header_slideshow
+features[views_view][] = my_events
 features[views_view][] = my_registrations
 features[views_view][] = next_events
 features[views_view][] = paragliding_contest_pilots_stats

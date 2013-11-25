@@ -409,10 +409,10 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
  * Its dirty code, but in OG module code there is nothing like this functionality
  *
  * @param $og organic group (node) object
- * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
+ * @return array with ids of days for contest
  */
 function get_days_ids_for_contest($og) {
-  $days = FALSE;
+  $days = array();
   if (is_object($og)) {
     $relation_nids = db_select('og_membership', 'ogm')
       ->fields('ogm', array('etid'))
@@ -564,7 +564,7 @@ function pg_race_retrive_callback($entity) {
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve map'),
-      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map'),
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map', array('absolute' => TRUE)),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-map-link'), 'target' => '_blank'),
         'html' => FALSE,
@@ -577,6 +577,7 @@ function pg_race_retrive_callback($entity) {
 }
 
 function pg_race_retrive_table_callback($entity) {
+  global $user;
   $output = FALSE;
 
   $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
@@ -591,7 +592,7 @@ function pg_race_retrive_table_callback($entity) {
     $link = array(
       '#theme' => 'link',
       '#text' => t('Retrieve table'),
-      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table'),
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table', array('absolute' => TRUE)),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
         'html' => FALSE,

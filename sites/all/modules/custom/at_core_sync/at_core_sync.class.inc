@@ -177,8 +177,8 @@ class ATSyncContest extends ATSync {
       $this->updateCoreID($response->id);
     }
     
-    _asd(json_encode($data), $this->address);
-    
+    _asd(json_encode($data), $this->address, $response);
+
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -211,7 +211,7 @@ class ATSyncCustom extends ATSync {
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }
-    _asd(json_encode($data), $this->address);
+    _asd(json_encode($data), $this->address, $response);
     // Synchronize og_membership, see #3572 for details
     $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
     $og_membership = og_get_membership("node", $og_group_ref, "ent_customobject", $this->entity->id);
@@ -276,7 +276,7 @@ class ATSyncTrackedObject extends ATSync {
         'transport_id' => $this->tracked_core_id,
       );
       $response = $this->request(http_build_query($data), "POST");
-      _asd(json_encode($data), $this->address);
+      _asd(json_encode($data), $this->address, $response);
     }
     
     return !empty($response->id) ? $response->id : FALSE;
@@ -327,7 +327,7 @@ class ATSyncPerson extends ATSync {
       $this->updateCoreID($response->id);
     }
     
-    _asd(json_encode($data), $this->address);
+    _asd(json_encode($data), $this->address, $response);
     
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -410,7 +410,7 @@ class ATSyncPilot extends ATSync {
       $response = $this->request(http_build_query($data));
     }
     
-    _asd(json_encode($data), $this->address);
+    _asd(json_encode($data), $this->address, $response);
     
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -562,7 +562,7 @@ class ATSyncRace extends ATSync {
       }
     }
     
-    _asd(json_encode($data_url), $this->address);
+    _asd(json_encode($data_url), $this->address, $response);
     
     if (!empty($response->id)) {
       return $response->id;
@@ -596,7 +596,7 @@ class ATSyncRace extends ATSync {
         ));
         $url = 'url=' . file_create_url(file_load($fid)->uri);
         $response = $this->request($url);
-         _asd($url, $this->address);
+        _asd($url, $this->address, $response);
       }
       else {
         ATSync::setMessage(t("Core API: Unable to send tracks. Race not synchronized yet."));
@@ -635,7 +635,7 @@ class ATSyncTracker extends ATSync {
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }
-     _asd(json_encode($data), $this->address);
+     _asd(json_encode($data), $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -649,7 +649,7 @@ class ATSyncTracker extends ATSync {
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $response = $this->request(json_encode($data), 'PUT');
-      _asd(json_encode($data), $this->address);
+      _asd(json_encode($data), $this->address, $response);
     }
     return $response;
   }

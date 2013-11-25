@@ -146,6 +146,7 @@ function airtribune_get_modules($site_state) {
       'xmlsitemap_custom',
     ),
     'development' => array(
+      'at_devel',
       'coder',
       'devel',
       'devel_generate',

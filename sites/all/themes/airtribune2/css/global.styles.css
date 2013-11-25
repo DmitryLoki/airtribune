@@ -1477,7 +1477,8 @@ p { margin:0; padding:9px 0 11px}
 	/* Header */
 
 #header_inner { background:url(../images/header_bgr.png) repeat-x 0 100%; padding-bottom:18px;}
-#header_inner:after { content:"."; clear:both; visibility:hidden; display:block; height:0}
+#header_inner:after,
+form#user-login:after { content:"."; clear:both; visibility:hidden; display:block; height:0}
 
 .pane-pane-header { padding:15px 0 0; float:left;}
 #logo { padding:0}
@@ -1661,7 +1662,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content > span:first-child { padding-top: 10px;}
 .pane-event-days-panel-pane-1 .views-field-view .field-content span.file { padding: 0 0 0 10px;} 
 
-.pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks { display: none;}
+.race-block-activated .views-field-field-pg-race-tracks { display: none;}
 .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-content span.file { padding: 0;} 
 .pane-event-days-panel-pane-1 .dropdown_list .field-content a,
 .pane-event-days-panel-pane-1 .dropdown_list .replay-link-content a { color: #ffffff; text-decoration: underline; font-weight: none;}
@@ -1880,7 +1881,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .view-my-registrations .views-row:hover .cancel-participation-process { display: block;}
 
 
-.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-9px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; white-space:nowrap; }
+.breadcrumb { color:#febec0; font:14px/16px Arial, Helvetica, sans-serif; margin:-10px 0 0; padding-bottom:2px; float:left; max-width:580px; word-wrap: break-word; white-space:nowrap; }
 .breadcrumb .inline { display:inline;}
 .breadcrumb a, .breadcrumb div { color:#babfc4; text-decoration:none}
 .breadcrumb a span { display: inline-block; text-overflow: ellipsis; overflow:hidden; vertical-align: middle;}
@@ -2248,10 +2249,10 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 
 .page-node .node { color:#525d66; font:14px/20px Arial, Helvetica, sans-serif}
-.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:540px; padding:0 0 6px; margin-top: -2px;}
+.page-node .node h1.node-title { color:#333a40; font:24px/30px Arial, Helvetica, sans-serif; float:left; width:520px; padding:0 0 6px; margin-top: -2px;}
 .page-node .node .node-content { clear:both;}
 .page-node .node .submitted, .page-node .node .with-user-picture { float:right; margin-top:-17px}
-.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 100px; display: inline-block; text-align: right; padding-bottom: 1px;}
+.page-node .node .author { color:#616569; font-size:14px; padding-right:9px; max-width: 120px; display: inline-block; text-align: right; padding-bottom: 1px;}
 .page-node .node .author a, .page-node .node .links a { color:#616569; text-decoration:none;}
 .page-node .node .author a:hover, .page-node .node .links a:hover { color:#1cb7f1}
 .page-node .node ul { padding-left:15px}
@@ -2319,7 +2320,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 #mail-change { display: none;}
 
-form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28px -1px 0;
+.page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28px -1px 0;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2327,18 +2328,18 @@ form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28
 
 }
 
-form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
-form .form-item { margin-top:16px; position:relative; padding-bottom: 30px;}
+.page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
+.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 30px;}
 .page-forms .pane-page-content form#user-login .form-item { padding-bottom: 10px;}
-form .inline-label { display: inline-block !important; width:190px; vertical-align:top; text-align:right; margin-right:14px; height: 1px; position: relative; top: -4px}
-form .inline-label .valign { height: 40px; width: 1px; overflow: hidden; margin-right: -1px; vertical-align: middle; display: inline-block;}
-form label { display:inline-block; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; vertical-align: middle;}
-form label .form-required { position: absolute; margin-left: 2px;}
-form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -20px;}
-form .form-item .description { padding-top:4px; clear: both; width: 245px;}
-form .form-item .form-item + .description { margin-top: -20px;}
-form .form-item input.form-text,
-form .select .checked_option_wrap { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
+.page-user .pane-page-content form .inline-label { display: inline-block !important; width:190px; vertical-align:top; text-align:right; margin-right:14px; height: 1px; position: relative; top: -4px}
+.page-user .pane-page-content form .inline-label .valign { height: 40px; width: 1px; overflow: hidden; margin-right: -1px; vertical-align: middle; display: inline-block;}
+.page-user .pane-page-content form label { display:inline-block; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; vertical-align: middle;}
+.page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
+.page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -20px;}
+.page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both; width: 245px;}
+.page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
+.page-user .pane-page-content form .form-item input.form-text,
+.page-user .pane-page-content form .select .checked_option_wrap { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2349,61 +2350,63 @@ form .select .checked_option_wrap { width:222px; height:20px; color:#2d3033; fon
   -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
 
 }
-form .form-item-mail input.form-text { width: 292px;}
+.page-user .pane-page-content form .form-item-mail input.form-text { width: 292px;}
 html.js .page-forms input.form-autocomplete { background-image: none; }
-form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
-form .form-item input.form-email,
-form .form-item-name input.form-text { width:290px;}
-form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
-form .form-item .check_radio { background-position:0 -22px}
-form .field-type-list-text .form-type-radios { margin-bottom: -19px;}
-form .field-type-list-text .form-radios { display: inline-block; padding-bottom: 6px; }
-form .field-type-list-text .form-type-radio { margin: 0 0 0 1px; padding-bottom: 10px; display: inline;}
-form .field-type-list-text .form-type-radio .inline-label { width:auto;  top: 0; text-align: left;}
-form .field-type-list-text .form-type-radio label { color:#525d66; font-size:16px; margin-right:31px; margin-left: 0; margin-top: 6px; vertical-align: top;}
-form .field-type-list-text .form-type-radio .valign { display: none;}
-form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
-form .form-type-date-select .form-item { display: inline; position: static;}
-form .form-type-date-select .form-item div { display: inline; /*position: relative;*/}
-form .form-type-date-select .form-item > div { position: relative;}
-form fieldset { margin:0; padding:0; border:none}
-form .date-padding  { padding:0; float: none;}
-form .date-padding .form-item { margin-top:6px; float: none; vertical-align: top;}
-form .confirm-parent, form .password-parent { width:auto;}
-form .form_booble { display:inline-block; margin-left:8px !important; position:absolute;
+.page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
+.page-user .pane-page-content form .form-item input.form-email,
+.page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
+.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
+.page-user .pane-page-content form .field-type-list-text .form-type-radios { margin-bottom: -19px;}
+.page-user .pane-page-content form .field-type-list-text .form-radios { display: inline-block; padding-bottom: 6px; }
+.page-user .pane-page-content form .field-type-list-text .form-type-radio { margin: 0 0 0 1px; padding-bottom: 10px; display: inline;}
+.page-user .pane-page-content form .field-type-list-text .form-type-radio .inline-label { width:auto;  top: 0; text-align: left;}
+.page-user .pane-page-content form .field-type-list-text .form-type-radio label { color:#525d66; font-size:16px; margin-right:31px; margin-left: 0; margin-top: 6px; vertical-align: top;}
+.page-user .pane-page-content form .field-type-list-text .form-type-radio .valign { display: none;}
+.page-user .pane-page-content form .field-type-datetime { clear:both; position:relative; z-index:10; padding-bottom:5px; padding-top: 1px;}
+.page-user .pane-page-content form .form-type-date-select .form-item { display: inline; position: static;}
+.page-user .pane-page-content form .form-type-date-select .form-item div { display: inline; /*position: relative;*/}
+.page-user .pane-page-content form .form-type-date-select .form-item > div { position: relative;}
+.page-user .pane-page-content form fieldset { margin:0; padding:0; border:none}
+.page-user .pane-page-content form .date-padding  { padding:0; float: none;}
+.page-user .pane-page-content form .date-padding .form-item { margin-top:6px; float: none; vertical-align: top;}
+.page-user .pane-page-content form .confirm-parent, .page-user .pane-page-content form .password-parent { width:auto;}
+.page-user .pane-page-content form .form_booble { display:inline-block; margin-left:8px !important; position:absolute;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
-form .form_booble_inner { min-width:120px; padding:7px 10px 9px 17px; max-width:200px; font:italic 12px/14px Arial, Helvetica, sans-serif; display:inline-block; margin-left:-7px}
-form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff; top: 0; /*comment because of #2857 left: 185px;*/}
-form .image-widget .form_booble { left: 185px;}
-form .field_error .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
-form .field_weak .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
-form .field_weak .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
-form .field_good .form_booble { border:2px solid #ffc446; color:#ffc446;}
-form .field_good .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -274px}
-form .field_excellent .form_booble { border:2px solid #95da3a; color:#95da3a;}
-form .field_excellent .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -74px}
-form .form-item input.form-text.error, form .field_error input.form-text { border:2px solid #ff464d; margin:0;}
+.page-user .pane-page-content form .form_booble_inner { min-width:120px; padding:7px 10px 9px 17px; max-width:200px; font:italic 12px/14px Arial, Helvetica, sans-serif; display:inline-block; margin-left:-7px}
+.page-user .pane-page-content form .field_error .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff; top: 0; /*comment because of #2857 left: 185px;*/}
+.page-user .pane-page-content form .image-widget .form_booble { left: 185px;}
+.page-user .pane-page-content form .field_error .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
+.page-user .pane-page-content form .field_weak .form_booble { border:2px solid #ff464d; color:#ff464d; background: #ffffff}
+.page-user .pane-page-content form .field_weak .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -474px}
+.page-user .pane-page-content form .field_good .form_booble { border:2px solid #ffc446; color:#ffc446;}
+.page-user .pane-page-content form .field_good .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -274px}
+.page-user .pane-page-content form .field_excellent .form_booble { border:2px solid #95da3a; color:#95da3a;}
+.page-user .pane-page-content form .field_excellent .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -74px}
+.page-user .pane-page-content form .form-item input.form-text.error,
+.page-user .pane-page-content form .field_error span.select,
+.page-user .pane-page-content form .field_error input.form-text { border:2px solid #ff464d; margin:0;}
 html.js form .form-item input.form-text.form-autocomplete { background: none;}
-form .field_weak input.form-text { border:2px solid #ff464d; margin:0;}
-form .field_good input.form-text { border:2px solid #ffc446; margin:0;}
-form .field_excellent input.form-text { border:2px solid #95da3a; margin:0;}
-form .form-item-pass-pass2 { padding-bottom:0}
-form .form-item-pass .password-strength,
-form .form-type-password-confirm .password-strength { margin:0; width:auto; float:none; /*border:2px solid #95db3a;*/ }
-form .form-item-pass .password-strength .password-strength-text { }
-form .form-type-date-select .form_booble_inner { min-width: 96px;}
+.page-user .pane-page-content form .field_weak input.form-text { border:2px solid #ff464d; margin:0;}
+.page-user .pane-page-content form .field_good input.form-text { border:2px solid #ffc446; margin:0;}
+.page-user .pane-page-content form .field_excellent input.form-text { border:2px solid #95da3a; margin:0;}
+.page-user .pane-page-content form .form-item-pass-pass2 { padding-bottom:0}
+.page-user .pane-page-content form .form-item-pass .password-strength,
+.page-user .pane-page-content form .form-type-password-confirm .password-strength { margin:0; width:auto; float:none; /*border:2px solid #95db3a;*/ }
+.page-user .pane-page-content form .form-item-pass .password-strength .password-strength-text { }
+.page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
-form .form-actions { margin-left:210px; padding-top:28px}
+.page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
 #mail-edit-cancel-link { display: none; cursor: pointer;}
-form .form-actions input, 
+.page-user .pane-page-content form .form-actions input, 
 .events-add a,
-form .reg_choice a, 
-form table input.form-submit { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
+.page-user .pane-page-content form .reg_choice a, 
+.page-user .pane-page-content form table input.form-submit { position:relative; display:inline-block; height:30px; border:1px solid #ffd75c; font-size:18px; color:#91753d; text-shadow:0 1px 1px rgba(255,255,255,0.6); padding:0 15px; cursor:pointer; margin-right:10px; /*border-bottom-color:#f8c039;*/ 
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2419,10 +2422,10 @@ form table input.form-submit { position:relative; display:inline-block; height:3
   
 }
 
-form .form-actions input:hover, 
+.page-user .pane-page-content form .form-actions input:hover, 
 .events-add a:hover, 
-form .reg_choice a:hover, 
-form table input.form-submit:hover {border-color:#ecd767;
+.page-user .pane-page-content form .reg_choice a:hover, 
+.page-user .pane-page-content form table input.form-submit:hover {border-color:#ecd767;
 
   background:#e4c25e;
   background: -moz-linear-gradient(top, #e4c25e 0%, #d8a92d 100%); 
@@ -2434,10 +2437,10 @@ form table input.form-submit:hover {border-color:#ecd767;
   
 }
 
-form .form-actions input:active, 
+.page-user .pane-page-content form .form-actions input:active, 
 .events-add a:active, 
-form .reg_choice a:active, 
-form table input.form-submit:active { border-color:#d5a722;
+.page-user .pane-page-content form .reg_choice a:active, 
+.page-user .pane-page-content form table input.form-submit:active { border-color:#d5a722;
   background:#d3b246;
   background: -moz-linear-gradient(top, #d3b246 0%, #ca9f22 100%); 
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3b246), color-stop(100%,#ca9f22));
@@ -2447,18 +2450,19 @@ form table input.form-submit:active { border-color:#d5a722;
   -webkit-box-shadow: 0 1px 4px rgba(46,75,89,0.5), 0 0 1px rgba(0,0,0,.5), inset 0 0 2px #d5a722;
 }
 
-form .reg_choice { text-align: center;}
-form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 66px; line-height: 20px; padding-bottom: 2px; overflow: hidden; vertical-align: top; cursor: pointer;}
-form .reg_choice a span { display: inline-block; vertical-align: middle;}
-form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
-#event_register { display: none;}
+.page-user .pane-page-content form .reg_choice { text-align: center;}
+.page-user .pane-page-content form .reg_choice a { text-decoration: none; width: 210px; text-align: center; height: 66px; line-height: 20px; padding-bottom: 2px; overflow: hidden; vertical-align: top; cursor: pointer;}
+.page-user .pane-page-content form .reg_choice a span { display: inline-block; vertical-align: middle;}
+.page-user .pane-page-content form .reg_choice a span.valign { height: 64px; margin-right: -1px; width: 1px; overflow: hidden;}
 
-form .form-actions input.disabled, 
-form .form-actions input.disabled:hover, 
-form .form-actions input.disabled:active, 
-form table input.form-submit.disabled, 
-form table input.form-submit.disabled:hover, 
-form table input.form-submit.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
+.event-register-form {position:absolute; top: -100000px;}
+
+.page-user .pane-page-content form .form-actions input.disabled, 
+.page-user .pane-page-content form .form-actions input.disabled:hover, 
+.page-user .pane-page-content form .form-actions input.disabled:active, 
+.page-user .pane-page-content form table input.form-submit.disabled, 
+.page-user .pane-page-content form table input.form-submit.disabled:hover, 
+.page-user .pane-page-content form table input.form-submit.disabled:active { border:1px solid #c0b9b0; font-size:18px; color:#9f8042; text-shadow:0 1px 1px rgba(255,255,255,0.36); cursor:default;
 
 
     box-shadow: 0 1px 3px rgba(35,48,35,0.45), inset 0 0 3px #ebe493;  
@@ -2471,7 +2475,7 @@ form table input.form-submit.disabled:active { border:1px solid #c0b9b0; font-si
 
 }
 
-.page-event-registerform .form-actions input { width: 240px; text-align: center;}
+.page-event-register.page-user .pane-page-content form .form-actions input { width: 240px; text-align: center;}
 
 .page-forms #user-login .form-actions { float: left;}
 .page-forms #user-login .hybridauth-widget { float: left; margin: 28px 0 0 8px}
@@ -2480,15 +2484,16 @@ form table input.form-submit.disabled:active { border:1px solid #c0b9b0; font-si
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-form .select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
-form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
-form .select_opened .checked_option_wrap .checked_option, form .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
-form .date-month .checked_option { min-width:99px}
-form .date-day .checked_option { min-width:39px}
-form .date-year .checked_option { min-width:49px}
-form .select .items { width:100%}
-form .select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin:-3px 3px 0; max-height:160px; overflow:auto; position:relative;
+.page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
+.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+.page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
+.page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option,
+.page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
+.page-user .pane-page-content form .date-month .checked_option { min-width:99px}
+.page-user .pane-page-content form .date-day .checked_option { min-width:39px}
+.page-user .pane-page-content form .date-year .checked_option { min-width:49px}
+.page-user .pane-page-content form .select .items { width:100%}
+.page-user .pane-page-content form .select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin:-3px 3px 0; max-height:160px; overflow:auto; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2496,51 +2501,56 @@ form .select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin
 
 }
 
-form .select .items_padding { padding:12px 0 !important;}
-form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
-form .select .option:hover { color:#00aeef;}
-form .jspContainer { position:relative; overflow:hidden; display: block !important;}
-form .jspContainer div { display: block !important;}
-form .jspPane { position:relative;}
-form .jspVerticalBar { position:absolute; top:0; right:4px}
-form .jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
+.page-user .pane-page-content form .select .items_padding { padding:12px 0 !important;}
+.page-user .pane-page-content form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
+.page-user .pane-page-content form .select .option:hover { color:#00aeef;}
+.page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
+.page-user .pane-page-content form .jspContainer div { display: block !important;}
+.page-user .pane-page-content form .jspPane { position:relative;}
+.page-user .pane-page-content form .jspVerticalBar { position:absolute; top:0; right:4px}
+.page-user .pane-page-content form .jspDrag { background:#00aeef; width:4px; cursor:pointer; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
-form .jspPane { margin-left:0 !important}
+.page-user .pane-page-content form .jspPane { margin-left:0 !important}
 
 
-form .form-item .form-type-select { padding-bottom: 5px;}
-form .form-item .form-item:last-child { padding-bottom: 0; margin-bottom: -20px;}
-form .form-wrapper { clear: both;}
-form .field-name-field-pg-contestant-status .select,
-form .field-name-field-address .select,
-form .form-type-phone-number .select,
-form .field-name-field-t-shirt-size .select,
-form .field-name-field-blood-type .select { width: 244px;}
-form .field-name-field-address legend { display: none;}
-form .form-phone-number { max-width: 470px; display: inline-block;}
-form .form-phone-number .form-item { display: block; margin-top: 0;}
+.page-user .pane-page-content form .form-item .form-type-select { padding-bottom: 5px;}
+.page-user .pane-page-content form .form-item .form-item:last-child { padding-bottom: 0; margin-bottom: -20px;}
+.page-user .pane-page-content form .form-wrapper { clear: both;}
+.page-user .pane-page-content form .field-name-field-pg-contestant-status .select,
+.page-user .pane-page-content form .field-name-field-address .select,
+.page-user .pane-page-content form .form-type-phone-number .select,
+.page-user .pane-page-content form .field-name-field-t-shirt-size .select,
+.page-user .pane-page-content form .field-name-field-blood-type .select { width: 244px;}
+.page-user .pane-page-content form .field-name-field-address legend { display: none;}
+.page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
+.page-user .pane-page-content form .form-phone-number .form-item { display: block; margin-top: 0;}
 
-form .form-type-date-select { float: none; display: block;}
-form .form-type-date-select .form-type-select .select { margin-right: 2px;}
-form .form-type-date-select .form-type-select:last-child .select{ margin-right: 0;}
+.page-user .pane-page-content form .form-type-date-select { float: none; display: block;}
+.page-user .pane-page-content form .form-type-date-select .form-type-select .select { margin-right: 2px;}
+.page-user .pane-page-content form .form-type-date-select .form-type-select:last-child .select{ margin-right: 0;}
 
-form .field-type-phone-number .field-prefix { position: absolute; margin: 4px 0 0 6px;}
+.page-user .pane-page-content form .field-type-phone-number .field-prefix { position: absolute; margin: 4px 0 0 6px;}
 
-form .street-block { clear: both; padding-top: 1px; display: block;}
-form  .street-block .form-item:first-child { margin-top: 15px;}
+.page-user .pane-page-content form .street-block { clear: both; padding-top: 1px; display: block;}
+.page-user .pane-page-content form .street-block .form-item:first-child { margin-top: 15px;}
+
+form#user-login .form-wrapper { float: left; padding-bottom: 39px;}
+form#user-login .hybridauth_prefix { float: left; color: #7a8b99; font-size: 18px; padding: 28px 9px 0 24px;}
+form#user-login .hybridauth-widget { float: left; padding-top: 28px;}
 
 
+/* These styles for tables in forms if they need
 .page-event-pilots form { margin-top: 0; padding: 0; border: none;}
 form table .form-item { padding-bottom: 0;}
 form table .inline-label { width: 5px;}
 form table .form-actions { width: auto; margin: 0; padding: 0;}
 form table td { vertical-align: middle;}
-form table .field-name-field-pg-contestant-status .select { width: 164px;}
+form table .field-name-field-pg-contestant-status .select { width: 164px;}*/
 
 /* User account form */
 /*.page-user-edit #edit-field-user-avatar .image-widget { display: inline;}
@@ -2691,40 +2701,49 @@ table tr.even,
 table tr:nth-child(even) { background: #fafafa}
 table tr.odd td.active, table tr.even td.active { background: none;}
 table tbody tr:hover { background: #cceffc;}
-table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/18px Arial, Helvetica, sans-serif; color: #525d66}
+table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 19px 8px 22px; text-align: center; font: bold 16px/20px Arial, Helvetica, sans-serif; color: #525d66}
 table thead tr + tr th { font-weight: normal;}
-table thead th a { color: #525d66; padding-right: 20px; background: url(../images/table_action.png) no-repeat 100% -1068px;}
-table thead th a:hover { color: #33c0f8; background-position: 100% -1268px;}
+table thead th a { color: #525d66; padding-right: 20px; display: inline-block; position: relative;}
+table thead th a:after { content: " "; position: absolute; top: 50%; display: block; width: 10px; height: 8px; margin-top: -2px; background: url(../images/table_action.png) no-repeat 100% -1075px; right: 0;}
+table thead th a:hover { color: #33c0f8;}
+table thead th a:hover:after { background-position: 100% -1275px;}
 table thead th.active a { color: #33c0f8; padding-right: 0; background: none;}
+table thead th.active a:after { content: none;}
 table thead th.active a span { display: inline-block; width: 10px; height: 8px; background: url(../images/table_action.png) no-repeat 100% -10000px; margin-left: 10px; padding: 0;}
 table thead th.active a span.arrow-asc { background-position: -90px -1275px;}
 table thead th.active a span.arrow-desc { background-position: -90px -1175px;}
 table thead th.views-field:first-child { border-left: none;}
 table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 12px 9px; vertical-align: top;}
-table .views-row-first td { border-top: none;}
-table tr td.:first-child { border-left: none;}
+table .views-row-first td,
+table tr:first-child td { border-top: none;}
+table tr td:first-child { border-left: none;}
 
   /*  Retrieve table */
 
+#airtribune-vis { position: relative; margin: -1px -1px 0;}
+#airtribune-vis table caption { padding-left: 11px;}
 #airtribune-vis img { display: none;}
-#airtribune-vis { position: relative;}
 #airtribune-vis .timeout { z-index: 10; position: absolute; right: 10px; top: 3px; color: #97abbd; font-size: 12px;}
 #airtribune-vis table { margin-top: 0;}
+#airtribune-vis th { padding-top: 8px; padding-bottom: 11px;}
 #airtribune-vis th a { text-decoration: none; }
-#airtribune-vis th a.asc { background-position: 100% -1268px; color: #33c0f8}
-#airtribune-vis th a.desc { background-position: 100% -1168px; color: #33c0f8}
-#airtribune-vis td { vertical-align: middle; text-align: center;}
-#airtribune-vis td:visited { color: #a300ef}
-#airtribune-vis .name { width: 135px;}
+#airtribune-vis th a.asc { color: #33c0f8}
+#airtribune-vis th a.asc:after { background-position: 100% -1275px; }
+#airtribune-vis th a.desc { color: #33c0f8}
+#airtribune-vis th a.desc:after { background-position: 100% -1175px;}
+#airtribune-vis td { vertical-align: middle; text-align: center; line-height: 20px; padding-top: 9px; padding-bottom: 11px;}
+#airtribune-vis tr:first-child td { padding-top: 18px;}
+#airtribune-vis td a:visited { color: #a300ef}
+/*#airtribune-vis .name { width: 135px;}*/
 #airtribune-vis td.name { text-align: left;}
 #airtribune-vis td span.ng-binding { display: inline-block;}
 #airtribune-vis td:first-child,
 #airtribune-vis th:first-child { border-left: none;}
 
-#airtribune-vis td.row-number { width: 31px;}
+#airtribune-vis td.row-number { width: 32px;}
 #airtribune-vis td.contest-number { width: 41px;}
 #airtribune-vis td.name { width: 131px;}
-#airtribune-vis td.distance { width: 80px;}
+#airtribune-vis td.distance { width: 81px;}
 #airtribune-vis td.data-age { width: 61px;}
 #airtribune-vis td.speed { width: 71px;}
 #airtribune-vis td.alt { width: 51px;}
@@ -2732,9 +2751,9 @@ table tr td.:first-child { border-left: none;}
 #airtribune-vis td.tracker-name { width: 81px;}
 #airtribune-vis td.battery { width: 51px;}
 
-#airtribune-vis td.name span { display: inline-block;}
-#airtribune-vis td.name span.ng-binding { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-#airtribune-vis td.name span:last-child { width: 16px; margin-left: 5px;}
+#airtribune-vis td.name span { display: inline-block; }
+#airtribune-vis td.name span.ng-binding { width: 110px; white-space: nowrap; vertical-align: middle;}
+#airtribune-vis td.name > span:last-child { width: 16px; margin-left: 4px; line-height: 11px; height: 11px; vertical-align: middle;}
 
 .page-retrieve .panel-col-seventy .inside { margin: 0;}
 .page-retrieve .pane-inner .pane-inner { margin: 0;}
@@ -3216,14 +3235,14 @@ html.fb_view { overflow: auto;}
 .page-event-results-facebook .pane-event-days-results-race-list .views-row-last { padding-bottom: 0;}
 .page-event-results-facebook .region_inner,
 .page-event-results-facebook .featured-header { max-width: 810px; height: auto; background: none;}
-.page-event-results-facebook .featured-header { height: 327px}
+.page-event-results-facebook .featured-header { height: auto;}
 .page-event-results-facebook #super { max-width: 810px; margin: 0 auto; padding-bottom: 0; height: auto;}
 .page-event-results-facebook .panel-col-seventy { margin-right: 0; float: none;}
 .page-event-results-facebook .panel-col-seventy .inside { margin-right: 0; margin-bottom: 0px;}
 .page-event-results-facebook .pane-page-content { margin-bottom: 0;}
 .page-event-results-facebook .second_sidebar { display: none;}
-.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0;}
-.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9;}
+.page-event-results-facebook .featured-header-title { top: 0; left: 0; width: 810px; background: none; padding: 0; position: relative;}
+.page-event-results-facebook .featured-header-padding { max-width: 810px; position: relative;  background: #dee6e9; height: 327px;}
 .page-event-results-facebook .view-header-slideshow img { width: 810px !important; height: 100% !important;}
 .facebook-fan-gate .featured-header { padding-top: 160px;}
 .page-event-results-facebook .facebook-fan-gate .collapse-control { top: 160px;}
@@ -3551,9 +3570,47 @@ html.fb_view { overflow: auto;}
 .solutions_accordeon .features_items h3:first-child { padding-top: 45px;}
 .solutions_accordeon .features_items p { padding-left: 19px;}
 
+  /* Solutions Live tracking */
+
+.solutions_hosting img + .feel_free { margin-top: 51px; padding-bottom: 52px;}
+.solutions_competition .mobile_apps { padding-top: 92px; background: url(../images/competition_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 112px; position: relative;}
+.solutions_competition .mobile_apps h3,
+.solutions_competition .block_cols h2 { font-size: 34px; font-weight: bold; line-height: 34px;}
+.solutions_competition .mobile_apps .content { color: #7d9aa8; font-size: 24px; line-height: 30px; width: 205px; padding-top: 11px;}
+.solutions_competition .com_soon { background: url(../images/coming_soon.png) no-repeat 0 0; width: 210px; height: 50px; line-height: 50px; padding: 13px 20px 44px 27px; font-size: 24px; color: #ffffff; text-align: center; margin: 23px 0 -24px -27px;}
+.solutions_competition .apps_phone { position: absolute; left: 301px; top: 19px;}
+.solutions_competition .block_cols h2 { color: #566570; padding-top: 111px; padding-bottom: 17px;}
+.solutions_competition .visualization h3 { padding-top: 12px;}
+.solutions_competition .tradititional { padding-top: 30px; clear: both; padding-bottom: 10px;}
+.solutions_competition .tradititional img { vertical-align: middle;}
+.solutions_competition .examples { position: relative; height: 287px; margin-top: 33px; margin-bottom: -1px;}
+.solutions_competition .examples .player_2d { position: absolute; bottom: 0; z-index: 10; left: 35px;}
+.solutions_competition .examples .player_3d { position: absolute; bottom: 23px; left: 196px; height: 12px; width: 472px; background: url(/sites/default/files/3d_player.jpg) no-repeat 50% -255px; display: block;}
+.solutions_competition .examples .player_3d span { display: block; width: 373px; height: 255px; background: url(/sites/default/files/3d_player.jpg) no-repeat 50% 0; margin: -253px auto 0;}
+.solutions_competition .solutions_accordeon { padding-top: 52px; padding-bottom: 10px;}
+
+.solutions_accordeon .how_to_go_live { padding-left: 19px;}
+.solutions_accordeon .how_to_go_live h3 { font-size: 24px; padding: 39px 0 1px;}
+.solutions_accordeon .how_to_go_live h3:first-child { padding-top: 45px;}
+.solutions_accordeon .how_to_go_live p { padding: 6px 0 9px 21px; line-height: 25px;}
+
 
 .page-node .node ul.retrieve_ul { margin: 0; padding: 0;}
 ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-style-image: none; background: url(../images/retrieve_bullet.png) no-repeat 0 16px; color: #99aec2; font-size: 16px;}
+
+  /* My events */
+
+.view-my-events {}
+.view-my-events .views-row { padding-top: 20px; clear: both;}
+.view-my-events .views-row:first-child { padding-top: 0;}
+.view-my-events .my_event { display: block; }
+.view-my-events .my_event .logo { display: block; width: 50px; height: 50px; border: 1px solid #f2f2f2; background: #ffffff; float: left; margin-right: 9px; background: url(../images/defaultavatar.png) no-repeat 0 0; margin-top: -1px;}
+.view-my-events .my_event .logo img { background: #ffffff;}
+.view-my-events .my_event .main_text { float: left; color: #565a5d; font-size: 18px; line-height: 20px; margin-top: 3px;}
+.view-my-events .my_event .main_description { display: block; color: #b0b0b0; font-size: 14px; line-height: 16px; margin-top: 4px;}
+.view-my-events .my_event .dates:before { content: " | "}
+.view-my-events .my_event .status { float: right; color: #809226; font-size: 16px; margin-top: 12px;}
+.view-my-events .my_event .status-0 { color: #cecece }
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft
@@ -3574,7 +3631,7 @@ https://github.com/AdamWhitcroft/CSS.Tooltips
     display: none;
     content: attr(data-tip);
     position: absolute;
-    bottom: -14px;
+    top: 25px;
     left: 0px;
     padding: 0 9px;
     background: #fefaeb;
@@ -3592,4 +3649,3 @@ https://github.com/AdamWhitcroft/CSS.Tooltips
 [data-tip]:hover:after {
     display: block;
 }
-

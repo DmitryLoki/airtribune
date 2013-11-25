@@ -183,16 +183,27 @@ function _d($var) {
  * 
  * $var - variable for debug
  * $url - Core API url for debug
+ * $response - response from Core API
  */
-function _asd($var, $url = NULL) {
+function _asd($var, $url = NULL, $response = NULL) {
   $debug = variable_get('at_core_sync_debug_mode', 0);
   if ($debug) {
     ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
     $message = '';
     if (isset($url)) {
-      ATSync::setMessage("<strong>URL:</strong>&nbsp;" . at_core_sync_get_api_url() . '/' . $url, 'warning');
+      $message_url = "<strong>URL:</strong>&nbsp;" . at_core_sync_get_api_url() . '/' . $url;
+      ATSync::setMessage($message_url, 'warning');
+      $message = $message_url . "\n</br />";
     }
-    ATSync::setMessage("<strong>Request:</strong>&nbsp;" . print_r($var, TRUE), 'warning');
+    $message_body = "<strong>Request:</strong>&nbsp;" . print_r($var, TRUE);
+    $message .= $message_body ;
+    ATSync::setMessage($message, 'warning');
+    if (isset($response)) {
+      $message_response = "<strong>Response:</strong>&nbsp;" . print_r($response, TRUE) . '/' . $url;
+      ATSync::setMessage($message_response, 'warning');
+      $message .= "\n</br />" . $message_response;
+    }
+    watchdog("at_core_sync", $message);
   }
 }
 
@@ -367,4 +378,18 @@ function at_core_sync_races_tracks_action(&$object, $context = array()) {
  */
 function at_core_sync_trackers_action(&$object, $context = array()) {
   at_core_sync_entity_sync('ent_tracker', $object);
+}
+
+/**
+ * Implements hook_flush_caches().
+ * Move at_core_sync before pg_race
+ */
+function at_core_sync_flush_caches() {
+  db_update('system')
+    ->fields(array(
+      'weight' => -2,
+    ))
+    ->condition('type', 'module')
+    ->condition('name', 'at_core_sync')
+    ->execute();
 }
