@@ -1614,10 +1614,10 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 }
 
-.pane-event-days-panel-event-days-on-blog .field-name-field-image { margin:0 -3px 27px -2px; width:auto; text-align: left; padding-top: 1px;}
-.pane-event-days-panel-event-days-on-blog .view-content > div:last-child .field-name-field-image { margin-bottom: -2px;}
-.pane-event-days-panel-event-days-on-blog .field-name-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
-.pane-event-days-panel-event-days-on-blog .field-name-field-image img { float:left; margin:0 0 2px 2px}
+.pane-event-days-panel-event-days-on-blog .views-field-field-image { margin:0 -3px 27px -2px; width:auto; text-align: left; padding-top: 1px;}
+.pane-event-days-panel-event-days-on-blog .view-content > div:last-child .views-field-field-image { margin-bottom: -2px;}
+.pane-event-days-panel-event-days-on-blog .views-field-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+.pane-event-days-panel-event-days-on-blog .views-field-field-image img { float:left; margin:0 0 2px 2px}
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list,
 .pane-event-days-panel-event-days-on-blog .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
