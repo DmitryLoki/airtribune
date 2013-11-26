@@ -639,7 +639,8 @@ viewers/*',
             'paths' => 'user/*
 account/*
 profile-pilot/*
-user',
+user
+event/*/day/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -6356,7 +6357,10 @@ window.fbAsyncInit = function() {
   $page->admin_title = 'My events';
   $page->admin_description = 'Organizer\'s events.';
   $page->path = 'account/%user/events';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'My events',

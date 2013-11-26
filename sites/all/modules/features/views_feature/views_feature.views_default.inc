@@ -636,7 +636,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -758,7 +758,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -899,7 +899,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -977,7 +977,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1053,7 +1053,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1129,7 +1129,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1205,7 +1205,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1271,7 +1271,7 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Banner'),
+    t('Image'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
@@ -1332,7 +1332,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -3818,10 +3818,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_optdistance']['table'] = 'field_data_field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['field'] = 'field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_optdistance']['label'] = '—';
+  $handler->display->display_options['fields']['field_optdistance']['label'] = '--';
   $handler->display->display_options['fields']['field_optdistance']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_optdistance']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_optdistance']['alter']['text'] = ' — [field_optdistance-value] km';
+  $handler->display->display_options['fields']['field_optdistance']['alter']['text'] = ' -- [field_optdistance-value] km';
   $handler->display->display_options['fields']['field_optdistance']['element_type'] = '0';
   $handler->display->display_options['fields']['field_optdistance']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_optdistance']['element_label_colon'] = FALSE;
@@ -3833,10 +3833,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_race_number']['table'] = 'field_data_field_race_number';
   $handler->display->display_options['fields']['field_race_number']['field'] = 'field_race_number';
   $handler->display->display_options['fields']['field_race_number']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_race_number']['label'] = ' — Task';
+  $handler->display->display_options['fields']['field_race_number']['label'] = ' -- Task';
   $handler->display->display_options['fields']['field_race_number']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_race_number']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_race_number']['alter']['text'] = ' — Task [field_race_number][field_optdistance]';
+  $handler->display->display_options['fields']['field_race_number']['alter']['text'] = ' -- Task [field_race_number][field_optdistance]';
   $handler->display->display_options['fields']['field_race_number']['element_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_colon'] = FALSE;
@@ -3848,10 +3848,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['ui_name'] = 'Day status';
-  $handler->display->display_options['fields']['field_day_status']['label'] = '—';
+  $handler->display->display_options['fields']['field_day_status']['label'] = '--';
   $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_status']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_day_status']['alter']['text'] = ' — [field_day_status]';
+  $handler->display->display_options['fields']['field_day_status']['alter']['text'] = ' -- [field_day_status]';
   $handler->display->display_options['fields']['field_day_status']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_day_status']['element_wrapper_type'] = '0';
@@ -4153,7 +4153,7 @@ return array($event_id);';
   );
 
   /* Display: Event day */
-  $handler = $view->new_display('page', 'Event day', 'panel_event_day_on_page');
+  $handler = $view->new_display('panel_pane', 'Event day', 'panel_event_day_on_page');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'pane-event-days-panel-event-days-on-blog';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -4339,7 +4339,24 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
     'day' => 'day',
   );
-  $handler->display->display_options['path'] = 'event/%/day/%';
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'panel',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'OG membership: Group ID',
+    ),
+    'nid' => array(
+      'type' => 'panel',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '',
+      'label' => 'Content: Nid',
+    ),
+  );
   $translatables['event_days'] = array(
     t('Master'),
     t('more'),
@@ -4367,11 +4384,11 @@ return array($event_id);';
     t('List of day (accordion)'),
     t('<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>'),
     t('Day [field_day_number]'),
-    t('—'),
-    t(' — [field_optdistance-value] km'),
-    t(' — Task'),
-    t(' — Task [field_race_number][field_optdistance]'),
-    t(' — [field_day_status]'),
+    t('--'),
+    t(' -- [field_optdistance-value] km'),
+    t(' -- Task'),
+    t(' -- Task [field_race_number][field_optdistance]'),
+    t(' -- [field_day_status]'),
     t('<span class="posted">[created]</span>'),
     t('<a class="ajax-link" href="#day_[field_day_number_1]" rel="#content-day-[nid_1]" data-href="/event/[nid]/day/[nid_1]" rel="nofollow">
 <div class="day-number" data-href="#day_[field_day_number_1]"></div>[field_day_number][field_race_number][field_day_status][created]</a>'),
