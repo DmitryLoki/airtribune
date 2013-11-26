@@ -881,7 +881,7 @@ function _day_pg_race_preview_markup($node) {
   ));
 
   // Use another output for blog page.
-  if (arg(2) == 'blog') {
+  if (arg(2) == 'day') {
     drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
     if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
       $data['text'] = '2D';
