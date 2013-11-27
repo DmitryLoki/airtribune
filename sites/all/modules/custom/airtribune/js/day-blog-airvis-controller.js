@@ -12,25 +12,22 @@ jQuery(function ($) {
   faiCategory.after(raceInfo.hide());
   raceDataTextBlock.data('contest-date-text', raceDataTextBlock.text());
 
-  if(!Drupal.settings.views_accordion) {
-    return;
+  if (Drupal.settings.views_accordion) {
+    //Need to get accordion instance
+    $.each(Drupal.settings.views_accordion, function (id) {
+      var viewname = this.viewname;
+      var display = this.display;
+
+      var displaySelector = '.view-id-' + viewname + '.view-display-id-' + display + ' .view-content',
+        accordionElement = $(displaySelector);
+
+      accordion = accordionElement.data('accordion');
+    });
   }
 
-  //Need to get accordion instance
-  $.each(Drupal.settings.views_accordion, function (id) {
-    var viewname = this.viewname;
-    var display = this.display;
-
-    var displaySelector = '.view-id-' + viewname + '.view-display-id-' + display + ' .view-content',
-      accordionElement = $(displaySelector);
-
-    accordion = accordionElement.data('accordion');
-
-  });
-
   Drupal.behaviors.updateHeaderOnAjax = {
-    attach: function(context){
-      if(accordion && accordion.active && $(accordion.active).parent().find(context).length>0) {
+    attach: function (context) {
+      if (accordion && accordion.active && $(accordion.active).parent().find(context).length > 0) {
         toggleHeader($(accordion.active));
       }
     }
@@ -39,9 +36,16 @@ jQuery(function ($) {
   //This callback calls when airvis widget initiated
   window.airvisPageLoadedCallback = function (airvis) {
     airvisWidget = airvis;
+    var activeRaceBlock;
+
+    if (accordion && accordion.active) {
+      activeRaceBlock = $(accordion.active);
+    } else if (!accordion) {
+      activeRaceBlock = $('.event-day:eq(0)');
+    }
 
     airvisWidget.on('domInit', function () {
-      toggleHeader($(accordion.active));
+      toggleHeader(activeRaceBlock);
     });
 
     //if loading successful - hide picture to display airvis widget
@@ -49,7 +53,7 @@ jQuery(function ($) {
       headerPictureContainer.hide();
       faiCategory.hide();
       raceInfo.text(raceData.titles.taskTitle).css('display', 'inline').show();
-      toggleRaceDateText($(accordion.active));
+      toggleRaceDateText(activeRaceBlock);
     });
 
     //if loading failed - show picture in header
@@ -85,7 +89,7 @@ jQuery(function ($) {
 
   //Rebuild airvis widget with new params. Events 'loaded' or 'loadingError' of airvisWidget will be fired after rebuild
   function rebuildRacePreview(contestId, raceId) {
-    if(!airvisWidget) return;
+    if (!airvisWidget) return;
     airvisWidget.setOption('contestId', contestId);
     airvisWidget.setOption('raceId', raceId);
     airvisWidget.rebuild();
