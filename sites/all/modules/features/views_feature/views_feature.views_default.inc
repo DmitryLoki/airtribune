@@ -3818,10 +3818,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_optdistance']['table'] = 'field_data_field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['field'] = 'field_optdistance';
   $handler->display->display_options['fields']['field_optdistance']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_optdistance']['label'] = '--';
+  $handler->display->display_options['fields']['field_optdistance']['label'] = '—';
   $handler->display->display_options['fields']['field_optdistance']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_optdistance']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_optdistance']['alter']['text'] = ' -- [field_optdistance-value] km';
+  $handler->display->display_options['fields']['field_optdistance']['alter']['text'] = ' — [field_optdistance-value] km';
   $handler->display->display_options['fields']['field_optdistance']['element_type'] = '0';
   $handler->display->display_options['fields']['field_optdistance']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_optdistance']['element_label_colon'] = FALSE;
@@ -3833,10 +3833,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_race_number']['table'] = 'field_data_field_race_number';
   $handler->display->display_options['fields']['field_race_number']['field'] = 'field_race_number';
   $handler->display->display_options['fields']['field_race_number']['relationship'] = 'reverse_field_day_ref_ent_race';
-  $handler->display->display_options['fields']['field_race_number']['label'] = ' -- Task';
+  $handler->display->display_options['fields']['field_race_number']['label'] = ' — Task';
   $handler->display->display_options['fields']['field_race_number']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_race_number']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_race_number']['alter']['text'] = ' -- Task [field_race_number][field_optdistance]';
+  $handler->display->display_options['fields']['field_race_number']['alter']['text'] = ' — Task [field_race_number][field_optdistance]';
   $handler->display->display_options['fields']['field_race_number']['element_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_type'] = '0';
   $handler->display->display_options['fields']['field_race_number']['element_label_colon'] = FALSE;
@@ -3848,10 +3848,10 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
   $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
   $handler->display->display_options['fields']['field_day_status']['ui_name'] = 'Day status';
-  $handler->display->display_options['fields']['field_day_status']['label'] = '--';
+  $handler->display->display_options['fields']['field_day_status']['label'] = '—';
   $handler->display->display_options['fields']['field_day_status']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_status']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_day_status']['alter']['text'] = ' -- [field_day_status]';
+  $handler->display->display_options['fields']['field_day_status']['alter']['text'] = ' — [field_day_status]';
   $handler->display->display_options['fields']['field_day_status']['element_type'] = '0';
   $handler->display->display_options['fields']['field_day_status']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_day_status']['element_wrapper_type'] = '0';
@@ -4384,11 +4384,11 @@ return array($event_id);';
     t('List of day (accordion)'),
     t('<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>'),
     t('Day [field_day_number]'),
-    t('--'),
-    t(' -- [field_optdistance-value] km'),
-    t(' -- Task'),
-    t(' -- Task [field_race_number][field_optdistance]'),
-    t(' -- [field_day_status]'),
+    t('—'),
+    t(' — [field_optdistance-value] km'),
+    t(' — Task'),
+    t(' — Task [field_race_number][field_optdistance]'),
+    t(' — [field_day_status]'),
     t('<span class="posted">[created]</span>'),
     t('<a class="ajax-link" href="#day_[field_day_number_1]" rel="#content-day-[nid_1]" data-href="/event/[nid]/day/[nid_1]" rel="nofollow">
 <div class="day-number" data-href="#day_[field_day_number_1]"></div>[field_day_number][field_race_number][field_day_status][created]</a>'),
