@@ -8732,8 +8732,8 @@ return array($event_id);';
     ),
   );
 
-  /* Display: Manage */
-  $handler = $view->new_display('panel_pane', 'Manage', 'manage');
+  /* Display: Manage (All) */
+  $handler = $view->new_display('panel_pane', 'Manage (All)', 'manage');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['cache'] = FALSE;
   $handler->display->display_options['cache']['type'] = 'none';
@@ -8853,28 +8853,18 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_contestant_number']['ui_name'] = 'Pilot`s number';
   $handler->display->display_options['fields']['field_contestant_number']['label'] = '';
   $handler->display->display_options['fields']['field_contestant_number']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_contestant_number']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_contestant_number']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
-    'click_to_edit' => 0,
+    'click_to_edit' => TRUE,
+    'click_to_edit_style' => 'button',
     'empty_text' => '',
     'fallback_format' => 'number_integer',
     'fallback_settings' => array(
       'thousand_separator' => ' ',
       'prefix_suffix' => 1,
     ),
-  );
-  /* Field: Field: Mobile phone number */
-  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
-  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
-  $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
-  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
-  $handler->display->display_options['fields']['field_phone']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_phone']['settings'] = array(
-    'click_to_edit' => 0,
-    'empty_text' => '',
-    'fallback_format' => 'global_phone_number',
+    'link_text' => 'Edit',
+    'link_position' => '0',
   );
   /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
@@ -8897,25 +8887,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
   $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_pg_contestant_status']['settings'] = array(
-    'click_to_edit' => 0,
+    'click_to_edit' => TRUE,
+    'click_to_edit_style' => 'button',
     'empty_text' => '',
     'fallback_format' => 'list_default',
-  );
-  /* Field: OG membership: Tracker */
-  $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
-  $handler->display->display_options['fields']['field_tracker']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_tracker']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_tracker']['settings'] = array(
-    'click_to_edit' => 1,
-    'empty_text' => '',
-    'fallback_format' => 'entityreference_label',
-    'fallback_settings' => array(
-      'link' => 0,
-    ),
+    'link_text' => 'Edit',
+    'link_position' => '0',
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
@@ -8957,7 +8936,222 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
-  $handler->display->display_options['pane_title'] = 'Manage event pilots';
+  $handler->display->display_options['pane_title'] = 'Manage event pilots (all)';
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'OG membership: Group ID',
+    ),
+  );
+
+  /* Display: Manage (Confirmed) */
+  $handler = $view->new_display('panel_pane', 'Manage (Confirmed)', 'manage_confirmed');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['cache'] = FALSE;
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'field_gender',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['columns'] = array(
+    'field_contestant_number' => 'field_contestant_number',
+    'field_gender' => 'field_gender',
+    'counter' => 'counter',
+    'field_full_name' => 'field_full_name',
+    'field_address' => 'field_address',
+    'field_sponsors' => 'field_sponsors',
+    'field_paraglider_model' => 'field_paraglider_model',
+    'field_pg_contestant_status' => 'field_pg_contestant_status',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'field_contestant_number' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_gender' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'counter' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_full_name' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_address' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_sponsors' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_paraglider_model' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_pg_contestant_status' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Gender (excluded) */
+  $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
+  $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
+  $handler->display->display_options['fields']['field_gender']['field'] = 'field_gender';
+  $handler->display->display_options['fields']['field_gender']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_gender']['ui_name'] = 'Gender (excluded)';
+  $handler->display->display_options['fields']['field_gender']['label'] = '';
+  $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
+  /* Field: Profile: Name */
+  $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name]';
+  $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
+  $handler->display->display_options['fields']['field_full_name']['settings'] = array(
+    'format' => 'default',
+    'markup' => 0,
+    'output' => 'default',
+    'multiple' => 'default',
+    'multiple_delimiter' => ', ',
+    'multiple_and' => 'text',
+    'multiple_delimiter_precedes_last' => 'never',
+    'multiple_el_al_min' => '3',
+    'multiple_el_al_first' => '1',
+  );
+  /* Field: Field: Mobile phone number */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
+  $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
+  $handler->display->display_options['fields']['field_phone']['type'] = 'editable_as_link';
+  $handler->display->display_options['fields']['field_phone']['settings'] = array(
+    'click_to_edit' => TRUE,
+    'click_to_edit_style' => 'button',
+    'empty_text' => '',
+    'fallback_format' => 'global_phone_number',
+    'link_text' => 'Edit',
+    'link_position' => '0',
+  );
+  /* Field: OG membership: Tracker */
+  $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
+  $handler->display->display_options['fields']['field_tracker']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_tracker']['type'] = 'editable_as_link';
+  $handler->display->display_options['fields']['field_tracker']['settings'] = array(
+    'click_to_edit' => TRUE,
+    'click_to_edit_style' => 'button',
+    'empty_text' => '',
+    'fallback_format' => 'entityreference_label',
+    'fallback_settings' => array(
+      'link' => 0,
+    ),
+    'link_text' => 'Edit',
+    'link_position' => '0',
+  );
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Profile: Gender (field_gender) */
+  $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
+  $handler->display->display_options['sorts']['field_gender_value']['table'] = 'field_data_field_gender';
+  $handler->display->display_options['sorts']['field_gender_value']['field'] = 'field_gender_value';
+  $handler->display->display_options['sorts']['field_gender_value']['relationship'] = 'profile';
+  $handler->display->display_options['sorts']['field_gender_value']['order'] = 'DESC';
+  /* Sort criterion: OG membership: Payment status (field_pg_contestant_status) */
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['sorts']['field_pg_contestant_status_value']['order'] = 'DESC';
+  /* Sort criterion: OG membership: Created */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'og_membership';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  /* Filter criterion: OG membership: State */
+  $handler->display->display_options['filters']['state']['id'] = 'state';
+  $handler->display->display_options['filters']['state']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['state']['field'] = 'state';
+  $handler->display->display_options['filters']['state']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['state']['value'] = array(
+    1 => '1',
+  );
+  /* Filter criterion: Pilots number */
+  $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
+  /* Filter criterion: OG membership: Payment status (field_pg_contestant_status) */
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
+    4 => '4',
+  );
+  $handler->display->display_options['pane_title'] = 'Manage event pilots (confirmed)';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -9033,10 +9227,12 @@ return array($event_id);';
     t('Contact phone number in case of emergency'),
     t('Blood type'),
     t('[field_tracker-target_id]'),
-    t('Manage'),
+    t('Manage (All)'),
     t('[field_full_name]'),
+    t('Manage event pilots (all)'),
+    t('Manage (Confirmed)'),
     t('Phone number'),
-    t('Manage event pilots'),
+    t('Manage event pilots (confirmed)'),
   );
   $export['paragliding_pilots_list'] = $view;
 
