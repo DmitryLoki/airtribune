@@ -18,6 +18,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#parents',
     '#entity',
     'field_flying_site_ref',
+    'field_take_offs',
     'field_tiny_path',
     'field_dates',
     'field_logo',
