@@ -1886,6 +1886,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: view my_events page.
+  $permissions['view my_events page'] = array(
+    'name' => 'view my_events page',
+    'roles' => array(
+      0 => 'organizer',
+    ),
+    'module' => 'at_helper',
+  );
+
   // Exported permission: view og_roles_permissions.
   $permissions['view og_roles_permissions'] = array(
     'name' => 'view og_roles_permissions',

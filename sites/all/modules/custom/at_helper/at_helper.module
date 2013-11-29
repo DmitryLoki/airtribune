@@ -13,6 +13,17 @@ define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
 define('MAIN_PROFILE_TYPE', 'main');
 define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
 
+/**
+ * Implements hook_permission().
+ */
+function at_helper_permission() {
+  return array(
+    'view my_events page' => array(
+      'title' => t('View "My events" page'),
+      'description' => t('View list of organizer personal events.'),
+    ),
+  );
+}
 
 /**
  * Implements hook_menu_local_tasks_alter().

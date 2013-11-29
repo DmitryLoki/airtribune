@@ -8,6 +8,19 @@
 include_once 'pg_contest.features.inc';
 
 /**
+ * Implements hook_menu_alter().
+ */
+function pg_contest_menu() {
+  $items['flyingsite/%'] = array(
+    'page callback' => 'get_takeoffs_for_flyingsite',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
  * Implementation of hook_form
  * Default base is 'node_content'
  * @param type $node
@@ -56,11 +69,10 @@ function pg_contest_node_presave($node) {
 
 /**
  * Implements hook_form_node_form_alter().
- *
- * Set default path alias values for node form.
- * TODO: Make sure that this is always fired after path_form_node_form_alter().
  */
-function pg_contest_form_node_form_alter(&$form, $form_state) {
+function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
+  // Set default path alias values for node form.
+  // TODO: Make sure that this is always fired after path_form_node_form_alter().
   if (!empty($form['#node']->nid)) {
     $conditions = array('source' => 'event/' . $form['#node']->nid);
     $path = pg_contest_path_load($conditions);
@@ -72,6 +84,54 @@ function pg_contest_form_node_form_alter(&$form, $form_state) {
       $form['path']['language']['#value'] = $path['language'];
     }
   }
+  // Work with Flying Site (FS) and Take off basic marks (TO)
+  // @see #3986
+  if ($form_id == 'pg_contest_node_form') {
+    $wrapper = entity_metadata_wrapper('node', $form['#node']);
+    // User edit contest node, field already have existing FS.
+    $fs = $wrapper->field_flying_site_ref->raw();
+    // User change option in FS select, FS was sended by AJAX-request.
+    if (!empty($form_state['values']['field_flying_site_ref'])) {
+      $fs = $form_state['values']['field_flying_site_ref']['und']['0']['target_id'];
+    }
+
+    // Load TO for selected FS.
+    if ($fs) {
+      if ($take_offs = get_takeoffs_for_flyingsite($fs)) {
+        $form['field_take_offs']['und']['#options'] = $take_offs;
+      }
+      else {
+        $form['field_take_offs']['und']['#options'] = array();
+        $form['field_take_offs']['und']['#description'] = t('No take offs for this flying site.');
+      }
+      // If edit contest & have checked take offs - load its to element.
+      $take_offs_checked = $wrapper->field_take_offs->raw();
+      if ($take_offs_checked) {
+        $form['field_take_offs']['und']['#default_value'] = $take_offs_checked;
+      }
+    }
+    // New contest, hide any variants from default entityreference widget/formater.
+    else {
+      $form['field_take_offs']['und']['#options'] = array();
+    }
+    // Add AJAX callback to FS field.
+    $form['field_flying_site_ref']['und']['#ajax'] = array(
+      'callback' => 'pg_contest_flyingsite_ajax_callback',
+      'wrapper' => 'take-off-list',
+      'method' => 'replace',
+      'effect' => 'fade',
+    );
+    // Add wrapper to TO field. Will update this wrapper.
+    $form['field_take_offs']['und']['#prefix'] = '<div id="take-off-list">';
+    $form['field_take_offs']['und']['#suffix'] = '</div>';
+    // Debug, show at top =)
+    $form['field_flying_site_ref']['#weight'] = -12;
+    $form['field_take_offs']['#weight'] = -10;
+  }
+}
+
+function pg_contest_flyingsite_ajax_callback($form, $form_state) {
+  return $form['field_take_offs'];
 }
 
 /**
@@ -495,4 +555,15 @@ function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
       return FALSE;
     }
   }
+}
+
+function get_takeoffs_for_flyingsite($flying_site_id) {
+  $view = views_get_view('basic_marks_by_proximity');
+  $view->set_arguments(array($flying_site_id));
+  $view->preview('take_offs_pane', array($flying_site_id));
+  $result = array();
+  foreach ($view->result as $item) {
+    $result[$item->id] = $item->eck_ent_basicmark_title;
+  }
+  return $result;
 }

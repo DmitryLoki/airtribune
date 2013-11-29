@@ -1400,6 +1400,169 @@ function views_feature_views_default_views() {
   $export['advert_on_visualization'] = $view;
 
   $view = new view();
+  $view->name = 'basic_marks_by_proximity';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'eck_ent_basicmark';
+  $view->human_name = 'Basic marks by proximity';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: Basic mark: Id */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_basicmark';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  /* Field: Basic mark: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'eck_ent_basicmark';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  /* Field: Basic mark: ASL */
+  $handler->display->display_options['fields']['field_sea_level']['id'] = 'field_sea_level';
+  $handler->display->display_options['fields']['field_sea_level']['table'] = 'field_data_field_sea_level';
+  $handler->display->display_options['fields']['field_sea_level']['field'] = 'field_sea_level';
+  $handler->display->display_options['fields']['field_sea_level']['settings'] = array(
+    'thousand_separator' => ' ',
+    'decimal_separator' => '.',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Field: Basic mark: Suitable winds */
+  $handler->display->display_options['fields']['field_suitable_winds']['id'] = 'field_suitable_winds';
+  $handler->display->display_options['fields']['field_suitable_winds']['table'] = 'field_data_field_suitable_winds';
+  $handler->display->display_options['fields']['field_suitable_winds']['field'] = 'field_suitable_winds';
+  /* Field: Field: Coordinates */
+  $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
+  $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
+  $handler->display->display_options['fields']['field_location']['field'] = 'field_location';
+  $handler->display->display_options['fields']['field_location']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_location']['settings'] = array(
+    'data' => 'full',
+  );
+  /* Field: Field: Coordinates - proximity */
+  $handler->display->display_options['fields']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['fields']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['fields']['field_geofield_distance']['precision'] = '0';
+  $handler->display->display_options['fields']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_manual'] = array(
+    'lat' => '',
+    'lon' => '',
+  );
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_point_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_point_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
+  $handler->display->display_options['fields']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $handler->display->display_options['fields']['field_geofield_distance']['radius_of_earth'] = '6371';
+  /* Contextual filter: Flying Site ID */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['ui_name'] = 'Flying Site ID';
+  $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
+  $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'pg_flyingsite' => 'pg_flyingsite',
+  );
+  /* Filter criterion: Field: Coordinates - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '50',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_point_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_point_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+
+  /* Display: Take offs */
+  $handler = $view->new_display('entityreference', 'Take offs', 'take_offs_pane');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'entityreference_style';
+  $handler->display->display_options['style_options']['search_fields'] = array(
+    'title' => 'title',
+    'id' => 0,
+    'field_sea_level' => 0,
+    'field_suitable_winds' => 0,
+    'field_location' => 0,
+    'field_geofield_distance' => 0,
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entityreference_fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Basic mark: ent_basicmark type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'eck_ent_basicmark';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'pg_takeoff' => 'pg_takeoff',
+  );
+  /* Filter criterion: Field: Coordinates - proximity */
+  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
+  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
+    'distance' => '50',
+    'distance2' => 200,
+    'unit' => '6371',
+    'origin' => '',
+  );
+  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_point_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_point_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
+  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
+  $translatables['basic_marks_by_proximity'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Id'),
+    t('.'),
+    t(','),
+    t('Title'),
+    t('ASL'),
+    t('Suitable winds'),
+    t('Coordinates'),
+    t('Coordinates - proximity'),
+    t('All'),
+    t('Take offs'),
+  );
+  $export['basic_marks_by_proximity'] = $view;
+
+  $view = new view();
   $view->name = 'category_results';
   $view->description = '';
   $view->tag = 'default';
@@ -6886,10 +7049,8 @@ return array($event_id);';
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'role';
-  $handler->display->display_options['access']['role'] = array(
-    5 => '5',
-  );
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'view my_events page';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -6998,7 +7159,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]</span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]<span class="valign"></span></span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
@@ -7063,7 +7224,7 @@ return array($event_id);';
     t('last »'),
     t('event/[nid]'),
     t('status-[status_1]'),
-    t('<div><span class="logo">[field_logo]</span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>'),
+    t('<div><span class="logo">[field_logo]<span class="valign"></span></span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>'),
     t('All'),
     t('Dates - end date (field_dates:value2)'),
     t('Content pane'),
