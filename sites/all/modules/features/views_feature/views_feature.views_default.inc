@@ -4314,6 +4314,18 @@ return array($event_id);';
   $handler->display->display_options['fields']['day_pg_race_play_link']['label'] = '';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_default_classes'] = FALSE;
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['created']['alter']['text'] = '<div class="data-day" data-day-date="[created]"></div>';
+  $handler->display->display_options['fields']['created']['element_type'] = '0';
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'race_date';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
@@ -4400,6 +4412,7 @@ return array($event_id);';
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('Extrafield Paragliding preview image'),
     t('Event day'),
+    t('<div class="data-day" data-day-date="[created]"></div>'),
   );
   $export['event_days'] = $view;
 
