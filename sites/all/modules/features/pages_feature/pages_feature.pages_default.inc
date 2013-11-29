@@ -1322,7 +1322,8 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'event/*/blog',
+            'paths' => 'event/*/blog
+event/*/day/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -3057,6 +3058,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page->path = 'event/%event/day/%day';
   $page->access = array(
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
