@@ -7159,7 +7159,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'All fields';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]</span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div><span class="logo">[field_logo]<span class="valign"></span></span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = TRUE;
@@ -7224,7 +7224,7 @@ return array($event_id);';
     t('last »'),
     t('event/[nid]'),
     t('status-[status_1]'),
-    t('<div><span class="logo">[field_logo]</span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>'),
+    t('<div><span class="logo">[field_logo]<span class="valign"></span></span><span class="main_text"><span class="title">[title]</span><span class="main_description"><span class="place">[field_country], [field_city]</span><span class="dates">[field_dates]</span></span></span><span class="status [status_1]">[status]</span></div>'),
     t('All'),
     t('Dates - end date (field_dates:value2)'),
     t('Content pane'),
