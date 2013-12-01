@@ -3153,7 +3153,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane-event-days-results-race-list .views-field-type { color: #495055; font: 16px/18px Arial, Helvetica, sans-serif; margin-left: 2px;}
 .pane-event-days-results-race-list .task_result,
 .pane-event-days-results-race-list .views-field-pg-race-play-link,
-.pane-event-days-results-race-list .views-field-field-pg-race-tracks { display: block; font: 14px/16px Arial, Helvetica, sans-serif; width: 100%; background: url(../images/results_bgr.png) no-repeat -2000px 100%, url(../images/results_bgr.png) no-repeat -1000px 0, url(../images/results_bgr.png) repeat-y 0 0; padding: 3px 0 5px 11px; margin-bottom: 6px;}
+.pane-event-days-results-race-list .views-field-field-pg-race-tracks { display: block; font: 14px/16px Arial, Helvetica, sans-serif; background: url(../images/results_bgr.png) no-repeat -2000px 100%, url(../images/results_bgr.png) no-repeat -1000px 0, url(../images/results_bgr.png) repeat-y 0 0; padding: 3px 0 5px 11px; margin-bottom: 6px;}
 .pane-event-days-results-race-list .task_result_items { display: inline-block;}
 .pane-event-days-results-race-list .task_result .label,
 .pane-event-days-results-race-list .views-label { color: #495055; font-weight: bold;}
