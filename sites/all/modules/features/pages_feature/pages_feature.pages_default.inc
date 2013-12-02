@@ -3123,7 +3123,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Day %day:field_day_number | %event:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -3147,7 +3147,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->locks = array();
     $display->content['new-11'] = $pane;
     $display->panels['middle'][0] = 'new-11';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-11';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
