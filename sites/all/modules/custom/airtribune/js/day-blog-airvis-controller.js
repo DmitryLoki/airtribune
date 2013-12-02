@@ -65,7 +65,7 @@ jQuery(function ($) {
       headerPictureContainer.hide();
       faiCategory.hide();
       raceInfo.text(raceData.titles.taskTitle).css('display', 'inline').show();
-      toggleRaceDateText(getActiveRaceBlock());
+      toggleRaceDateText(raceData.titles.dateTitle);
     });
 
     //if loading failed - show picture in header
@@ -77,7 +77,7 @@ jQuery(function ($) {
 
   function sedHeaderDefaultState() {
     showContestHeaderPicture();
-    toggleRaceDateText([]);
+    toggleRaceDateText();
   }
 
   function showContestHeaderPicture() {
@@ -87,16 +87,9 @@ jQuery(function ($) {
   }
 
   //toggle between race and contest dates
-  function toggleRaceDateText(activeDayAccordionBlock) {
-    var dateText;
-    if (activeDayAccordionBlock.length !== 0) {
-      //show task date
-      dateText = activeDayAccordionBlock.find('.data-day').data('day-date');
-    } else {
-      //show contest date
-      dateText = raceDataTextBlock.text(raceDataTextBlock.data('contest-date-text'));
-    }
-    raceDataTextBlock.text(dateText);
+  function toggleRaceDateText(dateTitle) {
+    var contestDate = raceDataTextBlock.text(raceDataTextBlock.data('contest-date-text'));
+    raceDataTextBlock.text(dateTitle || contestDate);
   }
 
   //Rebuild airvis widget with new params. Events 'loaded' or 'loadingError' of airvisWidget will be fired after rebuild
