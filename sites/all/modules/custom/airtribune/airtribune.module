@@ -1000,6 +1000,9 @@ function airtribune_views_pre_render(&$view) {
         // Remove day label output [Training or registration days]
         unset($view->result[$k]->field_field_day_number[0]['rendered']['#markup']);
         unset($view->result[$k]->field_field_day_number[0]['raw']['value']);
+        
+        // Fix js link to day in accordion
+        $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
       }
     }
   }

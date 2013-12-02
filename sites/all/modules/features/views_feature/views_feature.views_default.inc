@@ -3776,6 +3776,17 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_number']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_day_number']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_day_number']['type'] = 'text_plain';
+  /* Field: Day status (excluded) (value only) */
+  $handler->display->display_options['fields']['field_day_status_1']['id'] = 'field_day_status_1';
+  $handler->display->display_options['fields']['field_day_status_1']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status_1']['field'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status_1']['ui_name'] = 'Day status (excluded) (value only)';
+  $handler->display->display_options['fields']['field_day_status_1']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_1']['alter']['text'] = '[field_day_status_1]';
+  $handler->display->display_options['fields']['field_day_status_1']['alter']['max_length'] = '14';
+  $handler->display->display_options['fields']['field_day_status_1']['element_label_colon'] = FALSE;
   /* Field: Day number (excluded) (value only) */
   $handler->display->display_options['fields']['field_day_number_1']['id'] = 'field_day_number_1';
   $handler->display->display_options['fields']['field_day_number_1']['table'] = 'field_data_field_day_number';
@@ -3784,6 +3795,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_number_1']['label'] = '';
   $handler->display->display_options['fields']['field_day_number_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_number_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_number_1']['empty'] = '[field_day_status_1]';
+  $handler->display->display_options['fields']['field_day_number_1']['empty_zero'] = TRUE;
   /* Field: Race ID - excluded */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ent_race';
@@ -4396,6 +4409,7 @@ return array($event_id);';
     t('List of day (accordion)'),
     t('<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>'),
     t('Day [field_day_number]'),
+    t('[field_day_status_1]'),
     t('—'),
     t(' — [field_optdistance-value] km'),
     t(' — Task'),
