@@ -26,10 +26,6 @@
  */
 ?>
 
-<?php print $fields['created']->wrapper_prefix; ?>
-<?php print $fields['created']->content; ?>
-<?php print $fields['created']->wrapper_suffix; ?>
-
 <?php print $fields['day_set_a_task']->wrapper_prefix; ?>
 <?php print $fields['day_set_a_task']->content; ?>
 <?php print $fields['day_set_a_task']->wrapper_suffix; ?>
