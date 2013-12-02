@@ -1015,16 +1015,22 @@ function airtribune_views_pre_render(&$view) {
 function airtribune_preprocess_views_view_field(&$vars){
   $view = $vars['view'];
   $field = $vars['field'];
+  $row = $vars['row'];
 
   if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
     $output = $vars['field']->advanced_render($vars['row']);
-    if ($field->field == 'created') {
-      $date = strip_tags($output);
-      if (date('j M, Y') == $date) {
-        $output = t('Today');
+
+    if ($field->field == 'title') {
+      $day_date = date('j M, Y', $row->node_created);
+      $now = date('j M, Y', time());
+      if ($now == $day_date) {
+        $output = str_replace($view->field['created']->original_value, t('Today'), $output);
+      }
+      if ($row->field_field_day_status[0]['raw']['value'] >= 4) {
+        $original_value = ' — ' . $view->field['field_day_status']->original_value;
+        $output = str_replace($original_value, $view->field['field_day_status']->original_value, $output);
       }
     }
-
     $vars['output'] = $output;
   }
 }
