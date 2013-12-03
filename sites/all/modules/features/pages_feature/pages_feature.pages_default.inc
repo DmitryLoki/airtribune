@@ -5283,11 +5283,19 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane = new stdClass();
     $pane->pid = 'new-62';
     $pane->panel = 'middle';
-    $pane->type = 'pilots_statistics';
-    $pane->subtype = 'pilots_statistics';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'admin_title' => 'Confirmed Pilots Manage Table',
+      'title' => '',
+      'body' => 'There are only “Confirmed” pilots in this table.
+Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field is empty, pilot’s profile tel. will be used.
+',
+      'format' => 'filtered_html',
+      'substitute' => 1,
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
