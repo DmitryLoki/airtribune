@@ -1007,6 +1007,14 @@ function airtribune_init() {
     }
   }
 
+  // Add jQuery Filter Script to pilot tables
+  // @see #4026
+  if (arg(0) == 'event' && arg(2) == "pilots" && arg(3) == "manage") {
+    $filtertable_path = libraries_get_path('jquery.filtertable');
+    drupal_add_js($filtertable_path . '/jquery.filtertable.min.js');
+    drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/pilots-filter-table.js');
+  }
+
   // Load CSV scripts on every page (exclude editablefields ajax request).
   // Need to correct validation on /admin/* pages.
   // @see #4025
