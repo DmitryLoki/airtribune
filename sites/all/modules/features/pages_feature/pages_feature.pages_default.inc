@@ -1522,8 +1522,7 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-event/*/register
+            'paths' => 'event/*/register
 retrieve/*',
           ),
           'context' => 'empty',
@@ -1561,8 +1560,7 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-retrieve/*',
+            'paths' => 'retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1610,8 +1608,7 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-retrieve/*',
+            'paths' => 'retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1647,8 +1644,7 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-retrieve/*',
+            'paths' => 'retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -6489,7 +6485,10 @@ window.fbAsyncInit = function() {
   $page->admin_title = 'My events';
   $page->admin_description = 'Organizer\'s events.';
   $page->path = 'account/%user/events';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'My events',

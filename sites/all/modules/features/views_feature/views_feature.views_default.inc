@@ -8817,6 +8817,15 @@ return array($event_id);';
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: OG membership: Og membership ID */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
   /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
@@ -8833,6 +8842,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name]';
+  $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
     'format' => 'default',
@@ -8860,7 +8871,7 @@ return array($event_id);';
     'empty_text' => '',
     'fallback_format' => 'number_integer',
     'fallback_settings' => array(
-      'thousand_separator' => ' ',
+      'thousand_separator' => '',
       'prefix_suffix' => 1,
     ),
     'link_text' => 'Edit',
@@ -9042,6 +9053,15 @@ return array($event_id);';
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: OG membership: Og membership ID */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
   /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
@@ -9058,6 +9078,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name]';
+  $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
     'format' => 'default',
