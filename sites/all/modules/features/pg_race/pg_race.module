@@ -916,7 +916,7 @@ function pg_race_replay_blog_markup($data) {
     'attributes' => $data['attributes'],
   );
   $output = theme('item_list', $variables);
-  $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
+  $output = '<span class="views-label replay-link-label">' . t('Replay') . '</span>' . '<span class="field-content replay-link-content">' . $output . '</span>';
 
   return $output;
 }
