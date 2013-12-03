@@ -4,5 +4,5 @@ jQuery(function ($) {
   $main_input.keyup(function(){
     $(".filter-table input").not(this).val(jQuery(this).val()).keyup();
   });
-  $(".filter-table input").not($main_input).hide();
+  $(".filter-table input").not($main_input).parent().hide();
 });
