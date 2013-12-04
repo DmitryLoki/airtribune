@@ -1,5 +1,5 @@
 jQuery(function ($) {
-  $(".view-paragliding-pilots-list table").filterTable({
+  $(".pane-paragliding-pilots-list-manage table, .pane-paragliding-pilots-list-manage-confirmed table").filterTable({
     minRows: 0,
     label: ""
   });
