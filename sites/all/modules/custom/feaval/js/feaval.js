@@ -330,7 +330,7 @@
             allElements.filter('.ajax-processed')
               .unbind('focusin.validation')
               .bind('focusin.validation', function () {
-                var submitButton = $(this.form).find('.form-submit').addClass('disabled').attr('disabled','true');
+                var submitButton = $(this.form).find('.form-submit').addClass('disabled');
                 var preventDiv = submitPreventDiv.clone();
                 preventDiv.data('ajax-element',this);
                 submitButton.parent().prepend(preventDiv);
