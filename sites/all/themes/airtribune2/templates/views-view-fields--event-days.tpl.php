@@ -159,9 +159,9 @@ print $fields['title']->wrapper_suffix; ?>
 
 <?php
 // output retrieve map link
- print $fields['pg_race_retrieve_link']->wrapper_prefix;
- print $fields['pg_race_retrieve_link']->content;
- print $fields['pg_race_retrieve_link']->wrapper_suffix;
+ print $fields['pg_race_retrieve_map_link']->wrapper_prefix;
+ print $fields['pg_race_retrieve_map_link']->content;
+ print $fields['pg_race_retrieve_map_link']->wrapper_suffix;
 ?>
 
 <?php
