@@ -44,27 +44,27 @@
     function bodyClick(e) {
       //If e.target is not a child of el.handle then hide list
       if (jQuery(e.target).parents('.views-field-view, ' +
-          '.views-field-field-pg-race-tracks, ' +
-          '.views-field-day-pg-race-play-link')
+          '.views-field-day-pg-race-play-link, ' +
+          '.views-field.dropdown_list')
         .size() == 0) {
         $('.views-field-view > .field-content, ' +
-          '.views-field-field-pg-race-tracks > .field-content, ' +
-          '.views-field-day-pg-race-play-link .replay-link-content').hide();
+          '.views-field-day-pg-race-play-link .replay-link-content, ' +
+          '.views-field.dropdown_list > .field-content').hide();
         $('.files_list_down').removeClass('files_list_down');
       }
     }
 
     $('.views-field-view .views-label, ' +
-      '.views-field-field-pg-race-tracks .views-label, ' +
-      '.views-field-day-pg-race-play-link .replay-link-label')
+      '.views-field-day-pg-race-play-link .replay-link-label, ' +
+      '.views-field.dropdown_list .views-label')
       .unbind('click')
       .click(function () {
         if($(this).hasClass('processed'))
         $(this).addClass('processed');
         el = $(this).next();
         $('.views-field-view > .field-content, ' +
-          '.views-field-field-pg-race-tracks > .field-content, ' +
-          '.views-field-day-pg-race-play-link .replay-link-content')
+          '.views-field-day-pg-race-play-link .replay-link-content, '+
+          '.views-field.dropdown_list > .field-content')
           .each(function () {
             if ($(this)[0] != el[0]) {
               $(this).hide();

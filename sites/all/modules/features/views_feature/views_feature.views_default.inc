@@ -4329,6 +4329,17 @@ return array($event_id);';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_type'] = '0';
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['day_pg_race_play_link']['element_default_classes'] = FALSE;
+  /* Field: Race: Extrafield Paragliding race retrieve links */
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['id'] = 'pg_race_retrieve_links';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['table'] = 'eck_ent_race';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['field'] = 'pg_race_retrieve_links';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['relationship'] = 'reverse_field_day_ref_ent_race';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['label'] = 'Retrieve';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['element_type'] = 'span';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['element_label_type'] = 'span';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['element_wrapper_type'] = 'span';
+  $handler->display->display_options['fields']['pg_race_retrieve_links']['hide_empty'] = TRUE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
@@ -4416,6 +4427,7 @@ return array($event_id);';
     t('<div class="data-race" data-race-id="[field_core_id]" data-contest-id="[field_core_id_1]"></div>'),
     t('Extrafield Paragliding preview image'),
     t('Event day'),
+    t('Retrieve'),
   );
   $export['event_days'] = $view;
 

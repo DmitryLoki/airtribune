@@ -30,20 +30,6 @@
 <?php print $fields['day_set_a_task']->content; ?>
 <?php print $fields['day_set_a_task']->wrapper_suffix; ?>
 
-<?php
-// output retrieve map link
- print $fields['pg_race_retrieve_map_link']->wrapper_prefix;
- print $fields['pg_race_retrieve_map_link']->content;
- print $fields['pg_race_retrieve_map_link']->wrapper_suffix;
-?>
-
-<?php
-// output retrieve table link
- print $fields['pg_race_retrieve_table_link']->wrapper_prefix;
- print $fields['pg_race_retrieve_table_link']->content;
- print $fields['pg_race_retrieve_table_link']->wrapper_suffix;
-?>
-
 <?php if (!empty($fields['id_1']->raw) && !empty($fields['field_pg_race_points']->raw)): ?>
   <a href="#map" class="task_link"><span>Task</span></a>
 <?php endif; ?>
@@ -53,6 +39,16 @@
   <span class="views-field dropdown_list views-field-view">
   <?php print $fields['view']->label_html; ?>
   <?php print $fields['view']->content; ?>
+  </span>
+<?php endif; ?>
+
+<?php if ($fields['pg_race_retrieve_links']->content): ?>
+  <span class="views-field dropdown_list views-field-field-pg-race-retrieve-links">
+    <?php
+      // output retrieve links
+       print $fields['pg_race_retrieve_links']->label_html;
+       print $fields['pg_race_retrieve_links']->content;
+    ?>
   </span>
 <?php endif; ?>
 

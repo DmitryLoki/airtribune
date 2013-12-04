@@ -611,7 +611,11 @@ function pg_race_retrive_table_callback($entity) {
 }
 
 function pg_race_retrive_links_callback($entity) {
+  global $user;
   $output = '';
+
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
+  $gid = $og_ref_items[0]['target_id'];
 
   if (pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user)) {
     $map_link = pg_race_retrive_map_callback($entity);
