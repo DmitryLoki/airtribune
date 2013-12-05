@@ -474,6 +474,18 @@ function airtribune_token_info() {
     'name' => t('Widget height'),
     'description' => t('Height of visualization widget map.'),
   );
+  $info['tokens']['airtribune']['ge-settings'] = array(
+    'name' => t('Settings for Google Earth visualization'),
+    'description' => t('Additional settings for visualization based on Google Earth.'),
+  );
+  $info['tokens']['airtribune']['ge-css:airvis-container:style'] = array(
+    'name' => t('Styles for container of Google Earth visualization'),
+    'description' => t('Styles for container for visualization based on Google Earth.'),
+  );
+  $info['tokens']['airtribune']['ge-css:airvis-loading:class'] = array(
+    'name' => t('CSS trobber class for Google Earth visualization'),
+    'description' => t('Trobber class for visualization based on Google Earth.'),
+  );
   return $info;
 }
 
@@ -532,6 +544,18 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     }
 
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
+    switch($data['widget_type']) {
+      case 'ge':
+        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "medium"';
+        $replacements['[airtribune:ge-css:airvis-container:style]'] = ' style="background-color: #123d4d"';
+        $replacements['[airtribune:ge-css:airvis-loading:class]'] = ' airvis-loading-transparent';
+        break;
+      default:
+        $replacements['[airtribune:ge-settings]'] = '';
+        $replacements['[airtribune:ge-css:airvis-container:style]'] = '';
+        $replacements['[airtribune:ge-css:airvis-loading:class]'] = '';
+        break;
+    }
     $replacements['[airtribune:widget-width]'] = isset($data['widget_width']) ? $data['widget_width'] : '940px';
     $replacements['[airtribune:widget-height]'] = isset($data['widget_height']) ? $data['widget_height'] : '380px';
   }
