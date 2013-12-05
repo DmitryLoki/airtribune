@@ -2332,7 +2332,8 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both; width: 245px;}
 .page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
 .page-user .pane-page-content form .form-item input.form-text,
-.page-user .pane-page-content form .select .checked_option_wrap { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
+.page-user .pane-page-content form .select .checked_option_wrap,
+.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2383,7 +2384,8 @@ html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .field_excellent .form_booble_inner { background:url(../images/forms.png) no-repeat 0 -74px}
 .page-user .pane-page-content form .form-item input.form-text.error,
 .page-user .pane-page-content form .field_error span.select,
-.page-user .pane-page-content form .field_error input.form-text { border:2px solid #ff464d; margin:0;}
+.page-user .pane-page-content form .field_error input.form-text,
+.pane_pilots_list_manage .field_error input.form-text { border:2px solid #ff464d; margin:0;}
 html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field_weak input.form-text { border:2px solid #ff464d; margin:0;}
 .page-user .pane-page-content form .field_good input.form-text { border:2px solid #ffc446; margin:0;}
@@ -2664,11 +2666,6 @@ form .form-type-item .inline-label { top: -10px;}
 .pane-paragliding-pilots-list-manage .pane-inner,
 .pane_pilots_list_manage .pane-inner { margin: 0;}
 .page-event-pilots .views-field-counter { text-align: center;}
-/*.page-event-pilots-manage .panel-col-seventy .inside { margin-right: 0;}*/
-.views-field-field-phone .editablefield-item .field-type-phone-number input.simple-phone-full-number { width: 140px;}
-.views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number input {width: 40px;}
-.views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number .description { display: none;}
-#views-form-paragliding-pilots-list-manage .inline-label { display: inline-block;}
 
 .view-paragliding-pilots-list caption .sex { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
 .view-paragliding-pilots-list caption .female { background-position: 0 -773px}
@@ -3141,6 +3138,44 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 }
 .pane_pilots_list_manage .filter-table input:-moz-placeholder { color: #b9c4c9;}
 .pane_pilots_list_manage .filter-table input::-webkit-input-placeholder { color: #b9c4c9;}
+
+.pane_pilots_list_manage td.views-field-field-full-name { width: 161px;}
+.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0;}
+.pane_pilots_list_manage tr:hover td.views-field-field-full-name a { color: #00aeef; background-position: 100% -3800px; padding: 4px 32px 4px 0;}
+.pane_pilots_list_manage tr:hover td.views-field-field-full-name a:hover { text-decoration: underline; background-position: 100% -3900px;}
+.pane_pilots_list_manage td.views-field-field-contestant-number { width: 120px; text-align: center;}
+.pane_pilots_list_manage td.views-field-field-address { width: 70px; text-align: center;}
+.pane_pilots_list_manage td.views-field-field-phone { text-align: center;}
+.pane_pilots_list_manage td.views-field-field-tracker { width: 100px;}
+.pane_pilots_list_manage td.views-field-field-pg-contestant-status { width: 220px;}
+.pane_pilots_list_manage .td_inner div { display: inline; vertical-align: top;}
+.pane_pilots_list_manage .td_inner > div { margin: 0 9px;}
+.pane_pilots_list_manage .td_inner .editablefield-item { display: block;}
+.pane_pilots_list_manage .td_inner .editablefield-item div { display: inline-block;}
+.pane_pilots_list_manage .editablefields-link { display: none; width: 18px; height: 18px; background: url(../images/pensil.png) no-repeat 0 0; overflow: hidden; text-indent: -9999px; vertical-align: middle; margin: -2px 0; margin-right: -18px; }
+.pane_pilots_list_manage tr:hover .editablefields-link { display: inline-block;}
+.pane_pilots_list_manage .editablefields-link:hover { background-position: 0 -18px}
+.pane_pilots_list_manage .views-field-field-phone div + .editablefields-link { margin-left: 7px; margin-right: -25px;}
+.pane_pilots_list_manage .td_inner div.ajax-progress-throbber { display: none;}
+.pane_pilots_list_manage .form-item { padding: 0;}
+.pane_pilots_list_manage input.form-text { margin: -9px 0 -9px; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px;}
+.pane_pilots_list_manage .form-actions a { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -6px 0 -6px 6px; vertical-align: top;}
+.pane_pilots_list_manage .form-actions a:hover {
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
+  -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: 0.8; /* Konqueror 3.1, Safari 1.1 */
+  opacity: 0.8; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+
+}
+
+
+
+/*.page-event-pilots-manage .panel-col-seventy .inside { margin-right: 0;}*/
+/*.views-field-field-phone .editablefield-item .field-type-phone-number input.simple-phone-full-number { width: 140px;}*/
+.views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number input {width: 32px;}
+.views-field-field-contestant-number .editablefield-item .field-name-field-contestant-number .description { display: none;}
+#views-form-paragliding-pilots-list-manage .inline-label { display: inline-block;}
 
 .page-event-results .pane-page-content { font: 14px/20px Arial, Helvetica, sans-serif; }
 .pane-node-field-results-title { font: bold 25px/27px Arial, Helvetica, sans-serif; padding: 13px 0 8px;}

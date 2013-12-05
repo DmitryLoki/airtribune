@@ -8875,7 +8875,7 @@ return array($event_id);';
       'prefix_suffix' => 1,
     ),
     'link_text' => 'Edit',
-    'link_position' => '0',
+    'link_position' => '1',
   );
   /* Field: Field: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
@@ -8905,7 +8905,7 @@ return array($event_id);';
     'empty_text' => '',
     'fallback_format' => 'list_default',
     'link_text' => 'Edit',
-    'link_position' => '0',
+    'link_position' => '1',
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
@@ -9098,6 +9098,9 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
   $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['field_phone']['label'] = 'Phone number';
+  $handler->display->display_options['fields']['field_phone']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_phone']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['field_phone']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   $handler->display->display_options['fields']['field_phone']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_phone']['settings'] = array(
@@ -9106,7 +9109,7 @@ return array($event_id);';
     'empty_text' => '',
     'fallback_format' => 'global_phone_number',
     'link_text' => 'Edit',
-    'link_position' => '0',
+    'link_position' => '1',
   );
   /* Field: OG membership: Tracker */
   $handler->display->display_options['fields']['field_tracker']['id'] = 'field_tracker';
@@ -9123,7 +9126,7 @@ return array($event_id);';
       'link' => 0,
     ),
     'link_text' => 'Edit',
-    'link_position' => '0',
+    'link_position' => '1',
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
