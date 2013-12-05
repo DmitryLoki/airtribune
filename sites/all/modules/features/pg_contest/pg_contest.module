@@ -8,19 +8,6 @@
 include_once 'pg_contest.features.inc';
 
 /**
- * Implements hook_menu_alter().
- */
-function pg_contest_menu() {
-  $items['flyingsite/%'] = array(
-    'page callback' => 'get_takeoffs_for_flyingsite',
-    'page arguments' => array(1),
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-  return $items;
-}
-
-/**
  * Implementation of hook_form
  * Default base is 'node_content'
  * @param type $node
@@ -84,21 +71,34 @@ function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
       $form['path']['language']['#value'] = $path['language'];
     }
   }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function pg_contest_form_alter(&$form, $form_state, $form_id) {
   // Work with Flying Site (FS) and Take off basic marks (TO)
   // @see #3986
-  if ($form_id == 'pg_contest_node_form') {
-    $wrapper = entity_metadata_wrapper('node', $form['#node']);
+  if ($form_id == 'pg_contest_node_form' || $form_id == 'airtribune_event_settings_form') {
+    $node = !empty($form['#node']) ? $form['#node'] : $form['#entity'];
+    $wrapper = entity_metadata_wrapper('node', $node);
     // User edit contest node, field already have existing FS.
     $fs = $wrapper->field_flying_site_ref->raw();
     // User change option in FS select, FS was sended by AJAX-request.
     if (!empty($form_state['values']['field_flying_site_ref'])) {
       $fs = $form_state['values']['field_flying_site_ref']['und']['0']['target_id'];
     }
-
+    // Some stuff for design.
+    $email = l('Email us', 'mailto:' . variable_get('site_mail', ''), array('absolute' => TRUE));
+    $form['field_flying_site_ref']['und']['#description'] = t("!email_us, if you don't see your place in the list.", array('!email_us' => $email));
+    unset($form['field_take_offs']['und']['#title']);
     // Load TO for selected FS.
     if ($fs) {
       if ($take_offs = get_takeoffs_for_flyingsite($fs)) {
         $form['field_take_offs']['und']['#options'] = $take_offs;
+        $fs_entity = node_load($fs);
+        $fs_link = l($fs_entity->title, drupal_get_path_alias('node/' . $fs_entity->nid), array('absolute' => TRUE));
+        $form['field_take_offs']['und']['#description'] = t('Choose official take off(s) for !fs_link flying site.', array('!fs_link' => $fs_link));
       }
       else {
         $form['field_take_offs']['und']['#options'] = array();
@@ -110,7 +110,7 @@ function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
         $form['field_take_offs']['und']['#default_value'] = $take_offs_checked;
       }
     }
-    // New contest, hide any variants from default entityreference widget/formater.
+    // New contest, hide any variants from default entityreference widget/formatter.
     else {
       $form['field_take_offs']['und']['#options'] = array();
     }
@@ -124,9 +124,6 @@ function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
     // Add wrapper to TO field. Will update this wrapper.
     $form['field_take_offs']['und']['#prefix'] = '<div id="take-off-list">';
     $form['field_take_offs']['und']['#suffix'] = '</div>';
-    // Debug, show at top =)
-    $form['field_flying_site_ref']['#weight'] = -12;
-    $form['field_take_offs']['#weight'] = -10;
   }
 }
 
@@ -356,6 +353,7 @@ function _pg_contest_urls_init($nid) {
     '/map/basic',
     '/register',
     '/results',
+    '/settings',
   );
   return $result;
 }
