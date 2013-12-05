@@ -46,7 +46,11 @@
 <?php
   // Removed all js files. Inline js is left in place.
   // @see #4112
-  $scripts = preg_replace('/<script src=".*"><\/script>/i', '', $scripts);
+  $patterns = array(
+    '/<script>window.jQuery \|\| document.write\("<script src=.*\n/i',
+    '/<script src=".*"><\/script>\n/i'
+  );
+  $scripts = preg_replace($patterns, '', $scripts);
   print $scripts;
 ?>
 <?php print $page; ?>
