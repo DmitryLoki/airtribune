@@ -43,6 +43,11 @@
  */
 ?>
 <?php print $styles; ?>
-<?php //print $scripts; ?>
+<?php
+  // Removed all js files. Inline js is left in place.
+  // @see #4112
+  $scripts = preg_replace('/<script src=".*"><\/script>/i', '', $scripts);
+  print $scripts;
+?>
 <?php print $page; ?>
 
