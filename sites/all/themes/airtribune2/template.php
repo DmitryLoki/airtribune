@@ -387,7 +387,6 @@ function airtribune2_preprocess_node(&$vars) {
 
 function airtribune2_process_node(&$vars) {
 
-
   $vars['event_blog'] = FALSE;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
 
@@ -536,6 +535,7 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_image'])) {
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
+
     if ($vars['type'] == 'newsblog') {
       $vars['page'] = TRUE;
     }

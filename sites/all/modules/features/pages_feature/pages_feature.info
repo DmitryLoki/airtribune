@@ -27,6 +27,7 @@ features[page_manager_pages][] = event_add
 features[page_manager_pages][] = event_basic
 features[page_manager_pages][] = event_blog
 features[page_manager_pages][] = event_blog_node
+features[page_manager_pages][] = event_day_page
 features[page_manager_pages][] = event_info
 features[page_manager_pages][] = event_item
 features[page_manager_pages][] = event_pilots

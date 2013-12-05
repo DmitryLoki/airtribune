@@ -611,7 +611,11 @@ function pg_race_retrive_table_callback($entity) {
 }
 
 function pg_race_retrive_links_callback($entity) {
+  global $user;
   $output = '';
+
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
+  $gid = $og_ref_items[0]['target_id'];
 
   if (pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user)) {
     $map_link = pg_race_retrive_map_callback($entity);
@@ -905,7 +909,7 @@ function _day_pg_race_preview_markup($node) {
   ));
 
   // Use another output for blog page.
-  if (arg(2) == 'blog') {
+  if (arg(2) == 'day') {
     drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
     if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
       $data['text'] = '2D';
@@ -940,7 +944,7 @@ function pg_race_replay_blog_markup($data) {
     'attributes' => $data['attributes'],
   );
   $output = theme('item_list', $variables);
-  $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
+  $output = '<span class="views-label replay-link-label">' . t('Replay') . '</span>' . '<span class="field-content replay-link-content">' . $output . '</span>';
 
   return $output;
 }

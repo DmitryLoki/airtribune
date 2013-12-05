@@ -125,6 +125,167 @@ function image_styles_feature_image_default_styles() {
     'label' => 'award_sponsor_details',
   );
 
+  // Exported image style: bricks_a_1.
+  $styles['bricks_a_1'] = array(
+    'name' => 'bricks_a_1',
+    'label' => 'Bricks A 1',
+    'effects' => array(
+      44 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '700',
+          'height' => '350',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_2.
+  $styles['bricks_a_2'] = array(
+    'name' => 'bricks_a_2',
+    'label' => 'Bricks A 2',
+    'effects' => array(
+      45 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '349',
+          'height' => '230',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_3.
+  $styles['bricks_a_3'] = array(
+    'name' => 'bricks_a_3',
+    'label' => 'Bricks A 3',
+    'effects' => array(
+      46 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '466',
+          'height' => '310',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_4.
+  $styles['bricks_a_4'] = array(
+    'name' => 'bricks_a_4',
+    'label' => 'Bricks A 4',
+    'effects' => array(
+      48 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '232',
+          'height' => '154',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_5.
+  $styles['bricks_a_5'] = array(
+    'name' => 'bricks_a_5',
+    'label' => 'Bricks A 5',
+    'effects' => array(
+      49 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '525',
+          'height' => '349',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_6.
+  $styles['bricks_a_6'] = array(
+    'name' => 'bricks_a_6',
+    'label' => 'Bricks A 6',
+    'effects' => array(
+      50 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '173',
+          'height' => '115',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: bricks_a_7.
+  $styles['bricks_a_7'] = array(
+    'name' => 'bricks_a_7',
+    'label' => 'Bricks A 7',
+    'effects' => array(
+      51 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '115',
+          'height' => '75',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: contest_gallery_thumb.
   $styles['contest_gallery_thumb'] = array(
     'name' => 'contest_gallery_thumb',

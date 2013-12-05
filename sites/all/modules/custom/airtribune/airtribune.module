@@ -291,8 +291,39 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
+    'bricks' => array(
+      'label' => t('Bricks'),
+      'field types' => array('image'),
+      'settings' => array('layout' => 'bicks_a')
+    ),
   );
 }
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function airtribune_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  if ($instance['display'][$view_mode]['type'] == 'bricks') {
+    $element['layout'] = array(
+      '#title' => t('Layout'),
+      '#type' => 'select',
+      '#options' => array('bricks_a' => t('Bricks A'), 'bricks_b' => t('Bricks B'), 'bricks_c' => t('Bricks C')),
+      '#default_value' => $instance['display'][$view_mode]['settings'],
+      '#required' => TRUE,
+    );
+    return $element;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function airtribune_field_formatter_settings_summary($field, $instance, $view_mode) {
+  if ($instance['display'][$view_mode]['type'] == 'bricks') {
+    return t('Layout: %layout', array('%layout' =>  $instance['display'][$view_mode]['settings']['layout']));
+  }
+}
+
 
 /**
  * Implements hook_field_formatter_view().
@@ -312,6 +343,75 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         $element[$delta] = array(
           '#markup' => airtribune_format_date_interval($item['value'], $item['value2'])
         );
+      }
+      break;
+
+    case 'bricks':
+      $layout = $display['settings']['layout'];
+      for ($i = 1; $i <= 7; $i++) {
+        $presets[$i] = $layout . '_' . $i;
+      }
+      switch ($layout) {
+        case 'bricks_a':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+
+        case 'bricks_b':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+
+        case 'bricks_c':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+      }
+      $variant_index = count($items) - 1;
+      $image_styles = isset($variants[$variant_index]) ? $variants[$variant_index] : end($variants);
+      $default_image_style = end($image_styles);
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'colorbox_image_formatter',
+          '#item' => $item,
+          '#display_settings' => array(
+            'colorbox_node_style' => isset($image_styles[$delta]) ? $image_styles[$delta] : $default_image_style,
+            'colorbox_image_style' => NULL,
+            'colorbox_caption' => 'auto',
+            'colorbox_gallery' => 'field_post',
+          ),
+          '#entity' => $entity,
+          '#entity_type' => $entity_type,
+          '#field' => $field,
+        );
+
       }
       break;
   }
@@ -809,7 +909,7 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 }
 
 /**
- * Implementation of hook_views_query_alter
+ * Implementation of hook_views_pre_build
  * @param type $view
  */
 function airtribune_views_pre_build(&$view) {
@@ -894,6 +994,8 @@ function airtribune_views_query_alter(&$view, &$query) {
 
 
 /**
+ * Implementation of hook_views_pre_render
+ *
  * Make normal, human sort in FAI pilot list (by nation)
  * Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
  * difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
@@ -920,6 +1022,51 @@ function airtribune_views_pre_render(&$view) {
       $result = array_merge($result, $v);
     }
     $view->result = $result;
+  } else if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
+
+    foreach ($view->result as $k => $v) {
+      if  ($v->field_field_day_status[0]['raw']['value'] == 0) {
+        // Remove day status output [Day is Ok]
+        unset($view->result[$k]->field_field_day_status[0]['rendered']['#markup']);
+        unset($view->result[$k]->field_field_day_status[0]['raw']['value']);
+      } else if ($v->field_field_day_status[0]['raw']['value'] >= 4) {
+        // Remove day label output [Training or registration days]
+        unset($view->result[$k]->field_field_day_number[0]['rendered']['#markup']);
+        unset($view->result[$k]->field_field_day_number[0]['raw']['value']);
+        
+        // Fix js link to day in accordion
+        $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of ohok_preprocess_views_view_field
+ */
+function airtribune_preprocess_views_view_field(&$vars){
+  $view = $vars['view'];
+  $field = $vars['field'];
+  $row = $vars['row'];
+
+  if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
+    $output = $vars['field']->advanced_render($vars['row']);
+    // Change day header output
+    // @see #3604
+    if ($field->field == 'title') {
+      $day_date = date('j M, Y', $row->node_created);
+      $now = date('j M, Y', time());
+      // Replace date to 'today' word, if date is today
+      if ($now == $day_date) {
+        $output = str_replace($view->field['created']->original_value, t('Today'), $output);
+      }
+      // Remove dash registration or training day
+      if ($row->field_field_day_status[0]['raw']['value'] >= 4) {
+        $original_value = ' — ' . $view->field['field_day_status']->original_value;
+        $output = str_replace($original_value, $view->field['field_day_status']->original_value, $output);
+      }
+    }
+    $vars['output'] = $output;
   }
 }
 
@@ -1598,6 +1745,30 @@ function _create_day_for_contest() {
   }
 }
 
+/*
+    $plugins = array(
+      'onecoltworow',
+      'onecolthreerow',
+      'twocolfourrow',
+      'fourcoltworow',
+    );
+*/
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ajax_links_api_preprocess_twocolfourrow(&$variables, $hook) {
+  if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+    $variables['theme_hook_suggestions'][] = 'twocolfourrow__ajax';
+    if ($suggestions = theme_get_suggestions(arg(), 'twocolfourrow')) {
+      // Now you can override html--ajax.tpl.php for indivdual path.
+      foreach($variables['theme_hook_suggestions'] as $suggestion) {
+        $variables['theme_hook_suggestions'][] = $suggestion . '__ajax';
+      }
+    }
+    array_pop($variables['theme_hook_suggestions']);
+  }
+}
 /**
  * Count contestants.
  */

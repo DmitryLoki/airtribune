@@ -1568,8 +1568,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 
 .pane-event-days-panel-event-days-on-blog { margin-top: -1px; padding-bottom: 40px; text-align: center;}
-.pane-event-days-panel-event-days-on-blog a { color: #222222}
-.pane-event-days-panel-event-days-on-blog .pane-inner { margin: 0;}
+.pane-event-days-panel-event-days-on-blog .pane-inner,
+.pane-event-days-panel-event-day-on-page .pane-inner { margin: 0;}
 .pane-event-days-panel-event-days-on-blog .views-accordion-header { padding-top: 10px; background: none; border: none; margin-top: 0;
 
   -webkit-border-radius: 0;
@@ -1580,7 +1580,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .ui-accordion-content .inside { margin: 0; }
 .pane-event-days-panel-event-days-on-blog .views-accordion-header .ui-icon { display: none;}
 .pane-event-days-panel-event-days-on-blog .views-accordion-header a, 
-.pane-contest-blog-contest-full-pane h2.pane-title { background-color: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer; color: #677581;
+.pane-contest-blog-contest-full-pane h2.pane-title { background-color: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer; color: #677581; text-align: left;
 
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1620,7 +1620,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .view-content > div:last-child .views-field-field-image { margin-bottom: -2px; text-align: left;}
 .pane-event-days-panel-event-days-on-blog .views-field-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .pane-event-days-panel-event-days-on-blog .views-field-field-image img { float:left; margin:0 0 2px 2px}
-
+.pane-event-days-panel-event-days-on-blog  .views-field-day-pg-race-play-live-link,
 .pane-event-days-panel-event-days-on-blog .dropdown_list,
 .pane-event-days-panel-event-days-on-blog .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
 .pane-event-days-panel-event-days-on-blog .task_link { width: 40px; height: 40px; background: url(../images/track.png) no-repeat 0 0; overflow: hidden;}
@@ -1640,15 +1640,22 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content .field-content { min-width: 0;}
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-link { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; margin-top: 11px;}
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-link { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
+
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link {
+  display:inline-block;
+}
 
 .pane-event-days-panel-event-days-on-blog .views-field-view .views-label,
 .pane-event-days-panel-event-days-on-blog .views-field-view .field-content { background-color: rgba(173,193,210,1); border-color: #adc1d2}
 .pane-event-days-panel-event-days-on-blog .views-field-view .views-label:hover { background-color: rgba(173,193,210,0.5); border-color: #adc1d2}
 
+.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-retrieve-links .views-label-pg-race-retrieve-links,
+.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-retrieve-links .field-content,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-label,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-content { background-color: rgba(238,175,0,1); border-color: #e4a605}
+.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-retrieve-links .views-label-pg-race-retrieve-links:hover,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-label:hover { background-color: rgba(238,175,0,0.5); border-color: #e4a605}
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
@@ -1671,13 +1678,13 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .race-links.no-task a { cursor: text;}
 .pane-event-days-panel-event-days-on-blog .race-links .dayblog-text {display:none;}
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px;}
-.pane-event-days-panel-event-days-on-blog .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px; margin-top: 11px;}
+.pane-event-days-panel-event-days-on-blog .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-event-days-on-blog .race-awaiting .help-text,
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 60px; text-align: right; color: #fdbd41; font-weight: bold; font-style: normal; padding-left: 20px;}
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-online .race-link,
-.pane-event-days-panel-event-days-on-blog #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; margin-top: 11px; display: inline-block;}
+.pane-event-days-panel-event-days-on-blog #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; display: inline-block;}
 .pane-event-days-panel-event-days-on-blog #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
 .pane-event-days-panel-event-days-on-blog .race-awaiting #time-counter { background-color: #fbd72b; border-color: #f6d72e;}
 
@@ -3450,7 +3457,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-block-activated .help-text {display:block;}
 .front_live_events .race-block-activated .dayblog-text {display:none;}
 
-.front .front_live_events .views-field-field-pg-race-tracks {display:none;}
+.race-links .views-field-field-pg-race-tracks {display:none;}
 /*.view-frontpage-events .views-row-4,
 .view-frontpage-events .views-row-5,
 .view-frontpage-events .views-row-6,
