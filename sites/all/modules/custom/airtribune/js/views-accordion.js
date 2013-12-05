@@ -25,9 +25,8 @@
             //special tricks for ajax links api
             $link.attr('href', $link.data('href'));
             $link.bind('click', function(e) {
-              $(this).unbind('click').removeClass('ajax-link').bind('click',function(){
-
-              })
+              $($link.attr('rel')).css('height','70px');
+              $(this).unbind('click').removeClass('ajax-link')
               //$(this).bind('click',accordionElement.data('accordion')._clickHandler.bind(accordionElement.data('accordion')));
             });
             // if the header is not already using an anchor tag, add one
