@@ -130,6 +130,7 @@ function airtribune_menu() {
     'access callback' => 'airtribune_event_settings_access',
     'access arguments' => array(1),
     'title' => 'Settings',
+    'weight' => -99,
   );
   return $items;
 }
