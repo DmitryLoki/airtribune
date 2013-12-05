@@ -1732,6 +1732,7 @@ body .pane-event-days-panel-pane-1 .views-field-field-pg-race-tracks .field-cont
 .next_events a.next_event:hover { color:#00aeef}
 .next_events a.next_event .title { font-weight:bold; display:block}
 .next_events a.next_event .dates, .next_events a.next_event .place { display:block; font:14px/20px Arial, Helvetica, sans-serif; color:#8a9095; background:url(../images/next_events.png) no-repeat 0 0; padding-left:25px}
+.pane-next-events-sidebar-pane.next_events a.next_event .dates { padding-right: 0;}
 .next_events a.next_event:hover .dates, .next_events a.next_event:hover .place { color:#616569}
 .next_events a.next_event .dates { background-position:-220px -13px}
 .next_events a.next_event .place { background-position:-660px -45px;}
