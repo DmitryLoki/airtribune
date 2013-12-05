@@ -6954,7 +6954,7 @@ window.fbAsyncInit = function() {
         'value' => '<script data-main="http://vis.airtribune.com/wp/js/init" src="http://vis.airtribune.com/wp/js/require.js"></script>
 <link rel="stylesheet" href="http://vis.airtribune.com/wp/css/reset.css" />
 <link rel="stylesheet" href="http://vis.airtribune.com/wp/css/WayPointerEditor.css" />
-<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", eventId: [node:nid], mapWidget: "2d" } --><!-- /ko -->
+<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", uploadUrl: "/points/file", eventId: [node:nid], mapWidget: "2d" } --><!-- /ko -->
 </div>',
         'format' => 'full_html',
       ),
