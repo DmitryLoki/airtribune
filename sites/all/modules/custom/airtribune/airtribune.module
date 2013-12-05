@@ -613,7 +613,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
       $pilots_links[] = array(
         'title' => 'Manage confirmed',
         'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage/confirmed'),
-        'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-manage') ? ' active' : ''),
+        'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed') ? ' active' : ''),
       );
       $pilots_links[] = array(
         'title' => 'Manage',
