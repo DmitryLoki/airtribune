@@ -3792,7 +3792,112 @@ Duplicate city names warnings if exists.',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '24',
+        'weight' => '25',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_take_offs'.
+  $fields['node-pg_contest-field_take_offs'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_take_offs',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'eck_ent_basicmark' => array(
+          'columns' => array(
+            'target_id' => 'id',
+          ),
+          'table' => 'eck_ent_basicmark',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_takeoff' => 'pg_takeoff',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'ent_basicmark',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => array(),
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 69,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_take_offs',
+      'label' => 'Take offs',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'pg_contest',
+        'settings' => array(),
+        'type' => 'pg_contest_takeoff',
+        'weight' => '60',
       ),
     ),
   );
@@ -4306,6 +4411,7 @@ Duplicate city names warnings if exists.');
   t('Social networks links');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
+  t('Take offs');
   t('Tel');
   t('This is an offline event');
   t('Time zone');

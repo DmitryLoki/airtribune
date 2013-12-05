@@ -328,6 +328,10 @@ function airtribune2_preprocess_panels_pane(&$variables) {
         $variables['title'] = '';
       }
       break;
+    case 'paragliding_pilots_list-manage_confirmed':
+    case 'paragliding_pilots_list-manage':
+      $variables['classes_array'][] = 'pane_pilots_list_manage';
+      break;
 
     default:
       # code...
