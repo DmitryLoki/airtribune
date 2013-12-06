@@ -724,8 +724,8 @@ function _pg_race_preview_markup($entity) {
     return;
   }
 
-  $params['text'] = '2D';
-  $params['type'] = '2d';
+  $params['text'] = array('2D', 'Google Earth');
+  $params['type'] = array('2d', 'ge');
   $markup = _pg_race_play_link($params);
 
   $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
@@ -744,14 +744,18 @@ function _day_make_link($params) {
   if (empty($params['text'])) {
     return;
   }
-  $class = array('race-link', $params['type'], $params['status']);
-  $link = '<span class="file">' . theme('html_tag', array(
-      'element' => array(
-        '#tag' => 'a',
-        '#value' => $params['text'],
-        '#attributes' => array('class' => $class, 'target' => '_blank', 'rel' => 'nofollow')
-      )
-    )) . '</span>';
+  $link = array();
+  $type = (array)$params['type'];
+  foreach((array)$params['text'] as $key => $text) {
+    $class = array('race-link', $type[$key], $params['status']);
+    $link[] = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'a',
+          '#value' => $text,
+          '#attributes' => array('class' => $class, 'target' => '_blank', 'rel' => 'nofollow')
+        )
+      ));
+  }
   return $link;
 }
 
@@ -763,7 +767,7 @@ function _pg_race_play_link($params) {
 
   // Generate list
   //$items = array($href2d, $href3d);
-  $items = array($href2d);
+  $items = (array)$href2d;
 
   $ul_attribuntes = array(
     'class' => array('race-links'),
@@ -847,7 +851,8 @@ function _day_pg_race_preview_markup($node) {
   }
 
   // Content data
-  $data['type'] = '2d';
+  $data['text'] = array('2D', 'Google Earth');
+  $data['type'] = array('2d', 'ge');
   $link_text = NULL;
   $help_text = NULL;
   $time = NULL;
@@ -891,7 +896,7 @@ function _day_pg_race_preview_markup($node) {
   $help_text = !empty($help_text) ? '<span class="help-text">' . $help_text . '</span>' : '';
 
   // Wrap link text
-  $data['text'] = $link_text;
+  $data['label']['text'] = $link_text;
   $link = _day_make_link($data);
 
   // tracks
@@ -899,7 +904,25 @@ function _day_pg_race_preview_markup($node) {
     $help_text .= '<span class="views-field-field-pg-race-tracks"><a href="' . file_create_url($tracks['uri']) . '">' . t('Tracks') . '</a></span>';
   }
   // Prepare output
-  $output = $link . $help_text . $time;
+  //$output = $link;
+
+  $data['attributes'] = $wrapper_attributes;
+  $data['label']['attributes']['class'][] = 'views-label';
+  $data['field']['attributes']['class'][] = 'field-content';
+  // Use another output for blog page.
+  if (arg(2) == 'day') {
+    drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
+    if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
+      $data['label']['text'] = t('Replay');
+      $data['label']['attributes']['class'][] = 'replay-link-label';
+      $data['field']['attributes']['class'][] = 'replay-link-content';
+
+    } else {
+      $data['label']['attributes']['class'][] = 'online-link-label';
+      $data['field']['attributes']['class'][] = 'online-link-content';
+    }
+}
+
   $output = theme('html_tag', array(
     'element' => array(
       '#tag' => 'span',
@@ -907,15 +930,10 @@ function _day_pg_race_preview_markup($node) {
       '#attributes' => $wrapper_attributes
     )
   ));
-
-  // Use another output for blog page.
-  if (arg(2) == 'day') {
-    drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
-    if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
-      $data['text'] = '2D';
-      $data['attributes'] = $wrapper_attributes;
-      $output = pg_race_replay_blog_markup($data);
-    }
+  $output = pg_race_blog_markup($data);
+  
+  if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
+    $output .= $help_text . $time;
   }
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
@@ -933,18 +951,32 @@ function _day_pg_race_preview_markup($node) {
   return $output;
 }
 
-function pg_race_replay_blog_markup($data) {
+function pg_race_blog_markup($data) {
   $link = _day_make_link($data);
-  $items = array($link);
-
+  $items = (array)$link;
+  $list = '';
   $variables = array(
     'type' => 'ul',
     'title' => '',
     'items' => $items,
     'attributes' => $data['attributes'],
   );
-  $output = theme('item_list', $variables);
-  $output = '<span class="views-label replay-link-label">' . t('Replay') . '</span>' . '<span class="field-content replay-link-content">' . $output . '</span>';
+  $list = theme('item_list', $variables);
+  $output = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'span',
+      '#value' => $data['label']['text'],
+      '#attributes' => $data['label']['attributes'],
+    )
+  ));
+  
+  $output .= theme('html_tag', array(
+    'element' => array(
+       '#tag' => 'span',
+       '#value' => $list,
+       '#attributes' => $data['field']['attributes'],
+    )
+    ));
 
   return $output;
 }

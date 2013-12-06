@@ -54,7 +54,7 @@
 
 <?php 
 if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
-  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field views-field-day-pg-race-play-live-link">';
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field dropdown_list views-field-day-pg-race-play-live-link">';
   $fields['day_pg_race_play_link']->wrapper_suffix = '</span>';
 }
 else {
