@@ -122,6 +122,7 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
       'effect' => 'fade',
     );
     // Add wrapper to TO field. Will update this wrapper.
+    $form['field_take_offs']['#weight'] = 2;
     $form['field_take_offs']['und']['#prefix'] = '<div id="take-off-list">';
     $form['field_take_offs']['und']['#suffix'] = '</div>';
   }
