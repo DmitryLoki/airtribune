@@ -37,7 +37,7 @@
         <th class="views-field-counter">#</th>
         <?php foreach ($header as $field => $label): ?>
           <th <?php if ($header_classes[$field]) { print 'class="'. $header_classes[$field] . '" '; } ?>>
-            </div><?php print $label; ?></div>
+            <div><?php print $label; ?></div>
           </th>
         <?php endforeach; ?>
       </tr>

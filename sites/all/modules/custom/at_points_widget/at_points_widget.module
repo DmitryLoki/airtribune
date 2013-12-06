@@ -33,6 +33,14 @@ function at_points_widget_menu() {
     'access callback' => 'og_user_access',
     'access arguments' => array('node', 2, 'administer group')
   );
+    $items['points/file/%'] = array(
+    'title' => 'Points upload url',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'at_points_widget_file',
+    'page arguments' => array(2),
+    'access callback' => 'og_user_access',
+    'access arguments' => array('node', 2, 'administer group')
+  );
   $items['points/get/%'] = array(
     'title' => 'Get points for contest',
     'type' => MENU_CALLBACK,
@@ -122,6 +130,34 @@ function at_points_widget_upload($nid) {
 }
 
 /**
+ * Menu callback for points/upload/%nid.
+ * Receives geoJSON with modified points from widget and saves them. 
+ * @param int $nid
+ */
+function at_points_widget_file($nid) {
+  $file = $_FILES['wptFile'];
+  // First, determine filetype by extension.
+  preg_match('/\.\w+$/', $file['name'], $matches);
+  $extension = $matches[0];
+  if ($extension != '.wpt' && $extension != '.cup') {
+    drupal_add_http_header('Status', '400 Incorrect format of input file');
+    drupal_exit();
+  }
+  $filename = file_directory_temp() . '/waypoints_' . time() . $extension;
+  move_uploaded_file($file['tmp_name'], $filename);
+  // Factory method.
+  $file_reader = at_points_widget_get_filereader($filename);
+  if (empty($file_reader)) {
+    drupal_add_http_header('Status', '400 Incorrect format of input file');
+    drupal_exit();
+  }
+  $points = $file_reader->read();
+  unlink($filename);
+  print _at_points_widget_wrapper($points);
+  drupal_exit();
+}
+
+/**
  * Set ent_contest_points values from array. 
  * @param Entity $point point to be modified
  * @param array $value values to set
@@ -197,7 +233,7 @@ function _at_points_widget_wrapper (array $points) {
       ),
       'properties' => array(
         'name' => $point->title,
-        'id' => $point->id,
+        'id' => isset($point->id) ? $point->id : NULL, //New points from uploaded file don't have ids
         'comment' => $point_wrapper->field_point_description->value(),
         'readonly' => isset($point->readonly) ? $point->readonly : FALSE
        )
@@ -210,4 +246,23 @@ function _at_points_widget_wrapper (array $points) {
     );
   drupal_add_http_header('Content-Type', 'application/json');
   return json_encode($result);
+}
+
+/**
+ * Returns implementation of atPointsWidgetFile class.
+ * @param string $filename
+ */
+function at_points_widget_get_filereader($filename) {
+  $classes = array(
+    'AtPointsWidgetCupFile', 
+    'AtPointsWidgetOziFile', 
+    'AtPointsWidgetFSGeoFile', 
+    'AtPointsWidgetCompGPSFile'
+  );
+  foreach ($classes as $class) {
+    if ($class::check($filename)) {
+      return new $class($filename);
+    }
+  }
+  return NULL;
 }

@@ -65,7 +65,7 @@ function airtribune_airtribune_vis_content_type_render($subtype, $conf, $panel_a
  */
 function airtribune_airtribune_vis_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
-  $types = array('_none' => 'From argument', '2d' => '2D', '3d' => '3D');
+  $types = array('_none' => 'From argument', '2d' => '2D', 'ge' => '3D (Google Earth)');
 
   $form['widget_code'] = array(
     '#type' => 'text_format',

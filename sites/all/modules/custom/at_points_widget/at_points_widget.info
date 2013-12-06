@@ -2,5 +2,4 @@ name = at_points_widget
 description = Widget for contest points editing
 core = 7.x
 package = Airtribune
-php = 5.3
-version = 7.x-dev
+files[] = at_points_widget.inc

@@ -73,6 +73,12 @@ function airtribune2_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'page-user';
   }
 
+  /* If event settings page */
+
+  if (in_array('page-event-settings', $vars['classes_array'])) {
+    array_unshift($vars['classes_array'], 'page-user');
+  }
+
   /* If pilot status list */
 
   if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
@@ -328,6 +334,10 @@ function airtribune2_preprocess_panels_pane(&$variables) {
         $variables['title'] = '';
       }
       break;
+    case 'paragliding_pilots_list-manage_confirmed':
+    case 'paragliding_pilots_list-manage':
+      $variables['classes_array'][] = 'pane_pilots_list_manage';
+      break;
 
     default:
       # code...
@@ -376,7 +386,6 @@ function airtribune2_preprocess_node(&$vars) {
 }
 
 function airtribune2_process_node(&$vars) {
-
 
   $vars['event_blog'] = FALSE;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
@@ -526,6 +535,7 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_image'])) {
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
+
     if ($vars['type'] == 'newsblog') {
       $vars['page'] = TRUE;
     }
@@ -614,7 +624,7 @@ function airtribune2_menu_tree__menu_solutions_organizers(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', /*'views_form_paragliding_pilots_list_manage'*/);
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', 'airtribune_event_settings_form', /*'views_form_paragliding_pilots_list_manage'*/);
   if (in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
