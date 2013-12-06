@@ -639,7 +639,8 @@ viewers/*',
             'paths' => 'user/*
 account/*
 profile-pilot/*
-user',
+user
+event/*/day/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1321,7 +1322,8 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'event/*/blog',
+            'paths' => 'event/*/blog
+event/*/day/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1522,8 +1524,7 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-event/*/register
+            'paths' => 'event/*/register
 retrieve/*',
           ),
           'context' => 'empty',
@@ -1561,8 +1562,7 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-retrieve/*',
+            'paths' => 'retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1610,8 +1610,7 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-retrieve/*',
+            'paths' => 'retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1647,8 +1646,7 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/pilots/manage
-retrieve/*',
+            'paths' => 'retrieve/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -2778,7 +2776,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-6';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'event_days-panel_pane_1';
+    $pane->subtype = 'event_days-panel_event_days_on_blog';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -3052,6 +3050,111 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'event_day_page';
+  $page->task = 'page';
+  $page->admin_title = 'Event\'s day';
+  $page->admin_description = '';
+  $page->path = 'event/%event/day/%day';
+  $page->access = array(
+    'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
+  );
+  $page->menu = array(
+    'type' => 'none',
+    'title' => '',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'event' => array(
+      'id' => 1,
+      'identifier' => 'Event node: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+    'day' => array(
+      'id' => 2,
+      'identifier' => 'Day node: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_day_page_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'event_day_page';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Панель',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Day %day:field_day_number | %event:title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-11';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'event_days-panel_event_day_on_page';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'event-day',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-11'] = $pane;
+    $display->panels['middle'][0] = 'new-11';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-11';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['event_day_page'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'event_info';
   $page->task = 'page';
   $page->admin_title = 'Event info';
@@ -3170,7 +3273,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-12';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'coming_soon';
@@ -3191,8 +3294,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-11'] = $pane;
-    $display->panels['middle'][0] = 'new-11';
+    $display->content['new-12'] = $pane;
+    $display->panels['middle'][0] = 'new-12';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3300,7 +3403,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-13';
     $pane->panel = 'event_brick_left_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_info';
@@ -3339,10 +3442,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['event_brick_left_above'][0] = 'new-12';
+    $display->content['new-13'] = $pane;
+    $display->panels['event_brick_left_above'][0] = 'new-13';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-14';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'event_statistics';
     $pane->subtype = 'event_statistics';
@@ -3367,10 +3470,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['event_brick_left_below'][0] = 'new-13';
+    $display->content['new-14'] = $pane;
+    $display->panels['event_brick_left_below'][0] = 'new-14';
     $pane = new stdClass();
-    $pane->pid = 'new-14';
+    $pane->pid = 'new-15';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_scoring_categories-awards_pane_with_sponsors';
@@ -3399,10 +3502,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-14'] = $pane;
-    $display->panels['event_brick_left_below'][1] = 'new-14';
+    $display->content['new-15'] = $pane;
+    $display->panels['event_brick_left_below'][1] = 'new-15';
     $pane = new stdClass();
-    $pane->pid = 'new-15';
+    $pane->pid = 'new-16';
     $pane->panel = 'event_brick_left_below_2';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_hq_location';
@@ -3443,10 +3546,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-15'] = $pane;
-    $display->panels['event_brick_left_below_2'][0] = 'new-15';
+    $display->content['new-16'] = $pane;
+    $display->panels['event_brick_left_below_2'][0] = 'new-16';
     $pane = new stdClass();
-    $pane->pid = 'new-16';
+    $pane->pid = 'new-17';
     $pane->panel = 'event_brick_left_below_2';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_address';
@@ -3482,10 +3585,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-16'] = $pane;
-    $display->panels['event_brick_left_below_2'][1] = 'new-16';
+    $display->content['new-17'] = $pane;
+    $display->panels['event_brick_left_below_2'][1] = 'new-17';
     $pane = new stdClass();
-    $pane->pid = 'new-17';
+    $pane->pid = 'new-18';
     $pane->panel = 'event_brick_left_below_2';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_gt_general';
@@ -3510,10 +3613,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['event_brick_left_below_2'][2] = 'new-17';
+    $display->content['new-18'] = $pane;
+    $display->panels['event_brick_left_below_2'][2] = 'new-18';
     $pane = new stdClass();
-    $pane->pid = 'new-18';
+    $pane->pid = 'new-19';
     $pane->panel = 'event_brick_left_below_2';
     $pane->type = 'field_group';
     $pane->subtype = 'field_group';
@@ -3548,10 +3651,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-18'] = $pane;
-    $display->panels['event_brick_left_below_2'][3] = 'new-18';
+    $display->content['new-19'] = $pane;
+    $display->panels['event_brick_left_below_2'][3] = 'new-19';
     $pane = new stdClass();
-    $pane->pid = 'new-19';
+    $pane->pid = 'new-20';
     $pane->panel = 'event_brick_left_bottom';
     $pane->type = 'field_group';
     $pane->subtype = 'field_group';
@@ -3584,10 +3687,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-19'] = $pane;
-    $display->panels['event_brick_left_bottom'][0] = 'new-19';
+    $display->content['new-20'] = $pane;
+    $display->panels['event_brick_left_bottom'][0] = 'new-20';
     $pane = new stdClass();
-    $pane->pid = 'new-20';
+    $pane->pid = 'new-21';
     $pane->panel = 'event_brick_left_bottom';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_downloads';
@@ -3616,10 +3719,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-20'] = $pane;
-    $display->panels['event_brick_left_bottom'][1] = 'new-20';
+    $display->content['new-21'] = $pane;
+    $display->panels['event_brick_left_bottom'][1] = 'new-21';
     $pane = new stdClass();
-    $pane->pid = 'new-21';
+    $pane->pid = 'new-22';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_contest_photos';
@@ -3650,10 +3753,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-21'] = $pane;
-    $display->panels['event_brick_middle'][0] = 'new-21';
+    $display->content['new-22'] = $pane;
+    $display->panels['event_brick_middle'][0] = 'new-22';
     $pane = new stdClass();
-    $pane->pid = 'new-22';
+    $pane->pid = 'new-23';
     $pane->panel = 'event_brick_right_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_info';
@@ -3689,10 +3792,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-22'] = $pane;
-    $display->panels['event_brick_right_above'][0] = 'new-22';
+    $display->content['new-23'] = $pane;
+    $display->panels['event_brick_right_above'][0] = 'new-23';
     $pane = new stdClass();
-    $pane->pid = 'new-23';
+    $pane->pid = 'new-24';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'airtribune_event_links';
     $pane->subtype = 'airtribune_event_links';
@@ -3714,10 +3817,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-23'] = $pane;
-    $display->panels['event_brick_right_below'][0] = 'new-23';
+    $display->content['new-24'] = $pane;
+    $display->panels['event_brick_right_below'][0] = 'new-24';
     $pane = new stdClass();
-    $pane->pid = 'new-24';
+    $pane->pid = 'new-25';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_organizers';
@@ -3756,10 +3859,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-24'] = $pane;
-    $display->panels['event_brick_right_below'][1] = 'new-24';
+    $display->content['new-25'] = $pane;
+    $display->panels['event_brick_right_below'][1] = 'new-25';
     $pane = new stdClass();
-    $pane->pid = 'new-25';
+    $pane->pid = 'new-26';
     $pane->panel = 'event_brick_right_below_2';
     $pane->type = 'airtribune_event_twitter';
     $pane->subtype = 'airtribune_event_twitter';
@@ -3778,10 +3881,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-25'] = $pane;
-    $display->panels['event_brick_right_below_2'][0] = 'new-25';
+    $display->content['new-26'] = $pane;
+    $display->panels['event_brick_right_below_2'][0] = 'new-26';
     $pane = new stdClass();
-    $pane->pid = 'new-26';
+    $pane->pid = 'new-27';
     $pane->panel = 'event_brick_right_bottom';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_social_links';
@@ -3809,10 +3912,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-26'] = $pane;
-    $display->panels['event_brick_right_bottom'][0] = 'new-26';
+    $display->content['new-27'] = $pane;
+    $display->panels['event_brick_right_bottom'][0] = 'new-27';
     $pane = new stdClass();
-    $pane->pid = 'new-27';
+    $pane->pid = 'new-28';
     $pane->panel = 'event_brick_right_bottom';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -3835,10 +3938,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-27'] = $pane;
-    $display->panels['event_brick_right_bottom'][1] = 'new-27';
+    $display->content['new-28'] = $pane;
+    $display->panels['event_brick_right_bottom'][1] = 'new-28';
     $pane = new stdClass();
-    $pane->pid = 'new-28';
+    $pane->pid = 'new-29';
     $pane->panel = 'event_brick_top';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_blog-contest_pane';
@@ -3859,8 +3962,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-28'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-28';
+    $display->content['new-29'] = $pane;
+    $display->panels['event_brick_top'][0] = 'new-29';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -3959,7 +4062,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-29';
+    $pane->pid = 'new-30';
     $pane->panel = 'event_brick_left_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_schedule';
@@ -3991,10 +4094,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-29'] = $pane;
-    $display->panels['event_brick_left_above'][0] = 'new-29';
+    $display->content['new-30'] = $pane;
+    $display->panels['event_brick_left_above'][0] = 'new-30';
     $pane = new stdClass();
-    $pane->pid = 'new-30';
+    $pane->pid = 'new-31';
     $pane->panel = 'event_brick_left_below';
     $pane->type = 'field_group';
     $pane->subtype = 'field_group';
@@ -4024,10 +4127,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-30'] = $pane;
-    $display->panels['event_brick_left_below'][0] = 'new-30';
+    $display->content['new-31'] = $pane;
+    $display->panels['event_brick_left_below'][0] = 'new-31';
     $pane = new stdClass();
-    $pane->pid = 'new-31';
+    $pane->pid = 'new-32';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_headquarter_info';
@@ -4056,10 +4159,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-31'] = $pane;
-    $display->panels['event_brick_middle'][0] = 'new-31';
+    $display->content['new-32'] = $pane;
+    $display->panels['event_brick_middle'][0] = 'new-32';
     $pane = new stdClass();
-    $pane->pid = 'new-32';
+    $pane->pid = 'new-33';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_gt_general';
@@ -4084,10 +4187,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-32'] = $pane;
-    $display->panels['event_brick_middle'][1] = 'new-32';
+    $display->content['new-33'] = $pane;
+    $display->panels['event_brick_middle'][1] = 'new-33';
     $pane = new stdClass();
-    $pane->pid = 'new-33';
+    $pane->pid = 'new-34';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_hq_location';
@@ -4121,10 +4224,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-33'] = $pane;
-    $display->panels['event_brick_middle'][2] = 'new-33';
+    $display->content['new-34'] = $pane;
+    $display->panels['event_brick_middle'][2] = 'new-34';
     $pane = new stdClass();
-    $pane->pid = 'new-34';
+    $pane->pid = 'new-35';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_address';
@@ -4160,10 +4263,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-34'] = $pane;
-    $display->panels['event_brick_middle'][3] = 'new-34';
+    $display->content['new-35'] = $pane;
+    $display->panels['event_brick_middle'][3] = 'new-35';
     $pane = new stdClass();
-    $pane->pid = 'new-35';
+    $pane->pid = 'new-36';
     $pane->panel = 'event_brick_middle_second';
     $pane->type = 'field_group';
     $pane->subtype = 'field_group';
@@ -4190,10 +4293,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-35'] = $pane;
-    $display->panels['event_brick_middle_second'][0] = 'new-35';
+    $display->content['new-36'] = $pane;
+    $display->panels['event_brick_middle_second'][0] = 'new-36';
     $pane = new stdClass();
-    $pane->pid = 'new-36';
+    $pane->pid = 'new-37';
     $pane->panel = 'event_brick_middle_second';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_downloads';
@@ -4219,10 +4322,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-36'] = $pane;
-    $display->panels['event_brick_middle_second'][1] = 'new-36';
+    $display->content['new-37'] = $pane;
+    $display->panels['event_brick_middle_second'][1] = 'new-37';
     $pane = new stdClass();
-    $pane->pid = 'new-37';
+    $pane->pid = 'new-38';
     $pane->panel = 'event_brick_right_above';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_sample_schedule';
@@ -4248,10 +4351,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-37'] = $pane;
-    $display->panels['event_brick_right_above'][0] = 'new-37';
+    $display->content['new-38'] = $pane;
+    $display->panels['event_brick_right_above'][0] = 'new-38';
     $pane = new stdClass();
-    $pane->pid = 'new-38';
+    $pane->pid = 'new-39';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_social_links';
@@ -4276,10 +4379,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-38'] = $pane;
-    $display->panels['event_brick_right_below'][0] = 'new-38';
+    $display->content['new-39'] = $pane;
+    $display->panels['event_brick_right_below'][0] = 'new-39';
     $pane = new stdClass();
-    $pane->pid = 'new-39';
+    $pane->pid = 'new-40';
     $pane->panel = 'event_brick_right_below';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -4302,10 +4405,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-39'] = $pane;
-    $display->panels['event_brick_right_below'][1] = 'new-39';
+    $display->content['new-40'] = $pane;
+    $display->panels['event_brick_right_below'][1] = 'new-40';
     $pane = new stdClass();
-    $pane->pid = 'new-40';
+    $pane->pid = 'new-41';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_info';
@@ -4331,10 +4434,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-40'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-40';
+    $display->content['new-41'] = $pane;
+    $display->panels['event_brick_top'][0] = 'new-41';
     $pane = new stdClass();
-    $pane->pid = 'new-41';
+    $pane->pid = 'new-42';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_contest_photos';
@@ -4366,10 +4469,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-41'] = $pane;
-    $display->panels['event_brick_top'][1] = 'new-41';
+    $display->content['new-42'] = $pane;
+    $display->panels['event_brick_top'][1] = 'new-42';
     $pane = new stdClass();
-    $pane->pid = 'new-42';
+    $pane->pid = 'new-43';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_info';
@@ -4398,10 +4501,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['event_brick_top'][2] = 'new-42';
+    $display->content['new-43'] = $pane;
+    $display->panels['event_brick_top'][2] = 'new-43';
     $pane = new stdClass();
-    $pane->pid = 'new-43';
+    $pane->pid = 'new-44';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_flying_site_photos';
@@ -4433,10 +4536,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-43'] = $pane;
-    $display->panels['event_brick_top'][3] = 'new-43';
+    $display->content['new-44'] = $pane;
+    $display->panels['event_brick_top'][3] = 'new-44';
     $pane = new stdClass();
-    $pane->pid = 'new-44';
+    $pane->pid = 'new-45';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_collection_organizers';
@@ -4474,10 +4577,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-44'] = $pane;
-    $display->panels['event_brick_top'][4] = 'new-44';
+    $display->content['new-45'] = $pane;
+    $display->panels['event_brick_top'][4] = 'new-45';
     $pane = new stdClass();
-    $pane->pid = 'new-45';
+    $pane->pid = 'new-46';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_selection';
@@ -4503,10 +4606,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
-    $display->content['new-45'] = $pane;
-    $display->panels['event_brick_top'][5] = 'new-45';
+    $display->content['new-46'] = $pane;
+    $display->panels['event_brick_top'][5] = 'new-46';
     $pane = new stdClass();
-    $pane->pid = 'new-46';
+    $pane->pid = 'new-47';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_contest_rules';
@@ -4532,10 +4635,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 6;
     $pane->locks = array();
-    $display->content['new-46'] = $pane;
-    $display->panels['event_brick_top'][6] = 'new-46';
+    $display->content['new-47'] = $pane;
+    $display->panels['event_brick_top'][6] = 'new-47';
     $pane = new stdClass();
-    $pane->pid = 'new-47';
+    $pane->pid = 'new-48';
     $pane->panel = 'event_brick_top';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_prizes';
@@ -4561,10 +4664,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 7;
     $pane->locks = array();
-    $display->content['new-47'] = $pane;
-    $display->panels['event_brick_top'][7] = 'new-47';
+    $display->content['new-48'] = $pane;
+    $display->panels['event_brick_top'][7] = 'new-48';
     $pane = new stdClass();
-    $pane->pid = 'new-48';
+    $pane->pid = 'new-49';
     $pane->panel = 'event_brick_top';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_scoring_categories-awards_pane_with_sponsors';
@@ -4588,8 +4691,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 8;
     $pane->locks = array();
-    $display->content['new-48'] = $pane;
-    $display->panels['event_brick_top'][8] = 'new-48';
+    $display->content['new-49'] = $pane;
+    $display->panels['event_brick_top'][8] = 'new-49';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -4725,7 +4828,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-49';
+    $pane->pid = 'new-50';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'hq_distance';
     $pane->subtype = 'hq_distance';
@@ -4744,10 +4847,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-49'] = $pane;
-    $display->panels['event_brick_middle'][0] = 'new-49';
+    $display->content['new-50'] = $pane;
+    $display->panels['event_brick_middle'][0] = 'new-50';
     $pane = new stdClass();
-    $pane->pid = 'new-50';
+    $pane->pid = 'new-51';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
@@ -4772,10 +4875,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-50'] = $pane;
-    $display->panels['event_brick_middle'][1] = 'new-50';
+    $display->content['new-51'] = $pane;
+    $display->panels['event_brick_middle'][1] = 'new-51';
     $pane = new stdClass();
-    $pane->pid = 'new-51';
+    $pane->pid = 'new-52';
     $pane->panel = 'event_brick_middle';
     $pane->type = 'airtribune_disqus';
     $pane->subtype = 'airtribune_disqus';
@@ -4790,10 +4893,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-51'] = $pane;
-    $display->panels['event_brick_middle'][2] = 'new-51';
+    $display->content['new-52'] = $pane;
+    $display->panels['event_brick_middle'][2] = 'new-52';
     $pane = new stdClass();
-    $pane->pid = 'new-52';
+    $pane->pid = 'new-53';
     $pane->panel = 'event_brick_top';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -4808,10 +4911,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-52'] = $pane;
-    $display->panels['event_brick_top'][0] = 'new-52';
+    $display->content['new-53'] = $pane;
+    $display->panels['event_brick_top'][0] = 'new-53';
     $pane = new stdClass();
-    $pane->pid = 'new-53';
+    $pane->pid = 'new-54';
     $pane->panel = 'event_brick_top';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -4832,10 +4935,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-53'] = $pane;
-    $display->panels['event_brick_top'][1] = 'new-53';
+    $display->content['new-54'] = $pane;
+    $display->panels['event_brick_top'][1] = 'new-54';
     $pane = new stdClass();
-    $pane->pid = 'new-54';
+    $pane->pid = 'new-55';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-panel_pane_1';
@@ -4870,10 +4973,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-54'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-54';
+    $display->content['new-55'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-55';
     $pane = new stdClass();
-    $pane->pid = 'new-55';
+    $pane->pid = 'new-56';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_map-active_activity_pane';
@@ -4908,10 +5011,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-55'] = $pane;
-    $display->panels['featured_header_padding'][1] = 'new-55';
+    $display->content['new-56'] = $pane;
+    $display->panels['featured_header_padding'][1] = 'new-56';
     $pane = new stdClass();
-    $pane->pid = 'new-56';
+    $pane->pid = 'new-57';
     $pane->panel = 'featured_header_title';
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
@@ -4930,10 +5033,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-56'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-56';
+    $display->content['new-57'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-57';
     $pane = new stdClass();
-    $pane->pid = 'new-57';
+    $pane->pid = 'new-58';
     $pane->panel = 'right';
     $pane->type = 'panels_mini';
     $pane->subtype = 'sidebar';
@@ -4954,10 +5057,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-57'] = $pane;
-    $display->panels['right'][0] = 'new-57';
+    $display->content['new-58'] = $pane;
+    $display->panels['right'][0] = 'new-58';
     $pane = new stdClass();
-    $pane->pid = 'new-58';
+    $pane->pid = 'new-59';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -4972,8 +5075,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-58'] = $pane;
-    $display->panels['top'][0] = 'new-58';
+    $display->content['new-59'] = $pane;
+    $display->panels['top'][0] = 'new-59';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -5020,125 +5123,11 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_pilots_panel_context_3';
-  $handler->task = 'page';
-  $handler->subtask = 'event_pilots';
-  $handler->handler = 'panel_context';
-  $handler->weight = -29;
-  $handler->conf = array(
-    'title' => 'Pilots (Cooming soon)',
-    'no_blocks' => 1,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(
-      0 => array(
-        'identifier' => 'Event beeing viewed',
-        'keyword' => 'event',
-        'name' => 'airtribune_event',
-        'id' => 1,
-      ),
-    ),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 7,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => TRUE,
-        ),
-        1 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => '',
-            'php' => 'global $user;
-            if ($user->uid == \'1\') {
-              return FALSE;
-              }
-            if (isset($contexts[\'argument_entity_id:node_1\']->data)) {
-  $node = $contexts[\'argument_entity_id:node_1\']->data;
-  $end = strtotime(\'2013/01/01 00:00:00\');
-  $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
-    return TRUE;
-  }
-  return FALSE;
-}',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-    'metatag_panels' => array(
-      'enabled' => 1,
-      'metatags' => array(
-        'title' => array(
-          'value' => 'Pilots | [node:title] | [site:name]',
-        ),
-        'description' => array(
-          'value' => 'Live paragliding races, results, media and tasks replay.',
-        ),
-      ),
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'one';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'one_main' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-59';
-    $pane->panel = 'one_main';
-    $pane->type = 'custom';
-    $pane->subtype = 'coming_soon';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => '',
-      'title' => '',
-      'body' => '',
-      'format' => 'filtered_html',
-      'substitute' => TRUE,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-59'] = $pane;
-    $display->panels['one_main'][0] = 'new-59';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'page_event_pilots_panel_context_2';
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
   $handler->handler = 'panel_context';
-  $handler->weight = -27;
+  $handler->weight = -26;
   $handler->conf = array(
     'title' => 'Pilots (FAI)',
     'no_blocks' => 1,
@@ -5335,66 +5324,83 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_pilots_panel_context_4';
+  $handler->name = 'page_event_pilots_panel_context_3';
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
   $handler->handler = 'panel_context';
-  $handler->weight = -30;
+  $handler->weight = -28;
   $handler->conf = array(
-    'title' => 'Pilots (Manage)',
-    'no_blocks' => 0,
+    'title' => 'Pilots (Cooming soon)',
+    'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Event beeing viewed',
+        'keyword' => 'event',
+        'name' => 'airtribune_event',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
         0 => array(
-          'name' => 'path_visibility',
+          'name' => 'role',
           'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*/pilots/manage',
+            'rids' => array(
+              0 => 3,
+              1 => 7,
+            ),
           ),
-          'context' => 'empty',
-          'not' => FALSE,
+          'context' => 'logged-in-user',
+          'not' => TRUE,
         ),
         1 => array(
-          'name' => 'og_perm',
+          'name' => 'php',
           'settings' => array(
-            'perm' => 'administer group',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:node_1',
+            'description' => '',
+            'php' => 'global $user;
+            if ($user->uid == \'1\') {
+              return FALSE;
+              }
+            if (isset($contexts[\'argument_entity_id:node_1\']->data)) {
+  $node = $contexts[\'argument_entity_id:node_1\']->data;
+  $end = strtotime(\'2013/01/01 00:00:00\');
+  $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
+    return TRUE;
+  }
+  return FALSE;
+}',
           ),
           'not' => FALSE,
         ),
       ),
       'logic' => 'and',
     ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Pilots | [node:title] | [site:name]',
+        ),
+        'description' => array(
+          'value' => 'Live paragliding races, results, media and tasks replay.',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
-  $display->layout = 'onecol';
+  $display->layout = 'one';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
-      'sidebar_first' => NULL,
-      'sidebar_second' => NULL,
-      'content' => NULL,
-      'highlighted' => NULL,
-      'content_aside' => NULL,
-      'secondary_content' => NULL,
-      'tertiary_content' => NULL,
-      'footer' => NULL,
-      'leaderboard' => NULL,
-      'header' => NULL,
-      'menu_bar' => NULL,
-      'help' => NULL,
-      'middle' => NULL,
+      'one_main' => NULL,
     ),
   );
   $display->cache = array();
@@ -5403,17 +5409,17 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-63';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'paragliding_pilots_list-manage';
+    $pane->panel = 'one_main';
+    $pane->type = 'custom';
+    $pane->subtype = 'coming_soon';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
+      'admin_title' => '',
+      'title' => '',
+      'body' => '',
+      'format' => 'filtered_html',
+      'substitute' => TRUE,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -5424,8 +5430,8 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-63'] = $pane;
-    $display->panels['middle'][0] = 'new-63';
-  $display->hide_title = PANELS_TITLE_PANE;
+    $display->panels['one_main'][0] = 'new-63';
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -5436,7 +5442,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
   $handler->handler = 'panel_context';
-  $handler->weight = -28;
+  $handler->weight = -27;
   $handler->conf = array(
     'title' => 'Pilots (Standard)',
     'no_blocks' => 1,
@@ -5629,6 +5635,247 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_pilots_panel_context_4';
+  $handler->task = 'page';
+  $handler->subtask = 'event_pilots';
+  $handler->handler = 'panel_context';
+  $handler->weight = -29;
+  $handler->conf = array(
+    'title' => 'Pilots (Manage)',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/pilots/manage',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'content' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
+      'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-67';
+    $pane->panel = 'middle';
+    $pane->type = 'pilots_statistics';
+    $pane->subtype = 'pilots_statistics';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-67'] = $pane;
+    $display->panels['middle'][0] = 'new-67';
+    $pane = new stdClass();
+    $pane->pid = 'new-68';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-manage';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-68'] = $pane;
+    $display->panels['middle'][1] = 'new-68';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_pilots_panel_context_5';
+  $handler->task = 'page';
+  $handler->subtask = 'event_pilots';
+  $handler->handler = 'panel_context';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => 'Pilots (Manage confirmed)',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/pilots/manage/confirmed',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'content' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
+      'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-69';
+    $pane->panel = 'middle';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Confirmed Pilots Manage Table',
+      'title' => '',
+      'body' => '<strong>There are only <span>“Confirmed”</span> pilots in this table.</strong>
+Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field is empty, pilot’s profile tel. will be used.
+',
+      'format' => 'full_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attention_text',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-69'] = $pane;
+    $display->panels['middle'][0] = 'new-69';
+    $pane = new stdClass();
+    $pane->pid = 'new-70';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-manage_confirmed';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-70'] = $pane;
+    $display->panels['middle'][1] = 'new-70';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
   $pages['event_pilots'] = $page;
 
   $page = new stdClass();
@@ -5767,7 +6014,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-67';
+    $pane->pid = 'new-71';
     $pane->panel = 'featured_header_padding';
     $pane->type = 'views_panes';
     $pane->subtype = 'header_slideshow-header_facebook';
@@ -5786,10 +6033,10 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-67'] = $pane;
-    $display->panels['featured_header_padding'][0] = 'new-67';
+    $display->content['new-71'] = $pane;
+    $display->panels['featured_header_padding'][0] = 'new-71';
     $pane = new stdClass();
-    $pane->pid = 'new-68';
+    $pane->pid = 'new-72';
     $pane->panel = 'featured_header_title';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -5837,10 +6084,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-68'] = $pane;
-    $display->panels['featured_header_title'][0] = 'new-68';
+    $display->content['new-72'] = $pane;
+    $display->panels['featured_header_title'][0] = 'new-72';
     $pane = new stdClass();
-    $pane->pid = 'new-69';
+    $pane->pid = 'new-73';
     $pane->panel = 'featured_header_title';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -5870,10 +6117,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-69'] = $pane;
-    $display->panels['featured_header_title'][1] = 'new-69';
+    $display->content['new-73'] = $pane;
+    $display->panels['featured_header_title'][1] = 'new-73';
     $pane = new stdClass();
-    $pane->pid = 'new-70';
+    $pane->pid = 'new-74';
     $pane->panel = 'left';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_title';
@@ -5898,10 +6145,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-70'] = $pane;
-    $display->panels['left'][0] = 'new-70';
+    $display->content['new-74'] = $pane;
+    $display->panels['left'][0] = 'new-74';
     $pane = new stdClass();
-    $pane->pid = 'new-71';
+    $pane->pid = 'new-75';
     $pane->panel = 'left';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_summary';
@@ -5926,10 +6173,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-71'] = $pane;
-    $display->panels['left'][1] = 'new-71';
+    $display->content['new-75'] = $pane;
+    $display->panels['left'][1] = 'new-75';
     $pane = new stdClass();
-    $pane->pid = 'new-72';
+    $pane->pid = 'new-76';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_scoring_categories-results_pane';
@@ -5944,10 +6191,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-72'] = $pane;
-    $display->panels['left'][2] = 'new-72';
+    $display->content['new-76'] = $pane;
+    $display->panels['left'][2] = 'new-76';
     $pane = new stdClass();
-    $pane->pid = 'new-73';
+    $pane->pid = 'new-77';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_days-results_race_list';
@@ -5962,8 +6209,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-73'] = $pane;
-    $display->panels['left'][3] = 'new-73';
+    $display->content['new-77'] = $pane;
+    $display->panels['left'][3] = 'new-77';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6023,7 +6270,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-74';
+    $pane->pid = 'new-78';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_title';
@@ -6048,10 +6295,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-74'] = $pane;
-    $display->panels['middle'][0] = 'new-74';
+    $display->content['new-78'] = $pane;
+    $display->panels['middle'][0] = 'new-78';
     $pane = new stdClass();
-    $pane->pid = 'new-75';
+    $pane->pid = 'new-79';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_results_summary';
@@ -6076,10 +6323,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-75'] = $pane;
-    $display->panels['middle'][1] = 'new-75';
+    $display->content['new-79'] = $pane;
+    $display->panels['middle'][1] = 'new-79';
     $pane = new stdClass();
-    $pane->pid = 'new-76';
+    $pane->pid = 'new-80';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'contest_scoring_categories-results_pane';
@@ -6094,10 +6341,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-76'] = $pane;
-    $display->panels['middle'][2] = 'new-76';
+    $display->content['new-80'] = $pane;
+    $display->panels['middle'][2] = 'new-80';
     $pane = new stdClass();
-    $pane->pid = 'new-77';
+    $pane->pid = 'new-81';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'event_days-results_race_list';
@@ -6112,8 +6359,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-77'] = $pane;
-    $display->panels['middle'][3] = 'new-77';
+    $display->content['new-81'] = $pane;
+    $display->panels['middle'][3] = 'new-81';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6211,7 +6458,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-78';
+    $pane->pid = 'new-82';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_1';
@@ -6230,8 +6477,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-78'] = $pane;
-    $display->panels['middle'][0] = 'new-78';
+    $display->content['new-82'] = $pane;
+    $display->panels['middle'][0] = 'new-82';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6289,7 +6536,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-79';
+    $pane->pid = 'new-83';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'frontpage_events-live_events_pane';
@@ -6304,10 +6551,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-79'] = $pane;
-    $display->panels['middle'][0] = 'new-79';
+    $display->content['new-83'] = $pane;
+    $display->panels['middle'][0] = 'new-83';
     $pane = new stdClass();
-    $pane->pid = 'new-80';
+    $pane->pid = 'new-84';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'frontpage_events-soon_worldwide_pane';
@@ -6322,10 +6569,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-80'] = $pane;
-    $display->panels['middle'][1] = 'new-80';
+    $display->content['new-84'] = $pane;
+    $display->panels['middle'][1] = 'new-84';
     $pane = new stdClass();
-    $pane->pid = 'new-81';
+    $pane->pid = 'new-85';
     $pane->panel = 'middle';
     $pane->type = 'soon_country';
     $pane->subtype = 'soon_country';
@@ -6343,8 +6590,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-81'] = $pane;
-    $display->panels['middle'][2] = 'new-81';
+    $display->content['new-85'] = $pane;
+    $display->panels['middle'][2] = 'new-85';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6359,7 +6606,10 @@ window.fbAsyncInit = function() {
   $page->admin_title = 'My events';
   $page->admin_description = 'Organizer\'s events.';
   $page->path = 'account/%user/events';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'My events',
@@ -6426,7 +6676,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-82';
+    $pane->pid = 'new-86';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -6447,10 +6697,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-82'] = $pane;
-    $display->panels['middle'][0] = 'new-82';
+    $display->content['new-86'] = $pane;
+    $display->panels['middle'][0] = 'new-86';
     $pane = new stdClass();
-    $pane->pid = 'new-83';
+    $pane->pid = 'new-87';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'my_events-panel_pane_1';
@@ -6465,8 +6715,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-83'] = $pane;
-    $display->panels['middle'][1] = 'new-83';
+    $display->content['new-87'] = $pane;
+    $display->panels['middle'][1] = 'new-87';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6618,7 +6868,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-84';
+    $pane->pid = 'new-88';
     $pane->panel = 'middle';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -6639,10 +6889,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-84'] = $pane;
-    $display->panels['middle'][0] = 'new-84';
+    $display->content['new-88'] = $pane;
+    $display->panels['middle'][0] = 'new-88';
     $pane = new stdClass();
-    $pane->pid = 'new-85';
+    $pane->pid = 'new-89';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'my_registrations-panel_pane_1';
@@ -6660,8 +6910,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-85'] = $pane;
-    $display->panels['middle'][1] = 'new-85';
+    $display->content['new-89'] = $pane;
+    $display->panels['middle'][1] = 'new-89';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6759,7 +7009,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-86';
+    $pane->pid = 'new-90';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -6771,11 +7021,11 @@ window.fbAsyncInit = function() {
     <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
     <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
     <script data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
-    <div role="main" class="airvis-container">
+    <div role="main" class="airvis-container"[airtribune:ge-css:airvis-container:style]>
       <div class="airvis-loading-container">
-        <div class="airvis-loading">&nbsp;</div>
+        <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, rootDomain: "http://vis.airtribune.com", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
@@ -6797,10 +7047,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-86'] = $pane;
-    $display->panels['middle'][0] = 'new-86';
+    $display->content['new-90'] = $pane;
+    $display->panels['middle'][0] = 'new-90';
     $pane = new stdClass();
-    $pane->pid = 'new-87';
+    $pane->pid = 'new-91';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_on_visualization-panel_pane_1';
@@ -6819,8 +7069,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-87'] = $pane;
-    $display->panels['middle'][1] = 'new-87';
+    $display->content['new-91'] = $pane;
+    $display->panels['middle'][1] = 'new-91';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -6943,7 +7193,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-88';
+    $pane->pid = 'new-92';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -6954,7 +7204,7 @@ window.fbAsyncInit = function() {
         'value' => '<script data-main="http://vis.airtribune.com/wp/js/init" src="http://vis.airtribune.com/wp/js/require.js"></script>
 <link rel="stylesheet" href="http://vis.airtribune.com/wp/css/reset.css" />
 <link rel="stylesheet" href="http://vis.airtribune.com/wp/css/WayPointerEditor.css" />
-<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", eventId: [node:nid], mapWidget: "2d" } --><!-- /ko -->
+<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", uploadUrl: "/points/file", eventId: [node:nid], mapWidget: "2d" } --><!-- /ko -->
 </div>',
         'format' => 'full_html',
       ),
@@ -6976,8 +7226,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-88'] = $pane;
-    $display->panels['middle'][0] = 'new-88';
+    $display->content['new-92'] = $pane;
+    $display->panels['middle'][0] = 'new-92';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7095,7 +7345,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-89';
+    $pane->pid = 'new-93';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7133,8 +7383,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-89'] = $pane;
-    $display->panels['middle'][0] = 'new-89';
+    $display->content['new-93'] = $pane;
+    $display->panels['middle'][0] = 'new-93';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7207,7 +7457,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-90';
+    $pane->pid = 'new-94';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7238,8 +7488,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-90'] = $pane;
-    $display->panels['middle'][0] = 'new-90';
+    $display->content['new-94'] = $pane;
+    $display->panels['middle'][0] = 'new-94';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

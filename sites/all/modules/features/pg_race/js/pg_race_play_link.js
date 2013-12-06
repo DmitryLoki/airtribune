@@ -2,9 +2,8 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
-      //$('.day-blog').remove();
-      $('.race-links').each(function (i, raceBlock) {
-        var $raceBlock = $(raceBlock).removeClass('race-awaiting');
+      $('.race-links:not(".processed")').each(function (i, raceBlock) {
+        var $raceBlock = $(raceBlock).removeClass('race-awaiting').addClass('processed');
         var timeHelperText = $raceBlock.find('.time').hide(),
           helperText = $raceBlock.find('.help-text'),
           $raceButton,
@@ -124,6 +123,7 @@
       }
 
       function requestRaceState(raceData, responseCallback) {
+        Drupal.settings.pgRace={coreApiAddress:'http://api.airtribune.com/v0.2'}
         /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
         $.ajax({
           url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,

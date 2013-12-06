@@ -122,6 +122,16 @@ function airtribune_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'plugins/content_types/soon_country/soon_country.inc',
   );
+  $items['event/%node/settings'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'airtribune.pages.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('airtribune_event_settings_form', 1),
+    'access callback' => 'airtribune_event_settings_access',
+    'access arguments' => array(1),
+    'title' => 'Settings',
+    'weight' => -99,
+  );
   return $items;
 }
 
@@ -139,6 +149,25 @@ function airtribune_menu_alter(&$items) {
       '%map',
     ),
   );
+}
+
+/**
+ * Event settings page title callback.
+ */
+function airtribune_event_settings_title($event) {
+  $title = "Settings form 2";
+  $title = t('!name settings', array('!name' => $event->title));
+  return $title;
+}
+
+/**
+ * Determine whether the current user has access Event settings form
+ */
+function airtribune_event_settings_access($event, $op = 'edit') {
+  global $user;
+
+  $access = TRUE;  
+  return $access;
 }
 
 /**
@@ -263,8 +292,39 @@ function airtribune_field_formatter_info() {
       'label' => t('Adaptive'),
       'field types' => array('datetime'),
     ),
+    'bricks' => array(
+      'label' => t('Bricks'),
+      'field types' => array('image'),
+      'settings' => array('layout' => 'bicks_a')
+    ),
   );
 }
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function airtribune_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  if ($instance['display'][$view_mode]['type'] == 'bricks') {
+    $element['layout'] = array(
+      '#title' => t('Layout'),
+      '#type' => 'select',
+      '#options' => array('bricks_a' => t('Bricks A'), 'bricks_b' => t('Bricks B'), 'bricks_c' => t('Bricks C')),
+      '#default_value' => $instance['display'][$view_mode]['settings'],
+      '#required' => TRUE,
+    );
+    return $element;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function airtribune_field_formatter_settings_summary($field, $instance, $view_mode) {
+  if ($instance['display'][$view_mode]['type'] == 'bricks') {
+    return t('Layout: %layout', array('%layout' =>  $instance['display'][$view_mode]['settings']['layout']));
+  }
+}
+
 
 /**
  * Implements hook_field_formatter_view().
@@ -284,6 +344,75 @@ function airtribune_field_formatter_view($entity_type, $entity, $field, $instanc
         $element[$delta] = array(
           '#markup' => airtribune_format_date_interval($item['value'], $item['value2'])
         );
+      }
+      break;
+
+    case 'bricks':
+      $layout = $display['settings']['layout'];
+      for ($i = 1; $i <= 7; $i++) {
+        $presets[$i] = $layout . '_' . $i;
+      }
+      switch ($layout) {
+        case 'bricks_a':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+
+        case 'bricks_b':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+
+        case 'bricks_c':
+          $variants = array(
+            array($presets[1]),
+            array($presets[2]),
+            array($presets[3], $presets[4]),
+            array($presets[5], $presets[6]),
+            array($presets[5], $presets[6], $presets[6], $presets[6]),
+            array($presets[2], $presets[2], $presets[6], $presets[6], $presets[6], $presets[6]),
+            array($presets[1], $presets[7]),
+            array($presets[2], $presets[2], $presets[7]),
+            array($presets[3], $presets[4], $presets[4], $presets[7]),
+          );
+          break;
+      }
+      $variant_index = count($items) - 1;
+      $image_styles = isset($variants[$variant_index]) ? $variants[$variant_index] : end($variants);
+      $default_image_style = end($image_styles);
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#theme' => 'colorbox_image_formatter',
+          '#item' => $item,
+          '#display_settings' => array(
+            'colorbox_node_style' => isset($image_styles[$delta]) ? $image_styles[$delta] : $default_image_style,
+            'colorbox_image_style' => NULL,
+            'colorbox_caption' => 'auto',
+            'colorbox_gallery' => 'field_post',
+          ),
+          '#entity' => $entity,
+          '#entity_type' => $entity_type,
+          '#field' => $field,
+        );
+
       }
       break;
   }
@@ -345,6 +474,18 @@ function airtribune_token_info() {
     'name' => t('Widget height'),
     'description' => t('Height of visualization widget map.'),
   );
+  $info['tokens']['airtribune']['ge-settings'] = array(
+    'name' => t('Settings for Google Earth visualization'),
+    'description' => t('Additional settings for visualization based on Google Earth.'),
+  );
+  $info['tokens']['airtribune']['ge-css:airvis-container:style'] = array(
+    'name' => t('Styles for container of Google Earth visualization'),
+    'description' => t('Styles for container for visualization based on Google Earth.'),
+  );
+  $info['tokens']['airtribune']['ge-css:airvis-loading:class'] = array(
+    'name' => t('CSS trobber class for Google Earth visualization'),
+    'description' => t('Trobber class for visualization based on Google Earth.'),
+  );
   return $info;
 }
 
@@ -403,6 +544,18 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     }
 
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
+    switch($data['widget_type']) {
+      case 'ge':
+        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "medium"';
+        $replacements['[airtribune:ge-css:airvis-container:style]'] = ' style="background-color: #123d4d"';
+        $replacements['[airtribune:ge-css:airvis-loading:class]'] = ' airvis-loading-transparent';
+        break;
+      default:
+        $replacements['[airtribune:ge-settings]'] = '';
+        $replacements['[airtribune:ge-css:airvis-container:style]'] = '';
+        $replacements['[airtribune:ge-css:airvis-loading:class]'] = '';
+        break;
+    }
     $replacements['[airtribune:widget-width]'] = isset($data['widget_width']) ? $data['widget_width'] : '940px';
     $replacements['[airtribune:widget-height]'] = isset($data['widget_height']) ? $data['widget_height'] : '380px';
   }
@@ -611,6 +764,11 @@ function airtribune_preprocess_panels_pane(&$vars) {
   if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
     if (!empty($vars['user']->roles[3]) || $vars['user']->uid == 1) {
       $pilots_links[] = array(
+        'title' => 'Manage confirmed',
+        'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage/confirmed'),
+        'class' => 'confirmed' . (($vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed') ? ' active' : ''),
+      );
+      $pilots_links[] = array(
         'title' => 'Manage',
         'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
         'class' => 'manage' . (($vars['pane']->subtype == 'paragliding_pilots_list-manage') ? ' active' : ''),
@@ -776,7 +934,7 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 }
 
 /**
- * Implementation of hook_views_query_alter
+ * Implementation of hook_views_pre_build
  * @param type $view
  */
 function airtribune_views_pre_build(&$view) {
@@ -861,6 +1019,8 @@ function airtribune_views_query_alter(&$view, &$query) {
 
 
 /**
+ * Implementation of hook_views_pre_render
+ *
  * Make normal, human sort in FAI pilot list (by nation)
  * Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
  * difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
@@ -887,6 +1047,51 @@ function airtribune_views_pre_render(&$view) {
       $result = array_merge($result, $v);
     }
     $view->result = $result;
+  } else if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
+
+    foreach ($view->result as $k => $v) {
+      if  ($v->field_field_day_status[0]['raw']['value'] == 0) {
+        // Remove day status output [Day is Ok]
+        unset($view->result[$k]->field_field_day_status[0]['rendered']['#markup']);
+        unset($view->result[$k]->field_field_day_status[0]['raw']['value']);
+      } else if ($v->field_field_day_status[0]['raw']['value'] >= 4) {
+        // Remove day label output [Training or registration days]
+        unset($view->result[$k]->field_field_day_number[0]['rendered']['#markup']);
+        unset($view->result[$k]->field_field_day_number[0]['raw']['value']);
+        
+        // Fix js link to day in accordion
+        $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of ohok_preprocess_views_view_field
+ */
+function airtribune_preprocess_views_view_field(&$vars){
+  $view = $vars['view'];
+  $field = $vars['field'];
+  $row = $vars['row'];
+
+  if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
+    $output = $vars['field']->advanced_render($vars['row']);
+    // Change day header output
+    // @see #3604
+    if ($field->field == 'title') {
+      $day_date = date('j M, Y', $row->node_created);
+      $now = date('j M, Y', time());
+      // Replace date to 'today' word, if date is today
+      if ($now == $day_date) {
+        $output = str_replace($view->field['created']->original_value, t('Today'), $output);
+      }
+      // Remove dash registration or training day
+      if ($row->field_field_day_status[0]['raw']['value'] >= 4) {
+        $original_value = ' — ' . $view->field['field_day_status']->original_value;
+        $output = str_replace($original_value, $view->field['field_day_status']->original_value, $output);
+      }
+    }
+    $vars['output'] = $output;
   }
 }
 
@@ -1000,6 +1205,14 @@ function airtribune_init() {
     else {
       drupal_goto('events/past');
     }
+  }
+
+  // Add jQuery Filter Script to pilot tables
+  // @see #4026
+  if (arg(0) == 'event' && arg(2) == "pilots" && arg(3) == "manage") {
+    $filtertable_path = libraries_get_path('jquery.filtertable');
+    drupal_add_js($filtertable_path . '/jquery.filtertable.min.js');
+    drupal_add_js(drupal_get_path('module', 'airtribune') . '/js/pilots-filter-table.js');
   }
 
   // Load CSV scripts on every page (exclude editablefields ajax request).
@@ -1557,6 +1770,30 @@ function _create_day_for_contest() {
   }
 }
 
+/*
+    $plugins = array(
+      'onecoltworow',
+      'onecolthreerow',
+      'twocolfourrow',
+      'fourcoltworow',
+    );
+*/
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ajax_links_api_preprocess_twocolfourrow(&$variables, $hook) {
+  if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+    $variables['theme_hook_suggestions'][] = 'twocolfourrow__ajax';
+    if ($suggestions = theme_get_suggestions(arg(), 'twocolfourrow')) {
+      // Now you can override html--ajax.tpl.php for indivdual path.
+      foreach($variables['theme_hook_suggestions'] as $suggestion) {
+        $variables['theme_hook_suggestions'][] = $suggestion . '__ajax';
+      }
+    }
+    array_pop($variables['theme_hook_suggestions']);
+  }
+}
 /**
  * Count contestants.
  */
