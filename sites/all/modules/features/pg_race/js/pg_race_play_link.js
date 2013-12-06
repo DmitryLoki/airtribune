@@ -4,7 +4,7 @@
     attach: function (context) {
       $('.race-links:not(".processed")').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting').addClass('processed');
-        var timeHelperText = $raceBlock.find('.time').hide(),
+        var timeHelperText = $raceBlock.closest('.view-content').find('.time').hide(),
           helperText = $raceBlock.find('.help-text'),
           $raceButton,
           raceTime;
@@ -105,7 +105,7 @@
           }
         } else {
           raceBlock.addClass('race-awaiting').removeClass('race-started');
-          helperText.text(Drupal.settings.Day.race_in_text);
+          helperText.text(Drupal.settings.Day && Drupal.settings.Day.race_in_text);
         }
 
       }
@@ -118,7 +118,6 @@
       }
 
       function requestRaceState(raceData, responseCallback) {
-        Drupal.settings.pgRace={coreApiAddress:'http://api.airtribune.com/v0.2'}
         /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
         $.ajax({
           url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,
