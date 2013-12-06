@@ -1561,6 +1561,10 @@ function airtribune2_form_element_label($variables) {
     $attributes['for'] = $element['#id'];
   }
 
+  // Style checkbox labels for take-offs, see #3848
+//  if (strpos($element['#id'], 'edit-field-take-offs') !== FALSE) {
+//    $title = l($title, '/ent_basicmark/pg_takeoff/' . $element['#return_value']);
+//  }
   // The leading whitespace helps visually separate fields from inline labels.
   return ' <div class="inline-label"><label' . drupal_attributes($attributes) . '>' . $t('!title!required', array('!title' => str_replace(' <', '<', $title), '!required' => $required)) . "</label><span class=\"valign\"></span></div>\n";
 }
