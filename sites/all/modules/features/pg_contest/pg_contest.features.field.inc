@@ -209,12 +209,13 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
+          'browser_plugins' => array(),
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
@@ -1336,6 +1337,16 @@ Prof.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -1443,6 +1454,16 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -1876,6 +1897,16 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -2545,7 +2576,6 @@ Duplicate city names warnings if exists.',
     ),
   );
 
-
   // Exported field: 'node-pg_contest-field_is_offline'.
   $fields['node-pg_contest-field_is_offline'] = array(
     'field_config' => array(
@@ -2724,6 +2754,7 @@ Duplicate city names warnings if exists.',
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 0,
         'max_filesize' => '',
         'max_resolution' => '800x800',
         'min_resolution' => '220x140',
@@ -2734,6 +2765,16 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -2992,6 +3033,16 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -4203,6 +4254,8 @@ Duplicate city names warnings if exists.',
   // Included for use with string extractors like potx.
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
+  t('Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.');
   t('City');
   t('Core ID');
   t('Country');
@@ -4219,8 +4272,6 @@ Duplicate city names warnings if exists.',
   t('Flying site');
   t('Full info about organizer - description, links, contacts');
   t('General day-by-day schedule of the event.');
-  t('Capital, visa information, currency, electric net features any additional information.
-Duplicate city names warnings if exists.');
   t('General schedule');
   t('Group');
   t('Group roles and permissions');

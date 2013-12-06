@@ -2905,7 +2905,7 @@ table tr td:first-child { border-left: none;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan { top: 0; position: absolute; color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan .field-content { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan p { padding: 0px;}
-.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author { position: absolute; bottom: 4px; right: 10px; color: #FFF; font: italic 12px/14px Arial, Helvetica, sans-serif;}
+.view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author { position: absolute; bottom: 4px; right: 30px; color: #FFF; font: italic 12px/14px Arial, Helvetica, sans-serif;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author a { color: #FFF; }
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-author .field-content { display: inline;}
 .view-header-slideshow .views_slideshow_cycle_slide .views-field-field-header-slogan-solutions { margin: -227px 60px 0 402px; font-size: 24px; color: #ffffff; line-height: 30px; font-weight: bold; position: relative; text-indent: -19px;}
@@ -3153,7 +3153,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane-event-days-results-race-list .views-field-type { color: #495055; font: 16px/18px Arial, Helvetica, sans-serif; margin-left: 2px;}
 .pane-event-days-results-race-list .task_result,
 .pane-event-days-results-race-list .views-field-pg-race-play-link,
-.pane-event-days-results-race-list .views-field-field-pg-race-tracks { display: block; font: 14px/16px Arial, Helvetica, sans-serif; width: 100%; background: url(../images/results_bgr.png) no-repeat -2000px 100%, url(../images/results_bgr.png) no-repeat -1000px 0, url(../images/results_bgr.png) repeat-y 0 0; padding: 3px 0 5px 11px; margin-bottom: 6px;}
+.pane-event-days-results-race-list .views-field-field-pg-race-tracks { display: block; font: 14px/16px Arial, Helvetica, sans-serif; background: url(../images/results_bgr.png) no-repeat -2000px 100%, url(../images/results_bgr.png) no-repeat -1000px 0, url(../images/results_bgr.png) repeat-y 0 0; padding: 3px 0 5px 11px; margin-bottom: 6px;}
 .pane-event-days-results-race-list .task_result_items { display: inline-block;}
 .pane-event-days-results-race-list .task_result .label,
 .pane-event-days-results-race-list .views-label { color: #495055; font-weight: bold;}
@@ -3604,8 +3604,10 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 .view-my-events .views-row { padding-top: 20px; clear: both;}
 .view-my-events .views-row:first-child { padding-top: 0;}
 .view-my-events .my_event { display: block; }
-.view-my-events .my_event .logo { display: block; width: 50px; height: 50px; border: 1px solid #f2f2f2; background: #ffffff; float: left; margin-right: 9px; background: url(../images/defaultavatar.png) no-repeat 0 0; margin-top: -1px;}
-.view-my-events .my_event .logo img { background: #ffffff;}
+.view-my-events .my_event .logo { display: block; width: 50px; height: 50px; border: 1px solid #f2f2f2; background: #ffffff; float: left; margin-right: 9px; background: url(../images/defaultavatar.png) no-repeat 0 0; margin-top: -1px; position: relative;}
+.view-my-events .my_event .logo img { vertical-align: middle; position: relative; z-index: 100;}
+.view-my-events .my_event .logo img + .valign { vertical-align: middle; height: 50px; width: 1px; margin-right: -1px; display: inline-block; overflow: hidden;}
+.view-my-events .my_event .logo img + .valign:after { background: #ffffff; width: 100%; height: 100%; position: absolute; top: 0; left: 0; content: " "; display: block;}
 .view-my-events .my_event .main_text { float: left; color: #565a5d; font-size: 18px; line-height: 20px; margin-top: 3px;}
 .view-my-events .my_event .main_description { display: block; color: #b0b0b0; font-size: 14px; line-height: 16px; margin-top: 4px;}
 .view-my-events .my_event .dates:before { content: " | "}
