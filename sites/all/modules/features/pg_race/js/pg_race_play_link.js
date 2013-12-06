@@ -66,14 +66,9 @@
           //raceInfo=[{a:1}]
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             //make links clickable
-            if (raceData.isOnline || raceData.requestType == 'online') {
-              // Show online link before upload tracks from file
-              isOnline = 'online';
-            } else {
-              isOnline = false;
-            }
-            setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d', isOnline);
-            setHrefAttr($raceBlock.find('a.race-link.3d').show(), raceData.raceEid, '3d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d');
+            setHrefAttr($raceBlock.find('a.race-link.ge').show(), raceData.raceEid, 'ge');
+
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
             if(raceData.isOnline) {
@@ -153,8 +148,8 @@
           || $raceBlock.find('.views-field-field-pg-race-tracks').length>0;
       }
 
-      function setHrefAttr(link, raceEid, mode, isOnline) {
-        link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
+      function setHrefAttr(link, raceEid, mode) {
+        link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode)
       }
 
       function isDayblogTextExists(viewsRow) {
