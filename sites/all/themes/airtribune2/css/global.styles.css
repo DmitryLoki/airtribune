@@ -3374,17 +3374,16 @@ html.fb_view { overflow: auto;}
 /*.front_live_events .race-links,*/
 .front_live_events .views-field-view,
 .front_live_events .dayblog { top: auto; bottom: 0; height: 60px;}
-.front_live_events .views-row > .views-field-view { z-index: 100;}
 .front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 .front_live_events .race-links { height: 54px;}
 .front_live_events .view-event-day .views-row,
 .front_live_events .views-field-view .views-row { display: block; padding: 6px 5px 0; height: 54px; }
-.front_live_events .view-event-day .views-row { height: 52px;}
-.front_live_events .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
-.front_live_events .views-row-twice .file a { left: 113px;}
-.front_live_events .views-row-once .file a { left: 235px;}
-.front_live_events .race-replay .file a { color: #8f733b; background: #fbd72c}
+.front_live_events .view-event-day .views-row { height: 52px; overflow: visible;}
+.front_live_events .views-field-day-pg-race-play-link .field-content .field-content,
+.front_live_events .views-field-day-pg-race-play-link .views-field-field-pg-race-tracks { display: none;}
+.front_live_events .views-label { position: absolute; bottom: 110px; left: 0; right: 0; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none; margin: 0 auto;}
+.front_live_events .race-replay .views-label { color: #8f733b; background: #fbd72c}
 .front_live_events .views-field-day-pg-race-play-link .help-text,
 .front_live_events .race-links .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed;}
 .front_live_events .race-online .help-text,
