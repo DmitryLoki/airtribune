@@ -5,7 +5,7 @@
       $('.race-links:not(".processed")').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting').addClass('processed');
         var timeHelperText = $raceBlock.closest('.view-content').find('.time').hide(),
-          helperText = $raceBlock.find('.help-text'),
+          helperText = $raceBlock.closest('.view-content').find('.help-text'),
           $raceButton,
           raceTime;
 
@@ -94,7 +94,7 @@
       });
 
       function setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText) {
-        var raceBlock = timeHelperText.closest('.view-content').find('.race-links');
+        var raceBlock = timeHelperText.closest('.view-content');
         if (raceTime <= 0) {
           raceBlock.removeClass('race-awaiting').addClass('race-started');
           helperText.text(Drupal.settings.Day.race_on_text);
