@@ -94,7 +94,7 @@
       });
 
       function setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText) {
-        var raceBlock = timeHelperText.parents('.race-links');
+        var raceBlock = timeHelperText.closest('.view-content').find('.race-links');
         if (raceTime <= 0) {
           raceBlock.removeClass('race-awaiting').addClass('race-started');
           helperText.text(Drupal.settings.Day.race_on_text);
