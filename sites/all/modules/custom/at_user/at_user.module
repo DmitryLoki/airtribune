@@ -92,7 +92,7 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
       0 => NULL,
       1 => '400x400'
     );
-    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0 => (200 * 1024));
+    $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0 => (1024 * 1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
 
     // if user initiate procedure of password reset, we hide main div with avatar, name, and birthday by jQuery
