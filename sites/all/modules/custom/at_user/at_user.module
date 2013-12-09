@@ -89,8 +89,8 @@ function at_user_form_alter(&$form, $form_state, $form_id) {
     //unset($form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_image_resolution']);
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_extensions'] = array(0 => 'png gif jpg jpeg');
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_file_validate_image_resolution'] = array(
-      0 => '150x150',
-      1 => '60x60'
+      0 => NULL,
+      1 => '400x400'
     );
     $form['field_user_avatar'][$lang][0]['#upload_validators']['file_validate_size'] = array(0 => (200 * 1024));
     $form['field_user_avatar'][$lang][0]['#upload_validators']['at_user_photo_ajax_upload'] = array();
