@@ -103,13 +103,6 @@ jQuery.fn.forms = function(options){ // custom form elements
 					})
 					el.serch = el.parents('.form-wrapper').attr('id');
 					el.addClass('styled_element');
-					el.interval = setInterval(function(){	
-					//alert(el.serch)					
-						jQuery('#'+el.serch).find('.image-widget-data > input.form-file, .filefield-upload > input.form-file').each(function(){
-							clearInterval(el.interval);
-							jQuery(this).forms({'file_bt':opt.file_bt})
-						});
-					}, 1)
 				break;
 			}
 		}
