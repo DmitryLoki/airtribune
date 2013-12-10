@@ -527,9 +527,17 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   // @see #3960
   if ($type == 'airtribune') {
     if (!empty($data['race'])) {
+      $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $data['race']);
+
+      // Check if track files exist
+      $race_tracks = $wrapper->field_pg_race_tracks->value();
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
       $online = _airtribune_pg_race_online_state($data['race']->id);
-      $replacements['[airtribune:race-online]'] = $online == AIRTRIBUNE_VIS_STATE_ONLINE ? '"online"' : 'false';
+      if ($online == AIRTRIBUNE_VIS_STATE_ONLINE || empty($race_tracks)) {
+        $replacements['[airtribune:race-online]'] =  '"online"';
+      } else {
+        $replacements['[airtribune:race-online]'] = 'false';
+      }
     } else {
       $replacements['[airtribune:race-core-id]'] = '';
       $replacements['[airtribune:race-online]'] = 'false';
