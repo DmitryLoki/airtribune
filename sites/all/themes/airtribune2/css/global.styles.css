@@ -3716,11 +3716,30 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
   position: relative;
   margin-right: 0;
 }
+
+.page-event-race-results .pane-airtribune-task-results .pane-inner {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .page-event-race-results #super .small-pane-share-links {
   display: inline-block;
   position: absolute;
   right: -5px;
   top: -40px;
+}
+
+.page-event-race-results table {
+  width: auto;
+}
+
+.page-event-race-results table thead th {
+  font-size: xx-small;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.page-event-race-results p {
+padding: 0;
 }
 
 
