@@ -425,7 +425,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
     switch($data['widget_type']) {
       case 'ge':
-        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "medium"';
+        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "large"';
         $replacements['[airtribune:ge-css:airvis-container:style]'] = ' style="background-color: #123d4d"';
         $replacements['[airtribune:ge-css:airvis-loading:class]'] = ' airvis-loading-transparent';
         break;
