@@ -1535,7 +1535,8 @@ event/*/map/accommodations',
           'settings' => array(
             'visibility_setting' => '0',
             'paths' => 'event/*/register
-retrieve/*',
+retrieve/*
+event/*/race/*/results/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1656,7 +1657,8 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'retrieve/*',
+            'paths' => 'retrieve/*
+event/*/race/*/results/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -7771,6 +7773,32 @@ window.fbAsyncInit = function() {
     $pane = new stdClass();
     $pane->pid = 'new-97';
     $pane->panel = 'middle';
+    $pane->type = 'airtribune_event_sharelinks';
+    $pane->subtype = 'airtribune_event_sharelinks';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'balloon_type' => 'h',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-97'] = $pane;
+    $display->panels['middle'][0] = 'new-97';
+    $pane = new stdClass();
+    $pane->pid = 'new-98';
+    $pane->panel = 'middle';
     $pane->type = 'airtribune_task_results';
     $pane->subtype = 'airtribune_task_results';
     $pane->shown = TRUE;
@@ -7791,10 +7819,10 @@ window.fbAsyncInit = function() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-97'] = $pane;
-    $display->panels['middle'][0] = 'new-97';
+    $display->content['new-98'] = $pane;
+    $display->panels['middle'][1] = 'new-98';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
