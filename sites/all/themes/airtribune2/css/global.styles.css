@@ -3739,9 +3739,31 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 }
 
 .page-event-race-results p {
-padding: 0;
+  padding: 0;
 }
 
+.page-event-race-results .block.competition-banner {
+  position: relative;
+  background: none;
+  border: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+
+.page-event-race-results .competition-banner .pane-content {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: -5px;
+  left: -5px;
+}
+
+.page-event-race-results .competition-banner img.banner {
+  width: 240px;
+  max-width: inherit;
+}
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft
