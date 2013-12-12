@@ -100,6 +100,17 @@ function airtribune2_preprocess_html(&$vars) {
   if ($part) {
     $vars['classes_array'][] = $part;
   }
+
+  /* if event pilots manage */
+
+  if (in_array('page-event-pilots-manage', $vars['classes_array'])) {
+    drupal_add_js(path_to_theme() . '/js/jquery.mousewheel.min.js');
+    drupal_add_js(path_to_theme() . '/js/jquery.jscrollpane.min.js');
+    drupal_add_js(path_to_theme() . '/js/jquery.forms.js');
+    drupal_add_js(path_to_theme() . '/js/forms_action.js');
+  }
+
+
 }
 
 /**

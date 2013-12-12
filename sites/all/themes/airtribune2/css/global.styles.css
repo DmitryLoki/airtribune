@@ -2340,7 +2340,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both; width: 245px;}
 .page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
 .page-user .pane-page-content form .form-item input.form-text,
-.page-user .pane-page-content form .select .checked_option_wrap,
+.select .checked_option_wrap,
 .pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
@@ -2487,16 +2487,16 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-.page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
-.page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option,
-.page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
+.select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
+.select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+.select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
+.select_opened .checked_option_wrap .checked_option,
+.select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
 .page-user .pane-page-content form .date-month .checked_option { min-width:99px}
 .page-user .pane-page-content form .date-day .checked_option { min-width:39px}
 .page-user .pane-page-content form .date-year .checked_option { min-width:49px}
-.page-user .pane-page-content form .select .items { width:100%}
-.page-user .pane-page-content form .select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin:-3px 3px 0; max-height:160px; overflow:auto; position:relative;
+.select .items { width:100%}
+.select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin:-3px 3px 0; max-height:160px; overflow:auto; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2504,9 +2504,9 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 }
 
-.page-user .pane-page-content form .select .items_padding { padding:12px 0 !important;}
-.page-user .pane-page-content form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
-.page-user .pane-page-content form .select .option:hover { color:#00aeef;}
+.select .items_padding { padding:12px 0 !important;}
+.select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
+.select .option:hover { color:#00aeef;}
 .page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
 .page-user .pane-page-content form .jspContainer div { display: block !important;}
 .page-user .pane-page-content form .jspPane { position:relative;}
@@ -3089,10 +3089,14 @@ table tr td:first-child { border-left: none;}
 
 /* Contestant status */
 span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px; font: 14px/16px Arial,Helvetica,sans-serif}
-.status-Waiting-list span.status-value { background-position: 0 -99px; color: #c1c7cc;}
-.status-Waiting-for-payment span.status-value { background-position: 0 -149px; color: #97caf2;}
-.status-Payment-in-progress span.status-value { background-position: 0 -49px; color: #efae00;}
-.status-Confirmed span.status-value{ background-position: 0 1px; color: #b6c32a;}
+.status-Waiting-list span.status-value,
+.status-value-1 span.status-value { background-position: 0 -99px; color: #c1c7cc;}
+.status-Waiting-for-payment span.status-value,
+.status-value-2 span.status-value { background-position: 0 -149px; color: #97caf2;}
+.status-Payment-in-progress span.status-value,
+.status-value-3 span.status-value { background-position: 0 -49px; color: #efae00;}
+.status-Confirmed span.status-value,
+.status-value-4 span.status-value { background-position: 0 1px; color: #b6c32a;}
 
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
@@ -3148,7 +3152,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage .filter-table input::-webkit-input-placeholder { color: #b9c4c9;}
 
 .pane_pilots_list_manage td.views-field-field-full-name { width: 161px;}
-.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0;}
+.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0; padding-right: 32px;}
 .pane_pilots_list_manage tr:hover td.views-field-field-full-name a { color: #00aeef; background-position: 100% -3800px; padding: 4px 32px 4px 0;}
 .pane_pilots_list_manage tr:hover td.views-field-field-full-name a:hover { text-decoration: underline; background-position: 100% -3900px;}
 .pane_pilots_list_manage td.views-field-field-contestant-number { width: 120px; text-align: center;}
@@ -3157,18 +3161,28 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage td.views-field-field-tracker { width: 100px;}
 .pane_pilots_list_manage td.views-field-field-pg-contestant-status { width: 220px;}
 .pane_pilots_list_manage .td_inner div { display: inline; vertical-align: top;}
-.pane_pilots_list_manage .td_inner > div { margin: 0 9px;}
+/*.pane_pilots_list_manage .td_inner > div { margin: 0 9px;}*/
 .pane_pilots_list_manage .td_inner .editablefield-item { display: block;}
 .pane_pilots_list_manage .td_inner .editablefield-item div { display: inline-block;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status div { width: 100%;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status .select { display: block !important;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status .status-value { margin-top: 2px;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status .select .option { margin-top: 5px;}
 .pane_pilots_list_manage .editablefields-link { display: none; width: 18px; height: 18px; background: url(../images/pensil.png) no-repeat 0 0; overflow: hidden; text-indent: -9999px; vertical-align: middle; margin: -2px 0; margin-right: -18px; }
 .pane_pilots_list_manage tr:hover .editablefields-link { display: inline-block;}
 .pane_pilots_list_manage .editablefields-link:hover { background-position: 0 -18px}
 .pane_pilots_list_manage .views-field-field-phone div + .editablefields-link { margin-left: 7px; margin-right: -25px;}
-.pane_pilots_list_manage .td_inner div.ajax-progress-throbber { display: none;}
 .pane_pilots_list_manage .form-item { padding: 0;}
-.pane_pilots_list_manage input.form-text { margin: -9px 0 -9px; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px;}
-.pane_pilots_list_manage .form-actions a { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -6px 0 -6px 6px; vertical-align: top;}
-.pane_pilots_list_manage .form-actions a:hover {
+.pane_pilots_list_manage table input.form-text { margin: -9px 0 -9px; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px;}
+.pane_pilots_list_manage label,
+.pane_pilots_list_manage #views-form-paragliding-pilots-list-manage .inline-label { display: none;}
+.pane_pilots_list_manage .select { margin: -9px 0;}
+.pane_pilots_list_manage .field-type-list-integer + div.form-actions { display: none;}
+.pane_pilots_list_manage table .form-actions a,
+.pane_pilots_list_manage table .form-actions input { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -6px 0 -6px 6px; vertical-align: top;}
+.pane_pilots_list_manage table .form-actions input { background-position: 0 -3600px; border: none;}
+.pane_pilots_list_manage table .form-actions a:hover,
+.pane_pilots_list_manage table .form-actions input:hover {
 
   filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
   -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
@@ -3177,6 +3191,18 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 }
 
+.pane_pilots_list_manage .td_inner .ajaxing .form-wrapper,
+.pane_pilots_list_manage .ajaxing .form-actions a,
+.pane_pilots_list_manage .ajaxing .form-actions input { display: none;}
+
+.pane_pilots_list_manage .ajaxing { position: relative;}
+.pane_pilots_list_manage .ajaxing .form-actions.form-wrapper { display: inline-block;}
+.pane_pilots_list_manage .td_inner div.ajax-progress-throbber,
+.pane_pilots_list_manage .ajax-progress-throbber div.message { display: none;}
+.pane_pilots_list_manage .ajaxing div.ajax-progress-throbber,
+.pane_pilots_list_manage .ajaxing form { display: inline-block;}
+.pane_pilots_list_manage .form-type-select div.ajax-progress-throbber { position: absolute; right: 32px; margin-right: 0; top: 10px;}
+.pane_pilots_list_manage .ajaxing .throbber { display: inline-block; width: 10px; height: 10px; background: url(../images/table_action.png) no-repeat -48px -3600px; margin: 2px -18px 0 8px;}
 
 
 /*.page-event-pilots-manage .panel-col-seventy .inside { margin-right: 0;}*/
