@@ -41,6 +41,17 @@ function _at_alias_create_alias($node, $event_nids = NULL) {
   // TODO:
 }
 
+function _at_alias_create_entity_alias($entity, $type, $event_nids = NULL) {
+  switch ($type) {
+    // race related pages alias
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      // Create object aliases if needed.
+      _al_alias_create_entity_object_aliases($entity, $type, $event_nids = NULL);
+      break;
+  }
+}
+
+
 /**
  * Generic function for deleting custom aliases.
  */
@@ -103,6 +114,14 @@ function _at_alias_delete_alias($node) {
   // TODO: Add case check.
   // Remove case check from hook. Or change this one.
 
+}
+
+function _at_alias_delete_entity_alias($entity, $type) {
+  switch ($type) {
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+
+      break;
+  }
 }
 
 /**
@@ -174,6 +193,18 @@ function _at_alias_related_events($node) {
       break;
   }
   return $nids;
+}
+
+function _at_alias_related_entity_events($entity, $type) {
+  $nids = array();
+
+  switch ($type) {
+    // get related events for race
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      $og_ref_items = field_get_items($type, $entity, OG_AUDIENCE_FIELD);
+      $nids[] = $og_ref_items[0]['target_id'];
+      break;
+  }
 }
 
 /**
@@ -346,6 +377,33 @@ function _al_alias_create_object_aliases($node, $event_nids = NULL) {
   }
 }
 
+function _al_alias_create_entity_object_aliases($entity, $type, $event_nids = NULL) {
+
+  module_load_include('inc', 'pathauto');
+
+  $real_path_pattern = '';
+  $alias_pattern = '';
+
+  if (empty($event_nids)) {
+    // Get related events based on hq coordinates.
+    $event_nids = _at_alias_related_entity_events($entity);
+  }
+  foreach ($event_nids as $event_nid) {
+    // Check if (event) base alias exists.
+    $alias_base = _at_alias_get_event_alias($event_nid);
+    if ($alias_base == FALSE) {
+      return;
+    }
+
+    $alias = "{$alias_base}{$alias_pattern}";
+
+    // Save object alias for given event.
+    $source = str_replace('%', $event_nid, $real_path_pattern);
+    $path = array('source' => $source, 'alias' => $alias);
+    path_save($path);
+  }
+}
+
 /**
  * Implements hook_node_insert.
  */
@@ -368,6 +426,19 @@ function at_alias_node_insert($node) {
 
       _at_alias_create_alias($node);
       // TODO: Move alias generation from pg_contest feature
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_insert.
+ */
+function at_alias_entity_insert($entity, $type) {
+  switch ($type) {
+    // race related pages alias
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      // Create object aliases if needed.
+      _at_alias_create_entity_alias($entity, $type);
       break;
   }
 }
@@ -398,6 +469,20 @@ function at_alias_node_update($node) {
 }
 
 /**
+ * Implements hook_entity_update.
+ */
+function at_alias_entity_update($entity, $type) {
+  switch ($type) {
+    // race related pages alias
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      // Update object aliases if needed.
+      _at_alias_delete_entity_alias($entity, $type);
+      _at_alias_create_entity_alias($entity, $type);
+      break;
+  }
+}
+
+/**
  * Implements hook_node_delete.
  */
 function at_alias_node_delete($node) {
@@ -415,6 +500,19 @@ function at_alias_node_delete($node) {
     case AIRTRIBUNE_PG_CONTEST_TYPE :
       _at_alias_delete_alias($node);
       // TODO: Move alias generation from pg_contest feature
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_delete.
+ */
+function _at_alias_entity_delete($entity, $type) {
+  switch ($type) {
+    // race related pages alias
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      // Delete object aliases.
+      _at_alias_delete_entity_alias($entity, $type);
       break;
   }
 }
