@@ -80,3 +80,9 @@ jQuery(function ($) {
         return false;
     });
 });
+
+Drupal.behaviors.updateImageField = {
+    attach: function(){
+        updateForm('#user-profile-form');
+    }
+}
