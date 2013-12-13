@@ -661,7 +661,7 @@ th {
 caption,
 th,
 td {
-  text-align: left;
+  /*text-align: left;*/
 }
 
 
@@ -3808,6 +3808,52 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 .page-event-race-results .competition-banner img.banner {
   width: 240px;
   max-width: inherit;
+}
+
+#airtribune-task-results {
+  color: #000;
+}
+
+.page-event-race-results table {
+  font: inherit;
+  margin: inherit;
+  padding: inherit;
+  color: #000;
+}
+
+/* Table row striping */
+.page-event-race-results thead tr {  font-weight: inherit;  background-color: inherit;  background-color: inherit;}
+.page-event-race-results table thead th { border-bottom: inherit; border-left: inherit; padding: inherit; font: inherit; color: inherit; font-weight: bold;}
+
+.page-event-race-results .hover
+{ /* for IE using onmouseover and onmouseout */
+  background: yellow;
+}
+.page-event-race-results tr.fs_res_res_row:hover
+{
+  background: yellow;
+}
+.page-event-race-results div.fs_res
+{
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: xx-small;
+}
+.page-event-race-results table.fs_res
+{
+  border:solid 1px gray;
+  border-collapse:collapse;
+  font-size: xx-small;
+}
+.page-event-race-results td.fs_res
+{
+  border:solid 1px gray;
+  vertical-align:top;
+  padding:5px;
+}
+.page-event-race-results th.fs_res
+{
+  border:solid 1px gray;
+  vertical-align:center;
 }
 
 /*====================================================
