@@ -205,6 +205,7 @@ function _at_alias_related_entity_events($entity, $type) {
       $nids[] = $og_ref_items[0]['target_id'];
       break;
   }
+  return $nids;
 }
 
 /**
@@ -384,10 +385,41 @@ function _al_alias_create_entity_object_aliases($entity, $type, $event_nids = NU
   $real_path_pattern = '';
   $alias_pattern = '';
 
+  switch ($type) {
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+
+      $race_number = NULL;
+      $category = NULL;
+      if (isset($entity->field_race_number[LANGUAGE_NONE]['0']['value'])) {
+        $race_number = $entity->field_race_number[LANGUAGE_NONE]['0']['value'];
+      }
+      if (!$race_number) {
+        break;
+      }
+      $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity);
+      $results_fields = array('day' => 'field_day_results', 'competition' => 'field_day_results');
+      foreach ($results_fields as $results_type => $field_name) {
+        foreach($wrapper->{$field_name}->value() as $results_item) {
+          $wrapper_category = entity_metadata_wrapper($results_item->entityType(), $results_item);
+          $category_item = $wrapper_category->field_scoring_category_ref->value();
+          if (isset($category_item->field_pg_scoring_category[LANGUAGE_NONE][0]['value'])) {
+            $category = _at_alias_clear_string($category_item->field_pg_scoring_category[LANGUAGE_NONE][0]['value']);
+          }
+          $real_path_patterns[] = "event/%/race/{$entity->id}/results/{$category_item->nid}/{$results_type}";
+          $alias_patterns[] = "/results/task_{$race_number}/{$results_type}/{$category}";
+        }
+      }
+      break;
+    default:
+      return;
+      break;
+  }
+
   if (empty($event_nids)) {
     // Get related events based on hq coordinates.
-    $event_nids = _at_alias_related_entity_events($entity);
+    $event_nids = _at_alias_related_entity_events($entity, $type);
   }
+
   foreach ($event_nids as $event_nid) {
     // Check if (event) base alias exists.
     $alias_base = _at_alias_get_event_alias($event_nid);
@@ -395,12 +427,17 @@ function _al_alias_create_entity_object_aliases($entity, $type, $event_nids = NU
       return;
     }
 
-    $alias = "{$alias_base}{$alias_pattern}";
+    $real_path_patterns = (array)$real_path_patterns;
+    $alias_patterns = (array)$alias_patterns;
 
-    // Save object alias for given event.
-    $source = str_replace('%', $event_nid, $real_path_pattern);
-    $path = array('source' => $source, 'alias' => $alias);
-    path_save($path);
+    foreach ($real_path_patterns as $key => $real_path_pattern) {
+      $alias = "{$alias_base}{$alias_patterns[$key]}";
+
+      // Save object alias for given event.
+      $source = str_replace('%', $event_nid, $real_path_pattern);
+      $path = array('source' => $source, 'alias' => $alias);
+      path_save($path);
+    }
   }
 }
 
