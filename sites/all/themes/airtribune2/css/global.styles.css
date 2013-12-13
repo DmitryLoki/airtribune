@@ -3514,6 +3514,23 @@ html.fb_view { overflow: auto;}
 
 
 .solutions_hosting { padding-top: 26px;}
+.solutions_hosting .its_free_banner { position: relative; text-align: center; min-height: 140px;
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdd925', endColorstr='#a4bb15'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #cdd925 0% #a4bb15 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#cdd925), to(#a4bb15));
+  background: -moz-linear-gradient(top,  #cdd925 0%, #a4bb15 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #cdd925 0%, #a4bb15 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #cdd925 0%, #a4bb15 100%); /* для IE10+ */
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.solutions_hosting .its_free_banner .its_free { position: absolute; top: -5px; right: -5px; width: 96px; height: 96px; background: url(../images/its_free.png) no-repeat 0 0;}
+.solutions_hosting .its_free_banner .banner_title { color: #ffffff; font-size: 30px; line-height: 30px; text-shadow: 0 1px 1px rgba(79, 87, 12, .5); padding: 32px 0 10px;}
+.solutions_hosting .its_free_banner .banner_text { color: #eef6a4; text-shadow: 0 1px 1px rgba(79, 87, 12, .5); font-weight: bold; line-height: 20px; font-size: 16px; padding-bottom: 10px;}
 .solutions_hosting .zoom_block_wrap { padding: 40px; margin-top: 25px; margin-bottom: 17px;
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eff0f1'); /* для IE6-9 */
@@ -3598,6 +3615,17 @@ html.fb_view { overflow: auto;}
 
   /* Solutions SMS Retrieve */
 
+.solutions_retrieve .its_free_banner {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4c500', endColorstr='#ea9600'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #f4c500 0% #ea9600 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#f4c500), to(#ea9600));
+  background: -moz-linear-gradient(top,  #f4c500 0%, #ea9600 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #f4c500 0%, #ea9600 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #f4c500 0%, #ea9600 100%); /* для IE10+ */
+
+}
+.solutions_retrieve .banner_text { color: #fbeeb3;}
 .solutions_retrieve .examples { position: relative; padding-top: 66px; padding-bottom: 57px; margin-bottom: 66px;}
 .solutions_retrieve .examples img { vertical-align: middle;}
 .solutions_retrieve .examples .pilots_table { position: absolute; bottom: 0; right: -7px; height: 13px; width: 472px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -254px; display: block;}
@@ -3638,7 +3666,19 @@ html.fb_view { overflow: auto;}
 
   /* Solutions Live tracking */
 
-.solutions_hosting img + .feel_free { margin-top: 51px; padding-bottom: 52px;}
+.solutions_competition .its_free_banner {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00c5f4', endColorstr='#0096ea'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #00c5f4 0% #0096ea 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#00c5f4), to(#0096ea));
+  background: -moz-linear-gradient(top,  #00c5f4 0%, #0096ea 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #00c5f4 0%, #0096ea 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #00c5f4 0%, #0096ea 100%); /* для IE10+ */
+
+}
+.solutions_competition .its_free_banner .banner_title { padding-bottom: 22px;}
+.solutions_competition .its_free_banner .banner_text { color: #d2eaf3}
+.solutions_hosting .its_free_banner + .feel_free { margin-top: 51px; padding-bottom: 52px;}
 .solutions_competition .mobile_apps { padding-top: 92px; background: url(../images/competition_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 112px; position: relative;}
 .solutions_competition .mobile_apps h3,
 .solutions_competition .block_cols h2 { font-size: 34px; font-weight: bold; line-height: 34px;}
