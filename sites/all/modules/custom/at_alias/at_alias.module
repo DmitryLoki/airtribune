@@ -119,7 +119,18 @@ function _at_alias_delete_alias($node) {
 function _at_alias_delete_entity_alias($entity, $type) {
   switch ($type) {
     case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      $race_number = '';
+      if (isset($entity->field_race_number[LANGUAGE_NONE]['0']['value'])) {
+        $race_number = $entity->field_race_number[LANGUAGE_NONE]['0']['value'];
+      }
+      $source = "event/%/race/{$entity->id}/results/%";
+      $alias = "%/results/task_{$race_number}/%";
 
+      // Delete aliases.
+      db_delete('url_alias')
+        ->condition('source', $source, 'LIKE')
+        ->condition('alias', $alias, 'LIKE')
+        ->execute();
       break;
   }
 }
