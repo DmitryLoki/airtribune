@@ -554,7 +554,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
     switch($data['widget_type']) {
       case 'ge':
-        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "medium"';
+        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "large"';
         $replacements['[airtribune:ge-css:airvis-container:style]'] = ' style="background-color: #123d4d"';
         $replacements['[airtribune:ge-css:airvis-loading:class]'] = ' airvis-loading-transparent';
         break;
@@ -1098,6 +1098,14 @@ function airtribune_preprocess_views_view_field(&$vars){
         $original_value = ' — ' . $view->field['field_day_status']->original_value;
         $output = str_replace($original_value, $view->field['field_day_status']->original_value, $output);
       }
+      // Replace link to day with alias
+      $matches = NULL;
+      $pattern = '/<a .*data-href=\"\/([^\"]*)\".*>/i';
+      preg_match($pattern, $output, $matches);
+      if (isset($matches[1])) {
+        $alias = url($matches[1]);
+      }
+      $output = str_replace("/" . $matches[1], $alias, $output);
     }
     $vars['output'] = $output;
   }
