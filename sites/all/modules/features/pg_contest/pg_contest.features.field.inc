@@ -4097,7 +4097,8 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.',
+      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -4122,7 +4123,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 1,
       'field_name' => 'field_twitter_widget_code',
-      'label' => 'Twitter widget code',
+      'label' => 'Twitter / Facebook widget code',
       'required' => 0,
       'settings' => array(
         'better_formats' => array(
@@ -4386,7 +4387,8 @@ Duplicate city names warnings if exists.');
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
   t('How to get here - general');
-  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
+  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>');
   t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
@@ -4416,7 +4418,7 @@ Duplicate city names warnings if exists.');
   t('This is an offline event');
   t('Time zone');
   t('Tiny path');
-  t('Twitter widget code');
+  t('Twitter / Facebook widget code');
   t('Web site');
 
   return $fields;
