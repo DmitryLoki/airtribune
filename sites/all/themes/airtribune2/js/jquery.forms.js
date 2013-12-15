@@ -29,7 +29,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 			switch (el.type){
 				case 'checkbox':
 					if (el.attr('checked')) {
-						el.perv().addClass('check_'+el.type);
+						el.prev().addClass('check_'+el.type);
 					}
 					el.show().css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 					el.prev().click(function(){
