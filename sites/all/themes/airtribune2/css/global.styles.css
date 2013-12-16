@@ -661,7 +661,7 @@ th {
 caption,
 th,
 td {
-  text-align: left;
+  /*text-align: left;*/
 }
 
 
@@ -1560,7 +1560,8 @@ form#user-login:after { content:"."; clear:both; visibility:hidden; display:bloc
 .node .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
 body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
 .node_view_mode_event_blog_teaser .field-name-field-image:after,
-#page ul.tabs.primary:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+#page ul.tabs.primary:after,
+form #edit-field-take-offs:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item img { vertical-align:middle; border:none}
 .node_view_mode_event_blog_teaser .disqus_comments_num { padding-right: 0; padding-top: 36px; right: -1px;}
@@ -1580,7 +1581,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .ui-accordion-content .inside { margin: 0; }
 .pane-event-days-panel-event-days-on-blog .views-accordion-header .ui-icon { display: none;}
 .pane-event-days-panel-event-days-on-blog .views-accordion-header a, 
-.pane-contest-blog-contest-full-pane h2.pane-title { background-color: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer; color: #677581; text-align: left;
+.pane-contest-blog-contest-full-pane h2.pane-title,
+.front_live_events h2.pane-title { background-color: rgba(236,239,242,0.75); border: 1px solid #e1e6ea; font: 24px/28px Arial, Helvetica, sans-serif; text-shadow:0 1px 1px rgba(255,255,255,0.9); padding: 4px 9px 6px; margin: 0; cursor: pointer; color: #677581; text-align: left;
 
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1608,7 +1610,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .views-field-field-dayblog-ref .item-list ul li { margin: 0 0 0 60px; padding: 0; list-style: none; list-style-image: none; color: #656f77; font: 14px/20px Arial, Helvetica, sans-serif; position: relative;}
 .pane-event-days-panel-event-days-on-blog .views-field-field-dayblog-ref .item-list ul li > div { padding: 10px 0 0; }
 .pane-event-days-panel-event-days-on-blog .views-field-field-dayblog-ref .item-list ul li p { padding: 0; margin: 0;}
-.pane-event-days-panel-event-days-on-blog .views-field-field-dayblog-ref .item-list ul li .posted { border: 1px solid #3cbbeb; background: rgba(0,174,239,0.75); display: inline-block; color: #ffffff; width: 48px; text-align: center; margin: -1px 0 0 -60px; float: left; font: bold 14px/16px Arial, Helvetica, sans-serif; padding: 3px 0; position: absolute;
+.pane-event-days-panel-event-days-on-blog .views-field-field-dayblog-ref .item-list ul li .posted,
+.front_live_events h2 a { border: 1px solid #3cbbeb; background: rgba(0,174,239,0.75); display: inline-block; color: #ffffff; width: 48px; text-align: center; margin: -1px 0 0 -60px; float: left; font: bold 14px/16px Arial, Helvetica, sans-serif; padding: 3px 0; position: absolute;
 
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1629,7 +1632,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .task_link span { position: absolute; left: -9999px;}
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label,
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-link,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .field-content,
 .pane-event-days-panel-event-days-on-blog #time { min-width: 98px; display: inline-block; background: rgba(0,135,239,1); border: 1px solid #0083e7;
 
   -webkit-border-radius: 2px;
@@ -1639,8 +1642,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 }
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content .field-content { min-width: 0;}
-.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-link { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
+.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link {
@@ -1677,7 +1679,8 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .race-links .file { display: inline-block; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-event-days-on-blog .race-links.no-task a { cursor: text;}
 .pane-event-days-panel-event-days-on-blog .race-links .dayblog-text {display:none;}
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-link { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px;}
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .views-label,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .field-content { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px;}
 .pane-event-days-panel-event-days-on-blog .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-event-days-on-blog .race-awaiting .help-text,
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 60px; text-align: right; color: #fdbd41; font-weight: bold; font-style: normal; padding-left: 20px;}
@@ -2321,7 +2324,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 #mail-change { display: none;}
 
-.page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28px -1px 0;
+.page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px 27px 20px; position:relative; margin:0 -1px 0;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2330,35 +2333,40 @@ a.next_event:hover .place { background-position:-440px -29px;}
 }
 
 .page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
-.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 30px;}
+.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 32px;}
 .page-forms .pane-page-content form#user-login .form-item { padding-bottom: 10px;}
-.page-user .pane-page-content form .inline-label { display: inline-block !important; width:190px; vertical-align:top; text-align:right; margin-right:14px; height: 1px; position: relative; top: -4px}
+.page-user .pane-page-content form .inline-label { display: inline-block !important; width:180px; vertical-align:top; margin-right:14px; height: 1px; position: relative; top: -4px}
 .page-user .pane-page-content form .inline-label .valign { height: 40px; width: 1px; overflow: hidden; margin-right: -1px; vertical-align: middle; display: inline-block;}
-.page-user .pane-page-content form label { display:inline-block; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; vertical-align: middle;}
+.page-user .pane-page-content form label { display:inline-block; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; vertical-align: middle; position: relative; top: -2px;}
 .page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
-.page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -20px;}
+.page-user .pane-page-content form .description { color:#8898a4; font: italic 12px/16px Verdana, Geneva, sans-serif; margin-left:200px; margin-bottom: -20px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both; width: 245px;}
 .page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
 .page-user .pane-page-content form .form-item input.form-text,
 .select .checked_option_wrap,
-.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
+.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:3px 9px 5px; border:1px solid #b0babf; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
-  box-shadow:     inset 0 0 1px rgba(0,0,0,0.20);
-  -moz-box-shadow:   inset 0 0 1px rgba(0,0,0,0.20);
-  -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
-
 }
 .page-user .pane-page-content form .form-item-mail input.form-text { width: 292px;}
+.page-user .pane-page-content form .form-item input.form-text:focus { 
+
+  -webkit-box-shadow: 0 0 0 1px #00aeef;
+  -moz-box-shadow: 0 0 0 1px #00aeef;
+  box-shadow: 0 0 0 1px #00aeef;
+
+}
 html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
-.page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
-.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
-.page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
+.page-user .pane-page-content form .form-item-name input.form-text { width:280px;}
+.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .check_radio { background-position:0 -20px}
+.page-user .pane-page-content form .form-item .checkbox { background:url(../images/forms.png) no-repeat 0 -1100px; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .check_checkbox { background-position:0 -1120px}
 .page-user .pane-page-content form .field-type-list-text .form-type-radios { margin-bottom: -19px;}
 .page-user .pane-page-content form .field-type-list-text .form-radios { display: inline-block; padding-bottom: 6px; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { margin: 0 0 0 1px; padding-bottom: 10px; display: inline;}
@@ -2404,7 +2412,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .form-item-pass .password-strength .password-strength-text { }
 .page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
-.page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
+.page-user .pane-page-content form .form-actions { margin-left:200px; padding-top:28px}
 #mail-edit-cancel-link { display: none; cursor: pointer;}
 .page-user .pane-page-content form .form-actions input, 
 .events-add a,
@@ -2487,8 +2495,9 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-.select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-.select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+
+.select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
+.select .checked_option_wrap .checked_option { padding:3px 30px 5px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
 .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
 .select_opened .checked_option_wrap .checked_option,
 .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
@@ -2496,13 +2505,14 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .date-day .checked_option { min-width:39px}
 .page-user .pane-page-content form .date-year .checked_option { min-width:49px}
 .select .items { width:100%}
-.select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin:-3px 3px 0; max-height:160px; overflow:auto; position:relative;
+.select .items_inner { background:#ffffff; border:1px solid #b9c1c6; margin:-3px 0 0 1px; max-height:160px; overflow:auto; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
+.page-user .pane-page-content form .select .items { width:100%; top: 0 !important}
 
 .select .items_padding { padding:12px 0 !important;}
 .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
@@ -2532,6 +2542,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
 .page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
 .page-user .pane-page-content form .form-phone-number .form-item { display: block; margin-top: 0;}
+.page-user .pane-page-content form a { color: #215aff}
 
 .page-user .pane-page-content form .form-type-date-select { float: none; display: block;}
 .page-user .pane-page-content form .form-type-date-select .form-type-select .select { margin-right: 2px;}
@@ -2541,6 +2552,15 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .page-user .pane-page-content form .street-block { clear: both; padding-top: 1px; display: block;}
 .page-user .pane-page-content form .street-block .form-item:first-child { margin-top: 15px;}
+
+.page-user .pane-page-content form .draggable_table { display: inline-block; width: 470px;}
+form .draggable_table table { border: 1px solid #f2f2f2;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 form#user-login .form-wrapper { float: left; padding-bottom: 39px;}
 form#user-login .hybridauth_prefix { float: left; color: #7a8b99; font-size: 18px; padding: 28px 9px 0 24px;}
@@ -2598,6 +2618,7 @@ form .form-type-item .inline-label { top: -10px;}
 .page-user-edit .pane-page-content form .form-type-date-select { margin-top: 14px;}
 .page-user-edit .pane-page-content form .field-type-datetime legend { display: none;}
 .page-user-edit .pane-page-content form .field-type-list-text .form-type-radio { padding-bottom: 2px;}
+.page-user-edit .pane-page-content form .field-name-field-user-avatar .inline-label { display: none !important;}
 .page-user-edit .field-name-field-user-avatar .image-widget { margin-left: 210px; position: relative; display: block; overflow: hidden;}
 .page-user-edit .field-name-field-user-avatar .photo-empty-div,
 .page-user-edit .field-name-field-user-avatar .image-preview { border: 1px solid #d2d6d9; width: 150px; height: 150px; position: relative; background: url(../images/no_photo.png) no-repeat 50% 50%;
@@ -2609,20 +2630,21 @@ form .form-type-item .inline-label { top: -10px;}
 }
 .page-user-edit .field-name-field-user-avatar .image-preview { text-align: center; background: no-repeat; padding: 0;}
 .page-user-edit .field-name-field-user-avatar .delete-photo { position: absolute; cursor: pointer;}
+.page-user-edit .field-name-field-user-avatar div.ajax-progress-throbber { position: absolute; left: 150px; top: 24px;}
 
-.image-widget .image-widget-data { position: absolute; top: 1px; left: 1px; z-index: 10;}
-.image-widget .form-submit { position: absolute; top: -100000px;}
-.image-widget span.file { width: 150px; height: 150px; display: block; position: relative;}
-.image-widget span.emulate-click { cursor: pointer; display: block;}
-.image-widget span.emulate-click-plus, 
-.image-widget .delete-photo-plus { width: 24px; height: 24px; top: 0; right: -32px; display: block; background: url(../images/file_upload.png) no-repeat 0 0; position: absolute;}
-.image-widget span.file:hover span.emulate-click-plus { background-position: 0 -200px}
-.image-widget span.file:active span.emulate-click-plus { background-position: 0 -400px}
-.image-widget span.input { display: none !important;}
-.image-widget .delete-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
-.image-widget .delete-photo-plus { background-position: 0 -600px}
-.image-widget .delete-photo:hover .delete-photo-plus { background-position: 0 -800px}
-.image-widget .delete-photo:active .delete-photo-plus { background-position: 0 -1000px}
+.page-user-edit .image-widget .image-widget-data { position: absolute; top: 1px; left: 1px; z-index: 10;}
+.page-user-edit .image-widget .form-submit { position: absolute; top: -100000px;}
+.page-user-edit .image-widget span.file { width: 150px; height: 150px; display: block; position: relative;}
+.page-user-edit .image-widget span.emulate-click { cursor: pointer; display: block;}
+.page-user-edit .image-widget span.emulate-click-plus, 
+.page-user-edit .image-widget .delete-photo-plus { width: 24px; height: 24px; top: 0; right: -32px; display: block; background: url(../images/file_upload.png) no-repeat 0 0; position: absolute;}
+.page-user-edit .image-widget span.file:hover span.emulate-click-plus { background-position: 0 -200px}
+.page-user-edit .image-widget span.file:active span.emulate-click-plus { background-position: 0 -400px}
+.page-user-edit .image-widget span.input { display: none !important;}
+.page-user-edit .image-widget .delete-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.page-user-edit .image-widget .delete-photo-plus { background-position: 0 -600px}
+.page-user-edit .image-widget .delete-photo:hover .delete-photo-plus { background-position: 0 -800px}
+.page-user-edit .image-widget .delete-photo:active .delete-photo-plus { background-position: 0 -1000px}
 /*.image-widget span.emulate-click input { margin-top: 1000px !important;}*/
 
 .node-form .image-widget .image-widget-data { position: relative;}
@@ -2932,6 +2954,9 @@ table tr td:first-child { border-left: none;}
 .featured-header .featured-header-title h1 { color: #FFF;}
 .featured-header-padding { top: 0; position: absolute; width: 940px;}
 .pane-header-slideshow-event-header { position: relative; z-index: 10}
+
+.page-event-race-results .featured-header-title { text-align: center;}
+.page-event-race-results .featured-header-title #event-description a { color: #ffffff;}
 
 .featured-header-collapsible .featured-header .collapse-control { position: absolute; top: 0; right: 0; height: 100%; width: 20px; background: rgba(255, 255, 255, 0.25) url(../images/collapsible_control.png) no-repeat -120px 35px; display: none; z-index: 115; cursor: pointer;}
 .featured-header-collapsible .featured-header:hover .collapse-control { display: block;}
@@ -3483,7 +3508,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-block-activated .help-text {display:block;}
 .front_live_events .race-block-activated .dayblog-text {display:none;}
 
-.race-links .views-field-field-pg-race-tracks {display:none;}
+.views-field-day-pg-race-play-live-link .views-field-field-pg-race-tracks {display:none;}
 /*.view-frontpage-events .views-row-4,
 .view-frontpage-events .views-row-5,
 .view-frontpage-events .views-row-6,
@@ -3536,6 +3561,23 @@ html.fb_view { overflow: auto;}
 
 
 .solutions_hosting { padding-top: 26px;}
+.solutions_hosting .its_free_banner { position: relative; text-align: center; min-height: 140px;
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdd925', endColorstr='#a4bb15'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #cdd925 0% #a4bb15 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#cdd925), to(#a4bb15));
+  background: -moz-linear-gradient(top,  #cdd925 0%, #a4bb15 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #cdd925 0%, #a4bb15 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #cdd925 0%, #a4bb15 100%); /* для IE10+ */
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.solutions_hosting .its_free_banner .its_free { position: absolute; top: -5px; right: -5px; width: 96px; height: 96px; background: url(../images/its_free.png) no-repeat 0 0;}
+.solutions_hosting .its_free_banner .banner_title { color: #ffffff; font-size: 30px; line-height: 30px; text-shadow: 0 1px 1px rgba(79, 87, 12, .5); padding: 32px 0 10px;}
+.solutions_hosting .its_free_banner .banner_text { color: #eef6a4; text-shadow: 0 1px 1px rgba(79, 87, 12, .5); font-weight: bold; line-height: 20px; font-size: 16px; padding-bottom: 10px;}
 .solutions_hosting .zoom_block_wrap { padding: 40px; margin-top: 25px; margin-bottom: 17px;
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eff0f1'); /* для IE6-9 */
@@ -3620,6 +3662,17 @@ html.fb_view { overflow: auto;}
 
   /* Solutions SMS Retrieve */
 
+.solutions_retrieve .its_free_banner {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4c500', endColorstr='#ea9600'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #f4c500 0% #ea9600 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#f4c500), to(#ea9600));
+  background: -moz-linear-gradient(top,  #f4c500 0%, #ea9600 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #f4c500 0%, #ea9600 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #f4c500 0%, #ea9600 100%); /* для IE10+ */
+
+}
+.solutions_retrieve .banner_text { color: #fbeeb3;}
 .solutions_retrieve .examples { position: relative; padding-top: 66px; padding-bottom: 57px; margin-bottom: 66px;}
 .solutions_retrieve .examples img { vertical-align: middle;}
 .solutions_retrieve .examples .pilots_table { position: absolute; bottom: 0; right: -7px; height: 13px; width: 472px; background: url(/sites/default/files/macair_1.png) no-repeat 50% -254px; display: block;}
@@ -3660,7 +3713,19 @@ html.fb_view { overflow: auto;}
 
   /* Solutions Live tracking */
 
-.solutions_hosting img + .feel_free { margin-top: 51px; padding-bottom: 52px;}
+.solutions_competition .its_free_banner {
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00c5f4', endColorstr='#0096ea'); /* для IE6-9 */
+  background: -webkit-linear-gradient(top, bottom, #00c5f4 0% #0096ea 100%); /* для webkit-браузеров */
+  background: -webkit-gradient(linear, left top, left bottom, from(#00c5f4), to(#0096ea));
+  background: -moz-linear-gradient(top,  #00c5f4 0%, #0096ea 100%); /* для firefox 3.6+ */
+  background: -o-linear-gradient(top,  #00c5f4 0%, #0096ea 100%); /* для Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #00c5f4 0%, #0096ea 100%); /* для IE10+ */
+
+}
+.solutions_competition .its_free_banner .banner_title { padding-bottom: 22px;}
+.solutions_competition .its_free_banner .banner_text { color: #d2eaf3}
+.solutions_hosting .its_free_banner + .feel_free { margin-top: 51px; padding-bottom: 52px;}
 .solutions_competition .mobile_apps { padding-top: 92px; background: url(../images/competition_apps.png) no-repeat 0 100%; position: relative; padding-bottom: 20px; margin-bottom: 112px; position: relative;}
 .solutions_competition .mobile_apps h3,
 .solutions_competition .block_cols h2 { font-size: 34px; font-weight: bold; line-height: 34px;}
@@ -3716,13 +3781,158 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 .page-event-settings .pane-page-content .form-radios label { font-size: 14px}
 .page-event-settings .image-widget {  position: relative; display: inline-block;}
 .page-event-settings .image-widget .form-submit { top: 0; left: 100%; margin-left: 10px;}
-.page-event-settings .image-widget .image-preview { border: 1px solid #d2d6d9; width: 150px; height: 150px; padding: 0;
 
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+form #edit-field-take-offs { margin-left: 200px; font-size: 14px; line-height: 20px; color: #7a8b99; margin-top: 9px;bottom: 54px; padding-bottom: 54px;}
+form #edit-field-take-offs .field-take-offs-title { margin-bottom: 7px;}
+form #edit-field-take-offs .form-item { float: left; width: 220px; margin-top: 0; margin-bottom: 0; padding-bottom: 4px;}
+form #edit-field-take-offs .form-item:nth-child(odd) { margin-right: 20px; clear: both;}
+form #edit-field-take-offs .inline-label { width: auto;}
+form #edit-field-take-offs label { position: relative; top: -1px; font-weight: normal; font-size: 16px;}
+
+#edit-field-logo .form-item { padding-bottom: 1px;}
+.field-type-image .image-widget { /*float: left;*/ display: inline-block;}
+.field-type-image .image-widget .button { font-size: 16px; line-height: 30px; width: 120px; height: 30px; background: #1cb7f0; color: #ffffff; margin-right: 10px; display: inline-block; text-align: center; vertical-align: top;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 
 }
+.field-type-image .image-widget .input,
+.field-type-image .image-widget .form-submit[value='Upload'] { display: none;}
+.field-type-image .image-widget .form-submit[value='Remove'] { width: 18px; height: 18px; overflow: hidden; text-indent: -9999px; background: url(../images/forms.png) no-repeat 0 -1180px; border: none; padding: 0;}
+.field-type-image .image-widget .form-submit[value='Remove']:hover {
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
+  -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: 0.8; /* Konqueror 3.1, Safari 1.1 */
+  opacity: 0.8; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+
+}
+
+  /* Task results */
+
+.page-event-race-results #footer { display: none; }
+.page-event-race-results #super { padding-bottom: 0; }
+.page-event-race-results .second_sidebar {
+  position: absolute;
+  right: -241px;
+  top: 0;
+}
+.page-event-race-results .panel-panel.line {
+  position: static;
+}
+.page-event-race-results .panel-panel.line .inside {
+  position: relative;
+  margin-right: 0;
+}
+
+.page-event-race-results .pane-airtribune-task-results .pane-inner {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.page-event-race-results #super .small-pane-share-links {
+  display: inline-block;
+  position: absolute;
+  right: -5px;
+  top: -40px;
+}
+
+.page-event-race-results table {
+  width: auto;
+}
+
+.page-event-race-results table thead th {
+  font-size: xx-small;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.page-event-race-results p {
+  padding: 0;
+}
+
+.page-event-race-results .block.competition-banner {
+  position: relative;
+  background: none;
+  border: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+
+.page-event-race-results .competition-banner .pane-content {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: -5px;
+  left: -5px;
+}
+
+.page-event-race-results .competition-banner img.banner {
+  width: 240px;
+  max-width: inherit;
+}
+
+#airtribune-task-results {
+  color: #000;
+}
+
+.page-event-race-results table {
+  font: inherit;
+  margin: inherit;
+  padding: inherit;
+  color: #000;
+}
+
+/* Table row striping */
+.page-event-race-results thead tr {  font-weight: inherit;  background-color: inherit;  background-color: inherit;}
+.page-event-race-results table thead th { border-bottom: inherit; border-left: inherit; padding: inherit; font: inherit; color: inherit; font-weight: bold;}
+
+.page-event-race-results .hover
+{ /* for IE using onmouseover and onmouseout */
+  background: yellow;
+}
+.page-event-race-results tr.fs_res_res_row:hover
+{
+  background: yellow;
+}
+.page-event-race-results div.fs_res
+{
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: xx-small;
+}
+.page-event-race-results table.fs_res
+{
+  border:solid 1px gray;
+  border-collapse:collapse;
+  font-size: xx-small;
+}
+.page-event-race-results td.fs_res
+{
+  border:solid 1px gray;
+  vertical-align:top;
+  padding:5px;
+}
+.page-event-race-results th.fs_res
+{
+  border:solid 1px gray;
+  vertical-align:center;
+}
+
+.page-user .pane-page-content form .field-type-image .description { /*float: left;*/ overflow: hidden; display: inline-block; margin-left: 0; width: 300px; vertical-align: top; padding-top: 0; margin-top: -2px; line-height: 15px;}
+
+form #edit-field-dates .fieldset-description { display: none;}
+form #edit-field-dates .inline-label { float: left; margin-right: 19px;}
+form #edit-field-dates .form-type-textfield,
+form #edit-field-dates .form-type-textfield .date_prefix { float: left; margin-top: 0;}
+form #edit-field-dates .form-type-textfield + .form-type-textfield { margin-left: 45px;}
+form #edit-field-dates .form-type-textfield .inline-label { width: auto; margin-right: 9px;}
+form #edit-field-dates .form-type-textfield .inline-label label { font-size: 16px; top: 1px;}
+form #edit-field-dates .form-type-textfield input { background: #ffffff url(../images/calendar_bg.png) no-repeat 100% 50%; width: 100px; font-size: 16px; color: #424242; padding: 5px 9px 3px;}
+form #edit-field-dates .form-type-textfield .description { width: 120px; margin-left: 0;}
+
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft

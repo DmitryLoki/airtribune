@@ -1363,11 +1363,24 @@ event/*/map/accommodations',
     $pane->type = 'event_title';
     $pane->subtype = 'event_title';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/race/*/results/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'context' => 'event',
       'override_title' => 0,
       'override_title_text' => '',
+      'title_type' => 'default',
     );
     $pane->cache = array(
       'method' => 'simple',
@@ -1387,11 +1400,58 @@ event/*/map/accommodations',
     $display->panels['featured_header_title'][0] = 'new-28';
     $pane = new stdClass();
     $pane->pid = 'new-29';
+    $pane->panel = 'featured_header_title';
+    $pane->type = 'event_title';
+    $pane->subtype = 'event_title';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/race/*/results/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'title_type' => 'task_results',
+      'context' => 'event',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-29'] = $pane;
+    $display->panels['featured_header_title'][1] = 'new-29';
+    $pane = new stdClass();
+    $pane->pid = 'new-30';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/race/*/results/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
@@ -1404,10 +1464,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-29'] = $pane;
-    $display->panels['footer'][0] = 'new-29';
+    $display->content['new-30'] = $pane;
+    $display->panels['footer'][0] = 'new-30';
     $pane = new stdClass();
-    $pane->pid = 'new-30';
+    $pane->pid = 'new-31';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -1425,10 +1485,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-30'] = $pane;
-    $display->panels['header'][0] = 'new-30';
+    $display->content['new-31'] = $pane;
+    $display->panels['header'][0] = 'new-31';
     $pane = new stdClass();
-    $pane->pid = 'new-31';
+    $pane->pid = 'new-32';
     $pane->panel = 'left';
     $pane->type = 'pane_messages';
     $pane->subtype = 'pane_messages';
@@ -1446,10 +1506,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-31'] = $pane;
-    $display->panels['left'][0] = 'new-31';
+    $display->content['new-32'] = $pane;
+    $display->panels['left'][0] = 'new-32';
     $pane = new stdClass();
-    $pane->pid = 'new-32';
+    $pane->pid = 'new-33';
     $pane->panel = 'left';
     $pane->type = 'page_title';
     $pane->subtype = 'page_title';
@@ -1486,10 +1546,10 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-32'] = $pane;
-    $display->panels['left'][1] = 'new-32';
+    $display->content['new-33'] = $pane;
+    $display->panels['left'][1] = 'new-33';
     $pane = new stdClass();
-    $pane->pid = 'new-33';
+    $pane->pid = 'new-34';
     $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1508,10 +1568,49 @@ event/*/map/accommodations',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-33'] = $pane;
-    $display->panels['left'][2] = 'new-33';
+    $display->content['new-34'] = $pane;
+    $display->panels['left'][2] = 'new-34';
     $pane = new stdClass();
-    $pane->pid = 'new-34';
+    $pane->pid = 'new-35';
+    $pane->panel = 'right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/race/*/results/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'admin_title' => 'Competition hosting free',
+      'title' => '',
+      'body' => '<img class="banner" src="/sites/all/themes/airtribune2/images/at_competition_free.png" title="Competition hosting and live tracking for your events!" alt="Competition hosting and live tracking for your events!" />',
+      'format' => 'full_html',
+      'substitute' => 0,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'competition-banner',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-35'] = $pane;
+    $display->panels['right'][0] = 'new-35';
+    $pane = new stdClass();
+    $pane->pid = 'new-36';
     $pane->panel = 'right';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -1523,7 +1622,8 @@ event/*/map/accommodations',
           'settings' => array(
             'visibility_setting' => '0',
             'paths' => 'event/*/register
-retrieve/*',
+retrieve/*
+event/*/race/*/results/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1544,12 +1644,12 @@ retrieve/*',
       'css_class' => 'small-pane-share-links',
     );
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-34'] = $pane;
-    $display->panels['right'][0] = 'new-34';
+    $display->content['new-36'] = $pane;
+    $display->panels['right'][1] = 'new-36';
     $pane = new stdClass();
-    $pane->pid = 'new-35';
+    $pane->pid = 'new-37';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
@@ -1584,12 +1684,12 @@ retrieve/*',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-35'] = $pane;
-    $display->panels['right'][1] = 'new-35';
+    $display->content['new-37'] = $pane;
+    $display->panels['right'][2] = 'new-37';
     $pane = new stdClass();
-    $pane->pid = 'new-36';
+    $pane->pid = 'new-38';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1628,12 +1728,12 @@ retrieve/*',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-36'] = $pane;
-    $display->panels['right'][2] = 'new-36';
+    $display->content['new-38'] = $pane;
+    $display->panels['right'][3] = 'new-38';
     $pane = new stdClass();
-    $pane->pid = 'new-37';
+    $pane->pid = 'new-39';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -1644,7 +1744,8 @@ retrieve/*',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'retrieve/*',
+            'paths' => 'retrieve/*
+event/*/race/*/results/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1667,17 +1768,29 @@ retrieve/*',
       'css_class' => 'next_events',
     );
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-37'] = $pane;
-    $display->panels['right'][3] = 'new-37';
+    $display->content['new-39'] = $pane;
+    $display->panels['right'][4] = 'new-39';
     $pane = new stdClass();
-    $pane->pid = 'new-38';
+    $pane->pid = 'new-40';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'event/*/race/*/results/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
@@ -1687,8 +1800,8 @@ retrieve/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-38'] = $pane;
-    $display->panels['top'][0] = 'new-38';
+    $display->content['new-40'] = $pane;
+    $display->panels['top'][0] = 'new-40';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1825,7 +1938,7 @@ retrieve/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-39';
+    $pane->pid = 'new-41';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -1843,10 +1956,10 @@ retrieve/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-39'] = $pane;
-    $display->panels['footer'][0] = 'new-39';
+    $display->content['new-41'] = $pane;
+    $display->panels['footer'][0] = 'new-41';
     $pane = new stdClass();
-    $pane->pid = 'new-40';
+    $pane->pid = 'new-42';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -1864,10 +1977,10 @@ retrieve/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-40'] = $pane;
-    $display->panels['header'][0] = 'new-40';
+    $display->content['new-42'] = $pane;
+    $display->panels['header'][0] = 'new-42';
     $pane = new stdClass();
-    $pane->pid = 'new-41';
+    $pane->pid = 'new-43';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1886,8 +1999,8 @@ retrieve/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-41'] = $pane;
-    $display->panels['middle'][0] = 'new-41';
+    $display->content['new-43'] = $pane;
+    $display->panels['middle'][0] = 'new-43';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1929,7 +2042,7 @@ retrieve/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-42';
+    $pane->pid = 'new-44';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -1951,10 +2064,10 @@ retrieve/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['middle'][0] = 'new-42';
+    $display->content['new-44'] = $pane;
+    $display->panels['middle'][0] = 'new-44';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-42';
+  $display->title_pane = 'new-44';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_5'] = $handler;
 
@@ -7069,7 +7182,7 @@ window.fbAsyncInit = function() {
       <div class="airvis-loading-container">
         <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, rootDomain: "http://vis.airtribune.com", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
+    <!-- ko widget: { data: page, rootDomain: "http://vis.airtribune.com", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',searchQuery_small:\'Top 5 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
@@ -7248,7 +7361,7 @@ window.fbAsyncInit = function() {
         'value' => '<script data-main="http://vis.airtribune.com/wp/js/init" src="http://vis.airtribune.com/wp/js/require.js"></script>
 <link rel="stylesheet" href="http://vis.airtribune.com/wp/css/reset.css" />
 <link rel="stylesheet" href="http://vis.airtribune.com/wp/css/WayPointerEditor.css" />
-<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", uploadUrl: "/points/file", eventId: [node:nid], mapWidget: "2d" } --><!-- /ko -->
+<div><!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/wp/img/", eventPointsUrl: "/points/get", createFileUrl: "/points/upload", uploadUrl: "/points/file", eventId: [node:nid], mapWidget: "2d" , hq: "[node:field_hq_location]" } --><!-- /ko -->
 </div>',
         'format' => 'full_html',
       ),
@@ -7560,6 +7673,251 @@ window.fbAsyncInit = function() {
   );
   $page->default_handlers[$handler->name] = $handler;
   $pages['retrieve_map'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'task_results';
+  $page->task = 'page';
+  $page->admin_title = 'Task results';
+  $page->admin_description = '';
+  $page->path = 'event/%event/race/%race/results/%category';
+  $page->access = array(
+    'logic' => 'and',
+  );
+  $page->menu = array(
+    'type' => 'none',
+    'title' => '',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'event' => array(
+      'id' => 1,
+      'identifier' => 'Contest: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+    'race' => array(
+      'id' => 1,
+      'identifier' => 'Race: ID',
+      'name' => 'entity_id:ent_race',
+      'settings' => array(),
+    ),
+    'category' => array(
+      'id' => 2,
+      'identifier' => 'Scoring category: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_task_results_panel_context_2';
+  $handler->task = 'page';
+  $handler->subtask = 'task_results';
+  $handler->handler = 'panel_context';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => ' Task results (Competition)',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/race/*/results/*/competition',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    ),
+    'panels_everywhere_site_template' => '',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'header' => NULL,
+      'featured_header_title' => NULL,
+      'featured_header_padding' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'footer' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Competition results | %category:field-pg-scoring-category | %race:title | %event:title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-96';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_task_results';
+    $pane->subtype = 'airtribune_task_results';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_entity_id:ent_race_1',
+        2 => 'argument_entity_id:node_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'results_type' => 'competition',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-96'] = $pane;
+    $display->panels['middle'][0] = 'new-96';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_task_results_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'task_results';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Task results (Day)',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'logic' => 'and',
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/race/*/results/*/day',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    ),
+    'panels_everywhere_site_template' => '',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'header' => NULL,
+      'featured_header_title' => NULL,
+      'featured_header_padding' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'footer' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Day results | %category:field-pg-scoring-category | %race:title | %event:title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-97';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_event_sharelinks';
+    $pane->subtype = 'airtribune_event_sharelinks';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'balloon_type' => 'h',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'small-pane-share-links',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-97'] = $pane;
+    $display->panels['middle'][0] = 'new-97';
+    $pane = new stdClass();
+    $pane->pid = 'new-98';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_task_results';
+    $pane->subtype = 'airtribune_task_results';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_entity_id:ent_race_1',
+        2 => 'argument_entity_id:node_2',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'results_type' => 'day',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-98'] = $pane;
+    $display->panels['middle'][1] = 'new-98';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['task_results'] = $page;
 
   return $pages;
 
