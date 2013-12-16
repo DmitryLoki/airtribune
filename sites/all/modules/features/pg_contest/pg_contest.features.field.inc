@@ -4015,7 +4015,7 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Internal path containing letters, numbers, hyphens, and underscores',
+      'description' => 'Event URLs may set only once.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -4040,7 +4040,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_tiny_path',
-      'label' => 'Tiny path',
+      'label' => 'Additional URL',
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
