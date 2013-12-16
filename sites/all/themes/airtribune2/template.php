@@ -686,8 +686,19 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       $form['actions']['#weight'] = 79;
       break;
 
-    case 'user_profile_form':
+    case 'airtribune_event_settings_form':
+      $lang = $form['field_take_offs']['#language'];
+      $form['field_take_offs'][$lang]['#prefix'] .= '<div class="field-take-offs-title">' . $form['field_take_offs'][$lang]['#description'] . '</div>';
+      unset($form['field_take_offs'][$lang]['#description']);
 
+      $lang = $form['field_dates']['#language'];
+      //$form['field_dates'][$lang][0]['#required'] = 1;
+      //unset($form['field_dates'][$lang]['#title']);
+      
+      // unset($form['field_dates'][$lang][0]['#title']);
+      //unset($form['field_dates'][$lang][0]['#entity']);
+      // unset($form['field_dates'][$lang][1]['#entity']);
+      //print_r($form['field_dates']);
       //print_r($form);
       break;
   }
@@ -1574,6 +1585,78 @@ function airtribune2_form_element_label($variables) {
 }
 
 /**
+ * Implements theme_form_element().
+ */
+function airtribune2_form_element($variables) {
+  $element = &$variables['element'];
+
+  // This function is invoked as theme wrapper, but the rendered form element
+  // may not necessarily have been processed by form_builder().
+  $element += array(
+    '#title_display' => 'before',
+  );
+
+  // Add element #id for #type 'item'.
+  if (isset($element['#markup']) && !empty($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  // Add element's #type and #name as class to aid with JS/CSS selectors.
+  $attributes['class'] = array('form-item');
+  if (!empty($element['#type'])) {
+    $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+  }
+  if (!empty($element['#name'])) {
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+  }
+  // Add a class for disabled elements to facilitate cross-browser styling.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+  $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  $date_prefix = $date_suffix = '';
+  if (!empty($element['#extra_wrap'])){
+    $date_prefix = '<div class="date_prefix">';
+    $date_suffix = '</div>';
+  }
+
+  switch ($element['#title_display']) {
+    case 'before':
+    case 'invisible':
+      $output .= ' ' . theme('form_element_label', $variables);
+      $output .= ' ' . $date_prefix . $prefix . $element['#children'] . $suffix;
+      break;
+
+    case 'after':
+      $output .= ' ' . $date_prefix . $prefix . $element['#children'] . $suffix . $date_suffix;
+      $output .= ' ' . theme('form_element_label', $variables);
+      $date_suffix = '';
+      break;
+
+    case 'none':
+    case 'attribute':
+      // Output no label and no required marker, only the children.
+      $output .= ' ' . $date_prefix . $prefix . $element['#children'] . $suffix;
+      break;
+  }
+
+  if (!empty($element['#description'])) {
+    $output .= '<div class="description">' . $element['#description'] . "</div>" . $date_suffix;
+  }
+  //print_r($variables);
+  $output .= "</div>\n";
+
+  return $output;
+}
+
+/**
  * Implements hook_css_alter().
  */
 function airtribune2_css_alter(&$css) {
@@ -1837,4 +1920,98 @@ function _airtribune2_alter_birthdate_widget(&$element) {
   $element[$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $element[$lang][0]['#title']);
   $element[$lang][0]['value']['day']['#title'] = $element[$lang][0]['#title'];
   $element[$lang][0]['#title'] = '';
+}
+
+/**
+ * Implements theme_field_multiple_value_form().
+ */
+function airtribune2_field_multiple_value_form($variables) {
+  //print_r($variables);
+  $element = $variables['element'];
+  $output = '';
+
+  if ($element['#cardinality'] > 1 || $element['#cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    $table_id = drupal_html_id($element['#field_name'] . '_values');
+    $order_class = $element['#field_name'] . '-delta-order';
+    $required = !empty($element['#required']) ? theme('form_required_marker', $variables) : '';
+
+    $rows = array();
+
+    // Sort items according to '_weight' (needed when the form comes back after
+    // preview or failed validation)
+    $items = array();
+    foreach (element_children($element) as $key) {
+      if ($key === 'add_more') {
+        $add_more_button = &$element[$key];
+      }
+      else {
+        $items[] = &$element[$key];
+      }
+    }
+    usort($items, '_field_sort_items_value_helper');
+
+    // Add the items as table rows.
+    foreach ($items as $key => $item) {
+      $item['_weight']['#attributes']['class'] = array($order_class);
+      $delta_element = drupal_render($item['_weight']);
+      $cells = array(
+        array(
+          'data' => '',
+          'class' => array('field-multiple-drag'),
+        ),
+        drupal_render($item),
+        array(
+          'data' => $delta_element,
+          'class' => array('delta-order'),
+        ),
+      );
+      $rows[] = array(
+        'data' => $cells,
+        'class' => array('draggable'),
+      );
+    }
+
+    $output = '<div class="form-item">';
+    $output .= '<div class="inline-label"><label>' . $element['#title'] . ':&nbsp;</label></div>';
+    $output .= '<div class="draggable_table">';
+
+    $output .= theme('table', array('rows' => $rows, 'attributes' => array('id' => $table_id, 'class' => array('field-multiple-table'))));
+    $output .= '</div>';
+    $output .= $element['#description'] ? '<div class="description">' . $element['#description'] . '</div>' : '';
+    $output .= '<div class="clearfix">' . drupal_render($add_more_button) . '</div>';
+    $output .= '</div>';
+
+    drupal_add_tabledrag($table_id, 'order', 'sibling', $order_class);
+  }
+  else {
+    foreach (element_children($element) as $key) {
+      $output .= drupal_render($element[$key]);
+    }
+  }
+
+  return $output;
+}
+
+function airtribune2_date_combo($variables) {
+  $element = $variables['element'];
+  $element['value']['date']['#title']= 'From';
+  $element['value']['date']['#extra_wrap'] = true;
+  $element['value2']['date']['#title'] = 'To';
+  $element['value2']['date']['#extra_wrap'] = true;
+  $field = field_info_field($element['#field_name']);
+  $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
+  $element['#children'] = render($element['value']['date']) . render($element['value2']['date']);
+
+  // Group start/end items together in fieldset.
+  $fieldset = array(
+    '#title' => t($element['#title']) . ' ' . ($element['#delta'] > 0 ? intval($element['#delta'] + 1) : ''), 
+    '#value' => '', 
+    '#description' => !empty($element['#fieldset_description']) ? $element['#fieldset_description'] : '', 
+    '#attributes' => array(), 
+    '#children' => $element['#children'],
+  );
+
+  //print_r($element);
+  //print_r(render($element['value2']));
+  return theme('form_element', array('element' => $fieldset));
 }
