@@ -9443,7 +9443,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_tracker']['table'] = 'field_data_field_tracker';
   $handler->display->display_options['fields']['field_tracker']['field'] = 'field_tracker';
   $handler->display->display_options['fields']['field_tracker']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_tracker']['label'] = 'Изменения';
+  $handler->display->display_options['fields']['field_tracker']['label'] = 'Tracker';
   $handler->display->display_options['fields']['field_tracker']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_tracker']['settings'] = array(
     'click_to_edit' => TRUE,
@@ -9585,7 +9585,7 @@ return array($event_id);';
     t('Manage event pilots (all)'),
     t('Manage (Confirmed)'),
     t('Phone number'),
-    t('Изменения'),
+    t('Tracker'),
     t('Manage event pilots (confirmed)'),
   );
   $export['paragliding_pilots_list'] = $view;
