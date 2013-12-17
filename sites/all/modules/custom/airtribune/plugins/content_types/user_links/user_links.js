@@ -79,6 +79,7 @@ jQuery(function ($) {
     function slideUp(dropItems, cb) {
         dropItems.slideUp({duration: 400, easing: 'easeInCubic', complete: cb}).removeClass('active');
     }
+    Drupal.slideUp = slideUp;
 });
 
 jQuery.extend(jQuery.easing, {

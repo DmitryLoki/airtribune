@@ -153,7 +153,13 @@ function field_validation_ui_manage_rule($form, $form_state, $instance, $action 
   $columns = !empty($field['columns']) ? $field['columns'] : array();
   foreach ($columns as $key => $column) {
     $col_options[$key] = $key;  
-  }  
+  }
+
+  // Support free tagging.
+  if ($field['type'] == 'taxonomy_term_reference') {
+    $col_options['name'] = 'name';
+  }
+
   $form['col'] = array(
     '#type' => 'select',
     '#options' => $col_options,

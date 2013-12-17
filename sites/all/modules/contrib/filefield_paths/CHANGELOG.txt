@@ -1,12 +1,25 @@
-File (Field) Paths 7.x-1.x-dev, xxxx-xx-xx (development release)
+File (Field) Paths 7.x-1.0-beta4, 2013-04-25
 --------------------------------------------------------------------------------
 
+- #1945148: Fixed issue with File path cleanup process.
+- #1942720 by pp: Fixed issue with cleanup wehn token contains a '/'' character.
+- #1925298 by David_Rothstein: Fixed issue with Image derivatives.
+- #1866450: Fixed issue with foreign characters in Regex.
 - #1714596: Fixed issue with file_attach_update() introduced in Drupal 7.15.
 - #1705298: Fixed extra beggining slash.
+- #1601104 by tseven: Fixed notice when no extension present.
+- #1572206: Add ability to disable for certain fields.
+- #1549474: Fixed path replacement in summary text.
 - #1512466 by maximpodorov, perarnet: Fixed issue with multi-value updates.
+- #1499442 by hass: Improved translatable strings.
+- #1464404: Fixed issue with field_attach_update().
 - #1438290 by xtfer: Fixed D6 to D7 upgrade path.
 - #1432200: Fixed issue with missing langcode variable.
 - #1420700: Fixed issue with pass-by-reference issue.
+- #1364492 by j0rd, Deciphered: Improved require_once routine.
+- #1361884 by burningdog, dwkitchen, Deciphered: Fixed processing remote files.
+- #1262828 by Pablo Gosse: Fixed issue with regex.
+- #860848 by mostou: Fixed File name field length.
 - Fixed issue with malformed URIs.
 
 

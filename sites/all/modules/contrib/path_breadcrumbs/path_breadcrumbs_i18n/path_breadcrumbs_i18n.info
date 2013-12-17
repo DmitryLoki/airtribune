@@ -1,4 +1,4 @@
-name = Path breadcrumbs translation
+name = Path Breadcrumbs translation
 description = Allows translating of breadcrumbs.
 core = 7.x
 package = Multilingual - Internationalization
@@ -9,9 +9,9 @@ dependencies[] = path_breadcrumbs
 dependencies[] = i18n_string
 dependencies[] = i18n
 
-; Information added by drupal.org packaging script on 2013-01-29
-version = "7.x-3.x-dev"
+; Information added by drupal.org packaging script on 2013-10-24
+version = "7.x-3.0-beta6"
 core = "7.x"
 project = "path_breadcrumbs"
-datestamp = "1359423311"
+datestamp = "1382650227"
 

@@ -12,32 +12,52 @@ jQuery(function ($) {
   faiCategory.after(raceInfo.hide());
   raceDataTextBlock.data('contest-date-text', raceDataTextBlock.text());
 
-  if(!Drupal.settings.views_accordion) {
-    return;
+  if (Drupal.settings.views_accordion) {
+    //Need to get accordion instance
+    $.each(Drupal.settings.views_accordion, function (id) {
+      var viewname = this.viewname;
+      var display = this.display;
+
+      var displaySelector = '.view-id-' + viewname + '.view-display-id-' + display + ' .view-content',
+        accordionElement = $(displaySelector);
+
+      accordion = accordionElement.data('accordion');
+      accordionElement.bind('accordionchange', function () {
+        var active = $(accordion.active);
+        if(active.data('ajax-processed') || active.length == 0)
+          toggleHeader(active);
+      });
+    });
   }
 
-  //Need to get accordion instance
-  $.each(Drupal.settings.views_accordion, function (id) {
-    var viewname = this.viewname;
-    var display = this.display;
+  Drupal.behaviors.updateHeaderOnAjax = {
+    attach: function (context) {
+      if (accordion && accordion.active && $(accordion.active).parent().find(context).length > 0) {
+        var active = $(accordion.active);
+        toggleHeader(active);
+        active.data('ajax-processed', true);
 
-    var displaySelector = '.view-id-' + viewname + '.view-display-id-' + display + ' .view-content',
-      accordionElement = $(displaySelector);
+      }
+    }
+  };
 
-    accordion = accordionElement.data('accordion');
 
-    accordionElement.bind('accordionchange', function () {
-      toggleHeader($(accordion.active));
-    });
-  });
+  function getActiveRaceBlock() {
+    var activeRaceBlock;
 
+    if (accordion && accordion.active) {
+      activeRaceBlock = $(accordion.active).parent();
+    } else if (!accordion) {
+      activeRaceBlock = $('.event-day:eq(0)');
+    }
+    return activeRaceBlock;
+  }
 
   //This callback calls when airvis widget initiated
   window.airvisPageLoadedCallback = function (airvis) {
     airvisWidget = airvis;
-
     airvisWidget.on('domInit', function () {
-      toggleHeader($(accordion.active));
+      toggleHeader( getActiveRaceBlock());
     });
 
     //if loading successful - hide picture to display airvis widget
@@ -45,7 +65,7 @@ jQuery(function ($) {
       headerPictureContainer.hide();
       faiCategory.hide();
       raceInfo.text(raceData.titles.taskTitle).css('display', 'inline').show();
-      toggleRaceDateText($(accordion.active));
+      toggleRaceDateText(raceData.titles.dateTitle);
     });
 
     //if loading failed - show picture in header
@@ -57,7 +77,7 @@ jQuery(function ($) {
 
   function sedHeaderDefaultState() {
     showContestHeaderPicture();
-    toggleRaceDateText([]);
+    toggleRaceDateText();
   }
 
   function showContestHeaderPicture() {
@@ -67,20 +87,14 @@ jQuery(function ($) {
   }
 
   //toggle between race and contest dates
-  function toggleRaceDateText(activeDayAccordionBlock) {
-    var dateText;
-    if (activeDayAccordionBlock.length !== 0) {
-      //show task date
-      dateText = activeDayAccordionBlock.find('.posted').text();
-    } else {
-      //show contest date
-      dateText = raceDataTextBlock.text(raceDataTextBlock.data('contest-date-text'));
-    }
-    raceDataTextBlock.text(dateText);
+  function toggleRaceDateText(dateTitle) {
+    var contestDate = raceDataTextBlock.text(raceDataTextBlock.data('contest-date-text'));
+    raceDataTextBlock.text(dateTitle || contestDate);
   }
 
   //Rebuild airvis widget with new params. Events 'loaded' or 'loadingError' of airvisWidget will be fired after rebuild
   function rebuildRacePreview(contestId, raceId) {
+    if (!airvisWidget) return;
     airvisWidget.setOption('contestId', contestId);
     airvisWidget.setOption('raceId', raceId);
     airvisWidget.rebuild();
@@ -91,10 +105,9 @@ jQuery(function ($) {
   function toggleHeader(activeDayAccordionBlock) {
     //try to display widget, if any day opened
     if (activeDayAccordionBlock.length !== 0) {
-
-      var raceInfo = activeDayAccordionBlock.parent().find('.data-race').data(),
-        contestId = raceInfo['contestId'],
-        raceId = raceInfo['raceId'];
+      var raceInfo = activeDayAccordionBlock.parent().find('.race-links').data(),
+        contestId = raceInfo ? raceInfo['contestCid'] : '',
+        raceId = raceInfo ? raceInfo['raceCid'] : '';
 
       if (contestId !== '' && raceId !== '') {
         rebuildRacePreview(contestId, raceId);

@@ -31,6 +31,8 @@ function filefield_paths_filefield_paths_field_settings() {
         'value' => array(
           '#type' => 'textfield',
           '#title' => t('File name'),
+          '#maxlength' => 512,
+          '#size' => 128,
           '#default_value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
         ),
       ),
@@ -45,7 +47,7 @@ function filefield_paths_filefield_paths_process_file($type, $entity, $field, $i
   if (isset($instance['settings']['filefield_paths'])) {
     $settings = $instance['settings']['filefield_paths'];
     foreach ($items as &$file) {
-      if ($file['timestamp'] == REQUEST_TIME || $settings['active_updating']) {
+      if (filefield_paths_uri_is_local($file['uri']) && ($file['timestamp'] == REQUEST_TIME || $settings['active_updating'])) {
         $token_data = array(
           'file' => (object) $file,
           $type => $entity
@@ -60,7 +62,7 @@ function filefield_paths_filefield_paths_process_file($type, $entity, $field, $i
           : $file['filename'];
 
         // Process filepath.
-        $file['uri'] = "{$field['settings']['uri_scheme']}://" . ltrim(filefield_paths_process_string($settings['file_path']['value'] . "/{$file['filename']}", $token_data, $settings['file_path']['options']), '/');
+        $file['uri'] = "{$field['settings']['uri_scheme']}://" . ltrim(filefield_paths_process_string($settings['file_path']['value'], $token_data, $settings['file_path']['options']) . "/{$file['filename']}", '/');
 
         // Finalize file if necessary.
         if ($file !== $old_file) {

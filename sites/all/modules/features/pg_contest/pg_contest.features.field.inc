@@ -209,12 +209,13 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
+          'browser_plugins' => array(),
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
@@ -1336,6 +1337,16 @@ Prof.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -1443,6 +1454,16 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -1705,6 +1726,9 @@ Prof.',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_device_id',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -1723,6 +1747,7 @@ Prof.',
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -1872,6 +1897,16 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -2541,7 +2576,6 @@ Duplicate city names warnings if exists.',
     ),
   );
 
-
   // Exported field: 'node-pg_contest-field_is_offline'.
   $fields['node-pg_contest-field_is_offline'] = array(
     'field_config' => array(
@@ -2720,6 +2754,7 @@ Duplicate city names warnings if exists.',
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 0,
         'max_filesize' => '',
         'max_resolution' => '800x800',
         'min_resolution' => '220x140',
@@ -2730,6 +2765,16 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -2988,6 +3033,16 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -3737,7 +3792,112 @@ Duplicate city names warnings if exists.',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '24',
+        'weight' => '25',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_take_offs'.
+  $fields['node-pg_contest-field_take_offs'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_take_offs',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'eck_ent_basicmark' => array(
+          'columns' => array(
+            'target_id' => 'id',
+          ),
+          'table' => 'eck_ent_basicmark',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_takeoff' => 'pg_takeoff',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'ent_basicmark',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => array(),
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 69,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_take_offs',
+      'label' => 'Take offs',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '60',
       ),
     ),
   );
@@ -3855,7 +4015,7 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Internal path containing letters, numbers, hyphens, and underscores',
+      'description' => 'Event URLs may set only once.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -3880,7 +4040,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_tiny_path',
-      'label' => 'Tiny path',
+      'label' => 'Additional URL',
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -4048,11 +4208,11 @@ Duplicate city names warnings if exists.',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'at_reg',
+          'module' => 'list',
           'settings' => array(
             'field_name' => FALSE,
           ),
-          'type' => 'at_reg_group_subscribe',
+          'type' => 'list_default',
           'weight' => '0',
         ),
         'event_blog_teaser' => array(
@@ -4199,6 +4359,8 @@ Duplicate city names warnings if exists.',
   // Included for use with string extractors like potx.
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
+  t('Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.');
   t('City');
   t('Core ID');
   t('Country');
@@ -4215,8 +4377,6 @@ Duplicate city names warnings if exists.',
   t('Flying site');
   t('Full info about organizer - description, links, contacts');
   t('General day-by-day schedule of the event.');
-  t('Capital, visa information, currency, electric net features any additional information.
-Duplicate city names warnings if exists.');
   t('General schedule');
   t('Group');
   t('Group roles and permissions');
@@ -4251,6 +4411,7 @@ Duplicate city names warnings if exists.');
   t('Social networks links');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
+  t('Take offs');
   t('Tel');
   t('This is an offline event');
   t('Time zone');

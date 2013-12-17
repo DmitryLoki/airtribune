@@ -29,7 +29,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 			switch (el.type){
 				case 'checkbox':
 					if (el.attr('checked')) {
-						el.perv().addClass('check_'+el.type);
+						el.prev().addClass('check_'+el.type);
 					}
 					el.show().css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 					el.prev().click(function(){
@@ -103,13 +103,6 @@ jQuery.fn.forms = function(options){ // custom form elements
 					})
 					el.serch = el.parents('.form-wrapper').attr('id');
 					el.addClass('styled_element');
-					el.interval = setInterval(function(){	
-					//alert(el.serch)					
-						jQuery('#'+el.serch).find('.image-widget-data > input.form-file, .filefield-upload > input.form-file').each(function(){
-							clearInterval(el.interval);
-							jQuery(this).forms({'file_bt':opt.file_bt})
-						});
-					}, 1)
 				break;
 			}
 		}
@@ -120,7 +113,11 @@ jQuery.fn.forms = function(options){ // custom form elements
 			el.children().each(function(i, item){
 				el.option = el.children().eq(i);
 				el.option.selected = (el.option.attr('selected')) ? ' selected' : '';
-                el.replace += '<span class="option'+el.option.selected+' hi">'+el.option.html()+'</span>';
+				el.option.html = el.option.html();
+				if (el.parents('.field-type-list-integer').size()) {
+					el.option.html = '<span class="status-value-' + el.option.attr('value') + '"><span class="status-value">' + el.option.html + '</span></span>';
+				};
+                el.replace += '<span class="option'+el.option.selected+' hi">'+el.option.html+'</span>';
 			});
 			el.replace += '</span></span></span>';
 			el.before(el.replace);
@@ -152,8 +149,8 @@ jQuery.fn.forms = function(options){ // custom form elements
 				el.handle.items.children('.items_inner').find('.selected').removeClass('selected');
 				jQuery(this).addClass('selected');
 				el.handle.index = el.handle.items.children('.items_inner').find('.option').index(jQuery(this));
-				el.children().removeAttr('selected');
-				el.children().eq(el.handle.index).attr('selected', 'selected');
+				//el.find('option').removeAttr('selected');
+				el.find('option').eq(el.handle.index).attr('selected', '');
 				el.handle.cheked.html(el.handle.items.children('.items_inner').find('.selected').html())
 				el.handle.items.hide();
                 el.handle.items.trigger('select-hided');

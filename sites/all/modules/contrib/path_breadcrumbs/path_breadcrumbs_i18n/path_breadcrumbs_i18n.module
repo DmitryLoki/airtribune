@@ -11,10 +11,10 @@
 function path_breadcrumbs_i18n_i18n_string_info() {
 
   $groups['path_breadcrumbs'] = array(
-    'title' => t('Path breadcrumbs'),
+    'title' => t('Path Breadcrumbs'),
     'description' => t('Translatable path breadcrumbs titles.'),
     'format' => FALSE,
-    'list' => FALSE, // TODO (?)
+    'list' => TRUE,
   );
 
   return $groups;
@@ -27,11 +27,12 @@ function path_breadcrumbs_i18n_i18n_object_info() {
 
   // Generic object properties, title, etc.
   $info['path_breadcrumbs'] = array(
-    'title' => t('Path breadcrumbs'),
+    'title' => t('Path Breadcrumbs'),
     // Field to be used as key to index different path breadcrumbs.
     'key' => 'machine_name',
     'class' => 'i18n_path_breadcrumbs_object',
     'load callback' => 'path_breadcrumbs_load_by_name',
+    'list callback' => 'path_breadcrumbs_i18n_load_all',
     // Mapping object fields and menu place holders.
     'placeholders' => array(
       '%path_breadcrumbs_ui_cache' => 'machine_name',
@@ -46,7 +47,7 @@ function path_breadcrumbs_i18n_i18n_object_info() {
       'type' => 'path_breadcrumbs',
       'properties' => array(),
       'translate path' => 'admin/structure/path-breadcrumbs/edit/%path_breadcrumbs_ui_cache/translate/%i18n_language',
-    )
+    ),
   );
 
   return $info;
@@ -68,7 +69,10 @@ function path_breadcrumbs_i18n_path_breadcrumbs_save($path_breadcrumbs) {
  * Implements hook_path_breadcrumbs_delete().
  */
 function path_breadcrumbs_i18n_path_breadcrumbs_delete($path_breadcrumbs) {
-  i18n_string_object_remove('path_breadcrumbs', $path_breadcrumbs);
+  // Don't delete translations for in-code path breadcrumbs.
+  if (!$path_breadcrumbs->is_overwritten) {
+    i18n_string_object_remove('path_breadcrumbs', $path_breadcrumbs);
+  }
 }
 
 /**
@@ -101,4 +105,23 @@ function path_breadcrumbs_i18n_form_path_breadcrumbs_ui_breadcrumbs_list_alter(&
       );
     }
   }
+}
+
+/**
+ * Load all translatable path breadcrumbs from database and code.
+ *
+ * @return array
+ *   Array of path_breadcrumbs objects.
+ */
+function path_breadcrumbs_i18n_load_all() {
+  $path_breadcrumbs = path_breadcrumbs_load_all();
+  $path_breadcrumbs_translatable = array();
+
+  foreach ($path_breadcrumbs as $object) {
+    if ($object->translatable) {
+      $path_breadcrumbs_translatable[] = $object;
+    }
+  }
+
+  return $path_breadcrumbs_translatable;
 }

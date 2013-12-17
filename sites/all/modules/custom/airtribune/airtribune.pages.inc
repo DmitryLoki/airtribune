@@ -18,6 +18,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#parents',
     '#entity',
     'field_flying_site_ref',
+    'field_take_offs',
     'field_tiny_path',
     'field_dates',
     'field_logo',
@@ -41,13 +42,18 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   );
   $form['field_country']['#weight'] = 0;
   $form['field_flying_site_ref']['#weight'] = 1;
+  $form['field_take_offs']['#weight'] = 2;
   $form['alias'] = array(
     '#type' => 'textfield',
     '#title' => t('URL address'),
     '#default_value' => drupal_get_path_alias('event/' . $event->nid),
-    '#weight' => 2,
+    '#weight' => 3,
   );
   $form['field_tiny_path']['#weight'] = 4;
+  $lang = $form['field_tiny_path']['#language'];
+  $form['field_tiny_path'][$lang]['add_more']['#prefix'] = '<div class="form-actions">';
+  $form['field_tiny_path'][$lang]['add_more']['#suffix'] = '</div>';
+  //print_r($form['field_tiny_path']);
   $form['field_logo']['#weight'] = 6;
   $form['field_dates']['#weight'] = 8;
   $form['field_fai_category']['#weight'] = 10;
@@ -83,7 +89,10 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
+    '#prefix' => '<div class="form-actions">',
+    '#suffix' => '</div>',
   );
+  drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm(false, {disableChoiceOfFirstItemInSelection:true, file_bt:Drupal.t("Add image")})}}', 'inline');
   return $form;
 }
 

@@ -1,0 +1,16 @@
+diff --git a/sites/all/modules/contrib/ajax_links_api/ajax_links_api.js b/sites/all/modules/contrib/ajax_links_api/ajax_links_api.js
+index 75349fd..e4bf064 100644
+--- a/sites/all/modules/contrib/ajax_links_api/ajax_links_api.js
++++ b/sites/all/modules/contrib/ajax_links_api/ajax_links_api.js
+@@ -59,7 +59,10 @@
+     // Replace the content with a throbber.
+     $(selector).html("<div class='ajax-links-api-loading'></div>");
+   }
+-  function ajaxAfter(selector, url, data, window, document){    
++  function ajaxAfter(selector, url, data, window, document){
++    // Update the ajaxLoading indicator.
++    ajaxLoading = false;
++
+     // Reset the height of the container.
+     $(selector).css('height', '');
+ 

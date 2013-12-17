@@ -21,7 +21,7 @@ class field_validation_date_validator extends field_validation_validator {
   public function validate() {
     //The logic copied from Symfony\Component\Validator\Constraints\DateValidator
     if ($this->value !== '' && !is_null($this->value)) {
-      if (!preg_match(static::PATTERN, $this->value, $matches) || !checkdate($matches[2], $matches[3], $matches[1])) {
+      if (!preg_match(self::PATTERN, $this->value, $matches) || !checkdate($matches[2], $matches[3], $matches[1])) {
         $this->set_error();
       }
     }

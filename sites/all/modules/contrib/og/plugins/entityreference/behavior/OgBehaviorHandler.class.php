@@ -67,7 +67,8 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
     if (!empty($entity->skip_og_membership)) {
       return;
     }
-    if (!empty($entity->delete_og_membership)) {
+    list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
+    if (!empty($entity->delete_og_membership) || og_is_group_content_type($entity_type, $bundle)) {
       // Delete all OG memberships related to this entity.
       $og_memberships = array();
       foreach (og_get_entity_groups($entity_type, $entity) as $group_type => $ids) {

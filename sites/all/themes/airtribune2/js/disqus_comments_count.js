@@ -11,6 +11,7 @@ jQuery(document).ready(function () {
 
     //When count.js loaded
     function replaceDisplayCountFunction() {
+        if(!window.DISQUSWIDGETS) return;
         //replace displayCount function from count.js
         DISQUSWIDGETS.displayCount = function (commentsData) {
             var commentsCounts = commentsData.counts;
