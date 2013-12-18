@@ -1290,7 +1290,8 @@ function at_reg_multiform_crossfields($multiform) {
       'field_paraglider_manufacturer',
       'field_paraglider_model',
       'field_paraglider_color',
-      'field_phone'
+      'field_phone',
+      'field_team',
     );
     foreach ($field_names as $field_name) {
       $items[] = array(
