@@ -76,101 +76,6 @@ function organic_groups_field_default_fields() {
     ),
   );
 
-  // Exported field: 'og_membership-tracked_object-field_tracker'.
-  $fields['og_membership-tracked_object-field_tracker'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_tracker',
-      'field_permissions' => array(
-        'type' => '2',
-      ),
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
-      'indexes' => array(
-        'target_id' => array(
-          0 => 'target_id',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'entityreference',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'handler' => 'event_views',
-        'handler_settings' => array(
-          'behaviors' => array(
-            'views-select-list' => array(
-              'status' => 0,
-            ),
-          ),
-          'view' => array(
-            'args' => array(
-              0 => 'gid',
-              1 => '[og_membership:id]',
-            ),
-            'display_name' => 'trackers_by_contest',
-            'view_name' => 'contest_trackers',
-          ),
-        ),
-        'profile2_private' => FALSE,
-        'target_type' => 'ent_tracker',
-      ),
-      'translatable' => '0',
-      'type' => 'entityreference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'tracked_object',
-      'default_value' => NULL,
-      'default_value_function' => '',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'og_membership',
-      'exclude_cv' => 0,
-      'field_name' => 'field_tracker',
-      'label' => 'Tracker',
-      'options_limit' => FALSE,
-      'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(),
-      'required' => 0,
-      'settings' => array(
-        'behaviors' => array(
-          'prepopulate' => array(
-            'status' => 0,
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
-      ),
-    ),
-  );
-
   // Exported field: 'og_membership-pg_contestant-field_contestant_number'.
   $fields['og_membership-pg_contestant-field_contestant_number'] = array(
     'field_config' => array(
@@ -814,6 +719,109 @@ function organic_groups_field_default_fields() {
     ),
   );
 
+  // Exported field: 'og_membership-pg_contestant-field_team'.
+  $fields['og_membership-pg_contestant-field_team'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_team',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contestant',
+      'default_value' => array(),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 8,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'exclude_cv' => 0,
+      'field_name' => 'field_team',
+      'label' => 'Club',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'autocomplete_case' => '0',
+          'autocomplete_match' => 'contains',
+          'autocomplete_xss' => '1',
+          'i18n_flddata' => '0',
+          'obey_access_controls' => 1,
+          'order' => 'ASC',
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '46',
+      ),
+    ),
+  );
+
   // Exported field: 'og_membership-pg_contestant-field_tracker'.
   $fields['og_membership-pg_contestant-field_tracker'] = array(
     'field_config' => array(
@@ -904,7 +912,7 @@ function organic_groups_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 0,
+        'weight' => '0',
       ),
     ),
   );
@@ -961,6 +969,101 @@ function organic_groups_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_organizer',
+      'default_value' => NULL,
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'og_membership',
+      'exclude_cv' => 0,
+      'field_name' => 'field_tracker',
+      'label' => 'Tracker',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'og_membership-tracked_object-field_tracker'.
+  $fields['og_membership-tracked_object-field_tracker'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_tracker',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'event_views',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+              1 => '[og_membership:id]',
+            ),
+            'display_name' => 'trackers_by_contest',
+            'view_name' => 'contest_trackers',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'ent_tracker',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'tracked_object',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
@@ -1113,8 +1216,8 @@ function organic_groups_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Club');
   t('Group membership');
-  t('Link to Tracker');
   t('Mobile phone number');
   t('Paraglider color');
   t('Paraglider manufacturer');
