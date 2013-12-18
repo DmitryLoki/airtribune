@@ -755,9 +755,9 @@ function organic_groups_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_contestant',
-      'default_value' => array(),
+      'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Your club name.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -808,12 +808,6 @@ function organic_groups_field_default_fields() {
         'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'autocomplete_case' => '0',
-          'autocomplete_match' => 'contains',
-          'autocomplete_xss' => '1',
-          'i18n_flddata' => '0',
-          'obey_access_controls' => 1,
-          'order' => 'ASC',
           'size' => '60',
         ),
         'type' => 'text_textfield',
@@ -1228,6 +1222,7 @@ function organic_groups_field_default_fields() {
   t('The number which you want to have on this competition.');
   t('This is the text a user may send to the group administrators.');
   t('Tracker');
+  t('Your club name.');
 
   return $fields;
 }

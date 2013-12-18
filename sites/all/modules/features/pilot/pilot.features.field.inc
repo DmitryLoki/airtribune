@@ -1663,7 +1663,7 @@ function pilot_field_default_fields() {
       'bundle' => 'pilot',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Your club name.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1744,6 +1744,7 @@ function pilot_field_default_fields() {
   t('T-shirt size');
   t('The full name of your contact person and your relationship.');
   t('Used for National rankings calculation.');
+  t('Your club name.');
   t('Your full name in national alphabet');
   t('Your name and surname.');
   t('Your phone number including international code.');
