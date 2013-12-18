@@ -855,14 +855,16 @@ function _day_pg_race_preview_markup($node) {
   }
 
   // Content data
-  $data['text'] = array('2D', 'Google Earth');
-  $data['type'] = array('2d', 'ge');
+  $data['text'] = array();
+  $data['type'] = array();
   $link_text = NULL;
   $help_text = NULL;
   $time = NULL;
 
   // Check if task exists
   if ($has_task) {
+    $data['text'] = array('2D', 'Google Earth');
+    $data['type'] = array('2d', 'ge');
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
         $time = date('H:i:s', $countdown_time);

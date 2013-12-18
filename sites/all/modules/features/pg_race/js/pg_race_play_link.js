@@ -4,6 +4,7 @@
     attach: function (context) {
       $('.race-links:not(".processed")').each(function (i, raceBlock) {
         var $raceBlock = $(raceBlock).removeClass('race-awaiting').addClass('processed');
+        $(raceBlock).closest('.views-field').removeClass('race-awaiting').addClass('processed');
         var timeHelperText = $raceBlock.closest('.view-content').find('.time').hide(),
           helperText = $raceBlock.closest('.view-content').find('.help-text'),
           $raceButton,
@@ -15,7 +16,7 @@
           timeHelperText.html((raceTime > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
 
           if (raceTime < 0) {
-            var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
+            var isRaceStateReady = timeHelperText.closest('.views-field').hasClass('race-block-activated');
             setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText);
           }
           setTimeout(setOnlineTime, 1000);
@@ -71,6 +72,7 @@
 
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
+            $raceBlock.closest('.views-field').addClass('race-block-activated');
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
@@ -94,7 +96,7 @@
       });
 
       function setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText) {
-        var raceBlock = timeHelperText.closest('.view-content');
+        var raceBlock = timeHelperText.closest('.views-field');
         if (raceTime <= 0) {
           raceBlock.removeClass('race-awaiting').addClass('race-started');
           helperText.text(Drupal.settings.Day.race_on_text);
@@ -121,6 +123,7 @@
         /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
         $.ajax({
           url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,
+          //url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=competition_aftertask',
           dataType:"json",
           success: responseCallback,
           error: function () {
