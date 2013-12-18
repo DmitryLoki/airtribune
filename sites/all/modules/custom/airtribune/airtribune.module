@@ -165,8 +165,11 @@ function airtribune_event_settings_title($event) {
  */
 function airtribune_event_settings_access($event, $op = 'edit') {
   global $user;
-
-  $access = TRUE;  
+  $og_roles = og_get_user_roles('node', $event->nid);
+  $access = FALSE;
+  if (in_array('administrator', $user->roles) || in_array(OG_ADMINISTRATOR_ROLE, $og_roles)) {
+    $access = TRUE;
+  }
   return $access;
 }
 
