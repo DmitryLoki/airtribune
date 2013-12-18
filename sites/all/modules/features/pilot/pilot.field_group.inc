@@ -51,9 +51,9 @@ function pilot_field_group_info() {
     'label' => 'All',
     'weight' => '0',
     'children' => array(
-      0 => 'group_paraglider',
-      1 => 'group_personal',
-      2 => 'group_emergency',
+      0 => 'group_emergency',
+      1 => 'group_paraglider',
+      2 => 'group_personal',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -107,8 +107,8 @@ function pilot_field_group_info() {
     'label' => 'Person to contact in case of emergency',
     'weight' => '5',
     'children' => array(
-      0 => 'field_person_phone',
-      1 => 'field_person_name',
+      0 => 'field_person_name',
+      1 => 'field_person_phone',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -226,11 +226,13 @@ function pilot_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'field_civl_id',
-      1 => 'field_paraglider_color',
-      2 => 'field_paraglider_model',
-      3 => 'field_paraglider_manufacturer',
-      4 => 'field_sponsors',
-      5 => 'field_fai_license_number',
+      1 => 'field_fai_license_number',
+      2 => 'field_nat_license_id',
+      3 => 'field_paraglider_color',
+      4 => 'field_paraglider_manufacturer',
+      5 => 'field_paraglider_model',
+      6 => 'field_sponsors',
+      7 => 'field_team',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -288,12 +290,10 @@ function pilot_field_group_info() {
     'label' => 'Personal info',
     'weight' => '1',
     'children' => array(
-      0 => 'field_gender',
-      1 => 'field_birthdate',
-      2 => 'field_address',
-      3 => 'field_name_in_national_alphabet',
-      4 => 'field_phone',
-      5 => 'field_t_shirt_size',
+      0 => 'field_address',
+      1 => 'field_name_in_national_alphabet',
+      2 => 'field_phone',
+      3 => 'field_t_shirt_size',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
