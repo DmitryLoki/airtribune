@@ -160,8 +160,23 @@ function pages_feature_default_page_manager_handlers() {
           'context' => 'argument_entity_id:node_1',
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Specific node ID',
+            'php' => '$nids = array(
+  6604,
+);
+
+if (in_array($contexts[\'argument_entity_id:node_1\']->argument,$nids)) {
+  return TRUE;
+}
+return FALSE;',
+          ),
+          'not' => FALSE,
+        ),
       ),
-      'logic' => 'and',
+      'logic' => 'or',
     ),
   );
   $export['node_view_http_response_4'] = $handler;
