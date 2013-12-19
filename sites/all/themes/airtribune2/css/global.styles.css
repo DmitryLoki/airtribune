@@ -1644,7 +1644,7 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 }
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content .field-content { min-width: 0;}
-.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; background-color: #cfd827; border-color: #c2d32b; vertical-align: top; }
+.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; pointer; padding: 3px 5px 7px; }
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link {
