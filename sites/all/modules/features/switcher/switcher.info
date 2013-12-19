@@ -118,6 +118,7 @@ dependencies[] = main
 dependencies[] = maps
 dependencies[] = media
 dependencies[] = media_colorbox
+dependencies[] = media_feature
 dependencies[] = media_vimeo
 dependencies[] = media_youtube
 dependencies[] = menu
