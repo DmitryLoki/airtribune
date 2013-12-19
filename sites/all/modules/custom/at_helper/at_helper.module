@@ -532,3 +532,117 @@ function _at_helper_event_edit_denied($node) {
     }
   }
 }
+
+
+// ------------------------------
+// Media Colorbox Formatter
+// ------------------------------
+
+// TODO: Change style right here.
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ * 
+ * This chages styles for all instances of AIRTRIBUNE_IMAGE_FIELD display
+ * if formatter is set to Media Colorbox. Both for nodes and views.
+ * #3996 and related issues
+ */
+function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  //~ dsm($type);
+  //~ dsm('formatter');
+  //~ dsm($items);
+  if ($field['field_name'] == AIRTRIBUNE_IMAGE_FIELD && !empty($items)) {
+    $imgs = array_shift($items);
+    if (!empty($imgs)) {
+      $file_styles = array();
+
+      $count = count($imgs);
+      switch($count){
+        case 1:
+          $image_styles = array('event_blog_teaser_first');
+        break;
+        case 2:
+          $image_styles = array('event_blog_teaser_second');
+        break;
+        case 3:
+          $image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth');
+        break;
+        case 4:
+          $image_styles = array('event_blog_teaser_fifth', 'event_blog_teaser_sixth');
+        break;
+        case 5:
+          $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+        break;
+        case 6:
+          $image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+        break;
+        case 7:
+          $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_seventh');
+        break;
+        case 8:
+          $image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_seventh');
+        break;
+        case 9:
+          $image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth', 'event_blog_teaser_fourth', 'event_blog_teaser_seventh');
+        break;
+        default:
+          $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_eighth');
+        break;
+      }
+
+      $is_count = 0;
+
+      foreach ($imgs as $img) {
+        if(!empty($image_styles[$is_count])){
+          $image_style = $image_style_other = $image_styles[$is_count];
+        }
+        else{
+          $image_style = $image_style_other;
+        }
+
+        //~ $file_styles[$img['fid']] = 'event_blog_teaser_eighth';
+        $file_styles[$img['fid']] = $image_style;
+        $is_count++;
+      }
+
+      //~ dsm($file_styles);
+      _at_helper_file_view_alter_styles($file_styles);
+    }
+  }
+}
+
+/**
+ * Implements hook_file_view_alter().
+ *
+ * Override Event Blog images' styles. See theme_media_colorbox().
+ */
+function at_helper_file_view_alter(&$build, &$type) {
+  if (!empty($build['#file']->fid)) {
+    $fid = $build['#file']->fid;
+    // TODO: Save statically
+    $file_styles = _at_helper_file_view_alter_styles();
+    // Check if it's an image or video file.
+    if (isset($file_styles[$fid])) {
+      $style = $file_styles[$fid];
+      if (!empty($build['file']['#image_style'])) {
+        $build['file']['#image_style'] = $style;
+      }
+      elseif (!empty($build['file']['#style_name'])) {
+        $build['file']['#style_name'] = $style;
+      }
+    }
+  }
+}
+
+function _at_helper_file_view_alter_styles($file_styles = NULL) {
+  static $styles = array();
+
+  if (isset($file_styles)) {
+    //~ $styles = $file_styles;
+    // Store all style for views case because first all fields are processed
+    // and only then rendered.
+    $styles += $file_styles;
+  }
+
+  return $styles;
+}
