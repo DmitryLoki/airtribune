@@ -396,12 +396,15 @@ function at_helper_views_post_execute(&$view) {
  *
  * Set Event Days Blog images' caption as colorbox popup title
  */
-function at_helper_preprocess_colorbox_image_formatter(&$variables) {
-  if (isset($variables['field']['field_name']) && $variables['field']['field_name'] == AIRTRIBUNE_IMAGE_FIELD) {
-    if (!empty($variables['item']['image_field_caption']['value'])) {
-      $caption = $variables['item']['image_field_caption']['value'];
-      $variables['display_settings']['colorbox_caption_custom'] = $caption;
+function at_helper_preprocess_media_colorbox(&$variables) {
+  if (!empty($variables['file_id'])) {
+    $file_id = $variables['file_id'];
+    $media_colorbox_caption = '';
+    $file = file_load($file_id);
+    if (!empty($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'])) {
+      $media_colorbox_caption = $file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'];
     }
+    $variables['media_colorbox_caption'] = $media_colorbox_caption;
   }
 }
 
