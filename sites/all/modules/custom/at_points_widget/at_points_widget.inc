@@ -209,8 +209,9 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
   }
   
   static function check($filename) {
-    $check_string = file_get_contents($filename, FALSE, NULL, -1, 9);
-    return $check_string == 'G  WGS 84';
+    $check_string = file_get_contents($filename, FALSE, NULL, -1, 20);
+    $strings = explode("\n", $check_string);
+    return (trim($strings[0]) == 'G  WGS 84' && trim($strings[1]) == 'U  1');
   }
   
 }
