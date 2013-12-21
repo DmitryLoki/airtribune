@@ -16,7 +16,8 @@ abstract class AtPointsWidgetFile {
     'AtPointsWidgetCompGPSFile' => 'CompGPS',
     'AtPointsWidgetFSGeoFile'   => 'FSGeo',
     'AtPointsWidgetCupFile'     => 'cup', 
-    'AtPointsWidgetOziFile'     => 'ozi'
+    'AtPointsWidgetOziFile'     => 'ozi',
+    'AtPointsWidgetKmlFile'     => 'kml'
   );
   
   public function __construct($filename, $new = FALSE) {
@@ -258,5 +259,33 @@ class AtPointsWidgetCupFile extends AtPointsWidgetFile {
   static function check($filename) {
     $extension = drupal_substr($filename, -4);
     return $extension == '.cup';    
+  }
+}
+
+class AtPointsWidgetKmlFile extends AtPointsWidgetFile {
+  
+  static public $ext = 'kml';
+  
+  /*
+   * Almost the same with cup method.
+   * But read methods that use babbel still differ depending on extension.
+   */
+  public function read() {
+    $outfile = substr($this->filename, 0, drupal_strlen($this->filename) - 4) . '.wpt';
+    $command = $this->babbel_path . 'gpsbabel -i kml -f ' . $this->filename . ' -o compegps -F ' . $outfile;
+    exec($command);
+    $compGPSReader = new AtPointsWidgetCompGPSFile($outfile);
+    $points = $compGPSReader->read();
+    unlink($outfile);
+    return $points;
+  }
+  
+  public function babbelString($infile, $outfile) {
+    return $this->babbel_path . 'gpsbabel -i compegps -f ' . $infile . ' -o kml -F ' . $outfile;
+  }
+  
+  static function check($filename) {
+    $extension = drupal_substr($filename, -4);
+    return $extension == '.kml';    
   }
 }
