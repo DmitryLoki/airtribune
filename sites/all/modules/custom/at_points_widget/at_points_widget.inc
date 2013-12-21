@@ -10,11 +10,19 @@ abstract class AtPointsWidgetFile {
   
   public $filename;
   public $babbel_path = '/usr/local/bin/';
+  static public $ext;
+  // first should go classes that have write method implemented
+  public static $classes = array(
+    'AtPointsWidgetCompGPSFile' => 'CompGPS',
+    'AtPointsWidgetFSGeoFile'   => 'FSGeo',
+    'AtPointsWidgetCupFile'     => 'cup', 
+    'AtPointsWidgetOziFile'     => 'ozi'
+  );
   
-  public function __construct($filename) {
-    if (static::check($filename)){
-     $this->filename = $filename;
-     geophp_load();
+  public function __construct($filename, $new = FALSE) {
+    if ($new || static::check($filename)){
+      $this->filename = $filename;
+      geophp_load();
     }
     else {
       throw new Exception();
@@ -24,20 +32,39 @@ abstract class AtPointsWidgetFile {
   /**
    * Reads file into an array of point entities.
    */
-  public function read($filename){}
+  abstract public function read();
+  
+  /**
+   * Writes points into file in specified format.
+   * @param array $points May be ids as well as entities.
+   */
+  public function write($points){
+    return FALSE;
+  }
   
   /**
    * Returns the filename extension.
    */
-  public function extension(){}
+  static public function extension(){
+    return static::$ext;
+  }
   
   /**
    * Checks the file validity.
    */
   static public function check($filename){}
+  
+  /**
+   * Returns command to convert from outfile in CompGPS format to the target format.
+   */
+  public function babbelString($infile, $outfile) {
+    return FALSE;
+  }
 }
 
 class AtPointsWidgetFSGeoFile extends AtPointsWidgetFile {
+  
+  static public $ext = 'wpt';
   
   public function read() {
     $file_string = file_get_contents($this->filename);
@@ -74,8 +101,37 @@ class AtPointsWidgetFSGeoFile extends AtPointsWidgetFile {
     return $points;
   }
   
-  public function extension(){
-    return 'wpt';
+  public function write($points) {
+    $output = "\$FormatGEO\n";
+    foreach ($points as $point) {
+      $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
+      $lat = $point_wrapper->field_point_location->lat->value();
+      $lon = $point_wrapper->field_point_location->lon->value();
+      $lat_int = floor(abs($lat));
+      $lat_min = floor((abs($lat) - $lat_int) * 60);
+      $lat_sec = (abs($lat) - $lat_int - $lat_min / 60) * 3600;
+      $lon_int = floor(abs($lon));
+      $lon_min = floor((abs($lon) - $lon_int) * 60);
+      $lon_sec = (abs($lon) - $lon_int - $lon_min / 60) * 3600;
+      $line = sprintf("%-8s", $point_wrapper->title->value());
+      $line .= '  ';
+      $line .= ($lat > 0) ? 'N ' : 'S ';
+      $line .= sprintf("%02d ", $lat_int);
+      $line .= sprintf("%02d ", $lat_min);
+      $line .= sprintf("%05.2F", $lat_sec);
+      $line .= '    ';
+      $line .= ($lat > 0) ? 'E ' : 'W ';
+      $line .= sprintf("%02d ", $lon_int);
+      $line .= sprintf("%02d ", $lon_min);
+      $line .= sprintf("%05.2F", $lon_sec);
+      $line .= '  ';
+      $line .= sprintf("%4d", $point_wrapper->field_altitude->value());
+      $line .= '  ';
+      $line .= $point_wrapper->field_point_description->value();
+      $line .= "\n";
+      $output .= $line;
+    }
+    return file_save_data($output, $this->filename, FILE_EXISTS_REPLACE);
   }
   
   static function check($filename) {
@@ -85,6 +141,8 @@ class AtPointsWidgetFSGeoFile extends AtPointsWidgetFile {
 }
 
 class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
+  
+  static public $ext = 'wpt';
   
   public function read() {
     $file_string = file_get_contents($this->filename);
@@ -125,8 +183,28 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
     return $points;
   }
   
-  public function extension() {
-    return 'wpt';
+  public function write($points) {
+    $output = "G  WGS 84\n";
+    $output .= "U 1\n";
+    foreach ($points as $point) {
+      $point_wrapper = entity_metadata_wrapper(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point);
+      $line = "W  ";
+      $line .= $point_wrapper->title->value() . " ";
+      $line .= "A ";
+      $lat = $point_wrapper->field_point_location->lat->value();
+      $lon = $point_wrapper->field_point_location->lon->value();
+      $line .= abs($lat);
+      $line .= ($lat > 0) ? 'N' : 'S';
+      $line .= "\t";
+      $line .= abs($lon);
+      $line .= ($lon > 0) ? 'E' : 'W';
+      $line .= "\t";
+      $line .= date('d-M-Y') . " " . date('H:i:s') . " ";
+      $line .= $point_wrapper->field_altitude->value() . " ";
+      $line .= $point_wrapper->field_point_description->value() . "\n";
+      $output .= $line;
+    }
+    return file_save_data($output, $this->filename, FILE_EXISTS_REPLACE);
   }
   
   static function check($filename) {
@@ -138,6 +216,8 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
 
 class AtPointsWidgetOziFile extends AtPointsWidgetFile {
   
+  static public $ext = 'wpt';
+  
   public function read() {
     $outfile = $this->filename . '.mod';
     $command = $this->babbel_path . 'gpsbabel -i ozi -f ' . $this->filename . ' -o compegps -F ' . $outfile;
@@ -145,10 +225,10 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
     rename($outfile, $this->filename);
     $compGPSReader = new AtPointsWidgetCompGPSFile($this->filename);
     return $compGPSReader->read();
-  }
+  } 
   
-  public function extension() {
-    return 'wpt';
+  public function babbelString($infile, $outfile) {
+    return $this->babbel_path . 'gpsbabel -i compegps -f ' . $infile . ' -o ozi -F ' . $outfile;
   }
   
   static function check($filename) {
@@ -158,6 +238,8 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
 }
 
 class AtPointsWidgetCupFile extends AtPointsWidgetFile {
+  
+  static public $ext = 'cup';
   
   public function read() {
     $outfile = substr($this->filename, 0, drupal_strlen($this->filename) - 4) . '.wpt';
@@ -169,8 +251,8 @@ class AtPointsWidgetCupFile extends AtPointsWidgetFile {
     return $points;
   }
   
-  public function extension() {
-    return 'cup';
+  public function babbelString($infile, $outfile) {
+    return $this->babbel_path . 'gpsbabel -i compegps -f ' . $infile . ' -o cup -F ' . $outfile;
   }
   
   static function check($filename) {
