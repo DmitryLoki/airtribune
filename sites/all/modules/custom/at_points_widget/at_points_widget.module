@@ -287,18 +287,8 @@ function at_points_widget_create_files($nid) {
   $format_classes = array();
   foreach ($contest_files as $contest_file) {
     file_delete((object)$contest_file);
-    /*$file_writer = at_points_widget_get_filereader($contest_file['uri']);
-    if (!empty($file_writer)) {
-      $class = get_class($file_writer);
-      $format_classes[] = $class;
-      if ($class == 'AtPointsWidgetCompGPSFile'){
-        $compgps_filename = $contest_file['uri'];
-      }
-      $file_writer->write($points);
-    }*/
   }
   $contest_wrapper->field_points_file->set(array());
-  //$new_classes = array_diff(array_keys(AtPointsWidgetFile::$classes), $format_classes);
   $new_classes = array_keys(AtPointsWidgetFile::$classes);
   foreach ($new_classes as $new_class) {
     $filename = 'public://' . $contest_wrapper->title->value() . '_' . AtPointsWidgetFile::$classes[$new_class] . '.' . $new_class::extension();
@@ -311,8 +301,6 @@ function at_points_widget_create_files($nid) {
         $fids = array_keys($result['file']);
         foreach ($fids as $fid) {
           $file = file_load($fid);
-          dpm($file);
-          dpm(file_delete($file));
         }
       }
       else {

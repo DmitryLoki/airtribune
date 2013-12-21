@@ -123,32 +123,6 @@ function pg_contest_insert($node) {
  * @author Vadim Valuev <gease@mail.ru>
  */
 function pg_contest_update($node) {
-  // Points file check
-  if (!empty($node->field_points_file[LANGUAGE_NONE][0]['fid'])) {
-    // Check for update file
-    if (!empty($node->original->field_points_file[LANGUAGE_NONE][0]['fid']) &&
-      $node->field_points_file[LANGUAGE_NONE][0]['fid'] == $node->original->field_points_file[LANGUAGE_NONE][0]['fid']
-    ) {
-      // Do nothing
-    }
-    else {
-      //remove old points 
-      $query = new EntityFieldQuery();
-      $result = $query
-        ->entityCondition('entity_type', 'ent_contest_point')
-        ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $node->nid)
-        ->execute();
-      if (!empty($result['ent_contest_point'])) {
-        entity_delete_multiple('ent_contest_point', array_keys($result['ent_contest_point']));
-      }
-
-      if (isset($node->field_points_file[LANGUAGE_NONE])) {
-        //create new points and subscribe them to group 
-        pg_contest_create_points($node->field_points_file[LANGUAGE_NONE][0]['fid'], $node->nid);
-      }
-    }
-  }
-
   // Create aliases
   _pg_contest_create_alias($node);
   // Restrict subscription depending on Registration Switch field.
@@ -432,33 +406,17 @@ function pg_contest_cron() {
   $now = time();
   $date = $now - 2 * 24 * 3600;
 
-  // First get all nodes considering +/- timezone possible offset.
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'pg_contest');
-  $query->fieldCondition('field_dates', 'value', date("Y-m-d", $date + 24 * 3600), '<');
-  $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now - 24 * 3600), '>=');
+  $query->fieldCondition('field_dates', 'value', date("Y-m-d", $date), '<');
+  $query->fieldCondition('field_dates', 'value2', date("Y-m-d", $now), '>=');
   $result = $query->execute();
 
   // Close registration for selected events.
   if (!empty($result['node'])) {
-    foreach ($result['node'] as $nid => $data) {
-
+    foreach ($result['node'] as $nid => $date) {
       $node = node_load($nid);
-
-      // Event start and finish date.
-      $value = strtotime($node->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
-      $value2 = strtotime($node->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value2']);
-      $contest_time = airtribune_extract_time_from_contest($node);
-      // Event start and finish date in UTC.
-      $value -= $contest_time['offset'];
-      $value2 -= $contest_time['offset'];
-
-      // Skip events that don't match required condition.
-      if (($value < $date && $value2 >= $now) == FALSE) {
-        continue;
-      }
-
       // if ($node->nid) {
       if ($node->nid && isset($node->field_registration_sw['und'][0]['value']) && $node->field_registration_sw['und'][0]['value'] !== 0) {
         $node->field_registration_sw['und'][0]['value'] = 0;
@@ -481,9 +439,6 @@ function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
     $date = time() - 2 * 24 * 3600;
     // Event start date.
     $value = strtotime($entity->{AIRTRIBUNE_DATES_FIELD}['und'][0]['value']);
-    $contest_time = airtribune_extract_time_from_contest($entity);
-    // Event start date in UTC.
-    $value -= $contest_time['offset'];
 
     // For allowed roles switch is always shown.
     $allowed_roles = array('admin');

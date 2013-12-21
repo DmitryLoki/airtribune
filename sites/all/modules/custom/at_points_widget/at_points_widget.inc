@@ -195,10 +195,10 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
       $lon = $point_wrapper->field_point_location->lon->value();
       $line .= abs($lat);
       $line .= ($lat > 0) ? 'N' : 'S';
-      $line .= "\t";
+      $line .= " ";
       $line .= abs($lon);
       $line .= ($lon > 0) ? 'E' : 'W';
-      $line .= "\t";
+      $line .= " ";
       $line .= date('d-M-Y') . " " . date('H:i:s') . " ";
       $line .= $point_wrapper->field_altitude->value() . " ";
       $line .= $point_wrapper->field_point_description->value() . "\n";
