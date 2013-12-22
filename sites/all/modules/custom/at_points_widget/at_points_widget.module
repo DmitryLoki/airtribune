@@ -53,6 +53,15 @@ function at_points_widget_menu() {
 }
 
 /**
+ * Implements hook_FORM_ID_form_alter(). 
+ */
+ function at_points_widget_form_node_form_alter(&$form, $form_state){
+   if (isset($form['field_points_file'])) {
+    $form['field_points_file']['#access'] = FALSE;
+   }
+ }
+
+/**
  * Menu callback for points/upload/%nid.
  * Receives geoJSON with modified points from widget and saves them. 
  * @param int $nid
