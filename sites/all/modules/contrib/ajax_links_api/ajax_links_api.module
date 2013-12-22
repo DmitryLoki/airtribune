@@ -1,0 +1,273 @@
+<?php
+
+/**
+ * @file
+ * Make any links or create new links to load content to particular DIV via
+ * jQuery Ajax.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function ajax_links_api_init() {
+  $selector = variable_get('ajax_links_api_selector', '#content');
+  // get the positive/negative triggers for ajax links
+  list($trigger, $negative_trigger) = ajax_links_api_get_triggers();
+  $html5 = variable_get('ajax_links_api_html5', 1);
+  $views_pager = variable_get('ajax_links_api_vpager', 1);
+  drupal_add_js(array(
+    'ajax_links_api' => array(
+      'selector' => $selector,
+      'trigger' => $trigger,
+      'negative_triggers' => $negative_trigger,
+      'html5' => $html5,
+      'vpager' => $views_pager,
+    ),
+  ),
+  'setting');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ajax_links_api_menu() {
+  // Admin setting.
+  $items['admin/config/development/ajax-links-api'] = array(
+    'title' => 'Ajax links API',
+    'description' => 'Make any links or create new links to load content via ajax',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ajax_links_api_admin'),
+    'access arguments' => array('administer site configuration'),
+  );
+  // Test page.
+  $items['ajax-links-api/test'] = array(
+    'title' => 'Ajax links API test',
+    'page callback' => 'ajax_links_api_test',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+/**
+ * Callback function for admin setting.
+ */
+function ajax_links_api_admin() {
+  // This module will not work if used in overlay paths such as
+  // admin/* , node/add etc if user has overlay access.
+  if(user_access('access overlay')) {
+    $message = t("Overlay module is not compatible with Ajax links API module. To ajaxify admin paths, please check README.txt");
+    drupal_set_message($message, 'warning', FALSE);
+  }
+  $form['ajax_links_api_trigger'] = array(
+    '#type' => 'textarea',
+    '#title' => t('jQuery selector to trigger ajax (One per line)'),
+    '#default_value' => variable_get('ajax_links_api_trigger', '.ajax-link' . "\n" . "!#toolbar a"),
+    '#description' => t('Just like jQuery, for example by providing ".content a" will ajaxify all link under .content. You can also exclude some selectors by specifying ! (for example "!#toolbar a")'),
+  );
+  $form['ajax_links_api_selector'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Default Target DIV'),
+    '#default_value' => variable_get('ajax_links_api_selector', '#content'),
+    '#description' => t('This can be override for indivdual link by providing rel. Check Demo.'),
+  );
+  $form['ajax_links_api_html5'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable URL and Title change (for HTML5 Only)'),
+    '#default_value' => variable_get('ajax_links_api_html5', 1),
+    '#description' => t('Change URL and Title according to ajax content. This will work only for HTML5 supported browsers. Tested on latest Chrome,Firefox.'),
+  );
+  $form['ajax_links_api_vpager'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Remove ?ajax=1 from Views pager'),
+    '#default_value' => variable_get('ajax_links_api_vpager', 1),
+    '#description' => t('Remove ?ajax=1 from Views pager. Check check http://drupal.org/node/1907376 for details.'),
+  );
+
+  return system_settings_form($form);
+}
+/**
+ * Implements hook_theme().
+ */
+function ajax_links_api_theme() {
+  return array(
+    'ajax_links_api_link' => array(
+      'variables' => array('title' => NULL, 'path' => NULL , 'target' => NULL),
+    ),
+  );
+}
+/**
+ * Ajax links API.
+ *
+ * @param string $title
+ *   Title to display.
+ * @param string $path
+ *   Drupal path eg: user/login.
+ * @param string $target
+ *   ID or CLASS of DIV to be replaced. eg: #content-content or #content.
+ *
+ * @return string
+ *   a link with class ajax_link and rel=$target.
+ */
+function l_ajax($title, $path, $target = NULL) {
+  if ($target == NULL) {
+    $target = variable_get('ajax_links_api_selector', '#content');
+  }
+  return theme('ajax_links_api_link', array(
+    'title' => $title,
+    'path' => url($path, array('absolute' => TRUE)),
+    'target' => $target,
+  ));
+}
+/**
+ * Theme ajax_links_api.
+ */
+function theme_ajax_links_api_link($element) {
+  $link = l($element['title'], $element['path'], $options = array(
+    'attributes' => array(
+      'class' => 'ajax-link',
+      'rel' => $element['target'],
+    )));
+  return $link;
+}
+/**
+ * Implements hook_preprocess_page().
+ */
+function ajax_links_api_preprocess_page(&$variables) {
+  // This is used to display only $content.
+  if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+    $variables['theme_hook_suggestions'][] = 'page__ajax';
+    // To override page--ajax.tpl.php for content types.
+    if (isset($variables['node'])) {
+      $variables['theme_hook_suggestions'][] = 'page__' . $variables['node']->type . '__ajax';
+    }
+    // To override page--ajax.tpl.php for individual path.
+    if ($suggestions = theme_get_suggestions(arg(), 'page')) {
+      foreach($variables['theme_hook_suggestions'] as $suggestion) {
+        $variables['theme_hook_suggestions'][] = $suggestion . '__ajax';
+      }
+    }
+    array_pop($variables['theme_hook_suggestions']);
+  }
+}
+/**
+ * Implements hook_preprocess_html().
+ */
+function ajax_links_api_preprocess_html(&$variables, $hook) {
+  if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+    $variables['theme_hook_suggestions'][] = 'html__ajax';
+    // To override page--ajax.tpl.php for content types.
+    if ($node = menu_get_object()) {
+      $variables['theme_hook_suggestions'][] = 'html__' . $node->type . '__ajax';
+    }
+    // To override html--ajax.tpl.php for individual path.
+    if ($suggestions = theme_get_suggestions(arg(), 'html')) {      
+      foreach($variables['theme_hook_suggestions'] as $suggestion) {
+        $variables['theme_hook_suggestions'][] = $suggestion . '__ajax';
+      }
+    }
+    array_pop($variables['theme_hook_suggestions']);
+  }
+}
+/**
+ * Implements hook_help().
+ */
+function ajax_links_api_help($path, $arg) {
+  if ($path == 'ajax-links-api/test' || $path == 'admin/config/development/ajax-links-api' || $path == 'admin/help#ajax_links_api') {
+    $output = t('<h2><strong>How to use Ajax links API</strong></h2>
+
+	<p><strong>Method 1</strong> : You can ajaxify any links by specifying the Class/Id in <a href="@admin">Module settings page</a>.
+	Target DIV will be default Target DIV defined in module config page.</p>
+	<p>Example : <code>@example1</code> . You can ajaxify this link by adding
+	<code>.test</code> in module config page.</p>
+
+	<p><strong>Method 2</strong> : Use this in your tpl => <code>echo l_ajax($title, $path, $target)</code></p>
+	<p>* <code>$title</code>: Title to display.<br />
+	* <code>$path</code> : Drupal path. <br />
+	* <code>$target (optional)</code>: ID or CLASS of DIV to be replaced. You can override default Target DIV defined by specifying <code>$target</code>.</p>
+	<p>Example : <code>l_ajax("Add Page","node/add/page","#content")</code>.</p>
+
+	<p><strong>Method 3</strong> : Add <code>class="ajax-link"</code> to any link. Target div will be Target DIV defined . You can change default Target DIV or override target by specifying <code>rel=""</code>.</p>
+	<p>Example : <code>@example2</code></p>
+
+	<h2><a href="@demo">DEMO</a></h2>',
+    array(
+      '@admin' => url('admin/config/development/ajax-links-api'),
+      '@example1' => '<a class="test" href="node/add/page">Add page</a>',
+      '@example2' => '<a class="ajax-link" href="node/add/page" rel="#content">Add page</a>',
+      '@demo' => url('ajax-links-api/test'),
+    ));
+  }
+
+  return isset($output) ? $output : NULL;
+}
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function ajax_links_api_theme_registry_alter(&$theme_registry) {
+  $mod_path = drupal_get_path('module', 'ajax_links_api') . '/tpl';
+  $theme_registry_copy = $theme_registry; // Munge on a copy.
+  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'pow', $mod_path);
+  $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
+  $hooks = array('page');
+  foreach ($hooks as $h) {
+    if (is_array($theme_registry[$h]['theme path'])) {
+      $first_element = array_shift($theme_registry[$h]['theme path']);
+      array_unshift($theme_registry[$h]['theme path'], $first_element, $mod_path);
+    }
+  }
+}
+
+/**
+ * Get trigger classes/ids.
+ *
+ * Ajax links triggers now come in two varieties:
+ *
+ *   positive triggers: these are selectors that are used to select
+ *     a set of links
+ *   negative triggers: these are selectors used in .not() to remove
+ *     links from the set of matched ones
+ *
+ * The user can specify these in the admin/config screen. Negative triggers
+ * are those listed with a "!" as the first character.
+ */
+function ajax_links_api_get_triggers() {
+  $trigger = variable_get('ajax_links_api_trigger', '.ajax-link' . "\n");
+  $trigger = explode("\n", $trigger);
+  // trim all entries
+  $trigger = array_map('trim', $trigger);
+  // filter out empty lines
+  $trigger = array_filter($trigger);
+
+  $positive_triggers = array();
+  $negative_triggers = array();
+  foreach ($trigger as $this_trigger) {
+    if (preg_match('/^!/', $this_trigger)) {
+      $negative_triggers[] = substr($this_trigger, 1);
+    }
+    else {
+      $positive_triggers[] = $this_trigger;
+    }
+  }
+
+  $positive_trigger = implode(',', $positive_triggers);
+  $negative_trigger = implode(',', $negative_triggers);
+  return array($positive_trigger, $negative_trigger);
+}
+
+/**
+ * Callback - ajax-links-api/test.
+ */
+function ajax_links_api_test() {
+  global $base_url;
+
+  $link1 = '<a href="' . $base_url . '/user" class="test" rel=".test1">User</a>';
+  $link2 = l_ajax('load this test page', 'ajax-links-api/test', '#content');
+  $link3 = '<a href="' . $base_url . '/user" class="ajax-link" rel=".test2">User</a>';
+
+  $ouptut = '<h2>Method 1 : load Profile </h2>(link with class="test" and rel=".test1". You can ajaxify this link by adding this link
+  class .test in admin settings):<br />' . $link1 . '<div class="test1"></div>';
+  $ouptut .= '<h2>Method 2 : load this test page </h2>(using l_ajax):<br />' . $link2 . '';
+  $ouptut .= '<h2>Method 3 : Load profile </h2>(link with class="ajax-link" and rel=".test2"):<br />' . $link3 . '<div class="test2"></div>';
+
+  return $ouptut;
+}

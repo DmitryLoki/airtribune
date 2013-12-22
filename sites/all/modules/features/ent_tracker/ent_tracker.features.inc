@@ -18,11 +18,6 @@ function ent_tracker_eck_entity_type_info() {
           'type' => 'text',
           'behavior' => 'title',
         ),
-        'identifier' => array(
-          'label' => 'Identifier',
-          'type' => 'text',
-          'behavior' => 'title',
-        ),
       ),
     ),
   );

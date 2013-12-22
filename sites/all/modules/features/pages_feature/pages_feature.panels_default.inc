@@ -18,7 +18,15 @@ function pages_feature_default_panels_mini() {
   $mini->admin_title = 'Footer blocks';
   $mini->admin_description = '';
   $mini->requiredcontexts = array();
-  $mini->contexts = array();
+  $mini->contexts = array(
+    0 => array(
+      'identifier' => 'Solutions',
+      'keyword' => 'node',
+      'name' => 'entity:node',
+      'entity_id' => '6604',
+      'id' => 1,
+    ),
+  );
   $mini->relationships = array();
   $display = new panels_display();
   $display->layout = 'fourcoltworow';
@@ -39,11 +47,8 @@ function pages_feature_default_panels_mini() {
     ),
   );
   $display->cache = array(
-    'method' => 'simple',
-    'settings' => array(
-      'lifetime' => '604800',
-      'granularity' => 'none',
-    ),
+    'method' => '0',
+    'settings' => array(),
   );
   $display->title = '';
   $display->content = array();
@@ -68,7 +73,13 @@ e-mail: info@airtribune.com</p>',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -95,7 +106,13 @@ e-mail: info@airtribune.com</p>',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -130,7 +147,13 @@ e-mail: info@airtribune.com</p>',
       'format' => 'full_html',
       'substitute' => TRUE,
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -154,7 +177,13 @@ e-mail: info@airtribune.com</p>',
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '604800',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -167,23 +196,18 @@ e-mail: info@airtribune.com</p>',
     $pane = new stdClass();
     $pane->pid = 'new-5';
     $pane->panel = 'four_third';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'Solutions',
-      'title' => 'Solutions',
-      'body' => '<h3>Competition hosting</h3>
-<p>Create your competition page, open pilots regis- tration, manage it from any computer connected to Internet. Upload tracks to make task replays.</p>
-<h3>Competition live tracking</h3>
-<p>Bind trackers in a few clicks, set up a task, be aware of the race, increase safety and optimize retrieve.</p>
-
-',
-      'format' => 'full_html',
-      'substitute' => TRUE,
+      'context' => 'context_entity:node_1',
+      'override_title' => 1,
+      'override_title_text' => 'Solutions',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 0,
+    );
     $pane->style = array(
       'settings' => NULL,
     );
