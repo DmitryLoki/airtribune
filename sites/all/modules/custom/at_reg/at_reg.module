@@ -158,6 +158,7 @@ function at_reg_form_anonymous($nid) {
         //'args' => at_reg_profile_form_args(),
         'args' => $profile2_init_data['args'],
         '#preprocess_form_state' => array('at_reg_profile2_form_preprocess_form_state'),
+        '#after_execute' => array('at_reg_remove_unwanted_messages_after_execute'),
         '#map' => array(
           // TODO:
           array(
@@ -474,6 +475,7 @@ function at_reg_form_authorized($nid) {
         //'args' => at_reg_profile_form_args(),
         'args' => $profile2_init_data['args'],
         '#preprocess_form_state' => array('at_reg_profile2_form_preprocess_form_state'),
+        '#after_execute' => array('at_reg_remove_unwanted_messages_after_execute'),
         '#map' => array(
           // TODO:
           array(
