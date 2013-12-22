@@ -141,20 +141,17 @@ function at_points_widget_file($nid) {
   // First, determine filetype by extension.
   preg_match('/\.\w+$/', $file['name'], $matches);
   $extension = $matches[0];
-  if ($extension != '.wpt' && $extension != '.cup') {
-    drupal_add_http_header('Status', '400 Incorrect format of input file');
-    drupal_exit();
-  }
-  $filename = file_directory_temp() . '/waypoints_' . time() . $extension;
+  $filename = 'temporary://waypoints_' . time() . $extension;
   move_uploaded_file($file['tmp_name'], $filename);
   // Factory method.
   $file_reader = at_points_widget_get_filereader($filename);
   if (empty($file_reader)) {
+    file_unmanaged_delete($filename);
     drupal_add_http_header('Status', '400 Incorrect format of input file');
     drupal_exit();
   }
   $points = $file_reader->read();
-  unlink($filename);
+  file_unmanaged_delete($filename);
   print _at_points_widget_wrapper($points);
   drupal_exit();
 }
@@ -255,12 +252,6 @@ function _at_points_widget_wrapper (array $points) {
  * @param string $filename
  */
 function at_points_widget_get_filereader($filename) {
-  /*$classes = array(
-    'AtPointsWidgetCupFile', 
-    'AtPointsWidgetOziFile', 
-    'AtPointsWidgetFSGeoFile', 
-    'AtPointsWidgetCompGPSFile'
-  );*/
   $classes = array_keys(AtPointsWidgetFile::$classes);
   foreach ($classes as $class) {
     if ($class::check($filename)) {
@@ -304,7 +295,7 @@ function at_points_widget_create_files($nid) {
         }
       }
       else {
-        unlink(drupal_realpath($filename));
+        file_unmanaged_delete($filename);
       }
     }
     if ($new_class == 'AtPointsWidgetCompGPSFile') {
@@ -317,7 +308,9 @@ function at_points_widget_create_files($nid) {
       if (empty($compgps_filename)) {
         throw new Exception(t('Compgps file not found'));
       }
-      $command = $file_writer->babbelString(drupal_realpath($compgps_filename), drupal_realpath($filename));
+      $command = $file_writer::$babbel_path . 'gpsbabel -i compegps -f ' . 
+          drupal_realpath($compgps_filename) . ' -o ' . 
+          $file_writer::$babbel_format . ' -F ' . drupal_realpath($filename);
       if (!empty($command)) {
         exec($command);
         global $user;

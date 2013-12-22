@@ -9,8 +9,9 @@
 abstract class AtPointsWidgetFile {
   
   public $filename;
-  public $babbel_path = '/usr/local/bin/';
+  public static $babbel_path = '/usr/local/bin/';
   static public $ext;
+  static public $babbel_format;
   // first should go classes that have write method implemented
   public static $classes = array(
     'AtPointsWidgetCompGPSFile' => 'CompGPS',
@@ -33,7 +34,15 @@ abstract class AtPointsWidgetFile {
   /**
    * Reads file into an array of point entities.
    */
-  abstract public function read();
+  public function read() {
+    $outfile = 'public://points_outfile_' . time() . '.wpt';
+    $command = self::$babbel_path . 'gpsbabel -i ' . static::$babbel_format . ' -f ' . drupal_realpath($this->filename) . ' -o compegps -F ' . drupal_realpath($outfile);
+    exec($command);    
+    $compGPSReader = new AtPointsWidgetCompGPSFile($outfile);
+    $points = $compGPSReader->read();
+    file_unmanaged_delete($outfile);
+    return $points;
+  } 
   
   /**
    * Writes points into file in specified format.
@@ -53,13 +62,9 @@ abstract class AtPointsWidgetFile {
   /**
    * Checks the file validity.
    */
-  static public function check($filename){}
-  
-  /**
-   * Returns command to convert from outfile in CompGPS format to the target format.
-   */
-  public function babbelString($infile, $outfile) {
-    return FALSE;
+  static public function check($filename) {
+    $extension = drupal_substr($filename, -(strlen(static::$ext) + 1));
+    return $extension == '.' . static::$ext;    
   }
 }
 
@@ -145,6 +150,8 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
   
   static public $ext = 'wpt';
   
+  static public $babbel_format = 'compegps';
+  
   public function read() {
     $file_string = file_get_contents($this->filename);
     $strings = preg_split('/\v/', $file_string);
@@ -217,21 +224,9 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
 }
 
 class AtPointsWidgetOziFile extends AtPointsWidgetFile {
-  
+ 
   static public $ext = 'wpt';
-  
-  public function read() {
-    $outfile = $this->filename . '.mod';
-    $command = $this->babbel_path . 'gpsbabel -i ozi -f ' . $this->filename . ' -o compegps -F ' . $outfile;
-    exec($command);
-    rename($outfile, $this->filename);
-    $compGPSReader = new AtPointsWidgetCompGPSFile($this->filename);
-    return $compGPSReader->read();
-  } 
-  
-  public function babbelString($infile, $outfile) {
-    return $this->babbel_path . 'gpsbabel -i compegps -f ' . $infile . ' -o ozi -F ' . $outfile;
-  }
+  static public $babbel_format = 'ozi';
   
   static function check($filename) {
     $check_string = file_get_contents($filename, FALSE, NULL, -1, 25);
@@ -240,53 +235,11 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
 }
 
 class AtPointsWidgetCupFile extends AtPointsWidgetFile {
-  
-  static public $ext = 'cup';
-  
-  public function read() {
-    $outfile = substr($this->filename, 0, drupal_strlen($this->filename) - 4) . '.wpt';
-    $command = $this->babbel_path . 'gpsbabel -i cup -f ' . $this->filename . ' -o compegps -F ' . $outfile;
-    exec($command);
-    $compGPSReader = new AtPointsWidgetCompGPSFile($outfile);
-    $points = $compGPSReader->read();
-    unlink($outfile);
-    return $points;
-  }
-  
-  public function babbelString($infile, $outfile) {
-    return $this->babbel_path . 'gpsbabel -i compegps -f ' . $infile . ' -o cup -F ' . $outfile;
-  }
-  
-  static function check($filename) {
-    $extension = drupal_substr($filename, -4);
-    return $extension == '.cup';    
-  }
+  static public $ext = 'cup'; 
+  static public $babbel_format = 'cup';
 }
 
 class AtPointsWidgetKmlFile extends AtPointsWidgetFile {
-  
-  static public $ext = 'kml';
-  
-  /*
-   * Almost the same with cup method.
-   * But read methods that use babbel still differ depending on extension.
-   */
-  public function read() {
-    $outfile = substr($this->filename, 0, drupal_strlen($this->filename) - 4) . '.wpt';
-    $command = $this->babbel_path . 'gpsbabel -i kml -f ' . $this->filename . ' -o compegps -F ' . $outfile;
-    exec($command);
-    $compGPSReader = new AtPointsWidgetCompGPSFile($outfile);
-    $points = $compGPSReader->read();
-    unlink($outfile);
-    return $points;
-  }
-  
-  public function babbelString($infile, $outfile) {
-    return $this->babbel_path . 'gpsbabel -i compegps -f ' . $infile . ' -o kml -F ' . $outfile;
-  }
-  
-  static function check($filename) {
-    $extension = drupal_substr($filename, -4);
-    return $extension == '.kml';    
-  }
+  static public $ext = 'kml';  
+  static public $babbel_format = 'kml';
 }
