@@ -63,6 +63,7 @@ else {
 <?php print $fields['day_pg_race_play_link']->wrapper_prefix; ?>
 <?php print $fields['day_pg_race_play_link']->label_html; ?>
 <?php print $fields['day_pg_race_play_link']->content; ?>
+<?php print $fields['day_pg_race_play_link']->wrapper_suffix; ?>
 </span>
 
 <?php if (!empty($fields['field_pg_race_tracks'])): ?>
