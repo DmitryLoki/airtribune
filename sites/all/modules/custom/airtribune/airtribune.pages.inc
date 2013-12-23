@@ -42,11 +42,12 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   );
   $form['field_country']['#weight'] = 0;
   $form['field_flying_site_ref']['#weight'] = 1;
+  $form['field_take_offs']['#weight'] = 2;
   $form['alias'] = array(
     '#type' => 'textfield',
     '#title' => t('URL address'),
     '#default_value' => drupal_get_path_alias('event/' . $event->nid),
-    '#weight' => 2,
+    '#weight' => 3,
   );
   $form['field_tiny_path']['#weight'] = 4;
   $lang = $form['field_tiny_path']['#language'];
@@ -91,7 +92,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#prefix' => '<div class="form-actions">',
     '#suffix' => '</div>',
   );
-  drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm()}}', 'inline');
+  drupal_add_js('Drupal.behaviors.updateForm = {attach:function(){updateForm(false, {disableChoiceOfFirstItemInSelection:true, file_bt:Drupal.t("Add image")})}}', 'inline');
   return $form;
 }
 

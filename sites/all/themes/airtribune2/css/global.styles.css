@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */ 
-
+help-text
 /**
  * global.styles.css
  *
@@ -1447,7 +1447,7 @@ body.body_bgr {margin:0; padding:0; _width:100%;  min-width:100%; height:100%; m
 html {min-height:100%; height:100%;}
 
 #page-wrapper {position:relative; _height:100%; min-height:100%; padding:0; margin:0 auto; min-width:1000px;}
-#super { padding-bottom:352px}
+#super { padding-bottom:413px}
 .region_inner { width:960px; margin:0 auto; position:relative}
 
 /*.spacer_foot { position:relative;margin:0;width:1px; height:312px; font-size:1px; padding: 40px 0 0; clear:both}*/
@@ -1560,7 +1560,8 @@ form#user-login:after { content:"."; clear:both; visibility:hidden; display:bloc
 .node .posted { padding:8px 0 7px 19px; background:url(../images/posted.png) no-repeat 0 9px;}
 body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image { margin:0 -3px 8px -2px; padding-top:10px; width:auto;}
 .node_view_mode_event_blog_teaser .field-name-field-image:after,
-#page ul.tabs.primary:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+#page ul.tabs.primary:after,
+form #edit-field-take-offs:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item { float:left; margin:0 0 2px 2px}
 .node_view_mode_event_blog_teaser .field-name-field-image .field-item img { vertical-align:middle; border:none}
 .node_view_mode_event_blog_teaser .disqus_comments_num { padding-right: 0; padding-top: 36px; right: -1px;}
@@ -1599,6 +1600,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
   border-radius: 0;
 
 }
+.pane-event-days-panel-event-days-on-blog .ui-accordion-content-active { overflow: visible;}
 .pane-event-days-panel-event-days-on-blog .ui-accordion-content.files_list_down { overflow: visible !important;}
 .pane-event-days-panel-event-days-on-blog .ui-accordion-content.files_list_down:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 
@@ -1629,6 +1631,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .task_link:hover { background-position: 0 -40px;}
 .pane-event-days-panel-event-days-on-blog .task_link:active { background-position: 0 -80px;}
 .pane-event-days-panel-event-days-on-blog .task_link span { position: absolute; left: -9999px;}
+.pane-event-days-panel-event-days-on-blog .dropdown_list { font-size: 14px}
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label,
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .field-content,
@@ -1641,7 +1644,7 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 }
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content .field-content { min-width: 0;}
-.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
+.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; pointer; padding: 3px 5px 7px; }
 .pane-event-days-panel-event-days-on-blog .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link {
@@ -1661,8 +1664,23 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content span,
-.pane-event-days-panel-event-days-on-blog .dropdown_list .replay-link-content span { display: block; color: #ffffff; font: bold 14px/15px Arial, Helvetica, sans-serif; padding: 10px 0 5px;}
-.pane-event-days-panel-event-days-on-blog .views-field-field-pg-race-tracks .field-content > span:first-child { padding-top: 10px;}
+.pane-event-days-panel-event-days-on-blog .dropdown_list .replay-link-content li { display: block; color: #ffffff; font: 14px/15px Arial, Helvetica, sans-serif; padding: 0;}
+
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .item-list,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link ul,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link ul li,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .item-list,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link ul,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link ul li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
+
+.pane-event-days-panel-event-days-on-blog .dropdown_list .field-content span .label { font-weight: bold; }
+.pane-event-days-panel-event-days-on-blog .dropdown_list .field-content span.label, 
+.pane-event-days-panel-event-days-on-blog .dropdown_list .field-content span.task_result { padding: 10px 0 5px; display: block;}
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link ul,
+.pane-event-days-panel-event-days-on-blog views-field-day-pg-race-play-live-link .field-content,
+.pane-event-days-panel-event-days-on-blog .view-content .views-field-field-pg-race-retrieve-links .field-content > span:first-child,
+.pane-event-days-panel-event-days-on-blog .view-content .views-field-field-pg-race-tracks .field-content > span:first-child,
+.pane-event-days-panel-event-days-on-blog .dropdown_list .replay-link-content li:first-child { padding-top: 10px;}
 .pane-event-days-panel-event-days-on-blog .views-field-view .field-content span.file { padding: 0 0 0 10px;}
 
 .race-block-activated .views-field-field-pg-race-tracks { display: none;}
@@ -1671,24 +1689,32 @@ body.page-event-blog .node_view_mode_event_blog_teaser .field-name-field-image {
 .pane-event-days-panel-event-days-on-blog .dropdown_list .field-content a:hover { text-decoration: none;}
 .pane-event-days-panel-event-days-on-blog .dropdown_list img { display: none;}
 
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .item-list,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link ul,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link ul li { margin: 0; padding: 0; list-style: none; list-style-image: none;}
-
 .pane-event-days-panel-event-days-on-blog .race-links .file { display: inline-block; vertical-align: top; margin-right: 10px;}
 .pane-event-days-panel-event-days-on-blog .race-links.no-task a { cursor: text;}
 .pane-event-days-panel-event-days-on-blog .race-links .dayblog-text {display:none;}
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .views-label:hover,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .views-label,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .field-content { background-color: #e5eb93; border-color: #e4ee97; text-decoration: none; padding-left: 10px; padding-right: 10px;}
-.pane-event-days-panel-event-days-on-blog .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px;}
+.pane-event-days-panel-event-days-on-blog .help-text { color: #bfcf38; font: italic 14px/20px Arial, Helvetica, sans-serif; display: inline-block; width: 150px; text-align: left; margin-top: -1px; vertical-align: top; margin-right: 10px; text-align: right;}
 .pane-event-days-panel-event-days-on-blog .race-awaiting .help-text,
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 60px; text-align: right; color: #fdbd41; font-weight: bold; font-style: normal; padding-left: 20px;}
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-block-activated .race-link,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-block-activated .views-label,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-block-activated .field-content,
+.pane-event-days-panel-event-days-on-blog #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-online .race-link,
-.pane-event-days-panel-event-days-on-blog #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top; display: inline-block;}
-.pane-event-days-panel-event-days-on-blog #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 5px 0 5px;}
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-online .views-label,
+.pane-event-days-panel-event-days-on-blog #time-counter { display: inline-block; }
+.pane-event-days-panel-event-days-on-blog #time-counter { font: bold 31px/28px Arial, Helvetica, sans-serif; text-align: center; width: 148px; color: #ffffff; padding: 6px 0 6px;}
 .pane-event-days-panel-event-days-on-blog .race-awaiting #time-counter { background-color: #fbd72b; border-color: #f6d72e;}
+
 
 /*.pane-contest-blog-contest-full-pane .node_view_mode_event_blog_teaser { padding-left: 10px; padding-right: 10px;}*/
 .pane-contest-blog-contest-full-pane h2.pane-title { margin-top: 0; margin-bottom: 12px; background-image: url(../images/archive_arrows.png); background-repeat: no-repeat; background-position: 100% -37px;}
@@ -2327,7 +2353,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 #mail-change { display: none;}
 
-.page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px; position:relative; margin:28px -1px 0;
+.page-user .pane-page-content form { border:1px solid #e1e6e9; padding:27px 10px 27px 20px; position:relative; margin:0 -1px 0;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2336,35 +2362,40 @@ a.next_event:hover .place { background-position:-440px -29px;}
 }
 
 .page-user .pane-page-content form #pass-change-common-title { margin-left: 210px; font: 18px/20px Arial, Helvetica, sans-serif; padding-top: 25px;}
-.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 30px;}
+.page-user .pane-page-content form .form-item { margin-top:16px; position:relative; padding-bottom: 32px;}
 .page-forms .pane-page-content form#user-login .form-item { padding-bottom: 10px;}
-.page-user .pane-page-content form .inline-label { display: inline-block !important; width:190px; vertical-align:top; text-align:right; margin-right:14px; height: 1px; position: relative; top: -4px}
+.page-user .pane-page-content form .inline-label { display: inline-block !important; width:180px; vertical-align:top; margin-right:14px; height: 1px; position: relative; top: -4px}
 .page-user .pane-page-content form .inline-label .valign { height: 40px; width: 1px; overflow: hidden; margin-right: -1px; vertical-align: middle; display: inline-block;}
-.page-user .pane-page-content form label { display:inline-block; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; vertical-align: middle;}
+.page-user .pane-page-content form label { display:inline-block; color:#7a8b99; font:18px/20px Arial, Helvetica, sans-serif; vertical-align: middle; position: relative; top: -2px;}
 .page-user .pane-page-content form label .form-required { position: absolute; margin-left: 2px;}
-.page-user .pane-page-content form .description { color:#8898a4; font:12px/16px Arial, Helvetica, sans-serif; margin-left:210px; margin-bottom: -20px;}
+.page-user .pane-page-content form .description { color:#8898a4; font: italic 12px/16px Verdana, Geneva, sans-serif; margin-left:200px; margin-bottom: -20px;}
 .page-user .pane-page-content form .form-item .description { padding-top:4px; clear: both; width: 245px;}
 .page-user .pane-page-content form .form-item .form-item + .description { margin-top: -20px;}
 .page-user .pane-page-content form .form-item input.form-text,
-.page-user .pane-page-content form .select .checked_option_wrap,
-.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:4px 9px 6px; border:1px solid #d2d6d9; vertical-align:top; margin:1px;
+.select .checked_option_wrap,
+.pane_pilots_list_manage input.form-text { width:222px; height:20px; color:#2d3033; font:18px/20px Arial, Helvetica, sans-serif; padding:3px 9px 5px; border:1px solid #b0babf; vertical-align:top; margin:1px;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
-  box-shadow:     inset 0 0 1px rgba(0,0,0,0.20);
-  -moz-box-shadow:   inset 0 0 1px rgba(0,0,0,0.20);
-  -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.20);
-
 }
 .page-user .pane-page-content form .form-item-mail input.form-text { width: 292px;}
+.page-user .pane-page-content form .form-item input.form-text:focus { 
+
+  -webkit-box-shadow: 0 0 0 1px #00aeef;
+  -moz-box-shadow: 0 0 0 1px #00aeef;
+  box-shadow: 0 0 0 1px #00aeef;
+
+}
 html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item .label { color:#afb1b2; font:16px/20px Arial, Helvetica, sans-serif; padding:5px 10px; width:222px; left:210px; text-align:left; margin-top:1px}
 .page-user .pane-page-content form .form-item input.form-email,
-.page-user .pane-page-content form .form-item-name input.form-text { width:290px;}
-.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:22px; height:22px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
-.page-user .pane-page-content form .form-item .check_radio { background-position:0 -22px}
+.page-user .pane-page-content form .form-item-name input.form-text { width:280px;}
+.page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .check_radio { background-position:0 -20px}
+.page-user .pane-page-content form .form-item .checkbox { background:url(../images/forms.png) no-repeat 0 -1100px; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .check_checkbox { background-position:0 -1120px}
 .page-user .pane-page-content form .field-type-list-text .form-type-radios { margin-bottom: -19px;}
 .page-user .pane-page-content form .field-type-list-text .form-radios { display: inline-block; padding-bottom: 6px; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { margin: 0 0 0 1px; padding-bottom: 10px; display: inline;}
@@ -2410,7 +2441,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .form-item-pass .password-strength .password-strength-text { }
 .page-user .pane-page-content form .form-type-date-select .form_booble_inner { min-width: 96px;}
 
-.page-user .pane-page-content form .form-actions { margin-left:210px; padding-top:28px}
+.page-user .pane-page-content form .form-actions { margin-left:200px; padding-top:28px}
 #mail-edit-cancel-link { display: none; cursor: pointer;}
 .page-user .pane-page-content form .form-actions input, 
 .events-add a,
@@ -2493,26 +2524,28 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-.page-user .pane-page-content form .select .checked_option_wrap { border:1px solid #d7dbdd; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option { padding:4px 30px 6px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
-.page-user .pane-page-content form .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
-.page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option,
-.page-user .pane-page-content form .select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
+
+.select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
+.select .checked_option_wrap .checked_option { padding:3px 30px 5px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
+.select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
+.select_opened .checked_option_wrap .checked_option,
+.select_opened .checked_option_wrap .checked_option:hover { background-position:100% -864px}
 .page-user .pane-page-content form .date-month .checked_option { min-width:99px}
 .page-user .pane-page-content form .date-day .checked_option { min-width:39px}
 .page-user .pane-page-content form .date-year .checked_option { min-width:49px}
-.page-user .pane-page-content form .select .items { width:100%}
-.page-user .pane-page-content form .select .items_inner { background:#ffffff; border:2px solid #d7dbdd; margin:-3px 3px 0; max-height:160px; overflow:auto; position:relative;
+.select .items { width:100%}
+.select .items_inner { background:#ffffff; border:1px solid #b9c1c6; margin:-3px 0 0 1px; max-height:160px; overflow:auto; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
+.page-user .pane-page-content form .select .items { width:100%; top: 0 !important}
 
-.page-user .pane-page-content form .select .items_padding { padding:12px 0 !important;}
-.page-user .pane-page-content form .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
-.page-user .pane-page-content form .select .option:hover { color:#00aeef;}
+.select .items_padding { padding:12px 0 !important;}
+.select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
+.select .option:hover { color:#00aeef;}
 .page-user .pane-page-content form .jspContainer { position:relative; overflow:hidden; display: block !important;}
 .page-user .pane-page-content form .jspContainer div { display: block !important;}
 .page-user .pane-page-content form .jspPane { position:relative;}
@@ -2538,6 +2571,7 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .field-name-field-address legend { display: none;}
 .page-user .pane-page-content form .form-phone-number { max-width: 470px; display: inline-block;}
 .page-user .pane-page-content form .form-phone-number .form-item { display: block; margin-top: 0;}
+.page-user .pane-page-content form a { color: #215aff}
 
 .page-user .pane-page-content form .form-type-date-select { float: none; display: block;}
 .page-user .pane-page-content form .form-type-date-select .form-type-select .select { margin-right: 2px;}
@@ -2547,6 +2581,15 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .page-user .pane-page-content form .street-block { clear: both; padding-top: 1px; display: block;}
 .page-user .pane-page-content form .street-block .form-item:first-child { margin-top: 15px;}
+
+.page-user .pane-page-content form .draggable_table { display: inline-block; width: 470px;}
+form .draggable_table table { border: 1px solid #f2f2f2;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
 
 form#user-login .form-wrapper { float: left; padding-bottom: 39px;}
 form#user-login .hybridauth_prefix { float: left; color: #7a8b99; font-size: 18px; padding: 28px 9px 0 24px;}
@@ -2618,19 +2661,19 @@ form .form-type-item .inline-label { top: -10px;}
 .page-user-edit .field-name-field-user-avatar .delete-photo { position: absolute; cursor: pointer;}
 .page-user-edit .field-name-field-user-avatar div.ajax-progress-throbber { position: absolute; left: 150px; top: 24px;}
 
-.image-widget .image-widget-data { position: absolute; top: 1px; left: 1px; z-index: 10;}
-.image-widget .form-submit { position: absolute; top: -100000px;}
-.image-widget span.file { width: 150px; height: 150px; display: block; position: relative;}
-.image-widget span.emulate-click { cursor: pointer; display: block;}
-.image-widget span.emulate-click-plus, 
-.image-widget .delete-photo-plus { width: 24px; height: 24px; top: 0; right: -32px; display: block; background: url(../images/file_upload.png) no-repeat 0 0; position: absolute;}
-.image-widget span.file:hover span.emulate-click-plus { background-position: 0 -200px}
-.image-widget span.file:active span.emulate-click-plus { background-position: 0 -400px}
-.image-widget span.input { display: none !important;}
-.image-widget .delete-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
-.image-widget .delete-photo-plus { background-position: 0 -600px}
-.image-widget .delete-photo:hover .delete-photo-plus { background-position: 0 -800px}
-.image-widget .delete-photo:active .delete-photo-plus { background-position: 0 -1000px}
+.page-user-edit .image-widget .image-widget-data { position: absolute; top: 1px; left: 1px; z-index: 10;}
+.page-user-edit .image-widget .form-submit { position: absolute; top: -100000px;}
+.page-user-edit .image-widget span.file { width: 150px; height: 150px; display: block; position: relative;}
+.page-user-edit .image-widget span.emulate-click { cursor: pointer; display: block;}
+.page-user-edit .image-widget span.emulate-click-plus, 
+.page-user-edit .image-widget .delete-photo-plus { width: 24px; height: 24px; top: 0; right: -32px; display: block; background: url(../images/file_upload.png) no-repeat 0 0; position: absolute;}
+.page-user-edit .image-widget span.file:hover span.emulate-click-plus { background-position: 0 -200px}
+.page-user-edit .image-widget span.file:active span.emulate-click-plus { background-position: 0 -400px}
+.page-user-edit .image-widget span.input { display: none !important;}
+.page-user-edit .image-widget .delete-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.page-user-edit .image-widget .delete-photo-plus { background-position: 0 -600px}
+.page-user-edit .image-widget .delete-photo:hover .delete-photo-plus { background-position: 0 -800px}
+.page-user-edit .image-widget .delete-photo:active .delete-photo-plus { background-position: 0 -1000px}
 /*.image-widget span.emulate-click input { margin-top: 1000px !important;}*/
 
 .node-form .image-widget .image-widget-data { position: relative;}
@@ -2869,7 +2912,7 @@ table tr td:first-child { border-left: none;}
 #footer h2.block-title { color:#004b66; font-size:14px; margin:0; padding:0; font-weight:bold;}
 #footer .block { margin-bottom:0}
 
-#footer_inner { border-top:1px solid #e0ebee; background:url(../images/footer_bgr.png) repeat 50% 0; text-shadow: 0 1px 0 rgba(255,255,255,0.5); font:12px/20px Arial, Helvetica, sans-serif; color:#004b66; height:309px;}
+#footer_inner { border-top:1px solid #e0ebee; background:url(../images/footer_bgr.png) repeat 50% 0; text-shadow: 0 1px 0 rgba(255,255,255,0.5); font:12px/20px Arial, Helvetica, sans-serif; color:#004b66; height:370px;}
 #block-contacts { font:14px/20px Arial, Helvetica, sans-serif; color:#004b66; padding:23px 0 0 0; float:left;}
 #block-contacts p { padding:8px 0 12px}
 #block-contacts .pane-inner { margin-left:0}
@@ -3100,10 +3143,14 @@ table tr td:first-child { border-left: none;}
 
 /* Contestant status */
 span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px; font: 14px/16px Arial,Helvetica,sans-serif}
-.status-Waiting-list span.status-value { background-position: 0 -99px; color: #c1c7cc;}
-.status-Waiting-for-payment span.status-value { background-position: 0 -149px; color: #97caf2;}
-.status-Payment-in-progress span.status-value { background-position: 0 -49px; color: #efae00;}
-.status-Confirmed span.status-value{ background-position: 0 1px; color: #b6c32a;}
+.status-Waiting-list span.status-value,
+.status-value-1 span.status-value { background-position: 0 -99px; color: #c1c7cc;}
+.status-Waiting-for-payment span.status-value,
+.status-value-2 span.status-value { background-position: 0 -149px; color: #97caf2;}
+.status-Payment-in-progress span.status-value,
+.status-value-3 span.status-value { background-position: 0 -49px; color: #efae00;}
+.status-Confirmed span.status-value,
+.status-value-4 span.status-value { background-position: 0 1px; color: #b6c32a;}
 
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 31px;}
@@ -3159,7 +3206,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage .filter-table input::-webkit-input-placeholder { color: #b9c4c9;}
 
 .pane_pilots_list_manage td.views-field-field-full-name { width: 161px;}
-.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0;}
+.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0; padding-right: 32px;}
 .pane_pilots_list_manage tr:hover td.views-field-field-full-name a { color: #00aeef; background-position: 100% -3800px; padding: 4px 32px 4px 0;}
 .pane_pilots_list_manage tr:hover td.views-field-field-full-name a:hover { text-decoration: underline; background-position: 100% -3900px;}
 .pane_pilots_list_manage td.views-field-field-contestant-number { width: 120px; text-align: center;}
@@ -3168,18 +3215,28 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage td.views-field-field-tracker { width: 100px;}
 .pane_pilots_list_manage td.views-field-field-pg-contestant-status { width: 220px;}
 .pane_pilots_list_manage .td_inner div { display: inline; vertical-align: top;}
-.pane_pilots_list_manage .td_inner > div { margin: 0 9px;}
+/*.pane_pilots_list_manage .td_inner > div { margin: 0 9px;}*/
 .pane_pilots_list_manage .td_inner .editablefield-item { display: block;}
 .pane_pilots_list_manage .td_inner .editablefield-item div { display: inline-block;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status div { width: 100%;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status .select { display: block !important;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status .status-value { margin-top: 2px;}
+.pane_pilots_list_manage .views-field-field-pg-contestant-status .select .option { margin-top: 5px;}
 .pane_pilots_list_manage .editablefields-link { display: none; width: 18px; height: 18px; background: url(../images/pensil.png) no-repeat 0 0; overflow: hidden; text-indent: -9999px; vertical-align: middle; margin: -2px 0; margin-right: -18px; }
 .pane_pilots_list_manage tr:hover .editablefields-link { display: inline-block;}
 .pane_pilots_list_manage .editablefields-link:hover { background-position: 0 -18px}
 .pane_pilots_list_manage .views-field-field-phone div + .editablefields-link { margin-left: 7px; margin-right: -25px;}
-.pane_pilots_list_manage .td_inner div.ajax-progress-throbber { display: none;}
 .pane_pilots_list_manage .form-item { padding: 0;}
-.pane_pilots_list_manage input.form-text { margin: -9px 0 -9px; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px;}
-.pane_pilots_list_manage .form-actions a { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -6px 0 -6px 6px; vertical-align: top;}
-.pane_pilots_list_manage .form-actions a:hover {
+.pane_pilots_list_manage table input.form-text { margin: -9px 0 -9px; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px;}
+.pane_pilots_list_manage label,
+.pane_pilots_list_manage #views-form-paragliding-pilots-list-manage .inline-label { display: none;}
+.pane_pilots_list_manage .select { margin: -9px 0;}
+.pane_pilots_list_manage .field-type-list-integer + div.form-actions { display: none;}
+.pane_pilots_list_manage table .form-actions a,
+.pane_pilots_list_manage table .form-actions input { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -6px 0 -6px 6px; vertical-align: top;}
+.pane_pilots_list_manage table .form-actions input { background-position: 0 -3600px; border: none;}
+.pane_pilots_list_manage table .form-actions a:hover,
+.pane_pilots_list_manage table .form-actions input:hover {
 
   filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
   -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
@@ -3188,6 +3245,18 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 
 }
 
+.pane_pilots_list_manage .td_inner .ajaxing .form-wrapper,
+.pane_pilots_list_manage .ajaxing .form-actions a,
+.pane_pilots_list_manage .ajaxing .form-actions input { display: none;}
+
+.pane_pilots_list_manage .ajaxing { position: relative;}
+.pane_pilots_list_manage .ajaxing .form-actions.form-wrapper { display: inline-block;}
+.pane_pilots_list_manage .td_inner div.ajax-progress-throbber,
+.pane_pilots_list_manage .ajax-progress-throbber div.message { display: none;}
+.pane_pilots_list_manage .ajaxing div.ajax-progress-throbber,
+.pane_pilots_list_manage .ajaxing form { display: inline-block;}
+.pane_pilots_list_manage .form-type-select div.ajax-progress-throbber { position: absolute; right: 32px; margin-right: 0; top: 10px;}
+.pane_pilots_list_manage .ajaxing .throbber { display: inline-block; width: 10px; height: 10px; background: url(../images/table_action.png) no-repeat -48px -3600px; margin: 2px -18px 0 8px;}
 
 
 /*.page-event-pilots-manage .panel-col-seventy .inside { margin-right: 0;}*/
@@ -3379,17 +3448,16 @@ html.fb_view { overflow: auto;}
 /*.front_live_events .race-links,*/
 .front_live_events .views-field-view,
 .front_live_events .dayblog { top: auto; bottom: 0; height: 60px;}
-.front_live_events .views-row > .views-field-view { z-index: 100;}
 .front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 .front_live_events .race-links { height: 54px;}
 .front_live_events .view-event-day .views-row,
 .front_live_events .views-field-view .views-row { display: block; padding: 6px 5px 0; height: 54px; }
-.front_live_events .view-event-day .views-row { height: 52px;}
-.front_live_events .file a { position: absolute; bottom: 110px; left: 55px; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none;}
-.front_live_events .views-row-twice .file a { left: 113px;}
-.front_live_events .views-row-once .file a { left: 235px;}
-.front_live_events .race-replay .file a { color: #8f733b; background: #fbd72c}
+.front_live_events .view-event-day .views-row { height: 52px; overflow: visible;}
+.front_live_events .views-field-day-pg-race-play-link .field-content .field-content,
+.front_live_events .views-field-day-pg-race-play-link .views-field-field-pg-race-tracks { display: none;}
+.front_live_events .views-label { position: absolute; bottom: 110px; left: 0; right: 0; width: 120px; height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none; margin: 0 auto;}
+.front_live_events .race-replay .views-label { color: #8f733b; background: #fbd72c}
 .front_live_events .views-field-day-pg-race-play-link .help-text,
 .front_live_events .race-links .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed;}
 .front_live_events .race-online .help-text,
@@ -3458,10 +3526,10 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
-.front_live_events .race-links .file {display: none;}
-.front_live_events .race-links .time {display:none !important;}
-.front_live_events .race-links .help-text {display:none}
-.front_live_events .race-links .dayblog-text {display:block;}
+.front_live_events .views-field-day-pg-race-play-link .file {display: none;}
+.front_live_events .views-field-day-pg-race-play-link .time {display:none !important;}
+.front_live_events .views-field-day-pg-race-play-link .help-text {display:none}
+.front_live_events .views-field-day-pg-race-play-link .dayblog-text {display:block;}
 
 .front_live_events .race-block-activated .file {display:inline;}
 .front_live_events .race-block-activated .time {display:block !important;}
@@ -3741,11 +3809,32 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
 .page-event-settings .pane-page-content .form-radios label { font-size: 14px}
 .page-event-settings .image-widget {  position: relative; display: inline-block;}
 .page-event-settings .image-widget .form-submit { top: 0; left: 100%; margin-left: 10px;}
-.page-event-settings .image-widget .image-preview { border: 1px solid #d2d6d9; width: 150px; height: 150px; padding: 0;
 
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+form #edit-field-take-offs { margin-left: 200px; font-size: 14px; line-height: 20px; color: #7a8b99; margin-top: 9px;bottom: 54px; padding-bottom: 54px;}
+form #edit-field-take-offs .field-take-offs-title { margin-bottom: 7px;}
+form #edit-field-take-offs .form-item { float: left; width: 220px; margin-top: 0; margin-bottom: 0; padding-bottom: 4px;}
+form #edit-field-take-offs .form-item:nth-child(odd) { margin-right: 20px; clear: both;}
+form #edit-field-take-offs .inline-label { width: auto;}
+form #edit-field-take-offs label { position: relative; top: -1px; font-weight: normal; font-size: 16px;}
+
+#edit-field-logo .form-item { padding-bottom: 1px;}
+.field-type-image .image-widget { /*float: left;*/ display: inline-block;}
+.field-type-image .image-widget .button { font-size: 16px; line-height: 30px; width: 120px; height: 30px; background: #1cb7f0; color: #ffffff; margin-right: 10px; display: inline-block; text-align: center; vertical-align: top;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+
+}
+.field-type-image .image-widget .input,
+.field-type-image .image-widget .form-submit[value='Upload'] { display: none;}
+.field-type-image .image-widget .form-submit[value='Remove'] { width: 18px; height: 18px; overflow: hidden; text-indent: -9999px; background: url(../images/forms.png) no-repeat 0 -1180px; border: none; padding: 0;}
+.field-type-image .image-widget .form-submit[value='Remove']:hover {
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
+  -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: 0.8; /* Konqueror 3.1, Safari 1.1 */
+  opacity: 0.8; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
 
 }
 
@@ -3859,6 +3948,19 @@ ul.retrieve_ul li { margin: 0; padding: 9px 0 6px 17px; list-style: none; list-s
   border:solid 1px gray;
   vertical-align:center;
 }
+
+.page-user .pane-page-content form .field-type-image .description { /*float: left;*/ overflow: hidden; display: inline-block; margin-left: 0; width: 300px; vertical-align: top; padding-top: 0; margin-top: -2px; line-height: 15px;}
+
+form #edit-field-dates .fieldset-description { display: none;}
+form #edit-field-dates .inline-label { float: left; margin-right: 19px;}
+form #edit-field-dates .form-type-textfield,
+form #edit-field-dates .form-type-textfield .date_prefix { float: left; margin-top: 0;}
+form #edit-field-dates .form-type-textfield + .form-type-textfield { margin-left: 45px;}
+form #edit-field-dates .form-type-textfield .inline-label { width: auto; margin-right: 9px;}
+form #edit-field-dates .form-type-textfield .inline-label label { font-size: 16px; top: 1px;}
+form #edit-field-dates .form-type-textfield input { background: #ffffff url(../images/calendar_bg.png) no-repeat 100% 50%; width: 100px; font-size: 16px; color: #424242; padding: 5px 9px 3px;}
+form #edit-field-dates .form-type-textfield .description { width: 120px; margin-left: 0;}
+
 
 /*====================================================
 CSS Tooltips by Adam Whitcroft

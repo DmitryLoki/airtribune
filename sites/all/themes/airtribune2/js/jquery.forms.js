@@ -29,7 +29,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 			switch (el.type){
 				case 'checkbox':
 					if (el.attr('checked')) {
-						el.perv().addClass('check_'+el.type);
+						el.prev().addClass('check_'+el.type);
 					}
 					el.show().css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 					el.prev().click(function(){
@@ -113,7 +113,11 @@ jQuery.fn.forms = function(options){ // custom form elements
 			el.children().each(function(i, item){
 				el.option = el.children().eq(i);
 				el.option.selected = (el.option.attr('selected')) ? ' selected' : '';
-                el.replace += '<span class="option'+el.option.selected+' hi">'+el.option.html()+'</span>';
+				el.option.html = el.option.html();
+				if (el.parents('.field-type-list-integer').size()) {
+					el.option.html = '<span class="status-value-' + el.option.attr('value') + '"><span class="status-value">' + el.option.html + '</span></span>';
+				};
+                el.replace += '<span class="option'+el.option.selected+' hi">'+el.option.html+'</span>';
 			});
 			el.replace += '</span></span></span>';
 			el.before(el.replace);

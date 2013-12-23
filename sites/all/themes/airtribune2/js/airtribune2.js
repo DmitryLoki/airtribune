@@ -47,7 +47,7 @@
           '.views-field-day-pg-race-play-link, ' +
           '.views-field.dropdown_list')
         .size() == 0) {
-        $('.views-field-view > .field-content, ' +
+        $(//'.views-field-view > .field-content, ' +
           '.views-field-day-pg-race-play-link .replay-link-content, ' +
           '.views-field.dropdown_list > .field-content').hide();
         $('.files_list_down').removeClass('files_list_down');

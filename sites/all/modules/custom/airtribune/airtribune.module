@@ -59,6 +59,9 @@ define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
 define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 
+define('AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD', 'field_media_description');
+define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
+define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -165,8 +168,11 @@ function airtribune_event_settings_title($event) {
  */
 function airtribune_event_settings_access($event, $op = 'edit') {
   global $user;
-
-  $access = TRUE;  
+  $og_roles = og_get_user_roles('node', $event->nid);
+  $access = FALSE;
+  if (in_array('administrator', $user->roles) || in_array(OG_ADMINISTRATOR_ROLE, $og_roles)) {
+    $access = TRUE;
+  }
   return $access;
 }
 
@@ -1464,8 +1470,9 @@ function _at_get_vis_pages() {
 function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
   if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.styles.css']);
+    foreach ($css as $key => $value) {
+      unset($css[$key]);
+    }
   }
 }
 

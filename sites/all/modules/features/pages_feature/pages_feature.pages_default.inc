@@ -95,6 +95,95 @@ function pages_feature_default_page_manager_handlers() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'node_view_http_response_3';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'http_response';
+  $handler->weight = 3;
+  $handler->conf = array(
+    'title' => 'Redirect to /event/NID/day/NID',
+    'contexts' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => ' Event from og_group_ref',
+        'keyword' => 'event',
+        'name' => 'entity_from_field:og_group_ref-node-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
+    'code' => '301',
+    'destination' => '/event/%event:nid/day/%node:nid',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'day' => 'day',
+            ),
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $export['node_view_http_response_3'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_http_response_4';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'http_response';
+  $handler->weight = 4;
+  $handler->conf = array(
+    'title' => 'Access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'dayblog' => 'dayblog',
+              'pg_scoring_category' => 'pg_scoring_category',
+            ),
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Specific node ID',
+            'php' => '$nids = array(
+  6604,
+);
+
+if (in_array($contexts[\'argument_entity_id:node_1\']->argument,$nids)) {
+  return TRUE;
+}
+return FALSE;',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'or',
+    ),
+  );
+  $export['node_view_http_response_4'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'node_view_panel_context';
   $handler->task = 'node_view';
   $handler->subtask = '';
@@ -1331,7 +1420,7 @@ event/*/map/accommodations',
     $pane->configuration = array(
       'widget_code' => array(
         'value' => '<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
-<script  data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
+<script src="http://vis.airtribune.com/airvis.min.js"></script>
 <div role="main" class="airvis-container">
 <!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
 </div>',
@@ -5442,154 +5531,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_event_pilots_panel_context_5';
-  $handler->task = 'page';
-  $handler->subtask = 'event_pilots';
-  $handler->handler = 'panel_context';
-  $handler->weight = -30;
-  $handler->conf = array(
-    'title' => 'Pilots (Manage confirmed)',
-    'no_blocks' => 1,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'event/*/pilots/manage/confirmed',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-        1 => array(
-          'name' => 'og_perm',
-          'settings' => array(
-            'perm' => 'administer group',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:node_1',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'sidebar_first' => NULL,
-      'sidebar_second' => NULL,
-      'content' => NULL,
-      'highlighted' => NULL,
-      'content_aside' => NULL,
-      'secondary_content' => NULL,
-      'tertiary_content' => NULL,
-      'footer' => NULL,
-      'leaderboard' => NULL,
-      'header' => NULL,
-      'menu_bar' => NULL,
-      'help' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-63';
-    $pane->panel = 'middle';
-    $pane->type = 'pilots_statistics';
-    $pane->subtype = 'pilots_statistics';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'allowed' => '0',
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-      'total' => '1',
-      'confirmed' => '1',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-63'] = $pane;
-    $display->panels['middle'][0] = 'new-63';
-    $pane = new stdClass();
-    $pane->pid = 'new-64';
-    $pane->panel = 'middle';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Confirmed Pilots Manage Table',
-      'title' => '',
-      'body' => 'There are only “Confirmed” pilots in this table.
-Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field is empty, pilot’s profile tel. will be used.
-',
-      'format' => 'filtered_html',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-64'] = $pane;
-    $display->panels['middle'][1] = 'new-64';
-    $pane = new stdClass();
-    $pane->pid = 'new-65';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'paragliding_pilots_list-manage_confirmed';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-      ),
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $display->content['new-65'] = $pane;
-    $display->panels['middle'][2] = 'new-65';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'page_event_pilots_panel_context_3';
   $handler->task = 'page';
   $handler->subtask = 'event_pilots';
@@ -5674,7 +5615,7 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-66';
+    $pane->pid = 'new-63';
     $pane->panel = 'one_main';
     $pane->type = 'custom';
     $pane->subtype = 'coming_soon';
@@ -5695,8 +5636,8 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-66'] = $pane;
-    $display->panels['one_main'][0] = 'new-66';
+    $display->content['new-63'] = $pane;
+    $display->panels['one_main'][0] = 'new-63';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -5791,7 +5732,7 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-67';
+    $pane->pid = 'new-64';
     $pane->panel = 'middle';
     $pane->type = 'pilots_statistics';
     $pane->subtype = 'pilots_statistics';
@@ -5821,10 +5762,10 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-67'] = $pane;
-    $display->panels['middle'][0] = 'new-67';
+    $display->content['new-64'] = $pane;
+    $display->panels['middle'][0] = 'new-64';
     $pane = new stdClass();
-    $pane->pid = 'new-68';
+    $pane->pid = 'new-65';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-standard';
@@ -5860,10 +5801,10 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-68'] = $pane;
-    $display->panels['middle'][1] = 'new-68';
+    $display->content['new-65'] = $pane;
+    $display->panels['middle'][1] = 'new-65';
     $pane = new stdClass();
-    $pane->pid = 'new-69';
+    $pane->pid = 'new-66';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-fai';
@@ -5902,8 +5843,8 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-69'] = $pane;
-    $display->panels['middle'][2] = 'new-69';
+    $display->content['new-66'] = $pane;
+    $display->panels['middle'][2] = 'new-66';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -5978,7 +5919,7 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-70';
+    $pane->pid = 'new-67';
     $pane->panel = 'middle';
     $pane->type = 'pilots_statistics';
     $pane->subtype = 'pilots_statistics';
@@ -6000,10 +5941,10 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-70'] = $pane;
-    $display->panels['middle'][0] = 'new-70';
+    $display->content['new-67'] = $pane;
+    $display->panels['middle'][0] = 'new-67';
     $pane = new stdClass();
-    $pane->pid = 'new-71';
+    $pane->pid = 'new-68';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'paragliding_pilots_list-manage';
@@ -6024,8 +5965,159 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field i
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
+    $display->content['new-68'] = $pane;
+    $display->panels['middle'][1] = 'new-68';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_event_pilots_panel_context_5';
+  $handler->task = 'page';
+  $handler->subtask = 'event_pilots';
+  $handler->handler = 'panel_context';
+  $handler->weight = -30;
+  $handler->conf = array(
+    'title' => 'Pilots (Manage confirmed)',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/pilots/manage/confirmed',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'og_perm',
+          'settings' => array(
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
+            1 => 'argument_entity_id:node_1',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'content' => NULL,
+      'highlighted' => NULL,
+      'content_aside' => NULL,
+      'secondary_content' => NULL,
+      'tertiary_content' => NULL,
+      'footer' => NULL,
+      'leaderboard' => NULL,
+      'header' => NULL,
+      'menu_bar' => NULL,
+      'help' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-69';
+    $pane->panel = 'middle';
+    $pane->type = 'pilots_statistics';
+    $pane->subtype = 'pilots_statistics';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'allowed' => '0',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'total' => '1',
+      'confirmed' => '1',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-69'] = $pane;
+    $display->panels['middle'][0] = 'new-69';
+    $pane = new stdClass();
+    $pane->pid = 'new-70';
+    $pane->panel = 'middle';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Confirmed Pilots Manage Table',
+      'title' => '',
+      'body' => 'There are only “Confirmed” pilots in this table.
+Retrieve tel. will be used to contact pilot by SMS retrieve app. If this field is empty, pilot’s profile tel. will be used.
+',
+      'format' => 'filtered_html',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attention_text',
+    );
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-70'] = $pane;
+    $display->panels['middle'][1] = 'new-70';
+    $pane = new stdClass();
+    $pane->pid = 'new-71';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'paragliding_pilots_list-manage_confirmed';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
     $display->content['new-71'] = $pane;
-    $display->panels['middle'][1] = 'new-71';
+    $display->panels['middle'][2] = 'new-71';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7174,7 +7266,7 @@ window.fbAsyncInit = function() {
         'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
     <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
     <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
-    <script data-main="http://vis.airtribune.com/js/init" src="http://vis.airtribune.com/js/lib/require.js"></script>
+    <script src="http://vis.airtribune.com/airvis.min.js"></script>
     <div role="main" class="airvis-container"[airtribune:ge-css:airvis-container:style]>
       <div class="airvis-loading-container">
         <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
@@ -7515,7 +7607,7 @@ window.fbAsyncInit = function() {
       <div class="airvis-loading-container">
         <div class="airvis-loading">&nbsp;</div>
       </div>
-    <!-- ko widget: { data: page, imgRootUrl: "http://retrieve.airtribune.com/img", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
+    <!-- ko widget: { data: page, imgRootUrl: "http://retrieve.airtribune.com/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", mode: "retrieve", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"2d-canvas", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}} } --><!-- /ko -->
     </div>',
         'format' => 'full_html',
       ),
@@ -7681,6 +7773,8 @@ window.fbAsyncInit = function() {
   $page->path = 'event/%event/race/%race/results/%category';
   $page->access = array(
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
