@@ -1469,9 +1469,12 @@ function _at_get_vis_pages() {
  */
 function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
+  $exclude_path = drupal_get_path('module', 'airtribune') . '/plugins/content_types/airtribune_vis/airtribune_vis.css';
   if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
     foreach ($css as $key => $value) {
-      unset($css[$key]);
+      if ($key != $exclude_path) {
+        unset($css[$key]);
+      }
     }
   }
 }
@@ -1498,7 +1501,9 @@ function airtribune_js_alter(&$javascript) {
   // Kill all js on visualization pages
   $args = _at_get_vis_pages();
   if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
-    unset($javascript);
+    foreach ($javascript as $key => $value) {
+      unset($javascript[$key]);
+    }
   }
 }
 
