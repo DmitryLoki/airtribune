@@ -53,12 +53,12 @@ function airtribune_event_tw_fb_content_type_render($subtype, $conf, $panel_args
     $widget_html = '<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' . $twitter_user . '" data-widget-id="' . $twitter_widget_id . '">' . t('Tweets by @twitter_user', array('@twitter_user' => $twitter_user)) . '</a>
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
     $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-twitter'));
-    $title = '<div id="twitter-header">Twitter</div>';
+    $title = 'Twitter';
   }
   elseif (!empty($facebook_page_url)) {
     $widget_html = '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode("https://facebook.com/$facebook_page_url") . '&amp;width&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:258px;" allowTransparency="true"></iframe>';
     $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-facebook'));
-    $title = '<div id="facebook-header">Facebook</div>';
+    $title = 'Facebook';
   }
   else {
     return;

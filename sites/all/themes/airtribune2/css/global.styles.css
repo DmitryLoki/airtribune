@@ -1932,6 +1932,8 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a { background-position:0 -600px} /* How to get here */
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title, 
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a { background-position:0 -750px} /* Twitter */
+.page-event-info .panel_info .pane-airtribune-event-facebook h2.pane-title, 
+.page-event-info .panel_info .pane-airtribune-event-facebook h2.pane-title a { background-position:0 -2400px} /* Facebook */
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title, 
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title a { background-position:0 -900px} /* Download */
 .page-event-info .panel_info .pane-field-group h2.pane-title, 
@@ -1939,10 +1941,11 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 .page-event-info .panel_info .pane-node-field-info h2.pane-title a:hover { background-position:0 -1200px} /* Event info */ 
 .page-event-info .panel_info .pane-node-field-flying-info h2.pane-title a:hover { background-position:0 -1350px} /* Flying site info */ 
-.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
+.page-event-info .panel_info .pane-contest-scoring-categories-awards-pane-with-sponsors h2.pane-title a:hover { background-position:0 -1500px} /* Prize funds and scoring categories */ 
 .page-event-info .panel_info .pane-node-field-collection-organizers h2.pane-title a:hover { background-position:0 -1650px} /* Organizers */ 
 .page-event-info .panel_info .pane-node-field-collection-getting-there h2.pane-title a:hover { background-position:0 -1800px} /* How to get here */ 
 .page-event-info .panel_info .pane-airtribune-event-twitter h2.pane-title a:hover { background-position:0 -1950px} /* Twitter */ 
+.page-event-info .panel_info .pane-airtribune-event-facebook h2.pane-title a:hover { background-position:0 -2550px} /* Facebook */ 
 .page-event-info .panel_info .pane-node-field-downloads h2.pane-title a:hover { background-position:0 -2100px} /* Download */ 
 .page-event-info .panel_info .pane-field-group h2.pane-title a:hover { background-position:0 -2250px} /* Contacts phone */
 
@@ -2113,7 +2116,8 @@ a.next_event:hover .place { background-position:-440px -29px;}
 
 /* Twitter */
 .pane-airtribune-event-twitter {}
-.panel_info .pane-airtribune-event-twitter .pane-content { margin:20px 0 0}
+.panel_info .pane-airtribune-event-twitter .pane-content,
+.panel_info .pane-airtribune-event-facebook .pane-content { margin:20px 0 0}
 
 /* Socials buttons */
 .pane-node-field-social-links {}
