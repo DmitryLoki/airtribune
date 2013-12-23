@@ -59,6 +59,9 @@ define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
 define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 
+define('AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD', 'field_media_description');
+define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
+define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
