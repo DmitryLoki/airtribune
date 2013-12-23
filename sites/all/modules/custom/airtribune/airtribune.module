@@ -1470,8 +1470,9 @@ function _at_get_vis_pages() {
 function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
   if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.styles.css']);
+    foreach ($css as $key => $value) {
+      unset($css[$key]);
+    }
   }
 }
 
