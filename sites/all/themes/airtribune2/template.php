@@ -2013,15 +2013,28 @@ function airtribune2_field_multiple_value_form($variables) {
   return $output;
 }
 
+/**
+ * Implements theme_date_combo().
+ *
+ * @see #3864
+ * @author Valdimir Khodakov
+ *
+ */
 function airtribune2_date_combo($variables) {
+
   $element = $variables['element'];
-  $element['value']['date']['#title']= 'From';
-  $element['value']['date']['#extra_wrap'] = true;
-  $element['value2']['date']['#title'] = 'To';
-  $element['value2']['date']['#extra_wrap'] = true;
+  $theme_element = 'fieldset';
+
+  if ($element['#field_name'] == 'field_dates') {
+  	$element['value']['date']['#title']= 'From';
+  	$element['value']['date']['#extra_wrap'] = true;
+  	$element['value2']['date']['#title'] = 'To';
+  	$element['value2']['date']['#extra_wrap'] = true;
+  	$element['#children'] = render($element['value']['date']) . render($element['value2']['date']);
+  	$theme_element = 'form_element';
+  }
   $field = field_info_field($element['#field_name']);
   $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
-  $element['#children'] = render($element['value']['date']) . render($element['value2']['date']);
 
   // Group start/end items together in fieldset.
   $fieldset = array(
@@ -2031,8 +2044,5 @@ function airtribune2_date_combo($variables) {
     '#attributes' => array(), 
     '#children' => $element['#children'],
   );
-
-  //print_r($element);
-  //print_r(render($element['value2']));
-  return theme('form_element', array('element' => $fieldset));
+  return theme($theme_element, array('element' => $fieldset));
 }
