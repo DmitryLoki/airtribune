@@ -59,6 +59,9 @@ define('AIRTRIBUNE_POINT_SS_ES_FIELD', 'field_point_ss_es');
 define('AIRTRIBUNE_POINT_REF_FIELD', 'field_point_ref');
 define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 
+define('AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD', 'field_media_description');
+define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
+define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -165,8 +168,11 @@ function airtribune_event_settings_title($event) {
  */
 function airtribune_event_settings_access($event, $op = 'edit') {
   global $user;
-
-  $access = TRUE;  
+  $og_roles = og_get_user_roles('node', $event->nid);
+  $access = FALSE;
+  if (in_array('administrator', $user->roles) || in_array(OG_ADMINISTRATOR_ROLE, $og_roles)) {
+    $access = TRUE;
+  }
   return $access;
 }
 
@@ -527,9 +533,17 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
   // @see #3960
   if ($type == 'airtribune') {
     if (!empty($data['race'])) {
+      $wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $data['race']);
+
+      // Check if track files exist
+      $race_tracks = $wrapper->field_pg_race_tracks->value();
       $replacements['[airtribune:race-core-id]'] = get_id_from_entity('ent_race', $data['race']);
       $online = _airtribune_pg_race_online_state($data['race']->id);
-      $replacements['[airtribune:race-online]'] = $online == AIRTRIBUNE_VIS_STATE_ONLINE ? '"online"' : 'false';
+      if ($online == AIRTRIBUNE_VIS_STATE_ONLINE || empty($race_tracks)) {
+        $replacements['[airtribune:race-online]'] =  '"online"';
+      } else {
+        $replacements['[airtribune:race-online]'] = 'false';
+      }
     } else {
       $replacements['[airtribune:race-core-id]'] = '';
       $replacements['[airtribune:race-online]'] = 'false';
@@ -546,7 +560,7 @@ function airtribune_tokens($type, $tokens, array $data = array(), array $options
     $replacements['[airtribune:widget-map]'] = isset($data['widget_type']) ? $data['widget_type'] : '2d';
     switch($data['widget_type']) {
       case 'ge':
-        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "medium"';
+        $replacements['[airtribune:ge-settings]'] = ', heightsVisualMode: "off", modelsVisualMode: "large"';
         $replacements['[airtribune:ge-css:airvis-container:style]'] = ' style="background-color: #123d4d"';
         $replacements['[airtribune:ge-css:airvis-loading:class]'] = ' airvis-loading-transparent';
         break;
@@ -1090,6 +1104,14 @@ function airtribune_preprocess_views_view_field(&$vars){
         $original_value = ' — ' . $view->field['field_day_status']->original_value;
         $output = str_replace($original_value, $view->field['field_day_status']->original_value, $output);
       }
+      // Replace link to day with alias
+      $matches = NULL;
+      $pattern = '/<a .*data-href=\"\/([^\"]*)\".*>/i';
+      preg_match($pattern, $output, $matches);
+      if (isset($matches[1])) {
+        $alias = url($matches[1]);
+      }
+      $output = str_replace("/" . $matches[1], $alias, $output);
     }
     $vars['output'] = $output;
   }
@@ -1448,8 +1470,9 @@ function _at_get_vis_pages() {
 function airtribune_css_alter(&$css) {
   $args = _at_get_vis_pages();
   if (in_array(arg(0), $args) && is_numeric(arg(1)) && arg(3) != 'table') {
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.base.css']);
-    unset($css[drupal_get_path('theme', 'airtribune2') . '/css/global.styles.css']);
+    foreach ($css as $key => $value) {
+      unset($css[$key]);
+    }
   }
 }
 

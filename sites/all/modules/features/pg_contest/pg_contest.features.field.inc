@@ -1337,16 +1337,6 @@ Prof.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'insert' => 0,
-          'insert_absolute' => FALSE,
-          'insert_class' => '',
-          'insert_default' => array(
-            0 => 'auto',
-          ),
-          'insert_styles' => array(
-            0 => 'auto',
-          ),
-          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -1454,16 +1444,6 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
-          'insert' => 0,
-          'insert_absolute' => FALSE,
-          'insert_class' => '',
-          'insert_default' => array(
-            0 => 'auto',
-          ),
-          'insert_styles' => array(
-            0 => 'auto',
-          ),
-          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -1897,16 +1877,6 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
-          'insert' => 0,
-          'insert_absolute' => FALSE,
-          'insert_class' => '',
-          'insert_default' => array(
-            0 => 'auto',
-          ),
-          'insert_styles' => array(
-            0 => 'auto',
-          ),
-          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -2765,16 +2735,6 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'insert' => 0,
-          'insert_absolute' => FALSE,
-          'insert_class' => '',
-          'insert_default' => array(
-            0 => 'auto',
-          ),
-          'insert_styles' => array(
-            0 => 'auto',
-          ),
-          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -2942,10 +2902,13 @@ Duplicate city names warnings if exists.',
   $fields['node-pg_contest-field_points_file'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '5',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_points_file',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -2999,6 +2962,7 @@ Duplicate city names warnings if exists.',
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_points_file',
       'label' => 'Points file',
       'required' => 0,
@@ -3007,7 +2971,7 @@ Duplicate city names warnings if exists.',
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'file_directory' => '',
-        'file_extensions' => 'wpt',
+        'file_extensions' => 'wpt cup kml',
         'filefield_paths' => array(
           'active_updating' => 1,
           'file_name' => array(
@@ -3015,17 +2979,18 @@ Duplicate city names warnings if exists.',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[node:nid]-[node:title].[file:extension]',
+            'value' => '[file:name]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'pg_contests/[node:nid]-[node:title]/points',
+            'value' => 'pg_contests/[node:nid]-[node:title]/points/',
           ),
-          'retroactive_update' => 1,
+          'retroactive_update' => 0,
         ),
+        'filefield_paths_enabled' => 1,
         'max_filesize' => '5M',
         'user_register_form' => FALSE,
       ),
@@ -3033,16 +2998,6 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
-          'insert' => 0,
-          'insert_absolute' => FALSE,
-          'insert_class' => '',
-          'insert_default' => array(
-            0 => 'auto',
-          ),
-          'insert_styles' => array(
-            0 => 'auto',
-          ),
-          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -3792,112 +3747,7 @@ Duplicate city names warnings if exists.',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '25',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-pg_contest-field_take_offs'.
-  $fields['node-pg_contest-field_take_offs'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_take_offs',
-      'field_permissions' => array(
-        'type' => '0',
-      ),
-      'foreign keys' => array(
-        'eck_ent_basicmark' => array(
-          'columns' => array(
-            'target_id' => 'id',
-          ),
-          'table' => 'eck_ent_basicmark',
-        ),
-      ),
-      'indexes' => array(
-        'target_id' => array(
-          0 => 'target_id',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'entityreference',
-      'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'handler' => 'base',
-        'handler_settings' => array(
-          'behaviors' => array(
-            'views-select-list' => array(
-              'status' => 0,
-            ),
-          ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'pg_takeoff' => 'pg_takeoff',
-          ),
-        ),
-        'profile2_private' => FALSE,
-        'target_type' => 'ent_basicmark',
-      ),
-      'translatable' => '0',
-      'type' => 'entityreference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'pg_contest',
-      'default_value' => array(),
-      'default_value_function' => '',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 69,
-        ),
-        'event_blog_teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'exclude_cv' => 0,
-      'field_name' => 'field_take_offs',
-      'label' => 'Take offs',
-      'options_limit' => FALSE,
-      'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(),
-      'required' => 0,
-      'settings' => array(
-        'behaviors' => array(
-          'prepopulate' => array(
-            'status' => 0,
-          ),
-        ),
-        'entity_translation_sync' => FALSE,
-        'exclude_cv' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_buttons',
-        'weight' => '60',
+        'weight' => '24',
       ),
     ),
   );
@@ -4097,7 +3947,8 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.',
+      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -4122,7 +3973,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 1,
       'field_name' => 'field_twitter_widget_code',
-      'label' => 'Twitter widget code',
+      'label' => 'Twitter / Facebook widget code',
       'required' => 0,
       'settings' => array(
         'better_formats' => array(
@@ -4386,7 +4237,8 @@ Duplicate city names warnings if exists.');
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
   t('How to get here - general');
-  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
+  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>');
   t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
@@ -4411,12 +4263,11 @@ Duplicate city names warnings if exists.');
   t('Social networks links');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
-  t('Take offs');
   t('Tel');
   t('This is an offline event');
   t('Time zone');
   t('Tiny path');
-  t('Twitter widget code');
+  t('Twitter / Facebook widget code');
   t('Web site');
 
   return $fields;

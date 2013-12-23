@@ -1,7 +1,9 @@
-function updateForm(container) {
+function updateForm(container, formsObj) {
     var $ = jQuery,
         container = container || $(document);
-    $('input, .pane-page-content form select', container).forms({disableChoiceOfFirstItemInSelection:true, file_bt:''});
+        formsObj = formsObj || {disableChoiceOfFirstItemInSelection:true, file_bt:''}
+
+    $('input, .pane-page-content form select', container).forms(formsObj);
     $('.select .items_inner', container).each(function () {
         $(this).parent().show();
         $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
@@ -80,3 +82,9 @@ jQuery(function ($) {
         return false;
     });
 });
+
+Drupal.behaviors.updateImageField = {
+    attach: function(){
+        updateForm('#user-profile-form');
+    }
+}

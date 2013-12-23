@@ -80,3 +80,24 @@ function at_reg_user_register_after_execute(&$multiform, $index) {
 
 // TODO: Add $profile2 == FALSE check
 // profile2_by_uid_load($uid, $type_name)
+
+
+/**
+ * Here we remove unwanted messages that are added by entity module (used in profile subforms).
+ */
+function at_reg_remove_unwanted_messages_after_execute(&$multiform, $index) {
+  if (!empty($_SESSION['messages']['status'])) {
+    $messages =& $_SESSION['messages']['status'];
+    foreach($messages as $k => $v) {
+      if ($v == t('The changes have been saved.')) {
+        unset($messages[$k]);
+      }
+    }
+    if (empty($messages)) {
+      unset($_SESSION['messages']['status']);
+    }
+    else {
+      $messages = array_values($messages);
+    }
+  }
+}
