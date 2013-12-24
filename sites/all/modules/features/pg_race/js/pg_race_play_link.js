@@ -79,6 +79,7 @@
             $raceBlock.addClass('race-block-activated');
             $raceBlock.closest('.views-field').addClass('race-block-activated');
             $raceBlock.closest('.views-field-day-pg-race-play-link').addClass('race-block-activated');
+            $raceBlock.closest('.views-row').addClass('race-block-activated');
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
