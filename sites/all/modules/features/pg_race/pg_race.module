@@ -865,22 +865,26 @@ function _day_pg_race_preview_markup($node) {
   if ($has_task) {
     $data['text'] = array('2D', 'Google Earth');
     $data['type'] = array('2d', 'ge');
+    $help_class = '';
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
         $time = date('H:i:s', $countdown_time);
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $link_text = t('Watch Live');
         $help_text = t('Race starts in');
+        $help_class = ' awaiting';
         break;
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $time = date('H:i:s', $start_time);
         $link_text = t('Watch Live');
         $help_text = t('Race is on');
+        $help_class = ' starting';
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
         $time = date('H:i:s', ($deadline_time - $start_time));
         $link_text = t('Task Replay');
         $help_text = t('Race time');
+        $help_class = ' replay';
         break;
     }
   }
@@ -899,7 +903,7 @@ function _day_pg_race_preview_markup($node) {
 
   // Wrap time and help-text if not empty.
   $time = !empty($time) ? '<div id="time-counter" class="time">' . $time . '</div>' : '';
-  $help_text = !empty($help_text) ? '<span class="help-text">' . $help_text . '</span>' : '';
+  $help_text = !empty($help_text) ? '<span class="help-text' . $help_class . '">' . $help_text . '</span>' : '';
 
   // Wrap link text
   $data['label']['text'] = $link_text;
