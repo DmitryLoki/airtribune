@@ -3463,7 +3463,8 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-online .help-text,
 .front_live_events .race-started .help-text,
 .front_live_events .race-awaiting .help-text,
-.front_live_events .race-replay .help-text { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
+.front_live_events .race-replay .help-text,
+.front_live_events .help-text.replay { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
 .front_live_events .race-awaiting .help-text { color: #fbd72c;}
 .front_live_events .race-replay .help-text { color: #fbd72c}
 .front_live_events .time,
