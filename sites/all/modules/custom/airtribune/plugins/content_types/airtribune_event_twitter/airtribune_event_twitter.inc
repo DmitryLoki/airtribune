@@ -20,7 +20,7 @@ $plugin = array(
 /**
  * Render airtribune event twitter pane.
  */
-function airtribune_event_tw_fb_content_type_render($subtype, $conf, $panel_args, $context) {
+function airtribune_event_tw_fb_content_type_render(&$subtype, $conf, $panel_args, $context) {
 
   if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
     return;
@@ -59,6 +59,9 @@ function airtribune_event_tw_fb_content_type_render($subtype, $conf, $panel_args
     $widget_html = '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode("https://facebook.com/$facebook_page_url") . '&amp;width&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:258px;" allowTransparency="true"></iframe>';
     $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-facebook'));
     $title = 'Facebook';
+    // TODO remove this after renaming plugin.
+    // Subtype don't must be passed by reference and changed, workaround for css.
+    $subtype = 'airtribune_event_facebook';
   }
   else {
     return;

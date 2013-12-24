@@ -1647,6 +1647,10 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
 .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .help-text,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .views-field-field-pg-race-tracks,
+.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .time { display: none !important;}
+
 .pane-event-days-panel-event-days-on-blog .views-field-view .views-label,
 .pane-event-days-panel-event-days-on-blog .views-field-view .field-content { background-color: rgba(173,193,210,1); border-color: #adc1d2}
 .pane-event-days-panel-event-days-on-blog .views-field-view .views-label:hover { background-color: rgba(173,193,210,0.5); border-color: #adc1d2}
@@ -3459,7 +3463,8 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-online .help-text,
 .front_live_events .race-started .help-text,
 .front_live_events .race-awaiting .help-text,
-.front_live_events .race-replay .help-text { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
+.front_live_events .race-replay .help-text,
+.front_live_events .help-text.replay { color: #c4cd26; font: bold 14px/16px Arial, Helvetica, sans-serif; display: block; padding-bottom: 3px;}
 .front_live_events .race-awaiting .help-text { color: #fbd72c;}
 .front_live_events .race-replay .help-text { color: #fbd72c}
 .front_live_events .time,
