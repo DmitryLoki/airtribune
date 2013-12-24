@@ -938,9 +938,9 @@ function _day_pg_race_preview_markup($node) {
   ));
   $output = pg_race_blog_markup($data);
   
-  if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
+  //if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
     $output .= $help_text . $time;
-  }
+  //}
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/pg_race_play_link.js', 'file');

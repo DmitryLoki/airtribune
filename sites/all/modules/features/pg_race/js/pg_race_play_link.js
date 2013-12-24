@@ -16,7 +16,7 @@
           timeHelperText.html((raceTime > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
 
           if (raceTime < 0) {
-            var isRaceStateReady = timeHelperText.closest('.views-field').hasClass('race-block-activated');
+            var isRaceStateReady = timeHelperText.parent().find('.views-field').hasClass('race-block-activated');
             setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText);
           }
           setTimeout(setOnlineTime, 1000);
