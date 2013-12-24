@@ -3537,6 +3537,9 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-block-activated .help-text {display:block;}
 .front_live_events .race-block-activated .dayblog-text {display:none;}
 
+.front_live_events .views-field-day-pg-race-play-link {display:none;}
+.front_live_events .views-field-day-pg-race-play-link.race-block-activated {display:block;}
+
 .views-field-day-pg-race-play-live-link .views-field-field-pg-race-tracks {display:none;}
 
 .frontpage-show-more-events { display: block; position: relative; width: 30px; height: 16px; overflow: hidden; text-indent: -9999px; margin: 7px auto 0; background: #f1f3f5 url(../images/table_action.png) no-repeat 50% -2194px; cursor: pointer;
