@@ -727,7 +727,7 @@ function _pg_race_preview_markup($entity) {
   $params['text'] = '2D';
   $params['type'] = '2d';
   $markup = _pg_race_play_link($params);
-  $params['text'] = 'Google Earth';
+  $params['text'] = '3D Google Earth';
   $params['type'] = 'ge';
   $markup .= _pg_race_play_link($params);
 
@@ -863,7 +863,7 @@ function _day_pg_race_preview_markup($node) {
 
   // Check if task exists
   if ($has_task) {
-    $data['text'] = array('2D', 'Google Earth');
+    $data['text'] = array('2D', '3D Google Earth');
     $data['type'] = array('2d', 'ge');
     $help_class = '';
     switch ($status) {
