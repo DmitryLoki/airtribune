@@ -29,6 +29,10 @@
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
 
+        if ($(this).hasClass('race-replay')) {
+          $raceBlock.closest('.dropdown_list').addClass('race-replay');
+        };
+
         if (!raceData.isOnline) {
           setReplayTime();
           $raceButton = $raceBlock.parents('.views-field-day-pg-race-play-link');
@@ -63,6 +67,7 @@
         }
 
         timeHelperText.show();
+
         requestRaceState(raceData, function response(raceInfo) {
           //raceInfo=[{a:1}]
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
@@ -77,6 +82,7 @@
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
             if(closestViewsRow.length) {
+
               closestViewsRow.removeClass('no-dayblog-text day-blog').addClass('race-activated');
               if(hasDayblogText) {
                 closestViewsRow.find('.views-field.title').removeClass('title').addClass('views-field-title-1');
@@ -84,6 +90,7 @@
             }
           } else {
             if(raceData.isOnline) {
+              closestViewsRow.removeClass('no-dayblog-text day-blog').addClass('race-activated');
               setOnlineTimeView(false, raceTime, timeHelperText, helperText);
             } else {
               raceData.requestType = 'online';
@@ -156,7 +163,7 @@
 
       function isDayblogTextExists(viewsRow) {
         if(viewsRow.length){
-          return viewsRow.find('.day-blog').length > 0;
+          return viewsRow.find('.day-blog').length > 0 && viewsRow.find('.no-blog').length == 0;
         }
         return false;
       }

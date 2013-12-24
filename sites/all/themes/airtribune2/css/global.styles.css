@@ -1624,7 +1624,7 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .pane-event-days-panel-event-days-on-blog .view-content > div:last-child .views-field-field-image { margin-bottom: -2px; text-align: left;}
 .pane-event-days-panel-event-days-on-blog .views-field-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 .pane-event-days-panel-event-days-on-blog .views-field-field-image img { float:left; margin:0 0 2px 2px}
-.pane-event-days-panel-event-days-on-blog  .views-field-day-pg-race-play-live-link,
+.pane-event-days-panel-event-days-on-blog .dropdown_list_container,
 .pane-event-days-panel-event-days-on-blog .dropdown_list,
 .pane-event-days-panel-event-days-on-blog .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
 .pane-event-days-panel-event-days-on-blog .views-field .dropdown_list { margin: 0;}
@@ -1643,13 +1643,9 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 
 }
 
-.pane-event-days-panel-event-days-on-blog .dropdown_list .field-content .field-content { min-width: 0;}
-.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
-.pane-event-days-panel-event-days-on-blog .dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
-
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link {
-  display:inline-block;
-}
+.dropdown_list .field-content .field-content { min-width: 0;}
+.dropdown_list .views-label { color: #ffffff; font: bold 24px/28px Arial, Helvetica, sans-serif; cursor: pointer; padding: 3px 5px 7px; }
+.dropdown_list .views-label:hover { background: rgba(0,135,239,0.5); border-color: #77bbed}
 
 .pane-event-days-panel-event-days-on-blog .views-field-view .views-label,
 .pane-event-days-panel-event-days-on-blog .views-field-view .field-content { background-color: rgba(173,193,210,1); border-color: #adc1d2}
@@ -1693,9 +1689,9 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 60px; text-align: right; color: #fdbd41; font-weight: bold; font-style: normal; padding-left: 20px;}
 .pane-event-days-panel-event-days-on-blog .race-started .help-text { width: 70px; color: #a4b21f; padding-left: 10px;}
 
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-block-activated .race-link,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-block-activated .views-label,
-.pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-block-activated .field-content,
+.views-field-day-pg-race-play-live-link .race-block-activated .race-link,
+.views-field-day-pg-race-play-live-link .race-block-activated .views-label,
+.views-field-day-pg-race-play-live-link .race-block-activated .field-content,
 .pane-event-days-panel-event-days-on-blog #time-counter { background-color: #cfd827; border-color: #c2d32b; vertical-align: top;
 
 
@@ -3456,7 +3452,8 @@ html.fb_view { overflow: auto;}
 .front_live_events .dropdown_list .field-content a { font-weight: normal; text-decoration: underline;}
 .front_live_events .dropdown_list .field-content a:hover { text-decoration: none;}
 .front_live_events .dropdown_list .race-links { height: auto;}
-.front_live_events .race-replay .views-label { color: #8f733b; background: #fbd72c}
+.front_live_events .race-replay .views-label,
+.front_live_events .race-replay .field-content { color: #8f733b; background: #fbd72c}
 .front_live_events .views-field-day-pg-race-play-link .help-text,
 .front_live_events .race-links .help-text { font: 12px/15px Verdana, Geneva, sans-serif; color: #d5e4ed;}
 .front_live_events .race-online .help-text,
@@ -3479,7 +3476,8 @@ html.fb_view { overflow: auto;}
 .front_live_events .day-blog p { margin: 0; padding: 3px 0 0;}
 .front_live_events .day-blog .views-field.title,
 .front_live_events .views-field-title-1 { display: none;}
-.front_live_events .race-activated .views-field-title-1 { display: block;}
+.front_live_events .race-activated .views-field-title-1,
+.front_live_events .no-dayblog-text .views-field-title-1 { display: block;}
 .front_live_events .day-blog a,
 .front_live_events .day-blog .title,
 .front_live_events .day-blog .views-field-title-1 a,
@@ -3527,9 +3525,6 @@ html.fb_view { overflow: auto;}
   border-radius: 3px;
 
 }
-.front_live_events .views-field-day-pg-race-play-link .file {display: none;}
-.front_live_events .views-field-day-pg-race-play-link .time {display:none !important;}
-.front_live_events .views-field-day-pg-race-play-link .help-text {display:none}
 .front_live_events .views-field-day-pg-race-play-link .dayblog-text {display:block;}
 
 .front_live_events .race-block-activated .file {display:inline;}
@@ -3538,12 +3533,6 @@ html.fb_view { overflow: auto;}
 .front_live_events .race-block-activated .dayblog-text {display:none;}
 
 .views-field-day-pg-race-play-live-link .views-field-field-pg-race-tracks {display:none;}
-/*.view-frontpage-events .views-row-4,
-.view-frontpage-events .views-row-5,
-.view-frontpage-events .views-row-6,
-.view-frontpage-events .views-row-7,
-.view-frontpage-events .views-row-8,
-.view-frontpage-events .views-row-9 { display: none } */
 
 .frontpage-show-more-events { display: block; position: relative; width: 30px; height: 16px; overflow: hidden; text-indent: -9999px; margin: 7px auto 0; background: #f1f3f5 url(../images/table_action.png) no-repeat 50% -2194px; cursor: pointer;
 
