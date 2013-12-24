@@ -2521,7 +2521,8 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
 
-.select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff }
+.select { margin-left: 1px;}
+.select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff; margin: 1px 0; }
 .select .checked_option_wrap .checked_option { padding:3px 30px 5px 11px; height:20px; background:url(../images/forms.png) no-repeat 100% -674px; cursor:pointer;}
 .select .checked_option_wrap .checked_option:hover { background-position:100% -44px}
 .select_opened .checked_option_wrap .checked_option,
@@ -2530,14 +2531,14 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .date-day .checked_option { min-width:39px}
 .page-user .pane-page-content form .date-year .checked_option { min-width:49px}
 .select .items { width:100%}
-.select .items_inner { background:#ffffff; border:1px solid #b9c1c6; margin:-3px 0 0 1px; max-height:160px; overflow:auto; position:relative;
+.select .items_inner { background:#ffffff; border:1px solid #b9c1c6; margin:1px 0 0; max-height:160px; overflow:auto; position:relative;
 
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
 
 }
-.page-user .pane-page-content form .select .items { width:100%; top: 0 !important}
+.page-user .pane-page-content form .select .items { width:100%; top: 0 !important; z-index: 110;}
 
 .select .items_padding { padding:12px 0 !important;}
 .select .option { color:#2d3033; font:14px/16px Arial, Helvetica, sans-serif; cursor:pointer; margin:0 7px 2px;}
