@@ -968,7 +968,8 @@ function pg_race_blog_markup($data) {
     'attributes' => $data['attributes'],
   );
   $list = theme('item_list', $variables);
-  $output = theme('html_tag', array(
+  $output = '<span class="views-field dropdown_list">';
+  $output .= theme('html_tag', array(
     'element' => array(
       '#tag' => 'span',
       '#value' => $data['label']['text'],
@@ -983,6 +984,7 @@ function pg_race_blog_markup($data) {
        '#attributes' => $data['field']['attributes'],
     )
     ));
+  $output .= '</span>';
 
   return $output;
 }

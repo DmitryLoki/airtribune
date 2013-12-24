@@ -62,7 +62,7 @@
         if($(this).hasClass('processed'))
         $(this).addClass('processed');
         el = $(this).next();
-        $('.views-field-view > .field-content, ' +
+        $(//'.views-field-view > .field-content, ' +
           '.views-field-day-pg-race-play-link .replay-link-content, '+
           '.views-field.dropdown_list > .field-content')
           .each(function () {
