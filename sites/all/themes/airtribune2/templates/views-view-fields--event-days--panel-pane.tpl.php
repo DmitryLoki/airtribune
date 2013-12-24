@@ -54,11 +54,11 @@
 
 <?php 
 if (strpos($fields['day_pg_race_play_link']->content, t('Watch Live')) !== false) {
-  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field views-field-day-pg-race-play-live-link">';
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field dropdown_list_container views-field-day-pg-race-play-live-link">';
   $fields['day_pg_race_play_link']->wrapper_suffix = '</span>';
 }
 else {
-  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field views-field-day-pg-race-play-link">';
+  $fields['day_pg_race_play_link']->wrapper_prefix = '<span class="views-field dropdown_list_container views-field-day-pg-race-play-link">';
   $fields['day_pg_race_play_link']->wrapper_suffix = '</span>';
 }?>
 <?php print $fields['day_pg_race_play_link']->wrapper_prefix; ?>

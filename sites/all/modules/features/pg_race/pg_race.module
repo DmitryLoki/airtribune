@@ -976,14 +976,16 @@ function pg_race_blog_markup($data) {
       '#attributes' => $data['label']['attributes'],
     )
   ));
-  
-  $output .= theme('html_tag', array(
-    'element' => array(
-       '#tag' => 'span',
-       '#value' => $list,
-       '#attributes' => $data['field']['attributes'],
-    )
+  //print '<pre>' . print_r($items) . '</pre>';
+  if(count($items)){
+    $output .= theme('html_tag', array(
+      'element' => array(
+         '#tag' => 'span',
+         '#value' => $list,
+         '#attributes' => $data['field']['attributes'],
+      )
     ));
+  }
   $output .= '</span>';
 
   return $output;
