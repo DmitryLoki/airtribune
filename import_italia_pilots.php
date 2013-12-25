@@ -21,6 +21,9 @@ $roles = array(
 $country = 'it'; // Italy
 $country_phone_code = '+39'; // Italy
 
+$groups_to_join = array(6639, 6645, 6650, 6655);
+$groups_to_join = array(5438, 5718, 5452);
+
 $fields = array(
 //  'id'       => 'user_id',
   'email'    => 'email',
@@ -176,6 +179,24 @@ foreach ($pilots as $key => $pilot) {
   $profile->field_person_phone['und']['0'] = array('country_codes' => $country, 'number' => '000000000');
   $profile_w->field_blood_type->set('unknown');
   profile2_save($profile_pilot);
+
+  // Add the user to the groups.
+  foreach ($groups_to_join as $group_id) {
+    $group = node_load($group_id);
+    $ogm = og_membership_create('node', $group_id, 'user', $user->uid, 'og_user_node', array('type' => AIRTRIBUNE_MEMBERSHIP_CONTESTANT));
+    $ogm_w = entity_metadata_wrapper('og_membership', $ogm);
+    $ogm->field_phone['und']['0'] = $field_phone;
+    $ogm_w->field_team->set($pilot['field_team']);
+    $ogm_w->field_paraglider_manufacturer->set($pilot['field_paraglider_manufacturer']);
+    $ogm_w->field_paraglider_model->set($pilot['field_paraglider_model']);
+    $ogm_w->field_paraglider_color->set($pilot['field_paraglider_color']);
+    $ogm_w->field_contestant_number->set(rand(9000,9999));
+    $ogm_w->field_pg_contestant_status->set(1); // 1|Waiting list, 4|Confirmed
+    og_membership_save($ogm);
+
+    // Optional - changes the users role in the group. 
+    // og_role_grant('node', $group->gid, $user->uid, $role_id);
+  }
 
   debug_out('created', $user, profile2_load_by_user($user));
   unset($user);
