@@ -1823,23 +1823,22 @@ body .pane-event-days-panel-event-days-on-blog .dropdown_list .race-online li  a
 .panel-col-seventy .block { margin-bottom:0}
 
 #page ul.tabs.primary { margin:0 0 9px; padding:0; border-bottom:1px solid #e1e6e9; background:url(../images/tab_bgr_reg_hover.png) no-repeat -1000px 0;}
-#page ul.tabs.primary li { margin:0 5px -1px 0; padding:0; list-style:none; list-style-image:none; background:url(../images/tab_bgr_hover.png) no-repeat -1000px 0;}
-#page ul.tabs.primary li a { border:1px solid #e5e8ea; position:relative; display:inline-block; margin:0; padding:0 18px 4px; height:34px; font:18px/34px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background:url(../images/tab_bgr.png) repeat 0 0;
+#page ul.tabs.primary li { margin:0 5px -1px 0; padding:0; list-style:none; list-style-image:none;}
+#page ul.tabs.primary li a { border:1px solid #e5e8ea; position:relative; display:inline-block; margin:0; padding:0 18px 4px; height:34px; font:18px/34px Arial, Helvetica, sans-serif; color:#7d9aa8; text-shadow: 0 1px 0 rgba(255,255,255,0.5); background: #eef1f3;
 
 	-webkit-border-radius: 2px 2px 0 0; 
 	-moz-border-radius: 2px 2px 0 0;
 	border-radius: 2px 2px 0 0;
 
 }
-#page ul.tabs.primary li a.registration { color:#8f733b; background-image:url(../images/tab_bgr_reg.png); border-color: #d2b464;
-
-	box-shadow: 		inset 0px 1px 4px rgba(255,255,255,.5);
-	-moz-box-shadow: 	inset 0px 1px 4px rgba(255,255,255,.5);						
-	-webkit-box-shadow: inset 0px 1px 4px rgba(255,255,255,.5);
-
-}
-#page ul.tabs.primary li a.registration:hover { color:#66522a; background-image: url(../images/tab_bgr_reg_hover.png);}
-#page ul.tabs.primary li a:hover { color:#677581; background-image: url(../images/tab_bgr_hover.png); text-decoration: none;}
+#page ul.tabs.primary li a.registration,
+#page ul.tabs.primary li a.tab-event-settings { color:#8f733b; background-color: #f5d275; border-color: #e8c86f;}
+#page ul.tabs.primary li a.registration:hover,
+#page ul.tabs.primary li a.tab-event-settings:hover { color:#66522a; background-color: #ffdc7a;}
+#page ul.tabs.primary li a.tab-event-settings { width: 2px; overflow: hidden; text-indent: -9999px; background-image: url(../images/info_icons.png); background-repeat: no-repeat; background-position: 50% -2690px}
+#page ul.tabs.primary li a.tab-event-settings:hover { background-position: 50% -2840px}
+#page ul.tabs.primary li a.tab-event-settings.active { background-position: 50% -2990px; background-image: url(../images/info_icons.png);}
+#page ul.tabs.primary li a:hover { color:#677581; background-color: #f2f5f7; text-decoration: none;}
 #page ul.tabs.primary li.active,
  #page ul.tabs.primary li.active-trail { border-bottom:none;}
 #page ul.tabs.primary li.active a,
