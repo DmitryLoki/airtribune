@@ -100,11 +100,17 @@ if (file_exists('parsed_pilots.json')) {
 foreach ($pilots as $key => $pilot) {
   echo $key . ", ";
 
-  // This pilot already registered at AirTribune, skip him.
   if ($user = user_load_by_mail($pilot['email'])) {
-    // TODO skip only if user have 2 filled profiles.
-    debug_out('exist', $user, profile2_load_by_user($user), $pilot);
-    continue;
+    $profile = profile2_load_by_user($user);
+    // This pilot already registered at AirTribune, and have filled profiles, skip him.
+    if (count($profile) == 2) {
+      debug_out('exist', $user, profile2_load_by_user($user), $pilot);
+      continue;
+    } else {
+      // delete prof
+      if ($profile['main']) profile2_delete($profile['main']);
+      if ($profile['pilot']) profile2_delete($profile['pilot']);
+    }
   }
 
   // Create new drupal user.
