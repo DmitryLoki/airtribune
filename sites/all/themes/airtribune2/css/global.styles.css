@@ -1663,6 +1663,7 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-link .replay-link-label:hover { background-color: rgba(238,175,0,0.5); border-color: #e4a605}
 
 .dropdown_list > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
+.dropdown_list > .field-content.no-tracks-text { color: #525C66; padding-top: 5px;}
 .dropdown_list .field-content span,
 .dropdown_list .replay-link-content li { display: block; color: #ffffff; font: 14px/15px Arial, Helvetica, sans-serif; padding: 0;}
 
@@ -2197,11 +2198,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 #page .panel_info .pane-node-field-prizes { margin-bottom:9px}
 
 /* Awards photos */
-/*.page-event-details .pane-contest-scoring-categories-awards-pane { margin-top:0; padding-top:0; padding-bottom:13px;}
-.page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .pane-content { margin:0 11px 0}
-.page-event-details .panel_info .pane-contest-scoring-categories-awards-pane .view-content > div { padding-top:1px}
-.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(9n+1) { clear:both;}
-.page-event-details .pane-contest-scoring-categories-awards-pane .view-content > div:nth-child(6n+1) { clear:none;}*/
+
 .pane-contest-scoring-categories-awards-pane-with-sponsors .view-contest-scoring-categories { padding-top: 10px;}
 .pane-contest-scoring-categories-awards-pane-with-sponsors .more-link { padding-top: 10px;}
 .award-item { clear: both;}
