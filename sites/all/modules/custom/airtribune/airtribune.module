@@ -1823,6 +1823,35 @@ function ajax_links_api_preprocess_twocolfourrow(&$variables, $hook) {
   }
 }
 /**
+ * Add og:image meta-tags for facebook share.
+ * @see #3308
+ */
+function airtribune_metatag_metatags_view_alter(&$output, $instance) {
+  if ($instance == 'panels:page_event_results_panel_context') {
+    $view = views_get_view('contest_scoring_categories');
+    $view->set_display('results_pane');
+    $view->set_arguments(array(arg(1)));
+    $view->execute();
+    foreach ($view->result as $key => $result) {
+      $url = file_create_url($result->field_field_single_image[0]['raw']['uri']);
+      _add_metatag_opengraph_image($url, $key);
+    }
+  }
+}
+
+function _add_metatag_opengraph_image($url, $key) {
+  $meta_images = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'og:image',
+      'content' => $url,
+    )
+  );
+  drupal_add_html_head($meta_images, 'meta_images_' . $key);
+}
+
+/**
  * Count contestants.
  */
 function airtribune_count_pilots($nid, $status = NULL) {
