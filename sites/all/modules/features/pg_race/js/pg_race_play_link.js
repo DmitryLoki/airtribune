@@ -80,17 +80,22 @@
             $raceBlock.closest('.views-field').addClass('race-block-activated');
             $raceBlock.closest('.views-field-day-pg-race-play-link').addClass('race-block-activated');
             $raceBlock.closest('.views-row').addClass('race-block-activated');
+            $raceBlock.closest('.views-field').find('.online-link-content').addClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').removeClass('field-content');
+            $raceBlock.closest('.views-field').find('.online-link-content').insertBefore($raceBlock.closest('.views-field').find('.no-tracks-text'));
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
             if(closestViewsRow.length) {
-
               closestViewsRow.removeClass('no-dayblog-text day-blog').addClass('race-activated');
               if(hasDayblogText) {
                 closestViewsRow.find('.views-field.title').removeClass('title').addClass('views-field-title-1');
               }
             }
           } else {
+            $raceBlock.closest('.views-field').find('.online-link-content').removeClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').addClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').insertBefore($raceBlock.closest('.views-field').find('.online-link-content'));
             if(raceData.isOnline) {
               closestViewsRow.removeClass('no-dayblog-text day-blog').addClass('race-activated');
               setOnlineTimeView(false, raceTime, timeHelperText, helperText);

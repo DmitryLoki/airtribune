@@ -5,6 +5,7 @@
  */
 
 define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.html');
+define('PG_RACE_NO_TRACKS_TEXT',"We haven't got any data from pilots' live trackers yet. Please, try again later.");
 
 include_once 'pg_race.features.inc';
 
@@ -940,11 +941,17 @@ function _day_pg_race_preview_markup($node) {
       '#attributes' => $wrapper_attributes
     )
   ));
+  $data['no_tracks_text'] = '';
+  if (!empty($status) && $status != AIRTRIBUNE_VIS_STATE_REPLAY) {
+    $data['no_tracks_text'] = '<span class="no-tracks-text">' . t(PG_RACE_NO_TRACKS_TEXT) . '</span>';
+  }
+
   $output = pg_race_blog_markup($data);
   
   //if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
     $output .= $help_text . $time;
   //}
+
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/pg_race_play_link.js', 'file');
@@ -980,6 +987,7 @@ function pg_race_blog_markup($data) {
       '#attributes' => $data['label']['attributes'],
     )
   ));
+
   //print '<pre>' . print_r($items) . '</pre>';
   if(count($items)){
     $output .= theme('html_tag', array(
@@ -990,6 +998,7 @@ function pg_race_blog_markup($data) {
       )
     ));
   }
+  $output .= $data['no_tracks_text'];
   $output .= '</span>';
 
   return $output;

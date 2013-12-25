@@ -1704,6 +1704,9 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
   border-radius: 2px;
 
 }
+.views-field-day-pg-race-play-live-link .online-link-content,
+.views-field-day-pg-race-play-link .no-tracks-text,
+.views-field-day-pg-race-play-live-link .no-tracks-text { display: none; }
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link .race-block-activated .race-link,
 .pane-event-days-panel-event-days-on-blog .views-field-day-pg-race-play-live-link.race-online .views-label,
 .pane-event-days-panel-event-days-on-blog #time-counter { display: inline-block; }
