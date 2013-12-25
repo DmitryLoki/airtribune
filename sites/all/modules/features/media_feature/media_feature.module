@@ -1,0 +1,142 @@
+<?php
+/**
+ * @file
+ * Code for the Media feature feature.
+ */
+
+include_once 'media_feature.features.inc';
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function media_feature_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'file_default_displays_alter' && isset($implementations['media_feature'])) {
+    $group = $implementations['media_feature'];
+    unset($implementations['media_feature']);
+    $implementations['media_feature'] = $group;
+  }
+}
+
+/**
+ * Implements hook_file_default_displays_alter().
+ */
+// TODO: Add comments
+function media_feature_file_default_displays_alter(&$file_displays) {
+  
+  if (isset($file_displays['image__preview__file_field_image'])) {
+    $file_displays['image__preview__file_field_image']->settings['image_style'] = 'thumbnail';
+    $file_displays['image__preview__file_field_image']->weight = -50;
+  }
+  if (isset($file_displays['image__default__file_field_image'])) {
+    $file_displays['image__default__file_field_image']->settings['image_style'] = 'thumbnail';
+  }
+  if (isset($file_displays['video__preview__media_youtube_image'])) {
+    $file_displays['video__preview__media_youtube_image']->settings['image_style'] = 'thumbnail';
+  }
+  if (isset($file_displays['video__preview__media_vimeo_image'])) {
+    $file_displays['video__preview__media_vimeo_image']->settings['image_style'] = 'thumbnail';
+  }
+  // Replaced by AT Vimeo Preview Image 
+  /*
+  if (isset($file_displays['video__default__media_vimeo_image'])) {
+    $file_displays['video__default__media_vimeo_image']->weight = -50;
+  }
+  */
+}
+
+
+/**
+ * Implements hook_file_formatter_info().
+ *
+ * Provide custom formatters to support alt and title fields for image preview.
+ */
+function media_feature_file_formatter_info() {
+  // Replacement for media_vimeo_image formatter
+  $media_vimeo_formatters = media_vimeo_file_formatter_info();
+  $at_media_vimeo_image = $media_vimeo_formatters['media_vimeo_image'];
+  $at_media_vimeo_image['label'] = t('AT Vimeo Preview Image');
+  $at_media_vimeo_image['view callback'] = 'at_media_vimeo_file_formatter_image_view';
+  $formatters['at_media_vimeo_image'] = $at_media_vimeo_image;
+
+  // Replacement for media_youtube_image formatter
+  $media_youtube_formatters = media_youtube_file_formatter_info();
+  $at_media_youtube_image = $media_youtube_formatters['media_youtube_image'];
+  $at_media_youtube_image['label'] = t('AT Youtube Preview Image');
+  $at_media_youtube_image['view callback'] = 'at_media_youtube_file_formatter_image_view';
+  $formatters['at_media_youtube_image'] = $at_media_youtube_image;
+
+  return $formatters;
+}
+
+function at_media_vimeo_file_formatter_image_view($file, $display, $langcode) {
+  $element = media_vimeo_file_formatter_image_view($file, $display, $langcode);
+  if (!empty($element)) {
+    if (!empty($file->alt)) {
+      $element['#alt'] = $file->alt;
+    }
+    if (!empty($file->title)) {
+      $element['#title'] = $file->title;
+    }
+    return $element;
+  }
+}
+
+function at_media_youtube_file_formatter_image_view($file, $display, $langcode) {
+  $element = media_youtube_file_formatter_image_view($file, $display, $langcode);
+  if (!empty($element)) {
+    if (!empty($file->alt)) {
+      $element['#alt'] = $file->alt;
+    }
+    if (!empty($file->title)) {
+      $element['#title'] = $file->title;
+    }
+    return $element;
+  }
+}
+
+
+/**
+ * Implements hook_field_attach_presave()
+ */
+function media_feature_field_attach_presave($entity_type, $entity) {
+  // Check flag. We only want to chage alt and title node is saved through form, not programatically.
+  if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE && !empty($entity->at_helper_day_form_flag)) {
+    // Get day images data.
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
+    $images_value = $node_wrapper->{AIRTRIBUNE_IMAGE_FIELD}->value();
+    if (!empty($images_value)) {
+      // Get referenced event data
+      $og_audience_value = $node_wrapper->{OG_AUDIENCE_FIELD}->value();
+      $event_title = !empty($og_audience_value[0]->title) ? $og_audience_value[0]->title : '';
+
+      $day_number = $node_wrapper->{AIRTRIBUNE_DAY_NUMBER}->value();
+      $day_number = !empty($day_number) ? 'Day' . $day_number : '';
+
+      // Set alt and title for images and videos
+      foreach ($images_value as $k => $v) {
+        $file = file_load($v['fid']);
+        if (in_array($file->type, array('image', 'video'))) {
+          if (!empty($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'])) {
+            $components = array($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'], 'Paragliding', $event_title, $day_number);
+          }
+          else {
+            $components = array('Paragliding', $event_title, $day_number, 'photo`' . sprintf('%03d', $k+1));
+          }
+
+          $file->{AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD}['und'][0]['value'] = $file->{AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD}['und'][0]['value'] = implode(' ', $components);
+          file_save($file);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_attach_form()
+ */
+function media_feature_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  // Set flag for image title tags change (in at_helper_field_attach_presave)
+  if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE) {
+    $form['#node']->at_helper_day_form_flag = TRUE;
+  }
+}

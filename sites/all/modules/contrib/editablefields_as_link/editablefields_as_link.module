@@ -213,6 +213,7 @@ function editablefields_as_link_ajax_edit($entity_type, $bundle, $entity_id, $en
  */
 function editablefields_as_link_init() {
   drupal_add_js(drupal_get_path('module', 'editablefields_as_link') . '/editablefields_as_link_clientside_validation.js');
+  drupal_add_js(drupal_get_path('module', 'editablefields_as_link') . '/ajax_submit_handler.js');
 }
 
 /**

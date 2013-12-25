@@ -6,9 +6,10 @@ Drupal.behaviors.editablefields_submit = {
 
       // There is only one editable field in that form, we can hide the submit
       // button.
-      if ($this.find('input[type=text],textarea,select').length == 1 || $this.find('input[type=radio] ').length > 1) {
+      
+      if ($this.find('select').length == 1 || $this.find('input[type=radio] ').length > 1) {
         $this.find('input.form-submit').hide();
-        $this.find('input[type=text],input[type=radio],textarea,select').change(function() {
+        $this.find('select').change(function() {
           $this.find('input.form-submit').triggerHandler('click');
         });
       }

@@ -509,6 +509,103 @@ function pilot_field_default_fields() {
     ),
   );
 
+  // Exported field: 'profile2-pilot-field_nat_license_id'.
+  $fields['profile2-pilot-field_nat_license_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_nat_license_id',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pilot',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Used for National rankings calculation.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 11,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'exclude_cv' => 0,
+      'field_name' => 'field_nat_license_id',
+      'label' => 'National Federation License ID',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '7',
+      ),
+    ),
+  );
+
   // Exported field: 'profile2-pilot-field_paraglider_color'.
   $fields['profile2-pilot-field_paraglider_color'] = array(
     'field_config' => array(
@@ -1105,7 +1202,7 @@ function pilot_field_default_fields() {
       'module' => 'cck_phone',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
         'size' => '15',
       ),
       'translatable' => '0',
@@ -1453,7 +1550,7 @@ function pilot_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '7',
+        'weight' => '9',
       ),
     ),
   );
@@ -1528,19 +1625,117 @@ function pilot_field_default_fields() {
     ),
   );
 
+  // Exported field: 'profile2-pilot-field_team'.
+  $fields['profile2-pilot-field_team'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_team',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pilot',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Your club name.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 12,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'exclude_cv' => 0,
+      'field_name' => 'field_team',
+      'label' => 'Club',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '8',
+      ),
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
-  t('<a href="http://civlrankings.fai.org/?a=306&/" target=_blank>Check your CIVL ID</a>
-');
+  t('<a href="http://civlrankings.fai.org/?a=306&/" target="_blank">Check your CIVL ID</a>');
   t('Address');
   t('Blood type');
   t('CIVL ID');
+  t('Club');
   t('Contact phone number in case of emergency');
   t('FAI license number');
   t('Including international code.');
   t('Insurance company');
   t('Insurance policy number');
   t('Mobile phone number');
+  t('National Federation License ID');
   t('Paraglider color');
   t('Paraglider manufacturer');
   t('Paraglider model');
@@ -1548,6 +1743,8 @@ function pilot_field_default_fields() {
   t('Sponsors');
   t('T-shirt size');
   t('The full name of your contact person and your relationship.');
+  t('Used for National rankings calculation.');
+  t('Your club name.');
   t('Your full name in national alphabet');
   t('Your name and surname.');
   t('Your phone number including international code.');

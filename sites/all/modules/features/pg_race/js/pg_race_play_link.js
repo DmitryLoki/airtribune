@@ -2,11 +2,11 @@
 
   Drupal.behaviors.day_feature = {
     attach: function (context) {
-      //$('.day-blog').remove();
-      $('.race-links').each(function (i, raceBlock) {
-        var $raceBlock = $(raceBlock).removeClass('race-awaiting');
-        var timeHelperText = $raceBlock.find('.time').hide(),
-          helperText = $raceBlock.find('.help-text'),
+      $('.race-links:not(".processed")').each(function (i, raceBlock) {
+        var $raceBlock = $(raceBlock).removeClass('race-awaiting').addClass('processed');
+        $(raceBlock).closest('.views-field').removeClass('race-awaiting').addClass('processed');
+        var timeHelperText = $raceBlock.closest('.view-content').find('.time').hide(),
+          helperText = $raceBlock.closest('.view-content').find('.help-text'),
           $raceButton,
           raceTime;
 
@@ -16,7 +16,7 @@
           timeHelperText.html((raceTime > 0 ? "-" : "") + getTimeStr(Math.floor(absD / 3600), Math.floor(absD % 3600 / 60), absD % 60));
 
           if (raceTime < 0) {
-            var isRaceStateReady = timeHelperText.parents('.race-links').hasClass('race-block-activated');
+            var isRaceStateReady = timeHelperText.parent().find('.views-field').hasClass('race-block-activated');
             setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText);
           }
           setTimeout(setOnlineTime, 1000);
@@ -28,6 +28,10 @@
         };
 
         var raceData = getRaceDataFromRaceBlock($raceBlock);
+
+        if ($(this).hasClass('race-replay')) {
+          $raceBlock.closest('.dropdown_list').addClass('race-replay');
+        };
 
         if (!raceData.isOnline) {
           setReplayTime();
@@ -63,20 +67,22 @@
         }
 
         timeHelperText.show();
+
         requestRaceState(raceData, function response(raceInfo) {
           //raceInfo=[{a:1}]
           if (raceInfo && raceInfo.length > 0 && !$.isEmptyObject(raceInfo)) {
             //make links clickable
-            if (raceData.isOnline || raceData.requestType == 'online') {
-              // Show online link before upload tracks from file
-              isOnline = 'online';
-            } else {
-              isOnline = false;
-            }
-            setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d', isOnline);
-            setHrefAttr($raceBlock.find('a.race-link.3d').show(), raceData.raceEid, '3d', isOnline);
+            setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d');
+            setHrefAttr($raceBlock.find('a.race-link.ge').show(), raceData.raceEid, 'ge');
+
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
+            $raceBlock.closest('.views-field').addClass('race-block-activated');
+            $raceBlock.closest('.views-field-day-pg-race-play-link').addClass('race-block-activated');
+            $raceBlock.closest('.views-row').addClass('race-block-activated');
+            $raceBlock.closest('.views-field').find('.online-link-content').addClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').removeClass('field-content');
+            $raceBlock.closest('.views-field').find('.online-link-content').insertBefore($raceBlock.closest('.views-field').find('.no-tracks-text'));
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
             }
@@ -87,7 +93,11 @@
               }
             }
           } else {
+            $raceBlock.closest('.views-field').find('.online-link-content').removeClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').addClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').insertBefore($raceBlock.closest('.views-field').find('.online-link-content'));
             if(raceData.isOnline) {
+              closestViewsRow.removeClass('no-dayblog-text day-blog').addClass('race-activated');
               setOnlineTimeView(false, raceTime, timeHelperText, helperText);
             } else {
               raceData.requestType = 'online';
@@ -100,7 +110,7 @@
       });
 
       function setOnlineTimeView(isRaceStateReady, raceTime, timeHelperText, helperText) {
-        var raceBlock = timeHelperText.parents('.race-links');
+        var raceBlock = timeHelperText.closest('.views-field');
         if (raceTime <= 0) {
           raceBlock.removeClass('race-awaiting').addClass('race-started');
           helperText.text(Drupal.settings.Day.race_on_text);
@@ -111,7 +121,7 @@
           }
         } else {
           raceBlock.addClass('race-awaiting').removeClass('race-started');
-          helperText.text(Drupal.settings.Day.race_in_text);
+          helperText.text(Drupal.settings.Day && Drupal.settings.Day.race_in_text);
         }
 
       }
@@ -127,6 +137,7 @@
         /*'http://api.airtribune.com/v0.1.4/contest/cnts-130607-2736547863/race/r-23be3210-f0f7-49c3-b071-63da6cd56e61/tracks'*/
         $.ajax({
           url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=' + raceData.requestType,
+          //url: Drupal.settings.pgRace.coreApiAddress + '/contest/' + raceData.contestId + '/race/' + raceData.raceId + '/tracks?type=competition_aftertask',
           dataType:"json",
           success: responseCallback,
           error: function () {
@@ -153,13 +164,13 @@
           || $raceBlock.find('.views-field-field-pg-race-tracks').length>0;
       }
 
-      function setHrefAttr(link, raceEid, mode, isOnline) {
-        link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode + (isOnline ? '/online' : ''))
+      function setHrefAttr(link, raceEid, mode) {
+        link.attr('href', 'http://'+location.host+'/play/' + raceEid + '/' + mode)
       }
 
       function isDayblogTextExists(viewsRow) {
         if(viewsRow.length){
-          return viewsRow.find('.day-blog').length > 0;
+          return viewsRow.find('.day-blog').length > 0 && viewsRow.find('.no-blog').length == 0;
         }
         return false;
       }

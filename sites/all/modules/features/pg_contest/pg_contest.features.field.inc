@@ -209,12 +209,13 @@ function pg_contest_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
+          'browser_plugins' => array(),
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
@@ -2545,7 +2546,6 @@ Duplicate city names warnings if exists.',
     ),
   );
 
-
   // Exported field: 'node-pg_contest-field_is_offline'.
   $fields['node-pg_contest-field_is_offline'] = array(
     'field_config' => array(
@@ -2724,6 +2724,7 @@ Duplicate city names warnings if exists.',
           ),
           'retroactive_update' => 0,
         ),
+        'image_field_caption' => 0,
         'max_filesize' => '',
         'max_resolution' => '800x800',
         'min_resolution' => '220x140',
@@ -2901,10 +2902,13 @@ Duplicate city names warnings if exists.',
   $fields['node-pg_contest-field_points_file'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '5',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_points_file',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -2958,6 +2962,7 @@ Duplicate city names warnings if exists.',
         ),
       ),
       'entity_type' => 'node',
+      'exclude_cv' => 0,
       'field_name' => 'field_points_file',
       'label' => 'Points file',
       'required' => 0,
@@ -2966,7 +2971,7 @@ Duplicate city names warnings if exists.',
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'file_directory' => '',
-        'file_extensions' => 'wpt',
+        'file_extensions' => 'wpt cup kml',
         'filefield_paths' => array(
           'active_updating' => 1,
           'file_name' => array(
@@ -2974,17 +2979,18 @@ Duplicate city names warnings if exists.',
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => '[node:nid]-[node:title].[file:extension]',
+            'value' => '[file:name]',
           ),
           'file_path' => array(
             'options' => array(
               'pathauto' => 1,
               'transliterate' => 1,
             ),
-            'value' => 'pg_contests/[node:nid]-[node:title]/points',
+            'value' => 'pg_contests/[node:nid]-[node:title]/points/',
           ),
-          'retroactive_update' => 1,
+          'retroactive_update' => 0,
         ),
+        'filefield_paths_enabled' => 1,
         'max_filesize' => '5M',
         'user_register_form' => FALSE,
       ),
@@ -3941,7 +3947,8 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.',
+      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -3966,7 +3973,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 1,
       'field_name' => 'field_twitter_widget_code',
-      'label' => 'Twitter widget code',
+      'label' => 'Twitter / Facebook widget code',
       'required' => 0,
       'settings' => array(
         'better_formats' => array(
@@ -4203,6 +4210,8 @@ Duplicate city names warnings if exists.',
   // Included for use with string extractors like potx.
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
+  t('Capital, visa information, currency, electric net features any additional information.
+Duplicate city names warnings if exists.');
   t('City');
   t('Core ID');
   t('Country');
@@ -4219,8 +4228,6 @@ Duplicate city names warnings if exists.',
   t('Flying site');
   t('Full info about organizer - description, links, contacts');
   t('General day-by-day schedule of the event.');
-  t('Capital, visa information, currency, electric net features any additional information.
-Duplicate city names warnings if exists.');
   t('General schedule');
   t('Group');
   t('Group roles and permissions');
@@ -4230,7 +4237,8 @@ Duplicate city names warnings if exists.');
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
   t('How to get here - general');
-  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
+  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>');
   t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
@@ -4259,7 +4267,7 @@ Duplicate city names warnings if exists.');
   t('This is an offline event');
   t('Time zone');
   t('Tiny path');
-  t('Twitter widget code');
+  t('Twitter / Facebook widget code');
   t('Web site');
 
   return $fields;
