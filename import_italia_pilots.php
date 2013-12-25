@@ -122,7 +122,8 @@ foreach ($pilots as $key => $pilot) {
   }
 
   // Remove country phone code and spaces from raw phone number.
-  $pilot['field_phone'] = str_replace(array(' ', $country_phone_code), '', $pilot['field_phone']);
+  $pilot['field_phone'] = str_replace(array(' ', '-', $country_phone_code), '', $pilot['field_phone']);
+  $pilot['field_phone'] = substr($pilot['field_phone'], 0, 12);
 
   // If required fields is empty values, fill by '-'.
   foreach ($required_fields as $field) {
