@@ -1,7 +1,8 @@
 jQuery(function ($) {
   $(".pane-paragliding-pilots-list-manage table, .pane-paragliding-pilots-list-manage-confirmed table").filterTable({
     minRows: 0,
-    label: ""
+    label: "",
+    placeholder: Drupal.t("Pilots search")
   });
   var $main_input = $(".filter-table:first input");
   $main_input.keyup(function(){
