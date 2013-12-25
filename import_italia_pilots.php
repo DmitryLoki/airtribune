@@ -129,8 +129,8 @@ foreach ($pilots as $key => $pilot) {
   $field_birthdate = intval(strtotime($pilot['field_birthdate']));
   $field_gender = get_gender_italian($pilot['gender']);
   $field_full_name = array (
-    'family' => $pilot['lastname'],
-    'given'  => $pilot['firstname'],
+    'family' => $pilot['name'],
+    'given'  => $pilot['surname'],
   );
   $field_address = array(
     'country' => $country,
@@ -157,6 +157,7 @@ foreach ($pilots as $key => $pilot) {
   $profile_w = entity_metadata_wrapper('profile2', $profile_pilot);
   $profile_w->field_address->set($field_address);
 //  $profile_w->field_phone->set($field_phone);
+  $profile_pilot->field_phone['und']['0'] = $field_phone;
   $profile_w->field_fai_license_number->set($pilot['field_fai_license_number']);
   $profile_w->field_civl_id->set(intval($pilot['field_civl_id']));
   $profile_w->field_nat_license_id->set($pilot['field_nat_license_id']);
@@ -172,10 +173,12 @@ foreach ($pilots as $key => $pilot) {
   //$profile_w->field_name_in_national_alphabet->set($field_full_name);
   $profile_w->field_person_name->set('–');
 //  $profile_w->field_person_phone->set(array('country_codes' => $country, 'number' => '000000000'));
+  $profile->field_person_phone['und']['0'] = array('country_codes' => $country, 'number' => '000000000');
   $profile_w->field_blood_type->set('unknown');
   profile2_save($profile_pilot);
 
   debug_out('created', $user, profile2_load_by_user($user));
+  unset($user);
 }
 
 
@@ -184,7 +187,7 @@ foreach ($pilots as $key => $pilot) {
  */
 file_put_contents('debug.json', json_encode($processed_pilots));
 dpm($processed_pilots);
-unset($user);
+
 
 /*
  * Helpers
