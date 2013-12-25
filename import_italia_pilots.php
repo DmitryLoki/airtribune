@@ -108,7 +108,6 @@ foreach ($pilots as $key => $pilot) {
   }
 
   // Create new drupal user.
-  $pilot['email'] = $pilot['email'];
   $new_user = array(
     'name' => $pilot['email'],
     'pass' => user_password(),
@@ -118,7 +117,9 @@ foreach ($pilots as $key => $pilot) {
     'roles' => $roles,
     'access' => REQUEST_TIME,
   );
-  $user = user_save(NULL, $new_user);
+  if (!$user) {
+    $user = user_save(NULL, $new_user);
+  }
 
   // Remove country phone code and spaces from raw phone number.
   $pilot['field_phone'] = str_replace(array(' ', $country_phone_code), '', $pilot['field_phone']);
