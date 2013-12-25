@@ -5,10 +5,7 @@ require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
 drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
 
 // for debug.
-$user_with_filled_data = profile2_load_by_user(user_load(6));
 $processed_pilots = array();
-//dpm(json_decode(file_get_contents('debug.json'), true));
-//die();
 
 /*
  * Init
@@ -22,7 +19,6 @@ $country = 'it'; // Italy
 $country_phone_code = '+39'; // Italy
 
 $groups_to_join = array(6639, 6645, 6650, 6655);
-$groups_to_join = array(5438, 5718, 5452);
 
 $fields = array(
 //  'id'       => 'user_id',
@@ -32,7 +28,6 @@ $fields = array(
   'name'     => 'firstname',
   'surname'  => 'lastname',
   'field_birthdate' => 'cb_datadinascita',
-
 //  'province'    => 'cb_provincia',
   'postal_code' => 'cb_cap',
   'city'        => 'cb_cittdiresidenza',
@@ -56,7 +51,7 @@ $fields = array(
 );
 $fields = array_flip($fields);
 
-$required_fields = array (
+$required_fields = array(
   'name',
   'surname',
   'field_birthdate',
@@ -81,8 +76,9 @@ $required_fields = array (
  */
 // For speed-up at debbuging, instead load from csv and processing with non-english fields
 if (file_exists('parsed_pilots.json')) {
-  $pilots = json_decode(file_get_contents('parsed_pilots.json'), true);
-} else {
+  $pilots = json_decode(file_get_contents('parsed_pilots.json'), TRUE);
+}
+else {
   $csv_pilots = csv_to_array('pilots.csv');
   foreach ($csv_pilots as $number => $pilot) {
     foreach ($pilot as $field_name => $value) {
@@ -98,8 +94,6 @@ if (file_exists('parsed_pilots.json')) {
  * Main processing.
  */
 foreach ($pilots as $key => $pilot) {
-  echo $key . ", ";
-
   if ($user = user_load_by_mail($pilot['email'])) {
     $profile = profile2_load_by_user($user);
     // This pilot already registered at AirTribune, and have filled profiles, skip him.
@@ -114,7 +108,7 @@ foreach ($pilots as $key => $pilot) {
   }
 
   // Create new drupal user.
-  $pilot['email'] = substr(md5(time()),0,7).$pilot['email'];
+  $pilot['email'] = $pilot['email'];
   $new_user = array(
     'name' => $pilot['email'],
     'pass' => user_password(),
@@ -124,7 +118,7 @@ foreach ($pilots as $key => $pilot) {
     'roles' => $roles,
     'access' => REQUEST_TIME,
   );
-  $user = user_save(null, $new_user);
+  $user = user_save(NULL, $new_user);
 
   // Remove country phone code and spaces from raw phone number.
   $pilot['field_phone'] = str_replace(array(' ', $country_phone_code), '', $pilot['field_phone']);
@@ -137,7 +131,7 @@ foreach ($pilots as $key => $pilot) {
   // Prepare complex fields.
   $field_birthdate = intval(strtotime($pilot['field_birthdate']));
   $field_gender = get_gender_italian($pilot['gender']);
-  $field_full_name = array (
+  $field_full_name = array(
     'family' => $pilot['name'],
     'given'  => $pilot['surname'],
   );
@@ -148,7 +142,7 @@ foreach ($pilots as $key => $pilot) {
     'thoroughfare' => $pilot['address'],
   );
   $field_phone = array(
-    'extension' => null,
+    'extension' => NULL,
     'country_codes' => $country,
     'number' => $pilot['field_phone'],
 //    'phone_number' => $pilot['field_phone'],
@@ -200,7 +194,7 @@ foreach ($pilots as $key => $pilot) {
     $ogm_w->field_pg_contestant_status->set(1); // 1|Waiting list, 4|Confirmed
     og_membership_save($ogm);
 
-    // Optional - changes the users role in the group. 
+    // Optional - changes the users role in the group.
     // og_role_grant('node', $group->gid, $user->uid, $role_id);
   }
 
@@ -212,7 +206,6 @@ foreach ($pilots as $key => $pilot) {
 /*
  * Debug
  */
-file_put_contents('debug.json', json_encode($processed_pilots));
 dpm($processed_pilots);
 
 
@@ -226,7 +219,8 @@ function get_gender_italian($gender) {
 function check_for_empty($field) {
   return empty($field) ? '-' : $field;
 }
-function debug_out($type, $user, $profile, $new=null) {
+
+function debug_out($type, $user, $profile, $new=NULL) {
   global $processed_pilots;
   $processed_pilots[$type][] = array(
     'user' => $user,
