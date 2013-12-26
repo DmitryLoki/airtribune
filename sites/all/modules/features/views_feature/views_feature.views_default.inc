@@ -4562,7 +4562,9 @@ return array($event_id);';
     'colorbox_caption' => 'title',
     'audio_playlist' => 0,
   );
+  $handler->display->display_options['fields']['field_image']['delta_limit'] = '500';
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_image']['delta_reversed'] = TRUE;
   $handler->display->display_options['fields']['field_image']['separator'] = '';
   /* Field: Competition results */
   $handler->display->display_options['fields']['field_competition_results']['id'] = 'field_competition_results';
