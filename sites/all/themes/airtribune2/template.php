@@ -1284,7 +1284,7 @@ function airtribune2_file_icon($variables) {
     'cup' => 'seeyou.png',
     'UTM' => 'utm.png',
     'GEO' => 'geo.png',
-    //'OZI' => 'ozi.png',
+    'OZI' => 'ozi.png',
   );
   $file = $variables['file'];
   $icon_directory = $variables['icon_directory'];
