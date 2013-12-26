@@ -1837,7 +1837,8 @@ body .pane-event-days-panel-event-days-on-blog .dropdown_list .race-online li  a
 #page ul.tabs.primary li a.tab-event-settings:hover { color:#66522a; background-color: #ffdc7a;}
 #page ul.tabs.primary li a.tab-event-settings { width: 2px; overflow: hidden; text-indent: -9999px; background-image: url(../images/info_icons.png); background-repeat: no-repeat; background-position: 50% -2690px}
 #page ul.tabs.primary li a.tab-event-settings:hover { background-position: 50% -2840px}
-#page ul.tabs.primary li a.tab-event-settings.active { background-position: 50% -2990px; background-image: url(../images/info_icons.png);}
+#page ul.tabs.primary li a.tab-event-settings.active,
+#page ul.tabs.primary li a.tab-event-settings.active:hover { background-position: 50% -2990px; background-image: url(../images/info_icons.png);}
 #page ul.tabs.primary li a:hover { color:#677581; background-color: #f2f5f7; text-decoration: none;}
 #page ul.tabs.primary li.active,
  #page ul.tabs.primary li.active-trail { border-bottom:none;}
@@ -3229,19 +3230,19 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage .filter-table input:-moz-placeholder { color: #b9c4c9;}
 .pane_pilots_list_manage .filter-table input::-webkit-input-placeholder { color: #b9c4c9;}
 
-.pane_pilots_list_manage td.views-field-field-full-name { width: 161px;}
+.pane_pilots_list_manage td.views-field-field-full-name { width: 178px;}
 .pane_pilots_list_manage th.views-field-field-full-name a { padding-right: 15px;}
 .pane_pilots_list_manage th.views-field-field-full-name a + a { margin-left: 15px;}
-.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0; padding-right: 32px;}
+.pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0;}
 .pane_pilots_list_manage tr:hover td.views-field-field-full-name a { color: #00aeef; background-position: 100% -3800px; padding: 4px 32px 4px 0;}
 .pane_pilots_list_manage tr:hover td.views-field-field-full-name a:hover { text-decoration: underline; background-position: 100% -3900px;}
 .pane_pilots_list_manage td.views-field-field-contestant-number { width: 120px; text-align: center;}
 .pane_pilots_list_manage td.views-field-field-address { width: 71px; text-align: center;}
-.pane_pilots_list_manage td.views-field-field-phone { text-align: center; width: 211px;}
+.pane_pilots_list_manage td.views-field-field-phone { text-align: center; width: 194px;}
 .pane_pilots_list_manage td.views-field-field-tracker { width: 101px;}
 .pane_pilots_list_manage td.views-field-field-pg-contestant-status { width: 220px;}
 .pane_pilots_list_manage .td_inner div { display: inline; vertical-align: top;}
-.pane_pilots_list_manage .td_inner div.countryicon-sprite { display: inline-block;}
+.pane_pilots_list_manage .td_inner div.countryicon-sprite { display: inline-block; vertical-align: middle; margin-top: -4px;}
 /*.pane_pilots_list_manage .td_inner > div { margin: 0 9px;}*/
 .pane_pilots_list_manage .td_inner .editablefield-item { display: block;}
 .pane_pilots_list_manage .td_inner .editablefield-item div { display: inline-block;}
@@ -3253,14 +3254,15 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage tr:hover .editablefields-link { display: inline-block;}
 .pane_pilots_list_manage .editablefields-link:hover { background-position: 0 -18px}
 .pane_pilots_list_manage div + .editablefields-link { margin-left: 7px; margin-right: -25px;}
+.pane_pilots_list_manage .td_inner .editablefield-item  + .editablefields-link { display: none;}
 .pane_pilots_list_manage .form-item { padding: 0;}
-.pane_pilots_list_manage table input.form-text { margin: -9px 0 -9px; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px;}
+.pane_pilots_list_manage table input.form-text { margin: -7px 0; display: inline-block; color: #525d66; font-size: 14px; text-align: center; width: 122px; padding-left: 4px; padding-right: 4px;}
 .pane_pilots_list_manage label,
 .pane_pilots_list_manage #views-form-paragliding-pilots-list-manage .inline-label { display: none;}
 .pane_pilots_list_manage .select { margin: -8px 0;}
 .pane_pilots_list_manage .field-type-list-integer + div.form-actions { display: none;}
 .pane_pilots_list_manage table .form-actions a,
-.pane_pilots_list_manage table .form-actions input { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -6px 0 -6px 6px; vertical-align: top;}
+.pane_pilots_list_manage table .form-actions input { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -4px 0 -4px 6px; vertical-align: top;}
 .pane_pilots_list_manage table .form-actions input { background-position: 0 -3600px; border: none;}
 .pane_pilots_list_manage table .form-actions a:hover,
 .pane_pilots_list_manage table .form-actions input:hover {

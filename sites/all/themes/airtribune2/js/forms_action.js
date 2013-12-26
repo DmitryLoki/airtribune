@@ -86,5 +86,7 @@ jQuery(function ($) {
 Drupal.behaviors.updateImageField = {
     attach: function(){
         updateForm('#user-profile-form');
+        updateForm('.at-editablefield-list_integer .form-type-select');
+
     }
 }
