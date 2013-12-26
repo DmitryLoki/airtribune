@@ -1291,8 +1291,9 @@ function airtribune2_file_icon($variables) {
 
   $mime = check_plain($file->filemime);
   $path_info = pathinfo($file->filename);
-  if($path_info['extension'] == 'wpt'){
-    $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$file->description];
+  $extension_desc = str_replace(array('Waypoints', ' ', '(', ')'), '', $file->description);
+  if ($path_info['extension'] == 'wpt' && isset($icons[$extension_desc])) {
+    $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$extension_desc];
   }
   elseif (!empty($icons[$path_info['extension']])) {
     $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
@@ -1344,21 +1345,11 @@ function airtribune2_preprocess_field(&$vars) {
 
     $items = array();
 
-    $waypoints_formats = array(
-      'CompeGPS',
-      'KML',
-      'SeeYou',
-      'UTM',
-      'GEO',
-      //'OZI',
-    );
-
     // Get all waypoint files
     if (isset($points_file['#items'])) {
       foreach ($points_file['#items'] as $k => $v) {
-        if (!in_array($points_file[$k]['#file']->description, $waypoints_formats)) {
-          $points_file[$k]['#file']->description = 'Waypoints file';
-        }
+
+        $points_file[$k]['#file']->description =  t('Waypoints') . ' (' . $points_file[$k]['#file']->description . ')';
         $items[] = $points_file[$k];
       }
     }
