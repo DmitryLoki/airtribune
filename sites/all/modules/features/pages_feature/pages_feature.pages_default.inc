@@ -6050,9 +6050,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->configuration = array(
       'admin_title' => 'Confirmed Pilots Manage Table',
       'title' => '',
-      'body' => '<strong>There are only <span>“Confirmed”</span> pilots in this table.</strong>
-Retrieve tel. will be used to contact pilot by SMS retrieve app.
-',
+      'body' => '<strong>There are only <span>“Confirmed”</span> pilots in this table.</strong>',
       'format' => 'full_html',
       'substitute' => 1,
     );
