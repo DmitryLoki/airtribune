@@ -2668,10 +2668,10 @@ form .form-type-item .inline-label { top: -10px;}
 .switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -475px}
 .switch-pilots-view a.by-nation { background-position: 0 -575px}
 .switch-pilots-view a.by-nation:hover, .switch-pilots-view a.by-nation.active { background-position: 0 -675px}
-.switch-pilots-view a.manage { background-position: -40px -3000px; margin-right: 20px;}
-.switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: 0 -3000px}
-.switch-pilots-view a.confirmed { background-position: -40px -3200px;}
-.switch-pilots-view a.confirmed:hover, .switch-pilots-view a.confirmed.active { background-position: 0 -3200px}
+.switch-pilots-view a.manage { background-position: -40px -3201px;}
+.switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: 0 -3201px}
+.switch-pilots-view a.confirmed { background-position: -40px -3000px; margin-right: 20px;}
+.switch-pilots-view a.confirmed:hover, .switch-pilots-view a.confirmed.active { background-position: 0 -3000px}
 
 #page ul.tabs.secondary { margin-top: 11px; padding-bottom: 0;}
 #page ul.tabs.secondary a { width: 41px; margin-left: 9px;}
