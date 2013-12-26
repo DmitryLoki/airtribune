@@ -35,9 +35,21 @@
     <thead>
       <tr>
         <th class="views-field-counter">#</th>
+        <?php $number_label = ""; ?>
         <?php foreach ($header as $field => $label): ?>
+          <?php
+          if ($field == "field_contestant_number") {
+            $number_label = $label;
+            continue;
+          }
+          if ($field == "field_full_name") {
+            $label .= $number_label;
+          }
+          
+          ?>
           <th <?php if ($header_classes[$field]) { print 'class="'. $header_classes[$field] . '" '; } ?>>
-            <div><?php print $label; ?></div>
+            <div><?php print $label; ?>
+            </div>
           </th>
         <?php endforeach; ?>
       </tr>
@@ -48,6 +60,11 @@
       <tr <?php if ($row_classes[$row_count]) { print 'class="' . implode(' ', $row_classes[$row_count]) .'"';  } ?>>
         <td class="views-field-counter"><?php print $counter++; ?></td>
         <?php foreach ($row as $field => $content): ?>
+          <?php
+          if ($field == "field_contestant_number") {
+            continue;
+          }
+          ?>
           <td <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . '" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
             <div class="td_inner"><?php print $content; ?></div>
           </td>

@@ -9388,15 +9388,24 @@ return array($event_id);';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'id' => 'id',
+    'field_contestant_number' => 'field_contestant_number',
     'field_gender' => 'field_gender',
     'field_full_name' => 'field_full_name',
     'field_phone' => 'field_phone',
     'field_tracker' => 'field_tracker',
+    'nothing' => 'nothing',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'id' => array(
       'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_contestant_number' => array(
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
@@ -9417,15 +9426,20 @@ return array($event_id);';
       'empty_column' => 0,
     ),
     'field_phone' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'field_tracker' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nothing' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -9444,6 +9458,16 @@ return array($event_id);';
   $handler->display->display_options['fields']['id']['exclude'] = TRUE;
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['id']['separator'] = '';
+  /* Field: OG membership: Pilot's number */
+  $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
+  $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
+  $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
+  $handler->display->display_options['fields']['field_contestant_number']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_contestant_number']['label'] = '(Number)';
+  $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
+    'thousand_separator' => ' ',
+    'prefix_suffix' => 1,
+  );
   /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
@@ -9452,14 +9476,17 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_gender']['ui_name'] = 'Gender (excluded)';
   $handler->display->display_options['fields']['field_gender']['label'] = '';
   $handler->display->display_options['fields']['field_gender']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_full_name']['label'] = 'Pilot';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name]';
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])[field_gender]';
   $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
@@ -9634,6 +9661,8 @@ return array($event_id);';
     t('[field_full_name]'),
     t('Manage event pilots (all)'),
     t('Manage (Confirmed)'),
+    t('(Number)'),
+    t('Pilot'),
     t('Phone number'),
     t('Test'),
     t('Manage event pilots (confirmed)'),
