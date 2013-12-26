@@ -1277,13 +1277,24 @@ function airtribune2_file_icon($variables) {
     'xcm' => 'xcm.png',
     'xls' => 'xls.png',
     'xlsx' => 'xlsx.png',
+    'CompeGPS' => 'compegps.png',
+    'KML' => 'kml.png',
+    'kml' => 'kml.png',
+    'SeeYou' => 'seeyou.png',
+    'cup' => 'seeyou.png',
+    'UTM' => 'utm.png',
+    'GEO' => 'geo.png',
+    //'OZI' => 'ozi.png',
   );
   $file = $variables['file'];
   $icon_directory = $variables['icon_directory'];
 
   $mime = check_plain($file->filemime);
   $path_info = pathinfo($file->filename);
-  if (!empty($icons[$path_info['extension']])) {
+  if($path_info['extension'] == 'wpt'){
+    $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$file->description];
+  }
+  elseif (!empty($icons[$path_info['extension']])) {
     $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
   }
   else {
@@ -1330,20 +1341,62 @@ function airtribune2_preprocess_field(&$vars) {
     // @TODO: remove this after release of the generation point files from the db
     // @see: #3611
     $points_file = field_view_field('node', $element['#object'], AIRTRIBUNE_POINTS_FILE_FIELD);
+
     $items = array();
+
+    $waypoints_formats = array(
+      'CompeGPS',
+      'KML',
+      'SeeYou',
+      'UTM',
+      'GEO',
+      //'OZI',
+    );
 
     // Get all waypoint files
     if (isset($points_file['#items'])) {
       foreach ($points_file['#items'] as $k => $v) {
-        $points_file[$k]['#file']->description = 'Waypoints file';
+        if (!in_array($points_file[$k]['#file']->description, $waypoints_formats)) {
+          $points_file[$k]['#file']->description = 'Waypoints file';
+        }
         $items[] = $points_file[$k];
       }
     }
-    // Get all dowload files
+
+    // Get all dowload 1files
     foreach ($element['#items'] as $k => $v) {
       $items[] = $element[$k];
     }
     $vars['items'] = $items;
+
+
+    // $points_file = field_view_field('node', $element['#object'], AIRTRIBUNE_POINTS_FILE_FIELD);
+
+    // $points_file_value = '<span class="views-label views-label-view">' . t('Waypoints files') . '</span>';
+    // $points_file_value .= '<span class="field-content">';
+    // // Get all waypoint files
+    // if (isset($points_file['#items'])) {
+    //   foreach ($points_file['#items'] as $k => $v) {
+    //     $v['description'] = t('Waypoints') . ' (' . $v['description'] . ')';
+    //     $points_file_value .= render(field_view_value('node', $element['#object'], AIRTRIBUNE_POINTS_FILE_FIELD, $v));
+    //   }
+    // }
+    // // Generate dropdown list with points files
+    // $wrapper_attributes['class'][] = 'views-field dropdown_list waypoints-files';
+    // $points_file_value .= '</span>';
+    // $items = array();
+    // $items[] = array(
+    //   '#theme' => 'html_tag',
+    //   '#tag' => 'span',
+    //   '#value' => $points_file_value,
+    //   '#attributes' => $wrapper_attributes,
+    //   );
+
+    // // Get all dowload 1files
+    // foreach ($element['#items'] as $k => $v) {
+    //   $items[] = $element[$k];
+    // }
+    // $vars['items'] = $items;
   }
 }
 

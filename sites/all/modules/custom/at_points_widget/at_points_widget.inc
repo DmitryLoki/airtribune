@@ -12,6 +12,7 @@ abstract class AtPointsWidgetFile {
   public static $babbel_path = '/usr/local/bin/';
   static public $ext;
   static public $babbel_format;
+  static public $description;
   // first should go classes that have write method implemented
   public static $classes = array(
     'AtPointsWidgetCompGPSFile' => 'CompGPS',
@@ -71,6 +72,8 @@ abstract class AtPointsWidgetFile {
 class AtPointsWidgetFSGeoFile extends AtPointsWidgetFile {
   
   static public $ext = 'wpt';
+  
+  static public $description = 'GEO';
   
   public function read() {
     $file_string = file_get_contents($this->filename);
@@ -150,6 +153,8 @@ class AtPointsWidgetCompGPSFile extends AtPointsWidgetFile {
   
   static public $ext = 'wpt';
   
+  static public $description = 'CompeGPS';
+  
   static public $babbel_format = 'compegps';
   
   public function read() {
@@ -227,6 +232,7 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
  
   static public $ext = 'wpt';
   static public $babbel_format = 'ozi';
+  static public $description = 'OZI';
   
   static function check($filename) {
     $check_string = file_get_contents($filename, FALSE, NULL, -1, 25);
@@ -237,9 +243,11 @@ class AtPointsWidgetOziFile extends AtPointsWidgetFile {
 class AtPointsWidgetCupFile extends AtPointsWidgetFile {
   static public $ext = 'cup'; 
   static public $babbel_format = 'cup';
+  static public $description = 'SeeYou';
 }
 
 class AtPointsWidgetKmlFile extends AtPointsWidgetFile {
   static public $ext = 'kml';  
   static public $babbel_format = 'kml';
+  static public $description = 'KML';
 }

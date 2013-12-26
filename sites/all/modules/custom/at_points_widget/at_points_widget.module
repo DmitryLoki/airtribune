@@ -340,7 +340,7 @@ function at_points_widget_create_files($nid) {
     }
     $new_file = (array)$file_object;
     $new_file['display'] = 1;
-    $new_file['description'] = '';
+    $new_file['description'] = $file_writer::$description;
     $array[] = $new_file;
     $contest_wrapper->field_points_file->set($array);
   }

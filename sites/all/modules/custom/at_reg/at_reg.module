@@ -218,6 +218,14 @@ function at_reg_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login' :
       $form['actions']['submit']['#value'] = t('Sign in');
       break;
+    case 'profile2_edit_pilot_form' :
+      // TODO: Check - multiform #ajax call mustn't match.
+      if (!isset($form_state['#multiform_settings'])) {
+        // TODO: Enable at_reg.js for profile editing forms
+        // TODO: Attach to form, since form_alter not fired when validation fails.
+        drupal_add_js(drupal_get_path('module', 'at_reg') .'/js/at_reg.js', 'file');
+      }
+      break;
   }
   
   // TODO: Check membership types
@@ -758,6 +766,7 @@ function at_reg_js_alter(&$javascript) {
     $setting['clientsideValidation']['forms'][$form_key]['customErrorFunction'] = 'setErrorElement';
   }
   
+  // TODO: Check form_id (needed for profile from)
   // If there is no multiform
   if (!$is_multiform) {
     
@@ -817,7 +826,9 @@ function at_reg_ajax_render_alter(&$commands) {
   // Do nothing for none-multiform forms.
   // TODO: Check other condtions. What if single profile form is edited?
   if (!$is_multiform) {
-    return;
+    // TODO: Check. For now remove settings at ajax call for all forms.
+    // Especially for profile2_edit_pilot_form profile edit form.
+    //~ return;
   }
 
   foreach ($commands as $k => $command) {
