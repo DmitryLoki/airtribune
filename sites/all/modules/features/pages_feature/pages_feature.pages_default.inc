@@ -5528,7 +5528,10 @@ Retrieve tel. will be used to contact pilot by SMS retrieve app.
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attention_text',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
