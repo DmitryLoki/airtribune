@@ -9382,6 +9382,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['field'] = 'field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_contestant_number']['label'] = '(Number)';
   $handler->display->display_options['fields']['field_contestant_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
@@ -9402,6 +9403,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_full_name']['label'] = 'Pilot';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])[field_gender]';
   $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
@@ -9578,6 +9580,8 @@ return array($event_id);';
     t('[field_full_name]'),
     t('Manage event pilots (all)'),
     t('Manage (Confirmed)'),
+    t('(Number)'),
+    t('Pilot'),
     t('Phone number'),
     t('Test'),
     t('Manage event pilots (confirmed)'),
