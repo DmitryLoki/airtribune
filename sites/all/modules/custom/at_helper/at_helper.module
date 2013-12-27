@@ -405,6 +405,15 @@ function at_helper_preprocess_media_colorbox(&$variables) {
       $media_colorbox_caption = $file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'];
     }
     $variables['media_colorbox_caption'] = $media_colorbox_caption;
+
+    // Add classes for hover images for VIDEO previews.
+    $file_styles = _at_helper_file_view_alter_styles();
+    if (isset($file_styles[$file_id])) {
+      $style = $file_styles[$file_id];
+      if (!empty($file->filemime) && in_array($file->filemime, array('video/vimeo', 'video/youtube'))) {
+        $variables['item_class'] = 'media-corbox-video-preview ' . str_replace('_', '-', $style);
+      }
+    }
   }
 }
 
