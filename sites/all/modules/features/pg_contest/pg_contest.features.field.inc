@@ -3797,7 +3797,7 @@ Duplicate city names warnings if exists.',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '24',
+        'weight' => '25',
       ),
     ),
   );
@@ -4020,7 +4020,7 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Internal path containing letters, numbers, hyphens, and underscores',
+      'description' => 'Event URLs may set only once.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -4045,7 +4045,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_tiny_path',
-      'label' => 'Tiny path',
+      'label' => 'Additional URL',
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -4102,8 +4102,7 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
-Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>',
+      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -4128,7 +4127,7 @@ Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune<
       'entity_type' => 'node',
       'exclude_cv' => 1,
       'field_name' => 'field_twitter_widget_code',
-      'label' => 'Twitter / Facebook widget code',
+      'label' => 'Twitter widget code',
       'required' => 0,
       'settings' => array(
         'better_formats' => array(
@@ -4392,8 +4391,7 @@ Duplicate city names warnings if exists.');
   t('Headquarter location description, address and other contact information.');
   t('Highlights of the event.');
   t('How to get here - general');
-  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
-Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>');
+  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
   t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
@@ -4423,7 +4421,7 @@ Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune<
   t('This is an offline event');
   t('Time zone');
   t('Tiny path');
-  t('Twitter / Facebook widget code');
+  t('Twitter widget code');
   t('Web site');
 
   return $fields;
