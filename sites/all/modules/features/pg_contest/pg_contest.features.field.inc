@@ -1946,7 +1946,7 @@ Prof.',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -1983,7 +1983,7 @@ Prof.',
         'active' => 1,
         'module' => 'options',
         'settings' => array(),
-        'type' => 'options_buttons',
+        'type' => 'options_select',
         'weight' => '3',
       ),
     ),
@@ -4362,6 +4362,7 @@ Duplicate city names warnings if exists.',
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Additional URL');
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Capital, visa information, currency, electric net features any additional information.
@@ -4375,6 +4376,7 @@ Duplicate city names warnings if exists.');
   t('Device UDID for retrieve');
   t('Downloads');
   t('Email');
+  t('Event URLs may set only once.');
   t('Event info');
   t('Example: +1(000)1000000');
   t('FAI category');
@@ -4392,7 +4394,6 @@ Duplicate city names warnings if exists.');
   t('Highlights of the event.');
   t('How to get here - general');
   t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.');
-  t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
   t('Local rules');
@@ -4420,7 +4421,6 @@ Duplicate city names warnings if exists.');
   t('Tel');
   t('This is an offline event');
   t('Time zone');
-  t('Tiny path');
   t('Twitter widget code');
   t('Web site');
 
