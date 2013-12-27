@@ -3,7 +3,7 @@
     var ajaxSubmit = Drupal.ajax[container.find('input[type="submit"]').attr('id')],
       tempValue = $('<span class="temp-value"></span>');
 
-    if (container.hasClass('at-editablefield-number_integer')) {
+    if (container.hasClass('at-editablefield-number_integer at-editablefield-phone_number')) {
       ajaxSubmit.options.beforeSubmit = function () {
         container.addClass('ajaxing');
         container.prepend(tempValue.html(container.find('input[type="text"]').val()));
