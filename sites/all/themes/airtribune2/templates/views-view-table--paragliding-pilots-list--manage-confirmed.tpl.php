@@ -38,14 +38,14 @@
         <?php $number_label = ""; ?>
         <?php foreach ($header as $field => $label): ?>
           <?php
+          // Issue #4026 remove number column, add number label to pilot's name
           if ($field == "field_contestant_number") {
             $number_label = $label;
             continue;
           }
           if ($field == "field_full_name") {
             $label .= $number_label;
-          }
-          
+          }          
           ?>
           <th <?php if ($header_classes[$field]) { print 'class="'. $header_classes[$field] . '" '; } ?>>
             <div><?php print $label; ?>
