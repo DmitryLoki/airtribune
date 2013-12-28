@@ -741,21 +741,22 @@ function at_reg_js_alter(&$javascript) {
   // TODO: Check for specific ids
   $multiform_ids = multiform_multiform_ids();
   $is_multiform = !empty($multiform_ids) ? TRUE : FALSE;
-  
-  // Check for clientside_validation settings.
-  foreach ($javascript['settings']['data'] as $k => $setting) {
-      if (!empty($setting['clientsideValidation']['forms'])) {
-        $clientsideValidationSettingsKey = $k;
-        break;
-      }
+  if (!empty($javascript['settings'])) {
+     // Check for clientside_validation settings.
+    foreach ($javascript['settings']['data'] as $k => $setting) {
+        if (!empty($setting['clientsideValidation']['forms'])) {
+          $clientsideValidationSettingsKey = $k;
+          break;
+        }
+    }
   }
-  
+
   // Do nothing if there is no clientside_validation settings.
   if (!isset($clientsideValidationSettingsKey)) {
     return;
   }
-  
-  
+
+
   $k = $clientsideValidationSettingsKey;
   $setting = $javascript['settings']['data'][$k];
   //~ dsm($setting);
