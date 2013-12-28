@@ -1100,7 +1100,7 @@ function airtribune_preprocess_views_view_field(&$vars){
         $output = str_replace($view->field['created']->original_value, t('Today'), $output);
       }
       // Remove dash registration or training day
-      if ($row->field_field_day_status[0]['raw']['value'] >= 4) {
+      if (!empty($row->field_field_day_status[0]['raw']) &&  $row->field_field_day_status[0]['raw']['value'] >= 4) {
         $original_value = ' — ' . $view->field['field_day_status']->original_value;
         $output = str_replace($original_value, $view->field['field_day_status']->original_value, $output);
       }
