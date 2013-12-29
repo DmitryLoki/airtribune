@@ -563,7 +563,14 @@ function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $f
   //~ dsm($type);
   //~ dsm('formatter');
   //~ dsm($items);
+  //~ dsm($displays);
+  
+  // TODO: Add bricks info into display settings (instead of using static variable).
+  // And override theme_media_colorbox()
+  
+  
   if ($field['field_name'] == AIRTRIBUNE_IMAGE_FIELD && !empty($items)) {
+    
     $imgs = array_shift($items);
     if (!empty($imgs)) {
       $file_styles = array();
@@ -621,6 +628,19 @@ function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $f
       _at_helper_file_view_alter_styles($file_styles);
     }
   }
+  elseif ($field['field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD && !empty($items)) {
+    $imgs = array_shift($items);
+    if (!empty($imgs)) {
+      $image_style = 'contest_gallery_thumb';
+      
+      $file_styles = array();
+      foreach ($imgs as $img) {
+        $file_styles[$img['fid']] = $image_style;
+      }
+      _at_helper_file_view_alter_styles($file_styles);
+      
+    }
+  }
 }
 
 /**
@@ -657,4 +677,77 @@ function _at_helper_file_view_alter_styles($file_styles = NULL) {
   }
 
   return $styles;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form_alter().
+ * 
+ * Alter media_colorbox formatter to set Bricks scheme.
+ * Uses hook provided by field_formatter_settings module.
+ */
+function at_helper_field_formatter_settings_form_alter(&$element, &$form_state, $context) {
+  if (empty($form_state['view_mode']) || empty($form_state['instance']['display'][$form_state['view_mode']]['type'])) {
+    return;
+  }
+  if ($form_state['instance']['display'][$form_state['view_mode']]['type'] == 'media_colorbox') {
+    
+    $settings = $form_state['instance']['display'][$form_state['view_mode']]['settings'];
+    //~ dsm($form_state);
+    $schemes = array(
+      '' => t('- None -'),
+      'test' => t('Test'),
+    );
+    
+    $scheme = (isset($settings['bricks_scheme']) && isset($schemes[$settings['bricks_scheme']])) ? $settings['bricks_scheme'] : '';
+    //~ dsm($element);
+    $element['bricks_scheme'] = array(
+      //~ '#type' => 'textfield',
+      '#type' => 'select',
+      '#options' => $schemes,
+      '#title' => t('Bricks scheme'),
+      '#description' => t('Image styles bricks scheme'),
+      '#default_value' => $scheme,
+    );
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary_alter().
+ * 
+ * Alter media_colorbox formatter settings summary.
+ * Uses hook provided by field_formatter_settings module.
+ */
+function at_helper_field_formatter_settings_summary_alter(&$summary, array $context) {
+  if ($context['instance']['display'][$context['view_mode']]['type'] == 'media_colorbox') {
+    
+    $settings = $context['instance']['display'][$context['view_mode']]['settings'];
+    
+    $schemes = array(
+      '' => t('- None -'),
+      'test' => t('Test'),
+    );
+    $scheme = (isset($settings['bricks_scheme']) && isset($schemes[$settings['bricks_scheme']])) ? $settings['bricks_scheme'] : '';
+    $summary .= '<br />' . t('Bricks scheme: ') . $schemes[$scheme];
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function at_helper_field_formatter_info_alter(&$info) {
+  // Add bricks_scheme settings into formatter info.
+  // Otherwise panels won't save setting.
+  $info['media_colorbox']['settings']['bricks_scheme'] = '';
+}
+
+
+/**
+ * Helper to dsm variable only once.
+ */
+function dsm_once($var, $key = 'none') {
+  static $vars = array();
+  if (!in_array($key, $vars)) {
+    dsm($var);
+    $vars[] = $key;
+  }
 }
