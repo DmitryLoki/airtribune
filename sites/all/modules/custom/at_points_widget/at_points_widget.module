@@ -301,6 +301,7 @@ function at_points_widget_create_files($nid) {
         $fids = array_keys($result['file']);
         foreach ($fids as $fid) {
           $file = file_load($fid);
+          file_delete($file);
         }
       }
       else {
