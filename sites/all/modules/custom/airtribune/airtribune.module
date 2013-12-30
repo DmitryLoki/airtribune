@@ -1880,3 +1880,29 @@ function theme_airtribune_event_statistics($vars) {
   $output .= '</div></div>';
   return $output;
 }
+
+/**
+ * Implements hook_field_prepare_view().
+ */
+function airtribune_node_load($nodes, $types) {
+  foreach ($nodes as $nid => $node) {
+    // Output points files in downloads
+    // @see #3983
+    // @author Vyacheslav Malchik <info@vkey.biz>
+    if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+        if (!empty($node->field_points_file)) {
+        foreach ($node->field_points_file[LANGUAGE_NONE] as $key => $value) {
+          // Change description for output
+          $node->field_points_file[LANGUAGE_NONE][$key]['description']=  t('Waypoints') . ' (' . $node->field_points_file[LANGUAGE_NONE][$key]['description'] . ')';
+        }
+        if (empty($node->field_downloads)) {
+          // Replace downloads fields with points files
+          $node->field_downloads = $node->field_points_file;
+        } else {
+          // Merge downloads and points files
+          $node->field_downloads[LANGUAGE_NONE] = array_merge($node->field_points_file[LANGUAGE_NONE], $node->field_downloads[LANGUAGE_NONE]);
+        }
+      }
+    }
+  }
+}
