@@ -1626,7 +1626,8 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .pane-event-days-panel-event-days-on-blog .views-field-field-image { margin:0 -3px 27px -2px; width:auto; text-align: left; padding-top: 1px;}
 .pane-event-days-panel-event-days-on-blog .view-content > div:last-child .views-field-field-image { margin-bottom: -2px; text-align: left;}
 .pane-event-days-panel-event-days-on-blog .views-field-field-image:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
-.pane-event-days-panel-event-days-on-blog .views-field-field-image img { float:left; margin:0 0 2px 2px}
+.pane-event-days-panel-event-days-on-blog .views-field-field-image .media-colorbox { float:left; margin:0 0 2px 2px; display: block}
+.pane-event-days-panel-event-days-on-blog .views-field-field-image img { vertical-align: middle;}
 .pane-event-days-panel-event-days-on-blog .dropdown_list_container,
 .pane-event-days-panel-event-days-on-blog .dropdown_list,
 .pane-event-days-panel-event-days-on-blog .task_link { display: inline-block; position: relative; margin: 11px 10px 9px; vertical-align: bottom;}
@@ -1635,6 +1636,14 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .pane-event-days-panel-event-days-on-blog .task_link:hover { background-position: 0 -40px;}
 .pane-event-days-panel-event-days-on-blog .task_link:active { background-position: 0 -80px;}
 .pane-event-days-panel-event-days-on-blog .task_link span { position: absolute; left: -9999px;}
+
+.media-corbox-video-preview { position: relative; background: url(../images/PlayHover.png) no-repeat 50% 50%;}
+.media-corbox-video-preview:after { position: absolute; z-index: 100; top: 0; left: 0; bottom: 0; right: 0; background: url(../images/PlayNormal.png) no-repeat 50% 50%; content: " ";}
+.media-corbox-video-preview:hover:after { background-image: url(../images/PlayHover.png);}
+
+.event-blog-teaser-eighth:after,
+.event-blog-teaser-seventh:after { background-size: contain;}
+
 .dropdown_list { font-size: 14px}
 .dropdown_list .views-label,
 .dropdown_list .field-content,
@@ -2030,6 +2039,7 @@ a.next_event:hover .place { background-position:-440px -29px;}
 .field-name-field-contest-photos .jcarousel-skin-default .jcarousel-container-horizontal { width: 100%; padding: 0; height: 150px; overflow: hidden;}
 .field-name-field-contest-photos .jcarousel-skin-default .jcarousel-clip-horizontal { width: 468px; overflow: visible; margin-left: 116px;}
 .field-name-field-contest-photos .jcarousel-skin-default .jcarousel-item { width: 232px; height: 150px; border: none; margin: 0 1px;}
+.field-name-field-contest-photos .jcarousel-skin-default .jcarousel-item a { display: block;}
 .field-name-field-contest-photos .jcarousel-skin-default .jcarousel-item img { width: 232px; height: 150px;}
 .field-name-field-contest-photos .jcarousel-prev, .field-name-field-contest-photos .jcarousel-next { width: 115px; height: 150px; top: 0; display: block !important; background: url(../images/gallery_nav.png) no-repeat 50% -999999px;}
 .field-name-field-contest-photos .jcarousel-prev { left: 0;}
