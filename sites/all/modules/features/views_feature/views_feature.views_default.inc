@@ -4559,8 +4559,9 @@ return array($event_id);';
     'fixed_height' => '',
     'colorbox_gallery' => 'post',
     'colorbox_gallery_custom' => '',
-    'colorbox_caption' => 'title',
+    'colorbox_caption' => 'mediafield',
     'audio_playlist' => 0,
+    'bricks_scheme' => '',
   );
   $handler->display->display_options['fields']['field_image']['delta_limit'] = '500';
   $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
