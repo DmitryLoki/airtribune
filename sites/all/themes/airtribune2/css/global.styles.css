@@ -2692,14 +2692,14 @@ form .form-type-item .inline-label { top: -10px;}
 #page ul.tabs.secondary { float: right; padding: 9px 0 18px; border-bottom: none;}
 .switch-pilots-view a,
 #page ul.tabs.secondary a { display: block; width: 40px; height: 41px; float: left; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat 0 -1000px; margin-left: 10px;}
-.switch-pilots-view a.by-status { background-position: 0 -375px}
-.switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -475px}
-.switch-pilots-view a.by-nation { background-position: 0 -575px}
-.switch-pilots-view a.by-nation:hover, .switch-pilots-view a.by-nation.active { background-position: 0 -675px}
-.switch-pilots-view a.manage { background-position: -40px -3201px;}
-.switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: 0 -3201px}
-.switch-pilots-view a.confirmed { background-position: -40px -3000px; margin-right: 20px;}
-.switch-pilots-view a.confirmed:hover, .switch-pilots-view a.confirmed.active { background-position: 0 -3000px}
+.switch-pilots-view a.by-status { background-position: 0 -475px}
+.switch-pilots-view a.by-status:hover, .switch-pilots-view a.by-status.active { background-position: 0 -375px}
+.switch-pilots-view a.by-nation { background-position: 0 -675px}
+.switch-pilots-view a.by-nation:hover, .switch-pilots-view a.by-nation.active { background-position: 0 -575px}
+.switch-pilots-view a.manage { background-position: 0 -3201px}
+.switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: -40px -3201px;}
+.switch-pilots-view a.confirmed { background-position: 0 -3000px; margin-right: 20px;}
+.switch-pilots-view a.confirmed:hover, .switch-pilots-view a.confirmed.active { background-position: -40px -3000px;}
 
 #page ul.tabs.secondary { margin-top: 11px; padding-bottom: 0;}
 #page ul.tabs.secondary a { width: 41px; margin-left: 9px;}
@@ -2740,7 +2740,7 @@ table,
   border-radius: 0 0 3px 3px;
 
 }
-table { border-right: none; border-left: none;}
+table { border-right: none; border-left: none; clear: both;}
 table caption,
 .page-event-map .pane-page-content .pane-views-panes h2 { position: relative; background: #f1f4f6; color: #758594; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px; text-align: left;
 
@@ -3237,12 +3237,12 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage th.views-field-field-full-name a { padding-right: 15px;}
 .pane_pilots_list_manage th.views-field-field-full-name a + a { margin-left: 15px;}
 .pane_pilots_list_manage td.views-field-field-full-name a { color: #525d66; text-decoration: none; background: url(../images/table_action.png) no-repeat -10000px 0;}
-.pane_pilots_list_manage tr:hover td.views-field-field-full-name a { color: #00aeef; background-position: 100% -3800px; padding: 4px 32px 4px 0;}
-.pane_pilots_list_manage tr:hover td.views-field-field-full-name a:hover { text-decoration: underline; background-position: 100% -3900px;}
+.pane_pilots_list_manage tr:hover td.views-field-field-full-name a { color: #00aeef; /*background-position: 100% -3800px;*/ padding: 4px 0 4px 0;}
+.pane_pilots_list_manage tr:hover td.views-field-field-full-name a:hover { text-decoration: underline; /*background-position: 100% -3900px;*/}
 .pane_pilots_list_manage td.views-field-field-contestant-number { width: 120px; text-align: center;}
 .pane_pilots_list_manage td.views-field-field-address { width: 71px; text-align: center;}
 .pane_pilots_list_manage td.views-field-field-phone { text-align: center; width: 194px;}
-.pane_pilots_list_manage td.views-field-field-tracker { width: 101px;}
+.pane_pilots_list_manage td.views-field-field-tracker { width: 101px; text-align: center;}
 .pane_pilots_list_manage td.views-field-field-pg-contestant-status { width: 220px;}
 .pane_pilots_list_manage .td_inner div { display: inline; vertical-align: top;}
 .pane_pilots_list_manage .td_inner div.countryicon-sprite { display: inline-block; vertical-align: middle; margin-top: -4px;}
