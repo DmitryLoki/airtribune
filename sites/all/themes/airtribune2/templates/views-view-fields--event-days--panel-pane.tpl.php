@@ -42,7 +42,7 @@
   </span>
 <?php endif; ?>
 
-<?php if ($fields['pg_race_retrieve_links']->content): ?>
+<?php if (!empty($fields['pg_race_retrieve_links']) && $fields['pg_race_retrieve_links']->content): ?>
   <span class="views-field dropdown_list views-field-field-pg-race-retrieve-links">
     <?php
       // output retrieve links

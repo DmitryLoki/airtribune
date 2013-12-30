@@ -860,6 +860,8 @@ function _day_pg_race_preview_markup($node) {
   $data['type'] = array();
   $link_text = NULL;
   $help_text = NULL;
+  $help_class = NULL;
+  $output = NULL;
   $time = NULL;
 
   // Check if task exists

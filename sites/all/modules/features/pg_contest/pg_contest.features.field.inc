@@ -1337,6 +1337,16 @@ Prof.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -1444,6 +1454,16 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -1877,6 +1897,16 @@ Prof.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -1916,7 +1946,7 @@ Prof.',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -2735,6 +2765,16 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -2998,6 +3038,16 @@ Duplicate city names warnings if exists.',
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -3747,7 +3797,112 @@ Duplicate city names warnings if exists.',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '24',
+        'weight' => '25',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_take_offs'.
+  $fields['node-pg_contest-field_take_offs'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_take_offs',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'eck_ent_basicmark' => array(
+          'columns' => array(
+            'target_id' => 'id',
+          ),
+          'table' => 'eck_ent_basicmark',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_takeoff' => 'pg_takeoff',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'ent_basicmark',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => array(),
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 69,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_take_offs',
+      'label' => 'Take offs',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '60',
       ),
     ),
   );
@@ -3865,7 +4020,7 @@ Duplicate city names warnings if exists.',
       'bundle' => 'pg_contest',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Internal path containing letters, numbers, hyphens, and underscores',
+      'description' => 'Event URLs may set only once.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -3890,7 +4045,7 @@ Duplicate city names warnings if exists.',
       'entity_type' => 'node',
       'exclude_cv' => 0,
       'field_name' => 'field_tiny_path',
-      'label' => 'Tiny path',
+      'label' => 'Additional URL',
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -4208,6 +4363,7 @@ Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune<
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Additional URL');
   t('Address');
   t('Any file (e.g. terrain or topology) that should be attached to contest description.');
   t('Capital, visa information, currency, electric net features any additional information.
@@ -4221,6 +4377,7 @@ Duplicate city names warnings if exists.');
   t('Device UDID for retrieve');
   t('Downloads');
   t('Email');
+  t('Event URLs may set only once.');
   t('Event info');
   t('Example: +1(000)1000000');
   t('FAI category');
@@ -4239,7 +4396,6 @@ Duplicate city names warnings if exists.');
   t('How to get here - general');
   t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
 Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>');
-  t('Internal path containing letters, numbers, hyphens, and underscores');
   t('Is registration for the event open.');
   t('List all awards here.');
   t('Local rules');
@@ -4263,10 +4419,10 @@ Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune<
   t('Social networks links');
   t('Specify here in free text regulations for pilots admission and entry fee along with payment guidelines.');
   t('Start and end dates for the event.');
+  t('Take offs');
   t('Tel');
   t('This is an offline event');
   t('Time zone');
-  t('Tiny path');
   t('Twitter / Facebook widget code');
   t('Web site');
 
