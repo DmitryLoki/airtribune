@@ -57,7 +57,7 @@
             closestViewsRow.addClass('no-dayblog-text');
           } else {
             closestViewsRow.addClass('day-blog');
-            closestViewsRow.find('.views-field-title-1').removeClass('views-field-title-1').addClass('title');
+            closestViewsRow.find('.views-field-title-1').removeClass('views-field-title-1').addClass('title').hide();
           }
         }
 
