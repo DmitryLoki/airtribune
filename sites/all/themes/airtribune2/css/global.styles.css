@@ -3504,7 +3504,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .view-event-day .views-row { height: 52px; overflow: visible;}
 .front_live_events .views-field-day-pg-race-play-link .field-content .field-content,
 .front_live_events .views-field-day-pg-race-play-link .views-field-field-pg-race-tracks { display: none;}
-.front_live_events .dropdown_list { position: absolute; bottom: 110px; left: 0; right: 0; margin: 0 auto;  min-width: 140px;}
+.front_live_events .dropdown_list { position: absolute; bottom: 110px; left: 0; right: 0; margin: 0 auto;  width: 140px;}
 .front_live_events .dropdown_list .views-label {  height: 20px; color: #828819; font: bold 18px/20px Arial, Helvetica, sans-serif; background: #ced828; text-align: center; padding: 4px 0 6px; text-decoration: none; border: none; width: 100%; cursor: pointer;}
 .front_live_events .dropdown_list .field-content { border: none; background: #ced828; color: #828819;}
 .front_live_events .dropdown_list .field-content a { font-weight: normal; text-decoration: underline;}
