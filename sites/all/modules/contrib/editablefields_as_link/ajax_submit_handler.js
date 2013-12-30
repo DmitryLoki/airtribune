@@ -8,11 +8,7 @@
         container.addClass('ajaxing');
         container.prepend(tempValue.html(container.find('input[type="text"]').val()));
       };
-    } else if (container.has('at-editablefield-list_integer')) {
-      ajaxSubmit.options.beforeSubmit = function () {
-        container.addClass('ajaxing');
-      };
-    }
+    } 
     container.find('input[type="text"]').unbind('change');
   }
 

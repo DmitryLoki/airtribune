@@ -3260,7 +3260,7 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage label,
 .pane_pilots_list_manage #views-form-paragliding-pilots-list-manage .inline-label { display: none;}
 .pane_pilots_list_manage .select { margin: -8px 0;}
-.pane_pilots_list_manage .field-type-list-integer + div.form-actions { display: none;}
+.pane_pilots_list_manage .field-type-list-integer + div.form-actions { /*display: none;*/ position: absolute; width: auto; z-index: 1000;}
 .pane_pilots_list_manage table .form-actions a,
 .pane_pilots_list_manage table .form-actions input { width: 24px; height: 24px; display: inline-block; overflow: hidden; text-indent: -9999px; background: url(../images/table_action.png) no-repeat -24px -3600px; margin: -4px 0 -4px 6px; vertical-align: top;}
 .pane_pilots_list_manage table .form-actions input { background-position: 0 -3600px; border: none;}
@@ -3284,9 +3284,10 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane_pilots_list_manage .ajax-progress-throbber div.message { display: none;}
 .pane_pilots_list_manage .ajaxing div.ajax-progress-throbber,
 .pane_pilots_list_manage .ajaxing form { display: inline-block;}
-.pane_pilots_list_manage .form-type-select div.ajax-progress-throbber { position: absolute; right: 32px; margin-right: 0; top: 10px;}
-.pane_pilots_list_manage .ajaxing .throbber { display: inline-block; width: 10px; height: 10px; background: url(../images/table_action.png) no-repeat -48px -3600px; margin: 2px -18px 0 8px;}
-
+.pane_pilots_list_manage .field-type-list-integer + .form-actions div.ajax-progress-throbber { position: absolute; right: 49px; margin-right: 0; top: 2px; display: block;}
+.pane_pilots_list_manage .ajaxing .throbber,
+.pane_pilots_list_manage .td_inner .field-type-list-integer + .form-actions .throbber { display: inline-block; width: 10px; height: 10px; background: url(../images/table_action.png) no-repeat -48px -3600px; margin: 2px -18px 0 8px;}
+#views-form-paragliding-pilots-list-manage table + .form-actions { display: none;}
 
 /*.page-event-pilots-manage .panel-col-seventy .inside { margin-right: 0;}*/
 /*.views-field-field-phone .editablefield-item .field-type-phone-number input.simple-phone-full-number { width: 140px;}*/
