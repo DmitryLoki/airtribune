@@ -628,10 +628,11 @@ function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $f
       _at_helper_file_view_alter_styles($file_styles);
     }
   }
-  elseif ($field['field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD && !empty($items)) {
+  elseif (in_array($field['field_name'], array(AIRTRIBUNE_CONTEST_PHOTOS_FIELD, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD)) && !empty($items)) {
     $imgs = array_shift($items);
     if (!empty($imgs)) {
-      $image_style = 'contest_gallery_thumb';
+      //~ $image_style = 'contest_gallery_thumb';
+      $image_style = 'contest_thumbnail';
       
       $file_styles = array();
       foreach ($imgs as $img) {

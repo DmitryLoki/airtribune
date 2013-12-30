@@ -1637,7 +1637,7 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .pane-event-days-panel-event-days-on-blog .task_link:active { background-position: 0 -80px;}
 .pane-event-days-panel-event-days-on-blog .task_link span { position: absolute; left: -9999px;}
 
-.media-corbox-video-preview { position: relative; background: url(../images/PlayHover.png) no-repeat 50% 50%;}
+.media-corbox-video-preview { position: relative; background: url(../images/PlayHover.png) no-repeat 50% 50%; display:inline-block; }
 .media-corbox-video-preview:after { position: absolute; /*z-index: 100;*/ top: 0; left: 0; bottom: 0; right: 0; background: url(../images/PlayNormal.png) no-repeat 50% 50%; content: " ";}
 .media-corbox-video-preview:hover:after { background-image: url(../images/PlayHover.png);}
 
