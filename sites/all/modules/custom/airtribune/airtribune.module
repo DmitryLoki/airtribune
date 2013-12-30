@@ -1908,7 +1908,7 @@ function airtribune_node_load($nodes, $types) {
       // Merge contest images with flying site images on info pages
       // @see #3996
       // @author Vyacheslav Malchik <info@vkey.biz>
-      if (arg(0) == 'event' && arg(2) == 'info') {
+      if (arg(0) == 'event' && arg(2) == 'info' && arg(2) != 'details') {
         $fs_node = NULL;
         // Get flying site node
         if(!empty($node->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'])) {
