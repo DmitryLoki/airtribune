@@ -5,3 +5,4 @@ core = 7.x
 dependencies[] = airtribune
 dependencies[] = views
 dependencies[] = date_api
+dependencies[] = field_formatter_settings
