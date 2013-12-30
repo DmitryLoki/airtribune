@@ -38,10 +38,11 @@ function media_feature_field_default_fields() {
       'module' => 'text',
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'max_length' => '255',
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'text_long',
+      'type' => 'text',
     ),
     'field_instance' => array(
       'bundle' => 'image',
@@ -122,15 +123,15 @@ function media_feature_field_default_fields() {
         'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
-        'wysiwyg_override' => 0,
+        'wysiwyg_override' => 1,
       ),
       'widget' => array(
         'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => '2',
+          'size' => '60',
         ),
-        'type' => 'text_textarea',
+        'type' => 'text_textfield',
         'weight' => '41',
       ),
     ),
@@ -418,10 +419,11 @@ function media_feature_field_default_fields() {
       'module' => 'text',
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'max_length' => '255',
         'profile2_private' => FALSE,
       ),
       'translatable' => '0',
-      'type' => 'text_long',
+      'type' => 'text',
     ),
     'field_instance' => array(
       'bundle' => 'video',
@@ -439,7 +441,7 @@ function media_feature_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '1',
+          'weight' => '4',
         ),
         'media_link' => array(
           'label' => 'above',
@@ -502,15 +504,15 @@ function media_feature_field_default_fields() {
         'exclude_cv' => FALSE,
         'text_processing' => '0',
         'user_register_form' => FALSE,
-        'wysiwyg_override' => 0,
+        'wysiwyg_override' => 1,
       ),
       'widget' => array(
         'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => '2',
+          'size' => '60',
         ),
-        'type' => 'text_textarea',
+        'type' => 'text_textfield',
         'weight' => '42',
       ),
     ),

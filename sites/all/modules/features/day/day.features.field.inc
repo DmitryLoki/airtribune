@@ -360,7 +360,8 @@ function day_field_default_fields() {
           'module' => 'media_colorbox',
           'settings' => array(
             'audio_playlist' => 0,
-            'colorbox_caption' => 'title',
+            'bricks_scheme' => '',
+            'colorbox_caption' => 'mediafield',
             'colorbox_gallery' => 'post',
             'colorbox_gallery_custom' => '',
             'colorbox_view_mode' => 'media_original',
