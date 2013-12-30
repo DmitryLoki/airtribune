@@ -1319,26 +1319,6 @@ function airtribune2_preprocess_field(&$vars) {
       }
     }
   }
-
-  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD) {
-    $settings = array(
-      'full_image_modal' => 'colorbox',
-      'jcarousel_image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE,
-      'full_image_style' => '',
-    );
-    // Get flying site node
-    if(!empty($element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'])) {
-      $fs_nid = $element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
-      $fs_node = node_load($fs_nid);
-
-      $flying_site_photos = field_view_field('node', $fs_node, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
-    }
-    if (isset($flying_site_photos[0])) {
-      foreach ($flying_site_photos[0]['#items'] as $item) {
-        $vars['items'][0]['#items'][] = $item;
-      }
-    }
-  }
 }
 
 /**
