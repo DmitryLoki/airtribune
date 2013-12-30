@@ -32,6 +32,28 @@ function jcarousel_formatter_field_formatter_view($entity_type, $entity, $field,
   $element = array();
   $type = $field['type'];
 
+  $media_colorbox_info = field_info_instance('node', AIRTRIBUNE_IMAGE_FIELD, 'day');
+  $media_colorbox_display = $media_colorbox_info['display']['default'];
+  $media_colorbox_formatter_view = media_colorbox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $media_colorbox_display);
+  
+  $media_colorbox_items = array();
+  $file_styles = array();
+  foreach ($media_colorbox_formatter_view as $k => $v) {
+    $file_styles[$k] = 'contest_gallery_thumb';
+    _at_helper_file_view_alter_styles($file_styles);
+    $media_colorbox_items[] = drupal_render($v);
+  }
+  
+  $media_colorbox_element = $element;
+  $media_colorbox_element[0] = array(
+    '#theme' => 'jcarousel',
+    '#items' => $media_colorbox_items,
+    '#options' => array(
+      'skin' => $display['settings']['jcarousel_formatter_skin'],
+      'vertical' => ($display['settings']['jcarousel_formatter_orientation'] == 'vertical') ? TRUE : FALSE,
+    ),
+  );
+  
   foreach ($items as $delta => $item) {
     // Media returns items as classes, so let's cast it to array.
     if (!empty($item['file']) && $item['file'] instanceof stdClass) {
@@ -87,9 +109,12 @@ function jcarousel_formatter_field_formatter_view($entity_type, $entity, $field,
   );
 
   // Allow other modules to alter these settings.
-  drupal_alter('jcarousel_formatter_element', $element);
+  // See airtribune2_jcarousel_formatter_element_alter().
+  //~ drupal_alter('jcarousel_formatter_element', $element);
+  drupal_alter('jcarousel_formatter_element', $media_colorbox_element);
 
-  return $element;
+  //~ return $element;
+  return $media_colorbox_element;
 }
 
 /**
