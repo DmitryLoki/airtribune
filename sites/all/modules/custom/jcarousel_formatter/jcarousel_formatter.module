@@ -147,6 +147,9 @@ function jcarousel_formatter_field_formatter_settings_form($field, $instance, $v
   );
 
   // If colorbox or lightbox2 modules are enabled, we add these choices.
+  if (module_exists('media_colorbox')) {
+    $element['full_image_modal']['#options']['media_colorbox'] = t('Display the file in Media Colorbox');
+  }
   if (module_exists('colorbox')) {
     $element['full_image_modal']['#options']['colorbox'] = t('Display the file in Colorbox');
   }
