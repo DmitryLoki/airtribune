@@ -3499,6 +3499,7 @@ html.fb_view { overflow: auto;}
 .front_live_events .views-field-day-pg-race-play-link { z-index: 10; background: none;}
 .front_live_events .views-field-day-pg-race-play-link,
 .front_live_events .race-links { height: 54px;}
+.front_live_events .view-event-day .views-field.title { display: none; }
 .front_live_events .view-event-day .views-row,
 .front_live_events .views-field-view .views-row { display: block; padding: 6px 5px 0; height: 54px; }
 .front_live_events .view-event-day .views-row { height: 52px; overflow: visible;}
