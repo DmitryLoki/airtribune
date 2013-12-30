@@ -1677,7 +1677,8 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
 .dropdown_list > .field-content { position: absolute; top: 100%; margin-top: 2px; left: 0; text-align: left; right: 0; padding: 0 9px 12px; min-width: 80px; display: none; z-index: 100;}
 .dropdown_list > .field-content.no-tracks-text { color: #525C66; padding-top: 5px;}
 .dropdown_list .field-content span,
-.dropdown_list .replay-link-content li { display: block; color: #ffffff; font: 14px/15px Arial, Helvetica, sans-serif; padding: 0;}
+.dropdown_list .replay-link-content li,
+.views-field-day-pg-race-play-live-link .race-links li { display: block; color: #ffffff; font: 14px/15px Arial, Helvetica, sans-serif; padding: 0;}
 
 .pane-event-days-panel-event-days-on-blog .dropdown_list .item-list,
 .dropdown_list ul,
