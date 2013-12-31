@@ -435,6 +435,7 @@ function at_reg_pilot_number_element_validate($element, &$form_state) {
 function at_reg_form_authorized($nid) {
   module_load_include('inc', 'og_ui', 'og_ui.pages');
   module_load_include('inc', 'profile2', 'contrib/profile2_page');
+  module_load_include('inc', 'at_reg');
   
   // TODO: Included file should be overriden in case of custom callback.
   // See feaval comment in feaval_ajax_defaults().
