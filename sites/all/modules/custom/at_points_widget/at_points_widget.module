@@ -33,6 +33,14 @@ function at_points_widget_menu() {
     'access callback' => 'og_user_access',
     'access arguments' => array('node', 2, 'administer group')
   );
+    $items['points/file/%'] = array(
+    'title' => 'Points upload url',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'at_points_widget_file',
+    'page arguments' => array(2),
+    'access callback' => 'og_user_access',
+    'access arguments' => array('node', 2, 'administer group')
+  );
   $items['points/get/%'] = array(
     'title' => 'Get points for contest',
     'type' => MENU_CALLBACK,
@@ -43,6 +51,15 @@ function at_points_widget_menu() {
   );
   return $items;
 }
+
+/**
+ * Implements hook_FORM_ID_form_alter(). 
+ */
+ function at_points_widget_form_node_form_alter(&$form, $form_state){
+   if (isset($form['field_points_file'])) {
+    $form['field_points_file']['#access'] = FALSE;
+   }
+ }
 
 /**
  * Menu callback for points/upload/%nid.
@@ -117,7 +134,34 @@ function at_points_widget_upload($nid) {
     // If there are new points, we return them to the widget with their ids.
     print _at_points_widget_wrapper($output_array);
   }
+  // @todo Here we create files with points.
+  at_points_widget_create_files($nid);
   drupal_add_http_header('Status', '200 Saved successfully');
+  drupal_exit();
+}
+
+/**
+ * Menu callback for points/upload/%nid.
+ * Receives geoJSON with modified points from widget and saves them. 
+ * @param int $nid
+ */
+function at_points_widget_file($nid) {
+  $file = $_FILES['wptFile'];
+  // First, determine filetype by extension.
+  preg_match('/\.\w+$/', $file['name'], $matches);
+  $extension = $matches[0];
+  $filename = 'temporary://waypoints_' . time() . $extension;
+  move_uploaded_file($file['tmp_name'], $filename);
+  // Factory method.
+  $file_reader = at_points_widget_get_filereader($filename);
+  if (empty($file_reader)) {
+    file_unmanaged_delete($filename);
+    drupal_add_http_header('Status', '400 Incorrect format of input file');
+    drupal_exit();
+  }
+  $points = $file_reader->read();
+  file_unmanaged_delete($filename);
+  print _at_points_widget_wrapper($points);
   drupal_exit();
 }
 
@@ -197,7 +241,7 @@ function _at_points_widget_wrapper (array $points) {
       ),
       'properties' => array(
         'name' => $point->title,
-        'id' => $point->id,
+        'id' => isset($point->id) ? $point->id : NULL, //New points from uploaded file don't have ids
         'comment' => $point_wrapper->field_point_description->value(),
         'readonly' => isset($point->readonly) ? $point->readonly : FALSE
        )
@@ -210,4 +254,96 @@ function _at_points_widget_wrapper (array $points) {
     );
   drupal_add_http_header('Content-Type', 'application/json');
   return json_encode($result);
+}
+
+/**
+ * Returns implementation of atPointsWidgetFile class.
+ * @param string $filename
+ */
+function at_points_widget_get_filereader($filename) {
+  $classes = array_keys(AtPointsWidgetFile::$classes);
+  foreach ($classes as $class) {
+    if ($class::check($filename)) {
+      return new $class($filename);
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Create files with waypoints in different formats for download.
+ * @param type $nid
+ */
+function at_points_widget_create_files($nid) {
+  if (is_null($nid)) return NULL;
+  $query = new EntityFieldQuery();
+  $result = $query
+      ->entityCondition('entity_type', 'ent_contest_point')
+      ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $nid)
+      ->execute();
+  $points = array_keys($result['ent_contest_point']);
+  $contest_wrapper = entity_metadata_wrapper('node', $nid); 
+  $contest_files = $contest_wrapper->field_points_file->value();
+  $format_classes = array();
+  foreach ($contest_files as $contest_file) {
+    file_delete((object)$contest_file);
+  }
+  $contest_wrapper->field_points_file->set(array());
+  $new_classes = array_keys(AtPointsWidgetFile::$classes);
+  foreach ($new_classes as $new_class) {
+    $filename = 'public://' . $contest_wrapper->title->value() . '_' . AtPointsWidgetFile::$classes[$new_class] . '.' . $new_class::extension();
+    $filename = str_replace(' ', '_', $filename);
+    if (file_exists($filename)) {
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'file')->propertyCondition('uri', $filename);
+      $result = $query->execute();
+      if (!empty($result['file'])) {
+        $fids = array_keys($result['file']);
+        foreach ($fids as $fid) {
+          $file = file_load($fid);
+          file_delete($file);
+        }
+      }
+      else {
+        file_unmanaged_delete($filename);
+      }
+    }
+    if ($new_class == 'AtPointsWidgetCompGPSFile') {
+      $compgps_filename = $filename;
+    }
+    $file_writer = new $new_class($filename, TRUE);
+    $file_object = $file_writer->write($points);
+    $array = $contest_wrapper->field_points_file->value();  
+    if (empty($file_object)) {
+      if (empty($compgps_filename)) {
+        throw new Exception(t('Compgps file not found'));
+      }
+      $command = $file_writer::$babbel_path . 'gpsbabel -i compegps -f ' . 
+          drupal_realpath($compgps_filename) . ' -o ' . 
+          $file_writer::$babbel_format . ' -F ' . drupal_realpath($filename);
+      if (!empty($command)) {
+        exec($command);
+        global $user;
+        // No way to automate this.
+        // @see file_save_upload()
+        $file_object = new stdClass();
+        $file_object->uid = $user->uid;
+        $file_object->status = 1;
+        $file_object->filename = trim(drupal_basename($filename), '.');
+        $file_object->uri = $filename;
+        $file_object->filemime = file_get_mimetype($filename);
+        $file_object->filesize = filesize($filename);
+        file_save($file_object);
+      }  
+    }
+    if (empty($file_object)){
+      throw new Exception(t('Points export failed to @class', array('@class' => $classes[$new_class])));
+    }
+    $new_file = (array)$file_object;
+    $new_file['display'] = 1;
+    $new_file['description'] = $file_writer::$description;
+    $array[] = $new_file;
+    $contest_wrapper->field_points_file->set($array);
+  }
+  $contest_wrapper->save();
 }

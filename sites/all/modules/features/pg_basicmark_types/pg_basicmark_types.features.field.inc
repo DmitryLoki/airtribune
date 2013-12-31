@@ -110,6 +110,16 @@ function pg_basicmark_types_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'medium',
           'progress_indicator' => 'throbber',
         ),
@@ -504,6 +514,16 @@ function pg_basicmark_types_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'medium',
           'progress_indicator' => 'throbber',
         ),
@@ -801,7 +821,7 @@ function pg_basicmark_types_field_default_fields() {
   $fields['ent_basicmark-pg_takeoff-field_suitable_winds'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_suitable_winds',
@@ -868,7 +888,7 @@ function pg_basicmark_types_field_default_fields() {
         'active' => 1,
         'module' => 'options',
         'settings' => array(),
-        'type' => 'options_select',
+        'type' => 'options_buttons',
         'weight' => '6',
       ),
     ),

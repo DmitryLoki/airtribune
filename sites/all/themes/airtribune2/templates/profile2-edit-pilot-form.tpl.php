@@ -19,6 +19,12 @@ print drupal_render($form['profile_pilot']['field_fai_license_number']);
 // CIVIL ID
 print drupal_render($form['profile_pilot']['field_civl_id']);
 
+// National Federation License ID
+print drupal_render($form['profile_pilot']['field_nat_license_id']);
+
+// Club
+print drupal_render($form['profile_pilot']['field_team']);
+
 // Pilot's number
 // print drupal_render($og_form['field_contestant_number']);
 

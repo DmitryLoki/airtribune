@@ -1,14 +1,17 @@
-function updateForm(container) {
+function updateForm(container, formsObj) {
     var $ = jQuery,
         container = container || $(document);
-    $('input, .pane-page-content form select', container).forms({disableChoiceOfFirstItemInSelection:true, file_bt:''});
-    $('.select .items_inner', container).each(function () {
-        $(this).parent().show();
-        $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
-        handleKeyPressInSelect($(this).parent(), true);
-        $(this).addClass('items_padding');
-        $(this).parent().hide();
+        formsObj = formsObj || {disableChoiceOfFirstItemInSelection:true, file_bt:''}
 
+    $('input, .pane-page-content form select', container).forms(formsObj);
+    $('.select .items_inner', container).each(function () {
+        if(!$(this).hasClass('items_padding')){
+            $(this).parent().show();
+            $(this).jScrollPane({scrollbarWidth:4, showArrows:false});
+            handleKeyPressInSelect($(this).parent(), true);
+            $(this).addClass('items_padding');
+            $(this).parent().hide();
+        }
     });
     var select_z_index = 1000;
     $('select', container).each(function () {
@@ -84,5 +87,7 @@ jQuery(function ($) {
 Drupal.behaviors.updateImageField = {
     attach: function(){
         updateForm('#user-profile-form');
+        updateForm('.at-editablefield-list_integer .form-type-select', {disableChoiceOfFirstItemInSelection:false});
+
     }
 }

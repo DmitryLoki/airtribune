@@ -13,6 +13,17 @@ define('AT_CONTEST_CONTENT_TYPE', 'pg_contest');
 define('MAIN_PROFILE_TYPE', 'main');
 define('CONTESTANT_MEMBERSHIP_TYPE', 'pg_contestant');
 
+/**
+ * Implements hook_permission().
+ */
+function at_helper_permission() {
+  return array(
+    'view my_events page' => array(
+      'title' => t('View "My events" page'),
+      'description' => t('View list of organizer personal events.'),
+    ),
+  );
+}
 
 /**
  * Implements hook_menu_local_tasks_alter().
@@ -385,11 +396,23 @@ function at_helper_views_post_execute(&$view) {
  *
  * Set Event Days Blog images' caption as colorbox popup title
  */
-function at_helper_preprocess_colorbox_image_formatter(&$variables) {
-  if (isset($variables['field']['field_name']) && $variables['field']['field_name'] == AIRTRIBUNE_IMAGE_FIELD) {
-    if (!empty($variables['item']['image_field_caption']['value'])) {
-      $caption = $variables['item']['image_field_caption']['value'];
-      $variables['display_settings']['colorbox_caption_custom'] = $caption;
+function at_helper_preprocess_media_colorbox(&$variables) {
+  if (!empty($variables['file_id'])) {
+    $file_id = $variables['file_id'];
+    $media_colorbox_caption = '';
+    $file = file_load($file_id);
+    if (!empty($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'])) {
+      $media_colorbox_caption = $file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'];
+    }
+    $variables['media_colorbox_caption'] = $media_colorbox_caption;
+
+    // Add classes for hover images for VIDEO previews.
+    $file_styles = _at_helper_file_view_alter_styles();
+    if (isset($file_styles[$file_id])) {
+      $style = $file_styles[$file_id];
+      if (!empty($file->filemime) && in_array($file->filemime, array('video/vimeo', 'video/youtube'))) {
+        $variables['item_class'] = 'media-corbox-video-preview ' . str_replace('_', '-', $style);
+      }
     }
   }
 }
@@ -479,5 +502,253 @@ function at_helper_field_attach_form($entity_type, $entity, &$form, &$form_state
   // Set flag for image title tags change (in at_helper_field_attach_presave)
   if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE) {
     $form['#node']->at_helper_day_form_flag = TRUE;
+  }
+}
+
+// ------------------------------
+// Grants and permissions
+// ------------------------------
+
+// TODO:
+/**
+ * Implements hook_node_access()
+ */
+function at_helper_node_access($node, $op, $account) {
+  // TODO: Check user role for organizer or author is enough?
+  if ($node->uid == $account->uid && _at_helper_event_edit_denied($node)) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Check event finish date.
+ * Deny access to edit event if it finished more than five days ago.
+ */
+function _at_helper_event_edit_denied($node) {
+  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    // Finish date delta = 5 days
+    $end_delta = 5 * 24 * 3600;
+
+    // Get event end date without offset.
+    $contest_time = airtribune_extract_time_from_contest($node);
+    $end = $contest_time['end_local'];
+
+    // Deny access if event finished more than five days ago.
+    if ($end + $end_delta <= time()) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
+  }
+}
+
+
+// ------------------------------
+// Media Colorbox Formatter
+// ------------------------------
+
+// TODO: Change style right here.
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ * 
+ * This chages styles for all instances of AIRTRIBUNE_IMAGE_FIELD display
+ * if formatter is set to Media Colorbox. Both for nodes and views.
+ * #3996 and related issues
+ */
+function media_colorbox_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  //~ dsm($type);
+  //~ dsm('formatter');
+  //~ dsm($items);
+  //~ dsm($displays);
+  
+  // TODO: Add bricks info into display settings (instead of using static variable).
+  // And override theme_media_colorbox()
+  
+  
+  if ($field['field_name'] == AIRTRIBUNE_IMAGE_FIELD && !empty($items)) {
+    
+    $imgs = array_shift($items);
+    if (!empty($imgs)) {
+      $file_styles = array();
+
+      $count = count($imgs);
+      switch($count){
+        case 1:
+          $image_styles = array('event_blog_teaser_first');
+        break;
+        case 2:
+          $image_styles = array('event_blog_teaser_second');
+        break;
+        case 3:
+          $image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth');
+        break;
+        case 4:
+          $image_styles = array('event_blog_teaser_fifth', 'event_blog_teaser_sixth');
+        break;
+        case 5:
+          $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+        break;
+        case 6:
+          $image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth', 'event_blog_teaser_sixth_extra', 'event_blog_teaser_sixth');
+        break;
+        case 7:
+          $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_seventh');
+        break;
+        case 8:
+          $image_styles = array('event_blog_teaser_second', 'event_blog_teaser_second', 'event_blog_teaser_seventh');
+        break;
+        case 9:
+          $image_styles = array('event_blog_teaser_third', 'event_blog_teaser_fourth', 'event_blog_teaser_fourth', 'event_blog_teaser_seventh');
+        break;
+        default:
+          $image_styles = array('event_blog_teaser_first', 'event_blog_teaser_eighth');
+        break;
+      }
+
+      $is_count = 0;
+
+      foreach ($imgs as $img) {
+        if(!empty($image_styles[$is_count])){
+          $image_style = $image_style_other = $image_styles[$is_count];
+        }
+        else{
+          $image_style = $image_style_other;
+        }
+
+        //~ $file_styles[$img['fid']] = 'event_blog_teaser_eighth';
+        $file_styles[$img['fid']] = $image_style;
+        $is_count++;
+      }
+
+      //~ dsm($file_styles);
+      _at_helper_file_view_alter_styles($file_styles);
+    }
+  }
+  elseif (in_array($field['field_name'], array(AIRTRIBUNE_CONTEST_PHOTOS_FIELD, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD)) && !empty($items)) {
+    $imgs = array_shift($items);
+    if (!empty($imgs)) {
+      //~ $image_style = 'contest_gallery_thumb';
+      $image_style = 'contest_thumbnail';
+      
+      $file_styles = array();
+      foreach ($imgs as $img) {
+        $file_styles[$img['fid']] = $image_style;
+      }
+      _at_helper_file_view_alter_styles($file_styles);
+      
+    }
+  }
+}
+
+/**
+ * Implements hook_file_view_alter().
+ *
+ * Override Event Blog images' styles. See theme_media_colorbox().
+ */
+function at_helper_file_view_alter(&$build, &$type) {
+  if (!empty($build['#file']->fid)) {
+    $fid = $build['#file']->fid;
+    // TODO: Save statically
+    $file_styles = _at_helper_file_view_alter_styles();
+    // Check if it's an image or video file.
+    if (isset($file_styles[$fid])) {
+      $style = $file_styles[$fid];
+      if (!empty($build['file']['#image_style'])) {
+        $build['file']['#image_style'] = $style;
+      }
+      elseif (!empty($build['file']['#style_name'])) {
+        $build['file']['#style_name'] = $style;
+      }
+    }
+  }
+}
+
+function _at_helper_file_view_alter_styles($file_styles = NULL) {
+  static $styles = array();
+
+  if (isset($file_styles)) {
+    //~ $styles = $file_styles;
+    // Store all style for views case because first all fields are processed
+    // and only then rendered.
+    $styles += $file_styles;
+  }
+
+  return $styles;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form_alter().
+ * 
+ * Alter media_colorbox formatter to set Bricks scheme.
+ * Uses hook provided by field_formatter_settings module.
+ */
+function at_helper_field_formatter_settings_form_alter(&$element, &$form_state, $context) {
+  if (empty($form_state['view_mode']) || empty($form_state['instance']['display'][$form_state['view_mode']]['type'])) {
+    return;
+  }
+  if ($form_state['instance']['display'][$form_state['view_mode']]['type'] == 'media_colorbox') {
+    
+    $settings = $form_state['instance']['display'][$form_state['view_mode']]['settings'];
+    //~ dsm($form_state);
+    $schemes = array(
+      '' => t('- None -'),
+      'test' => t('Test'),
+    );
+    
+    $scheme = (isset($settings['bricks_scheme']) && isset($schemes[$settings['bricks_scheme']])) ? $settings['bricks_scheme'] : '';
+    //~ dsm($element);
+    $element['bricks_scheme'] = array(
+      //~ '#type' => 'textfield',
+      '#type' => 'select',
+      '#options' => $schemes,
+      '#title' => t('Bricks scheme'),
+      '#description' => t('Image styles bricks scheme'),
+      '#default_value' => $scheme,
+    );
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary_alter().
+ * 
+ * Alter media_colorbox formatter settings summary.
+ * Uses hook provided by field_formatter_settings module.
+ */
+function at_helper_field_formatter_settings_summary_alter(&$summary, array $context) {
+  if ($context['instance']['display'][$context['view_mode']]['type'] == 'media_colorbox') {
+    
+    $settings = $context['instance']['display'][$context['view_mode']]['settings'];
+    
+    $schemes = array(
+      '' => t('- None -'),
+      'test' => t('Test'),
+    );
+    $scheme = (isset($settings['bricks_scheme']) && isset($schemes[$settings['bricks_scheme']])) ? $settings['bricks_scheme'] : '';
+    $summary .= '<br />' . t('Bricks scheme: ') . $schemes[$scheme];
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function at_helper_field_formatter_info_alter(&$info) {
+  // Add bricks_scheme settings into formatter info.
+  // Otherwise panels won't save setting.
+  $info['media_colorbox']['settings']['bricks_scheme'] = '';
+}
+
+
+/**
+ * Helper to dsm variable only once.
+ */
+function dsm_once($var, $key = 'none') {
+  static $vars = array();
+  if (!in_array($key, $vars)) {
+    dsm($var);
+    $vars[] = $key;
   }
 }
