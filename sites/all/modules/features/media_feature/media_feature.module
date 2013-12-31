@@ -129,6 +129,52 @@ function media_feature_field_attach_presave($entity_type, $entity) {
       }
     }
   }
+  
+  elseif ($entity_type == 'node' && $entity->type == AIRTRIBUNE_PG_CONTEST_TYPE && !empty($entity->at_helper_day_form_flag)) {
+    // Get event images data.
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
+    $images_value = $node_wrapper->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD}->value();
+    if (!empty($images_value)) {
+      $event_title = $entity->title;
+      foreach ($images_value as $k => $v) {
+        $file = file_load($v['fid']);
+        if (in_array($file->type, array('image', 'video'))) {
+          if (!empty($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'])) {
+            $components = array($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'], $event_title);
+          }
+          else {
+            $components = array($event_title);
+          }
+          
+          $file->{AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD}['und'][0]['value'] = $file->{AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD}['und'][0]['value'] = implode(' ', $components);
+          file_save($file);
+        }
+      }
+    }
+  }
+  
+  elseif ($entity_type == 'node' && $entity->type == AIRTRIBUNE_PG_FLYINGSITE_TYPE && !empty($entity->at_helper_day_form_flag)) {
+    // Get flying site images data.
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
+    $images_value = $node_wrapper->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD}->value();
+    if (!empty($images_value)) {
+      $flyingsite_title = $entity->title;
+      foreach ($images_value as $k => $v) {
+        $file = file_load($v['fid']);
+        if (in_array($file->type, array('image', 'video'))) {
+          if (!empty($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'])) {
+            $components = array($file->{AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD}['und'][0]['value'], $flyingsite_title);
+          }
+          else {
+            $components = array($flyingsite_title);
+          }
+          
+          $file->{AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD}['und'][0]['value'] = $file->{AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD}['und'][0]['value'] = implode(' ', $components);
+          file_save($file);
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -137,6 +183,14 @@ function media_feature_field_attach_presave($entity_type, $entity) {
 function media_feature_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
   // Set flag for image title tags change (in at_helper_field_attach_presave)
   if ($entity_type == 'node' && $entity->type == AIRTRIBUNE_DAY_TYPE) {
+    $form['#node']->at_helper_day_form_flag = TRUE;
+  }
+  
+  elseif ($entity_type == 'node' && $entity->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    $form['#node']->at_helper_day_form_flag = TRUE;
+  }
+  
+  elseif ($entity_type == 'node' && $entity->type == AIRTRIBUNE_PG_FLYINGSITE_TYPE) {
     $form['#node']->at_helper_day_form_flag = TRUE;
   }
 }

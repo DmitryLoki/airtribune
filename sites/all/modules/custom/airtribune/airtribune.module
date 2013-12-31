@@ -70,6 +70,7 @@ define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 define('AIRTRIBUNE_DAY_TYPE', 'day');
+define('AIRTRIBUNE_PG_FLYINGSITE_TYPE', 'pg_flyingsite');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
