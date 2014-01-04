@@ -110,7 +110,9 @@ function airtribune2_preprocess_html(&$vars) {
     drupal_add_js(path_to_theme() . '/js/forms_action.js');
   }
 
-
+  // Temporary exclude css from aggregate
+  // @see https://drupal.org/node/1271984
+  drupal_add_css(path_to_theme() . '/css/na.css', array('preprocess' => FALSE));
 }
 
 /**
