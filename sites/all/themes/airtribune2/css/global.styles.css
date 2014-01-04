@@ -3346,12 +3346,6 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .pane-event-days-results-race-list .task_result_items { display: inline-block;}
 .pane-event-days-results-race-list .task_result .label,
 .pane-event-days-results-race-list .views-label { color: #495055; font-weight: bold;}
-.pane-event-days-results-race-list .task_result .label:after,
-.pane-event-days-results-race-list .views-label:after { content: ": "}
-.pane-event-days-results-race-list .task_result .file:after,
-.pane-event-days-results-race-list .item-list li:after,
-.pane-event-days-results-race-list .views-field-field-pg-race-tracks .file:after,
-.pane-event-days-results-race-list .views-field-pg-race-play-link .item-list:after { content: ", "}
 .pane-event-days-results-race-list .task_result .file:last-child:after,
 .pane-event-days-results-race-list .item-list li:last-child:after,
 .pane-event-days-results-race-list .views-field-field-pg-race-tracks .file:last-child:after,
