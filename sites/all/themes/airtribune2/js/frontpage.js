@@ -24,7 +24,10 @@
           //need to store click counter in case of re-applying this function
           $section.data('click-counter', clickCounter);
         });
-      })
+      });
+      if(!($(".front_live_events").length)) {
+        $('body').addClass('no-live-events');
+      }
     }
   }
 

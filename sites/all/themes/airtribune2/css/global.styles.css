@@ -1550,8 +1550,6 @@ form#user-login:after { content:"."; clear:both; visibility:hidden; display:bloc
 .node .node-content h2 { margin:0 0 -2px; padding:7px 0 0; font:24px/26px Arial, Helvetica, sans-serif;}
 .node .node-content p + h2 { padding-top:36px}
 
-.pane-activity .pane-content { margin-top: 34px; }
-
 .pane-contest-blog-contest-full-pane .pane-inner,
 .pane-contest-blog-next-contest .pane-inner { margin:0;}
 .node_view_mode_event_blog_teaser { margin:0 0 10px; padding:0 0 9px}
@@ -4046,3 +4044,5 @@ https://github.com/AdamWhitcroft/CSS.Tooltips
 [data-tip]:hover:after {
     display: block;
 }
+
+body.no-live-events .pane-activity h2.pane-title { display: none; margin-bottom: 34px; }
