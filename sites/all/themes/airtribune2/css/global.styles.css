@@ -4045,4 +4045,4 @@ https://github.com/AdamWhitcroft/CSS.Tooltips
     display: block;
 }
 
-body.no-live-events .pane-activity h2.pane-title { display: none; margin-bottom: 34px; }
+.front .pane-activity h2.pane-title { display: none; margin-bottom: 34px; }

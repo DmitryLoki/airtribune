@@ -26,7 +26,9 @@
         });
       });
       if(!($(".front_live_events").length)) {
-        $('body').addClass('no-live-events');
+        $('body.no-live-events .pane-activity h2.pane-title').hide();
+      } else {
+        $('body.no-live-events .pane-activity h2.pane-title').show();
       }
     }
   }
