@@ -56,7 +56,7 @@ function airtribune_event_tw_fb_content_type_render(&$subtype, $conf, $panel_arg
     $title = 'Twitter';
   }
   elseif (!empty($facebook_page_url)) {
-    $widget_html = '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode("https://facebook.com/$facebook_page_url") . '&amp;width&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width: 232px; height: 204px;" allowTransparency="true"></iframe>';
+    $widget_html = '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode("https://facebook.com/$facebook_page_url") . '&amp;width&amp;height=258&amp;colorscheme=light&amp;show_faces=false&amp;header=false&amp;stream=true&amp;show_border=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height: 330px;" allowTransparency="true"></iframe>';
     $content['#attributes'] = array('id' => drupal_html_id('airtribune-event-facebook'));
     $title = 'Facebook';
     // TODO remove this after renaming plugin.
