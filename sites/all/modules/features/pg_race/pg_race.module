@@ -725,13 +725,9 @@ function _pg_race_preview_markup($entity) {
     return;
   }
 
-  $params['text'] = '2D';
-  $params['type'] = '2d';
+  $params['text'] = array('2D', '3D');
+  $params['type'] = array('2d', 'ge');
   $markup = _pg_race_play_link($params);
-  $params['text'] = '3D Google Earth';
-  $params['type'] = 'ge';
-  $markup .= _pg_race_play_link($params);
-
 
   $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
 
