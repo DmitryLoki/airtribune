@@ -728,7 +728,7 @@ function _pg_race_preview_markup($entity) {
   $params['text'] = '2D';
   $params['type'] = '2d';
   $markup = _pg_race_play_link($params);
-  $params['text'] = '3D Google Earth';
+  $params['text'] = '3D';
   $params['type'] = 'ge';
   $markup .= _pg_race_play_link($params);
 
