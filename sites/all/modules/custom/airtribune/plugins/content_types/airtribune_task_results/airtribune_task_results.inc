@@ -52,7 +52,9 @@ function airtribune_airtribune_task_results_content_type_render($subtype, $conf,
     if ($category->field_scoring_category_ref[LANGUAGE_NONE][0]['target_id'] == $context_category->data->nid) {
       $wrapper_category = entity_metadata_wrapper($category->entityType(), $category);
       $file_entity = $wrapper_category->field_results_file->value();
-      $output = file_get_contents(drupal_realpath($file_entity['uri']));
+      if (isset($file_entity['uri'])) {
+        $output = file_get_contents(drupal_realpath($file_entity['uri']));
+      }
     }
   }
   $content['widget']['#markup'] = $output;
