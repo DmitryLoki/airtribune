@@ -1293,7 +1293,10 @@ function airtribune2_file_icon($variables) {
 
   $mime = check_plain($file->filemime);
   $path_info = pathinfo($file->filename);
-  $extension_desc = str_replace(array('Waypoints', ' ', '(', ')'), '', $file->description);
+  $extension_desc = '';
+  if (isset($file->description)) {
+    $extension_desc = str_replace(array('Waypoints', ' ', '(', ')'), '', $file->description);
+  }
   if ($path_info['extension'] == 'wpt' && isset($icons[$extension_desc])) {
     $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$extension_desc];
   }

@@ -515,7 +515,7 @@ function at_helper_field_attach_form($entity_type, $entity, &$form, &$form_state
  */
 function at_helper_node_access($node, $op, $account) {
   // TODO: Check user role for organizer or author is enough?
-  if ($node->uid == $account->uid && _at_helper_event_edit_denied($node)) {
+  if (isset($node->uid) && $node->uid == $account->uid && _at_helper_event_edit_denied($node)) {
     return NODE_ACCESS_DENY;
   }
 
