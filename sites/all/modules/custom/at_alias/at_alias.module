@@ -337,10 +337,13 @@ function _al_alias_create_object_aliases($node, $event_nids = NULL) {
       $real_path_pattern = "event/%/map/{$node->nid}";
       $alias_pattern = "/map/{$subalias}/{$clear_title}";
       // If it is a newly created object, process further.
-      if (!$node->is_new) {
+      if (!isset($node->is_new)) {
         // Check if there exist already any aliases ("event/%/map/{$node->nid}") for object.
         $alias_exist = _at_alias_exists($real_path_pattern);
-        $title_updated = ($node->title != $node->original->title);
+        $title_updated = FALSE;
+        if (isset($node->original)) {
+          $title_updated = ($node->title != $node->original->title);
+        }
         // If title wasn't updated and some aliases found, do nothing.
         // For example, for old object that existed before, we should create aliases.
         // @TODO: Maybe add regeneration functionality.
