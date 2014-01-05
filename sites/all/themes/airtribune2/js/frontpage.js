@@ -26,9 +26,9 @@
         });
       });
       if(!($(".front_live_events").length)) {
-        $('body.no-live-events .pane-activity h2.pane-title').hide();
+        $('.front .pane-activity h2.pane-title').hide();
       } else {
-        $('body.no-live-events .pane-activity h2.pane-title').show();
+        $('.front .pane-activity h2.pane-title').show();
       }
     }
   }
