@@ -1886,43 +1886,45 @@ function theme_airtribune_event_statistics($vars) {
  * Implements hook_field_prepare_view().
  */
 function airtribune_node_load($nodes, $types) {
-  foreach ($nodes as $nid => $node) {
-
-    if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+  // Add pints files into download on event info page
+  if (arg(0) == 'event' && arg(2) == 'info') {
+    foreach ($nodes as $nid => $node) {
+      if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
         // Output points files in downloads
         // @see #3983
         // @author Vyacheslav Malchik <info@vkey.biz>
-      if (!empty($node->field_points_file)) {
-        foreach ($node->field_points_file[LANGUAGE_NONE] as $key => $value) {
-          // Change description for output
-          $node->field_points_file[LANGUAGE_NONE][$key]['description']=  t('Waypoints') . ' (' . $node->field_points_file[LANGUAGE_NONE][$key]['description'] . ')';
-        }
-        if (empty($node->field_downloads)) {
-          // Replace downloads fields with points files
-          $node->field_downloads = $node->field_points_file;
-        } else {
-          // Merge downloads and points files
-          $node->field_downloads[LANGUAGE_NONE] = array_merge($node->field_points_file[LANGUAGE_NONE], $node->field_downloads[LANGUAGE_NONE]);
-        }
-      }
-      
-      // Merge contest images with flying site images on info pages
-      // @see #3996
-      // @author Vyacheslav Malchik <info@vkey.biz>
-      if (arg(0) == 'event' && arg(2) == 'info' && arg(3) != 'details') {
-        $fs_node = NULL;
-        // Get flying site node
-        if(!empty($node->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'])) {
-          $fs_nid = $node->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
-          $fs_node = node_load($fs_nid);
-        }
-        if (!empty($fs_node->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD})) {
-          if (empty($node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD})) {
-            // Replace empty field
-            $node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD} = $fs_node->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD};
+        if (!empty($node->field_points_file)) {
+          foreach ($node->field_points_file[LANGUAGE_NONE] as $key => $value) {
+            // Change description for output
+            $node->field_points_file[LANGUAGE_NONE][$key]['description']=  t('Waypoints') . ' (' . $node->field_points_file[LANGUAGE_NONE][$key]['description'] . ')';
+          }
+          if (empty($node->field_downloads)) {
+            // Replace downloads fields with points files
+            $node->field_downloads = $node->field_points_file;
           } else {
-            // Merge fields
-            $node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD}[LANGUAGE_NONE] = array_merge($node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD}[LANGUAGE_NONE], $fs_node->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD}[LANGUAGE_NONE]);
+            // Merge downloads and points files
+            $node->field_downloads[LANGUAGE_NONE] = array_merge($node->field_points_file[LANGUAGE_NONE], $node->field_downloads[LANGUAGE_NONE]);
+          }
+        }
+
+        // Merge contest images with flying site images on info pages
+        // @see #3996
+        // @author Vyacheslav Malchik <info@vkey.biz>
+        if (arg(0) == 'event' && arg(2) == 'info' && arg(3) != 'details') {
+          $fs_node = NULL;
+          // Get flying site node
+          if(!empty($node->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'])) {
+            $fs_nid = $node->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
+            $fs_node = node_load($fs_nid);
+          }
+          if (!empty($fs_node->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD})) {
+            if (empty($node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD})) {
+              // Replace empty field
+              $node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD} = $fs_node->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD};
+            } else {
+              // Merge fields
+              $node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD}[LANGUAGE_NONE] = array_merge($node->{AIRTRIBUNE_CONTEST_PHOTOS_FIELD}[LANGUAGE_NONE], $fs_node->{AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD}[LANGUAGE_NONE]);
+            }
           }
         }
       }
