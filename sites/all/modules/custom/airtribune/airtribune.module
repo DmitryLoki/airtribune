@@ -712,7 +712,7 @@ function airtribune_preprocess_panels_pane(&$vars) {
   }
 
   if ($vars['pane']->subtype == 'frontpage_events-live_events_pane') {
-    $vars['title'] .= l(t('View all'), 'events/current');
+    //$vars['title'] .= l(t('View all'), 'events/current');
   }
   if ($vars['pane']->subtype == 'frontpage_events-soon_worldwide_pane') {
     $vars['title'] .= l(t('View all'), 'events/next');
