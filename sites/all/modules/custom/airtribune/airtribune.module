@@ -1883,7 +1883,7 @@ function theme_airtribune_event_statistics($vars) {
 }
 
 /**
- * Implements hook_field_prepare_view().
+ * Implements hook_node_load().
  */
 function airtribune_node_load($nodes, $types) {
   // Add pints files into download on event info page
