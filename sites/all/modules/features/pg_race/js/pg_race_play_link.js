@@ -82,6 +82,7 @@
             $raceBlock.closest('.views-row').addClass('race-block-activated');
             $raceBlock.closest('.views-field').find('.online-link-content').addClass('field-content');
             $raceBlock.closest('.views-field').find('.no-tracks-text').removeClass('field-content');
+            $raceBlock.closest('.views-field').find('.no-tracks-text').hide();
             $raceBlock.closest('.views-field').find('.online-link-content').insertBefore($raceBlock.closest('.views-field').find('.no-tracks-text'));
             if(raceData.isOnline) {
               setOnlineTimeView(true, raceTime, timeHelperText, helperText);
