@@ -51,14 +51,17 @@ function at_language_set_boot() {
   $hardcoded_languages = array(
     'ru' => array('ru', 'be', 'uk', 'kz', 'ky', 'ab', 'mo', 'et', 'lv'),
     'bg' => 'bg',
+    'en' => 'en',
     'fr' => 'fr',
+    'de' => 'de',
     'it' => 'it',
+    'ja' => 'ja',
     'pl' => 'pl',
     'pt' => 'pt',
     'sr' => 'sr',
+    'sl' => 'sl',
     'es' => 'es',
     'tr' => 'tr',
-    'en' => 'en',
   );
 
   $path = explode("/", isset($_GET['q']) ? $_GET['q'] : '');
