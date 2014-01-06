@@ -3549,6 +3549,8 @@ html.fb_view { overflow: auto;}
 .front_live_events .no-blog .title { font: bold 28px/42px Arial, Helvetica, sans-serif;}
 .front_live_events .no-blog .title span { font-size: 18px}
 .front_live_events .views-field-dates a:hover { text-decoration: underline;}
+.front_live_events .field-day-status-4,
+.front_live_events .field-day-status-5,
 .front_live_events .field-day-status-0 {display:none}
 .front_live_events .views-field-field-logo { display: none; position: absolute; top: 80px; left: 0; background: url(../images/logo_bgr.png) no-repeat 50% 0; width: 100%; text-align: center;}
 .front_live_events .views-row:hover .views-field-field-logo { display: block;}
