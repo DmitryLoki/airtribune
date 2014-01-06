@@ -59,6 +59,7 @@ function at_language_set_boot() {
     'es' => 'es',
     'tr' => 'tr',
     'en' => 'en',
+    'ja' => 'ja',
   );
 
   $path = explode("/", isset($_GET['q']) ? $_GET['q'] : '');
