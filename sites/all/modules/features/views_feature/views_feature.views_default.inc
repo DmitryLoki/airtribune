@@ -6238,7 +6238,10 @@ return array($event_id);';
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Live events';
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'View all';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -6361,6 +6364,7 @@ return array($event_id);';
 
   /* Display: Live events */
   $handler = $view->new_display('panel_pane', 'Live events', 'live_events_pane');
+  $handler->display->display_options['link_url'] = 'events/current';
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Nid (excluded) */
@@ -6856,7 +6860,7 @@ return array($event_id);';
   $translatables['frontpage_events'] = array(
     t('Master'),
     t('Live events'),
-    t('more'),
+    t('View all'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
@@ -6868,6 +6872,7 @@ return array($event_id);';
 </span>
 <span class="valign"></span>'),
     t('View'),
+    t('more'),
     t('View contest'),
     t('View panes'),
     t('Soon worldwide'),
