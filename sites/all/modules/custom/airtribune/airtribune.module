@@ -1078,6 +1078,8 @@ function airtribune_views_pre_render(&$view) {
         $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
       }
     }
+  } else if ($view->name == 'paragliding_pilots_list_export' && $view->current_display == 'export_pilots_one_page') {
+    drupal_add_css(drupal_get_path('theme', 'airtribune2') . '/css/export-pilots-print.css', array('media' => 'print','group' => CSS_THEME, 'weight' => 999));
   }
 }
 
