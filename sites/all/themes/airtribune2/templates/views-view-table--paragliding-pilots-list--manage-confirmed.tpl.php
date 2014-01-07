@@ -18,7 +18,7 @@
  * @ingroup views_templates
  */
 ?>
-<table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
+<table id="manage-pilots-confirmed" <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
   <?php if (!empty($title)) : ?>
     <caption>
         <?php
