@@ -3726,6 +3726,46 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['value'] = array(
     'day' => 'day',
   );
+
+  /* Display: Link to day */
+  $handler = $view->new_display('panel_pane', 'Link to day', 'panel_pane_1');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Day status - exclided */
+  $handler->display->display_options['fields']['field_day_status_2']['id'] = 'field_day_status_2';
+  $handler->display->display_options['fields']['field_day_status_2']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status_2']['field'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status_2']['ui_name'] = 'Day status - exclided';
+  $handler->display->display_options['fields']['field_day_status_2']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_2']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_2']['alter']['text'] = '[field_day_status_2]';
+  $handler->display->display_options['fields']['field_day_status_2']['element_label_colon'] = FALSE;
+  /* Field: Day number - excluded */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['ui_name'] = 'Day number - excluded';
+  $handler->display->display_options['fields']['field_day_number']['label'] = '';
+  $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_number']['empty'] = '[field_day_status_2]';
+  $handler->display->display_options['fields']['field_day_number']['empty_zero'] = TRUE;
+  /* Field: Day blog body - overriden */
+  $handler->display->display_options['fields']['field_plain_body_1']['id'] = 'field_plain_body_1';
+  $handler->display->display_options['fields']['field_plain_body_1']['table'] = 'field_data_field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body_1']['field'] = 'field_plain_body';
+  $handler->display->display_options['fields']['field_plain_body_1']['relationship'] = 'field_dayblog_ref_target_id';
+  $handler->display->display_options['fields']['field_plain_body_1']['ui_name'] = 'Day blog body - overriden';
+  $handler->display->display_options['fields']['field_plain_body_1']['label'] = '';
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['text'] = 'event/!1/blog#!day_[field_day_number]';
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['field_plain_body_1']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_plain_body_1']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_plain_body_1']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['field_plain_body_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_plain_body_1']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_plain_body_1']['element_default_classes'] = FALSE;
   $translatables['event_day'] = array(
     t('Master'),
     t('more'),
@@ -3745,6 +3785,9 @@ return array($event_id);';
     t('<span class="day-blog[id]"><span class="title">[title]</span> [field_plain_body_1]</span>'),
     t('<span class="day-blog[id] no-blog"><span class="title">[title]</span> [field_plain_body_1]</span>'),
     t('All'),
+    t('Link to day'),
+    t('event/!1/blog#!day_[field_day_number]'),
+    t('View panes'),
   );
   $export['event_day'] = $view;
 
@@ -6380,6 +6423,16 @@ return array($event_id);';
   $handler->display->display_options['link_url'] = 'events/current';
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Link to day (raw) (excluded in code) */
+  $handler->display->display_options['fields']['view_1']['id'] = 'view_1';
+  $handler->display->display_options['fields']['view_1']['table'] = 'views';
+  $handler->display->display_options['fields']['view_1']['field'] = 'view';
+  $handler->display->display_options['fields']['view_1']['ui_name'] = 'Link to day (raw) (excluded in code)';
+  $handler->display->display_options['fields']['view_1']['label'] = '';
+  $handler->display->display_options['fields']['view_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_1']['view'] = 'event_day';
+  $handler->display->display_options['fields']['view_1']['display'] = 'panel_pane_1';
+  $handler->display->display_options['fields']['view_1']['arguments'] = '[!nid]';
   /* Field: Nid (excluded) */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';

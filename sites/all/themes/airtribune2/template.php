@@ -1821,6 +1821,31 @@ function airtribune2_views_pre_render(&$view) {
 }
 
 
+function airtribune2_preprocess_views_view_fields(&$vars) {
+  $view = $vars['view'];
+  // Replace link to event with link to dayblog
+  // @author Vyacheslav Malchik <info@vkey.biz>
+  // @see #4261
+  if ($view->name == 'frontpage_events' && $view->current_display == 'live_events_pane') {
+    $href = $vars['fields']['view_1']->content;
+    unset($vars['fields']['view_1']);
+    if (!empty($href)) {
+      // Remove tags
+      $href = preg_replace("/<[^>]*>/", " ", $href);
+      $href = trim(str_replace("  ", " ", $href));
+      // Get raw path
+      $href = explode('#', $href);
+      // Get alias
+      $href[0] = url($href[0]);
+      $href = implode('#', $href);
+      // Relace old path
+      $pattern = '/href="(.*)"/';
+      $replace = 'href=' . $href;
+      $vars['fields']['nothing']->content = preg_replace($pattern, $replace, $vars['fields']['nothing']->content);
+    }
+  }
+}
+
 /**
  * Display the simple view of rows one after another
  */

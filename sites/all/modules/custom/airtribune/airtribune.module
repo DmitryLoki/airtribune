@@ -1079,7 +1079,7 @@ function airtribune_views_pre_render(&$view) {
       }
     }
   }  else if ($view->name == 'event_day') {
-     // Fix js link to day in live events block
+    // Fix js link to day in live events block
     foreach ($view->result as $k => $v) {
       $view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'], " ");
     }
