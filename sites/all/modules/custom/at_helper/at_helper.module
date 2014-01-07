@@ -250,6 +250,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['rules'][$fieldname]['required'] = TRUE;
       $clientside_validation_settings['clientsideValidation']['forms'][$form['#id']]['general']['errorElement'] = 'label';
       $clientside_validation_settings['clientsideValidation']['groups'] = "";
+      $clientside_validation_settings['clientsideValidation']['general']['usexregxp'] = 0;
       break;
   }
 }
