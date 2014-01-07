@@ -3591,6 +3591,16 @@ return array($event_id);';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['id'] = 'reverse_field_day_ref_ent_race';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_day_ref_ent_race']['field'] = 'reverse_field_day_ref_ent_race';
+  /* Field: Day status - exclided */
+  $handler->display->display_options['fields']['field_day_status_2']['id'] = 'field_day_status_2';
+  $handler->display->display_options['fields']['field_day_status_2']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status_2']['field'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status_2']['ui_name'] = 'Day status - exclided';
+  $handler->display->display_options['fields']['field_day_status_2']['label'] = '';
+  $handler->display->display_options['fields']['field_day_status_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_2']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_day_status_2']['alter']['text'] = '[field_day_status_2]';
+  $handler->display->display_options['fields']['field_day_status_2']['element_label_colon'] = FALSE;
   /* Field: Day number - excluded */
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
@@ -3599,6 +3609,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_number']['label'] = '';
   $handler->display->display_options['fields']['field_day_number']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_day_number']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_day_number']['empty'] = '[field_day_status_2]';
+  $handler->display->display_options['fields']['field_day_number']['empty_zero'] = TRUE;
   /* Field: Title - overriden */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
@@ -3725,6 +3737,7 @@ return array($event_id);';
     t('OG membership from node'),
     t('Day blog'),
     t('Race referencing Content from field_day_ref'),
+    t('[field_day_status_2]'),
     t(' task-ready'),
     t('.'),
     t('<span class="field-day-status-[field_day_status-value]">([field_day_status])</span>'),
