@@ -1829,10 +1829,10 @@ function airtribune2_preprocess_views_view_fields(&$vars) {
   if ($view->name == 'frontpage_events' && $view->current_display == 'live_events_pane') {
     $href = $vars['fields']['view_1']->content;
     unset($vars['fields']['view_1']);
+    // Remove tags
+    $href = preg_replace("/<[^>]*>/", " ", $href);
+    $href = trim(str_replace("  ", " ", $href));
     if (!empty($href)) {
-      // Remove tags
-      $href = preg_replace("/<[^>]*>/", " ", $href);
-      $href = trim(str_replace("  ", " ", $href));
       // Get raw path
       $href = explode('#', $href);
       // Get alias
