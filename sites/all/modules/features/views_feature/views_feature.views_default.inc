@@ -4116,7 +4116,8 @@ return array($event_id);';
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>';
+  $handler->display->display_options['header']['area']['content'] = '<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>
+<script src="/sites/all/modules/custom/at_inline/at_inline.js"></script>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Day number (excluded) */
@@ -4775,7 +4776,8 @@ return array($event_id);';
     t('Race points'),
     t('All'),
     t('List of day (accordion)'),
-    t('<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>'),
+    t('<script src="/sites/all/modules/features/pg_race/js/pg_race_play_link.js"></script>
+<script src="/sites/all/modules/custom/at_inline/at_inline.js"></script>'),
     t('Day [field_day_number]'),
     t('[field_day_status_1]'),
     t('—'),
