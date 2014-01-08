@@ -387,6 +387,7 @@ function at_helper_views_post_execute(&$view) {
         $view->result[$k]->field_field_core_id_1 = array();
       }
     }
+    drupal_add_js(drupal_get_path('module', 'airtribune').'/js/jquery.available.js');
   }
 
 }

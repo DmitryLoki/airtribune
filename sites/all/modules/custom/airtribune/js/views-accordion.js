@@ -1,3 +1,19 @@
+//Begin ajax request for active day blog content before page loaded
+(function($){
+
+  var dayHash = location.hash.match(/#!(.*)/i);
+  if (dayHash !== null && dayHash.length > 1 && dayHash[1] !== '') {
+    $('.day-number[data-href="#'+ dayHash[1] +'"]').available(function() {
+      var $this = $(this),
+        dayLink = $this.parent();
+      dayLink.attr('href', dayLink.data('href'));
+      Drupal.behaviors.ajaxLinksApi.attach();
+
+      dayLink.trigger('click').unbind('click').removeClass('ajax-link');
+    })
+  }
+})(jQuery.noConflict());
+
 (function ($) {
   Drupal.behaviors.views_accordion = {
     attach: function () {
@@ -26,8 +42,7 @@
             $link.attr('href', $link.data('href'));
             $link.bind('click', function(e) {
               $($link.attr('rel')).css('height','70px');
-              $(this).unbind('click').removeClass('ajax-link')
-              //$(this).bind('click',accordionElement.data('accordion')._clickHandler.bind(accordionElement.data('accordion')));
+              $(this).unbind('click').removeClass('ajax-link');
             });
             // if the header is not already using an anchor tag, add one
             if ($link.length == 0) {
@@ -72,7 +87,7 @@
           });
           Drupal.behaviors.views_accordion.updateHash(accordionElement.data('accordion'));
           Drupal.behaviors.views_accordion.scrollToActiveTab(accordionElement.data('accordion'));
-          accordionElement.find('.ui-state-active a').trigger('click');
+          //accordionElement.find('.ui-state-active a').trigger('click');
           accordionElement.data('accordion').options.collapsible = 1;//this.collapsible
           this.processed = true;
         });
