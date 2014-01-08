@@ -9661,7 +9661,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Test';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]">No data</span>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]-time">No data</span>';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
   $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
@@ -9790,7 +9790,7 @@ return array($event_id);';
     t('Pilot'),
     t('Phone number'),
     t('Test'),
-    t('<span class="tracker-status" id="[field_core_id]">No data</span>'),
+    t('<span class="tracker-status" id="[field_core_id]-time">No data</span>'),
     t('Manage event pilots (confirmed)'),
   );
   $export['paragliding_pilots_list'] = $view;

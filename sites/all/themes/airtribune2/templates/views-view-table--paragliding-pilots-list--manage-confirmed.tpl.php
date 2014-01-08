@@ -45,7 +45,22 @@
           }
           if ($field == "field_full_name") {
             $label .= $number_label;
-          }          
+          }
+          if ($field == "nothing") {
+            $arrow = '';
+            $sort = 'asc';
+            if (isset($_GET['custom_order'])) {
+              $header_classes[$field] .= ' active';
+              $arrow = '<span class="arrow_sort arrow-asc" title="sort ascending"></span>';
+              if ($_GET['sort'] == 'asc') {
+                $sort = 'desc';
+                $arrow = '<span class="arrow_sort arrow-desc" title="sort descending"></span>';
+              }
+            }
+            $label = '<a href="/' . $_GET['q'] . '?custom_order=test&sort=' . $sort . '" title="sort by Test" class="active">' . $label . $arrow . '</a>';
+          } else {
+             $label = str_replace('custom_order=test&amp;' ,'', $label);
+          }
           ?>
           <th <?php if ($header_classes[$field]) { print 'class="'. $header_classes[$field] . '" '; } ?>>
             <div><?php print $label; ?>
