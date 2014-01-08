@@ -2029,7 +2029,13 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Status';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]">No data</span>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]-time">No data</span>';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['label'] = 'Battery, %';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]-bat">No data</span>';
   /* Sort criterion: Field: Device ID (field_device_id) */
   $handler->display->display_options['sorts']['field_device_id_value']['id'] = 'field_device_id_value';
   $handler->display->display_options['sorts']['field_device_id_value']['table'] = 'field_data_field_device_id';
@@ -2073,7 +2079,9 @@ function at_core_sync_views_default_views() {
     t('Model'),
     t('Type'),
     t('Status'),
-    t('<span class="tracker-status" id="[field_core_id]">No data</span>'),
+    t('<span class="tracker-status" id="[field_core_id]-time">No data</span>'),
+    t('Battery, %'),
+    t('<span class="tracker-status" id="[field_core_id]-bat">No data</span>'),
     t('Page'),
   );
   $export['core_api_manage_trackers'] = $view;
