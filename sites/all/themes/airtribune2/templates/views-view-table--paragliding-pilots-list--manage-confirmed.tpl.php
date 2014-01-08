@@ -47,11 +47,9 @@
             $label .= $number_label;
           }
           if ($field == "nothing") {
-            $class = '';
             $arrow = '';
             $sort = 'asc';
             if (isset($_GET['custom_order'])) {
-              $class = ' class="active"';
               $header_classes[$field] .= ' active';
               $arrow = '<span class="arrow_sort arrow-asc" title="sort ascending"></span>';
               if ($_GET['sort'] == 'asc') {
@@ -59,7 +57,7 @@
                 $arrow = '<span class="arrow_sort arrow-desc" title="sort descending"></span>';
               }
             }
-            $label = '<a href="/' . $_GET['q'] . '?custom_order=test&sort=' . $sort . '" title="sort by Test"' . $class . '>' . $label . $arrow . '</a>';
+            $label = '<a href="/' . $_GET['q'] . '?custom_order=test&sort=' . $sort . '" title="sort by Test" class="active">' . $label . $arrow . '</a>';
           } else {
              $label = str_replace('custom_order=test&amp;' ,'', $label);
           }
