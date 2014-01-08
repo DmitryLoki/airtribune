@@ -49,12 +49,12 @@
           if ($field == "nothing") {
             $class = '';
             $arrow = '';
-            $sort = 'asс';
+            $sort = 'asc';
             if (isset($_GET['custom_order'])) {
               $class = ' class="active"';
               $header_classes[$field] .= ' active';
               $arrow = '<span class="arrow_sort arrow-asc" title="sort ascending"></span>';
-              if ($_GET['sort'] == 'asс') {
+              if ($_GET['sort'] == 'asc') {
                 $sort = 'desc';
                 $arrow = '<span class="arrow_sort arrow-desc" title="sort descending"></span>';
               }
