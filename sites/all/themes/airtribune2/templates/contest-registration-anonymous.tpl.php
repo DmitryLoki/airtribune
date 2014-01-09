@@ -65,6 +65,7 @@ print drupal_render($pp_form['profile_pilot']['field_fai_license_number']);
 print drupal_render($pp_form['profile_pilot']['field_civl_id']);
 print drupal_render($pp_form['profile_pilot']['field_nat_license_id']);
 print drupal_render($pp_form['profile_pilot']['field_team']);
+print drupal_render($pp_form['profile_pilot']['field_accom_during_comp']);
 
 // Print pilot's number
 print drupal_render($og_form['field_contestant_number']);

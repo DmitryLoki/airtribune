@@ -1328,6 +1328,7 @@ function at_reg_multiform_crossfields($multiform) {
       'field_paraglider_color',
       'field_phone',
       'field_team',
+      'field_accom_during_comp',
     );
     foreach ($field_names as $field_name) {
       $items[] = array(

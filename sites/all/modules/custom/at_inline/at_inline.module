@@ -382,3 +382,12 @@ function _at_inline_set_a_task_link($node) {
 }
 
 
+/**
+ * Implements hook_views_post_execute()
+ */
+function at_inline_views_post_execute(&$view) {
+  if ($view->name == 'event_days') {
+    drupal_add_library('system', 'drupal.ajax');
+    drupal_add_js('misc/jquery.form.js', 'file');
+  }
+}
