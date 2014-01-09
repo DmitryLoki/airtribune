@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
 
 	var data = {};
 	var tbl = jQuery("#manage-pilots-confirmed");
-	var resortEnabled = /custom_order=test/.test(document.location.search) || !/order/.test(document.location.search);
+	var resortEnabled = /custom_order=test/.test(document.location.search);
 	var sortOrder = /sort=desc/.test(document.location.search)?"desc":"asc";
 
 	var run = function() {
@@ -18,32 +18,38 @@ jQuery(document).ready(function() {
 				var needResort = false;
 
 				for (var i = 0; i< result.length; i++) {
-					var rw = {id:result[i].id,key:null,text:"No data"};
+					var rw = {id:result[i].id,key:null,bat:null,text:"No data"};
 					if (result[i].last_point && result[i].last_point[3]>0) {
 						var d = Math.floor((new Date).getTime()/1000 - result[i].last_point[3]);
 						rw.key = result[i].last_point[3];
+						rw.bat = result[i].last_point[4];
 						rw.text = getTimeStr(Math.floor(d/3600),Math.floor(d%3600/60),d%60);
 					}
 					if (data[rw.id]) {
 						if (data[rw.id].key != rw.key) {
 							data[rw.id].key = rw.key;
+							data[rw.id].bat = rw.bat;
 							data[rw.id].text = rw.text;
-							data[rw.id].dom.innerHTML = rw.text;
+							data[rw.id].dom && (data[rw.id].dom.innerHTML = rw.text);
+							data[rw.id].batDom && (data[rw.id].batDom.innerHTML = rw.bat);
 							needResort = true;
 						}
 					}
 					else {
 						var dom = document.getElementById(rw.id+"-time");
+						var batDom = document.getElementById(rw.id+"-bat");
 						if (dom) {
 							data[rw.id] = {
 								id: rw.id,
 								key: rw.key,
+								bat: rw.bat,
 								text: rw.text,
 								dom: dom,
+								batDom: batDom,
 								trDom: jQuery("#"+rw.id+"-time").closest("tr")
 							}
-							console.log(data[rw.id]);
-							dom.innerHTML = rw.text;
+							dom && (dom.innerHTML = rw.text);
+							batDom && (batDom.innerHTML = rw.bat);
 							needResort = true;
 						}
 					}
