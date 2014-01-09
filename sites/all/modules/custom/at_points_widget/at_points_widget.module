@@ -326,14 +326,16 @@ function at_points_widget_create_files($nid) {
         global $user;
         // No way to automate this.
         // @see file_save_upload()
-        $file_object = new stdClass();
-        $file_object->uid = $user->uid;
-        $file_object->status = 1;
-        $file_object->filename = trim(drupal_basename($filename), '.');
-        $file_object->uri = $filename;
-        $file_object->filemime = file_get_mimetype($filename);
-        $file_object->filesize = filesize($filename);
-        file_save($file_object);
+        if (is_file($filename)) {
+          $file_object = new stdClass();
+          $file_object->uid = $user->uid;
+          $file_object->status = 1;
+          $file_object->filename = trim(drupal_basename($filename), '.');
+          $file_object->uri = $filename;
+          $file_object->filemime = file_get_mimetype($filename);
+          $file_object->filesize = filesize($filename);
+          file_save($file_object);
+        }
       }  
     }
     if (empty($file_object)){

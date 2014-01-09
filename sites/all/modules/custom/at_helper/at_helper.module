@@ -250,6 +250,7 @@ function at_helper_form_alter(&$form, &$form_state, $form_id) {
       $clientside_validation_settings['clientsideValidation']['forms']['editablefields-as-link-form']['rules'][$fieldname]['required'] = TRUE;
       $clientside_validation_settings['clientsideValidation']['forms'][$form['#id']]['general']['errorElement'] = 'label';
       $clientside_validation_settings['clientsideValidation']['groups'] = "";
+      $clientside_validation_settings['clientsideValidation']['general']['usexregxp'] = 0;
       break;
   }
 }
@@ -386,6 +387,7 @@ function at_helper_views_post_execute(&$view) {
         $view->result[$k]->field_field_core_id_1 = array();
       }
     }
+    drupal_add_js(drupal_get_path('module', 'airtribune').'/js/jquery.available.js');
   }
 
 }

@@ -898,6 +898,7 @@ function _day_pg_race_preview_markup($node) {
     $time = '';
     // Add wrapper attribute. Can be used in js
     $wrapper_attributes['class'][] = 'no-task';
+    $data['label']['attributes']['class'][] = 'no-task';
   }
 
   // Wrap time and help-text if not empty.

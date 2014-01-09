@@ -1079,13 +1079,18 @@ function airtribune_views_pre_render(&$view) {
         // Remove day label output [Training or registration days]
         unset($view->result[$k]->field_field_day_number[0]['rendered']['#markup']);
         unset($view->result[$k]->field_field_day_number[0]['raw']['value']);
-        
+
         // Fix js link to day in accordion
         $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
       }
     }
   } else if ($view->name == 'paragliding_pilots_list_export' && $view->current_display == 'export_pilots_one_page') {
     drupal_add_css(drupal_get_path('theme', 'airtribune2') . '/css/export-pilots-print.css', array('media' => 'print','group' => CSS_THEME, 'weight' => 999));
+  } else if ($view->name == 'event_day'  && $view->current_display == 'default') {
+    // Fix js link to day in live events block
+    foreach ($view->result as $k => $v) {
+      $view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'], " ");
+    }
   }
 }
 

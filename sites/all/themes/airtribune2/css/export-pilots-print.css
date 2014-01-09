@@ -28,6 +28,9 @@
 
 .view-paragliding-pilots-list-export h2.label-name {border-bottom: 1px solid #e1e6e9; margin: 0; padding: 0.83em 0;}
 
+.view-paragliding-pilots-list-export .views-field-field-full-name-2 {margin: 0; padding: 0.83em 0; border-left: 0; border-right: 0;}
+.view-paragliding-pilots-list-export .views-field-field-full-name-2 .field-content { border-right: 0;}
+
 .page-event-pilots-export h1,
 .page-event-pilots-export header,
 .page-event-pilots-export footer,

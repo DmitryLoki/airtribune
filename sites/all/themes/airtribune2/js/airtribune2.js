@@ -74,15 +74,16 @@
         $(this).next().toggle().parents('.ui-accordion-content').toggleClass('files_list_down');
       });
 
+    if( $('#map').length ) {
+      //Scroll to map from day
+      var scrollBody = $('html,body'),
+        mapTopOffset = $('#map').offset().top;
 
-    //Scroll to map from day
-    var scrollBody = $('html,body'),
-      mapTopOffset = $('#map').offset().top;
-
-    $('.task_link').bind('click', function (event) {
-      event.preventDefault();
-      scrollBody.animate({scrollTop: mapTopOffset}, 400);
-    });
+      $('.task_link').bind('click', function (event) {
+        event.preventDefault();
+        scrollBody.animate({scrollTop: mapTopOffset}, 400);
+      });
+    }
   };
 
 })(jQuery);
