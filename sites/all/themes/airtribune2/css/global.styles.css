@@ -1601,7 +1601,8 @@ form #edit-field-take-offs:after { clear: both; content: "."; display: block; he
   border-radius: 0;
 
 }
-.pane-event-days-panel-event-days-on-blog .ui-accordion-content-active { overflow: visible;}
+.pane-event-days-panel-event-days-on-blog .ui-accordion-content-active { overflow: visible; float: left;}
+.pane-event-days-panel-event-days-on-blog .views-row { clear: both;}
 .pane-event-days-panel-event-days-on-blog .ui-accordion-content.files_list_down { overflow: visible !important;}
 .pane-event-days-panel-event-days-on-blog .ui-accordion-content.files_list_down:after { clear: both; content: "."; display: block; height: 0; visibility: hidden;}
 
