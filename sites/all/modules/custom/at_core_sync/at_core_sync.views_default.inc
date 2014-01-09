@@ -920,7 +920,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -977,7 +977,7 @@ function at_core_sync_views_default_views() {
     t('Title'),
     t('Edit link'),
     t('[title]'),
-    t('Image'),
+    t('Banner'),
     t('All'),
     t('Ad for visualisations of %1'),
     t('Page'),
@@ -1023,13 +1023,25 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['relationships']['profile']['bundle_types'] = array(
     'main' => 'main',
   );
+  /* Field: User uid - excluded */
+  $handler->display->display_options['fields']['user']['id'] = 'user';
+  $handler->display->display_options['fields']['user']['table'] = 'profile';
+  $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['user']['ui_name'] = 'User uid - excluded';
+  $handler->display->display_options['fields']['user']['label'] = '';
+  $handler->display->display_options['fields']['user']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user']['separator'] = '';
   /* Field: Contest ID (excluded) */
   $handler->display->display_options['fields']['gid']['id'] = 'gid';
   $handler->display->display_options['fields']['gid']['table'] = 'og_membership';
   $handler->display->display_options['fields']['gid']['field'] = 'gid';
   $handler->display->display_options['fields']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['fields']['gid']['ui_name'] = 'Contest ID (excluded)';
+  $handler->display->display_options['fields']['gid']['label'] = '';
   $handler->display->display_options['fields']['gid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['gid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['gid']['separator'] = '';
   /* Field: Pilot&#039;s number (Excluded) */
   $handler->display->display_options['fields']['field_contestant_number']['id'] = 'field_contestant_number';
   $handler->display->display_options['fields']['field_contestant_number']['table'] = 'field_data_field_contestant_number';
@@ -1246,6 +1258,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<ul>
 <li>[edit_node]</li>
 <li>[edit_og_membership]</li>
+<li><a href="/event/[gid]/pilots/export/card/[user]" target="_blank">Export</a></li>
 </ul>';
   /* Sort criterion: OG membership: Payment status (field_pg_contestant_status) */
   $handler->display->display_options['sorts']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
@@ -1428,9 +1441,7 @@ function at_core_sync_views_default_views() {
     t('Displaying @start - @end of @total'),
     t('OG membership from user'),
     t('Profile'),
-    t('Group ID'),
     t('.'),
-    t(','),
     t('Pilot\'s number'),
     t('Core status'),
     t('&nbsp;<strong>[[field_core_id]]</strong>'),
@@ -1445,6 +1456,7 @@ function at_core_sync_views_default_views() {
     t('<ul>
 <li>[edit_node]</li>
 <li>[edit_og_membership]</li>
+<li><a href="/event/[gid]/pilots/export/card/[user]" target="_blank">Export</a></li>
 </ul>'),
     t('All'),
     t('Contestants of %1'),
@@ -2029,7 +2041,13 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Status';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]">No data</span>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]-time">No data</span>';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['label'] = 'Battery, %';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]-bat">No data</span>';
   /* Sort criterion: Field: Device ID (field_device_id) */
   $handler->display->display_options['sorts']['field_device_id_value']['id'] = 'field_device_id_value';
   $handler->display->display_options['sorts']['field_device_id_value']['table'] = 'field_data_field_device_id';
@@ -2073,7 +2091,9 @@ function at_core_sync_views_default_views() {
     t('Model'),
     t('Type'),
     t('Status'),
-    t('<span class="tracker-status" id="[field_core_id]">No data</span>'),
+    t('<span class="tracker-status" id="[field_core_id]-time">No data</span>'),
+    t('Battery, %'),
+    t('<span class="tracker-status" id="[field_core_id]-bat">No data</span>'),
     t('Page'),
   );
   $export['core_api_manage_trackers'] = $view;

@@ -1410,7 +1410,8 @@ event/*/map/accommodations',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '1',
-            'paths' => 'event/*/blog',
+            'paths' => 'event/*/blog
+event/*/day/*',
           ),
           'context' => 'empty',
           'not' => FALSE,
@@ -1419,10 +1420,11 @@ event/*/map/accommodations',
     );
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
+        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
+<script  src="/sites/all/modules/custom/airtribune/js/day-blog-airvis-controller.js"></script>
 <script src="http://vis.airtribune.com/airvis.min.js"></script>
 <div role="main" class="airvis-container">
-<!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:true,mapTypeControl:false,zoomControlOptions:{style:google.maps.ZoomControlStyle.LARGE} } } --><!-- /ko -->
+<!-- ko widget: { data: page, imgRootUrl: "http://vis.airtribune.com/img/", contestId: "", raceId: "", width: "[airtribune:widget-width]px", height: "[airtribune:widget-height]px", callback: window.airvisPageLoadedCallback, mode: "simple", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", mapOptions: {activateScrollWheelOnClick:true,panControl:false,streetViewControl:false,scrollwheel:false,zoomControl:false,mapTypeControl:false } } --><!-- /ko -->
 </div>',
         'format' => 'full_html',
       ),
