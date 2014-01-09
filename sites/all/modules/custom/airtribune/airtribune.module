@@ -1078,7 +1078,7 @@ function airtribune_views_pre_render(&$view) {
         $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
       }
     }
-  }  else if ($view->name == 'event_day') {
+  }  else if ($view->name == 'event_day'  && $view->current_display == 'default') {
     // Fix js link to day in live events block
     foreach ($view->result as $k => $v) {
       $view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'], " ");

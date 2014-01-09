@@ -1843,6 +1843,26 @@ function airtribune2_preprocess_views_view_fields(&$vars) {
       $replace = 'href=' . $href;
       $vars['fields']['nothing']->content = preg_replace($pattern, $replace, $vars['fields']['nothing']->content);
     }
+
+    // Replace image
+    // @see @4266
+    if (trim(strip_tags($vars['fields']['nothing_1']->content,'<img>')) == '') {
+      $vars['fields']['nothing_1']->content = $vars['fields']['field_contest_photos']->content;
+    } else {
+      $deviant = count($view->result) - $standart;
+      $img_styles = $img_styles_origin =  'frontpage_event_padding';
+      if ($deviant == 1) {
+        $img_styles = 'frontpage_event_padding_once';
+      }
+      if ($deviant == 2) {
+        $img_styles = 'frontpage_event_padding_twice';
+      }
+      preg_match('/\/public\/([^?]*)/', $vars['fields']['nothing_1']->content, $matches);
+      //image_style_url($img_styles, 'public://' . $matches[1]);
+      $img = theme_image_style(array('style_name' => $img_styles, 'path' =>  'public://' . $matches[1]));
+      $vars['fields']['nothing_1']->content = preg_replace('/<img[^>]*>/', $img, $vars['fields']['nothing_1']->content);
+    }
+    unset($vars['fields']['field_contest_photos']);
   }
 }
 

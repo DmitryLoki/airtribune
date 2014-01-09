@@ -3766,6 +3766,29 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_plain_body_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_plain_body_1']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_plain_body_1']['element_default_classes'] = FALSE;
+
+  /* Display: First dayblog photo */
+  $handler = $view->new_display('attachment', 'First dayblog photo', 'attachment_1');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '1';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'frontpage_event_padding',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_image']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_image']['delta_reversed'] = TRUE;
   $translatables['event_day'] = array(
     t('Master'),
     t('more'),
@@ -3788,6 +3811,7 @@ return array($event_id);';
     t('Link to day'),
     t('event/!1/blog#!day_[field_day_number]'),
     t('View panes'),
+    t('First dayblog photo'),
   );
   $export['event_day'] = $view;
 
@@ -6486,11 +6510,11 @@ return array($event_id);';
 </span>
 <span class="valign"></span>';
   $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
-  /* Field: First photo */
+  /* Field: First photo (excluded in code) */
   $handler->display->display_options['fields']['field_contest_photos']['id'] = 'field_contest_photos';
   $handler->display->display_options['fields']['field_contest_photos']['table'] = 'field_data_field_contest_photos';
   $handler->display->display_options['fields']['field_contest_photos']['field'] = 'field_contest_photos';
-  $handler->display->display_options['fields']['field_contest_photos']['ui_name'] = 'First photo';
+  $handler->display->display_options['fields']['field_contest_photos']['ui_name'] = 'First photo (excluded in code)';
   $handler->display->display_options['fields']['field_contest_photos']['label'] = '';
   $handler->display->display_options['fields']['field_contest_photos']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_contest_photos']['click_sort_column'] = 'fid';
@@ -6504,6 +6528,30 @@ return array($event_id);';
   );
   $handler->display->display_options['fields']['field_contest_photos']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_contest_photos']['delta_offset'] = '0';
+  /* Field: First photo from dayblog (raw) (excluded) */
+  $handler->display->display_options['fields']['view_2']['id'] = 'view_2';
+  $handler->display->display_options['fields']['view_2']['table'] = 'views';
+  $handler->display->display_options['fields']['view_2']['field'] = 'view';
+  $handler->display->display_options['fields']['view_2']['ui_name'] = 'First photo from dayblog (raw) (excluded)';
+  $handler->display->display_options['fields']['view_2']['label'] = '';
+  $handler->display->display_options['fields']['view_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['view_2']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_2']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['view_2']['view'] = 'event_day';
+  $handler->display->display_options['fields']['view_2']['display'] = 'attachment_1';
+  $handler->display->display_options['fields']['view_2']['arguments'] = '[!nid]';
+  /* Field: First photo from dayblog */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['ui_name'] = 'First photo from dayblog';
+  $handler->display->display_options['fields']['nothing_1']['label'] = '';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '[view_2]';
+  $handler->display->display_options['fields']['nothing_1']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['nothing_1']['alter']['preserve_tags'] = '<img>';
+  $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nothing_1']['element_wrapper_class'] = 'views-field-field-contest-photos';
+  $handler->display->display_options['fields']['nothing_1']['empty'] = '[field_contest_photos]';
   /* Field: Last day */
   $handler->display->display_options['fields']['view']['id'] = 'view';
   $handler->display->display_options['fields']['view']['table'] = 'views';
@@ -6942,6 +6990,8 @@ return array($event_id);';
     t('View'),
     t('more'),
     t('View contest'),
+    t('[view_2]'),
+    t('[field_contest_photos]'),
     t('View panes'),
     t('Soon worldwide'),
     t('<div class="views-field-view"><div class="views-row">
