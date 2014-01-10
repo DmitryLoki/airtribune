@@ -1849,7 +1849,7 @@ function airtribune2_preprocess_views_view_fields(&$vars) {
     if (trim(strip_tags($vars['fields']['nothing_1']->content,'<img>')) == '') {
       $vars['fields']['nothing_1']->content = $vars['fields']['field_contest_photos']->content;
     } else {
-      $deviant = count($view->result) - $standart;
+      $deviant = count($view->result);
       $img_styles = $img_styles_origin =  'frontpage_event_padding';
       if ($deviant == 1) {
         $img_styles = 'frontpage_event_padding_once';
@@ -1859,7 +1859,7 @@ function airtribune2_preprocess_views_view_fields(&$vars) {
       }
       preg_match('/\/public\/([^?]*)/', $vars['fields']['nothing_1']->content, $matches);
       //image_style_url($img_styles, 'public://' . $matches[1]);
-      $img = theme_image_style(array('style_name' => $img_styles, 'path' =>  'public://' . $matches[1]));
+      $img = theme_image_style(array('style_name' => $img_styles, 'path' =>  'public://' . $matches[1], 'width' => NULL, 'height' => NULL));
       $vars['fields']['nothing_1']->content = preg_replace('/<img[^>]*>/', $img, $vars['fields']['nothing_1']->content);
     }
     unset($vars['fields']['field_contest_photos']);
