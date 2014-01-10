@@ -862,8 +862,9 @@ function _day_pg_race_preview_markup($node) {
 
   // Check if task exists
   if ($has_task) {
-    $data['text'] = array('2D', '3D Google Earth');
-    $data['type'] = array('2d', 'ge');
+    $data['text'] = array('2D', '3D Google Earth', 'Leader board');
+    $data['type'] = array('2d', 'ge', 'leaderboard');
+
     $help_class = '';
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
@@ -880,6 +881,9 @@ function _day_pg_race_preview_markup($node) {
         $help_class = ' starting';
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
+        array_pop($data['text']);
+        array_pop($data['type']);
+
         $time = date('H:i:s', ($deadline_time - $start_time));
         $link_text = t('Task Replay');
         $help_text = t('Race time');
