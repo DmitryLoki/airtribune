@@ -9516,6 +9516,7 @@ return array($event_id);';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
+    'field_core_id' => 'field_core_id',
     'id' => 'id',
     'field_contestant_number' => 'field_contestant_number',
     'field_gender' => 'field_gender',
@@ -9526,6 +9527,13 @@ return array($event_id);';
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
+    'field_core_id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'id' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
@@ -9569,7 +9577,7 @@ return array($event_id);';
       'empty_column' => 0,
     ),
     'nothing' => array(
-      'align' => '',
+      'align' => 'views-align-center',
       'separator' => '',
       'empty_column' => 0,
     ),
