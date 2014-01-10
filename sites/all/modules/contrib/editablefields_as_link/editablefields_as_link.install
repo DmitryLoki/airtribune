@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Install file for Editable Fields as Link.
+ */
+
+/**
+ * Implements hook_schema(). 
+ */
+function editablefields_as_link_schema() {
+  $schema = array();
+
+  $schema['editablefields_display_cache'] = array(
+    'description' => 'Storage for used $displays.',
+    'fields' => array(
+      'display_id' => array(
+        'description' => 'The md5 hash of the display.',
+        'type' => 'char',
+        'length' => 32,
+        'not null' => TRUE,
+      ),
+      'display' => array(
+        'description' => 'The serialized $display.',
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+      ),
+      'last_used' => array(
+        'description' => 'The last time this $display was used.',
+        'type' => 'int',
+        'size' => 'normal',
+        'unsigned' => TRUE,
+      ),
+    ),
+    'primary key' => array('display_id'),
+    'indexes' => array(
+      'last_used' => array('last_used'),
+    ),
+  );
+
+  return $schema;
+}

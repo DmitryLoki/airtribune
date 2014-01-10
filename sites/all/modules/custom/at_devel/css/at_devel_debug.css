@@ -1,0 +1,26 @@
+#devel-debug {
+  color: #FFF;
+  font-family: arial;
+  font-size: 12px;
+  background: #777;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 3px;
+  border: 3px double #333;
+  border-width: 3px 0 0 3px;
+  border-radius: 9px 0 0 0;
+  z-index:10000;
+}
+#devel-debug span {
+  padding: 1px 5px;
+}
+#devel-debug span:not(:last-child) {
+  border-right: 1px #FFF dashed;
+}
+
+#devel-debug a {
+  color: #FFF;
+  text-decoration: underline;
+}
+

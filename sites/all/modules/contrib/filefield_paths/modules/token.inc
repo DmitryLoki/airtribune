@@ -53,7 +53,7 @@ function filefield_paths_tokens($type, $tokens, array $data = array(), array $op
 
         case 'ffp-extension-original':
           $info = pathinfo($file->origname);
-          $replacements[$original] = $info['extension'];
+          $replacements[$original] = isset($info['extension']) ? $info['extension'] : NULL;
           break;
       }
     }

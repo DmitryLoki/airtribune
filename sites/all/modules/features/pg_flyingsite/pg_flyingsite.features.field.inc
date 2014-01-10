@@ -233,6 +233,7 @@ function pg_flyingsite_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'pg_flyingsite',
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -289,7 +290,7 @@ function pg_flyingsite_field_default_fields() {
           ),
           'retroactive_update' => 0,
         ),
-        'image_field_caption' => 0,
+        'filefield_paths_enabled' => 1,
         'max_filesize' => '1MB',
         'max_resolution' => '',
         'min_resolution' => '300x200',
@@ -298,12 +299,29 @@ function pg_flyingsite_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'image',
+        'module' => 'media',
         'settings' => array(
-          'preview_image_style' => 'thumbnail',
+          'allowed_schemes' => array(
+            'public' => 'public',
+            'vimeo' => 'vimeo',
+            'youtube' => 'youtube',
+          ),
+          'allowed_types' => array(
+            'audio' => 0,
+            'document' => 0,
+            'image' => 'image',
+            'video' => 'video',
+          ),
+          'browser_plugins' => array(
+            'media_default--media_browser_1' => 0,
+            'media_default--media_browser_my_files' => 0,
+            'media_internet' => 'media_internet',
+            'upload' => 'upload',
+            'youtube' => 0,
+          ),
           'progress_indicator' => 'throbber',
         ),
-        'type' => 'image_image',
+        'type' => 'media_generic',
         'weight' => '4',
       ),
     ),

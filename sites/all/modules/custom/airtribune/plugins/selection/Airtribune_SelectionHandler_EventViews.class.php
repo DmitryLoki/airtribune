@@ -35,7 +35,7 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
           $this->group_id = FALSE;
         }
       }
-
+      $this->etid = NULL;
       // Get entity id
       $id = entity_extract_ids($entity_type, $entity);
       if (isset($id[0])) {
@@ -59,7 +59,7 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
         $this->field['settings']['handler_settings']['view']['args'][$key] = $this->group_id;
       }
       else {
-        if ($arg == '[og_membership:id]') {
+        if ($arg == '[og_membership:id]' && isset($this->etid)) {
           $this->field['settings']['handler_settings']['view']['args'][$key] = $this->eid;
         }
       }

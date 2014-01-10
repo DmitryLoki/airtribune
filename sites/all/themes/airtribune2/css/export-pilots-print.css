@@ -1,0 +1,45 @@
+.view-paragliding-pilots-list-export .views-field {
+  border-bottom: 1px solid #e1e6e9;
+  border-left: 1px solid #e1e6e9;
+  border-right: 1px solid #e1e6e9;
+  clear: both;
+  overflow: hidden;
+}
+
+.view-paragliding-pilots-list-export .views-field > * {
+  border-right: 1px solid #e1e6e9;
+  display: block;
+  float: left;
+  padding: 3px 1% 4px;
+  width: 48%;
+  margin-right: -1px;
+  line-height: 20px;
+  min-height: 20px;
+}
+
+
+.view-paragliding-pilots-list-export ul li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  list-style-image: none;
+  page-break-after:always;
+}
+
+.view-paragliding-pilots-list-export h2.label-name {border-bottom: 1px solid #e1e6e9; margin: 0; padding: 0.83em 0;}
+
+.view-paragliding-pilots-list-export .views-field-field-full-name-2 {margin: 0; padding: 0.83em 0; border-left: 0; border-right: 0;}
+.view-paragliding-pilots-list-export .views-field-field-full-name-2 .field-content { border-right: 0;}
+
+.page-event-pilots-export h1,
+.page-event-pilots-export header,
+.page-event-pilots-export footer,
+.page-event-pilots-export .second_sidebar,
+.page-event-pilots-export .breadcrumb,
+.page-event-pilots-export .small-pane-share-links,
+.page-event-pilots-export .featured-header,
+.page-event-pilots-export .to_top,
+.no-print, .no-print * {
+  display: none !important;
+}
+

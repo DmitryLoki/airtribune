@@ -1,0 +1,7 @@
+name = Airtribune High Weight
+description = Module, which have big weight, so this module called last.
+package = Airtribune
+core = 7.x
+
+version = "7.x-1.0"
+core = "7.x"

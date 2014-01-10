@@ -19,3 +19,21 @@ function day_form($node, $form_state) {
   return $form;
 }
 
+/**
+ * Implements hook_node_presave().
+ */
+function day_node_presave($node) {
+  if ($node->type == AIRTRIBUNE_DAY_TYPE) {
+    // Replace day node title with status
+    if ($node->field_day_status[LANGUAGE_NONE][0]['value'] >= 4) {
+      $items = field_get_items('node', $node, 'field_day_status');
+      $day_status = field_view_value('node', $node, 'field_day_status', $items[0]);
+      $day_status = $day_status['#markup'];
+      $node->title = $day_status;
+    } else {
+      $day_number = $node->field_day_number[LANGUAGE_NONE][0]['value'];
+      $node->title = 'Day ' . $day_number;
+    }
+  }
+}
+

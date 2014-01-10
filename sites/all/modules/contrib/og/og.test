@@ -258,6 +258,34 @@ class OgNodeAccess extends DrupalWebTestCase {
   }
 
   /**
+   * Test non-strict access permissions for creating group node.
+   *
+   * A member of a group who has no core node access create permission is
+   * allowed access.
+   */
+  function testNoStrictAccessNodeCreate() {
+    // Set Node access strict variable.
+    variable_set('og_node_access_strict', FALSE);
+
+    $this->group_editor_user = $this->drupalCreateUser(array('access content'));
+    $this->drupalLogin($this->group_editor_user);
+
+    // Test OG's create permission for a group member.
+    og_group('node', $this->group1, array('entity' => $this->group_editor_user));
+    $roles = array_flip(og_roles('node', 'page'));
+
+    // Add create permission.
+    $permissions = array(
+      'create article content' => 1,
+      'update own article content' => 0,
+      'update any article content' => 0,
+    );
+    og_role_change_permissions($roles[OG_AUTHENTICATED_ROLE], $permissions);
+    $this->drupalGet('node/add/article');
+    $this->assertResponse('200', 'Group member can create node.');
+  }
+
+  /**
    * Assert a user cannot assign an existing node to a group they don't
    * have "create" permissions.
    */
@@ -364,7 +392,7 @@ class OgMetaData extends DrupalWebTestCase {
     $settings = array();
     $settings['type'] = 'article';
 
-    // Create group enteties.
+    // Create group entities.
     foreach (og_group_content_states() as $state => $value) {
       $node = $this->drupalCreateNode($settings);
 
@@ -457,6 +485,15 @@ class OgGroupAndUngroup extends DrupalWebTestCase {
     $settings['type'] = 'article';
     $settings['uid'] = $user2->uid;
     $node = $this->drupalCreateNode($settings);
+
+    // Exception on OG membership for anonymous user.
+    try {
+      og_membership_create('entity_test', $entity1->pid, 'user', 0, OG_AUDIENCE_FIELD)->save();
+      $this->fail('OG membership can be created for anonymous user.');
+    }
+    catch (OgException $e) {
+      $this->pass('OG membership can not be created for anonymous user.');
+    }
 
     $this->assertFalse(og_is_member('entity_test', $entity1->pid, 'node', $node), t('Node is not assigned to group1.'));
     $values = array('entity_type' => 'node', 'entity' => $node);
@@ -574,6 +611,25 @@ class OgGroupAndUngroup extends DrupalWebTestCase {
     $node = node_load($nid, NULL, TRUE);
     node_delete($nid);
     $this->assertFalse(og_get_entity_groups('node', $nid), t('OG memberships deleted on entity deletion.'));
+
+    // Test creating a non-saved OG membership.
+    $settings = array();
+    $settings['type'] = 'article';
+    $settings['uid'] = $user2->uid;
+    $node = $this->drupalCreateNode($settings);
+    $values = array('entity_type' => 'node', 'entity' => $node);
+
+    $og_membership = og_group('entity_test', $entity1->pid, $values);
+    $this->assertTrue($og_membership->id, 'New OG membership was created and saved.');
+
+    $settings = array();
+    $settings['type'] = 'article';
+    $settings['uid'] = $user2->uid;
+    $node = $this->drupalCreateNode($settings);
+    $values = array('entity_type' => 'node', 'entity' => $node);
+
+    $og_membership = og_group('entity_test', $entity1->pid, $values, FALSE);
+    $this->assertTrue(empty($og_membership->id), 'New OG membership was created but not saved.');
   }
 
   /**
@@ -1496,10 +1552,10 @@ class OgBehaviorHandlerTestCase  extends DrupalWebTestCase {
     // Add OG group field to the entity_test's "main" bundle.
     og_create_field(OG_GROUP_FIELD, 'entity_test', 'main');
 
-    $type = $this->drupalCreateContentType();
+    $type = $this->drupalCreateContentType(array('type' => 'behavior'));
     $this->group_content = $type->type;
 
-    // Add OG audience field to the node's "article" bundle.
+    // Add OG audience field to the new bundle.
     $og_field = og_fields_info(OG_AUDIENCE_FIELD);
     $og_field['field']['settings']['target_type'] = 'entity_test';
     og_create_field(OG_AUDIENCE_FIELD, 'node', $type->type, $og_field);
@@ -1567,6 +1623,56 @@ class OgBehaviorHandlerTestCase  extends DrupalWebTestCase {
     $gids = og_get_entity_groups('node', $node);
     $this->assertEqual(array_values($gids['entity_test']), array($entity1->pid), 'Widget behavior was skipped and removed group association as expected.');
   }
+
+  /**
+   * Test settings the OG membership state via field values, when associating
+   * a new group-content to a group.
+   */
+  function testSetStateOnInsert() {
+    module_enable(array('og_test'));
+    $permissions = array(
+      'access content',
+      "create $this->group_content content",
+      'administer group',
+    );
+    $user1 = $this->drupalCreateUser();
+    $user2 = $this->drupalCreateUser($permissions);
+    $user3 = $this->drupalCreateUser($permissions);
+
+    // Create a group.
+    $entity1 = entity_create('entity_test', array('name' => 'main', 'uid' => $user1->uid));
+    $wrapper = entity_metadata_wrapper('entity_test', $entity1);
+    $wrapper->{OG_GROUP_FIELD}->set(1);
+    $wrapper->save();
+
+    og_group('entity_test', $entity1, array('entity_type' => 'user', 'entity' => $user2));
+    og_group('entity_test', $entity1, array('entity_type' => 'user', 'entity' => $user3));
+
+    // Post a node, state should be active.
+    $type = str_replace('_', '-', $this->group_content);
+    $edit = array(
+      'title' => 'state-active',
+      'og_group_ref[und][0][default][]' => array($entity1->pid),
+    );
+
+    $this->drupalLogin($user2);
+    $this->drupalPost('node/add/' . $type, $edit, t('Save'));
+
+    $gids = og_get_entity_groups('node', 1);
+    $id = key($gids['entity_test']);
+    $og_membership = og_membership_load($id);
+    $this->assertEqual($og_membership->state, OG_STATE_ACTIVE, 'Memebership status is Active');
+
+
+    // Post a node, state should be pending.
+    $this->drupalLogin($user3);
+    $edit['title'] = 'state-pending';
+    $this->drupalPost('node/add/' . $type, $edit, t('Save'));
+    $gids = og_get_entity_groups('node', 2, array(OG_STATE_PENDING));
+    $id = key($gids['entity_test']);
+    $og_membership = og_membership_load($id);
+    $this->assertEqual($og_membership->state, OG_STATE_PENDING, 'Memebership status is Active');
+  }
 }
 
 /**
@@ -1582,12 +1688,11 @@ class OgDeleteOrphansTestCase extends DrupalWebTestCase {
       'name' => 'OG orphan delete',
       'description' => 'Verifying for deleting orphan group content.',
       'group' => 'Organic groups',
-      'dependencies' => array('advancedqueue'),
     );
   }
 
   function setUp() {
-    parent::setUp('og_test', 'advancedqueue');
+    parent::setUp('og_test');
 
     // Create a group content type.
     $group = $this->drupalCreateContentType();
@@ -1632,7 +1737,7 @@ class OgDeleteOrphansTestCase extends DrupalWebTestCase {
     // Execute manually the queue worker.
     $queue = DrupalQueue::get('og_membership_orphans');
     $item = $queue->claimItem();
-    og_membership_orphans_worker($item);
+    og_membership_orphans_worker($item->data);
 
     // Load the nodes we used during the test.
     $first_node = node_load($first_node->nid);
@@ -1662,11 +1767,103 @@ class OgDeleteOrphansTestCase extends DrupalWebTestCase {
     // Execute manually the queue worker.
     $queue = DrupalQueue::get('og_membership_orphans');
     $item = $queue->claimItem();
-    og_membership_orphans_worker($item);
+    og_membership_orphans_worker($item->data);
 
     // Load the node into a wrapper and verify we moved him to another group.
     $wrapper = entity_metadata_wrapper('node', $first_node->nid);
 
     $this->assertTrue($wrapper->{OG_AUDIENCE_FIELD}->get(0)->getIdentifier() == $second_group->nid, "The node of the group moved to another group.");
+  }
+}
+
+/**
+ * Testing publishing content in a group for non members users.
+ */
+class OgNonMembersPublishingContentTestCase extends DrupalWebTestCase {
+
+  public $group;
+  public $user;
+  public $adminUser;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'OG non members publishing',
+      'description' => 'Grant access to non members users publishing content with the group passed in the query string.',
+      'group' => 'Organic groups',
+      'dependencies' => array('entityreference_prepopulate'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('og_test', 'entityreference_prepopulate');
+
+    // Creating a user.
+    $this->user = $this->drupalCreateUser();
+
+    // Creating admin.
+    $this->adminUser = $this->drupalCreateUser(array('bypass node access', 'administer group'));
+
+    // Create a group content type.
+    $this->drupalCreateContentType(array( 'name' => 'Group', 'type' => 'group'));
+    og_create_field(OG_GROUP_FIELD, 'node', 'group');
+
+    // Create the group.
+    $settings = array(
+      'type' => 'group',
+      OG_GROUP_FIELD . '[und][0][value]' => 1,
+      'uid' => 1,
+    );
+    $this->group = $this->drupalCreateNode($settings);
+
+    // Create the group content.
+    $this->drupalCreateContentType(array('name' => 'Group content', 'type' => 'group_content'));
+
+    // Attach the audience field and enable the prepopulate behavior.
+    $og_field = og_fields_info(OG_AUDIENCE_FIELD);
+    $og_field['instance']['settings']['behaviors']['prepopulate'] = array(
+      'status' => TRUE,
+      'action' => 'none',
+    );
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content', $og_field);
+
+    // Add permission to the group.
+    $og_roles = og_roles('node', 'group');
+    $rid = array_search(OG_ANONYMOUS_ROLE, $og_roles);
+    og_role_change_permissions($rid, array('create group_content content' => 1));
+  }
+
+  /**
+   * Testing the option for non members users to publish content in the group
+   * when the group identifier passed through the URL.
+   */
+  public function testNonMembersPublish() {
+    // Login as normal user.
+    $this->drupalLogin($this->user);
+
+    // Verify the user can't publish content to the group content.
+    $this->drupalGet('node/add/group-content');
+    $this->assertResponse('403', t('The user can not create post in the group.'));
+
+    // Create a the group content.
+    $this->drupalPost('node/add/group-content', array('title' => 'foo'), t('Save'), array('query' => array('og_group_ref' => $this->group->nid)));
+
+    // Verify the node belong to the group.
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->propertyCondition('title', 'foo')
+      ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $this->group->nid)
+      ->execute();
+
+    $this->assertTrue(!empty($result['node']), 'The node was added to the group.');
+
+    $nid = reset(array_keys($result['node']));
+
+    $this->drupalLogin($this->adminUser);
+
+    // Verify the audience field will remain after another user editing the
+    // group.
+    $this->drupalpost('node/' . $nid . '/edit', array(), t('Save'));
+    $this->assertText($this->group->title, 'The node is still referenced to the group.');
   }
 }

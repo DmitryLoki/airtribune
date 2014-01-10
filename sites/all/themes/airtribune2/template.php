@@ -73,6 +73,12 @@ function airtribune2_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'page-user';
   }
 
+  /* If event settings page */
+
+  if (in_array('page-event-settings', $vars['classes_array'])) {
+    array_unshift($vars['classes_array'], 'page-user');
+  }
+
   /* If pilot status list */
 
   if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
@@ -94,6 +100,19 @@ function airtribune2_preprocess_html(&$vars) {
   if ($part) {
     $vars['classes_array'][] = $part;
   }
+
+  /* if event pilots manage */
+
+  if (in_array('page-event-pilots-manage', $vars['classes_array'])) {
+    drupal_add_js(path_to_theme() . '/js/jquery.mousewheel.min.js');
+    drupal_add_js(path_to_theme() . '/js/jquery.jscrollpane.min.js');
+    drupal_add_js(path_to_theme() . '/js/jquery.forms.js');
+    drupal_add_js(path_to_theme() . '/js/forms_action.js');
+  }
+
+  // Temporary exclude css from aggregate
+  // @see https://drupal.org/node/1271984
+  drupal_add_css(path_to_theme() . '/css/na.css', array('preprocess' => FALSE));
 }
 
 /**
@@ -328,6 +347,10 @@ function airtribune2_preprocess_panels_pane(&$variables) {
         $variables['title'] = '';
       }
       break;
+    case 'paragliding_pilots_list-manage_confirmed':
+    case 'paragliding_pilots_list-manage':
+      $variables['classes_array'][] = 'pane_pilots_list_manage';
+      break;
 
     default:
       # code...
@@ -376,7 +399,6 @@ function airtribune2_preprocess_node(&$vars) {
 }
 
 function airtribune2_process_node(&$vars) {
-
 
   $vars['event_blog'] = FALSE;
   $account = profile2_load_by_user($vars['node']->uid, 'main');
@@ -526,6 +548,7 @@ function airtribune2_process_node(&$vars) {
     if (!empty($vars['content']['field_image'])) {
       $vars['content']['field_image'] = _airtribune2_img_dinamic_scaling($vars['content']['field_image']);
     }
+
     if ($vars['type'] == 'newsblog') {
       $vars['page'] = TRUE;
     }
@@ -614,7 +637,7 @@ function airtribune2_menu_tree__menu_solutions_organizers(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form');
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', 'airtribune_event_settings_form', /*'views_form_paragliding_pilots_list_manage'*/);
   if (in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
@@ -676,8 +699,19 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       $form['actions']['#weight'] = 79;
       break;
 
-    case 'user_profile_form':
+    case 'airtribune_event_settings_form':
+      $lang = $form['field_take_offs']['#language'];
+      $form['field_take_offs'][$lang]['#prefix'] .= '<div class="field-take-offs-title">' . $form['field_take_offs'][$lang]['#description'] . '</div>';
+      unset($form['field_take_offs'][$lang]['#description']);
 
+      $lang = $form['field_dates']['#language'];
+      //$form['field_dates'][$lang][0]['#required'] = 1;
+      //unset($form['field_dates'][$lang]['#title']);
+      
+      // unset($form['field_dates'][$lang][0]['#title']);
+      //unset($form['field_dates'][$lang][0]['#entity']);
+      // unset($form['field_dates'][$lang][1]['#entity']);
+      //print_r($form['field_dates']);
       //print_r($form);
       break;
   }
@@ -1213,6 +1247,15 @@ function airtribune2_theme() {
       'render element' => 'form',
       'template' => 'templates/profile2-edit-pilot-form',
     ),
+    
+    'contest_registration_anonymous' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration-anonymous',
+    ),
+    'contest_registration_authorized' => array(
+      'render element' => 'form',
+      'template' => 'templates/contest-registration-authorized',
+    ),
   );
 }
 
@@ -1236,13 +1279,28 @@ function airtribune2_file_icon($variables) {
     'xcm' => 'xcm.png',
     'xls' => 'xls.png',
     'xlsx' => 'xlsx.png',
+    'CompeGPS' => 'compegps.png',
+    'KML' => 'kml.png',
+    'kml' => 'kml.png',
+    'SeeYou' => 'seeyou.png',
+    'cup' => 'seeyou.png',
+    'UTM' => 'utm.png',
+    'GEO' => 'geo.png',
+    'OZI' => 'ozi.png',
   );
   $file = $variables['file'];
   $icon_directory = $variables['icon_directory'];
 
   $mime = check_plain($file->filemime);
   $path_info = pathinfo($file->filename);
-  if (!empty($icons[$path_info['extension']])) {
+  $extension_desc = '';
+  if (isset($file->description)) {
+    $extension_desc = str_replace(array('Waypoints', ' ', '(', ')'), '', $file->description);
+  }
+  if ($path_info['extension'] == 'wpt' && isset($icons[$extension_desc])) {
+    $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$extension_desc];
+  }
+  elseif (!empty($icons[$path_info['extension']])) {
     $icon_url = '/' . path_to_theme() . '/images/icons/' . $icons[$path_info['extension']];
   }
   else {
@@ -1265,44 +1323,6 @@ function airtribune2_preprocess_field(&$vars) {
         $vars['items'][$delta]['#suffix'] = $categories[$item['#item']['title']];
       }
     }
-  }
-
-  if ($element['#field_name'] == AIRTRIBUNE_CONTEST_PHOTOS_FIELD) {
-    $settings = array(
-      'full_image_modal' => 'colorbox',
-      'jcarousel_image_style' => AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE,
-      'full_image_style' => '',
-    );
-    // Get flying site node
-    if(!empty($element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'])) {
-      $fs_nid = $element['#object']->field_flying_site_ref[LANGUAGE_NONE][0]['target_id'];
-      $fs_node = node_load($fs_nid);
-
-      $flying_site_photos = field_view_field('node', $fs_node, AIRTRIBUNE_FLYING_SITE_PHOTOS_FIELD, array('type' => 'jcarousel_formatter', 'settings' => $settings));
-    }
-    if (isset($flying_site_photos[0])) {
-      foreach ($flying_site_photos[0]['#items'] as $item) {
-        $vars['items'][0]['#items'][] = $item;
-      }
-    }
-  } else if ($element['#field_name'] == AIRTRIBUNE_DOWNLOADS_FIELD) {
-    // @TODO: remove this after release of the generation point files from the db
-    // @see: #3611
-    $points_file = field_view_field('node', $element['#object'], AIRTRIBUNE_POINTS_FILE_FIELD);
-    $items = array();
-
-    // Get all waypoint files
-    if (isset($points_file['#items'])) {
-      foreach ($points_file['#items'] as $k => $v) {
-        $points_file[$k]['#file']->description = 'Waypoints file';
-        $items[] = $points_file[$k];
-      }
-    }
-    // Get all dowload files
-    foreach ($element['#items'] as $k => $v) {
-      $items[] = $element[$k];
-    }
-    $vars['items'] = $items;
   }
 }
 
@@ -1546,8 +1566,84 @@ function airtribune2_form_element_label($variables) {
     $attributes['for'] = $element['#id'];
   }
 
+  // Style checkbox labels for take-offs, see #3848
+//  if (strpos($element['#id'], 'edit-field-take-offs') !== FALSE) {
+//    $title = l($title, '/ent_basicmark/pg_takeoff/' . $element['#return_value']);
+//  }
   // The leading whitespace helps visually separate fields from inline labels.
   return ' <div class="inline-label"><label' . drupal_attributes($attributes) . '>' . $t('!title!required', array('!title' => str_replace(' <', '<', $title), '!required' => $required)) . "</label><span class=\"valign\"></span></div>\n";
+}
+
+/**
+ * Implements theme_form_element().
+ */
+function airtribune2_form_element($variables) {
+  $element = &$variables['element'];
+
+  // This function is invoked as theme wrapper, but the rendered form element
+  // may not necessarily have been processed by form_builder().
+  $element += array(
+    '#title_display' => 'before',
+  );
+
+  // Add element #id for #type 'item'.
+  if (isset($element['#markup']) && !empty($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  // Add element's #type and #name as class to aid with JS/CSS selectors.
+  $attributes['class'] = array('form-item');
+  if (!empty($element['#type'])) {
+    $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+  }
+  if (!empty($element['#name'])) {
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+  }
+  // Add a class for disabled elements to facilitate cross-browser styling.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+  $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  $date_prefix = $date_suffix = '';
+  if (!empty($element['#extra_wrap'])){
+    $date_prefix = '<div class="date_prefix">';
+    $date_suffix = '</div>';
+  }
+
+  switch ($element['#title_display']) {
+    case 'before':
+    case 'invisible':
+      $output .= ' ' . theme('form_element_label', $variables);
+      $output .= ' ' . $date_prefix . $prefix . $element['#children'] . $suffix;
+      break;
+
+    case 'after':
+      $output .= ' ' . $date_prefix . $prefix . $element['#children'] . $suffix . $date_suffix;
+      $output .= ' ' . theme('form_element_label', $variables);
+      $date_suffix = '';
+      break;
+
+    case 'none':
+    case 'attribute':
+      // Output no label and no required marker, only the children.
+      $output .= ' ' . $date_prefix . $prefix . $element['#children'] . $suffix;
+      break;
+  }
+
+  if (!empty($element['#description'])) {
+    $output .= '<div class="description">' . $element['#description'] . "</div>" . $date_suffix;
+  }
+  //print_r($variables);
+  $output .= "</div>\n";
+
+  return $output;
 }
 
 /**
@@ -1606,6 +1702,16 @@ function airtribune2_jcarousel_formatter_element_alter(&$element) {
  * @see #2851
  */
 function airtribune2_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if (isset($data['tabs'][0]['output'])) {
+    foreach ($data['tabs'][0]['output'] as $index => $tab) {
+      $path = $data['tabs'][0]['output'][$index]['#link']['path'];
+      $path = str_replace('%/', '', $path);
+      $path_array = explode("/", $path);
+      $class = 'tab-'.implode("-", $path_array);
+      $attributes = array('attributes' => array( 'class' => array($class)));
+      $data['tabs'][0]['output'][$index]['#link']['localized_options'] = $attributes;
+    }
+  }
   if (isset($data['tabs'][1]['output'])) {
     // Hide tabs on map nodes.
     if ($root_path == 'event/%/map/%') {
@@ -1715,6 +1821,51 @@ function airtribune2_views_pre_render(&$view) {
 }
 
 
+function airtribune2_preprocess_views_view_fields(&$vars) {
+  $view = $vars['view'];
+  // Replace link to event with link to dayblog
+  // @author Vyacheslav Malchik <info@vkey.biz>
+  // @see #4261
+  if ($view->name == 'frontpage_events' && $view->current_display == 'live_events_pane') {
+    $href = $vars['fields']['view_1']->content;
+    unset($vars['fields']['view_1']);
+    // Remove tags
+    $href = preg_replace("/<[^>]*>/", " ", $href);
+    $href = trim(str_replace("  ", " ", $href));
+    if (!empty($href)) {
+      // Get raw path
+      $href = explode('#', $href);
+      // Get alias
+      $href[0] = url($href[0]);
+      $href = implode('#', $href);
+      // Relace old path
+      $pattern = '/href="(.*)"/';
+      $replace = 'href=' . $href;
+      $vars['fields']['nothing']->content = preg_replace($pattern, $replace, $vars['fields']['nothing']->content);
+    }
+
+    // Replace image
+    // @see @4266
+    if (trim(strip_tags($vars['fields']['nothing_1']->content,'<img>')) == '') {
+      $vars['fields']['nothing_1']->content = $vars['fields']['field_contest_photos']->content;
+    } else {
+      $deviant = count($view->result);
+      $img_styles = $img_styles_origin =  'frontpage_event_padding';
+      if ($deviant == 1) {
+        $img_styles = 'frontpage_event_padding_once';
+      }
+      if ($deviant == 2) {
+        $img_styles = 'frontpage_event_padding_twice';
+      }
+      preg_match('/\/public\/([^?]*)/', $vars['fields']['nothing_1']->content, $matches);
+      //image_style_url($img_styles, 'public://' . $matches[1]);
+      $img = theme_image_style(array('style_name' => $img_styles, 'path' =>  'public://' . $matches[1], 'width' => NULL, 'height' => NULL));
+      $vars['fields']['nothing_1']->content = preg_replace('/<img[^>]*>/', $img, $vars['fields']['nothing_1']->content);
+    }
+    unset($vars['fields']['field_contest_photos']);
+  }
+}
+
 /**
  * Display the simple view of rows one after another
  */
@@ -1772,14 +1923,15 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
   }
 }
 
-// @see #3796: definition of solutions pages
-
+/**
+ * Definition of solutions pages
+ * @see #3796
+ */
 function is_solutions(){
-
   $path = request_uri();
   $pattern = SOLUTIONS_REGEXT_PATTERN;
   preg_match($pattern, $path, $matches);
-  $part = $matches[0];
+  $part = isset($matches[0]) ? $matches[0] : NULL;
   switch($part) {
     case 'organizers':
     case 'pilots':
@@ -1788,4 +1940,133 @@ function is_solutions(){
       break;
   }
   return FALSE;
+}
+
+/**
+ * Alter Name field widget to remove fieldset.
+ */
+function _airtribune2_alter_name_widget(&$element) {
+  $lang = $element['#language'];
+  $element[$lang][0]['given']['#prefix'] = '';
+  $element[$lang][0]['given']['#suffix'] = '';
+  $element[$lang][0]['family']['#prefix'] = '';
+  $element[$lang][0]['family']['#suffix'] = '';
+  $element[$lang][0]['given']['#title_display'] = 'before';
+  $element[$lang][0]['family']['#title_display'] = 'before';
+  $element[$lang][0]['given']['#attributes']['rel'] = t('Enter your name');
+  $element[$lang][0]['family']['#attributes']['rel'] = t('Enter your surname');
+  // Temporary fix for Name label translation (see http://drupal.org/node/1788156)
+  $element[$lang][0]['given']['#title'] = t('Name');
+  $element[$lang][0]['family']['#title'] = t('Surname');
+}
+
+function _airtribune2_alter_birthdate_widget(&$element) {
+  $lang = $element['#language'];
+  $element[$lang][0]['#title'] = str_replace('Date of birth', t('Date of birth'), $element[$lang][0]['#title']);
+  $element[$lang][0]['value']['day']['#title'] = $element[$lang][0]['#title'];
+  $element[$lang][0]['#title'] = '';
+}
+
+/**
+ * Implements theme_field_multiple_value_form().
+ */
+function airtribune2_field_multiple_value_form($variables) {
+  //print_r($variables);
+  $element = $variables['element'];
+  $output = '';
+
+  if ($element['#cardinality'] > 1 || $element['#cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+    $table_id = drupal_html_id($element['#field_name'] . '_values');
+    $order_class = $element['#field_name'] . '-delta-order';
+    $required = !empty($element['#required']) ? theme('form_required_marker', $variables) : '';
+
+    $rows = array();
+
+    // Sort items according to '_weight' (needed when the form comes back after
+    // preview or failed validation)
+    $items = array();
+    foreach (element_children($element) as $key) {
+      if ($key === 'add_more') {
+        $add_more_button = &$element[$key];
+      }
+      else {
+        $items[] = &$element[$key];
+      }
+    }
+    usort($items, '_field_sort_items_value_helper');
+
+    // Add the items as table rows.
+    foreach ($items as $key => $item) {
+      $item['_weight']['#attributes']['class'] = array($order_class);
+      $delta_element = drupal_render($item['_weight']);
+      $cells = array(
+        array(
+          'data' => '',
+          'class' => array('field-multiple-drag'),
+        ),
+        drupal_render($item),
+        array(
+          'data' => $delta_element,
+          'class' => array('delta-order'),
+        ),
+      );
+      $rows[] = array(
+        'data' => $cells,
+        'class' => array('draggable'),
+      );
+    }
+
+    $output = '<div class="form-item">';
+    $output .= '<div class="inline-label"><label>' . $element['#title'] . ':&nbsp;</label></div>';
+    $output .= '<div class="draggable_table">';
+
+    $output .= theme('table', array('rows' => $rows, 'attributes' => array('id' => $table_id, 'class' => array('field-multiple-table'))));
+    $output .= '</div>';
+    $output .= $element['#description'] ? '<div class="description">' . $element['#description'] . '</div>' : '';
+    $output .= '<div class="clearfix">' . drupal_render($add_more_button) . '</div>';
+    $output .= '</div>';
+
+    drupal_add_tabledrag($table_id, 'order', 'sibling', $order_class);
+  }
+  else {
+    foreach (element_children($element) as $key) {
+      $output .= drupal_render($element[$key]);
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Implements theme_date_combo().
+ *
+ * @see #3864
+ * @author Valdimir Khodakov
+ *
+ */
+function airtribune2_date_combo($variables) {
+
+  $element = $variables['element'];
+  $theme_element = 'fieldset';
+
+  if ($element['#field_name'] == 'field_dates') {
+  	$element['value']['date']['#title']= 'From';
+  	$element['value']['date']['#extra_wrap'] = true;
+  	$element['value2']['date']['#title'] = 'To';
+  	$element['value2']['date']['#extra_wrap'] = true;
+  	$element['#children'] = render($element['value']['date']) . render($element['value2']['date']);
+  	$theme_element = 'form_element';
+  }
+  $field = field_info_field($element['#field_name']);
+  $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
+
+  // Group start/end items together in fieldset.
+  $fieldset = array(
+    '#title' => t($element['#title']) . ' ' . ($element['#delta'] > 0 ? intval($element['#delta'] + 1) : ''), 
+    '#value' => '', 
+    '#description' => !empty($element['#fieldset_description']) ? $element['#fieldset_description'] : '', 
+    '#attributes' => array(), 
+    '#children' => $element['#children'],
+  );
+  return theme($theme_element, array('element' => $fieldset));
 }

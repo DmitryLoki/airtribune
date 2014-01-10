@@ -1,0 +1,70 @@
+<?php
+/**
+ * @file
+ * Examples demonstrating the Drupal Form API.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function fapi_validation_tests_menu() {
+  $items = array();
+  
+  $items['fapiv_test/form_test'] = array(
+    'title' => 'FAPI Validation Tests Form',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('fapi_validation_tests_form_1'),
+    'access callback' => TRUE,
+    'description' => 'A base form form test',
+    'type' => MENU_CALLBACK,
+  );
+  
+  return $items;
+}
+
+function fapi_validation_tests_form_1($form, &$form_state) {
+  _fapivt_field_rule($form, 'numericField', 'numeric');
+  _fapivt_field_rule($form, 'alphaField', 'alpha');
+  _fapivt_field_rule($form, 'length1Field', 'length[5]');
+  _fapivt_field_rule($form, 'length2Field', 'length[5,7]');
+  _fapivt_field_rule($form, 'length3Field', 'length[5,*]');
+  _fapivt_field_rule($form, 'chars1Field', 'chars[a]');
+  _fapivt_field_rule($form, 'chars2Field', 'chars[a,b]');
+  _fapivt_field_rule($form, 'emailField', 'email');
+  _fapivt_field_rule($form, 'url1Field', 'url');
+  _fapivt_field_rule($form, 'url2Field', 'url[absolute]');
+  _fapivt_field_rule($form, 'ipv4Field', 'ipv4');
+  _fapivt_field_rule($form, 'alpha_numericField', 'alpha_numeric');
+  _fapivt_field_rule($form, 'alpha_dashField', 'alpha_dash');
+  _fapivt_field_rule($form, 'digitField', 'digit');
+  _fapivt_field_rule($form, 'decimal1Field', 'decimal');
+  _fapivt_field_rule($form, 'decimal2Field', 'decimal[3,3]');
+  _fapivt_field_rule($form, 'regexpField', 'regexp[/^abcde$/]');
+  _fapivt_field_rule($form, 'match_fieldAField', '');
+  _fapivt_field_rule($form, 'match_fieldBField', 'match_field[match_fieldAField]');
+  _fapivt_field_rule($form, 'rangeField', 'range[1, 10]');
+  
+  
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  
+  return $form;
+}
+
+function _fapivt_field_rule(&$form, $name, $rule=null) {
+  if (!empty($rule) && !is_array($rule)) {
+    $rule = array($rule);
+  }
+  
+  $form[$name] = array(
+    '#type' => 'textfield',
+    '#title' => $name,
+    '#rules' => $rule
+  );
+}
+
+function fapi_validation_tests_form_1_submit($form, &$form_state) {
+  drupal_set_message('FAPIV Test 1 OK!');
+}

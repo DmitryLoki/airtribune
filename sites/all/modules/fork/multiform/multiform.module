@@ -1,0 +1,342 @@
+<?php
+
+define('DEFAULT_MULTIFORM_ID', 'multiform');
+
+// TODO: Security issue. Subform mustn't be submitted separately, since it is already cached.
+// TODO: Validate multiform settings.
+// TODO: Check case when $form_state['rebuild'] == TRUE for a subform
+// What if submits map's values are the same?
+// TODO: Add Views integration for logging.
+
+// TODO: Remove empty 'actions' wrapper for submit map, i.e. in case there is only one
+// submit in subform's actions and it's mapped (hidden).
+
+function multiform_menu() {
+  $items['multiform/test'] = array(
+   'title' => 'Multiform Test', 
+    'page callback' => 'multiform_test', 
+    'access callback' => TRUE, 
+    'file' => 'multiform.tmp.inc',
+  );
+  
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ * 
+ * NOTE: hook_init() isn't called for cached requests.
+ */
+function multiform_init() {
+  // TODO: Security issue.
+  // Prepare _POST if ajax request made
+  if (isset($_POST['multiform']) && isset($_POST['_triggering_element_name']) && isset($_POST['ajax_page_state'])) {
+    
+    // TODO: Define subform index corresponding to _triggering_element_name
+    $subform_index = multiform_subform_ajax_index($_POST);
+    
+    //~ $_POST += $_POST['multiform']['profile2_edit_pilot_form']; unset($_POST['multiform']); //dsm($_POST);
+    $_POST += $_POST['multiform'][$subform_index]; unset($_POST['multiform']); //dsm($_POST);
+    
+    // TODO: This should be attached to form
+    // profile2_form()
+    module_load_include('inc', 'profile2', 'contrib/profile2_page');
+    // TODO: We need to include og_ui_confirm_subscribe_validate() until process_inpute isn't set to FALSE
+    // and also for integrity.
+    module_load_include('inc', 'og_ui', 'og_ui.pages');
+    
+    
+  }
+}
+
+// TODO:
+// Temporary solution
+function multiform_subform_ajax_index($post) {
+  $triggering_element_name = $post['_triggering_element_name'];
+  $parents = explode('[', str_replace(']', '', $triggering_element_name));
+  
+  foreach ($post['multiform'] as $index => $subform) {
+    $key_exists = FALSE;
+    drupal_array_get_nested_value($subform, $parents, $key_exists);
+    if ($key_exists) {
+      break;
+    }
+  }
+  
+  //~ return 'profile2_edit_pilot_form';
+  return $index;
+}
+
+// TODO: Check
+function multiform_form_alter(&$form, &$form_state, $form_id) {
+
+  if (!empty($form_state['#multiform'])) {
+    $form['#after_build'][] = 'multiform_form_after_build';
+    
+    // TODO: Change module weights.
+    // Change order of clientside_validation hook
+    $cs_key = array_search('clientside_validation_form_after_build', $form['#after_build']);
+    if ($cs_key !== FALSE) {
+      unset($form['#after_build'][$cs_key]);
+      $form['#after_build'][] = 'clientside_validation_form_after_build';
+    }
+  }
+}
+
+// TODO: To use after_build is not the best practice
+// since potentially there could be other "later" after_builds that can change form or use it some other way.
+// But it works.
+function multiform_form_after_build(&$form, &$form_state) {
+  
+  multiform_crossfields_process(NULL, $form, $form_state);
+  // TODO: Check that $form_state is always stored in cache.
+  // Otherwise it won't work.
+  //if (!empty($form_state['#multiform'])) {
+    $form_id = $form_state['#subform_index'];
+    _multiform_get_form($form, $form_id);    
+  //}
+  
+  multiform_multiform_ids($form_id);
+  //~ dsm('test after_build');
+  
+  global $_POST_MULTIFORM;
+  if (!empty($_POST_MULTIFORM)) {
+    //~ dsm($_POST_MULTIFORM);
+    //~ dsm($form_state);
+  }
+  
+  return $form;
+}
+
+// TODO:
+function multiform_multiform_ids($form_id = NULL) {
+  // TODO: Add statically cached flag for multiform js.
+  // TODO: Use specific key instead of __FUNCTION__
+  $multiform_ids = &drupal_static(__FUNCTION__);
+  if (!empty($form_id)) {
+    $multiform_ids[] = $form_id;
+  }
+  return $multiform_ids;
+}
+
+/**
+ * Returns a form containing a number of other forms.
+ */
+function multiform_get_form($settings) {
+  module_load_include('inc', 'multiform');
+  module_load_include('inc', 'multiform', 'multiform.form');
+  
+  // Array to store all required data for workflow.
+  $multiform = array();
+  
+  // Initialize settings
+  multiform_init_settings($settings);
+  
+  // Set _POST values for crossfields if any.
+  multiform_crossfields_process($settings);
+  
+  // Preprocess _POST: set submits according to submits map if any.
+  // Exclude submits map subform's values from $_POST if any.
+  multiform_preprocess_post($_POST, $settings);
+  
+  // Get all subforms
+  $subforms = $settings['#subforms'];
+  
+  // Compile multiform stucture
+  $form = multiform_init_form();
+  
+  
+  $form['#id'] = 'multiform';
+  
+  $build_id_hash = md5(uniqid(mt_rand(), TRUE));
+  //~ $build_id = 'form-' . $build_id_hash;
+  /*
+  $form['form_id'] = array(
+    '#type' => 'hidden',
+    '#value' => 'multiform',
+    '#id' => drupal_html_id("edit-multiform"),
+    '#name' => 'form_id',
+    '#attributes' => array(),
+  );
+  $build_id = 'form-' . md5(uniqid(mt_rand(), TRUE));
+  $form['form_build_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $build_id,
+    '#id' => $build_id,
+    '#name' => 'form_build_id',
+    '#attributes' => array(),
+  );
+  */
+  
+  $multiform_build_id = 'multiform_settings-' . $build_id_hash;
+  $form['multiform_seettings_build_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $multiform_build_id,
+    '#id' => $multiform_build_id,
+    '#name' => 'multiform_seettings_build_id',
+    '#attributes' => array(),
+  );
+  
+  $post = !empty($_POST) ? $_POST : array();
+  foreach ($subforms as $index => $subform) {
+    $subform_id = $subform['form_id'];
+    $subform_args = $subform['args'];
+    
+    // Store original _POST in case we need it later. E.g. for subforms map.
+    global $_POST_MULTIFORM;
+    //~ dsm($_POST);
+    $_POST_MULTIFORM = $_POST;
+    //~ $GLOBALS['_POST_MULTIFORM'] = $_POST;
+    
+    // Set _POST value as it should be in case of single form.
+    if (isset($post['multiform'][$subform_id])) {
+      $_POST = $post['multiform'][$subform_id];
+    }
+    
+    // Reset $form_state and disable redirection for a given subform.
+    // TODO: If multiform submission was successfull, don't prepopulate form again.
+    // Form is not cleared because of $subform_form_state = array('no_redirect' => TRUE);
+    // But w/o no_redirect only first form is submitted
+    // Also no_redirect would suppress multistep forms.
+    // To avoid this, redirect multiform itself if submission was successfull.
+    $subform_form_state = array('no_redirect' => TRUE);
+    // This line is copied from drupal_get_form().
+    $subform_form_state['build_info']['args'] = $subform_args;
+    
+    // Add flag to correctly handle ajax requests
+    // TODO: Remove flags that are not used
+    $subform_form_state['#multiform'] = TRUE;
+    $subform_form_state['#subform_index'] = $subform_id;
+    $subform_form_state['#subform_name_processed'] = TRUE;
+    
+    // TODO: Check if it is required.
+    // Add multiform settings (e.g. for submits map).
+    // Also used for crossfields.
+    $subform_form_state['#multiform_settings'] = $settings;
+    
+    // If original form (subform) is built not through drupal_build_form,
+    // we may need to additionally make some changes to $form_state.
+    // E.g. entity_ui_get_form().
+    multiform_preprocess_form_state($subform_form_state, $subform);
+    
+    // Build and process current subform.
+    $unprocessed_form = array();
+    $subform_form = multiform_drupal_build_subform($subform_id, $subform_form_state, $unprocessed_form);
+    // Store data for delayed submit.
+    multiform_delayed_submit_prepare($multiform, $subform_form, $subform_form_state, $subform_id, $unprocessed_form);
+    
+    // TODO: Temporary solution for #after_execute in multiform_delayed_submit_execute().
+    $multiform['#subforms'][$subform_id]['#subform_settings'] = $subform;
+  }
+  
+  // TODO: Check.
+  $errors = form_get_errors();
+
+  if (empty($errors) && !empty($post['multiform']) && module_exists('multiform_log')) {
+    // Log _POST data.
+    // TODO: Fill in context.
+    $context = array();
+
+    $entry_data = array(
+      'multiform_id' => !empty($settings['#multiform_id']) ? $settings['#multiform_id'] : DEFAULT_MULTIFORM_ID,
+      'timestamp' => time(),
+      'post_array' => $post,
+      'context_data' => $context,
+    );
+
+    multiform_log_create_entry($entry_data);
+  }
+  
+  // At this point all subforms were validated.
+  
+  foreach ($subforms as $index => $subform) {
+    $subform_id = $subform['form_id'];
+    $subform_form = $subform_form_state = array();
+    
+    multiform_delayed_submit_execute($multiform, $subform_form, $subform_form_state, $subform_id);
+    
+    // Do not render the <form> tags. Instead we render the <form> as a <div>.
+    $subform_form['#theme_wrappers'] = array('container');
+    // Unset any attributes specifics to form tags.
+    // TODO: Check attributes for multiform itself
+    $disallowed_attributes = array('enctype', 'action', 'method');
+    $subform_form['#attributes'] = array_diff_key($subform_form['#attributes'], array_flip($disallowed_attributes));
+    
+    // TODO: Remove commented code
+    // Change #name elements' attribute to post values correctly considering multiform _POST array structure.
+    // This is set in multiform_form_after_build()
+    //_multiform_get_form($subform_form, $subform_id);
+    
+    //~ $subform_form['#attributes']['class'][] = 'multiform-subform';
+    
+    $form['multiform'][] = $subform_form;
+    
+    if (isset($subform_form_state['has_file_element'])) {
+      $form['#attributes']['enctype'] = 'multipart/form-data';
+    }
+    
+  }
+  //~ dsm($form);
+  
+  if (!empty($settings['#multiform_id'])) {
+    $form['#theme'] = array($settings['#multiform_id']);
+  }
+  
+  // TODO: Prepare settings cache for submits map.
+  // And hide mapped submits.
+  multiform_cache_prepare($build_id_hash, $settings, $form);
+  
+  // TODO: Check.
+  $errors = form_get_errors();
+  
+  if (empty($errors) && !empty($post['multiform']) && isset($settings['#redirect_path'])) {
+    // Redirect
+    drupal_goto($settings['#redirect_path']);
+  }
+  
+  if (isset($settings['#title'])) {
+    drupal_set_title($settings['#title']);
+  }
+
+  return $form;
+}
+
+// TODO: Rename
+function _multiform_get_form(&$element, $form_id) {
+  // Recurse.
+  foreach (element_children($element) as $key) {
+    _multiform_get_form($element[$key], $form_id);
+  }
+  
+  // By only changing $element['#name'] form API is not affected but the
+  // browser will put the element values into _POST where multiform_get_form
+  // expects them.
+  if (isset($element['#name'])) {
+    // If the name was op then we want multiform[$form_id][op]. If it was
+    // foo[bar] then we want multiform[$form_id][foo][bar].
+    $element['#name'] = "multiform[$form_id]" . preg_replace('/^[^[]+/', '[\0]', $element['#name']);
+  }
+}
+
+// -------------------------------
+// Crossfields functionality
+// -------------------------------
+
+// TODO:
+function multiform_crossfields_process($settings, &$form = NULL, &$form_state = NULL) {
+  module_load_include('inc', 'multiform', 'multiform.crossfields');
+  if ($settings) {
+    $crossfields_info = multiform_crossfields_info($settings);
+    if (!empty($_POST)) {
+      multiform_crossfields_set_post_values($settings, $crossfields_info);
+    }
+  }
+  
+  // TODO: Maybe this part should be called from inside widget_form_after_build instead of form_after_build.
+  elseif (!$settings && !empty($form) && isset($form_state['#multiform_settings'])) {
+    $settings = $form_state['#multiform_settings'];
+    $crossfields_info = multiform_crossfields_info($settings);
+    // TODO: Do smth with hidden fields validation
+    multiform_crossfields_hide_elements($settings, $crossfields_info, $form, $form_state);
+  }
+}

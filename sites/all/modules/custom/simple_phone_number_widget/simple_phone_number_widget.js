@@ -4,9 +4,13 @@
       $('input.simple-phone-full-number').once(function(index, input){
           var $input = $(input);
           $input.mask('+9999999999?99999', {placeholder: ""});
-          if($input.val() == '') {
-              $input.val('+');
-          }
+        if($input.val() == '') {
+          $input.val('+');
+        }
+        $input.unbind('blur.mask');
+        $input.bind('blur', function() {
+          $(this).trigger('change');
+        })
       });
     }
   };

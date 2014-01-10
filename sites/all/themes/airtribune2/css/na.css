@@ -1,0 +1,6 @@
+.pane-event-days-results-race-list .task_result .label:after,
+.pane-event-days-results-race-list .views-label:after { content: ": "}
+.pane-event-days-results-race-list .task_result .file:after,
+.pane-event-days-results-race-list .item-list li:after,
+.pane-event-days-results-race-list .views-field-field-pg-race-tracks .file:after,
+.pane-event-days-results-race-list .views-field-pg-race-play-link .item-list:after { content: ", "}

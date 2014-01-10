@@ -5,6 +5,7 @@
  */
 
 define('PG_RACE_RETREIVE_URL', 'http://retrieve.airtribune.com/table/index.html');
+define('PG_RACE_NO_TRACKS_TEXT',"We haven't got any data from pilots' live trackers yet. Please, try again later.");
 
 include_once 'pg_race.features.inc';
 
@@ -409,25 +410,28 @@ function get_races_for_contest($contest, $only_race_numbers = FALSE) {
  * Its dirty code, but in OG module code there is nothing like this functionality
  *
  * @param $og organic group (node) object
- * @return bool FALSE if wrong og node; otherwise array with ids of days for contest
+ * @return array with ids of days for contest
  */
 function get_days_ids_for_contest($og) {
-  if (!is_object($og)) {
-    return FALSE;
+  $days = array();
+  if (is_object($og)) {
+    $relation_nids = db_select('og_membership', 'ogm')
+      ->fields('ogm', array('etid'))
+      ->condition('ogm.gid', $og->nid)
+      ->condition('ogm.entity_type', 'node')
+      ->execute()
+      ->fetchCol();
+
+    if (!empty($relation_nids)) {
+      $days = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->orderBy('nid', 'ASC')
+        ->condition('n.nid', $relation_nids, 'IN')
+        ->condition('n.type', 'day')
+        ->execute()
+        ->fetchCol();
+    }
   }
-  $relation_nids = db_select('og_membership', 'ogm')
-    ->fields('ogm', array('etid'))
-    ->condition('ogm.gid', $og->nid)
-    ->condition('ogm.entity_type', 'node')
-    ->execute()
-    ->fetchCol();
-  $days = db_select('node', 'n')
-    ->fields('n', array('nid'))
-    ->orderBy('nid', 'ASC')
-    ->condition('n.nid', $relation_nids, 'IN')
-    ->condition('n.type', 'day')
-    ->execute()
-    ->fetchCol();
   return $days;
 }
 
@@ -463,16 +467,22 @@ function pg_race_field_extra_fields() {
         'weight' => -5,
         'callback' => 'pg_race_preview_image_callback',
       ),
-      'pg_race_retrieve_link' => array(
-        'label' => t('Paragliding race retrieve link'),
-        'description' => t('Retrieve link'),
+      'pg_race_retrieve_map_link' => array(
+        'label' => t('Paragliding race retrieve map link'),
+        'description' => t('Retrieve map link'),
         'weight' => -5,
-        'callback' => 'pg_race_retrive_callback',
+        'callback' => 'pg_race_retrive_map_callback',
       ),
       'pg_race_retrieve_table_link' => array(
         'label' => t('Paragliding race retrieve table link'),
         'description' => t('Retrieve table link'),
         'callback' => 'pg_race_retrive_table_callback',
+        'weight' => -5,
+      ),
+      'pg_race_retrieve_links' => array(
+        'label' => t('Paragliding race retrieve links'),
+        'description' => t('Retrieve links'),
+        'callback' => 'pg_race_retrive_links_callback',
         'weight' => -5,
       ),
     ),
@@ -545,7 +555,7 @@ function pg_race_play_link_callback($entity) {
 
 }
 
-function pg_race_retrive_callback($entity) {
+function pg_race_retrive_map_callback($entity) {
   global $user;
   $output = FALSE;
 
@@ -560,10 +570,10 @@ function pg_race_retrive_callback($entity) {
   if (!$contest_is_offline) {
     $link = array(
       '#theme' => 'link',
-      '#text' => t('Retrieve map'),
-      '#path' => 'retrieve/' . $entity->id,
+      '#text' => t('Map'),
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/map', array('absolute' => TRUE)),
       '#options' => array(
-        'attributes' => array('class' => array('retrieve-link'), 'target' => '_blank'),
+        'attributes' => array('class' => array('retrieve-map-link'), 'target' => '_blank'),
         'html' => FALSE,
       ),
       '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
@@ -574,6 +584,7 @@ function pg_race_retrive_callback($entity) {
 }
 
 function pg_race_retrive_table_callback($entity) {
+  global $user;
   $output = FALSE;
 
   $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
@@ -585,24 +596,39 @@ function pg_race_retrive_table_callback($entity) {
   $contest_is_offline = $contest_wrapper->field_is_offline->value();
 
   if (!$contest_is_offline) {
-    $core_id_items = field_get_items('node', $node, 'field_core_id');
-    $race_id_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, 'field_core_id');
-
     $link = array(
       '#theme' => 'link',
-      '#text' => t('Retrieve table'),
-      '#path' => PG_RACE_RETREIVE_URL,
+      '#text' => t('Table'),
+      '#path' => url('retrieve/' . $node->nid . '/' . $entity->id . '/table', array('absolute' => TRUE)),
       '#options' => array(
         'attributes' => array('class' => array('retrieve-table-link'), 'target' => '_blank'),
         'html' => FALSE,
-        'query' => array(
-          'contestid' => $core_id_items[0]['value'],
-          'raceid' => $race_id_items[0]['value'],
-        )
       ),
-      '#access' => pg_race_retrive_access($entity, $gid),
+      '#access' => pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user),
     );
     $output = render($link);
+  }
+  return $output;
+}
+
+function pg_race_retrive_links_callback($entity) {
+  global $user;
+  $output = '';
+
+  $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
+  $gid = $og_ref_items[0]['target_id'];
+
+  if (pg_race_retrive_access($entity, $gid) && og_user_access('node', $gid, 'administer-group', $user)) {
+    $map_link = pg_race_retrive_map_callback($entity);
+    $table_link = pg_race_retrive_table_callback($entity);
+
+    $map_link = !empty($map_link) ? '<span class="file">' . pg_race_retrive_map_callback($entity) . '</span>' : $map_link;
+    $table_link = !empty($table_link) ? '<span class="file">' . pg_race_retrive_table_callback($entity) . '</span>' : $table_link;
+
+    // Generate list
+    $items = array($map_link, $table_link);
+
+    $output = implode($items);
   }
   return $output;
 }
@@ -637,8 +663,8 @@ function pg_race_entity_view($entity, $type, $view_mode, $langcode) {
       '#markup' => $markup,
     );
 
-    $entity->content['pg_race_retrieve_link'] = array(
-      '#markup' => pg_race_retrive_callback($entity),
+    $entity->content['pg_race_retrieve_map_link'] = array(
+      '#markup' => pg_race_retrive_map_callback($entity),
     );
 
     $entity->content['pg_race_retrieve_table_link'] = array(
@@ -699,8 +725,8 @@ function _pg_race_preview_markup($entity) {
     return;
   }
 
-  $params['text'] = '2D';
-  $params['type'] = '2d';
+  $params['text'] = array('2D', '3D');
+  $params['type'] = array('2d', 'ge');
   $markup = _pg_race_play_link($params);
 
   $title = $params['status'] == 'online' ? t('Livetracking') : t('Replay');
@@ -719,14 +745,18 @@ function _day_make_link($params) {
   if (empty($params['text'])) {
     return;
   }
-  $class = array('race-link', $params['type'], $params['status']);
-  $link = '<span class="file">' . theme('html_tag', array(
-      'element' => array(
-        '#tag' => 'a',
-        '#value' => $params['text'],
-        '#attributes' => array('class' => $class, 'target' => '_blank', 'rel' => 'nofollow')
-      )
-    )) . '</span>';
+  $link = array();
+  $type = (array)$params['type'];
+  foreach((array)$params['text'] as $key => $text) {
+    $class = array('race-link', $type[$key], $params['status']);
+    $link[] = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'a',
+          '#value' => $text,
+          '#attributes' => array('class' => $class, 'target' => '_blank', 'rel' => 'nofollow')
+        )
+      ));
+  }
   return $link;
 }
 
@@ -738,7 +768,7 @@ function _pg_race_play_link($params) {
 
   // Generate list
   //$items = array($href2d, $href3d);
-  $items = array($href2d);
+  $items = (array)$href2d;
 
   $ul_attribuntes = array(
     'class' => array('race-links'),
@@ -822,29 +852,38 @@ function _day_pg_race_preview_markup($node) {
   }
 
   // Content data
-  $data['type'] = '2d';
+  $data['text'] = array();
+  $data['type'] = array();
   $link_text = NULL;
   $help_text = NULL;
+  $help_class = NULL;
+  $output = NULL;
   $time = NULL;
 
   // Check if task exists
   if ($has_task) {
+    $data['text'] = array('2D', '3D Google Earth');
+    $data['type'] = array('2d', 'ge');
+    $help_class = '';
     switch ($status) {
       case AIRTRIBUNE_VIS_STATE_AWAITING :
         $time = date('H:i:s', $countdown_time);
         $time = $countdown_time > 0 ? '-' . $time : $time;
         $link_text = t('Watch Live');
         $help_text = t('Race starts in');
+        $help_class = ' awaiting';
         break;
       case AIRTRIBUNE_VIS_STATE_ONLINE :
         $time = date('H:i:s', $start_time);
         $link_text = t('Watch Live');
         $help_text = t('Race is on');
+        $help_class = ' starting';
         break;
       case AIRTRIBUNE_VIS_STATE_REPLAY :
         $time = date('H:i:s', ($deadline_time - $start_time));
         $link_text = t('Task Replay');
         $help_text = t('Race time');
+        $help_class = ' replay';
         break;
     }
   }
@@ -859,14 +898,15 @@ function _day_pg_race_preview_markup($node) {
     $time = '';
     // Add wrapper attribute. Can be used in js
     $wrapper_attributes['class'][] = 'no-task';
+    $data['label']['attributes']['class'][] = 'no-task';
   }
 
   // Wrap time and help-text if not empty.
   $time = !empty($time) ? '<div id="time-counter" class="time">' . $time . '</div>' : '';
-  $help_text = !empty($help_text) ? '<span class="help-text">' . $help_text . '</span>' : '';
+  $help_text = !empty($help_text) ? '<span class="help-text' . $help_class . '">' . $help_text . '</span>' : '';
 
   // Wrap link text
-  $data['text'] = $link_text;
+  $data['label']['text'] = $link_text;
   $link = _day_make_link($data);
 
   // tracks
@@ -874,7 +914,25 @@ function _day_pg_race_preview_markup($node) {
     $help_text .= '<span class="views-field-field-pg-race-tracks"><a href="' . file_create_url($tracks['uri']) . '">' . t('Tracks') . '</a></span>';
   }
   // Prepare output
-  $output = $link . $help_text . $time;
+  //$output = $link;
+
+  $data['attributes'] = $wrapper_attributes;
+  $data['label']['attributes']['class'][] = 'views-label';
+  $data['field']['attributes']['class'][] = 'field-content';
+  // Use another output for blog page.
+  if (arg(2) == 'day') {
+    drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
+    if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
+      $data['label']['text'] = t('Replay');
+      $data['label']['attributes']['class'][] = 'replay-link-label';
+      $data['field']['attributes']['class'][] = 'replay-link-content';
+
+    } else {
+      $data['label']['attributes']['class'][] = 'online-link-label';
+      $data['field']['attributes']['class'][] = 'online-link-content';
+    }
+}
+
   $output = theme('html_tag', array(
     'element' => array(
       '#tag' => 'span',
@@ -882,16 +940,17 @@ function _day_pg_race_preview_markup($node) {
       '#attributes' => $wrapper_attributes
     )
   ));
-
-  // Use another output for blog page.
-  if (arg(2) == 'blog') {
-    drupal_add_js(array('Day' => array('button_soon_text' => t('Button will be here as soon as task is set.'))), 'setting');
-    if ($status == AIRTRIBUNE_VIS_STATE_REPLAY) {
-      $data['text'] = '2D';
-      $data['attributes'] = $wrapper_attributes;
-      $output = pg_race_replay_blog_markup($data);
-    }
+  $data['no_tracks_text'] = '';
+  if (!empty($status) && $status != AIRTRIBUNE_VIS_STATE_REPLAY) {
+    $data['no_tracks_text'] = '<span class="no-tracks-text">' . t(PG_RACE_NO_TRACKS_TEXT) . '</span>';
   }
+
+  $output = pg_race_blog_markup($data);
+  
+  //if ($status != AIRTRIBUNE_VIS_STATE_REPLAY) {
+    $output .= $help_text . $time;
+  //}
+
   // Add js
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/ie-fix.js', 'file');
   drupal_add_js(drupal_get_path('module', 'pg_race') . '/js/pg_race_play_link.js', 'file');
@@ -908,18 +967,38 @@ function _day_pg_race_preview_markup($node) {
   return $output;
 }
 
-function pg_race_replay_blog_markup($data) {
+function pg_race_blog_markup($data) {
   $link = _day_make_link($data);
-  $items = array($link);
-
+  $items = (array)$link;
+  $list = '';
   $variables = array(
     'type' => 'ul',
     'title' => '',
     'items' => $items,
     'attributes' => $data['attributes'],
   );
-  $output = theme('item_list', $variables);
-  $output = '<span class="replay-link-label">' . t('Replay') . '</span>' . '<span class="replay-link-content">' . $output . '</span>';
+  $list = theme('item_list', $variables);
+  $output = '<span class="views-field dropdown_list">';
+  $output .= theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'span',
+      '#value' => $data['label']['text'],
+      '#attributes' => $data['label']['attributes'],
+    )
+  ));
+
+  //print '<pre>' . print_r($items) . '</pre>';
+  if(count($items)){
+    $output .= theme('html_tag', array(
+      'element' => array(
+         '#tag' => 'span',
+         '#value' => $list,
+         '#attributes' => $data['field']['attributes'],
+      )
+    ));
+  }
+  $output .= $data['no_tracks_text'];
+  $output .= '</span>';
 
   return $output;
 }

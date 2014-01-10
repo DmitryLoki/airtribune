@@ -2,7 +2,7 @@
     Drupal.behaviors.atEntityreferenceGeowidget = {
         attach:function (context, settings) {
             var div, map, that = Drupal.behaviors.atEntityreferenceGeowidget;
-            div = $('#' + settings.atEntityreferenceGeowidget.mapId + ':not(.at-entityreference-geowidget-processed)', context);
+            div = $('#' + Drupal.settings.atEntityreferenceGeowidget.mapId + ':not(.at-entityreference-geowidget-processed)', context);
             map = div.data('openlayers');
             if (map !== undefined) {
                 //map.openlayers.addLayer(new OpenLayers.Layer.Vector('references'));

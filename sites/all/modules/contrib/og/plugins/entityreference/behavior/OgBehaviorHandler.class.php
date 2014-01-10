@@ -9,7 +9,7 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
    * Implements EntityReference_BehaviorHandler_Abstract::access().
    */
   public function access($field, $instance) {
-    return $field['settings']['handler'] == 'og';
+    return $field['settings']['handler'] == 'og' || strpos($field['settings']['handler'], 'og_') === 0;
   }
 
   /**
@@ -67,7 +67,8 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
     if (!empty($entity->skip_og_membership)) {
       return;
     }
-    if (!empty($entity->delete_og_membership)) {
+    list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
+    if (!empty($entity->delete_og_membership) || og_is_group_content_type($entity_type, $bundle)) {
       // Delete all OG memberships related to this entity.
       $og_memberships = array();
       foreach (og_get_entity_groups($entity_type, $entity) as $group_type => $ids) {
@@ -91,8 +92,7 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
       // User has no access to field.
       return;
     }
-    $diff = $this->groupAudiencegetDiff($entity_type, $entity, $field, $instance, $langcode, $items);
-    if (!$diff) {
+    if (!$diff = $this->groupAudiencegetDiff($entity_type, $entity, $field, $instance, $langcode, $items)) {
       return;
     }
 
@@ -106,12 +106,31 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
       og_membership_delete_multiple($diff['delete']);
     }
 
+    if (!$diff['insert']) {
+      return;
+    }
+
+    // Prepare an array with the membership state, if it was provided in the widget.
+    $states = array();
+    foreach ($items as $item) {
+      $gid = $item['target_id'];
+      if (empty($item['state']) || !in_array($gid, $diff['insert'])) {
+        // State isn't provided, or not an "insert" operation.
+        continue;
+      }
+      $states[$gid] = $item['state'];
+    }
+
     foreach ($diff['insert'] as $gid) {
       $values = array(
         'entity_type' => $entity_type,
         'entity' => $entity,
         'field_name' => $field_name,
       );
+
+      if (!empty($states[$gid])) {
+        $values['state'] = $states[$gid];
+      }
 
       og_group($group_type, $gid, $values);
     }
@@ -164,7 +183,7 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
   }
 
   /**
-   * Overrides views_data_alter().
+   * Implements EntityReference_BehaviorHandler_Abstract::views_data_alter().
    */
   public function views_data_alter(&$data, $field) {
     // We need to override the default EntityReference table settings when OG

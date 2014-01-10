@@ -6,18 +6,31 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function path_breadcrumbs_install() {
+  db_update('system')
+    ->fields(array('weight' => 1000))
+    ->condition('name', 'path_breadcrumbs')
+    ->condition('type', 'module')
+    ->execute();
+}
+
+/**
  * Implements hook_uninstall().
  */
 function path_breadcrumbs_uninstall() {
   variable_del('path_breadcrumbs_home_link_enabled');
   variable_del('path_breadcrumbs_home_link_title');
   variable_del('path_breadcrumbs_delimiter');
-  variable_del('path_breadcrumbs_truncate_length');
   variable_del('path_breadcrumbs_rich_snippets');
   variable_del('path_breadcrumbs_hide_single_breadcrumb');
   variable_del('path_breadcrumbs_internal_render');
   variable_del('path_breadcrumbs_cache_enabled');
   variable_del('path_breadcrumbs_cache_lifetime');
+  variable_del('path_breadcrumbs_url_cleaning_method');
+  variable_del('path_breadcrumbs_truncate_title_length');
+  variable_del('path_breadcrumbs_internal_render_themes');
 }
 
 /**
@@ -52,32 +65,32 @@ function path_breadcrumbs_schema() {
     ),
     'fields' => array(
       'path_id' => array(
-        'description' => t("Breadcrumb's variant unique identifier"),
+        'description' => "Breadcrumb's variant unique identifier",
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'no export' => TRUE,
       ),
       'machine_name' => array(
-        'description' => t("Breadcrumb's variant machine name"),
+        'description' => "Breadcrumb's variant machine name",
         'type' => 'varchar',
         'length' => 64,
         'not null' => TRUE,
       ),
       'name' => array(
-        'description' => t("Breadcrumb's variant human-readable name"),
+        'description' => "Breadcrumb's variant human-readable name",
         'type' => 'varchar',
         'length' => 64,
         'not null' => TRUE,
       ),
       'path' => array(
-        'description' => t('URL where breadcrumb should be shown'),
+        'description' => 'URL where breadcrumb should be shown',
         'type' => 'varchar',
         'length' => 256,
         'not null' => TRUE,
       ),
       'data' => array(
-        'description' => t('Serialized data of breadcrumb'),
+        'description' => 'Serialized data of breadcrumb',
         'type' => 'blob',
         'not null' => TRUE,
         'size' => 'big',
@@ -85,7 +98,7 @@ function path_breadcrumbs_schema() {
         'object default' => array(),
       ),
       'weight' => array(
-        'description' => t('Breadcrumb weight related to other breadcrumbs'),
+        'description' => 'Breadcrumb weight related to other breadcrumbs',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
@@ -240,4 +253,29 @@ function path_breadcrumbs_update_7300() {
 
   // Create new cache bin storage.
   db_create_table('cache_path_breadcrumbs', drupal_get_schema_unprocessed('system', 'cache'));
+}
+
+/**
+ * Set module weight to 1000.
+ */
+function path_breadcrumbs_update_7301() {
+  db_update('system')
+    ->fields(array('weight' => 1000))
+    ->condition('name', 'path_breadcrumbs')
+    ->condition('type', 'module')
+    ->execute();
+}
+
+/**
+ * Clear Entity API cache to register new Path Breadcrumbs taxonomy token.
+ */
+function path_breadcrumbs_update_7302() {
+  entity_property_info_cache_clear();
+}
+
+/**
+ * Clear Path Breadcrumbs cache to use new Path Breadcrumbs cache object structure.
+ */
+function path_breadcrumbs_update_7303() {
+  cache_clear_all('*', PATH_BREADCRUMBS_CACHE_STORAGE, TRUE);
 }

@@ -188,13 +188,6 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'masquerade',
   );
 
-  // Exported permission: administer media.
-  $permissions['administer media'] = array(
-    'name' => 'administer media',
-    'roles' => array(),
-    'module' => 'media',
-  );
-
   // Exported permission: administer meta tags.
   $permissions['administer meta tags'] = array(
     'name' => 'administer meta tags',
@@ -355,7 +348,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['bypass node access'] = array(
     'name' => 'bypass node access',
     'roles' => array(
-      0 => 'editor',
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'node',
   );
@@ -434,6 +428,13 @@ function roles_and_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: create field_points_file.
+  $permissions['create field_points_file'] = array(
+    'name' => 'create field_points_file',
+    'roles' => array(),
     'module' => 'field_permissions',
   );
 
@@ -1260,6 +1261,13 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: edit field_points_file.
+  $permissions['edit field_points_file'] = array(
+    'name' => 'edit field_points_file',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: edit field_race_number.
   $permissions['edit field_race_number'] = array(
     'name' => 'edit field_race_number',
@@ -1277,15 +1285,6 @@ function roles_and_permissions_user_default_permissions() {
       1 => 'organizer',
     ),
     'module' => 'field_permissions',
-  );
-
-  // Exported permission: edit media.
-  $permissions['edit media'] = array(
-    'name' => 'edit media',
-    'roles' => array(
-      0 => 'editor',
-    ),
-    'module' => 'media',
   );
 
   // Exported permission: edit meta tags.
@@ -1323,7 +1322,9 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: edit original values.
   $permissions['edit original values'] = array(
     'name' => 'edit original values',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'organizer',
+    ),
     'module' => 'entity_translation',
   );
 
@@ -1380,6 +1381,13 @@ function roles_and_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
     ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: edit own field_points_file.
+  $permissions['edit own field_points_file'] = array(
+    'name' => 'edit own field_points_file',
+    'roles' => array(),
     'module' => 'field_permissions',
   );
 
@@ -1611,7 +1619,8 @@ function roles_and_permissions_user_default_permissions() {
   $permissions['import media'] = array(
     'name' => 'import media',
     'roles' => array(
-      0 => 'editor',
+      0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'media',
   );
@@ -1661,7 +1670,10 @@ function roles_and_permissions_user_default_permissions() {
   // Exported permission: masquerade as user.
   $permissions['masquerade as user'] = array(
     'name' => 'masquerade as user',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
     'module' => 'masquerade',
   );
 
@@ -1874,6 +1886,17 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
+  // Exported permission: view field_points_file.
+  $permissions['view field_points_file'] = array(
+    'name' => 'view field_points_file',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
+    'module' => 'field_permissions',
+  );
+
   // Exported permission: view field_race_number.
   $permissions['view field_race_number'] = array(
     'name' => 'view field_race_number',
@@ -1895,17 +1918,13 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: view media.
-  $permissions['view media'] = array(
-    'name' => 'view media',
+  // Exported permission: view my_events page.
+  $permissions['view my_events page'] = array(
+    'name' => 'view my_events page',
     'roles' => array(
-      0 => 'anonymous user',
-      1 => 'authenticated user',
-      2 => 'editor',
-      3 => 'organizer',
-      4 => 'pilot',
+      0 => 'organizer',
     ),
-    'module' => 'media',
+    'module' => 'at_helper',
   );
 
   // Exported permission: view og_roles_permissions.
@@ -1956,6 +1975,13 @@ function roles_and_permissions_user_default_permissions() {
       1 => 'organizer',
       2 => 'pilot',
     ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: view own field_points_file.
+  $permissions['view own field_points_file'] = array(
+    'name' => 'view own field_points_file',
+    'roles' => array(),
     'module' => 'field_permissions',
   );
 

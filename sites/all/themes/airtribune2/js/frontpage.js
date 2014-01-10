@@ -24,7 +24,12 @@
           //need to store click counter in case of re-applying this function
           $section.data('click-counter', clickCounter);
         });
-      })
+      });
+      if(!($(".front_live_events").length)) {
+        $('.front .pane-activity h2.pane-title').hide();
+      } else {
+        $('.front .pane-activity h2.pane-title').show();
+      }
     }
   }
 

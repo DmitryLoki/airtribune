@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Implements hook_enable().
+ */
+function at_high_weight_enable() {
+  db_update('system')
+    ->fields(array(
+      'weight' => 1000,
+    ))
+    ->condition('type', 'module')
+    ->condition('name', 'at_high_weight')
+    ->execute();
+}

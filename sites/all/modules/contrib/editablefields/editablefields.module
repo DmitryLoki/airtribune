@@ -324,7 +324,7 @@ function editablefields_form($form, &$form_state, $entity_type, $entity, $field,
 
   // Wrap the whole form into a wrapper, and prepare AJAX settings.
   $wrapper_id = drupal_html_id('editablefields-' . $field['field_name']);
-  $form['#prefix'] = '<div id="' . $wrapper_id . '" class="editablefield-item">';
+  $form['#prefix'] = '<div id="' . $wrapper_id . '" class="at-editablefield-' . $field['type'] . ' editablefield-item">';
   $form['#suffix'] = '</div>';
   $ajax = array(
     'callback' => 'editablefields_form_update',

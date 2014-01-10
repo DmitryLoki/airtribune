@@ -17,8 +17,8 @@ function path_breadcrumbs_ui_configure_arguments_page($path_name, $keyword) {
   $form_state = array(
     'storage' => array(
       'path_name' => $path_name,
-      'keyword' => $keyword
-    )
+      'keyword' => $keyword,
+    ),
   );
 
   // Load context selections form.
@@ -109,7 +109,7 @@ function path_breadcrumbs_ui_edit_page($path_breadcrumb) {
     'storage' => array(
       'machine_name' => $path_breadcrumb->machine_name,
       'step' => 1,
-    )
+    ),
   );
 
   $form = drupal_build_form('path_breadcrumbs_ui_edit_form', $form_state);
@@ -132,7 +132,7 @@ function path_breadcrumbs_ui_edit_form_ajax_links($breadcrumb, $step) {
     'storage' => array(
       'machine_name' => $breadcrumb->machine_name,
       'step' => $step,
-    )
+    ),
   );
 
   $form = drupal_build_form('path_breadcrumbs_ui_edit_form', $form_state);
@@ -140,6 +140,7 @@ function path_breadcrumbs_ui_edit_form_ajax_links($breadcrumb, $step) {
   $commands[] = ajax_command_replace('#path-breadcrumbs-ui-form-wrapper', render($form));
   $commands[] = ajax_command_invoke('#path-breadcrumbs-ui-menu li a', 'removeClass', array('active'));
   $commands[] = ajax_command_invoke('#path-breadcrumbs-ui-menu li a:eq(' . --$step . ')', 'addClass', array('active'));
+  $commands[] = ajax_command_prepend('#path-breadcrumbs-ui-form-wrapper', theme('status_messages'));
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
@@ -198,18 +199,33 @@ function path_breadcrumbs_ui_tokens_ajax_autocomplete($path_breadcrumbs, $string
       }
 
       // Load entity context.
-      $contexts[] = ctools_context_get_context_from_argument($argument, $keyword, TRUE);
+      $contexts[$keyword] = ctools_context_get_context_from_argument($argument, $keyword, TRUE);
     }
   }
 
   $context_keywords = array();
-  foreach ($contexts as $context) {
-    $type = array_pop($context->type);
-    $context_keywords[$context->original_argument] = $type;
+  $raw_keywords = array();
+  foreach ($contexts as $keyword => $context) {
+    if ($context && $context->type) {
+      $type = is_array($context->type) ? array_pop($context->type) : $context->type;
+      $context_keywords[$context->original_argument] = $type;
+    }
+    else {
+      $raw_keywords[$keyword] = array(
+        'label' => t('Raw argument "@arg"', array('@arg' => $keyword)),
+        'description' => $context->original_argument,
+        'selector_sign' => '!',
+      );
+    }
   }
 
+  // Default raw tokens.
+  $raw_keywords['page_title'] = array('label' => t('Current page title'), 'description' => t('Current page title'), 'selector_sign' => '!');
+  $raw_keywords['<front>'] = array('label' => t('Link to front page'), 'description' => t('Link to front page'), 'selector_sign' => '');
+  $raw_keywords['<none>'] = array('label' => t('Empty value'), 'description' => t('Empty value'), 'selector_sign' => '');
+
   // Load class for autocomplete ui.
-  $matches = PathBreadcrumbsUIAutocomplete::processAutocomplete($string, $context_keywords);
+  $matches = PathBreadcrumbsUIAutocomplete::processAutocomplete($string, $context_keywords, $raw_keywords);
 
   drupal_json_output($matches);
 }
