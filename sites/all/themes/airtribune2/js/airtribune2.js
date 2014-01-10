@@ -119,6 +119,11 @@ jQuery(function ($) {
     }
   })
 
+  if($('.page-event-blog .view-event-days .views-row').size() > 1){
+    $('.page-event-blog .pane-contest-blog-contest-full-pane h2.pane-title').addClass('expanded');
+    $('.page-event-blog .pane-contest-blog-contest-full-pane .pane-content').hide();
+  }
+
   //Temp stub for "Create an event" button
   var createEventButton = $('.create_event'),
     stubHtml = $('.create_event .contact_admin'),

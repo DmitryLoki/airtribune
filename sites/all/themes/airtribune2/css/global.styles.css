@@ -2724,6 +2724,8 @@ form .form-type-item .inline-label { top: -10px;}
 .switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: -40px -3201px;}
 .switch-pilots-view a.confirmed { background-position: 0 -3000px; margin-right: 20px;}
 .switch-pilots-view a.confirmed:hover, .switch-pilots-view a.confirmed.active { background-position: -40px -3000px;}
+.switch-pilots-view a.export-csv-confirmed { width: auto; text-indent: 0; height: auto; background: url(../images/table_action.png) no-repeat 0 -4000px; padding: 0 0 3px 34px; color: #adb522; font-size: 14px; margin: 8px 80px 0 0;}
+
 
 #page ul.tabs.secondary { margin-top: 11px; padding-bottom: 0;}
 #page ul.tabs.secondary a { width: 41px; margin-left: 9px;}
