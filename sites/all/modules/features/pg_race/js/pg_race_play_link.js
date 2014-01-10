@@ -74,7 +74,7 @@
             //make links clickable
             setHrefAttr($raceBlock.find('a.race-link.2d').show(), raceData.raceEid, '2d');
             setHrefAttr($raceBlock.find('a.race-link.ge').show(), raceData.raceEid, 'ge');
-
+            setHrefAttr($raceBlock.find('a.race-link.leaderboard').show(), raceData.raceEid, 'leaderboard');
             $raceButton.show();
             $raceBlock.addClass('race-block-activated');
             $raceBlock.closest('.views-field').addClass('race-block-activated');

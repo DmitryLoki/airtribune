@@ -6,3 +6,8 @@ body.admin-menu .airvis-topbar {
 .page-blank h2.pane-title {
   display:none;
 }
+
+.page-event .gmap > div > div.gmnoprint > div.gmnoprint {
+  left: 20px !important;
+  top: 68px !important;
+}
