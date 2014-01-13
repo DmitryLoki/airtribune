@@ -7226,11 +7226,131 @@ window.fbAsyncInit = function() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_player_panel_context_2';
+  $handler->name = 'page_player_panel_context_4';
   $handler->task = 'page';
   $handler->subtask = 'player';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = 4;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 1,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'Contest reference',
+        'keyword' => 'event',
+        'name' => 'entity_from_field:og_group_ref-ent_race-node',
+        'delta' => '0',
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+      1 => array(
+        'identifier' => 'Day reference',
+        'keyword' => 'day',
+        'name' => 'entity_from_field:field_day_ref-ent_race-node',
+        'delta' => 0,
+        'context' => 'argument_entity_id:ent_race_1',
+        'id' => 1,
+      ),
+    ),
+    'access' => array(
+      'logic' => 'and',
+    ),
+    'panels_everywhere_site_template' => 'site_template_panel_context_5',
+  );
+  $display = new panels_display();
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Task %race:field_race_number | Day %day:field_day_number | %event:title';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-91';
+    $pane->panel = 'middle';
+    $pane->type = 'airtribune_vis';
+    $pane->subtype = 'airtribune_vis';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'widget_code' => array(
+        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
+    <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
+    <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
+    <script src="http://vis.airtribune.com/airvis.min.js"></script>
+    <div role="main" class="airvis-container"[airtribune:ge-css:airvis-container:style]>
+      <div class="airvis-loading-container">
+        <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
+      </div>
+    <!-- ko widget: { data: page, rootDomain: "http://vis.airtribune.com", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues:{}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
+    </div>',
+        'format' => 'full_html',
+      ),
+      'widget_type' => '_none',
+      'widget_height' => '380',
+      'widget_width' => '940',
+      'context' => array(
+        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+        1 => 'argument_entity_id:ent_race_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-91'] = $pane;
+    $display->panels['middle'][0] = 'new-91';
+    $pane = new stdClass();
+    $pane->pid = 'new-92';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_on_visualization-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-92'] = $pane;
+    $display->panels['middle'][1] = 'new-92';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_player_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'player';
+  $handler->handler = 'panel_context';
+  $handler->weight = 3;
   $handler->conf = array(
     'title' => 'Leaderboard',
     'no_blocks' => 1,
@@ -7288,7 +7408,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-91';
+    $pane->pid = 'new-93';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7296,11 +7416,26 @@ window.fbAsyncInit = function() {
     $pane->access = array();
     $pane->configuration = array(
       'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/leaderboard/css/bootstrap.css">
-<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/lib/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/lib/knockout-3.0.0.min.js"></script>
-<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/table.js"></script>
-
+        'value' => '    <link rel="stylesheet" href="http://vis.airtribune.com/leaderboard/lib/bootstrap-3.0.0/css/bootstrap.css">
+    <style>
+      .table {
+        font-size:14px;
+      }
+      .table thead > tr > th,.table tbody > tr > td {
+        padding: 3px;
+      }
+      .returned {
+        background-color: #B7D8A2;
+      }
+      .picked_up {
+        background-color: #FFE68C;
+      }
+    </style>
+    <script type="text/javascript" src="http://vis.airtribune.com/leaderboard/lib/jquery-1.8.2.min.js"></script>
+  	<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/lib/knockout-3.0.0.min.js"></script>
+  	<script type="text/javascript" src="http://vis.airtribune.com/leaderboard/table.js"></script>
+  </head>
+  <body>
     <div class="container" style="max-width:100%;">
       <div class="row">
         <div class="col-sm-12">
@@ -7308,7 +7443,7 @@ window.fbAsyncInit = function() {
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <table class="table">
             <thead>
               <tr>
@@ -7319,18 +7454,18 @@ window.fbAsyncInit = function() {
               </tr>
             </thead>
             <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()<50 -->
+              <!-- ko if: $index()<35 -->
                 <tr>
                   <td data-bind="text:$index()+1"></td>
                   <td data-bind="text:name()+\' (\'+id+\')\'"></td>
                   <td data-bind="text:text"></td>
-                  <td data-bind="text:status"></td>
+                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
                 </tr>
               <!-- /ko -->
             </tbody>
           </table>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <table class="table">
             <thead>
               <tr>
@@ -7341,18 +7476,18 @@ window.fbAsyncInit = function() {
               </tr>
             </thead>
             <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()>=50 && $index()<100 -->
+              <!-- ko if: $index()>=35 && $index()<70 -->
                 <tr>
                   <td data-bind="text:$index()+1"></td>
                   <td data-bind="text:name()+\' (\'+id+\')\'"></td>
                   <td data-bind="text:text"></td>
-                  <td data-bind="text:status"></td>
+                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
                 </tr>
               <!-- /ko -->
             </tbody>
           </table>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <table class="table">
             <thead>
               <tr>
@@ -7363,12 +7498,34 @@ window.fbAsyncInit = function() {
               </tr>
             </thead>
             <tbody data-bind="foreach:pilots">
-              <!-- ko if: $index()>=100 -->
+              <!-- ko if: $index()>=70 && $index()<105 -->
                 <tr>
                   <td data-bind="text:$index()+1"></td>
                   <td data-bind="text:name()+\' (\'+id+\')\'"></td>
                   <td data-bind="text:text"></td>
-                  <td data-bind="text:status"></td>
+                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
+                </tr>
+              <!-- /ko -->
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Pilot</th>
+                <th>Result</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach:pilots">
+              <!-- ko if: $index()>=105 -->
+                <tr>
+                  <td data-bind="text:$index()+1"></td>
+                  <td data-bind="text:name()+\' (\'+id+\')\'"></td>
+                  <td data-bind="text:text"></td>
+                  <td data-bind="text:retrieveStatus,css:retrieveStatus"></td>
                 </tr>
               <!-- /ko -->
             </tbody>
@@ -7396,112 +7553,14 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-91'] = $pane;
-    $display->panels['middle'][0] = 'new-91';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_player_panel_context_3';
-  $handler->task = 'page';
-  $handler->subtask = 'player';
-  $handler->handler = 'panel_context';
-  $handler->weight = 2;
-  $handler->conf = array(
-    'title' => 'Panel',
-    'no_blocks' => 1,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'Contest reference',
-        'keyword' => 'event',
-        'name' => 'entity_from_field:og_group_ref-ent_race-node',
-        'delta' => '0',
-        'context' => 'argument_entity_id:ent_race_1',
-        'id' => 1,
-      ),
-      1 => array(
-        'identifier' => 'Day reference',
-        'keyword' => 'day',
-        'name' => 'entity_from_field:field_day_ref-ent_race-node',
-        'delta' => 0,
-        'context' => 'argument_entity_id:ent_race_1',
-        'id' => 1,
-      ),
-    ),
-    'access' => array(
-      'logic' => 'and',
-    ),
-    'panels_everywhere_site_template' => 'site_template_panel_context_5',
-  );
-  $display = new panels_display();
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = 'Task %race:field_race_number | Day %day:field_day_number | %event:title';
-  $display->content = array();
-  $display->panels = array();
+    $display->content['new-93'] = $pane;
+    $display->panels['middle'][0] = 'new-93';
     $pane = new stdClass();
-    $pane->pid = 'new-92';
-    $pane->panel = 'middle';
-    $pane->type = 'airtribune_vis';
-    $pane->subtype = 'airtribune_vis';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'widget_code' => array(
-        'value' => '<link rel="stylesheet" href="http://vis.airtribune.com/css/airvis.css"/>
-    <link rel="stylesheet" href="http://vis.airtribune.com/css/checkbox.css"/>
-    <link rel="stylesheet" href="http://vis.airtribune.com/css/shiny-sprite.css">
-    <script src="http://vis.airtribune.com/airvis.min.js"></script>
-    <div role="main" class="airvis-container"[airtribune:ge-css:airvis-container:style]>
-      <div class="airvis-loading-container">
-        <div class="airvis-loading[airtribune:ge-css:airvis-loading:class]">&nbsp;</div>
-      </div>
-    <!-- ko widget: { data: page, rootDomain: "http://vis.airtribune.com", imgRootUrl: "/img/", raceId: "[airtribune:race-core-id]", contestId: "[airtribune:contest-core-id]", isOnline: [airtribune:race-online], titleUrl: "[airtribune:contest-url]", mapWidget:"[airtribune:widget-map]", apiDomain: "[variable:core-api-domain]", apiVersion: "[variable:core-api-version]", cookiesEnabled: true, defaultCookieValues: {searchQuery:\'Top 10 leading\',searchQuery_small:\'Top 5 leading\',allNonLeadingVisible:0}, mapOptions: {panControl:false,streetViewControl:false,zoomControl:true,minZoom:3,maxZoom:19,scaleControl:true,scaleControlOptions:{position:9}}[airtribune:ge-settings] } --><!-- /ko -->
-    </div>',
-        'format' => 'full_html',
-      ),
-      'widget_type' => '_none',
-      'widget_height' => '380',
-      'widget_width' => '940',
-      'context' => array(
-        0 => 'relationship_entity_from_field:og_group_ref-ent_race-node_1',
-        1 => 'argument_entity_id:ent_race_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-92'] = $pane;
-    $display->panels['middle'][0] = 'new-92';
-    $pane = new stdClass();
-    $pane->pid = 'new-93';
+    $pane->pid = 'new-94';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_on_visualization-panel_pane_1';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
@@ -7516,8 +7575,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-93'] = $pane;
-    $display->panels['middle'][1] = 'new-93';
+    $display->content['new-94'] = $pane;
+    $display->panels['middle'][1] = 'new-94';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7640,7 +7699,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-94';
+    $pane->pid = 'new-95';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7673,8 +7732,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-94'] = $pane;
-    $display->panels['middle'][0] = 'new-94';
+    $display->content['new-95'] = $pane;
+    $display->panels['middle'][0] = 'new-95';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7792,7 +7851,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-95';
+    $pane->pid = 'new-96';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7830,8 +7889,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-95'] = $pane;
-    $display->panels['middle'][0] = 'new-95';
+    $display->content['new-96'] = $pane;
+    $display->panels['middle'][0] = 'new-96';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -7904,7 +7963,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-96';
+    $pane->pid = 'new-97';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_vis';
     $pane->subtype = 'airtribune_vis';
@@ -7935,8 +7994,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-96'] = $pane;
-    $display->panels['middle'][0] = 'new-96';
+    $display->content['new-97'] = $pane;
+    $display->panels['middle'][0] = 'new-97';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -8068,7 +8127,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-97';
+    $pane->pid = 'new-98';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -8091,10 +8150,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-97'] = $pane;
-    $display->panels['middle'][0] = 'new-97';
+    $display->content['new-98'] = $pane;
+    $display->panels['middle'][0] = 'new-98';
     $pane = new stdClass();
-    $pane->pid = 'new-98';
+    $pane->pid = 'new-99';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_task_results';
     $pane->subtype = 'airtribune_task_results';
@@ -8118,8 +8177,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-98'] = $pane;
-    $display->panels['middle'][1] = 'new-98';
+    $display->content['new-99'] = $pane;
+    $display->panels['middle'][1] = 'new-99';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -8179,7 +8238,7 @@ window.fbAsyncInit = function() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-99';
+    $pane->pid = 'new-100';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -8202,10 +8261,10 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-99'] = $pane;
-    $display->panels['middle'][0] = 'new-99';
+    $display->content['new-100'] = $pane;
+    $display->panels['middle'][0] = 'new-100';
     $pane = new stdClass();
-    $pane->pid = 'new-100';
+    $pane->pid = 'new-101';
     $pane->panel = 'middle';
     $pane->type = 'airtribune_task_results';
     $pane->subtype = 'airtribune_task_results';
@@ -8229,8 +8288,8 @@ window.fbAsyncInit = function() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-100'] = $pane;
-    $display->panels['middle'][1] = 'new-100';
+    $display->content['new-101'] = $pane;
+    $display->panels['middle'][1] = 'new-101';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

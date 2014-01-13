@@ -10038,6 +10038,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
   $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
   $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_phone']['alter']['text'] = '="[field_phone]"';
   $handler->display->display_options['fields']['field_phone']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Profile: FAI license number */
@@ -10384,6 +10386,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
   $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
   $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_phone']['alter']['text'] = '="[field_phone]"';
   $handler->display->display_options['fields']['field_phone']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Profile: FAI license number */
@@ -10623,6 +10627,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
   $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
   $handler->display->display_options['fields']['field_phone']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_phone']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_phone']['alter']['text'] = '="[field_phone]"';
   $handler->display->display_options['fields']['field_phone']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_phone']['click_sort_column'] = 'number';
   /* Field: Field: Model */
@@ -10645,6 +10651,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_device_id']['field'] = 'field_device_id';
   $handler->display->display_options['fields']['field_device_id']['relationship'] = 'field_tracker_target_id';
   $handler->display->display_options['fields']['field_device_id']['label'] = 'IMEI';
+  $handler->display->display_options['fields']['field_device_id']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_device_id']['alter']['text'] = '="[field_device_id-value]"';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: OG membership: Pilot&#039;s number (field_contestant_number) */
   $handler->display->display_options['sorts']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
@@ -10710,6 +10718,7 @@ return array($event_id);';
     t('Address'),
     t('[field_address_2-thoroughfare]'),
     t('Mobile phone number'),
+    t('="[field_phone]"'),
     t('FAI license number'),
     t('CIVL ID'),
     t('National Federation License number'),
@@ -10734,6 +10743,7 @@ return array($event_id);';
     t('Confirmed pilots export (csv)'),
     t('Model'),
     t('IMEI'),
+    t('="[field_device_id-value]"'),
   );
   $export['paragliding_pilots_list_export'] = $view;
 
