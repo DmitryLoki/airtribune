@@ -272,8 +272,12 @@ class ATSyncTrackedObject extends ATSync {
     }
     $this->address = implode('/', array('contest', $this->contest_core_id, 'transport'));
     if (!empty($this->tracked_core_id)) {
+      $phone_field = $this->entity->field_phone;
+      $phone_field = array_pop($phone_field);
+      $phone = isset($phone_field[0]['value']) ? $phone_field[0]['value'] : '';
       $data = array(
         'transport_id' => $this->tracked_core_id,
+        'phone' => $phone,
       );
       $response = $this->request(http_build_query($data), "POST");
       _asd(json_encode($data), $this->address, $response);
