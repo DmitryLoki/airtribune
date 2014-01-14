@@ -1259,6 +1259,63 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_advert_target_value']['value'] = array(
     'viewers' => 'viewers',
   );
+
+  /* Display: Event results Banners */
+  $handler = $view->new_display('panel_pane', 'Event results Banners', 'panel_pane_3');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Link (excluded) */
+  $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
+  $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['ui_name'] = 'Link (excluded)';
+  $handler->display->display_options['fields']['field_link']['label'] = '';
+  $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
+  /* Field: Field: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['path'] = '[field_link]';
+  $handler->display->display_options['fields']['field_image']['alter']['external'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['rel'] = 'nofollow';
+  $handler->display->display_options['fields']['field_image']['alter']['target'] = '_blank';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'results_banner',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_image']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_image']['delta_offset'] = '0';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Draggableviews: Weight */
+  $handler->display->display_options['sorts']['weight']['id'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
+  $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'advert_list:panel_pane_1';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'gid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'OG membership: Group ID',
+    ),
+  );
   $translatables['advert_list'] = array(
     t('Master'),
     t('Partners'),
@@ -1292,6 +1349,7 @@ function views_feature_views_default_views() {
     t('Solutions for organizers'),
     t('Solutions for pilots'),
     t('Solutions for viewers'),
+    t('Event results Banners'),
   );
   $export['advert_list'] = $view;
 
