@@ -1003,8 +1003,8 @@ function image_styles_feature_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '180',
-          'height' => '120',
+          'width' => '178',
+          'height' => '118',
         ),
         'weight' => '1',
       ),
