@@ -300,6 +300,7 @@ function _at_helper_race_time_after_build($element, $form_state) {
 // TODO: Clean unnecessary code (related to registration).
 function at_helper_og_form_validate($form, &$form_state) {
   $values = $form_state['values'];
+  $number_not_changed = FALSE;
   // Contest pilots manage page.
   if (!empty($form['#form_id']) && !empty($form_state['triggering_element']['#array_parents']) &&
       $form['#form_id'] == 'views_form_paragliding_pilots_list_manage' &&
@@ -333,8 +334,12 @@ function at_helper_og_form_validate($form, &$form_state) {
       ? $values['field_contestant_number'][LANGUAGE_NONE][0]['value']
       : FALSE;
   }
-
-  if ($gid && $pilot_number) {
+  // If number not changed - do not check it
+  if (isset($form['field_contestant_number'])) {
+    $number_not_changed = ($pilot_number == $form['field_contestant_number']['und'][0]['value']['#default_value']) ? TRUE : FALSE;
+  }
+  
+  if ($gid && $pilot_number && !$number_not_changed) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'og_membership');
     $query->entityCondition('bundle', CONTESTANT_MEMBERSHIP_TYPE);
@@ -343,7 +348,7 @@ function at_helper_og_form_validate($form, &$form_state) {
     //$query->fieldCondition('field_full_name', 'family', $family);
     $number_exists = $query->count()->execute();
     if ($number_exists) {
-      form_error($element, t('This number is used by another pilot.'));
+      form_error($element, t('Busy'));
     }
   }
 }
