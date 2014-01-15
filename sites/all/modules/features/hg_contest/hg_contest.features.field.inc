@@ -1,0 +1,5741 @@
+<?php
+/**
+ * @file
+ * hg_contest.features.field.inc
+ */
+
+/**
+ * Implements hook_field_default_fields().
+ */
+function hg_contest_field_default_fields() {
+  $fields = array();
+
+  // Exported field: 'node-hg_contest-field_address'.
+  $fields['node-hg_contest-field_address'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_address',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'addressfield',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'addressfield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'element_key' => 'node|hg_contest|field_address|und|0',
+          'thoroughfare' => '',
+          'premise' => '',
+          'locality' => '',
+          'administrative_area' => '',
+          'postal_code' => '',
+          'country' => 'US',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => 18,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_address',
+      'label' => 'Address',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'addressfield',
+        'settings' => array(
+          'available_countries' => array(),
+          'format_handlers' => array(
+            'address' => 'address',
+            'address-hide-address2' => 0,
+            'address-hide-state' => 0,
+            'address-hide-country' => 0,
+            'organisation' => 0,
+            'name-full' => 0,
+            'name-oneline' => 0,
+          ),
+        ),
+        'type' => 'addressfield_standard',
+        'weight' => '19',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_city'.
+  $fields['node-hg_contest-field_city'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_city',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 3,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_city',
+      'label' => 'City',
+      'required' => 1,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'autocomplete_widgets',
+        'settings' => array(
+          'autocomplete_case' => '1',
+          'autocomplete_match' => 'contains',
+          'autocomplete_xss' => '0',
+          'i18n_flddata' => '0',
+          'obey_access_controls' => 1,
+          'order' => 'ASC',
+          'size' => '60',
+        ),
+        'type' => 'autocomplete_widgets_flddata',
+        'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_collection_organizers'.
+  $fields['node-hg_contest-field_collection_organizers'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_collection_organizers',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'field_collection',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'hide_blank_items' => 1,
+        'path' => '',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'field_collection',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'field_collection',
+          'settings' => array(
+            'add' => 'Add',
+            'delete' => 'Delete',
+            'description' => TRUE,
+            'edit' => 'Edit',
+            'view_mode' => 'full',
+          ),
+          'type' => 'field_collection_view',
+          'weight' => 10,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_collection_organizers',
+      'label' => 'Organizers',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'field_collection',
+        'settings' => array(),
+        'type' => 'field_collection_embed',
+        'weight' => '11',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_contacts_email'.
+  $fields['node-hg_contest-field_contacts_email'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '6',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contacts_email',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'email',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'email',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'email',
+          'settings' => array(),
+          'type' => 'email_default',
+          'weight' => 30,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_contacts_email',
+      'label' => 'Email',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'html5_tools',
+        'settings' => array(),
+        'type' => 'emailwidget',
+        'weight' => '34',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_contacts_name'.
+  $fields['node-hg_contest-field_contacts_name'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '6',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contacts_name',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'family' => array(
+          0 => 'family',
+        ),
+        'given' => array(
+          0 => 'given',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'name',
+      'settings' => array(
+        'autocomplete_separator' => array(
+          'credentials' => ', ',
+          'family' => ' -',
+          'generational' => ' ',
+          'given' => ' -',
+          'middle' => ' -',
+          'title' => ' ',
+        ),
+        'autocomplete_source' => array(
+          'credentials' => array(),
+          'family' => array(),
+          'generational' => array(
+            'generational' => 0,
+          ),
+          'given' => array(),
+          'middle' => array(),
+          'title' => array(
+            'title' => 'title',
+          ),
+        ),
+        'components' => array(
+          'credentials' => 0,
+          'family' => 'family',
+          'generational' => 0,
+          'given' => 'given',
+          'middle' => 0,
+          'title' => 0,
+        ),
+        'entity_translation_sync' => FALSE,
+        'generational_options' => '-- --
+Jr.
+Sr.
+I
+II
+III
+IV
+V
+VI
+VII
+VIII
+IX
+X',
+        'labels' => array(
+          'credentials' => 'Credentials',
+          'family' => 'Surname',
+          'generational' => 'Generational',
+          'given' => 'Name',
+          'middle' => 'Middle name(s)',
+          'title' => 'Title',
+        ),
+        'max_length' => array(
+          'credentials' => '255',
+          'family' => '63',
+          'generational' => '15',
+          'given' => '63',
+          'middle' => '127',
+          'title' => '31',
+        ),
+        'minimum_components' => array(
+          'credentials' => 0,
+          'family' => 'family',
+          'generational' => 0,
+          'given' => 'given',
+          'middle' => 0,
+          'title' => 0,
+        ),
+        'profile2_private' => FALSE,
+        'sort_options' => array(
+          'generational' => 0,
+          'title' => 'title',
+        ),
+        'title_options' => '-- --
+Mr.
+Mrs.
+Miss
+Ms.
+Dr.
+Prof.',
+      ),
+      'translatable' => '0',
+      'type' => 'name',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'name',
+          'settings' => array(
+            'format' => 'default',
+            'markup' => 0,
+            'multiple' => 'default',
+            'multiple_and' => 'text',
+            'multiple_delimiter' => ', ',
+            'multiple_delimiter_precedes_last' => 'never',
+            'multiple_el_al_first' => 1,
+            'multiple_el_al_min' => 3,
+            'output' => 'default',
+          ),
+          'type' => 'name_formatter',
+          'weight' => 27,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_contacts_name',
+      'label' => 'Name',
+      'required' => 0,
+      'settings' => array(
+        'component_css' => '',
+        'component_layout' => 'default',
+        'credentials_inline' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'field_type' => array(
+          'credentials' => 'text',
+          'family' => 'text',
+          'generational' => 'select',
+          'given' => 'text',
+          'middle' => 'text',
+          'title' => 'select',
+        ),
+        'generational_field' => 'select',
+        'inline_css' => array(
+          'credentials' => '',
+          'family' => '',
+          'generational' => '',
+          'given' => '',
+          'middle' => '',
+          'title' => '',
+        ),
+        'override_format' => 'default',
+        'size' => array(
+          'credentials' => '35',
+          'family' => '20',
+          'generational' => '5',
+          'given' => '20',
+          'middle' => '20',
+          'title' => '6',
+        ),
+        'title_display' => array(
+          'credentials' => 'description',
+          'family' => 'description',
+          'generational' => 'description',
+          'given' => 'description',
+          'middle' => 'description',
+          'title' => 'description',
+        ),
+        'title_field' => 'select',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'name',
+        'settings' => array(),
+        'type' => 'name_widget',
+        'weight' => '31',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_contacts_phone'.
+  $fields['node-hg_contest-field_contacts_phone'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '6',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contacts_phone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'cck_phone',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'size' => '15',
+      ),
+      'translatable' => '0',
+      'type' => 'phone_number',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => 'Example: +1(000)1000000',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'cck_phone',
+          'settings' => array(),
+          'type' => 'global_phone_number',
+          'weight' => 29,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_contacts_phone',
+      'label' => 'Tel',
+      'required' => 0,
+      'settings' => array(
+        'all_country_codes' => 1,
+        'country_code_position' => 'before',
+        'country_codes' => array(
+          'country_selection' => array(
+            'ad' => 0,
+            'ae' => 0,
+            'af' => 0,
+            'ag' => 0,
+            'ai' => 0,
+            'al' => 0,
+            'am' => 0,
+            'an' => 0,
+            'ao' => 0,
+            'ar' => 0,
+            'as' => 0,
+            'at' => 0,
+            'au' => 0,
+            'aw' => 0,
+            'az' => 0,
+            'ba' => 0,
+            'bb' => 0,
+            'bd' => 0,
+            'be' => 0,
+            'bf' => 0,
+            'bg' => 0,
+            'bh' => 0,
+            'bi' => 0,
+            'bj' => 0,
+            'bm' => 0,
+            'bn' => 0,
+            'bo' => 0,
+            'br' => 0,
+            'bs' => 0,
+            'bt' => 0,
+            'bw' => 0,
+            'by' => 0,
+            'bz' => 0,
+            'ca' => 0,
+            'cc' => 0,
+            'cd' => 0,
+            'cf' => 0,
+            'cg' => 0,
+            'ch' => 0,
+            'ci' => 0,
+            'ck' => 0,
+            'cl' => 0,
+            'cm' => 0,
+            'cn' => 0,
+            'co' => 0,
+            'cr' => 0,
+            'cu' => 0,
+            'cv' => 0,
+            'cx' => 0,
+            'cy' => 0,
+            'cz' => 0,
+            'de' => 0,
+            'dj' => 0,
+            'dk' => 0,
+            'dm' => 0,
+            'do' => 0,
+            'dz' => 0,
+            'ec' => 0,
+            'ee' => 0,
+            'eg' => 0,
+            'er' => 0,
+            'es' => 0,
+            'et' => 0,
+            'fi' => 0,
+            'fj' => 0,
+            'fk' => 0,
+            'fm' => 0,
+            'fo' => 0,
+            'fr' => 0,
+            'ga' => 0,
+            'gb' => 0,
+            'gd' => 0,
+            'ge' => 0,
+            'gf' => 0,
+            'gh' => 0,
+            'gi' => 0,
+            'gl' => 0,
+            'gm' => 0,
+            'gn' => 0,
+            'gp' => 0,
+            'gq' => 0,
+            'gr' => 0,
+            'gt' => 0,
+            'gu' => 0,
+            'gw' => 0,
+            'gy' => 0,
+            'hk' => 0,
+            'hn' => 0,
+            'hr' => 0,
+            'ht' => 0,
+            'hu' => 0,
+            'id' => 0,
+            'ie' => 0,
+            'il' => 0,
+            'in' => 0,
+            'io' => 0,
+            'iq' => 0,
+            'ir' => 0,
+            'is' => 0,
+            'it' => 0,
+            'jm' => 0,
+            'jo' => 0,
+            'jp' => 0,
+            'ke' => 0,
+            'kg' => 0,
+            'kh' => 0,
+            'ki' => 0,
+            'km' => 0,
+            'kn' => 0,
+            'kp' => 0,
+            'kr' => 0,
+            'kw' => 0,
+            'ky' => 0,
+            'kz' => 0,
+            'la' => 0,
+            'lb' => 0,
+            'lc' => 0,
+            'li' => 0,
+            'lk' => 0,
+            'lr' => 0,
+            'ls' => 0,
+            'lt' => 0,
+            'lu' => 0,
+            'lv' => 0,
+            'ly' => 0,
+            'ma' => 0,
+            'mc' => 0,
+            'md' => 0,
+            'me' => 0,
+            'mg' => 0,
+            'mh' => 0,
+            'mk' => 0,
+            'ml' => 0,
+            'mm' => 0,
+            'mn' => 0,
+            'mo' => 0,
+            'mp' => 0,
+            'mq' => 0,
+            'mr' => 0,
+            'ms' => 0,
+            'mt' => 0,
+            'mu' => 0,
+            'mv' => 0,
+            'mw' => 0,
+            'mx' => 0,
+            'my' => 0,
+            'mz' => 0,
+            'na' => 0,
+            'nc' => 0,
+            'ne' => 0,
+            'nf' => 0,
+            'ng' => 0,
+            'ni' => 0,
+            'nl' => 0,
+            'no' => 0,
+            'np' => 0,
+            'nr' => 0,
+            'nu' => 0,
+            'nz' => 0,
+            'om' => 0,
+            'pa' => 0,
+            'pe' => 0,
+            'pf' => 0,
+            'pg' => 0,
+            'ph' => 0,
+            'pk' => 0,
+            'pl' => 0,
+            'pm' => 0,
+            'pr' => 0,
+            'ps' => 0,
+            'pt' => 0,
+            'pw' => 0,
+            'py' => 0,
+            'qa' => 0,
+            'ro' => 0,
+            'rs' => 0,
+            'ru' => 0,
+            'rw' => 0,
+            'sa' => 0,
+            'sb' => 0,
+            'sc' => 0,
+            'sd' => 0,
+            'se' => 0,
+            'sg' => 0,
+            'sh' => 0,
+            'si' => 0,
+            'sk' => 0,
+            'sl' => 0,
+            'sm' => 0,
+            'sn' => 0,
+            'so' => 0,
+            'sr' => 0,
+            'ss' => 0,
+            'st' => 0,
+            'sv' => 0,
+            'sy' => 0,
+            'sz' => 0,
+            'tc' => 0,
+            'td' => 0,
+            'tg' => 0,
+            'th' => 0,
+            'tj' => 0,
+            'tk' => 0,
+            'tm' => 0,
+            'tn' => 0,
+            'to' => 0,
+            'tp' => 0,
+            'tr' => 0,
+            'tt' => 0,
+            'tv' => 0,
+            'tw' => 0,
+            'tz' => 0,
+            'ua' => 0,
+            'ug' => 0,
+            'us' => 0,
+            'uy' => 0,
+            'uz' => 0,
+            'va' => 0,
+            'vc' => 0,
+            've' => 0,
+            'vg' => 0,
+            'vi' => 0,
+            'vn' => 0,
+            'vu' => 0,
+            'wf' => 0,
+            'ws' => 0,
+            'ye' => 0,
+            'yt' => 0,
+            'za' => 0,
+            'zm' => 0,
+            'zw' => 0,
+          ),
+          'hide_single_cc' => 0,
+        ),
+        'default_country' => 'af',
+        'enable_country_level_validation' => 1,
+        'enable_default_country' => 1,
+        'enable_extension' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'cck_phone',
+        'settings' => array(
+          'size' => 15,
+        ),
+        'type' => 'phone_number',
+        'weight' => '33',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_contest_photos'.
+  $fields['node-hg_contest-field_contest_photos'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '8',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contest_photos',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => 'Photos pertaining to the general description of the contest',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => 7,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_contest_photos',
+      'label' => 'Photos',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hg_contests/[node:nid]-[node:title]/img/body',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'filefield_paths_enabled' => 1,
+        'max_filesize' => '1MB',
+        'max_resolution' => '',
+        'min_resolution' => '300x200',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'media',
+        'settings' => array(
+          'allowed_schemes' => array(
+            'public' => 'public',
+            'vimeo' => 'vimeo',
+            'youtube' => 'youtube',
+          ),
+          'allowed_types' => array(
+            'audio' => 0,
+            'document' => 0,
+            'image' => 'image',
+            'video' => 'video',
+          ),
+          'browser_plugins' => array(
+            'media_default--media_browser_1' => 0,
+            'media_default--media_browser_my_files' => 0,
+            'media_internet' => 'media_internet',
+            'upload' => 'upload',
+            'youtube' => 0,
+          ),
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'media_generic',
+        'weight' => '8',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_contest_rules'.
+  $fields['node-hg_contest-field_contest_rules'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_contest_rules',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'file',
+      'settings' => array(
+        'display_default' => 0,
+        'display_field' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '1',
+      'type' => 'file',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => 'Local rules',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'file',
+          'settings' => array(),
+          'type' => 'file_default',
+          'weight' => 12,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_contest_rules',
+      'label' => 'Rules',
+      'required' => 0,
+      'settings' => array(
+        'description_field' => 1,
+        'entity_translation_sync' => 0,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'pdf rtf doc docx odt',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hg_contests/[node:nid]-[node:title]/rules',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'filefield_paths_enabled' => 1,
+        'max_filesize' => '5MB',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'file',
+        'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => 0,
+          'insert_class' => '',
+          'insert_default' => 'auto',
+          'insert_styles' => array(
+            'auto' => 'auto',
+            'colorbox__advert_on_visualization' => 0,
+            'colorbox__award' => 0,
+            'colorbox__award_details' => 0,
+            'colorbox__award_sponsor' => 0,
+            'colorbox__award_sponsor_details' => 0,
+            'colorbox__bricks_a_1' => 0,
+            'colorbox__bricks_a_2' => 0,
+            'colorbox__bricks_a_3' => 0,
+            'colorbox__bricks_a_4' => 0,
+            'colorbox__bricks_a_5' => 0,
+            'colorbox__bricks_a_6' => 0,
+            'colorbox__bricks_a_7' => 0,
+            'colorbox__contest_gallery_thumb' => 0,
+            'colorbox__contest_thumbnail' => 0,
+            'colorbox__event_blog_teaser_eighth' => 0,
+            'colorbox__event_blog_teaser_fifth' => 0,
+            'colorbox__event_blog_teaser_first' => 0,
+            'colorbox__event_blog_teaser_fourth' => 0,
+            'colorbox__event_blog_teaser_second' => 0,
+            'colorbox__event_blog_teaser_seventh' => 0,
+            'colorbox__event_blog_teaser_sixth' => 0,
+            'colorbox__event_blog_teaser_sixth_extra' => 0,
+            'colorbox__event_blog_teaser_third' => 0,
+            'colorbox__event_logo' => 0,
+            'colorbox__event_logo_once' => 0,
+            'colorbox__event_logo_twice' => 0,
+            'colorbox__event_map_picture_preview' => 0,
+            'colorbox__frontpage_event_padding' => 0,
+            'colorbox__frontpage_event_padding_once' => 0,
+            'colorbox__frontpage_event_padding_twice' => 0,
+            'colorbox__header' => 0,
+            'colorbox__header_thumbnail' => 0,
+            'colorbox__hotel_preview' => 0,
+            'colorbox__jcarousel-thumbnail' => 0,
+            'colorbox__large' => 0,
+            'colorbox__media_thumbnail' => 0,
+            'colorbox__medium' => 0,
+            'colorbox__my_events_logo' => 0,
+            'colorbox__node_image_first' => 0,
+            'colorbox__node_image_second' => 0,
+            'colorbox__node_image_third' => 0,
+            'colorbox__node_userpic' => 0,
+            'colorbox__organizer_details' => 0,
+            'colorbox__organizer_info' => 0,
+            'colorbox__race_teaser' => 0,
+            'colorbox__results_banner' => 0,
+            'colorbox__scoring_winner' => 0,
+            'colorbox__scoring_winner_horizontal' => 0,
+            'colorbox__scoring_winner_vertical' => 0,
+            'colorbox__thumbnail' => 0,
+            'colorbox__user_picture' => 0,
+            'colorbox__user_picture_mini' => 0,
+            'icon_link' => 0,
+            'image' => 0,
+            'image_advert_on_visualization' => 0,
+            'image_award' => 0,
+            'image_award_details' => 0,
+            'image_award_sponsor' => 0,
+            'image_award_sponsor_details' => 0,
+            'image_bricks_a_1' => 0,
+            'image_bricks_a_2' => 0,
+            'image_bricks_a_3' => 0,
+            'image_bricks_a_4' => 0,
+            'image_bricks_a_5' => 0,
+            'image_bricks_a_6' => 0,
+            'image_bricks_a_7' => 0,
+            'image_contest_gallery_thumb' => 0,
+            'image_contest_thumbnail' => 0,
+            'image_event_blog_teaser_eighth' => 0,
+            'image_event_blog_teaser_fifth' => 0,
+            'image_event_blog_teaser_first' => 0,
+            'image_event_blog_teaser_fourth' => 0,
+            'image_event_blog_teaser_second' => 0,
+            'image_event_blog_teaser_seventh' => 0,
+            'image_event_blog_teaser_sixth' => 0,
+            'image_event_blog_teaser_sixth_extra' => 0,
+            'image_event_blog_teaser_third' => 0,
+            'image_event_logo' => 0,
+            'image_event_logo_once' => 0,
+            'image_event_logo_twice' => 0,
+            'image_event_map_picture_preview' => 0,
+            'image_frontpage_event_padding' => 0,
+            'image_frontpage_event_padding_once' => 0,
+            'image_frontpage_event_padding_twice' => 0,
+            'image_header' => 0,
+            'image_header_thumbnail' => 0,
+            'image_hotel_preview' => 0,
+            'image_jcarousel-thumbnail' => 0,
+            'image_large' => 0,
+            'image_media_thumbnail' => 0,
+            'image_medium' => 0,
+            'image_my_events_logo' => 0,
+            'image_node_image_first' => 0,
+            'image_node_image_second' => 0,
+            'image_node_image_third' => 0,
+            'image_node_userpic' => 0,
+            'image_organizer_details' => 0,
+            'image_organizer_info' => 0,
+            'image_race_teaser' => 0,
+            'image_results_banner' => 0,
+            'image_scoring_winner' => 0,
+            'image_scoring_winner_horizontal' => 0,
+            'image_scoring_winner_vertical' => 0,
+            'image_thumbnail' => 0,
+            'image_user_picture' => 0,
+            'image_user_picture_mini' => 0,
+            'link' => 0,
+          ),
+          'insert_width' => '',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'file_generic',
+        'weight' => '13',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_core_id'.
+  $fields['node-hg_contest-field_core_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_core_id',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 34,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_core_id',
+      'label' => 'Core ID',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '42',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_country'.
+  $fields['node-hg_contest-field_country'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_country',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'iso2' => array(
+          0 => 'iso2',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'countries',
+      'settings' => array(
+        'continents' => array(),
+        'countries' => array(),
+        'enabled' => '1',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'size' => 5,
+      ),
+      'translatable' => '0',
+      'type' => 'country',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'countries',
+          'settings' => array(),
+          'type' => 'country_default',
+          'weight' => 1,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_country',
+      'label' => 'Country',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'countries',
+        'settings' => array(),
+        'type' => 'countries_continent',
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_dates'.
+  $fields['node-hg_contest-field_dates'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_dates',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'entity_translation_sync' => FALSE,
+        'granularity' => array(
+          'day' => 'day',
+          'hour' => 0,
+          'minute' => 0,
+          'month' => 'month',
+          'second' => 0,
+          'year' => 'year',
+        ),
+        'profile2_private' => FALSE,
+        'timezone_db' => '',
+        'todate' => 'required',
+        'tz_handling' => 'none',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => 'Start and end dates for the event.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
+          'weight' => 0,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_dates',
+      'label' => 'Dates',
+      'required' => 1,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'display_all_day' => 0,
+          'increment' => '15',
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_popup',
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_device_id'.
+  $fields['node-hg_contest-field_device_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_device_id',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 42,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_device_id',
+      'label' => 'Device ID',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '58',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_downloads'.
+  $fields['node-hg_contest-field_downloads'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '10',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_downloads',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'file',
+      'settings' => array(
+        'display_default' => 1,
+        'display_field' => 1,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'file',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => 'Any file (e.g. terrain or topology) that should be attached to contest description.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'file',
+          'settings' => array(),
+          'type' => 'file_default',
+          'weight' => 16,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_downloads',
+      'label' => 'Downloads',
+      'required' => 0,
+      'settings' => array(
+        'description_field' => 1,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'txt doc docx odt xls xlsx odc pdf png jpg lkm xcm dem tpl ppt pptx zip kml wpt gpx cup',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hg_contests/[node:nid]-[node:title]/downloads',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'filefield_paths_enabled' => 1,
+        'max_filesize' => '5M',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'file',
+        'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => 0,
+          'insert_class' => '',
+          'insert_default' => 'auto',
+          'insert_styles' => array(
+            'auto' => 'auto',
+            'colorbox__advert_on_visualization' => 0,
+            'colorbox__award' => 0,
+            'colorbox__award_details' => 0,
+            'colorbox__award_sponsor' => 0,
+            'colorbox__award_sponsor_details' => 0,
+            'colorbox__bricks_a_1' => 0,
+            'colorbox__bricks_a_2' => 0,
+            'colorbox__bricks_a_3' => 0,
+            'colorbox__bricks_a_4' => 0,
+            'colorbox__bricks_a_5' => 0,
+            'colorbox__bricks_a_6' => 0,
+            'colorbox__bricks_a_7' => 0,
+            'colorbox__contest_gallery_thumb' => 0,
+            'colorbox__contest_thumbnail' => 0,
+            'colorbox__event_blog_teaser_eighth' => 0,
+            'colorbox__event_blog_teaser_fifth' => 0,
+            'colorbox__event_blog_teaser_first' => 0,
+            'colorbox__event_blog_teaser_fourth' => 0,
+            'colorbox__event_blog_teaser_second' => 0,
+            'colorbox__event_blog_teaser_seventh' => 0,
+            'colorbox__event_blog_teaser_sixth' => 0,
+            'colorbox__event_blog_teaser_sixth_extra' => 0,
+            'colorbox__event_blog_teaser_third' => 0,
+            'colorbox__event_logo' => 0,
+            'colorbox__event_logo_once' => 0,
+            'colorbox__event_logo_twice' => 0,
+            'colorbox__event_map_picture_preview' => 0,
+            'colorbox__frontpage_event_padding' => 0,
+            'colorbox__frontpage_event_padding_once' => 0,
+            'colorbox__frontpage_event_padding_twice' => 0,
+            'colorbox__header' => 0,
+            'colorbox__header_thumbnail' => 0,
+            'colorbox__hotel_preview' => 0,
+            'colorbox__jcarousel-thumbnail' => 0,
+            'colorbox__large' => 0,
+            'colorbox__media_thumbnail' => 0,
+            'colorbox__medium' => 0,
+            'colorbox__my_events_logo' => 0,
+            'colorbox__node_image_first' => 0,
+            'colorbox__node_image_second' => 0,
+            'colorbox__node_image_third' => 0,
+            'colorbox__node_userpic' => 0,
+            'colorbox__organizer_details' => 0,
+            'colorbox__organizer_info' => 0,
+            'colorbox__race_teaser' => 0,
+            'colorbox__results_banner' => 0,
+            'colorbox__scoring_winner' => 0,
+            'colorbox__scoring_winner_horizontal' => 0,
+            'colorbox__scoring_winner_vertical' => 0,
+            'colorbox__thumbnail' => 0,
+            'colorbox__user_picture' => 0,
+            'colorbox__user_picture_mini' => 0,
+            'icon_link' => 0,
+            'image' => 0,
+            'image_advert_on_visualization' => 0,
+            'image_award' => 0,
+            'image_award_details' => 0,
+            'image_award_sponsor' => 0,
+            'image_award_sponsor_details' => 0,
+            'image_bricks_a_1' => 0,
+            'image_bricks_a_2' => 0,
+            'image_bricks_a_3' => 0,
+            'image_bricks_a_4' => 0,
+            'image_bricks_a_5' => 0,
+            'image_bricks_a_6' => 0,
+            'image_bricks_a_7' => 0,
+            'image_contest_gallery_thumb' => 0,
+            'image_contest_thumbnail' => 0,
+            'image_event_blog_teaser_eighth' => 0,
+            'image_event_blog_teaser_fifth' => 0,
+            'image_event_blog_teaser_first' => 0,
+            'image_event_blog_teaser_fourth' => 0,
+            'image_event_blog_teaser_second' => 0,
+            'image_event_blog_teaser_seventh' => 0,
+            'image_event_blog_teaser_sixth' => 0,
+            'image_event_blog_teaser_sixth_extra' => 0,
+            'image_event_blog_teaser_third' => 0,
+            'image_event_logo' => 0,
+            'image_event_logo_once' => 0,
+            'image_event_logo_twice' => 0,
+            'image_event_map_picture_preview' => 0,
+            'image_frontpage_event_padding' => 0,
+            'image_frontpage_event_padding_once' => 0,
+            'image_frontpage_event_padding_twice' => 0,
+            'image_header' => 0,
+            'image_header_thumbnail' => 0,
+            'image_hotel_preview' => 0,
+            'image_jcarousel-thumbnail' => 0,
+            'image_large' => 0,
+            'image_media_thumbnail' => 0,
+            'image_medium' => 0,
+            'image_my_events_logo' => 0,
+            'image_node_image_first' => 0,
+            'image_node_image_second' => 0,
+            'image_node_image_third' => 0,
+            'image_node_userpic' => 0,
+            'image_organizer_details' => 0,
+            'image_organizer_info' => 0,
+            'image_race_teaser' => 0,
+            'image_results_banner' => 0,
+            'image_scoring_winner' => 0,
+            'image_scoring_winner_horizontal' => 0,
+            'image_scoring_winner_vertical' => 0,
+            'image_thumbnail' => 0,
+            'image_user_picture' => 0,
+            'image_user_picture_mini' => 0,
+            'link' => 0,
+          ),
+          'insert_width' => '',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'file_generic',
+        'weight' => '17',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_fai_category'.
+  $fields['node-hg_contest-field_fai_category'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_fai_category',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'None',
+          1 => 'FAI 1',
+          2 => 'FAI 2',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 2,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_fai_category',
+      'label' => 'FAI category',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_flying_info'.
+  $fields['node-hg_contest-field_flying_info'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_flying_info',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 8,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_flying_info',
+      'label' => 'Flying site',
+      'required' => 1,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '9',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_flying_site_photos'.
+  $fields['node-hg_contest-field_flying_site_photos'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '10',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_flying_site_photos',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => 9,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_flying_site_photos',
+      'label' => 'Flying site photos',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hg_contests/[node:nid]-[node:title]/img/flying_site',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'filefield_paths_enabled' => 1,
+        'max_filesize' => '1MB',
+        'max_resolution' => '',
+        'min_resolution' => '300x200',
+        'title_field' => 1,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => 0,
+          'insert_class' => '',
+          'insert_default' => 'auto',
+          'insert_styles' => array(
+            'auto' => 'auto',
+            'colorbox__advert_on_visualization' => 0,
+            'colorbox__award' => 0,
+            'colorbox__award_details' => 0,
+            'colorbox__award_sponsor' => 0,
+            'colorbox__award_sponsor_details' => 0,
+            'colorbox__bricks_a_1' => 0,
+            'colorbox__bricks_a_2' => 0,
+            'colorbox__bricks_a_3' => 0,
+            'colorbox__bricks_a_4' => 0,
+            'colorbox__bricks_a_5' => 0,
+            'colorbox__bricks_a_6' => 0,
+            'colorbox__bricks_a_7' => 0,
+            'colorbox__contest_gallery_thumb' => 0,
+            'colorbox__contest_thumbnail' => 0,
+            'colorbox__event_blog_teaser_eighth' => 0,
+            'colorbox__event_blog_teaser_fifth' => 0,
+            'colorbox__event_blog_teaser_first' => 0,
+            'colorbox__event_blog_teaser_fourth' => 0,
+            'colorbox__event_blog_teaser_second' => 0,
+            'colorbox__event_blog_teaser_seventh' => 0,
+            'colorbox__event_blog_teaser_sixth' => 0,
+            'colorbox__event_blog_teaser_sixth_extra' => 0,
+            'colorbox__event_blog_teaser_third' => 0,
+            'colorbox__event_logo' => 0,
+            'colorbox__event_logo_once' => 0,
+            'colorbox__event_logo_twice' => 0,
+            'colorbox__event_map_picture_preview' => 0,
+            'colorbox__frontpage_event_padding' => 0,
+            'colorbox__frontpage_event_padding_once' => 0,
+            'colorbox__frontpage_event_padding_twice' => 0,
+            'colorbox__header' => 0,
+            'colorbox__header_thumbnail' => 0,
+            'colorbox__hotel_preview' => 0,
+            'colorbox__jcarousel-thumbnail' => 0,
+            'colorbox__large' => 0,
+            'colorbox__media_thumbnail' => 0,
+            'colorbox__medium' => 0,
+            'colorbox__my_events_logo' => 0,
+            'colorbox__node_image_first' => 0,
+            'colorbox__node_image_second' => 0,
+            'colorbox__node_image_third' => 0,
+            'colorbox__node_userpic' => 0,
+            'colorbox__organizer_details' => 0,
+            'colorbox__organizer_info' => 0,
+            'colorbox__race_teaser' => 0,
+            'colorbox__results_banner' => 0,
+            'colorbox__scoring_winner' => 0,
+            'colorbox__scoring_winner_horizontal' => 0,
+            'colorbox__scoring_winner_vertical' => 0,
+            'colorbox__thumbnail' => 0,
+            'colorbox__user_picture' => 0,
+            'colorbox__user_picture_mini' => 0,
+            'icon_link' => 0,
+            'image' => 0,
+            'image_advert_on_visualization' => 0,
+            'image_award' => 0,
+            'image_award_details' => 0,
+            'image_award_sponsor' => 0,
+            'image_award_sponsor_details' => 0,
+            'image_bricks_a_1' => 0,
+            'image_bricks_a_2' => 0,
+            'image_bricks_a_3' => 0,
+            'image_bricks_a_4' => 0,
+            'image_bricks_a_5' => 0,
+            'image_bricks_a_6' => 0,
+            'image_bricks_a_7' => 0,
+            'image_contest_gallery_thumb' => 0,
+            'image_contest_thumbnail' => 0,
+            'image_event_blog_teaser_eighth' => 0,
+            'image_event_blog_teaser_fifth' => 0,
+            'image_event_blog_teaser_first' => 0,
+            'image_event_blog_teaser_fourth' => 0,
+            'image_event_blog_teaser_second' => 0,
+            'image_event_blog_teaser_seventh' => 0,
+            'image_event_blog_teaser_sixth' => 0,
+            'image_event_blog_teaser_sixth_extra' => 0,
+            'image_event_blog_teaser_third' => 0,
+            'image_event_logo' => 0,
+            'image_event_logo_once' => 0,
+            'image_event_logo_twice' => 0,
+            'image_event_map_picture_preview' => 0,
+            'image_frontpage_event_padding' => 0,
+            'image_frontpage_event_padding_once' => 0,
+            'image_frontpage_event_padding_twice' => 0,
+            'image_header' => 0,
+            'image_header_thumbnail' => 0,
+            'image_hotel_preview' => 0,
+            'image_jcarousel-thumbnail' => 0,
+            'image_large' => 0,
+            'image_media_thumbnail' => 0,
+            'image_medium' => 0,
+            'image_my_events_logo' => 0,
+            'image_node_image_first' => 0,
+            'image_node_image_second' => 0,
+            'image_node_image_third' => 0,
+            'image_node_userpic' => 0,
+            'image_organizer_details' => 0,
+            'image_organizer_info' => 0,
+            'image_race_teaser' => 0,
+            'image_results_banner' => 0,
+            'image_scoring_winner' => 0,
+            'image_scoring_winner_horizontal' => 0,
+            'image_scoring_winner_vertical' => 0,
+            'image_thumbnail' => 0,
+            'image_user_picture' => 0,
+            'image_user_picture_mini' => 0,
+            'link' => 0,
+          ),
+          'insert_width' => '',
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '10',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_flying_site_ref'.
+  $fields['node-hg_contest-field_flying_site_ref'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_flying_site_ref',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_flyingsite' => 'pg_flyingsite',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 45,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_flying_site_ref',
+      'label' => 'Flying site',
+      'options_limit' => 0,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_country' => 0,
+        'field_flying_info' => 0,
+        'field_flying_site_photos' => 0,
+        'field_gt_bus' => 0,
+        'field_gt_car' => 0,
+        'field_gt_plane' => 0,
+        'field_gt_taxi' => 0,
+        'field_gt_train' => 0,
+      ),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '64',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_gt_bus'.
+  $fields['node-hg_contest-field_gt_bus'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_bus',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 39,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_bus',
+      'label' => 'Bus',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '52',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_gt_car'.
+  $fields['node-hg_contest-field_gt_car'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_car',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 38,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_car',
+      'label' => 'Car',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '50',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_gt_general'.
+  $fields['node-hg_contest-field_gt_general'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_general',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 41,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_general',
+      'label' => 'How to get here - general',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '56',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_gt_plane'.
+  $fields['node-hg_contest-field_gt_plane'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_plane',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 36,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_plane',
+      'label' => 'Plane',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '46',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_gt_taxi'.
+  $fields['node-hg_contest-field_gt_taxi'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_taxi',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 40,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_taxi',
+      'label' => 'Taxi',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '54',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_gt_train'.
+  $fields['node-hg_contest-field_gt_train'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_gt_train',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 37,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_gt_train',
+      'label' => 'Train',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '48',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_headquarter_hotel'.
+  $fields['node-hg_contest-field_headquarter_hotel'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_headquarter_hotel',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'geowidget',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'map' => 'hq_select_map',
+          'view' => array(
+            'args' => array(),
+            'display_name' => 'openlayers_2',
+            'view_name' => 'event_map',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 25,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_headquarter_hotel',
+      'label' => 'Headquarter hotel',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'at_entityreference_geowidget',
+        'settings' => array(
+          'map' => 'hq_select_map',
+          'view' => array(
+            'args' => '',
+            'view_and_display' => 'event_map:openlayers_2',
+          ),
+        ),
+        'type' => 'at_entityreference_geowidget',
+        'weight' => '26',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_headquarter_info'.
+  $fields['node-hg_contest-field_headquarter_info'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_headquarter_info',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Headquarter location description, address and other contact information.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 19,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_headquarter_info',
+      'label' => 'Headquarter info',
+      'required' => 1,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '20',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_hq_location'.
+  $fields['node-hg_contest-field_hq_location'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_hq_location',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'bbox' => array(
+          0 => 'top',
+          1 => 'bottom',
+          2 => 'left',
+          3 => 'right',
+        ),
+        'bottom' => array(
+          0 => 'bottom',
+        ),
+        'centroid' => array(
+          0 => 'lat',
+          1 => 'lon',
+        ),
+        'geohash' => array(
+          0 => 'geohash',
+        ),
+        'lat' => array(
+          0 => 'lat',
+        ),
+        'left' => array(
+          0 => 'left',
+        ),
+        'lon' => array(
+          0 => 'lon',
+        ),
+        'right' => array(
+          0 => 'right',
+        ),
+        'top' => array(
+          0 => 'top',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'geofield',
+      'settings' => array(
+        'backend' => 'default',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'srid' => '4326',
+      ),
+      'translatable' => '0',
+      'type' => 'geofield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'input_format' => 'lat/lon',
+          'geom' => array(
+            'lat' => '44.032814302991206',
+            'lon' => '20.654296875',
+          ),
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'geofield',
+          'settings' => array(
+            'data' => 'full',
+          ),
+          'type' => 'geofield_wkt',
+          'weight' => 17,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_hq_location',
+      'label' => 'Headquarter location',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'reverse_geocode_widget',
+        'settings' => array(
+          'field_address' => 'field_address',
+          'map' => array(
+            'center' => array(
+              'lat' => '0',
+              'lng' => '0',
+            ),
+            'height' => '450',
+            'html5' => 0,
+            'width' => '700',
+            'zoom' => '9',
+          ),
+        ),
+        'type' => 'reverse_geocode_widget_widget',
+        'weight' => '18',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_info'.
+  $fields['node-hg_contest-field_info'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_info',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 6,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_info',
+      'label' => 'Event info',
+      'required' => 1,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_is_offline'.
+  $fields['node-hg_contest-field_is_offline'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_is_offline',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => '',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 43,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_is_offline',
+      'label' => 'This is an offline event',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '60',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_logo'.
+  $fields['node-hg_contest-field_logo'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_logo',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => 44,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_logo',
+      'label' => 'Logo',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'default_image' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hg_contests/[node:nid]-[node:title]/img/logo',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'filefield_paths_enabled' => 1,
+        'max_filesize' => '',
+        'max_resolution' => '800x800',
+        'min_resolution' => '220x140',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => 0,
+          'insert_class' => '',
+          'insert_default' => 'auto',
+          'insert_styles' => array(
+            'auto' => 'auto',
+            'colorbox__advert_on_visualization' => 0,
+            'colorbox__award' => 0,
+            'colorbox__award_details' => 0,
+            'colorbox__award_sponsor' => 0,
+            'colorbox__award_sponsor_details' => 0,
+            'colorbox__bricks_a_1' => 0,
+            'colorbox__bricks_a_2' => 0,
+            'colorbox__bricks_a_3' => 0,
+            'colorbox__bricks_a_4' => 0,
+            'colorbox__bricks_a_5' => 0,
+            'colorbox__bricks_a_6' => 0,
+            'colorbox__bricks_a_7' => 0,
+            'colorbox__contest_gallery_thumb' => 0,
+            'colorbox__contest_thumbnail' => 0,
+            'colorbox__event_blog_teaser_eighth' => 0,
+            'colorbox__event_blog_teaser_fifth' => 0,
+            'colorbox__event_blog_teaser_first' => 0,
+            'colorbox__event_blog_teaser_fourth' => 0,
+            'colorbox__event_blog_teaser_second' => 0,
+            'colorbox__event_blog_teaser_seventh' => 0,
+            'colorbox__event_blog_teaser_sixth' => 0,
+            'colorbox__event_blog_teaser_sixth_extra' => 0,
+            'colorbox__event_blog_teaser_third' => 0,
+            'colorbox__event_logo' => 0,
+            'colorbox__event_logo_once' => 0,
+            'colorbox__event_logo_twice' => 0,
+            'colorbox__event_map_picture_preview' => 0,
+            'colorbox__frontpage_event_padding' => 0,
+            'colorbox__frontpage_event_padding_once' => 0,
+            'colorbox__frontpage_event_padding_twice' => 0,
+            'colorbox__header' => 0,
+            'colorbox__header_thumbnail' => 0,
+            'colorbox__hotel_preview' => 0,
+            'colorbox__jcarousel-thumbnail' => 0,
+            'colorbox__large' => 0,
+            'colorbox__media_thumbnail' => 0,
+            'colorbox__medium' => 0,
+            'colorbox__my_events_logo' => 0,
+            'colorbox__node_image_first' => 0,
+            'colorbox__node_image_second' => 0,
+            'colorbox__node_image_third' => 0,
+            'colorbox__node_userpic' => 0,
+            'colorbox__organizer_details' => 0,
+            'colorbox__organizer_info' => 0,
+            'colorbox__race_teaser' => 0,
+            'colorbox__results_banner' => 0,
+            'colorbox__scoring_winner' => 0,
+            'colorbox__scoring_winner_horizontal' => 0,
+            'colorbox__scoring_winner_vertical' => 0,
+            'colorbox__thumbnail' => 0,
+            'colorbox__user_picture' => 0,
+            'colorbox__user_picture_mini' => 0,
+            'icon_link' => 0,
+            'image' => 0,
+            'image_advert_on_visualization' => 0,
+            'image_award' => 0,
+            'image_award_details' => 0,
+            'image_award_sponsor' => 0,
+            'image_award_sponsor_details' => 0,
+            'image_bricks_a_1' => 0,
+            'image_bricks_a_2' => 0,
+            'image_bricks_a_3' => 0,
+            'image_bricks_a_4' => 0,
+            'image_bricks_a_5' => 0,
+            'image_bricks_a_6' => 0,
+            'image_bricks_a_7' => 0,
+            'image_contest_gallery_thumb' => 0,
+            'image_contest_thumbnail' => 0,
+            'image_event_blog_teaser_eighth' => 0,
+            'image_event_blog_teaser_fifth' => 0,
+            'image_event_blog_teaser_first' => 0,
+            'image_event_blog_teaser_fourth' => 0,
+            'image_event_blog_teaser_second' => 0,
+            'image_event_blog_teaser_seventh' => 0,
+            'image_event_blog_teaser_sixth' => 0,
+            'image_event_blog_teaser_sixth_extra' => 0,
+            'image_event_blog_teaser_third' => 0,
+            'image_event_logo' => 0,
+            'image_event_logo_once' => 0,
+            'image_event_logo_twice' => 0,
+            'image_event_map_picture_preview' => 0,
+            'image_frontpage_event_padding' => 0,
+            'image_frontpage_event_padding_once' => 0,
+            'image_frontpage_event_padding_twice' => 0,
+            'image_header' => 0,
+            'image_header_thumbnail' => 0,
+            'image_hotel_preview' => 0,
+            'image_jcarousel-thumbnail' => 0,
+            'image_large' => 0,
+            'image_media_thumbnail' => 0,
+            'image_medium' => 0,
+            'image_my_events_logo' => 0,
+            'image_node_image_first' => 0,
+            'image_node_image_second' => 0,
+            'image_node_image_third' => 0,
+            'image_node_userpic' => 0,
+            'image_organizer_details' => 0,
+            'image_organizer_info' => 0,
+            'image_race_teaser' => 0,
+            'image_results_banner' => 0,
+            'image_scoring_winner' => 0,
+            'image_scoring_winner_horizontal' => 0,
+            'image_scoring_winner_vertical' => 0,
+            'image_thumbnail' => 0,
+            'image_user_picture' => 0,
+            'image_user_picture_mini' => 0,
+            'link' => 0,
+          ),
+          'insert_width' => '',
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '62',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_max_number_contestants'.
+  $fields['node-hg_contest-field_max_number_contestants'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_max_number_contestants',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'number',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 35,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_max_number_contestants',
+      'label' => 'Maximum number of contestants',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'max' => '',
+        'min' => '0',
+        'prefix' => '',
+        'suffix' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'html5_tools',
+        'settings' => array(),
+        'type' => 'numberfield',
+        'weight' => '44',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_open_class'.
+  $fields['node-hg_contest-field_open_class'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_open_class',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Prohibited',
+          1 => 'Allowed',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => '0',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 21,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_open_class',
+      'label' => 'Open class',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '22',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_points_file'.
+  $fields['node-hg_contest-field_points_file'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '5',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_points_file',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'file',
+      'settings' => array(
+        'display_default' => 0,
+        'display_field' => 0,
+        'entity_translation_sync' => array(
+          0 => 'fid',
+        ),
+        'profile2_private' => FALSE,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'file',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'file',
+          'settings' => array(),
+          'type' => 'file_default',
+          'weight' => 22,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_points_file',
+      'label' => 'Points file',
+      'required' => 0,
+      'settings' => array(
+        'description_field' => 0,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'file_directory' => '',
+        'file_extensions' => 'wpt cup kml',
+        'filefield_paths' => array(
+          'active_updating' => 1,
+          'file_name' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => '[file:name]',
+          ),
+          'file_path' => array(
+            'options' => array(
+              'pathauto' => 1,
+              'transliterate' => 1,
+            ),
+            'value' => 'hg_contests/[node:nid]-[node:title]/points',
+          ),
+          'retroactive_update' => 0,
+        ),
+        'filefield_paths_enabled' => 1,
+        'max_filesize' => '5M',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'file',
+        'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => 0,
+          'insert_class' => '',
+          'insert_default' => 'auto',
+          'insert_styles' => array(
+            'auto' => 'auto',
+            'colorbox__advert_on_visualization' => 0,
+            'colorbox__award' => 0,
+            'colorbox__award_details' => 0,
+            'colorbox__award_sponsor' => 0,
+            'colorbox__award_sponsor_details' => 0,
+            'colorbox__bricks_a_1' => 0,
+            'colorbox__bricks_a_2' => 0,
+            'colorbox__bricks_a_3' => 0,
+            'colorbox__bricks_a_4' => 0,
+            'colorbox__bricks_a_5' => 0,
+            'colorbox__bricks_a_6' => 0,
+            'colorbox__bricks_a_7' => 0,
+            'colorbox__contest_gallery_thumb' => 0,
+            'colorbox__contest_thumbnail' => 0,
+            'colorbox__event_blog_teaser_eighth' => 0,
+            'colorbox__event_blog_teaser_fifth' => 0,
+            'colorbox__event_blog_teaser_first' => 0,
+            'colorbox__event_blog_teaser_fourth' => 0,
+            'colorbox__event_blog_teaser_second' => 0,
+            'colorbox__event_blog_teaser_seventh' => 0,
+            'colorbox__event_blog_teaser_sixth' => 0,
+            'colorbox__event_blog_teaser_sixth_extra' => 0,
+            'colorbox__event_blog_teaser_third' => 0,
+            'colorbox__event_logo' => 0,
+            'colorbox__event_logo_once' => 0,
+            'colorbox__event_logo_twice' => 0,
+            'colorbox__event_map_picture_preview' => 0,
+            'colorbox__frontpage_event_padding' => 0,
+            'colorbox__frontpage_event_padding_once' => 0,
+            'colorbox__frontpage_event_padding_twice' => 0,
+            'colorbox__header' => 0,
+            'colorbox__header_thumbnail' => 0,
+            'colorbox__hotel_preview' => 0,
+            'colorbox__jcarousel-thumbnail' => 0,
+            'colorbox__large' => 0,
+            'colorbox__media_thumbnail' => 0,
+            'colorbox__medium' => 0,
+            'colorbox__my_events_logo' => 0,
+            'colorbox__node_image_first' => 0,
+            'colorbox__node_image_second' => 0,
+            'colorbox__node_image_third' => 0,
+            'colorbox__node_userpic' => 0,
+            'colorbox__organizer_details' => 0,
+            'colorbox__organizer_info' => 0,
+            'colorbox__race_teaser' => 0,
+            'colorbox__results_banner' => 0,
+            'colorbox__scoring_winner' => 0,
+            'colorbox__scoring_winner_horizontal' => 0,
+            'colorbox__scoring_winner_vertical' => 0,
+            'colorbox__thumbnail' => 0,
+            'colorbox__user_picture' => 0,
+            'colorbox__user_picture_mini' => 0,
+            'icon_link' => 0,
+            'image' => 0,
+            'image_advert_on_visualization' => 0,
+            'image_award' => 0,
+            'image_award_details' => 0,
+            'image_award_sponsor' => 0,
+            'image_award_sponsor_details' => 0,
+            'image_bricks_a_1' => 0,
+            'image_bricks_a_2' => 0,
+            'image_bricks_a_3' => 0,
+            'image_bricks_a_4' => 0,
+            'image_bricks_a_5' => 0,
+            'image_bricks_a_6' => 0,
+            'image_bricks_a_7' => 0,
+            'image_contest_gallery_thumb' => 0,
+            'image_contest_thumbnail' => 0,
+            'image_event_blog_teaser_eighth' => 0,
+            'image_event_blog_teaser_fifth' => 0,
+            'image_event_blog_teaser_first' => 0,
+            'image_event_blog_teaser_fourth' => 0,
+            'image_event_blog_teaser_second' => 0,
+            'image_event_blog_teaser_seventh' => 0,
+            'image_event_blog_teaser_sixth' => 0,
+            'image_event_blog_teaser_sixth_extra' => 0,
+            'image_event_blog_teaser_third' => 0,
+            'image_event_logo' => 0,
+            'image_event_logo_once' => 0,
+            'image_event_logo_twice' => 0,
+            'image_event_map_picture_preview' => 0,
+            'image_frontpage_event_padding' => 0,
+            'image_frontpage_event_padding_once' => 0,
+            'image_frontpage_event_padding_twice' => 0,
+            'image_header' => 0,
+            'image_header_thumbnail' => 0,
+            'image_hotel_preview' => 0,
+            'image_jcarousel-thumbnail' => 0,
+            'image_large' => 0,
+            'image_media_thumbnail' => 0,
+            'image_medium' => 0,
+            'image_my_events_logo' => 0,
+            'image_node_image_first' => 0,
+            'image_node_image_second' => 0,
+            'image_node_image_third' => 0,
+            'image_node_userpic' => 0,
+            'image_organizer_details' => 0,
+            'image_organizer_info' => 0,
+            'image_race_teaser' => 0,
+            'image_results_banner' => 0,
+            'image_scoring_winner' => 0,
+            'image_scoring_winner_horizontal' => 0,
+            'image_scoring_winner_vertical' => 0,
+            'image_thumbnail' => 0,
+            'image_user_picture' => 0,
+            'image_user_picture_mini' => 0,
+            'link' => 0,
+          ),
+          'insert_width' => '',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'file_generic',
+        'weight' => '23',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_position'.
+  $fields['node-hg_contest-field_position'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '6',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_position',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '30',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 28,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_position',
+      'label' => 'Responsible for',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'autocomplete_widgets',
+        'settings' => array(
+          'autocomplete_case' => '1',
+          'autocomplete_match' => 'contains',
+          'autocomplete_xss' => '0',
+          'i18n_flddata' => '0',
+          'obey_access_controls' => 1,
+          'order' => 'ASC',
+          'size' => '60',
+        ),
+        'type' => 'autocomplete_widgets_flddata',
+        'weight' => '32',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_prizes'.
+  $fields['node-hg_contest-field_prizes'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_prizes',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'List all awards here.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 13,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_prizes',
+      'label' => 'Prize fund and scoring categories',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '14',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_registration_sw'.
+  $fields['node-hg_contest-field_registration_sw'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_registration_sw',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '0',
+          1 => '1',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => 'Is registration for the event open.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 20,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_registration_sw',
+      'label' => 'Registration switch',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '21',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_results_summary'.
+  $fields['node-hg_contest-field_results_summary'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_results_summary',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 33,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_results_summary',
+      'label' => 'Results summary',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '40',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_results_title'.
+  $fields['node-hg_contest-field_results_title'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_results_title',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 32,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_results_title',
+      'label' => 'Results title',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '38',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_sample_schedule'.
+  $fields['node-hg_contest-field_sample_schedule'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_sample_schedule',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 15,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_sample_schedule',
+      'label' => 'Daily schedule',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '16',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_schedule'.
+  $fields['node-hg_contest-field_schedule'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_schedule',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'General day-by-day schedule of the event.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 14,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_schedule',
+      'label' => 'General schedule',
+      'required' => 1,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '15',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_selection'.
+  $fields['node-hg_contest-field_selection'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_selection',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 11,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_selection',
+      'label' => 'Selection and entry fee',
+      'required' => 1,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '1',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '12',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_social_links'.
+  $fields['node-hg_contest-field_social_links'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '5',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_social_links',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'link',
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'rel' => '',
+          'target' => 'default',
+        ),
+        'display' => array(
+          'url_cutoff' => 80,
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'title' => 'optional',
+        'title_maxlength' => 128,
+        'title_value' => '',
+        'url' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'link_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'link',
+          'settings' => array(),
+          'type' => 'link_default',
+          'weight' => 23,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_social_links',
+      'label' => 'Social networks links',
+      'required' => 0,
+      'settings' => array(
+        'attributes' => array(
+          'class' => '',
+          'configurable_title' => 0,
+          'rel' => '',
+          'target' => 'default',
+          'title' => '',
+        ),
+        'display' => array(
+          'url_cutoff' => '80',
+        ),
+        'enable_tokens' => 1,
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'title' => 'none',
+        'title_maxlength' => '128',
+        'title_value' => '',
+        'url' => 0,
+        'user_register_form' => FALSE,
+        'validate_url' => 1,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_field',
+        'weight' => '24',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_take_offs'.
+  $fields['node-hg_contest-field_take_offs'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_take_offs',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'eck_ent_basicmark' => array(
+          'columns' => array(
+            'target_id' => 'id',
+          ),
+          'table' => 'eck_ent_basicmark',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'pg_takeoff' => 'pg_takeoff',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'ent_basicmark',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 46,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_take_offs',
+      'label' => 'Take offs',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '66',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_time_zone'.
+  $fields['node-hg_contest-field_time_zone'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_time_zone',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'tzfield',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude' => array(),
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'tzfield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => 'UTC',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'tzfield',
+          'settings' => array(),
+          'type' => 'tzfield_default',
+          'weight' => 5,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_time_zone',
+      'label' => 'Time zone',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_tiny_path'.
+  $fields['node-hg_contest-field_tiny_path'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_tiny_path',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => '255',
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Event URLs may set only once.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 31,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_tiny_path',
+      'label' => 'Additional URL',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '36',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-field_twitter_widget_code'.
+  $fields['node-hg_contest-field_twitter_widget_code'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_twitter_widget_code',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 24,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 1,
+      'field_name' => 'field_twitter_widget_code',
+      'label' => 'Twitter / Facebook widget code',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '25',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-group_group'.
+  $fields['node-hg_contest-group_group'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'group_group',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Not a group',
+          1 => 'Group',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => 1,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => 'Determine if this is an OG group.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 4,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'group_group',
+      'label' => 'Group',
+      'required' => 0,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 0,
+          'og_hide' => 0,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-hg_contest-og_roles_permissions'.
+  $fields['node-hg_contest-og_roles_permissions'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'og_roles_permissions',
+      'field_permissions' => array(
+        'type' => '2',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Use default roles and permissions',
+          1 => 'Override default roles and permissions',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => '1',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 26,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'og_roles_permissions',
+      'label' => 'Group roles and permissions',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '27',
+      ),
+    ),
+  );
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Additional URL');
+  t('Address');
+  t('Any file (e.g. terrain or topology) that should be attached to contest description.');
+  t('Bus');
+  t('Car');
+  t('City');
+  t('Core ID');
+  t('Country');
+  t('Daily schedule');
+  t('Dates');
+  t('Determine if this is an OG group.');
+  t('Device ID');
+  t('Downloads');
+  t('Email');
+  t('Event URLs may set only once.');
+  t('Event info');
+  t('Example: +1(000)1000000');
+  t('FAI category');
+  t('Flying site');
+  t('Flying site photos');
+  t('General day-by-day schedule of the event.');
+  t('General schedule');
+  t('Group');
+  t('Group roles and permissions');
+  t('Headquarter hotel');
+  t('Headquarter info');
+  t('Headquarter location');
+  t('Headquarter location description, address and other contact information.');
+  t('How to get here - general');
+  t('Insert widget code from <a href="https://twitter.com/settings/widgets/new/user">Twitter widgets</a> page.<br>
+Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune</code>');
+  t('Is registration for the event open.');
+  t('List all awards here.');
+  t('Local rules');
+  t('Logo');
+  t('Maximum number of contestants');
+  t('Name');
+  t('Open class');
+  t('Organizers');
+  t('Photos');
+  t('Photos pertaining to the general description of the contest');
+  t('Plane');
+  t('Points file');
+  t('Prize fund and scoring categories');
+  t('Registration switch');
+  t('Responsible for');
+  t('Results summary');
+  t('Results title');
+  t('Rules');
+  t('Selection and entry fee');
+  t('Social networks links');
+  t('Start and end dates for the event.');
+  t('Take offs');
+  t('Taxi');
+  t('Tel');
+  t('This is an offline event');
+  t('Time zone');
+  t('Train');
+  t('Twitter / Facebook widget code');
+
+  return $fields;
+}
