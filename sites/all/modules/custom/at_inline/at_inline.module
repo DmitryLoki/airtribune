@@ -65,7 +65,7 @@ function at_inline_submit_ajax_callback($form, $form_state) {
       'field_day_results',
       'field_day_ref',
       'field_pg_race_tracks',
-      //~ 'og_group_ref'
+      'og_group_ref'
     );
     at_inline_prepare_form($form, $hidden);
     return $form;
@@ -96,6 +96,8 @@ function at_inline_form_alter(&$form, &$form_state, $form_id) {
       'wrapper' => $wrapper_id,
       'method' => 'html',
     );
+
+    $form['#after_build'][] = 'at_inline_form_after_build';
 
     return;
 
@@ -154,6 +156,17 @@ function at_inline_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * Temporary fix.
+ * Workaround for hiding og_group_ref field in inline mode.
+ * See *** if ($element['#required']) *** in og.field.inc line 260.
+ */
+function at_inline_form_after_build($form, &$form_state) {
+  if (isset($form['og_group_ref'])) {
+    $form['og_group_ref']['#required'] = FALSE;
+  }
+  return $form;
+}
 
 function at_inline_tmp() {
   $day_id = 5497;
@@ -212,7 +225,7 @@ function at_inline_get_form($day_id) {
     'field_day_results',
     'field_day_ref',
     'field_pg_race_tracks',
-    //~ 'og_group_ref'
+    'og_group_ref'
   );
   at_inline_prepare_form($form, $hidden);
   return $form;
