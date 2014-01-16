@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Airtribune LDAP configuration feature.
+ */
+
+include_once 'at_ldap_configuration.features.inc';
