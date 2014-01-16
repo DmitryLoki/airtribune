@@ -988,6 +988,30 @@ function image_styles_feature_image_default_styles() {
     'label' => 'race_teaser',
   );
 
+  // Exported image style: results_banner.
+  $styles['results_banner'] = array(
+    'name' => 'results_banner',
+    'label' => 'results_banner 178х118',
+    'effects' => array(
+      11 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '178',
+          'height' => '118',
+          'upscale' => 0,
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: scoring_winner.
   $styles['scoring_winner'] = array(
     'name' => 'scoring_winner',
