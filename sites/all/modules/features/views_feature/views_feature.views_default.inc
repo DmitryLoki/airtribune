@@ -5820,6 +5820,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Dates -  start date (field_dates) */
@@ -5973,6 +5974,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Dates - end date (field_dates:value2) */
@@ -6030,6 +6032,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Dates -  start date (field_dates) */
@@ -6077,6 +6080,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Dates -  start date (field_dates) */
@@ -7965,6 +7969,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Start date is greater than */
@@ -10645,7 +10650,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['relationship'] = 'field_tracker_target_id';
   $handler->display->display_options['fields']['title']['label'] = 'Tracker';
-  /* Field: Field: Device ID */
+  /* Field: Field: Device UDID for retrieve */
   $handler->display->display_options['fields']['field_device_id']['id'] = 'field_device_id';
   $handler->display->display_options['fields']['field_device_id']['table'] = 'field_data_field_device_id';
   $handler->display->display_options['fields']['field_device_id']['field'] = 'field_device_id';

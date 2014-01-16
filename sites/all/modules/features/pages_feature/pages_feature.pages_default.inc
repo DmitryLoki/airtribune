@@ -3539,6 +3539,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'settings' => array(
             'type' => array(
               'pg_contest' => 'pg_contest',
+              'hg_contest' => 'hg_contest',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
@@ -4207,6 +4208,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'settings' => array(
             'type' => array(
               'pg_contest' => 'pg_contest',
+              'hg_contest' => 'hg_contest',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
@@ -6623,6 +6625,7 @@ window.fbAsyncInit = function() {
         'settings' => array(
           'type' => array(
             'pg_contest' => 'pg_contest',
+            'hg_contest' => 'hg_contest',
           ),
         ),
         'context' => 'argument_entity_id:node_1',

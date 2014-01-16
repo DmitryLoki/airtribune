@@ -65,6 +65,7 @@ define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_HG_CONTEST_TYPE', 'hg_contest');
 define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
@@ -938,7 +939,7 @@ function airtribune_calculate_distance($p1, $p2) {
 function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
   if (!$contexts['node']->empty) {
-    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    if (in_array($contexts['node']->data->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
       $raw_node = $contexts['node']->data;
     }
     // Fetch event node from OG.
