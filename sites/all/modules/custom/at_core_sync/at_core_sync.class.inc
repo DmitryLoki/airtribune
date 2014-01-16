@@ -470,7 +470,7 @@ class ATSyncWindDummy extends ATSync {
       $sync = _get_class_by_entity('user', $this->person);
       $this->tracked_core_id = $sync->synchronize();
     }
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
+    $this->address = implode('/', array('contest', $this->contest_core_id, 'winddummy'));
     $data = array(
       'person_id' => $this->tracked_core_id,
       'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
@@ -478,13 +478,6 @@ class ATSyncWindDummy extends ATSync {
     );
 
     $this->core_id = FALSE;
-    // Check paraglider resource
-    /*
-    $resp = ATSync::requestToCore($this->address . '/' . $this->person_core_id, '', 'GET');
-    if (isset($resp->id)) {
-      $this->core_id = $resp->id;
-    }
-    */
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $response = $this->request(json_encode($data), "PUT");
