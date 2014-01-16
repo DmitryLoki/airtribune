@@ -1,6 +1,7 @@
 name = Airtribune LDAP configuration
 core = 7.x
 package = Airtribune
+php = 5.2.4
 dependencies[] = ctools
 dependencies[] = ldap_authorization
 dependencies[] = ldap_servers

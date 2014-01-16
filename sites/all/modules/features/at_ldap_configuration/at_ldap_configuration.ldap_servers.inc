@@ -24,10 +24,12 @@ function at_ldap_configuration_default_ldap_servers() {
   $ldap_servers_conf->bind_method = 1;
   $ldap_servers_conf->binddn = 'admin';
   $ldap_servers_conf->bindpw = 'l2mTtcRhOAwIJgJ';
-  $ldap_servers_conf->basedn = array();
-  $ldap_servers_conf->user_attr = '';
-  $ldap_servers_conf->account_name_attr = '';
-  $ldap_servers_conf->mail_attr = '';
+  $ldap_servers_conf->basedn = array(
+    0 => 'ou=person,dc=airtribune,dc=com',
+  );
+  $ldap_servers_conf->user_attr = 'cn';
+  $ldap_servers_conf->account_name_attr = 'cn';
+  $ldap_servers_conf->mail_attr = 'mail';
   $ldap_servers_conf->mail_template = '';
   $ldap_servers_conf->picture_attr = '';
   $ldap_servers_conf->unique_persistent_attr = '';
