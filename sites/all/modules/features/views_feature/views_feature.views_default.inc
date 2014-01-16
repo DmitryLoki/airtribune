@@ -1286,6 +1286,8 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['text'] = '[field_image]<span class="valign"></span>';
   $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_image']['alter']['path'] = '[field_link]';
   $handler->display->display_options['fields']['field_image']['alter']['external'] = TRUE;
@@ -1350,6 +1352,7 @@ function views_feature_views_default_views() {
     t('Solutions for pilots'),
     t('Solutions for viewers'),
     t('Event results Banners'),
+    t('[field_image]<span class="valign"></span>'),
   );
   $export['advert_list'] = $view;
 

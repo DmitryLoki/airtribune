@@ -3905,11 +3905,12 @@ form #edit-field-take-offs label { position: relative; top: -1px; font-weight: n
 
   /* Advert list */
 
-.page-event-race-results .view-advert-list { margin: 0 -5px 0 -3px; text-align: center; padding-bottom: 8px;}
-.page-event-race-results .view-advert-list .views-row { display: inline; margin: 0 3px 0 2px;}
-.page-event-race-results .view-advert-list .views-row * { display: inline;}
+.page-event-race-results .view-advert-list { margin: 0 -5px 0 -5px; text-align: center; padding-bottom: 8px;}
+.page-event-race-results .view-advert-list .views-row { display: inline-block; margin: 0 5px 0 5px;}
 .page-event-race-results .view-advert-list img { vertical-align: middle;}
-.page-event-race-results .view-advert-list .views-row a { display: inline-block; border: 1px solid #dfe3e2; margin-bottom: 10px;}
+.page-event-race-results .view-advert-list .views-field-field-image { display: inline;}
+.page-event-race-results .view-advert-list .views-row .field-content { display: inline-block; border: 1px solid #dde3e6; margin-bottom: 10px; height: 118px; width: 178px;}
+.page-event-race-results .view-advert-list .valign { vertical-align: middle; width: 1px; height: 118px; margin-right: -1px; overflow: hidden; display: inline-block;}
 
   /* Task results */
 
