@@ -14,7 +14,7 @@ function at_ldap_configuration_default_ldap_servers() {
   $ldap_servers_conf->disabled = FALSE; /* Edit this to true to make a default ldap_servers_conf disabled initially */
   $ldap_servers_conf->api_version = 1;
   $ldap_servers_conf->sid = 'codecat';
-  $ldap_servers_conf->name = 'codecat';
+  $ldap_servers_conf->name = 'codecat.ru';
   $ldap_servers_conf->status = TRUE;
   $ldap_servers_conf->ldap_type = 'default';
   $ldap_servers_conf->address = 'codecat.ru';
