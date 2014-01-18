@@ -40,11 +40,11 @@ function airtribune_event_dates_access_settings($form, &$form_state, $conf) {
 function airtribune_event_dates_access_check($conf, $context) {
 
   // There should always be a context at this point, but this is safe.
-  if (empty($context) || empty($context->data) || !($context->data->type == AIRTRIBUNE_PG_CONTEST_TYPE || $context->data->type == AIRTRIBUNE_NEWSBLOG_TYPE)) {
+  if (empty($context) || empty($context->data) || !in_array($context->data->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE, AIRTRIBUNE_NEWSBLOG_TYPE))) {
     return;
   }
 
-  if ($context->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+  if (in_array($context->data->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
     // Event node.
     $node = $context->data;
   }
