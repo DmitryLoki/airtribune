@@ -1615,6 +1615,7 @@ event/*/day/*',
               'advert' => 'advert',
               'newsblog' => 'newsblog',
               'pg_contest' => 'pg_contest',
+              'hg_contest' => 'hg_contest',
               'page' => 'page',
             ),
           ),
@@ -2924,6 +2925,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'settings' => array(
             'type' => array(
               'pg_contest' => 'pg_contest',
+              'hg_contest' => 'hg_contest',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
