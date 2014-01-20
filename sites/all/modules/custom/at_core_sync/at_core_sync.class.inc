@@ -214,7 +214,7 @@ class ATSyncCustom extends ATSync {
     _asd(json_encode($data), $this->address, $response);
     // Synchronize og_membership, see #3572 for details
     $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-    $og_membership = og_get_membership("node", $og_group_ref, "ent_customobject", $this->entity->id);
+    $og_membership = og_get_membership("node", $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
     $og_membership->tracked_core_id = !empty($response->id) ? $response->id : FALSE;
     $sync = _get_class_by_entity('og_membership', $og_membership);
     $sync->synchronize();
@@ -237,18 +237,18 @@ class ATSyncTrackedObject extends ATSync {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
-    $this->transport = entity_load_single('ent_customobject', $this->entity->etid);
+    $this->transport = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
     // See #3572
     if(!empty($entity->tracked_core_id)) {
       $this->tracked_core_id = $entity->tracked_core_id;
     } else {
-      $this->tracked_core_id = get_id_from_entity('ent_customobject', $this->transport);
+      $this->tracked_core_id = get_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
     }
     $tracker_eid = FALSE;
     if (isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
-        $this->tracker = entity_load_single('ent_tracker', $tracker_eid);
+        $this->tracker = entity_load_single(AIRTRIBUNE_TRACKER_TYPE, $tracker_eid);
       }
     }
   }
@@ -360,7 +360,7 @@ class ATSyncPilot extends ATSync {
     if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
-        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+        $this->tracker = array_pop(entity_load(AIRTRIBUNE_TRACKER_TYPE, array($tracker_eid), array(), TRUE));
       }
     }
   }
@@ -461,7 +461,7 @@ class ATSyncRace extends ATSync {
     $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
     $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
-    $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref), array(), TRUE));
+    $racetype = array_pop(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype_ref), array(), TRUE));
     switch ($racetype->type) {
       case "pg_racetype_rtg":
         $data['race_type'] = 'racetogoal';
@@ -482,7 +482,7 @@ class ATSyncRace extends ATSync {
     foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
       $point_ref[] = $pref['target_id'];
     }
-    $points = entity_load("ent_point", $point_ref, array(), TRUE);
+    $points = entity_load(AIRTRIBUNE_POINT_ENTITY_TYPE, $point_ref, array(), TRUE);
     $checkpoints = array();
     $checkpoints['type'] = "FeatureCollection";
     $checkpoints['features'] = array();
@@ -492,7 +492,7 @@ class ATSyncRace extends ATSync {
       $point_data['type'] = 'Feature';
       $point_data['geometry'] = array();
       $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
-      $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref), array(), TRUE));
+      $contest_point = array_pop(entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array($contest_point_ref), array(), TRUE));
       $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), TRUE);
@@ -616,7 +616,7 @@ class ATSyncTracker extends ATSync {
   public $address = "tracker";
 
   public function synchronize() {
-    $wrapper = entity_metadata_wrapper('ent_tracker', $this->entity);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $this->entity);
     $field_tracker_type = $wrapper->field_tracker_type->value();
     $field_device_id = $wrapper->field_device_id->value();
     $device_type = $field_tracker_type->title;
