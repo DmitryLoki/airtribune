@@ -1945,3 +1945,14 @@ function airtribune_node_load($nodes, $types) {
     }
   }
 }
+
+/**
+ * Detect contest nodes
+ * @see #4323
+ */
+function is_contest($node) {
+  $contest_node_types = array ('pg_contest', 'hg_contest');
+  if (in_array($node->type, $contest_node_types) {
+    return TRUE;
+  }
+}
