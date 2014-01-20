@@ -246,6 +246,9 @@ function organic_groups_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_paraglider_color',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -313,6 +316,9 @@ function organic_groups_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_paraglider_manufacturer',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -331,7 +337,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -384,6 +390,9 @@ function organic_groups_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_paraglider_model',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -402,7 +411,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -468,10 +477,11 @@ function organic_groups_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          1 => 'Waiting list',
-          2 => 'Waiting for payment',
-          3 => 'Payment in progress',
-          4 => 'Confirmed',
+          10 => 'Waiting list',
+          20 => 'Waiting for payment',
+          30 => 'Payment in progress',
+          40 => 'Wind dummy',
+          50 => 'Confirmed',
         ),
         'allowed_values_function' => '',
         'entity_translation_sync' => FALSE,
@@ -925,11 +935,11 @@ function organic_groups_field_default_fields() {
         'type' => '2',
       ),
       'foreign keys' => array(
-        'node' => array(
+        'eck_ent_tracker' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'id',
           ),
-          'table' => 'node',
+          'table' => 'eck_ent_tracker',
         ),
       ),
       'indexes' => array(
@@ -1003,7 +1013,7 @@ function organic_groups_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '0',
+        'weight' => 0,
       ),
     ),
   );
@@ -1020,11 +1030,11 @@ function organic_groups_field_default_fields() {
         'type' => '2',
       ),
       'foreign keys' => array(
-        'node' => array(
+        'eck_ent_tracker' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'id',
           ),
-          'table' => 'node',
+          'table' => 'eck_ent_tracker',
         ),
       ),
       'indexes' => array(
@@ -1414,11 +1424,11 @@ function organic_groups_field_default_fields() {
         'type' => '2',
       ),
       'foreign keys' => array(
-        'node' => array(
+        'eck_ent_tracker' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'id',
           ),
-          'table' => 'node',
+          'table' => 'eck_ent_tracker',
         ),
       ),
       'indexes' => array(
