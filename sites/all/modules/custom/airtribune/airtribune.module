@@ -1903,7 +1903,7 @@ function airtribune_node_load($nodes, $types) {
   // Add pints files into download on event info page
   if (arg(0) == 'event' && arg(2) == 'info') {
     foreach ($nodes as $nid => $node) {
-      if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      if (is_contest($node)) {
         // Output points files in downloads
         // @see #3983
         // @author Vyacheslav Malchik <info@vkey.biz>
@@ -1951,8 +1951,10 @@ function airtribune_node_load($nodes, $types) {
  * @see #4323
  */
 function is_contest($node) {
-  $contest_node_types = array ('pg_contest', 'hg_contest');
+  $contest_node_types = array (AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE);
   if (in_array($node->type, $contest_node_types)) {
     return TRUE;
   }
+
+  return FALSE;
 }
