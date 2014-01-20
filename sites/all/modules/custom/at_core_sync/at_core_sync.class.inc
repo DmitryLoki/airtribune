@@ -47,7 +47,14 @@ abstract class ATSync {
     }
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+    $request_array = array(
+      'code' => $code,
+      'method' => $method,
+      'url' => $url,
+    );
+    $request_info = t('!request_info', array('!request_info' => '<pre>' . print_r($request_array, TRUE) . '</pre>'));
     $head = t("Core API[!code]: ", array('!code' => $code));
+    $url = l($url, $url);
     switch ($code) {
       case 200:
         ATSync::setMessage($head . t("Request completed."));
@@ -75,14 +82,14 @@ abstract class ATSync {
         break;
 
       case 404:
-        ATSync::setMessage($head . t("Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
+        ATSync::setMessage($head . t("Resource not found, (!url)", array('!url' => $url)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 405:
         ATSync::setMessage($head . t("Method <i>!method</i> is not allowed for resource !url.", array(
           '!method' => $method,
-          '!url' => l($url, $url)
+          '!url' => $url,
         )), 'error');
         break;
 
@@ -98,27 +105,21 @@ abstract class ATSync {
 
       case 502:
       case 504:
-        $message = $head . t("is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url)));
+        $message = $head . t("is unreachable (server error), request queued.") . $request_info;
         ATSync::setMessage($message, 'error');
         watchdog("at_core_sync", $message);
         break;
 
       case 0:
-        $message = $head . t("is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url)));
-        ATSync::setMessage($head . t("is unreachable at (!url) (timeout), request queued.", array('!url' => l($url, $url))), 'error');
-        watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+        $message = $head . t("is unreachable (timeout), request queued.") . $request_info;
+        ATSync::setMessage($message, 'error');
+        watchdog("at_core_sync", $message);
         break;
 
       default:
-        ATSync::setMessage($head . t("unknown response. Mechod <i>!method</i>, resource !url.", array(
-          '!method' => $method,
-          '!url' => l($url, $url)
-        )), 'warning');
-        watchdog("at_core_sync", $head . t("unknown response. Code !code, mechod <i>!method</i>, resource !url.", array(
-          '!method' => $method,
-          '!url' => l($url, $url),
-          '!code' => $code
-        )), array(), WATCHDOG_WARNING);
+        $message = $head . t("unknown response") . $request_info;
+        ATSync::setMessage($message, 'warning');
+        watchdog("at_core_sync", $message, array(), WATCHDOG_WARNING);
         break;
     }
     return json_decode($response);
