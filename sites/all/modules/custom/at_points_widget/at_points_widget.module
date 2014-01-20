@@ -52,7 +52,7 @@ function at_points_widget_menu() {
       );
     }
 
-    $form['field_points_file']['#access'] = FALSE;
+    //$form['field_points_file']['#access'] = FALSE;
    }
  }
 

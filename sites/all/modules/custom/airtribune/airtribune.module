@@ -1952,7 +1952,7 @@ function airtribune_node_load($nodes, $types) {
  */
 function is_contest($node) {
   $contest_node_types = array ('pg_contest', 'hg_contest');
-  if (in_array($node->type, $contest_node_types) {
+  if (in_array($node->type, $contest_node_types)) {
     return TRUE;
   }
 }
