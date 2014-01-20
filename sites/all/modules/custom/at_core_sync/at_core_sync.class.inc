@@ -47,71 +47,74 @@ abstract class ATSync {
     }
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+    $head = t("Core API[!code]: ", array('!code' => $code));
     switch ($code) {
       case 200:
-        ATSync::setMessage(t("Core API: Request completed."));
+        ATSync::setMessage($head . t("Request completed."));
         break;
 
       case 201:
-        ATSync::setMessage(t("Core API: Resource is successfully created."));
+        ATSync::setMessage($head . t("Resource is successfully created."));
         break;
 
       case 202:
-        ATSync::setMessage(t("Core API: Request accepted."));
+        ATSync::setMessage($head . t("Request accepted."));
         break;
 
       case 400:
-        ATSync::setMessage(t("Core API[400]: Request has error. Check fields and send again."), 'error');
+        ATSync::setMessage($head . t("Request has error. Check fields and send again."), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 401:
-        ATSync::setMessage(t("Core API[401]: You need to auth before send this request."), 'error');
+        ATSync::setMessage($head . t("You need to auth before send this request."), 'error');
         break;
 
       case 403:
-        ATSync::setMessage(t("Core API[403]: Requested operation not avaible."), 'error');
+        ATSync::setMessage($head . t("Requested operation not available."), 'error');
         break;
 
       case 404:
-        ATSync::setMessage(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
+        ATSync::setMessage($head . t("Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 405:
-        ATSync::setMessage(t("Core API[405]: Method <i>!method</i> is not allowed for resource !url.", array(
+        ATSync::setMessage($head . t("Method <i>!method</i> is not allowed for resource !url.", array(
           '!method' => $method,
           '!url' => l($url, $url)
         )), 'error');
         break;
 
       case 409:
-        ATSync::setMessage(t("Core API[409]: Conflict happened. See server response for details."), 'error');
+        ATSync::setMessage($head . t("Conflict happened. See server response for details.", array('!code' => $code)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 500:
-        ATSync::setMessage(t("Core API[500]: Format error or server restrictions."), 'error');
+        ATSync::setMessage($head . t("Format error or server restrictions.", array('!code' => $code)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 502:
       case 504:
-        ATSync::setMessage(t("Core API is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url))), 'error');
-        watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+        $message = $head . t("is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url)));
+        ATSync::setMessage($message, 'error');
+        watchdog("at_core_sync", $message);
         break;
 
       case 0:
-        ATSync::setMessage(t("Core API is unreachable at (!url) (timeout), request queued.", array('!url' => l($url, $url))), 'error');
+        $message = $head . t("is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url)));
+        ATSync::setMessage($head . t("is unreachable at (!url) (timeout), request queued.", array('!url' => l($url, $url))), 'error');
         watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
         break;
 
       default:
-        ATSync::setMessage(t("Core API: unknown response. Mechod <i>!method</i>, resource !url.", array(
+        ATSync::setMessage($head . t("unknown response. Mechod <i>!method</i>, resource !url.", array(
           '!method' => $method,
           '!url' => l($url, $url)
         )), 'warning');
-        watchdog("at_core_sync", t("Core API: unknown response. Code !code, mechod <i>!method</i>, resource !url.", array(
+        watchdog("at_core_sync", $head . t("unknown response. Code !code, mechod <i>!method</i>, resource !url.", array(
           '!method' => $method,
           '!url' => l($url, $url),
           '!code' => $code
