@@ -127,7 +127,7 @@ abstract class ATSync {
 
   public function updateCoreID($id) {
     $this->entity->field_core_id = array(
-      "und" => array(
+      LANGUAGE_NONE => array(
         array(
           "value" => $id,
         ),
@@ -158,14 +158,14 @@ class ATSyncContest extends ATSync {
   public function synchronize() {
     $node = $this->entity;
     $data = array(
-      'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
+      'hq_coords' => $node->field_hq_location[LANGUAGE_NONE][0]['lat'] . ',' . $node->field_hq_location[LANGUAGE_NONE][0]['lon'],
       'title' => $node->title,
-      'start_time' => strtotime($node->field_dates['und'][0]['value']),
-      'end_time' => strtotime($node->field_dates['und'][0]['value2']),
-      'place' => $node->field_city['und'][0]['value'],
-      'country' => $node->field_country['und'][0]['iso2'],
-      'timezone' => $node->field_time_zone['und'][0]['value'],
-      'retrieve_id' => !empty($node->field_device_id['und'][0]['value']) ? $node->field_device_id['und'][0]['value'] : NULL,
+      'start_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value']),
+      'end_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value2']),
+      'place' => $node->field_city[LANGUAGE_NONE][0]['value'],
+      'country' => $node->field_country[LANGUAGE_NONE][0]['iso2'],
+      'timezone' => $node->field_time_zone[LANGUAGE_NONE][0]['value'],
+      'retrieve_id' => !empty($node->field_device_id[LANGUAGE_NONE][0]['value']) ? $node->field_device_id[LANGUAGE_NONE][0]['value'] : NULL,
     );
     if ($this->core_id) {
       // change address if contest already in Core
