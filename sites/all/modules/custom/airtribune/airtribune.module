@@ -1161,6 +1161,25 @@ function airtribune_pages_callback($context) {
 }
 
 /**
+ * Implements hook_node_view().
+ */
+function airtribune_node_view($node, $view_mode, $langcode) {
+  if ($node->type == AIRTRIBUNE_ACCOMMODATION_TYPE || $node->type == AIRTRIBUNE_ACTIVITY_TYPE) {
+    $node->content['disclaimer'] = _get_disclaimer_for_accom_activity($node);
+  }
+}
+
+function _get_disclaimer_for_accom_activity($node) {
+  return array(
+    '0' => array('#markup' => t('The given prices are for informational purpose only and are not intended for booking purpose. Please contact the hotel to check current prices or ask the event organizer for special offers for pilots.')),
+    '#type' => 'item',
+    '#prefix' => '<div class="' . $node->type . ' disclaimer">',
+    '#suffix' => '</div>',
+    '#title' => t('Disclaimer'),
+    '#weight' => 10,
+  );
+}
+/**
  * Add 24h to last day of event
  *
  * We have bad event datetime widget, without hours time ending, so after event save we have last
