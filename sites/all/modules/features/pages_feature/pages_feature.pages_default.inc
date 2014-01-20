@@ -1645,6 +1645,40 @@ event/*/day/*',
     $pane = new stdClass();
     $pane->pid = 'new-34';
     $pane->panel = 'left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'advert_list-panel_pane_3';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'event/*/race/*/results/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'event',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-34'] = $pane;
+    $display->panels['left'][2] = 'new-34';
+    $pane = new stdClass();
+    $pane->pid = 'new-35';
+    $pane->panel = 'left';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
     $pane->shown = TRUE;
@@ -1660,12 +1694,12 @@ event/*/day/*',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = '';
-    $display->content['new-34'] = $pane;
-    $display->panels['left'][2] = 'new-34';
+    $display->content['new-35'] = $pane;
+    $display->panels['left'][3] = 'new-35';
     $pane = new stdClass();
-    $pane->pid = 'new-35';
+    $pane->pid = 'new-36';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1701,10 +1735,10 @@ event/*/day/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-35'] = $pane;
-    $display->panels['right'][0] = 'new-35';
+    $display->content['new-36'] = $pane;
+    $display->panels['right'][0] = 'new-36';
     $pane = new stdClass();
-    $pane->pid = 'new-36';
+    $pane->pid = 'new-37';
     $pane->panel = 'right';
     $pane->type = 'airtribune_event_sharelinks';
     $pane->subtype = 'airtribune_event_sharelinks';
@@ -1740,10 +1774,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-36'] = $pane;
-    $display->panels['right'][1] = 'new-36';
+    $display->content['new-37'] = $pane;
+    $display->panels['right'][1] = 'new-37';
     $pane = new stdClass();
-    $pane->pid = 'new-37';
+    $pane->pid = 'new-38';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'advert_list-panel_pane_2';
@@ -1781,10 +1815,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-37'] = $pane;
-    $display->panels['right'][2] = 'new-37';
+    $display->content['new-38'] = $pane;
+    $display->panels['right'][2] = 'new-38';
     $pane = new stdClass();
-    $pane->pid = 'new-38';
+    $pane->pid = 'new-39';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1826,10 +1860,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $display->content['new-38'] = $pane;
-    $display->panels['right'][3] = 'new-38';
+    $display->content['new-39'] = $pane;
+    $display->panels['right'][3] = 'new-39';
     $pane = new stdClass();
-    $pane->pid = 'new-39';
+    $pane->pid = 'new-40';
     $pane->panel = 'right';
     $pane->type = 'views_panes';
     $pane->subtype = 'next_events-sidebar_pane';
@@ -1866,10 +1900,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
-    $display->content['new-39'] = $pane;
-    $display->panels['right'][4] = 'new-39';
+    $display->content['new-40'] = $pane;
+    $display->panels['right'][4] = 'new-40';
     $pane = new stdClass();
-    $pane->pid = 'new-40';
+    $pane->pid = 'new-41';
     $pane->panel = 'top';
     $pane->type = 'page_breadcrumb';
     $pane->subtype = 'page_breadcrumb';
@@ -1896,8 +1930,8 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-40'] = $pane;
-    $display->panels['top'][0] = 'new-40';
+    $display->content['new-41'] = $pane;
+    $display->panels['top'][0] = 'new-41';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2034,7 +2068,7 @@ event/*/race/*/results/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-41';
+    $pane->pid = 'new-42';
     $pane->panel = 'footer';
     $pane->type = 'panels_mini';
     $pane->subtype = 'footer_blocks';
@@ -2052,10 +2086,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-41'] = $pane;
-    $display->panels['footer'][0] = 'new-41';
+    $display->content['new-42'] = $pane;
+    $display->panels['footer'][0] = 'new-42';
     $pane = new stdClass();
-    $pane->pid = 'new-42';
+    $pane->pid = 'new-43';
     $pane->panel = 'header';
     $pane->type = 'panels_mini';
     $pane->subtype = 'header_blocks';
@@ -2073,10 +2107,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-42'] = $pane;
-    $display->panels['header'][0] = 'new-42';
+    $display->content['new-43'] = $pane;
+    $display->panels['header'][0] = 'new-43';
     $pane = new stdClass();
-    $pane->pid = 'new-43';
+    $pane->pid = 'new-44';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -2095,8 +2129,8 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-43'] = $pane;
-    $display->panels['middle'][0] = 'new-43';
+    $display->content['new-44'] = $pane;
+    $display->panels['middle'][0] = 'new-44';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -2138,7 +2172,7 @@ event/*/race/*/results/*',
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-44';
+    $pane->pid = 'new-45';
     $pane->panel = 'middle';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -2160,10 +2194,10 @@ event/*/race/*/results/*',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-44'] = $pane;
-    $display->panels['middle'][0] = 'new-44';
+    $display->content['new-45'] = $pane;
+    $display->panels['middle'][0] = 'new-45';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-44';
+  $display->title_pane = 'new-45';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context_5'] = $handler;
 

@@ -46,6 +46,7 @@ features[image][] = node_userpic
 features[image][] = organizer_details
 features[image][] = organizer_info
 features[image][] = race_teaser
+features[image][] = results_banner
 features[image][] = scoring_winner
 features[image][] = scoring_winner_horizontal
 features[image][] = scoring_winner_vertical

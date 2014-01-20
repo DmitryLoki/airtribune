@@ -1739,6 +1739,13 @@ function airtribune_cron() {
  * @see #3553
  */
 function _create_day_for_contest() {
+  // Workaround for multiply cron #4284 #4303
+  $cron_last = variable_get('cron_last', REQUEST_TIME);
+  if (REQUEST_TIME - $cron_last <= 60) {
+    watchdog('airtribune', 'Cron has been run less than a minute ago, skip day creation');
+    return;
+  }
+
   // Get all current contests
   $contests = airtribune_get_events_nids_with_date_status();
 
