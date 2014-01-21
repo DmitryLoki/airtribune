@@ -1802,11 +1802,8 @@ event/*/race/*/results/*',
       ),
     );
     $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '14400',
-        'granularity' => 'context',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,

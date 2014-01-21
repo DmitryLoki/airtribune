@@ -77,6 +77,7 @@ features[field][] = node-pg_contest-field_results_title
 features[field][] = node-pg_contest-field_sample_schedule
 features[field][] = node-pg_contest-field_schedule
 features[field][] = node-pg_contest-field_selection
+features[field][] = node-pg_contest-field_sequence
 features[field][] = node-pg_contest-field_social_links
 features[field][] = node-pg_contest-field_take_offs
 features[field][] = node-pg_contest-field_time_zone

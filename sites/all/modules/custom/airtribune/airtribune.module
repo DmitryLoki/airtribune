@@ -971,8 +971,7 @@ function airtribune_views_pre_build(&$view) {
       // page 1 = offset 0, 2 = 100, 3 = 200
       $view->offset = ($view->items_per_page * $view->args[1]) - $view->items_per_page;
     }
-  }
-}
+  }}
 
 /**
  * Geo distance sorting
@@ -1093,6 +1092,16 @@ function airtribune_views_pre_render(&$view) {
       $view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_2[0]['rendered']['#markup'], " ");
     }
   }
+  // Output partners with random sequence
+  // @see #4322
+  if ($view->name == 'advert_list' && $view->current_display == 'panel_pane_2') {
+    $node_wrapper = entity_metadata_wrapper('node', $view->args[0]);
+    $sequence = $node_wrapper->field_sequence->value();
+    if ($sequence == 'random') {
+      shuffle($view->result);
+    }
+  }
+
 }
 
 /**
