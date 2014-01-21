@@ -27,7 +27,7 @@ function hg_contest_field_default_fields() {
       'module' => 'addressfield',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'addressfield',
@@ -4021,6 +4021,87 @@ Prof.',
     ),
   );
 
+  // Exported field: 'node-hg_contest-field_sequence'.
+  $fields['node-hg_contest-field_sequence'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_sequence',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'static' => 'Static',
+          'random' => 'Random',
+        ),
+        'allowed_values_function' => '',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'hg_contest',
+      'default_value' => array(
+        0 => array(
+          'value' => 'static',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 36,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_sequence',
+      'label' => 'Sequence of partners',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '68',
+      ),
+    ),
+  );
+
   // Exported field: 'node-hg_contest-field_social_links'.
   $fields['node-hg_contest-field_social_links'] = array(
     'field_config' => array(
@@ -4732,6 +4813,7 @@ Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune<
   t('Results title');
   t('Rules');
   t('Selection and entry fee');
+  t('Sequence of partners');
   t('Social networks links');
   t('Start and end dates for the event.');
   t('Take offs');
