@@ -194,3 +194,13 @@ function media_feature_field_attach_form($entity_type, $entity, &$form, &$form_s
     $form['#node']->at_helper_day_form_flag = TRUE;
   }
 }
+
+/**
+ * Implements hook_field_widget_form_alter()
+ * Hide media alt/title fields.
+ */
+function media_feature_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (isset($element['#field_name']) && in_array($element['#field_name'], array(AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD, AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD))) {
+    $element['#access'] = FALSE;
+  }
+}
