@@ -26,6 +26,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_open_class',
     'field_country',
     'field_registration_sw',
+    'field_sequence',
     '#pre_render',
     '#entity_type',
     '#bundle'
