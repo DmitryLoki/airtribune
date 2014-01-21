@@ -1560,7 +1560,7 @@ Prof.',
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '35',
+        'weight' => '34',
       ),
     ),
   );
@@ -1807,7 +1807,7 @@ Prof.',
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => '58',
+        'weight' => '43',
       ),
     ),
   );
@@ -1962,7 +1962,7 @@ Prof.',
     ),
     'field_instance' => array(
       'bundle' => 'pg_contest',
-      'default_value' => NULL,
+      'default_value' => array(),
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -2001,6 +2001,114 @@ Prof.',
         'settings' => array(),
         'type' => 'options_buttons',
         'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-pg_contest-field_flying_site_general_info'.
+  $fields['node-pg_contest-field_flying_site_general_info'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_flying_site_general_info',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '1',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_contest',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Write general information about flying sites that you may choose for your competition.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 71,
+        ),
+        'event_blog_teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'exclude_cv' => 0,
+      'field_name' => 'field_flying_site_general_info',
+      'label' => 'Flying site general info',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'php_code' => 'php_code',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'filtered_html' => array(
+                'weight' => '0',
+              ),
+              'full_html' => array(
+                'weight' => '1',
+              ),
+              'php_code' => array(
+                'weight' => '11',
+              ),
+              'plain_text' => array(
+                'weight' => '10',
+              ),
+            ),
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '44',
       ),
     ),
   );
@@ -2094,7 +2202,7 @@ Prof.',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '59',
+        'weight' => '45',
       ),
     ),
   );
@@ -2203,7 +2311,7 @@ Duplicate city names warnings if exists.',
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '52',
+        'weight' => '36',
       ),
     ),
   );
@@ -2677,7 +2785,7 @@ Duplicate city names warnings if exists.',
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '58',
+        'weight' => '42',
       ),
     ),
   );
@@ -2802,7 +2910,7 @@ Duplicate city names warnings if exists.',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '59',
+        'weight' => '46',
       ),
     ),
   );
@@ -2879,7 +2987,7 @@ Duplicate city names warnings if exists.',
         'module' => 'html5_tools',
         'settings' => array(),
         'type' => 'numberfield',
-        'weight' => '37',
+        'weight' => '35',
       ),
     ),
   );
@@ -3410,7 +3518,7 @@ Duplicate city names warnings if exists.',
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '34',
+        'weight' => '33',
       ),
     ),
   );
@@ -3493,7 +3601,7 @@ Duplicate city names warnings if exists.',
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '33',
+        'weight' => '32',
       ),
     ),
   );
@@ -3817,7 +3925,7 @@ Duplicate city names warnings if exists.',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '61',
+        'weight' => '48',
       ),
     ),
   );
@@ -3913,7 +4021,7 @@ Duplicate city names warnings if exists.',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '25',
+        'weight' => '24',
       ),
     ),
   );
@@ -4018,7 +4126,7 @@ Duplicate city names warnings if exists.',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '60',
+        'weight' => '47',
       ),
     ),
   );
@@ -4179,7 +4287,7 @@ Duplicate city names warnings if exists.',
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '32',
+        'weight' => '31',
       ),
     ),
   );
@@ -4505,6 +4613,7 @@ Duplicate city names warnings if exists.');
   t('FAI category');
   t('Facebook, Twitter, Google Plus, Youtube, Vimeo');
   t('Flying site');
+  t('Flying site general info');
   t('Full info about organizer - description, links, contacts');
   t('General day-by-day schedule of the event.');
   t('General schedule');
@@ -4548,6 +4657,7 @@ Or insert URL of your Facebook page, like <code>https://facebook.com/airtribune<
   t('Time zone');
   t('Twitter / Facebook widget code');
   t('Web site');
+  t('Write general information about flying sites that you may choose for your competition.');
 
   return $fields;
 }
