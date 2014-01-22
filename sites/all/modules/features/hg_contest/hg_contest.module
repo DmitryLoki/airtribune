@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Hang Gliding Contest feature.
+ */
+
+include_once 'hg_contest.features.inc';

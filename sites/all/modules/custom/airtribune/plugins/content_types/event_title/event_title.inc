@@ -20,7 +20,7 @@ $plugin = array(
  */
 function airtribune_event_title_content_type_render($subtype, $conf, $panel_args, $context) {
 
-  if (empty($context) || empty($context->data) || $context->data->type != AIRTRIBUNE_PG_CONTEST_TYPE) {
+  if (empty($context) || empty($context->data) || !in_array($context->data->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
     return;
   }
 

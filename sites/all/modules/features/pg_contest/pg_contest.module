@@ -79,7 +79,7 @@ function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
 function pg_contest_form_alter(&$form, $form_state, $form_id) {
   // Work with Flying Site (FS) and Take off basic marks (TO)
   // @see #3986
-  if ($form_id == 'pg_contest_node_form' || $form_id == 'airtribune_event_settings_form') {
+  if ($form_id == 'pg_contest_node_form' || $form_id == 'airtribune_event_settings_form' || $form_id == 'hg_contest_node_form') {
     $node = !empty($form['#node']) ? $form['#node'] : $form['#entity'];
     $wrapper = entity_metadata_wrapper('node', $node);
     // User edit contest node, field already have existing FS.
