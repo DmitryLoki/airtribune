@@ -1141,6 +1141,7 @@ function seo_path_breadcrumbs_settings_info() {
           'settings' => array(
             'type' => array(
               'pg_contest' => 'pg_contest',
+              'hg_contest' => 'hg_contest',
             ),
           ),
           'context' => 'node',
@@ -2127,6 +2128,7 @@ function seo_path_breadcrumbs_settings_info() {
           'settings' => array(
             'type' => array(
               'pg_contest' => 'pg_contest',
+              'hg_contest' => 'hg_contest',
             ),
           ),
           'context' => 'node',

@@ -945,7 +945,7 @@ function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
     // Fetch event node from OG.
     else {
       $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
-      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && in_array($wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle(), array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
         $raw_node = $wrapper->{OG_AUDIENCE_FIELD}[0]->value();
       }
     }
