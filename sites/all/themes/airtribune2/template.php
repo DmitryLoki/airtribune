@@ -1952,6 +1952,12 @@ function is_solutions(){
         return $part;
       break;
   }
+
+  // @see #4341
+  if (in_array(trim($path, '/'), array('privacy', 'terms'))) {
+    return $path;
+  }
+
   return FALSE;
 }
 
