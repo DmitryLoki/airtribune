@@ -34,6 +34,7 @@ features[field][] = og_membership-pg_contestant-field_tracker
 features[field][] = og_membership-pg_organizer-field_tracker
 features[field][] = og_membership-tracked_object-field_phone
 features[field][] = og_membership-tracked_object-field_tracker
+features[field][] = user-user-field_og_user_hg
 features[field][] = user-user-og_user_node
 features[og_features_permission][] = node:pg_contest:add user
 features[og_features_permission][] = node:pg_contest:administer group

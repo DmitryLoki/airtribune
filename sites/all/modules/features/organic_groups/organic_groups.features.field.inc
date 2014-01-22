@@ -2533,6 +2533,114 @@ function organic_groups_field_default_fields() {
     ),
   );
 
+  // Exported field: 'user-user-field_og_user_hg'.
+  $fields['user-user-field_og_user_hg'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_og_user_hg',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'og',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'og_behavior' => array(
+              'status' => TRUE,
+            ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'membership_type' => 'hg_contestant',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => NULL,
+      'default_value_function' => '',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 3,
+        ),
+      ),
+      'entity_type' => 'user',
+      'exclude_cv' => 0,
+      'field_name' => 'field_og_user_hg',
+      'label' => 'Group HG membership',
+      'options_limit' => 0,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_core_id' => 0,
+      ),
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
+            ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'og',
+        'settings' => array(),
+        'type' => 'og_complex',
+        'weight' => '43',
+      ),
+    ),
+  );
+
   // Exported field: 'user-user-og_user_node'.
   $fields['user-user-og_user_node'] = array(
     'field_config' => array(
@@ -2541,6 +2649,9 @@ function organic_groups_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'og_user_node',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'node' => array(
           'columns' => array(
@@ -2572,7 +2683,9 @@ function organic_groups_field_default_fields() {
           'sort' => array(
             'type' => 'none',
           ),
-          'target_bundles' => array(),
+          'target_bundles' => array(
+            'pg_contest' => 'pg_contest',
+          ),
         ),
         'handler_submit' => 'Change handler',
         'profile2_private' => FALSE,
@@ -2596,8 +2709,12 @@ function organic_groups_field_default_fields() {
         ),
       ),
       'entity_type' => 'user',
+      'exclude_cv' => 0,
       'field_name' => 'og_user_node',
       'label' => 'Group membership',
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
@@ -2644,6 +2761,7 @@ function organic_groups_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Accomodation during competition');
   t('Club');
+  t('Group HG membership');
   t('Group membership');
   t('Hang glider color');
   t('Hang glider manufacturer');
