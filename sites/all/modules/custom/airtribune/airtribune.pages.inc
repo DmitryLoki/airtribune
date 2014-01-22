@@ -17,6 +17,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   $fields = array(
     '#parents',
     '#entity',
+    'field_flying_site_general_info',
     'field_flying_site_ref',
     'field_take_offs',
     'field_tiny_path',
@@ -42,6 +43,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#weight' => -1,
   );
   $form['field_country']['#weight'] = 0;
+  $form['field_flying_site_general_info']['#weight'] = 1;
   $form['field_flying_site_ref']['#weight'] = 1;
   $form['field_take_offs']['#weight'] = 2;
   $form['alias'] = array(

@@ -125,6 +125,33 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
     $form['field_take_offs']['#weight'] = 2;
     $form['field_take_offs']['und']['#prefix'] = '<div id="take-off-list">';
     $form['field_take_offs']['und']['#suffix'] = '</div>';
+
+    $form['field_fs_is_defined'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Flying site is already defined'),
+      '#weight' => $form['field_flying_site_general_info']['#weight'],
+      '#default_value' => (bool) $wrapper->field_flying_site_general_info->value(),
+    );
+
+    $show_field_at_fs_defined = array(
+      'visible' => array(
+        ':input[name="field_fs_is_defined"]' => array('checked' => TRUE),
+      ),
+      'invisible' => array(
+        ':input[name="field_fs_is_defined"]' => array('checked' => FALSE),
+      ),
+    );
+    $hide_field_at_fs_defined = array(
+      'visible' => array(
+        ':input[name="field_fs_is_defined"]' => array('checked' => FALSE),
+      ),
+      'invisible' => array(
+        ':input[name="field_fs_is_defined"]' => array('checked' => TRUE),
+      ),
+    );
+    $form['field_take_offs']['#states'] = $show_field_at_fs_defined;
+    $form['field_flying_site_ref']['#states'] = $show_field_at_fs_defined;
+    $form['field_flying_site_general_info']['#states'] = $hide_field_at_fs_defined;
   }
 }
 
