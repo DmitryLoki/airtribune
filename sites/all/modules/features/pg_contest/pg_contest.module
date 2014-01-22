@@ -125,6 +125,27 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
     $form['field_take_offs']['#weight'] = 2;
     $form['field_take_offs']['und']['#prefix'] = '<div id="take-off-list">';
     $form['field_take_offs']['und']['#suffix'] = '</div>';
+
+    $no_yes = array(0 => t('No'), 1 => t('Yes'));
+    $form['field_fs_is_defined'] = array(
+      '#type' => 'radios',
+      '#title' => t('Flying site is already defined'),
+      '#options' => drupal_map_assoc($no_yes),
+      '#weight' => $form['field_flying_site_general_info']['#weight'],
+      '#default_value' => $no_yes[(bool) $wrapper->field_flying_site_ref->raw()],
+    );
+
+    $show_field_at_fs_defined = array(
+      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'Yes'),),
+      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'No'),),
+    );
+    $hide_field_at_fs_defined = array(
+      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'No'),),
+      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'Yes'),),
+    );
+    $form['field_take_offs']['#states'] = $show_field_at_fs_defined;
+    $form['field_flying_site_ref']['#states'] = $show_field_at_fs_defined;
+    $form['field_flying_site_general_info']['#states'] = $hide_field_at_fs_defined;
   }
 }
 
