@@ -361,6 +361,15 @@ function airtribune2_preprocess_panels_pane(&$variables) {
   // if (in_array('page-event-pilots', $vars['classes_array']) && !arg(3)) {
   //   $vars['classes_array'][] = 'page-event-pilots-status';
   // }
+
+  // Add disclaimer to activity / accommodation pages
+  // See #2802
+  if (
+    !empty($variables['content']['#bundle']) &&
+    in_array($variables['content']['#bundle'], array(AIRTRIBUNE_ACTIVITY_TYPE, AIRTRIBUNE_ACCOMMODATION_TYPE))
+  ) {
+    $variables['content']['#node']->content['disclaimer'] = _get_disclaimer_for_accom_activity($variables['content']['#node']);
+  }
 }
 
 /**

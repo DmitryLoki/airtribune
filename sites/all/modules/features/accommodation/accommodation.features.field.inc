@@ -400,10 +400,13 @@ function accommodation_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '12',
+          'label' => 'inline',
+          'module' => 'geofield',
+          'settings' => array(
+            'data' => 'full',
+          ),
+          'type' => 'geofield_kml',
+          'weight' => '9',
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
