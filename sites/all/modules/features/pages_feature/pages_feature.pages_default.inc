@@ -944,7 +944,9 @@ user',
           'name' => 'path_visibility',
           'settings' => array(
             'visibility_setting' => '0',
-            'paths' => 'event/*/register',
+            'paths' => 'event/*/register
+privacy
+terms',
           ),
           'context' => 'empty',
           'not' => FALSE,
