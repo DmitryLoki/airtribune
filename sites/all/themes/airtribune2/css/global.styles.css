@@ -2868,6 +2868,10 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 
 
 /* page-event-map-activity-accommodation */
+
+#page .panel_info .pane-pane-messages.panel-pane { margin-bottom: 2px;}
+#page .panel_info .pane-hq-distance.panel-pane { margin-bottom: 16px;}
+
 .page-event-map-activity-accommodation .firstUnit .panel-pane .pane-inner .pane-inner { margin: 0;}
 .page-event-map-activity-accommodation .firstUnit .panel-pane { font: 14px/20px Arial, Helvetica, sans-serif;}
 .page-event-map-activity-accommodation .firstUnit h2.pane-title, .page-event-map-activity-accommodation .firstUnit h2, .page-event-map-activity-accommodation .firstUnit h1 { font: 24px/26px Arial, Helvetica, sans-serif; color: #333a40; padding-top: 14px;}
@@ -2913,6 +2917,7 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 .page-event-map-activity-accommodation .pane-node-field-address h2.pane-title { padding-bottom: 7px;}
 .page-event-map-activity-accommodation .field_title { clear: both;}
 .page-event-map-activity-accommodation .fields_contacts .field-label,
+.page-event-map-activity-accommodation .field-name-field-location .field-label ,
 .page-event-map-activity-accommodation .field-name-field-place-phone .field-label { color: #333a40}
 .page-event-map-activity-accommodation .field-name-field-place-phone .field-item,
 .page-event-map-activity-accommodation .field-name-field-email .field-item { display: inline;}
@@ -3053,7 +3058,8 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 .page-node-5362 .featured-header-title,
 .page-user.page-user-header-logo .featured-header-title,
 .page-events .featured-header-title,
-.solutions .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
+.solutions .featured-header-title,
+.service-rules .featured-header-title { color: #FFF; background: none repeat scroll 0 0 rgba(0, 29, 39, 0.15); width: 100%; padding:0}
 .page-events .featured-header-title, 
 .page-event-map .featured-header-title { background: none repeat scroll 0 0 rgba(0, 29, 39, 0.5);}
 .page-forms.page-event-register .featured-header-title .pane-airtribune-event-title { padding: 16px 20px 19px;}
@@ -3062,7 +3068,8 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 .page-node-5362 .featured-header-title h1,
 .page-user.page-user-header-logo .featured-header-title h1,
 .page-events .featured-header-title h1,
-.solutions .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px}
+.solutions .featured-header-title h1,
+.service-rules .featured-header-title h1 { font:bold 36px/52px Arial, Helvetica, sans-serif; color:#ffffff; padding: 0 0 8px 82px; background: url(../images/logo_service.png) no-repeat; margin:20px}
 
 
 
@@ -3242,7 +3249,8 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .view-paragliding-pilots-list-export .views-field-field-full-name-2 .field-content { border-right: 0;}
 
 
-.panel-col-seventy .attention_text { background: #ececec url(../images/attantion.png) no-repeat 11px 50%; color: #848484; font-size: 16px; line-height: 30px; text-align: center; padding: 15px 10px 15px 70px; margin: 10px 0 20px;
+.panel-col-seventy .attention_text,
+.disclaimer { background: #ececec url(../images/attantion.png) no-repeat 11px 50%; color: #848484; font-size: 16px; line-height: 30px; text-align: center; padding: 15px 10px 15px 70px; margin: 10px 0 20px;
 
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -3251,6 +3259,8 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 }
 .attention_text p { padding-bottom: 6px;}
 .attention_text strong span { color: #9abb17}
+.disclaimer { background-position: -1989px 11px; line-height: 20px; color: #b3b3b3; padding-top: 14px; padding-bottom: 1px; margin-top: 36px;}
+.disclaimer label { display: none;}
 
 .pane_pilots_list_manage .filter-table {}
 .pane_pilots_list_manage .filter-table input { border: 1px solid #d2d6d9; color: #525d66; font-size: 14px; line-height: 16px; height: 14px; width: 153px; padding: 4px 10px 4px 25px; background: url(../images/table_action.png) no-repeat 3px -3397px; margin-top: 8px;
