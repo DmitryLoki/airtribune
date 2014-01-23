@@ -2963,7 +2963,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234,1709))) {
     return TRUE;
   }
   return FALSE;
@@ -3574,7 +3574,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234,1709))) {
     return TRUE;
   }
   return FALSE;
@@ -5739,7 +5739,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
   $node = $contexts[\'argument_entity_id:node_1\']->data;
   $end = strtotime(\'2013/01/01 00:00:00\');
   $start = strtotime($node->field_dates[LANGUAGE_NONE][0][\'value2\']);
-  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234))) {
+  if (($start - $end) < 0 && !in_array($node->nid, array(1120,1234,1709))) {
     return TRUE;
   }
   return FALSE;
