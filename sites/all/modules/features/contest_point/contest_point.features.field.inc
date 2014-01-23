@@ -303,6 +303,7 @@ function contest_point_field_default_fields() {
           ),
           'target_bundles' => array(
             'pg_contest' => 'pg_contest',
+            'hg_contest' => 'hg_contest',
           ),
         ),
         'handler_submit' => 'Change handler',

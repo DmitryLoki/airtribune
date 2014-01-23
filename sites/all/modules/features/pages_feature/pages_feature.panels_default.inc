@@ -102,9 +102,9 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'admin_title' => 'Copyright',
       'title' => '',
-      'body' => '© 2011-2013 Airtribune. All rights reserved • Privacy Policy • Terms of Service',
+      'body' => '© 2011-2014 Airtribune. All rights reserved • <a href="/privacy">Privacy Policy</a> • <a href="/terms">Terms of Service</a>',
       'format' => 'full_html',
-      'substitute' => TRUE,
+      'substitute' => 0,
     );
     $pane->cache = array(
       'method' => 'simple',

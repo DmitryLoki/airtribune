@@ -62,6 +62,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 						if (!el.is(':checked')) {
 							jQuery('.el-name-'+el.name).removeClass('check_'+el.type);
 							el.attr('checked', true);
+              el.trigger('change');
 							jQuery(this).addClass('check_'+el.type);
 						}
 					});	

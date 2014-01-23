@@ -65,6 +65,7 @@ define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_HG_CONTEST_TYPE', 'hg_contest');
 define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
@@ -938,13 +939,13 @@ function airtribune_calculate_distance($p1, $p2) {
 function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
   if (!$contexts['node']->empty) {
-    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    if (in_array($contexts['node']->data->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
       $raw_node = $contexts['node']->data;
     }
     // Fetch event node from OG.
     else {
       $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
-      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && in_array($wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle(), array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
         $raw_node = $wrapper->{OG_AUDIENCE_FIELD}[0]->value();
       }
     }
@@ -1169,6 +1170,25 @@ function airtribune_pages_callback($context) {
   }
 }
 
+/**
+ * Implements hook_node_view().
+ */
+function airtribune_node_view($node, $view_mode, $langcode) {
+  if ($node->type == AIRTRIBUNE_ACCOMMODATION_TYPE || $node->type == AIRTRIBUNE_ACTIVITY_TYPE) {
+    $node->content['disclaimer'] = _get_disclaimer_for_accom_activity($node);
+  }
+}
+
+function _get_disclaimer_for_accom_activity($node) {
+  return array(
+    '0' => array('#markup' => t('The given prices are for informational purpose only and are not intended for booking purpose. Please contact the hotel to check current prices or ask the event organizer for special offers for pilots.')),
+    '#type' => 'item',
+    '#prefix' => '<div class="' . $node->type . ' disclaimer">',
+    '#suffix' => '</div>',
+    '#title' => t('Disclaimer'),
+    '#weight' => 10,
+  );
+}
 /**
  * Add 24h to last day of event
  *
@@ -1918,7 +1938,7 @@ function airtribune_node_load($nodes, $types) {
   // Add pints files into download on event info page
   if (arg(0) == 'event' && arg(2) == 'info') {
     foreach ($nodes as $nid => $node) {
-      if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      if (is_contest($node)) {
         // Output points files in downloads
         // @see #3983
         // @author Vyacheslav Malchik <info@vkey.biz>
@@ -1959,4 +1979,17 @@ function airtribune_node_load($nodes, $types) {
       }
     }
   }
+}
+
+/**
+ * Detect contest nodes
+ * @see #4323
+ */
+function is_contest($node) {
+  $contest_node_types = array (AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE);
+  if (in_array($node->type, $contest_node_types)) {
+    return TRUE;
+  }
+
+  return FALSE;
 }

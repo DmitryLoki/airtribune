@@ -26,6 +26,14 @@ function menu_feature_menu_default_menu_custom() {
     'language' => 'und',
     'i18n_mode' => '5',
   );
+  // Exported menu: menu-service-rules.
+  $menus['menu-service-rules'] = array(
+    'menu_name' => 'menu-service-rules',
+    'title' => 'Rules of service',
+    'description' => '',
+    'language' => 'und',
+    'i18n_mode' => '5',
+  );
   // Exported menu: menu-solutions-organizers.
   $menus['menu-solutions-organizers'] = array(
     'menu_name' => 'menu-solutions-organizers',
@@ -39,6 +47,7 @@ function menu_feature_menu_default_menu_custom() {
   t('Account');
   t('Footer menu');
   t('For organizers');
+  t('Rules of service');
   t('The <em>Account</em> menu contains links related to the user\'s account, as well as the \'Log out\' link.');
 
 
