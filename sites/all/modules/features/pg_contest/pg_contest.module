@@ -122,7 +122,7 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
       'effect' => 'fade',
     );
     // Add wrapper to TO field. Will update this wrapper.
-    $form['field_take_offs']['#weight'] = 2;
+    $form['field_take_offs']['#weight'] = 30;
     $form['field_take_offs']['und']['#prefix'] = '<div id="take-off-list">';
     $form['field_take_offs']['und']['#suffix'] = '</div>';
 
@@ -131,21 +131,22 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'radios',
       '#title' => t('Flying site is already defined'),
       '#options' => drupal_map_assoc($no_yes),
-      '#weight' => $form['field_flying_site_general_info']['#weight'],
+      '#weight' => $form['field_flying_info']['#weight']-5,
       '#default_value' => $no_yes[(bool) $wrapper->field_flying_site_ref->raw()],
     );
 
     $show_field_at_fs_defined = array(
-      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'Yes'),),
-      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'No'),),
+      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('Yes')),),
+      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('No')),),
     );
     $hide_field_at_fs_defined = array(
-      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'No'),),
-      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'Yes'),),
+      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('No')),),
+      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('Yes')),),
     );
     $form['field_take_offs']['#states'] = $show_field_at_fs_defined;
     $form['field_flying_site_ref']['#states'] = $show_field_at_fs_defined;
-    $form['field_flying_site_general_info']['#states'] = $hide_field_at_fs_defined;
+    $form['field_flying_info']['#states'] = $hide_field_at_fs_defined;
+    $form['#after_build'][] = 'airtribune_node_form_after_build';
   }
 }
 
@@ -153,6 +154,12 @@ function pg_contest_flyingsite_ajax_callback($form, $form_state) {
   return $form['field_take_offs'];
 }
 
+
+function airtribune_node_form_after_build($form) {
+    // Hide format help for specific field
+    $form['field_flying_info'][$form['field_flying_info']['#language']]['0']['format']['#access'] = FALSE;
+    return $form;
+}
 
 /**
  * Fetch a specific URL alias from the database.
