@@ -24,9 +24,9 @@ function hg_contest_field_group_info() {
     'weight' => '29',
     'children' => array(
       0 => 'field_contacts_name',
-      1 => 'field_contacts_phone',
-      2 => 'field_contacts_email',
-      3 => 'field_position',
+      1 => 'field_position',
+      2 => 'field_contacts_phone',
+      3 => 'field_contacts_email',
     ),
     'format_type' => 'field_group_multiple_table',
     'format_settings' => array(
