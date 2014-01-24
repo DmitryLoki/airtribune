@@ -32,21 +32,24 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
     // User edit contest node, field already have existing FS.
     if ($fs = $wrapper->field_flying_site_ref->raw()) {
       $fs_entity = node_load($fs);
-      $fs_link = l($fs_entity->title, drupal_get_path_alias('node/' . $fs_entity->nid), array('absolute' => TRUE));
+    }
+    // User change option in FS select, FS was sended by AJAX-request.
+    if (!empty($form_state['values']['field_flying_site_ref'])) {
+      $fs = $form_state['values']['field_flying_site_ref']['und']['0']['target_id'];
+      $fs_entity = node_load($fs);
+    }
+    // Load basic marks for selected FS.
+    if ($fs) {
       // Some stuff for design.
+      $fs_link = l($fs_entity->title, drupal_get_path_alias('node/' . $fs_entity->nid), array('absolute' => TRUE));
       $email_link = l('Email us', 'mailto:' . variable_get('site_mail', ''), array('absolute' => TRUE));
       $email_us = t("!email_us, if you don't see your place in the list.", array('!email_us' => $email_link));
       $visit = t('Visit !fs_link page.', array('!fs_link' => $fs_link));
       $form['field_flying_site_ref']['und']['#description'] = "<div id='visit-fs-page'>$visit</div><div id='email-us-fs-problem'>$email_us</div>";
       unset($form['field_take_offs']['und']['#title']);
       unset($form['field_landing_zones']['und']['#title']);
-    }
-    // User change option in FS select, FS was sended by AJAX-request.
-    if (!empty($form_state['values']['field_flying_site_ref'])) {
-      $fs = $form_state['values']['field_flying_site_ref']['und']['0']['target_id'];
-    }
-    // Load basic marks for selected FS.
-    if ($fs) {
+      $form['field_flying_site_ref']['und']['#prefix'] = '<div id="flying-site-list">';
+      $form['field_flying_site_ref']['und']['#suffix'] = '</div>';
       // TO
       if ($take_offs = get_basicmarks_for_flyingsite($fs, AIRTRIBUNE_BASICMARK_BUNDLE_PG_TAKEOFF)) {
         $form['field_take_offs']['und']['#options'] = $take_offs;
@@ -72,6 +75,7 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
     // New contest, hide any variants from default entityreference widget/formatter.
     else {
       $form['field_take_offs']['und']['#options'] = array();
+      $form['field_landing_zones']['und']['#options'] = array();
     }
     // Add AJAX callback to FS field.
     $form['field_flying_site_ref']['und']['#ajax'] = array(
@@ -106,6 +110,7 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
       'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('Yes')),),
     );
     $form['field_take_offs']['#states'] = $show_field_at_fs_defined;
+    $form['field_landing_zones']['#states'] = $show_field_at_fs_defined;
     $form['field_flying_site_ref']['#states'] = $show_field_at_fs_defined;
     $form['field_flying_info']['#states'] = $hide_field_at_fs_defined;
     $form['#after_build'][] = 'airtribune_node_form_after_build';
@@ -113,6 +118,7 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
 }
 
 function pg_contest_flyingsite_ajax_callback($form, $form_state) {
+  $commands[] = ajax_command_insert('#flying-site-list', drupal_render($form['field_flying_site_ref']));
   $commands[] = ajax_command_insert('#take-offs-list', drupal_render($form['field_take_offs']));
   $commands[] = ajax_command_insert('#landing-zones-list', drupal_render($form['field_landing_zones']));
   return array('#type' => 'ajax', '#commands' => $commands);
