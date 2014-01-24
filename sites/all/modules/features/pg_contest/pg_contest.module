@@ -46,8 +46,6 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
       $email_us = t("!email_us, if you don't see your place in the list.", array('!email_us' => $email_link));
       $visit = t('Visit !fs_link page.', array('!fs_link' => $fs_link));
       $form['field_flying_site_ref']['und']['#description'] = "<div id='visit-fs-page'>$visit</div><div id='email-us-fs-problem'>$email_us</div>";
-      unset($form['field_take_offs']['und']['#title']);
-      unset($form['field_landing_zones']['und']['#title']);
       $form['field_flying_site_ref']['und']['#prefix'] = '<div id="flying-site-list">';
       $form['field_flying_site_ref']['und']['#suffix'] = '</div>';
       // TO
@@ -91,6 +89,9 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
     $form['field_take_offs']['und']['#suffix'] = '</div>';
     $form['field_landing_zones']['und']['#prefix'] = '<div id="landing-zones-list">';
     $form['field_landing_zones']['und']['#suffix'] = '</div>';
+
+    unset($form['field_take_offs']['und']['#title']);
+    unset($form['field_landing_zones']['und']['#title']);
 
     $no_yes = array(0 => t('No'), 1 => t('Yes'));
     $form['field_fs_is_defined'] = array(
