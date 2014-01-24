@@ -20,66 +20,13 @@ function pg_contest_form($node, $form_state) {
   return $form;
 }
 
-/* Implementation of hook_presave
- * @param type $node
- * @author Alexandr Kapelshikov <alex2cpw@gmail.com>
- */
-function pg_contest_node_presave($node) {
-
-  // Pathauto and path modules should never execute for events by themselves
-  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
-    // Note that $node->path is empty if node is loaded/saved programmatically
-    // since it is added in form_alter (see path.module)
-
-    // In case node is processed programmatically
-    if (!empty($node->nid) && !isset($node->path)) {
-      $conditions = array('source' => 'event/' . $node->nid);
-      $path = pg_contest_path_load($conditions);
-      if (!empty($path)) {
-        $node->event_path = $path;
-      }
-    }
-    // In case node is edited through node form
-    elseif (isset($node->path)) {
-      // Store path alias settings for further processing.
-      $node->event_path = $node->path;
-    }
-
-    // We don't want path and pathauto module take any action for event nodes, i.e. to create node alias.
-
-    // Set pathauto to FALSE to avoid pathauto_node_update_alias() processing.
-    // Clear $node->path['alias'] to avoid path_node_insert() processing.
-    // Remove all other path data since we don't need it any more.
-    $node->path = array('pathauto' => FALSE, 'alias' => '',);
-  }
-}
-
-/**
- * Implements hook_form_node_form_alter().
- */
-function pg_contest_form_node_form_alter(&$form, $form_state, $form_id) {
-  // Set default path alias values for node form.
-  // TODO: Make sure that this is always fired after path_form_node_form_alter().
-  if (!empty($form['#node']->nid)) {
-    $conditions = array('source' => 'event/' . $form['#node']->nid);
-    $path = pg_contest_path_load($conditions);
-    if (!empty($path)) {
-      $form['path']['#collapsed'] = empty($path['alias']);
-      $form['path']['alias']['#default_value'] = $path['alias'];
-      $form['path']['pid']['#value'] = $path['pid'];
-      $form['path']['source']['#value'] = $path['source'];
-      $form['path']['language']['#value'] = $path['language'];
-    }
-  }
-}
-
 /**
  * Implements hook_form_alter().
  */
 function pg_contest_form_alter(&$form, $form_state, $form_id) {
   // Work with Flying Site (FS) and Take off basic marks (TO)
   // @see #3986
-  if ($form_id == 'pg_contest_node_form' || $form_id == 'airtribune_event_settings_form') {
+  if ($form_id == 'pg_contest_node_form' || $form_id == 'airtribune_event_settings_form' || $form_id == 'hg_contest_node_form') {
     $node = !empty($form['#node']) ? $form['#node'] : $form['#entity'];
     $wrapper = entity_metadata_wrapper('node', $node);
     // User edit contest node, field already have existing FS.
@@ -129,7 +76,7 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
     // Add AJAX callback to FS field.
     $form['field_flying_site_ref']['und']['#ajax'] = array(
       'callback' => 'pg_contest_flyingsite_ajax_callback',
-      'wrapper' => 'take-off-list',
+      'wrapper' => 'take-offs-list',
       'method' => 'replace',
       'effect' => 'fade',
     );
@@ -146,21 +93,22 @@ function pg_contest_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'radios',
       '#title' => t('Flying site is already defined'),
       '#options' => drupal_map_assoc($no_yes),
-      '#weight' => $form['field_flying_site_general_info']['#weight'],
+      '#weight' => $form['field_flying_info']['#weight']-5,
       '#default_value' => $no_yes[(bool) $wrapper->field_flying_site_ref->raw()],
     );
 
     $show_field_at_fs_defined = array(
-      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'Yes'),),
-      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'No'),),
+      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('Yes')),),
+      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('No')),),
     );
     $hide_field_at_fs_defined = array(
-      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'No'),),
-      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => 'Yes'),),
+      'visible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('No')),),
+      'invisible' => array(':input[name="field_fs_is_defined"]' => array('value' => t('Yes')),),
     );
     $form['field_take_offs']['#states'] = $show_field_at_fs_defined;
     $form['field_flying_site_ref']['#states'] = $show_field_at_fs_defined;
-    $form['field_flying_site_general_info']['#states'] = $hide_field_at_fs_defined;
+    $form['field_flying_info']['#states'] = $hide_field_at_fs_defined;
+    $form['#after_build'][] = 'airtribune_node_form_after_build';
   }
 }
 
@@ -171,32 +119,12 @@ function pg_contest_flyingsite_ajax_callback($form, $form_state) {
 }
 
 
-/**
- * Fetch a specific URL alias from the database.
- *
- * @see path_load()
- * @see http://drupal.org/node/1160764
- */
-function pg_contest_path_load($conditions) {
-  if (is_numeric($conditions)) {
-    $conditions = array('pid' => $conditions);
-  }
-  elseif (is_string($conditions)) {
-    $conditions = array('source' => $conditions);
-  }
-  elseif (!is_array($conditions)) {
-    return FALSE;
-  }
-  $select = db_select('url_alias');
-  foreach ($conditions as $field => $value) {
-    $select->condition($field, $value);
-  }
-  return $select
-    ->fields('url_alias')
-    ->orderBy('pid', 'DESC')
-    ->execute()
-    ->fetchAssoc();
+function airtribune_node_form_after_build($form) {
+    // Hide format help for specific field
+    $form['field_flying_info'][$form['field_flying_info']['#language']]['0']['format']['#access'] = FALSE;
+    return $form;
 }
+
 
 /**
  * Implementation of hook_insert
@@ -205,7 +133,7 @@ function pg_contest_path_load($conditions) {
  */
 function pg_contest_insert($node) {
   // Create aliases
-  _pg_contest_create_alias($node);
+  at_alias_module_node_hook_implementation('insert', $node);
   // Restrict subscription depending on Registration Switch field.
   _pg_contest_og_registration_perm($node);
 }
@@ -217,7 +145,7 @@ function pg_contest_insert($node) {
  */
 function pg_contest_update($node) {
   // Create aliases
-  _pg_contest_create_alias($node);
+  at_alias_module_node_hook_implementation('update', $node);
   // Restrict subscription depending on Registration Switch field.
   _pg_contest_og_registration_perm($node);
 }
@@ -229,137 +157,9 @@ function pg_contest_update($node) {
  */
 function pg_contest_delete($node) {
   // Delete aliases
-  _pg_contest_delete_alias($node);
+  at_alias_module_node_hook_implementation('delete', $node);
 }
 
-/**
- * Remove existing alises for path.
- *
- */
-function _pg_contestant_path_delete($url) {
-  $criteria = path_load($url);
-  if (!empty($criteria)) {
-    $criteria = array('source' => $criteria['source']);
-    path_delete($criteria);
-  }
-}
-
-/**
- * Initialize urls of pages
- * @param $nid - node nid
- * @return array
- */
-function _pg_contest_urls_init($nid) {
-  $result = array();
-  $result['url_base'] = "event/$nid";
-  $result['url_pages'] = array(
-    '/info',
-    '/info/details',
-    '/blog',
-    '/pilots',
-    '/pilots/status',
-    '/pilots/manage',
-    '/pilots/nation',
-    '/map',
-    '/map/accommodations',
-    '/map/activities',
-    '/map/basic',
-    '/register',
-    '/results',
-    '/settings',
-  );
-  return $result;
-}
-
-/**
- * Create contest alias.
- * @author Alexandr Kapelshikov
- */
-function _pg_contest_create_alias($node) {
-  module_load_include('inc', 'pathauto');
-  if (function_exists('pathauto_cleanstring') && isset($node->nid) && !empty($node->title)) {
-    $nid = $node->nid;
-
-    // Check if alias is set manually.
-    if (!empty($node->event_path['alias'])) {
-      $alias_base = $node->event_path['alias'];
-    }
-    // Else try to get pathauto pattern.
-    else {
-      // See pathauto_node_update_alias().
-      $options = array('language' => pathauto_entity_language('node', $node));
-
-      // Skip processing if the node has no pattern.
-      if (!pathauto_pattern_load_by_entity('node', $node->type, $options['language'])) {
-        return;
-      }
-
-      module_load_include('inc', 'pathauto');
-      $uri = entity_uri('node', $node);
-      // Ask pathauto to return alias.
-      $alias_base = pathauto_create_alias('node', 'return', $uri['path'], array('node' => $node), $node->type, $options['language']);
-    }
-
-    // Do nothing if there is no alias set (otherwise we may blow away existing aliases...)
-    if (empty($alias_base)) {
-      return;
-    }
-
-    $urls_init = _pg_contest_urls_init($node->nid);
-    $url_base = $urls_init['url_base'];
-    $url_pages = $urls_init['url_pages'];
-    $aliases = array($alias_base => $url_base);
-
-    // Remove existing alises.
-    _pg_contestant_path_delete($url_base);
-    foreach ($url_pages as $source) {
-      $url_curr = $url_base . $source;
-      _pg_contestant_path_delete($url_curr);
-
-      //Create aliases array
-      $aliases[$alias_base . $source] = $url_curr;
-    }
-
-    // Save tiny aliases.
-    $tiny_path_items = field_get_items('node', $node, AIRTRIBUNE_TINY_PATH_FIELD);
-    // Check that $tiny_path_items is not empty
-    if (!empty($tiny_path_items) && is_array($tiny_path_items)) {
-      foreach ($tiny_path_items as $tiny_path) {
-        $path = array('source' => $url_base, 'alias' => $tiny_path['value']);
-        path_save($path);
-      }
-    }
-
-    // Save aliases.
-    foreach ($aliases as $alias => $source) {
-      $path = array('source' => $source, 'alias' => $alias);
-      path_save($path);
-    }
-
-
-  }
-}
-
-/**
- * Delete contest alias.
- * @author Alexandr Kapelshikov
- */
-function _pg_contest_delete_alias($node) {
-  module_load_include('inc', 'pathauto');
-  if (function_exists('pathauto_cleanstring') && isset($node->nid)) {
-    $nid = $node->nid;
-    $urls_init = _pg_contest_urls_init($node->nid);
-    $url_base = $urls_init['url_base'];
-    $url_pages = $urls_init['url_pages'];
-
-    // Remove existing alises.
-    _pg_contestant_path_delete($url_base);
-    foreach ($url_pages as $source) {
-      $url_curr = $url_base . $source;
-      _pg_contestant_path_delete($url_curr);
-    }
-  }
-}
 
 /**
  * Restrict OG registration.

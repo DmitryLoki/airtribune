@@ -6,22 +6,6 @@
  */
 
 /**
- * Implementation of hook_form_FORM_ID_alter.
- */
-function at_points_widget_form_pg_contest_node_form_alter(&$form, &$form_state, $form_id) {
-  if (isset($form['#node']->nid)) {
-    // That's actually a link to the widget that opens in a new window.
-    // Widget page points/%nid is implemented as a panel.
-    $form['at_points_widget'] = array(
-      '#type' => 'item',
-      '#title' => t('Contest points input widget'),
-      '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid, 
-          array('attributes' => array ('target' => '_blank'))),
-    );
-  }
-}
-
-/**
  * Implements hook_menu.
  */
 function at_points_widget_menu() {
@@ -57,7 +41,18 @@ function at_points_widget_menu() {
  */
  function at_points_widget_form_node_form_alter(&$form, $form_state){
    if (isset($form['field_points_file'])) {
-    $form['field_points_file']['#access'] = FALSE;
+     if (isset($form['#node']->nid)) {
+       // That's actually a link to the widget that opens in a new window.
+       // Widget page points/%nid is implemented as a panel.
+       $form['at_points_widget'] = array(
+         '#type' => 'item',
+         '#title' => t('Contest points input widget'),
+         '#markup' => l(t('Edit contest points'), 'points/' . $form['#node']->nid,
+           array('attributes' => array ('target' => '_blank'))),
+       );
+     }
+
+     $form['field_points_file']['#access'] = FALSE;
    }
  }
 

@@ -65,6 +65,7 @@ define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
+define('AIRTRIBUNE_HG_CONTEST_TYPE', 'hg_contest');
 define('AIRTRIBUNE_PG_RACE_TYPE', 'pg_race');
 define('AIRTRIBUNE_NEWSBLOG_TYPE', 'newsblog');
 define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
@@ -942,13 +943,13 @@ function airtribune_calculate_distance($p1, $p2) {
 function airtribune_page_manager_contexts_alter(&$contexts, &$placeholders) {
 
   if (!$contexts['node']->empty) {
-    if ($contexts['node']->data->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+    if (in_array($contexts['node']->data->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
       $raw_node = $contexts['node']->data;
     }
     // Fetch event node from OG.
     else {
       $wrapper = entity_metadata_wrapper('node', $contexts['node']->data);
-      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && $wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle() == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      if (isset($wrapper->{OG_AUDIENCE_FIELD}) && in_array($wrapper->{OG_AUDIENCE_FIELD}[0]->getBundle(), array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
         $raw_node = $wrapper->{OG_AUDIENCE_FIELD}[0]->value();
       }
     }
@@ -1941,7 +1942,7 @@ function airtribune_node_load($nodes, $types) {
   // Add pints files into download on event info page
   if (arg(0) == 'event' && arg(2) == 'info') {
     foreach ($nodes as $nid => $node) {
-      if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+      if (is_contest($node)) {
         // Output points files in downloads
         // @see #3983
         // @author Vyacheslav Malchik <info@vkey.biz>
@@ -1982,4 +1983,17 @@ function airtribune_node_load($nodes, $types) {
       }
     }
   }
+}
+
+/**
+ * Detect contest nodes
+ * @see #4323
+ */
+function is_contest($node) {
+  $contest_node_types = array (AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE);
+  if (in_array($node->type, $contest_node_types)) {
+    return TRUE;
+  }
+
+  return FALSE;
 }

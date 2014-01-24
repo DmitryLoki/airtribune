@@ -122,6 +122,7 @@ function at_reg_form_anonymous($nid) {
   $form_title = $node->title;
   
   $profile2_init_data = at_reg_profile_form_init_data();
+  $profile2_init_data['args'][] = $node->type;
   //dsm($profile2_init_data);
   
   // TODO: Maybe use #array_parents instead of #parents in order not to confuse.
@@ -296,6 +297,18 @@ function at_reg_mail_validate($element, &$form_state) {
  */
 function at_reg_field_widget_form_alter(&$element, &$form_state, $context) {
   at_reg_alter_widgets($element, $form_state, $context);
+
+  // Rename field labels for Hang glider event type.
+  if (in_array(AIRTRIBUNE_HG_CONTEST_TYPE, $form_state['build_info']['args'])) {
+    $rename = array(
+      'field_paraglider_manufacturer' => t('Hang glider manufacturer'),
+      'field_paraglider_model' => t('Hang glider model'),
+      'field_paraglider_color' => t('Hang glider color'),
+    );
+    if (isset($element['#field_name']) && in_array($element['#field_name'], array_keys($rename))) {
+      $element['value']['#title'] = $rename[$element['#field_name']];
+    }
+  }
 }
 
 
@@ -445,6 +458,7 @@ function at_reg_form_authorized($nid) {
   $form_title = $node->title;
 
   $profile2_init_data = at_reg_profile_form_init_data_authorized();
+  $profile2_init_data['args'][] = $node->type;
   $profile2_init_data_main = at_reg_profile_form_init_data_authorized('main');
   
   $settings = array(

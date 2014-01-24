@@ -642,6 +642,10 @@ function airtribune2_menu_tree__menu_solutions_organizers(&$vars) {
   return '<ul class="tabs primary menu">' . $vars['tree'] . '</ul>';
 }
 
+function airtribune2_menu_tree__menu_service_rules(&$vars) {
+  return '<ul class="tabs primary menu">' . $vars['tree'] . '</ul>';
+}
+
 /**
  * Implements hook_form_alter().
  */
@@ -1948,6 +1952,12 @@ function is_solutions(){
         return $part;
       break;
   }
+
+  // @see #4341
+  if (in_array(trim($path, '/'), array('privacy', 'terms'))) {
+    return $path;
+  }
+
   return FALSE;
 }
 
