@@ -90,6 +90,7 @@ function at_alias_node_hook_implementation($op, $node) {
       _at_alias_process_single_conjugate_node($op, $node);
       break;
     case AIRTRIBUNE_PG_CONTEST_TYPE :
+    case AIRTRIBUNE_HG_CONTEST_TYPE :
       $event = $node;
       _at_alias_process_event_conjugate_nodes($op, $event, AIRTRIBUNE_ACCOMMODATION_TYPE);
       _at_alias_process_event_conjugate_nodes($op, $event, AIRTRIBUNE_ACTIVITY_TYPE);
@@ -105,7 +106,7 @@ function at_alias_node_hook_implementation($op, $node) {
  */
 function at_alias_module_node_hook_implementation($op, $node) {
   module_load_include('inc', 'at_alias', 'at_alias.event');
-  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+  if (in_array($node->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
     _at_alias_process_event_pages($op, $node);
   }
 }

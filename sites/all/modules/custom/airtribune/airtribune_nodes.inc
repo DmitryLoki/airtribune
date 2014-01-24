@@ -54,6 +54,14 @@ function airtribune_node_info() {
       'title_label' => t('Title'),
       'help' => '',
     ),
+    'hg_contest' => array(
+      'name' => t('Hang Gliding Contest'),
+      'base' => 'hg_contest',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Name'),
+      'help' => '',
+    ),
     'newsblog' => array(
       'name' => t('Blog'),
       'base' => 'newsblog',

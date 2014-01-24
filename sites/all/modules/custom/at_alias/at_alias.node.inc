@@ -280,12 +280,13 @@ function _at_alias_delete_node_alias_multiple($conditions) {
  * @return array $nids.
  * 
  * Possible pairs:
- * AIRTRIBUNE_PG_CONTEST_TYPE <---> AIRTRIBUNE_ACCOMMODATION_TYPE | AIRTRIBUNE_ACTIVITY_TYPE | AIRTRIBUNE_DAY_TYPE
+ * AIRTRIBUNE_PG_CONTEST_TYPE | AIRTRIBUNE_HG_CONTEST_TYPE <---> AIRTRIBUNE_ACCOMMODATION_TYPE | AIRTRIBUNE_ACTIVITY_TYPE | AIRTRIBUNE_DAY_TYPE
  */
 function _at_alias_get_conjugate_nodes($node, $type = NULL) {
   $nids = array();
   switch ($node->type) {
     case AIRTRIBUNE_PG_CONTEST_TYPE :
+    case AIRTRIBUNE_HG_CONTEST_TYPE :
       if (in_array($type, array(AIRTRIBUNE_ACCOMMODATION_TYPE, AIRTRIBUNE_ACTIVITY_TYPE))) {
         $wrapper = entity_metadata_wrapper('node', $node);
         $location = $wrapper->{AIRTRIBUNE_HQ_LOCATION_FIELD}->value();
@@ -314,6 +315,7 @@ function _at_alias_get_conjugate_nodes($node, $type = NULL) {
       $wrapper = entity_metadata_wrapper('node', $node);
       $location = $wrapper->{AIRTRIBUNE_LOCATION_FIELD}->value();
       $nids = _at_alias_get_nearby_nodes($location, AIRTRIBUNE_PG_CONTEST_TYPE);
+      $nids += _at_alias_get_nearby_nodes($location, AIRTRIBUNE_HG_CONTEST_TYPE);
       break;
 
     // Get parent-events (actually, only one will return)
@@ -343,6 +345,7 @@ function _at_alias_get_conjugate_nodes($node, $type = NULL) {
 function _at_alias_get_nearby_nodes($location, $type) {
   switch ($type) {
     case AIRTRIBUNE_PG_CONTEST_TYPE:
+    case AIRTRIBUNE_HG_CONTEST_TYPE:
       $location_table = "field_data_" . AIRTRIBUNE_HQ_LOCATION_FIELD;  // table name
       $postgis_lon = AIRTRIBUNE_HQ_LOCATION_FIELD . "_lon";  // columns' names
       $postgis_lat = AIRTRIBUNE_HQ_LOCATION_FIELD . "_lat";

@@ -96,7 +96,7 @@ function _at_alias_event_pages_urls($nid) {
  */
 function _at_alias_substitute_event_node_path($node) {
   // Pathauto and path modules should never execute for events by themselves
-  if ($node->type == AIRTRIBUNE_PG_CONTEST_TYPE) {
+  if (in_array($node->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
     // Note that $node->path is empty if node is loaded/saved programmatically
     // since it is added in form_alter (see path.module)
 
