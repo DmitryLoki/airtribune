@@ -1557,51 +1557,15 @@ function views_feature_views_default_views() {
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_point_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
   $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
-
-  /* Display: Take offs */
-  $handler = $view->new_display('entityreference', 'Take offs', 'take_offs_pane');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'entityreference_style';
-  $handler->display->display_options['style_options']['search_fields'] = array(
-    'title' => 'title',
-    'id' => 0,
-    'field_sea_level' => 0,
-    'field_suitable_winds' => 0,
-    'field_location' => 0,
-    'field_geofield_distance' => 0,
-  );
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entityreference_fields';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Basic mark: ent_basicmark type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'eck_ent_basicmark';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'all' => 'all',
+    'pg_landing' => 'pg_landing',
     'pg_takeoff' => 'pg_takeoff',
   );
-  /* Filter criterion: Field: Coordinates - proximity */
-  $handler->display->display_options['filters']['field_geofield_distance']['id'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['table'] = 'field_data_field_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['field'] = 'field_geofield_distance';
-  $handler->display->display_options['filters']['field_geofield_distance']['operator'] = '<=';
-  $handler->display->display_options['filters']['field_geofield_distance']['value'] = array(
-    'distance' => '50',
-    'distance2' => 200,
-    'unit' => '6371',
-    'origin' => '',
-  );
-  $handler->display->display_options['filters']['field_geofield_distance']['source'] = 'entity_from_argument';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_entity_url_field'] = 'field_point_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_current_user_field'] = 'field_point_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_field'] = 'field_location';
-  $handler->display->display_options['filters']['field_geofield_distance']['geofield_proximity_argument_number'] = '0';
   $translatables['basic_marks_by_proximity'] = array(
     t('Master'),
     t('more'),
@@ -1619,7 +1583,6 @@ function views_feature_views_default_views() {
     t('Coordinates'),
     t('Coordinates - proximity'),
     t('All'),
-    t('Take offs'),
   );
   $export['basic_marks_by_proximity'] = $view;
 
