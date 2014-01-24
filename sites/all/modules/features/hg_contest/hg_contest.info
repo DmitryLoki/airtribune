@@ -84,7 +84,6 @@ features[field][] = node-hg_contest-group_group
 features[field][] = node-hg_contest-og_roles_permissions
 features[field_group][] = group_contacs|node|hg_contest|form
 features[field_group][] = group_contacts|node|hg_contest|default
-features[node][] = hg_contest
 features[variable][] = entity_translation_hide_translation_links_hg_contest
 features[variable][] = entity_translation_node_metadata_hg_contest
 features[variable][] = entity_translation_settings_node__hg_contest

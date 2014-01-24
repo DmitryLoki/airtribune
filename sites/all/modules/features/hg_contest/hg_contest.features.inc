@@ -18,19 +18,3 @@ function hg_contest_ctools_plugin_api() {
   }
 }
 
-/**
- * Implements hook_node_info().
- */
-function hg_contest_node_info() {
-  $items = array(
-    'hg_contest' => array(
-      'name' => t('Hang Gliding Contest'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Name'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
