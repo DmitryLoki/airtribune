@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * See #2686, #4317
+ *
+ * Accommodation aliases are updated in case:
+ * - Accommodation added
+ * - Accommodation deleted
+ * - Accommodation name changed
+ * - Event alias changed
+ *
+ * Same for Activity
+ */
+
+
+// TODO: Move constants to airtribune.module
+// Rewrite using Rules.
+
+/**
  * NOTES:
  * If event's coordinates are signifintly changes, there could remain
  * trash aliases for related accommodations (they won't be deleted).
@@ -13,29 +29,22 @@
 /**
  * Implements hook_entity_insert.
  */
-function at_alias_entity_insert($entity, $type) {
-  
+function at_alias_entity_insert($entity, $entity_type) {
+  at_alias_entity_hook_implementation('insert', $entity, $entity_type);
 }
 
 /**
  * Implements hook_entity_update.
  */
-function at_alias_entity_update($entity, $type) {
-  
+function at_alias_entity_update($entity, $entity_type) {
+  at_alias_entity_hook_implementation('update', $entity, $entity_type);
 }
-
-//~ /**
- //~ * Implements hook_entity_presave.
- //~ */
-//~ function at_alias_entity_presave($entity, $type) {
-  //~ 
-//~ }
 
 /**
  * Implements hook_entity_delete.
  */
-function at_alias_entity_delete($entity, $type) {
-  
+function at_alias_entity_delete($entity, $entity_type) {
+  at_alias_entity_hook_implementation('delete', $entity, $entity_type);
 }
 
 
@@ -45,7 +54,8 @@ function at_alias_entity_delete($entity, $type) {
 // ***************************************
 
 /**
- * Implements hook_node_update.
+ * Implements hook_node_presave.
+ * @todo: substitute node path for all types of nodes and entities.
  */
 function at_alias_node_presave($node) {
   module_load_include('inc', 'at_alias', 'at_alias.event');
@@ -83,6 +93,7 @@ function at_alias_node_delete($node) {
 function at_alias_node_hook_implementation($op, $node) {
   //~ return;
   module_load_include('inc', 'at_alias', 'at_alias.node');
+  module_load_include('inc', 'at_alias', 'at_alias.entity');
   switch ($node->type) {
     case AIRTRIBUNE_ACCOMMODATION_TYPE :
     case AIRTRIBUNE_ACTIVITY_TYPE :
@@ -95,6 +106,8 @@ function at_alias_node_hook_implementation($op, $node) {
       _at_alias_process_event_conjugate_nodes($op, $event, AIRTRIBUNE_ACCOMMODATION_TYPE);
       _at_alias_process_event_conjugate_nodes($op, $event, AIRTRIBUNE_ACTIVITY_TYPE);
       _at_alias_process_event_conjugate_nodes($op, $event, AIRTRIBUNE_DAY_TYPE);
+
+      _at_alias_process_event_conjugate_entities($op, $event, AIRTRIBUNE_RACE_ENTITY_TYPE);
       break;
   }
 }
@@ -108,6 +121,16 @@ function at_alias_module_node_hook_implementation($op, $node) {
   module_load_include('inc', 'at_alias', 'at_alias.event');
   if (in_array($node->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
     _at_alias_process_event_pages($op, $node);
+  }
+}
+
+// @todo:
+function at_alias_entity_hook_implementation($op, $entity, $entity_type) {
+  switch ($entity_type) {
+    case AIRTRIBUNE_RACE_ENTITY_TYPE:
+      module_load_include('inc', 'at_alias', 'at_alias.entity');
+      _at_alias_process_single_conjugate_ent_race($op, $entity);
+      break;
   }
 }
 
@@ -163,7 +186,7 @@ function at_alias_form_node_form_alter(&$form, $form_state, $form_id) {
  * We need $form['path'] to be already added by path.module
  */
 function at_alias_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter') {
+  if ($hook == 'form_alter' && isset($implementations['at_alias'])) {
     $group = $implementations['at_alias'];
     unset($implementations['at_alias']);
     $implementations['at_alias'] = $group;
