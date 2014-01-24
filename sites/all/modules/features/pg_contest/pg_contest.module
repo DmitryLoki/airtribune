@@ -432,11 +432,15 @@ function pg_contest_field_access($op, $field, $entity_type, $entity, $account) {
   }
 }
 
-function get_takeoffs_for_flyingsite($flying_site_id) {
+function get_basicmarks_for_flyingsite($flying_site_id, $type) {
   $view = views_get_view('basic_marks_by_proximity');
   $view->set_arguments(array($flying_site_id));
-  $view->preview('take_offs_pane', array($flying_site_id));
+  $view->set_display('default');
+  $filter = $view->get_item('default', 'filter', 'type');
+  $filter['value'] = array($type);
+  $view->set_item('default', 'filter', 'type', $filter);
   $result = array();
+  $view->execute();
   foreach ($view->result as $item) {
     $result[$item->id] = $item->eck_ent_basicmark_title;
   }
