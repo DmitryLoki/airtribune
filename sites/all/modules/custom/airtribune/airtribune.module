@@ -80,6 +80,10 @@ define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 define('AIRTRIBUNE_CUSTOMOBJECT_TYPE', 'ent_customobject');
 define('AIRTRIBUNE_TRACKER_TYPE', 'ent_tracker');
 
+// Bundles for basicmark.
+define('AIRTRIBUNE_BASICMARK_BUNDLE_PG_LANDING', 'pg_landing');
+define('AIRTRIBUNE_BASICMARK_BUNDLE_PG_TAKEOFF', 'pg_takeoff');
+
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
 define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
