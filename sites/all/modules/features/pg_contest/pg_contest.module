@@ -104,6 +104,7 @@ function pg_contest_flyingsite_ajax_callback($form, $form_state) {
 
 function airtribune_node_form_after_build($form) {
     // Hide format help for specific field
+    $form['field_flying_info'][$form['field_flying_info']['#language']]['0']['format']['format']['#value'] = 'filtered_html';
     $form['field_flying_info'][$form['field_flying_info']['#language']]['0']['format']['#access'] = FALSE;
     return $form;
 }
