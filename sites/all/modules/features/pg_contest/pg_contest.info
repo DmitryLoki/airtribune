@@ -6,6 +6,7 @@ php = 5.2.4
 project = pg_contest
 dependencies[] = addressfield
 dependencies[] = airtribune
+dependencies[] = at_alias
 dependencies[] = at_entityreference_geowidget
 dependencies[] = autocomplete_widgets
 dependencies[] = cck_phone

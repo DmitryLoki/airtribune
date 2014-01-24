@@ -5,3 +5,50 @@
  */
 
 include_once 'hg_contest.features.inc';
+
+/**
+ * Implementation of hook_form
+ * Default base is 'node_content'
+ * @param type $node
+ * @param type $form_state
+ */
+function hg_contest_form($node, $form_state) {
+  //Default base is 'node_content'
+  //Title field is not attached otherwise
+  $form = node_content_form($node, $form_state);
+  return $form;
+}
+
+/**
+ * Implementation of hook_insert
+ * @param $node
+ * The node that is being created.
+ */
+function hg_contest_insert($node) {
+  // Create aliases
+  at_alias_module_node_hook_implementation('insert', $node);
+  // Restrict subscription depending on Registration Switch field.
+  //~ _pg_contest_og_registration_perm($node);
+}
+
+/* Implementation of hook_update
+ * @param type $node
+ * @see og_membership_delete_by_group()
+ * @author Vadim Valuev <gease@mail.ru>
+ */
+function hg_contest_update($node) {
+  // Create aliases
+  at_alias_module_node_hook_implementation('update', $node);
+  // Restrict subscription depending on Registration Switch field.
+  //~ _pg_contest_og_registration_perm($node);
+}
+
+/**
+ * Implementation of hook_delete
+ * @param $node
+ *   The node that is being deleted.
+ */
+function hg_contest_delete($node) {
+  // Delete aliases
+  at_alias_module_node_hook_implementation('delete', $node);
+}
