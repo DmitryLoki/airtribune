@@ -32,7 +32,9 @@ function day_node_presave($node) {
       $node->title = $day_status;
     } else {
       $day_number = $node->field_day_number[LANGUAGE_NONE][0]['value'];
-      $node->title = 'Day ' . $day_number;
+      if (!empty($day_number)) {
+        $node->title = 'Day ' . $day_number;
+      }
     }
   }
 }
