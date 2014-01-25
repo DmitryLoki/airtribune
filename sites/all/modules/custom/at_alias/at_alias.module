@@ -163,7 +163,7 @@ function at_alias_form_node_form_alter(&$form, $form_state, $form_id) {
  * We need $form['path'] to be already added by path.module
  */
 function at_alias_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter') {
+  if ($hook == 'form_alter' && isset($implementations['at_alias'])) {
     $group = $implementations['at_alias'];
     unset($implementations['at_alias']);
     $implementations['at_alias'] = $group;
