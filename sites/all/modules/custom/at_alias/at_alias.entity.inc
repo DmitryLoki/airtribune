@@ -20,7 +20,7 @@ function _at_alias_process_single_conjugate_ent_race($op, $entity) {
         _at_alias_update_single_conjugate_ent_race($entity, $events);
         break;
       case 'delete' :
-        //~ _at_alias_delete_single_conjugate_ent_race($entity);
+        _at_alias_delete_single_conjugate_ent_race($entity);
         break;
     }
   }
@@ -70,7 +70,8 @@ function _at_alias_update_single_conjugate_ent_race($entity, $events) {
         }
       }
       
-      // @todo: delete existing aliases
+      // delete existing aliases
+      _at_alias_delete_single_conjugate_ent_race($entity);
       
       foreach ($events as $event) {
         $alias_base = _at_alias_get_event_alias_base($event);
@@ -93,10 +94,26 @@ function _at_alias_update_single_conjugate_ent_race($entity, $events) {
   }
 }
 
+// @todo
+function _at_alias_delete_single_conjugate_ent_race($entity) {
+  module_load_include('inc', 'at_alias', 'at_alias.node');
+  switch ($entity->type) {
+    case AIRTRIBUNE_PG_RACE_TYPE :
+      $pattern = array(
+        'source' => "event/%/race/:entity_id/results/%",
+      );
+      $placeholders = array(':entity_id' => $entity->id);
+      $conditions = array(
+        'source' => strtr($pattern['source'], $placeholders),
+      );
+      _at_alias_delete_node_alias_multiple($conditions);
+      break;
+  }
+}
 
 // @todo
 function _at_alias_process_event_conjugate_entities($op, $event, $type) {
-  $ids = _at_alias_get_conjugate_entities($event, $type);
+  //~ $ids = _at_alias_get_conjugate_entities($event, $type);
   //~ if (!empty($nids)) {
     //~ $nodes = node_load_multiple($nids);
     //~ switch ($op) {
