@@ -14,7 +14,7 @@ function _at_alias_process_single_conjugate_ent_race($op, $entity) {
     $events = node_load_multiple($event_nids);
     switch ($op) {
       case 'insert' :
-        //~ _at_alias_insert_single_conjugate_ent_race($entity, $events);
+        _at_alias_insert_single_conjugate_ent_race($entity, $events);
         break;
       case 'update' :
         _at_alias_update_single_conjugate_ent_race($entity, $events);
@@ -25,6 +25,12 @@ function _at_alias_process_single_conjugate_ent_race($op, $entity) {
     }
   }
   
+}
+
+function _at_alias_insert_single_conjugate_ent_race($entity, $events) {
+  // @todo: This is temporary solution. we don't need to delete aliases on 'insert'
+  // as is done on update. Everything else seems to be the same.
+  _at_alias_update_single_conjugate_ent_race($entity, $events);
 }
 
 // @todo
