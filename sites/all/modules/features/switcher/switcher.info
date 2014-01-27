@@ -61,6 +61,7 @@ dependencies[] = ent_featured_header
 dependencies[] = ent_point
 dependencies[] = ent_race
 dependencies[] = ent_racetype
+dependencies[] = ent_team
 dependencies[] = ent_track
 dependencies[] = ent_tracker
 dependencies[] = ent_tracker_model
