@@ -1,0 +1,9 @@
+name = Team
+core = 7.x
+package = Features
+dependencies[] = eck
+dependencies[] = eck
+dependencies[] = features
+features[eck_bundle][] = ent_team_pg_nation_team
+features[eck_entity_type][] = ent_team
+features[features_api][] = api:1
