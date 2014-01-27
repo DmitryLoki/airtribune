@@ -1,4 +1,7 @@
 <?php
+
+// @todo: see commented out _pg_contest_og_registration_perm()
+
 /**
  * @file
  * Code for the Hang Gliding Contest feature.
