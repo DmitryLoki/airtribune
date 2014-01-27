@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Paragliding Nation Team feature.
+ */
+
+include_once 'pg_nation_team.features.inc';
