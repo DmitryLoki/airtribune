@@ -1,7 +1,17 @@
 name = Paragliding Nation Team
 core = 7.x
 package = Custom bundles
+php = 5.2.4
 dependencies[] = eck
+dependencies[] = email
 dependencies[] = features
+dependencies[] = file
+dependencies[] = filefield_paths
+dependencies[] = html5_tools
+dependencies[] = og_ui
 features[eck_bundle][] = ent_team_pg_nation_team
 features[features_api][] = api:1
+features[field][] = ent_team-pg_nation_team-field_person_name
+features[field][] = ent_team-pg_nation_team-field_single_download
+features[field][] = ent_team-pg_nation_team-field_single_email
+features[field][] = ent_team-pg_nation_team-og_group_ref
