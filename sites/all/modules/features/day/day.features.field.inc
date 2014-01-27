@@ -55,7 +55,7 @@ function day_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '10',
+          'weight' => 10,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -165,7 +165,7 @@ function day_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '6',
+          'weight' => 6,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -262,7 +262,7 @@ function day_field_default_fields() {
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => '1',
+          'weight' => 1,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',
@@ -496,6 +496,7 @@ function day_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),
@@ -518,7 +519,7 @@ function day_field_default_fields() {
           'module' => 'og_ui',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '7',
+          'weight' => 7,
         ),
         'event_blog_teaser' => array(
           'label' => 'above',

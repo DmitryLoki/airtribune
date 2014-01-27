@@ -1876,7 +1876,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -2034,7 +2034,7 @@ function views_feature_views_default_views() {
     t('Desc'),
     t('OG membership from node'),
     t('View more'),
-    t('Все'),
+    t('All'),
     t('Contest pane'),
     t('This pane will be shown at the event info page.'),
     t('<strong>[created]</strong><span class="blog_title"><span class="blog_title_inner">[title_field]</span><span class="view-more"><span>[nothing]</span></span></span>'),
@@ -3315,6 +3315,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -3322,6 +3323,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Node is published */
@@ -3533,6 +3535,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -3540,6 +3543,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Node is published */
@@ -4967,6 +4971,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -4974,6 +4979,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Contextual filter: Content: Nid */
@@ -5038,6 +5044,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5045,6 +5052,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Contextual filter: Content: Nid */
@@ -5158,6 +5166,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -5165,6 +5174,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -5258,8 +5268,8 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -5267,6 +5277,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['nid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['nid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -5285,6 +5296,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Node type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
 
@@ -5394,6 +5406,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5401,6 +5414,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -5451,6 +5465,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5458,6 +5473,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -5721,6 +5737,7 @@ return array($event_id);';
     t('Asc'),
     t('Desc'),
     t('Content referencing Content from field_headquarter_hotel'),
+    t('All'),
     t('All'),
     t('Overlay active accommodation'),
     t('Overlay active activity'),
@@ -6309,6 +6326,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Next:start */
@@ -6499,6 +6517,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Content type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Start date */
@@ -6654,6 +6673,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Content type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Start date */
@@ -6813,6 +6833,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Content type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Start date */
@@ -6985,6 +7006,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Content type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Start date */
@@ -7230,6 +7252,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -7237,6 +7260,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -7283,6 +7307,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -7290,6 +7315,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -7338,6 +7364,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -7345,6 +7372,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -7628,6 +7656,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Dates - end date (field_dates:value2) */
@@ -7842,6 +7871,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['relationship'] = 'og_membership_related_node_group';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;

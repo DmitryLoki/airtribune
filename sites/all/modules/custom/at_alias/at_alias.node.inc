@@ -249,7 +249,7 @@ function _at_alias_delete_event_conjugate_nodes_alias($event, $nodes, $type) {
 }
 
 
-
+// @todo: move this function into at_alias.module file, and rename.
 function _at_alias_delete_node_alias_multiple($conditions) {
   if (empty($conditions)) {
     return;
