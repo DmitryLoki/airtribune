@@ -10,6 +10,76 @@
 function pg_nation_team_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'ent_team-pg_nation_team-field_country'.
+  $fields['ent_team-pg_nation_team-field_country'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_country',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'iso2' => array(
+          0 => 'iso2',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'countries',
+      'settings' => array(
+        'continents' => array(),
+        'countries' => array(),
+        'enabled' => '1',
+        'entity_translation_sync' => FALSE,
+        'profile2_private' => FALSE,
+        'size' => 5,
+      ),
+      'translatable' => '0',
+      'type' => 'country',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_nation_team',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'countries',
+          'settings' => array(),
+          'type' => 'country_default',
+          'weight' => 4,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_team',
+      'exclude_cv' => 0,
+      'field_name' => 'field_country',
+      'label' => 'Country',
+      'required' => 1,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported field: 'ent_team-pg_nation_team-field_person_name'.
   $fields['ent_team-pg_nation_team-field_person_name'] = array(
     'field_config' => array(
@@ -277,6 +347,78 @@ function pg_nation_team_field_default_fields() {
     ),
   );
 
+  // Exported field: 'ent_team-pg_nation_team-field_team_member'.
+  $fields['ent_team-pg_nation_team-field_team_member'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_team_member',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'handler' => 'base',
+        'handler_settings' => array(),
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'pg_nation_team',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 5,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ent_team',
+      'field_name' => 'field_team_member',
+      'label' => 'Team members',
+      'required' => FALSE,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'ent_team-pg_nation_team-og_group_ref'.
   $fields['ent_team-pg_nation_team-og_group_ref'] = array(
     'field_config' => array(
@@ -396,10 +538,12 @@ function pg_nation_team_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Attach your NAC\'s confirmation');
+  t('Country');
   t('Groups audience');
   t('NAC contact person email');
   t('NAC contact person full name');
   t('NAC\'s confirmation');
+  t('Team members');
 
   return $fields;
 }
