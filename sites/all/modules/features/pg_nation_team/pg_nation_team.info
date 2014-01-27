@@ -1,0 +1,7 @@
+name = Paragliding Nation Team
+core = 7.x
+package = Custom bundles
+dependencies[] = eck
+dependencies[] = features
+features[eck_bundle][] = ent_team_pg_nation_team
+features[features_api][] = api:1
