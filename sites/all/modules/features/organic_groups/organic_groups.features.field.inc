@@ -2553,90 +2553,102 @@ function organic_groups_field_default_fields() {
         'type' => '0',
       ),
       'foreign keys' => array(
-        'format' => array(
+        'node' => array(
           'columns' => array(
-            'format' => 'format',
+            'target_id' => 'nid',
           ),
-          'table' => 'filter_format',
+          'table' => 'node',
         ),
       ),
       'indexes' => array(
-        'format' => array(
-          0 => 'format',
+        'target_id' => array(
+          0 => 'target_id',
         ),
       ),
       'locked' => '0',
-      'module' => 'text',
+      'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'max_length' => '255',
+        'handler' => 'og',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'og_behavior' => array(
+              'status' => TRUE,
+            ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'membership_type' => 'hg_contestant',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
+          ),
+        ),
         'profile2_private' => FALSE,
+        'target_type' => 'node',
       ),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'pg_winddummy',
+      'bundle' => 'user',
       'default_value' => NULL,
+      'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 8,
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 3,
         ),
       ),
-      'entity_type' => 'og_membership',
+      'entity_type' => 'user',
       'exclude_cv' => 0,
-      'field_name' => 'field_accom_during_comp',
-      'label' => 'Accomodation during competition',
+      'field_name' => 'field_og_user_hg',
+      'label' => 'Group HG membership',
+      'options_limit' => 0,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(
+        'field_core_id' => 0,
+      ),
       'required' => 0,
       'settings' => array(
-        'better_formats' => array(
-          'allowed_formats' => array(
-            'filtered_html' => 'filtered_html',
-            'full_html' => 'full_html',
-            'php_code' => 'php_code',
-            'plain_text' => 'plain_text',
-          ),
-          'allowed_formats_toggle' => 0,
-          'default_order_toggle' => 0,
-          'default_order_wrapper' => array(
-            'formats' => array(
-              'filtered_html' => array(
-                'weight' => '0',
-              ),
-              'full_html' => array(
-                'weight' => '1',
-              ),
-              'php_code' => array(
-                'weight' => '11',
-              ),
-              'plain_text' => array(
-                'weight' => '10',
-              ),
+        'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
             ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'status' => 0,
           ),
         ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
+        'user_register_form' => 0,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '18',
+        'active' => 0,
+        'module' => 'og',
+        'settings' => array(),
+        'type' => 'og_complex',
+        'weight' => '43',
       ),
     ),
   );
+
 
   // Exported field: 'og_membership-pg_winddummy-field_accom_during_comp'.
   $fields['og_membership-pg_winddummy-field_accom_during_comp'] = array(
@@ -3989,32 +4001,30 @@ function organic_groups_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'og',
+        'handler' => 'event_views',
         'handler_settings' => array(
           'behaviors' => array(
-            'og_behavior' => array(
-              'status' => TRUE,
-            ),
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'membership_type' => 'hg_contestant',
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'hg_contest' => 'hg_contest',
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+              1 => '[og_membership:id]',
+            ),
+            'display_name' => 'trackers_by_contest',
+            'view_name' => 'contest_trackers',
           ),
         ),
         'profile2_private' => FALSE,
-        'target_type' => 'node',
+        'target_type' => 'ent_tracker',
       ),
       'translatable' => '0',
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'user',
+      'bundle' => 'hg_contestant',
       'default_value' => NULL,
       'default_value_function' => '',
       'deleted' => '0',
@@ -4027,44 +4037,33 @@ function organic_groups_field_default_fields() {
             'link' => FALSE,
           ),
           'type' => 'entityreference_label',
-          'weight' => 3,
+          'weight' => 0,
         ),
       ),
-      'entity_type' => 'user',
+      'entity_type' => 'og_membership',
       'exclude_cv' => 0,
-      'field_name' => 'field_og_user_hg',
-      'label' => 'Group HG membership',
-      'options_limit' => 0,
+      'field_name' => 'field_tracker',
+      'label' => 'Tracker',
+      'options_limit' => FALSE,
       'options_limit_empty_behaviour' => 0,
-      'options_limit_fields' => array(
-        'field_core_id' => 0,
-      ),
+      'options_limit_fields' => array(),
       'required' => 0,
       'settings' => array(
         'behaviors' => array(
-          'og_widget' => array(
-            'admin' => array(
-              'widget_type' => 'entityreference_autocomplete',
-            ),
-            'default' => array(
-              'widget_type' => 'options_select',
-            ),
-            'status' => TRUE,
-          ),
           'prepopulate' => array(
             'status' => 0,
           ),
         ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
-        'user_register_form' => 0,
+        'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 0,
-        'module' => 'og',
+        'active' => 1,
+        'module' => 'options',
         'settings' => array(),
-        'type' => 'og_complex',
-        'weight' => '43',
+        'type' => 'options_select',
+        'weight' => '2',
       ),
     ),
   );
