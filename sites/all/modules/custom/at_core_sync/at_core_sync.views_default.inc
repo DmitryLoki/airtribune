@@ -557,6 +557,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
 
@@ -920,7 +921,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['edit_link']['alter']['text'] = '[title]';
-  /* Field: Field: Banner */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -936,6 +937,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Ad for visualisations of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -945,6 +947,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Advertisement: ent_advert type */
@@ -977,7 +980,7 @@ function at_core_sync_views_default_views() {
     t('Title'),
     t('Edit link'),
     t('[title]'),
-    t('Banner'),
+    t('Image'),
     t('All'),
     t('Ad for visualisations of %1'),
     t('Page'),
@@ -1933,7 +1936,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['footer']['result']['id'] = 'result';
   $handler->display->display_options['footer']['result']['table'] = 'views';
   $handler->display->display_options['footer']['result']['field'] = 'result';
-  /* Field: Field: Device ID */
+  /* Field: Field: Device UDID for retrieve */
   $handler->display->display_options['fields']['field_device_id']['id'] = 'field_device_id';
   $handler->display->display_options['fields']['field_device_id']['table'] = 'field_data_field_device_id';
   $handler->display->display_options['fields']['field_device_id']['field'] = 'field_device_id';
@@ -2048,7 +2051,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'Battery, %';
   $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<span class="tracker-status" id="[field_core_id]-bat">No data</span>';
-  /* Sort criterion: Field: Device ID (field_device_id) */
+  /* Sort criterion: Field: Device UDID for retrieve (field_device_id) */
   $handler->display->display_options['sorts']['field_device_id_value']['id'] = 'field_device_id_value';
   $handler->display->display_options['sorts']['field_device_id_value']['table'] = 'field_data_field_device_id';
   $handler->display->display_options['sorts']['field_device_id_value']['field'] = 'field_device_id_value';
@@ -2082,7 +2085,7 @@ function at_core_sync_views_default_views() {
     t('<script type="text/javascript" src="/sites/all/modules/custom/airtribune/js/trackers.js"></script>
 <ul class="action-links"><li><a href="/admin/structure/entity-type/ent_tracker/device/add?destination=admin/config/administration/at_manage/tracker">Add tracker</a></li></ul>'),
     t('Displaying @start - @end of @total'),
-    t('Device ID'),
+    t('Device UDID for retrieve'),
     t('#'),
     t('Tracker'),
     t('[field_device_id]'),
@@ -2350,6 +2353,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Days of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -2359,6 +2363,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Published */
@@ -2572,6 +2577,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Headers of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -2581,6 +2587,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
 
@@ -3123,6 +3130,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Points of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -3132,6 +3140,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
 
@@ -3369,6 +3378,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Tracked objects of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -3378,6 +3388,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
 
@@ -3475,6 +3486,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['null']['id'] = 'null';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -3482,6 +3494,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['null']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['null']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['null']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Contextual filter: Content: Nid */
@@ -3537,6 +3550,7 @@ function at_core_sync_views_default_views() {
     t('Title'),
     t('Date'),
     t('[title]'),
+    t('All'),
     t('All'),
     t('%1: Dayblog of %2'),
     t('Page'),
@@ -3751,6 +3765,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['gid']['title'] = 'Scoring categories of %1';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
@@ -3760,6 +3775,7 @@ function at_core_sync_views_default_views() {
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'node';
   $handler->display->display_options['arguments']['gid']['validate_options']['types'] = array(
+    'hg_contest' => 'hg_contest',
     'pg_contest' => 'pg_contest',
   );
   /* Filter criterion: Content: Published */
