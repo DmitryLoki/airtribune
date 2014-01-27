@@ -86,7 +86,7 @@ function tracker_model_field_default_fields() {
     ),
   );
 
-  // Exported field: 'tracker_model-tracker_model-field_model_image'.
+  // Exported field: 'ent_tracker_model-tracker_model-field_model_image'.
   $fields['ent_tracker_model-tracker_model-field_model_image'] = array(
     'field_config' => array(
       'active' => '1',
@@ -185,6 +185,16 @@ function tracker_model_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),

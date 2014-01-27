@@ -90,6 +90,7 @@ function track_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'local_solr' => array(
           'enabled' => FALSE,
           'lat_field' => 'lat',
@@ -182,6 +183,7 @@ function track_field_default_fields() {
       'settings' => array(
         'description_field' => 0,
         'entity_translation_sync' => FALSE,
+        'exclude_cv' => FALSE,
         'file_directory' => '',
         'file_extensions' => 'kml gpx',
         'max_filesize' => '',
@@ -191,6 +193,16 @@ function track_field_default_fields() {
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
