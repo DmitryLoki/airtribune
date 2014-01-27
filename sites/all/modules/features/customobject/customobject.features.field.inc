@@ -304,6 +304,7 @@ function customobject_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),

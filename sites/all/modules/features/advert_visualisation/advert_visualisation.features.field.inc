@@ -109,6 +109,16 @@ function advert_visualisation_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
+          'insert' => 0,
+          'insert_absolute' => FALSE,
+          'insert_class' => '',
+          'insert_default' => array(
+            0 => 'auto',
+          ),
+          'insert_styles' => array(
+            0 => 'auto',
+          ),
+          'insert_width' => '',
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -252,6 +262,7 @@ function advert_visualisation_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),

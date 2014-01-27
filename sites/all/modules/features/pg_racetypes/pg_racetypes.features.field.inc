@@ -225,6 +225,7 @@ function pg_racetypes_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),
@@ -597,6 +598,7 @@ function pg_racetypes_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),
@@ -898,6 +900,7 @@ function pg_racetypes_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),
