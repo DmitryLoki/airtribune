@@ -1,27 +1,27 @@
 <?php
 /**
  * @file
- * pg_contest.field_group.inc
+ * hg_contest.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function pg_contest_field_group_info() {
+function hg_contest_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_contacs|node|pg_contest|form';
+  $field_group->identifier = 'group_contacs|node|hg_contest|form';
   $field_group->group_name = 'group_contacs';
   $field_group->entity_type = 'node';
-  $field_group->bundle = 'pg_contest';
+  $field_group->bundle = 'hg_contest';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contacts',
-    'weight' => '31',
+    'weight' => '29',
     'children' => array(
       0 => 'field_contacts_name',
       1 => 'field_position',
@@ -45,20 +45,20 @@ function pg_contest_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_contacs|node|pg_contest|form'] = $field_group;
+  $export['group_contacs|node|hg_contest|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_contacts|node|pg_contest|default';
+  $field_group->identifier = 'group_contacts|node|hg_contest|default';
   $field_group->group_name = 'group_contacts';
   $field_group->entity_type = 'node';
-  $field_group->bundle = 'pg_contest';
+  $field_group->bundle = 'hg_contest';
   $field_group->mode = 'default';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contacts',
-    'weight' => '29',
+    'weight' => '24',
     'children' => array(
       0 => 'field_contacts_email',
       1 => 'field_position',
@@ -80,7 +80,7 @@ function pg_contest_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_contacts|node|pg_contest|default'] = $field_group;
+  $export['group_contacts|node|hg_contest|default'] = $field_group;
 
   return $export;
 }

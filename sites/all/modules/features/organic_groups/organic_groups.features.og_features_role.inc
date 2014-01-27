@@ -34,5 +34,29 @@ function organic_groups_og_features_default_roles() {
     'name' => 'retrieve manager',
   );
 
+  // Exported OG Role: 'node:hg_contest:co-organizer'.
+  $roles['node:hg_contest:co-organizer'] = array(
+    'gid' => 0,
+    'group_type' => 'node',
+    'group_bundle' => 'hg_contest',
+    'name' => 'co-organizer',
+  );
+
+  // Exported OG Role: 'node:hg_contest:editor'.
+  $roles['node:hg_contest:editor'] = array(
+    'gid' => 0,
+    'group_type' => 'node',
+    'group_bundle' => 'hg_contest',
+    'name' => 'editor',
+  );
+
+  // Exported OG Role: 'node:hg_contest:retrieve manager'.
+  $roles['node:hg_contest:retrieve manager'] = array(
+    'gid' => 0,
+    'group_type' => 'node',
+    'group_bundle' => 'hg_contest',
+    'name' => 'retrieve manager',
+  );
+
   return $roles;
 }

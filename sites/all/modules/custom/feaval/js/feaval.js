@@ -181,7 +181,7 @@
           allValid = allValid && result;
         });
         if (allValid && !allElements.filter(':focus').hasClass('ajax-processed')) {
-          $(self.currentForm).find('.form-submit').removeClass('disabled');
+          $(self.currentForm).find('.form-submit').removeClass('disabled').removeAttr('disabled');;
         }
         return allValid;
       };
@@ -477,7 +477,7 @@
               return element.name.indexOf('field_birthdate') > -1;
             })
             .each(function (i, element) {
-              var formItem = $(element).parents('.form-item');
+              var formItem = $(element).parents('.form-item').parent();
               formItem.removeClass('field_error');
               formItem.find('.error.form_booble').remove();
             });

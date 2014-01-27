@@ -10,4 +10,5 @@ body.admin-menu .airvis-topbar {
 .page-event .gmap > div > div.gmnoprint > div.gmnoprint {
   left: 20px !important;
   top: 68px !important;
+  right: auto !important;
 }

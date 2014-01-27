@@ -17,6 +17,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   $fields = array(
     '#parents',
     '#entity',
+    'field_flying_info',
     'field_flying_site_ref',
     'field_take_offs',
     'field_tiny_path',
@@ -26,6 +27,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_open_class',
     'field_country',
     'field_registration_sw',
+    'field_sequence',
     '#pre_render',
     '#entity_type',
     '#bundle'
@@ -41,26 +43,27 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#weight' => -1,
   );
   $form['field_country']['#weight'] = 0;
-  $form['field_flying_site_ref']['#weight'] = 1;
-  $form['field_take_offs']['#weight'] = 2;
+  $form['field_flying_info']['#weight'] = 10;
+  $form['field_flying_site_ref']['#weight'] = 20;
+  $form['field_take_offs']['#weight'] = 30;
   $form['alias'] = array(
     '#type' => 'textfield',
     '#title' => t('URL address'),
     '#default_value' => drupal_get_path_alias('event/' . $event->nid),
-    '#weight' => 3,
+    '#weight' => 40,
   );
-  $form['field_tiny_path']['#weight'] = 4;
+  $form['field_tiny_path']['#weight'] = 50;
   $lang = $form['field_tiny_path']['#language'];
   $form['field_tiny_path'][$lang]['add_more']['#prefix'] = '<div class="form-actions">';
   $form['field_tiny_path'][$lang]['add_more']['#suffix'] = '</div>';
   //print_r($form['field_tiny_path']);
-  $form['field_logo']['#weight'] = 6;
-  $form['field_dates']['#weight'] = 8;
-  $form['field_fai_category']['#weight'] = 10;
-  $form['field_open_class']['#weight'] = 12;
+  $form['field_logo']['#weight'] = 60;
+  $form['field_dates']['#weight'] = 70;
+  $form['field_fai_category']['#weight'] = 80;
+  $form['field_open_class']['#weight'] = 90;
   if (module_exists('at_points_widget')) {
     $form['at_points_widget'] = array(
-      '#weight' => 13,
+      '#weight' => 100,
       '#type' => 'item',
       '#title' => t('Contest points input widget'),
       '#markup' => l(t('Edit contest points'), 'points/' . $event->nid, 
@@ -72,20 +75,20 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     '#title' => t('Registration'),
     '#options' => array(1 => 'Open', 0 => 'Closed'),
     '#default_value' => $event->field_registration_sw['und'][0]['value'],
-    '#weight' => 14,
+    '#weight' => 110,
   );
   $form['setting_status'] = array(
     '#type' => 'radios',
     '#title' => t('Publication settings'),
     '#options' => array(1 => 'Published', 0 => 'Unpublished'),
     '#default_value' => $event->status,
-    '#weight' => 16,
+    '#weight' => 120,
   );
   $form['event'] = array(
     '#type' => 'value',
     '#value' => $event,
   );
-  $form['actions']['#weight'] = 99;
+  $form['actions']['#weight'] = 999;
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
