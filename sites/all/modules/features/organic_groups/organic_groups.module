@@ -5,3 +5,22 @@
  */
 
 include_once 'organic_groups.features.inc';
+
+/**
+ * Change payment status sort, move "Wind Dummy" to end.
+ * @see #3959
+ */
+function organic_groups_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (!empty($element['#field_name']) && !empty($element['#required'])) {
+    if ($element['#field_name'] == AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD) {
+      $element['#after_build'] = array('_at_organic_groups_payment_status_after_build');
+    }
+  }
+}
+
+function _at_organic_groups_payment_status_after_build($element, $form_state) {
+  $wind_dummy_key = array_search("Wind dummy", $element['#options']);
+  unset($element['#options'][$wind_dummy_key]);
+  $element['#options'][$wind_dummy_key] = "Wind dummy";
+  return $element;
+}
