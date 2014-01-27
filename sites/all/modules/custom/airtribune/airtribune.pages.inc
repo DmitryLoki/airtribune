@@ -13,6 +13,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
   if (!$event) {
     drupal_not_found();
   }
+  drupal_set_title(t('Settings') . ' | ' . $event->title);
   field_attach_form('node', $event, $form, $form_state);
   $fields = array(
     '#parents',
