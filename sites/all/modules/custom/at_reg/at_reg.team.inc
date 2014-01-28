@@ -35,11 +35,13 @@ function at_reg_team_form($form, $form_state) {
     '#suffix' => '</div>',
   );
   
+  $user_full_name = _at_reg_team_user_name($user);
   $countries = countries_get_countries('name');
   $options = array('' => t('Select country'));
   $options += $countries;
   $form['county'] = array(
     '#type' => 'select',
+    '#title' => t('I, <em>!full_name</em>, declare myself as a team leader of', array('!full_name' => $user_full_name)),
     '#options' =>  $options,
     '#default_value' => ($user_country = _at_reg_team_user_country_default($user)) ? $user_country : '',
     '#required' => TRUE,
@@ -125,7 +127,7 @@ function _at_reg_team_get_team_entity($gid, $country_code) {
 }
 
 /**
- * Get user contry from pilot profile.
+ * Get user Country from pilot profile.
  */
 function _at_reg_team_user_country_default($user) {
   $profile = profile2_by_uid_load($user->uid, AIRTRIBUNE_USER_PILOT_PROFILE);
@@ -135,4 +137,17 @@ function _at_reg_team_user_country_default($user) {
   $wrapper = entity_metadata_wrapper('profile2', $profile);
   $value = $wrapper->{AIRTRIBUNE_ADDRESS_FIELD}->value();
   return !empty($value['country']) ? $value['country'] : FALSE;
+}
+
+/**
+ * Get user Name/Surname from main profile.
+ */
+function _at_reg_team_user_name($user) {
+  $profile = profile2_by_uid_load($user->uid, AIRTRIBUNE_USER_MAIN_PROFILE);
+  if (empty($profile)) {
+    return FALSE;
+  }
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $value = $wrapper->{AIRTRIBUNE_USER_FULLNAME_FIELD}->value();
+  return implode(' ', array($value['given'], $value['family']));
 }
