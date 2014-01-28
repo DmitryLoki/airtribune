@@ -64,6 +64,8 @@ define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 define('AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD', 'field_media_description');
 define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
 define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
+define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
+define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -74,6 +76,7 @@ define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 define('AIRTRIBUNE_DAY_TYPE', 'day');
 define('AIRTRIBUNE_PG_FLYINGSITE_TYPE', 'pg_flyingsite');
+define('AIRTRIBUNE_PG_NATION_TEAM_TYPE', 'pg_nation_team');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
@@ -82,6 +85,7 @@ define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
 define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 define('AIRTRIBUNE_CUSTOMOBJECT_TYPE', 'ent_customobject');
 define('AIRTRIBUNE_TRACKER_TYPE', 'ent_tracker');
+define('AIRTRIBUNE_TEAM_TYPE', 'ent_team');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');

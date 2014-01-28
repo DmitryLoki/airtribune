@@ -5,12 +5,21 @@
 
 // TODO: Remove after tests finished.
 function at_reg_menu() {
-  $items['at_reg/test/%'] = array(
-   'title' => 'AT Reg Test', 
-    'page callback' => 'at_reg_test',
-    'page arguments' => array(2),
-    'access callback' => TRUE, 
-    //'file' => 'multiform.tmp.inc',
+  //~ $items['at_reg/test/%'] = array(
+   //~ 'title' => 'AT Reg Test', 
+    //~ 'page callback' => 'at_reg_test',
+    //~ 'page arguments' => array(2),
+    //~ 'access callback' => TRUE, 
+    //~ //'file' => 'multiform.tmp.inc',
+  //~ );
+  
+  $items['event/%node/team/register'] = array(
+    'page callback' => 'at_reg_team_page_callback',
+    'page arguments' => array(1),
+    'access callback' => 'at_reg_team_reg_access',
+    //~ 'access callback' => TRUE,
+    'access arguments' => array(1),
+    'file' => 'at_reg.team.inc',
   );
   
   $items['event/%node/register'] = array(
@@ -24,6 +33,16 @@ function at_reg_menu() {
     //'file' => 'multiform.tmp.inc',
   );
   return $items;
+}
+
+// @todo
+
+/**
+ * Team registration page access callback.
+ */
+function at_reg_team_reg_access($node) {
+  global $user;
+  return TRUE;
 }
 
 /**
@@ -458,6 +477,7 @@ function at_reg_form_authorized($nid) {
   $form_title = $node->title;
 
   $profile2_init_data = at_reg_profile_form_init_data_authorized();
+  // node type is used to check if it is a PG or HG event registration
   $profile2_init_data['args'][] = $node->type;
   $profile2_init_data_main = at_reg_profile_form_init_data_authorized('main');
   

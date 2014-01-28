@@ -1,6 +1,8 @@
 name = AT Registration
 core = 7.x
 
+dependencies[] = entity
+dependencies[] = countries
 dependencies[] = multiform
 dependencies[] = feaval
 
