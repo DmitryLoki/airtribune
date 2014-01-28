@@ -17,4 +17,5 @@ features[field][] = ent_team-pg_nation_team-field_person_name
 features[field][] = ent_team-pg_nation_team-field_single_download
 features[field][] = ent_team-pg_nation_team-field_single_email
 features[field][] = ent_team-pg_nation_team-field_team_member
+features[field][] = ent_team-pg_nation_team-field_users_ref
 features[field][] = ent_team-pg_nation_team-og_group_ref
