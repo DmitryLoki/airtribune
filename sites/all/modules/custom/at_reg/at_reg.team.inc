@@ -151,3 +151,15 @@ function _at_reg_team_user_name($user) {
   $value = $wrapper->{AIRTRIBUNE_USER_FULLNAME_FIELD}->value();
   return implode(' ', array($value['given'], $value['family']));
 }
+
+
+/**
+ * Get category of the event.
+ * @return string AIRTRIBUNE_FAI_CATEGORY_1, AIRTRIBUNE_FAI_CATEGORY_2, AIRTRIBUNE_FAI_CATEGORY_NONE
+ */
+function _at_reg_get_fai_type($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $value = $wrapper->{AIRTRIBUNE_FAI_CATEGORY_FIELD}->value();
+  $fai_category = !empty($value) ? $value : AIRTRIBUNE_FAI_CATEGORY_NONE;
+  return $fai_category;
+}
