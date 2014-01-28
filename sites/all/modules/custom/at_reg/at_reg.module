@@ -13,7 +13,7 @@ function at_reg_menu() {
     //~ //'file' => 'multiform.tmp.inc',
   //~ );
   
-  $items['event/%node/team/register'] = array(
+  $items['event/%node/register/team'] = array(
     'page callback' => 'at_reg_team_page_callback',
     'page arguments' => array(1),
     'access callback' => 'at_reg_team_reg_access',
