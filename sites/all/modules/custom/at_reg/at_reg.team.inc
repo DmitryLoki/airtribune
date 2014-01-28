@@ -30,7 +30,7 @@ function at_reg_team_form($form, $form_state) {
   // @todo: maybe filter countries by field settings? See countries.elements.inc
   
   $form['caption'] = array(
-    '#markup' => t('FAI Category 1. <br />Team Leader Registration'),
+    '#markup' => t('FAI Category 1 <br />Team Leader Registration'),
     '#prefix' => '<div class="at-reg-team-caption">',
     '#suffix' => '</div>',
   );

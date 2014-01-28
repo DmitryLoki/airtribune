@@ -42,7 +42,8 @@ function at_reg_menu() {
  */
 function at_reg_team_reg_access($node) {
   global $user;
-  return TRUE;
+  $access = $user->uid ? TRUE : FALSE;
+  return $access;
 }
 
 /**
@@ -67,18 +68,18 @@ function at_reg_page_callback($node) {
 }
 
 // TODO: Remove after tests finished.
-function at_reg_test($nid, $default_nid = TRUE) {
-  global $user;
-  
-  // TODO: Temporary event id
-  if ($default_nid) {
-    $nid = 5438;
-  }
-  
-  $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
-  //dsm($form);
-  return $form;
-}
+//~ function at_reg_test($nid, $default_nid = TRUE) {
+  //~ global $user;
+  //~ 
+  //~ // TODO: Temporary event id
+  //~ if ($default_nid) {
+    //~ $nid = 5438;
+  //~ }
+  //~ 
+  //~ $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  //~ //dsm($form);
+  //~ return $form;
+//~ }
 
 
 // TODO: Check conditions.
