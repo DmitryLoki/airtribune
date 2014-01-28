@@ -351,16 +351,19 @@ function pg_nation_team_field_default_fields() {
   $fields['ent_team-pg_nation_team-field_team_member'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_team_member',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
-        'node' => array(
+        'users' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'uid',
           ),
-          'table' => 'node',
+          'table' => 'users',
         ),
       ),
       'indexes' => array(
@@ -372,16 +375,32 @@ function pg_nation_team_field_default_fields() {
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'base',
-        'handler_settings' => array(),
-        'target_type' => 'node',
+        'handler' => 'event_views',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+              1 => '[ent_team:field-country:iso2]',
+            ),
+            'display_name' => 'contestants_all_entityreference',
+            'view_name' => 'paragliding_pilots_list',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'user',
       ),
       'translatable' => '0',
       'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'pg_nation_team',
-      'default_value' => NULL,
+      'default_value' => array(),
+      'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -402,17 +421,31 @@ function pg_nation_team_field_default_fields() {
         ),
       ),
       'entity_type' => 'ent_team',
+      'exclude_cv' => 0,
       'field_name' => 'field_team_member',
       'label' => 'Team members',
-      'required' => FALSE,
+      'options_limit' => FALSE,
+      'options_limit_empty_behaviour' => 0,
+      'options_limit_fields' => array(),
+      'required' => 0,
       'settings' => array(
+        'behaviors' => array(
+          'prepopulate' => array(
+            'status' => 0,
+          ),
+        ),
         'entity_translation_sync' => FALSE,
         'exclude_cv' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
-        'settings' => array(),
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'path' => '',
+          'size' => '60',
+        ),
         'type' => 'options_buttons',
         'weight' => '5',
       ),

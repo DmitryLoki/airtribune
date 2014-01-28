@@ -974,7 +974,8 @@ function airtribune_views_pre_build(&$view) {
       // page 1 = offset 0, 2 = 100, 3 = 200
       $view->offset = ($view->items_per_page * $view->args[1]) - $view->items_per_page;
     }
-  }}
+  }
+}
 
 /**
  * Geo distance sorting

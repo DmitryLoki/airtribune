@@ -636,7 +636,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -758,7 +758,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -899,7 +899,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
   $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
   $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -977,7 +977,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1053,7 +1053,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1129,7 +1129,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1205,7 +1205,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1281,7 +1281,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1330,7 +1330,7 @@ function views_feature_views_default_views() {
     t('OG membership from node'),
     t('Content'),
     t('Title'),
-    t('Image'),
+    t('Banner'),
     t('Link'),
     t('Edit link'),
     t('Delete link'),
@@ -1393,7 +1393,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['fields']['field_link']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -1876,7 +1876,6 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -3315,7 +3314,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -3535,7 +3533,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -3838,7 +3835,7 @@ return array($event_id);';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Image */
+  /* Field: Field: Banner */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -4971,7 +4968,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5044,7 +5040,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5166,7 +5161,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['relationship'] = 'reverse_field_headquarter_hotel_node';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -5269,7 +5263,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -5406,7 +5399,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5465,7 +5457,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['null']['table'] = 'views';
   $handler->display->display_options['arguments']['null']['field'] = 'null';
   $handler->display->display_options['arguments']['null']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['null']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
@@ -5737,7 +5728,6 @@ return array($event_id);';
     t('Asc'),
     t('Desc'),
     t('Content referencing Content from field_headquarter_hotel'),
-    t('All'),
     t('All'),
     t('Overlay active accommodation'),
     t('Overlay active activity'),
@@ -6980,7 +6970,7 @@ return array($event_id);';
     'image_link' => '',
   );
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Country (field_country) */
+  /* Contextual filter: Field: Country (field_country) */
   $handler->display->display_options['arguments']['field_country_iso2']['id'] = 'field_country_iso2';
   $handler->display->display_options['arguments']['field_country_iso2']['table'] = 'field_data_field_country';
   $handler->display->display_options['arguments']['field_country_iso2']['field'] = 'field_country_iso2';
@@ -7056,7 +7046,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_country_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_country_1']['type'] = 'country_alpha_2';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Country (field_country) */
+  /* Sort criterion: Field: Country (field_country) */
   $handler->display->display_options['sorts']['field_country_iso2']['id'] = 'field_country_iso2';
   $handler->display->display_options['sorts']['field_country_iso2']['table'] = 'field_data_field_country';
   $handler->display->display_options['sorts']['field_country_iso2']['field'] = 'field_country_iso2';
@@ -7252,7 +7242,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -7307,7 +7296,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -7364,7 +7352,6 @@ return array($event_id);';
   $handler->display->display_options['arguments']['gid']['field'] = 'gid';
   $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['gid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
@@ -7801,7 +7788,7 @@ return array($event_id);';
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Field: Content: Country */
+  /* Field: Field: Country */
   $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
@@ -9277,7 +9264,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['field'] = 'field_name_in_national_alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
-  /* Field: Profile: Person to contact in case of emergency */
+  /* Field: Field: Person to contact in case of emergency */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -9856,7 +9843,7 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['filters']['field_pg_contestant_status_value']['value'] = array(
-    4 => '4',
+    50 => '50',
   );
   $handler->display->display_options['pane_title'] = 'Manage event pilots (confirmed)';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -9878,6 +9865,111 @@ return array($event_id);';
       'label' => 'OG membership: Group ID',
     ),
   );
+
+  /* Display: All contestants (Entity Reference) */
+  $handler = $view->new_display('entityreference', 'All contestants (Entity Reference)', 'contestants_all_entityreference');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'entityreference_style';
+  $handler->display->display_options['style_options']['search_fields'] = array(
+    'field_full_name' => 'field_full_name',
+    'field_address' => 0,
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entityreference_fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Field: Address */
+  $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
+  $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
+  $handler->display->display_options['fields']['field_address']['field'] = 'field_address';
+  $handler->display->display_options['fields']['field_address']['relationship'] = 'profile_1';
+  $handler->display->display_options['fields']['field_address']['label'] = '';
+  $handler->display->display_options['fields']['field_address']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_address']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_address']['alter']['text'] = '[field_address-country]';
+  $handler->display->display_options['fields']['field_address']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_address']['click_sort_column'] = 'country';
+  $handler->display->display_options['fields']['field_address']['settings'] = array(
+    'use_widget_handlers' => 1,
+    'format_handlers' => array(),
+  );
+  /* Field: Profile: Name */
+  $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
+  $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_full_name']['label'] = '';
+  $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_address])';
+  $handler->display->display_options['fields']['field_full_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
+  $handler->display->display_options['fields']['field_full_name']['settings'] = array(
+    'format' => 'default',
+    'markup' => 0,
+    'output' => 'default',
+    'multiple' => 'default',
+    'multiple_delimiter' => ', ',
+    'multiple_and' => 'text',
+    'multiple_delimiter_precedes_last' => 'never',
+    'multiple_el_al_min' => '3',
+    'multiple_el_al_first' => '1',
+  );
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['gid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['title'] = '%1 members';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
+  /* Contextual filter: Field: Address (field_address:country) */
+  $handler->display->display_options['arguments']['field_address_country']['id'] = 'field_address_country';
+  $handler->display->display_options['arguments']['field_address_country']['table'] = 'field_data_field_address';
+  $handler->display->display_options['arguments']['field_address_country']['field'] = 'field_address_country';
+  $handler->display->display_options['arguments']['field_address_country']['relationship'] = 'profile_1';
+  $handler->display->display_options['arguments']['field_address_country']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_address_country']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_address_country']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_address_country']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_address_country']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_address_country']['validate']['fail'] = 'ignore';
+  $handler->display->display_options['arguments']['field_address_country']['limit'] = '0';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  /* Filter criterion: OG membership: State */
+  $handler->display->display_options['filters']['state']['id'] = 'state';
+  $handler->display->display_options['filters']['state']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['state']['field'] = 'state';
+  $handler->display->display_options['filters']['state']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['state']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['filters']['state']['group'] = 1;
+  /* Filter criterion: Pilots number */
+  $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['field_contestant_number_value']['ui_name'] = 'Pilots number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_contestant_number_value']['group'] = 1;
   $translatables['paragliding_pilots_list'] = array(
     t('Defaults'),
     t('more'),
@@ -9946,6 +10038,8 @@ return array($event_id);';
     t('Test'),
     t('<span class="tracker-status" id="[field_core_id]-time">No data</span>'),
     t('Manage event pilots (confirmed)'),
+    t('All contestants (Entity Reference)'),
+    t('[field_full_name] ([field_address])'),
   );
   $export['paragliding_pilots_list'] = $view;
 
@@ -10217,7 +10311,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['element_label_colon'] = FALSE;
-  /* Field: Profile: Person to contact in case of emergency */
+  /* Field: Field: Person to contact in case of emergency */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -10565,7 +10659,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['element_label_colon'] = FALSE;
-  /* Field: Profile: Person to contact in case of emergency */
+  /* Field: Field: Person to contact in case of emergency */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
