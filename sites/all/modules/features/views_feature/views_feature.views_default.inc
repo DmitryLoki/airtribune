@@ -9945,6 +9945,15 @@ return array($event_id);';
   $handler->display->display_options['arguments']['field_address_country']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['field_address_country']['validate']['fail'] = 'ignore';
   $handler->display->display_options['arguments']['field_address_country']['limit'] = '0';
+  /* Contextual filter: OG membership: Payment status (field_pg_contestant_status) */
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['id'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['field'] = 'field_pg_contestant_status_value';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_pg_contestant_status_value']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: User: Active */
