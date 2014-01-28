@@ -44,11 +44,11 @@ function at_reg_team_reg_access($node) {
   module_load_include('inc', 'at_reg', 'at_reg.team');
 
   global $user;
-  $access = $user->uid ? TRUE : FALSE;
-  if (!$access) {
-    return FALSE;
-  }
-  $access = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  $authorized = $user->uid ? TRUE : FALSE;
+  $fai_1 = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  $pledged = _at_reg_team_leadership_pledged($node->nid, $user->uid);
+
+  $access = $authorized && $fai_1 && !$pledged;
 
   return $access;
 }

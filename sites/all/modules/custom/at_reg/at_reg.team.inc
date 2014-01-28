@@ -163,3 +163,21 @@ function _at_reg_get_fai_type($node) {
   $fai_category = !empty($value) ? $value : AIRTRIBUNE_FAI_CATEGORY_NONE;
   return $fai_category;
 }
+
+/**
+ * Check if the use has already asked for team leadership.
+ */
+function _at_reg_team_leadership_pledged($gid, $uid) {
+  $query = db_select("og_membership", "ogm");
+  $query->condition("ogm.gid", $gid, "=");
+  $query->condition("ogm.entity_type", AIRTRIBUNE_TEAM_TYPE, "=");
+  $query->fields("ogm", array("entity_type", "etid"));
+
+  $query->join('eck_' . AIRTRIBUNE_TEAM_TYPE, 't', 'ogm.etid = t.id');
+  $query->condition('t.uid', $uid, '=');
+
+  $result = $query->execute();
+  $rows = $result->fetchAll();
+
+  return !empty($rows);
+}
