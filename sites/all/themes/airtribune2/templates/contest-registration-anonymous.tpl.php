@@ -7,6 +7,7 @@
 // Team registration.
 if (!empty($team_registration_message)) {
   print("<div class='anonymous-team-registration-message'>{$team_registration_message}</div>");
+  print "<div class='anonymous-team-registration-pilot-caption'>" . t('Pilot registration') . "</div>";
 }
 ?>
 
