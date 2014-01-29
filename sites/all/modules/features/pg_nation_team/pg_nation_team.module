@@ -5,3 +5,60 @@
  */
 
 include_once 'pg_nation_team.features.inc';
+
+/**
+ * Implements hook_views_api().
+ */
+function pg_nation_team_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'pg_nation_team') . '/views',
+  );
+}
+
+/**
+ * Implements hook_field_extra_fields()
+ */
+function pg_nation_team_field_extra_fields() {
+
+  $extra[AIRTRIBUNE_TEAM_TYPE][AIRTRIBUNE_PG_NATION_TEAM_TYPE] = array(
+    'form' => array(
+      'pg_nation_team_pilots_count' => array(
+        'label' => t('Pilots'),
+        'description' => t('Pilots count'),
+        'weight' => -5,
+      ),
+    ),
+    'display' => array(
+      'pg_nation_team_pilots_count' => array(
+        'label' => t('Pilots'),
+        'description' => t('Pilots count'),
+        'weight' => -5,
+        'callback' => 'pg_nation_team_pilots_count_callback',
+      ),
+    ),
+  );
+
+  return $extra;
+}
+
+/*
+ * Callback for pilots count extrafield
+ * @see #4339
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function pg_nation_team_pilots_count_callback($entity) {
+  $output = FALSE;
+  $entity_type = $entity->entityType();
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  
+  $field = field_info_field(AIRTRIBUNE_TEAM_MEMBER_FIELD);
+  $instance = field_info_instance($entity_type, AIRTRIBUNE_TEAM_MEMBER_FIELD, $entity->type);
+  
+  $count_all_team_contestants = count(entityreference_options_list($field, $instance, $entity_type, $entity));
+  $count_selected_team_contestants = count($wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}->value());
+
+  $output = $count_all_team_contestants . '/' . $count_selected_team_contestants;
+
+  return $output;
+}
