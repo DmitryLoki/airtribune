@@ -132,13 +132,13 @@ foreach ($pilots as $key => $pilot) {
 
   // Prepare complex fields.
   $field_birthdate = intval(strtotime($pilot['field_birthdate']));
-  $field_gender = get_gender_italian($pilot['gender']);
+  $field_gender = get_gender_italian($pilot['field_gender']);
   $field_full_name = array(
     'family' => $pilot['surname'],
     'given'  => $pilot['name'],
   );
   $field_address = array(
-    'country' => $country,
+    'country' => strtoupper($country),
     'locality' => $pilot['city'],
     'postal_code' => $pilot['postal_code'],
     'thoroughfare' => $pilot['address'],
@@ -173,7 +173,7 @@ foreach ($pilots as $key => $pilot) {
   //$profile_w->field_name_in_national_alphabet->set($field_full_name);
   $profile_w->field_person_name->set('–');
 //  $profile_w->field_person_phone->set(array('country_codes' => $country, 'number' => '000000000'));
-  $profile->field_person_phone['und']['0'] = array('country_codes' => $country, 'number' => '000000000');
+  $profile_pilot->field_person_phone['und']['0'] = array('extension' => NULL, 'country_codes' => $country, 'number' => '000000000');
   $profile_w->field_blood_type->set('unknown');
   profile2_save($profile_pilot);
 
@@ -190,9 +190,11 @@ function add_pilot_to_contest($user, $pilot, $field_phone) {
   foreach ($groups_to_join as $group_id) {
     $group = node_load($group_id);
     // Pilot already take attend in contest.
-    foreach ($user->og_user_node['und'] as $contest_nid) {
-      if ($group->nid == $contest_nid['target_id']) {
-        return;
+    if (!empty($user->og_user_node['und'])) {
+      foreach ($user->og_user_node['und'] as $contest_nid) {
+        if ($group->nid == $contest_nid['target_id']) {
+          return;
+        }
       }
     }
     $ogm = og_membership_create('node', $group_id, 'user', $user->uid, 'og_user_node', array('type' => AIRTRIBUNE_MEMBERSHIP_CONTESTANT));
