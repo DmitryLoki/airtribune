@@ -169,9 +169,9 @@ foreach ($pilots as $key => $pilot) {
   $profile_w->field_insurance_company->set($pilot['field_insurance_company']);
   $profile_w->field_insurance_policy_number->set($pilot['field_insurance_policy_number']);
   // Fill fields, for which we haven't data.
-  $profile_w->field_name_in_national_alphabet->set('–');
+  $profile_w->field_name_in_national_alphabet->set('-');
   //$profile_w->field_name_in_national_alphabet->set($field_full_name);
-  $profile_w->field_person_name->set('–');
+  $profile_w->field_person_name->set('-');
 //  $profile_w->field_person_phone->set(array('country_codes' => $country, 'number' => '000000000'));
   $profile_pilot->field_person_phone['und']['0'] = array('extension' => NULL, 'country_codes' => $country, 'number' => '000000000');
   $profile_w->field_blood_type->set('unknown');
