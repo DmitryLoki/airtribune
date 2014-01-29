@@ -9,6 +9,11 @@
           updateForm(this.form);
         }
       }
+      
+      $(".anonymous-team-registration a").click(function(){
+        $(".anonymous-team-registration-message span").show();
+        return false;
+      });
     }
   }
 })(jQuery);
