@@ -6270,7 +6270,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
-    'body_classes_to_add' => 'page-user',
+    //'body_classes_to_add' => 'page-user',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
