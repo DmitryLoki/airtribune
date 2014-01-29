@@ -134,8 +134,8 @@ foreach ($pilots as $key => $pilot) {
   $field_birthdate = intval(strtotime($pilot['field_birthdate']));
   $field_gender = get_gender_italian($pilot['gender']);
   $field_full_name = array(
-    'family' => $pilot['name'],
-    'given'  => $pilot['surname'],
+    'family' => $pilot['surname'],
+    'given'  => $pilot['name'],
   );
   $field_address = array(
     'country' => $country,
