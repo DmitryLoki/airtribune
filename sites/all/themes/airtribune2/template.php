@@ -69,7 +69,7 @@ function airtribune2_preprocess_html(&$vars) {
 
   /* If event register page */
 
-  if (arg(0) == 'event' && arg(2) && arg(2) == 'register' && !in_array('page-user', $vars['classes_array'])) {
+  if ((arg(0) == 'event' && arg(2) && arg(2) == 'register') || _is_manage() && !in_array('page-user', $vars['classes_array'])) {
     $vars['classes_array'][] = 'page-user';
   }
 
@@ -113,6 +113,14 @@ function airtribune2_preprocess_html(&$vars) {
   // Temporary exclude css from aggregate
   // @see https://drupal.org/node/1271984
   drupal_add_css(path_to_theme() . '/css/na.css', array('preprocess' => FALSE));
+}
+
+function _is_manage() {
+  if (arg(2) == 'pilots' && arg(3) == 'manage' && arg(4) == 'teams') {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**

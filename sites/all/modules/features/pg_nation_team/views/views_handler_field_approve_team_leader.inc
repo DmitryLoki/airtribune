@@ -3,6 +3,9 @@
 /**
  * @file
  * Approve team leader field handler.
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ * @see $4339
+ * @todo this is handler only for teams_applications view
  */
 
 class views_handler_field_approve_team_leader extends views_handler_field_entity {
@@ -24,10 +27,12 @@ class views_handler_field_approve_team_leader extends views_handler_field_entity
 
   function render($values) {
     // Return form for approve current team leader
-    $form['approve_team_leader'] = array(
-      '#type' => 'checkbox',
-      '#return_value' => $this->tokenize_value($this->options['team_leader'], $this->view->row_index), 
+    $options = array(
+      'team_country' => $this->view->result[$this->view->row_index]->field_field_country[0]['raw']['value'],
+      'row_index' => $this->view->row_index,
+      'value' => $this->tokenize_value($this->options['team_leader'], $this->view->row_index),
+      'team_entity' => $this->entities[$this->view->row_index],
     );
-    return drupal_render($form);
+    return  drupal_get_form('pg_nation_team_approve_team_leader_form', $options);
   }
 }

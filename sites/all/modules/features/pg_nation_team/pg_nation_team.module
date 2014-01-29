@@ -62,3 +62,52 @@ function pg_nation_team_pilots_count_callback($entity) {
 
   return $output;
 }
+
+/*
+ * Approve team leader form
+ * @see views_handler_field_approve_team_leader class
+ */
+function pg_nation_team_approve_team_leader_form($form, &$form_state, $options) {
+
+  $attributes = array('data-conutry' => array($options['team_country']));
+
+  if ($options['value'] == $options['team_entity']->uid) {
+    $attributes['checked'] = array('checked');
+  }
+
+  $form['approve_team_leader'] = array(
+    '#type' => 'checkbox',
+    '#return_value' => $options['value'],
+    '#attributes' => $attributes,
+    '#ajax' => array(
+        'callback' => 'approve_team_leader_ajax_callback',
+        'wrapper' => 'approve-team-leader-' . $options['row_index'],
+      ),
+    '#prefix' => '<div id="approve-team-leader-' . $options['row_index'] . '" class ="approve-team ' . $options['team_country'] . '">',
+    '#suffix' => '</div>',
+  );
+
+  $form['team_entity'] = array('#type' => 'value', '#value' => $options['team_entity']);
+
+  $form['#attached']['js'][] = drupal_get_path('module', 'pg_nation_team') . '/js/pg_nation_team.js';
+  return $form;
+}
+
+/*
+ * Ajax callback for approve team leader checkbox
+ * @see views_handler_field_approve_team_leader class
+ */
+function approve_team_leader_ajax_callback($form, &$form_state) {
+  $team_leader_uid = $form_state['complete form']['approve_team_leader']['#value'];
+  $team_leader_set = $form_state['complete form']['approve_team_leader']['#checked'];
+  $team_country = $form_state['complete form']['approve_team_leader']['#attributes']['data-conutry'][0];
+  $team_entity = $form_state['complete form']['team_entity']['#value'];
+  if (!$team_leader_set) {
+    // Set uid=1 as default empty value
+    // @todo use another value by default
+    $team_leader_uid = 1;
+  }
+  $wrapper = entity_metadata_wrapper($team_entity->entityType(), $team_entity);
+  $wrapper->uid->set($team_leader_uid);
+  $wrapper->save();
+}
