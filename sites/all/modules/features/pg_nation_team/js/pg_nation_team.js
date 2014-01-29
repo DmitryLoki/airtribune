@@ -15,8 +15,7 @@
         var teamLeadersCheckboxes = $('.form-item-approve-team-leader input[type="checkbox"]').on('change', function () {
           var currentCheckbox = this;
           teamLeadersCheckboxes.filter(function (i, checkbox) {
-            //TODO: исправить conutry тут
-            return checkbox.dataset.conutry === currentCheckbox.dataset.conutry && checkbox !== currentCheckbox
+            return checkbox.dataset.country === currentCheckbox.dataset.country && checkbox !== currentCheckbox
           }).attr('checked', false).prev().removeClass('check_checkbox');
         })
 

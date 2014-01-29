@@ -69,7 +69,7 @@ function pg_nation_team_pilots_count_callback($entity) {
  */
 function pg_nation_team_approve_team_leader_form($form, &$form_state, $options) {
 
-  $attributes = array('data-conutry' => array($options['team_country']));
+  $attributes = array('data-country' => array($options['team_country']));
 
   if ($options['value'] == $options['team_entity']->uid) {
     $attributes['checked'] = array('checked');
@@ -100,7 +100,7 @@ function pg_nation_team_approve_team_leader_form($form, &$form_state, $options) 
 function approve_team_leader_ajax_callback($form, &$form_state) {
   $team_leader_uid = $form_state['complete form']['approve_team_leader']['#value'];
   $team_leader_set = $form_state['complete form']['approve_team_leader']['#checked'];
-  $team_country = $form_state['complete form']['approve_team_leader']['#attributes']['data-conutry'][0];
+  $team_country = $form_state['complete form']['approve_team_leader']['#attributes']['data-country'][0];
   $team_entity = $form_state['complete form']['team_entity']['#value'];
   if (!$team_leader_set) {
     // Set uid=1 as default empty value
