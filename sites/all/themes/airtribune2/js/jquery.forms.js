@@ -40,6 +40,7 @@ jQuery.fn.forms = function(options){ // custom form elements
 						else {
 							el.attr('checked', false);
 						}
+            el.trigger('change', {selfTriggeredEvent:true});
 					});	
 					if(opt.ie) {
 						el.focus(function(){
@@ -47,8 +48,9 @@ jQuery.fn.forms = function(options){ // custom form elements
 						})
 					}
 					else {
-						el.change(function(){
-							el.prev().toggleClass('check_'+el.type);
+						el.change(function(e, data){
+              if(!data.selfTriggeredEvent)
+							  el.prev().toggleClass('check_'+el.type);
 						})
 					}
 					el.addClass('styled_element');
