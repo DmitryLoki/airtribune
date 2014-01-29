@@ -71,6 +71,23 @@ function at_reg_page_callback($node) {
   $nid = $node->nid;
   
   $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  
+  // Add Team Leader registration links.
+  module_load_include('inc', 'at_reg', 'at_reg.team');
+  $authorized = $user->uid ? TRUE : FALSE;
+  $fai_1 = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  if ($fai_1) {
+    if (!$authorized) {
+      $form['team_reg_link'] = array(
+        '#markup' => '<a href="#">' . t('Team leader registration') . '</a>',
+      );
+      $form['team_reg_message'] = array(
+        '#markup' => '<span style="display:none">' . t('Please, <a href="!sign_in_url">sign in</a> or <a href="!register_url">register</a> first', array('!sign_in_url' => url('user/login'), '!register_url' => url('user/register'))) . '</span>',
+      );
+    }
+  }
+  
+  
   return $form;
 }
 

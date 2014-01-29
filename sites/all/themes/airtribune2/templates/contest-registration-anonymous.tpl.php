@@ -1,3 +1,15 @@
+<?php
+  $team_registration = isset($form['team_reg_link']) ? drupal_render($form['team_reg_link']) : '';
+  $team_registration_message = isset($form['team_reg_message']) ? drupal_render($form['team_reg_message']) : '';
+?>
+
+<?php
+// Team registration.
+if (!empty($team_registration_message)) {
+  print("<div class='anonymous-team-registration-message'>{$team_registration_message}</div>");
+}
+?>
+
 <div class="reg_choice">
 	<?php print l('<span>'.t('I have an Airtribune account.').'</span><span class="valign"></span>', 'user/login', array('html' => true, 'query' => array('destination' => $_GET['q'])));?>
 	<a href="#" class="form_show"><span><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></span><span class="valign"></span></a>
@@ -71,11 +83,14 @@ print drupal_render($pp_form['profile_pilot']['field_accom_during_comp']);
 print drupal_render($og_form['field_contestant_number']);
 
 
-
-
-
-
 print drupal_render_children($form);
 
 ?>
 </div>
+
+
+<?php
+// Team registration.
+if (!empty($team_registration)) {
+  print("<div class='anonymous-team-registration'>{$team_registration}</div>");
+}
