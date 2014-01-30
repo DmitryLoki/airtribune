@@ -6270,7 +6270,6 @@ ____(CCCCCCCCCCCCCC)____________;;;
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
-    //'body_classes_to_add' => 'page-user',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -6296,6 +6295,14 @@ ____(CCCCCCCCCCCCCC)____________;;;
             1 => 'argument_entity_id:node_1',
           ),
           'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'event_dates',
+          'settings' => array(
+            'status' => 'past',
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => TRUE,
         ),
       ),
       'logic' => 'and',
@@ -6323,7 +6330,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     ),
   );
   $display->cache = array();
-  $display->title = 'Manage confirmed pilots | %node:title';
+  $display->title = 'Teams applications | %node:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
