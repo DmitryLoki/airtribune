@@ -322,9 +322,11 @@ function activity_field_default_fields() {
           'label' => 'inline',
           'module' => 'geofield',
           'settings' => array(
-            'data' => 'full',
+            'data' => 'bounding',
+            'format' => 'decimal_degrees',
+            'labels' => 0,
           ),
-          'type' => 'geofield_kml',
+          'type' => 'geofield_latlon',
           'weight' => '6',
         ),
         'event_blog_teaser' => array(

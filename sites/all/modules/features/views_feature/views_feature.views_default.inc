@@ -8061,7 +8061,7 @@ return array($event_id);';
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'sidebar_pane');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['link_url'] = 'events';
+  $handler->display->display_options['link_url'] = 'events/next';
   $translatables['next_events'] = array(
     t('Master'),
     t('Next events'),
