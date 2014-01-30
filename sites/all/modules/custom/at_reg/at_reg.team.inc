@@ -54,13 +54,15 @@ function at_reg_team_form($form, $form_state) {
 }
 
 // @todo
-function at_reg_team_form_submit($form, $form_state) {
+function at_reg_team_form_submit($form, &$form_state) {
   $node = $form_state['build_info']['args'][0];
   $gid = $node->nid;
   $country_code = $form_state['values']['county'];
   
   $entity = _at_reg_team_get_team_entity($gid, $country_code);
-  //~ dsm($entity);
+  drupal_set_message(t('Your application as a team leader was sent.'));
+  drupal_set_message(t('After you are approved by organizer you will be able to continue with team registration.'));
+  $form_state['redirect'] = "event/{$node->nid}/register";
 }
 
 /**
@@ -115,7 +117,8 @@ function _at_reg_team_get_team_entity($gid, $country_code) {
     
     $entity = entity_create(AIRTRIBUNE_TEAM_TYPE, array('type' => AIRTRIBUNE_PG_NATION_TEAM_TYPE));
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TEAM_TYPE, $entity);
-    $wrapper->uid = $user->uid;
+    //~ $wrapper->uid = $user->uid;
+    $wrapper->uid = 1;
     $wrapper->title = $title;
     $wrapper->{OG_AUDIENCE_FIELD}->set(array('target_id' => $gid));
     $wrapper->{AIRTRIBUNE_COUNTRY_FIELD}->set(array('iso2' => $country_code));
@@ -167,17 +170,28 @@ function _at_reg_get_fai_type($node) {
 /**
  * Check if the use has already asked for team leadership.
  */
-function _at_reg_team_leadership_pledged($gid, $uid) {
+function _at_reg_team_leadership_pledged($gid, $uid, $type = 'pledged') {
   $query = db_select("og_membership", "ogm");
   $query->condition("ogm.gid", $gid, "=");
   $query->condition("ogm.entity_type", AIRTRIBUNE_TEAM_TYPE, "=");
   $query->fields("ogm", array("entity_type", "etid"));
 
   $query->join('eck_' . AIRTRIBUNE_TEAM_TYPE, 't', 'ogm.etid = t.id');
-  $query->condition('t.uid', $uid, '=');
+  
+  
+  // @todo
+  if ($type == 'pledged') {
+    $query->join('field_data_' . AIRTRIBUNE_TEAM_MEMBER_FIELD, 'ftm', 't.id = ftm.entity_id');
+    $query->condition("ftm.entity_type", AIRTRIBUNE_TEAM_TYPE, "=");
+    $query->condition("ftm." . AIRTRIBUNE_TEAM_MEMBER_FIELD . "_target_id", $uid, "=");
+    //~ 
+  }
+  elseif ($type == 'approved') {
+    $query->condition('t.uid', $uid, '=');
+  }
 
   $result = $query->execute();
   $rows = $result->fetchAll();
-
-  return !empty($rows);
+  
+  return !empty($rows) ? $rows[0]->etid : FALSE;
 }

@@ -155,6 +155,7 @@ dependencies[] = path_breadcrumbs_i18n
 dependencies[] = pathauto
 dependencies[] = pg_basicmark_types
 dependencies[] = pg_contest
+dependencies[] = pg_nation_team
 dependencies[] = pg_race
 dependencies[] = pg_racetypes
 dependencies[] = pg_scoring_category

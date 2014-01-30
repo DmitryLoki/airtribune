@@ -6,4 +6,7 @@ dependencies[] = countries
 dependencies[] = multiform
 dependencies[] = feaval
 
+dependencies[] = ent_team
+dependencies[] = pg_nation_team
+
 files[] = tests/at_reg.test
