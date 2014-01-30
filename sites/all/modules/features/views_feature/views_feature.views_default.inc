@@ -8577,7 +8577,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Model';
   /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
@@ -8814,7 +8814,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Model';
   /* Field: OG membership: Payment status */
   $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
   $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
@@ -9236,7 +9236,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_paraglider_model']['table'] = 'field_data_field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['field'] = 'field_paraglider_model';
   $handler->display->display_options['fields']['field_paraglider_model']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Glider';
+  $handler->display->display_options['fields']['field_paraglider_model']['label'] = 'Model';
   /* Field: Field: Paraglider color */
   $handler->display->display_options['fields']['field_paraglider_color']['id'] = 'field_paraglider_color';
   $handler->display->display_options['fields']['field_paraglider_color']['table'] = 'field_data_field_paraglider_color';
@@ -10020,7 +10020,7 @@ return array($event_id);';
     t('[field_full_name] ([field_contestant_number])'),
     t('Country'),
     t('Sponsor'),
-    t('Glider'),
+    t('Model'),
     t('<span class="status-value">[field_pg_contestant_status]</span>'),
     t('Standard event pilots'),
     t('View panes'),
