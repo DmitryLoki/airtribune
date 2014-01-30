@@ -1946,16 +1946,13 @@ function is_solutions(){
   preg_match($pattern, $path, $matches);
   $part = isset($matches[0]) ? $matches[0] : NULL;
   switch($part) {
+    case 'privacy': // @see #4341
+    case 'terms': // @see #4341
     case 'organizers':
     case 'pilots':
     case 'viewers':
         return $part;
       break;
-  }
-
-  // @see #4341
-  if (in_array(trim($path, '/'), array('privacy', 'terms'))) {
-    return $path;
   }
 
   return FALSE;
