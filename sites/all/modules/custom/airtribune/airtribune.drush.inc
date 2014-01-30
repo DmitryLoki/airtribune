@@ -152,6 +152,7 @@ function airtribune_get_modules($site_state) {
       'devel_generate',
       'devel_node_access',
       'dblog',
+      'stage_file_proxy',
       'update',
       'views_ui',
       'field_validation_ui',
