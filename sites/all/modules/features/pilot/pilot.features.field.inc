@@ -614,6 +614,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_paraglider_color',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -681,6 +684,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_paraglider_manufacturer',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -699,7 +705,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -752,6 +758,9 @@ function pilot_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_paraglider_model',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -770,7 +779,7 @@ function pilot_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => 0,
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'text',

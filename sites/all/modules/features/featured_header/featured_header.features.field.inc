@@ -194,6 +194,7 @@ function featured_header_field_default_fields() {
           'allowed_types' => array(
             0 => 'image',
           ),
+          'browser_plugins' => array(),
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
@@ -380,6 +381,7 @@ function featured_header_field_default_fields() {
             'type' => 'none',
           ),
           'target_bundles' => array(
+            'hg_contest' => 'hg_contest',
             'pg_contest' => 'pg_contest',
           ),
         ),

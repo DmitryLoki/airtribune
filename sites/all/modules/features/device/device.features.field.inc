@@ -80,7 +80,7 @@ function device_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => '44',
+        'weight' => 44,
       ),
     ),
   );

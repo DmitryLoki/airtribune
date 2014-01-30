@@ -64,11 +64,7 @@ function pages_feature_default_panels_mini() {
       'admin_title' => 'Contacts',
       'title' => '',
       'body' => '<div class="logo"><img src="/sites/all/themes/airtribune2/images/logo_footer.png" alt="" /></div>
-<p>22/5 L’va Tolstogo Street,<br />
-Moscow, 119021, Russia</p>
-<p> </p>
 <p>Ph.: +7 (985) 762-72-38<br />
-Fax: +7 (499) 246-25-93<br />
 e-mail: info@airtribune.com</p>',
       'format' => 'full_html',
       'substitute' => TRUE,
@@ -203,7 +199,7 @@ e-mail: info@airtribune.com</p>',
     $pane->configuration = array(
       'context' => 'context_entity:node_1',
       'override_title' => 1,
-      'override_title_text' => 'Solutions',
+      'override_title_text' => 'Solutions for organizers',
     );
     $pane->cache = array(
       'method' => 0,

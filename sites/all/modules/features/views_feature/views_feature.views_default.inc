@@ -9464,6 +9464,13 @@ return array($event_id);';
   $handler->display->display_options['fields']['id']['exclude'] = TRUE;
   $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['id']['separator'] = '';
+  /* Field: Profile: User uid */
+  $handler->display->display_options['fields']['user']['id'] = 'user';
+  $handler->display->display_options['fields']['user']['table'] = 'profile';
+  $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['user']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['user']['separator'] = '';
   /* Field: Gender (excluded) */
   $handler->display->display_options['fields']['field_gender']['id'] = 'field_gender';
   $handler->display->display_options['fields']['field_gender']['table'] = 'field_data_field_gender';
@@ -9479,7 +9486,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name]';
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] <a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>';
   $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
@@ -9755,6 +9762,13 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_gender']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_gender']['alter']['text'] = '<span class="gender-[field_gender-value]"></span>';
   $handler->display->display_options['fields']['field_gender']['element_label_colon'] = FALSE;
+  /* Field: Profile: User uid */
+  $handler->display->display_options['fields']['user']['id'] = 'user';
+  $handler->display->display_options['fields']['user']['table'] = 'profile';
+  $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['user']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['user']['separator'] = '';
   /* Field: Profile: Name */
   $handler->display->display_options['fields']['field_full_name']['id'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
@@ -9762,7 +9776,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_full_name']['label'] = 'Pilot';
   $handler->display->display_options['fields']['field_full_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])[field_gender]';
+  $handler->display->display_options['fields']['field_full_name']['alter']['text'] = '[field_full_name] ([field_contestant_number])[field_gender] <a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>';
   $handler->display->display_options['fields']['field_full_name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_full_name']['alter']['path'] = 'group-membership/[id]/edit';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
@@ -9935,13 +9949,15 @@ return array($event_id);';
     t('Blood type'),
     t('[field_tracker-target_id]'),
     t('Manage (All)'),
-    t('[field_full_name]'),
+    t('User uid'),
+    t('[field_full_name] <a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>'),
     t('Manage event pilots (all)'),
     t('Manage (Confirmed)'),
     t('<script type="text/javascript" src="/sites/all/modules/custom/airtribune/js/trackers.js"></script>'),
     t('Изменения entity referenced from field_tracker'),
     t('(Number)'),
     t('Pilot'),
+    t('[field_full_name] ([field_contestant_number])[field_gender] <a class=\'pilot-card\' href=\'/event/!1/pilots/export/card/print/[user]\'>&nbsp;</a>'),
     t('Phone number'),
     t('Test'),
     t('<span class="tracker-status" id="[field_core_id]-time">No data</span>'),
@@ -10613,7 +10629,7 @@ return array($event_id);';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['uid']['validate']['type'] = 'user';
-  $handler->display->display_options['path'] = 'event/%/pilots/export/card/print';
+  $handler->display->display_options['path'] = 'event/%/pilots/export/card/print/%';
 
   /* Display: Confirmed pilots export (csv) */
   $handler = $view->new_display('views_data_export', 'Confirmed pilots export (csv)', 'export_pilots_confirmed_csv');
