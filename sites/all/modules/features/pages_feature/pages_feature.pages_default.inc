@@ -6337,7 +6337,7 @@ ____(CCCCCCCCCCCCCC)____________;;;
     $pane->pid = 'new-71';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'teams_applications-panel_pane_1';
+    $pane->subtype = 'teams_applications-teams_applications';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
