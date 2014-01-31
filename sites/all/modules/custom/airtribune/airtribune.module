@@ -1073,7 +1073,12 @@ function airtribune_views_query_alter(&$view, &$query) {
  * @see #3302
  */
 function airtribune_views_pre_render(&$view) {
-
+  if ($view->name == 'paragliding_pilots_list') {
+    if ($view->current_display == 'team_card_nac') {
+      $view->result = array_slice($view->result, -1);
+      $view->result[0]->uid = airtrubune_format_username($view->result[0]->uid);
+    }
+  }
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
     // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
     if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
