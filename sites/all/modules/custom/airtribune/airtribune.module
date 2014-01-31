@@ -71,6 +71,7 @@ define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
 define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
 define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
 define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
+define('AIRTRIBUNE_USERS_REF_FIELD', 'field_users_ref');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');

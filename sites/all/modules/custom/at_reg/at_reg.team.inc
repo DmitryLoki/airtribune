@@ -95,7 +95,8 @@ function _at_reg_team_get_team_entity($gid, $country_code) {
     $entity = array_shift($entities);
     
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TEAM_TYPE, $entity);
-    $value = $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}->value();
+    //~ $value = $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}->value();
+    $value = $wrapper->{AIRTRIBUNE_USERS_REF_FIELD}->value();
     
     $is_candidate = FALSE;
     foreach ($value as $candidate) {
@@ -104,7 +105,8 @@ function _at_reg_team_get_team_entity($gid, $country_code) {
       }
     }
     if (!$is_candidate) {
-      $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}[count($value)]->set($user);
+      //~ $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}[count($value)]->set($user);
+      $wrapper->{AIRTRIBUNE_USERS_REF_FIELD}[count($value)]->set($user);
       $wrapper->save();
     }
   }
@@ -122,7 +124,8 @@ function _at_reg_team_get_team_entity($gid, $country_code) {
     $wrapper->title = $title;
     $wrapper->{OG_AUDIENCE_FIELD}->set(array('target_id' => $gid));
     $wrapper->{AIRTRIBUNE_COUNTRY_FIELD}->set(array('iso2' => $country_code));
-    $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}[0]->set($user);
+    //~ $wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}[0]->set($user);
+    $wrapper->{AIRTRIBUNE_USERS_REF_FIELD}[0]->set($user);
     
     $wrapper->save();
   }
@@ -181,9 +184,11 @@ function _at_reg_team_leadership_pledged($gid, $uid, $type = 'pledged') {
   
   // @todo
   if ($type == 'pledged') {
-    $query->join('field_data_' . AIRTRIBUNE_TEAM_MEMBER_FIELD, 'ftm', 't.id = ftm.entity_id');
+    //~ $query->join('field_data_' . AIRTRIBUNE_TEAM_MEMBER_FIELD, 'ftm', 't.id = ftm.entity_id');
+    $query->join('field_data_' . AIRTRIBUNE_USERS_REF_FIELD, 'ftm', 't.id = ftm.entity_id');
     $query->condition("ftm.entity_type", AIRTRIBUNE_TEAM_TYPE, "=");
-    $query->condition("ftm." . AIRTRIBUNE_TEAM_MEMBER_FIELD . "_target_id", $uid, "=");
+    //~ $query->condition("ftm." . AIRTRIBUNE_TEAM_MEMBER_FIELD . "_target_id", $uid, "=");
+    $query->condition("ftm." . AIRTRIBUNE_USERS_REF_FIELD . "_target_id", $uid, "=");
     //~ 
   }
   elseif ($type == 'approved') {
