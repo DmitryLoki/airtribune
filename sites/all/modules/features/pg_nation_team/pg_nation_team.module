@@ -51,10 +51,10 @@ function pg_nation_team_pilots_count_callback($entity) {
   $output = FALSE;
   $entity_type = $entity->entityType();
   $wrapper = entity_metadata_wrapper($entity_type, $entity);
-  
+
   $field = field_info_field(AIRTRIBUNE_TEAM_MEMBER_FIELD);
   $instance = field_info_instance($entity_type, AIRTRIBUNE_TEAM_MEMBER_FIELD, $entity->type);
-  
+
   $count_all_team_contestants = count(entityreference_options_list($field, $instance, $entity_type, $entity));
   $count_selected_team_contestants = count($wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}->value());
 
@@ -80,10 +80,10 @@ function pg_nation_team_approve_team_leader_form($form, &$form_state, $options) 
     '#return_value' => $options['value'],
     '#attributes' => $attributes,
     '#ajax' => array(
-        'callback' => 'approve_team_leader_ajax_callback',
-        'wrapper' => 'approve-team-leader-' . $options['row_index'],
-      ),
-    '#prefix' => '<div id="approve-team-leader-' . $options['row_index'] . '" class ="approve-team ' . $options['team_country'] . '">',
+      'callback' => 'approve_team_leader_ajax_callback',
+      'wrapper' => 'approve-team-leader-' . $options['row_index'],
+    ),
+    '#prefix' => '<div id="approve-team-leader-' . $options['row_index'] . '" class="approve-team ' . $options['team_country'] . '">',
     '#suffix' => '</div>',
   );
 

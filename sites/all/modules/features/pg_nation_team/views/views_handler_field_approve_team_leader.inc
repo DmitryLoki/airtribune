@@ -33,6 +33,6 @@ class views_handler_field_approve_team_leader extends views_handler_field_entity
       'value' => $this->tokenize_value($this->options['team_leader'], $this->view->row_index),
       'team_entity' => $this->entities[$this->view->row_index],
     );
-    return  drupal_get_form('pg_nation_team_approve_team_leader_form', $options);
+    return drupal_get_form('pg_nation_team_approve_team_leader_form', $options);
   }
 }

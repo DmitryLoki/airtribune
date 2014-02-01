@@ -1065,12 +1065,6 @@ function airtribune_views_query_alter(&$view, &$query) {
 
 /**
  * Implementation of hook_views_pre_render
- *
- * Make normal, human sort in FAI pilot list (by nation)
- * Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
- * difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
- *
- * @see #3302
  */
 function airtribune_views_pre_render(&$view) {
   if ($view->name == 'paragliding_pilots_list') {
@@ -1079,26 +1073,28 @@ function airtribune_views_pre_render(&$view) {
       $view->field['nothing']->options['alter']['text'] = t('Declared by') . ' ' . airtrubune_format_username($view->result[0]->field_team_member_users_uid);
     }
   }
+
+  // Make normal, human sort in FAI pilot list (by nation)
+  // Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
+  // difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
+  // @see #3302
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
     // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
     if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
       $countries = $view->result['0']->field_field_address['0']['rendered']['country']['#options'];
     }
-
     foreach ($view->result as $k => $v) {
       $current_country = $countries[$v->field_field_address[0]['raw']['country']];
       $temp_country_list[$current_country][] = $v;
     }
     // sort using key sort, because $temp_country_list like array('Great Britain' => array (...))
     ksort($temp_country_list);
-
     $result = array();
     foreach ($temp_country_list as $k => $v) {
       $result = array_merge($result, $v);
     }
     $view->result = $result;
   } else if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
-
     foreach ($view->result as $k => $v) {
       if  ($v->field_field_day_status[0]['raw']['value'] == 0) {
         // Remove day status output [Day is Ok]
@@ -1108,7 +1104,6 @@ function airtribune_views_pre_render(&$view) {
         // Remove day label output [Training or registration days]
         unset($view->result[$k]->field_field_day_number[0]['rendered']['#markup']);
         unset($view->result[$k]->field_field_day_number[0]['raw']['value']);
-
         // Fix js link to day in accordion
         $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
       }
