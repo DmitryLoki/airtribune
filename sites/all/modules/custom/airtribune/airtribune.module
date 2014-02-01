@@ -1076,7 +1076,7 @@ function airtribune_views_pre_render(&$view) {
   if ($view->name == 'paragliding_pilots_list') {
     if ($view->current_display == 'team_card_nac') {
       $view->result = array_slice($view->result, -1);
-      $view->result[0]->uid = airtrubune_format_username($view->result[0]->uid);
+      $view->field['nothing']->options['alter']['text'] = t('Declared by') . ' ' . airtrubune_format_username($view->result[0]->field_team_member_users_uid);
     }
   }
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
