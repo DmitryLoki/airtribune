@@ -117,6 +117,7 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
  * @see views_handler_field_pilot_selection class
  */
 function pg_nation_team_pilot_selection_form($form, &$form_state, $options) {
+  $attributes = array('uid' => $options['uid']);
   // If user checked, then views return loaded team entity.
   if (isset($options['ent_team'])) {
     $attributes['checked'] = array('checked');
@@ -132,22 +133,18 @@ function pg_nation_team_pilot_selection_form($form, &$form_state, $options) {
     $options['ent_team'] = entity_load_single(AIRTRIBUNE_TEAM_TYPE, $eid->id);
   }
 
-  $form['pilot_selection'] = array(
+  $form['select_pilot'] = array(
     '#type' => 'checkbox',
-    '#return_value' => $options['value'],
     '#attributes' => $attributes,
     '#ajax' => array(
       'callback' => 'team_pilot_selection_callback',
-      'wrapper' => 'team-pilot-selection-' . $options['row_index'],
+      'wrapper' => 'select-pilot-' . $options['uid'],
     ),
-    '#value' => $options['uid'],
     '#prefix' => '<div id="select-pilot-' . $options['uid'] . '" class="select-pilot">',
     '#suffix' => '</div>',
   );
 
   $form['ent_team'] = array('#type' => 'value', '#value' => $options['ent_team']);
-//  $form['contest_nid'] = array('#type' => 'value', '#value' => $options['contest_nid']);
-
   $form['#attached']['js'][] = drupal_get_path('module', 'pg_nation_team') . '/js/pg_nation_team.js';
   return $form;
 }
@@ -157,8 +154,8 @@ function pg_nation_team_pilot_selection_form($form, &$form_state, $options) {
  * @see views_handler_field_pilot_selection class
  */
 function team_pilot_selection_callback($form, &$form_state) {
-  $pilot_uid = $form_state['complete form']['pilot_selection']['#value'];
-  $pilot_checked = $form_state['complete form']['pilot_selection']['#checked'];
+  $pilot_uid = $form_state['complete form']['select_pilot']['#attributes']['uid'];
+  $pilot_checked = $form_state['complete form']['select_pilot']['#checked'];
   $ent_team = $form_state['complete form']['ent_team']['#value'];
 
   $wrapper = entity_metadata_wrapper($ent_team->entityType(), $ent_team);
