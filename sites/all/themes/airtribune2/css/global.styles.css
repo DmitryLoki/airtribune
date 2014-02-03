@@ -2548,8 +2548,13 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
-.authorized-team-registration { text-align: center;}
-.page-user .pane-page-content form .authorized-team-registration a { color: #1b4587; font-size: 26px; margin: 0 45px;}
+.authorized-team-registration,
+.anonymous-team-registration { text-align: center;}
+.anonymous-team-registration { padding-top: 45px; padding-bottom: 20px;}
+.page-user .pane-page-content form .authorized-team-registration a,
+.page-user .pane-page-content form .anonymous-team-registration a { color: #1b4587; font-size: 26px; margin: 0 45px;}
+.page-user .pane-page-content form .anonymous-team-registration a { font-size: 21px}
+.anonymous-team-registration-pilot-caption { text-align: center; font-size: 21px; color: #424242; padding-bottom: 60px;}
 
 
 .select { margin-left: 1px;}
