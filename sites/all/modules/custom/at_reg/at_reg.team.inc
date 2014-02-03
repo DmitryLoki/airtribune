@@ -49,6 +49,8 @@ function at_reg_team_form($form, $form_state) {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' =>  t('Send request'),
+    '#prefix'  => '<div class="form-actions">',
+    '#suffix' => '</div>',
   );
   return $form;
 }

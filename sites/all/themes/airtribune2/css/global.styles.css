@@ -2548,6 +2548,9 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
+.authorized-team-registration { text-align: center;}
+.page-user .pane-page-content form .authorized-team-registration a { color: #1b4587; font-size: 26px; margin: 0 45px;}
+
 
 .select { margin-left: 1px;}
 .select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff; margin: 1px 0; }
