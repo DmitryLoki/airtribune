@@ -1068,6 +1068,18 @@ function airtribune_views_query_alter(&$view, &$query) {
  */
 function airtribune_views_pre_render(&$view) {
   if ($view->name == 'paragliding_pilots_list') {
+    if ($view->current_display == 'team_card') {
+      // If user not contest org, show pilot status as text, not as editable field.
+      if (!is_user_contest_org($view->args[0])) {
+        $info = field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD);
+        $allowed_values = $info['settings']['allowed_values'];
+        foreach ($view->result as $row) {
+          $status = $row->_field_data['og_membership_users_id']['entity']->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}['und'][0]['value'];
+          $row->field_field_pg_contestant_status[0]['rendered']['#markup'] = $allowed_values[$status];
+        }
+      }
+    }
+
     if ($view->current_display == 'team_card_nac') {
       $view->result = array_slice($view->result, -1);
       $view->field['nothing']->options['alter']['text'] = t('Declared by') . ' ' . airtrubune_format_username($view->result[0]->field_team_member_users_uid);
@@ -2045,4 +2057,20 @@ function is_contest($node) {
   }
 
   return FALSE;
+}
+
+function is_user_entity_author($entity) {
+  global $user;
+  if ($user->uid == $entity->uid || $user->uid == 1) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function is_user_contest_org($contest) {
+  return is_user_entity_author($contest);
+}
+
+function is_user_team_leader($team) {
+  return is_user_entity_author($team);
 }

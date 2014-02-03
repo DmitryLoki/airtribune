@@ -123,14 +123,7 @@ function pg_nation_team_pilot_selection_form($form, &$form_state, $options) {
     $attributes['checked'] = array('checked');
   }
   else {
-    $query = new EntityFieldQuery();
-    $result = $query->entityCondition('entity_type', AIRTRIBUNE_TEAM_TYPE)
-      ->entityCondition('bundle', 'pg_nation_team')
-      ->fieldCondition('og_group_ref', 'target_id', $options['contest_nid'], '=')
-      ->fieldCondition('field_country', 'iso2', $options['user_country'], '=')
-      ->execute();
-    $eid = array_pop($result[AIRTRIBUNE_TEAM_TYPE]);
-    $options['ent_team'] = entity_load_single(AIRTRIBUNE_TEAM_TYPE, $eid->id);
+    $options['ent_team'] = get_team($options['contest_nid'], $options['user_country']);
   }
 
   $form['select_pilot'] = array(
@@ -140,6 +133,7 @@ function pg_nation_team_pilot_selection_form($form, &$form_state, $options) {
       'callback' => 'team_pilot_selection_callback',
       'wrapper' => 'select-pilot-' . $options['uid'],
     ),
+    '#disabled' => !is_user_team_leader($options['ent_team']),
     '#prefix' => '<div id="select-pilot-' . $options['uid'] . '" class="select-pilot">',
     '#suffix' => '</div>',
   );
@@ -157,6 +151,11 @@ function team_pilot_selection_callback($form, &$form_state) {
   $pilot_uid = $form_state['complete form']['select_pilot']['#attributes']['uid'];
   $pilot_checked = $form_state['complete form']['select_pilot']['#checked'];
   $ent_team = $form_state['complete form']['ent_team']['#value'];
+
+  // Only team leader can change pilot declared status
+  if (!is_user_team_leader($ent_team) {
+    return;
+  }
 
   $wrapper = entity_metadata_wrapper($ent_team->entityType(), $ent_team);
   $selected_pilots = $wrapper->field_team_member->value();
@@ -176,4 +175,20 @@ function team_pilot_selection_callback($form, &$form_state) {
   }
   $wrapper->field_team_member->set($selected_pilots);
   $wrapper->save();
+}
+
+function get_team($contest, $country) {
+  if (!is_object($contest)) {
+    $contest = node_load($contest);
+  }
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', AIRTRIBUNE_TEAM_TYPE)
+    ->entityCondition('bundle', 'pg_nation_team')
+    ->fieldCondition('og_group_ref', 'target_id', $contest->nid)
+    ->fieldCondition('field_country', 'iso2', $country)
+//    ->propertyCondition('uid', 1, '<>')
+    ->execute();
+  $eid = array_pop($result[AIRTRIBUNE_TEAM_TYPE]);
+  $team = entity_load_single(AIRTRIBUNE_TEAM_TYPE, $eid->id);
+  return $team ? $team : FALSE;
 }
