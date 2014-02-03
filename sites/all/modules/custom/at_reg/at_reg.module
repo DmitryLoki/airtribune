@@ -87,7 +87,7 @@ function at_reg_page_callback($node) {
         'element' => array(
           '#tag' => 'a',
           '#attributes' => array(
-            'class' => 'at-reg-team-leader-add-error some-other-class',
+            'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
             'href' => '#',
           ),
           '#value' => t('Team leader registration'),
@@ -136,7 +136,7 @@ function at_reg_page_callback_authorized($node, $user) {
         'element' => array(
           '#tag' => 'a',
           '#attributes' => array(
-            'class' => 'at-reg-team-leader-add-error some-other-class',
+            'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
             'href' => '#',
           ),
           '#value' => t('Team leader registration'),
@@ -166,7 +166,7 @@ function at_reg_page_callback_authorized($node, $user) {
         'element' => array(
           '#tag' => 'a',
           '#attributes' => array(
-            'class' => 'at-reg-team-leader-add-error some-other-class',
+            'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
             'href' => '#',
           ),
           '#value' => t('Team leader registration'),
