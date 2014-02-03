@@ -40,4 +40,5 @@ features[views_view][] = paragliding_contest_pilots_stats
 features[views_view][] = paragliding_pilots_list
 features[views_view][] = paragliding_pilots_list_export
 features[views_view][] = photos_carousel
+features[views_view][] = team_card_nac
 features[views_view][] = teams_applications
