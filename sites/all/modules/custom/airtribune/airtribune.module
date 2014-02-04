@@ -1070,7 +1070,7 @@ function airtribune_views_pre_render(&$view) {
   if ($view->name == 'paragliding_pilots_list') {
     if ($view->current_display == 'team_card') {
       // If user not contest org, show pilot status as text, not as editable field.
-      if (!is_user_contest_org($view->args[0])) {
+      if (!is_user_contest_org(node_load($view->args[0]))) {
         $info = field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD);
         $allowed_values = $info['settings']['allowed_values'];
         foreach ($view->result as $row) {

@@ -188,7 +188,10 @@ function get_team($contest, $country) {
     ->fieldCondition('field_country', 'iso2', $country)
 //    ->propertyCondition('uid', 1, '<>')
     ->execute();
-  $eid = array_pop($result[AIRTRIBUNE_TEAM_TYPE]);
-  $team = entity_load_single(AIRTRIBUNE_TEAM_TYPE, $eid->id);
-  return $team ? $team : FALSE;
+  if (!empty($result[AIRTRIBUNE_TEAM_TYPE])) {
+    $eid = array_pop($result[AIRTRIBUNE_TEAM_TYPE]);
+    $team = entity_load_single(AIRTRIBUNE_TEAM_TYPE, $eid->id);
+    return $team;
+  }
+  return FALSE;
 }

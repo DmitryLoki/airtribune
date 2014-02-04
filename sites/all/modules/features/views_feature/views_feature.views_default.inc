@@ -9994,8 +9994,8 @@ return array($event_id);';
   $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
   $handler->display->display_options['filters']['field_contestant_number_value']['group'] = 1;
 
-  /* Display: Team card */
-  $handler = $view->new_display('panel_pane', 'Team card', 'team_card');
+  /* Display: Team card pilots */
+  $handler = $view->new_display('panel_pane', 'Team card pilots', 'team_card');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['cache'] = FALSE;
   $handler->display->display_options['cache']['type'] = 'none';
@@ -10250,26 +10250,36 @@ return array($event_id);';
     1 => '1',
   );
   $handler->display->display_options['filters']['state']['group'] = 1;
-  $handler->display->display_options['pane_title'] = 'Manage event pilots (all)';
+  $handler->display->display_options['pane_title'] = 'Team card pilots';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
   $handler->display->display_options['allow']['link_to_view'] = 0;
   $handler->display->display_options['allow']['more_link'] = 0;
   $handler->display->display_options['allow']['path_override'] = 0;
-  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['title_override'] = 0;
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
-      'type' => 'context',
+      'type' => 'panel',
       'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
       'label' => 'OG membership: Group ID',
     ),
+    'field_address_country' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Field: Address (field_address:country)',
+    ),
   );
+  $handler->display->display_options['inherit_panels_path'] = '0';
   $translatables['paragliding_pilots_list'] = array(
     t('Defaults'),
     t('more'),
@@ -10342,7 +10352,7 @@ return array($event_id);';
     t('Manage event pilots (confirmed)'),
     t('All contestants (Entity Reference)'),
     t('[field_full_name] ([field_address])'),
-    t('Team card'),
+    t('Team card pilots'),
     t('Team referencing User from field_team_member'),
     t('Team members'),
   );
@@ -11439,6 +11449,24 @@ return array($event_id);';
 
   /* Display: TC for organiser */
   $handler = $view->new_display('panel_pane', 'TC for organiser', 'team_card_for_org');
+  $handler->display->display_options['argument_input'] = array(
+    'og_group_ref_target_id' => array(
+      'type' => 'panel',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Field: Groups audience (og_group_ref)',
+    ),
+    'field_country_iso2' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Field: Country (field_country)',
+    ),
+  );
 
   /* Display: TC for team lead */
   $handler = $view->new_display('panel_pane', 'TC for team lead', 'team_card_for_teamlead');
@@ -11507,6 +11535,24 @@ return array($event_id);';
     'fallback_format' => 'email_default',
     'link_text' => 'Edit',
     'link_position' => '0',
+  );
+  $handler->display->display_options['argument_input'] = array(
+    'og_group_ref_target_id' => array(
+      'type' => 'panel',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Field: Groups audience (og_group_ref)',
+    ),
+    'field_country_iso2' => array(
+      'type' => 'user',
+      'context' => 'entity:ent_advert.og-membership--1',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Field: Country (field_country)',
+    ),
   );
   $translatables['team_card_nac'] = array(
     t('Master'),
