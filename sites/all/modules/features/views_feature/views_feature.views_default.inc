@@ -11615,6 +11615,16 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_team';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['relationship'] = 'reverse_field_users_ref_ent_team';
+  /* Field: Team: Id (excluded) */
+  $handler->display->display_options['fields']['id']['id'] = 'id';
+  $handler->display->display_options['fields']['id']['table'] = 'eck_ent_team';
+  $handler->display->display_options['fields']['id']['field'] = 'id';
+  $handler->display->display_options['fields']['id']['relationship'] = 'reverse_field_users_ref_ent_team';
+  $handler->display->display_options['fields']['id']['ui_name'] = 'Team: Id (excluded)';
+  $handler->display->display_options['fields']['id']['label'] = '';
+  $handler->display->display_options['fields']['id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['id']['separator'] = '';
   /* Field: User: Uid */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
   $handler->display->display_options['fields']['uid']['table'] = 'users';
@@ -11664,6 +11674,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['pg_nation_team_pilots_count']['field'] = 'pg_nation_team_pilots_count';
   $handler->display->display_options['fields']['pg_nation_team_pilots_count']['relationship'] = 'reverse_field_users_ref_ent_team';
   $handler->display->display_options['fields']['pg_nation_team_pilots_count']['label'] = 'Pilots';
+  $handler->display->display_options['fields']['pg_nation_team_pilots_count']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['pg_nation_team_pilots_count']['alter']['path'] = 'event/!1/pilots/manage/teams/[id]';
   /* Field: Team: Approve team leader */
   $handler->display->display_options['fields']['view_approve_team_leader']['id'] = 'view_approve_team_leader';
   $handler->display->display_options['fields']['view_approve_team_leader']['table'] = 'views_entity_ent_team';
@@ -11716,6 +11728,7 @@ return array($event_id);';
     t('Main Profile'),
     t('Team referencing User from field_users_ref'),
     t('OG membership from ent_team'),
+    t('.'),
     t('Country'),
     t('Team leader'),
     t('Email'),
