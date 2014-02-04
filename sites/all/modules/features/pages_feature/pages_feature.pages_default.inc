@@ -6304,6 +6304,21 @@ ____(CCCCCCCCCCCCCC)____________;;;
           'context' => 'argument_entity_id:node_1',
           'not' => TRUE,
         ),
+        3 => array(
+          'name' => 'entity_field_value:node:pg_contest:field_fai_category',
+          'settings' => array(
+            'field_fai_category' => array(
+              'und' => array(
+                0 => array(
+                  'value' => '1',
+                ),
+              ),
+            ),
+            'field_fai_category_value' => '1',
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
       ),
       'logic' => 'and',
     ),
@@ -7439,7 +7454,10 @@ window.fbAsyncInit = function() {
   $page->admin_title = 'NAC team card';
   $page->admin_description = '';
   $page->path = 'event/%node/pilots/manage/teams/%team';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'node' => array(
