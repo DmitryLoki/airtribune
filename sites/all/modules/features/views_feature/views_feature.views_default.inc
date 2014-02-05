@@ -10134,6 +10134,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_full_name']['table'] = 'field_data_field_full_name';
   $handler->display->display_options['fields']['field_full_name']['field'] = 'field_full_name';
   $handler->display->display_options['fields']['field_full_name']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_full_name']['label'] = 'Pilot';
   $handler->display->display_options['fields']['field_full_name']['click_sort_column'] = 'title';
   $handler->display->display_options['fields']['field_full_name']['settings'] = array(
     'format' => 'default',
@@ -10160,27 +10161,13 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_fai_license_number']['table'] = 'field_data_field_fai_license_number';
   $handler->display->display_options['fields']['field_fai_license_number']['field'] = 'field_fai_license_number';
   $handler->display->display_options['fields']['field_fai_license_number']['relationship'] = 'profile_1';
-  /* Field: OG membership: Payment status */
-  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Status';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
-  $handler->display->display_options['fields']['field_pg_contestant_status']['settings'] = array(
-    'click_to_edit' => 0,
-    'click_to_edit_style' => 'button',
-    'empty_text' => '',
-    'fallback_format' => 'list_default',
-  );
+  $handler->display->display_options['fields']['field_fai_license_number']['label'] = 'FAI license №';
   /* Field: Team: Pilot selection */
   $handler->display->display_options['fields']['view_team_card_pilot_selection']['id'] = 'view_team_card_pilot_selection';
   $handler->display->display_options['fields']['view_team_card_pilot_selection']['table'] = 'views_entity_ent_team';
   $handler->display->display_options['fields']['view_team_card_pilot_selection']['field'] = 'view_team_card_pilot_selection';
   $handler->display->display_options['fields']['view_team_card_pilot_selection']['relationship'] = 'reverse_field_team_member_ent_team';
-  $handler->display->display_options['fields']['view_team_card_pilot_selection']['label'] = 'Status';
+  $handler->display->display_options['fields']['view_team_card_pilot_selection']['label'] = 'Team Leader status';
   /* Field: Team: Team members */
   $handler->display->display_options['fields']['field_team_member']['id'] = 'field_team_member';
   $handler->display->display_options['fields']['field_team_member']['table'] = 'field_data_field_team_member';
@@ -10191,6 +10178,21 @@ return array($event_id);';
     'link' => 0,
   );
   $handler->display->display_options['fields']['field_team_member']['delta_offset'] = '0';
+  /* Field: OG membership: Payment status */
+  $handler->display->display_options['fields']['field_pg_contestant_status']['id'] = 'field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['table'] = 'field_data_field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['field'] = 'field_pg_contestant_status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['label'] = 'Event status';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['alter']['text'] = '<span class="status-value">[field_pg_contestant_status]</span>';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['element_class'] = 'status-[field_pg_contestant_status_1]';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['type'] = 'editable';
+  $handler->display->display_options['fields']['field_pg_contestant_status']['settings'] = array(
+    'click_to_edit' => 0,
+    'click_to_edit_style' => 'button',
+    'empty_text' => '',
+    'fallback_format' => 'list_default',
+  );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Profile: Gender (field_gender) */
   $handler->display->display_options['sorts']['field_gender_value']['id'] = 'field_gender_value';
@@ -10354,7 +10356,10 @@ return array($event_id);';
     t('[field_full_name] ([field_address])'),
     t('Team card pilots'),
     t('Team referencing User from field_team_member'),
+    t('FAI license №'),
+    t('Team Leader status'),
     t('Team members'),
+    t('Event status'),
   );
   $export['paragliding_pilots_list'] = $view;
 
