@@ -2,6 +2,9 @@
 	Created by Vladimir Khodakov (web-interface.info team)
 	version 1.3
  */
+jQuery(function(){
+  jQuery('#edit-approve-team-leader--2').attr('disabled','disabled')
+})
 
 jQuery.fn.forms = function(options){ // custom form elements
 	var options = jQuery.extend({
@@ -33,6 +36,10 @@ jQuery.fn.forms = function(options){ // custom form elements
 					}
 					el.show().css({'position':'absolute', 'top':'auto', 'left':'-10000px'})
 					el.prev().click(function(){
+            //skip disabled elements
+            if(el.is(':disabled')) {
+              return;
+            }
 						jQuery(this).toggleClass('check_'+el.type);
 						if (!el.is(':checked')) {
 							el.attr('checked', true)
