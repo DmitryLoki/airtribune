@@ -177,6 +177,19 @@ function team_pilot_selection_callback($form, &$form_state) {
   $wrapper->save();
 }
 
+
+/**
+ * Implements hook_form_alter().
+ */
+function pg_nation_team_form_alter($form, &$form_state, $form_id) {
+  // Disable editing ent_team for non-admin
+  // @see #4338, comment #10
+  global $user;
+  if ($form_id == 'eck__entity__form_edit_ent_team_pg_nation_team' && $user->uid != 1) {
+    drupal_access_denied();
+  }
+}
+
 function get_team($contest, $country) {
   if (!is_object($contest)) {
     $contest = node_load($contest);

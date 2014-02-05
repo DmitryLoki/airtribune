@@ -150,6 +150,7 @@ features[user_permission][] = eck delete entity types
 features[user_permission][] = eck edit bundles
 features[user_permission][] = eck edit ent_point bundles
 features[user_permission][] = eck edit ent_point waypoint entities
+features[user_permission][] = eck edit ent_team pg_nation_team entities
 features[user_permission][] = eck edit ent_track bundles
 features[user_permission][] = eck edit ent_track track entities
 features[user_permission][] = eck edit ent_tracker bundles
