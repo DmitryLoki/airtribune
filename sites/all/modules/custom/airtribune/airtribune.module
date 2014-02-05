@@ -1086,10 +1086,6 @@ function airtribune_views_pre_render(&$view) {
       }
     }
   }
-  if ($view->name == 'team_card_nac') {
-    $teamlead = user_load($view->result[0]->eck_ent_team_uid);
-    $view->field['nothing']->options['alter']['text'] = t('Declared by') . ' ' . airtrubune_format_username($teamlead, 20);
-  }
   // Make normal, human sort in FAI pilot list (by nation)
   // Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
   // difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
