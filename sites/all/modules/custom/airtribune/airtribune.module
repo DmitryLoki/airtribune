@@ -2084,9 +2084,11 @@ function is_user_team_leader($team) {
  * @see #4338
  */
 function airtribune_tokens_alter(array &$replacements, array $context) {
-  if ($context['data']['entity_type'] == AIRTRIBUNE_TEAM_TYPE && isset($context['tokens'][AIRTRIBUNE_COUNTRY_FIELD])) {
-    $entity = $context['data']['entity'];
+  if ($context['data']['entity_type'] == AIRTRIBUNE_TEAM_TYPE && isset($context['tokens'][AIRTRIBUNE_COUNTRY_FIELD]) || isset($context['tokens']['field-country'])) {
+    $entity = isset($context['data']['entity_type']) ? $context['data']['entity'] : $context['data'][$context['type']];
     $cc = $entity->{AIRTRIBUNE_COUNTRY_FIELD}[LANGUAGE_NONE][0]['iso2'];
+    $country = country_load($cc);
     $replacements[AIRTRIBUNE_COUNTRY_FIELD] = $cc;
+    $replacements['field-country'] = $country->name;
   }
 }
