@@ -1107,6 +1107,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'eck',
   );
 
+  // Exported permission: eck view ent_team pg_nation_team entities.
+  $permissions['eck view ent_team pg_nation_team entities'] = array(
+    'name' => 'eck view ent_team pg_nation_team entities',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
   // Exported permission: eck view ent_track track entities.
   $permissions['eck view ent_track track entities'] = array(
     'name' => 'eck view ent_track track entities',
