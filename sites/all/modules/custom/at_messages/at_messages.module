@@ -94,12 +94,24 @@ To approve Team Leaders, visit @event_manage_team_link
 Best regards,
 Airtribune.com');
 
+// notyfy about teamleader is registred
 define('AT_MSG_EMAIL_SUBJ_REGISTER_TEAMLEADER_TO_TEAMLEADER', 'Team Leader registration');
 define('AT_MSG_EMAIL_BODY_REGISTER_TEAMLEADER_TO_TEAMLEADER', 'Dear @teamleader_fullname,
 
 You have applied to be a Team leader of @country for @event_name.
 After you are approved by organizer, you will get a confirmation email.
 You will be able to register your team after you are approved.
+
+Best regards,
+Airtribune.com');
+
+// notify about 
+define('AT_MSG_EMAIL_SUBJ_TEAM_CHANGE', 'Team @country changed');
+define('AT_MSG_EMAIL_BODY_TEAM_CHANGE', 'Dear, @fullname
+
+The team leader of @country for for @event_name has saved changes in Team Registration Form. 
+
+Team @country @event_manage_team_link
 
 Best regards,
 Airtribune.com');
@@ -354,17 +366,37 @@ function at_messages_register_at_event_submit($form, &$form_state) {
  *
  * @param array $options - array of options:
  *     -replacements (array)
- *        -@fullname
- *        -@event_name
- *        -@event_manage_team_link
- *        -@country
- *     -user
+ *        -@fullname - name of recipient
+ *        -@event_name - name of event
+ *        -@event_manage_team_link - link to team manage pge
+ *        -@country - country name
+ *     -user - user object
  */
 function at_messages_send_mail_approve_teamleader($options) {
   $user = $options['user'];
   $mail = array(
     'subject' => t(AT_MSG_EMAIL_SUBJ_APPROVE_TEAMLEADER, $options['replacements']),
     'message' => t(AT_MSG_EMAIL_BODY_APPROVE_TEAMLEADER, $options['replacements'])
+  );
+  $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
+}
+
+/*
+ * Send message for approved teamleader.
+ *
+ * @param array $options - array of options:
+ *     -replacements (array)
+ *        -@fullname - name of recipient
+ *        -@event_name - name of event
+ *        -@event_manage_team_link - link to team manage pge
+ *        -@country - country name
+ *     -user - user object
+ */
+function at_messages_send_mail_change_team($options) {
+  $user = $options['user'];
+  $mail = array(
+    'subject' => t(AT_MSG_EMAIL_SUBJ_TEAM_CHANGE, $options['replacements']),
+    'message' => t(AT_MSG_EMAIL_BODY_TEAM_CHANGE, $options['replacements'])
   );
   $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
 }
