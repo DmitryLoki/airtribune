@@ -47,75 +47,79 @@ abstract class ATSync {
     }
     $response = curl_exec($handle);
     $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+    $request_array = array(
+      'code' => $code,
+      'method' => $method,
+      'url' => $url,
+    );
+    $request_info = t('!request_info', array('!request_info' => '<pre>' . print_r($request_array, TRUE) . '</pre>'));
+    $head = t("Core API[!code]: ", array('!code' => $code));
+    $url = l($url, $url);
     switch ($code) {
       case 200:
-        ATSync::setMessage(t("Core API: Request completed."));
+        ATSync::setMessage($head . t("Request completed."));
         break;
 
       case 201:
-        ATSync::setMessage(t("Core API: Resource is successfully created."));
+        ATSync::setMessage($head . t("Resource is successfully created."));
         break;
 
       case 202:
-        ATSync::setMessage(t("Core API: Request accepted."));
+        ATSync::setMessage($head . t("Request accepted."));
         break;
 
       case 400:
-        ATSync::setMessage(t("Core API[400]: Request has error. Check fields and send again."), 'error');
+        ATSync::setMessage($head . t("Request has error. Check fields and send again."), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 401:
-        ATSync::setMessage(t("Core API[401]: You need to auth before send this request."), 'error');
+        ATSync::setMessage($head . t("You need to auth before send this request."), 'error');
         break;
 
       case 403:
-        ATSync::setMessage(t("Core API[403]: Requested operation not avaible."), 'error');
+        ATSync::setMessage($head . t("Requested operation not available."), 'error');
         break;
 
       case 404:
-        ATSync::setMessage(t("Core API[404]: Resource not found, (!url)", array('!url' => l($url, $url))), 'error');
+        ATSync::setMessage($head . t("Resource not found, (!url)", array('!url' => $url)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 405:
-        ATSync::setMessage(t("Core API[405]: Method <i>!method</i> is not allowed for resource !url.", array(
+        ATSync::setMessage($head . t("Method <i>!method</i> is not allowed for resource !url.", array(
           '!method' => $method,
-          '!url' => l($url, $url)
+          '!url' => $url,
         )), 'error');
         break;
 
       case 409:
-        ATSync::setMessage(t("Core API[409]: Conflict happened. See server response for details."), 'error');
+        ATSync::setMessage($head . t("Conflict happened. See server response for details.", array('!code' => $code)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 500:
-        ATSync::setMessage(t("Core API[500]: Format error or server restrictions."), 'error');
+        ATSync::setMessage($head . t("Format error or server restrictions.", array('!code' => $code)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 502:
       case 504:
-        ATSync::setMessage(t("Core API is unreachable at (!url) (server error), request queued.", array('!url' => l($url, $url))), 'error');
-        watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+        $message = $head . t("is unreachable (server error), request queued.") . $request_info;
+        ATSync::setMessage($message, 'error');
+        watchdog("at_core_sync", $message);
         break;
 
       case 0:
-        ATSync::setMessage(t("Core API is unreachable at (!url) (timeout), request queued.", array('!url' => l($url, $url))), 'error');
-        watchdog("at_core_sync", t("Core API is unreachable at (!url), request queued.", array('!url' => l($url, $url))));
+        $message = $head . t("is unreachable (timeout), request queued.") . $request_info;
+        ATSync::setMessage($message, 'error');
+        watchdog("at_core_sync", $message);
         break;
 
       default:
-        ATSync::setMessage(t("Core API: unknown response. Mechod <i>!method</i>, resource !url.", array(
-          '!method' => $method,
-          '!url' => l($url, $url)
-        )), 'warning');
-        watchdog("at_core_sync", t("Core API: unknown response. Code !code, mechod <i>!method</i>, resource !url.", array(
-          '!method' => $method,
-          '!url' => l($url, $url),
-          '!code' => $code
-        )), array(), WATCHDOG_WARNING);
+        $message = $head . t("unknown response") . $request_info;
+        ATSync::setMessage($message, 'warning');
+        watchdog("at_core_sync", $message, array(), WATCHDOG_WARNING);
         break;
     }
     return json_decode($response);
@@ -127,7 +131,7 @@ abstract class ATSync {
 
   public function updateCoreID($id) {
     $this->entity->field_core_id = array(
-      "und" => array(
+      LANGUAGE_NONE => array(
         array(
           "value" => $id,
         ),
@@ -158,14 +162,14 @@ class ATSyncContest extends ATSync {
   public function synchronize() {
     $node = $this->entity;
     $data = array(
-      'hq_coords' => $node->field_hq_location['und'][0]['lat'] . ',' . $node->field_hq_location['und'][0]['lon'],
+      'hq_coords' => $node->field_hq_location[LANGUAGE_NONE][0]['lat'] . ',' . $node->field_hq_location[LANGUAGE_NONE][0]['lon'],
       'title' => $node->title,
-      'start_time' => strtotime($node->field_dates['und'][0]['value']),
-      'end_time' => strtotime($node->field_dates['und'][0]['value2']),
-      'place' => $node->field_city['und'][0]['value'],
-      'country' => $node->field_country['und'][0]['iso2'],
-      'timezone' => $node->field_time_zone['und'][0]['value'],
-      'retrieve_id' => !empty($node->field_device_id['und'][0]['value']) ? $node->field_device_id['und'][0]['value'] : NULL,
+      'start_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value']),
+      'end_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value2']),
+      'place' => $node->field_city[LANGUAGE_NONE][0]['value'],
+      'country' => $node->field_country[LANGUAGE_NONE][0]['iso2'],
+      'timezone' => $node->field_time_zone[LANGUAGE_NONE][0]['value'],
+      'retrieve_id' => !empty($node->field_device_id[LANGUAGE_NONE][0]['value']) ? $node->field_device_id[LANGUAGE_NONE][0]['value'] : NULL,
     );
     if ($this->core_id) {
       // change address if contest already in Core
@@ -214,7 +218,7 @@ class ATSyncCustom extends ATSync {
     _asd(json_encode($data), $this->address, $response);
     // Synchronize og_membership, see #3572 for details
     $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-    $og_membership = og_get_membership("node", $og_group_ref, "ent_customobject", $this->entity->id);
+    $og_membership = og_get_membership("node", $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
     $og_membership->tracked_core_id = !empty($response->id) ? $response->id : FALSE;
     $sync = _get_class_by_entity('og_membership', $og_membership);
     $sync->synchronize();
@@ -237,18 +241,18 @@ class ATSyncTrackedObject extends ATSync {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
-    $this->transport = entity_load_single('ent_customobject', $this->entity->etid);
+    $this->transport = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
     // See #3572
     if(!empty($entity->tracked_core_id)) {
       $this->tracked_core_id = $entity->tracked_core_id;
     } else {
-      $this->tracked_core_id = get_id_from_entity('ent_customobject', $this->transport);
+      $this->tracked_core_id = get_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
     }
     $tracker_eid = FALSE;
     if (isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
-        $this->tracker = entity_load_single('ent_tracker', $tracker_eid);
+        $this->tracker = entity_load_single(AIRTRIBUNE_TRACKER_TYPE, $tracker_eid);
       }
     }
   }
@@ -360,7 +364,7 @@ class ATSyncPilot extends ATSync {
     if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
-        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
+        $this->tracker = array_pop(entity_load(AIRTRIBUNE_TRACKER_TYPE, array($tracker_eid), array(), TRUE));
       }
     }
   }
@@ -537,7 +541,7 @@ class ATSyncRace extends ATSync {
     $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
     $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
-    $racetype = array_pop(entity_load('ent_racetype', array($racetype_ref), array(), TRUE));
+    $racetype = array_pop(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype_ref), array(), TRUE));
     switch ($racetype->type) {
       case "pg_racetype_rtg":
         $data['race_type'] = 'racetogoal';
@@ -558,7 +562,7 @@ class ATSyncRace extends ATSync {
     foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
       $point_ref[] = $pref['target_id'];
     }
-    $points = entity_load("ent_point", $point_ref, array(), TRUE);
+    $points = entity_load(AIRTRIBUNE_POINT_ENTITY_TYPE, $point_ref, array(), TRUE);
     $checkpoints = array();
     $checkpoints['type'] = "FeatureCollection";
     $checkpoints['features'] = array();
@@ -568,7 +572,7 @@ class ATSyncRace extends ATSync {
       $point_data['type'] = 'Feature';
       $point_data['geometry'] = array();
       $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
-      $contest_point = array_pop(entity_load('ent_contest_point', array($contest_point_ref), array(), TRUE));
+      $contest_point = array_pop(entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array($contest_point_ref), array(), TRUE));
       $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), TRUE);
@@ -692,7 +696,7 @@ class ATSyncTracker extends ATSync {
   public $address = "tracker";
 
   public function synchronize() {
-    $wrapper = entity_metadata_wrapper('ent_tracker', $this->entity);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $this->entity);
     $field_tracker_type = $wrapper->field_tracker_type->value();
     $field_device_id = $wrapper->field_device_id->value();
     $device_type = $field_tracker_type->title;
