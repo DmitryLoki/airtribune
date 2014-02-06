@@ -152,7 +152,7 @@ function at_reg_page_callback_authorized($node, $user) {
       $etid = $approved;
       $form['fai_1_head'] = array(
         '#markup' => '<a class="pilot" href="#">' . t('Pilot registration') . '</a>'
-                    . ' <a href="' . url("event/{$node->nid}/pilots/manage/teams/{$etid}") . '">' . t('Team leader registration') . '</a>',
+                    . ' <a href="' . url("event/{$node->nid}/pilots/manage/teams/{$etid}") . '">' . t('Team registration') . '</a>',
       );
       return $form;
     }
@@ -175,7 +175,7 @@ function at_reg_page_callback_authorized($node, $user) {
     }
     elseif ($og_state_exists && $pledged && $approved) {
       $etid = $approved;
-      return l(t('Team leader registration'), "event/{$node->nid}/pilots/manage/teams/{$etid}");
+      return l(t('Team registration'), "event/{$node->nid}/pilots/manage/teams/{$etid}");
     }
   }
   else {
