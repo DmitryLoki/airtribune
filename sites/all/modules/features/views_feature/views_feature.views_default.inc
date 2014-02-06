@@ -9264,7 +9264,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['field'] = 'field_name_in_national_alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -10334,7 +10334,7 @@ return array($event_id);';
     t('Insurance company'),
     t('Insurance policy number'),
     t('Name in national alphabet'),
-    t('Person to contact in case of emergency'),
+    t('NAC contact person full name'),
     t('Contact phone number in case of emergency'),
     t('Blood type'),
     t('[field_tracker-target_id]'),
@@ -10631,7 +10631,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['element_label_colon'] = FALSE;
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -10979,7 +10979,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['relationship'] = 'profile_1';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['label'] = 'Name in national alphabet';
   $handler->display->display_options['fields']['field_name_in_national_alphabet']['element_label_colon'] = FALSE;
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -11241,7 +11241,7 @@ return array($event_id);';
     t('Insurance company'),
     t('Insurance policy number'),
     t('Name in national alphabet'),
-    t('Person to contact in case of emergency'),
+    t('NAC contact person full name'),
     t('Contact phone number in case of emergency'),
     t('Blood type'),
     t('Payment status'),
@@ -11373,30 +11373,6 @@ return array($event_id);';
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'eck_ent_team';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Field: Field: Country */
-  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
-  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
-  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
-  $handler->display->display_options['fields']['field_country']['label'] = '';
-  $handler->display->display_options['fields']['field_country']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_country']['alter']['text'] = 'Team [field_country]';
-  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Field: Team: Author */
-  $handler->display->display_options['fields']['uid']['id'] = 'uid';
-  $handler->display->display_options['fields']['uid']['table'] = 'eck_ent_team';
-  $handler->display->display_options['fields']['uid']['field'] = 'uid';
-  $handler->display->display_options['fields']['uid']['label'] = '';
-  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['uid']['separator'] = '';
-  /* Field: Declared by */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['ui_name'] = 'Declared by';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Declared by [uid] // see views_pre_render';
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Team: NAC's confirmation */
   $handler->display->display_options['fields']['field_single_download']['id'] = 'field_single_download';
   $handler->display->display_options['fields']['field_single_download']['table'] = 'field_data_field_single_download';
@@ -11406,7 +11382,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_single_download']['settings'] = array(
     'text' => 'Download [file:name]',
   );
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
@@ -11476,30 +11452,6 @@ return array($event_id);';
   /* Display: TC for team lead */
   $handler = $view->new_display('panel_pane', 'TC for team lead', 'team_card_for_teamlead');
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Field: Country */
-  $handler->display->display_options['fields']['field_country']['id'] = 'field_country';
-  $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
-  $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
-  $handler->display->display_options['fields']['field_country']['label'] = '';
-  $handler->display->display_options['fields']['field_country']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_country']['alter']['text'] = 'Team [field_country]';
-  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
-  /* Field: Team: Author */
-  $handler->display->display_options['fields']['uid']['id'] = 'uid';
-  $handler->display->display_options['fields']['uid']['table'] = 'eck_ent_team';
-  $handler->display->display_options['fields']['uid']['field'] = 'uid';
-  $handler->display->display_options['fields']['uid']['label'] = '';
-  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['uid']['separator'] = '';
-  /* Field: Declared by */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['ui_name'] = 'Declared by';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Declared by [uid] // see views_pre_render';
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Team: NAC's confirmation */
   $handler->display->display_options['fields']['field_single_download']['id'] = 'field_single_download';
   $handler->display->display_options['fields']['field_single_download']['table'] = 'field_data_field_single_download';
@@ -11514,11 +11466,10 @@ return array($event_id);';
     'link_text' => 'Edit',
     'link_position' => '0',
   );
-  /* Field: Field: Person to contact in case of emergency */
+  /* Field: Field: NAC contact person full name */
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['label'] = 'NAC contact person full name';
   $handler->display->display_options['fields']['field_person_name']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_person_name']['settings'] = array(
     'click_to_edit' => TRUE,
@@ -11568,9 +11519,6 @@ return array($event_id);';
     t('Asc'),
     t('Desc'),
     t('OG membership from ent_team'),
-    t('Team [field_country]'),
-    t('.'),
-    t('Declared by [uid] // see views_pre_render'),
     t('NAC\'s confirmation'),
     t('NAC contact person full name'),
     t('NAC contact person email'),
