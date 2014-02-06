@@ -60,11 +60,34 @@ function at_reg_team_form_submit($form, &$form_state) {
   $node = $form_state['build_info']['args'][0];
   $gid = $node->nid;
   $country_code = $form_state['values']['county'];
-  
+  $country = country_load($country_code);
   $entity = _at_reg_team_get_team_entity($gid, $country_code);
   drupal_set_message(t('Your application as a team leader was sent.'));
   drupal_set_message(t('After you are approved by organizer you will be able to continue with team registration.'));
   $form_state['redirect'] = "event/{$node->nid}/register";
+
+  // Send mail
+  $options = array();
+  $options['user'] = user_load($entity->uid);
+
+  $profile = profile2_load_by_user($options['user']);
+  $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
+
+  $options['replacements'] = array(
+    '@teamleader_fullname' => $fullname,
+    '@event_name' => trim($node->title),
+    '@event_manage_team_link' => url('event/' . $node->nid . '/pilots/manage/teams/' . $entity->id, array('absolute' => TRUE)),
+    '@country' => $country->name,
+  );
+  at_messages_send_mail_register_teamleader('teamleader', $options);
+
+  $options['user'] = user_load($node->uid);
+  $profile = profile2_load_by_user($options['user']);
+  $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
+  $options['replacements']['@organizer_fullname'] = $fullname;
+  $options['replacements']['@event_manage_team_link'] = url('event/' . $node->nid . '/pilots/manage/teams', array('absolute' => TRUE));
+
+  at_messages_send_mail_register_teamleader('organizer', $options);
 }
 
 /**
