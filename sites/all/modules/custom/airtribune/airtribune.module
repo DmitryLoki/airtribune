@@ -713,6 +713,7 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
+  global $user;
   $configuration = $vars['pane']->configuration;
 
 
