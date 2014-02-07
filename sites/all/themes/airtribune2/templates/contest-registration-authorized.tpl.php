@@ -2,7 +2,7 @@
   <div class='authorized-team-registration'>
     <?php print drupal_render($form['fai_1_head']);?>
   </div>
-  <div <div class='authorized-team-registration-form' style="display:none">
+  <div <div class='authorized-team-registration-form event-register-form'>
 <?php endif;?>
 
 <?php

@@ -2,7 +2,7 @@
   Drupal.behaviors.at_reg_team = {
     attach: function(){
       $(".authorized-team-registration a.pilot").click(function(){
-        $(".authorized-team-registration-form").show();
+        $(".authorized-team-registration-form").removeClass('event-register-form');
         $(".authorized-team-registration").hide();
         return false;
       });
