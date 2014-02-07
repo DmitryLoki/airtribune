@@ -2437,7 +2437,7 @@ html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-event .pane-page-content form .form-item .checkbox { background:url(../images/forms.png) no-repeat 0 -1100px; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
 .page-user .pane-page-content form .form-item .check_checkbox,
 .page-event .pane-page-content form .form-item .check_checkbox { background-position:0 -1120px}
-.disabled-form-org-form #edit-submit { display: none; }
+.teamcard-for-organizer-form #edit-submit { display: none; }
 #views-form-paragliding-pilots-list-team-card .check_checkbox::after {
   content: 'Declared';
 }
