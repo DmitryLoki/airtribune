@@ -40,7 +40,7 @@ function airtribune_airtribune_teamcard_header_content_type_render(&$subtype, $c
     '<div class="teamcard-header">' .
     '<div class="country ' . $country . '">' . t('Team') . ' ' . t($country_full->name) . '</div>'.
     '<div class="declared">' . t('Declared by') . ' ' . airtrubune_format_username($teamlead, 20) . '</div>'.
-    '<div class="teamlead-email">' . l($email, $email, array('absolute' => TRUE)) . '</div>'.
+    '<div class="teamlead-email">' . l($email, 'mailto:' . $email, array('absolute' => TRUE)) . '</div>'.
     '<div class="modified">' . t('Modified on') . ' ' . $last_modified . '</div>'.
     '</div>';
   $content['#theme_wrappers'] = array('container');
