@@ -2076,6 +2076,18 @@ function is_user_team_leader($team) {
   return is_user_entity_author($team);
 }
 
+function get_country_name($iso2) {
+  $country = country_load($iso2);
+  return $country->name;
+}
+
+function get_pilot_profile($user) {
+  return profile2_load_by_user($user, AIRTRIBUNE_USER_PILOT_PROFILE);
+}
+
+function get_main_profile($user) {
+  return profile2_load_by_user($user, AIRTRIBUNE_USER_MAIN_PROFILE);
+}
 /*
  * Alter country token.
  * @see #4338
@@ -2084,8 +2096,7 @@ function airtribune_tokens_alter(array &$replacements, array $context) {
   if ((isset($context['data']['entity_type']) && $context['data']['entity_type'] == AIRTRIBUNE_TEAM_TYPE) && isset($context['tokens'][AIRTRIBUNE_COUNTRY_FIELD]) || isset($context['tokens']['field-country'])) {
     $entity = isset($context['data']['entity_type']) ? $context['data']['entity'] : $context['data'][$context['type']];
     $cc = $entity->{AIRTRIBUNE_COUNTRY_FIELD}[LANGUAGE_NONE][0]['iso2'];
-    $country = country_load($cc);
     $replacements[AIRTRIBUNE_COUNTRY_FIELD] = $cc;
-    $replacements['field-country'] = $country->name;
+    $replacements['field-country'] = get_country_name($cc);
   }
 }
