@@ -158,6 +158,7 @@ function pg_nation_team_form_alter($form, &$form_state, $form_id) {
  */
 function pg_nation_team_field_access($op, $field, $entity_type, $entity, $account) {
   global $user;
+
   //~ if ($entity_type == AIRTRIBUNE_TEAM_TYPE && $entity->type == AIRTRIBUNE_PG_NATION_TEAM_TYPE) {
   if ($entity_type == AIRTRIBUNE_TEAM_TYPE) {
     $fields_allowed = array(
@@ -165,7 +166,7 @@ function pg_nation_team_field_access($op, $field, $entity_type, $entity, $accoun
       'field_single_download',
       'field_single_email',
     );
-    if (!in_array($field['field_name'], $fields_allowed) && $user->uid != 1) {
+    if (!in_array($field['field_name'], $fields_allowed) && $user->uid != 1 && $op == 'edit') {
       return FALSE;
     }
   }
