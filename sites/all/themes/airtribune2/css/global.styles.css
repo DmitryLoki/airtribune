@@ -2580,7 +2580,6 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 .page-user .pane-page-content form .anonymous-team-registration a { color: #1b4587; font-size: 26px; margin: 0 45px;}
 .page-user .pane-page-content form .anonymous-team-registration a { font-size: 21px}
 .anonymous-team-registration-pilot-caption { text-align: center; font-size: 21px; color: #424242; padding-bottom: 60px;}
-#views-form-paragliding-pilots-list-team-card .form-submit { display: none; }
 
 .select { margin-left: 1px;}
 .select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff; margin: 1px 0; }

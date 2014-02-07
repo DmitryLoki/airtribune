@@ -107,7 +107,7 @@ Airtribune.com');
 
 // notify about 
 define('AT_MSG_EMAIL_SUBJ_TEAM_CHANGE', 'Team @country changed');
-define('AT_MSG_EMAIL_BODY_TEAM_CHANGE', 'Dear, @fullname
+define('AT_MSG_EMAIL_BODY_TEAM_CHANGE', 'Dear, @organizer_fullname
 
 The team leader of @country for for @event_name has saved changes in Team Registration Form. 
 
@@ -386,7 +386,7 @@ function at_messages_send_mail_approve_teamleader($options) {
  *
  * @param array $options - array of options:
  *     -replacements (array)
- *        -@fullname - name of recipient
+ *        -@organizer_fullname - name of recipient
  *        -@event_name - name of event
  *        -@event_manage_team_link - link to team manage pge
  *        -@country - country name

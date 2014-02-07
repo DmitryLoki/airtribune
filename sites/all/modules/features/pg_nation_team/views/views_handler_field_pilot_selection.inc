@@ -62,7 +62,7 @@ class views_handler_field_pilot_selection extends views_handler_field_entity {
    * Form submit method.
    */
   function views_form_submit($form, &$form_state) {
-    $team = isset($this->entities[0]) ? $this->entities[0] : get_team($this->view->args[0], $this->view->args[1]);
+    $team = $this->view->team;
 
     if (!is_user_team_leader($team)) {
       return;
@@ -83,15 +83,17 @@ class views_handler_field_pilot_selection extends views_handler_field_entity {
     $contest = node_load($this->view->args[0]);
     $country = get_country_name($this->view->args[1]);
     $organizer = user_load($contest->uid);
+    $teamleader = user_load($team->uid);
 
-    at_messages_send_mail_register_teamleader('organizer', array(
+    at_messages_send_mail_change_team(array(
       'replacements' => array(
-        'fullname' => at_user_get_full_name($organizer),
+        'teamleader_fullname' => at_user_get_full_name($teamleader),
+        'organizer_fullname' => at_user_get_full_name($organizer),
         'event_name' => $contest->title,
         'event_manage_team_link' => $GLOBALS['base_url'] . $form['#action'],
         'country' => $country,
       ),
-      $organizer,
+      'user' => $organizer,
     ));
 
     drupal_set_message(t('Team of @country changed.',array('@country' => $country)));

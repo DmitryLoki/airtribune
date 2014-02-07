@@ -1076,6 +1076,7 @@ function airtribune_views_query_alter(&$view, &$query) {
 function airtribune_views_pre_render(&$view) {
   if ($view->name == 'paragliding_pilots_list') {
     if ($view->current_display == 'team_card') {
+      $view->team = get_team($view->args[0], $view->args[1]);
       // If user not contest org, show pilot status as text, not as editable field.
       if (!is_user_contest_org(node_load($view->args[0]))) {
         $info = field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD);
@@ -1084,6 +1085,11 @@ function airtribune_views_pre_render(&$view) {
           $status = $row->_field_data['og_membership_users_id']['entity']->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}['und'][0]['value'];
           $row->field_field_pg_contestant_status[0]['rendered']['#markup'] = $allowed_values[$status];
         }
+      }
+      // If user not teamlead, hide column with pilot selection.
+      if (!is_user_team_leader($view->team)) {
+        unset($view->field['view_team_card_pilot_selection']);
+        unset($view->display_handler->handlers['field']['view_team_card_pilot_selection']);
       }
     }
   }
