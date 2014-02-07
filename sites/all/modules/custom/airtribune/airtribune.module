@@ -1086,11 +1086,6 @@ function airtribune_views_pre_render(&$view) {
           $row->field_field_pg_contestant_status[0]['rendered']['#markup'] = $allowed_values[$status];
         }
       }
-      // If user not teamlead, hide column with pilot selection.
-      if (!is_user_team_leader($view->team)) {
-        unset($view->field['view_team_card_pilot_selection']);
-        unset($view->display_handler->handlers['field']['view_team_card_pilot_selection']);
-      }
     }
   }
   // Make normal, human sort in FAI pilot list (by nation)

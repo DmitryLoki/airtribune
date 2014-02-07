@@ -38,6 +38,10 @@ class views_handler_field_pilot_selection extends views_handler_field_entity {
       '#type' => 'container',
       '#tree' => TRUE,
     );
+
+    if ($disabled = !is_user_team_leader($this->view->team)) {
+      $form['#attributes'] = array('class' => 'disabled-form-org-form');
+    }
     // Iterate over the result and add our replacement fields to the form.
     foreach ($this->view->result as $row_index => $row) {
       $uid = $row->_field_data['profile_users_pid']['entity']->uid;
@@ -48,6 +52,7 @@ class views_handler_field_pilot_selection extends views_handler_field_entity {
         '#type' => 'checkbox',
         '#value' => $checked,
         '#default_value' => $uid,
+        '#disabled' => $disabled,
         '#required' => TRUE,
       );
     }
