@@ -361,7 +361,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
 
 }
 
-/*
+/**
  * Send message for approved teamleader.
  *
  * @param array $options - array of options:
@@ -381,7 +381,7 @@ function at_messages_send_mail_approve_teamleader($options) {
   $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
 }
 
-/*
+/**
  * Send message for approved teamleader.
  *
  * @param array $options - array of options:
@@ -401,7 +401,7 @@ function at_messages_send_mail_change_team($options) {
   $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
 }
 
-/*
+/**
  * Send message when team leader is registered.
  *
  * @param string $target - 'teamleader' or 'organizer'
