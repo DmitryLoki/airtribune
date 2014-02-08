@@ -798,7 +798,11 @@ function airtribune_preprocess_panels_pane(&$vars) {
       ) {
     // @todo remove hardcode for access to manage pilots links
     if (!empty($vars['user']->roles[3]) || og_user_access_entity('administer group', 'node', node_load($vars['display']->args[0]), $vars['user'])) {
-      if (strpos($vars['pane']->subtype, 'teams_applications-teams_applications') === FALSE) {
+      if (
+          (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE ||
+          strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE)
+          && $vars['pane']->subtype != 'paragliding_pilots_list-team_card'
+      ) {
         $export_type = $vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed' ? 'confirmed' : 'all';
         $pilots_links[] = array(
           'title' => 'Get Excel file',
