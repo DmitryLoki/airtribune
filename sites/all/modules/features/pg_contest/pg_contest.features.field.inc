@@ -4030,11 +4030,7 @@ Duplicate city names warnings if exists.',
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-<<<<<<< HEAD
-        'weight' => '49',
-=======
         'weight' => '61',
->>>>>>> develop
       ),
     ),
   );
