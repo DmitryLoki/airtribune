@@ -2926,7 +2926,7 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 .page-user .pane-paragliding-pilots-list-team-card td .form-actions { margin: 0; padding: 0;}
 .page-user .pane-paragliding-pilots-list-team-card td .inline-label { width: auto; min-width: 5px}
 .pane-airtribune-teamcard-nac .form-item-field-single-download-und-0 .file-widget { display: inline;}
-.teamcard-for-teamlead-form .views-field-field-pg-contestant-status div.td_inner { background: none; padding-left: 0;}
+.teamcard-for-org-form .views-field-field-pg-contestant-status div.td_inner { background: none; padding-left: 0;}
 
 .pane-team-card-nac-team-card-for-org .view-team-card-nac .views-field { padding-bottom: 5px;}
 .pane-team-card-nac-team-card-for-org .view-team-card-nac .views-field * { display: inline;}
@@ -3269,18 +3269,18 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 /* Contestant status */
 .views-field-field-pg-contestant-status div.td_inner,
 span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px; font: 14px/16px Arial,Helvetica,sans-serif}
-.status-Waiting-list span.status-value,
-.status-Waiting-list div.td_inner,
-.status-value-10 span.status-value { background-position: 0 -99px; color: #c1c7cc;}
-.status-Waiting-for-payment span.status-value,
-.status-Waiting-for-payment div.td_inner,
-.status-value-20 span.status-value { background-position: 0 -149px; color: #97caf2;}
-.status-Payment-in-progress span.status-value,
-.status-Payment-in-progress div.td_inner,
-.status-value-30 span.status-value { background-position: 0 -49px; color: #efae00;}
-.status-Confirmed span.status-value,
-.status-Confirmed div.td_inner,
-.status-value-50 span.status-value { background-position: 0 1px; color: #b6c32a;}
+.status-Waiting-list > span.status-value,
+.status-Waiting-list > div.td_inner,
+.status-value-10 > span.status-value { background-position: 0 -99px; color: #c1c7cc;}
+.status-Waiting-for-payment > span.status-value,
+.status-Waiting-for-payment > div.td_inner,
+.status-value-20 > span.status-value { background-position: 0 -149px; color: #97caf2;}
+.status-Payment-in-progress > span.status-value,
+.status-Payment-in-progress > div.td_inner,
+.status-value-30 > span.status-value { background-position: 0 -49px; color: #efae00;}
+.status-Confirmed > span.status-value,
+.status-Confirmed > div.td_inner,
+.status-value-50 > span.status-value { background-position: 0 1px; color: #b6c32a;}
 
 .views-field-field-pg-contestant-status.views-field-editablefield div.td_inner { background: none; padding: 0;}
 
