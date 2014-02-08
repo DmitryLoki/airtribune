@@ -663,6 +663,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'admin_menu',
   );
 
+  // Exported permission: download any image files.
+  $permissions['download any image files'] = array(
+    'name' => 'download any image files',
+    'roles' => array(
+      0 => 'authenticated user',
+      1 => 'editor',
+    ),
+    'module' => 'file_entity',
+  );
+
   // Exported permission: eck add bundles.
   $permissions['eck add bundles'] = array(
     'name' => 'eck add bundles',

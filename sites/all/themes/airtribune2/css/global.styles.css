@@ -3282,6 +3282,8 @@ span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -1
 .status-Confirmed div.td_inner,
 .status-value-50 span.status-value { background-position: 0 1px; color: #b6c32a;}
 
+.views-field-field-pg-contestant-status.views-field-editablefield div.td_inner { background: none; padding: 0;}
+
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 32px;}
 .page-event-pilots td.views-field-field-pg-contestant-status { width: 91px;}
