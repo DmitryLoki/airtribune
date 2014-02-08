@@ -63,7 +63,7 @@ function airtribune2_preprocess_html(&$vars) {
 
   /* If user page */
 
-  if (in_array('page-user', $vars['classes_array']) && !in_array('page-event-register', $vars['classes_array'])) {
+  if (arg(0) =='user' && in_array('page-user', $vars['classes_array'])) {
     $vars['classes_array'][] = 'page-user-header-logo';
   }
 
@@ -726,6 +726,10 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       // unset($form['field_dates'][$lang][1]['#entity']);
       //print_r($form['field_dates']);
       //print_r($form);
+      break;
+    case 'eck__entity__form_edit_ent_team_pg_nation_team':
+      $form['submit']['#prefix'] = '<div class="form-actions">';
+      $form['submit']['#suffix'] = '</div>';
       break;
   }
 }
