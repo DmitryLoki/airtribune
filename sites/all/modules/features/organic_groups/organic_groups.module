@@ -24,3 +24,18 @@ function _at_organic_groups_payment_status_after_build($element, $form_state) {
   $element['#options'][$wind_dummy_key] = "Wind dummy";
   return $element;
 }
+
+/**
+ * Implementation of hook_entity_info_alter().
+ */
+function organic_groups_entity_info_alter(&$entity_info) {
+  $entity_info['og_membership']['access callback'] = 'organic_groups_entity_access';
+}
+
+/**
+ * Access callback for the group membership entity.
+ */
+function organic_groups_entity_access($op, $entity, $account = NULL, $entity_type = 'og_membership') {
+  // Allow edit memberships for admins of group.
+  return og_user_access($entity->group_type, $entity->gid, 'administer group');
+}
