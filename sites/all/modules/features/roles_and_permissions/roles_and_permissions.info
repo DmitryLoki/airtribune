@@ -114,6 +114,7 @@ features[user_permission][] = delete own pg_scoring_category content
 features[user_permission][] = delete relations
 features[user_permission][] = delete revisions
 features[user_permission][] = display drupal links
+features[user_permission][] = download any image files
 features[user_permission][] = eck add bundles
 features[user_permission][] = eck add ent_point bundles
 features[user_permission][] = eck add ent_point waypoint entities
