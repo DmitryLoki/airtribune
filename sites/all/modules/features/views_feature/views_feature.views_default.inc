@@ -1,4 +1,3 @@
-$handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
 <?php
 /**
  * @file
