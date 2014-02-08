@@ -798,12 +798,14 @@ function airtribune_preprocess_panels_pane(&$vars) {
       ) {
     // @todo remove hardcode for access to manage pilots links
     if (!empty($vars['user']->roles[3]) || og_user_access_entity('administer group', 'node', node_load($vars['display']->args[0]), $vars['user'])) {
-      $export_type = $vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed' ? 'confirmed' : 'all';
-      $pilots_links[] = array(
-        'title' => 'Get Excel file',
-        'link' => url('event/' . $vars['display']->args[0] . '/pilots/export/' . $export_type . '/csv'),
-        'class' => 'export-csv-' . $export_type,
-      );
+      if (strpos($vars['pane']->subtype, 'teams_applications-teams_applications') === FALSE) {
+        $export_type = $vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed' ? 'confirmed' : 'all';
+        $pilots_links[] = array(
+          'title' => 'Get Excel file',
+          'link' => url('event/' . $vars['display']->args[0] . '/pilots/export/' . $export_type . '/csv'),
+          'class' => 'export-csv-' . $export_type,
+        );
+      }
       // @todo refactor this!!!
       module_load_include('inc', 'at_reg', 'at_reg.team');
       $event = node_load($vars['display']->args[0]);
