@@ -5,12 +5,21 @@
 
 // TODO: Remove after tests finished.
 function at_reg_menu() {
-  $items['at_reg/test/%'] = array(
-   'title' => 'AT Reg Test', 
-    'page callback' => 'at_reg_test',
-    'page arguments' => array(2),
-    'access callback' => TRUE, 
-    //'file' => 'multiform.tmp.inc',
+  //~ $items['at_reg/test/%'] = array(
+   //~ 'title' => 'AT Reg Test', 
+    //~ 'page callback' => 'at_reg_test',
+    //~ 'page arguments' => array(2),
+    //~ 'access callback' => TRUE, 
+    //~ //'file' => 'multiform.tmp.inc',
+  //~ );
+  
+  $items['event/%node/register/team'] = array(
+    'page callback' => 'at_reg_team_page_callback',
+    'page arguments' => array(1),
+    'access callback' => 'at_reg_team_reg_access',
+    //~ 'access callback' => TRUE,
+    'access arguments' => array(1),
+    'file' => 'at_reg.team.inc',
   );
   
   $items['event/%node/register'] = array(
@@ -24,6 +33,24 @@ function at_reg_menu() {
     //'file' => 'multiform.tmp.inc',
   );
   return $items;
+}
+
+// @todo
+
+/**
+ * Team registration page access callback.
+ */
+function at_reg_team_reg_access($node) {
+  module_load_include('inc', 'at_reg', 'at_reg.team');
+
+  global $user;
+  $authorized = $user->uid ? TRUE : FALSE;
+  $fai_1 = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  $pledged = _at_reg_team_leadership_pledged($node->nid, $user->uid);
+
+  $access = $authorized && $fai_1 && !$pledged;
+
+  return $access;
 }
 
 /**
@@ -41,25 +68,134 @@ function at_reg_menu_alter(&$items) {
 function at_reg_page_callback($node) {
   global $user;
   
-  $nid = $node->nid;
+  drupal_add_js(drupal_get_path('module', 'at_reg') .'/js/at_reg.team.js', 'file');
   
-  $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  $nid = $node->nid;
+
+  //~ $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  $form = $user->uid ? at_reg_page_callback_authorized($node, $user) : at_reg_form_anonymous($nid);
+  
+  // Add Team Leader registration links.
+  module_load_include('inc', 'at_reg', 'at_reg.team');
+  $authorized = $user->uid ? TRUE : FALSE;
+  $fai_1 = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  if ($fai_1) {
+    if (!$authorized) {
+      $err_msg = t('Please, <a href="!sign_in_url">sign in</a> or <a href="!register_url">register</a> first', array('!sign_in_url' => url('user/login'), '!register_url' => url('user/register')));
+      drupal_add_js(array('at_reg' => array('team_leader_add_error' => $err_msg)), 'setting');
+      $error_link = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'a',
+          '#attributes' => array(
+            'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
+            'href' => '#',
+          ),
+          '#value' => t('Team leader registration'),
+        ),
+      ));
+      $form['team_reg_link'] = array(
+        '#markup' => $error_link,
+      );
+
+    }
+  }
+
   return $form;
 }
 
-// TODO: Remove after tests finished.
-function at_reg_test($nid, $default_nid = TRUE) {
-  global $user;
-  
-  // TODO: Temporary event id
-  if ($default_nid) {
-    $nid = 5438;
+function at_reg_page_callback_authorized($node, $user) {
+
+  $entity_type = 'node'; $etid = $node->nid;
+  $entity = entity_load_single($entity_type, $etid);
+  // @todo: $id == $node->nid (?)
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+
+  $authorized_user_status_info = _at_reg_authorized_user_status_info($node, $user, $id);
+
+  list($og_state_exists, $fai_1, $pledged, $approved) = array_values($authorized_user_status_info);
+
+  // Get registration form if user hasn't registered yet.
+  if (!$og_state_exists) {
+    $form = at_reg_form_authorized($node->nid);
   }
-  
-  $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
-  //dsm($form);
-  return $form;
+
+  // @todo
+  if ($fai_1) {
+    if (!$og_state_exists && !$pledged) {
+      $form['fai_1_head'] = array(
+        '#markup' => '<a class="pilot" href="#">' . t('Pilot registration') . '</a>'
+                    . ' <a href="' . url("event/{$node->nid}/register/team") . '">' . t('Team leader registration') . '</a>',
+      );
+      return $form;
+    }
+    elseif (!$og_state_exists && $pledged && !$approved) {
+      $err_msg = t('You will be able to continue with team registration on this page after organizer approves you as a team leader.');
+      drupal_add_js(array('at_reg' => array('team_leader_add_error' => $err_msg)), 'setting');
+      //
+      $error_link = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'a',
+          '#attributes' => array(
+            'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
+            'href' => '#',
+          ),
+          '#value' => t('Team registration'),
+        ),
+      ));
+      $form['fai_1_head'] = array(
+        '#markup' => '<a class="pilot" href="#">' . t('Pilot registration') . '</a> '
+                    . $error_link,
+      );
+      return $form;
+    }
+    elseif (!$og_state_exists && $pledged && $approved) {
+      $etid = $approved;
+      $form['fai_1_head'] = array(
+        '#markup' => '<a class="pilot" href="#">' . t('Pilot registration') . '</a>'
+                    . ' <a href="' . url("event/{$node->nid}/pilots/manage/teams/{$etid}") . '">' . t('Team registration') . '</a>',
+      );
+      return $form;
+    }
+    elseif ($og_state_exists && !$pledged) {
+      return l(t('Team leader registration'), "event/{$node->nid}/register/team");
+    }
+    elseif ($og_state_exists && $pledged && !$approved) {
+      $err_msg = t('You will be able to continue with team registration on this page after organizer approves you as a team leader.');
+      drupal_add_js(array('at_reg' => array('team_leader_add_error' => $err_msg)), 'setting');
+      return theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'a',
+          '#attributes' => array(
+            'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
+            'href' => '#',
+          ),
+          '#value' => t('Team registration'),
+        ),
+      ));
+    }
+    elseif ($og_state_exists && $pledged && $approved) {
+      $etid = $approved;
+      return l(t('Team registration'), "event/{$node->nid}/pilots/manage/teams/{$etid}");
+    }
+  }
+  else {
+    return !$og_state_exists ? $form : '';
+  }
 }
+
+// TODO: Remove after tests finished.
+//~ function at_reg_test($nid, $default_nid = TRUE) {
+  //~ global $user;
+  //~ 
+  //~ // TODO: Temporary event id
+  //~ if ($default_nid) {
+    //~ $nid = 5438;
+  //~ }
+  //~ 
+  //~ $form = $user->uid ? at_reg_form_authorized($nid) : at_reg_form_anonymous($nid);
+  //~ //dsm($form);
+  //~ return $form;
+//~ }
 
 
 // TODO: Check conditions.
@@ -77,25 +213,72 @@ function at_reg_access($node) {
   }
 
   $entity = entity_load_single($entity_type, $etid);
+  // @todo: $id == $node->nid (?)
   list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
 
-  if (!og_user_access($entity_type, $id, 'subscribe', $user) && !og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
-    return FALSE;
-  }
+
+
+
+  //~ // Add Team Leader registration links.
+  //~ module_load_include('inc', 'at_reg', 'at_reg.team');
+  //~ $authorized = $user->uid ? TRUE : FALSE;
+  //~ $fai_1 = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  //~ if ($authorized) {
+    //~ $og_state_exists = og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_ACTIVE, OG_STATE_PENDING, OG_STATE_BLOCKED));
+  //~ }
 
   if ($user->uid) {
 
-    if (og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_ACTIVE))
-      || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_PENDING))
-      || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_BLOCKED))
-    ) {
+    //~ if (og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_ACTIVE))
+      //~ || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_PENDING))
+      //~ || og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_BLOCKED))
+    //~ ) {
+//~ 
+      //~ return FALSE;
+    //~ }
+    
+    $authorized_user_status_info = _at_reg_authorized_user_status_info($node, $user, $id);
+    //~ print_r($authorized_user_status_info);
 
+    list($og_state_exists, $fai_1, $pledged, $approved) = array_values($authorized_user_status_info);
+    if ($fai_1) {
+      return TRUE;
+    }
+    else {
+      // @todo: check conditions
+      if (!og_user_access($entity_type, $id, 'subscribe', $user) && !og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
+        return FALSE;
+      }
+      return !$og_state_exists;
+    }
+  }
+  else {
+    if (!og_user_access($entity_type, $id, 'subscribe', $user) && !og_user_access($entity_type, $id, 'subscribe without approval', $user)) {
       return FALSE;
     }
   }
 
 
   return TRUE;
+}
+
+/**
+ * Get authorized user status for event
+ * considering event type.
+ */
+function _at_reg_authorized_user_status_info($node, $user,$id) {
+  module_load_include('inc', 'at_reg', 'at_reg.team');
+  $entity_type = 'node';
+  $og_state_exists = og_is_member($entity_type, $id, 'user', $user, array(OG_STATE_ACTIVE, OG_STATE_PENDING, OG_STATE_BLOCKED));
+  $fai_1 = _at_reg_get_fai_type($node) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+  $pledged = $fai_1 ? _at_reg_team_leadership_pledged($node->nid, $user->uid) : FALSE;
+  $approved = $fai_1 ? _at_reg_team_leadership_pledged($node->nid, $user->uid, 'approved') : FALSE;
+  return array(
+    'og_state_exists' => !empty($og_state_exists),
+    'fai_1' => $fai_1,
+    'pledged' => $pledged,
+    'approved' => $approved,
+  );
 }
 
 function at_reg_form_anonymous($nid) {
@@ -458,6 +641,7 @@ function at_reg_form_authorized($nid) {
   $form_title = $node->title;
 
   $profile2_init_data = at_reg_profile_form_init_data_authorized();
+  // node type is used to check if it is a PG or HG event registration
   $profile2_init_data['args'][] = $node->type;
   $profile2_init_data_main = at_reg_profile_form_init_data_authorized('main');
   

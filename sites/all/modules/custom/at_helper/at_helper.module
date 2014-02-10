@@ -455,23 +455,6 @@ function at_helper_og_membership_insert($og_membership) {
 
 }
 
-function at_helper_user_presave(&$edit, $account, $category) {
-  if (isset($account->status) && isset($edit['status']) && $account->status == 0 && $edit['status'] == 1) {
-    _at_helper_clear_pilots_list_cache();
-  }
-}
-
-function _at_helper_clear_pilots_list_cache() {
-  $cids = array(
-    'paragliding_pilots_list' => 'cache_views_data',
-    'paragliding_contest_pilots_stats:default:results' => 'cache_views_data',
-    'panels_simple_cache:page-event_pilots:page_event_pilots_panel_context' => 'cache',
-  );
-  foreach ($cids as $cid => $bin) {
-    cache_clear_all($cid, $bin, TRUE);
-  }
-}
-
 /**
  * Implements hook_field_attach_presave()
  */
@@ -758,4 +741,21 @@ function dsm_once($var, $key = 'none') {
     dsm($var);
     $vars[] = $key;
   }
+}
+
+function at_helper_user_presave(&$edit, $account, $category) {
+  if (isset($account->status) && isset($edit['status']) && $account->status == 0 && $edit['status'] == 1) {
+    _at_helper_clear_pilots_list_cache();
+  }
+}
+
+function _at_helper_clear_pilots_list_cache() {
+  $cids = array(
+    'paragliding_pilots_list' => 'cache_views_data',
+    'paragliding_contest_pilots_stats:default:results' => 'cache_views_data',
+    'panels_simple_cache:page-event_pilots:page_event_pilots_panel_context' => 'cache',
+  );
+  foreach ($cids as $cid => $bin) {
+    cache_clear_all($cid, $bin, TRUE);
+  }  
 }

@@ -63,7 +63,7 @@ function airtribune2_preprocess_html(&$vars) {
 
   /* If user page */
 
-  if (in_array('page-user', $vars['classes_array']) && !in_array('page-event-register', $vars['classes_array'])) {
+  if (arg(0) =='user' && in_array('page-user', $vars['classes_array'])) {
     $vars['classes_array'][] = 'page-user-header-logo';
   }
 
@@ -650,7 +650,7 @@ function airtribune2_menu_tree__menu_service_rules(&$vars) {
  * Implements hook_form_alter().
  */
 function airtribune2_form_alter(&$form, $form_state, $form_id) {
-  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', 'airtribune_event_settings_form', /*'views_form_paragliding_pilots_list_manage'*/);
+  $form_id_ar = array('og_ui_confirm_subscribe', 'user_register_form', 'user_login', 'user_pass', 'user_profile_form', 'profile2_edit_pilot_form', 'airtribune_event_settings_form', 'at_reg_team_form', /*'views_form_paragliding_pilots_list_manage'*/);
   if (in_array($form_id, $form_id_ar)) {
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.mousewheel.min.js';
     $form['#attached']['js'][] = 'sites/all/themes/airtribune2/js/jquery.jscrollpane.min.js';
@@ -726,6 +726,10 @@ function airtribune2_form_alter(&$form, $form_state, $form_id) {
       // unset($form['field_dates'][$lang][1]['#entity']);
       //print_r($form['field_dates']);
       //print_r($form);
+      break;
+    case 'eck__entity__form_edit_ent_team_pg_nation_team':
+      $form['submit']['#prefix'] = '<div class="form-actions">';
+      $form['submit']['#suffix'] = '</div>';
       break;
   }
 }

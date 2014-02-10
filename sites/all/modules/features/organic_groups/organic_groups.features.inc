@@ -27,6 +27,12 @@ function organic_groups_default_og_membership_type() {
     "language" : "",
     "rdf_mapping" : []
   }');
+  $items['pg_winddummy'] = entity_import('og_membership_type', '{
+    "name" : "pg_winddummy",
+    "description" : "Paragliding Wind Dummy",
+    "language" : "",
+    "rdf_mapping" : []
+  }');
   $items['tracked_object'] = entity_import('og_membership_type', '{
     "name" : "tracked_object",
     "description" : "Tracked object",

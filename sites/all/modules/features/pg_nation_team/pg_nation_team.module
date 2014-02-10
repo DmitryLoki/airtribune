@@ -1,0 +1,216 @@
+<?php
+/**
+ * @file
+ * Code for the Paragliding Nation Team feature.
+ */
+
+include_once 'pg_nation_team.features.inc';
+
+/**
+ * Implements hook_views_api().
+ */
+function pg_nation_team_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'pg_nation_team') . '/views',
+  );
+}
+
+/**
+ * Implements hook_field_extra_fields()
+ */
+function pg_nation_team_field_extra_fields() {
+
+  $extra[AIRTRIBUNE_TEAM_TYPE][AIRTRIBUNE_PG_NATION_TEAM_TYPE] = array(
+    'form' => array(
+      'pg_nation_team_pilots_count' => array(
+        'label' => t('Pilots'),
+        'description' => t('Pilots count'),
+        'weight' => -5,
+      ),
+    ),
+    'display' => array(
+      'pg_nation_team_pilots_count' => array(
+        'label' => t('Pilots'),
+        'description' => t('Pilots count'),
+        'weight' => -5,
+        'callback' => 'pg_nation_team_pilots_count_callback',
+      ),
+    ),
+  );
+
+  return $extra;
+}
+
+/**
+ * Implements hook_entity_view()
+ */
+function pg_nation_team_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($type == AIRTRIBUNE_TEAM_TYPE && $entity->type == AIRTRIBUNE_PG_NATION_TEAM_TYPE) {
+    $entity->content['pg_nation_team_pilots_count'] = array(
+      '#type' => 'item',
+      '#title' => t('Pilots'),
+      '#markup' => pg_nation_team_pilots_count_callback($entity),
+    );
+  }
+}
+
+/*
+ * Callback for pilots count extrafield
+ * @see #4339
+ * @author Vyacheslav Malchik <info@vkey.biz>
+ */
+function pg_nation_team_pilots_count_callback($entity) {
+  $output = FALSE;
+  $entity_type = $entity->entityType();
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+
+  $field = field_info_field(AIRTRIBUNE_TEAM_MEMBER_FIELD);
+  $instance = field_info_instance($entity_type, AIRTRIBUNE_TEAM_MEMBER_FIELD, $entity->type);
+
+  $count_all_team_contestants = count(entityreference_options_list($field, $instance, $entity_type, $entity));
+  $count_selected_team_contestants = count($wrapper->{AIRTRIBUNE_TEAM_MEMBER_FIELD}->value());
+
+  $output = $count_all_team_contestants . '/' . $count_selected_team_contestants;
+
+  return $output;
+}
+
+/*
+ * Approve team leader form
+ * @see views_handler_field_approve_team_leader class
+ */
+function pg_nation_team_approve_team_leader_form($form, &$form_state, $options) {
+
+  $attributes = array('data-country' => array($options['team_country']));
+
+  if ($options['value'] == $options['team_entity']->uid) {
+    $attributes['checked'] = array('checked');
+  }
+
+  $form['approve_team_leader'] = array(
+    '#type' => 'checkbox',
+    '#return_value' => $options['value'],
+    '#attributes' => $attributes,
+    '#ajax' => array(
+      'callback' => 'approve_team_leader_ajax_callback',
+      'wrapper' => 'approve-team-leader-' . $options['row_index'],
+    ),
+    '#prefix' => '<div id="approve-team-leader-' . $options['row_index'] . '" class="approve-team ' . $options['team_country'] . '">',
+    '#suffix' => '</div>',
+  );
+
+  $form['team_entity'] = array('#type' => 'value', '#value' => $options['team_entity']);
+
+  $form['#attached']['js'][] = drupal_get_path('module', 'pg_nation_team') . '/js/pg_nation_team.js';
+  return $form;
+}
+
+/*
+ * Ajax callback for approve team leader checkbox
+ * @see views_handler_field_approve_team_leader class
+ */
+function approve_team_leader_ajax_callback($form, &$form_state) {
+  $team_leader_uid = $form_state['complete form']['approve_team_leader']['#value'];
+  $team_leader_set = $form_state['complete form']['approve_team_leader']['#checked'];
+  $team_country = $form_state['complete form']['approve_team_leader']['#attributes']['data-country'][0];
+  $team_entity = $form_state['complete form']['team_entity']['#value'];
+  $event_nid = _airtribune_get_gid($team_entity->entityType(), $team_entity);
+  $event = node_load($event_nid);
+  if (!$team_leader_set) {
+    // Set uid=1 as default empty value
+    // @todo use another value by default
+    $team_leader_uid = 1;
+  } else {
+    // Send mail
+    $options['user'] = user_load($team_leader_uid);
+    $profile = profile2_load_by_user($options['user']);
+    $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
+    $country = country_load($team_country);
+    $options['replacements'] = array(
+      '@fullname' => $fullname,
+      '@event_name' => trim($event->title),
+      '@event_manage_team_link' => url('event/' . $event_nid . '/pilots/manage/teams/' . $team_entity->id, array('absolute' => TRUE)),
+      '@country' => $country->name,
+    );
+
+    at_messages_send_mail_approve_teamleader($options);
+  }
+  $wrapper = entity_metadata_wrapper($team_entity->entityType(), $team_entity);
+  $wrapper->uid->set($team_leader_uid);
+  $wrapper->save();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function pg_nation_team_form_alter(&$form, &$form_state, $form_id) {
+  // Disable editing ent_team for non-admin
+  // @see #4338, comment #10
+  global $user;
+  if ($form_id == 'eck__entity__form_edit_ent_team_pg_nation_team' && $user->uid != 1) {
+    //~ drupal_access_denied();
+
+    // @todo: Check that it is team page
+    // Remove redirect for team page
+    $form['#submit'][] = 'pg_nation_team_teamcard_nac_form_submit';
+  }
+}
+
+function pg_nation_team_teamcard_nac_form_submit($form, &$form_state) {
+  // replace message
+  $entity = $form_state['values']['entity'];
+  $remove_msg = t("Entity {$entity->id} - @entity_label has been saved", array("@entity_label" => entity_label($form['#entity_type'], $entity)) );
+  if (!empty($_SESSION['messages']['status'])) {
+    $k = array_search($remove_msg, $_SESSION['messages']['status']);
+    unset($_SESSION['messages']['status'][$k]);
+    $_SESSION['messages']['status'] = array_values($_SESSION['messages']['status']);
+  }
+  drupal_set_message(t("@entity_label has been saved", array("@entity_label" => entity_label($form['#entity_type'], $entity)) ));
+
+  // disable redirect
+  unset($form_state['redirect']);
+}
+
+/**
+ * Implements hook_field_access().
+ */
+function pg_nation_team_field_access($op, $field, $entity_type, $entity, $account) {
+  global $user;
+
+  // @todo: apply only for team edit form
+  // don't apply for views field
+
+  //~ if ($entity_type == AIRTRIBUNE_TEAM_TYPE && $entity->type == AIRTRIBUNE_PG_NATION_TEAM_TYPE) {
+  if ($entity_type == AIRTRIBUNE_TEAM_TYPE) {
+    $fields_allowed = array(
+      'field_person_name',
+      'field_single_download',
+      'field_single_email',
+      OG_AUDIENCE_FIELD,
+    );
+    // @todo
+    if (!in_array($field['field_name'], $fields_allowed) && $user->uid != 1 && $op == 'edit') {
+      return FALSE;
+    }
+  }
+}
+
+function get_team($contest, $country) {
+  if (!is_object($contest)) {
+    $contest = node_load($contest);
+  }
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', AIRTRIBUNE_TEAM_TYPE)
+    ->entityCondition('bundle', 'pg_nation_team')
+    ->fieldCondition('og_group_ref', 'target_id', $contest->nid)
+    ->fieldCondition('field_country', 'iso2', $country)
+//    ->propertyCondition('uid', 1, '<>')
+    ->execute();
+  if (!empty($result[AIRTRIBUNE_TEAM_TYPE])) {
+    $eid = array_pop($result[AIRTRIBUNE_TEAM_TYPE]);
+    $team = entity_load_single(AIRTRIBUNE_TEAM_TYPE, $eid->id);
+    return $team;
+  }
+  return FALSE;
+}

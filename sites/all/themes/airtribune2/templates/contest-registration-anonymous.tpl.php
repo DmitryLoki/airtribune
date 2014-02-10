@@ -1,3 +1,12 @@
+<?php // Team registration link?>
+<?php $team_registration = isset($form['team_reg_link']) ? drupal_render($form['team_reg_link']) : '';?>
+<?php if (!empty($team_registration)): ?>
+  <div class='anonymous-team-registration-pilot-caption'><?php print t('Pilot registration');?></div>
+<?php endif;?>
+
+
+
+
 <div class="reg_choice">
 	<?php print l('<span>'.t('I have an Airtribune account.').'</span><span class="valign"></span>', 'user/login', array('html' => true, 'query' => array('destination' => $_GET['q'])));?>
 	<a href="#" class="form_show"><span><?php print t('I have never registered on Airtribune.com and events hosted on it.'); ?></span><span class="valign"></span></a>
@@ -7,7 +16,6 @@
 <?php
 
 // Note: user-register-form.tpl.php is also used here to theme user_register_form subform.
-//~ dsm($form);
 
 // Hide OG registration Cancel link
 drupal_render($form['multiform'][1]['actions']['cancel']);
@@ -71,11 +79,12 @@ print drupal_render($pp_form['profile_pilot']['field_accom_during_comp']);
 print drupal_render($og_form['field_contestant_number']);
 
 
-
-
-
-
 print drupal_render_children($form);
 
 ?>
 </div>
+
+<?php // Team registration link?>
+<?php if (!empty($team_registration)):?>
+  <div class='anonymous-team-registration'><?php print $team_registration;?></div>
+<?php endif;?>
