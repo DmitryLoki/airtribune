@@ -10275,6 +10275,12 @@ return array($event_id);';
     1 => '1',
   );
   $handler->display->display_options['filters']['state']['group'] = 1;
+  /* Filter criterion: OG membership: Pilot&#039;s number (field_contestant_number) */
+  $handler->display->display_options['filters']['field_contestant_number_value']['id'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['table'] = 'field_data_field_contestant_number';
+  $handler->display->display_options['filters']['field_contestant_number_value']['field'] = 'field_contestant_number_value';
+  $handler->display->display_options['filters']['field_contestant_number_value']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['filters']['field_contestant_number_value']['operator'] = 'not empty';
   $handler->display->display_options['pane_title'] = 'Team card pilots';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -11409,7 +11415,6 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
-  $handler->display->display_options['fields']['field_person_name']['label'] = 'NAC contact person full name';
   /* Field: Team: NAC contact person email */
   $handler->display->display_options['fields']['field_single_email']['id'] = 'field_single_email';
   $handler->display->display_options['fields']['field_single_email']['table'] = 'field_data_field_single_email';
