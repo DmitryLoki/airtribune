@@ -11415,6 +11415,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
+  $handler->display->display_options['fields']['field_person_name']['label'] = 'NAC contact person full name';
   /* Field: Team: NAC contact person email */
   $handler->display->display_options['fields']['field_single_email']['id'] = 'field_single_email';
   $handler->display->display_options['fields']['field_single_email']['table'] = 'field_data_field_single_email';
@@ -11498,6 +11499,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_person_name']['id'] = 'field_person_name';
   $handler->display->display_options['fields']['field_person_name']['table'] = 'field_data_field_person_name';
   $handler->display->display_options['fields']['field_person_name']['field'] = 'field_person_name';
+  $handler->display->display_options['fields']['field_person_name']['label'] = 'NAC contact person full name';
   $handler->display->display_options['fields']['field_person_name']['type'] = 'editable_as_link';
   $handler->display->display_options['fields']['field_person_name']['settings'] = array(
     'click_to_edit' => TRUE,
@@ -11548,7 +11550,7 @@ return array($event_id);';
     t('Desc'),
     t('OG membership from ent_team'),
     t('NAC\'s confirmation'),
-    t('Person to contact in case of emergency'),
+    t('NAC contact person full name'),
     t('NAC contact person email'),
     t('All'),
     t('TC for organiser'),
