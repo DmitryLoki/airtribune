@@ -92,11 +92,11 @@ class views_handler_field_pilot_selection extends views_handler_field_entity {
 
     at_messages_send_mail_change_team(array(
       'replacements' => array(
-        'teamleader_fullname' => at_user_get_full_name($teamleader),
-        'organizer_fullname' => at_user_get_full_name($organizer),
-        'event_name' => $contest->title,
-        'event_manage_team_link' => $GLOBALS['base_url'] . $form['#action'],
-        'country' => $country,
+        '@teamleader_fullname' => at_user_get_full_name($teamleader),
+        '@organizer_fullname' => at_user_get_full_name($organizer),
+        '@event_name' => $contest->title,
+        '@event_manage_team_link' => $GLOBALS['base_url'] . $form['#action'],
+        '@country' => $country,
       ),
       'user' => $organizer,
     ));
