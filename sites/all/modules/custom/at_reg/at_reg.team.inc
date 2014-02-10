@@ -57,6 +57,8 @@ function at_reg_team_form($form, $form_state) {
 
 // @todo
 function at_reg_team_form_submit($form, &$form_state) {
+  global $user;
+
   $node = $form_state['build_info']['args'][0];
   $gid = $node->nid;
   $country_code = $form_state['values']['county'];
@@ -68,7 +70,7 @@ function at_reg_team_form_submit($form, &$form_state) {
 
   // Send mail
   $options = array();
-  $options['user'] = user_load($entity->uid);
+  $options['user'] = $user;
 
   $profile = profile2_load_by_user($options['user']);
   $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
