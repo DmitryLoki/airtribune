@@ -12,6 +12,11 @@ function at_reg_team_page_callback($node) {
   //~ module_load_include('inc', 'eck', 'eck.entity');
   //~ return eck__entity__add('ent_team', 'pg_nation_team');
   
+  if (!in_array($node->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
+    drupal_not_found();
+    return;
+  }
+
   return drupal_get_form('at_reg_team_form', $node);
 }
 
