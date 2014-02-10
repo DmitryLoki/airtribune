@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 // Email templates
 define('AT_MSG_EMAIL_BODY_SIGNATURE', "
