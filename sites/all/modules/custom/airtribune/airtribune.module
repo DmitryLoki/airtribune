@@ -11,12 +11,16 @@ define('AIRTRIBUNE_VIS_URL', 'http://vis.airtribune.com');
 define('AIRTRIBUNE_RETRIEVE_URL', 'http://retrieve.airtribune.com');
 define('AIRTRIBUNE_LANGUAGES_ICONSET', 'shiny');
 define('AIRTRIBUNE_USER_MAIN_PROFILE', 'main');
+define('AIRTRIBUNE_USER_PILOT_PROFILE', 'pilot');
 
 // See field field_pg_contestant_status allowed values list.
-define('AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST', 1);
-define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 4);
+define('AIRTRIBUNE_PG_CONTESTANT_WAITING_LIST', 10);
+define('AIRTRIBUNE_PG_CONTESTANT_CONFIRMED', 50);
 define('AIRTRIBUNE_CAROUSEL_IMAGE_STYLE', 'hotel_preview');
 define('AIRTRIBUNE_INFO_CAROUSEL_IMAGE_STYLE', 'contest_gallery_thumb');
+define('AIRTRIBUNE_FAI_CATEGORY_NONE', 0);
+define('AIRTRIBUNE_FAI_CATEGORY_1', 1);
+define('AIRTRIBUNE_FAI_CATEGORY_2', 2);
 
 // Fields.
 define('AIRTRIBUNE_USER_FULLNAME_FIELD', 'field_full_name');
@@ -52,6 +56,7 @@ define('AIRTRIBUNE_BIRTHDATE_FIELD', 'field_birthdate');
 define('AIRTRIBUNE_CONTESTANT_NUMBER_FIELD', 'field_contestant_number');
 define('AIRTRIBUNE_PG_SCORING_CATEGORY_FIELD', 'field_pg_scoring_category');
 define('AIRTRIBUNE_SCORING_CATEGORY_REF_FIELD', 'field_scoring_category_ref');
+define('AIRTRIBUNE_ADDRESS_FIELD', 'field_address');
 
 define('AIRTRIBUNE_PG_RACE_POINTS_FIELD', 'field_pg_race_points');
 define('AIRTRIBUNE_PG_RACE_AZIMUTH_FIELD', 'field_pg_race_azimuth');
@@ -64,6 +69,11 @@ define('AIRTRIBUNE_POINT_LOCATION_FIELD', 'field_point_location');
 define('AIRTRIBUNE_MEDIA_DESCRIPTION_FIELD', 'field_media_description');
 define('AIRTRIBUNE_FILE_IMAGE_ALT_TEXT_FIELD', 'field_file_image_alt_text');
 define('AIRTRIBUNE_FILE_IMAGE_TITLE_TEXT_FIELD', 'field_file_image_title_text');
+define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
+define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
+define('AIRTRIBUNE_USERS_REF_FIELD', 'field_users_ref');
+
+define('AIRTRIBUNE_SINGLE_DOWNLOAD_FIELD', 'field_single_download');
 
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
@@ -74,6 +84,7 @@ define('AIRTRIBUNE_ACCOMMODATION_TYPE', 'accommodation');
 define('AIRTRIBUNE_ACTIVITY_TYPE', 'activity');
 define('AIRTRIBUNE_DAY_TYPE', 'day');
 define('AIRTRIBUNE_PG_FLYINGSITE_TYPE', 'pg_flyingsite');
+define('AIRTRIBUNE_PG_NATION_TEAM_TYPE', 'pg_nation_team');
 
 // Entity types.
 define('AIRTRIBUNE_RACE_ENTITY_TYPE', 'ent_race');
@@ -82,6 +93,11 @@ define('AIRTRIBUNE_POINT_ENTITY_TYPE', 'ent_point');
 define('AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE', 'ent_contest_point');
 define('AIRTRIBUNE_CUSTOMOBJECT_TYPE', 'ent_customobject');
 define('AIRTRIBUNE_TRACKER_TYPE', 'ent_tracker');
+define('AIRTRIBUNE_TEAM_TYPE', 'ent_team');
+
+// Bundles for basicmark.
+define('AIRTRIBUNE_BASICMARK_BUNDLE_PG_LANDING', 'pg_landing');
+define('AIRTRIBUNE_BASICMARK_BUNDLE_PG_TAKEOFF', 'pg_takeoff');
 
 // Views
 define('AIRTRIBUNE_PARAGLIDING_PILOTS_LIST', 'paragliding_pilots_list');
@@ -89,6 +105,7 @@ define('AIRTRIBUNE_DAY_BLOG_VIEW', 'day_blog');
 
 // Memberships
 define('AIRTRIBUNE_MEMBERSHIP_CONTESTANT', 'pg_contestant');
+define('AIRTRIBUNE_MEMBERSHIP_WINDDUMMY', 'pg_winddummy');
 define('AIRTRIBUNE_MEMBERSHIP_ORGANIZER', 'pg_organizer');
 define('AIRTRIBUNE_MEMBERSHIP_TRACKEDOBJECT', 'tracked_object');
 
@@ -702,6 +719,7 @@ function airtrubune_get_country_code($langcode) {
  * @see airtribune_field_collection_item_view_alter()
  */
 function airtribune_preprocess_panels_pane(&$vars) {
+  global $user;
   $configuration = $vars['pane']->configuration;
 
 
@@ -779,14 +797,36 @@ function airtribune_preprocess_panels_pane(&$vars) {
   }
 
   // Add links to switch view of pilots list
-  if (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE || strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE) {
-    if (!empty($vars['user']->roles[3]) || $vars['user']->uid == 1) {
-      $export_type = $vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed' ? 'confirmed' : 'all';
-      $pilots_links[] = array(
-        'title' => 'Get Excel file',
-        'link' => url('event/' . $vars['display']->args[0] . '/pilots/export/' . $export_type . '/csv'),
-        'class' => 'export-csv-' . $export_type,
-      );
+  if (
+        strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE ||
+        strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE ||
+        strpos($vars['pane']->subtype, 'teams_applications-teams_applications') !== FALSE
+      ) {
+    // @todo remove hardcode for access to manage pilots links
+    if (!empty($vars['user']->roles[3]) || og_user_access_entity('administer group', 'node', node_load($vars['display']->args[0]), $vars['user'])) {
+      if (
+          (strpos($vars['pane']->subtype, 'paragliding_pilots_list') !== FALSE ||
+          strpos($vars['pane']->subtype, 'paragliding_contest_pilots_manage') !== FALSE)
+          && $vars['pane']->subtype != 'paragliding_pilots_list-team_card'
+      ) {
+        $export_type = $vars['pane']->subtype == 'paragliding_pilots_list-manage_confirmed' ? 'confirmed' : 'all';
+        $pilots_links[] = array(
+          'title' => 'Get Excel file',
+          'link' => url('event/' . $vars['display']->args[0] . '/pilots/export/' . $export_type . '/csv'),
+          'class' => 'export-csv-' . $export_type,
+        );
+      }
+      // @todo refactor this!!!
+      module_load_include('inc', 'at_reg', 'at_reg.team');
+      $event = node_load($vars['display']->args[0]);
+      $fai_1 = _at_reg_get_fai_type($event) == AIRTRIBUNE_FAI_CATEGORY_1 ? TRUE : FALSE;
+      if ($fai_1) {
+        $pilots_links[] = array(
+          'title' => 'Teams applications',
+          'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage/teams'),
+          'class' => 'manage-teams' . (($vars['pane']->subtype == 'teams_applications-teams_applications') ? ' active' : ''),
+        );
+      }
       $pilots_links[] = array(
         'title' => 'Manage',
         'link' => url('event/' . $vars['display']->args[0] . '/pilots/manage'),
@@ -973,7 +1013,8 @@ function airtribune_views_pre_build(&$view) {
       // page 1 = offset 0, 2 = 100, 3 = 200
       $view->offset = ($view->items_per_page * $view->args[1]) - $view->items_per_page;
     }
-  }}
+  }
+}
 
 /**
  * Geo distance sorting
@@ -1043,35 +1084,43 @@ function airtribune_views_query_alter(&$view, &$query) {
 
 /**
  * Implementation of hook_views_pre_render
- *
- * Make normal, human sort in FAI pilot list (by nation)
- * Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
- * difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
- *
- * @see #3302
  */
 function airtribune_views_pre_render(&$view) {
-
+  if ($view->name == 'paragliding_pilots_list') {
+    if ($view->current_display == 'team_card') {
+      $view->team = get_team($view->args[0], $view->args[1]);
+      // If user not contest org, show pilot status as text, not as editable field.
+      if (!is_user_contest_org(node_load($view->args[0]))) {
+        $info = field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD);
+        $allowed_values = $info['settings']['allowed_values'];
+        foreach ($view->result as $row) {
+          $status = $row->_field_data['og_membership_users_id']['entity']->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}['und'][0]['value'];
+          $row->field_field_pg_contestant_status[0]['rendered']['#markup'] = $allowed_values[$status];
+        }
+      }
+    }
+  }
+  // Make normal, human sort in FAI pilot list (by nation)
+  // Addressfield stored country in ISO-2, so sorting by this field leads to problem, because many countries has
+  // difference with full country name. CH - Switzerland, GB - United Kingdom, RS - Serbia, ZA - South Africe, etc.
+  // @see #3302
   if ($view->name == 'paragliding_pilots_list' && $view->current_display == 'fai') {
     // get list of countries from addressfield to array, like 'ZA' => 'South Africa'
     if (!empty($view->result['0']->field_field_address['0']['raw']['country'])) {
       $countries = $view->result['0']->field_field_address['0']['rendered']['country']['#options'];
     }
-
     foreach ($view->result as $k => $v) {
       $current_country = $countries[$v->field_field_address[0]['raw']['country']];
       $temp_country_list[$current_country][] = $v;
     }
     // sort using key sort, because $temp_country_list like array('Great Britain' => array (...))
     ksort($temp_country_list);
-
     $result = array();
     foreach ($temp_country_list as $k => $v) {
       $result = array_merge($result, $v);
     }
     $view->result = $result;
   } else if ($view->name == 'event_days' && $view->current_display == 'panel_event_days_on_blog') {
-
     foreach ($view->result as $k => $v) {
       if  ($v->field_field_day_status[0]['raw']['value'] == 0) {
         // Remove day status output [Day is Ok]
@@ -1081,7 +1130,6 @@ function airtribune_views_pre_render(&$view) {
         // Remove day label output [Training or registration days]
         unset($view->result[$k]->field_field_day_number[0]['rendered']['#markup']);
         unset($view->result[$k]->field_field_day_number[0]['raw']['value']);
-
         // Fix js link to day in accordion
         $view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'] = strtok($view->result[$k]->field_field_day_status_1[0]['rendered']['#markup'], " ");
       }
@@ -1904,6 +1952,35 @@ function _add_metatag_opengraph_image($url, $key) {
 }
 
 /**
+ * Update membership type on payment status change (Contestant <-> Wind Dummy).
+ * @see #3959
+ */
+function airtribune_og_membership_update($og_membership) {
+  if ($og_membership->already_updated_by_paymentstatus == TRUE) {
+    return;
+  }
+
+  $status_field_allowed_values = list_allowed_values(field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD));
+  $wind_dummy_status = array_search("Wind dummy", $status_field_allowed_values);
+  $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+  $old_status = entity_metadata_wrapper('og_membership', $og_membership->original)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
+
+  if ($now_status != $old_status) {
+    // WindDummy -> Contestant (waiting list / waiting payment / in progress / confirmed).
+    if ($old_status == $wind_dummy_status) {
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_CONTESTANT;
+    }
+    // Contestant -> WindDummy.
+    if ($now_status == $wind_dummy_status) {
+      $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
+    }
+    // Avoid recursion by hook_og_membership_update & hook_og_membership_save.
+    $og_membership->already_updated_by_paymentstatus = TRUE;
+    og_membership_save($og_membership);
+  }
+}
+
+/**
  * Count contestants.
  */
 function airtribune_count_pilots($nid, $status = NULL) {
@@ -1994,4 +2071,45 @@ function is_contest($node) {
   }
 
   return FALSE;
+}
+
+function is_user_entity_author($entity) {
+  global $user;
+  if ($user->uid == $entity->uid || $user->uid == 1) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function is_user_contest_org($contest) {
+  return is_user_entity_author($contest);
+}
+
+function is_user_team_leader($team) {
+  return is_user_entity_author($team);
+}
+
+function get_country_name($iso2) {
+  $country = country_load($iso2);
+  return $country->name;
+}
+
+function get_pilot_profile($user) {
+  return profile2_load_by_user($user, AIRTRIBUNE_USER_PILOT_PROFILE);
+}
+
+function get_main_profile($user) {
+  return profile2_load_by_user($user, AIRTRIBUNE_USER_MAIN_PROFILE);
+}
+/*
+ * Alter country token.
+ * @see #4338
+ */
+function airtribune_tokens_alter(array &$replacements, array $context) {
+  if ((isset($context['data']['entity_type']) && $context['data']['entity_type'] == AIRTRIBUNE_TEAM_TYPE) && isset($context['tokens'][AIRTRIBUNE_COUNTRY_FIELD]) || isset($context['tokens']['field-country'])) {
+    $entity = isset($context['data']['entity_type']) ? $context['data']['entity'] : $context['data'][$context['type']];
+    $cc = $entity->{AIRTRIBUNE_COUNTRY_FIELD}[LANGUAGE_NONE][0]['iso2'];
+    $replacements[AIRTRIBUNE_COUNTRY_FIELD] = $cc;
+    $replacements['field-country'] = get_country_name($cc);
+  }
 }

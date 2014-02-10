@@ -663,6 +663,16 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'admin_menu',
   );
 
+  // Exported permission: download any image files.
+  $permissions['download any image files'] = array(
+    'name' => 'download any image files',
+    'roles' => array(
+      0 => 'authenticated user',
+      1 => 'editor',
+    ),
+    'module' => 'file_entity',
+  );
+
   // Exported permission: eck add bundles.
   $permissions['eck add bundles'] = array(
     'name' => 'eck add bundles',
@@ -915,6 +925,15 @@ function roles_and_permissions_user_default_permissions() {
     'module' => 'eck',
   );
 
+  // Exported permission: eck edit ent_team pg_nation_team entities.
+  $permissions['eck edit ent_team pg_nation_team entities'] = array(
+    'name' => 'eck edit ent_team pg_nation_team entities',
+    'roles' => array(
+      0 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
   // Exported permission: eck edit ent_track bundles.
   $permissions['eck edit ent_track bundles'] = array(
     'name' => 'eck edit ent_track bundles',
@@ -1094,6 +1113,15 @@ function roles_and_permissions_user_default_permissions() {
     'roles' => array(
       0 => 'anonymous user',
       1 => 'authenticated user',
+    ),
+    'module' => 'eck',
+  );
+
+  // Exported permission: eck view ent_team pg_nation_team entities.
+  $permissions['eck view ent_team pg_nation_team entities'] = array(
+    'name' => 'eck view ent_team pg_nation_team entities',
+    'roles' => array(
+      0 => 'authenticated user',
     ),
     'module' => 'eck',
   );

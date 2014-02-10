@@ -54,13 +54,22 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
    * Implements EntityReferenceHandler::getReferencableEntities().
    */
   public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
+    $pattern = '/\[([^\:]*):field-country:?[^\]]*\]/i';
+
     foreach ($this->field['settings']['handler_settings']['view']['args'] as $key => $arg) {
       if ($arg == 'gid') {
         $this->field['settings']['handler_settings']['view']['args'][$key] = $this->group_id;
       }
+      else if ($arg == '[og_membership:id]' && isset($this->etid)) {
+        $this->field['settings']['handler_settings']['view']['args'][$key] = $this->eid;
+      }
       else {
-        if ($arg == '[og_membership:id]' && isset($this->etid)) {
-          $this->field['settings']['handler_settings']['view']['args'][$key] = $this->eid;
+        // @TODO: fix country field tokens
+        // @see #4338
+        $is_field_country = preg_match($pattern, $arg);
+        if ($is_field_country == 1) {
+          $country_iso2 = $this->entity->field_country[LANGUAGE_NONE][0]['iso2'];
+          $this->field['settings']['handler_settings']['view']['args'][$key] = $country_iso2;
         }
       }
     }
@@ -82,6 +91,7 @@ class Airtribune_SelectionHandler_EventViews extends EntityReference_SelectionHa
    * Implements EntityReferenceHandler::validateReferencableEntities().
    */
   function validateReferencableEntities(array $ids) {
+    $this->getReferencableEntities();
     $display_name = $this->field['settings']['handler_settings']['view']['display_name'];
     $args = $this->field['settings']['handler_settings']['view']['args'];
     foreach ($args as $key => $arg) {

@@ -680,7 +680,7 @@ tr.odd {
 
 
 /* Table row striping */
-thead tr {
+.pane-page-content thead tr {
   font-weight: 700;
   background-color: #f2f2f2;
   background-color: rgba(0, 0, 0, .15);
@@ -689,7 +689,7 @@ thead tr {
 
 tr.even,
 tr.info,
-tbody tr:nth-child(2n+2) {
+.pane-page-content tbody tr:nth-child(2n+2) {
   background-color: #f5f5f5;
   background-color: rgba(0, 0, 0, .075);
 }
@@ -2433,8 +2433,17 @@ html.js .page-forms input.form-autocomplete { background-image: none; }
 .page-user .pane-page-content form .form-item-name input.form-text { width:280px;}
 .page-user .pane-page-content form .form-item .radio { background:url(../images/forms.png) no-repeat 0 0; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
 .page-user .pane-page-content form .form-item .check_radio { background-position:0 -20px}
-.page-user .pane-page-content form .form-item .checkbox { background:url(../images/forms.png) no-repeat 0 -1100px; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
-.page-user .pane-page-content form .form-item .check_checkbox { background-position:0 -1120px}
+.page-user .pane-page-content form .form-item .checkbox,
+.page-event .pane-page-content form .form-item .checkbox { background:url(../images/forms.png) no-repeat 0 -1100px; width:20px; height:20px; display:inline-block; cursor:pointer; vertical-align:top; margin:6px 4px 0 0}
+.page-user .pane-page-content form .form-item .check_checkbox,
+.page-event .pane-page-content form .form-item .check_checkbox { background-position:0 -1120px}
+.teamcard-for-organizer-form #edit-submit { display: none; }
+form .form-disabled .check_checkbox {
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE 5.5+*/
+    -moz-opacity: 0.5; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 0.5; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 0.5; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+}
 .page-user .pane-page-content form .field-type-list-text .form-type-radios { margin-bottom: -19px;}
 .page-user .pane-page-content form .field-type-list-text .form-radios { display: inline-block; padding-bottom: 6px; }
 .page-user .pane-page-content form .field-type-list-text .form-type-radio { margin: 0 0 0 1px; padding-bottom: 10px; display: inline;}
@@ -2563,6 +2572,13 @@ html.js form .form-item input.form-text.form-autocomplete { background: none;}
 
 .events-add a { text-decoration: none; display: block; margin: 9px 0 0; height: 28px; line-height: 24px; text-align: center;}
 
+.authorized-team-registration,
+.anonymous-team-registration { text-align: center;}
+.anonymous-team-registration { padding-top: 45px; padding-bottom: 20px;}
+.page-user .pane-page-content form .authorized-team-registration a,
+.page-user .pane-page-content form .anonymous-team-registration a { color: #1b4587; font-size: 26px; margin: 0 45px;}
+.page-user .pane-page-content form .anonymous-team-registration a { font-size: 21px}
+.anonymous-team-registration-pilot-caption { text-align: center; font-size: 21px; color: #424242; padding-bottom: 60px;}
 
 .select { margin-left: 1px;}
 .select .checked_option_wrap { border:1px solid #b9c1c6; width:auto; color:#444649; font-size:16px; padding:0; height:auto; position:relative; z-index:100; background:#ffffff; margin: 1px 0; }
@@ -2741,6 +2757,8 @@ form .form-type-item .inline-label { top: -10px;}
 .switch-pilots-view a.manage:hover, .switch-pilots-view a.manage.active { background-position: -40px -3201px;}
 .switch-pilots-view a.confirmed { background-position: 0 -3000px; margin-right: 20px;}
 .switch-pilots-view a.confirmed:hover, .switch-pilots-view a.confirmed.active { background-position: -40px -3000px;}
+.switch-pilots-view a.manage-teams { background-position: 0 -4100px;}
+.switch-pilots-view a.manage-teams:hover, .switch-pilots-view a.manage-teams.active { background-position: -40px -4100px;}
 .switch-pilots-view a.export-csv-confirmed,
 .switch-pilots-view a.export-csv-all,
 .switch-pilots-view a.pilot-card { width: auto; text-indent: 0; height: auto; background: url(../images/table_action.png) no-repeat 0 -4000px; padding: 0 0 3px 34px; color: #adb522; font-size: 14px; margin: 8px 80px 0 0;}
@@ -2767,7 +2785,8 @@ form .form-type-item .inline-label { top: -10px;}
 .pane-paragliding-pilots-list-fai .pane-inner, 
 .pane-paragliding-pilots-list-standard .pane-inner, 
 .pane-paragliding-pilots-list-manage .pane-inner,
-.pane_pilots_list_manage .pane-inner { margin: 0;}
+.pane_pilots_list_manage .pane-inner,
+.pane-teams-applications-panel-pane-1 .pane-inner { margin: 0;}
 .page-event-pilots .views-field-counter { text-align: center;}
 
 .view-paragliding-pilots-list caption .sex { padding-left: 43px; background: url(../images/table_action.png) no-repeat 0 -1000px;}
@@ -2777,7 +2796,7 @@ form .form-type-item .inline-label { top: -10px;}
 
 
 /* table design */
-table,
+.pane-page-content table,
 .page-event-map .pane-page-content .pane-views-panes .pane-content { margin: 18px 0 0; padding: 0; width: 100%; border: 1px solid #e4e9eb; position: relative; border-collapse: separate; border-top: none; color: #525d66; font: 14px/16px Arial, Helvetica, sans-serif;
 
   -webkit-border-radius: 0 0 3px 3px;
@@ -2785,8 +2804,8 @@ table,
   border-radius: 0 0 3px 3px;
 
 }
-table { border-right: none; border-left: none; clear: both;}
-table caption,
+.pane-page-content table { border-right: none; border-left: none; clear: both;}
+.pane-page-content table caption,
 .page-event-map .pane-page-content .pane-views-panes h2 { position: relative; background: #f1f4f6; color: #758594; font: 24px/26px Arial, Helvetica, sans-serif; border: 1px solid #e4e9eb; padding: 6px 8px 8px; min-height: 26px; text-align: left;
 
   -webkit-border-radius: 3px 3px 0 0;
@@ -2794,25 +2813,25 @@ table caption,
   border-radius: 3px 3px 0 0;
 
 }
-table thead tr { background: #f7f8f9}
-table thead tr:first-child th { border-top: 1px solid #e4e9eb;}
-table thead tr:first-child th:first-child { 
+.pane-page-content table thead tr { background: #f7f8f9}
+.pane-page-content table thead tr:first-child th { border-top: 1px solid #e4e9eb;}
+.pane-page-content table thead tr:first-child th:first-child { 
 
   -webkit-border-radius: 3px 0 0 0;
   -moz-border-radius: 3px 0 0 0;
   border-radius: 3px 0 0 0;
 
 }
-table thead tr:first-child th:last-child { 
+.pane-page-content table thead tr:first-child th:last-child { 
 
   -webkit-border-radius: 0 3px 0 0;
   -moz-border-radius: 0 3px 0 0;
   border-radius: 0 3px 0 0;
 
 }
-table caption + thead tr:first-child th { border-top: none;}
-table caption + thead tr:first-child th:first-child,
-table caption + thead tr:first-child th:last-child  {
+.pane-page-content table caption + thead tr:first-child th { border-top: none;}
+.pane-page-content table caption + thead tr:first-child th:first-child,
+.pane-page-content table caption + thead tr:first-child th:last-child  {
 
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2820,30 +2839,33 @@ table caption + thead tr:first-child th:last-child  {
 
 }
 tr.odd { background: none}
-table tr.even,
-table tr:nth-child(even) { background: #fafafa}
-table tr.odd td.active, table tr.even td.active { background: none;}
-table tbody tr:hover { background: #cceffc;}
-table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 18px 8px 21px; text-align: center; font: bold 16px/20px Arial, Helvetica, sans-serif; color: #525d66}
-table thead th:first-child { border-left: none;}
-table thead tr + tr th { font-weight: normal;}
-table thead th a { color: #525d66; padding-right: 20px; display: inline-block; position: relative;}
-table thead th a:after { content: " "; position: absolute; top: 50%; display: block; width: 10px; height: 8px; margin-top: -2px; background: url(../images/table_action.png) no-repeat 100% -1075px; right: 0;}
-table thead th a:hover { color: #33c0f8;}
-table thead th a:hover:after { background-position: 100% -1275px;}
-table thead th.active a { color: #33c0f8; padding-right: 0; background: none;}
-table thead th.active a:after { content: none;}
-table thead th.active a span { display: inline-block; width: 10px; height: 8px; background: url(../images/table_action.png) no-repeat 100% -10000px; margin-left: 10px; padding: 0;}
-table thead th.active a span.arrow-asc { background-position: -90px -1275px;}
-table thead th.active a span.arrow-desc { background-position: -90px -1175px;}
-table thead th.views-field:first-child { border-left: none;}
-table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 11px 9px; vertical-align: top;}
-table .views-row-first td,
-table tr:first-child td { border-top: none;}
-table tr td:first-child,
-table tr th:first-child { border-left: 1px solid #e4e9eb;}
-table tr td:last-child,
-table tr th:last-child { border-right: 1px solid #e4e9eb;}
+
+.pane-page-content table tr.even,
+.pane-page-content table tr:nth-child(even) { background: #fafafa}
+.pane-page-content table tr.odd td.active, table tr.even td.active { background: none;}
+.pane-page-content table tbody tr:hover { background: #cceffc;}
+.pane-page-content table thead th { border-bottom: 1px solid #eef1f3; border-left: 1px solid #eef1f3; padding: 18px 8px 21px; text-align: center; font: bold 16px/20px Arial, Helvetica, sans-serif; color: #525d66}
+.pane-page-content table thead th:first-child { border-left: none;}
+.pane-page-content table thead tr + tr th { font-weight: normal;}
+.pane-page-content table thead th a { color: #525d66; padding-right: 20px; display: inline-block; position: relative;}
+.pane-page-content table thead th a:after { content: " "; position: absolute; top: 50%; display: block; width: 10px; height: 8px; margin-top: -2px; background: url(../images/table_action.png) no-repeat 100% -1075px; right: 0;}
+.pane-page-content table thead th a:hover { color: #33c0f8;}
+.pane-page-content table thead th a:hover:after { background-position: 100% -1275px;}
+.pane-page-content table thead th.active a { color: #33c0f8; padding-right: 0; background: none;}
+.pane-page-content table thead th.active a:after { content: none;}
+.pane-page-content table thead th.active a span { display: inline-block; width: 10px; height: 8px; background: url(../images/table_action.png) no-repeat 100% -10000px; margin-left: 10px; padding: 0;}
+.pane-page-content table thead th.active a span.arrow-asc { background-position: -90px -1275px;}
+.pane-page-content table thead th.active a span.arrow-desc { background-position: -90px -1175px;}
+.pane-page-content table thead th.views-field:first-child { border-left: none;}
+.pane-page-content table td { border-top: 1px solid #f5f5f5; border-left: 1px solid #f5f5f5; padding: 11px 9px; vertical-align: top;}
+.pane-page-content table .views-row-first td,
+.pane-page-content table tr:first-child td { border-top: none;}
+.pane-page-content table tr td:first-child,
+.pane-page-content table tr th:first-child { border-left: 1px solid #e4e9eb;}
+.pane-page-content table tr td:last-child,
+.pane-page-content table tr th:last-child { border-right: 1px solid #e4e9eb;}
+
+.view-teams-applications table thead th.views-field:first-child { border-left-width: 1px}
 
   /*  Retrieve table */
 
@@ -2885,6 +2907,44 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 .page-retrieve .panel-col-seventy .inside { margin: 0;}
 .page-retrieve .pane-inner .pane-inner { margin: 0;}
 
+  /* Team manage */
+
+.view-teams-applications td.views-field-view-approve-team-leader .ajax-progress-throbber { display: inline-block; max-width: 35px; white-space: normal; font-size: 12px}
+
+  /* teamcard */
+
+.page-user .pane-page-content form table .form-item { margin: 0; padding: 0;}
+.teamcard-header .country { text-align: center; font-size: 170%}
+.teamcard-header .declared { text-align: center; padding: 0 0 7px; font-size: 120%}
+.teamcard-header .teamlead-email { float: left;}
+.teamcard-header .modified { float: right;}
+.pane-airtribune-teamcard-header .pane-inner,
+.pane-paragliding-pilots-list-team-card .pane-inner,
+.pane-airtribune-teamcard-nac .pane-inner { margin: 0;}
+.pane-paragliding-pilots-list-team-card { clear: both;}
+.page-user .pane-page-content .pane-paragliding-pilots-list-team-card form { padding: 0; border: none; margin: 0;}
+.page-user .pane-page-content .pane-paragliding-pilots-list-team-card form a { color: inherit;}
+.pane-paragliding-pilots-list-team-card .form-actions { padding-left: 20px; padding-bottom: 40px;}
+.page-user .pane-paragliding-pilots-list-team-card td .form-actions { margin: 0; padding: 0;}
+.page-user .pane-paragliding-pilots-list-team-card td .inline-label { width: auto; min-width: 5px}
+.pane-airtribune-teamcard-nac .form-item-field-single-download-und-0 .file-widget { display: inline;}
+.teamcard-for-org-form .views-field-field-pg-contestant-status div.td_inner { background: none; padding-left: 0;}
+
+.pane-team-card-nac-team-card-for-org .view-team-card-nac .views-field { padding-bottom: 5px;}
+.pane-team-card-nac-team-card-for-org .view-team-card-nac .views-field * { display: inline;}
+
+
+.page-event-pilots-manage-teams .view-display-id-team_card td.views-field-field-civl-id { width: 70px; text-align: center;}
+.page-event-pilots-manage-teams .view-display-id-team_card td.views-field-field-fai-license-number { width: 80px; text-align: center;}
+.page-event-pilots-manage-teams .view-display-id-team_card td.views-field-view-team-card-pilot-selection { width:100px; text-align: center;}
+.page-event-pilots-manage-teams .view-display-id-team_card form .inline-label,
+.page-event-pilots-manage-teams .view-display-id-team_card .form-required {display: none !important;}
+.page-event-pilots-manage-teams .view-display-id-team_card .select { width: 195px !important; }
+
+.pane-teams-applications-teams-applications .views-field-view-approve-team-leader,
+.pane-teams-applications-teams-applications .views-field-pg-nation-team-pilots-count  { text-align: center;}
+
+.at-reg-team-caption { text-align: center;}
 
 /* page-event-map-activity-accommodation */
 
@@ -3222,15 +3282,24 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 
 
 /* Contestant status */
-span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px; font: 14px/16px Arial,Helvetica,sans-serif}
-.status-Waiting-list span.status-value,
-.status-value-1 span.status-value { background-position: 0 -99px; color: #c1c7cc;}
-.status-Waiting-for-payment span.status-value,
-.status-value-2 span.status-value { background-position: 0 -149px; color: #97caf2;}
-.status-Payment-in-progress span.status-value,
-.status-value-3 span.status-value { background-position: 0 -49px; color: #efae00;}
-.status-Confirmed span.status-value,
-.status-value-4 span.status-value { background-position: 0 1px; color: #b6c32a;}
+.views-field-field-pg-contestant-status div.td_inner,
+span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block; font: 14px/16px Arial,Helvetica,sans-serif}
+.select .status-value,
+.views-field-field-pg-contestant-status div.td_inner { padding:0 0 1px 20px; }
+.status-Waiting-list > span.status-value,
+.status-Waiting-list > div.td_inner,
+.status-value-10 > span.status-value { background-position: 0 -99px; color: #c1c7cc;}
+.status-Waiting-for-payment > span.status-value,
+.status-Waiting-for-payment > div.td_inner,
+.status-value-20 > span.status-value { background-position: 0 -149px; color: #97caf2;}
+.status-Payment-in-progress > span.status-value,
+.status-Payment-in-progress > div.td_inner,
+.status-value-30 > span.status-value { background-position: 0 -49px; color: #efae00;}
+.status-Confirmed > span.status-value,
+.status-Confirmed > div.td_inner,
+.status-value-50 > span.status-value { background-position: 0 1px; color: #b6c32a;}
+
+.views-field-field-pg-contestant-status.views-field-editablefield div.td_inner { background: none; padding: 0;}
 
 /* Event pilots */
 .page-event-pilots td.views-field-counter { width: 32px;}
@@ -4063,6 +4132,77 @@ form #edit-field-dates .form-type-textfield .inline-label { width: auto; margin-
 form #edit-field-dates .form-type-textfield .inline-label label { font-size: 16px; top: 1px;}
 form #edit-field-dates .form-type-textfield input { background: #ffffff url(../images/calendar_bg.png) no-repeat 100% 50%; width: 100px; font-size: 16px; color: #424242; padding: 5px 9px 3px;}
 form #edit-field-dates .form-type-textfield .description { width: 120px; margin-left: 0;}
+
+
+
+  /* Datepicker */
+
+#ui-datepicker-div { z-index: 1001 !important; border-width: 1px; border-color: #b0babf; background: #ffffff}
+
+.ui-datepicker { padding: 3px; border: 1px solid #b0babf; background: #ffffff; margin-top: 2px; width: 168px;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+.ui-datepicker .ui-datepicker-header { background: no-repeat; border: none; margin: 0; padding: 0; color: #4f5459; font-size: 14px;
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+
+}
+.ui-datepicker .ui-datepicker-title { line-height: 16px; padding: 2px 0; margin: 0 17px;}
+.ui-widget-header .ui-datepicker-prev,
+.ui-widget-header .ui-datepicker-next { width: auto; height: auto; background: none; border: none; cursor: pointer; top: 6px;
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+
+}
+.ui-widget-header .ui-datepicker-prev { left: 8px;}
+.ui-widget-header .ui-datepicker-next { right: 8px;}
+
+.ui-datepicker .ui-widget-header .ui-icon { background: url(../images/arrows.png) no-repeat 0 0; width: 8px; height: 12px; margin: 0; padding: 0; position: static;}
+.ui-datepicker .ui-widget-header .ui-datepicker-prev .ui-icon,
+.ui-datepicker .ui-widget-header .ui-datepicker-prev:hover.ui-state-disabled .ui-icon { background-position: 0 -12px;}
+.ui-datepicker .ui-widget-header .ui-datepicker-prev:hover .ui-icon { background-position: 0 0;}
+.ui-datepicker .ui-widget-header .ui-datepicker-next .ui-icon,
+.ui-datepicker .ui-widget-header .ui-datepicker-next:hover.ui-state-disabled .ui-icon { background-position: -8px -12px;}
+.ui-datepicker .ui-widget-header .ui-datepicker-next:hover .ui-icon { background-position: -8px 0;}
+
+.ui-datepicker table { font-size: 13px; line-height: 16px; margin: 0;}
+.ui-datepicker table th,
+.ui-datepicker table td { font-weight: normal; color: #2d3033; padding: 0; line-height: 22px; text-align: center; padding: 0; width: 22px; height: 22px; border: 2px solid #ffffff; vertical-align: middle;}
+.ui-datepicker table td { color: #2d3033; }
+.ui-datepicker table td a { text-align: center; }
+.ui-datepicker table td a:hover { background: #1cb7f1; color: #ffffff }
+.ui-datepicker table td.ui-datepicker-current-day a { background: #a4e3fa;}
+/*.ui-datepicker table td a:active { background: #fda387;}*/
+.ui-datepicker table td span { text-align: center;}
+.ui-state-default, 
+.ui-datepicker .ui-state-default, 
+.ui-widget-header .ui-state-default { background: none; border: none; margin: 0; padding: 0;}
+.ui-datepicker-week-end  { background: #f5f5f5}
+th.ui-datepicker-week-end { background: none}
+.ui-widget-content .ui-state-disabled {
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); /* IE 5.5+*/
+  -moz-opacity: 1; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: 1; /* Konqueror 3.1, Safari 1.1 */
+  opacity: 1; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+
+}
+.ui-widget-content .ui-state-disabled > * {
+
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=35); /* IE 5.5+*/
+  -moz-opacity: .35; /* Mozilla 1.6 и ниже */
+  -khtml-opacity: .35; /* Konqueror 3.1, Safari 1.1 */
+  opacity: .35; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9+ */
+
+}
 
 
 /*====================================================

@@ -1,3 +1,10 @@
+<?php if (!empty($form['fai_1_head'])) :?>
+  <div class='authorized-team-registration'>
+    <?php print drupal_render($form['fai_1_head']);?>
+  </div>
+  <div <div class='authorized-team-registration-form event-register-form'>
+<?php endif;?>
+
 <?php
 
 
@@ -54,3 +61,8 @@ print drupal_render($og_form['field_contestant_number']);
 // 
 
 print drupal_render_children($form);
+?>
+
+<?php if (!empty($form['fai_1_head'])) :?>
+  </div>
+<?php endif;?>

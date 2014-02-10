@@ -71,6 +71,7 @@ function _at_alias_event_pages_urls($nid) {
     '/pilots',
     '/pilots/status',
     '/pilots/manage',
+    '/pilots/manage/teams',
     '/pilots/nation',
     '/map',
     '/map/accommodations',

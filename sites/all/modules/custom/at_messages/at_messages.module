@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 // Email templates
 define('AT_MSG_EMAIL_BODY_SIGNATURE', "
@@ -74,6 +74,47 @@ define('AT_MSG_SITE_USER_MAIL_CHANGE_CONFIRMED', 'Your new email address is conf
 // define('AT_MSG_SITE_', '');
 // define('AT_MSG_EMAIL_SUBJ_', '');
 // define('AT_MSG_EMAIL_BODY_', '');
+
+// notify about approve teamleader
+define('AT_MSG_EMAIL_SUBJ_APPROVE_TEAMLEADER', 'Your application as a team leader is approved by the organizer of @event_name');
+define('AT_MSG_EMAIL_BODY_APPROVE_TEAMLEADER', 'Dear @fullname,
+
+You are approved by organizer  of @event_name as a team leader of @country.
+To register your team please login  and follow the link @event_manage_team_link
+
+Best regards,
+Airtribune.com');
+
+define('AT_MSG_EMAIL_SUBJ_REGISTER_TEAMLEADER_TO_ORG', '@country Team Leader request');
+define('AT_MSG_EMAIL_BODY_REGISTER_TEAMLEADER_TO_ORG', 'Dear @organizer_fullname,
+
+@teamleader_fullname has declared himself as a team leader of @country for @event_name.
+To approve Team Leaders, visit @event_manage_team_link
+
+Best regards,
+Airtribune.com');
+
+// notyfy about teamleader is registred
+define('AT_MSG_EMAIL_SUBJ_REGISTER_TEAMLEADER_TO_TEAMLEADER', 'Team Leader registration');
+define('AT_MSG_EMAIL_BODY_REGISTER_TEAMLEADER_TO_TEAMLEADER', 'Dear @teamleader_fullname,
+
+You have applied to be a Team leader of @country for @event_name.
+After you are approved by organizer, you will get a confirmation email.
+You will be able to register your team after you are approved.
+
+Best regards,
+Airtribune.com');
+
+// notify about 
+define('AT_MSG_EMAIL_SUBJ_TEAM_CHANGE', 'Team @country changed');
+define('AT_MSG_EMAIL_BODY_TEAM_CHANGE', 'Dear, @organizer_fullname
+
+The team leader of @country for for @event_name has saved changes in Team Registration Form. 
+
+Team @country @event_manage_team_link
+
+Best regards,
+Airtribune.com');
 
 function at_messages_init() {
   at_messages_msg_changer();
@@ -318,4 +359,82 @@ function at_messages_register_at_event_submit($form, &$form_state) {
 //  dpm($mail_pilot, 'mail_pilot');
 //  dpm($mail_org, 'mail_org');
 
+}
+
+/**
+ * Send message for approved teamleader.
+ *
+ * @param array $options - array of options:
+ *     -replacements (array)
+ *        -@fullname - name of recipient
+ *        -@event_name - name of event
+ *        -@event_manage_team_link - link to team manage pge
+ *        -@country - country name
+ *     -user - user object
+ */
+function at_messages_send_mail_approve_teamleader($options) {
+  $user = $options['user'];
+  $mail = array(
+    'subject' => t(AT_MSG_EMAIL_SUBJ_APPROVE_TEAMLEADER, $options['replacements']),
+    'message' => t(AT_MSG_EMAIL_BODY_APPROVE_TEAMLEADER, $options['replacements'])
+  );
+  $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
+}
+
+/**
+ * Send message for approved teamleader.
+ *
+ * @param array $options - array of options:
+ *     -replacements (array)
+ *        -@organizer_fullname - name of recipient
+ *        -@event_name - name of event
+ *        -@event_manage_team_link - link to team manage pge
+ *        -@country - country name
+ *     -user - user object
+ */
+function at_messages_send_mail_change_team($options) {
+  $user = $options['user'];
+  $mail = array(
+    'subject' => t(AT_MSG_EMAIL_SUBJ_TEAM_CHANGE, $options['replacements']),
+    'message' => t(AT_MSG_EMAIL_BODY_TEAM_CHANGE, $options['replacements'])
+  );
+  $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
+}
+
+/**
+ * Send message when team leader is registered.
+ *
+ * @param string $target - 'teamleader' or 'organizer'
+ *
+ * @param array $options - array of options:
+ *     -replacements (array)
+ *        -@teamleader_fullname
+ *        -@organizer_fullname
+ *        -@event_name
+ *        -@event_manage_team_link
+ *        -@country
+ *     -user
+ */
+function at_messages_send_mail_register_teamleader($target, $options) {
+  $mail = array();
+  $user = $options['user'];
+  switch ($target) {
+    case 'teamleader':
+      $mail = array(
+        'subject' => t(AT_MSG_EMAIL_SUBJ_REGISTER_TEAMLEADER_TO_TEAMLEADER, $options['replacements']),
+        'message' => t(AT_MSG_EMAIL_BODY_REGISTER_TEAMLEADER_TO_TEAMLEADER, $options['replacements'])
+      );
+      break;
+    case 'organizer':
+      $mail = array(
+        'subject' => t(AT_MSG_EMAIL_SUBJ_REGISTER_TEAMLEADER_TO_ORG, $options['replacements']),
+        'message' => t(AT_MSG_EMAIL_BODY_REGISTER_TEAMLEADER_TO_ORG, $options['replacements'])
+      );
+      break;
+
+
+  }
+  if (!empty($mail)) {
+    $mail_send = drupal_mail('system', 'mail', $user->mail, user_preferred_language($user), array('context' => $mail));
+  }
 }

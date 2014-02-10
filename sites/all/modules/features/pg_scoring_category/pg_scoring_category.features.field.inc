@@ -795,11 +795,11 @@ Junior',
         'type' => '0',
       ),
       'foreign keys' => array(
-        'node' => array(
+        'users' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'uid',
           ),
-          'table' => 'node',
+          'table' => 'users',
         ),
       ),
       'indexes' => array(
@@ -811,17 +811,22 @@ Junior',
       'module' => 'entityreference',
       'settings' => array(
         'entity_translation_sync' => FALSE,
-        'handler' => 'base',
+        'handler' => 'event_views',
         'handler_settings' => array(
           'behaviors' => array(
             'views-select-list' => array(
               'status' => 0,
             ),
           ),
-          'sort' => array(
-            'type' => 'none',
+          'view' => array(
+            'args' => array(
+              0 => 'gid',
+              1 => 'all',
+              2 => '50',
+            ),
+            'display_name' => 'contestants_all_entityreference',
+            'view_name' => 'paragliding_pilots_list',
           ),
-          'target_bundles' => array(),
         ),
         'profile2_private' => FALSE,
         'target_type' => 'user',
@@ -831,7 +836,7 @@ Junior',
     ),
     'field_instance' => array(
       'bundle' => 'pg_scoring_category',
-      'default_value' => NULL,
+      'default_value' => array(),
       'default_value_function' => '',
       'deleted' => '0',
       'description' => '',
@@ -878,13 +883,9 @@ Junior',
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'entityreference',
-        'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'path' => '',
-          'size' => '60',
-        ),
-        'type' => 'entityreference_autocomplete',
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
         'weight' => '3',
       ),
     ),

@@ -21,6 +21,7 @@ function airtribune_event_settings_form($form, &$form_state, $event = FALSE) {
     'field_flying_info',
     'field_flying_site_ref',
     'field_take_offs',
+    'field_landing_zones',
     'field_tiny_path',
     'field_dates',
     'field_logo',

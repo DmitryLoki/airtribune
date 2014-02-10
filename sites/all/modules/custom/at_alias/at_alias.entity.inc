@@ -97,6 +97,50 @@ function _at_alias_update_single_conjugate_ent_race($entity, $events) {
         }
       }
       break;
+    case AIRTRIBUNE_PG_NATION_TEAM_TYPE :
+      module_load_include('module', 'countries');
+
+      $pattern = array(
+        'source' => "event/:event_nid/pilots/manage/teams/:entity_id",
+        'alias' => ":alias_base/pilots/manage/teams/:country",
+      );
+      if (!empty($events)) {
+        $event = array_shift($events);
+
+        // delete existing aliases
+        _at_alias_delete_single_conjugate_ent_race($entity);
+
+        $alias_base = _at_alias_get_event_alias_base($event);
+        // Do nothing if there is no event alias in the db.
+        if (empty($alias_base)) {
+          return;
+        }
+
+        // Get team country
+        $countries = countries_get_countries('name');
+        $country_items = field_get_items(AIRTRIBUNE_TEAM_TYPE, $entity, AIRTRIBUNE_COUNTRY_FIELD);
+        if (!empty($country_items)) {
+          $country_code = $country_items[0]['iso2'];
+        }
+        else {
+          return;
+        }
+        $country = str_replace(' ', '-', strtolower($countries[$country_code]));
+
+        $placeholders = array(
+          ':event_nid' => $event->nid,
+          ':entity_id' => $entity->id,
+          ':alias_base' => $alias_base,
+          ':country' => $country,
+        );
+
+        $path = array(
+          'source' => strtr($pattern['source'], $placeholders),
+          'alias' => strtr($pattern['alias'], $placeholders),
+        );
+        path_save($path);
+      }
+      break;
   }
 }
 
@@ -107,6 +151,16 @@ function _at_alias_delete_single_conjugate_ent_race($entity) {
     case AIRTRIBUNE_PG_RACE_TYPE :
       $pattern = array(
         'source' => "event/%/race/:entity_id/results/%",
+      );
+      $placeholders = array(':entity_id' => $entity->id);
+      $conditions = array(
+        'source' => strtr($pattern['source'], $placeholders),
+      );
+      _at_alias_delete_node_alias_multiple($conditions);
+      break;
+    case AIRTRIBUNE_PG_NATION_TEAM_TYPE :
+      $pattern = array(
+        'source' => "event/%/pilots/manage/teams/:entity_id",
       );
       $placeholders = array(':entity_id' => $entity->id);
       $conditions = array(
@@ -143,6 +197,12 @@ function _at_alias_get_conjugate_entities($entity, $type = NULL) {
   switch ($entity->type) {
     case AIRTRIBUNE_PG_RACE_TYPE :
       $og_ref_items = field_get_items(AIRTRIBUNE_RACE_ENTITY_TYPE, $entity, OG_AUDIENCE_FIELD);
+      if (!empty($og_ref_items)) {
+        $ids[] = $og_ref_items[0]['target_id'];
+      }
+      break;
+    case AIRTRIBUNE_PG_NATION_TEAM_TYPE :
+      $og_ref_items = field_get_items(AIRTRIBUNE_TEAM_TYPE, $entity, OG_AUDIENCE_FIELD);
       if (!empty($og_ref_items)) {
         $ids[] = $og_ref_items[0]['target_id'];
       }
