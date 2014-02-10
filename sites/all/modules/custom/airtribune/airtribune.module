@@ -73,6 +73,8 @@ define('AIRTRIBUNE_COUNTRY_ISO2_FIELD', 'field_country_iso2');
 define('AIRTRIBUNE_TEAM_MEMBER_FIELD', 'field_team_member');
 define('AIRTRIBUNE_USERS_REF_FIELD', 'field_users_ref');
 
+define('AIRTRIBUNE_SINGLE_DOWNLOAD_FIELD', 'field_single_download');
+
 // Content types.
 define('AIRTRIBUNE_PG_CONTEST_TYPE', 'pg_contest');
 define('AIRTRIBUNE_HG_CONTEST_TYPE', 'hg_contest');
