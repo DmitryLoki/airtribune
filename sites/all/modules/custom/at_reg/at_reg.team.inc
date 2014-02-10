@@ -46,7 +46,7 @@ function at_reg_team_form($form, $form_state) {
   $options += $countries;
   $form['county'] = array(
     '#type' => 'select',
-    '#title' => t('I, <em>!full_name</em>, declare myself as a team leader of', array('!full_name' => $user_full_name)),
+    '#title' => t('I,&nbsp;<em>!full_name</em>, declare myself as a team leader of', array('!full_name' => $user_full_name)),
     '#options' =>  $options,
     '#default_value' => ($user_country = _at_reg_team_user_country_default($user)) ? $user_country : '',
     '#required' => TRUE,
