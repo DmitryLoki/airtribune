@@ -139,7 +139,7 @@ function at_reg_page_callback_authorized($node, $user) {
             'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
             'href' => '#',
           ),
-          '#value' => t('Team leader registration'),
+          '#value' => t('Team registration'),
         ),
       ));
       $form['fai_1_head'] = array(
@@ -169,7 +169,7 @@ function at_reg_page_callback_authorized($node, $user) {
             'class' => 'at-reg-team-leader-add-error at-reg-team-leader-link',
             'href' => '#',
           ),
-          '#value' => t('Team leader registration'),
+          '#value' => t('Team registration'),
         ),
       ));
     }

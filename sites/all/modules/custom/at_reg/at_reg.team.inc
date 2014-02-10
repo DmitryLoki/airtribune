@@ -12,6 +12,11 @@ function at_reg_team_page_callback($node) {
   //~ module_load_include('inc', 'eck', 'eck.entity');
   //~ return eck__entity__add('ent_team', 'pg_nation_team');
   
+  if (!in_array($node->type, array(AIRTRIBUNE_PG_CONTEST_TYPE, AIRTRIBUNE_HG_CONTEST_TYPE))) {
+    drupal_not_found();
+    return;
+  }
+
   return drupal_get_form('at_reg_team_form', $node);
 }
 
@@ -64,8 +69,7 @@ function at_reg_team_form_submit($form, &$form_state) {
   $country_code = $form_state['values']['county'];
   $country = country_load($country_code);
   $entity = _at_reg_team_get_team_entity($gid, $country_code);
-  drupal_set_message(t('Your application as a team leader was sent.'));
-  drupal_set_message(t('After you are approved by organizer you will be able to continue with team registration.'));
+  drupal_set_message(t('Your application as a team leader was sent. After you are approved by organizer you will be able to continue with team registration.'));
   $form_state['redirect'] = "event/{$node->nid}/register";
 
   // Send mail
