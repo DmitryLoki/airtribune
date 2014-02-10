@@ -158,6 +158,17 @@ function pg_nation_team_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function pg_nation_team_teamcard_nac_form_submit($form, &$form_state) {
+  // replace message
+  $entity = $form_state['values']['entity'];
+  $remove_msg = t("Entity {$entity->id} - @entity_label has been saved", array("@entity_label" => entity_label($form['#entity_type'], $entity)) );
+  if (!empty($_SESSION['messages']['status'])) {
+    $k = array_search($remove_msg, $_SESSION['messages']['status']);
+    unset($_SESSION['messages']['status'][$k]);
+    $_SESSION['messages']['status'] = array_values($_SESSION['messages']['status']);
+  }
+  drupal_set_message(t("@entity_label has been saved", array("@entity_label" => entity_label($form['#entity_type'], $entity)) ));
+
+  // disable redirect
   unset($form_state['redirect']);
 }
 
