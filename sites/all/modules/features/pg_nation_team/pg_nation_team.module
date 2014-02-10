@@ -176,6 +176,7 @@ function pg_nation_team_field_access($op, $field, $entity_type, $entity, $accoun
       'field_person_name',
       'field_single_download',
       'field_single_email',
+      OG_AUDIENCE_FIELD,
     );
     // @todo
     if (!in_array($field['field_name'], $fields_allowed) && $user->uid != 1 && $op == 'edit') {
