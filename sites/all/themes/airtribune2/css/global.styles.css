@@ -3281,7 +3281,8 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 
 /* Contestant status */
 .views-field-field-pg-contestant-status div.td_inner,
-span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block;; padding:0 0 1px 20px; font: 14px/16px Arial,Helvetica,sans-serif}
+span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block; font: 14px/16px Arial,Helvetica,sans-serif}
+span.status-value { padding:0 0 1px 20px; }
 .status-Waiting-list > span.status-value,
 .status-Waiting-list > div.td_inner,
 .status-value-10 > span.status-value { background-position: 0 -99px; color: #c1c7cc;}
