@@ -2935,9 +2935,9 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 .page-event-pilots-manage-teams .view-display-id-team_card td.views-field-field-civl-id { width: 70px; text-align: center;}
 .page-event-pilots-manage-teams .view-display-id-team_card td.views-field-field-fai-license-number { width: 80px; text-align: center;}
 .page-event-pilots-manage-teams .view-display-id-team_card td.views-field-view-team-card-pilot-selection { width:100px; text-align: center;}
-.page-event-pilots-manage-teams .pane-page-content form .inline-label,
+.page-event-pilots-manage-teams .view-display-id-team_card form .inline-label,
 .page-event-pilots-manage-teams .view-display-id-team_card .form-required {display: none !important;}
-.page-event-pilots-manage-teams .pane-page-content .select { width: 195px !important; }
+.page-event-pilots-manage-teams .view-display-id-team_card .select { width: 195px !important; }
 
 /* page-event-map-activity-accommodation */
 
