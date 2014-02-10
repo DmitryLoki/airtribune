@@ -13,7 +13,7 @@
       });
 
       function at_reg_set_error_message(message) {
-        $('.pane-pane-messages #tasks').append(
+        $('.pane-pane-messages #tasks').after(
           '<div class="messages error"><h2 class="element-invisible">Error message</h2><span>'+message+'</span><span class="valign"></span></div>'
         );
       }

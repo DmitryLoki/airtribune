@@ -30,6 +30,7 @@ function airtribune_airtribune_teamcard_nac_content_type_render(&$subtype, $conf
   $form = eck__entity__edit(AIRTRIBUNE_TEAM_TYPE, AIRTRIBUNE_PG_NATION_TEAM_TYPE, $team->id);
 
   $form['title']['#access'] = FALSE;
+  $form[AIRTRIBUNE_SINGLE_DOWNLOAD_FIELD]['#weight'] = 50;
 
   $form = drupal_render($form);
 
