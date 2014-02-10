@@ -3282,6 +3282,7 @@ table tr th:last-child { border-right: 1px solid #e4e9eb;}
 /* Contestant status */
 .views-field-field-pg-contestant-status div.td_inner,
 span.status-value { background: url(../images/pilot_statuses.png) no-repeat 0 -10000px; display: inline-block; font: 14px/16px Arial,Helvetica,sans-serif}
+.select .status-value,
 .views-field-field-pg-contestant-status div.td_inner { padding:0 0 1px 20px; }
 .status-Waiting-list > span.status-value,
 .status-Waiting-list > div.td_inner,
