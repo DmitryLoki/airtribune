@@ -513,7 +513,7 @@ function organic_groups_field_default_fields() {
       'bundle' => 'hg_contestant',
       'default_value' => array(
         0 => array(
-          'value' => '1',
+          'value' => '10',
         ),
       ),
       'deleted' => '0',
@@ -875,7 +875,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -1522,7 +1522,7 @@ function organic_groups_field_default_fields() {
       'bundle' => 'pg_contestant',
       'default_value' => array(
         0 => array(
-          'value' => '1',
+          'value' => '10',
         ),
       ),
       'deleted' => '0',
@@ -1537,6 +1537,7 @@ function organic_groups_field_default_fields() {
         ),
       ),
       'entity_type' => 'og_membership',
+      'exclude_cv' => 0,
       'field_name' => 'field_pg_contestant_status',
       'label' => 'Payment status',
       'required' => 1,
@@ -1883,7 +1884,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -2041,7 +2042,7 @@ function organic_groups_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '0',
+        'weight' => 0,
       ),
     ),
   );
@@ -3002,7 +3003,7 @@ function organic_groups_field_default_fields() {
       'settings' => array(
         'entity_translation_sync' => FALSE,
         'max_length' => '255',
-        'profile2_private' => FALSE,
+        'profile2_private' => 0,
       ),
       'translatable' => '0',
       'type' => 'text',
