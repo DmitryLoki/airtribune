@@ -36,8 +36,10 @@ function _get_class_by_entity($entity_type, $entity) {
   }
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
+    'node:hg_contest' => 'ATSyncContest',
     'user' => 'ATSyncPerson',
     'og_membership:pg_contestant' => 'ATSyncPilot',
+    'og_membership:hg_contestant' => 'ATSyncPilot',
     'og_membership:pg_winddummy' => 'ATSyncWindDummy',
     'og_membership:tracked_object' => 'ATSyncTrackedObject',
     'ent_race:pg_race' => 'ATSyncRace',

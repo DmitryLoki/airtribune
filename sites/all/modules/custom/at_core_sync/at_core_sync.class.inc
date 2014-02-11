@@ -162,8 +162,9 @@ class ATSyncContest extends ATSync {
   public function synchronize() {
     $node = $this->entity;
     $data = array(
-      'hq_coords' => $node->field_hq_location[LANGUAGE_NONE][0]['lat'] . ',' . $node->field_hq_location[LANGUAGE_NONE][0]['lon'],
       'title' => $node->title,
+      'lat' => $node->field_hq_location[LANGUAGE_NONE][0]['lat'],
+      'lon' => $node->field_hq_location[LANGUAGE_NONE][0]['lon'],
       'start_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value']),
       'end_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value2']),
       'place' => $node->field_city[LANGUAGE_NONE][0]['value'],
