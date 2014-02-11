@@ -178,13 +178,12 @@ function _d($var) {
   drupal_set_message(print_r($var, TRUE));
 }
 
-
 /**
  * _at_sync_debug function
- * 
- * $var - variable for debug
- * $url - Core API url for debug
- * $response - response from Core API
+ *
+ * @param $var - variable for debug
+ * @param $url - Core API url for debug
+ * @param $response - response from Core API
  */
 function _asd($var, $url = NULL, $response = NULL) {
   $debug = variable_get('at_core_sync_debug_mode', 0);
@@ -197,7 +196,7 @@ function _asd($var, $url = NULL, $response = NULL) {
       $message = $message_url . "\n</br />";
     }
     $message_body = "<strong>Request:</strong>&nbsp;" . print_r($var, TRUE);
-    $message .= $message_body ;
+    $message .= $message_body;
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
       $message_response = "<strong>Response:</strong>&nbsp;" . print_r($response, TRUE) . '/' . $url;

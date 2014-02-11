@@ -88,9 +88,9 @@ abstract class ATSync {
 
       case 405:
         ATSync::setMessage($head . t("Method <i>!method</i> is not allowed for resource !url.", array(
-          '!method' => $method,
-          '!url' => $url,
-        )), 'error');
+            '!method' => $method,
+            '!url' => $url,
+          )), 'error');
         break;
 
       case 409:
@@ -180,7 +180,7 @@ class ATSyncContest extends ATSync {
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }
-    
+
     _asd(json_encode($data), $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
@@ -243,9 +243,10 @@ class ATSyncTrackedObject extends ATSync {
     $this->contest_core_id = get_id_from_entity('node', $this->contest);
     $this->transport = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
     // See #3572
-    if(!empty($entity->tracked_core_id)) {
+    if (!empty($entity->tracked_core_id)) {
       $this->tracked_core_id = $entity->tracked_core_id;
-    } else {
+    }
+    else {
       $this->tracked_core_id = get_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
     }
     $tracker_eid = FALSE;
@@ -286,7 +287,7 @@ class ATSyncTrackedObject extends ATSync {
       $response = $this->request(http_build_query($data), "POST");
       _asd(json_encode($data), $this->address, $response);
     }
-    
+
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -334,9 +335,9 @@ class ATSyncPerson extends ATSync {
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }
-    
+
     _asd(json_encode($data), $this->address, $response);
-    
+
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -417,9 +418,9 @@ class ATSyncPilot extends ATSync {
     else {
       $response = $this->request(http_build_query($data));
     }
-    
+
     _asd(json_encode($data), $this->address, $response);
-    
+
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -493,9 +494,9 @@ class ATSyncWindDummy extends ATSync {
     else {
       $response = $this->request(http_build_query($data));
     }
-    
+
     _asd(json_encode($data), $this->address, $response);
-    
+
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -641,9 +642,9 @@ class ATSyncRace extends ATSync {
         $this->updateCoreID($response->id);
       }
     }
-    
+
     _asd(json_encode($data_url), $this->address, $response);
-    
+
     if (!empty($response->id)) {
       return $response->id;
     }
@@ -715,7 +716,7 @@ class ATSyncTracker extends ATSync {
       $response = $this->request(http_build_query($data));
       $this->updateCoreID($response->id);
     }
-     _asd(json_encode($data), $this->address, $response);
+    _asd(json_encode($data), $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 
