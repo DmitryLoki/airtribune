@@ -36,8 +36,8 @@ abstract class ATSync {
         curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
         break;
 
-      case 'PUT':
-        curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PUT');
+      case 'PATCH':
+        curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PATCH');
         curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
         break;
 
@@ -174,7 +174,7 @@ class ATSyncContest extends ATSync {
     if ($this->core_id) {
       // change address if contest already in Core
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request(json_encode($data), 'PATCH');
     }
     else {
       $response = $this->request(http_build_query($data));
@@ -209,7 +209,7 @@ class ATSyncCustom extends ATSync {
     if ($this->core_id) {
       // change address if contest already in Core
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request(json_encode($data), 'PATCH');
     }
     else {
       $response = $this->request(http_build_query($data));
@@ -328,7 +328,7 @@ class ATSyncPerson extends ATSync {
     }
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request(json_encode($data), 'PATCH');
     }
     else {
       $response = $this->request(http_build_query($data));
@@ -412,7 +412,7 @@ class ATSyncPilot extends ATSync {
     */
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request(json_encode($data), 'PATCH');
     }
     else {
       $response = $this->request(http_build_query($data));
@@ -488,7 +488,7 @@ class ATSyncWindDummy extends ATSync {
     $this->core_id = FALSE;
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request(json_encode($data), 'PATCH');
     }
     else {
       $response = $this->request(http_build_query($data));
@@ -633,7 +633,7 @@ class ATSyncRace extends ATSync {
         "title" => $title,
         "checkpoints" => $checkpoints,
       );
-      $response = $this->request(json_encode($edit), "PUT");
+      $response = $this->request(json_encode($edit), 'PATCH');
     }
     else {
       $response = $this->request($data_url);
@@ -709,7 +709,7 @@ class ATSyncTracker extends ATSync {
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $data_update['name'] = $data['name'];
-      $response = $this->request(json_encode($data_update), 'PUT');
+      $response = $this->request(json_encode($data_update), 'PATCH');
     }
     else {
       $response = $this->request(http_build_query($data));
@@ -728,7 +728,7 @@ class ATSyncTracker extends ATSync {
     );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), 'PUT');
+      $response = $this->request(json_encode($data), 'PATCH');
       _asd(json_encode($data), $this->address, $response);
     }
     return $response;
