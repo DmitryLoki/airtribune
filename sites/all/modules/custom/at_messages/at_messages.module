@@ -268,8 +268,7 @@ function at_messages_register_at_event_submit($form, &$form_state) {
   $event_name = trim($event->title);
   $event_pilot_list_url = drupal_get_path_alias('event/' . $event->nid . '/pilots');
   $organiser = user_load($event->uid);
-  $organiser_profile = profile2_load_by_user($organiser);
-  $organiser_full_name = $organiser_profile['main']->field_full_name['und'][0]['given'] . ' ' . $organiser_profile['main']->field_full_name['und'][0]['family'];
+  $organiser_full_name = get_full_name($organiser);
 
   //~ $gender_list = array('male', 'female');  // TODO:
   //~ $gender = $gender_list[$profile_main['field_gender']['und'][0]['value']];

@@ -414,14 +414,7 @@ function airtribune2_process_node(&$vars) {
 
   //print drupal_get_path_alias();
 
-  if (isset($account->field_full_name)) {
-    $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
-  }
-  else {
-    $full_name = $vars['name'];
-  }
-
-  $vars['full_name'] = render($full_name);
+  $vars['full_name'] = get_full_name($account);
 
   if (is_solutions()) {
     $vars['notitle'] = TRUE;
@@ -1938,28 +1931,6 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
     // Flatten the classes to a string for each row for the template file.
     $vars['classes_array'][$id] = isset($vars['classes'][$id]) ? implode(' ', $vars['classes'][$id]) : '';
   }
-}
-
-/**
- * Definition of solutions pages
- * @see #3796
- */
-function is_solutions(){
-  $path = request_uri();
-  $pattern = SOLUTIONS_REGEXT_PATTERN;
-  preg_match($pattern, $path, $matches);
-  $part = isset($matches[0]) ? $matches[0] : NULL;
-  switch($part) {
-    case 'privacy': // @see #4341
-    case 'terms': // @see #4341
-    case 'organizers':
-    case 'pilots':
-    case 'viewers':
-        return $part;
-      break;
-  }
-
-  return FALSE;
 }
 
 /**

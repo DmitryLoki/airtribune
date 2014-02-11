@@ -76,9 +76,7 @@ function at_reg_team_form_submit($form, &$form_state) {
   $options = array();
   $options['user'] = $user;
 
-  $profile = profile2_load_by_user($options['user']);
-  $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
-
+  $fullname = get_full_name($options['user']);
   $options['replacements'] = array(
     '@teamleader_fullname' => $fullname,
     '@event_name' => trim($node->title),
@@ -88,8 +86,7 @@ function at_reg_team_form_submit($form, &$form_state) {
   at_messages_send_mail_register_teamleader('teamleader', $options);
 
   $options['user'] = user_load($node->uid);
-  $profile = profile2_load_by_user($options['user']);
-  $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
+  $fullname = get_full_name($options['user']);
   $options['replacements']['@organizer_fullname'] = $fullname;
   $options['replacements']['@event_manage_team_link'] = url('event/' . $node->nid . '/pilots/manage/teams', array('absolute' => TRUE));
 

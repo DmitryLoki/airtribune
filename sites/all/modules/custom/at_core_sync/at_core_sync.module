@@ -23,21 +23,6 @@ function get_id_from_entity($entity_type, $entity) {
 }
 
 /**
- * Returns Contest Core ID from race entity
- */
-function get_contest_id_from_race($entity) {
-  $contest_id = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-  $contest = node_load($contest_id);
-  $field_core_id = field_get_items('node', $contest, AIRTRIBUNE_CORE_ID_FIELD);
-  if (!empty($field_core_id[0]['value'])) {
-    return $field_core_id[0]['value'];
-  }
-  else {
-    return FALSE;
-  }
-}
-
-/**
  * Returns synchronization class
  */
 function _get_class_by_entity($entity_type, $entity) {
