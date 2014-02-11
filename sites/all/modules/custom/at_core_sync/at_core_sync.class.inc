@@ -53,79 +53,79 @@ abstract class ATSync {
       'url' => $url,
     );
     $request_info = t('!request_info', array('!request_info' => '<pre>' . print_r($request_array, TRUE) . '</pre>'));
-    $head = t("Core API[!code]: ", array('!code' => $code));
+    $head = t('Core API[!code]: ', array('!code' => $code));
     $url = l($url, $url);
     switch ($code) {
       case 200:
-        ATSync::setMessage($head . t("Request completed."));
+        ATSync::setMessage($head . t('Request completed.'));
         break;
 
       case 201:
-        ATSync::setMessage($head . t("Resource is successfully created."));
+        ATSync::setMessage($head . t('Resource is successfully created.'));
         break;
 
       case 202:
-        ATSync::setMessage($head . t("Request accepted."));
+        ATSync::setMessage($head . t('Request accepted.'));
         break;
 
       case 400:
-        ATSync::setMessage($head . t("Request has error. Check fields and send again."), 'error');
+        ATSync::setMessage($head . t('Request has error. Check fields and send again.'), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 401:
-        ATSync::setMessage($head . t("You need to auth before send this request."), 'error');
+        ATSync::setMessage($head . t('You need to auth before send this request.'), 'error');
         break;
 
       case 403:
-        ATSync::setMessage($head . t("Requested operation not available."), 'error');
+        ATSync::setMessage($head . t('Requested operation not available.'), 'error');
         break;
 
       case 404:
-        ATSync::setMessage($head . t("Resource not found, (!url)", array('!url' => $url)), 'error');
+        ATSync::setMessage($head . t('Resource not found, (!url)', array('!url' => $url)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 405:
-        ATSync::setMessage($head . t("Method <i>!method</i> is not allowed for resource !url.", array(
+        ATSync::setMessage($head . t('Method <i>!method</i> is not allowed for resource !url.', array(
             '!method' => $method,
             '!url' => $url,
           )), 'error');
         break;
 
       case 409:
-        ATSync::setMessage($head . t("Conflict happened. See server response for details.", array('!code' => $code)), 'error');
+        ATSync::setMessage($head . t('Conflict happened. See server response for details.', array('!code' => $code)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 500:
-        ATSync::setMessage($head . t("Format error or server restrictions.", array('!code' => $code)), 'error');
+        ATSync::setMessage($head . t('Format error or server restrictions.', array('!code' => $code)), 'error');
         ATSync::setMessage(print_r($response, TRUE), 'error');
         break;
 
       case 502:
       case 504:
-        $message = $head . t("is unreachable (server error), request queued.") . $request_info;
+        $message = $head . t('is unreachable (server error), request queued.') . $request_info;
         ATSync::setMessage($message, 'error');
-        watchdog("at_core_sync", $message);
+        watchdog('at_core_sync', $message);
         break;
 
       case 0:
-        $message = $head . t("is unreachable (timeout), request queued.") . $request_info;
+        $message = $head . t('is unreachable (timeout), request queued.') . $request_info;
         ATSync::setMessage($message, 'error');
-        watchdog("at_core_sync", $message);
+        watchdog('at_core_sync', $message);
         break;
 
       default:
-        $message = $head . t("unknown response") . $request_info;
+        $message = $head . t('unknown response') . $request_info;
         ATSync::setMessage($message, 'warning');
-        watchdog("at_core_sync", $message, array(), WATCHDOG_WARNING);
+        watchdog('at_core_sync', $message, array(), WATCHDOG_WARNING);
         break;
     }
     return json_decode($response);
   }
 
-  public function request($data, $method = "POST") {
+  public function request($data, $method = 'POST') {
     return ATSync::requestToCore($this->address, $data, $method);
   }
 
@@ -133,7 +133,7 @@ abstract class ATSync {
     $this->entity->field_core_id = array(
       LANGUAGE_NONE => array(
         array(
-          "value" => $id,
+          'value' => $id,
         ),
       ),
     );
@@ -157,7 +157,7 @@ abstract class ATSync {
  * Class for synchronization pg_contest
  */
 class ATSyncContest extends ATSync {
-  public $address = "contest";
+  public $address = 'contest';
 
   public function synchronize() {
     $node = $this->entity;
@@ -194,7 +194,7 @@ class ATSyncContest extends ATSync {
  * Class for synchronization custom_object (transport) see #3446
  */
 class ATSyncCustom extends ATSync {
-  public $address = "transport";
+  public $address = 'transport';
 
   public function synchronize() {
     $description_field = $this->entity->field_plain_body;
@@ -218,7 +218,7 @@ class ATSyncCustom extends ATSync {
     _asd(json_encode($data), $this->address, $response);
     // Synchronize og_membership, see #3572 for details
     $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-    $og_membership = og_get_membership("node", $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
+    $og_membership = og_get_membership('node', $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
     $og_membership->tracked_core_id = !empty($response->id) ? $response->id : FALSE;
     $sync = _get_class_by_entity('og_membership', $og_membership);
     $sync->synchronize();
@@ -230,7 +230,7 @@ class ATSyncCustom extends ATSync {
 }
 
 class ATSyncTrackedObject extends ATSync {
-  public $address = "contest/";
+  public $address = 'contest/';
   public $tracked_core_id = '';
   public $contest = NULL;
   public $contest_core_id = '';
@@ -284,7 +284,7 @@ class ATSyncTrackedObject extends ATSync {
         'transport_id' => $this->tracked_core_id,
         'phone' => $phone,
       );
-      $response = $this->request(http_build_query($data), "POST");
+      $response = $this->request(http_build_query($data), 'POST');
       _asd(json_encode($data), $this->address, $response);
     }
 
@@ -299,12 +299,12 @@ class ATSyncTrackedObject extends ATSync {
  * Class for synchronization person
  */
 class ATSyncPerson extends ATSync {
-  public $address = "person";
+  public $address = 'person';
 
   public function synchronize() {
     $profile2 = profile2_load_by_user($this->entity);
     if (!isset($profile2['pilot'])) {
-      ATSync::setMessage("Core API: User is not a pilot, no need to synchronize");
+      ATSync::setMessage('Core API: User is not a pilot, no need to synchronize');
       return FALSE;
     }
 
@@ -313,7 +313,7 @@ class ATSyncPerson extends ATSync {
       'surname' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['family'],
       'country' => $profile2['pilot']->field_address[LANGUAGE_NONE][0]['country'],
       'email' => $this->entity->mail,
-      'reg_date' => date("Y,m,d", $this->entity->created),
+      'reg_date' => date('Y,m,d', $this->entity->created),
     );
 
     if (!empty($this->entity->field_phone[LANGUAGE_NONE][0]['number'])) {
@@ -349,7 +349,7 @@ class ATSyncPerson extends ATSync {
  * Class for synchronization pilot
  */
 class ATSyncPilot extends ATSync {
-  public $address = "contest/";
+  public $address = 'contest/';
   public $person_core_id = '';
   public $contest = NULL;
   public $contest_core_id = '';
@@ -432,7 +432,7 @@ class ATSyncPilot extends ATSync {
  * Class for synchronization winddummy
  */
 class ATSyncWindDummy extends ATSync {
-  public $address = "contest/";
+  public $address = 'contest/';
   public $person_core_id = '';
   public $contest = NULL;
   public $contest_core_id = '';
@@ -508,7 +508,7 @@ class ATSyncWindDummy extends ATSync {
  * Class for synchronization race
  */
 class ATSyncRace extends ATSync {
-  public $address = "contest/";
+  public $address = 'contest/';
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
@@ -527,7 +527,7 @@ class ATSyncRace extends ATSync {
     $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
 
     if (!$this->contest_core_id) {
-      ATSync::setMessage(t("Core API: Contest not synchronized yet."));
+      ATSync::setMessage(t('Core API: Contest not synchronized yet.'));
       return FALSE;
     }
 
@@ -544,18 +544,18 @@ class ATSyncRace extends ATSync {
     $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
     $racetype = array_pop(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype_ref), array(), TRUE));
     switch ($racetype->type) {
-      case "pg_racetype_rtg":
+      case 'pg_racetype_rtg':
         $data['race_type'] = 'racetogoal';
         break;
 
-      case "pg_racetype_od":
+      case 'pg_racetype_od':
         $data['race_type'] = 'opendistance';
         if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
           $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
         }
         break;
 
-      case "pg_racetype_sr":
+      case 'pg_racetype_sr':
         $data['race_type'] = 'speedrun';
         break;
     }
@@ -565,7 +565,7 @@ class ATSyncRace extends ATSync {
     }
     $points = entity_load(AIRTRIBUNE_POINT_ENTITY_TYPE, $point_ref, array(), TRUE);
     $checkpoints = array();
-    $checkpoints['type'] = "FeatureCollection";
+    $checkpoints['type'] = 'FeatureCollection';
     $checkpoints['features'] = array();
     $delta = 0;
     foreach ($points as $point) {
@@ -587,20 +587,20 @@ class ATSyncRace extends ATSync {
         $point_data['properties']['checked_on'] = $point->field_point_type[LANGUAGE_NONE][0]['value'];
       }
 
-      $point_data['properties']['checkpoint_type'] = "ordinal";
+      $point_data['properties']['checkpoint_type'] = 'ordinal';
       if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
-        $point_data['properties']['checkpoint_type'] = "to";
+        $point_data['properties']['checkpoint_type'] = 'to';
         $point_data['properties']['open_time'] = $window_time['open_time'];
         $point_data['properties']['close_time'] = $window_time['close_time'];
       }
       switch ($data['race_type']) {
-        case "speedrun":
-        case "racetogoal":
+        case 'speedrun':
+        case 'racetogoal':
           if ($delta == count($points) - 1) {
-            $point_data['properties']['checkpoint_type'] = "goal";
+            $point_data['properties']['checkpoint_type'] = 'goal';
 
             // Goal as Line
             if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'line') {
@@ -616,7 +616,7 @@ class ATSyncRace extends ATSync {
 
           break;
 
-        case "opendistance":
+        case 'opendistance':
           if (($delta == count($points) - 1) || in_array($point_data['properties']['checkpoint_type'], array('ss'))) {
             $point_data['properties']['open_time'] = $data['start_time'];
             $point_data['properties']['close_time'] = $data['end_time'];
@@ -631,8 +631,8 @@ class ATSyncRace extends ATSync {
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $edit = array(
-        "title" => $title,
-        "checkpoints" => $checkpoints,
+        'title' => $title,
+        'checkpoints' => $checkpoints,
       );
       $response = $this->request(json_encode($edit), 'PATCH');
     }
@@ -662,7 +662,7 @@ class ATSyncRace extends ATSync {
       }
       $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
       if (!$this->contest_core_id) {
-        ATSync::setMessage(t("Core API: Contest not synchronized yet."));
+        ATSync::setMessage(t('Core API: Contest not synchronized yet.'));
         return FALSE;
       }
 
@@ -680,7 +680,7 @@ class ATSyncRace extends ATSync {
         _asd($url, $this->address, $response);
       }
       else {
-        ATSync::setMessage(t("Core API: Unable to send tracks. Race not synchronized yet."));
+        ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
         return FALSE;
       }
     }
@@ -694,7 +694,7 @@ class ATSyncRace extends ATSync {
  * Class for synchronization person
  */
 class ATSyncTracker extends ATSync {
-  public $address = "tracker";
+  public $address = 'tracker';
 
   public function synchronize() {
     $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $this->entity);
