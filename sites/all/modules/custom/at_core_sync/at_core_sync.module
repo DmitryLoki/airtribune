@@ -12,7 +12,7 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
 /**
  * Returns Core ID from entity
  */
-function get_id_from_entity($entity_type, $entity) {
+function get_core_id_from_entity($entity_type, $entity) {
   $field_core_id = field_get_items($entity_type, $entity, AIRTRIBUNE_CORE_ID_FIELD);
   if (!empty($field_core_id[0]['value'])) {
     return $field_core_id[0]['value'];

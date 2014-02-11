@@ -13,7 +13,7 @@ abstract class ATSync {
   public function __construct($entity_type, $entity) {
     $this->entity = $entity;
     $this->entity_type = $entity_type;
-    $this->core_id = get_id_from_entity($this->entity_type, $this->entity);
+    $this->core_id = get_core_id_from_entity($this->entity_type, $this->entity);
   }
 
   public static function requestToCore($address, $data = array(), $method = "POST") {
@@ -241,14 +241,14 @@ class ATSyncTrackedObject extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     $this->transport = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
     // See #3572
     if (!empty($entity->tracked_core_id)) {
       $this->tracked_core_id = $entity->tracked_core_id;
     }
     else {
-      $this->tracked_core_id = get_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
+      $this->tracked_core_id = get_core_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
     }
     $tracker_eid = FALSE;
     if (isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
@@ -360,9 +360,9 @@ class ATSyncPilot extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
-    $this->tracked_core_id = get_id_from_entity('user', $this->person);
+    $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
     if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
@@ -373,8 +373,9 @@ class ATSyncPilot extends ATSync {
 
   public function synchronize() {
     // Send only if status is confirmed
-    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
-      return FALSE;
+    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != AIRTRIBUNE_PG_CONTESTANT_CONFIRMED) {
+      // todo remove from cores if not conf
+        return FALSE;
     }
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
@@ -443,9 +444,9 @@ class ATSyncWindDummy extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
-    $this->tracked_core_id = get_id_from_entity('user', $this->person);
+    $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
     if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
       $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
       if ($tracker_eid) {
@@ -515,7 +516,7 @@ class ATSyncRace extends ATSync {
     parent::__construct($entity_type, $entity);
     $gid = _airtribune_get_gid($entity_type, $entity);
     $this->contest = node_load($gid, NULL, TRUE);
-    $this->contest_core_id = get_id_from_entity('node', $this->contest);
+    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
   }
 
   public function synchronize() {
