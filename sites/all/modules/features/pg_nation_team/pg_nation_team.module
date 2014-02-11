@@ -124,8 +124,7 @@ function approve_team_leader_ajax_callback($form, &$form_state) {
   } else {
     // Send mail
     $options['user'] = user_load($team_leader_uid);
-    $profile = profile2_load_by_user($options['user']);
-    $fullname = $profile['main']->field_full_name[LANGUAGE_NONE][0]['given'] . ' ' . $profile['main']->field_full_name[LANGUAGE_NONE][0]['family'];
+    $fullname = get_full_name($options['user']);
     $country = country_load($team_country);
     $options['replacements'] = array(
       '@fullname' => $fullname,

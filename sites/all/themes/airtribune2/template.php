@@ -414,14 +414,7 @@ function airtribune2_process_node(&$vars) {
 
   //print drupal_get_path_alias();
 
-  if (isset($account->field_full_name)) {
-    $full_name = field_view_field('profile2', $account, 'field_full_name', array('label' => 'hidden'));
-  }
-  else {
-    $full_name = $vars['name'];
-  }
-
-  $vars['full_name'] = render($full_name);
+  $vars['full_name'] = get_full_name($account);
 
   if (is_solutions()) {
     $vars['notitle'] = TRUE;
