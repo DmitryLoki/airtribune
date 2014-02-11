@@ -1941,28 +1941,6 @@ function airtribune2_preprocess_views_view_unformatted(&$vars) {
 }
 
 /**
- * Definition of solutions pages
- * @see #3796
- */
-function is_solutions(){
-  $path = request_uri();
-  $pattern = SOLUTIONS_REGEXT_PATTERN;
-  preg_match($pattern, $path, $matches);
-  $part = isset($matches[0]) ? $matches[0] : NULL;
-  switch($part) {
-    case 'privacy': // @see #4341
-    case 'terms': // @see #4341
-    case 'organizers':
-    case 'pilots':
-    case 'viewers':
-        return $part;
-      break;
-  }
-
-  return FALSE;
-}
-
-/**
  * Alter Name field widget to remove fieldset.
  */
 function _airtribune2_alter_name_widget(&$element) {
