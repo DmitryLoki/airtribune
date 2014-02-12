@@ -17,6 +17,7 @@ abstract class ATSync {
   }
 
   public static function requestToCore($address, $data = array(), $method = "POST") {
+    $data = http_build_query($data);
     $handle = curl_init();
     $url = at_core_sync_get_api_url() . '/' . $address;
     curl_setopt($handle, CURLOPT_URL, $url);
@@ -175,14 +176,14 @@ class ATSyncContest extends ATSync {
     if ($this->core_id) {
       // change address if contest already in Core
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request(http_build_query($data));
+      $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
 
-    _asd(json_encode($data), $this->address, $response);
+    _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -210,13 +211,13 @@ class ATSyncCustom extends ATSync {
     if ($this->core_id) {
       // change address if contest already in Core
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request(http_build_query($data));
+      $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-    _asd(json_encode($data), $this->address, $response);
+    _asd($data, $this->address, $response);
     // Synchronize og_membership, see #3572 for details
     $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
     $og_membership = og_get_membership('node', $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
@@ -285,8 +286,8 @@ class ATSyncTrackedObject extends ATSync {
         'transport_id' => $this->tracked_core_id,
         'phone' => $phone,
       );
-      $response = $this->request(http_build_query($data), 'POST');
-      _asd(json_encode($data), $this->address, $response);
+      $response = $this->request($data, 'POST');
+      _asd($data, $this->address, $response);
     }
 
     return !empty($response->id) ? $response->id : FALSE;
@@ -330,14 +331,14 @@ class ATSyncPerson extends ATSync {
     }
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request(http_build_query($data));
+      $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
 
-    _asd(json_encode($data), $this->address, $response);
+    _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -415,13 +416,13 @@ class ATSyncPilot extends ATSync {
     */
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request(http_build_query($data));
+      $response = $this->request($data);
     }
 
-    _asd(json_encode($data), $this->address, $response);
+    _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -491,13 +492,13 @@ class ATSyncWindDummy extends ATSync {
     $this->core_id = FALSE;
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request(http_build_query($data));
+      $response = $this->request($data);
     }
 
-    _asd(json_encode($data), $this->address, $response);
+    _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
   }
@@ -628,7 +629,7 @@ class ATSyncRace extends ATSync {
       $delta++;
       $checkpoints['features'][] = $point_data;
     }
-    $data_url = http_build_query($data);
+    $data_url = $data;
     $data_url .= '&checkpoints=' . json_encode($checkpoints);
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
@@ -712,13 +713,13 @@ class ATSyncTracker extends ATSync {
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $data_update['name'] = $data['name'];
-      $response = $this->request(json_encode($data_update), 'PUT');
+      $response = $this->request($data_update, 'PUT');
     }
     else {
-      $response = $this->request(http_build_query($data));
+      $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-    _asd(json_encode($data), $this->address, $response);
+    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -731,8 +732,8 @@ class ATSyncTracker extends ATSync {
     );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request(json_encode($data), 'PUT');
-      _asd(json_encode($data), $this->address, $response);
+      $response = $this->request($data, 'PUT');
+      _asd($data, $this->address, $response);
     }
     return $response;
   }
