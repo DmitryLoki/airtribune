@@ -251,13 +251,8 @@ class ATSyncTrackedObject extends ATSync {
     else {
       $this->tracked_core_id = get_core_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
     }
-    $tracker_eid = FALSE;
-    if (isset($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
-      $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
-      if ($tracker_eid) {
-        $this->tracker = entity_load_single(AIRTRIBUNE_TRACKER_TYPE, $tracker_eid);
-      }
-    }
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->tracker = $entity_wrapper->field_tracker->value();
   }
 
   public function synchronize() {
@@ -364,17 +359,14 @@ class ATSyncPilot extends ATSync {
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
     $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
-    if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
-      $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
-      if ($tracker_eid) {
-        $this->tracker = array_pop(entity_load(AIRTRIBUNE_TRACKER_TYPE, array($tracker_eid), array(), TRUE));
-      }
-    }
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->tracker = $entity_wrapper->field_tracker->value();
   }
 
   public function synchronize() {
+    $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
     // Send only if status is confirmed
-    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != AIRTRIBUNE_PG_CONTESTANT_CONFIRMED) {
+    if ($entity_wrapper->field_pg_contestant_status->value() != AIRTRIBUNE_PG_CONTESTANT_CONFIRMED) {
       // todo remove from cores if not conf
         return FALSE;
     }
@@ -402,8 +394,8 @@ class ATSyncPilot extends ATSync {
     $this->address = implode('/', array('contest', $this->contest_core_id, 'paraglider'));
     $data = array(
       'person_id' => $this->tracked_core_id,
-      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
-      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
+      'glider' => $entity_wrapper->field_paraglider_manufacturer->value(),
+      'contest_number' => $entity_wrapper->field_contestant_number->value(),
     );
 
     $this->core_id = FALSE;
@@ -448,12 +440,8 @@ class ATSyncWindDummy extends ATSync {
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     $this->person = user_load($this->entity->etid, TRUE);
     $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
-    if (!empty($this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'])) {
-      $tracker_eid = $this->entity->field_tracker[LANGUAGE_NONE][0]['target_id'];
-      if ($tracker_eid) {
-        $this->tracker = array_pop(entity_load('ent_tracker', array($tracker_eid), array(), TRUE));
-      }
-    }
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->tracker = $entity_wrapper->field_tracker->value();
   }
 
   public function synchronize() {
