@@ -127,15 +127,26 @@ function at_core_sync_get_api_domain() {
 }
 
 /**
+ * Get CoreAPI port.
+ */
+function at_core_sync_get_port() {
+  $result = variable_get('at_core_sync_port', '80');
+  return $result;
+}
+
+/**
  * Get CoreAPI url.
  *
  * @author Vyacheslav Malchik <info@vkey.biz>
  * @see #3115.
  */
 function at_core_sync_get_api_url() {
-  $address = at_core_sync_get_api_domain()
-    . '/'
-    . at_core_sync_get_api_version();
+  $version = at_core_sync_get_api_version();
+
+  $address =
+    $version ?
+    at_core_sync_get_api_domain() . '/' . $version :
+    at_core_sync_get_api_domain();
   return $address;
 }
 

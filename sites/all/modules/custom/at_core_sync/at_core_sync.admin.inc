@@ -35,16 +35,30 @@ function at_core_sync_admin_settings() {
     '#description' => t('For example: http://api.airtribune.com'),
   );
 
+  $form['at_core_sync_custom_settings']['at_core_sync_port'] = array(
+    '#type' => 'select',
+    '#title' => t('Core API port'),
+    '#multiple' => FALSE,
+    '#options' => array(
+      '80' => '80',
+      '8000' => '8000',
+    ),
+    '#default_value' => variable_get('at_core_sync_port', '80'),
+    '#description' => t('For example: 80'),
+  );
+
   $form['at_core_sync_custom_settings']['at_core_sync_version'] = array(
     '#type' => 'select',
     '#title' => t('Core API version'),
     '#multiple' => FALSE,
     '#options' => array(
+      '' => 'none (debug for codecat)',
       'v0.1' => 'v0.1',
       'v0.1.2' => 'v0.1.2',
       'v0.1.4' => 'v0.1.4',
       'v0.2.8' => 'v0.2.8',
       'v0.2' => 'v0.2 (PRODUCTION)',
+      'v0.3' => 'v0.3',
     ),
     '#default_value' => variable_get('at_core_sync_version', 'v0.1'),
     '#description' => t('For example: v0.1, v0.1.2'),
