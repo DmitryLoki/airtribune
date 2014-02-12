@@ -164,14 +164,14 @@ class ATSyncContest extends ATSync {
     $node = $this->entity;
     $data = array(
       'title' => $node->title,
-      'lat' => $node->field_hq_location[LANGUAGE_NONE][0]['lat'],
-      'lon' => $node->field_hq_location[LANGUAGE_NONE][0]['lon'],
+      'lat' => substr($node->field_hq_location[LANGUAGE_NONE][0]['lat'], 0, 8),
+      'lon' => substr($node->field_hq_location[LANGUAGE_NONE][0]['lon'], 0, 8),
       'start_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value']),
       'end_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value2']),
       'place' => $node->field_city[LANGUAGE_NONE][0]['value'],
       'country' => $node->field_country[LANGUAGE_NONE][0]['iso2'],
       'timezone' => $node->field_time_zone[LANGUAGE_NONE][0]['value'],
-      'retrieve_id' => !empty($node->field_device_id[LANGUAGE_NONE][0]['value']) ? $node->field_device_id[LANGUAGE_NONE][0]['value'] : NULL,
+      'retrieve_id' => !empty($node->field_device_id[LANGUAGE_NONE][0]['value']) ? $node->field_device_id[LANGUAGE_NONE][0]['value'] : '',
     );
     if ($this->core_id) {
       // change address if contest already in Core
