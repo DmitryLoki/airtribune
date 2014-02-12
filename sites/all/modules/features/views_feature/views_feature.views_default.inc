@@ -2465,7 +2465,7 @@ function views_feature_views_default_views() {
   $handler->display->display_options['arguments']['id_1']['field'] = 'id';
   $handler->display->display_options['arguments']['id_1']['default_action'] = 'default';
   $handler->display->display_options['arguments']['id_1']['default_argument_type'] = 'php';
-  $handler->display->display_options['arguments']['id_1']['default_argument_options']['code'] = 'return _at_get_contest_trackers($view->args[0], $view->args[1]);';
+  $handler->display->display_options['arguments']['id_1']['default_argument_options']['code'] = 'return get_contest_trackers($view->args[0], $view->args[1]);';
   $handler->display->display_options['arguments']['id_1']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['id_1']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['id_1']['summary_options']['items_per_page'] = '25';
