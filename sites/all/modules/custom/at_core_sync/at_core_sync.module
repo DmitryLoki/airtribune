@@ -23,7 +23,7 @@ function get_core_id_from_entity($entity_type, $entity) {
     $etid = $entity->etid;
   } else {
     $etype = $entity_type;
-    $etid = $entity->id;
+    $etid = $entity->id ? $entity->id : $entity->nid;
   }
   $origin_entity = entity_load($etype, array($etid));
   $origin_entity = $origin_entity[$etid];

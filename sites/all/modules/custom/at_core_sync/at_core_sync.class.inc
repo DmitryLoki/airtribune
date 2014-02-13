@@ -171,17 +171,20 @@ class ATSyncContest extends ATSync {
   public $address = 'contest';
 
   public function synchronize() {
-    $node = $this->entity;
+    $contest = $this->entity;
+    $contest_wrapper = entity_metadata_wrapper('node', $contest);
+    $this->core_id = get_core_id_from_entity('node', $contest);
+    // todo refactor with $contest_wrapper
     $data = array(
-      'title' => $node->title,
-      'lat' => substr($node->field_hq_location[LANGUAGE_NONE][0]['lat'], 0, 8),
-      'lon' => substr($node->field_hq_location[LANGUAGE_NONE][0]['lon'], 0, 8),
-      'start_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value']),
-      'end_time' => strtotime($node->field_dates[LANGUAGE_NONE][0]['value2']),
-      'place' => $node->field_city[LANGUAGE_NONE][0]['value'],
-      'country' => $node->field_country[LANGUAGE_NONE][0]['iso2'],
-      'timezone' => $node->field_time_zone[LANGUAGE_NONE][0]['value'],
-      'retrieve_id' => !empty($node->field_device_id[LANGUAGE_NONE][0]['value']) ? $node->field_device_id[LANGUAGE_NONE][0]['value'] : '',
+      'title' => $contest->title,
+      'lat' => substr($contest->field_hq_location[LANGUAGE_NONE][0]['lat'], 0, 8),
+      'lon' => substr($contest->field_hq_location[LANGUAGE_NONE][0]['lon'], 0, 8),
+      'start_time' => strtotime($contest->field_dates[LANGUAGE_NONE][0]['value']),
+      'end_time' => strtotime($contest->field_dates[LANGUAGE_NONE][0]['value2']),
+      'place' => $contest->field_city[LANGUAGE_NONE][0]['value'],
+      'country' => $contest->field_country[LANGUAGE_NONE][0]['iso2'],
+      'timezone' => $contest->field_time_zone[LANGUAGE_NONE][0]['value'],
+      'retrieve_id' => !empty($contest->field_device_id[LANGUAGE_NONE][0]['value']) ? $contest->field_device_id[LANGUAGE_NONE][0]['value'] : '',
     );
     if ($this->core_id) {
       // change address if contest already in Core
@@ -213,6 +216,7 @@ abstract class ATSyncNestedInContest extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->core_id = get_core_id_from_entity($entity_type, $entity);
     $this->contest = $entity_wrapper->{OG_AUDIENCE_FIELD}[0]->value();
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     if (!$this->contest_core_id) {
@@ -236,12 +240,13 @@ class ATSyncCustom extends ATSyncNestedInContest {
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     $this->name = $entity->title;
     $this->phone = $entity->field_phone[LANGUAGE_NONE][0]['full_number'];
     $this->type = $entity_wrapper->field_customobject_type->value();
-    $this->description = $entity_wrapper->field_plain_body->value->raw();
-//    $this->description = $entity_wrapper->language('en')->field_plain_body->value->raw();
     $this->address = $this->address_contest . $this->address;
+    $description = $entity_wrapper->field_plain_body->value();
+    $this->description = $description ? $description['value'] : '';
   }
 
   public function synchronize() {
@@ -274,11 +279,9 @@ class ATSyncCustom extends ATSyncNestedInContest {
   }
 }
 
-class ATSyncTrackedObject extends ATSync {
+class ATSyncTrackedObject extends ATSyncNestedInContest {
   public $address = 'contest/';
   public $tracked_core_id = '';
-  public $contest = NULL;
-  public $contest_core_id = '';
   public $tracker = NULL;
   public $transport = NULL;
 
