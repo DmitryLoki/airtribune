@@ -193,6 +193,28 @@ class ATSyncContest extends ATSync {
 }
 
 /**
+ * Intermediate class for all nested entities in contest by Core API entities ( by path http://api/contest/{id}/* )
+ */
+class ATSyncNestedInContest extends ATSync {
+  public $contest = NULL;
+  public $contest_core_id = '';
+  public $address_contest = 'contest/';
+
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->contest = $entity_wrapper->{OG_AUDIENCE_FIELD}[0]->value();
+    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
+    if (!$this->contest_core_id) {
+      // Synchronize contest if not synchronized
+      $sync = _get_class_by_entity('node', $this->contest);
+      $this->contest_core_id = $sync->synchronize();
+    }
+    $this->address_contest .= $this->contest_core_id . '/';
+  }
+}
+
+/**
  * Class for synchronization custom_object (transport) see #3446
  */
 class ATSyncCustom extends ATSync {
