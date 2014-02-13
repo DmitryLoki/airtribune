@@ -1102,3 +1102,14 @@ function pg_race_task_get_info($day_node) {
   }
   return $task_data;
 }
+
+
+/**
+ * Implements hook_views_api().
+ */
+function pg_race_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'pg_race') . '/includes/views',
+  );
+}
