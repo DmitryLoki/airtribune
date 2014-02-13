@@ -203,12 +203,11 @@ function _asd($var, $url = NULL, $response = NULL) {
     ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
     $message = '';
     if (isset($url)) {
-      $message_url = '<b>URL:</b>&nbsp;' . at_core_sync_get_api_url() . '/' . $url;
+      $message_url = '<b>URL:</b> ' . at_core_sync_get_api_url() . '/' . $url;
       ATSync::setMessage($message_url, 'warning');
-      $message = $message_url . '\n<br />';
+      $message = $message_url . '<br />';
     }
-    $message_body = '<b>Request:</b> <pre>' . print_r($var, TRUE) . '</pre>';
-    $message .= $message_body;
+    $message .= '<b>Request:</b> <pre>' . print_r($var, TRUE) . '</pre>';
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
       $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>' . '/' . $url;

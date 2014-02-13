@@ -4,6 +4,8 @@
  * Abstract class with commin synchronisation functions
  */
 abstract class ATSync {
+  public $address_person = 'person/';
+  public $address_tracker = 'tracker/';
   public $entity;
   public $entity_type;
   public $id = FALSE;
@@ -215,23 +217,34 @@ class ATSyncNestedInContest extends ATSync {
 }
 
 /**
- * Class for synchronization custom_object (transport) see #3446
+ * Class for synchronization custom object
  */
-class ATSyncCustom extends ATSync {
-  public $address = 'transport';
+class ATSyncCustom extends ATSyncNestedInContest {
+  public $address = 'staff';
+  public $name = '';
+  public $type = '';
+  public $phone = '';
+  public $description = '';
+
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $this->name = $entity->title;
+    $this->phone = $entity->field_phone[LANGUAGE_NONE][0]['full_number'];
+    $this->type = $entity_wrapper->field_customobject_type->value();
+    $this->description = $entity_wrapper->field_plain_body->value->raw();
+//    $this->description = $entity_wrapper->language('en')->field_plain_body->value->raw();
+    $this->address = $this->address_contest . $this->address;
+  }
 
   public function synchronize() {
-    $description_field = $this->entity->field_plain_body;
-    $description_field = array_pop($description_field);
-    $description = isset($description_field[0]['value']) ? $description_field[0]['value'] : '';
     $data = array(
-      'type' => $this->entity->field_customobject_type[LANGUAGE_NONE][0]['value'],
-      'title' => $this->entity->title,
-      'description' => $description,
+      'name' => $this->name,
+      'type' => $this->type,
+      'phone' => $this->phone,
+      'description' => $this->description,
     );
 
     if ($this->core_id) {
-      // change address if contest already in Core
       $this->address .= '/' . $this->core_id;
       $response = $this->request($data, "PUT");
     }
@@ -278,6 +291,7 @@ class ATSyncTrackedObject extends ATSync {
   }
 
   public function synchronize() {
+    return;
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
       $sync = _get_class_by_entity('node', $this->contest);
