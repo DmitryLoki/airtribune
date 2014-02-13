@@ -40,7 +40,8 @@ abstract class ATSync {
         break;
 
       case 'PUT':
-        curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PUT');
+      case 'PATCH':
+        curl_setopt($handle, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
         break;
 
@@ -132,6 +133,13 @@ abstract class ATSync {
     return ATSync::requestToCore($this->address, $data, $method);
   }
 
+  public function patch($values = array()) {
+    foreach ($values as $k => $v) {
+      $results[] = ATSync::requestToCore($this->address, array($k => $v), 'PATCH');
+    }
+    return $results;
+  }
+
   public function updateCoreID($id) {
     $this->entity->field_core_id = array(
       LANGUAGE_NONE => array(
@@ -197,7 +205,7 @@ class ATSyncContest extends ATSync {
 /**
  * Intermediate class for all nested entities in contest by Core API entities ( by path http://api/contest/{id}/* )
  */
-class ATSyncNestedInContest extends ATSync {
+abstract class ATSyncNestedInContest extends ATSync {
   public $contest = NULL;
   public $contest_core_id = '';
   public $address_contest = 'contest/';
