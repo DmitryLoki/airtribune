@@ -7115,6 +7115,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
   $handler->display->display_options['fields']['title_1']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   /* Field: Race: Title */
   $handler->display->display_options['fields']['title_2']['id'] = 'title_2';
   $handler->display->display_options['fields']['title_2']['table'] = 'eck_ent_race';
@@ -7140,6 +7142,7 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_contest_photos']['field'] = 'field_contest_photos';
   $handler->display->display_options['fields']['field_contest_photos']['relationship'] = 'og_membership_related_node_group';
   $handler->display->display_options['fields']['field_contest_photos']['label'] = '';
+  $handler->display->display_options['fields']['field_contest_photos']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_contest_photos']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_contest_photos']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_contest_photos']['settings'] = array(
@@ -7153,11 +7156,15 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_country']['table'] = 'field_data_field_country';
   $handler->display->display_options['fields']['field_country']['field'] = 'field_country';
   $handler->display->display_options['fields']['field_country']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_country']['label'] = '';
+  $handler->display->display_options['fields']['field_country']['element_label_colon'] = FALSE;
   /* Field: Content: City */
   $handler->display->display_options['fields']['field_city']['id'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['table'] = 'field_data_field_city';
   $handler->display->display_options['fields']['field_city']['field'] = 'field_city';
   $handler->display->display_options['fields']['field_city']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['field_city']['label'] = '';
+  $handler->display->display_options['fields']['field_city']['element_label_colon'] = FALSE;
   /* Field: Content: Logo */
   $handler->display->display_options['fields']['field_logo']['id'] = 'field_logo';
   $handler->display->display_options['fields']['field_logo']['table'] = 'field_data_field_logo';
@@ -7172,6 +7179,8 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_image']['alter']['text'] = '[field_contest_photos]';
   $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_image']['settings'] = array(
     'image_style' => 'frontpage_event_padding',
@@ -7192,6 +7201,14 @@ return array($event_id);';
   $handler->display->display_options['fields']['view']['view'] = 'frontpage_live_events';
   $handler->display->display_options['fields']['view']['display'] = 'panel_pane_1';
   $handler->display->display_options['fields']['view']['arguments'] = '[!nid]';
+  /* Field: Content: Day status */
+  $handler->display->display_options['fields']['field_day_status']['id'] = 'field_day_status';
+  $handler->display->display_options['fields']['field_day_status']['table'] = 'field_data_field_day_status';
+  $handler->display->display_options['fields']['field_day_status']['field'] = 'field_day_status';
+  /* Field: Content: Day number */
+  $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
+  $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -7297,11 +7314,12 @@ return array($event_id);';
     t('Group node from OG membership'),
     t('Race number'),
     t('Title'),
-    t('Country'),
-    t('City'),
     t('Logo'),
     t('Image'),
+    t('[field_contest_photos]'),
     t('View'),
+    t('Day status'),
+    t('Day number'),
     t('Page'),
     t('Day blog single'),
     t('Content referencing Content from field_dayblog_ref'),
