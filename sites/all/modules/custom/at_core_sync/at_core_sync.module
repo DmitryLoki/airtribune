@@ -10,33 +10,6 @@ define('AIRTRIBUNE_CORE_ID_FIELD', 'field_core_id');
  */
 
 /**
- * Returns Core ID from entity.
- * Returns Core ID of referenced entity for og_membership.
- */
-function get_core_id_from_entity($entity_type, $entity) {
-  $origin_entity = NULL;
-  $etype = NULL;
-  $etid = NULL;
-  $core_id = FALSE;
-  if ($entity_type == 'og_membership') {
-    $etype = $entity->entity_type;
-    $etid = $entity->etid;
-  } else {
-    $etype = $entity_type;
-    $etid = $entity->id ? $entity->id : $entity->nid;
-  }
-  $origin_entity = entity_load($etype, array($etid));
-  $origin_entity = $origin_entity[$etid];
-  // Get core ID from entity
-  if (isset($origin_entity->{AIRTRIBUNE_CORE_ID_FIELD})) {
-    $wrapper = entity_metadata_wrapper($etype, $origin_entity);
-    $core_id = $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
-  }
-
-  return $core_id;
-}
-
-/**
  * Returns synchronization class
  */
 function _get_class_by_entity($entity_type, $entity) {
