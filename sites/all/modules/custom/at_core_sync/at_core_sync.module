@@ -52,6 +52,14 @@ function at_core_sync_entity_update($entity, $type) {
 }
 
 /**
+ * Implements hook_entity_delete().
+ */
+function at_core_sync_entity_delete($entity, $type) {
+  at_core_sync_entity_sync($type, $entity, 'delete');
+}
+
+
+/**
  * Implements hook_entity_insert().
  */
 function at_core_sync_entity_insert($entity, $type) {
@@ -180,10 +188,10 @@ function _asd($var, $url = NULL, $response = NULL) {
       ATSync::setMessage($message_url, 'warning');
       $message = $message_url . '<br />';
     }
-    $message .= '<b>Request:</b> <pre>' . print_r($var, TRUE) . '</pre>';
+    $message .= '<b>Request:</b> <pre>' . json_encode($var) . '</pre>';
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
-      $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>' . '/' . $url;
+      $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>';
       ATSync::setMessage($message_response, 'warning');
       $message .= '<br />' . $message_response;
     }
@@ -292,14 +300,19 @@ function at_core_sync_other_sync($entity_type, $entity) {
   return FALSE;
 }
 
-function at_core_sync_entity_sync($entity_type, $entity) {
-
-  if (variable_get('at_core_sync_enabled', 0)) {
-    if ($sync = _get_class_by_entity($entity_type, $entity)) {
+function at_core_sync_entity_sync($entity_type, $entity, $action='') {
+  // Exit, if synchronization disabled
+  if (variable_get('at_core_sync_enabled', 0) == 0) {
+    return FALSE;
+  }
+  if ($sync = _get_class_by_entity($entity_type, $entity)) {
+    if ($action == 'delete') {
+      return $sync->delete();
+    }
+    else {
       return $sync->synchronize();
     }
   }
-  return FALSE;
 }
 
 /**

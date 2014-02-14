@@ -93,26 +93,16 @@ function get_contest_for_entity($entity) {
  * Returns Core ID of referenced entity for og_membership.
  */
 function get_core_id_from_entity($entity_type, $entity) {
-  $origin_entity = NULL;
-  $etype = NULL;
-  $etid = NULL;
-  $core_id = FALSE;
   if ($entity_type == 'og_membership') {
-    $etype = $entity->entity_type;
-    $etid = $entity->etid;
-  } else {
-    $etype = $entity_type;
-    $etid = $entity->id ? $entity->id : $entity->nid;
+    $entity = entity_load_single($entity->entity_type, $entity->etid);
+    $entity_type = $entity->entity_type;
   }
-  $origin_entity = entity_load($etype, array($etid));
-  $origin_entity = $origin_entity[$etid];
   // Get core ID from entity
-  if (isset($origin_entity->{AIRTRIBUNE_CORE_ID_FIELD})) {
-    $wrapper = entity_metadata_wrapper($etype, $origin_entity);
-    $core_id = $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
+  if (isset($entity->{AIRTRIBUNE_CORE_ID_FIELD})) {
+    $wrapper = entity_metadata_wrapper($entity_type, $entity);
+    return $wrapper->{AIRTRIBUNE_CORE_ID_FIELD}->value();
   }
-
-  return $core_id;
+  return FALSE;
 }
 
 function get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {

@@ -15,11 +15,11 @@ abstract class ATSync {
   public function __construct($entity_type, $entity) {
     $this->entity = $entity;
     $this->entity_type = $entity_type;
-    $this->core_id = get_core_id_from_entity($this->entity_type, $this->entity);
+    $this->core_id = get_core_id_from_entity($entity_type, $entity);
   }
 
   public static function requestToCore($address, $data = array(), $method = "POST") {
-    $data = http_build_query($data);
+    $data = json_encode($data);
     $handle = curl_init();
     $url = at_core_sync_get_api_url() . '/' . $address;
     curl_setopt($handle, CURLOPT_URL, $url);
@@ -28,7 +28,10 @@ abstract class ATSync {
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($handle, CURLOPT_HTTPHEADER, array('Expect:'));
+    curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+      'Expect:',
+      'Content-Type: application/json',
+    ));
 
     switch ($method) {
       case 'GET':
@@ -70,6 +73,10 @@ abstract class ATSync {
 
       case 202:
         ATSync::setMessage($head . t('Request accepted.'));
+        break;
+
+      case 204:
+        ATSync::setMessage($head . t('No content. Deleted.'));
         break;
 
       case 400:
@@ -138,6 +145,12 @@ abstract class ATSync {
       $results[] = ATSync::requestToCore($this->address, array($k => $v), 'PATCH');
     }
     return $results;
+  }
+
+  public function delete() {
+    if ($this->core_id) {
+      return ATSync::requestToCore($this->address . '/' . $this->core_id, array(), 'DELETE');
+    }
   }
 
   public function updateCoreID($id) {
@@ -298,6 +311,10 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
     $customobject = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
     $sync = _get_class_by_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $customobject);
     $sync->synchronize();
+  }
+
+  public function check() {
+  }
 }
 
 /**
