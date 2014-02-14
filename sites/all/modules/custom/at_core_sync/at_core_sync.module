@@ -24,6 +24,7 @@ function _get_class_by_entity($entity_type, $entity) {
   $classes = array(
     'node:pg_contest' => 'ATSyncContest',
     'node:hg_contest' => 'ATSyncContest',
+    'node:day' => 'ATSyncDay',
     'user' => 'ATSyncPerson',
     'og_membership:pg_contestant' => 'ATSyncPilot',
     'og_membership:hg_contestant' => 'ATSyncPilot',

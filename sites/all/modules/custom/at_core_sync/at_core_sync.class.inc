@@ -498,8 +498,40 @@ class ATSyncWindDummy extends ATSync {
 
     return !empty($response->id) ? $response->id : FALSE;
   }
+}
 
-  public function check() {
+// todo day delete
+/**
+ * Class for synchronization day
+ */
+class ATSyncDay extends ATSyncNestedInContest {
+  public $address = 'day';
+  public $title = '';
+  public $day_dmy = '';
+  public $day_status = NULL;
+
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $day_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $contest_time = airtribune_extract_time_from_contest($this->contest);
+    $day_timestamp = $this->entity->created;
+    // Because datetime in fields set for local, but stored in database as UTC, we substract offset.
+    $day_created_time = $day_timestamp - $contest_time['offset'];
+    // Change address.
+    $this->day_dmy = date("ymd", $day_created_time);
+    $this->day_status = $day_wrapper->field_day_status->value();
+    $this->address = $this->address_contest . $this->address . '/' . $this->day_dmy;
+  }
+
+  public function synchronize() {
+    $data = array(
+      'title' => $this->entity->title,
+      'date' => $this->day_dmy,
+      'status' => $this->day_status,
+    );
+    $response = $this->request($data, "PUT");
+    _asd($data, $this->address, $response);
+    return !empty($response->id) ? $response->id : FALSE;
   }
 }
 
