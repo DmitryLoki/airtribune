@@ -21,6 +21,7 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
 
   // @todo: add validation
   // In validation check token keys, required by plugin. Required keys must be given by plugin.
+  // Also remove components textarea from translatables if possible.
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
@@ -32,6 +33,10 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
     unset($form['alter']['help']['#process']);
     $form['#pre_render'][] = 'at_helper_handler_field_custom_extended_pre_render_move_text';
 
+
+    $form['alter']['text']['#title'] = t('Components');
+    $form['alter']['text']['#description'] = t('Add components in "!pattern" form', array('!pattern' => 'key|[token]'));
+    $form['alter']['text']['#required'] = TRUE;
 
     $plugins = ctools_get_plugins('at_helper', 'nothing_extended');
     $options = array();

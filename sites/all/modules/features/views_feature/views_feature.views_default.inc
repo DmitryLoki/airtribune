@@ -7209,6 +7209,12 @@ return array($event_id);';
   $handler->display->display_options['fields']['field_day_number']['id'] = 'field_day_number';
   $handler->display->display_options['fields']['field_day_number']['table'] = 'field_data_field_day_number';
   $handler->display->display_options['fields']['field_day_number']['field'] = 'field_day_number';
+  /* Field: Global: Custom text extended */
+  $handler->display->display_options['fields']['nothing_extended']['id'] = 'nothing_extended';
+  $handler->display->display_options['fields']['nothing_extended']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_extended']['field'] = 'nothing_extended';
+  $handler->display->display_options['fields']['nothing_extended']['alter']['text'] = 'nid|[nid]';
+  $handler->display->display_options['fields']['nothing_extended']['renderer_plugin'] = TRUE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -7320,6 +7326,8 @@ return array($event_id);';
     t('View'),
     t('Day status'),
     t('Day number'),
+    t('Custom text extended'),
+    t('nid|[nid]'),
     t('Page'),
     t('Day blog single'),
     t('Content referencing Content from field_dayblog_ref'),
