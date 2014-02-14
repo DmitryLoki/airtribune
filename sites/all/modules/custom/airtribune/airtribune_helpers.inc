@@ -127,3 +127,8 @@ function get_contest_trackers($contest_id = NULL, $contestant_id = NULL) {
   }
   return implode('+', $ids);
 }
+
+function generate_person_id() {
+  // pers-YYMMDD-random, random = first 32bits from UUID4
+  return 'pers-' . date('ymd') . '-' . sprintf('%d%d', mt_rand(0, 0xffff), mt_rand(0, 0xffff));
+}
