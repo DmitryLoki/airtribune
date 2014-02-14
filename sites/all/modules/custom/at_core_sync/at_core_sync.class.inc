@@ -216,8 +216,7 @@ abstract class ATSyncNestedInContest extends ATSync {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
-    $this->core_id = get_core_id_from_entity($entity_type, $entity);
-    $this->contest = $entity_wrapper->{OG_AUDIENCE_FIELD}[0]->value();
+    $this->contest = get_contest_for_entity($entity);
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     if (!$this->contest_core_id) {
       // Synchronize contest if not synchronized
@@ -241,12 +240,22 @@ class ATSyncCustom extends ATSyncNestedInContest {
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    // Load membership.
+    $og_group_ref = $entity_wrapper->{OG_AUDIENCE_FIELD}[0]->raw();
+    $og_membership = og_get_membership('node', $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
+    $ogm_wrapper = entity_metadata_wrapper('og_membership', $og_membership);
+    // Get values.
     $this->name = $entity->title;
-    $this->phone = $entity->field_phone[LANGUAGE_NONE][0]['full_number'];
+    $phone = $og_membership->field_phone[LANGUAGE_NONE][0]['full_number'];
+    $tracker = $ogm_wrapper->field_tracker->value();
+    // todo check phone & tracker for empty valies
+    $this->tracker = $tracker ? $tracker : '-';
+    $this->phone = $phone ? $phone : '+000000';
     $this->type = $entity_wrapper->field_customobject_type->value();
-    $this->address = $this->address_contest . $this->address;
     $description = $entity_wrapper->field_plain_body->value();
     $this->description = $description ? $description['value'] : '';
+    // Change address.
+    $this->address = $this->address_contest . $this->address;
   }
 
   public function synchronize() {
@@ -254,9 +263,9 @@ class ATSyncCustom extends ATSyncNestedInContest {
       'name' => $this->name,
       'type' => $this->type,
       'phone' => $this->phone,
+      'tracker' => $this->tracker,
       'description' => $this->description,
     );
-
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $response = $this->request($data, "PUT");
@@ -266,12 +275,6 @@ class ATSyncCustom extends ATSyncNestedInContest {
       $this->updateCoreID($response->id);
     }
     _asd($data, $this->address, $response);
-    // Synchronize og_membership, see #3572 for details
-    $og_group_ref = $this->entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
-    $og_membership = og_get_membership('node', $og_group_ref, AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->id);
-    $og_membership->tracked_core_id = !empty($response->id) ? $response->id : FALSE;
-    $sync = _get_class_by_entity('og_membership', $og_membership);
-    $sync->synchronize();
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -287,56 +290,14 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
-    $this->transport = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
-    // See #3572
-    if (!empty($entity->tracked_core_id)) {
-      $this->tracked_core_id = $entity->tracked_core_id;
-    }
-    else {
-      $this->tracked_core_id = get_core_id_from_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->transport);
-    }
-    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
-    $this->tracker = $entity_wrapper->field_tracker->value();
   }
 
   public function synchronize() {
+    // todo rewrite - sync customobject on membership update
     return;
-    if (!$this->contest_core_id) {
-      // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity('node', $this->contest);
-      $this->contest_core_id = $sync->synchronize();
-    }
-    if (!$this->tracked_core_id) {
-      // Do not synchronize object. just skip
-      return FALSE;
-    }
-    else {
-      $resp = ATSync::requestToCore('transport/' . $this->tracked_core_id, '', 'GET');
-      if (isset($resp->error)) {
-        ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
-        return FALSE;
-      }
-    }
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'transport'));
-    if (!empty($this->tracked_core_id)) {
-      $phone_field = $this->entity->field_phone;
-      $phone_field = array_pop($phone_field);
-      $phone = isset($phone_field[0]['value']) ? $phone_field[0]['value'] : '';
-      $data = array(
-        'transport_id' => $this->tracked_core_id,
-        'phone' => $phone,
-      );
-      $response = $this->request($data, 'POST');
-      _asd($data, $this->address, $response);
-    }
-
-    return !empty($response->id) ? $response->id : FALSE;
-  }
-
-  public function check() {
-  }
+    $customobject = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
+    $sync = _get_class_by_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $customobject);
+    $sync->synchronize();
 }
 
 /**
