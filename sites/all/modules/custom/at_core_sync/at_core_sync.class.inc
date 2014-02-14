@@ -173,8 +173,6 @@ abstract class ATSync {
 
   abstract public function synchronize();
 
-  abstract public function check();
-
 }
 
 /**
@@ -212,9 +210,6 @@ class ATSyncContest extends ATSync {
     _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
-  }
-
-  public function check() {
   }
 }
 
@@ -290,9 +285,6 @@ class ATSyncCustom extends ATSyncNestedInContest {
     _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
-
-  public function check() {
-  }
 }
 
 class ATSyncTrackedObject extends ATSyncNestedInContest {
@@ -311,9 +303,6 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
     $customobject = entity_load_single(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $this->entity->etid);
     $sync = _get_class_by_entity(AIRTRIBUNE_CUSTOMOBJECT_TYPE, $customobject);
     $sync->synchronize();
-  }
-
-  public function check() {
   }
 }
 
@@ -361,9 +350,6 @@ class ATSyncPerson extends ATSync {
     _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
-  }
-
-  public function check() {
   }
 }
 
@@ -442,9 +428,6 @@ class ATSyncPilot extends ATSync {
     _asd($data, $this->address, $response);
 
     return !empty($response->id) ? $response->id : FALSE;
-  }
-
-  public function check() {
   }
 }
 
@@ -701,9 +684,6 @@ class ATSyncRace extends ATSync {
       }
     }
   }
-
-  public function check() {
-  }
 }
 
 /**
@@ -749,8 +729,5 @@ class ATSyncTracker extends ATSync {
       _asd($data, $this->address, $response);
     }
     return $response;
-  }
-
-  public function check() {
   }
 }
