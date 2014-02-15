@@ -70,6 +70,22 @@ function get_main_profile($user) {
   return profile2_load_by_user($user, AIRTRIBUNE_USER_MAIN_PROFILE);
 }
 
+function get_phone($entity) {
+  if (!empty($entity->field_phone)) {
+    $field = $entity->field_phone[LANGUAGE_NONE][0];
+  } else {
+    return NULL;
+  }
+
+  if (isset($field['full_number'])) {
+    return $field['full_number'];
+  }
+  else {
+    $country_code = cck_phone_countrycodes($field['country_codes']);
+    return $country_code['code'] . $field['number'];
+  }
+}
+
 /**
  * Alias for at_user_get_full_name()
  * @param $user
@@ -94,8 +110,8 @@ function get_contest_for_entity($entity) {
  */
 function get_core_id_from_entity($entity_type, $entity) {
   if ($entity_type == 'og_membership') {
-    $entity = entity_load_single($entity->entity_type, $entity->etid);
     $entity_type = $entity->entity_type;
+    $entity = entity_load_single($entity->entity_type, $entity->etid);
   }
   // Get core ID from entity
   if (isset($entity->{AIRTRIBUNE_CORE_ID_FIELD})) {

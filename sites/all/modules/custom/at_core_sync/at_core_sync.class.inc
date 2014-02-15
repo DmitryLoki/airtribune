@@ -4,8 +4,6 @@
  * Abstract class with commin synchronisation functions
  */
 abstract class ATSync {
-  public $address_person = 'person/';
-  public $address_tracker = 'tracker/';
   public $entity;
   public $entity_type;
   public $id = FALSE;
@@ -223,7 +221,6 @@ abstract class ATSyncNestedInContest extends ATSync {
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     $this->contest = get_contest_for_entity($entity);
     $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
     if (!$this->contest_core_id) {
@@ -254,11 +251,10 @@ class ATSyncCustom extends ATSyncNestedInContest {
     $ogm_wrapper = entity_metadata_wrapper('og_membership', $og_membership);
     // Get values.
     $this->name = $entity->title;
-    $phone = $og_membership->field_phone[LANGUAGE_NONE][0]['full_number'];
     $tracker = $ogm_wrapper->field_tracker->value();
     // todo check phone & tracker for empty valies
     $this->tracker = $tracker ? $tracker : '-';
-    $this->phone = $phone ? $phone : '+000000';
+    $this->phone = ($phone = get_phone($og_membership)) ? $phone : '+000000';
     $this->type = $entity_wrapper->field_customobject_type->value();
     $description = $entity_wrapper->field_plain_body->value();
     $this->description = $description ? $description['value'] : '';
@@ -325,19 +321,9 @@ class ATSyncPerson extends ATSync {
       'country' => $profile2['pilot']->field_address[LANGUAGE_NONE][0]['country'],
       'email' => $this->entity->mail,
       'reg_date' => date('Y,m,d', $this->entity->created),
+      'phone' => get_phone($profile2['pilot']),
     );
 
-    if (!empty($this->entity->field_phone[LANGUAGE_NONE][0]['number'])) {
-      $full_number = '';
-      $number = $this->entity->field_phone[LANGUAGE_NONE][0]['number'];
-      $countrycode = $this->entity->field_phone[LANGUAGE_NONE][0]['country_codes'];
-      $cc = cck_phone_countrycodes();
-      $full_number = '';
-      if ($countrycode && isset($cc[$countrycode])) {
-        $full_number = $cc[$countrycode]['code'] . $number;
-      }
-      $data['phone'] = $full_number;
-    }
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $response = $this->request($data, "PUT");
