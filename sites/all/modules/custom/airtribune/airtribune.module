@@ -2054,10 +2054,113 @@ function airtribune_node_load($nodes, $types) {
  * @see #4338
  */
 function airtribune_tokens_alter(array &$replacements, array $context) {
+
   if ((isset($context['data']['entity_type']) && $context['data']['entity_type'] == AIRTRIBUNE_TEAM_TYPE) && isset($context['tokens'][AIRTRIBUNE_COUNTRY_FIELD]) || isset($context['tokens']['field-country'])) {
     $entity = isset($context['data']['entity_type']) ? $context['data']['entity'] : $context['data'][$context['type']];
     $cc = $entity->{AIRTRIBUNE_COUNTRY_FIELD}[LANGUAGE_NONE][0]['iso2'];
     $replacements[AIRTRIBUNE_COUNTRY_FIELD] = $cc;
     $replacements['field-country'] = get_country_name($cc);
+  }
+}
+
+/**
+ * Implements hook_ldap_user_attrs_list_alter().
+ */
+
+function airtribune_ldap_user_attrs_list_alter(&$available_user_attrs, &$params) {
+  // Define array of profiles types
+  $profiles = array_keys(field_info_bundles('profile2'));
+
+  $sid = (isset($params['ldap_server']) && is_object($params['ldap_server'])) ? $params['ldap_server']->sid : LDAP_USER_NO_SERVER_SID;
+
+  $ldap_user_conf = $params['ldap_user_conf'];
+  $direction = isset($params['direction']) ? $params['direction'] : LDAP_USER_PROV_DIRECTION_NONE;
+
+  foreach ($profiles as $profile_name) {
+    // Profile2 bundle fields
+    $user_fields = field_info_instances('profile2', $profile_name);
+    foreach ($user_fields as $field_name => $field_instance) {
+      $field_id = "[profile2.$profile_name.$field_name]";
+
+      $field_info = field_info_field($field_name);
+      $type = $field_info['type'];
+      if ($type == 'name') {
+        // Add tokens for name custom attributes
+        $attrs = array('given', 'family');
+        foreach ($attrs as $attr) {
+          $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+
+          if (!isset($available_user_attrs[$field_id_attr]) || !is_array($available_user_attrs[$field_id_attr])) {
+            $available_user_attrs[$field_id_attr] = array();
+          }
+
+          $available_user_attrs[$field_id_attr] = $available_user_attrs[$field_id_attr] + array(
+            'name' =>  $profile_name . ': ' . $field_instance['label'] . ' (' . $attr . ')',
+            'configurable_to_drupal' => 1,
+            'configurable_to_ldap' => 1,
+            'enabled' => FALSE,
+            'config_module' => 'ldap_user',
+            'prov_module' => 'ldap_user',
+          );
+        }
+      } else {
+        // Add tokens for other field types
+        if (!isset($available_user_attrs[$field_id]) || !is_array($available_user_attrs[$field_id])) {
+          $available_user_attrs[$field_id] = array();
+        }
+
+        $available_user_attrs[$field_id] = $available_user_attrs[$field_id] + array(
+          'name' =>  $profile_name . ': ' . $field_instance['label'],
+          'configurable_to_drupal' => 1,
+          'configurable_to_ldap' => 1,
+          'enabled' => FALSE,
+          'config_module' => 'ldap_user',
+          'prov_module' => 'ldap_user',
+        );
+      }
+    }
+  }
+}
+
+function airtribune_ldap_servers_token_replace_alter (&$tokens, $resource, $text, $resource_type) {
+  // Define array of profiles types
+  $profiles = array_keys(field_info_bundles('profile2'));
+  if ($resource_type == 'user_account') {
+    foreach ($profiles as $profile_name) {
+      $profile = profile2_load_by_user($resource, $profile_name);
+      $wrapper = entity_metadata_wrapper('profile2', $profile->pid);
+      // Profile2 bundle fields
+      $profile_fields = field_info_instances('profile2', $profile_name);
+      foreach ($profile_fields as $field_name => $field_instance) {
+        $field_id = "[profile2.$profile_name.$field_name]";
+        $field_info = field_info_field($field_name);
+        $type = $field_info['type'];
+        if ($type == 'phone_number') {
+          // Get phone number
+          $cc = cck_phone_countrycodes();
+          $date_items = field_get_items('profile2', $profile, $field_name);
+          $countrycode = $date_items[0]['country_codes'];
+          $number = $date_items[0]['number'];
+          $full_number = '';
+          if ($countrycode && isset($cc[$countrycode])) {
+            $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
+          }
+          $tokens[$field_id] = $full_number;
+        } elseif ($type == 'name') {
+          // Replacements for name tokens with attributes
+          $attrs = array('given', 'family');
+          foreach ($attrs as $attr) {
+            $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+            $name_value = $wrapper->{$field_name}->value();
+            if (isset($tokens[$field_id_attr])) {
+              $tokens[$field_id_attr] = $name_value[$attr];
+            }
+          }
+        } else {
+          // Other fields
+          $tokens[$field_id] = $wrapper->{$field_name}->value();
+        }
+      }
+    }
   }
 }
