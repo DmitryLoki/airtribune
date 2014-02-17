@@ -2123,7 +2123,6 @@ function airtribune_ldap_user_attrs_list_alter(&$available_user_attrs, &$params)
         }
       } else {
         // Add tokens for other field types
-                $attrs = array('given', 'family');
         $field_id = "[profile2.$profile_name.$field_name]";
 
         if (!isset($available_user_attrs[$field_id]) || !is_array($available_user_attrs[$field_id])) {
@@ -2169,7 +2168,9 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
           if ($countrycode && isset($cc[$countrycode])) {
             $full_number = '+' . substr($cc[$countrycode]['code'], 1) . $number;
           }
-          $tokens[$field_id] = $full_number;
+          if (isset($tokens[$field_id])) {
+            $tokens[$field_id] = $full_number;
+          }
         } elseif ($type == 'name') {
           // Replacements for name tokens with attributes
           $attrs = array('given', 'family');
@@ -2192,9 +2193,28 @@ function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text,
           }
         } else {
           // Other fields
-          $tokens[$field_id] = $wrapper->{$field_name}->value();
+          if (isset($tokens[$field_id])) {
+            $tokens[$field_id] = $wrapper->{$field_name}->value();
+          }
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_ldap_user_edit_user_alter().
+ */
+function airtribune_ldap_entry_alter(&$ldap_user_entry, $params) {
+  // Replace file id with file content
+  if (isset($ldap_user_entry['jpegPhoto'][0])) {
+    $file = file_load($ldap_user_entry['jpegPhoto'][0]);
+    $filename = drupal_realpath($file->uri);
+    $handle = fopen($filename, "rb");
+    while (!FEOF($handle)) {
+      $contents .= fread($handle,1024);
+    }
+    fclose($handle);
+    $ldap_user_entry['jpegPhoto'][0] = $contents;
   }
 }
