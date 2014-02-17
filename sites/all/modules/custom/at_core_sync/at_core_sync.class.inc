@@ -131,6 +131,7 @@ abstract class ATSync {
         watchdog('at_core_sync', $message, array(), WATCHDOG_WARNING);
         break;
     }
+    _asd($data, $address, $response);
     return json_decode($response);
   }
 
@@ -204,9 +205,6 @@ class ATSyncContest extends ATSync {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-
-    _asd($data, $this->address, $response);
-
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -278,7 +276,6 @@ class ATSyncCustom extends ATSyncNestedInContest {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -332,9 +329,6 @@ class ATSyncPerson extends ATSync {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-
-    _asd($data, $this->address, $response);
-
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -384,8 +378,6 @@ class ATSyncPilot extends ATSyncNestedInContest {
 
     $this->address .= '/' . $this->core_id;
     $response = $this->request($data, "PUT");
-
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -452,9 +444,6 @@ class ATSyncWindDummy extends ATSync {
     else {
       $response = $this->request($data);
     }
-
-    _asd($data, $this->address, $response);
-
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -489,7 +478,6 @@ class ATSyncDay extends ATSyncNestedInContest {
       'status' => $this->day_status,
     );
     $response = $this->request($data, "PUT");
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 }
@@ -632,9 +620,6 @@ class ATSyncRace extends ATSync {
         $this->updateCoreID($response->id);
       }
     }
-
-    _asd(json_encode($data_url), $this->address, $response);
-
     if (!empty($response->id)) {
       return $response->id;
     }
@@ -667,7 +652,6 @@ class ATSyncRace extends ATSync {
         ));
         $url = 'url=' . file_create_url(file_load($fid)->uri);
         $response = $this->request($url);
-        _asd($url, $this->address, $response);
       }
       else {
         ATSync::setMessage(t('Core API: Unable to send tracks. Race not synchronized yet.'));
@@ -707,7 +691,6 @@ class ATSyncTracker extends ATSync {
       $response = $this->request($data);
       $this->updateCoreID($response->id);
     }
-    _asd($data, $this->address, $response);
     return !empty($response->id) ? $response->id : FALSE;
   }
 
@@ -718,7 +701,6 @@ class ATSyncTracker extends ATSync {
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
       $response = $this->request($data, 'PATCH');
-      _asd($data, $this->address, $response);
       return $response;
     }
     else {

@@ -182,14 +182,13 @@ function _d($var) {
 function _asd($var, $url = NULL, $response = NULL) {
   $debug = variable_get('at_core_sync_debug_mode', 0);
   if ($debug) {
-    ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
+    // ATSync::setMessage(t('<strong>Core API sync:</strong>&nbsp;Debug mode is ON.'), 'warning');
     $message = '';
     if (isset($url)) {
       $message_url = '<b>URL:</b> ' . at_core_sync_get_api_url() . '/' . $url;
-      ATSync::setMessage($message_url, 'warning');
       $message = $message_url . '<br />';
     }
-    $message .= '<b>Request:</b> <pre>' . json_encode($var) . '</pre>';
+    $message .= '<b>Request:</b> <pre>' . $var . '</pre>';
     ATSync::setMessage($message, 'warning');
     if (isset($response)) {
       $message_response = '<b>Response:</b> <pre>' . print_r($response, TRUE)  . '</pre>';
