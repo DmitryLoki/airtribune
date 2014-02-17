@@ -278,8 +278,7 @@ function at_core_sync_other_sync($entity_type, $entity) {
         case 'tracked_object':
         case 'og_membership':
           $tracker_entity = $sync->tracker;
-          $tracked_core_id = $sync->tracked_core_id;
-          $contest_core_id = $sync->contest_core_id;
+          $tracked_core_id = $sync->core_id;
 
           // Tracker erased
           if (isset($entity->original) && !isset($entity->field_tracker[LANGUAGE_NONE][0]) && $entity->field_tracker != $entity->original->field_tracker) {
@@ -292,7 +291,7 @@ function at_core_sync_other_sync($entity_type, $entity) {
           // Assignee tracker to person
           if ($tracker_entity) {
             $tracker = _get_class_by_entity('ent_tracker', $tracker_entity);
-            return $tracker->assignee($tracked_core_id, $contest_core_id);
+            return $tracker->assignee($tracked_core_id);
           }
           break;
       }

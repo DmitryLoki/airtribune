@@ -682,22 +682,26 @@ class ATSyncRace extends ATSync {
  */
 class ATSyncTracker extends ATSync {
   public $address = 'tracker';
+  public $device_id = '';
+  public $tracker_type = '';
 
-  public function synchronize() {
-    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $this->entity);
+  public function __construct($entity_type, $entity) {
+    parent::__construct($entity_type, $entity);
+    $wrapper = entity_metadata_wrapper(AIRTRIBUNE_TRACKER_TYPE, $entity);
     $field_tracker_type = $wrapper->field_tracker_type->value();
-    $field_device_id = $wrapper->field_device_id->value();
-    $device_type = $field_tracker_type->title;
+    $this->device_id = $wrapper->field_device_id->value();
+    $this->device_type = $field_tracker_type->title;
+  }
+  public function synchronize() {
     $data = array(
-      'device_id' => $field_device_id,
-      'device_type' => $device_type,
+      'device_id' => $this->device_id,
+      'device_type' => $this->device_type,
       'name' => $this->entity->title,
     );
 
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $data_update['name'] = $data['name'];
-      $response = $this->request($data_update, 'PUT');
+      $response = $this->request($data, 'PUT');
     }
     else {
       $response = $this->request($data);
@@ -707,18 +711,19 @@ class ATSyncTracker extends ATSync {
     return !empty($response->id) ? $response->id : FALSE;
   }
 
-  public function assignee($person_id = '', $contest_id = '') {
-    $response = FALSE;
+  public function assignee($person_id = '') {
     $data = array(
-      'name' => $this->entity->title,
-      'assignee' => $person_id,
-      'contest_id' => $contest_id,
+      'owner' => $person_id,
     );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, 'PUT');
+      $response = $this->request($data, 'PATCH');
       _asd($data, $this->address, $response);
+      return $response;
     }
-    return $response;
+    else {
+      ATSync::setMessage(t('Core API: This tracker not synchronized yet.'));
+      return FALSE;
+    }
   }
 }
