@@ -300,36 +300,31 @@ class ATSyncTrackedObject extends ATSyncNestedInContest {
 }
 
 /**
- * Class for synchronization person
+ * Class for synchronization user
  */
-class ATSyncPerson extends ATSync {
-  public $address = 'person';
-
+class ATSyncUser extends ATSync {
   public function synchronize() {
-    $profile2 = profile2_load_by_user($this->entity);
-    if (!isset($profile2['pilot'])) {
-      ATSync::setMessage('Core API: User is not a pilot, no need to synchronize');
+    $profile = profile2_load_by_user($this->entity);
+    $user_wrapper = entity_metadata_wrapper('user', $this->entity);
+    if (empty($profile['main']) || empty($profile['pilot'])) {
+      ATSync::setMessage('Core API: User has no profiles.');
       return FALSE;
     }
-
-    $data = array(
-      'name' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['given'],
-      'surname' => $profile2['main']->field_full_name[LANGUAGE_NONE][0]['family'],
-      'country' => $profile2['pilot']->field_address[LANGUAGE_NONE][0]['country'],
-      'email' => $this->entity->mail,
-      'reg_date' => date('Y,m,d', $this->entity->created),
-      'phone' => get_phone($profile2['pilot']),
-    );
-
     if ($this->core_id) {
-      $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, "PUT");
+      return $this->core_id;
     }
     else {
-      $response = $this->request($data);
-      $this->updateCoreID($response->id);
+      // Generate new person id, and save user.
+      // During saving user will be synced with LDAP.
+      $person_id = generate_person_id();
+      // Save field values without saving user entity. This need to avoid recursion on hook_entity_update().
+      $this->entity->field_core_id[LANGUAGE_NONE][0]['value'] = $person_id;
+      field_attach_update('user', $this->entity);
+      // Save entity, this is needed to run syncing user with LDAP. Function ATSyncUser->sync will be called one
+      // more time, but in next time we already have core_id in entity, so no problems with recursion.
+      $user_wrapper->save();
+      return $person_id;
     }
-    return !empty($response->id) ? $response->id : FALSE;
   }
 }
 
