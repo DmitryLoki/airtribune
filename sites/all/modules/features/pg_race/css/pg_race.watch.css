@@ -1,0 +1,17 @@
+/* -- temporary styles -- */
+
+.front_live_events .views-field-field-image { position: absolute; top: 0; }
+.front_live_events .views-field-nothing-extended { position: absolute; bottom: 0; background: rgba(17, 36, 51, .5); height: 60px; z-index: 100; }
+
+.front_live_events .views-field-nothing-extended { width: 100%; }
+.front_live_events .views-field-nothing-extended a { text-decoration: none; }
+
+.front_live_events .no-blog .title { display: block; float: left; }
+.front_live_events .no-blog .task-timer { display: block; float: right; }
+
+.front_live_events .views-field-watch-task { z-index: 120; text-align: center; width: 100%; top: 100px; position: absolute; background: #ced828; }
+
+.task-results .links-content { display: none; }
+.task-replay .links-content { display: none; }
+.task-live .links-content { display: none; }
+/* <- temporary styles -> */

@@ -22,6 +22,7 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
   // @todo: add validation
   // In validation check token keys, required by plugin. Required keys must be given by plugin.
   // Also remove components textarea from translatables if possible.
+  // Also check if replacement pattern exists. Or user multiple textfields.
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
@@ -54,7 +55,16 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
   }
 
   function render($values) {
-    $text = $this->options['alter']['text'];
+
+    static $alter_text;
+
+    if (!isset($alter_text)) {
+      $alter_text = $this->options['alter']['text'];
+    }
+
+    //~ $text = $this->options['alter']['text'];
+    $text = $alter_text;
+
     $components = at_helper_handler_field_custom_extended_get_components($text);
     $tokens = $this->get_render_tokens($this->options['alter']);
 
@@ -72,6 +82,9 @@ class at_helper_handler_field_custom_extended extends views_handler_field {
     else {
       // @todo: set error
     }
+
+    // @todo: Maybe this is not the "right" solution to change $this->options['alter']['text']
+    // and another method should be used.
 
     $this->options['alter']['text'] = $text;
 

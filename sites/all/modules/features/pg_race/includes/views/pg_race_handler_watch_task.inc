@@ -10,6 +10,7 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
    */
   function option_definition() {
     $options = parent::option_definition();
+    $options['output_type'] = array('default' => 'links');
 
     $options['text'] = array('default' => '');
 
@@ -24,6 +25,13 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
       '#default_value' => $this->options['text'],
     );
 
+    $form['output_type'] = array(
+      '#type' => 'select',
+      '#title' => t('Task info output type'),
+      '#options' => array('links' => t('Watch links'), 'timer' => t('Task timer'), 'status' => t('Status value'),),
+      '#default_value' => $this->options['output_type'],
+      '#required' => TRUE,
+    );
     //~ // The path is set by render_link function so don't allow to set it.
     //~ $form['alter']['path'] = array('#access' => FALSE);
     //~ $form['alter']['external'] = array('#access' => FALSE);
@@ -33,13 +41,86 @@ class pg_race_handler_watch_task extends views_handler_field_entity {
     module_load_include('inc', 'pg_race', 'includes/pg_race.watch');
 
 
+    //~ if ($this->options['output_type'] == 'links') return "<span class='watch-links'>some links</span>";
+
+    $output = '';
+
     //~ dsm($values);
     if ($entity = $this->get_value($values)) {
-      //~ dsm($entity);
+
+      // Define chosen output type option.
+      $output_type = $this->options['output_type'];
 
       $raceWatch = new RaceWatch($entity);
-      dsm($raceWatch->raceStatus());
+      $raceStatus = $raceWatch->raceStatus();
+
+      switch ($output_type) {
+        case 'links' :
+          drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race.watch.js', 'file');
+          drupal_add_css(drupal_get_path('module', 'pg_race') .'/css/pg_race.watch.css', 'file');
+
+          $linksInfo = $raceWatch->raceLinksInfo();
+          //~ dsm_once($linksInfo, 'handler links');
+          $output = theme('live_event_watch_links', array('links_info' => $linksInfo, 'race_status' => $raceStatus));
+
+          $classes = 'watch-links';
+          $output = !empty($output) ? "<span class='{$classes}'>{$output}</span>" : "";
+
+
+          // Add js settings for links
+          $settings = array();
+          $race_id = $entity->id;
+          $js_status = array(PG_RACE_WATCH_STATUS_AWAITING => 'awaiting', PG_RACE_WATCH_STATUS_IS_LIVE => 'is_live');
+          switch ($raceStatus) {
+            case PG_RACE_WATCH_STATUS_AWAITING :
+            case PG_RACE_WATCH_STATUS_IS_LIVE :
+              $timeInfo = $raceWatch->getTimeInfo();
+              $settings[$race_id] = array(
+                'status' => $js_status[$raceStatus],
+                'race_id' => $race_id,
+                'open' => $timeInfo['open'],
+                'close' => $timeInfo['close'],
+                'start' => $timeInfo['start'],
+                'end' => $timeInfo['end'],
+                'now_local' => $timeInfo['now_local'],
+                'now_utc' => $timeInfo['now_utc'],
+                'offset' => $timeInfo['offset'],
+                'function_name' => 'pg_race_frontpage_live_events_links',  // js function name to process this item
+              );
+              break;
+          }
+          if (!empty($settings)) {
+            drupal_add_js(array('pg_race' => array('task_watch' => array('frontpage_live_events_links' => $settings))), 'setting');
+          }
+
+          break;
+        case 'status' :
+          $output = $raceStatus;
+          break;
+        case 'timer' :
+          drupal_add_js(drupal_get_path('module', 'pg_race') .'/js/pg_race.watch.js', 'file');
+          drupal_add_css(drupal_get_path('module', 'pg_race') .'/css/pg_race.watch.css', 'file');
+
+          switch ($raceStatus) {
+            case PG_RACE_WATCH_STATUS_AWAITING :
+              $raceStartTime = $raceWatch->raceStartTime();
+              $output = date('H:i:s', $raceStartTime);
+              break;
+            case PG_RACE_WATCH_STATUS_STARTING :
+              $raceTimer = $raceWatch->raceTimer();
+              $output = date('H:i:s', $raceTimer);
+              break;
+            case PG_RACE_WATCH_STATUS_IS_LIVE :
+              $raceTimer = $raceWatch->raceTimer();
+              $output = date('H:i:s', $raceTimer);
+              break;
+            //~ case PG_RACE_WATCH_STATUS_FINISHED :
+              //~ break;
+          }
+
+          break;
+      }
     }
-    return 'watch live';
+    return $output;
   }
 }
