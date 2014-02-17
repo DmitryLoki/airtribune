@@ -2066,7 +2066,6 @@ function airtribune_tokens_alter(array &$replacements, array $context) {
 /**
  * Implements hook_ldap_user_attrs_list_alter().
  */
-
 function airtribune_ldap_user_attrs_list_alter(&$available_user_attrs, &$params) {
   // Define array of profiles types
   $profiles = array_keys(field_info_bundles('profile2'));
@@ -2103,8 +2102,30 @@ function airtribune_ldap_user_attrs_list_alter(&$available_user_attrs, &$params)
             'prov_module' => 'ldap_user',
           );
         }
+      } elseif ($type == 'addressfield') {
+        // Add tokens for address field types
+        $attrs = array('country', 'locality');
+        foreach ($attrs as $attr) {
+          $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+
+          if (!isset($available_user_attrs[$field_id_attr]) || !is_array($available_user_attrs[$field_id_attr])) {
+            $available_user_attrs[$field_id_attr] = array();
+          }
+
+          $available_user_attrs[$field_id_attr] = $available_user_attrs[$field_id_attr] + array(
+            'name' =>  $profile_name . ': ' . $field_instance['label'] . ' (' . $attr . ')',
+            'configurable_to_drupal' => 1,
+            'configurable_to_ldap' => 1,
+            'enabled' => FALSE,
+            'config_module' => 'ldap_user',
+            'prov_module' => 'ldap_user',
+          );
+        }
       } else {
         // Add tokens for other field types
+                $attrs = array('given', 'family');
+        $field_id = "[profile2.$profile_name.$field_name]";
+
         if (!isset($available_user_attrs[$field_id]) || !is_array($available_user_attrs[$field_id])) {
           $available_user_attrs[$field_id] = array();
         }
@@ -2122,7 +2143,10 @@ function airtribune_ldap_user_attrs_list_alter(&$available_user_attrs, &$params)
   }
 }
 
-function airtribune_ldap_servers_token_replace_alter (&$tokens, $resource, $text, $resource_type) {
+/**
+ * Implements hook_ldap_servers_token_replace_alter().
+ */
+function airtribune_ldap_servers_token_replace_alter(&$tokens, $resource, $text, $resource_type) {
   // Define array of profiles types
   $profiles = array_keys(field_info_bundles('profile2'));
   if ($resource_type == 'user_account') {
@@ -2149,6 +2173,16 @@ function airtribune_ldap_servers_token_replace_alter (&$tokens, $resource, $text
         } elseif ($type == 'name') {
           // Replacements for name tokens with attributes
           $attrs = array('given', 'family');
+          foreach ($attrs as $attr) {
+            $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
+            $name_value = $wrapper->{$field_name}->value();
+            if (isset($tokens[$field_id_attr])) {
+              $tokens[$field_id_attr] = $name_value[$attr];
+            }
+          }
+        } elseif ($type == 'addressfield') {
+          // Add tokens for address field types
+          $attrs = array('country', 'locality');
           foreach ($attrs as $attr) {
             $field_id_attr = "[profile2.$profile_name.$field_name.$attr]";
             $name_value = $wrapper->{$field_name}->value();
