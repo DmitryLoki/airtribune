@@ -493,6 +493,10 @@ class ATSyncRace extends ATSyncNestedInContest {
     $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
     $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
     $racetype = $race_wrapper->field_pg_racetype_ref->value();
+    if (!$racetype) {
+      ATSync::setMessage('Race type is not specified, the race sync is stopped.', 'error');
+      return FALSE;
+    }
     $racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $racetype);
     $title = 'Task ' . $race_wrapper->field_race_number->value();
 
@@ -506,7 +510,7 @@ class ATSyncRace extends ATSyncNestedInContest {
     );
     switch ($racetype->type) {
       case 'pg_racetype_rtg':
-        $data['race_type'] = 'racetogoal';
+        $data['type'] = 'racetogoal';
         $data['properties'] += array(
           'gates_number' => $racetype_wrapper->field_pg_race_gates_number->value(),
           'gates_interval' => $racetype_wrapper->field_pg_race_gates_interval->value(),
@@ -514,19 +518,17 @@ class ATSyncRace extends ATSyncNestedInContest {
         break;
 
       case 'pg_racetype_od':
-        $data['race_type'] = 'opendistance';
+        $data['type'] = 'opendistance';
         if (isset($racetype_wrapper->field_pg_race_azimuth)) {
-          $data['bearing'] = $racetype_wrapper->field_pg_race_azimuth->value();
+          $data['properties']['bearing'] = (int) $racetype_wrapper->field_pg_race_azimuth->value();
         }
-//        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
-//          $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
-//        }
         break;
 
       case 'pg_racetype_sr':
-        $data['race_type'] = 'speedrun';
+        $data['type'] = 'speedrun';
         break;
     }
+    // Prepare checkpoints.
     $points = $racetype_wrapper->field_pg_race_points->value();
     $checkpoints['type'] = 'FeatureCollection';
     $checkpoints['features'] = array();
@@ -541,7 +543,7 @@ class ATSyncRace extends ATSyncNestedInContest {
         'geometry' => $coordinates,
         'properties' => array(
           'name' => $contest_point->title,
-          'radius' => $point->field_point_radius[LANGUAGE_NONE][0]['value'],
+          'radius' => (int) $point->field_point_radius[LANGUAGE_NONE][0]['value'],
           'checked_on' => $point->field_point_type[LANGUAGE_NONE][0]['value'],
           'checkpoint_type' => 'ordinal',
         )
@@ -556,7 +558,7 @@ class ATSyncRace extends ATSyncNestedInContest {
           'close_time' => $data['properties']['window_close'],
         );
       }
-      switch ($data['race_type']) {
+      switch ($data['type']) {
         case 'speedrun':
         case 'racetogoal':
           if ($delta == count($points) - 1) {
@@ -583,7 +585,7 @@ class ATSyncRace extends ATSyncNestedInContest {
       $delta++;
       $checkpoints['features'][] = $point_data;
     }
-
+    // Request
     $data += array(
       'checkpoints' => $checkpoints,
       'title' => $title,
