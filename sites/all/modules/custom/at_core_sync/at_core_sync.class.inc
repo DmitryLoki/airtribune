@@ -480,101 +480,87 @@ class ATSyncDay extends ATSyncNestedInContest {
 /**
  * Class for synchronization race
  */
-class ATSyncRace extends ATSync {
-  public $address = 'contest/';
+class ATSyncRace extends ATSyncNestedInContest {
+  public $address = 'race';
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
-    $gid = _airtribune_get_gid($entity_type, $entity);
-    $this->contest = node_load($gid, NULL, TRUE);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
+    $this->address = $this->address_contest . $this->address;
   }
 
   public function synchronize() {
     geophp_load();
-    $day_id = $this->entity->field_day_ref[LANGUAGE_NONE][0]['target_id'];
-    if (!isset($this->contest)) {
-      ATSync::setMessage(t('ATSyncRace: Unable to load contest'));
-      return FALSE;
-    }
     $time_zone = $this->contest->field_time_zone[LANGUAGE_NONE][0]['value'];
+    $race_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACE_ENTITY_TYPE, $this->entity);
+    $racetype = $race_wrapper->field_pg_racetype_ref->value();
+    $racetype_wrapper = entity_metadata_wrapper(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, $racetype);
+    $title = 'Task ' . $race_wrapper->field_race_number->value();
 
-    if (!$this->contest_core_id) {
-      ATSync::setMessage(t('Core API: Contest not synchronized yet.'));
-      return FALSE;
-    }
-
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'race'));
-    $title = 'Task ' . $this->entity->field_race_number[LANGUAGE_NONE][0]['value'];
-    $data = array(
-      //'title' => $this->entity->title,
-      'title' => $title,
+    $race_time = $race_wrapper->field_race_start_end->value();
+    $window_time = $race_wrapper->field_pg_race_window_open_close->value();
+    $data['properties'] = array(
+      'start_time' => strtotime($race_time['value'] . ' ' . $time_zone),
+      'deadline' => strtotime($race_time['value2'] . ' ' . $time_zone),
+      'window_open' => strtotime($window_time['value'] . ' ' . $time_zone),
+      'window_close' => strtotime($window_time['value2'] . ' ' . $time_zone),
     );
-    $data['start_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
-    $data['end_time'] = strtotime($this->entity->field_race_start_end[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
-    $window_time['open_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value'] . ' ' . $time_zone);
-    $window_time['close_time'] = strtotime($this->entity->field_pg_race_window_open_close[LANGUAGE_NONE][0]['value2'] . ' ' . $time_zone);
-    $racetype_ref = $this->entity->field_pg_racetype_ref[LANGUAGE_NONE][0]['target_id'];
-    $racetype = array_pop(entity_load(AIRTRIBUNE_RACETYPE_ENTITY_TYPE, array($racetype_ref), array(), TRUE));
     switch ($racetype->type) {
       case 'pg_racetype_rtg':
         $data['race_type'] = 'racetogoal';
+        $data['properties'] += array(
+          'gates_number' => $racetype_wrapper->field_pg_race_gates_number->value(),
+          'gates_interval' => $racetype_wrapper->field_pg_race_gates_interval->value(),
+        );
         break;
 
       case 'pg_racetype_od':
         $data['race_type'] = 'opendistance';
-        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
-          $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
+        if (isset($racetype_wrapper->field_pg_race_azimuth)) {
+          $data['bearing'] = $racetype_wrapper->field_pg_race_azimuth->value();
         }
+//        if (isset($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value']) && is_numeric($racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'])) {
+//          $data['bearing'] = $racetype->field_pg_race_azimuth[LANGUAGE_NONE][0]['value'];
+//        }
         break;
 
       case 'pg_racetype_sr':
         $data['race_type'] = 'speedrun';
         break;
     }
-    $point_ref = array();
-    foreach ($racetype->field_pg_race_points[LANGUAGE_NONE] as $pref) {
-      $point_ref[] = $pref['target_id'];
-    }
-    $points = entity_load(AIRTRIBUNE_POINT_ENTITY_TYPE, $point_ref, array(), TRUE);
-    $checkpoints = array();
+    $points = $racetype_wrapper->field_pg_race_points->value();
     $checkpoints['type'] = 'FeatureCollection';
     $checkpoints['features'] = array();
     $delta = 0;
     foreach ($points as $point) {
-      $point_data = array();
-      $point_data['type'] = 'Feature';
-      $point_data['geometry'] = array();
-      $contest_point_ref = $point->field_point_ref[LANGUAGE_NONE][0]['target_id'];
-      $contest_point = array_pop(entity_load(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, array($contest_point_ref), array(), TRUE));
+      $contest_point = entity_load_single(AIRTRIBUNE_CONTEST_POINT_ENTITY_TYPE, $point->field_point_ref[LANGUAGE_NONE][0]['target_id']);
       $wkt = $contest_point->field_point_location[LANGUAGE_NONE][0]['geom'];
       $geom = geoPHP::load($wkt);
       $coordinates = json_decode($geom->out('json'), TRUE);
-
-      $point_data['geometry'] = $coordinates;
-      $point_data['properties'] = array();
-      $point_data['properties']['radius'] = $point->field_point_radius[LANGUAGE_NONE][0]['value'];
-      $point_data['properties']['name'] = $contest_point->title;
-
-      if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'exit') {
-        $point_data['properties']['checked_on'] = $point->field_point_type[LANGUAGE_NONE][0]['value'];
-      }
-
-      $point_data['properties']['checkpoint_type'] = 'ordinal';
+      $point_data = array(
+        'type' => 'Feature',
+        'geometry' => $coordinates,
+        'properties' => array(
+          'name' => $contest_point->title,
+          'radius' => $point->field_point_radius[LANGUAGE_NONE][0]['value'],
+          'checked_on' => $point->field_point_type[LANGUAGE_NONE][0]['value'],
+          'checkpoint_type' => 'ordinal',
+        )
+      );
       if (!empty($point->field_point_ss_es[LANGUAGE_NONE][0]['value'])) {
         $point_data['properties']['checkpoint_type'] = $point->field_point_ss_es[LANGUAGE_NONE][0]['value'];
       }
       if ($delta == 0) {
-        $point_data['properties']['checkpoint_type'] = 'to';
-        $point_data['properties']['open_time'] = $window_time['open_time'];
-        $point_data['properties']['close_time'] = $window_time['close_time'];
+        $point_data['properties'] += array(
+          'checkpoint_type' => 'to',
+          'open_time' => $data['properties']['window_open'],
+          'close_time' => $data['properties']['window_close'],
+        );
       }
       switch ($data['race_type']) {
         case 'speedrun':
         case 'racetogoal':
           if ($delta == count($points) - 1) {
             $point_data['properties']['checkpoint_type'] = 'goal';
-
             // Goal as Line
             if ($point->field_point_type[LANGUAGE_NONE][0]['value'] == 'line') {
               $point_data['geometry']['type'] = 'LineString';
@@ -583,44 +569,36 @@ class ATSyncRace extends ATSync {
             }
           }
           if (in_array($point_data['properties']['checkpoint_type'], array('ss', 'es', 'goal'))) {
-            $point_data['properties']['open_time'] = $data['start_time'];
-            $point_data['properties']['close_time'] = $data['end_time'];
+            $point_data['properties']['open_time'] = $data['properties']['start_time'];
+            $point_data['properties']['close_time'] = $data['properties']['deadline'];
           }
-
           break;
-
         case 'opendistance':
           if (($delta == count($points) - 1) || in_array($point_data['properties']['checkpoint_type'], array('ss'))) {
-            $point_data['properties']['open_time'] = $data['start_time'];
-            $point_data['properties']['close_time'] = $data['end_time'];
+            $point_data['properties']['open_time'] = $data['properties']['start_time'];
+            $point_data['properties']['close_time'] = $data['properties']['deadline'];
           }
           break;
       }
       $delta++;
       $checkpoints['features'][] = $point_data;
     }
-    $data_url = $data;
-    $data_url .= '&checkpoints=' . json_encode($checkpoints);
+
+    $data += array(
+      'checkpoints' => $checkpoints,
+      'title' => $title,
+    );
     if ($this->core_id) {
       $this->address .= '/' . $this->core_id;
-      $edit = array(
-        'title' => $title,
-        'checkpoints' => $checkpoints,
-      );
-      $response = $this->request(json_encode($edit), "PUT");
+      $response = $this->request($data, "PUT");
     }
     else {
-      $response = $this->request($data_url);
+      $response = $this->request($data);
       if (!empty($response->id)) {
         $this->updateCoreID($response->id);
       }
     }
-    if (!empty($response->id)) {
-      return $response->id;
-    }
-    else {
-      return FALSE;
-    }
+    return !empty($response->id) ? $response->id : FALSE;
   }
 
   public function pushTracks() {
