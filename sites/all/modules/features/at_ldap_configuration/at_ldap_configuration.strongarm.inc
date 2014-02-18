@@ -163,6 +163,16 @@ function at_ldap_configuration_strongarm() {
             0 => 2,
           ),
         ),
+        '[field.field_user_avatar]' => array(
+          'ldap_attr' => '[jpegPhoto]',
+          'user_attr' => '[field.field_user_avatar]',
+          'convert' => 0,
+          'direction' => '1',
+          'user_tokens' => NULL,
+          'config_module' => 'ldap_user',
+          'prov_module' => 'ldap_user',
+          'enabled' => 1,
+        ),
       ),
       2 => array(
         '[dn]' => array(
@@ -333,6 +343,20 @@ function at_ldap_configuration_strongarm() {
         '[c]' => array(
           'ldap_attr' => '[c]',
           'user_attr' => '[profile2.pilot.field_address.country]',
+          'convert' => 0,
+          'direction' => '2',
+          'user_tokens' => '',
+          'config_module' => 'ldap_user',
+          'prov_module' => 'ldap_user',
+          'enabled' => 1,
+          'prov_events' => array(
+            0 => 4,
+            1 => 3,
+          ),
+        ),
+        '[jpegPhoto]' => array(
+          'ldap_attr' => '[jpegPhoto]',
+          'user_attr' => '[property.picture]',
           'convert' => 0,
           'direction' => '2',
           'user_tokens' => '',
