@@ -341,13 +341,13 @@ class ATSyncUser extends ATSync {
 /**
  * Class for synchronization pilot
  */
-class ATSyncPilot extends ATSyncNestedInContest {
-  public $address = 'paraglider';
+abstract class ATSyncPilot extends ATSyncNestedInContest {
   public $core_id = '';
   public $tracker = NULL;
   public $person = NULL;
   public $phone = NULL;
   public $country = NULL;
+  public $pilot = NULL;
 
   public function __construct($entity_type, $entity) {
     parent::__construct($entity_type, $entity);
@@ -355,11 +355,19 @@ class ATSyncPilot extends ATSyncNestedInContest {
     $this->profile = profile2_load_by_user($this->person);
     $this->core_id = get_core_id_from_entity('user', $this->person);
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
+    $this->pilot = $entity_wrapper;
     $this->tracker = $entity_wrapper->field_tracker->value();
     $this->address = $this->address_contest . $this->address;
   }
 
   public function synchronize() {
+    // Delete from Core API, if status is not confirmed / winddummy.
+    if (!in_array(
+      $this->pilot->field_pg_contestant_status->value(),
+      array(AIRTRIBUNE_PG_CONTESTANT_CONFIRMED, AIRTRIBUNE_PILOT_STATUS_WINDDUMMY)
+    )) {
+      return $this->delete();
+    }
     $entity_wrapper = entity_metadata_wrapper('og_membership', $this->entity);
     $pilot_wrapper = entity_metadata_wrapper('profile2', $this->profile['pilot']);
     if (!$this->core_id) {
@@ -385,70 +393,17 @@ class ATSyncPilot extends ATSyncNestedInContest {
 /**
  * Class for synchronization winddummy
  */
-class ATSyncWindDummy extends ATSync {
-  public $address = 'contest/';
-  public $person_core_id = '';
-  public $contest = NULL;
-  public $contest_core_id = '';
-  public $tracker = NULL;
-  public $person = NULL;
-
-  public function __construct($entity_type, $entity) {
-    parent::__construct($entity_type, $entity);
-    $this->contest = node_load($this->entity->gid, NULL, TRUE);
-    $this->contest_core_id = get_core_id_from_entity('node', $this->contest);
-    $this->person = user_load($this->entity->etid, TRUE);
-    $this->tracked_core_id = get_core_id_from_entity('user', $this->person);
-    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
-    $this->tracker = $entity_wrapper->field_tracker->value();
-  }
-
-  public function synchronize() {
-    // Send only if status is confirmed
-    if ($this->entity->field_pg_contestant_status[LANGUAGE_NONE][0]['value'] != 4) {
-      return FALSE;
-    }
-    if (!$this->contest_core_id) {
-      // Synchronize contest if not synchronized
-      $sync = _get_class_by_entity('node', $this->contest);
-      $this->contest_core_id = $sync->synchronize();
-    }
-    $this->person->field_phone = $this->entity->field_phone;
-    if (!$this->tracked_core_id) {
-      // Synchronize person if not synchronized
-      $sync = _get_class_by_entity('user', $this->person);
-      $this->tracked_core_id = $sync->synchronize();
-    }
-    else {
-      $resp = ATSync::requestToCore('person/' . $this->tracked_core_id, '', 'GET');
-      if (isset($resp->error)) {
-        ATSync::setMessage($resp->error . '. ' . $resp->message, 'error');
-        return FALSE;
-      }
-      // Synchronize person for save phone
-      $sync = _get_class_by_entity('user', $this->person);
-      $this->tracked_core_id = $sync->synchronize();
-    }
-    $this->address = implode('/', array('contest', $this->contest_core_id, 'winddummy'));
-    $data = array(
-      'person_id' => $this->tracked_core_id,
-      'glider' => $this->entity->field_paraglider_manufacturer[LANGUAGE_NONE][0]['value'],
-      'contest_number' => $this->entity->field_contestant_number[LANGUAGE_NONE][0]['value'],
-    );
-
-    $this->core_id = FALSE;
-    if ($this->core_id) {
-      $this->address .= '/' . $this->core_id;
-      $response = $this->request($data, "PUT");
-    }
-    else {
-      $response = $this->request($data);
-    }
-    return !empty($response->id) ? $response->id : FALSE;
-  }
+class ATSyncWindDummy extends ATSyncPilot {
+  public $address = 'winddummy';
 }
 
-// todo day delete
+/**
+ * Class for synchronization glider
+ */
+class ATSyncGlider extends ATSyncPilot {
+  public $address = 'paraglider';
+}
+
 /**
  * Class for synchronization day
  */
