@@ -1946,10 +1946,6 @@ function _add_metatag_opengraph_image($url, $key) {
  * @see #3959
  */
 function airtribune_og_membership_update($og_membership) {
-  if ($og_membership->already_updated_by_paymentstatus == TRUE) {
-    return;
-  }
-
   $status_field_allowed_values = list_allowed_values(field_info_field(AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD));
   $wind_dummy_status = array_search("Wind dummy", $status_field_allowed_values);
   $now_status = entity_metadata_wrapper('og_membership', $og_membership)->{AIRTRIBUNE_PG_CONTESTANT_STATUS_FIELD}->value();
@@ -1964,9 +1960,9 @@ function airtribune_og_membership_update($og_membership) {
     if ($now_status == $wind_dummy_status) {
       $og_membership->type = AIRTRIBUNE_MEMBERSHIP_WINDDUMMY;
     }
-    // Avoid recursion by hook_og_membership_update & hook_og_membership_save.
-    $og_membership->already_updated_by_paymentstatus = TRUE;
-    og_membership_save($og_membership);
+    // Avoid recursion by hook_og_membership_update & hook_og_membership_save,
+    // use field_attach_update() instead og_membership_save()
+    field_attach_update('og_membership', $og_membership);
   }
 }
 
